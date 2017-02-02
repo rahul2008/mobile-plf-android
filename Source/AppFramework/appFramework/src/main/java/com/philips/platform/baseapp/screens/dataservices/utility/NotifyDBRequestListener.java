@@ -3,12 +3,14 @@ package com.philips.platform.baseapp.screens.dataservices.utility;
 import com.philips.platform.baseapp.screens.dataservices.database.OrmTypeChecking;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsent;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMoment;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by sangamesh on 18/01/17.
@@ -17,9 +19,9 @@ import java.util.ArrayList;
 public class NotifyDBRequestListener {
 
 
-    public void notifySuccess(ArrayList<? extends Object> ormMoments, DBRequestListener dbRequestListener) {
+    public void notifySuccess(List<? extends Object> ormObjectList, DBRequestListener dbRequestListener) {
         if(dbRequestListener!=null) {
-            dbRequestListener.onSuccess((ArrayList<? extends Object>) ormMoments);
+            dbRequestListener.onSuccess((ArrayList<? extends Object>) ormObjectList);
         }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){
             DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess();
         }else {
@@ -28,10 +30,20 @@ public class NotifyDBRequestListener {
         }
     }
 
-
     public void notifySuccess(DBRequestListener dbRequestListener) {
         if(dbRequestListener!=null) {
             dbRequestListener.onSuccess(null);
+        }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){
+            DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess();
+        }else {
+            //Callback not registered
+            DSLog.i(DataServicesManager.TAG,"Callback not registered");
+        }
+    }
+
+    public void notifySuccess(DBRequestListener dbRequestListener,Settings settings) {
+        if(dbRequestListener!=null) {
+            dbRequestListener.onSuccess(settings);
         }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){
             DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess();
         }else {
@@ -69,7 +81,6 @@ public class NotifyDBRequestListener {
             DBChangeListener dbChangeListener=DataServicesManager.getInstance().getDbChangeListener();
             dbChangeListener.dBChangeSuccess();
         }else {
-            //Callback Not registered
             DSLog.i(DataServicesManager.TAG,"Callback not registered");
         }
     }

@@ -1,4 +1,4 @@
-package com.philips.platform.baseapp.screens.dataservices.consents;
+package com.philips.platform.baseapp.screens.dataservices.settings;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -6,61 +6,67 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
-import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsent;
-import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
- * Created by sangamesh on 08/11/16.
+ * Created by sangamesh on 09/01/17.
  */
 
-public class ConsentDialogFragment extends DialogFragment implements DBRequestListener,DBChangeListener, View.OnClickListener {
+public class SettingsFragment extends DialogFragment implements DBRequestListener, DBChangeListener, View.OnClickListener {
 
-    private RecyclerView mRecyclerView;
     private Button mBtnOk;
     private Button mBtnCancel;
-    private ConsentDialogAdapter lConsentAdapter;
-    ConsentDialogPresenter consentDialogPresenter;
+    SettingsFragmentPresenter settingsFragmentPresenter;
     private ProgressDialog mProgressDialog;
-    ArrayList<? extends ConsentDetail> consentDetails;
-    private Context mContext;
     private DataServicesManager mDataServicesManager;
+    private Spinner mSpinner_Unit, mSpinner_Local;
+    private Settings settings;
+    private Context mContext;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.dialog_consent, container,
+        View rootView = inflater.inflate(R.layout.dialog_settings, container,
                 false);
 
-        mDataServicesManager= DataServicesManager.getInstance();
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.lv_consent_detail);
+        mDataServicesManager = DataServicesManager.getInstance();
         mBtnOk = (Button) rootView.findViewById(R.id.btnOK);
         mBtnOk.setOnClickListener(this);
-        mBtnOk.setEnabled(false);
         mBtnCancel = (Button) rootView.findViewById(R.id.btnCancel);
         mBtnCancel.setOnClickListener(this);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(layoutManager);
-        consentDialogPresenter=new ConsentDialogPresenter(getActivity(), this);
+        settingsFragmentPresenter = new SettingsFragmentPresenter(getActivity(), this);
         mProgressDialog = new ProgressDialog(getActivity());
-        consentDetails=new ArrayList<>();
-        lConsentAdapter = new ConsentDialogAdapter(getActivity(),consentDetails, consentDialogPresenter);
-        mRecyclerView.setAdapter(lConsentAdapter);
-        fetchConsent();
+        mDataServicesManager.registerDBChangeListener(this);
+
+        mSpinner_Unit = (Spinner) rootView.findViewById(R.id.spinner_metrics);
+        mSpinner_Local = (Spinner) rootView.findViewById(R.id.spinner_locale);
+        ArrayAdapter<CharSequence> adapterMetrics = ArrayAdapter.createFromResource(getActivity(),
+                R.array.metrics, android.R.layout.simple_spinner_item);
+        adapterMetrics.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinner_Unit.setAdapter(adapterMetrics);
+
+        ArrayAdapter<CharSequence> adapterLocale = ArrayAdapter.createFromResource(getActivity(),
+                R.array.locals, android.R.layout.simple_spinner_item);
+        adapterLocale.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinner_Local.setAdapter(adapterLocale);
+
+        fetchSettings();
         return rootView;
 
     }
@@ -71,50 +77,46 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     }
 
     @Override
-    public void onSuccess(final ArrayList<? extends Object> data) {
+    public void onSuccess(final ArrayList<? extends Object> ormObjectList) {
+
+
+    }
+
+    private void updateUi(String unit, String locale) {
+
+        mSpinner_Unit.setSelection(Arrays.asList(getResources().getStringArray(R.array.metrics)).indexOf(unit));
+        mSpinner_Local.setSelection(Arrays.asList(getResources().getStringArray(R.array.locals)).indexOf(locale));
 
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.mContext=context;
+        this.mContext = context;
     }
 
     @Override
-    public void onSuccess(Object data) {
+    public void onSuccess(final Object data) {
 
-        final OrmConsent ormConsent = (OrmConsent) data;
-        if (getActivity()!=null && ormConsent != null ) {
-
+        if (getActivity() != null) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    lConsentAdapter.setData(ormConsent);
-                    lConsentAdapter.notifyDataSetChanged();
-                    mBtnOk.setEnabled(true);
+                    if (data != null) {
+                        settings = (Settings) data;
+                        updateUi(settings.getUnit(), settings.getLocale());
+
+                    }
                     dismissProgressDialog();
                 }
             });
         }
-
     }
 
     @Override
     public void onFailure(final Exception exception) {
 
-        if(getActivity()!=null) {
-
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    dismissProgressDialog();
-                    Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-
-        if(getActivity()!=null) {
+        if (getActivity() != null) {
 
             getActivity().runOnUiThread(new Runnable() {
                 @Override
@@ -131,7 +133,11 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnOK:
-                lConsentAdapter.updateConsent();
+
+                settings.setUnit(mSpinner_Unit.getSelectedItem().toString());
+                settings.setLocale(mSpinner_Local.getSelectedItem().toString());
+                settingsFragmentPresenter.updateSettings(settings);
+
                 dismissConsentDialog(getDialog());
                 break;
             case R.id.btnCancel:
@@ -141,8 +147,8 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
         }
     }
 
-    private void dismissConsentDialog(Dialog dialog){
-        if(dialog!=null && dialog.isShowing()){
+    private void dismissConsentDialog(Dialog dialog) {
+        if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
     }
@@ -167,9 +173,8 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     @Override
     public void onStart() {
         super.onStart();
-        mDataServicesManager.registerDBChangeListener(this);
         Dialog dialog = getDialog();
-        dialog.setTitle(R.string.consents);
+        dialog.setTitle(R.string.settings);
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -178,34 +183,34 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     }
 
     private void showProgressDialog() {
-        if(mProgressDialog!=null && !mProgressDialog.isShowing()) {
-             mProgressDialog.show();
+        if (mProgressDialog != null && !mProgressDialog.isShowing()) {
+            mProgressDialog.show();
         }
     }
 
     private void dismissProgressDialog() {
-        if(mProgressDialog!=null && mProgressDialog.isShowing()) {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
         }
     }
 
-    public void fetchConsent() {
+    public void fetchSettings() {
         showProgressDialog();
-        DataServicesManager.getInstance().fetchConsent(this);
+        DataServicesManager.getInstance().fetchSettings(this);
     }
 
     @Override
     public void dBChangeSuccess() {
-        DataServicesManager.getInstance().fetchConsent(this);
+        DataServicesManager.getInstance().fetchSettings(this);
     }
 
     @Override
     public void dBChangeFailed(final Exception e) {
+
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
-                Toast.makeText(getActivity(),"Exception :"+e.getMessage() ,Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Exception :" + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

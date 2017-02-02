@@ -13,6 +13,7 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import com.philips.platform.baseapp.screens.dataservices.consents.ConsentDetailType;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MeasurementDetailType;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MeasurementGroupDetailType;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MeasurementType;
@@ -22,6 +23,7 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmChara
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristicsDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsent;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmDCSync;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurement;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementDetailType;
@@ -33,8 +35,13 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMomen
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMomentDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMomentDetailType;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMomentType;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSettings;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynchronisationData;
-import com.philips.platform.baseapp.screens.dataservices.temperature.TemperatureMomentHelper;
+import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetailStatusType;
+import com.philips.platform.core.datatypes.OrmTableType;
+import com.philips.platform.core.datatypes.Settings;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
 
@@ -65,9 +72,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
     private Dao<OrmConsent, Integer> consentDao;
     private Dao<OrmConsentDetail, Integer> consentDetailDao;
+    private Dao <OrmSettings,Integer> settingDao;
 
     private Dao<OrmCharacteristics, Integer> characteristicsesDao;
     private Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailsDao;
+
+    private Dao<OrmDCSync, Integer> ormDCSyncDao;
 
     public DatabaseHelper(Context context, final UuidGenerator uuidGenerator) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -91,7 +101,67 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         insertMomentDetailsTypes();
         insertMeasurementDetailTypes();
         insertMeasurementGroupDetailType();
+        insertDefaultSettings();
+        insertDefaultDCSyncValues();
+        insertDefaultConsent();
     }
+
+    private void insertDefaultConsent() {
+            DataServicesManager mDataServices = DataServicesManager.getInstance();
+            Consent consent = mDataServices.createConsent();
+            mDataServices.createConsentDetail
+                    (consent, ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED,
+                            Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
+            mDataServices.createConsentDetail
+                    (consent, ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED,
+                            Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
+            mDataServices.createConsentDetail
+                    (consent, ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED,
+                            Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
+            mDataServices.saveConsent(consent,null);
+    }
+
+    private void insertDefaultDCSyncValues() {
+
+        for(OrmTableType tableType:OrmTableType.values()){
+
+            ormDCSyncDao = getDCSyncDao();
+            try {
+                ormDCSyncDao.createOrUpdate(new OrmDCSync(tableType.getId(),tableType.getDescription(),true));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    private void insertDefaultSettings() {
+            Settings settings = DataServicesManager.getInstance().createSettings("metric", "en_US");
+            DataServicesManager.getInstance().saveSettings(settings,null);
+    }
+
+    public Dao<OrmSettings,Integer> getSettingsDao() {
+        if (settingDao == null) {
+            try {
+                settingDao = getDao(OrmSettings.class);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return settingDao;
+    }
+
+    public Dao<OrmDCSync,Integer> getDCSyncDao() {
+        if (ormDCSyncDao == null) {
+            try {
+                ormDCSyncDao = getDao(OrmDCSync.class);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return ormDCSyncDao;
+    }
+
 
     private void insertMeasurementTypes() throws SQLException {
         final Dao<OrmMeasurementType, Integer> measurementTypeDao = getMeasurementTypeDao();
@@ -154,6 +224,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.createTable(connectionSource, OrmMeasurementGroupDetailType.class);
         TableUtils.createTable(connectionSource, OrmCharacteristics.class);
         TableUtils.createTable(connectionSource, OrmCharacteristicsDetail.class);
+        TableUtils.createTable(connectionSource, OrmSettings.class);
+        TableUtils.createTable(connectionSource, OrmDCSync.class);
     }
 
     @Override
@@ -214,8 +286,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.dropTable(connectionSource, OrmSynchronisationData.class, true);
         TableUtils.dropTable(connectionSource, OrmConsent.class, true);
         TableUtils.dropTable(connectionSource, OrmConsentDetail.class, true);
+        TableUtils.dropTable(connectionSource, OrmSettings.class, true);
         TableUtils.dropTable(connectionSource, OrmCharacteristics.class, true);
         TableUtils.dropTable(connectionSource, OrmCharacteristicsDetail.class, true);
+        TableUtils.dropTable(connectionSource, OrmDCSync.class, true);
     }
 
     public Dao<OrmMoment, Integer> getMomentDao() throws SQLException {
