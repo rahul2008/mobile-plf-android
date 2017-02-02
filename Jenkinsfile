@@ -22,8 +22,9 @@ node('Android && 25.0.0 && Ubuntu') {
     def ANDROID_VERSION_CODE = ""
 
     stage('Checkout') {
-      checkout scm
-      step([$class: 'StashNotifier'])
+      stage ('Checkout') {
+			checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'acb45cf5-594a-4209-a56b-b0e75ae62849', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/uid-android']]])
+	step([$class: 'StashNotifier'])
     }
 
     try {
