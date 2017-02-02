@@ -1,8 +1,9 @@
+@echo off
 subst Z: .
 Z:
-dir
 cd Source/CatalogApp
-dir
+echo Calling Gradle clean...
 call gradlew clean
-call gradlew assembleDebug
+echo Calling Gradle createDebugCoverageReport///
+call gradlew createDebugCoverageReport
 subst Z: /d
