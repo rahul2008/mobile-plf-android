@@ -22,6 +22,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
@@ -30,13 +31,15 @@ import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
+import java.util.ArrayList;
+
 /**
  * This class host the onboarding of the user .
  * It has two sections
  * 1. The user registration
  * 2. Welcome fragments
  */
-public class LaunchActivity extends AppFrameworkBaseActivity implements LaunchView {
+public class LaunchActivity extends AppFrameworkBaseActivity implements LaunchView, IAPListener {
     private TextView textView;
 
     @Override
@@ -184,5 +187,35 @@ public class LaunchActivity extends AppFrameworkBaseActivity implements LaunchVi
             textView = null;
             presenter = null;
         }
+    }
+
+    @Override
+    public void onGetCartCount(int i) {
+
+    }
+
+    @Override
+    public void onUpdateCartCount() {
+
+    }
+
+    @Override
+    public void updateCartIconVisibility(boolean b) {
+
+    }
+
+    @Override
+    public void onGetCompleteProductList(ArrayList<String> arrayList) {
+
+    }
+
+    @Override
+    public void onSuccess() {
+
+    }
+
+    @Override
+    public void onFailure(int i) {
+
     }
 }
