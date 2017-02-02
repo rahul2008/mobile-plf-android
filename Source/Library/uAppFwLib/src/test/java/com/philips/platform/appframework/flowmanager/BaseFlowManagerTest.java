@@ -1,5 +1,6 @@
 package com.philips.platform.appframework.flowmanager;
 
+
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -41,6 +42,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import static org.mockito.Mockito.mock;
@@ -67,7 +69,7 @@ public class BaseFlowManagerTest extends TestCase {
         runnableMock = mock(Runnable.class);
         handlerMock = mock(Handler.class);
         when(handlerMock.post(runnableMock)).thenReturn(true);
-        flowManagerTest = new FlowManagerTest() {
+        flowManagerTest = new FlowManagerTest()  {
             @NonNull
             @Override
             protected Handler getHandler(Context context) {
@@ -83,11 +85,47 @@ public class BaseFlowManagerTest extends TestCase {
         File fileFromInputStream = createFileFromInputStream(getClass().getClassLoader().getResourceAsStream("res/Appflow.json"));
         if (fileFromInputStream != null)
             path = fileFromInputStream.getPath();
-        flowManagerTest.initialize(context, path, flowManagerListenerMock);
 
-        sleep(2);
+        CountDownLatch startSignal = new CountDownLatch(1);
+        CountDownLatch doneSignal = new CountDownLatch(0);
+
+
+            new Thread(new Worker(startSignal, doneSignal)).start();
+
+      //  doSomethingElse();            // don't let run yet
+       // startSignal.countDown();      // let all threads proceed
+    //    doSomethingElse();
+        startSignal.countDown();
+
+        doneSignal.await();           // wait for all to finish
         verify(handlerMock).post(runnableMock);
+      // sleep(2);
+
+
     }
+    class Worker implements Runnable {
+        private final CountDownLatch startSignal;
+        private final CountDownLatch doneSignal;
+        Worker(CountDownLatch startSignal, CountDownLatch doneSignal) {
+            this.startSignal = startSignal;
+            this.doneSignal = doneSignal;
+        }
+        public void run() {
+
+            try {
+                startSignal.await();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            flowManagerTest.initialize(context, path, flowManagerListenerMock);
+
+            doneSignal.countDown();
+             }
+
+
+
+    }
+
 
     private void sleep(int seconds) {
         try {
@@ -173,7 +211,7 @@ public class BaseFlowManagerTest extends TestCase {
 
         };
         flowManagerTest.initialize(context, path, flowManagerListenerMock);
-        sleep(2);
+     //   sleep(2);
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.SPLASH), "onSplashTimeOut");
         assertNull(flowManagerTest.getBackState());
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.SPLASH), "onSplashTimeOut");
