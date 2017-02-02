@@ -25,6 +25,7 @@
         <item name="uidNavigationShadowLevelTwo">@color/uidColorBlack</item>
         <item name="uidNavigationShadowLevelOneAlpha">@dimen/uid_alpha_per_20</item>
         <item name="uidNavigationShadowLevelTwoAlpha">@dimen/uid_alpha_per_20</item>
+        <item name="uidNavigationBarTextColor">?attr/uidNavigationTextColor</item>
 
         <item name="uidButtonNormalColor">?attr/uidControlPrimaryEnabledColor</item>
         <item name="uidButtonPressedColor">?attr/uidControlPrimaryPressedColor</item>

@@ -37,8 +37,8 @@
         <item name="actionMenuTextAppearance">@style/UIDToolbarMenuTextAppearance</item>
 
         <!-- Below lines are to set the color for options menu items text color -->
-        <item name="actionMenuTextColor">?attr/uidNavigationTextColor</item>
-        <item name="android:actionMenuTextColor">?attr/uidNavigationTextColor</item>
+        <item name="actionMenuTextColor">?attr/uidNavigationBarTextColor</item>
+        <item name="android:actionMenuTextColor">?attr/uidNavigationBarTextColor</item>
 
         <item name="progressBarStyle">@style/UIDProgressBarHorizontalDeterminate</item>
         <item name="checkboxStyle">@style/UIDCheckBox</item>
