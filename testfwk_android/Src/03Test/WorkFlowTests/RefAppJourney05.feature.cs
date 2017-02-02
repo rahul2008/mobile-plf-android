@@ -67,11 +67,11 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
         }
         
         [TechTalk.SpecRun.ScenarioAttribute("RefAppJourney05", new string[] {
-                "E2E"}, SourceLine=7)]
+                "E2ETesting"}, SourceLine=7)]
         public virtual void RefAppJourney05()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("RefAppJourney05", new string[] {
-                        "E2E"});
+                        "E2ETesting"});
 #line 8
 this.ScenarioSetup(scenarioInfo);
 #line 9
