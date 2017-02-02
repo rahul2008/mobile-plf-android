@@ -66,6 +66,25 @@ public class BaseFlowManagerTest extends TestCase {
         verify(flowManagerListenerMock).onParseSuccess();
     }
 
+    public void testAlreadyInitialize() {
+        try {
+            flowManagerTest.initialize(context, path, flowManagerListenerMock);
+        } catch (JsonAlreadyParsedException e) {
+            assertEquals(e.getMessage(), "Json already parsed");
+        }
+    }
+
+    public void testGetCondition() {
+        final BaseCondition condition = flowManagerTest.getCondition(AppConditions.CONDITION_APP_LAUNCH);
+        assertTrue(condition instanceof ConditionAppLaunch);
+        assertFalse(condition.isSatisfied(context));
+        try {
+            flowManagerTest.getCondition("");
+        } catch (ConditionIdNotSetException e) {
+            assertEquals(e.getMessage(), "No condition id set on constructor");
+        }
+    }
+
     public void testGetFirstState() {
         final BaseState firstState = flowManagerTest.getFirstState();
         assertTrue(firstState != null);
