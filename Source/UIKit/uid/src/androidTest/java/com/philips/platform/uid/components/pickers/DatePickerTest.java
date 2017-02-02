@@ -61,7 +61,7 @@ public class DatePickerTest {
         int titleId = getViewId("button2");
 
         onView(withId(com.philips.platform.uid.test.R.id.datePicker)).perform(ViewActions.click());
-        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerHeaderFillColor);
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerButtonTextColor);
         onView(withId(titleId)).check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
     }
 
@@ -70,7 +70,7 @@ public class DatePickerTest {
         int titleId = getViewId("button1");
 
         onView(withId(com.philips.platform.uid.test.R.id.datePicker)).perform(ViewActions.click());
-        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerHeaderFillColor);
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerButtonTextColor);
         onView(withId(titleId)).check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
     }
 
@@ -83,6 +83,8 @@ public class DatePickerTest {
         onView(withId(titleId)).check(matches(ViewPropertiesMatchers.hasSameColorDrawableBackgroundColor(color)));
     }
 
+    // TODO: 2/2/2017 fix once time picker is implemented.
+    @Ignore
     @Test
     public void verifyHourTextColor() throws Exception {
         int hours = getViewId("hours");
@@ -98,7 +100,7 @@ public class DatePickerTest {
         int titleId = getViewId("button2");
 
         onView(withId(com.philips.platform.uid.test.R.id.timePicker)).perform(ViewActions.click());
-        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerHeaderFillColor);
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerButtonTextColor);
         onView(withId(titleId)).check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
     }
 
@@ -107,7 +109,7 @@ public class DatePickerTest {
         int titleId = getViewId("button1");
 
         onView(withId(com.philips.platform.uid.test.R.id.timePicker)).perform(ViewActions.click());
-        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerHeaderFillColor);
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerButtonTextColor);
         onView(withId(titleId)).check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
     }
 
