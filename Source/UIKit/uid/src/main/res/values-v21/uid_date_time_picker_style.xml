@@ -13,7 +13,7 @@
         <item name="android:buttonBarNegativeButtonStyle">@style/UIDCalendarButtonStyle</item>
         <item name="android:textColorSecondary">?attr/uidDatePickerHeaderTextColor</item>
         <item name="android:textColorSecondaryInverse">?attr/uidDatePickerHeaderTextColor</item>
-        <item name="android:disabledAlpha">@dimen/uid_alpha_per_50</item>
+        <item name="android:disabledAlpha">@dimen/uid_alpha_per_60</item>
         <item name="android:headerMonthTextAppearance">@style/UIDHeaderMonthAppearance</item>
         <item name="android:selectableItemBackground">@null</item>
         <item name="android:yearListItemTextAppearance">@style/UIDWeekDayTextAppearance</item>
