@@ -3,6 +3,10 @@ Philips UIKit DLS for Android
 
 # Release Notes MobileUitoolkit Android
 
+SPRINT - MUITK.PI17.1.Sprint4
+EHUFA-1222 - Android: Social Icons
+EHUFA-1294 -[Android] The base fill of determinate progress indicator is not correct
+
 SPRINT - MUITK.PI17.1.Sprint3
 EHUFA-1250 - Android: Create custom indeterminate linear progress indicator
 EHUFA-1276 - Android: SPIKE Applying DLS Art direction in Date Picker

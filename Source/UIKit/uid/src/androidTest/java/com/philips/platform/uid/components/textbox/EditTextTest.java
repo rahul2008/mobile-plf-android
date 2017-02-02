@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.GeneralClickAction;
 import android.support.test.espresso.action.GeneralLocation;
@@ -283,6 +284,7 @@ public class EditTextTest {
 
         getPasswordTextbox().perform(new GeneralClickAction(Tap.DOUBLE, GeneralLocation.CENTER_RIGHT, Press.FINGER));
 
+        Espresso.closeSoftKeyboard();
         getClearTextbox().perform(ViewActions.click());
         getPasswordTextbox().check(matches(TextViewPropertiesMatchers.hasMasking()));
     }

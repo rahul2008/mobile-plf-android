@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Base">
         <item name="uidControlPrimaryTextColor">@color/uidColorWhite</item>
         <item name="uidControlPrimaryTextPressedColor">?attr/uidColorLevel55</item>
@@ -10,10 +11,11 @@
         <item name="uidControlPrimaryAlternatePressedColor">?attr/uidColorLevel85</item>
         <item name="uidControlPrimaryAltDisabledAlpha">@dimen/uid_alpha_per_35</item>
 
-        <item name="uidControlPrimaryTrackOff">@color/uidColorWhite</item>
-        <item name="uidControlPrimaryTrackOffAlpha">@dimen/uid_alpha_per_60</item>
-        <item name="uidControlPrimaryBuffer">?attr/uidControlPrimaryEnabledColor</item>
-        <item name="uidControlPrimaryBufferAlpha">@dimen/uid_alpha_per_50</item>
+        <item name="uidProgressBarBGColor">?attr/uidControlTrackOff</item>
+        <item name="uidProgressBarBGColorAlpha">?attr/uidControlTrackOffAlpha</item>
+        <item name="uidProgressBarSecondaryColor">?attr/uidControlBuffer</item>
+        <item name="uidProgressBarSecondaryColorAlpha">?attr/uidControlBufferAlpha</item>
+        <item name="uidProgressBarProgressColor">?attr/uidControlPrimaryDetail</item>
 
         <item name="uidControlSecondaryDisabledAlpha">@dimen/uid_alpha_per_35</item>
         <item name="uidControlSecondaryTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
@@ -87,6 +89,10 @@
         <item name="uidCheckBoxTickDisabledColor">@color/uidColorWhite</item>
         <item name="uidCheckBoxRippleColor">?attr/uidCheckBoxBackgroundCheckedEnabledColor</item>
         <item name="uidCheckBoxRippleAlpha">@dimen/uid_alpha_per_20</item>
+        <item name="uidControlBufferAlpha">@dimen/uid_alpha_per_30</item>
+        <item name="uidControlBuffer">?attr/uidControlPrimaryDetail</item>
+
+        <item name="uidProgressIndicatorButtonProgressColor">?attr/uidProgressBarProgressColor</item>
     </style>
 
     <style name="UltraLight">
@@ -123,13 +129,21 @@
         <item name="uidSwitchTrackOffColor">?attr/uidControlPrimaryEnabledColor</item>
         <item name="uidSwitchTrackOffAlpha">@dimen/uid_alpha_per_30</item>
         <item name="uidSwitchThumbDisabledColor">@color/uidColorWhite</item>
-        <item name="uidControlPrimaryTrackOff">?attr/uidControlPrimaryEnabledColor</item>
-        <item name="uidControlPrimaryTrackOffAlpha">@dimen/uid_alpha_per_30</item>
 
         <item name="uidTextPrimary">@color/uid_gray_level_75</item>
         <item name="uidTextSecondary">@color/uid_gray_level_65</item>
 
-        <item name="uidProgressIndicatorButtonProgressColor">?attr/uidColorLevel45</item>
+        <item name="uidSocialIconPrimaryButtonIconColor">@color/uidColorWhite</item>
+        <item name="uidSocialIconPrimaryButtonNormalFillColor">?attr/uidControlPrimaryEnabledColor
+        </item>
+        <item name="uidSocialIconPrimaryButtonPressedColor">?attr/uidControlPrimaryPressedColor
+        </item>
+
+        <item name="uidSocialIconWhiteButtonNormalFillColor">?attr/uidControlPrimaryEnabledColor
+        </item>
+        <item name="uidSocialIconWhiteButtonIconColor">?attr/uidControlPrimaryTextColor</item>
+        <item name="uidSocialIconWhitePressedColor">?attr/uidControlPrimaryPressedColor</item>
+        <!-- Will be combined later to one uidSeparatorColorWithAlpha -->
 
         <item name="uidCheckBoxTextEnabledColor">@color/uid_gray_level_75</item>
         <item name="uidCheckBoxTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
@@ -137,6 +151,10 @@
 
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_10</item>
+
+        <item name="uidControlPrimaryDetail">?attr/uidControlPrimaryEnabledColor</item>
+        <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_25</item>
+        <item name="uidControlTrackOff">?attr/uidColorLevel45</item>
     </style>
 
     <style name="VeryLight">
@@ -168,19 +186,32 @@
 
         <item name="uidSwitchTrackOffAlpha">@dimen/uid_alpha_per_70</item>
         <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel10</item>
-        <item name="uidControlPrimaryTrackOffAlpha">@dimen/uid_alpha_per_70</item>
         <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_15</item>
 
         <item name="uidTextPrimary">?attr/uidColorLevel75</item>
         <item name="uidTextSecondary">?attr/uidColorLevel65</item>
 
-        <item name="uidProgressIndicatorButtonProgressColor">?attr/uidColorLevel45</item>
+        <item name="uidSocialIconPrimaryButtonIconColor">@color/uidColorWhite</item>
+        <item name="uidSocialIconPrimaryButtonNormalFillColor">?attr/uidControlPrimaryEnabledColor
+        </item>
+        <item name="uidSocialIconPrimaryButtonPressedColor">?attr/uidControlPrimaryPressedColor
+        </item>
+
+        <item name="uidSocialIconWhiteButtonNormalFillColor">?attr/uidControlPrimaryEnabledColor
+        </item>
+        <item name="uidSocialIconWhiteButtonIconColor">?attr/uidControlPrimaryTextColor</item>
+        <item name="uidSocialIconWhitePressedColor">?attr/uidControlPrimaryPressedColor</item>
+
 
         <item name="uidCheckBoxTextEnabledColor">?attr/uidColorLevel75</item>
         <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_70</item>
 
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
+
+        <item name="uidControlPrimaryDetail">?attr/uidControlPrimaryEnabledColor</item>
+        <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_30</item>
+        <item name="uidControlTrackOff">?attr/uidColorLevel45</item>
     </style>
 
     <style name="Light">
@@ -212,18 +243,32 @@
 
         <item name="uidSwitchTrackOffAlpha">@dimen/uid_alpha_per_70</item>
         <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel20</item>
-        <item name="uidControlPrimaryTrackOffAlpha">@dimen/uid_alpha_per_70</item>
         <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_25</item>
 
-        <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
         <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel75</item>
 
         <item name="uidCheckBoxBackgroundCheckedEnabledColor">?attr/uidColorLevel75</item>
         <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_50</item>
         <item name="uidCheckBoxRippleAlpha">@dimen/uid_alpha_per_20</item>
 
+
+        <item name="uidSocialIconPrimaryButtonIconColor">@color/uidColorWhite</item>
+        <item name="uidSocialIconPrimaryButtonNormalFillColor">?attr/uidControlPrimaryEnabledColor
+        </item>
+        <item name="uidSocialIconPrimaryButtonPressedColor">?attr/uidControlPrimaryPressedColor
+        </item>
+
+        <item name="uidSocialIconWhiteButtonNormalFillColor">@color/uidColorWhite
+        </item>
+        <item name="uidSocialIconWhiteButtonIconColor">?attr/uidColorLevel35</item>
+        <item name="uidSocialIconWhitePressedColor">?attr/uidColorLevel10</item>
+
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_20</item>
+
+        <item name="uidControlPrimaryDetail">@color/uidColorWhite</item>
+        <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_30</item>
+        <item name="uidControlTrackOff">@color/uidColorWhite</item>
     </style>
 
     <style name="Bright">
@@ -255,7 +300,6 @@
         <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel35</item>
         <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_40</item>
 
-        <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
         <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel75</item>
 
         <item name="uidCheckBoxTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
@@ -263,8 +307,24 @@
         <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_50</item>
         <item name="uidCheckBoxRippleAlpha">@dimen/uid_alpha_per_25</item>
 
+
+        <item name="uidSocialIconPrimaryButtonIconColor">@color/uidColorWhite</item>
+        <item name="uidSocialIconPrimaryButtonNormalFillColor">?attr/uidControlPrimaryEnabledColor
+        </item>
+        <item name="uidSocialIconPrimaryButtonPressedColor">?attr/uidControlPrimaryPressedColor
+        </item>
+
+        <item name="uidSocialIconWhiteButtonNormalFillColor">@color/uidColorWhite
+        </item>
+        <item name="uidSocialIconWhiteButtonIconColor">?attr/uidColorLevel50</item>
+        <item name="uidSocialIconWhitePressedColor">?attr/uidColorLevel10</item>
+
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
+
+        <item name="uidControlPrimaryDetail">@color/uidColorWhite</item>
+        <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_25</item>
+        <item name="uidControlTrackOff">@color/uidColorWhite</item>
     </style>
 
     <style name="VeryDark">
@@ -300,13 +360,28 @@
         <item name="uidSwitchBorderColorAlpha">@dimen/uid_alpha_per_35</item>
         <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_40</item>
 
-        <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
-
         <item name="uidCheckBoxTextDisabledAlpha">@dimen/uid_alpha_per_40</item>
         <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_50</item>
         <item name="uidCheckBoxRippleAlpha">@dimen/uid_alpha_per_35</item>
 
+
+        <item name="uidSocialIconPrimaryButtonIconColor">@color/uidColorWhite</item>
+        <item name="uidSocialIconPrimaryButtonNormalFillColor">?attr/uidControlPrimaryEnabledColor
+        </item>
+        <item name="uidSocialIconPrimaryButtonPressedColor">?attr/uidControlPrimaryPressedColor
+        </item>
+
+
+        <item name="uidSocialIconWhiteButtonNormalFillColor">@color/uidColorWhite
+        </item>
+        <item name="uidSocialIconWhiteButtonIconColor">?attr/uidColorLevel80</item>
+        <item name="uidSocialIconWhitePressedColor">?attr/uidColorLevel10</item>
+
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
+
+        <item name="uidControlPrimaryDetail">@color/uidColorWhite</item>
+        <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_30</item>
+        <item name="uidControlTrackOff">?attr/uidColorLevel30</item>
     </style>
 </resources>

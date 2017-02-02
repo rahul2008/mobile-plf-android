@@ -10,7 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <include android:id="@+id/uid_test_separator" layout="@layout/uid_horizontal_separator"/>
+    <include
+        android:id="@+id/uid_test_separator"
+        layout="@layout/uid_horizontal_separator"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerviewSeparatorItems"
@@ -18,7 +20,9 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical"
         app:layoutManager="LinearLayoutManager"/>
-    <include android:id="@+id/uid_test_separator_with_color"
-             layout="@layout/uid_horizontal_separator"/>
+
+    <include
+        android:id="@+id/uid_test_separator_with_color"
+        layout="@layout/uid_horizontal_separator"/>
 
 </LinearLayout>
