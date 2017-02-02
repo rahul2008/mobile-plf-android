@@ -36,12 +36,12 @@ class SampleApplianceFactory implements DICommApplianceFactory<AirPurifier> {
 
     @Override
     public boolean canCreateApplianceForNode(NetworkNode networkNode) {
-        return AirPurifier.MODELNAME.equals(networkNode.getModelName());
+        return getSupportedModelNames().contains(networkNode.getModelName());
     }
 
     @Override
     public AirPurifier createApplianceForNode(NetworkNode networkNode) {
-        if (networkNode.getModelName().equals(AirPurifier.MODELNAME)) {
+        if (canCreateApplianceForNode(networkNode)) {
             final CommunicationStrategy communicationStrategy = new CombinedCommunicationStrategy(
                     lanTransportContext.createCommunicationStrategyFor(networkNode),
                     cloudTransportContext.createCommunicationStrategyFor(networkNode));
