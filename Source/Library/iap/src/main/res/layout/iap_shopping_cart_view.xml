@@ -39,6 +39,6 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/checkout_btn"
         android:layout_alignParentTop="true"
-        android:listSelector="@android:color/transparent"></android.support.v7.widget.RecyclerView>
+        android:listSelector="@android:color/transparent" />
 
 </RelativeLayout>

@@ -68,7 +68,7 @@
                 android:layout_alignTop="@id/ctn"
                 android:layout_below="@id/product_description"
                 android:layout_marginEnd="@dimen/iap_product_detail_right_padding"
-                android:layout_marginLeft="@dimen/iap_image_bottom_margin"
+                android:layout_marginStart="@dimen/iap_image_bottom_margin"
                 android:orientation="vertical">
 
                 <TextView
