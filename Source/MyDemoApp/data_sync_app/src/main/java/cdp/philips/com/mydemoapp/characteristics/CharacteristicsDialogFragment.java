@@ -202,9 +202,6 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
             @Override
             public void run() {
                 try {
-                   // final List<Characteristics> characteristicsList = new ArrayList<>();
-                 //   characteristicsList.add(parentList);
-
                     UCoreUserCharacteristics uCoreCharacteristics = convertToUCoreUserCharacteristics(parentList);
 
                     Gson gson = new GsonBuilder().setPrettyPrinting().create();
