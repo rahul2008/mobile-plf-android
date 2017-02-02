@@ -23,6 +23,7 @@
     <style name="UIDCalendarViewStyle" parent="@android:style/Widget.Material.Light.CalendarView">
         <item name="android:weekDayTextAppearance">@style/UIDWeekDayTextAppearance</item>
     </style>
+
     <style name="UIDWeekDayTextAppearance">
         <item name="android:textColor">?attr/uidDatePickerWeekDayTextColor</item>
     </style>
@@ -38,9 +39,16 @@
         <item name="android:textColor">?attr/uidDatePickerButtonTextColor</item>
     </style>
 
+    <style name="UIDDayOfWeekTextAppearance" parent="android:TextAppearance.Material">
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">?attr/uidDatePickerDayOfWeekTextColor</item>
+        <item name="android:textSize">14dp</item>
+    </style>
+
     <style name="UIDDatePicker" parent="@android:style/Widget.Material.Light.DatePicker">
         <item name="android:headerBackground">?attr/uidDatePickerHeaderFillColor</item>
         <item name="android:weekDayTextAppearance">@style/UIDWeekDayTextAppearance</item>
         <item name="android:calendarTextColor">?attr/uidDatePickerTextColor</item>
+        <item name="android:dayOfWeekTextAppearance">@style/UIDDayOfWeekTextAppearance</item>
     </style>
 </resources>

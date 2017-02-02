@@ -110,6 +110,7 @@
         <item name="uidDatePickerSelectedFillColor">?attr/uidControlBright</item>
         <item name="uidDatePickerWeekDayTextColor">?attr/uidGrayTextTertiary</item>
         <item name="uidDatePickerText">@color/uid_gray_level_75</item>
+        <item name="uidDatePickerDayOfWeekTextColor">?attr/uidNavigationTextColor</item>
     </style>
 
     <style name="UltraLight">
