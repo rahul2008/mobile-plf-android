@@ -1,5 +1,8 @@
 Release notes for Android-CloudController
 
+Version NEXT
+-------------
+
 Version 5.0.0
 -------------
 ### New features:
