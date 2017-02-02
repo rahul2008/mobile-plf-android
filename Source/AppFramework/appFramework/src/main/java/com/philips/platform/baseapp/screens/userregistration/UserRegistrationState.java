@@ -18,13 +18,21 @@ import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
+import java.net.URL;
 import java.util.Locale;
 
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_APPLICATION_NAME;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_SECRET;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_SHARED;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
 
 /**
@@ -38,6 +46,13 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     private User userObject;
     private FragmentLauncher fragmentLauncher;
     private Context applicationContext;
+    String mDataCoreUrl = null;
+    private final String APP_NAME = "appname";
+    private final String DATACORE_FALLBACK_URL = "dataCoreUrl";
+    private final String DATASERVICES_KEY = "dataservices";
+    private AppInfraInterface mAppInfra;
+    private ServiceDiscoveryInterface mServiceDiscoveryInterface;
+    private AppConfigurationInterface.AppConfigurationError mConfigurationError;
 
     /**
      * AppFlowState constructor
@@ -69,8 +84,10 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     @Override
     public void init(Context context) {
         this.applicationContext = context;
+        initAppInfra();
         initializeUserRegistrationLibrary();
-        initHSDP();
+        fetchDataServicesUrl();
+        //initHSDP();
     }
 
     @Override
@@ -79,39 +96,33 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     }
 
     public void initHSDP() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        ((AppFrameworkApplication)applicationContext).getAppInfra().
+        mAppInfra.
                 getConfigInterface().setPropertyForKey(
-                "HSDPConfiguration.ApplicationName",
+                HSDP_CONFIGURATION_APPLICATION_NAME,
                 UR,
-               // "Datacore",
-                //"uGrow",
-                "HealthySleepSolutions",
-                configError);
+                loadAppNameFromConfigParams(APP_NAME),
+                mConfigurationError);
 
-        ((AppFrameworkApplication)applicationContext).getAppInfra().
+        mAppInfra.
                 getConfigInterface().setPropertyForKey(
-                "HSDPConfiguration.Secret",
+                HSDP_CONFIGURATION_SECRET,
                 UR,
                 "ad3d0618-be4d-4958-adc9-f6bcd01fde16",
-                configError);
+                mConfigurationError);
 
-        ((AppFrameworkApplication)applicationContext).getAppInfra().
+        mAppInfra.
                 getConfigInterface().setPropertyForKey(
-                "HSDPConfiguration.Shared",
+                HSDP_CONFIGURATION_SHARED,
                 UR,
                 "ba404af2-ee41-4e7c-9157-fd20663f2a6c",
-                configError);
+                mConfigurationError);
 
-        ((AppFrameworkApplication)applicationContext).getAppInfra().
+        mAppInfra.
                 getConfigInterface().setPropertyForKey(
-                "HSDPConfiguration.BaseURL",
+                HSDP_CONFIGURATION_BASE_URL,
                 UR,
-                //"https://referenceplatform-ds-platforminfradev.cloud.pcftest.com",
-               // "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com",
-                "https://healthysleep-ds-development.eu-west.philips-healthsuite.com",
-                configError);
+                mDataCoreUrl,
+                mConfigurationError);
     }
 
 
@@ -143,6 +154,13 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         urInterface.launch(fragmentLauncher, urLaunchInput);
     }
 
+    private void initAppInfra() {
+        mAppInfra = ((AppFrameworkApplication) applicationContext).getAppInfra();
+        mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
+        mConfigurationError = new
+                AppConfigurationInterface.AppConfigurationError();
+    }
+
     /**
      * For doing dynamic initialisation Of User registration
      */
@@ -161,5 +179,39 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     public void unregisterUserRegistrationListener() {
         userObject.unRegisterUserRegistrationListener(this);
+    }
+
+    protected void fetchDataServicesUrl() {
+
+        mServiceDiscoveryInterface.getServiceUrlWithCountryPreference("ds.dataservice", new
+                ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+                    @Override
+                    public void onError(ERRORVALUES errorvalues, String s) {
+                        DSLog.e(DSLog.LOG,"Error");
+                        mDataCoreUrl = loadAppNameFromConfigParams(DATACORE_FALLBACK_URL);
+                        initHSDP();
+                    }
+
+                    @Override
+                    public void onSuccess(URL url) {
+                        DSLog.e(DSLog.LOG,"Success = " + url);
+                        if (url.toString().isEmpty()) {
+                            mDataCoreUrl = loadAppNameFromConfigParams(DATACORE_FALLBACK_URL);
+                        } else {
+
+                            mDataCoreUrl = url.toString();
+                        }
+                        initHSDP();
+                    }
+                });
+    }
+
+    private String loadAppNameFromConfigParams(String propertyKey) {
+        String appname = (String)  ((AppFrameworkApplication)applicationContext).
+                getAppInfra().getConfigInterface().getPropertyForKey(propertyKey, DATASERVICES_KEY, mConfigurationError);
+        if (mConfigurationError.getErrorCode() != null) {
+            DSLog.e(DSLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + mConfigurationError.getErrorCode().toString());
+        }
+        return appname;
     }
 }

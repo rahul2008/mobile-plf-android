@@ -339,9 +339,9 @@ dependencies {
         transitive = true
     }
     /* compile(group: 'com.philips.cdp', name: 'dataServices', version: '0.2.0-SNAPSHOT', ext: 'aar') {
-                exclude group: 'com.android.support'
-                transitive = true
-            }*/
+                    exclude group: 'com.android.support'
+                    transitive = true
+                }*/
     compile('com.philips.cdp:dicommClientLib:2.2.0-SNAPSHOT@aar') {
         exclude group: 'com.android.support'
         transitive = true
@@ -359,6 +359,7 @@ dependencies {
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.google.dagger:dagger:2.0.2'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'org.greenrobot:eventbus:3.0.0'
 }
 
 task copyToLib(type: Copy) {

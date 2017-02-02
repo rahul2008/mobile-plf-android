@@ -15,22 +15,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.utils.RowItem;
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
-import com.philips.platform.baseapp.screens.dataservices.database.DatabaseHelper;
 import com.philips.platform.baseapp.screens.dataservices.database.EmptyForeignCollection;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MeasurementDetailType;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MeasurementGroupDetailType;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MeasurementType;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentDetailType;
-import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurement;
-import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementDetail;
-import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementGroup;
+import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentType;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMoment;
-import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMomentDetail;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
@@ -40,7 +35,6 @@ import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
-import com.philips.platform.core.utils.UuidGenerator;
 
 import org.joda.time.DateTime;
 
@@ -127,7 +121,7 @@ public class TemperaturePresenter {
     }
 
     void fetchData(DBRequestListener dbRequestListener) {
-        mDataServices.fetchAllData(dbRequestListener);
+        mDataServices.fetch(dbRequestListener, MomentType.getIDFromDescription(MomentType.TEMPERATURE));
     }
 
     private void saveRequest(Moment moment) {

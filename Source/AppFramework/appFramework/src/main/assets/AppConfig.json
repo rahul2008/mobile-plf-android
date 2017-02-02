@@ -16,6 +16,10 @@
     "hostport": "acc.occ.shop.philips.com",
     "propositionid": "Tuscany2016"
   },
+  "dataservices": {
+    "appname": "HealthySleepSolutions",
+    "dataCoreUrl": "https://healthysleep-ds-development.eu-west.philips-healthsuite.com"
+  },
   "appinfra": {
     "appidentity.micrositeId" : "11400",
     "appidentity.sector"  : "b2c",

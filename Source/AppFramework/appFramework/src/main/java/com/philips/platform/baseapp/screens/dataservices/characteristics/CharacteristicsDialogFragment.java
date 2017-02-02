@@ -15,9 +15,8 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.philips.platform.appframework.R;
-import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristicsDetail;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -63,7 +62,7 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
 
         mEtCharacteristics.setEnabled(false);
         isEditable = false;
-       DataServicesManager.getInstance().fetchUserCharacteristics(this);
+        DataServicesManager.getInstance().fetchUserCharacteristics(this);
         return rootView;
     }
 
@@ -141,23 +140,23 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
 
 
     //Application data type to DataCore type
-    public UCoreUserCharacteristics convertToUCoreUserCharacteristics(List<UserCharacteristics> characteristic) {
+    public UCoreUserCharacteristics convertToUCoreUserCharacteristics(List<Characteristics> characteristic) {
         UCoreUserCharacteristics uCoreUserCharacteristics = new UCoreUserCharacteristics();
         List<UCoreCharacteristics> uCoreCharacteristicsList = new ArrayList<>();
         if (characteristic != null) {
             for (int i = 0; i < characteristic.size(); i++) {
-                Collection<? extends Characteristics> characteristicsDetails = characteristic.get(i).getCharacteristicsDetails();
+                Collection<? extends Characteristics> characteristicsDetails = characteristic;
                 List<Characteristics> detailList = new ArrayList<>(characteristicsDetails);
-               // UCoreCharacteristics uCoreCharacteristics = new UCoreCharacteristics();
+                // UCoreCharacteristics uCoreCharacteristics = new UCoreCharacteristics();
                 if (detailList.size() > 0) {
                     //for (int j = 0; j < detailList.size(); j++) {
-                        UCoreCharacteristics uCoreCharacteristics1 = new UCoreCharacteristics();
-                        uCoreCharacteristics1.setType(detailList.get(i).getType());
-                        uCoreCharacteristics1.setValue(detailList.get(i).getValue());
-                        Collection<? extends Characteristics> characteristicsDetail = detailList.get(i).getCharacteristicsDetail();
-                        List<Characteristics> detailList1 = new ArrayList<>(characteristicsDetail);
-                        uCoreCharacteristics1.setCharacteristics(convertToUCoreCharacteristics(detailList1));
-                        uCoreCharacteristicsList.add(uCoreCharacteristics1);
+                    UCoreCharacteristics uCoreCharacteristics1 = new UCoreCharacteristics();
+                    uCoreCharacteristics1.setType(detailList.get(i).getType());
+                    uCoreCharacteristics1.setValue(detailList.get(i).getValue());
+                    Collection<? extends Characteristics> characteristicsDetail = detailList.get(i).getCharacteristicsDetail();
+                    List<Characteristics> detailList1 = new ArrayList<>(characteristicsDetail);
+                    uCoreCharacteristics1.setCharacteristics(convertToUCoreCharacteristics(detailList1));
+                    uCoreCharacteristicsList.add(uCoreCharacteristics1);
                     //}
                 }
             }
@@ -187,15 +186,25 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
         //Display User characteristics UI
         if (data == null) return;
         if (getActivity() == null) return;
-        final OrmCharacteristics ormCharacteristics = (OrmCharacteristics) data;
+
+        final ArrayList<OrmCharacteristicsDetail> ormCharacteristicsDetailList = (ArrayList<OrmCharacteristicsDetail>) data;
+
+        final List<Characteristics> parentList = new ArrayList<>();
+        for (Characteristics characteristics : ormCharacteristicsDetailList) {
+            if (ormCharacteristicsDetailList.size() > 0) {
+                parentList.add(characteristics);
+            }
+        }
+
+
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    final List<UserCharacteristics> userCharacteristicsList = new ArrayList<>();
-                    userCharacteristicsList.add(ormCharacteristics);
+                   // final List<Characteristics> characteristicsList = new ArrayList<>();
+                 //   characteristicsList.add(parentList);
 
-                    UCoreUserCharacteristics uCoreCharacteristics = convertToUCoreUserCharacteristics(userCharacteristicsList);
+                    UCoreUserCharacteristics uCoreCharacteristics = convertToUCoreUserCharacteristics(parentList);
 
                     Gson gson = new GsonBuilder().setPrettyPrinting().create();
                     String jsonObj = gson.toJson(uCoreCharacteristics);

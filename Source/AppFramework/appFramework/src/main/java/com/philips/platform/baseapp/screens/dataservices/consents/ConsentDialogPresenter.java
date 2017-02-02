@@ -30,21 +30,6 @@ public class ConsentDialogPresenter {
         return false;
     }
 
-    protected void createSaveDefaultConsent() {
-        DataServicesManager mDataServices = DataServicesManager.getInstance();
-        Consent consent = mDataServices.createConsent();
-        mDataServices.createConsentDetail
-                (consent, ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED,
-                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
-        mDataServices.createConsentDetail
-                (consent, ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED,
-                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
-        mDataServices.createConsentDetail
-                (consent, ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED,
-                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
-        mDataServices.saveConsent(consent,dbRequestListener);
-    }
-
     public void updateConsent(Consent mConsent) {
         DataServicesManager.getInstance().updateConsent(mConsent,dbRequestListener);
     }
