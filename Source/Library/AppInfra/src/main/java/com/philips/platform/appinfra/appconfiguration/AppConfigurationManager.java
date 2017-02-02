@@ -57,6 +57,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                 total.append(line).append('\n');
             }
             result = new JSONObject(total.toString());
+            result = makeKeyUppercase(result); // converting all Group and child key Uppercase
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "Json",
                     result.toString());
 
@@ -134,6 +135,8 @@ public class AppConfigurationManager implements AppConfigurationInterface {
             throw new IllegalArgumentException("Invalid Argument Exception");
         } else {
             getjSONFromCache(); // fetch from cache
+            key = key.toUpperCase();
+            group = group.toUpperCase();
             try {
                 boolean isCocoPresent = configJsonCache.has(group);
                 JSONObject cocoJSONobject;
@@ -225,6 +228,8 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     }
 
     private Object getKey(String key, String group, AppConfigurationError configError, JSONObject jsonObject) {
+        key = key.toUpperCase();
+        group = group.toUpperCase();
         Object object = null;
         boolean isCocoPresent = jsonObject.has(group);
         if (!isCocoPresent) { // if request coco does not exist
@@ -276,5 +281,35 @@ public class AppConfigurationManager implements AppConfigurationInterface {
             map.put(key, value);
         }
         return map;
+    }
+
+    private JSONObject makeKeyUppercase(JSONObject json) {
+        JSONObject newJsonGroup = new JSONObject();
+        Iterator<String> iteratorGroup = json.keys();
+        while (iteratorGroup.hasNext()) {
+            String keyGroup = iteratorGroup.next();
+            try {
+                JSONObject objectGroup = json.optJSONObject(keyGroup);
+
+
+                JSONObject newJsonChildObject = new JSONObject();
+                Iterator<String> iteratorKey = objectGroup.keys();
+                while (iteratorKey.hasNext()) {
+                    String key = iteratorKey.next();
+                    try {
+                        Object objectKey = objectGroup.opt(key);
+                        newJsonChildObject.put(key.toUpperCase(), objectKey);
+                    } catch (JSONException e) {
+                        // Something went wrong!
+                    }
+
+                }
+                newJsonGroup.put(keyGroup.toUpperCase(), newJsonChildObject);
+
+            } catch (JSONException e) {
+                // Something went wrong!
+            }
+        }
+        return newJsonGroup;
     }
 }

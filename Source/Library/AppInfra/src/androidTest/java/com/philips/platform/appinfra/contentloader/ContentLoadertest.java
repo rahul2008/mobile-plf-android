@@ -14,9 +14,9 @@ import com.philips.platform.appinfra.contentloader.model.ContentArticle;
 import com.philips.platform.appinfra.contentloader.model.ContentItem;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -189,17 +189,27 @@ public class ContentLoadertest extends MockitoTestCase {
 
     public void testdownloadContent() {
         try {
-            method = mContentLoader.getClass().getDeclaredMethod("downloadContent");
+            method = mContentLoader.getClass().getDeclaredMethod("downloadContent", ContentLoaderInterface.OnRefreshListener.class);
             method.setAccessible(true);
-        } catch (NoSuchMethodException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTestClient",
+            method.invoke(mContentLoader, new ContentLoaderInterface.OnRefreshListener() {
+                @Override
+                public void onError(ContentLoaderInterface.ERROR error, String message) {
+                }
+
+                @Override
+                public void onSuccess(ContentLoaderInterface.OnRefreshListener.REFRESH_RESULT result) {
+
+                }
+            });
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ContentLoader",
                     e.getMessage());
         }
     }
 
 
     public void testparseJsonandSave() {
-        ContentItem ContentItemTest=null;
+        ContentItem ContentItemTest = null;
         final Gson gson = new Gson();
         long mLastUpdatedTime = (new Date()).getTime();
         JsonElement content = jsonObject.get("articles");
@@ -260,11 +270,11 @@ public class ContentLoadertest extends MockitoTestCase {
 
                 ContentDatabaseHandler mContentDatabaseHandler = ContentDatabaseHandler.getInstance(context);
 
-                assertNotNull(mContentDatabaseHandler.addContents(downloadedContents, serviceId,mLastUpdatedTime, 1,true));
-                if(downloadedContents.size()>0){
+                assertNotNull(mContentDatabaseHandler.addContents(downloadedContents, serviceId, mLastUpdatedTime, 1, true));
+                if (downloadedContents.size() > 0) {
                     String[] str = new String[1];
-                    str[0]= ContentItemTest.getId();
-                    assertNotNull(mContentDatabaseHandler.getContentById(serviceId,str));
+                    str[0] = ContentItemTest.getId();
+                    assertNotNull(mContentDatabaseHandler.getContentById(serviceId, str));
                     assertNotNull(mContentDatabaseHandler.getAllContentIds(serviceId));
                 }
 
@@ -383,12 +393,15 @@ public class ContentLoadertest extends MockitoTestCase {
     }
 
 
-    private long expiryTimeforUserInputTime(int userInputExpiryTime) {
-        long expiryTime = 0;
-        Calendar expiryDate = Calendar.getInstance();
-        expiryDate.add(Calendar.HOUR_OF_DAY, userInputExpiryTime);
-        expiryTime = expiryDate.getTime().getTime();
-        return expiryTime;
+    public void testExpiryTimeforUserInputTime() {
+        try {
+            method = mContentLoader.getClass().getDeclaredMethod("expiryTimeforUserInputTime", int.class);
+            method.setAccessible(true);
+            method.invoke(mContentLoader, 3);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ContentLoader",
+                    e.getMessage());
+        }
     }
 }
 
