@@ -213,6 +213,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
                         WhiteBoxAPIActivity.class);
                 startActivity(whiteBoxAPISignInIntent);
                 break;
+
         }
 
     }

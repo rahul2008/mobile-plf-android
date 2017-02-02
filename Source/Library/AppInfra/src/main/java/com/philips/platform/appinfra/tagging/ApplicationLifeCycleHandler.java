@@ -3,14 +3,11 @@ package com.philips.platform.appinfra.tagging;
 import android.app.Activity;
 import android.app.Application;
 import android.content.ComponentCallbacks2;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 /**
  * Created by 310200764 on 9/1/2015.
@@ -78,8 +75,6 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
     public void onActivityDestroyed(Activity activity) {
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
                 "ApplicationLifeCycleHandler", "Destroyed");
-
-        Log.i("LifeDestroyed", "");
 
     }
 
