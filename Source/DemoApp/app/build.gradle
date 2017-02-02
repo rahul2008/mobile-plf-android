@@ -17,9 +17,15 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro','proguard-rules-ail.pro'
             signingConfig signingConfigs.release
         }
+        debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),  'proguard-rules.pro','proguard-rules-ail.pro'
+
+        }
+
     }
     /*
    This defined for signing the apk -- start
