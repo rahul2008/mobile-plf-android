@@ -30,6 +30,7 @@
             android:id="@+id/timeline"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/tv_settings"
             android:layout_alignParentStart="true"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -40,8 +41,31 @@
             android:footerDividersEnabled="false"
             android:listSelector="?attr/uikit_listSelectorBackground"
             android:overScrollFooter="@android:color/transparent"
-            android:scrollbars="none"
-            android:layout_above="@+id/tv_set_characteristics"></android.support.v7.widget.RecyclerView>
+            android:scrollbars="none">
+
+        </android.support.v7.widget.RecyclerView>
+
+
+    <TextView
+        android:text="@string/set_characteristics"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_above="@+id/tv_set_consents"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:id="@+id/tv_set_characteristics" />
+
+    <TextView
+        android:text="User Settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginBottom="10dp"
+        android:textSize="20dp"
+        android:layout_above="@+id/tv_set_characteristics"
+        android:layout_marginStart="10dp"
+        android:id="@+id/tv_settings" />
 
     <TextView
         android:text="@string/consents"
@@ -55,14 +79,6 @@
         android:layout_marginStart="10dp"
         android:id="@+id/tv_set_consents" />
 
-    <TextView
-        android:text="@string/set_characteristics"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_above="@+id/tv_set_consents"
-        android:id="@+id/tv_set_characteristics" />
+
 
     </RelativeLayout>
