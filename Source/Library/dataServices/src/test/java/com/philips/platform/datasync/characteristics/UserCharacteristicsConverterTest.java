@@ -23,7 +23,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class UserCharacteristicsConverterTest {
 
-    private final String TEST_CHARACTERISTICS = "TEST_CHARACTERISTICS";
     private UserCharacteristicsConverter userCharacteristicsConvertor;
 
     private BaseAppDataCreator verticalDataCreater;
@@ -64,10 +63,13 @@ public class UserCharacteristicsConverterTest {
         Characteristics characteristicsDetail1 = userCharacteristicsConvertor.dataCreator.createCharacteristics("TYPE", "VALUE", characteristics);
 
         List<Characteristics> userCharacteristicsList = new ArrayList<>();
-        characteristics.setCharacteristicsDetail(characteristicsDetail1);
+        //characteristics.setCharacteristicsDetail(characteristicsDetail1);
+        //userCharacteristics.setCharacteristicsDetail(characteristics);
         userCharacteristics.setCharacteristicsDetail(characteristics);
-//        userCharacteristics.
-//        userCharacteristicsList.add(userCharacteristics);
+        characteristics.setCharacteristicsDetail(characteristicsDetail1);
+        userCharacteristicsList.add(characteristics);
+        userCharacteristicsList.add(userCharacteristics);
+
         UCoreUserCharacteristics uCoreCharacteristicsList = userCharacteristicsConvertor.convertToUCoreUserCharacteristics(userCharacteristicsList);
         assertThat(uCoreCharacteristicsList).isNotNull();
         assertThat(uCoreCharacteristicsList).isInstanceOf(UCoreUserCharacteristics.class);
@@ -96,9 +98,8 @@ public class UserCharacteristicsConverterTest {
         userCharacteristics.setCharacteristics(list);
 
         List<Characteristics> toUserCharacteristics = userCharacteristicsConvertor.convertToCharacteristics(userCharacteristics, "TEST_CREATORID");
-       // toUserCharacteristics.add(uCoreCharacteristics);
-        // assertThat(toUserCharacteristics.getCharacteristicsDetails()).isNotNull();
+        //assertThat(toUserCharacteristics.getCharacteristicsDetails()).isNotNull();
         assertThat(toUserCharacteristics).isNotNull();
-        //assertThat(toUserCharacteristics).isInstanceOf(Characteristics.class);
+        assertThat(toUserCharacteristics.get(0)).isInstanceOf(Characteristics.class);
     }
 }

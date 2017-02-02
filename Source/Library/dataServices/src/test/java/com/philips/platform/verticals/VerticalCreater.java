@@ -115,12 +115,12 @@ public class VerticalCreater implements BaseAppDataCreator {
     @NonNull
     @Override
     public Characteristics createCharacteristics(@NonNull String type, @NonNull String value, @NonNull Characteristics characteristics) {
-        return new OrmCharacteristics(type, value, characteristics);
+        return new OrmCharacteristics(type, value, (OrmCharacteristics) characteristics);
     }
 
     @NonNull
     @Override
     public Characteristics createCharacteristics(@NonNull String type, @NonNull String value) {
-        return null;
+        return new OrmCharacteristics(type, value);
     }
 }

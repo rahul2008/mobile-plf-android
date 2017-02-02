@@ -2,52 +2,84 @@ package com.philips.platform.verticals;
 
 import com.philips.platform.core.datatypes.Characteristics;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by indrajitkumar on 2/2/17.
  */
 public class OrmCharacteristics implements Characteristics {
-    public OrmCharacteristics(String type, String value, Characteristics characteristics) {
+
+    public static final long serialVersionUID = 11L;
+
+    private int id;
+
+    private String type;
+
+    private String value;
+
+    private int parent;
+
+
+    private OrmCharacteristics ormCharacteristics;
+
+    List<OrmCharacteristics> ormCharacteristicses = new ArrayList<>();
+
+    OrmCharacteristics() {
     }
 
-    @Override
-    public void setType(String type) {
-
+    public OrmCharacteristics(final String type, final String value, OrmCharacteristics ormCharacteristicsDetail) {
+        this.type = type;
+        this.value = value;
+        this.ormCharacteristics = ormCharacteristicsDetail;
+        parent = 1;
     }
 
-    @Override
-    public String getType() {
-        return null;
-    }
-
-    @Override
-    public void setValue(String value) {
-
-    }
-
-    @Override
-    public String getValue() {
-        return null;
-    }
-
-    @Override
-    public Collection<? extends Characteristics> getCharacteristicsDetail() {
-        return null;
-    }
-
-    @Override
-    public void setCharacteristicsDetail(Characteristics characteristics) {
-
-    }
-
-    @Override
-    public int getParent() {
-        return 0;
+    public OrmCharacteristics(final String type, final String value) {
+        this.type = type;
+        this.value = value;
+        parent = 0;
     }
 
     @Override
     public int getId() {
-        return 0;
+        return id;
     }
+
+    @Override
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @Override
+    public String getType() {
+        return type;
+    }
+
+    @Override
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    @Override
+    public String getValue() {
+        return value;
+    }
+
+    @Override
+    public Collection<? extends Characteristics> getCharacteristicsDetail() {
+        return ormCharacteristicses;
+    }
+
+    @Override
+    public void setCharacteristicsDetail(Characteristics characteristics) {
+        ormCharacteristicses.add((OrmCharacteristics) characteristics);
+    }
+
+    @Override
+    public int getParent() {
+        return parent;
+    }
+
 }

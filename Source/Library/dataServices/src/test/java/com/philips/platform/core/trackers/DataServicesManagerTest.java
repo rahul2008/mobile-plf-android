@@ -38,6 +38,7 @@ import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataSender;
 import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
+import com.philips.platform.verticals.OrmCharacteristics;
 import com.philips.platform.verticals.VerticalCreater;
 import com.philips.platform.verticals.VerticalUCoreAccessProvider;
 import com.philips.platform.verticals.VerticalUserRegistrationInterface;
@@ -384,7 +385,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void ShouldCreateCharacteristicsDetails_WhenCreateCharacteristicsDetailsIsCalled() throws Exception {
-        tracker.createUserCharacteristics("TYPE", "VALUE", mock(Characteristics.class));
+        tracker.createUserCharacteristics("TYPE", "VALUE", mock(OrmCharacteristics.class));
 //        verify(baseAppDataCreator).createUserCharacteristics(TEST_USER_ID);
     }
 
