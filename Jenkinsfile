@@ -24,7 +24,7 @@ node('Android') {
             step([$class: 'ArtifactArchiver', artifacts: 'Source/DICommClientSample/sampleApp/build/outputs/apk/*.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
         }
 
-        if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME == "master") {
+        if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME == "master") {
             stage('Publish') {
                 sh 'cd ./Source/DICommClient && ./gradlew zipDocuments artifactoryPublish'
             }
@@ -32,12 +32,17 @@ node('Android') {
     }
 
     /* next if-then + stage is mandatory for the platform CI pipeline integration */
-    if (env.triggerBy != "ppc" && (env.BRANCH_NAME == "develop" || env.BRANCH_NAME == "master")) {
+    if (env.triggerBy != "ppc" && (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME == "master")) {
         def platform = "android"
         def project = "CommLib"
         def project_tla = "cml"
+        def BranchName = env.BRANCH_NAME
+        if (BranchName =~ "/") {
+            BranchName = BranchName.replaceAll('/','%2F')
+            echo "BranchName changed to ${BranchName}"
+        }
         stage('Trigger Integration Pipeline') {
-            build job: "Platform-Infrastructure/ppc/ppc_${platform}/${env.BRANCH_NAME}", propagate: false, parameters: [[$class: 'StringParameterValue', name: 'componentName', value: project_tla], [$class: 'StringParameterValue', name: 'libraryName', value: project]]
+            build job: "Platform-Infrastructure/ppc/ppc_${platform}/${BranchName}", propagate: false, parameters: [[$class: 'StringParameterValue', name: 'componentName', value: project_tla], [$class: 'StringParameterValue', name: 'libraryName', value: project]]
         }
     }
 
