@@ -973,9 +973,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         trackSocialProviderPage();
         hideProviderProgress();
         enableControls(true);
-       /* if (null != userRegistrationFailureInfo) {
-            trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
-        }*/
     }
 
     @Override
