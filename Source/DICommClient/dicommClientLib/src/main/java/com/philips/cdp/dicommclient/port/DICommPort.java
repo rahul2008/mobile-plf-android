@@ -8,9 +8,11 @@ package com.philips.cdp.dicommclient.port;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.google.gson.Gson;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp.dicommclient.util.GsonProvider;
 import com.philips.cdp.dicommclient.util.WrappedHandler;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
@@ -27,6 +29,8 @@ public abstract class DICommPort<T> {
 
     public static final int SUBSCRIPTION_TTL = 300;
     public static final int SUBSCRIPTION_TTL_MS = SUBSCRIPTION_TTL * 1000;
+
+    protected final Gson gson = GsonProvider.get();
 
     protected CommunicationStrategy mCommunicationStrategy;
     private WrappedHandler mResubscriptionHandler;

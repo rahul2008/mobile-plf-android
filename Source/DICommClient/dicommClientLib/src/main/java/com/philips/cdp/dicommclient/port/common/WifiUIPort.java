@@ -5,8 +5,6 @@
 
 package com.philips.cdp.dicommclient.port.common;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.dicommclient.port.DICommPort;
@@ -64,7 +62,7 @@ public class WifiUIPort extends DICommPort<WifiUIPortProperties> {
         if (response == null || response.isEmpty()) {
 			return null;
 		}
-		Gson gson = new GsonBuilder().create() ;
+
 		WifiUIPortProperties properties = null;
 		try {
 		    properties = gson.fromJson(response, WifiUIPortProperties.class) ;

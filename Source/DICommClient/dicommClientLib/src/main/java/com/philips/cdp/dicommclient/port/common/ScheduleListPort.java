@@ -5,10 +5,6 @@
 
 package com.philips.cdp.dicommclient.port.common;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
@@ -239,7 +235,6 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
 
         ScheduleListPortInfo scheduleListPortInfo = null;
         try {
-            Gson gson = new GsonBuilder().create();
             ScheduleListPortInfo.ScheduleListPortInfoFromCpp scheduleListPortInfoFromCpp = gson.fromJson(response, ScheduleListPortInfo.ScheduleListPortInfoFromCpp.class);
             if (hasValidPortInfo(scheduleListPortInfoFromCpp)) {
                 scheduleListPortInfo = scheduleListPortInfoFromCpp.getData();
@@ -249,14 +244,9 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
                     scheduleListPortInfo = tempPortInfo;
                 }
             }
-        } catch (JsonSyntaxException e) {
-            DICommLog.e(DICommLog.SCHEDULELISTPORT, "JsonSyntaxException: " + "Error: " + e.getMessage());
-        } catch (JsonIOException e) {
-            DICommLog.e(DICommLog.SCHEDULELISTPORT, "JsonIOException: " + "Error: " + e.getMessage());
         } catch (Exception e) {
-            DICommLog.e(DICommLog.SCHEDULELISTPORT, "Exception: " + "Error: " + e.getMessage());
+            DICommLog.e(DICommLog.SCHEDULELISTPORT, e.getMessage());
         }
-
         return scheduleListPortInfo;
     }
 
