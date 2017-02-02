@@ -187,9 +187,4 @@ public class BleRequestTest {
 
         verify(mockDevice).registerSHNDeviceListener(null);
     }
-
-    @Test
-    public void responseHandlerIsNotifiedOnUiThread() throws Exception {
-
-    }
 }

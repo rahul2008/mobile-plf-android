@@ -40,7 +40,7 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     private AtomicBoolean disconnectAfterRequest;
 
     @NonNull
-    private Handler handlerToPostResponseOnto;
+    private Handler callbackHandler;
 
     /**
      * Instantiates a new BleCommunicationStrategy that provides callbacks on the main thread.
@@ -64,18 +64,18 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
         mDeviceCache = deviceCache;
         mExecutor = new ScheduledThreadPoolExecutor(1);
         disconnectAfterRequest = new AtomicBoolean(true);
-        handlerToPostResponseOnto = callbackHandler;
+        this.callbackHandler = callbackHandler;
     }
 
     @Override
     public void getProperties(final String portName, final int productId, final ResponseHandler responseHandler) {
-        final BleRequest request = new BleGetRequest(mDeviceCache, mCppId, portName, productId, responseHandler, handlerToPostResponseOnto, disconnectAfterRequest);
+        final BleRequest request = new BleGetRequest(mDeviceCache, mCppId, portName, productId, responseHandler, callbackHandler, disconnectAfterRequest);
         dispatchRequest(request);
     }
 
     @Override
     public void putProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
-        final BleRequest request = new BlePutRequest(mDeviceCache, mCppId, portName, productId, dataMap, responseHandler, handlerToPostResponseOnto, disconnectAfterRequest);
+        final BleRequest request = new BlePutRequest(mDeviceCache, mCppId, portName, productId, dataMap, responseHandler, callbackHandler, disconnectAfterRequest);
         dispatchRequest(request);
     }
 
