@@ -2,6 +2,7 @@ package com.philips.platform.uid.components.recyclerview;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.test.espresso.ViewInteraction;
@@ -10,6 +11,8 @@ import android.support.v4.content.ContextCompat;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
+import com.philips.platform.uid.matcher.BaseTypeSafteyMatcher;
+import com.philips.platform.uid.matcher.DrawableMatcher;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 
@@ -24,6 +27,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uid.test.R.color.Gray75;
 import static com.philips.platform.uid.test.R.color.GroupBlue05;
+import static junit.framework.Assert.assertTrue;
 
 public class RecyclerViewHeaderTest {
     Resources testResources;
@@ -88,25 +92,23 @@ public class RecyclerViewHeaderTest {
         getHeader().check(matches(ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding)));
     }
 
-    @Ignore
     @Test
     public void verifyLayoutTopPadding() {
         int expectedPadding = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.recyclerview_padding_top_bottom));
-        getHeader().check(matches(ViewPropertiesMatchers.isSameTopPadding(expectedPadding)));
+        getRecyclerView().check(matches(ViewPropertiesMatchers.isSameTopPadding(expectedPadding)));
     }
 
-    @Ignore
     @Test
     public void verifyLayoutBottomPadding() {
         int expectedPadding = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.recyclerview_padding_top_bottom));
-        getHeader().check(matches(ViewPropertiesMatchers.isSameBottomPadding(expectedPadding)));
+        getRecyclerView().check(matches(ViewPropertiesMatchers.isSameBottomPadding(expectedPadding)));
     }
 
     private ViewInteraction getHeader() {
         return onView(withId(com.philips.platform.uid.test.R.id.uid_recyclerview_header));
     }
 
-    private ViewInteraction getLayout() {
-        return onView(withId(R.id.uid_recyclerview_layout));
+    private ViewInteraction getRecyclerView() {
+        return onView(withId(com.philips.platform.uid.test.R.id.uid_recyclerview_recyclerview));
     }
 }
