@@ -83,7 +83,7 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
         URInterface urInterface;
         RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
         urLaunchInput = new URLaunchInput();
-        urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.ACCOUNT_SETTINGS);
+        urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         urLaunchInput.setUserRegistrationUIEventListener(new UserRegistrationUIEventListener() {
             @Override
