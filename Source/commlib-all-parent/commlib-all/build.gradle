@@ -77,7 +77,7 @@ dependencies {
         compile 'com.philips.cdp:cloudcontroller-api:3.1.1-SNAPSHOT'
         compile 'com.google.code.gson:gson:2.7'
     } else {
-        compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '3.1.1-SNAPSHOT')
+        compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '3.1.1-SNAPSHOT.+')
     }
 
     testCompile "org.mockito:mockito-core:2.5.5"
