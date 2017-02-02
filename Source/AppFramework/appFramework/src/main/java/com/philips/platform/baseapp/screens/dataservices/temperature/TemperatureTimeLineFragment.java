@@ -224,7 +224,8 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     }
 
     private boolean isSameEmail() {
-        if(getLastStoredEmail()!=null && getLastStoredEmail().equalsIgnoreCase(mUser.getEmail()))
+        String lastStoredEmail = getLastStoredEmail();
+        if(lastStoredEmail!=null && lastStoredEmail.equalsIgnoreCase(mUser.getEmail()))
             return true;
         return false;
     }
