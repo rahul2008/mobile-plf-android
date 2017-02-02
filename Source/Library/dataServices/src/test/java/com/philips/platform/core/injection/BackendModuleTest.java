@@ -28,6 +28,9 @@ import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.moments.MomentsMonitor;
 import com.philips.platform.datasync.moments.MomentsSegregator;
+import com.philips.platform.datasync.settings.SettingsDataFetcher;
+import com.philips.platform.datasync.settings.SettingsDataSender;
+import com.philips.platform.datasync.settings.SettingsMonitor;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
@@ -76,11 +79,18 @@ public class BackendModuleTest {
     @Mock
     UserCharacteristicsMonitor userCharacteristicsMonitor;
 
+
+    @Mock
+    SettingsMonitor settingsMonitor;
+
     ExecutorService executorService;
     @Mock
     MomentsDataFetcher momentsDataFetcher;
     @Mock
     UserCharacteristicsFetcher userCharacteristicsFetcher;
+
+    @Mock
+    SettingsDataFetcher settingsDataFetcher;
     @Mock
     ConsentsDataFetcher consentsDataFetcher;
     @Mock
@@ -89,6 +99,10 @@ public class BackendModuleTest {
     ConsentDataSender consentDataSender;
     @Mock
     UserCharacteristicsSender userCharacteristicsSender;
+
+    @Mock
+    SettingsDataSender settingsDataSender;
+
     @Mock
     OkClientFactory okClientFactory;
     @Mock
@@ -116,8 +130,7 @@ public class BackendModuleTest {
         VerticalDBFetchingInterfaceImpl dbFetchingInterface = new VerticalDBFetchingInterfaceImpl();
         VerticalDBSavingInterface dbSavingInterface = new VerticalDBSavingInterface();
         VerticalDBUpdatingInterfaceImpl dbUpdatingInterface = new VerticalDBUpdatingInterfaceImpl();
-
-        DataServicesManager.getInstance().mAppComponent = appComponantMock;
+        DataServicesManager.getInstance().setAppComponant(appComponantMock);
 
         backendModule = new BackendModule(eventingMock, baseAppDataCreator, userRegistrationInterface,
                 dbDeletingInterface, dbFetchingInterface, dbSavingInterface, dbUpdatingInterface,
@@ -173,7 +186,7 @@ public class BackendModuleTest {
 
     @Test
     public void ShouldReturnBackend_WhenProvidesBackendIsCalled() throws Exception {
-        final Backend backend = backendModule.providesBackend(momentsMonitor, consentsMonitor, userCharacteristicsMonitor);
+        final Backend backend = backendModule.providesBackend(momentsMonitor, consentsMonitor, userCharacteristicsMonitor,settingsMonitor);
         assertThat(backend).isNotNull();
         assertThat(backend).isInstanceOf(Backend.class);
     }
@@ -229,14 +242,14 @@ public class BackendModuleTest {
 
     @Test
     public void ShouldReturnDataPullSynchronise_WhenProvidesDataPullSynchroniseIsCalled() throws Exception {
-        final DataPullSynchronise dataPullSynchronise = backendModule.providesDataSynchronise(momentsDataFetcher, consentsDataFetcher, userCharacteristicsFetcher, executorService);
+        final DataPullSynchronise dataPullSynchronise = backendModule.providesDataSynchronise(momentsDataFetcher, consentsDataFetcher, userCharacteristicsFetcher,settingsDataFetcher, executorService);
         assertThat(dataPullSynchronise).isNotNull();
         assertThat(dataPullSynchronise).isInstanceOf(DataPullSynchronise.class);
     }
 
     @Test
     public void ShouldReturnDataPushSynchronise_WhenProvidesDataPushSynchroniseIsCalled() throws Exception {
-        final DataPushSynchronise dataPushSynchronise = backendModule.providesDataPushSynchronise(momentsDataSender, consentDataSender, userCharacteristicsSender);
+        final DataPushSynchronise dataPushSynchronise = backendModule.providesDataPushSynchronise(momentsDataSender, consentDataSender, userCharacteristicsSender,settingsDataSender);
         assertThat(dataPushSynchronise).isNotNull();
         assertThat(dataPushSynchronise).isInstanceOf(DataPushSynchronise.class);
     }
@@ -244,7 +257,7 @@ public class BackendModuleTest {
 
     @Test
     public void ShouldReturnUCoreAdapter_WhenProvidesUCoreAdapterIsCalled() throws Exception {
-        DataServicesManager.getInstance().mAppComponent = appComponantMock;
+        DataServicesManager.getInstance().setAppComponant(appComponantMock);
         final UCoreAdapter uCoreAdapter = backendModule.providesUCoreAdapter(okClientFactory, builder, context);
         assertThat(uCoreAdapter).isNotNull();
         assertThat(uCoreAdapter).isInstanceOf(UCoreAdapter.class);

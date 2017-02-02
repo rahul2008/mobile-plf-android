@@ -3,20 +3,22 @@ package com.philips.platform.core.monitors;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
+import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
+import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
-import com.philips.platform.core.events.BackendMomentRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
+import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
-import com.philips.platform.core.listeners.DBChangeListener;
-import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.injection.AppComponent;
+import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.moments.MomentsSegregator;
@@ -30,6 +32,8 @@ import org.mockito.Mock;
 
 import java.util.Arrays;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -41,6 +45,10 @@ public class UpdatingMonitorTest {
 
     @Mock
     DBUpdatingInterface dbUpdatingInterface;
+
+
+    @Mock
+    DBSavingInterface dbSavingInterface;
 
     @Mock
     DBDeletingInterface dbDeletingInterface;
@@ -70,6 +78,9 @@ public class UpdatingMonitorTest {
 
     @Mock
     Consent consentMock;
+
+    @Mock
+    Settings settingsMock;
     @Mock
     DBFetchingInterface dbFetchingInterface;
 
@@ -77,7 +88,7 @@ public class UpdatingMonitorTest {
     @Mock
     BackendResponse backendResponseMock;
     @Mock
-    BackendMomentRequestFailed backendMomentRequestFailedMock;
+    BackendDataRequestFailed backendDataRequestFailedMock;
     @Mock
     private Eventing eventingMock;
     @Mock
@@ -89,10 +100,13 @@ public class UpdatingMonitorTest {
     @Mock
     private DBChangeListener dbChangeListener;
 
+    @Mock
+    private DatabaseSettingsUpdateRequest databaseSettingsUpdateRequestMock;
+
     @Before
     public void setUp() {
         initMocks(this);
-        DataServicesManager.getInstance().mAppComponent = appComponantMock;
+        DataServicesManager.getInstance().setAppComponant(appComponantMock);
         updatingMonitor = new UpdatingMonitor(dbUpdatingInterface, dbDeletingInterface, dbFetchingInterface);
         updatingMonitor.momentsSegregator = momentsSegregatorMock;
         updatingMonitor.start(eventingMock);
@@ -122,6 +136,13 @@ public class UpdatingMonitorTest {
         updatingMonitor.onEventAsync(consentBackendSaveResponseMock);
 //        verify(consentMock).setSynced(false);
     }
+
+    @Test
+    public void shouldUpdateSettings_whenDatabaseSettingsUpdateRequestIsCalled() throws Exception {
+        when(databaseSettingsUpdateRequestMock.getSettings()).thenReturn(settingsMock);
+        updatingMonitor.onEventAsync(databaseSettingsUpdateRequestMock);
+    }
+
 
     /*@Test
     public void shouldDeleteUpdateAndPostMoment_whenonEventBackgroundThreadIsCalled() throws Exception {

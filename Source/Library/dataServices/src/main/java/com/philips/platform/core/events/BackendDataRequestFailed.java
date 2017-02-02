@@ -6,10 +6,10 @@ import retrofit.RetrofitError;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class BackendMomentRequestFailed extends Event {
+public class BackendDataRequestFailed extends Event {
     RetrofitError exception;
 
-    public BackendMomentRequestFailed(RetrofitError e) {
+    public BackendDataRequestFailed(RetrofitError e) {
         super();
         exception = e;
     }

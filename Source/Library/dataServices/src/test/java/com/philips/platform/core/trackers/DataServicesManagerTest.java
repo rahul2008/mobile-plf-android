@@ -16,6 +16,7 @@ import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
@@ -23,9 +24,11 @@ import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
+import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.Event;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
+import com.philips.platform.core.events.LoadSettingsRequest;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
@@ -50,9 +53,10 @@ import org.mockito.Spy;
 
 import java.util.ArrayList;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -150,7 +154,7 @@ public class DataServicesManagerTest {
         MockitoAnnotations.initMocks(this);
 
         tracker = DataServicesManager.getInstance();
-        tracker.mAppComponent = appComponantMock;
+        tracker.setAppComponant(appComponantMock);
 
         baseAppDataCreator = new VerticalCreater();
         userRegistrationInterface = new VerticalUserRegistrationInterface();
@@ -216,6 +220,14 @@ public class DataServicesManagerTest {
     }
 
     @Test
+    public void ShouldPostFetchSettingsEvent_WhenFetchSettingsIsCalled() throws Exception {
+        //noinspection ConstantConditions
+        tracker.fetchSettings(dbRequestListener);
+
+        verify(eventingMock).post(any(LoadSettingsRequest.class));
+    }
+
+    @Test
     public void ShouldcreateConsent_WhenConsentIsCalled() throws Exception {
         //noinspection ConstantConditions
         tracker.createConsent();
@@ -227,6 +239,13 @@ public class DataServicesManagerTest {
     public void ShouldCreateConsentDetail_WhenCreateConsentDetailIsCalled() throws Exception {
         tracker.createConsentDetail(consentMock, TEST_CONSENT_DETAIL_TYPE, ConsentDetailStatusType.ACCEPTED, "fsdfsdf");
     }
+
+    @Test
+    public void ShouldCreateSettings_WhenCreateSettingsIsCalled() throws Exception {
+       // tracker.createSettings(anyString(),anyString(),anyString());
+    }
+
+
 
     //TODO: Spoorti - Fix later
 /*    @Test(expected = NullPointerException.class)
@@ -248,6 +267,14 @@ public class DataServicesManagerTest {
         tracker.saveConsent(consentMock,dbRequestListener);
 
         verify(eventingMock).post(any(DatabaseConsentSaveRequest.class));
+    }
+
+    @Test
+    public void ShouldPostUpdateSettingsEvent_WhenUpdateSettingsIsCalled() throws Exception {
+        //noinspection ConstantConditions
+        tracker.updateSettings(any(Settings.class),dbRequestListener);
+
+        verify(eventingMock).post(any(DatabaseSettingsUpdateRequest.class));
     }
 
     @Test

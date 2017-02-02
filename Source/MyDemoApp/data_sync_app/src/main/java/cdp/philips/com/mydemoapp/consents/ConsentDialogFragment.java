@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.philips.cdp.prxclient.datamodels.assets.Data;
+
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -75,18 +75,6 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     @Override
     public void onSuccess(final ArrayList<? extends Object> data) {
 
-        if(getActivity()!=null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    dismissProgressDialog();
-                    if (data == null) {
-                        showProgressDialog();
-                        consentDialogPresenter.createSaveDefaultConsent();
-                    }
-                }
-            });
-        }
     }
 
     @Override
@@ -210,7 +198,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
 
     @Override
     public void dBChangeSuccess() {
-        fetchConsent();
+        DataServicesManager.getInstance().fetchConsent(this);
     }
 
     @Override

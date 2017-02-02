@@ -14,6 +14,9 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.Collections;
 
 import javax.inject.Inject;
@@ -35,18 +38,20 @@ public class UserCharacteristicsMonitor extends EventMonitor {
             UserCharacteristicsSender sender,
             UserCharacteristicsFetcher fetcher) {
 
-        DataServicesManager.getInstance().mAppComponent.injectUserCharacteristicsMonitor(this);
+        DataServicesManager.getInstance().getAppComponant().injectUserCharacteristicsMonitor(this);
         mUserCharacteristicsSender = sender;
         mUserCharacteristicsFetcher = fetcher;
     }
 
     //Save Request
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(CharacteristicsBackendSaveRequest characteristicsBackendSaveRequest) {
         DSLog.d(DSLog.LOG, "Inder = UserCharacteristicsMonitors Send Request");
         sendToBackend(characteristicsBackendSaveRequest);
     }
 
     //Fetch Request
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(CharacteristicsBackendGetRequest characteristicsBackendGetRequest) {
         DSLog.d(DSLog.LOG, "Inder = UserCharacteristicsMonitors Fetch Request");
         mUserCharacteristicsFetcher.fetchDataSince(null);

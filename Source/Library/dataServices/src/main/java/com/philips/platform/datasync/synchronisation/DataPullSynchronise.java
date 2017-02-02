@@ -16,13 +16,14 @@ import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
 import com.philips.platform.core.events.WriteDataToBackendRequest;
-import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -68,7 +69,7 @@ public class DataPullSynchronise {
     public DataPullSynchronise(@NonNull final List<? extends DataFetcher> fetchers,
                                @NonNull final Executor executor) {
         mDataServicesManager = DataServicesManager.getInstance();
-        mDataServicesManager.mAppComponent.injectDataPullSynchronize(this);
+        mDataServicesManager.getAppComponant().injectDataPullSynchronize(this);
         this.fetchers = fetchers;
         this.executor = executor;
     }
@@ -175,6 +176,7 @@ public class DataPullSynchronise {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(GetNonSynchronizedMomentsResponse response) {
         synchronized (this) {
             DSLog.i("**SPO**", "In Data Pull Synchronize GetNonSynchronizedMomentsResponse");

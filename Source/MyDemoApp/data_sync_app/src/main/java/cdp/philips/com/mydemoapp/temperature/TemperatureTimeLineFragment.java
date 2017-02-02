@@ -13,9 +13,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -40,6 +37,7 @@ import cdp.philips.com.mydemoapp.consents.ConsentDialogFragment;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.reciever.BaseAppBroadcastReceiver;
 import cdp.philips.com.mydemoapp.registration.UserRegistrationInterfaceImpl;
+import cdp.philips.com.mydemoapp.settings.SettingsFragment;
 import cdp.philips.com.mydemoapp.utility.Utility;
 
 import static android.content.Context.ALARM_SERVICE;
@@ -66,7 +64,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     User mUser;
     Utility mUtility;
 
-    TextView mTvConsents, mTvCharacteristics;
+    TextView mTvConsents, mTvCharacteristics , mTvSettings;
 
 
     @Override
@@ -78,7 +76,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mTemperatureMomentHelper = new TemperatureMomentHelper();
         alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
         //EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
-        mDataServicesManager.registerDBChangeListener(this);
         mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE, this);
         mUtility = new Utility();
         mSharedPreferences = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
@@ -95,6 +92,8 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onStart() {
         super.onStart();
+
+        mDataServicesManager.registerDBChangeListener(this);
 
         if (mUser != null && !mUser.isUserSignIn()) {
             Toast.makeText(getContext(), "Please Login", Toast.LENGTH_SHORT).show();
@@ -163,9 +162,11 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mAddButton.setOnClickListener(this);
         mTvConsents = (TextView) view.findViewById(R.id.tv_set_consents);
         mTvCharacteristics = (TextView) view.findViewById(R.id.tv_set_characteristics);
+        mTvSettings= (TextView) view.findViewById(R.id.tv_settings);
 
         mTvConsents.setOnClickListener(this);
         mTvCharacteristics.setOnClickListener(this);
+        mTvSettings.setOnClickListener(this);
         return view;
     }
 
@@ -209,6 +210,12 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 dFragment.show(getFragmentManager(), "Dialog");
 
                 break;
+            case R.id.tv_settings:
+                SettingsFragment settingsFragment = new SettingsFragment();
+                settingsFragment.show(getFragmentManager(), "settings");
+
+                break;
+
             case R.id.tv_set_characteristics:
 
                 CharacteristicsDialogFragment characteristicsDialogFragment = new CharacteristicsDialogFragment();

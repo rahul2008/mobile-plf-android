@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.listeners.DBRequestListener;
 
@@ -42,11 +43,22 @@ public interface DBFetchingInterface {
 
     void postError(Exception e, DBRequestListener dbRequestListener);
 
+    void fetchUserCharacteristics(DBRequestListener dbRequestListener) throws SQLException;
+
     void fetchCharacteristics(DBRequestListener dbRequestListener) throws SQLException;
 
     List<?> fetchNonSyncConsentDetails() throws SQLException;
 
     UserCharacteristics fetchUCByCreatorId(@NonNull final String creatorId) throws SQLException;
 
+    Settings fetchSettings(DBRequestListener dbRequestListener) throws SQLException;
+
+    Settings fetchSettings() throws SQLException;
+
+    List<?> fetchNonSyncSettings() throws SQLException;
+
+
     List<?> fetchNonSyncConsents() throws SQLException;
+
+    boolean isSynced(int tableID) throws SQLException;
 }

@@ -10,8 +10,6 @@ import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.philips.platform.core.Eventing;
-import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 
 import org.joda.time.DateTime;

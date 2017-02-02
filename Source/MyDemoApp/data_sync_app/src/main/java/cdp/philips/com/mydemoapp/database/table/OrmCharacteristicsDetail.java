@@ -31,6 +31,9 @@ public class OrmCharacteristicsDetail implements Characteristics, Serializable {
     @DatabaseField(canBeNull = true)
     private String value;
 
+    @DatabaseField(canBeNull = true)
+    private int parent;
+
 
     @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = false)
     private OrmCharacteristics ormCharacteristics;
@@ -50,12 +53,14 @@ public class OrmCharacteristicsDetail implements Characteristics, Serializable {
         this.ormCharacteristics = ormCharacteristics;
         this.value = value;
         this.ormCharacteristicsDetail = ormCharacteristicsDetail;
+        parent=1;
     }
 
     public OrmCharacteristicsDetail(final String type, final String value, OrmCharacteristics ormCharacteristics) {
         this.type = type;
         this.ormCharacteristics = ormCharacteristics;
         this.value = value;
+        parent=0;
     }
 
     @Override
@@ -91,6 +96,11 @@ public class OrmCharacteristicsDetail implements Characteristics, Serializable {
     @Override
     public void setCharacteristicsDetail(Characteristics characteristics) {
         ormCharacteristicsDetails.add((OrmCharacteristicsDetail) characteristics);
+    }
+
+    @Override
+    public int getParent() {
+        return parent;
     }
 
     @Override

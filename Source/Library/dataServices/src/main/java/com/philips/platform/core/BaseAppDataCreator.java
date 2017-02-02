@@ -8,7 +8,6 @@ package com.philips.platform.core;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
@@ -18,7 +17,9 @@ import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SynchronisationData;
+import com.philips.platform.core.datatypes.UserCharacteristics;
 
 import org.joda.time.DateTime;
 
@@ -31,16 +32,9 @@ public interface BaseAppDataCreator {
     @NonNull
     Moment createMoment(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull final String type);
 
-    @NonNull
-    Moment createMomentWithoutUUID(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull final String type);
 
     @NonNull
     MomentDetail createMomentDetail(@NonNull final String type, @NonNull final Moment moment);
-
-//    @NonNull
-//    Measurement createMeasurement(@NonNull final String type, @NonNull final Moment moment);
-    /*@NonNull
-    Measurement createMeasurement(@NonNull final MeasurementType type, @NonNull final Moment moment);*/
 
     Measurement createMeasurement(@NonNull final String type, @NonNull final MeasurementGroup measurementGroup);
 
@@ -65,6 +59,8 @@ public interface BaseAppDataCreator {
     @NonNull
     ConsentDetail createConsentDetail(@NonNull final String type, @NonNull final String status, @NonNull final String version, final String deviceIdentificationNumber, boolean isSynchronized, @NonNull final Consent consent);
 
+    @NonNull
+    Settings createSettings(String type, String value);
     @NonNull
     UserCharacteristics createCharacteristics(@NonNull final String creatorId);
 

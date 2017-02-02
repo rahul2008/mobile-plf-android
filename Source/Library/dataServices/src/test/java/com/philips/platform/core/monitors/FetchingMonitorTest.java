@@ -13,6 +13,7 @@ import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
+import com.philips.platform.core.events.LoadSettingsRequest;
 import com.philips.platform.core.events.LoadTimelineEntryRequest;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.injection.AppComponent;
@@ -20,6 +21,7 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.consent.ConsentsSegregator;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
+import com.philips.platform.datasync.settings.SettingsSegregator;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -84,6 +86,9 @@ public class FetchingMonitorTest {
     ConsentsSegregator consentsSegregatorMock;
 
     @Mock
+    SettingsSegregator settingsSegregatorMock;
+
+    @Mock
     private SynchronisationData synchronizationDataMock;
     @Mock
     private ConsentDetail consentDetailsMock;
@@ -101,10 +106,11 @@ public class FetchingMonitorTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        DataServicesManager.getInstance().mAppComponent = appComponantMock;
+        DataServicesManager.getInstance().setAppComponant(appComponantMock);
         fetchingMonitor = new FetchingMonitor(fetching);
         fetchingMonitor.momentsSegregator = momentsSegregatorMock;
         fetchingMonitor.consentsSegregator=consentsSegregatorMock;
+        fetchingMonitor.settingsSegregator=settingsSegregatorMock;
         uGrowDateTime = new DateTime();
         fetchingMonitor.start(eventingMock);
     }
@@ -145,6 +151,14 @@ public class FetchingMonitorTest {
         fetchingMonitor.onEventBackgroundThread(new LoadConsentsRequest(dbRequestListener));
 
         verify(fetching).fetchConsents(dbRequestListener);
+    }
+
+    @Test
+    public void ShouldFetchSettings_WhenLoadSettingsRequestIsCalled() throws Exception {
+
+        fetchingMonitor.onEventBackgroundThread(new LoadSettingsRequest(dbRequestListener));
+
+        verify(fetching).fetchSettings(dbRequestListener);
     }
 
     @Test

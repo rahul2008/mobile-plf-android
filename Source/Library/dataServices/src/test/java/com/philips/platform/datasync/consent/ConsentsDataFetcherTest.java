@@ -1,11 +1,8 @@
 package com.philips.platform.datasync.consent;
 
-import android.support.annotation.Nullable;
-
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.events.ConsentBackendGetRequest;
-import com.philips.platform.core.events.ConsentBackendListSaveRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAdapter;
@@ -19,11 +16,7 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.util.Collections;
-import java.util.List;
 
-import retrofit.RetrofitError;
-
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -53,7 +46,7 @@ public class ConsentsDataFetcherTest {
     @Before
     public void setUp() {
         initMocks(this);
-        DataServicesManager.getInstance().mAppComponent = appComponantMock;
+        DataServicesManager.getInstance().setAppComponant(appComponantMock);
         consentDataFetcher=new ConsentsDataFetcher(uCoreAdapterMock);
         consentDataFetcher.eventing = eventingMock;
     }

@@ -19,11 +19,14 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.squareup.leakcanary.LeakCanary;
 
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -42,12 +45,14 @@ import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristicsDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmDCSync;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroupDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.error.ErrorHandlerInterfaceImpl;
 import cdp.philips.com.mydemoapp.registration.UserRegistrationInterfaceImpl;
@@ -61,8 +66,14 @@ import cdp.philips.com.mydemoapp.registration.UserRegistrationInterfaceImpl;
 public class DataSyncApplication extends Application {
 
     public static AppInfraInterface gAppInfra;
+    ServiceDiscoveryInterface serviceDiscoveryInterface;
     public static LoggingInterface loggingInterface;
+    private AppConfigurationInterface.AppConfigurationError configError;
     DataServicesManager mDataServicesManager;
+    String mDataCoreUrl = null;
+    private final String APP_NAME = "appname";
+    private final String DATACORE_FALLBACK_URL = "dataCoreUrl";
+    private final String DATASERVICES_KEY = "dataservices";
 
     @Override
     public void onCreate() {
@@ -70,15 +81,19 @@ public class DataSyncApplication extends Application {
         LeakCanary.install(this);
         Stetho.initializeWithDefaults(this);
         mDataServicesManager = DataServicesManager.getInstance();
-        gAppInfra = new AppInfra.Builder().build(getApplicationContext());
-        loggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
+        initAppInfra();
         setLocale();
-
-       /* DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
-        databaseHelper.getWritableDatabase();*/
-
         initializeUserRegistrationLibrary(Configuration.STAGING);
         init();
+        fetchDataServicesUrl();
+    }
+
+    private void initAppInfra() {
+        gAppInfra = new AppInfra.Builder().build(getApplicationContext());
+        serviceDiscoveryInterface = gAppInfra.getServiceDiscovery();
+        configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        loggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
     }
 
     private void init() {
@@ -106,21 +121,24 @@ public class DataSyncApplication extends Application {
             Dao<OrmCharacteristics, Integer> characteristicsesDao = databaseHelper.getCharacteristicsDao();
             Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailsDao = databaseHelper.getCharacteristicsDetailsDao();
 
+            Dao<OrmSettings, Integer> settingsDao = databaseHelper.getSettingsDao();
+
 
             OrmSaving saving = new OrmSaving(momentDao, momentDetailDao, measurementDao, measurementDetailDao,
-                    synchronisationDataDao, consentDao, consentDetailsDao, measurementGroup, measurementGroupDetails, characteristicsesDao, characteristicsDetailsDao);
+                    synchronisationDataDao, consentDao, consentDetailsDao, measurementGroup, measurementGroupDetails, characteristicsesDao, characteristicsDetailsDao, settingsDao);
 
-            OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao, consentDao);
-            OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDao, consentDetailsDao, characteristicsesDao);
+            Dao<OrmDCSync, Integer> dcSyncDao = databaseHelper.getDCSyncDao();
+            OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao, consentDao, settingsDao, dcSyncDao, measurementGroup, synchronisationDataDao, measurementGroupDetails);
+            OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDao, consentDetailsDao, characteristicsesDao, settingsDao, characteristicsDetailsDao, dcSyncDao);
             OrmDeleting deleting = new OrmDeleting(momentDao, momentDetailDao, measurementDao,
-                    measurementDetailDao, synchronisationDataDao, measurementGroupDetails, measurementGroup, consentDao, consentDetailsDao, characteristicsesDao, characteristicsDetailsDao);
+                    measurementDetailDao, synchronisationDataDao, measurementGroupDetails, measurementGroup, consentDao, consentDetailsDao, characteristicsesDao, characteristicsDetailsDao, settingsDao);
 
 
             BaseAppDateTime uGrowDateTime = new BaseAppDateTime();
             ORMSavingInterfaceImpl ORMSavingInterfaceImpl = new ORMSavingInterfaceImpl(saving, updating, fetching, deleting, uGrowDateTime);
             OrmDeletingInterfaceImpl ORMDeletingInterfaceImpl = new OrmDeletingInterfaceImpl(deleting, saving);
             ORMUpdatingInterfaceImpl dbInterfaceOrmUpdatingInterface = new ORMUpdatingInterfaceImpl(saving, updating, fetching, deleting);
-            OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDao, consentDetailsDao, characteristicsesDao);
+            OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDao, consentDetailsDao, characteristicsesDao, settingsDao, characteristicsDetailsDao, dcSyncDao);
 
             mDataServicesManager.initializeDBMonitors(this, ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
         } catch (SQLException exception) {
@@ -196,8 +214,6 @@ public class DataSyncApplication extends Application {
                 UR,
                 minAge,
                 configError);
-
-        initHSDP();
 
         ArrayList<String> providers = new ArrayList<>();
         providers.add("facebook");
@@ -341,15 +357,11 @@ public class DataSyncApplication extends Application {
     }
 
     public void initHSDP() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
         gAppInfra.
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.ApplicationName",
                 URConfigurationConstants.UR,
-                //"Datacore",
-                //"uGrow",
-                "HealthySleepSolutions",
+                loadAppNameFromConfigParams(APP_NAME),
                 configError);
 
         gAppInfra.
@@ -370,9 +382,39 @@ public class DataSyncApplication extends Application {
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.BaseURL",
                 URConfigurationConstants.UR,
-                //"https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com",
-                //"https://referenceplatform-ds-platforminfradev.cloud.pcftest.com",
-                "https://healthysleep-ds-development.eu-west.philips-healthsuite.com",
+                mDataCoreUrl,
                 configError);
+    }
+
+    protected void fetchDataServicesUrl() {
+        serviceDiscoveryInterface.getServiceUrlWithCountryPreference("ds.dataservice", new
+                ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+                    @Override
+                    public void onError(ERRORVALUES errorvalues, String s) {
+                        DSLog.e(DSLog.LOG, "Error");
+                        mDataCoreUrl = loadAppNameFromConfigParams(DATACORE_FALLBACK_URL);
+                        initHSDP();
+                    }
+
+                    @Override
+                    public void onSuccess(URL url) {
+                        DSLog.e(DSLog.LOG, "Success = " + url);
+                        if (url.toString().isEmpty()) {
+                            mDataCoreUrl = loadAppNameFromConfigParams(DATACORE_FALLBACK_URL);
+                        } else {
+
+                            mDataCoreUrl = url.toString();
+                        }
+                        initHSDP();
+                    }
+                });
+    }
+
+    private String loadAppNameFromConfigParams(String propertyKey) {
+        String appname = (String) gAppInfra.getConfigInterface().getPropertyForKey(propertyKey, DATASERVICES_KEY, configError);
+        if (configError.getErrorCode() != null) {
+            DSLog.e(DSLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.getErrorCode().toString());
+        }
+        return appname;
     }
 }

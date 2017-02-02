@@ -16,6 +16,9 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -46,7 +49,7 @@ public class DataPushSynchronise extends EventMonitor {
     public DataPushSynchronise(@NonNull final List<? extends DataSender> senders,
                                @NonNull final Executor executor) {
         mDataServicesManager = DataServicesManager.getInstance();
-        mDataServicesManager.mAppComponent.injectDataPushSynchronize(this);
+        mDataServicesManager.getAppComponant().injectDataPushSynchronize(this);
         this.senders = senders;
         this.executor = executor;
     }
@@ -82,6 +85,7 @@ public class DataPushSynchronise extends EventMonitor {
         eventing.post(new GetNonSynchronizedDataRequest(eventId));
     }
 
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(GetNonSynchronizedDataResponse response) {
         DSLog.i("***SPO***", "DataPushSynchronize GetNonSynchronizedDataResponse");
         synchronized (this) {

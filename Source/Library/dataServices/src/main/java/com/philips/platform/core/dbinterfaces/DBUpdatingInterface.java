@@ -3,9 +3,11 @@ package com.philips.platform.core.dbinterfaces;
 import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -19,5 +21,9 @@ public interface DBUpdatingInterface {
     void updateFailed(Exception e, DBRequestListener dbRequestListener);
 
     boolean updateCharacteristics(final UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) throws SQLException;
+
+    void updateSettings(Settings settings, DBRequestListener dbRequestListener) throws SQLException;
+
+    boolean updateSyncBit(int tableID,boolean isSynced) throws SQLException;
 
 }

@@ -3,6 +3,7 @@ package com.philips.platform.verticals;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BaseAppDataCreator;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
@@ -19,6 +20,7 @@ import com.philips.testing.verticals.table.OrmCharacteristics;
 import com.philips.testing.verticals.table.OrmConsent;
 import com.philips.testing.verticals.table.OrmMoment;
 import com.philips.testing.verticals.table.OrmMomentType;
+import com.philips.testing.verticals.table.OrmSettings;
 import com.philips.testing.verticals.table.OrmSynchronisationData;
 
 import org.joda.time.DateTime;
@@ -35,12 +37,12 @@ public class VerticalCreater implements BaseAppDataCreator {
         return new OrmMoment(creatorId, subjectId, ormMomentType);
     }
 
-    @NonNull
+/*    @NonNull
     @Override
     public Moment createMomentWithoutUUID(@NonNull String creatorId, @NonNull String subjectId, @NonNull String type) {
         final OrmMomentType ormMomentType = new OrmMomentType(MomentType.getIDFromDescription(type), type);
         return new OrmMoment(creatorId, subjectId, ormMomentType);
-    }
+    }*/
 
     @NonNull
     @Override
@@ -104,6 +106,12 @@ public class VerticalCreater implements BaseAppDataCreator {
     @Override
     public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber, boolean isSynchronized, @NonNull Consent consent) {
         return new ConsentDetailImpl(type, status, version, deviceIdentificationNumber, isSynchronized, consent);
+    }
+
+    @NonNull
+    @Override
+    public Settings createSettings(String type, String value) {
+        return new OrmSettings(type,value);
     }
 
     @NonNull

@@ -19,6 +19,7 @@ import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.utils.UuidGenerator;
 
 import org.joda.time.DateTime;
@@ -45,6 +46,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentType;
+import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 
 /**
@@ -58,29 +60,25 @@ public class OrmCreator implements BaseAppDataCreator {
     @Singleton
     public OrmCreator(UuidGenerator uuidGenerator) {
         this.uuidGenerator = uuidGenerator;
-        
+
     }
 
     @Override
     @NonNull
     public OrmMoment createMoment(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull String type) {
-        final OrmMoment ormMoment = createMomentWithoutUUID(creatorId, subjectId, type);
-        //   final OrmMomentDetail ormMomentDetail = createMomentDetail(MomentDetailType.TAGGING_ID, ormMoment);
+        final OrmMomentType ormMomentType = new OrmMomentType(MomentType.getIDFromDescription(type), type);
 
-        //    ormMomentDetail.setValue(uuidGenerator.generateRandomUUID());
-        //    ormMoment.addMomentDetail(ormMomentDetail);
-
-        return ormMoment;
+        return new OrmMoment(creatorId, subjectId, ormMomentType);
     }
 
-    @NonNull
+    /*@NonNull
     @Override
     public OrmMoment createMomentWithoutUUID(@NonNull final String creatorId, @NonNull final String subjectId,
                                              @NonNull final String type) {
         final OrmMomentType ormMomentType = new OrmMomentType(MomentType.getIDFromDescription(type), type);
 
         return new OrmMoment(creatorId, subjectId, ormMomentType);
-    }
+    }*/
 
     @Override
     @NonNull
@@ -170,6 +168,12 @@ public class OrmCreator implements BaseAppDataCreator {
     @Override
     public Characteristics createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics) {
         return new OrmCharacteristicsDetail(type,value,(OrmCharacteristics) userCharacteristics);
+    }
+
+    @NonNull
+    @Override
+    public Settings createSettings(String type, String value) {
+        return new OrmSettings(type,value);
     }
 
     @NonNull

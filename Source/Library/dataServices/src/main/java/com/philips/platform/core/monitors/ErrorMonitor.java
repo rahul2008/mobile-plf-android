@@ -1,17 +1,21 @@
 package com.philips.platform.core.monitors;
 
 import com.philips.platform.core.ErrorHandlingInterface;
-import com.philips.platform.core.events.BackendMomentRequestFailed;
+import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.net.HttpURLConnection;
 
 import javax.inject.Inject;
 
 import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class ErrorMonitor extends EventMonitor {
 
@@ -24,28 +28,40 @@ public class ErrorMonitor extends EventMonitor {
     //TODO: String to be passed instead of status codes
     //String and int to be held in Object and object to be sent to verticals
     public ErrorMonitor(ErrorHandlingInterface errorHandlingInterface) {
-        DataServicesManager.getInstance().mAppComponent.injectErrorMonitor(this);
+        DataServicesManager.getInstance().getAppComponant().injectErrorMonitor(this);
         mErrorHandlingInterface = errorHandlingInterface;
     }
 
-    public void onEventBackgroundThread(final BackendMomentRequestFailed momentSaveRequestFailed) {
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventBackgroundThread(final BackendDataRequestFailed momentSaveRequestFailed) {
         RetrofitError exception = momentSaveRequestFailed.getException();
         postError(exception);
     }
 
     private void postError(RetrofitError exception) {
+        resetDataServicesFlags();
         if (exception == null) {
             mErrorHandlingInterface.syncError(UNKNOWN);
             return;
         }
         if (!isTokenExpired(exception)) {
-            mErrorHandlingInterface.syncError(exception.getResponse().getStatus());
+
+            Response response = exception.getResponse();
+            if (response != null)
+                mErrorHandlingInterface.syncError(response.getStatus());
+            else
+                mErrorHandlingInterface.syncError(UNKNOWN);
 
         }
-//        if (retrofitError != null)
-//            mErrorHandlingInterface.syncError(retrofitError.getResponse().getStatus());
+
     }
 
+    private void resetDataServicesFlags() {
+        DataServicesManager.getInstance().setPushComplete(true);
+        DataServicesManager.getInstance().setPullComplete(true);
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackgroundThread(final BackendResponse error) {
         RetrofitError exception = error.getCallException();
 

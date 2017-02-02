@@ -6,14 +6,14 @@
 
 package com.philips.platform.datasync.synchronisation;
 
-import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
-
 import com.philips.platform.core.events.ReadDataFromBackendRequest;
 import com.philips.platform.core.events.WriteDataToBackendRequest;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -33,9 +33,10 @@ public class SynchronisationMonitor extends EventMonitor {
     @Singleton
     @Inject
     public SynchronisationMonitor() {
-        DataServicesManager.getInstance().mAppComponent.injectSynchronizationMonitor(this);
+        DataServicesManager.getInstance().getAppComponant().injectSynchronizationMonitor(this);
     }
 
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(ReadDataFromBackendRequest event) {
         synchronized (this) {
             if (DataServicesManager.getInstance().isPushComplete() && DataServicesManager.getInstance().isPullComplete()) {
@@ -46,6 +47,7 @@ public class SynchronisationMonitor extends EventMonitor {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(WriteDataToBackendRequest event) {
         synchronized (this) {
             //TODO: also should pull new data from BE

@@ -2,7 +2,6 @@ package com.philips.platform.datasync.consent;
 
 import android.support.annotation.NonNull;
 
-
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.events.ConsentBackendListSaveRequest;
@@ -30,7 +29,7 @@ public class ConsentDataSender extends EventMonitor implements DataSender<Consen
 
     @Inject
     public ConsentDataSender() {
-        DataServicesManager.getInstance().mAppComponent.injectConsentsSender(this);
+        DataServicesManager.getInstance().getAppComponant().injectConsentsSender(this);
     }
 
     @Override

@@ -170,7 +170,7 @@ configurations.all {
 }
 
 dependencies {
-    compile 'de.greenrobot:eventbus:2.4.0'
+    compile 'org.greenrobot:eventbus:3.0.0'
     compile 'net.danlew:android.joda:2.9.2'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {

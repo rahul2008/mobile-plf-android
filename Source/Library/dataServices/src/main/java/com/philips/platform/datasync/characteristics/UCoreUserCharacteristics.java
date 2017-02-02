@@ -4,8 +4,6 @@
  */
 package com.philips.platform.datasync.characteristics;
 
-import com.philips.platform.core.utils.DSLog;
-
 import java.util.List;
 
 public class UCoreUserCharacteristics {

@@ -22,7 +22,6 @@ import java.util.Collection;
 
 import cdp.philips.com.mydemoapp.database.EmptyForeignCollection;
 import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
-import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

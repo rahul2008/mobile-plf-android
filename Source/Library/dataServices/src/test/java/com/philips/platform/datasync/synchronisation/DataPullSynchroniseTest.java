@@ -22,11 +22,9 @@ import com.philips.testing.verticals.OrmCreatorTest;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.robolectric.RobolectricTestRunner;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -108,7 +106,7 @@ public class DataPullSynchroniseTest {
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
         errorHandlerImpl = new ErrorHandlerImplTest();
 
-        DataServicesManager.getInstance().mAppComponent = appComponantMock;
+        DataServicesManager.getInstance().setAppComponant(appComponantMock);
 
         //  when(accessProviderMock.isLoggedIn()).thenReturn(true);
         synchronise = new DataPullSynchronise(

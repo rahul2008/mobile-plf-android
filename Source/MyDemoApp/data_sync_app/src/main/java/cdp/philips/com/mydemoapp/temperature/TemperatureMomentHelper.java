@@ -10,12 +10,14 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cdp.philips.com.mydemoapp.database.OrmTypeChecking;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
+import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.j256.ormlite.dao.Dao;
+import com.philips.platform.core.datatypes.Settings;
+import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroupDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 
 /**
@@ -65,6 +68,9 @@ public class OrmSaving {
     @NonNull
     private final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetailsDao;
 
+    @NonNull
+    private final Dao<OrmSettings, Integer> settingsDao;
+
     public OrmSaving(@NonNull final Dao<OrmMoment, Integer> momentDao,
                      @NonNull final Dao<OrmMomentDetail, Integer> momentDetailDao,
                      @NonNull final Dao<OrmMeasurement, Integer> measurementDao,
@@ -75,7 +81,7 @@ public class OrmSaving {
                      @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroup,
                      @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails,
                      @NonNull final Dao<OrmCharacteristics, Integer> characteristicsesDao,
-                     @NonNull final Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailsDao) {
+                     @NonNull final Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailsDao, @NonNull Dao<OrmSettings, Integer> settingsDao) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
@@ -88,6 +94,7 @@ public class OrmSaving {
         this.measurementGroupDetailsDao = measurementGroupDetails;
         this.characteristicsesDao = characteristicsesDao;
         this.characteristicsDetailsDao = characteristicsDetailsDao;
+        this.settingsDao = settingsDao;
     }
 
     public void saveMoment(OrmMoment moment) throws SQLException {
@@ -211,5 +218,9 @@ public class OrmSaving {
 
     public void saveCharacteristicsDetail(OrmCharacteristicsDetail characteristicsDetail) throws SQLException {
         characteristicsDetailsDao.createOrUpdate(characteristicsDetail);
+    }
+
+    public void saveSettings(OrmSettings settings) throws SQLException {
+        settingsDao.createOrUpdate(settings);
     }
 }

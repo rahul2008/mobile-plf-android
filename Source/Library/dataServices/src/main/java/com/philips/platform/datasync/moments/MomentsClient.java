@@ -6,8 +6,6 @@
 
 package com.philips.platform.datasync.moments;
 
-import org.joda.time.DateTime;
-
 import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
@@ -17,8 +15,6 @@ import retrofit.http.POST;
 import retrofit.http.PUT;
 import retrofit.http.Path;
 import retrofit.http.Query;
-
-import static android.os.FileObserver.DELETE;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
