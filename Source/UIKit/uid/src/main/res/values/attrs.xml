@@ -6,6 +6,8 @@
         <attr name="uidContentTertiary" format="reference|color"/>
         <attr name="uidContentTextColor" format="reference|color"/>
         <attr name="uidTextPrimaryColor" format="reference|color"/>
+        <attr name="uidTextTertiaryColor" format="reference|color"/>
+        <attr name="uidTextTertiaryAlpha" format="reference|float"/>
 
         <attr name="uidNavigationPrimaryColor" format="reference|color"/>
         <attr name="uidNavigationSecondaryColor" format="reference|color"/>

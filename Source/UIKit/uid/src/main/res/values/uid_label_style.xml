@@ -73,8 +73,8 @@
         <item name="android:paddingStart">@dimen/uid_recyclerview_margin_left_right</item>
         <item name="android:paddingEnd">@dimen/uid_recyclerview_margin_left_right</item>
         <item name="android:minHeight">@dimen/uid_recyclerview_header_height</item>
-        <item name="uidLabelTextColor">?attr/uidTextPrimaryColor</item>
-        <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_100</item>
+        <item name="uidLabelTextColor">?attr/uidTextTertiaryColor</item>
+        <item name="uidLabelTextAlpha">?attr/uidTextTertiaryAlpha</item>
         <item name="android:background">?attr/uidContentTertiary</item>
     </style>
 </resources>

@@ -20,6 +20,8 @@
         <item name="uidControlSecondaryTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
 
         <item name="uidContentTertiary">?attr/uidColorLevel05</item>
+        <item name="uidTextTertiaryColor">?attr/uidTextSecondary</item>
+        <item name="uidTextTertiaryAlpha">@dimen/uid_alpha_per_70</item>
 
         <item name="uidQuietButtonDisabledAlpha">@dimen/uid_alpha_per_35</item>
         <item name="uidNavigationTextColor">@color/uidColorWhite</item>
