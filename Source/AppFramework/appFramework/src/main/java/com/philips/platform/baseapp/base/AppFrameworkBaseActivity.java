@@ -14,6 +14,8 @@ import com.philips.platform.baseapp.screens.homefragment.HomeFragment;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
+import java.util.List;
+
 /**
  * AppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
  */
@@ -81,4 +83,18 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
     }*/
 
     public abstract void updateActionBarIcon(boolean b);
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        if (fragments != null) {
+            for (Fragment fragment : fragments) {
+                if (fragment != null) {
+                    fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                }
+            }
+        }
+    }
 }
