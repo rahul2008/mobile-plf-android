@@ -103,6 +103,7 @@ public class NavigationBarTest {
         setupUltralightTonalRangeActivity();
 
         float linespacing = applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_spacing);
+        UIDTestUtils.waitFor(applicationContext, 600);
 
         getTitle().check(matches(TextViewPropertiesMatchers.isSameLineSpacing(linespacing)));
     }
