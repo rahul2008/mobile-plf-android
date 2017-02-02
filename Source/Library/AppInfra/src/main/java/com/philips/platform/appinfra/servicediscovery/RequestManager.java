@@ -38,7 +38,6 @@ public class RequestManager {
     private AppInfra mAppInfra;
     private static final String ServiceDiscoveryCacheFile = "SDCacheFile";
     private Context mContext = null;
-    private String mUrl;
 
     public RequestManager(Context context, AppInfra appInfra) {
         mContext = context;
@@ -46,7 +45,6 @@ public class RequestManager {
     }
 
     public ServiceDiscovery execute(final String url, ServiceDiscoveryManager.AISDURLType urlType) {
-        this.mUrl = url;
         RequestFuture<JSONObject> future = RequestFuture.newFuture();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, future, future, null, null, null);
         request.setShouldCache(true);

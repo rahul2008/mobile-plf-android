@@ -55,6 +55,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     enum AISDURLType {AISDURLTypeProposition, AISDURLTypePlatform}
 
+    private static final String COUNTRY = "country";
+    private static final String COUNTRY_SOURCE = "country_source";
 
     private static final String URLTagTest = "apps%2b%2benv%2btest";
     private static final String URLTagDevelopment = "apps%2b%2benv%2bdev";
@@ -132,7 +134,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                         serviceDiscovery = service;
                         final AISDResponse result = service;
                         downloadLock.unlock();
-
                         for (final DownloadItemListener d : stalledAwaiters) {
                             Thread t = new Thread(new Runnable() {
                                 @Override
@@ -140,7 +141,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                                     d.onDownloadDone(result);
                                 }
                             });
-
                             new Handler(Looper.getMainLooper()).post(t);
                         }
                     }
@@ -167,37 +167,31 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private AISDResponse downloadServices() {
         AISDResponse response = new AISDResponse();
         ServiceDiscovery platformService = null, propositionService = null;
-        serviceDiscovery = mRequestItemManager.getCachedData();
-        if (serviceDiscovery != null && !cachedURLsExpired()) {
-            return serviceDiscovery;
-        } else {
-            mRequestItemManager.clearCacheServiceDiscovery();
-            propositionService = downloadPropositionService();
-            if (propositionService != null && propositionService.isSuccess()) {
-                String country = fetchFromSecureStorage(true);
-                if (country == null) {
-                    saveToSecureStore(propositionService.getCountry(), true);
-                    saveToSecureStore(OnGetHomeCountryListener.SOURCE.GEOIP.name(), false);
-                }
-                platformService = downloadPlatformService();
-            }
-            if (platformService != null && propositionService != null) {
 
-                if (propositionService.isSuccess() && platformService.isSuccess()) {
-                    response.setPlatformURLs(platformService);
-                    response.setPropositionURLs(propositionService);
-                } else {
-                    AISDResponse ServiceDiscoveryError = new AISDResponse();
-                    ServiceDiscoveryError.getPlatformURLs().setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "DOWNLOAD FAILED"));
-                    ServiceDiscoveryError.getPropositionURLs().setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.SERVER_ERROR, "DOWNLOAD FAILED"));
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "DOWNLOAD FAILED");
-                }
-            } else {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call",
-                        "Download failed");
+        propositionService = downloadPropositionService();
+        if (propositionService != null && propositionService.isSuccess()) {
+            String country = fetchFromSecureStorage(COUNTRY);
+            if (country == null) {
+                saveToSecureStore(propositionService.getCountry(), COUNTRY);
+                saveToSecureStore(OnGetHomeCountryListener.SOURCE.GEOIP.name(), COUNTRY_SOURCE);
             }
+            platformService = downloadPlatformService();
         }
+        if (platformService != null && propositionService != null) {
 
+            if (propositionService.isSuccess() && platformService.isSuccess()) {
+                response.setPlatformURLs(platformService);
+                response.setPropositionURLs(propositionService);
+            } else {
+                ServiceDiscovery error = new ServiceDiscovery();
+                error.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "DOWNLOAD FAILED"));
+                error.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.SERVER_ERROR, "DOWNLOAD FAILED"));
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "DOWNLOAD FAILED");
+            }
+        } else {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call",
+                    "Download failed");
+        }
         return response;
     }
 
@@ -231,7 +225,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             //urlBuild = buildUrl();
             if (urlBuild != null) {
                 service = mRequestItemManager.execute(urlBuild, aisdurlType);
-                saveToSecureStore(service.getCountry(), true);
+                saveToSecureStore(service.getCountry(), COUNTRY);
+                saveToSecureStore(OnGetHomeCountryListener.SOURCE.GEOIP.name(), COUNTRY_SOURCE);
 
                 if (service.isSuccess()) {
                     holdbackTime = 0;   //remove hold back time
@@ -293,11 +288,12 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                         locale + "&tags=" + appState;
 
 
-                String country = fetchFromSecureStorage(true);
+                String country = fetchFromSecureStorage(COUNTRY);
                 if (country == null) {
                     country = getCountryCodeFromSim();
                     if (country != null) {
-                        saveToSecureStore(country, true);
+                        saveToSecureStore(country, COUNTRY);
+                        saveToSecureStore(country, COUNTRY_SOURCE);
                     }
                 }
                 if (country != null) {
@@ -376,12 +372,12 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     @Override
     public void setHomeCountry(String countryCode) {
         if (countryCode != null && countryCode.length() == 2) {
-            String country = fetchFromSecureStorage(true);
+            String country = fetchFromSecureStorage(COUNTRY);
             if (!countryCode.equals(country)) { // entered country is different then existing
                 this.countryCode = countryCode;
                 countryCodeSource = OnGetHomeCountryListener.SOURCE.STOREDPREFERENCE;
-                saveToSecureStore(countryCode, true);
-                saveToSecureStore(countryCodeSource.toString(), false);
+                saveToSecureStore(countryCode, COUNTRY);
+                saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
                 serviceDiscovery = null;  // if there is no internet then also old SD value must be cleared.
                 mRequestItemManager.clearCacheServiceDiscovery(); // clear SD cache
                 queueResultListener(true, new DownloadItemListener() {
@@ -579,10 +575,15 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
     private void getServiceDiscoveryData(final AISDListener listener) {
-        AISDResponse response = serviceDiscovery;
-        if (response != null) {
-            listener.ondataReceived(response);
+        AISDResponse cachedData = mRequestItemManager.getCachedData();
+        if (cachedData != null && !cachedURLsExpired()) {
+            listener.ondataReceived(cachedData);
         } else {
+//            AISDResponse response = serviceDiscovery;
+//            if (response != null) {
+//                listener.ondataReceived(response);
+//            } else {
+            mRequestItemManager.clearCacheServiceDiscovery();
             queueResultListener(false, new DownloadItemListener() {
                 @Override
                 public void onDownloadDone(AISDResponse SDResponse) {
@@ -597,6 +598,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                     }
                 }
             });
+            //}
         }
     }
 
@@ -637,38 +639,41 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     private void homeCountryCode(final OnGetHomeCountryListener listener) {
 
-        String countryCode = fetchFromSecureStorage(true);
-        final String countrySource = fetchFromSecureStorage(false);
-
-        if (countryCode == null) {
-            countryCode = getCountryCodeFromSim();
-            saveToSecureStore(countryCode, true);
-            countryCodeSource = OnGetHomeCountryListener.SOURCE.SIMCARD;
-            saveToSecureStore(countryCodeSource.name(), false);
+        String homeCountry = fetchFromSecureStorage(COUNTRY);
+        String countrySource = fetchFromSecureStorage(COUNTRY_SOURCE);
+        if (homeCountry == null) {
+            String countryCode = getCountryCodeFromSim();
             if (countryCode != null) {
+                saveToSecureStore(countryCode, COUNTRY);
+                countryCodeSource = OnGetHomeCountryListener.SOURCE.SIMCARD;
+                saveToSecureStore(countryCodeSource.name(), COUNTRY_SOURCE);
                 listener.onSuccess(countryCode, countryCodeSource);
+            } else {
+                queueResultListener(false, new DownloadItemListener() {
+                    @Override
+                    public void onDownloadDone(AISDResponse result) {
+                        if (result != null) {
+                            String country = result.getCountryCode();
+                            if (country != null) {
+                                countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
+                                saveToSecureStore(country, COUNTRY);
+                                saveToSecureStore(countryCodeSource.name(), COUNTRY_SOURCE);
+                                listener.onSuccess(country, countryCodeSource);
+                            } else {
+                                if (result.getError() != null) {
+                                    ServiceDiscovery.Error err = result.getError();
+                                    listener.onError(err.getErrorvalue(), err.getMessage());
+                                }
+                            }
+                        } else {
+                            listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE,
+                                    "INVALID RESPONSE");
+                        }
+                    }
+                });
             }
         } else {
-            queueResultListener(false, new DownloadItemListener() {
-                @Override
-                public void onDownloadDone(AISDResponse result) {
-                    if (result != null) {
-                        String country = result.getCountryCode();
-                        if (country != null) {
-                            countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
-                            saveToSecureStore(country, true);
-                            saveToSecureStore(countryCodeSource.name(), false);
-                            listener.onSuccess(country, countryCodeSource);
-                        } else {
-                            ServiceDiscovery.Error err = result.getError();
-                            listener.onError(err.getErrorvalue(), err.getMessage());
-                        }
-                    } else {
-                        listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE,
-                                "INVALID RESPONSE");
-                    }
-                }
-            });
+            listener.onSuccess(countryCode, OnGetHomeCountryListener.SOURCE.valueOf(countrySource));
         }
     }
 
@@ -692,24 +697,24 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         return countryCode;
     }
 
-    private void saveToSecureStore(String country, boolean isCountry) {
+    private void saveToSecureStore(String country, String countryCode) {
         SecureStorageInterface ssi = mAppInfra.getSecureStorage();
         SecureStorage.SecureStorageError mSecureStorage = new SecureStorage.SecureStorageError();
-        if (isCountry) {
-            ssi.storeValueForKey("Country", country, mSecureStorage);
-        } else {
-            ssi.storeValueForKey("COUNTRY_SOURCE", country, mSecureStorage);
+        if (countryCode.equals(COUNTRY)) {
+            ssi.storeValueForKey(COUNTRY, country, mSecureStorage);
+        } else if (countryCode.equals(COUNTRY_SOURCE)) {
+            ssi.storeValueForKey(COUNTRY_SOURCE, country, mSecureStorage);
         }
     }
 
-    private String fetchFromSecureStorage(boolean isCountry) {
+    private String fetchFromSecureStorage(String countrySource) {
         SecureStorageInterface ssi = mAppInfra.getSecureStorage();
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        String value;
-        if (isCountry) {
-            value = ssi.fetchValueForKey("Country", sse);
-        } else {
-            value = ssi.fetchValueForKey("COUNTRY_SOURCE", sse);
+        String value = null;
+        if (countrySource.equals(COUNTRY)) {
+            value = ssi.fetchValueForKey(COUNTRY, sse);
+        } else if (countrySource.equals(COUNTRY_SOURCE)) {
+            value = ssi.fetchValueForKey(COUNTRY_SOURCE, sse);
         }
         return value;
     }
