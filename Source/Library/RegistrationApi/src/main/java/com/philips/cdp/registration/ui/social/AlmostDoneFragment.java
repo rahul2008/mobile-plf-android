@@ -456,16 +456,19 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 }
             }
         } else {
-            if (NetworkUtility.isNetworkAvailable(mContext) && mEtEmail.isValidEmail() && mEtEmail.isShown()) {
-                mBtnContinue.setEnabled(true);
-                mRegError.hideError();
-            } else if (NetworkUtility.isNetworkAvailable(mContext)) {
-                mBtnContinue.setEnabled(true);
+            if (NetworkUtility.isNetworkAvailable(mContext)) {
+
+                if ((mEtEmail.isShown() && mEtEmail.isValidEmail()) ||
+                        (mEtEmail.getVisibility() != View.VISIBLE)) {
+                    mBtnContinue.setEnabled(true);
+                }
                 mRegError.hideError();
             } else {
+
                 mRegError.setError(getString(R.string.reg_NoNetworkConnection));
                 mBtnContinue.setEnabled(false);
                 scrollViewAutomatically(mRegError, mSvRootLayout);
+
                 if (!isNetwork) {
                     trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
                 }
@@ -506,7 +509,10 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         if (v.getId() == R.id.reg_btn_continue) {
             RLog.d(RLog.ONCLICK, "AlmostDoneFragment : Continue");
             mEtEmail.clearFocus();
-            if (mEtEmail.isShown() && !mEtEmail.isValidEmail()) return;
+            if (mEtEmail.isShown() && !mEtEmail.isValidEmail()) {
+                mRegAccptTermsError.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+                return;
+            }
             if (mBundle == null) {
                 if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
                     if (mCbAcceptTerms.isChecked()) {
@@ -551,6 +557,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             RegPreferenceUtility.storePreference(mContext, mobileNo, true);
         }
     }
+
     private void register() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
             mRegAccptTermsError.setVisibility(View.GONE);
