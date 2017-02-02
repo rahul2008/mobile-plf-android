@@ -8,12 +8,19 @@ package com.philips.platform.appframework.tabbedscreen;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.flowmanager.base.UIStateListener;
+import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
+import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.base.UIBasePresenter;
@@ -47,12 +54,18 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
     public void onEvent(int componentID) {
         appFrameworkApplication = getApplicationContext();
         String eventState = getEventState(componentID);
-        BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-        baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.TAB_HOME), eventState);
-        baseState.setStateListener(this);
-        baseState.setUiStateData(setStateData(componentID));
-        fragmentLauncher = getFragmentLauncher();
-        baseState.navigate(fragmentLauncher);
+        try {
+            BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
+            baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.TAB_HOME), eventState);
+            baseState.setStateListener(this);
+            baseState.setUiStateData(setStateData(baseState.getStateID()));
+            fragmentLauncher = getFragmentLauncher();
+            baseState.navigate(fragmentLauncher);
+        } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
+                e) {
+            Log.d(getClass() + "", e.getMessage());
+            Toast.makeText(fragmentView.getFragmentActivity(), fragmentView.getFragmentActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void showFragment(Fragment fragment, String fragmentTag) {

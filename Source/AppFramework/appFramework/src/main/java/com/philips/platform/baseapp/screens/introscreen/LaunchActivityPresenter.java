@@ -6,11 +6,19 @@
 package com.philips.platform.baseapp.screens.introscreen;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.flowmanager.base.UIStateListener;
+import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
+import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.splash.SplashState;
@@ -46,14 +54,20 @@ public class LaunchActivityPresenter extends UIBasePresenter implements UIStateL
         fragmentLauncher = getFragmentLauncher();
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
         BaseState baseState = null;
-        if (event.equals(APP_LAUNCH))
-            baseState = getSplashState();
-        else if (event.equals(LAUNCH_BACK_PRESSED))
-            baseState = targetFlowManager.getBackState(targetFlowManager.getCurrentState());
+        try {
+            if (event.equals(APP_LAUNCH))
+                baseState = getSplashState();
+            else if (event.equals(LAUNCH_BACK_PRESSED))
+                baseState = targetFlowManager.getBackState(targetFlowManager.getCurrentState());
 
-        if (baseState != null) {
-            baseState.setUiStateData(getUiStateData());
-            baseState.navigate(fragmentLauncher);
+            if (baseState != null) {
+                baseState.setUiStateData(setStateData(baseState.getStateID()));
+                baseState.navigate(fragmentLauncher);
+            }
+        } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
+                e) {
+            Log.d(getClass() + "", e.getMessage());
+            Toast.makeText(launchView.getFragmentActivity(), launchView.getFragmentActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
         }
     }
 

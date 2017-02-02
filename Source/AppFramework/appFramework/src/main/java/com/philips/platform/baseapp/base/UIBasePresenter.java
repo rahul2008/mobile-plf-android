@@ -5,6 +5,7 @@
 */
 package com.philips.platform.baseapp.base;
 
+import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.baseapp.screens.utility.Constants;
 
@@ -54,25 +55,25 @@ abstract public class UIBasePresenter {
 
     }
 
-    protected UIStateData setStateData(final int componentID) {
+    protected UIStateData setStateData(final String componentID) {
         switch (componentID) {
-            case MENU_OPTION_HOME:
+            case AppStates.HOME_FRAGMENT:
                 UIStateData homeStateData = new UIStateData();
                 homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
                 return homeStateData;
-            case MENU_OPTION_SETTINGS:
+            case AppStates.SETTINGS:
                 UIStateData settingsStateData = new UIStateData();
                 settingsStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return settingsStateData;
-            case MENU_OPTION_SHOP:
+            case AppStates.IAP:
                 UIStateData iapStateData = new UIStateData();
                 iapStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
                 return iapStateData;
-            case MENU_OPTION_SUPPORT:
+            case AppStates.SUPPORT:
                 UIStateData supportStateData = new UIStateData();
                 supportStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
                 return supportStateData;
-            case MENU_OPTION_ABOUT:
+            case AppStates.ABOUT:
                 UIStateData aboutStateData = new UIStateData();
                 aboutStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return aboutStateData;
@@ -82,14 +83,14 @@ abstract public class UIBasePresenter {
                 uiStateDataModel.setIapFlow(IAPState.IAP_SHOPPING_CART_VIEW);
                 uiStateDataModel.setCtnList(getCtnList());
                 return uiStateDataModel;*/
-            case MENU_OPTION_PR:
+            case AppStates.PR:
                 UIStateData prStateDataModel = new UIStateData();
                 return prStateDataModel;
-            case MENU_OPTION_DATA_SYNC:
+            case AppStates.DATA_SYNC:
                 UIStateData syncStateData = new UIStateData();
                 syncStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return syncStateData;
-            case MENU_OPTION_CONNECTIVITY:
+            case AppStates.CONNECTIVITY:
                 UIStateData connectivityStateData = new UIStateData();
                 connectivityStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return connectivityStateData;

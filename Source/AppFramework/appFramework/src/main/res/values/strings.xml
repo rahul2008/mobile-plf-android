@@ -132,5 +132,6 @@
     <string name="characteristics">User Characteristics</string>
     <string name="cancel">CANCEL</string>
     <string name="ok">OK</string>
+    <string name="something_wrong">Something went wrong</string>
 
 </resources>
