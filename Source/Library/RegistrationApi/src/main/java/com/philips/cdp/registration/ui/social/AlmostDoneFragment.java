@@ -509,10 +509,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         if (v.getId() == R.id.reg_btn_continue) {
             RLog.d(RLog.ONCLICK, "AlmostDoneFragment : Continue");
             mEtEmail.clearFocus();
-            if (mEtEmail.isShown() && !mEtEmail.isValidEmail()) {
-                mRegAccptTermsError.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
-                return;
-            }
+            if (mEtEmail.isShown() && !mEtEmail.isValidEmail()) return;
+
             if (mBundle == null) {
                 if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
                     if (mCbAcceptTerms.isChecked()) {
