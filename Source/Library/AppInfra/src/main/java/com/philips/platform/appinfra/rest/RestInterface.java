@@ -17,11 +17,17 @@ public interface RestInterface {
      */
     public RequestQueue getRequestQueue();
 
+
+/**
+ * Get the network  connection and sets the wifiConnected and mobileConnected
+ * @return String Wifi/Mobile
+ */
+    public String getNetworkReachabilityStatus();
+
     /**
-     * Method to check the network connectivity.
-     *
+     * Method to check the network connectivity availability .
      * @return boolean true/false.
      */
-    public boolean isNetworkAvailable() ;
+    public boolean isInternetReachable() ;
 
 }

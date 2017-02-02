@@ -297,7 +297,7 @@ public class ABTestClientManager implements ABTestClientInterface {
      */
     @Override
     public void updateCache(final OnRefreshListener listener) {
-        if (!mAppInfra.getRestClient().isNetworkAvailable()) {
+        if (null!=mAppInfra.getRestClient() && !mAppInfra.getRestClient().isInternetReachable()) {
             mCachestatusvalues = CACHESTATUSVALUES.EXPERIENCES_NOT_UPDATED;
             if (listener != null)
                 listener.onError(OnRefreshListener.ERRORVALUES.NO_NETWORK, "NO INTERNET");
