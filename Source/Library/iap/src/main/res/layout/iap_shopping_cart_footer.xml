@@ -25,35 +25,34 @@
         android:id="@+id/delivery_mode_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
-        android:layout_below="@+id/iap_redeem_bottom_divider">
+        android:layout_below="@+id/iap_redeem_bottom_divider"
+        android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top">
 
         <RelativeLayout
             android:id="@+id/edit_icon_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:visibility="gone"
-            android:paddingRight="@dimen/iap_shopping_cart_image_margin_top">
+            android:paddingEnd="@dimen/iap_shopping_cart_image_margin_top"
+            android:visibility="gone">
+
             <ImageView
                 android:id="@+id/edit_icon"
                 android:layout_width="@dimen/iap_edit_icon_width"
-                android:layout_height="@dimen/iap_edit_icon_width"/>
+                android:layout_height="@dimen/iap_edit_icon_width" />
         </RelativeLayout>
 
         <TextView
             android:id="@+id/iap_tv_delivery_price"
             style="@style/iap_delivery_price"
-            android:layout_toLeftOf="@id/edit_icon_layout"
-            />
+            android:layout_toStartOf="@id/edit_icon_layout" />
 
         <TextView
             android:id="@+id/iap_tv_delivery_via_ups"
             style="@style/iap_delivery_via"
             android:layout_alignBaseline="@id/iap_tv_delivery_price"
-            android:layout_toLeftOf="@id/iap_tv_delivery_price"
+            android:layout_toStartOf="@id/iap_tv_delivery_price"
             android:includeFontPadding="false" />
-
     </RelativeLayout>
 
 
@@ -67,9 +66,9 @@
     <TextView
         android:id="@+id/iap_tv_vat"
         style="@style/iap_vat"
-        android:visibility="gone"
         android:layout_below="@id/iap_divider_bottom_delivery"
-        android:text="@string/iap_vat" />
+        android:text="@string/iap_vat"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/iap_tv_totalItems"
@@ -79,22 +78,21 @@
     <TextView
         android:id="@+id/iap_tv_vat_inclusive"
         style="@style/iap_vat_uk"
-        android:visibility="gone"
         android:layout_below="@id/iap_tv_totalItems"
-        android:text="@string/iap_including_vat" />
+        android:text="@string/iap_including_vat"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/iap_tv_vat_value"
         style="@style/iap_vat_value"
-        android:visibility="gone"
-        android:layout_alignBaseline="@id/iap_tv_vat" />
+        android:layout_alignBaseline="@id/iap_tv_vat"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/iap_tv_vat_value_uk_shopping_cart"
         style="@style/iap_vat_value"
         android:layout_alignBaseline="@id/iap_tv_vat_inclusive"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/iap_tv_totalcost"

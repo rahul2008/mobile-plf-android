@@ -36,7 +36,7 @@
         <TextView
             android:id="@+id/tv_shipping_address"
             style="@style/tvTitle"
-            android:layout_marginTop="0dp"/>
+            android:layout_marginTop="0dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -67,8 +67,8 @@
 
         <TextView
             android:id="@+id/tv_billing_address"
-            android:layout_marginTop="0dp"
-            style="@style/tvTitle" />
+            style="@style/tvTitle"
+            android:layout_marginTop="0dp" />
     </LinearLayout>
 
     <View
@@ -166,15 +166,15 @@
                 android:layout_width="@dimen/iap_edit_icon_width"
                 android:layout_height="@dimen/iap_edit_icon_width"
                 android:layout_alignParentEnd="true"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_delivery_price"
                 style="@style/tvBoldTitle"
-                android:layout_toLeftOf="@id/edit_icon"
-                android:layout_marginEnd="@dimen/iap_dots_padding"
                 android:layout_marginBottom="0dp"
-                android:layout_marginStart="0dp" />
+                android:layout_marginEnd="@dimen/iap_dots_padding"
+                android:layout_marginStart="0dp"
+                android:layout_toStartOf="@id/edit_icon" />
 
             <TextView
                 android:id="@+id/tv_delivery"
@@ -182,8 +182,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginBottom="0dp"
                 android:layout_marginStart="0dp"
-                android:layout_toLeftOf="@id/tv_delivery_price"
-                />
+                android:layout_toStartOf="@id/tv_delivery_price" />
 
         </RelativeLayout>
     </LinearLayout>
@@ -249,14 +248,12 @@
                 android:id="@+id/iap_tv_vat_value_uk_order_summary"
                 style="@style/tvVatValueUK"
                 android:layout_alignBaseline="@id/tv_vat_inclusive"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_total_price"
                 style="@style/tvBoldTitle"
                 android:layout_alignParentEnd="true" />
-
 
 
         </RelativeLayout>

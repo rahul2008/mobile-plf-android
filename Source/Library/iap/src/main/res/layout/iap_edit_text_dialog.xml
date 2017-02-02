@@ -68,7 +68,7 @@
                 style="@style/PhilipsTextInputLayoutStyleEnabled"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="left"
+                android:gravity="start"
                 android:layout_marginTop="@dimen/uikit_modal_alert_message_text_top_margin"
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp"

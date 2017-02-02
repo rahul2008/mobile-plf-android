@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_from_other_channel"
             android:layout_marginTop="@dimen/iap_selection_address_select_address_margint_bottom"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_opening_timings"

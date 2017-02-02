@@ -1,23 +1,21 @@
-<RelativeLayout android:id="@+id/layout"
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/product_catalog_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:listSelector="@android:color/transparent"
-        >
-    </android.support.v7.widget.RecyclerView>
+        android:listSelector="@android:color/transparent"/>
 
     <TextView
         android:id="@+id/empty_product_catalog_txt"
         android:layout_width="wrap_content"
-        android:visibility="gone"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="@string/iap_no_product_available"/>
+        android:text="@string/iap_no_product_available"
+        android:visibility="gone" />
 
 </RelativeLayout>

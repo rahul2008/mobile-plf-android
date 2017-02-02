@@ -302,9 +302,9 @@
                     android:cursorVisible="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
-                    android:singleLine="true"
                     android:hint="@string/iap_state_hint"
                     android:inputType="none"
+                    android:maxLength="1"
                     android:maxLines="1" />
             </LinearLayout>
 

@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginEnd="@dimen/iap_shipping_address_margin_left"
-        android:layout_marginTop="@dimen/iap_selection_address_select_address_margint_top"
         android:layout_marginStart="@dimen/iap_shipping_address_margin_left"
+        android:layout_marginTop="@dimen/iap_selection_address_select_address_margint_top"
         android:orientation="horizontal">
 
         <TextView
@@ -22,7 +22,7 @@
         <TextView
             android:id="@+id/tv_track_order_number"
             style="@style/tvOrderHeaderTitle"
-            android:layout_marginLeft="@dimen/iap_order_one_spacing"
+            android:layout_marginStart="@dimen/iap_order_one_spacing"
             android:text="#" />
     </LinearLayout>
 
@@ -54,8 +54,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/iap_order_one_spacing"
             android:layout_marginTop="@dimen/iap_order_margin_top"
-            android:textSize="@dimen/title"
-            android:textColor="?attr/uikit_baseColor" />
+            android:textColor="?attr/uikit_baseColor"
+            android:textSize="@dimen/title" />
 
         <TextView
             android:id="@+id/tv_shipping_address"
