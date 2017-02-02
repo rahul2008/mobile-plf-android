@@ -6,11 +6,12 @@
 buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android' }
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
     }
     dependencies {
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.2.0'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.0.0', changing: true
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
 
         classpath 'com.android.tools.build:gradle:2.2.0'
@@ -26,6 +27,7 @@ allprojects {
 
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android' }
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
     }
