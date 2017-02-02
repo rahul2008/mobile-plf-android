@@ -53,27 +53,27 @@ public class AppIdentityTest extends MockitoTestCase {
                     String testJson = "{\n" +
                             "  \"UR\": {\n" +
                             "\n" +
-                            "    \"Development\": \"ad7nn99y2mv5berw5jxewzagazafbyhu\",\n" +
-                            "    \"Testing\": \"xru56jcnu3rpf8q7cgnkr7xtf9sh8pp7\",\n" +
-                            "    \"Evaluation\": \"4r36zdbeycca933nufcknn2hnpsz6gxu\",\n" +
-                            "    \"Staging\": \"f2stykcygm7enbwfw2u9fbg6h6syb8yd\",\n" +
-                            "    \"Production\": \"mz6tg5rqrg4hjj3wfxfd92kjapsrdhy3\"\n" +
+                            "    \"DEVELOPMENT\": \"ad7nn99y2mv5berw5jxewzagazafbyhu\",\n" +
+                            "    \"TESTING\": \"xru56jcnu3rpf8q7cgnkr7xtf9sh8pp7\",\n" +
+                            "    \"EVALUATION\": \"4r36zdbeycca933nufcknn2hnpsz6gxu\",\n" +
+                            "    \"STAGING\": \"f2stykcygm7enbwfw2u9fbg6h6syb8yd\",\n" +
+                            "    \"PRODUCTION\": \"mz6tg5rqrg4hjj3wfxfd92kjapsrdhy3\"\n" +
                             "\n" +
                             "  },\n" +
                             "  \"AI\": {\n" +
-                            "    \"MicrositeID\": 77001,\n" +
-                            "    \"RegistrationEnvironment\": \"Staging\",\n" +
+                            "    \"MICRISITEID\": 77001,\n" +
+                            "    \"REGISTRATIONENVIRONMENT\": \"Staging\",\n" +
                             "    \"NL\": [\"googleplus\", \"facebook\"  ],\n" +
                             "    \"US\": [\"facebook\",\"googleplus\" ],\n" +
-                            "    \"Map\": {\"one\": \"123\", \"two\": \"123.45\"},\n" +
+                            "    \"MAP\": {\"one\": \"123\", \"two\": \"123.45\"},\n" +
                             "    \"EE\": [123,234 ]\n" +
                             "  }, \n" +
-                            " \"appinfra\": { \n" +
-                            "   \"appidentity.micrositeId\" : \"77000\",\n" +
-                            "  \"appidentity.sector\"  : \"B2C\",\n" +
-                            " \"appidentity.appState\"  : \"Staging\",\n" +
-                            "\"appidentity.serviceDiscoveryEnvironment\"  : \"Staging\",\n" +
-                            "\"restclient.cacheSizeInKB\"  : 1024 \n" +
+                            " \"APPINFRA\": { \n" +
+                            "   \"APPIDENTITY.MICRISITEID\" : \"77000\",\n" +
+                            "  \"APPIDENTITY.SECTOR\"  : \"B2C\",\n" +
+                            " \"APPIDENTITY.APPSTATE\"  : \"Staging\",\n" +
+                            "\"APPIDENTITY.SERVICEDISCOVERYENVIRONMENT\"  : \"Staging\",\n" +
+                            "\"RESTCLIENT.CACHESIZEINKB\"  : 1024 \n" +
                             "} \n" + "}";
                     result = new JSONObject(testJson);
                 } catch (Exception e) {
