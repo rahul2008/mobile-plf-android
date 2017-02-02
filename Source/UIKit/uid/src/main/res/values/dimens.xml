@@ -152,4 +152,7 @@
 
     <!--date picker-->
     <dimen name="uid_date_picker_header_text_size">16sp</dimen>
+    <dimen name="uid_date_picker_header_dayofmonth_size">88dp</dimen>
+    <dimen name="uid_date_picker_header_dayofweek_size">14dp</dimen>
+    <dimen name="uid_date_picker_header_year_size">24dp</dimen>
 </resources>

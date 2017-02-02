@@ -13,7 +13,7 @@
         <item name="android:buttonBarNegativeButtonStyle">@style/UIDCalendarButtonStyle</item>
         <item name="android:textColorSecondary">?attr/uidDatePickerHeaderTextColor</item>
         <item name="android:textColorSecondaryInverse">?attr/uidDatePickerHeaderTextColor</item>
-        <item name="android:disabledAlpha">1</item>
+        <item name="android:disabledAlpha">@dimen/uid_alpha_per_50</item>
         <item name="android:headerMonthTextAppearance">@style/UIDHeaderMonthAppearance</item>
         <item name="android:selectableItemBackground">@null</item>
         <item name="android:yearListItemTextAppearance">@style/UIDWeekDayTextAppearance</item>
@@ -36,13 +36,13 @@
 
     <style name="UIDHeaderDayOfMonthAppearance">
         <item name="android:textColor">@color/uid_datepicker_header_selector</item>
-        <item name="android:textSize">88dp</item>
+        <item name="android:textSize">@dimen/uid_date_picker_header_dayofmonth_size</item>
         <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="UIDHeaderYearAppearance">
         <item name="android:textColor">@color/uid_datepicker_header_selector</item>
-        <item name="android:textSize">24dp</item>
+        <item name="android:textSize">@dimen/uid_date_picker_header_year_size</item>
         <item name="android:includeFontPadding">false</item>
     </style>
 
@@ -54,7 +54,7 @@
     <style name="UIDDayOfWeekTextAppearance" parent="android:TextAppearance.Material">
         <item name="android:includeFontPadding">false</item>
         <item name="android:textColor">?attr/uidDatePickerHeaderTextColor</item>
-        <item name="android:textSize">14dp</item>
+        <item name="android:textSize">@dimen/uid_date_picker_header_dayofweek_size</item>
     </style>
 
     <style name="UIDDatePicker" parent="@android:style/Widget.Material.Light.DatePicker">
