@@ -45,6 +45,7 @@ public class WelcomeFragmentPresenter extends UIBasePresenter{
         if (baseState != null) {
             welcomeFragmentView.showActionBar();
             baseState.navigate(getFragmentLauncher());
+            welcomeFragmentView = null;
         }
     }
 

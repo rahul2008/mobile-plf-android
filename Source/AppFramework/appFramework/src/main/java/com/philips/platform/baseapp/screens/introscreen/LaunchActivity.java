@@ -176,4 +176,13 @@ public class LaunchActivity extends AppFrameworkBaseActivity implements LaunchVi
     public boolean isInMultiWindowMode() {
         return super.isInMultiWindowMode();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (getSupportActionBar() != null){
+            textView = null;
+            presenter = null;
+        }
+    }
 }

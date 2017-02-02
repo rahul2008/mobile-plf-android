@@ -220,4 +220,12 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
         setFlowManager();
         startTimer();
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        logo = null;
+        title = null;
+        progressDialog = null;
+    }
 }

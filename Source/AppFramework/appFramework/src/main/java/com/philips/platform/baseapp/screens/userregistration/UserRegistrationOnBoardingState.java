@@ -40,6 +40,7 @@ public class UserRegistrationOnBoardingState extends UserRegistrationState imple
             if (null != baseState) {
                 getFragmentActivity().finish();
                 baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.welcome_frame_container, (ActionBarListener) getFragmentActivity()));
+                baseState = null;
             }
         }
     }
