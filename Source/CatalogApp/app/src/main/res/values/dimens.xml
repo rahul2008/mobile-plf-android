@@ -41,4 +41,6 @@
 
     <dimen name="separator_item_height">48dp</dimen>
     <dimen name="separator_drawable_padding">32dp</dimen>
+
+    <dimen name="recycler_view_drawable_padding">32dp</dimen>
 </resources>

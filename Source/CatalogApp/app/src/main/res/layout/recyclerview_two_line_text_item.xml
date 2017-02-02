@@ -12,22 +12,20 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/uid_recyclerview_item_two_lines_height"
         android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingStart="@dimen/uid_recyclerview_margin_left_right"
+        android:paddingEnd="@dimen/uid_recyclerview_margin_left_right">
 
         <com.philips.platform.uid.view.widget.Label
-            style="@style/UIDLabel.ListViewMultipleItemTitleText"
+            style="@style/UIDLabel.RecyclerViewItemMultipleLinesTitleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
-            android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
             android:text="@{data.text}"/>
 
         <com.philips.platform.uid.view.widget.Label
-            style="@style/UIDLabel.ListViewItemDescriptionText"
+            style="@style/UIDLabel.RecyclerViewItemDescriptionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
-            android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
             android:text="@{data.description}"/>
     </LinearLayout>
 </layout>

@@ -58,7 +58,7 @@ public class RecyclerViewFragment extends BaseFragment {
 
         recyclerView.setAdapter(new RecyclerViewAdapter(dataHolderView.dataHolders));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        ((Label)fragmentRecyclerviewBinding.recyclerviewRecyclerview.findViewById(R.id.uid_recyclerview_header)).setText(R.string.uid_recyclerview_the_header);
+        ((Label)fragmentRecyclerviewBinding.recyclerviewRecyclerview.findViewById(R.id.uid_recyclerview_header)).setText(R.string.recyclerview_the_header);
 
         return fragmentRecyclerviewBinding.getRoot();
     }
@@ -66,24 +66,24 @@ public class RecyclerViewFragment extends BaseFragment {
     @NonNull
     private DataHolderView getTwoLinesDataHolderView(Context context) {
         DataHolderView dataHolderView = new DataHolderView();
-        dataHolderView.addTwoLineItem(R.string.listview_title_1, R.string.description1, context);
-        dataHolderView.addTwoLineItem(R.string.listview_title_2, R.string.description2, context);
-        dataHolderView.addTwoLineItem(R.string.listview_title_3, R.string.description3, context);
-        dataHolderView.addTwoLineItem(R.string.listview_title_4, R.string.description4, context);
-        dataHolderView.addTwoLineItem(R.string.listview_title_5, R.string.description5, context);
-        dataHolderView.addTwoLineItem(R.string.listview_title_6, R.string.description6, context);
+        dataHolderView.addTwoLineItem(R.string.title1, R.string.description1, context);
+        dataHolderView.addTwoLineItem(R.string.title2, R.string.description2, context);
+        dataHolderView.addTwoLineItem(R.string.title3, R.string.description3, context);
+        dataHolderView.addTwoLineItem(R.string.title4, R.string.description4, context);
+        dataHolderView.addTwoLineItem(R.string.title5, R.string.description5, context);
+        dataHolderView.addTwoLineItem(R.string.title6, R.string.description6, context);
         return dataHolderView;
     }
 
     @NonNull
     private DataHolderView getIconDataHolderView(Context context) {
         DataHolderView dataHolderView = new DataHolderView();
-        dataHolderView.addIconItem(R.drawable.ic_add_folder, R.string.listview_title_1, context);
-        dataHolderView.addIconItem(R.drawable.ic_home, R.string.listview_title_2, context);
-        dataHolderView.addIconItem(R.drawable.ic_lock, R.string.listview_title_3, context);
-        dataHolderView.addIconItem(R.drawable.ic_alarm, R.string.listview_title_4, context);
-        dataHolderView.addIconItem(R.drawable.ic_bottle, R.string.listview_title_5, context);
-        dataHolderView.addIconItem(R.drawable.ic_location, R.string.listview_title_6, context);
+        dataHolderView.addIconItem(R.drawable.ic_add_folder, R.string.title1, context);
+        dataHolderView.addIconItem(R.drawable.ic_home, R.string.title2, context);
+        dataHolderView.addIconItem(R.drawable.ic_lock, R.string.title3, context);
+        dataHolderView.addIconItem(R.drawable.ic_alarm, R.string.title4, context);
+        dataHolderView.addIconItem(R.drawable.ic_bottle, R.string.title5, context);
+        dataHolderView.addIconItem(R.drawable.ic_location, R.string.title6, context);
         return dataHolderView;
     }
 

@@ -5,11 +5,11 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/uid_recyclerview_item_one_line"
-        style="@style/UIDLabel.ListViewSingleItemTitleText"
+        style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
         android:layout_width="match_parent"
         android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
         android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
         android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
-        android:drawablePadding="@dimen/uid_recyclerview_separator_drawable_padding"
+        android:drawablePadding="@dimen/uid_recyclerview_drawable_padding"
         android:gravity="start|center_vertical"/>
 </LinearLayout>

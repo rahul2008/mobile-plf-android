@@ -9,19 +9,14 @@
             type="com.philips.platform.catalogapp.DataHolder"></variable>
     </data>
 
-    <LinearLayout
+    <com.philips.platform.uid.view.widget.Label
+        style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.philips.platform.uid.view.widget.Label
-            style="@style/UIDLabel.ListViewSingleItemTitleText"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
-            android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
-            android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
-            android:drawablePadding="@dimen/separator_drawable_padding"
-            android:drawableStart="@{data.getIcon()}"
-            android:gravity="start|center_vertical"
-            android:text="@{data.text}"/>
-    </LinearLayout>
+        android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
+        android:paddingEnd="@dimen/uid_recyclerview_margin_left_right"
+        android:paddingStart="@dimen/uid_recyclerview_margin_left_right"
+        android:drawablePadding="@dimen/recycler_view_drawable_padding"
+        android:drawableStart="@{data.getIcon()}"
+        android:gravity="start|center_vertical"
+        android:text="@{data.text}"/>
 </layout>

@@ -147,15 +147,15 @@
 
     <!-- RecyclerView -->
     <dimen name="uid_recyclerview_margin_left_right">16dp</dimen>
-    <dimen name="uid_recyclerview_title_min_height">48dp</dimen>
-    <dimen name="uid_recyclerview_title_text_size">14sp</dimen>
+    <dimen name="uid_recyclerview_header_height">48dp</dimen>
+    <dimen name="uid_recyclerview_header_text_size">14sp</dimen>
     <dimen name="uid_recyclerview_item_title_text_size">16sp</dimen>
     <dimen name="uid_recyclerview_item_subtitle_text_size">14sp</dimen>
     <dimen name="uid_recyclerview_item_description_text_size">14sp</dimen>
     <dimen name="uid_recyclerview_item_one_line_height">48dp</dimen>
     <dimen name="uid_recyclerview_item_two_lines_height">72dp</dimen>
     <dimen name="uid_recyclerview_item_three_lines_height">88dp</dimen>
-    <dimen name="uid_recyclerview_separator_drawable_padding">32dp</dimen>
+    <dimen name="uid_recyclerview_drawable_padding">32dp</dimen>
 
     <dimen name="uid_social_icons_width">32dp</dimen>
     <dimen name="uid_social_icons_height">32dp</dimen>

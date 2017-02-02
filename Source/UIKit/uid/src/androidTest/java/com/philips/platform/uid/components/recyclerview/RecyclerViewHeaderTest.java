@@ -93,13 +93,13 @@ public class RecyclerViewHeaderTest {
     }
 
     @Test
-    public void verifyLayoutTopPadding() {
+    public void verifyRecyclerViewTopPadding() {
         int expectedPadding = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.recyclerview_padding_top_bottom));
         getRecyclerView().check(matches(ViewPropertiesMatchers.isSameTopPadding(expectedPadding)));
     }
 
     @Test
-    public void verifyLayoutBottomPadding() {
+    public void verifyRecyclerViewBottomPadding() {
         int expectedPadding = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.recyclerview_padding_top_bottom));
         getRecyclerView().check(matches(ViewPropertiesMatchers.isSameBottomPadding(expectedPadding)));
     }

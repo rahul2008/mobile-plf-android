@@ -66,7 +66,7 @@
             android:orientation="horizontal">
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/UIDLabel.RecyclerViewTitleText"
+                style="@style/UIDLabel.RecyclerViewHeaderText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -75,29 +75,24 @@
                 android:text="@string/template_selection"/>
         </RelativeLayout>
 
-        <LinearLayout
+        <RadioGroup
+            android:id="@+id/radioGroupTemplates"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right">
+            android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
+            android:orientation="vertical">
 
-            <RadioGroup
-                android:id="@+id/radioGroupTemplates"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+            <RadioButton
+                android:id="@+id/single_line_with_icon"
+                style="@style/RecyclerViewRadioButton"
+                android:checked="@{frag.isIconTemplateSelected}"
+                android:text="@string/single_line_with_icon"/>
 
-                <RadioButton
-                    style="@style/RecyclerViewRadioButton"
-                    android:id="@+id/single_line_with_icon"
-                    android:checked="@{frag.isIconTemplateSelected}"
-                    android:text="@string/single_line_with_icon"/>
-
-                <RadioButton
-                    style="@style/RecyclerViewRadioButton"
-                    android:id="@+id/two_lines"
-                    android:checked="@{!frag.isIconTemplateSelected}"
-                    android:text="@string/two_lines"/>
-            </RadioGroup>
-        </LinearLayout>
+            <RadioButton
+                android:id="@+id/two_lines"
+                style="@style/RecyclerViewRadioButton"
+                android:checked="@{!frag.isIconTemplateSelected}"
+                android:text="@string/two_lines"/>
+        </RadioGroup>
     </LinearLayout>
 </layout>

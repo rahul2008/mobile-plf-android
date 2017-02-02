@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="uid_recyclerview_two_line_item">Two-line item</string>
-    <string name="uid_recyclerview_the_description_goes_here">The description goes here</string>
-    <string name="uid_recyclerview_the_header">The header</string>
-</resources>

@@ -8,7 +8,7 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/uid_recyclerview_two_line_title"
-        style="@style/UIDLabel.ListViewMultipleItemTitleText"
+        style="@style/UIDLabel.RecyclerViewItemMultipleLinesTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
@@ -16,7 +16,7 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/uid_recyclerview_two_line_description"
-        style="@style/UIDLabel.ListViewItemDescriptionText"
+        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
