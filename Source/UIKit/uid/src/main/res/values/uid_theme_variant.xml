@@ -25,6 +25,7 @@
         <item name="uidNavigationShadowLevelTwo">@color/uidColorBlack</item>
         <item name="uidNavigationShadowLevelOneAlpha">@dimen/uid_alpha_per_20</item>
         <item name="uidNavigationShadowLevelTwoAlpha">@dimen/uid_alpha_per_20</item>
+        <item name="uidNavigationBarTextColor">?attr/uidNavigationTextColor</item>
 
         <item name="uidButtonNormalColor">?attr/uidControlPrimaryEnabledColor</item>
         <item name="uidButtonPressedColor">?attr/uidControlPrimaryPressedColor</item>
@@ -81,18 +82,35 @@
         <item name="uidCheckBoxTextDisabledColor">?attr/uidCheckBoxTextEnabledColor</item>
         <item name="uidCheckBoxTextDisabledAlpha">@dimen/uid_alpha_per_45</item>
         <item name="uidCheckBoxBackgroundCheckedEnabledColor">?attr/uidColorLevel45</item>
-        <item name="uidCheckBoxBackgroundUncheckedEnabledColor">?attr/uidCheckBoxBackgroundCheckedEnabledColor</item>
+        <item name="uidCheckBoxBackgroundUncheckedEnabledColor">
+            ?attr/uidCheckBoxBackgroundCheckedEnabledColor
+        </item>
         <item name="uidCheckBoxBackgroundUncheckedEnabledAlpha">@dimen/uid_alpha_per_60</item>
-        <item name="uidCheckBoxBackgroundDisabledColor">?attr/uidCheckBoxBackgroundCheckedEnabledColor</item>
+        <item name="uidCheckBoxBackgroundDisabledColor">
+            ?attr/uidCheckBoxBackgroundCheckedEnabledColor
+        </item>
         <item name="uidCheckBoxBackgroundDisabledAlpha">@dimen/uid_alpha_per_35</item>
         <item name="uidCheckBoxTickEnabledColor">@color/uidColorWhite</item>
         <item name="uidCheckBoxTickDisabledColor">@color/uidColorWhite</item>
         <item name="uidCheckBoxRippleColor">?attr/uidCheckBoxBackgroundCheckedEnabledColor</item>
         <item name="uidCheckBoxRippleAlpha">@dimen/uid_alpha_per_20</item>
+
         <item name="uidControlBufferAlpha">@dimen/uid_alpha_per_30</item>
         <item name="uidControlBuffer">?attr/uidControlPrimaryDetail</item>
 
         <item name="uidProgressIndicatorButtonProgressColor">?attr/uidProgressBarProgressColor</item>
+
+        <item name="uidDatePickerHeaderFillColor">?attr/uidNavigationSecondaryColor</item>
+        <item name="uidDatePickerHeaderTextColor">?attr/uidNavigationTextColor</item>
+        <item name="uidDatePickerFillColor">@color/uidColorWhite</item>
+        <item name="uidGrayTextTertiary">@color/uid_gray_level_65</item>
+        <item name="uidDatePickerTextColor">?attr/uidDatePickerText</item>
+        <item name="uidDatePickerButtonTextColor">?attr/uidControlPrimaryEnabledColor</item>
+        <item name="uidControlBright">?attr/uidColorLevel45</item>
+        <item name="uidDatePickerSelectedFillColor">?attr/uidControlBright</item>
+        <item name="uidDatePickerWeekDayTextColor">?attr/uidGrayTextTertiary</item>
+        <item name="uidDatePickerText">@color/uid_gray_level_75</item>
+        <item name="uidDatePickerDayOfWeekTextColor">?attr/uidNavigationTextColor</item>
     </style>
 
     <style name="UltraLight">
@@ -102,6 +120,7 @@
         <item name="uidNavigationSecondaryColor">?attr/uidColorLevel05</item>
         <item name="uidNavigationTextColor">?attr/uidControlPrimaryEnabledColor</item>
         <item name="uidTextPrimaryColor">@color/uid_gray_level_75</item>
+        <item name="uidControlPrimaryDetail">?attr/uidControlPrimaryEnabledColor</item>
 
         <item name="uidApplicationBackground">?attr/uidColorLevel05</item>
 
@@ -143,25 +162,25 @@
         </item>
         <item name="uidSocialIconWhiteButtonIconColor">?attr/uidControlPrimaryTextColor</item>
         <item name="uidSocialIconWhitePressedColor">?attr/uidControlPrimaryPressedColor</item>
-        <!-- Will be combined later to one uidSeparatorColorWithAlpha -->
 
         <item name="uidCheckBoxTextEnabledColor">@color/uid_gray_level_75</item>
         <item name="uidCheckBoxTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
         <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_100</item>
 
+        <!-- Will be combined later to one uidSeparatorColorWithAlpha -->
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_10</item>
-
-        <item name="uidControlPrimaryDetail">?attr/uidControlPrimaryEnabledColor</item>
         <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_25</item>
         <item name="uidControlTrackOff">?attr/uidColorLevel45</item>
     </style>
 
     <style name="VeryLight">
         <item name="uidContentPrimary">?attr/uidColorLevel20</item>
+        <item name="uidControlPrimaryDetail">?attr/uidControlPrimaryEnabledColor</item>
+
         <item name="uidContentSecondary">?attr/uidColorLevel15</item>
         <item name="uidNavigationPrimaryColor">@color/uidColorWhite</item>
-        <item name="uidNavigationSecondaryColor">?attr/uidColorLevel05</item>
+        <item name="uidNavigationSecondaryColor">?attr/uidColorLevel15</item>
         <item name="uidNavigationTextColor">?attr/uidControlPrimaryEnabledColor</item>
         <item name="uidTextPrimaryColor">?attr/uidColorLevel75</item>
 
@@ -209,13 +228,14 @@
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
 
-        <item name="uidControlPrimaryDetail">?attr/uidControlPrimaryEnabledColor</item>
         <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_30</item>
         <item name="uidControlTrackOff">?attr/uidColorLevel45</item>
     </style>
 
     <style name="Light">
         <item name="uidContentPrimary">?attr/uidColorLevel35</item>
+        <item name="uidControlPrimaryDetail">@color/uidColorWhite</item>
+
         <item name="uidContentSecondary">?attr/uidColorLevel30</item>
         <item name="uidNavigationPrimaryColor">?attr/uidColorLevel25</item>
         <item name="uidNavigationSecondaryColor">?attr/uidColorLevel30</item>
@@ -266,13 +286,13 @@
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_20</item>
 
-        <item name="uidControlPrimaryDetail">@color/uidColorWhite</item>
         <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_30</item>
         <item name="uidControlTrackOff">@color/uidColorWhite</item>
     </style>
 
     <style name="Bright">
         <item name="uidContentPrimary">?attr/uidColorLevel50</item>
+        <item name="uidControlPrimaryDetail">@color/uidColorWhite</item>
         <item name="uidContentSecondary">?attr/uidColorLevel45</item>
         <item name="uidNavigationPrimaryColor">?attr/uidColorLevel40</item>
         <item name="uidNavigationSecondaryColor">?attr/uidColorLevel45</item>
@@ -302,6 +322,7 @@
 
         <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel75</item>
 
+
         <item name="uidCheckBoxTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
         <item name="uidCheckBoxBackgroundCheckedEnabledColor">?attr/uidColorLevel75</item>
         <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_50</item>
@@ -322,13 +343,13 @@
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
 
-        <item name="uidControlPrimaryDetail">@color/uidColorWhite</item>
         <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_25</item>
         <item name="uidControlTrackOff">@color/uidColorWhite</item>
     </style>
 
     <style name="VeryDark">
         <item name="uidContentPrimary">?attr/uidColorLevel80</item>
+        <item name="uidControlPrimaryDetail">@color/uidColorWhite</item>
         <item name="uidContentSecondary">?attr/uidColorLevel75</item>
         <item name="uidNavigationPrimaryColor">?attr/uidColorLevel70</item>
         <item name="uidNavigationSecondaryColor">?attr/uidColorLevel75</item>
@@ -380,7 +401,6 @@
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
 
-        <item name="uidControlPrimaryDetail">@color/uidColorWhite</item>
         <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_30</item>
         <item name="uidControlTrackOff">?attr/uidColorLevel30</item>
     </style>
