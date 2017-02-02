@@ -15,6 +15,7 @@ import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
+import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
@@ -116,8 +117,7 @@ public class BleDiscoveryStrategyTestSteps {
     public void startingDiscoveryForBLEAppliances() {
         try {
             this.commCentral.startDiscovery();
-        } catch (MissingPermissionException e) {
-            // Ignore
+        } catch (MissingPermissionException | TransportUnavailableException ignored) {
         }
     }
 
