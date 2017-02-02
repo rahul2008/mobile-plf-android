@@ -56,6 +56,7 @@ public class SplashPresenter extends UIBasePresenter implements UIStateListener 
                     uiView.showActionBar();
                 }
                 baseState.navigate(getFragmentLauncher());
+                baseState.setStateListener(null);
             }
         } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                 e) {

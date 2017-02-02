@@ -63,6 +63,7 @@ public class LaunchActivityPresenter extends UIBasePresenter implements UIStateL
             if (baseState != null) {
                 baseState.setUiStateData(setStateData(baseState.getStateID()));
                 baseState.navigate(fragmentLauncher);
+                fragmentLauncher = null;
             }
         } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                 e) {
