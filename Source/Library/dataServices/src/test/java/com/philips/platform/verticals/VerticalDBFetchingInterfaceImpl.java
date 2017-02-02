@@ -83,11 +83,6 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     @Override
-    public UserCharacteristics fetchUCByCreatorId(@NonNull String creatorId) throws SQLException {
-        return null;
-    }
-
-    @Override
     public Settings fetchSettings(DBRequestListener dbRequestListener) throws SQLException {
         return null;
     }

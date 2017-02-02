@@ -1,6 +1,7 @@
 package com.philips.platform.datasync.characteristics;
 
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -10,6 +11,8 @@ import com.philips.platform.datasync.UCoreAdapter;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+
+import java.util.List;
 
 import retrofit.RetrofitError;
 import retrofit.converter.GsonConverter;
@@ -25,7 +28,7 @@ public class UserCharacteristicsFetcherTest {
     UserCharacteristicsFetcher userCharacteristicsFetcher;
 
     @Mock
-    private UserCharacteristics userCharacteristicsMock;
+    private List<Characteristics> characteristicsMock;
     @Mock
     private UCoreAdapter uCoreAdapterMock;
 
@@ -84,7 +87,7 @@ public class UserCharacteristicsFetcherTest {
         when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
         final UserCharacteristicsClient uCoreClientMock = mock(UserCharacteristicsClient.class);
         when(uCoreAdapterMock.getAppFrameworkClient(UserCharacteristicsClient.class, TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(uCoreClientMock);
-        when(userCharacteristicsConverterMock.convertToCharacteristics(null, accessProviderMock.getUserId())).thenReturn(userCharacteristicsMock);
+        when(userCharacteristicsConverterMock.convertToCharacteristics(null, accessProviderMock.getUserId())).thenReturn(characteristicsMock);
         userCharacteristicsFetcher.fetchDataSince(null);
 
         verify(eventingMock).post(isA(UCDBUpdateFromBackendRequest.class));
