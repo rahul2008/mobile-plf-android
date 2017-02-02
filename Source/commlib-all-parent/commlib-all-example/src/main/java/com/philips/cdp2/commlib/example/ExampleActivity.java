@@ -270,5 +270,7 @@ public class ExampleActivity extends AppCompatActivity {
                 updateStateAndResult(getString(R.string.lblStateIdle), getString(R.string.lblResultPortError, s));
             }
         });
+
+        appliance.getTimePort().subscribe();
     }
 }

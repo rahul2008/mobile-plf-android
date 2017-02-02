@@ -6,8 +6,6 @@ package com.philips.cdp2.commlib.example.appliance;
 
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.dicommclient.port.DICommPort;
@@ -51,21 +49,19 @@ public class TimePort extends DICommPort<TimePortProperties> {
 
     @Override
     public boolean supportsSubscription() {
-        return false;
+        return true;
     }
 
     private TimePortProperties parseResponse(String response) {
         if (response == null || response.isEmpty()) {
             return null;
         }
-        Gson gson = new GsonBuilder().create();
         TimePortProperties timePortInfo = null;
         try {
             timePortInfo = gson.fromJson(response, TimePortProperties.class);
         } catch (JsonSyntaxException | JsonIOException e) {
             Log.e(TAG, e.getMessage());
         }
-
         return timePortInfo;
     }
 }

@@ -17,7 +17,11 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.pins.shinelib.SHNDevice;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -25,14 +29,53 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class BleCommunicationStrategy extends CommunicationStrategy {
 
+    private static final int POLLING_INTERVAL = 2000;
+
     @NonNull
     private final String mCppId;
     @NonNull
     private final BleDeviceCache mDeviceCache;
-    @NonNull
-    private final ScheduledThreadPoolExecutor mExecutor;
+    private final ScheduledThreadPoolExecutor requestExecutor;
 
     private AtomicBoolean disconnectAfterRequest = new AtomicBoolean(true);
+    private Map<PortParameters, Subscription> subscriptionsCache = new ConcurrentHashMap<>();
+
+    private class PortParameters {
+        String portName;
+        int productId;
+
+        PortParameters(String portName, int productId) {
+            this.portName = portName;
+            this.productId = productId;
+        }
+    }
+
+    private class Subscription {
+        private ScheduledExecutorService executor;
+
+        Subscription(final String portName, final int productId, final int timeToLive, final ResponseHandler responseHandler) {
+            // Start
+            this.executor = Executors.newSingleThreadScheduledExecutor();
+            this.executor.scheduleAtFixedRate(new Runnable() {
+                @Override
+                public void run() {
+                    getProperties(portName, productId, responseHandler);
+                }
+            }, 0, POLLING_INTERVAL, TimeUnit.MILLISECONDS);
+
+            // Stop polling after TTL elapsed
+            Executors.newSingleThreadScheduledExecutor().schedule(new Runnable() {
+                @Override
+                public void run() {
+                    cancel();
+                }
+            }, timeToLive, TimeUnit.SECONDS);
+        }
+
+        void cancel() {
+            this.executor.shutdown();
+        }
+    }
 
     /**
      * Instantiates a new BleCommunicationStrategy.
@@ -43,7 +86,8 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     public BleCommunicationStrategy(@NonNull String cppId, @NonNull BleDeviceCache deviceCache) {
         mCppId = cppId;
         mDeviceCache = deviceCache;
-        mExecutor = new ScheduledThreadPoolExecutor(1);
+
+        requestExecutor = new ScheduledThreadPoolExecutor(1);
     }
 
     @Override
@@ -67,11 +111,21 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     }
 
     @Override
-    public void subscribe(String portName, int productId, int subscriptionTtl, ResponseHandler responseHandler) {
+    public void subscribe(final String portName, final int productId, final int subscriptionTtl, final ResponseHandler responseHandler) {
+        PortParameters portParameters = new PortParameters(portName, productId);
+
+        Subscription subscription = new Subscription(portName, productId, subscriptionTtl, responseHandler);
+
+        this.subscriptionsCache.put(portParameters, subscription);
     }
 
     @Override
     public void unsubscribe(String portName, int productId, ResponseHandler responseHandler) {
+        PortParameters portParameters = new PortParameters(portName, productId);
+        Subscription subscription = this.subscriptionsCache.get(portParameters);
+        subscription.cancel();
+
+        this.subscriptionsCache.remove(subscription);
     }
 
     @Override
@@ -85,7 +139,7 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
      * @param subscriptionEventListener
      */
     @Override
-    public void enableCommunication(SubscriptionEventListener subscriptionEventListener) {
+    public synchronized void enableCommunication(SubscriptionEventListener subscriptionEventListener) {
         if (isAvailable()) {
             SHNDevice device = mDeviceCache.getDeviceMap().get(mCppId);
             device.connect();
@@ -96,12 +150,12 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     /**
      * Disables continuous connection to the appliance, after each request the connection will
      * be severed to preserve battery life.
-     *
+     * <p>
      * Note that
      */
     @Override
-    public void disableCommunication() {
-        if (isAvailable() && mExecutor.getQueue().isEmpty() && mExecutor.getActiveCount() == 0) {
+    public synchronized void disableCommunication() {
+        if (isAvailable() && requestExecutor.getQueue().isEmpty() && requestExecutor.getActiveCount() == 0) {
             SHNDevice device = mDeviceCache.getDeviceMap().get(mCppId);
             device.disconnect();
         }
@@ -110,6 +164,6 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
 
     @VisibleForTesting
     protected void dispatchRequest(final BleRequest request) {
-        mExecutor.execute(request);
+        requestExecutor.execute(request);
     }
 }
