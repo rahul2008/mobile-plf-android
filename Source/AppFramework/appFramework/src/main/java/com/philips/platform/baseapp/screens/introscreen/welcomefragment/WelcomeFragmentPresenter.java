@@ -53,11 +53,14 @@ public class WelcomeFragmentPresenter extends UIBasePresenter{
             if (baseState != null) {
                 welcomeFragmentView.showActionBar();
                 baseState.navigate(getFragmentLauncher());
+                welcomeFragmentView = null;
             }
         } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                 e) {
             Log.d(getClass() + "", e.getMessage());
-            Toast.makeText(welcomeFragmentView.getFragmentActivity(), welcomeFragmentView.getFragmentActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+            if(null != welcomeFragmentView) {
+                Toast.makeText(welcomeFragmentView.getFragmentActivity(), welcomeFragmentView.getFragmentActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

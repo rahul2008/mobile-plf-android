@@ -181,6 +181,15 @@ public class LaunchActivity extends AppFrameworkBaseActivity implements LaunchVi
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (getSupportActionBar() != null){
+            textView = null;
+            presenter = null;
+        }
+    }
+
+    @Override
     public void onGetCartCount(int i) {
 
     }
