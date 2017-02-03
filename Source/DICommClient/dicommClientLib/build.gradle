@@ -84,14 +84,13 @@ android {
 }
 
 dependencies {
-    provided deps.support_annotations
-
     compile fileTree(include: ['*.jar'], dir: 'libs')
-
-    compile deps.gson
 
     compile 'com.philips.cdp:cloudcontroller-api:3.1.1-SNAPSHOT'
     testCompile 'com.philips.cdp:cloudcontroller:5.1.1-SNAPSHOT'
+
+    provided deps.support_annotations
+    compile deps.gson
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
@@ -106,6 +105,7 @@ dependencies {
     }
     testCompile 'org.powermock:powermock-api-mockito:1.6.4'
     testCompile 'org.powermock:powermock-module-junit4:1.6.4'
+
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile 'org.mockito:mockito-core:1.9.5'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
