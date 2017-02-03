@@ -27,6 +27,7 @@ import com.philips.platform.catalogapp.MainActivity;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.RecyclerViewSettingsHelper;
 import com.philips.platform.catalogapp.databinding.FragmentRecyclerviewBinding;
+import com.philips.platform.uid.drawable.SeparatorDrawable;
 import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
@@ -49,6 +50,9 @@ public class RecyclerViewFragment extends BaseFragment {
         fragmentRecyclerviewBinding.setFrag(this);
 
         fragmentRecyclerviewBinding.recyclerviewRecyclerview.findViewById(R.id.uid_recyclerview_header).setVisibility(settingsHelper.isHeaderEnabled() ? View.VISIBLE : View.GONE);
+
+        SeparatorDrawable separatorDrawable = new SeparatorDrawable(context);
+        fragmentRecyclerviewBinding.getRoot().findViewById(R.id.divider).setBackground(separatorDrawable);
 
         RecyclerView recyclerView = ((RecyclerView)fragmentRecyclerviewBinding.recyclerviewRecyclerview.findViewById(R.id.uid_recyclerview_recyclerview));
 
