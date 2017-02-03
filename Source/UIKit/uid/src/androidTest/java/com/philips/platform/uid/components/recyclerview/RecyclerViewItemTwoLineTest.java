@@ -69,15 +69,15 @@ public class RecyclerViewItemTwoLineTest {
     }
 
     @Test
-    public void verifyTitleLeftMargin() {
+    public void verifyLayoutLeftPadding() {
         int expectedLeftMargin = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.recyclerview_two_lines_item_margin_left_right));
-        getTitle().check(matches(ViewPropertiesMatchers.isSameLeftMargin(expectedLeftMargin)));
+        getLayout().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedLeftMargin)));
     }
 
     @Test
-    public void verifyTitleRightMargin() {
+    public void verifyLayoutRightPadding() {
         int expectedRightMargin = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.recyclerview_two_lines_item_margin_left_right));
-        getTitle().check(matches(ViewPropertiesMatchers.isSameRightMargin(expectedRightMargin)));
+        getLayout().check(matches(ViewPropertiesMatchers.isSameRightPadding(expectedRightMargin)));
     }
 
 
@@ -93,17 +93,6 @@ public class RecyclerViewItemTwoLineTest {
         getDescription().check(matches(TextViewPropertiesMatchers.isSameTextColor(expectedTextColor)));
     }
 
-    @Test
-    public void verifyDescriptionLeftMargin() {
-        int expectedLeftMargin = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.recyclerview_two_lines_item_margin_left_right));
-        getDescription().check(matches(ViewPropertiesMatchers.isSameLeftMargin(expectedLeftMargin)));
-    }
-
-    @Test
-    public void verifyDescriptionRightMargin() {
-        int expectedRightMargin = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.recyclerview_two_lines_item_margin_left_right));
-        getDescription().check(matches(ViewPropertiesMatchers.isSameRightMargin(expectedRightMargin)));
-    }
     private ViewInteraction getTitle() {
         return onView(withId(com.philips.platform.uid.test.R.id.uid_recyclerview_two_line_title));
     }
