@@ -10,7 +10,7 @@
 	   PostCondition : My Philips Account is deleted by REST API
 	   
 
-@E2E
+@E2ETesting
 Scenario: RefAppJourney02
 	Given the User is able to view Welcome screens of the application
 	And the user can see option to Skip the Introduction screens

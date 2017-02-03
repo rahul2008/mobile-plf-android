@@ -64,12 +64,12 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
         
         [TechTalk.SpecRun.ScenarioAttribute("To verify user can purchase by retailer, launch any CoCo from Hamburger menu and " +
             "to verify Receive Promotional offers is retained for second time login", new string[] {
-                "US13426"}, SourceLine=4)]
+                "E2ETesting"}, SourceLine=4)]
         public virtual void ToVerifyUserCanPurchaseByRetailerLaunchAnyCoCoFromHamburgerMenuAndToVerifyReceivePromotionalOffersIsRetainedForSecondTimeLogin()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("To verify user can purchase by retailer, launch any CoCo from Hamburger menu and " +
                     "to verify Receive Promotional offers is retained for second time login", new string[] {
-                        "US13426"});
+                        "E2ETesting"});
 #line 5
 this.ScenarioSetup(scenarioInfo);
 #line 6

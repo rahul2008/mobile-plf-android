@@ -33,10 +33,13 @@ public class CharacteristicsPresenter {
             if (mAppUserCharacteristics == null || mAppUserCharacteristics.getCharacteristics() == null)
                 return false;
             for (int i = 0; i < mAppUserCharacteristics.getCharacteristics().size(); i++) {
-                String type = mAppUserCharacteristics.getCharacteristics().get(i).getType();
-                String value = mAppUserCharacteristics.getCharacteristics().get(i).getValue();
-                Characteristics characteristics = mDataServicesManager.createUserCharacteristics(type, value, null);
-                saveUserCharacteristicsToLocalDBRecursively(characteristics, mAppUserCharacteristics.getCharacteristics().get(i).getCharacteristics());
+
+                if (mAppUserCharacteristics.getCharacteristics().get(i) != null) {
+                    String type = mAppUserCharacteristics.getCharacteristics().get(i).getType();
+                    String value = mAppUserCharacteristics.getCharacteristics().get(i).getValue();
+                    Characteristics characteristics = mDataServicesManager.createUserCharacteristics(type, value, null);
+                    saveUserCharacteristicsToLocalDBRecursively(characteristics, mAppUserCharacteristics.getCharacteristics().get(i).getCharacteristics());
+                }
             }
             mDataServicesManager.updateCharacteristics(dbRequestListener);
         } catch (JsonParseException exception) {

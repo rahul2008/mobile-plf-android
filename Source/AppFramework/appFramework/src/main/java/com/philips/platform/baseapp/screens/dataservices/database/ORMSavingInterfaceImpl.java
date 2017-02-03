@@ -9,9 +9,11 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.BaseAppD
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsent;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMoment;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSettings;
 import com.philips.platform.baseapp.screens.dataservices.utility.NotifyDBRequestListener;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -42,7 +44,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
         try {
             ormMoment = OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
             saving.saveMoment(ormMoment);
-            updating.updateMoment(ormMoment);
+            updating.refreshMoment(ormMoment);
             notifyDBRequestListener.notifySuccess(dbRequestListener, ormMoment);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
@@ -83,6 +85,22 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public boolean saveSettings(Settings settings, DBRequestListener dbRequestListener) throws SQLException {
+
+        try {
+            deleting.deleteSettings();
+            OrmSettings ormSettings = OrmTypeChecking.checkOrmType(settings, OrmSettings.class);
+            saving.saveSettings(ormSettings);
+            notifyDBRequestListener.notifySuccess(dbRequestListener);
+            return true;
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            notifyDBRequestListener.notifyOrmTypeCheckingFailure(dbRequestListener, e, "OrmType check failed");
+            return false;
+        }
+
     }
 
     private void updateUCUI(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) {

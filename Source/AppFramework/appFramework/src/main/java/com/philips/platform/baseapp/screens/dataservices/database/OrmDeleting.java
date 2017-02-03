@@ -8,11 +8,9 @@ package com.philips.platform.baseapp.screens.dataservices.database;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
-import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristicsDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsent;
@@ -23,6 +21,7 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasu
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementGroupDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMoment;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMomentDetail;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSettings;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynchronisationData;
 
 import java.sql.SQLException;
@@ -69,6 +68,7 @@ public class OrmDeleting {
 
     @NonNull
     private final Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailsDao;
+    private final Dao<OrmSettings, Integer> settingsDao;
 
 
     public OrmDeleting(@NonNull final Dao<OrmMoment, Integer> momentDao,
@@ -80,7 +80,7 @@ public class OrmDeleting {
                        @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroupsDao,
                        @NonNull final Dao<OrmConsent, Integer> constentDao,
                        @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao,
-                       @NonNull Dao<OrmCharacteristics, Integer> characteristicsesDao, @NonNull Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailsDao) {
+                       @NonNull Dao<OrmCharacteristics, Integer> characteristicsesDao, @NonNull Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailsDao, Dao<OrmSettings, Integer> settingsDao) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
@@ -93,6 +93,7 @@ public class OrmDeleting {
         this.consentDetailDao = constentDetailsDao;
         this.characteristicsDao = characteristicsesDao;
         this.characteristicsDetailsDao = characteristicsDetailsDao;
+        this.settingsDao = settingsDao;
     }
 
     public void deleteAll() throws SQLException {
@@ -231,4 +232,9 @@ public class OrmDeleting {
         characteristicsDetailsDeleteBuilder.delete();
     }
 
+    public void deleteSettings() throws  SQLException{
+
+        DeleteBuilder<OrmSettings, Integer> ormSettingsDeleteBuilder = settingsDao.deleteBuilder();
+        ormSettingsDeleteBuilder.delete();
+    }
 }

@@ -35,6 +35,7 @@ import com.philips.platform.baseapp.screens.dataservices.consents.ConsentDialogF
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentType;
 import com.philips.platform.baseapp.screens.dataservices.reciever.BaseAppBroadcastReceiver;
 import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationInterfaceImpl;
+import com.philips.platform.baseapp.screens.dataservices.settings.SettingsFragment;
 import com.philips.platform.baseapp.screens.dataservices.utility.Utility;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.listeners.DBChangeListener;
@@ -62,7 +63,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     ImageButton mAddButton;
     TemperaturePresenter mTemperaturePresenter;
     TemperatureMomentHelper mTemperatureMomentHelper;
-    TextView mTvConsents, mTvCharacteristics;
+    TextView mTvConsents, mTvCharacteristics,mTvSettings;
     private Context mContext;
     SharedPreferences mSharedPreferences;
     ProgressDialog mProgressBar;
@@ -224,7 +225,8 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     }
 
     private boolean isSameEmail() {
-        if(getLastStoredEmail()!=null && getLastStoredEmail().equalsIgnoreCase(mUser.getEmail()))
+        String lastStoredEmail = getLastStoredEmail();
+        if(lastStoredEmail!=null && lastStoredEmail.equalsIgnoreCase(mUser.getEmail()))
             return true;
         return false;
     }
@@ -251,9 +253,11 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         mAddButton.setOnClickListener(this);
         mTvConsents = (TextView) view.findViewById(R.id.tv_set_consents);
         mTvCharacteristics = (TextView) view.findViewById(R.id.tv_set_characteristics);
+        mTvSettings= (TextView) view.findViewById(R.id.tv_settings);
 
         mTvConsents.setOnClickListener(this);
         mTvCharacteristics.setOnClickListener(this);
+        mTvSettings.setOnClickListener(this);
         return view;
     }
 
@@ -297,6 +301,12 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
                 dFragment.show(getFragmentManager(), "Dialog");
 
                 break;
+            case R.id.tv_settings:
+                SettingsFragment settingsFragment = new SettingsFragment();
+                settingsFragment.show(getFragmentManager(), "settings");
+
+                break;
+
             case R.id.tv_set_characteristics:
 
                 CharacteristicsDialogFragment characteristicsDialogFragment = new CharacteristicsDialogFragment();
@@ -308,6 +318,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
 
     @Override
     public void onSuccess(final ArrayList<? extends Object> data) {
+        if (getActivity() == null) return;
 
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -337,6 +348,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     }
 
     private void onFailureRefresh(final Exception e) {
+        if (getActivity() == null) return;
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -396,7 +408,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
 
     @Override
     public void dBChangeFailed(final Exception e) {
-
+        if (getActivity() == null) return;
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {

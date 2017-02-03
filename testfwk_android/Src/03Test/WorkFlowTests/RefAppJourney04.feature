@@ -5,7 +5,7 @@
     Verify the back key behavior in PR screen 
 
 
-@E2E
+@E2ETesting
 Scenario: RefAppJourney04
 	Given that user has already registered the product  
     And the user is in home screen after the reference app is launched

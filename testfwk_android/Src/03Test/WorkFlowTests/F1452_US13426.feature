@@ -1,7 +1,7 @@
 ﻿Feature: F1452_US13426
 	Enhancement of coverage : App Journey5
 
-@US13426
+@E2ETesting
 Scenario: To verify user can purchase by retailer, launch any CoCo from Hamburger menu and to verify Receive Promotional offers is retained for second time login
 	Given that the application is in logout state 
 	Then I click on Skip
