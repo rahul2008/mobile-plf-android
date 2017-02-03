@@ -146,9 +146,7 @@ public abstract class DICommPort<T> {
     }
 
     public void addPortListener(DICommPortListener listener) {
-        if (!mPortListeners.contains(listener)) {
-            mPortListeners.add(listener);
-        }
+        mPortListeners.add(listener);
     }
 
     public void removePortListener(DICommPortListener listener) {

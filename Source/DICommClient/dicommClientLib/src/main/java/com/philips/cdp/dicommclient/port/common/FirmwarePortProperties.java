@@ -10,7 +10,7 @@ public class FirmwarePortProperties {
 	public static int INVALID_INT_VALUE = Integer.MIN_VALUE;
 
 	public enum FirmwareState {
-		IDLE, DOWNLOADING, CHECKING, READY, PROGRAMMING, CANCELING, ERROR
+		IDLE, PREPARING, DOWNLOADING, CHECKING, READY, PROGRAMMING, CANCELING, ERROR
 	}
 
 	private String name = "";
@@ -38,6 +38,8 @@ public class FirmwarePortProperties {
 			return null;
 		} else if (state.equalsIgnoreCase("idle")) {
 			return FirmwareState.IDLE;
+		} else if (state.equalsIgnoreCase("preparing")) {
+			return FirmwareState.PREPARING;
 		} else if (state.equals("downloading")) {
 			return FirmwareState.DOWNLOADING;
 		} else if (state.equals("checking")) {
