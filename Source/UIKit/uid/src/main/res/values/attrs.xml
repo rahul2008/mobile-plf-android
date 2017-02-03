@@ -11,6 +11,7 @@
 
         <attr name="uidNavigationPrimaryColor" format="reference|color"/>
         <attr name="uidNavigationSecondaryColor" format="reference|color"/>
+        <attr name="uidNavigationTextColor" format="reference|color"/>
 
         <attr name="uidControlSecondaryColor" format="reference|color"/>
         <attr name="uidControlSecondaryTextColor" format="reference|color"/>
@@ -22,6 +23,7 @@
         <attr name="uidControlPrimaryEnabledColor" format="reference|color"/>
         <attr name="uidControlPrimaryPressedColor" format="reference|color"/>
         <attr name="uidControlPrimaryTextColor" format="reference|color"/>
+        <attr name="uidControlPrimaryDetail" format="reference|color"/>
 
         <attr name="uidControlPrimaryTextPressedColor" format="reference|color"/>
         <attr name="uidControlPrimaryDisabledAlpha" format="reference|float"/>
@@ -41,6 +43,14 @@
 
         <attr name="uidProgressIndicatorButtonBackgroundColor" format="reference|color"/>
         <attr name="uidProgressIndicatorButtonBackgroundAlpha" format="reference|float"/>
+
+        <attr name="uidControlTrackOff" format="reference|color"/>
+        <attr name="uidControlTrackOffAlpha" format="reference|float"/>
+        <attr name="uidControlBuffer" format="reference|color"/>
+        <attr name="uidControlBufferAlpha" format="reference|float"/>
+        <attr name="uidGrayTextTertiary" format="reference|color"/>
+        <attr name="uidControlBright" format="reference|color"/>
+        <attr name="uidDatePickerText" format="reference|color"/>
     </declare-styleable>
 
     <declare-styleable name="DlsColorPallet">

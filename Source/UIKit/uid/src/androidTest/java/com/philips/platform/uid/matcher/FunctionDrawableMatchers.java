@@ -147,7 +147,7 @@ public class FunctionDrawableMatchers {
                 Drawable drawable = getDrawable(view, funcName, drawableID);
                 BaseTypeSafteyMatcher<Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameColor(state, expectedValue, isDefaultColor);
                 boolean matches = colorMatcher.matches(drawable);
-                setValues(colorMatcher.actual, colorMatcher.expected);
+                setValues(Integer.toHexString((Integer) colorMatcher.actual), Integer.toHexString((Integer) colorMatcher.expected));
                 return matches;
             }
         };
