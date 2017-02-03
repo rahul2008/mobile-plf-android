@@ -24,6 +24,7 @@ import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -36,7 +37,6 @@ public class NavigationBarLandscapeTest {
     private static final int WHITE = R.color.uidColorWhite;
     private static final int NAVIGATION_COLOR_ULTRALIGHT = NavigationColor.ULTRA_LIGHT.ordinal();
     @Rule
-    public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class, false, false);
     public final ActivityTestRule<LandscapeModeActivity> landscapeModeActivityRule = new ActivityTestRule<>(LandscapeModeActivity.class, false, false);
 
     private BaseTestActivity baseTestActivity;
@@ -109,14 +109,13 @@ public class NavigationBarLandscapeTest {
         getNavigationBar().check(matches(ViewPropertiesMatchers.isSameViewHeight(toolbarHeight)));
     }
 
+    @Ignore
     @Test
     public void verifyOptionsMenuIconTargetAreaInLandscape() throws Exception {
-
         setupLandscapeModeActivity();
 
         int navigationbarHeight = (int) resources.getDimension(com.philips.platform.uid.test.R.dimen.navigation_button_touchable_area_landscape);
 
-        UIDTestUtils.waitFor(resources, 800);
         getOptionsMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(navigationbarHeight)));
     }
 
