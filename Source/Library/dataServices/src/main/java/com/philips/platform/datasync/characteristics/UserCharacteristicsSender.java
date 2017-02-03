@@ -11,9 +11,7 @@ import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.SyncBitUpdateRequest;
-import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataSender;
@@ -55,7 +53,7 @@ public class UserCharacteristicsSender implements DataSender<Characteristics> {
 
     @Override
     public boolean sendDataToBackend(@NonNull List<? extends Characteristics> userCharacteristicsListToSend) {
-        if (!mUCoreAccessProvider.isLoggedIn() && userCharacteristicsListToSend.size() > 0) {
+        if (!mUCoreAccessProvider.isLoggedIn()) {
             return false;
         }
         List<Characteristics> userUserCharacteristicsList = new ArrayList<>();
@@ -67,19 +65,19 @@ public class UserCharacteristicsSender implements DataSender<Characteristics> {
 
     private boolean sendUserCharacteristics(List<Characteristics> userUserCharacteristicsList) {
 
-        if (userUserCharacteristicsList == null || userUserCharacteristicsList.size() == 0 ) return false;
+        if (userUserCharacteristicsList == null) return false;
         try {
             UserCharacteristicsClient uClient =
                     mUCoreAdapter.getAppFrameworkClient(UserCharacteristicsClient.class,
                             mUCoreAccessProvider.getAccessToken(), mGsonConverter);
 
             Response response = uClient.createOrUpdateUserCharacteristics(mUCoreAccessProvider.getUserId(),
-                            mUCoreAccessProvider.getUserId(),
-                            mUserCharacteristicsConverter.convertToUCoreUserCharacteristics(userUserCharacteristicsList),
-                            API_VERSION);
+                    mUCoreAccessProvider.getUserId(),
+                    mUserCharacteristicsConverter.convertToUCoreUserCharacteristics(userUserCharacteristicsList),
+                    API_VERSION);
 
             if (isResponseSuccess(response)) {
-                mEventing.post(new SyncBitUpdateRequest(OrmTableType.CHARACTERISTICS,true));
+                mEventing.post(new SyncBitUpdateRequest(OrmTableType.CHARACTERISTICS, true));
                 return true;
             }
         } catch (RetrofitError retrofitError) {
