@@ -174,17 +174,17 @@ configurations.all {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.5.0-SNAPSHOT', ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.7.4-SNAPSHOT', ext: 'aar', changing: true)
     {
            transitive = true
     }
 
-	compile(group: 'com.philips.cdp', name: 'registrationApi', version: '8.3.0-SNAPSHOT', ext: 'aar', changing: true)
+	compile(group: 'com.philips.cdp', name: 'registrationApi', version: '8.4.4-SNAPSHOT', ext: 'aar', changing: true)
     {
            transitive = true
 
     }
-    compile(group: 'com.philips.cdp', name: 'prx', version: '3.0.0-SNAPSHOT', ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'prx', version: '3.1.4-SNAPSHOT', ext: 'aar', changing: true)
             {
                 transitive = true
 
