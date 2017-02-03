@@ -118,12 +118,12 @@ configurations.all {
 }
 
 dependencies {
-    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '2.3.0-SNAPSHOT', ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '2.4.4-SNAPSHOT', ext: 'aar', changing: true)
             {
                 transitive = true
             }
 
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.4.0-SNAPSHOT', ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.5.4-SNAPSHOT', ext: 'aar', changing: true)
             {
                 transitive = true
             }
