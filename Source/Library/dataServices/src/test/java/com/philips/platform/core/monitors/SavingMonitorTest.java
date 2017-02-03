@@ -1,7 +1,6 @@
 package com.philips.platform.core.monitors;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;

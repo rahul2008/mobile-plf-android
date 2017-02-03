@@ -1,6 +1,6 @@
 package com.philips.platform.core.events;
 
-import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.Consent;
 
 import java.util.List;
 
@@ -11,17 +11,17 @@ import java.util.List;
 public class ConsentBackendGetRequest extends Event {
 
     private int referenceId;
-    private final List<ConsentDetail> consentDetails;
+    private final List<Consent> consents;
 
-    public ConsentBackendGetRequest(int referenceId, List<ConsentDetail> consentDetails) {
+    public ConsentBackendGetRequest(int referenceId, List<Consent> consents) {
         this.referenceId = referenceId;
-        this.consentDetails = consentDetails;
+        this.consents = consents;
     }
     public int getReferenceId() {
         return referenceId;
     }
 
-    public List<ConsentDetail> getConsentDetails() {
-        return consentDetails;
+    public List<Consent> getConsents() {
+        return consents;
     }
 }

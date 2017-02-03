@@ -1,6 +1,5 @@
 package com.philips.platform.datasync.settings;
 
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.trackers.DataServicesManager;

@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.events.ConsentBackendGetRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAdapter;
@@ -29,7 +29,7 @@ public class ConsentsDataFetcher extends DataFetcher {
     @NonNull
     protected final AtomicInteger synchronizationState = new AtomicInteger(0);
 
-    private List<ConsentDetail> consentDetails;
+    private List<Consent> consents;
 
     @Inject
     Eventing eventing;
@@ -44,17 +44,17 @@ public class ConsentsDataFetcher extends DataFetcher {
     @Override
     public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
         if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
-            eventing.post(new ConsentBackendGetRequest(1, consentDetails));
+            eventing.post(new ConsentBackendGetRequest(1, consents));
         }
         return null;
     }
 
-    public List<ConsentDetail> getConsentDetails() {
-        return consentDetails;
+    public List<Consent> getConsents() {
+        return consents;
     }
 
-    public void setConsentDetails(List<ConsentDetail> consentDetails) {
-        this.consentDetails = consentDetails;
+    public void setConsents(List<Consent> consents) {
+        this.consents = consents;
     }
 
     @Override

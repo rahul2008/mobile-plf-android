@@ -29,7 +29,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -133,11 +132,11 @@ public class FetchingMonitor extends EventMonitor {
         DSLog.i("**SPO**","in Fetching Monitor GetNonSynchronizedMomentsRequest");
         try {
             List<? extends Moment> ormMomentList = (List<? extends Moment>)dbInterface.fetchNonSynchronizedMoments();
-            Consent consent = dbInterface.fetchConsent(event.getDbRequestListener());
-            if(consent==null){
+             List<? extends Consent> consentDetails= (List<? extends Consent>) dbInterface.fetchNonSyncConsents();
+            if(consentDetails==null){
                 eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList,null));
             }else{
-                eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList, new ArrayList(consent.getConsentDetails())));
+                eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList, consentDetails));
             }
 
         } catch (SQLException e) {

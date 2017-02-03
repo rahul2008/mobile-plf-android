@@ -79,31 +79,22 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
 
 
     @Override
-    public boolean updateConsent(Consent consent, DBRequestListener dbRequestListener) throws SQLException {
-        OrmConsent ormConsent = null;
-        try {
-            ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
-            OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
-            if (consentInDatabase == null) {
+    public boolean updateConsent(final List<? extends Consent> consents, DBRequestListener dbRequestListener) throws SQLException {
+
+        deleting.deleteConsents();
+        for(Consent consent :consents){
+            try {
+                OrmConsent ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
                 saving.saveConsent(ormConsent);
-                notifyDBRequestListener.notifySuccess(dbRequestListener, ormConsent);
-                return true;
-            } else {
-                ormConsent = fetching.getModifiedConsent(ormConsent, consentInDatabase);
-                ormConsent.setId(consentInDatabase.getId());
-                for (OrmConsent ormConsentInDB : fetching.fetchAllConsent()) {
-                    deleting.deleteConsent(ormConsentInDB);
-                }
-                saving.saveConsent(ormConsent);
-                notifyDBRequestListener.notifySuccess(dbRequestListener, ormConsent);
-                return true;
+            } catch (OrmTypeChecking.OrmTypeException e) {
+                e.printStackTrace();
+                notifyDBRequestListener.notifyFailure(e,dbRequestListener);
+                return false;
             }
 
-        } catch (OrmTypeChecking.OrmTypeException e) {
-            DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
-            notifyDBRequestListener.notifyOrmTypeCheckingFailure(dbRequestListener, e, "Callback Not registered");
-            return false;
         }
+        notifyDBRequestListener.notifySuccess(consents,dbRequestListener);
+        return true;
     }
 
     @Override

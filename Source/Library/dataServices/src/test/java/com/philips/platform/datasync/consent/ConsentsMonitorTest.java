@@ -2,10 +2,8 @@ package com.philips.platform.datasync.consent;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Consent;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ConsentBackendGetRequest;
-import com.philips.platform.core.events.ConsentBackendListSaveRequest;
 import com.philips.platform.core.events.ConsentBackendListSaveResponse;
 import com.philips.platform.core.events.ConsentBackendSaveRequest;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
@@ -86,7 +84,7 @@ public class ConsentsMonitorTest {
     private List<UCoreConsentDetail> uCoreConsentDetailMock;
 
     @Mock
-    private Collection<? extends ConsentDetail> consentDetailListMock;
+    private Collection<? extends Consent> consentDetailListMock;
 
     @Mock
     private ConsentBackendListSaveRequest consentSaveListRequestMock;
@@ -223,7 +221,7 @@ public class ConsentsMonitorTest {
         Response response = new Response("", 401, "Error", new ArrayList<Header>(), null);
         final RetrofitError retrofitError = RetrofitError.httpError("url", response, null, null);
 
-        doReturn(Collections.singletonList(uCoreConsentDetailMock)).when(consentsConverterMock).convertToUCoreConsentDetails(anyListOf(ConsentDetail.class));
+        doReturn(Collections.singletonList(uCoreConsentDetailMock)).when(consentsConverterMock).convertToUCoreConsentDetails(anyListOf(Consent.class));
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(consentSaveRequestMock.getRequestType()).thenReturn(ConsentBackendSaveRequest.RequestType.SAVE);
         when(consentSaveRequestMock.getConsent()).thenReturn(consentMock);
@@ -266,7 +264,7 @@ public class ConsentsMonitorTest {
     @Test
     public void ShouldSaveConsent_WhenListOfConsentIsPassed() throws Exception {
         doReturn(Collections.singletonList(consentMock)).when(consentSaveListRequestMock).getConsentList();
-        doReturn(Collections.singletonList(uCoreConsentDetailMock)).when(consentsConverterMock).convertToUCoreConsentDetails(anyListOf(ConsentDetail.class));
+        doReturn(Collections.singletonList(uCoreConsentDetailMock)).when(consentsConverterMock).convertToUCoreConsentDetails(anyListOf(Consent.class));
         when(consentsClientMock.getConsent(anyString(), anyListOf(String.class), anyListOf(String.class), anyListOf(String.class))).thenReturn(uCoreConsentDetailMock);
         when(uCoreConsentDetailMock.isEmpty()).thenReturn(false);
         when(accessProviderMock.getUserId()).thenReturn(USER_ID);
@@ -331,7 +329,7 @@ public class ConsentsMonitorTest {
 
         when(uCoreConsentDetailMock.isEmpty()).thenReturn(true);
         when(consentsClientMock.getConsent(anyString(), anyListOf(String.class), anyListOf(String.class), anyListOf(String.class))).thenReturn(uCoreConsentDetailMock);
-        when(consentBackendGetRequestMock.getConsentDetails()).thenReturn(null);
+        when(consentBackendGetRequestMock.getConsents()).thenReturn(null);
         consentsMonitor.onEventAsync(consentBackendGetRequestMock);
         verifyNoMoreInteractions(uCoreAdapterMock);
     }
@@ -343,9 +341,9 @@ public class ConsentsMonitorTest {
 //        // when(uCoreConsentDetailMock.isEmpty()).thenReturn(true);
 //        when(consentsClientMock.getConsent(anyString(), anyListOf(String.class), anyListOf(String.class), anyListOf(String.class))).thenReturn(uCoreConsentDetailMock);
 //
-//        List<ConsentDetail> consentDetailList = new ArrayList<ConsentDetail>();
-//        consentDetailList.add(0, mock(ConsentDetail.class));
-//        when(consentBackendGetRequestMock.getConsentDetails()).thenReturn(consentDetailList);
+//        List<Consent> consentDetailList = new ArrayList<Consent>();
+//        consentDetailList.add(0, mock(Consent.class));
+//        when(consentBackendGetRequestMock.getConsents()).thenReturn(consentDetailList);
 //
 //        consentsMonitor.onEventAsync(consentBackendGetRequestMock);
 //        verifyNoMoreInteractions(uCoreConsentDetailMock);
@@ -358,9 +356,9 @@ public class ConsentsMonitorTest {
 //        when(uCoreAdapterMock.getClient(ConsentsClient.class, "sdf", "sdfs", gsonConverterMock)).thenReturn(consentsClientMock);
 //        when(consentsClientMock.getConsent(anyString(), anyListOf(String.class), anyListOf(String.class), anyListOf(String.class))).thenReturn(uCoreConsentDetailMock);
 //        when(uCoreConsentDetailMock.get(0)).thenReturn(new UCoreConsentDetail("dfs", "dfs", "dsfs", "dfs"));
-//        List<ConsentDetail> consentDetailList = new ArrayList<ConsentDetail>();
-//        consentDetailList.add(0, mock(ConsentDetail.class));
-//        when(consentBackendGetRequestMock.getConsentDetails()).thenReturn(consentDetailList);
+//        List<Consent> consentDetailList = new ArrayList<Consent>();
+//        consentDetailList.add(0, mock(Consent.class));
+//        when(consentBackendGetRequestMock.getConsents()).thenReturn(consentDetailList);
 //
 //        consentsMonitor.onEventAsync(consentBackendGetRequestMock);
 //    }

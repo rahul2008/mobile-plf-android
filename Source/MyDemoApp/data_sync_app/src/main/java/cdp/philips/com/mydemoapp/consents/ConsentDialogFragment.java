@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
-import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -37,7 +37,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     private ConsentDialogAdapter lConsentAdapter;
     ConsentDialogPresenter consentDialogPresenter;
     private ProgressDialog mProgressDialog;
-    ArrayList<? extends ConsentDetail> consentDetails;
+    ArrayList<? extends Consent> consentDetails;
     private Context mContext;
     private DataServicesManager mDataServicesManager;
 
@@ -75,6 +75,21 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     @Override
     public void onSuccess(final ArrayList<? extends Object> data) {
 
+        final ArrayList<OrmConsent> ormConsents = (ArrayList<OrmConsent>) data;
+
+        if (getActivity()!=null && ormConsents != null ) {
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    lConsentAdapter.setData(ormConsents);
+                    lConsentAdapter.notifyDataSetChanged();
+                    mBtnOk.setEnabled(true);
+                    dismissProgressDialog();
+                }
+            });
+        }
+
     }
 
     @Override
@@ -86,19 +101,6 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     @Override
     public void onSuccess(Object data) {
 
-        final OrmConsent ormConsent = (OrmConsent) data;
-        if (getActivity()!=null && ormConsent != null ) {
-
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    lConsentAdapter.setData(ormConsent);
-                    lConsentAdapter.notifyDataSetChanged();
-                    mBtnOk.setEnabled(true);
-                    dismissProgressDialog();
-                }
-            });
-        }
 
     }
 

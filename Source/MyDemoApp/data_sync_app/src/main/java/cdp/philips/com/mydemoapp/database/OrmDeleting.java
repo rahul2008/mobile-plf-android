@@ -18,7 +18,6 @@ import java.util.Collection;
 
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
-import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
@@ -56,10 +55,7 @@ public class OrmDeleting {
     private final Dao<OrmMeasurementGroup, Integer> measurementGroupsDao;
 
     @NonNull
-    private final Dao<OrmConsent, Integer> consentDao;
-
-    @NonNull
-    private final Dao<OrmConsentDetail, Integer> consentDetailDao;
+    private final Dao<OrmConsent, Integer> consentDetailDao;
 
 
     @NonNull
@@ -76,8 +72,7 @@ public class OrmDeleting {
                        @NonNull final Dao<OrmSynchronisationData, Integer> synchronisationDataDao,
                        @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetailDao,
                        @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroupsDao,
-                       @NonNull final Dao<OrmConsent, Integer> constentDao,
-                       @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao,
+                       @NonNull final Dao<OrmConsent, Integer> constentDetailsDao,
                        @NonNull Dao<OrmCharacteristics, Integer> characteristicsesDao, Dao<OrmSettings, Integer> settingsDao) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
@@ -86,7 +81,6 @@ public class OrmDeleting {
         this.synchronisationDataDao = synchronisationDataDao;
         this.measurementGroupDetailDao = measurementGroupDetailDao;
         this.measurementGroupsDao = measurementGroupsDao;
-        this.consentDao = constentDao;
 
         this.consentDetailDao = constentDetailsDao;
         this.characteristicsDao = characteristicsesDao;
@@ -99,7 +93,6 @@ public class OrmDeleting {
         measurementDao.executeRawNoArgs("DELETE FROM `ormmeasurement`");
         measurementDetailDao.executeRawNoArgs("DELETE FROM `ormmeasurementdetail`");
         synchronisationDataDao.executeRawNoArgs("DELETE FROM `ormsynchronisationdata`");
-        consentDao.executeRawNoArgs("DELETE FROM `ormconsent`");
         consentDetailDao.executeRawNoArgs("DELETE FROM `ormconsentdetail`");
         characteristicsDao.executeRawNoArgs("DELETE FROM `ormcharacteristics`");
     }
@@ -129,13 +122,6 @@ public class OrmDeleting {
             deleteMeasurementGroupByMeasurementGroup(group.getId());
         }
     }
-
-    /*private void deleteMeasurementGroupDetails(OrmMeasurementGroup measurementGroup) throws SQLException {
-        ArrayList<OrmMeasurementGroupDetail> ormMeasurementGroupDetails = new ArrayList<>(measurementGroup);
-        for(OrmMeasurementGroupDetail detail: ormMeasurementGroupDetails){
-            deleteMeasurementGroupDetails(detail.getId());
-        }
-    }*/
 
     public void deleteMomentAndMeasurementGroupDetails(@NonNull final OrmMoment ormMoment) throws SQLException {
         deleteMeasurementGroups(ormMoment);
@@ -210,15 +196,10 @@ public class OrmDeleting {
         return updateBuilder.delete();
     }
 
-    public void deleteConsent(OrmConsent ormConsent) throws SQLException {
-        deleteConsentDetails(ormConsent);
-        consentDao.delete(ormConsent);
-    }
 
-    private void deleteConsentDetails(@NonNull final OrmConsent ormConsent) throws SQLException {
-        for (OrmConsentDetail consentDetail : ormConsent.getConsentDetails()) {
-            consentDetailDao.delete(consentDetail);
-        }
+    public void deleteConsents() throws SQLException {
+        DeleteBuilder<OrmConsent, Integer> ormConsentDetailDao = consentDetailDao.deleteBuilder();
+        ormConsentDetailDao.delete();
     }
 
     public void deleteCharacteristics() throws SQLException{

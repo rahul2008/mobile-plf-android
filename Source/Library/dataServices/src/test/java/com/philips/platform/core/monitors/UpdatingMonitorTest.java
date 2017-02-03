@@ -1,7 +1,6 @@
 package com.philips.platform.core.monitors;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
@@ -33,7 +32,6 @@ import org.mockito.Mock;
 import java.util.Arrays;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;

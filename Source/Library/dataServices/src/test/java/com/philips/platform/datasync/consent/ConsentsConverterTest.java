@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Consent;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
@@ -36,7 +35,7 @@ public class ConsentsConverterTest {
     public static final String TEMPERATURE = "Temperature";
 
     @Mock
-    private ConsentDetail consentDetailMock;
+    private Consent consentMock;
 
     Context context;
 
@@ -80,7 +79,7 @@ public class ConsentsConverterTest {
     @Test
     public void ShouldReturnUCoreConsentDetailList_WhenAppConsentDetailListIsPassed() throws Exception {
         Consent consent = verticalDataCreater.createConsent("TEST_CREATORID");
-        ConsentDetail consentDetail = verticalDataCreater.createConsentDetail(TEMPERATURE, TEST_STATUS, TEST_VERSION, Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER, false, consent);
+        Consent consentDetail = verticalDataCreater.createConsent(TEMPERATURE, TEST_STATUS, TEST_VERSION, Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER, false, consent);
 
         List<UCoreConsentDetail> uCoreConsentDetailList = consentsConverter.convertToUCoreConsentDetails(Collections.singletonList(consentDetail));
 
@@ -96,24 +95,24 @@ public class ConsentsConverterTest {
 
     @Test
     public void ShouldReturnUCoreConsentDetailList_WhenAppConsentDetailListIsPassedWithTypeNull() throws Exception {
-        when(consentDetailMock.getType()).thenReturn(null);
-        when(consentDetailMock.getId()).thenReturn(1);
-        when(consentDetailMock.getStatus()).thenReturn(TEST_STATUS);
-        when(consentDetailMock.getVersion()).thenReturn(TEST_VERSION);
+        when(consentMock.getType()).thenReturn(null);
+        when(consentMock.getId()).thenReturn(1);
+        when(consentMock.getStatus()).thenReturn(TEST_STATUS);
+        when(consentMock.getVersion()).thenReturn(TEST_VERSION);
 
-        List<UCoreConsentDetail> uCoreConsentDetailList = consentsConverter.convertToUCoreConsentDetails(Collections.singletonList(consentDetailMock));
+        List<UCoreConsentDetail> uCoreConsentDetailList = consentsConverter.convertToUCoreConsentDetails(Collections.singletonList(consentMock));
 
         assertThat(uCoreConsentDetailList).isEmpty();
     }
 
     @Test
     public void ShouldReturnUCoreConsentDetailList_WhenAppConsentDetailListIsPassedWithTypeNotNull() throws Exception {
-        when(consentDetailMock.getType()).thenReturn(TEMPERATURE);
-        when(consentDetailMock.getId()).thenReturn(1);
-        when(consentDetailMock.getStatus()).thenReturn(TEST_STATUS);
-        when(consentDetailMock.getVersion()).thenReturn(TEST_VERSION);
+        when(consentMock.getType()).thenReturn(TEMPERATURE);
+        when(consentMock.getId()).thenReturn(1);
+        when(consentMock.getStatus()).thenReturn(TEST_STATUS);
+        when(consentMock.getVersion()).thenReturn(TEST_VERSION);
 
-        List<UCoreConsentDetail> uCoreConsentDetailList = consentsConverter.convertToUCoreConsentDetails(Collections.singletonList(consentDetailMock));
+        List<UCoreConsentDetail> uCoreConsentDetailList = consentsConverter.convertToUCoreConsentDetails(Collections.singletonList(consentMock));
 
         assertThat(uCoreConsentDetailList).isNotEmpty();
     }

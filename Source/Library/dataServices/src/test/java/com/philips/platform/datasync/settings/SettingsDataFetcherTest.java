@@ -1,14 +1,11 @@
 package com.philips.platform.datasync.settings;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.events.ConsentBackendGetRequest;
 import com.philips.platform.core.events.SettingsBackendGetRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAdapter;
-import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.synchronisation.DataSender;
 
 import org.joda.time.DateTime;
@@ -18,7 +15,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;

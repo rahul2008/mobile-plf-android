@@ -20,7 +20,6 @@ import com.philips.platform.core.events.SyncBitUpdateRequest;
 import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSegregator;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 
@@ -72,26 +71,26 @@ public class UpdatingMonitor extends EventMonitor {
             dbUpdatingInterface.updateFailed(e,dbRequestListener);
             e.printStackTrace();
         }
-        //     eventing.post(new MomentChangeEvent(requestId, moment));
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final DatabaseConsentUpdateRequest consentUpdateRequest) {
-        consentUpdateRequest.getConsent();
+        consentUpdateRequest.getConsentDetails();
+        try {
+            dbUpdatingInterface.updateConsent(consentUpdateRequest.getConsentDetails(),consentUpdateRequest.getDbRequestListener());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventBackgroundThread(ReadDataFromBackendResponse response) {
-        DSLog.i("**SPO**", "In Updating Monitor ReadDataFromBackendResponse");
         try {
-           // DSLog.i("**SPO**", "In Updating Monitor before calling fetchMoments");
             dbFetchingInterface.fetchMoments(response.getDbRequestListener());
         } catch (SQLException e) {
-            DSLog.i("**SPO**", "In Updating Monitor report exception");
             dbUpdatingInterface.updateFailed(e, response.getDbRequestListener());
             e.printStackTrace();
         }
-        // eventing.post(new WriteDataToBackendRequest());
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
@@ -100,10 +99,8 @@ public class UpdatingMonitor extends EventMonitor {
         if (moments == null || moments.isEmpty()) {
             return;
         }
-        int count = momentsSegregator.processMomentsReceivedFromBackend(moments,null);
-       /* if(count == moments.size()){
-           // new NotifyDbChangeListener().notifyDbChangeSuccess(momentSaveRequest.getDbChangeListener());
-        }*/
+        momentsSegregator.processMomentsReceivedFromBackend(moments,null);
+
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
@@ -113,15 +110,14 @@ public class UpdatingMonitor extends EventMonitor {
             return;
         }
         momentsSegregator.processCreatedMoment(moments,null);
-       /* if(DataServicesManager.getInstance().getDbRequestListener()!=null){
-            DataServicesManager.getInstance().getDbRequestListener().onSuccess(moments);
-        }*/
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final ConsentBackendSaveResponse consentBackendSaveResponse) throws SQLException {
         try {
-            dbUpdatingInterface.updateConsent(consentBackendSaveResponse.getConsent(), null);
+            if(dbFetchingInterface.isSynced(OrmTableType.CONSENTS.getId())) {
+                dbUpdatingInterface.updateConsent(consentBackendSaveResponse.getConsentList(), null);
+            }
         }catch (SQLException e){
             dbUpdatingInterface.updateFailed(e, null);
         }

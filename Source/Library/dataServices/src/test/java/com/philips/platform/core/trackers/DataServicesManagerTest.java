@@ -9,7 +9,6 @@ import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
@@ -124,7 +123,7 @@ public class DataServicesManagerTest {
     @Spy
     Context mockContext;
     @Mock
-    private ConsentDetail consentDetailMock;
+    private Consent consentMock;
 //    @Mock
     //UserCharacteristics userCharacteristicsMock;
 
@@ -234,7 +233,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void ShouldCreateConsentDetail_WhenCreateConsentDetailIsCalled() throws Exception {
-        tracker.createConsentDetail(consentMock, TEST_CONSENT_DETAIL_TYPE, ConsentDetailStatusType.ACCEPTED, "fsdfsdf");
+        tracker.createConsent(consentMock, TEST_CONSENT_DETAIL_TYPE, ConsentDetailStatusType.ACCEPTED, "fsdfsdf");
     }
 
     @Test
@@ -248,14 +247,14 @@ public class DataServicesManagerTest {
 /*    @Test(expected = NullPointerException.class)
     public void ShouldAddConcentDetail_WhenConsentDetailIsCreated() throws Exception {
        // tracker.initialize(null, null, null,null);
-        ConsentDetail consentDetail = baseAppDataCreator.createConsentDetail("TEMPERATURE", TEST_CONSENT_DETAIL_TYPE, "", "fsdfsdf", true, consentMock);
+        Consent consentDetail = baseAppDataCreator.createConsent("TEMPERATURE", TEST_CONSENT_DETAIL_TYPE, "", "fsdfsdf", true, consentMock);
         verify(consentMock).addConsentDetails(consentDetail);
     }*/
 
     //TODO: Spoorti -- Fix it later
     /*@Test
     public void ShouldAddConcentDetail_WhenConsentIsNull() throws Exception {
-        tracker.createConsentDetail(null, TEST_CONSENT_DETAIL_TYPE, ConsentDetailStatusType.ACCEPTED, "fsdfsdf");
+        tracker.createConsent(null, TEST_CONSENT_DETAIL_TYPE, ConsentDetailStatusType.ACCEPTED, "fsdfsdf");
     }*/
 
     @Test

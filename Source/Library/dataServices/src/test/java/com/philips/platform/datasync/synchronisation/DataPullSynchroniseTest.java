@@ -3,7 +3,7 @@ package com.philips.platform.datasync.synchronisation;
 import android.app.Application;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.Event;
@@ -91,7 +91,7 @@ public class DataPullSynchroniseTest {
     private Moment momentMock;
 
     @Mock
-    private ConsentDetail consentDetailMock;
+    private Consent consentMock;
     private Application context;
     private OrmCreatorTest verticalDataCreater;
     private ErrorHandlerImplTest errorHandlerImpl;
@@ -129,7 +129,7 @@ public class DataPullSynchroniseTest {
     @Test
     public void ShouldRunSyncInDifferentThreads() throws Exception {
 
-        synchronise.onEventAsync(new GetNonSynchronizedMomentsResponse(Collections.singletonList(momentMock), Collections.singletonList(consentDetailMock)));
+        synchronise.onEventAsync(new GetNonSynchronizedMomentsResponse(Collections.singletonList(momentMock), Collections.singletonList(consentMock)));
 
         synchronise.startSynchronise(DATE_TIME, EVENT_ID);
 
@@ -141,7 +141,7 @@ public class DataPullSynchroniseTest {
         when(firstFetcherMock.fetchDataSince(DATE_TIME)).thenReturn(null);
         when(secondFetcherMock.fetchDataSince(DATE_TIME)).thenReturn(null);
 
-        synchronise.onEventAsync(new GetNonSynchronizedMomentsResponse(Collections.singletonList(momentMock), Collections.singletonList(consentDetailMock)));
+        synchronise.onEventAsync(new GetNonSynchronizedMomentsResponse(Collections.singletonList(momentMock), Collections.singletonList(consentMock)));
 
         synchronise.startSynchronise(DATE_TIME, EVENT_ID);
 
@@ -173,7 +173,7 @@ public class DataPullSynchroniseTest {
     @Test
     public void ShouldIgnoreSyncStart_WhenSyncIsAlreadyStarted() throws Exception {
 
-        synchronise.onEventAsync(new GetNonSynchronizedMomentsResponse(Collections.singletonList(momentMock), Collections.singletonList(consentDetailMock)));
+        synchronise.onEventAsync(new GetNonSynchronizedMomentsResponse(Collections.singletonList(momentMock), Collections.singletonList(consentMock)));
         synchronise.startSynchronise(DATE_TIME, EVENT_ID);
         synchronise.startSynchronise(DATE_TIME, EVENT_ID);
         synchronise.startSynchronise(DATE_TIME, EVENT_ID);
@@ -198,7 +198,7 @@ public class DataPullSynchroniseTest {
     @Test
     public void ShouldSendEvent_OnEventReceived() throws Exception {
 
-        synchronise.onEventAsync(new GetNonSynchronizedMomentsResponse(Collections.singletonList(momentMock), Collections.singletonList(consentDetailMock)));
+        synchronise.onEventAsync(new GetNonSynchronizedMomentsResponse(Collections.singletonList(momentMock), Collections.singletonList(consentMock)));
 
         synchronise.startSynchronise(DATE_TIME, EVENT_ID);
 //        verify(executorMock, atLeastOnce()).execute(runnableCaptor.capture());

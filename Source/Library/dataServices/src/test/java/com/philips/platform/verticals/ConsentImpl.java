@@ -1,13 +1,12 @@
 package com.philips.platform.verticals;
 
 import com.philips.platform.core.datatypes.Consent;
-import com.philips.platform.core.datatypes.ConsentDetail;
 
 /**
  * Created by 310218660 on 12/12/2016.
  */
 
-public class ConsentDetailImpl implements ConsentDetail {
+public class ConsentImpl implements Consent {
 
     int id;
     String type;
@@ -17,7 +16,7 @@ public class ConsentDetailImpl implements ConsentDetail {
     boolean beSynchronized;
     Consent ormConsent;
 
-    public ConsentDetailImpl(String type, String status, String version, String deviceIdentificationNumber, boolean isSynchronized, Consent consent) {
+    public ConsentImpl(String type, String status, String version, String deviceIdentificationNumber, boolean isSynchronized, Consent consent) {
         this.type = type;
         this.status = status;
         this.version = version;

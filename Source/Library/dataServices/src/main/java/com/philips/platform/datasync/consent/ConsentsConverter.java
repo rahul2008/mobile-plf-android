@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Consent;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.trackers.DataServicesManager;
 
 import java.util.ArrayList;
@@ -29,26 +28,26 @@ public class ConsentsConverter {
     }
 
     @NonNull
-    public Consent convertToAppConsentDetails(@NonNull final List<UCoreConsentDetail> uCoreConsentDetails, @NonNull final String creatorId) {
-        Consent consent = dataCreator.createConsent(creatorId);
+    public List<Consent> convertToAppConsentDetails(@NonNull final List<UCoreConsentDetail> uCoreConsentDetails) {
+
+        List<Consent> consents =new ArrayList<>();
         for (UCoreConsentDetail uCoreConsentDetail : uCoreConsentDetails) {
-            //Needs to be modified later
-            ConsentDetail consentDetail = dataCreator.createConsentDetail(uCoreConsentDetail.getName(), uCoreConsentDetail.getStatus(), uCoreConsentDetail.getDocumentVersion(), uCoreConsentDetail.getDeviceIdentificationNumber(),false, consent);
-            consent.addConsentDetails(consentDetail);
+            Consent consent = dataCreator.createConsent(uCoreConsentDetail.getName(), uCoreConsentDetail.getStatus(), uCoreConsentDetail.getDocumentVersion(), uCoreConsentDetail.getDeviceIdentificationNumber());
+            consents.add(consent);
         }
 
-        return consent;
+        return consents;
     }
 
     @NonNull
-    public List<UCoreConsentDetail> convertToUCoreConsentDetails(@NonNull final Collection<? extends ConsentDetail> consentDetails) {
+    public List<UCoreConsentDetail> convertToUCoreConsentDetails(@NonNull final Collection<? extends Consent> consentDetails) {
         List<UCoreConsentDetail> uCoreConsentDetailList = new ArrayList<>();
-        for (ConsentDetail consentDetail : consentDetails) {
-            String type = consentDetail.getType();
+        for (Consent consent : consentDetails) {
+            String type = consent.getType();
 
             if (type != null) {
                 UCoreConsentDetail uCoreConsentDetail = new UCoreConsentDetail(type,
-                        consentDetail.getStatus(), consentDetail.getVersion(), consentDetail.getDeviceIdentificationNumber());
+                        consent.getStatus(), consent.getVersion(), consent.getDeviceIdentificationNumber());
                 uCoreConsentDetailList.add(uCoreConsentDetail);
             }
         }

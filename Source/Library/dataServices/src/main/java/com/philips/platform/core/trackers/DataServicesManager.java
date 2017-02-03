@@ -16,7 +16,6 @@ import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
@@ -24,14 +23,17 @@ import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
+import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.DataClearRequest;
+import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
+import com.philips.platform.core.events.SyncBitUpdateRequest;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
@@ -176,25 +178,18 @@ public class DataServicesManager {
         mEventing.post(new LoadConsentsRequest(dbRequestListener));
     }
 
-    @NonNull
-    public Consent createConsent() {
-        return mDataCreater.createConsent(userRegistrationInterface.getUserProfile().getGUid());
+
+    public Consent createConsent(@NonNull final String detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber) {
+        return mDataCreater.createConsent(detailType, consentDetailStatusType.getDescription(), Consent.DEFAULT_DOCUMENT_VERSION, deviceIdentificationNumber);
     }
 
-    public void createConsentDetail(@NonNull Consent consent, @NonNull final String detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber) {
-        if (consent == null) {
-            consent = createConsent();
-        }
-        ConsentDetail consentDetail = mDataCreater.createConsentDetail(detailType, consentDetailStatusType.getDescription(), Consent.DEFAULT_DOCUMENT_VERSION, deviceIdentificationNumber, true, consent);
-        consent.addConsentDetails(consentDetail);
+    public void saveConsent(List<Consent> consents, DBRequestListener dbRequestListener) {
+        mEventing.post(new DatabaseConsentSaveRequest(consents,dbRequestListener));
     }
 
-    public void saveConsent(Consent consent, DBRequestListener dbRequestListener) {
-        mEventing.post(new DatabaseConsentSaveRequest(consent, false, dbRequestListener));
-    }
-
-    public void updateConsent(Consent consent, DBRequestListener dbRequestListener) {
-        mEventing.post(new DatabaseConsentSaveRequest(consent, false, dbRequestListener));
+    public void updateConsent(List<Consent> consents, DBRequestListener dbRequestListener) {
+        mEventing.post(new SyncBitUpdateRequest(OrmTableType.CONSENTS,false));
+        mEventing.post(new DatabaseConsentUpdateRequest(consents,dbRequestListener));
     }
 
     public Settings createSettings(String unit,String locale) {

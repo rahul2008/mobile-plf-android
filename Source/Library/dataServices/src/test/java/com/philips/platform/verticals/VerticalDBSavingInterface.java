@@ -1,7 +1,6 @@
 package com.philips.platform.verticals;
 
 import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;

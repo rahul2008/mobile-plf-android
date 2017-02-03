@@ -1,21 +1,12 @@
 package cdp.philips.com.mydemoapp.database.table;
 
-import android.support.annotation.NonNull;
-
-import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.philips.platform.core.datatypes.Consent;
-import com.philips.platform.core.datatypes.ConsentDetail;
-
-import cdp.philips.com.mydemoapp.database.EmptyForeignCollection;
-import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
-
-import org.joda.time.DateTime;
 
 import java.io.Serializable;
-import java.util.Collection;
+
+import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -29,22 +20,29 @@ public class OrmConsent implements Consent, Serializable {
     @DatabaseField(generatedId = true)
     private int id;
 
-    @DatabaseField(canBeNull = true)
-    private String creatorId;
+    @DatabaseField(canBeNull = false)
+    private String type;
 
     @DatabaseField(canBeNull = false)
-    private DateTime dateTime = new DateTime();
+    private String version;
+
+    @DatabaseField(canBeNull = false)
+    private String status;
 
 
-    @ForeignCollectionField(eager = true)
-    private ForeignCollection<OrmConsentDetail> ormConsentDetails = new EmptyForeignCollection<>();
+    @DatabaseField(canBeNull = false)
+    private String deviceIdentificationNumber;
+
 
     @DatabaseConstructor
     OrmConsent() {
     }
 
-    public OrmConsent(@NonNull final String creatorId) {
-        this.creatorId = creatorId;
+    public OrmConsent(final String type, final String status, final String version, final String deviceIdentificationNumber) {
+        this.type = type;
+        this.status = status;
+        this.version = version;
+        this.deviceIdentificationNumber = deviceIdentificationNumber;
     }
 
     @Override
@@ -52,33 +50,45 @@ public class OrmConsent implements Consent, Serializable {
         return id;
     }
 
-    public void setId(final int id) {
-        this.id = id;
-    }
-
     @Override
-    public String getCreatorId() {
-        return creatorId;
-    }
-
-    @Override
-    public DateTime getDateTime() {
-        return dateTime;
-    }
-
-    @Override
-    public Collection<? extends OrmConsentDetail> getConsentDetails() {
-        return ormConsentDetails;
+    public String getType() {
+        return type;
     }
 
 
     @Override
-    public void addConsentDetails(final ConsentDetail consentDetail) {
-        ormConsentDetails.add((OrmConsentDetail) consentDetail);
+    public String getStatus() {
+        return status;
+    }
+
+    @Override
+    public void setStatus(final String status) {
+        this.status = status;
+    }
+
+    @Override
+    public String getVersion() {
+        return version;
+    }
+
+    @Override
+    public String getDeviceIdentificationNumber() {
+        return deviceIdentificationNumber;
+    }
+
+
+    @Override
+    public void setVersion(final String version) {
+        this.version = version;
+    }
+
+    @Override
+    public void setDeviceIdentificationNumber(final String deviceIdentificationNumber) {
+        this.deviceIdentificationNumber = deviceIdentificationNumber;
     }
 
     @Override
     public String toString() {
-        return "[OrmConsent, id=" + id + ", creatorId=" + creatorId + ", dateTime=" + dateTime + "]";
+        return "[OrmConsent, id=" + id + ", OrmConsentDetailType=" + type + ", version=" + version + "]";
     }
 }

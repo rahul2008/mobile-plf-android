@@ -2,7 +2,6 @@ package com.philips.platform.verticals;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -63,7 +62,7 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     @Override
-    public Consent fetchConsent(DBRequestListener dbRequestListener) throws SQLException {
+    public Consent fetchConsentDetails(DBRequestListener dbRequestListener) throws SQLException {
         return null;
     }
 

@@ -11,7 +11,6 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
@@ -32,7 +31,6 @@ import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
-import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetailType;
@@ -69,15 +67,6 @@ public class OrmCreator implements BaseAppDataCreator {
         return new OrmMoment(creatorId, subjectId, ormMomentType);
     }
 
-    /*@NonNull
-    @Override
-    public OrmMoment createMomentWithoutUUID(@NonNull final String creatorId, @NonNull final String subjectId,
-                                             @NonNull final String type) {
-        final OrmMomentType ormMomentType = new OrmMomentType(MomentType.getIDFromDescription(type), type);
-
-        return new OrmMoment(creatorId, subjectId, ormMomentType);
-    }*/
-
     @Override
     @NonNull
     public MomentDetail createMomentDetail(@NonNull final String type,
@@ -85,18 +74,6 @@ public class OrmCreator implements BaseAppDataCreator {
         return createMomentDetail(type, (OrmMoment) moment);
     }
 
-//    @NonNull
-//    @Override
-//    public Measurement createMeasurement(@NonNull String type, @NonNull Moment moment) {
-//        return createMeasurement(type, (OrmMoment) moment);
-//    }
-
-   /* @Override
-    @NonNull
-    public Measurement createMeasurement(@NonNull final String type,
-                                         @NonNull final Moment moment) {
-        return createMeasurement(type, (OrmMoment) moment);
-    }*/
 
     @Override
     @NonNull
@@ -137,17 +114,12 @@ public class OrmCreator implements BaseAppDataCreator {
         return new OrmSynchronisationData(guid, inactive, lastModifiedTime, version);
     }
 
-    @NonNull
-    @Override
-    public Consent createConsent(@NonNull String creatorId) {
-        return new OrmConsent(creatorId);
-    }
 
     @NonNull
     @Override
-    public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber, boolean isSynchronized, @NonNull Consent consent) {
+    public Consent createConsent(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber) {
 
-        return new OrmConsentDetail(type, status, version, deviceIdentificationNumber, (OrmConsent) consent, isSynchronized);
+        return new OrmConsent(type, status, version, deviceIdentificationNumber);
     }
 
     @NonNull
@@ -174,17 +146,6 @@ public class OrmCreator implements BaseAppDataCreator {
         OrmMomentDetailType ormMomentDetailType = new OrmMomentDetailType(MomentDetailType.getIDFromDescription(type), type);
         return new OrmMomentDetail(ormMomentDetailType, moment);
     }
-
-    /*@NonNull
-    public OrmMeasurement createMeasurement(@NonNull final MeasurementType type,
-    @NonNull
-    public OrmMeasurement createMeasurement(@NonNull final String type,
-                                            @NonNull final OrmMoment moment) {
-        OrmMeasurementType ormMeasurementType = new OrmMeasurementType(MeasurementType.getIDFromDescription(type),
-                type,
-                MeasurementType.getUnitFromDescription(type));
-        return new OrmMeasurement(ormMeasurementType, moment);
-    }*/
 
     @NonNull
     public OrmMeasurement createMeasurement(@NonNull final String type,

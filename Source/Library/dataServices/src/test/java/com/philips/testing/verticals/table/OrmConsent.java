@@ -1,16 +1,8 @@
 package com.philips.testing.verticals.table;
 
-import android.support.annotation.NonNull;
-
 import com.philips.platform.core.datatypes.Consent;
-import com.philips.platform.core.datatypes.ConsentDetail;
-
-import org.joda.time.DateTime;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -22,15 +14,22 @@ public class OrmConsent implements Consent, Serializable {
 
     private int id;
 
-    private String creatorId;
+    private String type;
 
-    private DateTime dateTime = new DateTime();
+    private String version;
 
+    private String status;
 
-    private List<OrmConsentDetail> ormConsentDetails = new ArrayList<>();
+    private String deviceIdentificationNumber;
 
-    public OrmConsent(@NonNull final String creatorId) {
-        this.creatorId = creatorId;
+    private OrmConsent ormConsent;
+
+    public OrmConsent(final String type, final String status, final String version, final String deviceIdentificationNumber, final OrmConsent ormConsent) {
+        this.type = type;
+        this.status = status;
+        this.version = version;
+        this.deviceIdentificationNumber = deviceIdentificationNumber;
+        this.ormConsent = ormConsent;
     }
 
     @Override
@@ -38,33 +37,45 @@ public class OrmConsent implements Consent, Serializable {
         return id;
     }
 
-    public void setId(final int id) {
-        this.id = id;
-    }
-
     @Override
-    public String getCreatorId() {
-        return creatorId;
-    }
-
-    @Override
-    public DateTime getDateTime() {
-        return dateTime;
-    }
-
-    @Override
-    public Collection<? extends OrmConsentDetail> getConsentDetails() {
-        return ormConsentDetails;
+    public String getType() {
+        return type;
     }
 
 
     @Override
-    public void addConsentDetails(final ConsentDetail consentDetail) {
-        ormConsentDetails.add((OrmConsentDetail) consentDetail);
+    public String getStatus() {
+        return status;
+    }
+
+    @Override
+    public void setStatus(final String status) {
+        this.status = status;
+    }
+
+    @Override
+    public String getVersion() {
+        return version;
+    }
+
+    @Override
+    public String getDeviceIdentificationNumber() {
+        return deviceIdentificationNumber;
+    }
+
+
+    @Override
+    public void setVersion(final String version) {
+        this.version = version;
+    }
+
+    @Override
+    public void setDeviceIdentificationNumber(final String deviceIdentificationNumber) {
+        this.deviceIdentificationNumber = deviceIdentificationNumber;
     }
 
     @Override
     public String toString() {
-        return "[OrmConsent, id=" + id + ", creatorId=" + creatorId + ", dateTime=" + dateTime + "]";
+        return "[OrmConsent, id=" + id + ", OrmConsentDetailType=" + type + ", version=" + version + ", ormConsent=" + ormConsent + "]";
     }
 }

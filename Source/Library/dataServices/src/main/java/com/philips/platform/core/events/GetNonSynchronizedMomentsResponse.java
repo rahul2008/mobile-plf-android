@@ -1,5 +1,5 @@
 package com.philips.platform.core.events;
-import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 
 import java.util.List;
@@ -11,14 +11,14 @@ import java.util.List;
 public class GetNonSynchronizedMomentsResponse extends Event {
 
     private List<? extends Moment> nonSynchronizedMoments;
-    private List<? extends ConsentDetail> consentDetails;
+    private List<? extends Consent> consentDetails;
 
-    public GetNonSynchronizedMomentsResponse(List<? extends Moment> nonSynchronizedMoments,List<? extends ConsentDetail> consentDetails) {
+    public GetNonSynchronizedMomentsResponse(List<? extends Moment> nonSynchronizedMoments,List<? extends Consent> consentDetails) {
         this.nonSynchronizedMoments = nonSynchronizedMoments;
         this.consentDetails=consentDetails;
     }
 
-    public List<? extends ConsentDetail> getConsentDetails() {
+    public List<? extends Consent> getConsentDetails() {
         return consentDetails;
     }
 

@@ -6,7 +6,6 @@ import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
@@ -16,7 +15,6 @@ import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.testing.verticals.datatyes.MomentType;
 import com.philips.testing.verticals.table.OrmCharacteristics;
-import com.philips.testing.verticals.table.OrmConsent;
 import com.philips.testing.verticals.table.OrmMoment;
 import com.philips.testing.verticals.table.OrmMomentType;
 import com.philips.testing.verticals.table.OrmSettings;
@@ -103,8 +101,8 @@ public class VerticalCreater implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber, boolean isSynchronized, @NonNull Consent consent) {
-        return new ConsentDetailImpl(type, status, version, deviceIdentificationNumber, isSynchronized, consent);
+    public Consent createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber, boolean isSynchronized, @NonNull Consent consent) {
+        return new ConsentImpl(type, status, version, deviceIdentificationNumber, isSynchronized, consent);
     }
 
     @NonNull

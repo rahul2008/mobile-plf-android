@@ -5,12 +5,13 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Consent;
-import com.philips.platform.core.events.ConsentBackendListSaveRequest;
 import com.philips.platform.core.events.ConsentBackendListSaveResponse;
+import com.philips.platform.core.events.ConsentBackendSaveRequest;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.synchronisation.DataSender;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -36,7 +37,7 @@ public class ConsentDataSender extends EventMonitor implements DataSender<Consen
     @Override
     public boolean sendDataToBackend(@NonNull final List<? extends Consent> dataToSend) {
           if (!dataToSend.isEmpty() && synchronizationState.get() != State.BUSY.getCode()) {
-            eventing.post(new ConsentBackendListSaveRequest(dataToSend));
+            eventing.post(new ConsentBackendSaveRequest(new ArrayList<>(dataToSend),ConsentBackendSaveRequest.RequestType.SAVE));
         }
 
         return false;

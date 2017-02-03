@@ -1,8 +1,6 @@
 package com.philips.platform.datasync.consent;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.Consent;
-import com.philips.platform.core.events.ConsentBackendListSaveRequest;
 import com.philips.platform.core.events.ConsentBackendListSaveResponse;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.injection.AppComponent;

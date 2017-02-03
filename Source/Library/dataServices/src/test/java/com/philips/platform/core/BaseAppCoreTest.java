@@ -1,7 +1,6 @@
 package com.philips.platform.core;
 
 import com.philips.platform.core.datatypes.Consent;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
@@ -201,7 +200,7 @@ public class BaseAppCoreTest {
     @Test
     public void ShouldCreateConsentDetail_WhenCreateConsentDetailIsCalled() {
         Consent consent = baseAppCoreCreator.createConsent("TEST_CREATOR_ID");
-        ConsentDetail consentDetail = baseAppCoreCreator.createConsentDetail("HEIGHT", "accepted", "1.0", Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER, true, consent);
+        Consent consentDetail = baseAppCoreCreator.createConsent("HEIGHT", "accepted", "1.0", Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER, true, consent);
 
         assertThat(consentDetail.getType()).isEqualTo("HEIGHT");
         assertThat(consentDetail.getStatus()).isEqualTo("accepted");
