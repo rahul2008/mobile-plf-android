@@ -116,6 +116,7 @@ public class NavigationBarLandscapeTest {
 
         int navigationbarHeight = (int) resources.getDimension(com.philips.platform.uid.test.R.dimen.navigation_button_touchable_area_landscape);
 
+        UIDTestUtils.waitFor(resources, 800);
         getOptionsMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(navigationbarHeight)));
     }
 
