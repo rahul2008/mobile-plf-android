@@ -1,6 +1,7 @@
 @echo off 
+echo %PATH%
 cd C:\Windows\System32
-call tskill "aapt"
-call tskill "adb"
-call tskill "java"
+tskill "aapt"
+tskill "adb"
+tskill "java"
 cd \
