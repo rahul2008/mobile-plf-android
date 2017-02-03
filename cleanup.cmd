@@ -1,5 +1,4 @@
-@echo off
-cmd.exe 
+@echo off 
 cd c:\windows\system32
 tskill "aapt"
 tskill "adb"
