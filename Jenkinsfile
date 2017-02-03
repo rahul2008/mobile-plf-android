@@ -13,8 +13,6 @@ stage('Espresso testing') {
     }
 }
 
-currentBuild.result = 'SUCCESS'
-
 node('Android && 25.0.0 && Ubuntu') {
   timestamps {
     def ARCHIVE_CONFIG = getArchiveConfig()
