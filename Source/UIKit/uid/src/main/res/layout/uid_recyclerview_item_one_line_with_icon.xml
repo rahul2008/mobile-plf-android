@@ -4,7 +4,7 @@
               android:layout_height="wrap_content">
 
     <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/uid_recyclerview_item_one_line"
+        android:id="@id/uid_recyclerview_item_one_line"
         style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
         android:layout_width="match_parent"
         android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
