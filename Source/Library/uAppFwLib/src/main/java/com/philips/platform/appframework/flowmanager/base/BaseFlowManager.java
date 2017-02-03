@@ -57,12 +57,13 @@ public abstract class BaseFlowManager {
             throw new JsonAlreadyParsedException();
         } else {
             flowManagerHandler = getHandler(context);
-                new Thread(new Runnable() {
+            Thread t =new Thread (new Runnable() {
                     @Override
                     public void run() {
                         parseFlowManagerJson(context, jsonPath, flowManagerListener);
                     }
-                }).start();
+                });
+            t.start();
         }
 
     }
@@ -275,12 +276,14 @@ public abstract class BaseFlowManager {
 
     @NonNull
     protected Runnable getRunnable(final FlowManagerListener flowManagerListener) {
-        return new Runnable() {
+        Runnable r=new Runnable() {
             @Override
             public void run() {
                 flowManagerListener.onParseSuccess();
+
             }
-        };
+        } ;
+                return r;
     }
 
     private void getFirstStateAndAppFlowMap(AppFlowParser appFlowParser, AppFlowModel appFlowModel) {

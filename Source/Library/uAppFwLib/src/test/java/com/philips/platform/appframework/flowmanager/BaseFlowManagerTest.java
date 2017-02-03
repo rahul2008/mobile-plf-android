@@ -1,5 +1,6 @@
 package com.philips.platform.appframework.flowmanager;
 
+
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -67,7 +68,7 @@ public class BaseFlowManagerTest extends TestCase {
         runnableMock = mock(Runnable.class);
         handlerMock = mock(Handler.class);
         when(handlerMock.post(runnableMock)).thenReturn(true);
-        flowManagerTest = new FlowManagerTest() {
+        flowManagerTest = new FlowManagerTest()  {
             @NonNull
             @Override
             protected Handler getHandler(Context context) {
@@ -83,11 +84,16 @@ public class BaseFlowManagerTest extends TestCase {
         File fileFromInputStream = createFileFromInputStream(getClass().getClassLoader().getResourceAsStream("res/Appflow.json"));
         if (fileFromInputStream != null)
             path = fileFromInputStream.getPath();
-        flowManagerTest.initialize(context, path, flowManagerListenerMock);
 
-        sleep(2);
+        flowManagerTest.initialize(context, path, flowManagerListenerMock);
+         sleep(2);
+
         verify(handlerMock).post(runnableMock);
+
+
     }
+
+
 
     private void sleep(int seconds) {
         try {
@@ -173,7 +179,7 @@ public class BaseFlowManagerTest extends TestCase {
 
         };
         flowManagerTest.initialize(context, path, flowManagerListenerMock);
-        sleep(2);
+       sleep(2);
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.SPLASH), "onSplashTimeOut");
         assertNull(flowManagerTest.getBackState());
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.SPLASH), "onSplashTimeOut");
