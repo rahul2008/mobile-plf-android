@@ -101,7 +101,7 @@ public class ConnectivityPresenter implements ConnectivityContract.UserActionsLi
      *
      * @return
      */
-    private UserMoment getDummyUserMoment(String editTextValue) {
+    public UserMoment getDummyUserMoment(String editTextValue) {
         MomentDetail momentDetail = new MomentDetail();
         momentDetail.setType("Example");
         momentDetail.setValue(editTextValue);
