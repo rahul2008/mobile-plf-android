@@ -112,6 +112,20 @@
     <string name="title4">Title 4</string>
     <string name="title5">Title 5</string>
     <string name="title6">Title 6</string>
+
+    <string name="page_title_recyclerview">RecyclerView</string>
+    <string name="page_title_recyclerview_settings">RecyclerView Settings</string>
+    <string name="recyclerview_settings">RecyclerView settings</string>
+    <string name="description1">Description 1</string>
+    <string name="description2">Description 2</string>
+    <string name="description3">Description 3</string>
+    <string name="description4">Description 4</string>
+    <string name="description5">Description 5</string>
+    <string name="description6">Description 6</string>
+
+    <string name="show_separators">Show separators</string>
+    <string name="show_header">Show header</string>
+
     <string name="page_title_date_time_picker">Datepicker</string>
     <string name="show_date_picker">show date picker</string>
     <string name="show_time_picker">Show time picker</string>
@@ -119,6 +133,11 @@
     <string name="range_picker">Range picker</string>
     <string name="timeslot_picker">Timeslot picker</string>
     <string name="start">Start</string>
+
     <string name="primary_social_media_icons">Primary social icons</string>
     <string name="white_social_media_icons">White social icons</string>
+    <string name="single_line_with_icon">Single line with icon</string>
+    <string name="two_lines">Two lines</string>
+    <string name="template_selection">Template selection</string>
+    <string name="recyclerview_the_header">The header</string>
 </resources>

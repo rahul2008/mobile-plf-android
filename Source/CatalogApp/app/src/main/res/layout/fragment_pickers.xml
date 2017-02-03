@@ -53,7 +53,7 @@
                 android:clickable="true"
                 android:onClick="@{(v) ->fragment.showDatePicker(dateTimePickerDate, false)}"
                 app:srcCompat="@drawable/ic_calender"
-                android:tint="@color/uidColorWhite"/>
+                android:tint="?attr/uidTextPrimaryColor"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/datePicker"
@@ -98,7 +98,7 @@
                 android:clickable="true"
                 android:onClick="@{(v) ->fragment.showDatePicker(rangePickerStartDate, true)}"
                 app:srcCompat="@drawable/ic_calender"
-                android:tint="@color/uidColorWhite"/>
+                android:tint="?attr/uidTextPrimaryColor"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/startDatePicker"
