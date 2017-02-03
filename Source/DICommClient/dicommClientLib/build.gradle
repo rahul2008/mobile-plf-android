@@ -19,7 +19,7 @@ buildscript {
     }
 
     dependencies {
-        classpath(builddeps.dcendents)
+        classpath(builddeps.androidmavengradleplugin)
         classpath(builddeps.buildinfoextractor)
         classpath(builddeps.cdpscm)
     }
