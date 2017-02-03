@@ -241,29 +241,38 @@ public class ServiceDiscovery {
         setError(err);
     }
 
-    URL getServiceURLWithServiceID(String serviceId, AISDResponse.AISDPreference preference
+    protected URL getServiceURLWithServiceID(String serviceId, AISDResponse.AISDPreference preference
             , Map<String, String> replacement) {
         URL url = null;
         try {
-            if (serviceId != null && getMatchByCountry() != null && getMatchByCountry().getConfigs() != null) {
-                if (getMatchByCountry().getLocale() == null) {
-                    setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
-                            "ServiceDiscovery cannot find the locale");
-                } else {
-                    if (preference.equals(AISDLanguagePreference)) {
-                        String serviceID = getMatchByCountry().getConfigs().get(0).getUrls().get(serviceId);
-                        if (serviceID != null) {
-                            url = new URL(getMatchByCountry().getConfigs().get(0).getUrls().get(serviceId));
-                        }
-                    } else if (preference.equals(AISDCountryPreference)) {
-                        String serviceID = getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceId);
-                        if (serviceID != null) {
-                            url = new URL(getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceId));
+            if (serviceId != null) {
+                if (preference.equals(AISDCountryPreference)) {
+                    if (getMatchByCountry() != null && getMatchByCountry().getConfigs() != null) {
+                        if (getMatchByCountry().getLocale() == null) {
+                            setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
+                                    "ServiceDiscovery cannot find the locale");
+                        } else {
+                            String serviceID = getMatchByCountry().getConfigs().get(0).getUrls().get(serviceId);
+                            if (serviceID != null) {
+                                url = new URL(getMatchByCountry().getConfigs().get(0).getUrls().get(serviceId));
+                            }
                         }
                     }
-                    if (url != null) {
-                        url = formatUrl(url, replacement);
+                } else if (preference.equals(AISDLanguagePreference)) {
+                    if(getMatchByLanguage() != null && getMatchByLanguage().getConfigs() != null) {
+                        if(getMatchByLanguage().getLocale() == null) {
+                            setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
+                                    "ServiceDiscovery cannot find the locale");
+                        } else {
+                            String serviceID = getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceId);
+                            if (serviceID != null) {
+                                url = new URL(getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceId));
+                            }
+                        }
                     }
+                }
+                if (url != null) {
+                    url = formatUrl(url, replacement);
                 }
             } else {
                 setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.INVALID_RESPONSE,
@@ -278,19 +287,33 @@ public class ServiceDiscovery {
         return url;
     }
 
-    HashMap<String, ServiceDiscoveryService> getServicesWithServiceID(ArrayList<String> serviceIds,
-                                                                      AISDResponse.AISDPreference preference,
-                                                                      Map<String, String> replacement) {
-        final HashMap<String, ServiceDiscoveryService> responseMap = new HashMap<>();
 
-        if (serviceIds != null && getMatchByCountry() != null && getMatchByCountry().getConfigs() != null) {
-            if (preference.equals(AISDLanguagePreference)) {
-                final int configSize = getMatchByCountry().getConfigs().size();
-                return formatMappedUrl(configSize, AISDLanguagePreference, serviceIds, replacement);
-            } else if (preference.equals(AISDCountryPreference)) {
-                final int configSize = getMatchByLanguage().getConfigs().size();
-                return formatMappedUrl(configSize, AISDCountryPreference, serviceIds, replacement);
+
+    protected HashMap<String, ServiceDiscoveryService> getServicesWithServiceID(ArrayList<String> serviceIds,
+                                                                                AISDResponse.AISDPreference preference,
+                                                                                Map<String, String> replacement) {
+        final HashMap<String, ServiceDiscoveryService> responseMap = new HashMap<>();
+        if (serviceIds != null) {
+            if (preference.equals(AISDCountryPreference)) {
+                if (getMatchByCountry() != null && getMatchByCountry().getConfigs() != null) {
+                    final int configSize = getMatchByCountry().getConfigs().size();
+                    return formatMappedUrl(configSize, AISDCountryPreference, serviceIds, replacement);
+                } else {
+                    setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
+                            "ServiceDiscovery cannot find the locale");
+                }
+            } else if (preference.equals(AISDLanguagePreference)) {
+                if (getMatchByLanguage() != null && getMatchByLanguage().getConfigs() != null) {
+                    final int configSize = getMatchByLanguage().getConfigs().size();
+                    return formatMappedUrl(configSize, AISDLanguagePreference, serviceIds, replacement);
+                } else {
+                    setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
+                            "ServiceDiscovery cannot find the locale");
+                }
             }
+        } else {
+            setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.INVALID_RESPONSE,
+                    "INVALID INPUT");
         }
         return responseMap;
     }
@@ -304,10 +327,10 @@ public class ServiceDiscovery {
         final HashMap<String, ServiceDiscoveryService> responseMap = new HashMap<>();
 
         for (int config = 0; config < configSize; config++) {
-            if (preference.equals(AISDLanguagePreference)) {
+            if (preference.equals(AISDCountryPreference)) {
                 modelLocale = getMatchByCountry().getLocale();
                 urls = getMatchByCountry().getConfigs().get(config).getUrls();
-            } else if (preference.equals(AISDCountryPreference)) {
+            } else if (preference.equals(AISDLanguagePreference)) {
                 modelLocale = getMatchByLanguage().getLocale();
                 urls = getMatchByLanguage().getConfigs().get(config).getUrls();
             }
@@ -376,7 +399,7 @@ public class ServiceDiscovery {
         return url;
     }
 
-    String getLocaleWithPreference(AISDResponse.AISDPreference preference) {
+    protected String getLocaleWithPreference(AISDResponse.AISDPreference preference) {
         if (preference.equals(AISDCountryPreference)) {
             if (getMatchByCountry() != null && getMatchByCountry().getConfigs() != null) {
                 if (getMatchByCountry().getLocale() != null) {
