@@ -22,6 +22,7 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -93,6 +94,13 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                              Bundle savedInstanceState) {
         connectivityPresenter = new ConnectivityPresenter(this, getActivity());
         View rootView = inflater.inflate(R.layout.af_connectivity_fragment, container, false);
+        rootView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                ConnectivityUtils.hideSoftKeyboard(getActivity());
+                return false;
+            }
+        });
         editText = (EditText) rootView.findViewById(R.id.measurement_value_editbox);
         momentValueEditText = (EditText) rootView.findViewById(R.id.moment_value_editbox);
         Button btnGetMoment = (Button) rootView.findViewById(R.id.get_momentumvalue_button);
@@ -136,6 +144,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
 
     @Override
     public void onClick(final View v) {
+        ConnectivityUtils.hideSoftKeyboard(getActivity());
         switch (v.getId()) {
             case R.id.start_connectivity_button:
                 if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
@@ -383,6 +392,12 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        ConnectivityUtils.hideSoftKeyboard(getActivity());
+        super.onDestroyView();
     }
 
     @Override
