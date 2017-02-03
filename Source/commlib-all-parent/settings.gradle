@@ -1,11 +1,19 @@
 include ':commlib-all', ':commlib-all-example'
 
-def localCommLibAar = rootDir.absolutePath + '/../../../dicomm-android/Source/DICommClient/dicommClientLib/build/outputs/aar/dicommClientLib-debug.aar'
-if (new File(localCommLibAar).exists()) {
+def localCommLibDir = rootDir.absolutePath + '/../../../dicomm-android/Source/DICommClient/dicommClientLib/'
+if (new File(localCommLibDir).exists()) {
     include ':commlib'
+    project(':commlib').projectDir = new File(localCommLibDir)
 }
 
-def localBlueLibAar = rootDir.absolutePath + '/../../../android-shinelib/Source/ShineLib/shinelib/build/outputs/aar/shinelib-debug.aar'
-if (new File(localBlueLibAar).exists()) {
+def localBlueLibDir = rootDir.absolutePath + '/../../../android-shinelib/Source/ShineLib/shinelib/'
+if (new File(localBlueLibDir).exists()) {
     include ':bluelib'
+    project(':bluelib').projectDir = new File(localBlueLibDir)
+}
+
+def commonDir = '../common'
+if (new File(commonDir).exists()) {
+    include ':common'
+    project(':common').projectDir = new File(commonDir)
 }

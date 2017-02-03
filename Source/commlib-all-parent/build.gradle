@@ -1,88 +1,19 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016
+ * Copyright (c) Koninklijke Philips N.V., 2016, 2017
  * All rights reserved.
  */
 
-buildscript {
-    repositories {
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android' }
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
-    }
-    dependencies {
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.2.0'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.0.0', changing: true
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-
-        classpath 'com.android.tools.build:gradle:2.2.0'
-    }
+buildscript { bs ->
+    apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
 }
 
-allprojects {
-    apply plugin: 'jacoco'
-
-    jacoco {
-        toolVersion = '0.7.1.201405082137'
-    }
-
-    repositories {
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android' }
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
-    }
-
-    ext._compileSdkVersion = 24
-    ext._buildToolsVersion = '24.0.3'
-    ext._minSdkVersion = 19
-    ext._targetSdkVersion = 23
-    ext._versionCode = 1
+subprojects {
+    apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
 }
 
 configurations.all {
     // check for updates every build
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-}
-
-subprojects {
-    def coverageSourceDirs = ['src/main/java']
-
-    task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
-        group = "Reporting"
-
-        description = "Generate Jacoco coverage reports"
-
-        classDirectories = fileTree(dir: 'build/intermediates/classes/debug',
-                excludes: ['**/R.class',
-                           '**/R$*.class',
-                           '**/*$$ViewBinder*.*',
-                           '**/inject/*',
-                           '**/*$InjectAdapter.*',
-                           '**/BuildConfig.*',
-                           '**/Manifest*.*',
-                           '**/Dagger*.*',
-                           '**/*_Provide*Factory.*',
-                           '**/*_Member*Injector.*',
-                           '**/*_Factory.*',
-                           '**/PagerTitleStripV22*.*'])
-
-        additionalSourceDirs = files(coverageSourceDirs)
-        sourceDirectories = files(coverageSourceDirs)
-        executionData = files('build/jacoco/testDebugUnitTest.exec')
-
-        doFirst {
-            new File("$buildDir/intermediates/classes/").eachFileRecurse { file ->
-                if (file.name.contains('$$')) {
-                    file.renameTo(file.path.replace('$$', '$'))
-                }
-            }
-        }
-
-        reports {
-            xml.enabled = false
-            html.enabled = true
-        }
-    }
 }
 
 task clean(type: Delete) {

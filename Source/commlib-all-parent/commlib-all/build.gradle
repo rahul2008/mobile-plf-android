@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016
+ * Copyright (c) Koninklijke Philips N.V., 2016, 2017
  * All rights reserved.
  */
 
@@ -8,16 +8,29 @@ apply plugin: 'com.jfrog.artifactory-upload'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'cdpSCM'
 
+apply from: rootDir.absolutePath + '/../common/gradle/module-tasks.gradle'
+
+buildscript {
+    repositories {
+        maven { url repos.jcenter }
+        maven { url repos.release }
+    }
+
+    dependencies {
+        classpath(builddeps.androidmavengradleplugin)
+        classpath(builddeps.buildinfoextractor)
+        classpath(builddeps.cdpscm)
+    }
+}
+
 import com.philips.cdp.cdpSCM
 
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-
-group = 'com.philips.cdp'
 version = objcdp.getVersion()
 
 artifactory {
-    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+    contextUrl = repos.base
     publish {
         repository {
             repoKey = objcdp.getArtifactoryRepoKey('android')
@@ -38,13 +51,13 @@ artifactory {
 }
 
 android {
-    compileSdkVersion _compileSdkVersion
-    buildToolsVersion _buildToolsVersion
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion _minSdkVersion
-        targetSdkVersion _targetSdkVersion
-        versionCode _versionCode
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
+        versionCode 1
         versionName version
 
         consumerProguardFiles 'proguard-rules.pro'
@@ -61,12 +74,12 @@ android {
 
 dependencies {
     compile 'com.android.support:support-v4:24.2.1'
-    provided 'com.android.support:support-annotations:24.2.1'
+    provided deps.support_annotations
 
     if (findProject(':bluelib')) {
         println("!!! taking local shinelib !!!")
         compile project(':bluelib')
-        compile 'com.google.code.gson:gson:2.7'
+        compile deps.gson
     } else {
         compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.3.1-SNAPSHOT.+')
     }
@@ -75,7 +88,7 @@ dependencies {
         println("!!! taking local commlib !!!")
         compile project(':commlib')
         compile 'com.philips.cdp:cloudcontroller-api:3.1.1-SNAPSHOT'
-        compile 'com.google.code.gson:gson:2.7'
+        compile deps.gson
     } else {
         compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '3.1.1-SNAPSHOT.+')
     }
@@ -83,4 +96,43 @@ dependencies {
     testCompile "org.mockito:mockito-core:2.5.5"
     testCompile 'info.cukes:cucumber-java:1.2.2'
     testCompile 'info.cukes:cucumber-junit:1.2.2'
+}
+
+def coverageSourceDirs = ['src/main/java']
+
+task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+    group = "Reporting"
+
+    description = "Generate Jacoco coverage reports"
+
+    classDirectories = fileTree(dir: 'build/intermediates/classes/debug',
+            excludes: ['**/R.class',
+                       '**/R$*.class',
+                       '**/*$$ViewBinder*.*',
+                       '**/inject/*',
+                       '**/*$InjectAdapter.*',
+                       '**/BuildConfig.*',
+                       '**/Manifest*.*',
+                       '**/Dagger*.*',
+                       '**/*_Provide*Factory.*',
+                       '**/*_Member*Injector.*',
+                       '**/*_Factory.*',
+                       '**/PagerTitleStripV22*.*'])
+
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
+    executionData = files('build/jacoco/testDebugUnitTest.exec')
+
+    doFirst {
+        new File("$buildDir/intermediates/classes/").eachFileRecurse { file ->
+            if (file.name.contains('$$')) {
+                file.renameTo(file.path.replace('$$', '$'))
+            }
+        }
+    }
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
 }
