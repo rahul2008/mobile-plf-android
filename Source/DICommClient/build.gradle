@@ -1,22 +1,12 @@
 /*
- * © Koninklijke Philips N.V., 2017.
- *   All rights reserved.
+ * (c) Koninklijke Philips N.V., 2017.
+ *     All rights reserved.
  */
 
 buildscript { bs ->
     apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
 }
 
-<<<<<<< HEAD
 subprojects {
     apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
-=======
-allprojects {
-    repositories {
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android' }
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
-        maven { url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter" }
-    }
->>>>>>> develop
 }
