@@ -10,7 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.philips.platform.appframework.R;
+import philips.app.R;
 
 /**
  * Adapter is made for Showing instances of Welcome Fragment

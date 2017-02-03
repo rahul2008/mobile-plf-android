@@ -9,10 +9,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
-import com.philips.platform.appframework.R;
-import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
-import com.philips.platform.baseapp.screens.introscreen.LaunchView;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+
+import philips.app.R;
+import philips.app.introscreen.LaunchActivity;
+import philips.app.introscreen.LaunchView;
 
 /**
  * OnboardingBaseFragment is the <b>Base class</b> for all fragments which comes

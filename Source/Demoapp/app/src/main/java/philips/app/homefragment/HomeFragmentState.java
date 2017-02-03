@@ -7,11 +7,12 @@ package philips.app.homefragment;
 
 import android.content.Context;
 
-import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
+
+import flowmanager.AppStates;
+import philips.app.base.AppFrameworkBaseActivity;
 
 public class HomeFragmentState extends BaseState {
 

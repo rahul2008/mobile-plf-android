@@ -7,17 +7,17 @@ package philips.app.introscreen.welcomefragment;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.base.UIBasePresenter;
-import com.philips.platform.baseapp.screens.utility.Constants;
-import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
+import flowmanager.screens.utility.Constants;
+import flowmanager.screens.utility.SharedPreferenceUtility;
+import philips.app.R;
+import philips.app.base.AppFrameworkApplication;
+import philips.app.base.UIBasePresenter;
 
-public class WelcomeFragmentPresenter extends UIBasePresenter{
+public class WelcomeFragmentPresenter extends UIBasePresenter {
 
     private final int MENU_OPTION_HOME = 0;
     private SharedPreferenceUtility sharedPreferenceUtility;

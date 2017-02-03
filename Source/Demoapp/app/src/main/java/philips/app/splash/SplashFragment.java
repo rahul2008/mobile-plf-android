@@ -33,7 +33,7 @@ import philips.app.base.UIBasePresenter;
 import philips.app.introscreen.LaunchActivity;
 
 public class SplashFragment extends OnboardingBaseFragment implements BackEventListener, FlowManagerListener {
-   // public static String TAG = LaunchActivity.class.getSimpleName();
+    public static String TAG = LaunchActivity.class.getSimpleName();
     public static int PERMISSION_ALL = 998;
     private static int SPLASH_TIME_OUT = 3000;
     private final int APP_START = 1;
@@ -89,7 +89,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
         showProgressDialog(true);
         String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
         if (hasPermissions(PERMISSIONS)) {
-            setFlowManager();
+            //  setFlowManager();
             if (!isMultiwindowEnabled)
                 startTimer();
         } else {
@@ -97,9 +97,9 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
         }
     }
 
-    private void setFlowManager() {
-        getApplicationContext().setTargetFlowManager();
-    }
+    //private void setFlowManager() {
+    //   getApplicationContext().setTargetFlowManager();
+    // }
 
     //Requesting permission
     private void requestStoragePermission() {
@@ -222,7 +222,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     }
 
     public void permissionGranted() {
-        setFlowManager();
+        //  setFlowManager();
         if (!isMultiwindowEnabled)
             startTimer();
     }

@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.philips.platform.appframework.R;
+import philips.app.R;
 
 /**
  * Welcome fragment contains the screens for onboarding , as of now it supports 3 screens

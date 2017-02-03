@@ -5,7 +5,7 @@
 */
 package philips.app.introscreen.welcomefragment;
 
-import com.philips.platform.baseapp.base.FragmentView;
+import philips.app.base.FragmentView;
 
 public interface WelcomeFragmentView extends FragmentView {
 

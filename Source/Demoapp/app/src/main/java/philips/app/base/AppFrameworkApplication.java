@@ -7,6 +7,7 @@ package philips.app.base;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
@@ -42,6 +43,7 @@ public class AppFrameworkApplication extends Application {
         final int resId = R.string.com_philips_app_fmwk_app_flow_url;
         FileUtility fileUtility = new FileUtility(this);
         tempFile = fileUtility.createFileFromInputStream(resId, isSdCardFileCreated);
+        MultiDex.install(this);
         super.onCreate();
         appInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = appInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);

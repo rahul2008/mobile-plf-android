@@ -11,9 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.platform.appframework.R;
-import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
-import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
+import philips.app.R;
+import philips.app.base.AppFrameworkBaseActivity;
+import philips.app.base.AppFrameworkBaseFragment;
 
 /**
  * This is the home fragment the main landing page of the application , once onboarding is completed.
@@ -33,7 +33,7 @@ public class HomeFragment extends AppFrameworkBaseFragment {
 
     @Override
     public String getActionbarTitle() {
-        return getResources().getString(R.string.app_home_title);
+        return getResources().getString(R.string.app_name);
     }
 
     @Override
