@@ -4,6 +4,8 @@
  */
 package com.philips.cdp2.commlib.ble.communication;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
@@ -27,34 +29,53 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
 
     @NonNull
     private final String mCppId;
+
     @NonNull
     private final BleDeviceCache mDeviceCache;
+
     @NonNull
     private final ScheduledThreadPoolExecutor mExecutor;
 
-    private AtomicBoolean disconnectAfterRequest = new AtomicBoolean(true);
+    @NonNull
+    private AtomicBoolean disconnectAfterRequest;
+
+    @NonNull
+    private Handler callbackHandler;
 
     /**
-     * Instantiates a new BleCommunicationStrategy.
+     * Instantiates a new BleCommunicationStrategy that provides callbacks on the main thread.
      *
      * @param cppId       the cpp id
      * @param deviceCache the device cache
      */
     public BleCommunicationStrategy(@NonNull String cppId, @NonNull BleDeviceCache deviceCache) {
+        this(cppId, deviceCache, new Handler(Looper.getMainLooper()));
+    }
+
+    /**
+     * Instantiates a new BleCommunicationStrategy that provides callbacks on the specified handler.
+     *
+     * @param cppId       the cpp id
+     * @param deviceCache the device cache
+     * @param callbackHandler the handler on which callbacks will be posted
+     */
+    public BleCommunicationStrategy(@NonNull String cppId, @NonNull BleDeviceCache deviceCache, @NonNull Handler callbackHandler) {
         mCppId = cppId;
         mDeviceCache = deviceCache;
         mExecutor = new ScheduledThreadPoolExecutor(1);
+        disconnectAfterRequest = new AtomicBoolean(true);
+        this.callbackHandler = callbackHandler;
     }
 
     @Override
     public void getProperties(final String portName, final int productId, final ResponseHandler responseHandler) {
-        final BleRequest request = new BleGetRequest(mDeviceCache, mCppId, portName, productId, responseHandler, disconnectAfterRequest);
+        final BleRequest request = new BleGetRequest(mDeviceCache, mCppId, portName, productId, responseHandler, callbackHandler, disconnectAfterRequest);
         dispatchRequest(request);
     }
 
     @Override
     public void putProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
-        final BleRequest request = new BlePutRequest(mDeviceCache, mCppId, portName, productId, dataMap, responseHandler, disconnectAfterRequest);
+        final BleRequest request = new BlePutRequest(mDeviceCache, mCppId, portName, productId, dataMap, responseHandler, callbackHandler, disconnectAfterRequest);
         dispatchRequest(request);
     }
 

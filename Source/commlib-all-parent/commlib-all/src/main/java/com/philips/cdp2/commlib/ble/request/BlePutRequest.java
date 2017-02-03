@@ -4,6 +4,7 @@
  */
 package com.philips.cdp2.commlib.ble.request;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.request.Error;
@@ -38,8 +39,9 @@ public class BlePutRequest extends BleRequest {
                          final int productId,
                          @NonNull final Map<String, Object> dataMap,
                          @NonNull final ResponseHandler responseHandler,
+                         @NonNull final Handler handlerToPostResponseOnto,
                          @NonNull AtomicBoolean disconnectAfterRequest) {
-        super(deviceCache, cppId, portName, productId, responseHandler, disconnectAfterRequest);
+        super(deviceCache, cppId, portName, productId, responseHandler, handlerToPostResponseOnto, disconnectAfterRequest);
         this.dataMap = dataMap;
     }
 
