@@ -86,6 +86,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     private final RequestManager mRequestItemManager;
 
+    private ServiceDiscoveryInterface.OnGetHomeCountryListener.ERRORVALUES errorvalues;
     //
     private boolean downloadInProgress;
     private ArrayDeque<DownloadItemListener> downloadAwaiters;
@@ -178,7 +179,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             platformService = downloadPlatformService();
         }
         if (platformService != null && propositionService != null) {
-
             if (propositionService.isSuccess() && platformService.isSuccess()) {
                 response.setPlatformURLs(platformService);
                 response.setPropositionURLs(propositionService);
@@ -220,14 +220,18 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         if (!isOnline()) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "NO_NETWORK");
             service.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.NO_NETWORK, "NO_NETWORK"));
+            errorvalues = OnErrorListener.ERRORVALUES.NO_NETWORK;
             // service.setSuccess(false);
         } else {
             //urlBuild = buildUrl();
             if (urlBuild != null) {
                 service = mRequestItemManager.execute(urlBuild, aisdurlType);
                 saveToSecureStore(service.getCountry(), COUNTRY);
-                saveToSecureStore(OnGetHomeCountryListener.SOURCE.GEOIP.name(), COUNTRY_SOURCE);
-
+                if (countryCodeSource != null) {
+                    saveToSecureStore(OnGetHomeCountryListener.SOURCE.STOREDPREFERENCE.name(), COUNTRY_SOURCE);
+                } else {
+                    saveToSecureStore(OnGetHomeCountryListener.SOURCE.GEOIP.name(), COUNTRY_SOURCE);
+                }
                 if (service.isSuccess()) {
                     holdbackTime = 0;   //remove hold back time
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "SD Fetched from server");
@@ -444,6 +448,13 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                                 listener.onError(response.getError().getErrorvalue(),
                                         response.getError().getMessage());
                             }
+                        } else {
+                            if (errorvalues != null) {
+                                listener.onError(OnErrorListener.ERRORVALUES.NO_NETWORK, "NO NETWORK");
+                            } else {
+                                listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE,
+                                        "INVALID RESPONSE OR DOWNLOAD FAILED");
+                            }
                         }
                     }
                 });
@@ -476,7 +487,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
 
     private void getURlMAPwithLanguageOrCountry(final ArrayList<String> serviceIds, final OnGetServiceUrlMapListener listener,
-                                                final Map<String, String> replacement, AISDResponse.AISDPreference preference) {
+                                                final Map<String, String> replacement, final AISDResponse.AISDPreference preference) {
         if (listener == null) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Service Discovery",
                     "OnGetServiceUrlMapListener is null initialized");
@@ -490,7 +501,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                         if (response != null) {
                             if (response.isSuccess()) {
                                 HashMap<String, ServiceDiscoveryService> responseMap = response.getServicesUrl(serviceIds,
-                                        AISDResponse.AISDPreference.AISDCountryPreference, replacement);
+                                        preference, replacement);
                                 if (responseMap != null && responseMap.size() > 0) {
                                     listener.onSuccess(responseMap);
                                 } else {
@@ -499,6 +510,13 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                                 }
                             } else if (response.getError() != null) {
                                 listener.onError(response.getError().getErrorvalue(), response.getError().getMessage());
+                            }
+                        } else {
+                            if (errorvalues != null) {
+                                listener.onError(OnErrorListener.ERRORVALUES.NO_NETWORK, "NO NETWORK");
+                            } else {
+                                listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE,
+                                        "INVALID RESPONSE OR DOWNLOAD FAILED");
                             }
                         }
                     }
@@ -543,8 +561,12 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                                 listener.onError(response.getError().getErrorvalue(), response.getError().getMessage());
                             }
                         } else {
-                            listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE,
-                                    "INVALID RESPONSE");
+                            if (errorvalues != null) {
+                                listener.onError(OnErrorListener.ERRORVALUES.NO_NETWORK, "NO NETWORK");
+                            } else {
+                                listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE,
+                                        "INVALID RESPONSE OR DOWNLOAD FAILED");
+                            }
                         }
                     }
                 });
@@ -590,6 +612,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                             ServiceDiscovery.Error err = SDResponse.getError();
                             err.setErrorvalue(err.getErrorvalue());
                             //   listener..onError(err.getErrorvalue(), err.getMessage());
+                        } else {
+                            listener.ondataReceived(null);
                         }
                     }
                 }
@@ -606,7 +630,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
     @Override
-    public void refresh(final OnRefreshListener listener) { // TODO RayKlo: refresh only works if we have no data?
+    public void refresh(final OnRefreshListener listener) {
         refresh(listener, false);
     }
 
@@ -622,7 +646,12 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                         ServiceDiscovery.Error err = result.getError();
                         listener.onError(err.getErrorvalue(), err.getMessage());
                     } else {
-                        listener.onError(OnErrorListener.ERRORVALUES.UNKNOWN_ERROR , "UNKNOWN ERROR");
+                        if (errorvalues != null) {
+                            listener.onError(OnErrorListener.ERRORVALUES.NO_NETWORK, "NO NETWORK");
+                        } else {
+                            listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE,
+                                    "INVALID RESPONSE OR DOWNLOAD FAILED");
+                        }
                     }
                 }
             }
@@ -664,8 +693,12 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                                 }
                             }
                         } else {
-                            listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE,
-                                    "INVALID RESPONSE");
+                            if (errorvalues != null) {
+                                listener.onError(OnErrorListener.ERRORVALUES.NO_NETWORK, "NO NETWORK");
+                            } else {
+                                listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE,
+                                        "INVALID RESPONSE OR DOWNLOAD FAILED");
+                            }
                         }
                     }
                 });
