@@ -5,6 +5,7 @@
 import com.philips.cdp.cdpSCM
 
 apply plugin: 'com.android.library'
+apply plugin: 'jacoco'
 apply plugin: 'com.jfrog.artifactory-upload'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'cdpSCM'
@@ -18,7 +19,7 @@ buildscript {
     }
 
     dependencies {
-        classpath(builddeps.dcendents)
+        classpath(builddeps.androidmavengradleplugin)
         classpath(builddeps.buildinfoextractor)
         classpath(builddeps.cdpscm)
     }
@@ -173,8 +174,6 @@ task generateJavadoc()
 generateJavadoc.dependsOn {
     tasks.findAll { task -> task.name.startsWith('generateJavadoc') && task.name != "generateJavadoc" }
 }
-
-apply plugin: 'jacoco'
 
 jacoco {
     toolVersion = '0.7.6.201602180812'
