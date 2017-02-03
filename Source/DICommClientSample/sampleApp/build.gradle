@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2017.
- *   All rights reserved.
+ * (c) Koninklijke Philips N.V., 2017.
+ *     All rights reserved.
  */
 
 apply plugin: 'com.android.application'
@@ -40,11 +40,12 @@ android {
 
 dependencies {
     compile "com.android.support:appcompat-v7:24.2.0"
-    compile 'com.philips.cdp:cloudcontroller:5.0.0'
+
+    compile 'com.philips.cdp:cloudcontroller:5.1.1-SNAPSHOT'
 
     if (findProject(':dicommClientLib')) {
         compile project(':dicommClientLib')
     } else {
-        compile 'com.philips.cdp:dicommClientLib:3.0.0-SNAPSHOT'
+        compile 'com.philips.cdp:dicommClientLib:3.1.1-SNAPSHOT.+'
     }
 }

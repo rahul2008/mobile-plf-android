@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2016, 2017.
- *   All rights reserved.
+ * (c) Koninklijke Philips N.V., 2016, 2017.
+ *     All rights reserved.
  */
 
 import com.philips.cdp.cdpSCM
@@ -87,9 +87,12 @@ dependencies {
     provided deps.support_annotations
 
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.philips.cdp:cloudcontroller-api:3.0.0'
+
     compile deps.gson
-    testCompile 'com.philips.cdp:cloudcontroller:5.0.0'
+
+    compile 'com.philips.cdp:cloudcontroller-api:3.1.1-SNAPSHOT'
+    testCompile 'com.philips.cdp:cloudcontroller:5.1.1-SNAPSHOT'
+
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
