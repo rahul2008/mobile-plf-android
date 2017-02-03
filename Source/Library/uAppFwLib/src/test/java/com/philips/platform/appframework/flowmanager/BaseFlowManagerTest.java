@@ -42,7 +42,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import static org.mockito.Mockito.mock;
@@ -86,45 +85,14 @@ public class BaseFlowManagerTest extends TestCase {
         if (fileFromInputStream != null)
             path = fileFromInputStream.getPath();
 
-        CountDownLatch startSignal = new CountDownLatch(1);
-        CountDownLatch doneSignal = new CountDownLatch(0);
+        flowManagerTest.initialize(context, path, flowManagerListenerMock);
+         sleep(2);
 
-
-            new Thread(new Worker(startSignal, doneSignal)).start();
-
-      //  doSomethingElse();            // don't let run yet
-       // startSignal.countDown();      // let all threads proceed
-    //    doSomethingElse();
-        startSignal.countDown();
-
-        doneSignal.await();           // wait for all to finish
         verify(handlerMock).post(runnableMock);
-      // sleep(2);
 
 
     }
-    class Worker implements Runnable {
-        private final CountDownLatch startSignal;
-        private final CountDownLatch doneSignal;
-        Worker(CountDownLatch startSignal, CountDownLatch doneSignal) {
-            this.startSignal = startSignal;
-            this.doneSignal = doneSignal;
-        }
-        public void run() {
 
-            try {
-                startSignal.await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            flowManagerTest.initialize(context, path, flowManagerListenerMock);
-
-            doneSignal.countDown();
-             }
-
-
-
-    }
 
 
     private void sleep(int seconds) {
@@ -211,7 +179,7 @@ public class BaseFlowManagerTest extends TestCase {
 
         };
         flowManagerTest.initialize(context, path, flowManagerListenerMock);
-     //   sleep(2);
+       sleep(2);
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.SPLASH), "onSplashTimeOut");
         assertNull(flowManagerTest.getBackState());
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.SPLASH), "onSplashTimeOut");
