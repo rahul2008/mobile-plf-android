@@ -1,6 +1,4 @@
 @echo off 
-cd c:\windows\system32
-tskill "aapt"
-tskill "adb"
-tskill "java"
- ^& exit
+call tskill "aapt"
+call tskill "adb"
+call tskill "java"
