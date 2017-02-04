@@ -6,8 +6,6 @@
 
 package com.philips.platform.core;
 
-import android.content.SharedPreferences;
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.

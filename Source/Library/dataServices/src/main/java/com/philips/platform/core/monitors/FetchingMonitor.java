@@ -65,14 +65,14 @@ public class FetchingMonitor extends EventMonitor {
         try {
             dbInterface.fetchMoments(event.getDbRequestListener());
         } catch (SQLException e) {
-            dbInterface.postError(e,event.getDbRequestListener());
+            dbInterface.postError(e, event.getDbRequestListener());
         }
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackgroundThread(LoadLastMomentRequest event) {
         try {
-            dbInterface.fetchLastMoment(event.getType(),event.getDbRequestListener());
+            dbInterface.fetchLastMoment(event.getType(), event.getDbRequestListener());
         } catch (SQLException e) {
             dbInterface.postError(e, event.getDbRequestListener());
         }
@@ -80,14 +80,14 @@ public class FetchingMonitor extends EventMonitor {
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackgroundThread(GetNonSynchronizedDataRequest event) {
-        DSLog.i("***SPO***","In Fetching Monitor GetNonSynchronizedDataRequest");
+        DSLog.i("***SPO***", "In Fetching Monitor GetNonSynchronizedDataRequest");
         try {
             Map<Class, List<?>> dataToSync = new HashMap<>();
 
-            DSLog.i("***SPO***","In Fetching Monitor before putMomentsForSync");
+            DSLog.i("***SPO***", "In Fetching Monitor before putMomentsForSync");
             dataToSync = momentsSegregator.putMomentsForSync(dataToSync);
 
-            DSLog.i("***SPO***","In Fetching Monitor before sending GetNonSynchronizedDataResponse");
+            DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse");
             dataToSync = consentsSegregator.putConsentForSync(dataToSync);
 
             DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse for UC");
@@ -98,7 +98,7 @@ public class FetchingMonitor extends EventMonitor {
 
             eventing.post(new GetNonSynchronizedDataResponse(event.getEventId(), dataToSync));
         } catch (SQLException e) {
-            DSLog.i("***SPO***","In Fetching Monitor before GetNonSynchronizedDataRequest error");
+            DSLog.i("***SPO***", "In Fetching Monitor before GetNonSynchronizedDataRequest error");
             dbInterface.postError(e, null);
         }
     }
@@ -106,11 +106,10 @@ public class FetchingMonitor extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackgroundThread(LoadMomentsRequest event) {
         try {
-           // Log.d(this.getClass().getName(),"Fetching Monitor");
             if (event.hasType()) {
-                dbInterface.fetchMoments(event.getDbRequestListener(),event.getTypes());
+                dbInterface.fetchMoments(event.getDbRequestListener(), event.getTypes());
             } else if (event.hasID()) {
-                dbInterface.fetchMomentById(event.getMomentID(),event.getDbRequestListener());
+                dbInterface.fetchMomentById(event.getMomentID(), event.getDbRequestListener());
             } else {
                 dbInterface.fetchMoments(event.getDbRequestListener());
             }
@@ -130,13 +129,13 @@ public class FetchingMonitor extends EventMonitor {
 
     @Subscribe(sticky = true, threadMode = ThreadMode.BACKGROUND)
     public void onEventBackgroundThread(GetNonSynchronizedMomentsRequest event) {
-        DSLog.i("**SPO**","in Fetching Monitor GetNonSynchronizedMomentsRequest");
+        DSLog.i("**SPO**", "in Fetching Monitor GetNonSynchronizedMomentsRequest");
         try {
-            List<? extends Moment> ormMomentList = (List<? extends Moment>)dbInterface.fetchNonSynchronizedMoments();
+            List<? extends Moment> ormMomentList = (List<? extends Moment>) dbInterface.fetchNonSynchronizedMoments();
             Consent consent = dbInterface.fetchConsent(event.getDbRequestListener());
-            if(consent==null){
-                eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList,null));
-            }else{
+            if (consent == null) {
+                eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList, null));
+            } else {
                 eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList, new ArrayList(consent.getConsentDetails())));
             }
 

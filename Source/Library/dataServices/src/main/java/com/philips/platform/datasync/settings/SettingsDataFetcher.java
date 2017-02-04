@@ -24,7 +24,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.inject.Inject;
 
 import retrofit.RetrofitError;
-import retrofit.converter.GsonConverter;
 
 public class SettingsDataFetcher extends DataFetcher {
     private static final int API_VERSION = 9;

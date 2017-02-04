@@ -53,8 +53,7 @@ public class ErrorMonitor extends EventMonitor {
                 mErrorHandlingInterface.syncError(UNKNOWN);
 
         }
-//        if (retrofitError != null)
-//            mErrorHandlingInterface.syncError(retrofitError.getResponse().getStatus());
+
     }
 
     private void resetDataServicesFlags() {

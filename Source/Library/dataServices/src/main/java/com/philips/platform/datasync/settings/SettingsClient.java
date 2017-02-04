@@ -1,18 +1,11 @@
 package com.philips.platform.datasync.settings;
 
-import com.philips.platform.datasync.characteristics.UCoreUserCharacteristics;
-import com.philips.platform.datasync.consent.UCoreConsentDetail;
-
-import java.util.List;
-
 import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Header;
-import retrofit.http.POST;
 import retrofit.http.PUT;
 import retrofit.http.Path;
-import retrofit.http.Query;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

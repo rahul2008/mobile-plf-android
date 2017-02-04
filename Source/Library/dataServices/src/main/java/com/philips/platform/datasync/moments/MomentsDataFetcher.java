@@ -6,8 +6,8 @@ import android.support.annotation.Nullable;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Moment;
-import com.philips.platform.core.events.BackendMomentListSaveRequest;
 import com.philips.platform.core.events.BackendDataRequestFailed;
+import com.philips.platform.core.events.BackendMomentListSaveRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
