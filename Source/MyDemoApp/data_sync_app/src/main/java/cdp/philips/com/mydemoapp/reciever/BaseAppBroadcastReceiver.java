@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -44,7 +43,7 @@ public class BaseAppBroadcastReceiver extends BroadcastReceiver {
         //TODO: review changing connection
         if (mUtility.isOnline(context) && (action.equals(ACTION_USER_DATA_FETCH) || action.equals(ConnectivityManager.CONNECTIVITY_ACTION))) {
             Log.i("***SPO***","START SYNC FROM REC");
-            mDataServices.synchchronize();
+            mDataServices.Synchronize();
         }
     }
 

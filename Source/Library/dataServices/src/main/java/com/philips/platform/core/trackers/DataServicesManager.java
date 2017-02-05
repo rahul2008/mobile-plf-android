@@ -244,7 +244,7 @@ public class DataServicesManager {
         mEventing.post((new MomentUpdateRequest(moment, dbRequestListener)));
     }
 
-    public void synchchronize() {
+    public void Synchronize() {
         sendPullDataEvent();
     }
 
