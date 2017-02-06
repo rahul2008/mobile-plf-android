@@ -64,6 +64,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private static final int LOGIN_FAILURE = -1;
 
+    private final static int EMAIL_ADDRESS_ALREADY_USE_CODE = 390;
+
     private TextView mTvSignInWith;
 
     private LinearLayout mLlAlmostDoneContainer;
@@ -599,9 +601,12 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     private void handleLoginFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onLoginFailedWithError");
         hideSpinner();
-
-        if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
-            mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
+        if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
+            if (RegistrationHelper.getInstance().isChinaFlow()){
+                mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_CreateAccount_Using_Phone_Alreadytxt));
+            }else {
+                mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
+            }
             mEtEmail.showInvalidAlert();
             mEtEmail.showErrPopUp();
             scrollViewAutomatically(mEtEmail, mSvRootLayout);
