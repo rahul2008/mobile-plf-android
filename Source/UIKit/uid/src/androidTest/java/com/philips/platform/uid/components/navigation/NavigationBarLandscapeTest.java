@@ -18,7 +18,6 @@ import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.utils.UIDTestUtils;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -54,7 +53,7 @@ public class NavigationBarLandscapeTest extends BaseTest {
     public void verifyTitleLineHeightInLandscape() throws Exception {
         setupLandscapeModeActivity();
 
-        float lineheight = resources.getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_height);
+        float lineheight = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.navigation_title_text_height);
 
         UIDTestUtils.waitFor(resources, 750);
         getTitle().check(matches(TextViewPropertiesMatchers.isSameLineHeight(lineheight)));
@@ -64,7 +63,7 @@ public class NavigationBarLandscapeTest extends BaseTest {
     public void verifyTitleLineSpacingInLandscape() throws Exception {
         setupLandscapeModeActivity();
 
-        float linespacing = resources.getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_spacing);
+        float linespacing = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.navigation_title_text_spacing);
 
         getTitle().check(matches(TextViewPropertiesMatchers.isSameLineSpacing(linespacing)));
     }
@@ -73,7 +72,7 @@ public class NavigationBarLandscapeTest extends BaseTest {
     public void verifyTitleTextSizeInLandscape() throws Exception {
         setupLandscapeModeActivity();
 
-        int fontSize = (int) resources.getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_size);
+        int fontSize = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.navigation_title_text_size);
 
         UIDTestUtils.waitFor(resources, 750);
         getTitle().check(matches(TextViewPropertiesMatchers.isSameFontSize(fontSize)));
@@ -84,16 +83,15 @@ public class NavigationBarLandscapeTest extends BaseTest {
 
         setupLandscapeModeActivity();
 
-        int toolbarHeight = (int) resources.getDimension(com.philips.platform.uid.test.R.dimen.navigation_height_land);
+        int toolbarHeight = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.navigation_height_land);
         getNavigationBar().check(matches(ViewPropertiesMatchers.isSameViewHeight(toolbarHeight)));
     }
 
-    @Ignore
     @Test
     public void verifyOptionsMenuIconTargetAreaInLandscape() throws Exception {
         setupLandscapeModeActivity();
 
-        int navigationbarHeight = (int) resources.getDimension(com.philips.platform.uid.test.R.dimen.navigation_button_touchable_area_landscape);
+        int navigationbarHeight = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.navigation_button_touchable_area_landscape);
 
         getOptionsMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(navigationbarHeight)));
     }
