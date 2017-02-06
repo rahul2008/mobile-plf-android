@@ -58,6 +58,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Handler;
 
 public class AlmostDoneFragment extends RegistrationBaseFragment implements EventListener,
         onUpdateListener, SocialProviderLoginHandler, NetworStateListener, OnClickListener, XCheckBox.OnCheckedChangeListener {
@@ -525,15 +526,10 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         }
 
         User user = new User(mContext);
-        String email = user.getEmail();
-        if (email != null) {
-            RegPreferenceUtility.storePreference(mContext, email, true);
-            return;
-        }
-
-        String mobileNo = user.getMobile();
-        if (mobileNo != null) {
-            RegPreferenceUtility.storePreference(mContext, mobileNo, true);
+        if(user.getMobile() != null){
+            RegPreferenceUtility.storePreference(mContext,user.getMobile(),true);
+        }else if(user.getEmail() != null){
+            RegPreferenceUtility.storePreference(mContext,user.getEmail(),true);
         }
     }
     private void register() {
