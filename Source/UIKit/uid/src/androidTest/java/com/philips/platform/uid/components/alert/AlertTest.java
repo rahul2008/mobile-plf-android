@@ -181,10 +181,10 @@ public class AlertTest {
     }
 
     private void setUpNoTitleAlert() {
-        mActivityTestRule.getActivity().switchTo(com.philips.platform.uid.test.R.layout.main_layout);
-        testResources = mActivityTestRule.getActivity().getResources();
-
-        mActivityTestRule.getActivity().switchFragment(DialogTestFragment.create());
+        final BaseTestActivity activity = mActivityTestRule.getActivity();
+        activity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
+        activity.switchFragment(DialogTestFragment.create());
+        testResources = activity.getResources();
     }
 
     /******************************
