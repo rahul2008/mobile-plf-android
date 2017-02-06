@@ -42,7 +42,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(GradleRunner.class)
-@Config(constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 24)
+@Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 24)
 public class SettingsAdapterTest {
     private SettingsAdapter settingsAdapter = null;
     private HamburgerActivity hamburgerActivity = null;

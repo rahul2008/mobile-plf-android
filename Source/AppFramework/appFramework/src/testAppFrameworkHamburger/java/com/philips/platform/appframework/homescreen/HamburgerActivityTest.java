@@ -39,7 +39,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(GradleRunner.class)
-@Config(constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 24)
+@Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 24)
 public class HamburgerActivityTest {
     private HamburgerActivity hamburgerActivity = null;
     private TextView actionBarTitle = null;

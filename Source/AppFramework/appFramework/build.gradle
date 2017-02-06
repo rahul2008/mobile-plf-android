@@ -356,7 +356,7 @@ dependencies {
 
 //    testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.17'
-//    compile group: 'org.robolectric', name: 'android-all', version: '7.0.0_r1-robolectric-0'
+    compile group: 'org.robolectric', name: 'android-all', version: '7.0.0_r1-robolectric-0'
 //    compile group: 'org.robolectric', name: 'shadows-core', version: '3.0-rc2'
 //    compile 'junit:junit:4.12'
 //    compile 'org.robolectric:robolectric:3.2.2'
