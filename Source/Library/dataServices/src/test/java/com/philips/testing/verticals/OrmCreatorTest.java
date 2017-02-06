@@ -4,8 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
@@ -21,7 +21,7 @@ import com.philips.testing.verticals.datatyes.MomentDetailType;
 import com.philips.testing.verticals.datatyes.MomentType;
 import com.philips.testing.verticals.table.OrmCharacteristics;
 import com.philips.testing.verticals.table.OrmCharacteristicsDetail;
-import com.philips.testing.verticals.table.OrmConsent;
+import com.philips.testing.verticals.table.OrmConsentDetail;
 import com.philips.testing.verticals.table.OrmMeasurement;
 import com.philips.testing.verticals.table.OrmMeasurementDetail;
 import com.philips.testing.verticals.table.OrmMeasurementDetailType;
@@ -111,14 +111,14 @@ public class OrmCreatorTest implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public Consent createConsent(@NonNull String creatorId) {
-        return new OrmConsent(creatorId);
+    public ConsentDetail createConsent(@NonNull String creatorId) {
+        return new OrmConsentDetail(creatorId);
     }
 
     @NonNull
     @Override
-    public Consent createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber, boolean isSynchronized, @NonNull Consent consent) {
-        return new OrmConsent(type, status, version, deviceIdentificationNumber, (OrmConsent) consent, isSynchronized);
+    public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber, boolean isSynchronized, @NonNull ConsentDetail consentDetail) {
+        return new OrmConsentDetail(type, status, version, deviceIdentificationNumber, (OrmConsentDetail) consentDetail, isSynchronized);
     }
 
     @NonNull

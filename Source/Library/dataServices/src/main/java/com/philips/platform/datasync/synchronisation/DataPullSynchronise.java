@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
@@ -165,12 +165,12 @@ public class DataPullSynchronise {
         fetchResult = null;
     }
 
-    private void fetchData(final DateTime lastSyncDateTime, final int referenceId, final List<? extends Moment> nonSynchronizedMoments, final List<? extends Consent> consentDetails) {
+    private void fetchData(final DateTime lastSyncDateTime, final int referenceId, final List<? extends Moment> nonSynchronizedMoments, final List<? extends ConsentDetail> consentDetails) {
         DSLog.i("**SPO**", "In Data Pull Synchronize fetchData");
         initFetch();
         for (DataFetcher fetcher : fetchers) {
             if (fetcher instanceof ConsentsDataFetcher) {
-                ((ConsentsDataFetcher) fetcher).setConsents((List<Consent>) consentDetails);
+                ((ConsentsDataFetcher) fetcher).setConsentDetails((List<ConsentDetail>) consentDetails);
             }
             startFetching(lastSyncDateTime, referenceId, fetcher);
         }
@@ -181,7 +181,7 @@ public class DataPullSynchronise {
         synchronized (this) {
             DSLog.i("**SPO**", "In Data Pull Synchronize GetNonSynchronizedMomentsResponse");
             final List<? extends Moment> nonSynchronizedMoments = response.getNonSynchronizedMoments();
-            final List<? extends Consent> nonSynchronizedConsent = response.getConsentDetails();
+            final List<? extends ConsentDetail> nonSynchronizedConsent = response.getConsentDetails();
             fetchData(lastSyncDateTime, referenceId, nonSynchronizedMoments, nonSynchronizedConsent);
         }
         mDataServicesManager.setPullComplete(true);

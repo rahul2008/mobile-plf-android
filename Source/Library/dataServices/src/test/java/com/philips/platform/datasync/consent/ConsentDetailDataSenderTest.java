@@ -1,7 +1,9 @@
 package com.philips.platform.datasync.consent;
 
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.events.ConsentBackendListSaveResponse;
+import com.philips.platform.core.events.ConsentBackendSaveRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -23,7 +25,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 /**
  * Created by sangamesh on 28/11/16.
  */
-public class ConsentDataSenderTest {
+public class ConsentDetailDataSenderTest {
 
     private ConsentDataSender consentDataSender;
 
@@ -34,13 +36,13 @@ public class ConsentDataSenderTest {
     private GetNonSynchronizedDataResponse getNonSynchronizedDataResponseMock;
 
     @Mock
-    private Consent consentMock;
+    private ConsentDetail consentDetailMock;
 
     @Mock
     private ConsentBackendListSaveResponse consentListSaveResponseMock;
 
     @Captor
-    private ArgumentCaptor<ConsentBackendListSaveRequest> consentListSaveRequestEventCaptor;
+    private ArgumentCaptor<ConsentBackendSaveRequest> consentListSaveRequestEventCaptor;
 
     @Mock
     private AppComponent appComponantMock;
@@ -58,7 +60,7 @@ public class ConsentDataSenderTest {
     @Test
     public void ShouldNotPostAnEventToBackend_WhenConsentListIsEmpty() throws Exception {
 
-        consentDataSender.sendDataToBackend(Collections.<Consent>emptyList());
+        consentDataSender.sendDataToBackend(Collections.<ConsentDetail>emptyList());
 
         verify(eventingMock, never()).post(consentListSaveRequestEventCaptor.capture());
     }
@@ -67,7 +69,7 @@ public class ConsentDataSenderTest {
     public void ShouldNotPostAnEventToBackend_WhenStateIsNotIdle() throws Exception {
         consentDataSender.synchronizationState.set(DataSender.State.BUSY.getCode());
 
-        consentDataSender.sendDataToBackend(Collections.singletonList(consentMock));
+        consentDataSender.sendDataToBackend(Collections.singletonList(consentDetailMock));
 
         verify(eventingMock, never()).post(consentListSaveRequestEventCaptor.capture());
     }
@@ -75,10 +77,10 @@ public class ConsentDataSenderTest {
     @Test
     public void ShouldPostConsentListSaveEvent_WhenConsentListIsNotEmpty() throws Exception {
 
-        consentDataSender.sendDataToBackend(Collections.singletonList(consentMock));
+        consentDataSender.sendDataToBackend(Collections.singletonList(consentDetailMock));
 
         verify(eventingMock).post(consentListSaveRequestEventCaptor.capture());
-        assertThat(consentListSaveRequestEventCaptor.getValue().getConsentList()).hasSize(1);
+        assertThat(consentListSaveRequestEventCaptor.getValue().getConsentDetailList()).hasSize(1);
     }
 
     @Test

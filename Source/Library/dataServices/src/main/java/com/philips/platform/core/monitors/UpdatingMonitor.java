@@ -115,8 +115,8 @@ public class UpdatingMonitor extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final ConsentBackendSaveResponse consentBackendSaveResponse) throws SQLException {
         try {
-            if(dbFetchingInterface.isSynced(OrmTableType.CONSENTS.getId())) {
-                dbUpdatingInterface.updateConsent(consentBackendSaveResponse.getConsentList(), null);
+            if(dbFetchingInterface.isSynced(OrmTableType.CONSENT.getId())) {
+                dbUpdatingInterface.updateConsent(consentBackendSaveResponse.getConsentDetailList(), null);
             }
         }catch (SQLException e){
             dbUpdatingInterface.updateFailed(e, null);

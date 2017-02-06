@@ -6,7 +6,7 @@
 package cdp.philips.com.mydemoapp.database;
 
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.datatypes.Settings;
 
@@ -20,7 +20,7 @@ import java.util.List;
 
 import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
-import cdp.philips.com.mydemoapp.database.table.OrmConsent;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
@@ -59,17 +59,17 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     }
 
     @Override
-    public boolean saveConsent(List<Consent> consents, DBRequestListener dbRequestListener) throws SQLException {
-        for (Consent consent : consents) {
+    public boolean saveConsent(List<ConsentDetail> consentDetails, DBRequestListener dbRequestListener) throws SQLException {
+        for (ConsentDetail consentDetail : consentDetails) {
             try {
-                OrmConsent ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
+                OrmConsentDetail ormConsent = OrmTypeChecking.checkOrmType(consentDetail, OrmConsentDetail.class);
                 saving.saveConsent(ormConsent);
             } catch (OrmTypeChecking.OrmTypeException e) {
                 e.printStackTrace();
             }
 
         }
-        notifyDBRequestListener.notifySuccess(consents, dbRequestListener);
+        notifyDBRequestListener.notifySuccess(consentDetails, dbRequestListener);
         return true;
 
     }

@@ -2,7 +2,7 @@ package cdp.philips.com.mydemoapp.consents;
 
 import android.content.Context;
 
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -23,15 +23,15 @@ public class ConsentDialogPresenter {
         this.dbRequestListener = dbRequestListener;
     }
 
-    protected boolean getConsentDetailStatus(Consent consent) {
+    protected boolean getConsentDetailStatus(ConsentDetail consentDetail) {
 
-        if (consent.getStatus().equalsIgnoreCase(ConsentDetailStatusType.ACCEPTED.name())) {
+        if (consentDetail.getStatus().equalsIgnoreCase(ConsentDetailStatusType.ACCEPTED.name())) {
             return true;
         }
         return false;
     }
 
-    public void updateConsent(List<Consent> consents) {
-        DataServicesManager.getInstance().updateConsent(consents,dbRequestListener);
+    public void updateConsent(List<ConsentDetail> consentDetails) {
+        DataServicesManager.getInstance().updateConsentDetail(consentDetails,dbRequestListener);
     }
 }

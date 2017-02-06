@@ -9,7 +9,7 @@ package com.philips.platform.core;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
@@ -125,9 +125,9 @@ public class BaseAppCore implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public Consent createConsent(String type,
-                                 String status, String version,
-                                 String deviceIdentificationNumber) {
+    public ConsentDetail createConsent(String type,
+                                       String status, String version,
+                                       String deviceIdentificationNumber) {
         return database.createConsent(type, status, version,
                 deviceIdentificationNumber);
     }

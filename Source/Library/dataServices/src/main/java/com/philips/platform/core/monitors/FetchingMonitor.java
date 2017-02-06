@@ -6,7 +6,7 @@ package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
@@ -132,7 +132,7 @@ public class FetchingMonitor extends EventMonitor {
         DSLog.i("**SPO**","in Fetching Monitor GetNonSynchronizedMomentsRequest");
         try {
             List<? extends Moment> ormMomentList = (List<? extends Moment>)dbInterface.fetchNonSynchronizedMoments();
-             List<? extends Consent> consentDetails= (List<? extends Consent>) dbInterface.fetchNonSyncConsents();
+             List<? extends ConsentDetail> consentDetails= (List<? extends ConsentDetail>) dbInterface.fetchNonSyncConsents();
             if(consentDetails==null){
                 eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList,null));
             }else{

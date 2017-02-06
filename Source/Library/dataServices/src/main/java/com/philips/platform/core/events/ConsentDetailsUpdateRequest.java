@@ -7,7 +7,7 @@
 package com.philips.platform.core.events;
 
 
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 
 import java.util.List;
 
@@ -17,13 +17,13 @@ import java.util.List;
  */
 public class ConsentDetailsUpdateRequest extends Event {
 
-    final List<Consent> consents;
+    final List<ConsentDetail> consentDetails;
 
-    public ConsentDetailsUpdateRequest(final List<Consent> consents) {
-        this.consents = consents;
+    public ConsentDetailsUpdateRequest(final List<ConsentDetail> consentDetails) {
+        this.consentDetails = consentDetails;
     }
 
-    public List<Consent> getConsents() {
-        return consents;
+    public List<ConsentDetail> getConsentDetails() {
+        return consentDetails;
     }
 }

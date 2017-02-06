@@ -6,7 +6,7 @@ import java.io.Serializable;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public interface Consent extends BaseAppData, Serializable {
+public interface ConsentDetail extends BaseAppData, Serializable {
 
     String DEFAULT_DOCUMENT_VERSION = "draft";
     String DEFAULT_DEVICE_IDENTIFICATION_NUMBER = "manual";

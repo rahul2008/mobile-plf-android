@@ -1,6 +1,6 @@
 package com.philips.platform.core;
 
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
@@ -193,18 +193,18 @@ public class BaseAppCoreTest {
 
     @Test
     public void ShouldCreateConsent_WhenCreateConsentIsCalled() {
-        Consent consent = baseAppCoreCreator.createConsent("TEST_CREATOR_ID");
-        assertThat(consent.getCreatorId()).isEqualTo("TEST_CREATOR_ID");
+        ConsentDetail consentDetail = baseAppCoreCreator.createConsent("TEST_CREATOR_ID");
+        assertThat(consentDetail.getCreatorId()).isEqualTo("TEST_CREATOR_ID");
     }
 
     @Test
     public void ShouldCreateConsentDetail_WhenCreateConsentDetailIsCalled() {
-        Consent consent = baseAppCoreCreator.createConsent("TEST_CREATOR_ID");
-        Consent consentDetail = baseAppCoreCreator.createConsent("HEIGHT", "accepted", "1.0", Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER, true, consent);
+        ConsentDetail consent = baseAppCoreCreator.createConsent("TEST_CREATOR_ID");
+        ConsentDetail consentDetailDetail = baseAppCoreCreator.createConsent("HEIGHT", "accepted", "1.0", ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER, true, consent);
 
-        assertThat(consentDetail.getType()).isEqualTo("HEIGHT");
-        assertThat(consentDetail.getStatus()).isEqualTo("accepted");
-        assertThat(consentDetail.getVersion()).isEqualTo("1.0");
+        assertThat(consentDetailDetail.getType()).isEqualTo("HEIGHT");
+        assertThat(consentDetailDetail.getStatus()).isEqualTo("accepted");
+        assertThat(consentDetailDetail.getVersion()).isEqualTo("1.0");
     }
 
     @Test(expected = NullPointerException.class)

@@ -1,7 +1,7 @@
 package com.philips.platform.datasync.consent;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.events.ConsentBackendGetRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -35,7 +35,7 @@ public class ConsentsDataFetcherTest {
     Eventing eventingMock;
 
     @Mock
-    Consent consentMock;
+    ConsentDetail consentDetailMock;
 
     @Captor
     private ArgumentCaptor<ConsentBackendGetRequest> ConsentBackendGetRequestEventCaptor;
@@ -69,12 +69,12 @@ public class ConsentsDataFetcherTest {
 
     @Test
     public void shouldReturnConsentDetails_WhenGetConsentDetailsIsCalled() throws Exception {
-        consentDataFetcher.getConsents();
+        consentDataFetcher.getConsentDetails();
 
     }
     @Test
     public void shouldFetchDataSince_WhenDataSenderToSetConsentDetail() throws Exception {
-        consentDataFetcher.setConsents(Collections.singletonList(consentMock));
+        consentDataFetcher.setConsentDetails(Collections.singletonList(consentDetailMock));
     }
 
     @Test

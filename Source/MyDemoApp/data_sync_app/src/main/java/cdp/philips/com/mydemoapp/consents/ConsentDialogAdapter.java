@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 
 import java.util.ArrayList;
@@ -23,11 +23,11 @@ import cdp.philips.com.mydemoapp.R;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context mContext;
-    private ArrayList<? extends Consent> consentDetails;
-   // private Consent mConsent;
+    private ArrayList<? extends ConsentDetail> consentDetails;
+   // private ConsentDetail mConsent;
     private final ConsentDialogPresenter consentDialogPresenter;
 
-    public ConsentDialogAdapter(final Context context, ArrayList<? extends Consent> consentDetails, ConsentDialogPresenter consentDialogPresenter) {
+    public ConsentDialogAdapter(final Context context, ArrayList<? extends ConsentDetail> consentDetails, ConsentDialogPresenter consentDialogPresenter) {
         mContext = context;
         this.consentDetails = consentDetails;
         this.consentDialogPresenter = consentDialogPresenter;
@@ -70,7 +70,7 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public void updateConsent() {
-        consentDialogPresenter.updateConsent((List<Consent>) consentDetails);
+        consentDialogPresenter.updateConsent((List<ConsentDetail>) consentDetails);
     }
 
 
@@ -84,8 +84,8 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
 
-    public void setData(ArrayList<? extends Consent> consentDetails) {
-        this.consentDetails = consentDetails; //new ArrayList(consent.getConsents());
+    public void setData(ArrayList<? extends ConsentDetail> consentDetails) {
+        this.consentDetails = consentDetails; //new ArrayList(consent.getConsentDetails());
        // this.mConsent = consent;
     }
 

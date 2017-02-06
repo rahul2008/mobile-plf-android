@@ -1,7 +1,7 @@
 package com.philips.platform.core.monitors;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
@@ -88,7 +88,7 @@ public class FetchingMonitorTest {
     @Mock
     private SynchronisationData synchronizationDataMock;
     @Mock
-    private Consent consentDetailsMock;
+    private ConsentDetail consentDetailDetailsMock;
 
     private DateTime uGrowDateTime;
 

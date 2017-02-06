@@ -1,7 +1,7 @@
 package com.philips.platform.core.events;
 
 
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 
 import java.util.List;
 
@@ -11,18 +11,18 @@ import java.util.List;
  */
 public class ConsentBackendSaveRequest extends Event {
 
-    private final List<Consent> consentList;
+    private final List<ConsentDetail> consentDetailList;
     private RequestType requestType = RequestType.SAVE;
 
     public enum RequestType {SAVE, UPDATE};
 
-    public ConsentBackendSaveRequest(List<Consent> consentList, RequestType requestType) {
-        this.consentList = consentList;
+    public ConsentBackendSaveRequest(List<ConsentDetail> consentDetailList, RequestType requestType) {
+        this.consentDetailList = consentDetailList;
         this.requestType = requestType;
     }
 
-    public List<Consent> getConsentList() {
-        return consentList;
+    public List<ConsentDetail> getConsentDetailList() {
+        return consentDetailList;
     }
 
     public RequestType getRequestType() {

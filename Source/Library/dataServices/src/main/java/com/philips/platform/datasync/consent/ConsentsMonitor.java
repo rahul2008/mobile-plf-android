@@ -2,7 +2,7 @@ package com.philips.platform.datasync.consent;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
@@ -49,7 +49,7 @@ public class ConsentsMonitor extends EventMonitor {
     @NonNull
     private final ConsentsConverter consentsConverter;
 
-    private  DataServicesManager mDataServicesManager;
+    private DataServicesManager mDataServicesManager;
 
     //private BaseAppDataCreator mDataCreater;
 
@@ -61,7 +61,7 @@ public class ConsentsMonitor extends EventMonitor {
         this.uCoreAdapter = uCoreAdapter;
         this.consentsConverter = consentsConverter;
         this.gsonConverter = gsonConverter;
-        mDataServicesManager=DataServicesManager.getInstance();
+        mDataServicesManager = DataServicesManager.getInstance();
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
@@ -86,35 +86,35 @@ public class ConsentsMonitor extends EventMonitor {
             postError(event.getEventId(), getNonLoggedInError());
             return;
         }
-        if(event.getConsents()==null || uCoreAccessProvider==null){
+        if (event.getConsentDetails() == null || uCoreAccessProvider == null) {
             return;
         }
 
         ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
         try {
 
-            List<Consent> consents =event.getConsents();
-            ArrayList<String> consentDetailTypes = new ArrayList<>();
+            List<ConsentDetail> consentDetails = event.getConsentDetails();
+            ArrayList<String> consentTypes = new ArrayList<>();
             ArrayList<String> deviceIdentificationList = new ArrayList<>();
             ArrayList<String> documentVersionList = new ArrayList<>();
-            for(Consent consent : consents){
-                consentDetailTypes.add(consent.getType());
-                deviceIdentificationList.add(consent.getDeviceIdentificationNumber());
-                documentVersionList.add(consent.getVersion());
 
+            for (ConsentDetail consentDetail : consentDetails) {
+                consentTypes.add(consentDetail.getType());
+                deviceIdentificationList.add(consentDetail.getDeviceIdentificationNumber());
+                documentVersionList.add(consentDetail.getVersion());
             }
 
-            List<UCoreConsentDetail> consentDetailList = client.getConsent(uCoreAccessProvider.getUserId(), consentDetailTypes,
-                    deviceIdentificationList,documentVersionList);
+            List<UCoreConsentDetail> consentDetailList = client.getConsent(uCoreAccessProvider.getUserId(), consentTypes,
+                    deviceIdentificationList, documentVersionList);
             if (consentDetailList != null && !consentDetailList.isEmpty()) {
-                List<Consent> appConsents = consentsConverter.convertToAppConsentDetails(consentDetailList);
+                List<ConsentDetail> appConsentDetails = consentsConverter.convertToAppConsentDetails(consentDetailList);
 
-                eventing.post(new ConsentBackendSaveResponse(appConsents, HttpURLConnection.HTTP_OK, null));
+                eventing.post(new ConsentBackendSaveResponse(appConsentDetails, HttpURLConnection.HTTP_OK, null));
             } else {
                 eventing.post(new ConsentBackendSaveResponse(null, HttpURLConnection.HTTP_OK, null));
             }
-        }  catch (RetrofitError ex) {
-        eventing.post(new BackendDataRequestFailed(ex));
+        } catch (RetrofitError ex) {
+            eventing.post(new BackendDataRequestFailed(ex));
 
         }
     }
@@ -129,18 +129,18 @@ public class ConsentsMonitor extends EventMonitor {
             postError(event.getEventId(), getNonLoggedInError());
             return;
         }
-        if(uCoreAccessProvider==null){
+        if (uCoreAccessProvider == null) {
             return;
         }
-        ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class,uCoreAccessProvider.getAccessToken(), gsonConverter);
+        ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
         try {
-            List<UCoreConsentDetail> consentDetailList = consentsConverter.convertToUCoreConsentDetails(event.getConsentList());
+            List<UCoreConsentDetail> consentDetailList = consentsConverter.convertToUCoreConsentDetails(event.getConsentDetailList());
 
             if (consentDetailList.isEmpty()) {
                 return;
             }
             client.saveConsent(uCoreAccessProvider.getUserId(), consentDetailList);
-            eventing.post(new SyncBitUpdateRequest(OrmTableType.CONSENTS,true));
+            eventing.post(new SyncBitUpdateRequest(OrmTableType.CONSENT, true));
 
         } catch (RetrofitError error) {
             postError(event.getEventId(), error);
@@ -148,7 +148,7 @@ public class ConsentsMonitor extends EventMonitor {
     }
 
     public boolean isUserInvalid() {
-        if(uCoreAccessProvider!=null) {
+        if (uCoreAccessProvider != null) {
             String accessToken = uCoreAccessProvider.getAccessToken();
             return !uCoreAccessProvider.isLoggedIn() || accessToken == null || accessToken.isEmpty();
         }

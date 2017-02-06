@@ -13,7 +13,7 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.datatypes.Settings;
@@ -32,7 +32,7 @@ import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
-import cdp.philips.com.mydemoapp.database.table.OrmConsent;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmDCSync;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
@@ -70,7 +70,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<OrmMeasurementGroup, Integer> measurementGroup;
     private Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails;
     private Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
-    private Dao<OrmConsent, Integer> consentDetailDao;
+    private Dao<OrmConsentDetail, Integer> consentDetailDao;
     private Dao<OrmSettings, Integer> settingDao;
 
     private Dao<OrmCharacteristics, Integer> characteristicsDao;
@@ -106,19 +106,19 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private void insertDefaultConsent() {
         DataServicesManager mDataServices = DataServicesManager.getInstance();
-        List<Consent> consents = new ArrayList<>();
+        List<ConsentDetail> consentDetails = new ArrayList<>();
 
-        consents.add(mDataServices.createConsent
-                (ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED,
-                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
+        consentDetails.add(mDataServices.createConsentDetail
+                (ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED,ConsentDetail.DEFAULT_DOCUMENT_VERSION,
+                        ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
 
-        consents.add(mDataServices.createConsent
-                (ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED,
-                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
-        consents.add(mDataServices.createConsent
-                (ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED,
-                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
-        mDataServices.saveConsent(consents, null);
+        consentDetails.add(mDataServices.createConsentDetail
+                (ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED,ConsentDetail.DEFAULT_DOCUMENT_VERSION,
+                        ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
+        consentDetails.add(mDataServices.createConsentDetail
+                (ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED,ConsentDetail.DEFAULT_DOCUMENT_VERSION,
+                        ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
+        mDataServices.saveConsentDetail(consentDetails, null);
     }
 
     private void insertDefaultDCSyncValues() {
@@ -217,7 +217,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.createTable(connectionSource, OrmMeasurementDetail.class);
         TableUtils.createTable(connectionSource, OrmMeasurementDetailType.class);
         TableUtils.createTable(connectionSource, OrmSynchronisationData.class);
-        TableUtils.createTable(connectionSource, OrmConsent.class);
+        TableUtils.createTable(connectionSource, OrmConsentDetail.class);
         TableUtils.createTable(connectionSource, OrmMeasurementGroup.class);
         TableUtils.createTable(connectionSource, OrmMeasurementGroupDetail.class);
         TableUtils.createTable(connectionSource, OrmMeasurementGroupDetailType.class);
@@ -282,7 +282,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.dropTable(connectionSource, OrmMeasurementDetail.class, true);
         TableUtils.dropTable(connectionSource, OrmMeasurementDetailType.class, true);
         TableUtils.dropTable(connectionSource, OrmSynchronisationData.class, true);
-        TableUtils.dropTable(connectionSource, OrmConsent.class, true);
+        TableUtils.dropTable(connectionSource, OrmConsentDetail.class, true);
         TableUtils.dropTable(connectionSource, OrmSettings.class, true);
         TableUtils.dropTable(connectionSource, OrmCharacteristics.class, true);
         TableUtils.dropTable(connectionSource, OrmDCSync.class, true);
@@ -373,9 +373,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
 
-    public Dao<OrmConsent, Integer> getConsentDetailsDao() throws SQLException {
+    public Dao<OrmConsentDetail, Integer> getConsentDetailsDao() throws SQLException {
         if (consentDetailDao == null) {
-            consentDetailDao = getDao(OrmConsent.class);
+            consentDetailDao = getDao(OrmConsentDetail.class);
         }
         return consentDetailDao;
     }

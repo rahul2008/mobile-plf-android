@@ -10,7 +10,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
@@ -30,7 +30,7 @@ import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
-import cdp.philips.com.mydemoapp.database.table.OrmConsent;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetailType;
@@ -117,9 +117,9 @@ public class OrmCreator implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public Consent createConsent(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber) {
+    public ConsentDetail createConsent(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber) {
 
-        return new OrmConsent(type, status, version, deviceIdentificationNumber);
+        return new OrmConsentDetail(type, status, version, deviceIdentificationNumber);
     }
 
     @NonNull

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
-import cdp.philips.com.mydemoapp.database.table.OrmConsent;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
@@ -55,7 +55,7 @@ public class OrmDeleting {
     private final Dao<OrmMeasurementGroup, Integer> measurementGroupsDao;
 
     @NonNull
-    private final Dao<OrmConsent, Integer> consentDetailDao;
+    private final Dao<OrmConsentDetail, Integer> consentDetailDao;
 
 
     @NonNull
@@ -72,7 +72,7 @@ public class OrmDeleting {
                        @NonNull final Dao<OrmSynchronisationData, Integer> synchronisationDataDao,
                        @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetailDao,
                        @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroupsDao,
-                       @NonNull final Dao<OrmConsent, Integer> constentDetailsDao,
+                       @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao,
                        @NonNull Dao<OrmCharacteristics, Integer> characteristicsesDao, Dao<OrmSettings, Integer> settingsDao) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
@@ -198,7 +198,7 @@ public class OrmDeleting {
 
 
     public void deleteConsents() throws SQLException {
-        DeleteBuilder<OrmConsent, Integer> ormConsentDetailDao = consentDetailDao.deleteBuilder();
+        DeleteBuilder<OrmConsentDetail, Integer> ormConsentDetailDao = consentDetailDao.deleteBuilder();
         ormConsentDetailDao.delete();
     }
 

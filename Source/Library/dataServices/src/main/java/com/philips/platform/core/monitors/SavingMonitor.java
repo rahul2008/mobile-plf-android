@@ -41,13 +41,13 @@ public class SavingMonitor extends EventMonitor {
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final DatabaseConsentSaveRequest consentSaveRequest) throws SQLException {
-        boolean saved = dbInterface.saveConsent(consentSaveRequest.getConsents(),consentSaveRequest.getDbRequestListener());
+        boolean saved = dbInterface.saveConsent(consentSaveRequest.getConsentDetails(),consentSaveRequest.getDbRequestListener());
 
         if (!saved) {
             dbInterface.postError(new Exception("Failed to insert"), consentSaveRequest.getDbRequestListener());
             return;
         }
-            eventing.post(new ConsentBackendSaveRequest(consentSaveRequest.getConsents(),ConsentBackendSaveRequest.RequestType.SAVE));
+            eventing.post(new ConsentBackendSaveRequest(consentSaveRequest.getConsentDetails(),ConsentBackendSaveRequest.RequestType.SAVE));
 
     }
 

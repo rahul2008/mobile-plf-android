@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
-import cdp.philips.com.mydemoapp.database.table.OrmConsent;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
@@ -51,7 +51,7 @@ public class OrmSaving {
     private final Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
 
     @NonNull
-    private final Dao<OrmConsent, Integer> consentDetailsDao;
+    private final Dao<OrmConsentDetail, Integer> consentDetailsDao;
 
     @NonNull
     private final Dao<OrmCharacteristics, Integer> characteristicsesDao;
@@ -67,7 +67,7 @@ public class OrmSaving {
                      @NonNull final Dao<OrmMeasurement, Integer> measurementDao,
                      @NonNull final Dao<OrmMeasurementDetail, Integer> measurementDetailDao,
                      @NonNull final Dao<OrmSynchronisationData, Integer> synchronisationDataDao,
-                     @NonNull final Dao<OrmConsent, Integer> constentDetailsDao,
+                     @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao,
                      @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroup,
                      @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails,
                      @NonNull final Dao<OrmCharacteristics, Integer> characteristicsesDao,
@@ -177,13 +177,13 @@ public class OrmSaving {
         }
     }
 
-    private void assureConsentDetailsAreSaved(Collection<? extends OrmConsent> consentDetails) throws SQLException {
-        for (OrmConsent consentDetail : consentDetails) {
+    private void assureConsentDetailsAreSaved(Collection<? extends OrmConsentDetail> consentDetails) throws SQLException {
+        for (OrmConsentDetail consentDetail : consentDetails) {
             saveConsent(consentDetail);
         }
     }
 
-    public void saveConsent(OrmConsent consentDetail) throws SQLException {
+    public void saveConsent(OrmConsentDetail consentDetail) throws SQLException {
         consentDetailsDao.createOrUpdate(consentDetail);
     }
 

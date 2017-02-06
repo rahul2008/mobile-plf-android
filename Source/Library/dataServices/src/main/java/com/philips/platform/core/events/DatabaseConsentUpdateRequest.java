@@ -1,7 +1,7 @@
 package com.philips.platform.core.events;
 
 
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.util.List;
@@ -12,15 +12,15 @@ import java.util.List;
  */
 public class DatabaseConsentUpdateRequest extends Event {
 
-    private final List<? extends Consent> consentDetails;
+    private final List<? extends ConsentDetail> consentDetails;
 
     private final DBRequestListener dbRequestListener;
 
-    public List<? extends Consent> getConsentDetails() {
+    public List<? extends ConsentDetail> getConsentDetails() {
         return consentDetails;
     }
 
-    public DatabaseConsentUpdateRequest(List<? extends Consent> consentDetails, DBRequestListener dbRequestListener) {
+    public DatabaseConsentUpdateRequest(List<? extends ConsentDetail> consentDetails, DBRequestListener dbRequestListener) {
 
         this.consentDetails = consentDetails;
 

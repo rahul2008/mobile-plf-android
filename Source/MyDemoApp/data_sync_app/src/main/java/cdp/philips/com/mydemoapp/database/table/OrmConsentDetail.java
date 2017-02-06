@@ -1,35 +1,48 @@
-package com.philips.testing.verticals.table;
+package cdp.philips.com.mydemoapp.database.table;
 
-import com.philips.platform.core.datatypes.Consent;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+import com.philips.platform.core.datatypes.ConsentDetail;
 
 import java.io.Serializable;
+
+import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class OrmConsent implements Consent, Serializable {
+@DatabaseTable
+public class OrmConsentDetail implements ConsentDetail, Serializable {
 
     public static final long serialVersionUID = 11L;
 
+    @DatabaseField(generatedId = true)
     private int id;
 
+    @DatabaseField(canBeNull = false)
     private String type;
 
+    @DatabaseField(canBeNull = false)
     private String version;
 
+    @DatabaseField(canBeNull = false)
     private String status;
 
+
+    @DatabaseField(canBeNull = false)
     private String deviceIdentificationNumber;
 
-    private OrmConsent ormConsent;
 
-    public OrmConsent(final String type, final String status, final String version, final String deviceIdentificationNumber, final OrmConsent ormConsent) {
+    @DatabaseConstructor
+    OrmConsentDetail() {
+    }
+
+    public OrmConsentDetail(final String type, final String status, final String version, final String deviceIdentificationNumber) {
         this.type = type;
         this.status = status;
         this.version = version;
         this.deviceIdentificationNumber = deviceIdentificationNumber;
-        this.ormConsent = ormConsent;
     }
 
     @Override
@@ -76,6 +89,6 @@ public class OrmConsent implements Consent, Serializable {
 
     @Override
     public String toString() {
-        return "[OrmConsent, id=" + id + ", OrmConsentDetailType=" + type + ", version=" + version + ", ormConsent=" + ormConsent + "]";
+        return "[OrmConsentDetail, id=" + id + ", OrmConsentDetailType=" + type + ", version=" + version + "]";
     }
 }

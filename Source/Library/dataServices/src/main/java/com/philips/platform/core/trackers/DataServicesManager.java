@@ -15,7 +15,7 @@ import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
@@ -174,22 +174,22 @@ public class DataServicesManager {
     }
 
     @NonNull
-    public void fetchConsent(DBRequestListener dbRequestListener) {
+    public void fetchConsentDetail(DBRequestListener dbRequestListener) {
         mEventing.post(new LoadConsentsRequest(dbRequestListener));
     }
 
 
-    public Consent createConsent(@NonNull final String detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber) {
-        return mDataCreater.createConsent(detailType, consentDetailStatusType.getDescription(), Consent.DEFAULT_DOCUMENT_VERSION, deviceIdentificationNumber);
+    public ConsentDetail createConsentDetail(@NonNull final String detailType, final ConsentDetailStatusType consentDetailStatusType,String documentVersion, final String deviceIdentificationNumber) {
+        return mDataCreater.createConsent(detailType, consentDetailStatusType.getDescription(), documentVersion, deviceIdentificationNumber);
     }
 
-    public void saveConsent(List<Consent> consents, DBRequestListener dbRequestListener) {
-        mEventing.post(new DatabaseConsentSaveRequest(consents,dbRequestListener));
+    public void saveConsentDetail(List<ConsentDetail> consentDetails, DBRequestListener dbRequestListener) {
+        mEventing.post(new DatabaseConsentSaveRequest(consentDetails,dbRequestListener));
     }
 
-    public void updateConsent(List<Consent> consents, DBRequestListener dbRequestListener) {
-        mEventing.post(new SyncBitUpdateRequest(OrmTableType.CONSENTS,false));
-        mEventing.post(new DatabaseConsentUpdateRequest(consents,dbRequestListener));
+    public void updateConsentDetail(List<ConsentDetail> consentDetails, DBRequestListener dbRequestListener) {
+        mEventing.post(new SyncBitUpdateRequest(OrmTableType.CONSENT,false));
+        mEventing.post(new DatabaseConsentUpdateRequest(consentDetails,dbRequestListener));
     }
 
     public Settings createSettings(String unit,String locale) {
@@ -381,9 +381,14 @@ public class DataServicesManager {
 
 
 
-    public void updateCharacteristics(List<Characteristics> characteristicses, DBRequestListener dbRequestListener) {
+    public void updateUserCharacteristics(List<Characteristics> characteristicses, DBRequestListener dbRequestListener) {
         mEventing.post(new UserCharacteristicsSaveRequest(characteristicses, dbRequestListener));
     }
+
+    public void saveUserCharacteristics(List<Characteristics> characteristicses, DBRequestListener dbRequestListener) {
+        mEventing.post(new UserCharacteristicsSaveRequest(characteristicses, dbRequestListener));
+    }
+
 
     public void fetchUserCharacteristics(DBRequestListener dbRequestListener) {
         mEventing.post(new LoadUserCharacteristicsRequest(dbRequestListener));

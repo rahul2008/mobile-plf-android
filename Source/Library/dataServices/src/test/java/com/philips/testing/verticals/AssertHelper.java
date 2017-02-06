@@ -1,6 +1,6 @@
 package com.philips.testing.verticals;
 
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.Moment;
@@ -52,17 +52,17 @@ public class AssertHelper {
         assertThat(actual.getValue()).isEqualTo(expected.getValue());
     }
 
-    public static void assertEquals(Consent expectedConsent, Consent actualConsent) {
-        assertThat(expectedConsent.getId()).isEqualTo(actualConsent.getId());
-        assertThat(expectedConsent.getCreatorId()).isEqualTo(actualConsent.getCreatorId());
-        assertThat(expectedConsent.getDateTime()).isEqualTo(actualConsent.getDateTime());
-       // assertThat(expectedConsent.isSynchronized()).isEqualTo(actualConsent.isSynchronized());
-    }
+    //public static void assertEquals(ConsentDetail expectedConsentDetail, ConsentDetail actualConsentDetail) {
+        //assertThat(expectedConsentDetail.getId()).isEqualTo(actualConsentDetail.getId());
+        //assertThat(expectedConsentDetail.getCreatorId()).isEqualTo(actualConsentDetail.getCreatorId());
+       // assertThat(expectedConsentDetail.getDateTime()).isEqualTo(actualConsentDetail.getDateTime());
+       // assertThat(expectedConsentDetail.isSynchronized()).isEqualTo(actualConsentDetail.isSynchronized());
+    //}
 
-    public static void assertEquals(Consent expectedConsent, Consent actualConsent) {
-        assertThat(expectedConsent.getId()).isEqualTo(actualConsent.getId());
-        assertThat(expectedConsent.getType()).isEqualTo(actualConsent.getType());
-        assertThat(expectedConsent.getStatus()).isEqualTo(actualConsent.getStatus());
-        assertThat(expectedConsent.getVersion()).isEqualTo(actualConsent.getVersion());
+    public static void assertEquals(ConsentDetail expectedConsentDetail, ConsentDetail actualConsentDetail) {
+        assertThat(expectedConsentDetail.getId()).isEqualTo(actualConsentDetail.getId());
+        assertThat(expectedConsentDetail.getType()).isEqualTo(actualConsentDetail.getType());
+        assertThat(expectedConsentDetail.getStatus()).isEqualTo(actualConsentDetail.getStatus());
+        assertThat(expectedConsentDetail.getVersion()).isEqualTo(actualConsentDetail.getVersion());
     }
 }

@@ -8,7 +8,7 @@ import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
@@ -98,7 +98,7 @@ public class DataServicesManagerTest {
     @Mock
     private Measurement measurementMock;
     @Mock
-    private Consent consentMock;
+    private ConsentDetail consentDetailMock;
 
     @Mock
     private MeasurementDetail measurementDetailMock;
@@ -123,7 +123,7 @@ public class DataServicesManagerTest {
     @Spy
     Context mockContext;
     @Mock
-    private Consent consentMock;
+    private ConsentDetail consentDetailMock;
 //    @Mock
     //UserCharacteristics userCharacteristicsMock;
 
@@ -210,7 +210,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostFetchConsentEvent_WhenFetchConsentIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.fetchConsent(dbRequestListener);
+        tracker.fetchConsentDetail(dbRequestListener);
 
         verify(eventingMock).post(any(LoadConsentsRequest.class));
     }
@@ -226,14 +226,14 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldcreateConsent_WhenConsentIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.createConsent();
+        tracker.createConsentDetail();
 
-//        verify(baseAppDataCreator).createConsent("fsdf");
+//        verify(baseAppDataCreator).createConsentDetail("fsdf");
     }
 
     @Test
     public void ShouldCreateConsentDetail_WhenCreateConsentDetailIsCalled() throws Exception {
-        tracker.createConsent(consentMock, TEST_CONSENT_DETAIL_TYPE, ConsentDetailStatusType.ACCEPTED, "fsdfsdf");
+        tracker.createConsentDetail(consentDetailMock, TEST_CONSENT_DETAIL_TYPE, ConsentDetailStatusType.ACCEPTED, "fsdfsdf");
     }
 
     @Test
@@ -247,20 +247,20 @@ public class DataServicesManagerTest {
 /*    @Test(expected = NullPointerException.class)
     public void ShouldAddConcentDetail_WhenConsentDetailIsCreated() throws Exception {
        // tracker.initialize(null, null, null,null);
-        Consent consentDetail = baseAppDataCreator.createConsent("TEMPERATURE", TEST_CONSENT_DETAIL_TYPE, "", "fsdfsdf", true, consentMock);
-        verify(consentMock).addConsentDetails(consentDetail);
+        ConsentDetail consentDetail = baseAppDataCreator.createConsentDetail("TEMPERATURE", TEST_CONSENT_DETAIL_TYPE, "", "fsdfsdf", true, consentDetailMock);
+        verify(consentDetailMock).addConsentDetails(consentDetail);
     }*/
 
     //TODO: Spoorti -- Fix it later
     /*@Test
     public void ShouldAddConcentDetail_WhenConsentIsNull() throws Exception {
-        tracker.createConsent(null, TEST_CONSENT_DETAIL_TYPE, ConsentDetailStatusType.ACCEPTED, "fsdfsdf");
+        tracker.createConsentDetail(null, TEST_CONSENT_DETAIL_TYPE, ConsentDetailStatusType.ACCEPTED, "fsdfsdf");
     }*/
 
     @Test
     public void ShouldPostSaveConsentEvent_WhenSaveConsentIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.saveConsent(consentMock,dbRequestListener);
+        tracker.saveConsentDetail(consentDetailMock,dbRequestListener);
 
         verify(eventingMock).post(any(DatabaseConsentSaveRequest.class));
     }
@@ -286,7 +286,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostUpdateConsentEvent_WhenUpdateConsentIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.updateConsent(consentMock,dbRequestListener);
+        tracker.updateConsentDetail(consentDetailMock,dbRequestListener);
 
         verify(eventingMock).post(any(DatabaseConsentSaveRequest.class));
     }

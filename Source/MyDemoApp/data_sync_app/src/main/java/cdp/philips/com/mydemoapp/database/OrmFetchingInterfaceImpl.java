@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
-import cdp.philips.com.mydemoapp.database.table.OrmConsent;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmDCSync;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSettings;
@@ -50,7 +50,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
     @NonNull
     private Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
-    private final Dao<OrmConsent, Integer> consentDetailsDao;
+    private final Dao<OrmConsentDetail, Integer> consentDetailsDao;
     private final Dao<OrmSettings, Integer> settingsDao;
 
     private final Dao<OrmCharacteristics, Integer> characteristicsDao;
@@ -62,7 +62,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
 
     public OrmFetchingInterfaceImpl(final @NonNull Dao<OrmMoment, Integer> momentDao,
-                                    final @NonNull Dao<OrmSynchronisationData, Integer> synchronisationDataDao, Dao<OrmConsent, Integer> consentDetailsDao, Dao<OrmCharacteristics, Integer> characteristicsDao, Dao<OrmSettings, Integer> settingsDao, Dao<OrmDCSync, Integer> ormDCSyncDao) {
+                                    final @NonNull Dao<OrmSynchronisationData, Integer> synchronisationDataDao, Dao<OrmConsentDetail, Integer> consentDetailsDao, Dao<OrmCharacteristics, Integer> characteristicsDao, Dao<OrmSettings, Integer> settingsDao, Dao<OrmDCSync, Integer> ormDCSyncDao) {
 
         this.momentDao = momentDao;
         this.synchronisationDataDao = synchronisationDataDao;
@@ -83,8 +83,8 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     @Override
     public void fetchConsents(DBRequestListener dbRequestListener) throws SQLException {
 
-        QueryBuilder<OrmConsent, Integer> queryBuilder = consentDetailsDao.queryBuilder();
-        ArrayList<OrmConsent> ormConsents = (ArrayList<OrmConsent>) consentDetailsDao.query(queryBuilder.prepare());
+        QueryBuilder<OrmConsentDetail, Integer> queryBuilder = consentDetailsDao.queryBuilder();
+        ArrayList<OrmConsentDetail> ormConsents = (ArrayList<OrmConsentDetail>) consentDetailsDao.query(queryBuilder.prepare());
         if (ormConsents != null && !ormConsents.isEmpty()) {
             notifyDBRequestListener.notifySuccess(dbRequestListener, ormConsents);
         }
@@ -93,9 +93,9 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     @Override
     public List<?> fetchNonSyncConsents() throws SQLException {
 
-        List<OrmConsent> ormConsents =new ArrayList<>();
-        if(!isSynced(OrmTableType.CONSENTS.getId())){
-            QueryBuilder<OrmConsent, Integer> queryBuilder = consentDetailsDao.queryBuilder();
+        List<OrmConsentDetail> ormConsents =new ArrayList<>();
+        if(!isSynced(OrmTableType.CONSENT.getId())){
+            QueryBuilder<OrmConsentDetail, Integer> queryBuilder = consentDetailsDao.queryBuilder();
             ormConsents = consentDetailsDao.query(queryBuilder.prepare());
             return ormConsents;
         }

@@ -1,7 +1,7 @@
 package com.philips.platform.datasync.settings;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ConsentBackendSaveRequest;
@@ -91,7 +91,7 @@ public class SettingsMonitorTest {
     private List<UCoreConsentDetail> uCoreConsentDetailMock;
 
     @Mock
-    private Collection<? extends Consent> consentDetailListMock;
+    private Collection<? extends ConsentDetail> consentDetailListMock;
 
     @Mock
     private SettingsBackendSaveRequest settingsBackendSaveRequestMock;

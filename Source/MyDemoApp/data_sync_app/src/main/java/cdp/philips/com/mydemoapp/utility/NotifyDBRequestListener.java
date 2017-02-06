@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cdp.philips.com.mydemoapp.database.OrmTypeChecking;
-import cdp.philips.com.mydemoapp.database.table.OrmConsent;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 
 /**
@@ -53,7 +53,7 @@ public class NotifyDBRequestListener {
         }
     }
 
-    public void notifySuccess(DBRequestListener dbRequestListener, ArrayList<OrmConsent> ormConsents) {
+    public void notifySuccess(DBRequestListener dbRequestListener, ArrayList<OrmConsentDetail> ormConsents) {
         if(dbRequestListener!=null) {
             dbRequestListener.onSuccess(ormConsents);
         }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){
@@ -75,7 +75,7 @@ public class NotifyDBRequestListener {
         }
     }
 
-    public void notifySuccess(DBRequestListener dbRequestListener, List<OrmConsent> ormConsents) {
+    public void notifySuccess(DBRequestListener dbRequestListener, List<OrmConsentDetail> ormConsents) {
         if(dbRequestListener!=null) {
             dbRequestListener.onSuccess(ormConsents);
         }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){

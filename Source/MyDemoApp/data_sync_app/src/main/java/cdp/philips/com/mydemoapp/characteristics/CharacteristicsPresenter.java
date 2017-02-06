@@ -44,7 +44,7 @@ public class CharacteristicsPresenter {
                     saveUserCharacteristicsToLocalDBRecursively(characteristicsList, characteristics, mAppUserCharacteristics.getCharacteristics().get(i).getCharacteristics());
                 }
             }
-            mDataServicesManager.updateCharacteristics(characteristicsList,dbRequestListener);
+            mDataServicesManager.updateUserCharacteristics(characteristicsList,dbRequestListener);
         } catch (JsonParseException exception) {
             return false;
         }

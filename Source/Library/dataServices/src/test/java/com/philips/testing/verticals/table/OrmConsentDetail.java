@@ -1,48 +1,35 @@
-package cdp.philips.com.mydemoapp.database.table;
+package com.philips.testing.verticals.table;
 
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 
 import java.io.Serializable;
-
-import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-@DatabaseTable
-public class OrmConsent implements Consent, Serializable {
+public class OrmConsentDetail implements ConsentDetail, Serializable {
 
     public static final long serialVersionUID = 11L;
 
-    @DatabaseField(generatedId = true)
     private int id;
 
-    @DatabaseField(canBeNull = false)
     private String type;
 
-    @DatabaseField(canBeNull = false)
     private String version;
 
-    @DatabaseField(canBeNull = false)
     private String status;
 
-
-    @DatabaseField(canBeNull = false)
     private String deviceIdentificationNumber;
 
+    private OrmConsentDetail ormConsent;
 
-    @DatabaseConstructor
-    OrmConsent() {
-    }
-
-    public OrmConsent(final String type, final String status, final String version, final String deviceIdentificationNumber) {
+    public OrmConsentDetail(final String type, final String status, final String version, final String deviceIdentificationNumber, final OrmConsentDetail ormConsent) {
         this.type = type;
         this.status = status;
         this.version = version;
         this.deviceIdentificationNumber = deviceIdentificationNumber;
+        this.ormConsent = ormConsent;
     }
 
     @Override
@@ -89,6 +76,6 @@ public class OrmConsent implements Consent, Serializable {
 
     @Override
     public String toString() {
-        return "[OrmConsent, id=" + id + ", OrmConsentDetailType=" + type + ", version=" + version + "]";
+        return "[OrmConsentDetail, id=" + id + ", OrmConsentDetailType=" + type + ", version=" + version + ", ormConsent=" + ormConsent + "]";
     }
 }

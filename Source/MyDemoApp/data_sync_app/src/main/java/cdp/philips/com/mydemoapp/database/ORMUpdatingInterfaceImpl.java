@@ -1,7 +1,7 @@
 package cdp.philips.com.mydemoapp.database;
 
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
-import cdp.philips.com.mydemoapp.database.table.OrmConsent;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
@@ -79,12 +79,12 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
 
 
     @Override
-    public boolean updateConsent(final List<? extends Consent> consents, DBRequestListener dbRequestListener) throws SQLException {
+    public boolean updateConsent(final List<? extends ConsentDetail> consents, DBRequestListener dbRequestListener) throws SQLException {
 
         deleting.deleteConsents();
-        for(Consent consent :consents){
+        for(ConsentDetail consentDetail :consents){
             try {
-                OrmConsent ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
+                OrmConsentDetail ormConsent = OrmTypeChecking.checkOrmType(consentDetail, OrmConsentDetail.class);
                 saving.saveConsent(ormConsent);
             } catch (OrmTypeChecking.OrmTypeException e) {
                 e.printStackTrace();
