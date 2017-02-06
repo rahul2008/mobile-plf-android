@@ -190,15 +190,15 @@ dependencies {
     //3rd party
     compile 'com.google.code.gson:gson:2.2.4'
     //Coco
-    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.6.0-SNAPSHOT', ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.7.4-SNAPSHOT', ext: 'aar', changing: true)
             {
                 transitive = true
             }
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '8.3.0-SNAPSHOT', ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '8.4.4-SNAPSHOT', ext: 'aar', changing: true) {
 
         transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'prx', version: '3.0.0-SNAPSHOT', ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'prx', version: '3.1.4-SNAPSHOT', ext: 'aar', changing: true) {
         transitive = true
     }
     // Tests
