@@ -1,4 +1,4 @@
-package com.philips.platform.uid.components.navigation;
+package com.philips.platform.uid.components;
 
 import android.content.Intent;
 import android.os.Bundle;

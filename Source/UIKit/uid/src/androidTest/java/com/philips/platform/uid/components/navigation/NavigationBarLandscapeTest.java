@@ -13,6 +13,7 @@ import android.support.test.rule.ActivityTestRule;
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.activity.LandscapeModeActivity;
+import com.philips.platform.uid.components.BaseTest;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.thememanager.NavigationColor;
