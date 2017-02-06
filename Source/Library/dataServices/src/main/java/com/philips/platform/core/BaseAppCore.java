@@ -19,7 +19,6 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SynchronisationData;
-import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.monitors.ErrorMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -141,26 +140,18 @@ public class BaseAppCore implements BaseAppDataCreator {
         return database.createSettings(type,value);
     }
 
+
+
     @NonNull
     @Override
-    public UserCharacteristics createCharacteristics(String creatorId) {
-        return database.createCharacteristics(creatorId);
+    public Characteristics createCharacteristics(String type, String value, Characteristics characteristics) {
+        return database.createCharacteristics(type, value ,characteristics);
     }
 
     @NonNull
     @Override
-    public Characteristics createCharacteristicsDetails(String type, String value,
-                                                        UserCharacteristics userCharacteristics,
-                                                        Characteristics characteristics) {
-        return database.createCharacteristicsDetails(type, value, userCharacteristics,
-                characteristics);
-    }
-
-    @NonNull
-    @Override
-    public Characteristics createCharacteristicsDetails(String type,
-                                                        String value, UserCharacteristics userCharacteristics) {
-        return database.createCharacteristicsDetails(type, value, userCharacteristics);
+    public Characteristics createCharacteristics(String type, String value) {
+        return database.createCharacteristics(type, value);
     }
 
 }

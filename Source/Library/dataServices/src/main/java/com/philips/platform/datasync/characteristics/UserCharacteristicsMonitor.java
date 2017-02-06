@@ -5,7 +5,6 @@
 package com.philips.platform.datasync.characteristics;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.CharacteristicsBackendGetRequest;
 import com.philips.platform.core.events.CharacteristicsBackendSaveRequest;
@@ -62,13 +61,7 @@ public class UserCharacteristicsMonitor extends EventMonitor {
             postError(characteristicsBackendSaveRequest.getEventId(), getNonLoggedInError());
             return;
         }
-        UserCharacteristics characteristic = characteristicsBackendSaveRequest.getCharacteristic();
-         mUserCharacteristicsSender.sendDataToBackend(Collections.singletonList(characteristic));
-//        if(isSentToBackEnd){
-//            characteristic.setSynchronized(true);
-//            DSLog.d(DSLog.LOG, "Inder = Inside UC Monitor "+characteristic.getCharacteristicsDetails());
-//            eventing.post(new UserCharacteristicsSaveRequest(characteristic));
-//        }
+         mUserCharacteristicsSender.sendDataToBackend(characteristicsBackendSaveRequest.getCharacteristicsList());
     }
 
     private boolean isUserInvalid() {

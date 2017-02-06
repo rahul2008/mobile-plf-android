@@ -5,24 +5,24 @@
 
 package cdp.philips.com.mydemoapp.database;
 
+import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.datatypes.UserCharacteristics;
 
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
-import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSettings;
-import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
 
 public class ORMSavingInterfaceImpl implements DBSavingInterface {
@@ -75,15 +75,16 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     }
 
     @Override
-    public boolean saveUserCharacteristics(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) throws SQLException {
-        DSLog.d("Inder saveUserCharacteristics delete", userCharacteristics.getCharacteristicsDetails().toString());
-        OrmCharacteristics ormCharacteristics;
+    public boolean saveUserCharacteristics(List<Characteristics> characteristicsList, DBRequestListener dbRequestListener) throws SQLException {
+
         try {
-            ormCharacteristics = OrmTypeChecking.checkOrmType(userCharacteristics, OrmCharacteristics.class);
             deleting.deleteCharacteristics();
-            DSLog.d("Inder saveUserCharacteristics OrmCharacteristeics save", ormCharacteristics.getCharacteristicsDetails().toString());
-            saving.saveCharacteristics(ormCharacteristics);
-            updateUCUI(userCharacteristics,dbRequestListener);
+            for(Characteristics characteristics:characteristicsList) {
+                OrmCharacteristics ormCharacteristics = OrmTypeChecking.checkOrmType(characteristics, OrmCharacteristics.class);
+                saving.saveCharacteristics(ormCharacteristics);
+            }
+            updating.updateDCSync(OrmTableType.CHARACTERISTICS.getId(),false);
+            updateUCUI(characteristicsList,dbRequestListener);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             e.printStackTrace();
@@ -107,12 +108,12 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
     }
 
-    private void updateUCUI(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) {
+    private void updateUCUI(List<Characteristics> characteristicsList, DBRequestListener dbRequestListener) {
             if(dbRequestListener==null){
                 return;
             }
-            if(userCharacteristics !=null){
-                dbRequestListener.onSuccess(userCharacteristics);
+            if(characteristicsList !=null){
+                dbRequestListener.onSuccess(characteristicsList);
             } else {
                 dbRequestListener.onSuccess(null);
             }

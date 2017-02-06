@@ -2,7 +2,6 @@ package com.philips.platform.datasync.characteristics;
 
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
@@ -24,7 +23,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class UserCharacteristicsConverterTest {
 
-    private final String TEST_CHARACTERISTICS = "TEST_CHARACTERISTICS";
     private UserCharacteristicsConverter userCharacteristicsConvertor;
 
     private BaseAppDataCreator verticalDataCreater;
@@ -60,16 +58,18 @@ public class UserCharacteristicsConverterTest {
 
     @Test
     public void ShouldReturnUCoreCharacteristics_WhenAppCharacteristicsIsPassedWithType() throws Exception {
-        UserCharacteristics userCharacteristics = userCharacteristicsConvertor.dataCreator.createCharacteristics("TEST_CREATORID");
-        Characteristics characteristics = userCharacteristicsConvertor.dataCreator.createCharacteristicsDetails("TYPE", "VALUE", userCharacteristics);
-        Characteristics characteristicsDetail1 = userCharacteristicsConvertor.dataCreator.createCharacteristicsDetails("TYPE", "VALUE", userCharacteristics, characteristics);
+        Characteristics userCharacteristics = userCharacteristicsConvertor.dataCreator.createCharacteristics("TYPE", "VALUE");
+        Characteristics characteristics = userCharacteristicsConvertor.dataCreator.createCharacteristics("TYPE", "VALUE", userCharacteristics);
+        Characteristics characteristicsDetail1 = userCharacteristicsConvertor.dataCreator.createCharacteristics("TYPE", "VALUE", characteristics);
 
-        List<UserCharacteristics> userCharacteristicsList = new ArrayList<>();
+        List<Characteristics> userCharacteristicsList = new ArrayList<>();
+        //characteristics.setCharacteristicsDetail(characteristicsDetail1);
+        //userCharacteristics.setCharacteristicsDetail(characteristics);
+        userCharacteristics.setCharacteristicsDetail(characteristics);
         characteristics.setCharacteristicsDetail(characteristicsDetail1);
-        userCharacteristics.addCharacteristicsDetail(characteristics);
-
-        userCharacteristics.addCharacteristicsDetail(characteristicsDetail1);
+        userCharacteristicsList.add(characteristics);
         userCharacteristicsList.add(userCharacteristics);
+
         UCoreUserCharacteristics uCoreCharacteristicsList = userCharacteristicsConvertor.convertToUCoreUserCharacteristics(userCharacteristicsList);
         assertThat(uCoreCharacteristicsList).isNotNull();
         assertThat(uCoreCharacteristicsList).isInstanceOf(UCoreUserCharacteristics.class);
@@ -93,14 +93,13 @@ public class UserCharacteristicsConverterTest {
 
         list.add(uCoreCharacteristics);
         list1.add(uCoreCharacteristics1);
-       // list1.add(new UCoreCharacteristics());
+        // list1.add(new UCoreCharacteristics());
         UCoreUserCharacteristics userCharacteristics = new UCoreUserCharacteristics();
         userCharacteristics.setCharacteristics(list);
 
-        UserCharacteristics toUserCharacteristics = userCharacteristicsConvertor.convertToCharacteristics(userCharacteristics, "TEST_CREATORID");
-
-        assertThat(toUserCharacteristics.getCharacteristicsDetails()).isNotNull();
+        List<Characteristics> toUserCharacteristics = userCharacteristicsConvertor.convertToCharacteristics(userCharacteristics, "TEST_CREATORID");
+        //assertThat(toUserCharacteristics.getCharacteristicsDetails()).isNotNull();
         assertThat(toUserCharacteristics).isNotNull();
-        assertThat(toUserCharacteristics).isInstanceOf(UserCharacteristics.class);
+        assertThat(toUserCharacteristics.get(0)).isInstanceOf(Characteristics.class);
     }
 }

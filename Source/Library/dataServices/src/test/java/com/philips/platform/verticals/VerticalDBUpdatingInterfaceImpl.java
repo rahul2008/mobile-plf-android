@@ -1,7 +1,7 @@
 package com.philips.platform.verticals;
 
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
@@ -32,7 +32,7 @@ public class VerticalDBUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public boolean updateCharacteristics(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) throws SQLException {
+    public boolean updateCharacteristics(List<Characteristics> userCharacteristics, DBRequestListener dbRequestListener) throws SQLException {
         return false;
     }
 

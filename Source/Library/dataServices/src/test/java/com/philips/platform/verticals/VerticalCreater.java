@@ -3,8 +3,6 @@ package com.philips.platform.verticals;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BaseAppDataCreator;
-import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
@@ -14,9 +12,9 @@ import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.testing.verticals.datatyes.MomentType;
-import com.philips.testing.verticals.table.OrmCharacteristics;
 import com.philips.testing.verticals.table.OrmConsent;
 import com.philips.testing.verticals.table.OrmMoment;
 import com.philips.testing.verticals.table.OrmMomentType;
@@ -111,24 +109,18 @@ public class VerticalCreater implements BaseAppDataCreator {
     @NonNull
     @Override
     public Settings createSettings(String type, String value) {
-        return new OrmSettings(type,value);
+        return new OrmSettings(type, value);
     }
 
     @NonNull
     @Override
-    public UserCharacteristics createCharacteristics(@NonNull String creatorId) {
-        return new OrmCharacteristics(creatorId);
+    public Characteristics createCharacteristics(@NonNull String type, @NonNull String value, @NonNull Characteristics characteristics) {
+        return new OrmCharacteristics(type, value, (OrmCharacteristics) characteristics);
     }
 
     @NonNull
     @Override
-    public Characteristics createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics, @NonNull Characteristics characteristics) {
-        return null;
-    }
-
-    @NonNull
-    @Override
-    public Characteristics createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics) {
-        return null;
+    public Characteristics createCharacteristics(@NonNull String type, @NonNull String value) {
+        return new OrmCharacteristics(type, value);
     }
 }

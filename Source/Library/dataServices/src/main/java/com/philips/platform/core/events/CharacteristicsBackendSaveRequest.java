@@ -4,23 +4,25 @@
  */
 package com.philips.platform.core.events;
 
-import com.philips.platform.core.datatypes.UserCharacteristics;
+import com.philips.platform.core.datatypes.Characteristics;
+
+import java.util.List;
 
 public class CharacteristicsBackendSaveRequest extends Event {
 
-    private UserCharacteristics characteristic;
+    private List<Characteristics> characteristicsList;
 
     private RequestType requestType = RequestType.SAVE;
 
     public enum RequestType {SAVE, UPDATE};
 
-    public CharacteristicsBackendSaveRequest(RequestType requestType, UserCharacteristics characteristic) {
+    public CharacteristicsBackendSaveRequest(RequestType requestType, List<Characteristics> characteristicsList) {
         this.requestType = requestType;
-        this.characteristic = characteristic;
+        this.characteristicsList = characteristicsList;
     }
 
-    public UserCharacteristics getCharacteristic() {
-        return characteristic;
+    public List<Characteristics> getCharacteristicsList() {
+        return characteristicsList;
     }
 
     public RequestType getRequestType() {

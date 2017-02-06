@@ -31,7 +31,6 @@ import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
-import cdp.philips.com.mydemoapp.database.table.OrmCharacteristicsDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmDCSync;
@@ -75,8 +74,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<OrmConsentDetail, Integer> consentDetailDao;
     private Dao <OrmSettings,Integer> settingDao;
 
-    private Dao<OrmCharacteristics, Integer> characteristicsesDao;
-    private Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailsDao;
+    private Dao<OrmCharacteristics, Integer> characteristicsDao;
 
     private Dao<OrmDCSync, Integer> ormDCSyncDao;
 
@@ -224,7 +222,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.createTable(connectionSource, OrmMeasurementGroupDetail.class);
         TableUtils.createTable(connectionSource, OrmMeasurementGroupDetailType.class);
         TableUtils.createTable(connectionSource, OrmCharacteristics.class);
-        TableUtils.createTable(connectionSource, OrmCharacteristicsDetail.class);
         TableUtils.createTable(connectionSource, OrmSettings.class);
         TableUtils.createTable(connectionSource, OrmDCSync.class);
     }
@@ -289,7 +286,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.dropTable(connectionSource, OrmConsentDetail.class, true);
         TableUtils.dropTable(connectionSource, OrmSettings.class, true);
         TableUtils.dropTable(connectionSource, OrmCharacteristics.class, true);
-        TableUtils.dropTable(connectionSource, OrmCharacteristicsDetail.class, true);
         TableUtils.dropTable(connectionSource, OrmDCSync.class, true);
     }
 
@@ -392,17 +388,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public Dao<OrmCharacteristics, Integer> getCharacteristicsDao() throws SQLException {
-        if (characteristicsesDao == null) {
-            characteristicsesDao = getDao(OrmCharacteristics.class);
+        if (characteristicsDao == null) {
+            characteristicsDao = getDao(OrmCharacteristics.class);
         }
-        return characteristicsesDao;
-    }
-
-    public Dao<OrmCharacteristicsDetail, Integer> getCharacteristicsDetailsDao() throws SQLException {
-        if (characteristicsDetailsDao == null) {
-            characteristicsDetailsDao = getDao(OrmCharacteristicsDetail.class);
-        }
-        return characteristicsDetailsDao;
+        return characteristicsDao;
     }
 
 

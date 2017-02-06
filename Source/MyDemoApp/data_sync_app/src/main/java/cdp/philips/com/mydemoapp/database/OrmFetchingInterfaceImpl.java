@@ -11,9 +11,9 @@ import android.support.annotation.NonNull;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
-import com.philips.platform.core.datatypes.OrmTableType;
-import com.philips.platform.core.datatypes.UserCharacteristics;
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
-import cdp.philips.com.mydemoapp.database.table.OrmCharacteristicsDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmDCSync;
@@ -59,8 +58,6 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
     private final Dao<OrmCharacteristics, Integer> characteristicsDao;
 
-    private final Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailDao;
-
     private final Dao<OrmDCSync, Integer> ormDCSyncDao;
 
 
@@ -68,7 +65,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
 
     public OrmFetchingInterfaceImpl(final @NonNull Dao<OrmMoment, Integer> momentDao,
-                                    final @NonNull Dao<OrmSynchronisationData, Integer> synchronisationDataDao, Dao<OrmConsent, Integer> consentDao, Dao<OrmConsentDetail, Integer> consentDetailsDao, Dao<OrmCharacteristics, Integer> characteristicsDao, Dao<OrmSettings, Integer> settingsDao, Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailDao, Dao<OrmDCSync, Integer> ormDCSyncDao) {
+                                    final @NonNull Dao<OrmSynchronisationData, Integer> synchronisationDataDao, Dao<OrmConsent, Integer> consentDao, Dao<OrmConsentDetail, Integer> consentDetailsDao, Dao<OrmCharacteristics, Integer> characteristicsDao, Dao<OrmSettings, Integer> settingsDao, Dao<OrmDCSync, Integer> ormDCSyncDao) {
 
         this.momentDao = momentDao;
         this.synchronisationDataDao = synchronisationDataDao;
@@ -78,7 +75,6 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         this.consentDao = consentDao;
         this.consentDetailsDao = consentDetailsDao;
         this.settingsDao = settingsDao;
-        this.characteristicsDetailDao = characteristicsDetailDao;
         this.ormDCSyncDao = ormDCSyncDao;
 
         notifyDBRequestListener = new NotifyDBRequestListener();
@@ -116,21 +112,21 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     public void fetchUserCharacteristics(DBRequestListener dbRequestListener) throws SQLException {
         QueryBuilder<OrmCharacteristics, Integer> queryBuilder = characteristicsDao.queryBuilder();
         List<OrmCharacteristics> ormCharacteristicsList = characteristicsDao.query(queryBuilder.prepare());
-            if (ormCharacteristicsList.size() != 0) {
-                dbRequestListener.onSuccess(ormCharacteristicsList.get(0));
-            } else {
-                dbRequestListener.onSuccess(null);
-            }
+        if (ormCharacteristicsList.size() != 0) {
+            dbRequestListener.onSuccess(ormCharacteristicsList.get(0));
+        } else {
+            dbRequestListener.onSuccess(null);
+        }
 
     }
 
     @Override
     public void fetchCharacteristics(DBRequestListener dbRequestListener) throws SQLException {
-        QueryBuilder<OrmCharacteristicsDetail, Integer> queryBuilder = characteristicsDetailDao.queryBuilder();
+        QueryBuilder<OrmCharacteristics, Integer> queryBuilder = characteristicsDao.queryBuilder();
         queryBuilder.where().in("parent", 0);
-        List<OrmCharacteristicsDetail> ormCharacteristicsDetailList = characteristicsDetailDao.query(queryBuilder.prepare());
-        if (ormCharacteristicsDetailList.size() != 0) {
-            dbRequestListener.onSuccess(ormCharacteristicsDetailList);
+        List<OrmCharacteristics> ormCharacteristicsList = characteristicsDao.query(queryBuilder.prepare());
+        if (ormCharacteristicsList.size() != 0) {
+            dbRequestListener.onSuccess(ormCharacteristicsList);
         } else {
             dbRequestListener.onSuccess(null);
         }
@@ -230,44 +226,25 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
     @Override
     public Map<Class, List<?>> putUserCharacteristicsForSync(Map<Class, List<?>> dataToSync) throws SQLException {
-        List<? extends UserCharacteristics> characteristicses = fetchNonSynchronizedCharacteristics();
-        dataToSync.put(UserCharacteristics.class, characteristicses);
+        List<? extends Characteristics> characteristicses = fetchNonSynchronizedCharacteristics();
+        dataToSync.put(Characteristics.class, characteristicses);
         return dataToSync;
     }
 
-    private List<? extends UserCharacteristics> fetchNonSynchronizedCharacteristics() throws SQLException {
+    private List<? extends Characteristics> fetchNonSynchronizedCharacteristics() throws SQLException {
+
+        List<OrmCharacteristics> query = new ArrayList<>();
+
+        if (!isSynced(OrmTableType.CHARACTERISTICS.getId())) {
+            return query;
+        }
         QueryBuilder<OrmCharacteristics, Integer> characteristicsIntegerQueryBuilder = characteristicsDao.queryBuilder();
-        final List<OrmCharacteristics> query = characteristicsIntegerQueryBuilder.query();
+        query = characteristicsIntegerQueryBuilder.query();
 
-        List<OrmCharacteristics> lNonSyncUC = new ArrayList<>();
-        for (OrmCharacteristics ormCharacteristics : query) {
-            if (!ormCharacteristics.isSynchronized()) {
-                lNonSyncUC.add(ormCharacteristics);
-            }
-        }
-        return lNonSyncUC;
-    }
-
-    public List<OrmConsent> fetchConsentsWithNonSynchronizedConsentDetails() throws SQLException {
-        QueryBuilder<OrmConsent, Integer> consentQueryBuilder = consentDao.queryBuilder();
-        final List<OrmConsent> query = consentQueryBuilder.query();
-        for (OrmConsent ormConsent : query) {
-
-            boolean isNonSyncConsentDetailExist = false;
-            for (OrmConsentDetail ormConsentDetail : ormConsent.getConsentDetails()) {
-                if (!ormConsentDetail.getBackEndSynchronized()) {
-                    isNonSyncConsentDetailExist = true;
-                }
-            }
-
-            if (!isNonSyncConsentDetailExist) {
-                query.remove(ormConsent);
-            }
-        }
-        //consentQueryBuilder.where().eq("beSynchronized", false);
 
         return query;
     }
+
 
     @Override
     public List<OrmConsentDetail> fetchNonSyncConsentDetails() throws SQLException {
@@ -282,7 +259,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         QueryBuilder<OrmSettings, Integer> settingsQueryBuilder = settingsDao.queryBuilder();
 
         OrmSettings ormSettings = settingsQueryBuilder.queryForFirst();
-        notifyDBRequestListener.notifySuccess(dbRequestListener,ormSettings);
+        notifyDBRequestListener.notifySuccess(dbRequestListener, ormSettings);
         return ormSettings;
     }
 
@@ -298,11 +275,11 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     @Override
     public List<?> fetchNonSyncSettings() throws SQLException {
 
-        List<OrmSettings> ormSettingsList=new ArrayList<>();
+        List<OrmSettings> ormSettingsList = new ArrayList<>();
 
-        if(isSynced(OrmTableType.SETTINGS.getId()) == true){
+        if (isSynced(OrmTableType.SETTINGS.getId()) == true) {
             return ormSettingsList;
-        }else{
+        } else {
             QueryBuilder<OrmSettings, Integer> settingsQueryBuilder = settingsDao.queryBuilder();
 
             ormSettingsList = settingsQueryBuilder.query();
@@ -376,7 +353,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         QueryBuilder<OrmDCSync, Integer> lDCSyncQueryBuilder = ormDCSyncDao.queryBuilder();
         lDCSyncQueryBuilder.where().eq("tableID", tableID);
         OrmDCSync ormDCSync = lDCSyncQueryBuilder.queryForFirst();
-        if(ormDCSync==null)return false;
+        if (ormDCSync == null) return false;
         return ormDCSync.isSynced();
     }
 

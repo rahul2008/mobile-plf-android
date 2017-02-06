@@ -46,7 +46,6 @@ public class SettingsMonitor extends EventMonitor {
     private final SettingsConverter settingsConverter;
 
 
-
     @Inject
     public SettingsMonitor(@NonNull final UCoreAdapter uCoreAdapter,
                            @NonNull final SettingsConverter settingsConverter,
@@ -79,7 +78,7 @@ public class SettingsMonitor extends EventMonitor {
             return;
         }
 
-        if(uCoreAccessProvider==null){
+        if (uCoreAccessProvider == null) {
             return;
         }
 

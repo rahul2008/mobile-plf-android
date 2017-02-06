@@ -23,23 +23,23 @@ import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.DataClearRequest;
-import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
+import com.philips.platform.core.events.LoadSettingsRequest;
+import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
+import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
-import com.philips.platform.core.events.LoadSettingsRequest;
 import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
-import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
+import com.philips.platform.core.events.ReadDataFromBackendRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.injection.ApplicationModule;
 import com.philips.platform.core.injection.BackendModule;
@@ -59,6 +59,7 @@ import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -114,15 +115,7 @@ public class DataServicesManager {
     private ArrayList<DataFetcher> fetchers;
     private ArrayList<DataSender> senders;
 
-    private UserCharacteristics getUserCharacteristics() {
-        return userCharacteristics;
-    }
 
-    private void setUserCharacteristics(UserCharacteristics userCharacteristics) {
-        this.userCharacteristics = userCharacteristics;
-    }
-
-    private UserCharacteristics userCharacteristics;
 
     @Singleton
     private DataServicesManager() {
@@ -186,18 +179,18 @@ public class DataServicesManager {
         mEventing.post(new DatabaseConsentSaveRequest(consent, false, dbRequestListener));
     }
 
-    public Settings createSettings(String unit, String locale) {
-        Settings settings = mDataCreater.createSettings(unit, locale);
+    public Settings createSettings(String unit,String locale) {
+        Settings settings = mDataCreater.createSettings(unit,locale);
         return settings;
     }
 
     public void saveSettings(Settings settings, DBRequestListener dbRequestListener) {
-        mEventing.post(new DatabaseSettingsSaveRequest(settings, dbRequestListener));
+        mEventing.post(new DatabaseSettingsSaveRequest(settings,dbRequestListener));
     }
 
 
     public void updateSettings(Settings settings, DBRequestListener dbRequestListener) {
-        mEventing.post(new DatabaseSettingsUpdateRequest(settings, dbRequestListener));
+        mEventing.post(new DatabaseSettingsUpdateRequest(settings,dbRequestListener));
     }
 
 
@@ -333,15 +326,10 @@ public class DataServicesManager {
         return mDataCreater.createMeasurementGroupDetail(tempOfDay, mMeasurementGroup);
     }
 
-    @NonNull
-    private UserCharacteristics createUCSync() {
-        return mDataCreater.createCharacteristics(userRegistrationInterface.getUserProfile().getGUid());
-    }
 
-    public void updateCharacteristics(DBRequestListener dbRequestListener) {
 
-        mEventing.post(new UserCharacteristicsSaveRequest(getUserCharacteristics(), dbRequestListener));
-        setUserCharacteristics(null);
+    public void updateCharacteristics(List<Characteristics> characteristicses, DBRequestListener dbRequestListener) {
+        mEventing.post(new UserCharacteristicsSaveRequest(characteristicses, dbRequestListener));
     }
 
     public void fetchUserCharacteristics(DBRequestListener dbRequestListener) {
@@ -350,18 +338,12 @@ public class DataServicesManager {
 
     public Characteristics createUserCharacteristics(@NonNull final String detailType, @NonNull final String detailValue, Characteristics characteristics) {
 
-        userCharacteristics = getUserCharacteristics();
-        if (userCharacteristics == null) {
-            userCharacteristics = createUCSync();
-        }
-
         Characteristics chDetail;
         if (characteristics != null) {
-            chDetail = mDataCreater.createCharacteristicsDetails(detailType, detailValue, userCharacteristics, characteristics);
+            chDetail = mDataCreater.createCharacteristics(detailType, detailValue,characteristics);
         } else {
-            chDetail = mDataCreater.createCharacteristicsDetails(detailType, detailValue, userCharacteristics);
+            chDetail = mDataCreater.createCharacteristics(detailType, detailValue);
         }
-        userCharacteristics.addCharacteristicsDetail(chDetail);
         return chDetail;
     }
 
@@ -383,14 +365,14 @@ public class DataServicesManager {
 
 
     public void fetchSettings(DBRequestListener dbRequestListener) {
-        mEventing.post(new LoadSettingsRequest(dbRequestListener));
+      mEventing.post(new LoadSettingsRequest(dbRequestListener));
     }
 
-    public AppComponent getAppComponant() {
+    public AppComponent getAppComponant(){
         return mAppComponent;
     }
 
-    public void setAppComponant(AppComponent appComponent) {
+    public void setAppComponant(AppComponent appComponent){
         mAppComponent = appComponent;
     }
 }

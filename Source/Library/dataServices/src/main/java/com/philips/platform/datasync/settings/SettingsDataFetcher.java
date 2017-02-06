@@ -8,12 +8,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.SettingsBackendGetRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
-import com.philips.platform.datasync.characteristics.UserCharacteristicsConverter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataSender;
 
@@ -29,9 +27,7 @@ public class SettingsDataFetcher extends DataFetcher {
     private static final int API_VERSION = 9;
     @Inject
     UCoreAccessProvider mUCoreAccessProvider;
-    @Inject
-    UserCharacteristicsConverter mUserCharacteristicsConverter;
-    @Inject
+
     Eventing eventing;
 
     @NonNull
@@ -46,14 +42,9 @@ public class SettingsDataFetcher extends DataFetcher {
     @Nullable
     @Override
     public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
-        try {
-            if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
-                eventing.post(new SettingsBackendGetRequest());
-            }
-            return null;
-        } catch (RetrofitError exception) {
-            eventing.post(new BackendDataRequestFailed(exception));
-            return exception;
+        if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
+            eventing.post(new SettingsBackendGetRequest());
         }
+        return null;
     }
 }
