@@ -87,11 +87,11 @@ public class AppTagingConstantsTest extends InstrumentationTestCase {
     }
 
     public void testTechnicalError() throws Exception {
-        assertEquals("technicalError", appTagingConstants.TECHNICAL_ERROR);
+        assertEquals("error", appTagingConstants.TECHNICAL_ERROR);
     }
 
     public void testUserError() throws Exception {
-        assertEquals("userError", appTagingConstants.USER_ERROR);
+        assertEquals("error", appTagingConstants.USER_ERROR);
     }
 
     public void testText() throws Exception {
