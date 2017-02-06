@@ -6,12 +6,7 @@
 
 package com.philips.platform.uid.components.navigation;
 
-import android.content.Intent;
 import android.content.res.Resources;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.test.espresso.Espresso;
-import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 
@@ -23,7 +18,6 @@ import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.utils.UIDTestUtils;
 
-import org.junit.After;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
@@ -32,7 +26,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-public class NavigationBarLandscapeTest {
+public class NavigationBarLandscapeTest extends BaseTest {
     private static final int GRAY_75 = R.color.uid_gray_level_75;
     private static final int WHITE = R.color.uidColorWhite;
     private static final int NAVIGATION_COLOR_ULTRALIGHT = NavigationColor.ULTRA_LIGHT.ordinal();
@@ -42,13 +36,6 @@ public class NavigationBarLandscapeTest {
     private BaseTestActivity baseTestActivity;
 
     private Resources resources;
-    private IdlingResource mIdlingResource;
-
-    public void registerIdlingResources(final BaseTestActivity baseTestActivity) {
-        mIdlingResource = baseTestActivity.getIdlingResource();
-        // To prove that the test fails, omit this call:
-        Espresso.registerIdlingResources(mIdlingResource);
-    }
 
     private void setupLandscapeModeActivity() {
         final LandscapeModeActivity landscapeModeActivity = landscapeModeActivityRule.launchActivity(getLaunchIntent(NAVIGATION_COLOR_ULTRALIGHT));
@@ -57,15 +44,6 @@ public class NavigationBarLandscapeTest {
 
         landscapeModeActivity.switchFragment(new NavigationbarFragment());
         registerIdlingResources(landscapeModeActivity);
-    }
-
-    @NonNull
-    private Intent getLaunchIntent(final int navigationColor) {
-        final Bundle bundleExtra = new Bundle();
-        bundleExtra.putInt(BaseTestActivity.NAVIGATION_COLOR_KEY, navigationColor);
-        final Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.putExtras(bundleExtra);
-        return intent;
     }
 
     private int getNavigationTextExpectedFromThemeColor() {
@@ -129,12 +107,5 @@ public class NavigationBarLandscapeTest {
 
     private ViewInteraction getTitle() {
         return onView(withId(com.philips.platform.uid.test.R.id.uid_toolbar_title));
-    }
-
-    @After
-    public void unregisterIdlingResource() {
-        if (mIdlingResource != null) {
-            Espresso.unregisterIdlingResources(mIdlingResource);
-        }
     }
 }
