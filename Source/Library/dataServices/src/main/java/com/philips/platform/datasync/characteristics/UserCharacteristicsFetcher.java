@@ -62,10 +62,6 @@ public class UserCharacteristicsFetcher extends DataFetcher {
                 List<Characteristics> characteristicsList = mUserCharacteristicsConverter.convertToCharacteristics(uCoreUserCharacteristics,
                         mUCoreAccessProvider.getUserId());
 
-
-                //userCharacteristics.setSynchronized(true);
-
-
                 eventing.post(new SyncBitUpdateRequest(OrmTableType.CHARACTERISTICS, true));
                 DSLog.d(DSLog.LOG, "Inder = Inside UC Fetcher " + characteristicsList);
                 eventing.post(new UCDBUpdateFromBackendRequest(characteristicsList, null));

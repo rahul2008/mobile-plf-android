@@ -1,6 +1,5 @@
 package com.philips.platform.datasync.settings;
 
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -20,18 +19,13 @@ public class SettingsSegregator {
     @Inject
     DBFetchingInterface dbFetchingInterface;
 
-    public SettingsSegregator(){
+    public SettingsSegregator() {
         DataServicesManager.getInstance().getAppComponant().injectSettingsSegregator(this);
     }
 
-    public Map<Class, List<?>> putSettingsForSync(Map<Class, List<?>> dataToSync) {
-        List<? extends Settings> settingsList = null;
-        try {
-            settingsList = (List<? extends Settings>) dbFetchingInterface.fetchNonSyncSettings();
-            dataToSync.put(Settings.class, settingsList);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public Map<Class, List<?>> putSettingsForSync(Map<Class, List<?>> dataToSync) throws SQLException {
+        List<? extends Settings> settingsList = (List<? extends Settings>) dbFetchingInterface.fetchNonSyncSettings();
+        dataToSync.put(Settings.class, settingsList);
         return dataToSync;
     }
 

@@ -1,7 +1,6 @@
 package com.philips.platform.datasync.settings;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.datatypes.Settings;
@@ -20,7 +19,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.net.HttpURLConnection;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -46,7 +44,6 @@ public class SettingsMonitor extends EventMonitor {
 
     @NonNull
     private final SettingsConverter settingsConverter;
-
 
 
     @Inject
@@ -81,7 +78,7 @@ public class SettingsMonitor extends EventMonitor {
             return;
         }
 
-        if(uCoreAccessProvider==null){
+        if (uCoreAccessProvider == null) {
             return;
         }
 
