@@ -74,8 +74,8 @@ public class MicroAppFragmentActivity extends UiKitActivity implements View.OnCl
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
-        //super.getActionBar().hide();
-        setTheme(R.style.Theme_Philips_DarkBlue_WhiteBackground);
+        //setTheme(R.style.Theme_Philips_DarkBlue_WhiteBackground);
+        setTheme(R.style.Theme_Philips_DarkOrange_WhiteBackground);
         DigiCareLogger.i(TAG, " onCreate ++ ");
         setContentView(R.layout.activity_sample);
 

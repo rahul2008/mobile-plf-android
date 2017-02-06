@@ -40,6 +40,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -79,9 +80,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private LinearLayout mProdVideoContainer = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
-    private DigitalCareFontTextView mProductTitle = null;
-    private DigitalCareFontTextView mProductVideoHeader = null;
-    private DigitalCareFontTextView mCtn = null;
+    private TextView mProductTitle = null;
+    private TextView mProductVideoHeader = null;
+    private TextView mCtn = null;
     private ImageView mProductImage = null;
     private HorizontalScrollView mVideoScrollView = null;
     private String mManualPdf = null;
@@ -139,9 +140,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         mProductImageTablet = (ImageView) mActivity.findViewById(R.id.productImageTablet);
         mProductImage = (ImageView) mActivity.findViewById(R.id.productimage);
 
-        mProductTitle = (DigitalCareFontTextView) mActivity.findViewById(R.id.name);
-        mProductVideoHeader = (DigitalCareFontTextView) mActivity.findViewById(R.id.productVideoText);
-        mCtn = (DigitalCareFontTextView) mActivity.findViewById(R.id.variant);
+        mProductTitle = (TextView) mActivity.findViewById(R.id.name);
+        mProductVideoHeader = (TextView) mActivity.findViewById(R.id.productVideoText);
+        mCtn = (TextView) mActivity.findViewById(R.id.variant);
         mVideoScrollView = (HorizontalScrollView) mActivity.findViewById(R.id.videoScrollView);
         mScrollerLayoutParams = (LinearLayout.LayoutParams) mVideoScrollView
                 .getLayoutParams();
