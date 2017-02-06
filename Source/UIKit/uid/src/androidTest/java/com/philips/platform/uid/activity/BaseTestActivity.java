@@ -7,7 +7,6 @@ package com.philips.platform.uid.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.test.espresso.IdlingResource;
@@ -118,10 +117,6 @@ public class BaseTestActivity extends AppCompatActivity implements DelayerCallba
 
     @Override
     protected void onSaveInstanceState(final Bundle outState) {
-    }
-
-    @Override
-    public void onSaveInstanceState(final Bundle outState, final PersistableBundle outPersistentState) {
     }
 
     @Override
