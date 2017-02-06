@@ -12,6 +12,7 @@ import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 
 import org.hamcrest.core.IsNot;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -31,6 +32,7 @@ public class AlertNoTitleTest extends BaseTest {
         activity.switchFragment(DialogTestFragment.create());
     }
 
+    @Ignore
     @Test
     public void verifyAlertIsDisplayedWithNoTitle() {
         getAlertTitle().check(matches(new IsNot<View>(ViewMatchers.isDisplayed())));
