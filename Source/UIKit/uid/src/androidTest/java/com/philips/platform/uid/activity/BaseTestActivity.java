@@ -122,7 +122,7 @@ public class BaseTestActivity extends AppCompatActivity implements DelayerCallba
 
     static class MessageDelayer {
 
-        private static final long DELAY_MILLIS = 750;
+        private static final long DELAY_MILLIS = 300;
 
         static void sendMessage(final String message, final DelayerCallback callback,
                                 @Nullable final UidIdlingResource idlingResource) {

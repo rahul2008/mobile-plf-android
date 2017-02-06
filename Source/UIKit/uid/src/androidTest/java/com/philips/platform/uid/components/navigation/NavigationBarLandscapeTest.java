@@ -56,6 +56,7 @@ public class NavigationBarLandscapeTest extends BaseTest {
 
         float lineheight = resources.getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_height);
 
+        UIDTestUtils.waitFor(resources, 750);
         getTitle().check(matches(TextViewPropertiesMatchers.isSameLineHeight(lineheight)));
     }
 
@@ -74,10 +75,10 @@ public class NavigationBarLandscapeTest extends BaseTest {
 
         int fontSize = (int) resources.getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_size);
 
+        UIDTestUtils.waitFor(resources, 750);
         getTitle().check(matches(TextViewPropertiesMatchers.isSameFontSize(fontSize)));
     }
 
-    //Toolbar tests cases
     @Test
     public void verifyToolbarHeightOnLandscapeMode() throws Exception {
 
