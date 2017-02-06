@@ -38,6 +38,10 @@ public class DialogTestFragment extends Fragment implements View.OnClickListener
     }
 
     @Override
+    public void onSaveInstanceState(final Bundle outState) {
+    }
+
+    @Override
     public void onClick(final View v) {
         ((AlertDialogFragment) getFragmentManager().findFragmentByTag(ALERT_DIALOG_TAG)).dismiss();
     }
