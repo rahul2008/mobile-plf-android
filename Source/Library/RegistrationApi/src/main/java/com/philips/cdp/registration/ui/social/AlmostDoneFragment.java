@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.apptagging.AppTaggingErrors;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -62,6 +63,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         onUpdateListener, SocialProviderLoginHandler, NetworStateListener, OnClickListener, XCheckBox.OnCheckedChangeListener {
 
     private static final int LOGIN_FAILURE = -1;
+
+    private final static int EMAIL_ADDRESS_ALREADY_USE_CODE = 390;
 
     private TextView mTvSignInWith;
 
@@ -401,7 +404,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 final UIFlow abStrings = RegUtility.getUiFlow();
                 if (abStrings.equals(UIFlow.STRING_EXPERIENCE_A)) {
                     RLog.d(RLog.AB_TESTING, "UI Flow Type A");
-                    RLog.d(RLog.AB_TESTING, "UI Flow Type A and C");
+                    RLog.d(RLog.AB_TESTING, "UI Flow Type A");
                     mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
                     mJoinNow.setVisibility(View.GONE);
                 } else if (abStrings.equals(UIFlow.STRING_EXPERIENCE_B)) {
@@ -414,18 +417,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                     RLog.d(RLog.AB_TESTING, "UI Flow Type C");
                     mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
                     mJoinNow.setVisibility(View.VISIBLE);
-                }
-
-
-                if (abStrings.equals(UIFlow.STRING_EXPERIENCE_A) ||
-                        abStrings.equals(UIFlow.STRING_EXPERIENCE_C)) {
-                    RLog.d(RLog.AB_TESTING, "UI Flow Type A and C");
-                    mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
-                } else {
-                    RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-                    mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
-                    mLlPeriodicOffersCheck.setVisibility(View.GONE);
-                    view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.GONE);
                 }
             }
         } else {
@@ -451,9 +442,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 mRegError.setError(getString(R.string.reg_NoNetworkConnection));
                 mBtnContinue.setEnabled(false);
                 scrollViewAutomatically(mRegError, mSvRootLayout);
-                if (!isNetwork) {
-                    trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
-                }
             }
         } else {
             if (NetworkUtility.isNetworkAvailable(mContext) && mEtEmail.isValidEmail() && mEtEmail.isShown()) {
@@ -466,9 +454,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 mRegError.setError(getString(R.string.reg_NoNetworkConnection));
                 mBtnContinue.setEnabled(false);
                 scrollViewAutomatically(mRegError, mSvRootLayout);
-                if (!isNetwork) {
-                    trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
-                }
             }
         }
     }
@@ -616,15 +601,15 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     private void handleLoginFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onLoginFailedWithError");
         hideSpinner();
-
-        if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
-            mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
+        if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
+            if (RegistrationHelper.getInstance().isChinaFlow()){
+                mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_CreateAccount_Using_Phone_Alreadytxt));
+            }else {
+                mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
+            }
             mEtEmail.showInvalidAlert();
             mEtEmail.showErrPopUp();
             scrollViewAutomatically(mEtEmail, mSvRootLayout);
-        }
-        if (null != userRegistrationFailureInfo && userRegistrationFailureInfo.getErrorCode() != LOGIN_FAILURE) {
-            trackActionRegisterError(userRegistrationFailureInfo.getErrorCode());
         }
     }
 
@@ -745,7 +730,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + ".\n'"
                     + mDisplayName + "' "
                     + userRegistrationFailureInfo.getDisplayNameErrorMessage());
-            trackActionRegisterError(userRegistrationFailureInfo.getErrorCode());
             return;
         }
         if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
@@ -755,7 +739,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         } else {
             mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
         }
-        trackActionRegisterError(userRegistrationFailureInfo.getErrorCode());
     }
 
     @Override

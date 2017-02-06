@@ -10,6 +10,7 @@
 package com.philips.cdp.registration.apptagging;
 
 
+import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 
 public class AppTaggingErrors {
 
@@ -41,57 +42,15 @@ public class AppTaggingErrors {
 
     private final static int EMAIL_ADDRESS_ALREADY_USE_CODE = 390;
 
-    private final static int INVALID_INPUT_FIELDS_CODE = 210;
+    private final static int INVALID_CREDENTIALS_CODE = 210;
 
     private final static int EMAIL_NOT_VERIFIED_CODE = 112;
 
     private final static int FORGOT_PASSWORD_FAILURE_ERROR_CODE = 212;
 
-    public static void trackActionRegisterError(int errorCode) {
 
-        switch (errorCode) {
-            case NETWORK_ERROR_CODE:
-                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
-                        AppTagingConstants.TECHNICAL_ERROR, WE_RE_HAVING_TROUBLE_REGISTRING_USER);
-                break;
-            case EMAIL_ADDRESS_ALREADY_USE_CODE:
-                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
-                        AppTagingConstants.USER_ERROR, EMAIL_ALREADY_IN_USE);
-                break;
-            case INVALID_INPUT_FIELDS_CODE:
-                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
-                        AppTagingConstants.USER_ERROR, INVALID_INPUT_FIELDS);
-                break;
-            default:
-                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
-                        AppTagingConstants.TECHNICAL_ERROR, FAILURE_USERCREATION);
-                break;
-        }
-    }
-
-    public static void trackActionLoginError(int errorCode) {
-        switch (errorCode) {
-            case NETWORK_ERROR_CODE:
-                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
-                        AppTagingConstants.TECHNICAL_ERROR, WE_RE_HAVING_TROUBLE_LOGINING_USER);
-                break;
-            case EMAIL_NOT_VERIFIED_CODE:
-                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
-                        AppTagingConstants.USER_ERROR, EMAIL_IS_NOT_VERIFIED);
-                break;
-            case INVALID_INPUT_FIELDS_CODE:
-                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
-                        AppTagingConstants.USER_ERROR, INVALID_INPUT_FIELDS);
-                break;
-            default:
-                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
-                        AppTagingConstants.TECHNICAL_ERROR, FAILEDLOGIN);
-                break;
-        }
-    }
-
-    public static void trackActionForgotPasswordFailure(int errorCode) {
-        switch (errorCode) {
+    public static void trackActionForgotPasswordFailure(UserRegistrationFailureInfo userRegistrationFailureInfo,String flowType) {
+        switch (userRegistrationFailureInfo.getErrorCode()) {
 
             case NETWORK_ERROR_CODE:
                 trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
@@ -103,22 +62,23 @@ public class AppTaggingErrors {
                 break;
 
             default:
-                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
-                        AppTagingConstants.TECHNICAL_ERROR, FAILURE_FORGOT_PASSWORD);
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ERROR, AppTagingConstants.USER_REGISTRATION+":"+AppTagingConstants.LOGIN_FAILED+":"
+                        +flowType+":"+userRegistrationFailureInfo.getErrorCode()+":"+userRegistrationFailureInfo.getErrorDescription());
                 break;
         }
     }
 
-    public static void trackActionResendNetworkFailure(int errorCode) {
-        switch (errorCode) {
+    public static void trackActionResendNetworkFailure(UserRegistrationFailureInfo userRegistrationFailureInfo,String flowType) {
+        switch (userRegistrationFailureInfo.getErrorCode()) {
+
             case NETWORK_ERROR_CODE:
                 trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
                         AppTagingConstants.TECHNICAL_ERROR, RESEND_VERIFICATION_NETWORK_ERROR);
                 break;
 
             default:
-                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
-                        AppTagingConstants.TECHNICAL_ERROR, FAILURE_RESEND_VERIFICATION);
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ERROR, AppTagingConstants.USER_REGISTRATION+":"+AppTagingConstants.LOGIN_FAILED+":"
+                        +flowType+":"+userRegistrationFailureInfo.getErrorCode()+":"+userRegistrationFailureInfo.getErrorDescription());
                 break;
         }
     }
@@ -126,5 +86,43 @@ public class AppTaggingErrors {
     private static void trackActionForErrorMapping(String sendData, String technicalError,
                                                    String technicalRegistrationError) {
         AppTagging.trackAction(sendData, technicalError, technicalRegistrationError);
+    }
+
+    public static void trackActionLoginError(UserRegistrationFailureInfo userRegistrationFailureInfo,String flowType) {
+
+        switch (userRegistrationFailureInfo.getErrorCode()) {
+            case NETWORK_ERROR_CODE:
+                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
+                        AppTagingConstants.TECHNICAL_ERROR, WE_RE_HAVING_TROUBLE_LOGINING_USER);
+                break;
+            case EMAIL_NOT_VERIFIED_CODE:
+                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
+                        AppTagingConstants.USER_ERROR, EMAIL_IS_NOT_VERIFIED);
+                break;
+            default:
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ERROR, AppTagingConstants.USER_REGISTRATION+":"+AppTagingConstants.LOGIN_FAILED+":"
+                        +flowType+":"+userRegistrationFailureInfo.getErrorCode()+":"+userRegistrationFailureInfo.getErrorDescription());
+                break;
+        }
+
+    }
+
+    public static void trackActionRegisterError(UserRegistrationFailureInfo userRegistrationFailureInfo,String flowType) {
+
+        switch (userRegistrationFailureInfo.getErrorCode()) {
+            case NETWORK_ERROR_CODE:
+                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
+                        AppTagingConstants.TECHNICAL_ERROR, WE_RE_HAVING_TROUBLE_REGISTRING_USER);
+                break;
+            case EMAIL_ADDRESS_ALREADY_USE_CODE:
+                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
+                        AppTagingConstants.USER_ERROR, EMAIL_ALREADY_IN_USE);
+                break;
+            default:
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ERROR, AppTagingConstants.USER_REGISTRATION+":"+AppTagingConstants.LOGIN_FAILED+":"
+                        +flowType+":"+userRegistrationFailureInfo.getErrorCode()+":"+userRegistrationFailureInfo.getErrorDescription());
+                break;
+        }
+
     }
 }

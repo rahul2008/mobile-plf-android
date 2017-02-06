@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-
-
-
     <string name="reg_Continue_Btntxt">Continue</string>
     <string name="reg_EmptyField_ErrorMsg">Please enter a value</string>
     <string name="reg_ForgotPwdEmailResendMsg">We have sent you an email to reset your password. It may take some time for the email to arrive.</string>
@@ -246,8 +243,8 @@
     <string name="reg_AppNotInstalled_Alert_Title">App not installed</string>
     <string name="reg_App_NotInstalled_AlertMessage">Please install %s app to avail this feature.</string>
     <string name="reg_App_NotInstalled_InstallButton">Install</string>
-
-
+    <string name="reg_Phonenumbernotfound">Phone number not found</string>
+    <string name="reg_InvalidMobilenumber">Invalid Mobile number</string>
 
     <!-- added apart from the localized strings -->
     <string name="app_name">RegistrationApi</string>

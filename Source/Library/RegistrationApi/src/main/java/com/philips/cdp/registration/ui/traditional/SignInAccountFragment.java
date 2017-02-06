@@ -30,6 +30,7 @@ import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
+import com.philips.cdp.registration.apptagging.AppTaggingErrors;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -463,7 +464,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 //HSDP related error description
                 scrollViewAutomatically(mRegError, mSvRootLayout);
                 mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
-                trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
                 scrollViewAutomatically(mRegError, mSvRootLayout);
             } else {
                 //Need to show password errors only
@@ -477,8 +477,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                         mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
                     }
                 }
-                trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
-            }
+              }
         }
     }
 
@@ -536,7 +535,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mEtEmail.showErrPopUp();
             trackActionStatus(AppTagingConstants.SEND_DATA,
                     AppTagingConstants.USER_ERROR, AppTagingConstants.ALREADY_SIGN_IN_SOCIAL);
-            trackActionForgotPasswordFailure(userRegistrationFailureInfo.getErrorCode());
+            AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo,AppTagingConstants.JANRAIN);
             mBtnForgot.setEnabled(false);
             return;
         } else {
@@ -550,7 +549,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mEtEmail.showErrPopUp();
             mEtEmail.setErrDescription(userRegistrationFailureInfo.getSocialOnlyError());
             mEtEmail.showInvalidAlert();
-            trackActionForgotPasswordFailure(userRegistrationFailureInfo.getErrorCode());
+            AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo,AppTagingConstants.JANRAIN);
             return;
         }
 
@@ -559,7 +558,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mEtEmail.showInvalidAlert();
             mEtEmail.showErrPopUp();
         }
-        trackActionForgotPasswordFailure(userRegistrationFailureInfo.getErrorCode());
+        AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo,AppTagingConstants.JANRAIN);
     }
 
     private void showSignInSpinner() {
@@ -694,7 +693,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         RLog.i(RLog.CALLBACK,
                 "SignInAccountFragment : onResendVerificationEmailFailedWithError");
         updateResendUIState();
-        trackActionResendVerificationFailure(userRegistrationFailureInfo.getErrorCode());
+        AppTaggingErrors.trackActionResendNetworkFailure(userRegistrationFailureInfo,AppTagingConstants.JANRAIN);
         mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + "\n"
                 + userRegistrationFailureInfo.getEmailErrorMessage());
         mBtnResend.setEnabled(true);

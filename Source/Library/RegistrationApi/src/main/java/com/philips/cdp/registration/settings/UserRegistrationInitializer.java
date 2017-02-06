@@ -187,18 +187,7 @@ public class UserRegistrationInitializer {
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-                System.out.println("STRING S : " + s);
-                try {
-                    String localeArr[] = s.split("_");
-                    RegistrationHelper.getInstance().setCountryCode(localeArr[1]);
-                    System.out.println("STRING Change : " +localeArr[0].trim()+"-"+localeArr[1].trim());
-                    PILLocaleManager localeManager = new PILLocaleManager(context);
-                    localeManager.setInputLocale(localeArr[0].trim(), localeArr[1].trim());
-
-                    mRegistrationSettings.intializeRegistrationSettings(context, RegistrationConfiguration.getInstance().getRegistrationClientId(registrationType), localeArr[0].trim()+"-"+localeArr[1].trim());
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    e.printStackTrace();
-                }
+                 EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
             }
         });
 

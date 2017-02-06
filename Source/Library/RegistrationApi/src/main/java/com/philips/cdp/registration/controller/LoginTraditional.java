@@ -14,6 +14,9 @@ import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureApiError;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.apptagging.AppTagging;
+import com.philips.cdp.registration.apptagging.AppTaggingErrors;
+import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
@@ -104,8 +107,9 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 
                 @Override
                 public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+                    AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo,AppTagingConstants.HSDP);
                     mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
-                }
+                 }
             });
 
           
@@ -127,8 +131,10 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
             handleInvalidInputs(error.captureApiError, userRegistrationFailureInfo);
             handleInvalidCredentials(error.captureApiError, userRegistrationFailureInfo);
             userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
+            userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
+            AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo,AppTagingConstants.JANRAIN);
             mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
-        }catch (Exception e){
+    }catch (Exception e){
             RLog.e("Login failed :","exception :"+e.getMessage());
         }
     }

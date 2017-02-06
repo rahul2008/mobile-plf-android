@@ -17,6 +17,8 @@ import com.janrain.android.capture.CaptureApiError;
 import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.apptagging.AppTaggingErrors;
+import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
@@ -73,6 +75,7 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 
 				@Override
 				public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+					AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
 					mSocialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
 				}
 			});
@@ -89,8 +92,9 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 		userRegistrationFailureInfo.setError(error.captureApiError);
 		handleInvalidInputs(error.captureApiError, userRegistrationFailureInfo);
 		userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
-		mSocialProviderLoginHandler
-		        .onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
+		userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
+		AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
+		mSocialProviderLoginHandler.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
 	}
 
 	private void handleInvalidInputs(CaptureApiError error,
@@ -208,9 +212,10 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 		} else {
 			UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
 			userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
-
+			userRegistrationFailureInfo.setErrorDescription(AppTagingConstants.NETWORK_ERROR);
 			socialProviderLoginHandler
 					.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
+			AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
 		}
 	}
 
@@ -244,6 +249,7 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 
 	@Override
 	public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+		AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
 		mSocialProviderLoginHandler.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
 	}
 
@@ -269,6 +275,7 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 
 					@Override
 					public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+						AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
 						mSocialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
 					}
 				});
