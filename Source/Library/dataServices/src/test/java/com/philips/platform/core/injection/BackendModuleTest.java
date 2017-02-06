@@ -9,6 +9,7 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
+import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.monitors.ErrorMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -111,6 +112,9 @@ public class BackendModuleTest {
     Context context;
 
     @Mock
+    SynchronisationCompleteListener mSynchronisationCompleteListener;
+
+    @Mock
     private AppComponent appComponantMock;
     @Mock
     ArrayList<DataFetcher> fetchers;
@@ -134,7 +138,7 @@ public class BackendModuleTest {
 
         backendModule = new BackendModule(eventingMock, baseAppDataCreator, userRegistrationInterface,
                 dbDeletingInterface, dbFetchingInterface, dbSavingInterface, dbUpdatingInterface,
-                fetchers, senders, errorHandlingInterface);
+                fetchers, senders, errorHandlingInterface, mSynchronisationCompleteListener);
     }
 
     @Test

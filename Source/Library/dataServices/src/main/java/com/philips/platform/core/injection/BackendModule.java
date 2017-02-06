@@ -19,6 +19,7 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
+import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.monitors.DeletingMonitor;
 import com.philips.platform.core.monitors.ErrorMonitor;
@@ -97,6 +98,8 @@ public class BackendModule {
     @NonNull
     private final DBUpdatingInterface updatingInterface;
 
+    private final SynchronisationCompleteListener mSynchronisationCompleteListener;
+
 
     ArrayList<DataFetcher> fetchers;
     ArrayList<DataSender> senders;
@@ -108,7 +111,8 @@ public class BackendModule {
                          DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface,
                          DBUpdatingInterface updatingInterface,
                          ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders,
-                         ErrorHandlingInterface errorHandlingInterface) {
+                         ErrorHandlingInterface errorHandlingInterface,
+                         SynchronisationCompleteListener synchronisationCompleteListener) {
         this.fetchers = fetchers;
         this.senders = senders;
         this.eventing = eventing;
@@ -119,6 +123,7 @@ public class BackendModule {
         this.savingInterface = savingInterface;
         this.updatingInterface = updatingInterface;
         this.errorHandlingInterface = errorHandlingInterface;
+        this.mSynchronisationCompleteListener = synchronisationCompleteListener;
     }
 
     @Provides
@@ -296,5 +301,11 @@ public class BackendModule {
     @Singleton
     public SynchronisationManager providesSynchronisationManager() {
         return new SynchronisationManager();
+    }
+
+    @Provides
+    @Singleton
+    public SynchronisationCompleteListener providesSynchronisationCompleteListener() {
+        return mSynchronisationCompleteListener;
     }
 }
