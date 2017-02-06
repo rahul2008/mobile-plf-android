@@ -44,6 +44,7 @@ public class HomeFragment extends AppFrameworkBaseFragment {
         setDateToView();
         return rootView;
     }
+    
 
     private void setDateToView() {
         Bundle bundle = getArguments();
