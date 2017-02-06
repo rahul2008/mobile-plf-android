@@ -10,11 +10,15 @@ import android.support.annotation.Nullable;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.events.ConsentBackendGetRequest;
+import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
+import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataSender;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -43,9 +47,10 @@ public class ConsentsDataFetcher extends DataFetcher {
     @Nullable
     @Override
     public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
-        if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
+        eventing.post(new GetNonSynchronizedMomentsRequest(null));
+        /*if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
             eventing.post(new ConsentBackendGetRequest(1, consentDetails));
-        }
+        }*/
         return null;
     }
 
@@ -61,6 +66,15 @@ public class ConsentsDataFetcher extends DataFetcher {
     public RetrofitError fetchAllData() {
 
         return super.fetchAllData();
+    }
+
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void onEventAsync(GetNonSynchronizedMomentsResponse response) {
+        List<? extends ConsentDetail> nonSynchronizedConsent = response.getConsentDetails();
+        setConsentDetails((List<ConsentDetail>) nonSynchronizedConsent);
+        if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
+            eventing.post(new ConsentBackendGetRequest(1, consentDetails));
+        }
     }
 }
 

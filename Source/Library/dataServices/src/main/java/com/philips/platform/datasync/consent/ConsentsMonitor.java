@@ -125,7 +125,6 @@ public class ConsentsMonitor extends EventMonitor {
             }
         }  catch (RetrofitError ex) {
         eventing.post(new BackendDataRequestFailed(ex));
-
         }
     }
 

@@ -50,6 +50,7 @@ import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
 import com.philips.platform.datasync.synchronisation.DataSender;
+import com.philips.platform.datasync.synchronisation.SynchronisationManager;
 import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.squareup.okhttp.Interceptor;
@@ -289,5 +290,11 @@ public class BackendModule {
     @Provides
     public DBSavingInterface providesSavingImplementation() {
         return savingInterface;
+    }
+
+    @Provides
+    @Singleton
+    public SynchronisationManager providesSynchronisationManager() {
+        return new SynchronisationManager();
     }
 }

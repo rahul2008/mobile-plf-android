@@ -39,7 +39,6 @@ import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
-import com.philips.platform.core.events.ReadDataFromBackendRequest;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.injection.ApplicationModule;
@@ -47,11 +46,13 @@ import com.philips.platform.core.injection.BackendModule;
 import com.philips.platform.core.injection.DaggerAppComponent;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.EventingImpl;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataSender;
+import com.philips.platform.datasync.synchronisation.SynchronisationManager;
 import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
@@ -68,11 +69,9 @@ public class DataServicesManager {
 
     public static final String TAG = DataServicesManager.class.getName();
 
-    private volatile boolean isPullComplete = true;
-
-    private volatile boolean isPushComplete = true;
-
     private DBChangeListener dbChangeListener;
+
+    private SynchronisationCompleteListener mSynchronisationCompleteListener;
 
     public DBChangeListener getDbChangeListener() {
         return dbChangeListener;
@@ -100,6 +99,9 @@ public class DataServicesManager {
 
     @Inject
     SynchronisationMonitor mSynchronisationMonitor;
+
+    @Inject
+    SynchronisationManager mSynchronisationManager;
 
     private static DataServicesManager sDataServicesManager;
 
@@ -154,9 +156,9 @@ public class DataServicesManager {
         mEventing.post(new LoadMomentsRequest(momentID, dbRequestListener));
     }
 
-    public void fetchAllData(DBRequestListener dbRequestListener) {
+  /*  public void fetchAllData(DBRequestListener dbRequestListener) {
         mEventing.post(new LoadMomentsRequest(dbRequestListener));
-    }
+    }*/
 
     @NonNull
     public void fetchConsent(DBRequestListener dbRequestListener) {
@@ -244,6 +246,10 @@ public class DataServicesManager {
         mEventing.post((new MomentUpdateRequest(moment, dbRequestListener)));
     }
 
+  /*  public void Synchronize(SynchronisationCompleteListener synchronisationCompleteListner) {
+        sendPullDataEvent(synchronisationCompleteListner);
+    }*/
+
     public void Synchronize() {
         sendPullDataEvent();
     }
@@ -261,7 +267,8 @@ public class DataServicesManager {
         synchronized (this) {
             DSLog.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
             startMonitors();
-            mEventing.post(new ReadDataFromBackendRequest(null));
+            //mEventing.post(new ReadDataFromBackendRequest(null));
+            mSynchronisationManager.startSync(mSynchronisationCompleteListener);
         }
     }
 
@@ -317,8 +324,7 @@ public class DataServicesManager {
             if (mSynchronisationMonitor != null)
                 mSynchronisationMonitor.stop();
 
-            isPullComplete = true;
-            isPushComplete = true;
+            mSynchronisationManager.stopSync();
         }
     }
 
@@ -359,29 +365,20 @@ public class DataServicesManager {
         return chDetail;
     }
 
-    public boolean isPullComplete() {
-        return isPullComplete;
-    }
-
-    public void setPullComplete(boolean pullComplete) {
-        isPullComplete = pullComplete;
-    }
-
-    public boolean isPushComplete() {
-        return isPushComplete;
-    }
-
-    public void setPushComplete(boolean pushComplete) {
-        isPushComplete = pushComplete;
-    }
-
-
     public void registerDBChangeListener(DBChangeListener dbChangeListener) {
         this.dbChangeListener = dbChangeListener;
     }
 
     public void unRegisterDBChangeListener() {
         this.dbChangeListener = null;
+    }
+
+    public void registerSyncCompletionListener(SynchronisationCompleteListener synchronisationCompleteListener) {
+        this.mSynchronisationCompleteListener = synchronisationCompleteListener;
+    }
+
+    public void unRegisterSyncCompletionListener() {
+        this.mSynchronisationCompleteListener = null;
     }
 
 

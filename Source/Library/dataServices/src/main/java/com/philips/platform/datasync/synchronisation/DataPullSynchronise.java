@@ -9,25 +9,18 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.BackendResponse;
-import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
-import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
-import com.philips.platform.core.events.ReadDataFromBackendResponse;
-import com.philips.platform.core.events.WriteDataToBackendRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
-import com.philips.platform.datasync.consent.ConsentsDataFetcher;
-import com.philips.platform.datasync.moments.MomentsDataFetcher;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTime;
 
 import java.util.List;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Inject;
@@ -44,13 +37,11 @@ public class DataPullSynchronise {
     private DateTime lastSyncDateTime;
     private int referenceId;
 
-    @NonNull
-    MomentsDataFetcher mMomentsDataFetcher;
-
-
+    @Inject
+    SynchronisationManager synchronisationManager;
 
     @NonNull
-    private final Executor executor;
+    private Executor executor;
 
     @NonNull
     private final List<? extends com.philips.platform.datasync.synchronisation.DataFetcher> fetchers;
@@ -71,7 +62,6 @@ public class DataPullSynchronise {
         mDataServicesManager = DataServicesManager.getInstance();
         mDataServicesManager.getAppComponant().injectDataPullSynchronize(this);
         this.fetchers = fetchers;
-        this.executor = executor;
     }
 
 
@@ -82,14 +72,13 @@ public class DataPullSynchronise {
 
     public void startFetching(final DateTime lastSyncDateTime, final int referenceId, final DataFetcher fetcher) {
         DSLog.i("**SPO**","In Data Pull Synchronize startFetching");
-        preformFetch(fetcher, lastSyncDateTime, referenceId);
-      /*  executor.execute(new Runnable() {
+        executor.execute(new Runnable() {
             @Override
             public void run() {
-                Log.i("**SPO**","In Data Pull Synchronize startFetching execute");
+                DSLog.i("**SPO**","In Data Pull Synchronize startFetching execute");
                 preformFetch(fetcher, lastSyncDateTime, referenceId);
             }
-        });*/
+        });
     }
 
     public void startSynchronise(@Nullable final DateTime lastSyncDateTime, final int referenceId) {
@@ -106,17 +95,17 @@ public class DataPullSynchronise {
 
         if (!isSyncStarted()) {
             DSLog.i("***SPO***","DataPullSynchronize isLogged-in is true");
-            registerEvent();
-            DSLog.i("***SPO***","Before calling GetNonSynchronizedMomentsRequest");
-            eventing.post(new GetNonSynchronizedMomentsRequest(null));
+            synchronized (this) {
+                fetchData(lastSyncDateTime, referenceId);
+            }
         }
     }
 
-    public void registerEvent() {
+    /*public void registerEvent() {pu
         if (!eventing.isRegistered(this)) {
             eventing.register(this);
         }
-    }
+    }*/
 
     private void preformFetch(final DataFetcher fetcher, final DateTime lastSyncDateTime, final int referenceId) {
         DSLog.i("**SPO**","In Data Pull Synchronize preformFetch");
@@ -126,7 +115,7 @@ public class DataPullSynchronise {
         int jobsRunning = numberOfRunningFetches.decrementAndGet();
         DSLog.i("**SPO**","In Data Pull Synchronize preformFetch and jobsRunning = " + jobsRunning);
 
-        if (jobsRunning == 0) {
+        if (jobsRunning <= 0) {
             DSLog.i("**SPO**","In Data Pull Synchronize preformFetch and jobsRunning = " + jobsRunning + "calling report result");
             reportResult(fetchResult, referenceId);
         }
@@ -142,49 +131,57 @@ public class DataPullSynchronise {
         DSLog.i("**SPO**","In Data Pull Synchronize reportResult");
         if (result == null) {
             DSLog.i("**SPO**","In Data Pull Synchronize reportResult is OK call postOK");
-            postOk(referenceId);
+            postOk();
         } else {
             DSLog.i("**SPO**","In Data Pull Synchronize reportResult is not OK call postError");
             postError(referenceId, result);
         }
+       // eventing.post(new WriteDataToBackendRequest());
+        shutdownAndAwaitTermination(((ExecutorService)executor));
     }
 
     private void postError(final int referenceId, final RetrofitError error) {
         DSLog.i("**SPO**","Error DataPullSynchronize postError" + error.getMessage());
+        synchronisationManager.dataPullFail(error);
         eventing.post(new BackendResponse(referenceId, error));
     }
 
-    private void postOk(final int referenceId) {
+    private void postOk() {
         DSLog.i("**SPO**","In Data Pull Synchronize postOK");
-        eventing.post(new ReadDataFromBackendResponse(referenceId, null));
+        synchronisationManager.dataPullSuccess();
+       // eventing.post(new ReadDataFromBackendResponse(referenceId, null));
     }
 
-    private void initFetch() {
+    private void initFetch(int size) {
         DSLog.i("**SPO**","In Data Pull Synchronize initFetch");
-        numberOfRunningFetches.set(1);
+        numberOfRunningFetches.set(size);
         fetchResult = null;
     }
 
-    private void fetchData(final DateTime lastSyncDateTime, final int referenceId, final List<? extends Moment> nonSynchronizedMoments, final List<? extends ConsentDetail> consentDetails) {
+    private void fetchData(final DateTime lastSyncDateTime, final int referenceId) {
         DSLog.i("**SPO**", "In Data Pull Synchronize fetchData");
-        initFetch();
+        initFetch(fetchers.size());
+        executor = Executors.newFixedThreadPool(20);
         for (DataFetcher fetcher : fetchers) {
-            if (fetcher instanceof ConsentsDataFetcher) {
-                ((ConsentsDataFetcher) fetcher).setConsentDetails((List<ConsentDetail>) consentDetails);
-            }
             startFetching(lastSyncDateTime, referenceId, fetcher);
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void onEventAsync(GetNonSynchronizedMomentsResponse response) {
-        synchronized (this) {
-            DSLog.i("**SPO**", "In Data Pull Synchronize GetNonSynchronizedMomentsResponse");
-            final List<? extends Moment> nonSynchronizedMoments = response.getNonSynchronizedMoments();
-            final List<? extends ConsentDetail> nonSynchronizedConsent = response.getConsentDetails();
-            fetchData(lastSyncDateTime, referenceId, nonSynchronizedMoments, nonSynchronizedConsent);
+    void shutdownAndAwaitTermination(ExecutorService pool) {
+        pool.shutdown(); // Disable new tasks from being submitted
+        try {
+            // Wait a while for existing tasks to terminate
+            if (!pool.awaitTermination(60, TimeUnit.SECONDS)) {
+                pool.shutdownNow(); // Cancel currently executing tasks
+                // Wait a while for tasks to respond to being cancelled
+                if (!pool.awaitTermination(60, TimeUnit.SECONDS))
+                    System.err.println("Pool did not terminate");
+            }
+        } catch (InterruptedException ie) {
+            // (Re-)Cancel if current thread also interrupted
+            pool.shutdownNow();
+            // Preserve interrupt status
+            Thread.currentThread().interrupt();
         }
-        mDataServicesManager.setPullComplete(true);
-        eventing.post(new WriteDataToBackendRequest());
     }
 }

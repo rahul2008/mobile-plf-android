@@ -46,7 +46,7 @@ public class ApplicationModule {
     @Provides
     @Singleton
     ExecutorService provideBackgroundExecutor() {
-        return Executors.newFixedThreadPool(2);
+        return Executors.newFixedThreadPool(20);
     }
 
     @Provides

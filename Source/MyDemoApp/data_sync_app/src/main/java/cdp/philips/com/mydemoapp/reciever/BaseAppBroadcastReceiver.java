@@ -18,7 +18,7 @@ import cdp.philips.com.mydemoapp.utility.Utility;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class BaseAppBroadcastReceiver extends BroadcastReceiver {
+public class BaseAppBroadcastReceiver extends BroadcastReceiver{
 
     public static final long DATA_FETCH_FREQUENCY = 30 * DateTimeConstants.MILLIS_PER_SECOND;
 
@@ -46,5 +46,4 @@ public class BaseAppBroadcastReceiver extends BroadcastReceiver {
             mDataServices.Synchronize();
         }
     }
-
 }

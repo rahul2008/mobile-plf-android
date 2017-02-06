@@ -21,6 +21,10 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -39,10 +43,17 @@ public class DataPushSynchronise extends EventMonitor {
     private final List<? extends DataSender> senders;
 
     @NonNull
-    private final Executor executor;
+    private Executor executor;
 
     @Inject
     Eventing eventing;
+
+    @Inject
+    SynchronisationManager synchronisationManager;
+
+    @NonNull
+    private final AtomicInteger numberOfRunningSenders = new AtomicInteger(0);
+
 
     DataServicesManager mDataServicesManager;
 
@@ -51,11 +62,16 @@ public class DataPushSynchronise extends EventMonitor {
         mDataServicesManager = DataServicesManager.getInstance();
         mDataServicesManager.getAppComponant().injectDataPushSynchronize(this);
         this.senders = senders;
-        this.executor = executor;
+       // this.executor = Executors.newFixedThreadPool(20);
     }
 
     public void startSynchronise(final int eventId) {
         DSLog.i("***SPO***", "In startSynchronise - DataPushSynchronize");
+
+        if (isSyncStarted()) {
+            return;
+        }
+
         boolean isLoggedIn = accessProvider.isLoggedIn();
 
         if (isLoggedIn) {
@@ -89,18 +105,63 @@ public class DataPushSynchronise extends EventMonitor {
     public void onEventAsync(GetNonSynchronizedDataResponse response) {
         DSLog.i("***SPO***", "DataPushSynchronize GetNonSynchronizedDataResponse");
         synchronized (this) {
-            startAllSenders(response);
+
+                startAllSenders(response);
+
         }
-        mDataServicesManager.setPushComplete(true);
     }
 
     private void startAllSenders(final GetNonSynchronizedDataResponse nonSynchronizedData) {
         DSLog.i("***SPO***", "DataPushSynchronize startAllSenders");
+        initPush(senders.size());
+        executor = Executors.newFixedThreadPool(20);
         for (final DataSender sender : senders) {
-            DSLog.i("***SPO***", "DataPushSynchronize startAllSenders inside loop");
-            sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
+                    int jobsRunning = numberOfRunningSenders.decrementAndGet();
+                    DSLog.i("**SPO**","In Data Push Synchronize preformFetch and jobsRunning = " + jobsRunning);
+
+                    if (jobsRunning <= 0) {
+                        DSLog.i("**SPO**","In Data Push Synchronize preformPush and jobsRunning = " + jobsRunning + "calling report result");
+                        postPushComplete();
+                    }
+                }
+            });
         }
+    }
+
+    private void postPushComplete() {
         DSLog.i("***SPO***","DataPushSynchronize set Push complete");
-     //   DataServicesManager.getInstance().setPushComplete(true);
+        synchronisationManager.dataSyncComplete();
+        shutdownAndAwaitTermination((ExecutorService)executor);
+    }
+
+    private boolean isSyncStarted() {
+        return numberOfRunningSenders.get() > 0;
+    }
+
+    private void initPush(int size) {
+        DSLog.i("**SPO**","In Data Push Synchronize initPush");
+        numberOfRunningSenders.set(size);
+    }
+
+    void shutdownAndAwaitTermination(ExecutorService pool) {
+        pool.shutdown(); // Disable new tasks from being submitted
+        try {
+            // Wait a while for existing tasks to terminate
+            if (!pool.awaitTermination(60, TimeUnit.SECONDS)) {
+                pool.shutdownNow(); // Cancel currently executing tasks
+                // Wait a while for tasks to respond to being cancelled
+                if (!pool.awaitTermination(60, TimeUnit.SECONDS))
+                    System.err.println("Pool did not terminate");
+            }
+        } catch (InterruptedException ie) {
+            // (Re-)Cancel if current thread also interrupted
+            pool.shutdownNow();
+            // Preserve interrupt status
+            Thread.currentThread().interrupt();
+        }
     }
 }

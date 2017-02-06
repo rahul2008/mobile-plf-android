@@ -39,23 +39,22 @@ public class SynchronisationMonitor extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(ReadDataFromBackendRequest event) {
         synchronized (this) {
-            if (DataServicesManager.getInstance().isPushComplete() && DataServicesManager.getInstance().isPullComplete()) {
-                DataServicesManager.getInstance().setPullComplete(false);
+  //          if (DataServicesManager.getInstance().isPushComplete() && DataServicesManager.getInstance().isPullComplete()) {
+    //            DataServicesManager.getInstance().setPullComplete(false);
                 DSLog.i("***SPO***","In Synchronization Monitor onEventAsync - ReadDataFromBackenedRequest");
                 pullSynchronise.startSynchronise(event.getLastSynchronizationTimestamp(), event.getEventId());
-            }
+//            }
         }
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(WriteDataToBackendRequest event) {
         synchronized (this) {
-            //TODO: also should pull new data from BE
-            if (DataServicesManager.getInstance().isPullComplete() && DataServicesManager.getInstance().isPushComplete()) {
-                DataServicesManager.getInstance().setPushComplete(false);
+            //if (DataServicesManager.getInstance().isPullComplete() && DataServicesManager.getInstance().isPushComplete()) {
+              //  DataServicesManager.getInstance().setPushComplete(false);
                 DSLog.i("***SPO***", "In Synchronization Monitor onEventAsync - WriteDataToBackendRequest");
                 pushSynchronise.startSynchronise(event.getEventId());
-            }
+         //   }
         }
     }
 }
