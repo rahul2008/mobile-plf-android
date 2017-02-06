@@ -189,7 +189,6 @@ configurations.all {
 dependencies {
     //3rd party
     compile 'com.google.code.gson:gson:2.2.4'
-    compile 'com.googlecode.libphonenumber:libphonenumber:7.1.1'
     //Coco
     compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.6.0-SNAPSHOT', ext: 'aar', changing: true)
             {
@@ -248,18 +247,18 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
 
     classDirectories = fileTree(
             dir: '../iap/build/intermediates/classes/debug',
-            excludes: ['**/R.class',
-                       '**/R$*.class',
-                       '**/BuildConfig.*',
-                       '**/response/*/*.class',
-                       '**/view/*.class',
-                       '**/adapters/*.class',
-                       '**/analytics/*.class',
-                       '**/utils/*.class',
-                       '**/activity/*.class',
-                       '**/screens/*.class',
-                       '**/store/IAPUser.class',
-                       '**/integration/IAPInterface.class']
+//            excludes: ['**/R.class',
+//                       '**/R$*.class',
+//                       '**/BuildConfig.*',
+//                       '**/response/*/*.class',
+//                       '**/view/*.class',
+//                       '**/adapters/*.class',
+//                       '**/analytics/*.class',
+//                       '**/utils/*.class',
+//                       '**/activity/*.class',
+//                       '**/screens/*.class',
+//                       '**/store/IAPUser.class',
+//                       '**/integration/IAPInterface.class']
     )
 
     additionalSourceDirs = files(coverageSourceDirs)
