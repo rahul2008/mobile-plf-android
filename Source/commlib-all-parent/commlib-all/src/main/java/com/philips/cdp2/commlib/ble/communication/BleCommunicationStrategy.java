@@ -7,6 +7,7 @@ package com.philips.cdp2.commlib.ble.communication;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
+import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
@@ -29,8 +30,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class BleCommunicationStrategy extends CommunicationStrategy {
 
-    private static final int POLLING_INTERVAL = 2000;
-
     @NonNull
     private final String mCppId;
     @NonNull
@@ -44,17 +43,49 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
         String portName;
         int productId;
 
-        PortParameters(String portName, int productId) {
+        PortParameters(@NonNull String portName, int productId) {
             this.portName = portName;
             this.productId = productId;
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (this == other) return true;
+            if (other == null || getClass() != other.getClass()) return false;
+
+            PortParameters that = (PortParameters) other;
+
+            if (productId != that.productId) return false;
+            return portName.equals(that.portName);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = portName.hashCode();
+            result = 31 * result + productId;
+            return result;
         }
     }
 
     private class Subscription {
+
+        private static final int POLLING_INTERVAL = 2000;
+
+        @NonNull
+        private final String portName;
+        private final int productId;
+        private final int timeToLive;
+        private final ResponseHandler responseHandler;
         private ScheduledExecutorService executor;
 
-        Subscription(final String portName, final int productId, final int timeToLive, final ResponseHandler responseHandler) {
-            // Start
+        Subscription(@NonNull String portName, final int productId, final int timeToLive, final ResponseHandler responseHandler) {
+            this.portName = portName;
+            this.productId = productId;
+            this.timeToLive = timeToLive;
+            this.responseHandler = responseHandler;
+        }
+
+        void start() {
             this.executor = Executors.newSingleThreadScheduledExecutor();
             this.executor.scheduleAtFixedRate(new Runnable() {
                 @Override
@@ -73,6 +104,9 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
         }
 
         void cancel() {
+            if (this.executor == null) {
+                return;
+            }
             this.executor.shutdown();
         }
     }
@@ -111,21 +145,32 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     }
 
     @Override
-    public void subscribe(final String portName, final int productId, final int subscriptionTtl, final ResponseHandler responseHandler) {
+    public synchronized void subscribe(final String portName, final int productId, final int subscriptionTtl, final ResponseHandler responseHandler) {
         PortParameters portParameters = new PortParameters(portName, productId);
-
         Subscription subscription = new Subscription(portName, productId, subscriptionTtl, responseHandler);
 
-        this.subscriptionsCache.put(portParameters, subscription);
+        if (this.subscriptionsCache.put(portParameters, subscription) == null) {
+            subscription.start();
+
+            responseHandler.onSuccess(null);
+        } else {
+            responseHandler.onError(Error.PROPERTY_ALREADY_EXISTS, null);
+        }
     }
 
     @Override
-    public void unsubscribe(String portName, int productId, ResponseHandler responseHandler) {
+    public synchronized void unsubscribe(String portName, int productId, ResponseHandler responseHandler) {
         PortParameters portParameters = new PortParameters(portName, productId);
         Subscription subscription = this.subscriptionsCache.get(portParameters);
-        subscription.cancel();
 
-        this.subscriptionsCache.remove(subscription);
+        if (subscription == null) {
+            responseHandler.onError(Error.NOT_SUBSCRIBED, null);
+        } else {
+            subscription.cancel();
+            this.subscriptionsCache.remove(subscription);
+
+            responseHandler.onSuccess(null);
+        }
     }
 
     @Override

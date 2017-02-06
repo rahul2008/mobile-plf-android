@@ -18,5 +18,9 @@
     <string name="btnSetTime">Set Time</string>
     <string name="btnStartDiscovery">Start discovery</string>
     <string name="btnStopDiscovery">Stop discovery</string>
-    <string name="stay_connected">Stay connected</string>
+    <string name="btnSubscribe">Subscribe</string>
+    <string name="btnUnsubscribe">Unsubscribe</string>
+
+    <string name="switchStayConnected">Stay connected</string>
+    <string name="switchSubscription">Subscribe</string>
 </resources>

@@ -100,15 +100,31 @@ public class ExampleActivity extends AppCompatActivity {
         }
     };
 
-    private final CompoundButton.OnCheckedChangeListener checkedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+    private final CompoundButton.OnCheckedChangeListener connectionCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-            if (bleReferenceAppliance != null) {
-                if (isChecked) {
-                    bleReferenceAppliance.enableCommunication();
-                } else {
-                    bleReferenceAppliance.disableCommunication();
-                }
+            if (bleReferenceAppliance == null) {
+                return;
+            }
+
+            if (isChecked) {
+                bleReferenceAppliance.enableCommunication();
+            } else {
+                bleReferenceAppliance.disableCommunication();
+            }
+        }
+    };
+    private final CompoundButton.OnCheckedChangeListener subscriptionCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
+            if (bleReferenceAppliance == null) {
+                return;
+            }
+
+            if (isChecked) {
+                bleReferenceAppliance.getTimePort().subscribe();
+            } else {
+                bleReferenceAppliance.getTimePort().unsubscribe();
             }
         }
     };
@@ -131,7 +147,9 @@ public class ExampleActivity extends AppCompatActivity {
         findViewById(R.id.btnStopDiscovery).setOnClickListener(buttonClickListener);
         findViewById(R.id.btnGetTime).setOnClickListener(buttonClickListener);
         findViewById(R.id.btnSetTime).setOnClickListener(buttonClickListener);
-        ((CompoundButton) findViewById(R.id.switchStayConnected)).setOnCheckedChangeListener(checkedChangeListener);
+
+        ((CompoundButton) findViewById(R.id.switchStayConnected)).setOnCheckedChangeListener(connectionCheckedChangeListener);
+        ((CompoundButton) findViewById(R.id.switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
 
         // Text fields
         txtState = (TextView) findViewById(R.id.txtState);
@@ -155,7 +173,7 @@ public class ExampleActivity extends AppCompatActivity {
         listViewAppliances.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                updateStateAndResult(getString(R.string.lblStateIdle), getString(R.string.lblResultNotApplicable));
+                stopDiscovery();
 
                 bleReferenceAppliance = (BleReferenceAppliance) applianceAdapter.getItem(position);
                 if (bleReferenceAppliance == null) {
@@ -267,10 +285,10 @@ public class ExampleActivity extends AppCompatActivity {
 
             @Override
             public void onPortError(TimePort timePort, Error error, final String s) {
+                Log.e(TAG, "Time port error: " + error.getErrorMessage() + " (" + s + ")");
+
                 updateStateAndResult(getString(R.string.lblStateIdle), getString(R.string.lblResultPortError, s));
             }
         });
-
-        appliance.getTimePort().subscribe();
     }
 }
