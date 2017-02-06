@@ -68,19 +68,15 @@ public class RestManager implements RestInterface {
     }
 
     @Override
-    public String getNetworkReachabilityStatus() {
-        String networkStatus = null;
+    public NetworkTypes  getNetworkReachabilityStatus() {
+        NetworkTypes networkStatus=NetworkTypes.NO_NETWORK;
         final NetworkInfo connectionInfo = getNetworkInfo();
         if (null != connectionInfo && connectionInfo.isConnected()) {
             if (connectionInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-                networkStatus = "Wifi";
+                networkStatus = NetworkTypes.WIFI;
             } else if (connectionInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
-                networkStatus = "MobileData";
-            } else {
-                networkStatus = "Both";
+                networkStatus = NetworkTypes.MOBILE_DATA;
             }
-        } else {
-            networkStatus = "NoNetwork";
         }
         return networkStatus;
     }

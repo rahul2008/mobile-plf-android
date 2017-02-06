@@ -66,13 +66,8 @@ public class RestManagerTest extends MockitoTestCase {
 
     public void testGetNetworkInfo()
     {
-        assertNotNull(mRestInterface.getNetworkReachabilityStatus());
-        String netWorkInfo=mRestInterface.getNetworkReachabilityStatus();
-        if(null!=netWorkInfo)
-        {
-            Log.v("NetworkInfo","device connected to "+netWorkInfo);
-        }
-
+        RestInterface.NetworkTypes netWorkInfo=mRestInterface.getNetworkReachabilityStatus();
+        Log.v("NetworkInfo","device connected to "+netWorkInfo);
 
     }
 

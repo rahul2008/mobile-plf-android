@@ -18,11 +18,13 @@ public interface RestInterface {
     public RequestQueue getRequestQueue();
 
 
+    enum NetworkTypes {WIFI,MOBILE_DATA,NO_NETWORK};
+
 /**
  * Get the network  connection and sets the wifiConnected and mobileConnected
- * @return String Wifi/Mobile
+ * @return enum WIFI,MOBILE_DATA,NO_NETWORK
  */
-    public String getNetworkReachabilityStatus();
+    public NetworkTypes  getNetworkReachabilityStatus();
 
     /**
      * Method to check the network connectivity availability .
