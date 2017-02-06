@@ -226,12 +226,11 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             //urlBuild = buildUrl();
             if (urlBuild != null) {
                 service = mRequestItemManager.execute(urlBuild, aisdurlType);
-                saveToSecureStore(service.getCountry(), COUNTRY);
-                if (countryCodeSource != null) {
-                    saveToSecureStore(OnGetHomeCountryListener.SOURCE.STOREDPREFERENCE.name(), COUNTRY_SOURCE);
-                } else {
+                if (countryCode == null && countryCodeSource == null) {
+                    saveToSecureStore(service.getCountry(), COUNTRY);
                     saveToSecureStore(OnGetHomeCountryListener.SOURCE.GEOIP.name(), COUNTRY_SOURCE);
                 }
+
                 if (service.isSuccess()) {
                     holdbackTime = 0;   //remove hold back time
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "SD Fetched from server");
@@ -268,13 +267,23 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                             ("servicediscovery.platformMicrositeId", "appinfra", error);
                     appIdentityManager.validateMicrositeId(micrositeid);
 
-                    environment = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
+                    String defSevicediscoveryEnv = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
                             ("servicediscovery.platformEnvironment", "appinfra", error);
 
                     Object dynServiceDiscoveryEnvironment = mAppInfra.getConfigInterface()
                             .getPropertyForKey("servicediscovery.platformEnvironment", "appinfra",
                                     error);
-                    appIdentityManager.validateServiceDiscoveryEnv(environment, dynServiceDiscoveryEnvironment);
+                    if (defSevicediscoveryEnv != null) {
+                        if (defSevicediscoveryEnv.equalsIgnoreCase("production")) // allow manual override only if static appstate != production
+                            environment = defSevicediscoveryEnv;
+                        else {
+                            if (dynServiceDiscoveryEnvironment != null)
+                                environment = dynServiceDiscoveryEnvironment.toString();
+                            else
+                                environment = defSevicediscoveryEnv;
+                        }
+                    }
+                    appIdentityManager.validateServiceDiscoveryEnv(environment);
                     environment = getSDBaseURLForEnvironment(environment);
                     break;
 

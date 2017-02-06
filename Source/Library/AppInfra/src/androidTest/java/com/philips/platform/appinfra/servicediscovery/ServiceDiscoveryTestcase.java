@@ -417,210 +417,6 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     }
 
 
-    public void testserviceURLwithCountryorLanguagePreferencesForNullServiceId() {
-        serviceDiscovery = loadServiceDiscoveryModel();
-        mServiceDiscoveryManager.serviceURLwithCountryorLanguagePreferences(null,
-                new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                    @Override
-                    public void onSuccess(URL url) {
-                        assertNotNull(url);
-                    }
-
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(error);
-                        assertNotNull(message);
-                    }
-                }, false, null);
-    }
-
-    public void testserviceURLwithCountryorLanguagePreferencesForServiceId() {
-        serviceDiscovery = loadServiceDiscoveryModel();
-        mServiceDiscoveryManager.serviceURLwithCountryorLanguagePreferences(mServiceId,
-                new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                    @Override
-                    public void onSuccess(URL url) {
-                        assertNotNull(url);
-                    }
-
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(error);
-                        assertNotNull(message);
-                    }
-                }, true, null);
-    }
-
-    public void testserviceURLwithCountryorLanguagePreferencesForServiceIdDownloadProg() {
-        serviceDiscovery = loadServiceDiscoveryModel();
-        mServiceDiscoveryManager.serviceURLwithCountryorLanguagePreferences(mServiceId, null, false, null);
-    }
-
-    public void testserviceURLwithCountryorLanguagePreferencesForServiceIdDownloadProgWithListner
-            () {
-        serviceDiscovery = loadServiceDiscoveryModel();
-        mServiceDiscoveryManager.serviceURLwithCountryorLanguagePreferences(mServiceId,
-                new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                    @Override
-                    public void onSuccess(URL url) {
-                        assertNotNull(url);
-                    }
-
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(error);
-                        assertNotNull(message);
-                    }
-                }, false, null);
-    }
-
-    public void testserviceURLwithCountryorLanguagePreferencesForServiceIdDownloadProgfalse() {
-        serviceDiscovery = loadServiceDiscoveryModel();
-        mServiceDiscoveryManager.serviceURLwithCountryorLanguagePreferences(mServiceId,
-                new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                    @Override
-                    public void onSuccess(URL url) {
-                        assertNotNull(url);
-                    }
-
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(error);
-                        assertNotNull(message);
-                    }
-                }, false, null);
-    }
-
-    public void testserviceswithCountryorLanguagePreferencesForNullServiceId() {
-        serviceDiscovery = loadServiceDiscoveryModel();
-        mServiceDiscoveryManager.ServicesWithLanguageorCountryPreference(null,
-                new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-                    @Override
-                    public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                        assertNotNull(urlMap);
-                    }
-
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(error);
-                        assertNotNull(message);
-                    }
-                }, false, null);
-    }
-
-    public void testserviceswithCountryorLanguagePreferencesForServiceId() {
-        serviceDiscovery = loadServiceDiscoveryModel();
-        mServiceDiscoveryManager.ServicesWithLanguageorCountryPreference(mServicesId,
-                new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-                    @Override
-                    public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                        assertNotNull(urlMap);
-                    }
-
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(error);
-                        assertNotNull(message);
-                    }
-                }, true, null);
-    }
-
-    public void testserviceswithCountryorLanguagePreferencesForServiceIdDownloadProg() {
-        serviceDiscovery = loadServiceDiscoveryModel();
-        mServiceDiscoveryManager.ServicesWithLanguageorCountryPreference(mServicesId, null, false, null);
-    }
-
-    public void testserviceswithCountryorLanguagePreferencesForServiceIdDownloadProgWithListner() {
-        serviceDiscovery = loadServiceDiscoveryModel();
-        mServiceDiscoveryManager.ServicesWithLanguageorCountryPreference(mServicesId,
-                new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-                    @Override
-                    public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                        assertNotNull(urlMap);
-                    }
-
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(error);
-                        assertNotNull(message);
-                    }
-                }, false, null);
-    }
-
-    public void testserviceswithCountryorLanguagePreferencesForServiceIdDownloadProgfalse() {
-        serviceDiscovery = loadServiceDiscoveryModel();
-        mServiceDiscoveryManager.ServicesWithLanguageorCountryPreference(mServicesId,
-                new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-                    @Override
-                    public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                        assertNotNull(urlMap);
-                    }
-
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(error);
-                        assertNotNull(message);
-                    }
-                }, false, null);
-    }
-
-    public void testserviceLocalewithCountryorLanguagePreferencesForServiceId() {
-        serviceDiscovery = loadServiceDiscoveryModel();
-        mServiceDiscoveryManager.ServiceLocaleWithCountryorLanguagePreference(mServiceId,
-                new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
-                    @Override
-                    public void onSuccess(String locale) {
-                        assertNotNull(locale);
-                    }
-
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(error);
-                        assertNotNull(message);
-                    }
-                }, true);
-    }
-
-    public void testserviceLocalewithCountryorLanguagePreferencesForServiceIdDownloadProg() {
-        serviceDiscovery = loadServiceDiscoveryModel();
-        mServiceDiscoveryManager.ServiceLocaleWithCountryorLanguagePreference(mServiceId, null, false);
-    }
-
-    public void testserviceLocalewithCountryorLanguagePreferencesForServiceIdDownloadProgWithListner
-            () {
-        serviceDiscovery = loadServiceDiscoveryModel();
-        mServiceDiscoveryManager.ServiceLocaleWithCountryorLanguagePreference(mServiceId,
-                new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
-                    @Override
-                    public void onSuccess(String locale) {
-                        assertNotNull(locale);
-                    }
-
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(error);
-                        assertNotNull(message);
-                    }
-                }, false);
-    }
-
-    public void testserviceLocalewithCountryorLanguagePreferencesForServiceIdDownloadProgfalse() {
-        serviceDiscovery = loadServiceDiscoveryModel();
-        mServiceDiscoveryManager.ServiceLocaleWithCountryorLanguagePreference(mServiceId,
-                new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
-                    @Override
-                    public void onSuccess(String locale) {
-                        assertNotNull(locale);
-                    }
-
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(error);
-                        assertNotNull(message);
-                    }
-                }, false);
-    }
-
     public void testgetServiceUrlWithCountryPreferenceReplacedUrl() {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("ctn", "HD9740");
@@ -1045,46 +841,46 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         }
     }
 
-    public void testemptyresultarray() {
-
-        String resJson = "{\n" +
-                "    \"success\": true,\n" +
-                "    \"payload\": {\n" +
-                "        \"country\": \"US\",\n" +
-                "        \"matchByLanguage\": {\n" +
-                "            \"available\": false,\n" +
-                "            \"results\": [\n" +
-                "                        \n" +
-                "                        ]\n" +
-                "        },\n" +
-                "        \"matchByCountry\": {\n" +
-                "            \"available\": false,\n" +
-                "            \"results\": [\n" +
-                "                        \n" +
-                "                        ]\n" +
-                "        }\n" +
-                "    },\n" +
-                "    \"httpStatus\": \"OK\"\n" +
-                "}\n";
-        JSONObject jsonObject = null;
-        try {
-            jsonObject = new JSONObject(resJson);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        serviceDiscovery.parseResponse(context,mAppInfra ,jsonObject);
-        mServiceDiscoveryManager.ServiceLocaleWithCountryorLanguagePreference(mServiceId,
-                new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
-                    @Override
-                    public void onSuccess(String locale) {
-                        assertNotNull(locale);
-                    }
-
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(error);
-                        assertNotNull(message);
-                    }
-                }, false);
-    }
+//    public void testemptyresultarray() {
+//
+//        String resJson = "{\n" +
+//                "    \"success\": true,\n" +
+//                "    \"payload\": {\n" +
+//                "        \"country\": \"US\",\n" +
+//                "        \"matchByLanguage\": {\n" +
+//                "            \"available\": false,\n" +
+//                "            \"results\": [\n" +
+//                "                        \n" +
+//                "                        ]\n" +
+//                "        },\n" +
+//                "        \"matchByCountry\": {\n" +
+//                "            \"available\": false,\n" +
+//                "            \"results\": [\n" +
+//                "                        \n" +
+//                "                        ]\n" +
+//                "        }\n" +
+//                "    },\n" +
+//                "    \"httpStatus\": \"OK\"\n" +
+//                "}\n";
+//        JSONObject jsonObject = null;
+//        try {
+//            jsonObject = new JSONObject(resJson);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        serviceDiscovery.parseResponse(context,mAppInfra ,jsonObject);
+//        mServiceDiscoveryManager.ServiceLocaleWithCountryorLanguagePreference(mServiceId,
+//                new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+//                    @Override
+//                    public void onSuccess(String locale) {
+//                        assertNotNull(locale);
+//                    }
+//
+//                    @Override
+//                    public void onError(ERRORVALUES error, String message) {
+//                        assertNotNull(error);
+//                        assertNotNull(message);
+//                    }
+//                }, false);
+//    }
 }

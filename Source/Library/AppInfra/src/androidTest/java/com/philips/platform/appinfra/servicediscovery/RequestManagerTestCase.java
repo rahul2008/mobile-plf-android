@@ -46,11 +46,11 @@ public class RequestManagerTestCase extends MockitoTestCase {
     }
 
     public void testexecute() {
-        mRequestItemManager.execute("https://acc.philips.com/api/v1/discovery/b2c/77000?locale=en_US&tags=apps%2b%2benv%2bstage&country=IN", preference);
+        mRequestItemManager.execute("https://acc.philips.com/api/v1/discovery/b2c/77000?locale=en_US&tags=apps%2b%2benv%2bstage&country=IN", ServiceDiscoveryManager.AISDURLType.AISDURLTypeProposition);
     }
 
     public void testexecuteNegetivePath() {
-        mRequestItemManager.execute("https://acc", preference);
+        mRequestItemManager.execute("https://acc", ServiceDiscoveryManager.AISDURLType.AISDURLTypeProposition);
     }
 
     private JSONObject makJsonObject(boolean isSuccess, int resultJsonArraySize) {
