@@ -42,15 +42,15 @@ dependencies {
     compile deps.gson
     compile deps.support_annotations
 
-    compile(name: 'appcompat-v7-24.2.1', ext: 'aar')
-    compile(name: 'design-24.2.0', ext: 'aar')
-    compile(name: 'recyclerview-v7-24.2.0', ext: 'aar')
-    compile(name: 'support-compat-24.2.0', ext: 'aar')
-    compile(name: 'support-core-ui-24.2.0', ext: 'aar')
-    compile(name: 'support-core-utils-24.2.0', ext: 'aar')
-    compile(name: 'support-fragment-24.2.0', ext: 'aar')
-    compile(name: 'support-v4-24.2.0', ext: 'aar')
-    compile(name: 'support-vector-drawable-24.2.0', ext: 'aar')
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:design:24.2.0'
+    compile 'com.android.support:recyclerview-v7:24.2.0'
+    compile 'com.android.support:support-compat:24.2.0'
+    compile 'com.android.support:support-core-ui:24.2.0'
+    compile 'com.android.support:support-core-utils:24.2.0'
+    compile 'com.android.support:support-fragment:24.2.0'
+    compile 'com.android.support:support-v4:24.2.0'
+    compile 'com.android.support:support-vector-drawable:24.2.0'
     compile 'com.philips.pins.shinelib:packetcommunication-release:+@aar'
     compile 'com.philips.pins.shinelib:shinepluginmoonshinelib-release:+@aar'
     testCompile 'junit:junit:4.12'
