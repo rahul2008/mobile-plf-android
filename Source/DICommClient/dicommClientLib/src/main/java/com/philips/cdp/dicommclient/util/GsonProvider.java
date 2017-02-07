@@ -13,4 +13,6 @@ public final class GsonProvider {
     public static final Gson get() {
         return INSTANCE;
     }
+
+    public static final String EMPTY_JSON_OBJECT_STRING = get().toJson(new Object());
 }
