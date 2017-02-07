@@ -28,7 +28,7 @@ import retrofit.converter.GsonConverter;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class SettingsDataSender extends EventMonitor implements DataSender<Settings> {
+public class SettingsDataSender implements DataSender<Settings> {
 
     @Inject
     Eventing eventing;

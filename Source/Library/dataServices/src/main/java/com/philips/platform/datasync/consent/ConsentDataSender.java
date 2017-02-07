@@ -29,7 +29,7 @@ import retrofit.converter.GsonConverter;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ConsentDataSender extends EventMonitor implements DataSender<ConsentDetail> {
+public class ConsentDataSender implements DataSender<ConsentDetail> {
 
     @Inject
     Eventing eventing;
@@ -63,16 +63,13 @@ public class ConsentDataSender extends EventMonitor implements DataSender<Consen
 
     @Override
     public boolean sendDataToBackend(@NonNull final List<? extends ConsentDetail> dataToSend) {
-          if (!dataToSend.isEmpty() && synchronizationState.get() != State.BUSY.getCode()) {
+          if (!dataToSend.isEmpty()) {
               sendToBackend(new ArrayList<>(dataToSend));
         }
 
         return false;
     }
 
-    public void onEventAsync(@SuppressWarnings("UnusedParameters") ConsentBackendListSaveResponse responseEvent) {
-        synchronizationState.set(State.IDLE.getCode());
-    }
 
     @Override
     public Class<ConsentDetail> getClassForSyncData() {

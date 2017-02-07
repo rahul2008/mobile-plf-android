@@ -172,7 +172,6 @@ public class DataServicesManager {
     }
 
     public void updateConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener dbRequestListener) {
-        mEventing.post(new SyncBitUpdateRequest(OrmTableType.CONSENT,false));
         mEventing.post(new DatabaseConsentUpdateRequest(consentDetails,dbRequestListener));
     }
 
