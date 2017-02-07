@@ -32,107 +32,34 @@ import retrofit.converter.GsonConverter;
  */
 public class SettingsMonitor extends EventMonitor {
 
-    @NonNull
-    private final UCoreAdapter uCoreAdapter;
-
     @Inject
     UCoreAccessProvider uCoreAccessProvider;
 
+    @NonNull
+    private final SettingsDataSender settingsDataSender;
 
     @NonNull
-    private final GsonConverter gsonConverter;
-
-    @NonNull
-    private final SettingsConverter settingsConverter;
+    private final SettingsDataFetcher settingsDataFetcher;
 
 
     @Inject
-    public SettingsMonitor(@NonNull final UCoreAdapter uCoreAdapter,
-                           @NonNull final SettingsConverter settingsConverter,
-                           @NonNull final GsonConverter gsonConverter) {
+    public SettingsMonitor(@NonNull SettingsDataSender settingsDataSender, @NonNull SettingsDataFetcher settingsDataFetcher) {
+        this.settingsDataSender = settingsDataSender;
+        this.settingsDataFetcher = settingsDataFetcher;
         DataServicesManager.getInstance().getAppComponant().injectUserSettingsMonitor(this);
-        this.uCoreAdapter = uCoreAdapter;
-        this.settingsConverter = settingsConverter;
-        this.gsonConverter = gsonConverter;
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(SettingsBackendSaveRequest event) {
-        sendToBackend(event);
+        settingsDataSender.sendToBackend(event);
         System.out.println("In onEventAsync(SettingsBackendSaveRequest event) ");
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(SettingsBackendGetRequest event) {
-        getSettings(event);
+        settingsDataFetcher.getSettings();
     }
 
-    private RetrofitError getNonLoggedInError() {
-        return RetrofitError.unexpectedError("", new IllegalStateException("you're not logged in"));
-    }
 
-    private void getSettings(SettingsBackendGetRequest event) {
 
-        if (isUserInvalid()) {
-            postError(event.getEventId(), getNonLoggedInError());
-            return;
-        }
-
-        if (uCoreAccessProvider == null) {
-            return;
-        }
-
-        SettingsClient client = uCoreAdapter.getAppFrameworkClient(SettingsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
-
-        try {
-            UCoreSettings settings = client.getSettings(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId(), uCoreAdapter.API_VERSION);
-            Settings appSettings = settingsConverter.convertUcoreToAppSettings(settings);
-            eventing.post(new SettingsBackendSaveResponse(appSettings));
-        } catch (RetrofitError retrofitError) {
-            eventing.post(new BackendDataRequestFailed(retrofitError));
-        }
-
-    }
-
-    private void postError(int referenceId, final RetrofitError error) {
-        eventing.post(new BackendResponse(referenceId, error));
-    }
-
-    public void sendToBackend(SettingsBackendSaveRequest event) {
-        if (isUserInvalid()) {
-            postError(event.getEventId(), getNonLoggedInError());
-            return;
-        }
-        if (uCoreAccessProvider == null) {
-            return;
-        }
-        Settings settings = event.getSettings();
-
-        try {
-            UCoreSettings uCoreSettings = settingsConverter.convertAppToUcoreSettings(settings);
-            SettingsClient appFrameworkClient = uCoreAdapter.getAppFrameworkClient(SettingsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
-            Response response = appFrameworkClient.updateSettings(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId(), uCoreSettings);
-
-            if (isResponseSuccess(response)) {
-                eventing.post(new SyncBitUpdateRequest(OrmTableType.SETTINGS, true));
-            }
-
-        } catch (RetrofitError retrofitError) {
-            eventing.post(new BackendDataRequestFailed(retrofitError));
-        }
-
-    }
-
-    public boolean isUserInvalid() {
-        if (uCoreAccessProvider != null) {
-            String accessToken = uCoreAccessProvider.getAccessToken();
-            return !uCoreAccessProvider.isLoggedIn() || accessToken == null || accessToken.isEmpty();
-        }
-        return false;
-    }
-
-    private boolean isResponseSuccess(final Response response) {
-        return response != null && (response.getStatus() == HttpURLConnection.HTTP_OK || response.getStatus() == HttpURLConnection.HTTP_CREATED
-                || response.getStatus() == HttpURLConnection.HTTP_NO_CONTENT);
-    }
 }

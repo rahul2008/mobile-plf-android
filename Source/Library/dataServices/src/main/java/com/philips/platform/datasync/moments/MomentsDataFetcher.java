@@ -89,6 +89,7 @@ public class MomentsDataFetcher extends DataFetcher {
             //TODO: - Veritcals should be forced to call this
             DSLog.e(TAG, "RetrofitError: " + ex.getMessage() + ex);
             eventing.post(new BackendDataRequestFailed(ex));
+            onError(ex);
             return ex;
         }
     }

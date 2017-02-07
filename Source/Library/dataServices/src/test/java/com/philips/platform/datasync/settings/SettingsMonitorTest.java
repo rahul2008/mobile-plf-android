@@ -123,7 +123,7 @@ public class SettingsMonitorTest {
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
         errorHandlerImplTest = new ErrorHandlerImplTest();
         DataServicesManager.getInstance().setAppComponant(appComponantMock);
-        settingsMonitor = new SettingsMonitor(uCoreAdapterMock, settingsConverterMock, gsonConverterMock);
+        settingsMonitor = new SettingsMonitor(settingsDataSender, settingsDataFetcher);
         settingsMonitor.uCoreAccessProvider = accessProviderMock;
         settingsMonitor.start(eventingMock);
     }

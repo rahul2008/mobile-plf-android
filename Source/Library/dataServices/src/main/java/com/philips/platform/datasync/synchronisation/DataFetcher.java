@@ -10,9 +10,13 @@ import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.philips.platform.core.listeners.SynchronisationChangeListener;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAdapter;
 
 import org.joda.time.DateTime;
+
+import javax.inject.Inject;
 
 import retrofit.RetrofitError;
 
@@ -24,7 +28,11 @@ public abstract class DataFetcher {
     @NonNull
     protected final UCoreAdapter uCoreAdapter;
 
+    @Inject
+    SynchronisationChangeListener synchronisationChangeListener;
+
     public DataFetcher(@NonNull final UCoreAdapter uCoreAdapter) {
+        DataServicesManager.getInstance().getAppComponant().injectDataFetcher(this);
         this.uCoreAdapter = uCoreAdapter;
     }
 
@@ -34,6 +42,10 @@ public abstract class DataFetcher {
 
     public RetrofitError fetchAllData() {
         return fetchDataSince(null);
+    }
+
+    public void onError(RetrofitError error){
+        synchronisationChangeListener.dataPullFail(error);
     }
 }
 

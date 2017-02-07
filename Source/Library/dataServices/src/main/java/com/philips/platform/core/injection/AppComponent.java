@@ -32,6 +32,7 @@ import com.philips.platform.datasync.settings.SettingsDataFetcher;
 import com.philips.platform.datasync.settings.SettingsDataSender;
 import com.philips.platform.datasync.settings.SettingsMonitor;
 import com.philips.platform.datasync.settings.SettingsSegregator;
+import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
 import com.philips.platform.datasync.synchronisation.SynchronisationManager;
@@ -108,4 +109,6 @@ public interface AppComponent {
     void injectSettingsSegregator(SettingsSegregator segregator);
 
     void injectSynchronisationManager(SynchronisationManager synchronisationManager);
+
+    void injectDataFetcher(DataFetcher dataFetcher);
 }

@@ -51,7 +51,7 @@ public class SettingsDataSenderTest {
     public void setUp() {
         initMocks(this);
         DataServicesManager.getInstance().setAppComponant(appComponantMock);
-        settingsDataSender = new SettingsDataSender();
+        settingsDataSender = new SettingsDataSender(uCoreAdapter, gsonConverter, settingsConverter);
         settingsDataSender.eventing = eventingMock;
     }
 

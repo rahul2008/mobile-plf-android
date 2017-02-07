@@ -52,7 +52,7 @@ public class SettingsDataFetcherTest {
         initMocks(this);
         DataServicesManager.getInstance().setAppComponant(appComponantMock);
         settingsDataFetcher = new SettingsDataFetcher(uCoreAdapterMock);
-        settingsDataFetcher.mUCoreAccessProvider = accessProviderMock;
+        settingsDataFetcher.uCoreAccessProvider = accessProviderMock;
         settingsDataFetcher.eventing = eventingMock;
     }
 

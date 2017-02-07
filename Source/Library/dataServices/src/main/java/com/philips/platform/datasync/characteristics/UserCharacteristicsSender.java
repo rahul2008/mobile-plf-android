@@ -83,7 +83,6 @@ public class UserCharacteristicsSender implements DataSender<Characteristics> {
         } catch (RetrofitError retrofitError) {
             postError(retrofitError);
         }
-
         return false;
     }
 

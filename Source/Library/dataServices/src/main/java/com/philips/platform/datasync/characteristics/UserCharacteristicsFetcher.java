@@ -69,6 +69,7 @@ public class UserCharacteristicsFetcher extends DataFetcher {
             return null;
         } catch (RetrofitError exception) {
             eventing.post(new BackendDataRequestFailed(exception));
+            onError(exception);
             return exception;
         }
     }
