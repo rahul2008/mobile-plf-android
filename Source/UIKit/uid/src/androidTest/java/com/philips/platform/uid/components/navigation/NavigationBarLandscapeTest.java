@@ -19,6 +19,7 @@ import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.utils.UIDTestUtils;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -86,6 +87,7 @@ public class NavigationBarLandscapeTest extends BaseTest {
         getNavigationBar().check(matches(ViewPropertiesMatchers.isSameViewHeight(toolbarHeight)));
     }
 
+    @Ignore
     @Test
     public void verifyOptionsMenuIconTargetAreaInLandscape() throws Exception {
         setupLandscapeModeActivity();
