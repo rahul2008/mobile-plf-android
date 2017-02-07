@@ -270,13 +270,12 @@ public class DataServicesManager {
             DSLog.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
             startMonitors();
             //mEventing.post(new ReadDataFromBackendRequest(null));
-
-      mSynchronisationManager.startSync(mSynchronisationCompleteListener);
+            mSynchronisationManager.startSync(mSynchronisationCompleteListener);
         }
     }
 
     //TODO: discuss if its required
-    public void startMonitors() {
+    private void startMonitors() {
         if (mCore != null) {
             DSLog.i("***SPO***", "mCore not null, hence starting");
             mCore.start();
@@ -313,7 +312,7 @@ public class DataServicesManager {
     private void prepareInjectionsGraph(Context context) {
         BackendModule backendModule = new BackendModule(new EventingImpl(new EventBus(), new Handler()), mDataCreater, userRegistrationInterface,
                 mDeletingInterface, mFetchingInterface, mSavingInterface, mUpdatingInterface,
-                fetchers, senders, errorHandlingInterface,mSynchronisationCompleteListener);
+                fetchers, senders, errorHandlingInterface);
         final ApplicationModule applicationModule = new ApplicationModule(context);
 
         mAppComponent = DaggerAppComponent.builder().backendModule(backendModule).applicationModule(applicationModule).build();
@@ -378,6 +377,14 @@ public class DataServicesManager {
 
     public void unRegisterDBChangeListener() {
         this.dbChangeListener = null;
+    }
+
+    public void registerSynchronisationCompleteListener(SynchronisationCompleteListener synchronisationCompleteListener) {
+        this.mSynchronisationCompleteListener = synchronisationCompleteListener;
+    }
+
+    public void unRegisterSynchronisationCosmpleteListener() {
+        this.mSynchronisationCompleteListener = null;
     }
 
     public void fetchSettings(DBRequestListener dbRequestListener) {
