@@ -5,7 +5,6 @@ import android.content.Context;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.MatchByCountryOrLanguage;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
@@ -241,15 +240,6 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(context);
     }
 
-    public void testBuildUrl() {
-        try {
-            method = ServiceDiscoveryManager.class.getDeclaredMethod("buildUrl");
-            method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager);
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void testApplyURLParameters() {
 
@@ -275,15 +265,6 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         }
     }
 
-    public void testgetCountry() {
-        try {
-            method = ServiceDiscoveryManager.class.getDeclaredMethod("getCountry", ServiceDiscovery.class);
-            method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager, loadServiceDiscoveryModel());
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void testsetHomeCountry() {
         try {
@@ -432,8 +413,6 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryInterface.getServiceLocaleWithLanguagePreference(mServiceId,
                 new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
-
-
                     @Override
                     public void onError(ERRORVALUES error, String message) {
                         assertNotNull(message);
@@ -460,18 +439,6 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
                 assertNotNull(message);
             }
         });
-    }
-
-    public void testBuildURL() {
-        Method method;
-        try {
-            method = mServiceDiscoveryManager.getClass().getDeclaredMethod("buildUrl");
-            method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery",
-                    e.getMessage());
-        }
     }
 
 
@@ -625,345 +592,6 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
                 }, parameters);
     }
 
-
-    public void testfilterDataForUrlbyLang() {
-        mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage(true));
-        mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage(true));
-        mMatchByCountryOrLanguage.setLocale("IN");
-        try {
-            method = ServiceDiscoveryManager.class.getDeclaredMethod("filterDataForUrlbyLang",
-                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlListener.class);
-            method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager, mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                @Override
-                public void onSuccess(URL url) {
-                    assertNotNull(url);
-                }
-
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-                    assertNotNull(error);
-                    assertNotNull(message);
-                }
-            });
-
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void testfilterDataForUrlbyLangNegetivePath() {
-        mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage(false));
-        mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage(false));
-        mMatchByCountryOrLanguage.setLocale("IN");
-        try {
-            method = ServiceDiscoveryManager.class.getDeclaredMethod("filterDataForUrlbyLang",
-                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlListener.class);
-            method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager, mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                @Override
-                public void onSuccess(URL url) {
-                    assertNotNull(url);
-                }
-
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-                    assertNotNull(error);
-                    assertNotNull(message);
-                }
-            });
-
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public void testfilterDataForUrlbyLangNegetivePathForServiceId() {
-        mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage(false));
-        mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage(false));
-
-        try {
-            method = ServiceDiscoveryManager.class.getDeclaredMethod("filterDataForUrlbyLang",
-                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlListener.class);
-            method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager, null, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                @Override
-                public void onSuccess(URL url) {
-                    assertNotNull(url);
-                }
-
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-                    assertNotNull(error);
-                    assertNotNull(message);
-                }
-            });
-
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void testfilterDataForUrlbyLangArrayNegetivePathForserviceDiscovery() {
-        try {
-            method = ServiceDiscoveryManager.class.getDeclaredMethod("filterDataForUrlbyLang",
-                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlListener.class);
-            method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager, mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-                @Override
-                public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                    assertNotNull(urlMap);
-                }
-
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-                    assertNotNull(error);
-                    assertNotNull(message);
-                }
-            });
-
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public void testfilterDataForUrlbyLangArrayNegetivePathForServiceID() {
-        mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage(false));
-        mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage(false));
-        try {
-            method = ServiceDiscoveryManager.class.getDeclaredMethod("filterDataForUrlbyLang",
-                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlListener.class);
-            method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager, null, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-                @Override
-                public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                    assertNotNull(urlMap);
-                }
-
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-                    assertNotNull(error);
-                    assertNotNull(message);
-                }
-            });
-
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public void testfilterDataForUrlbyCountry() {
-        mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage(true));
-        mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage(true));
-
-        try {
-            method = ServiceDiscoveryManager.class.getDeclaredMethod("filterDataForUrlbyCountry",
-                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlListener.class);
-            method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager, mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                @Override
-                public void onSuccess(URL url) {
-                    assertNotNull(url);
-                }
-
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-                    assertNotNull(error);
-                    assertNotNull(message);
-                }
-            });
-
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void testfilterDataForUrlbyCountryNegetivePath() {
-        mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage(false));
-        mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage(false));
-        try {
-            method = ServiceDiscoveryManager.class.getDeclaredMethod("filterDataForUrlbyCountry",
-                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlListener.class);
-            method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager, mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                @Override
-                public void onSuccess(URL url) {
-                    assertNotNull(url);
-                }
-
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-                    assertNotNull(error);
-                    assertNotNull(message);
-                }
-            });
-
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public void testfilterDataForUrlbyCountryNegetivePathForServiceIDWithListner() {
-        mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage(false));
-        mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage(false));
-        try {
-            method = ServiceDiscoveryManager.class.getDeclaredMethod("filterDataForUrlbyCountry",
-                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlListener.class);
-            method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager, null, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                @Override
-                public void onSuccess(URL url) {
-                    assertNotNull(url);
-                }
-
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-                    assertNotNull(error);
-                    assertNotNull(message);
-                }
-            });
-
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public void testfilterDataForUrlbyCountryArray() {
-        mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage(true));
-        mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage(true));
-        mMatchByCountryOrLanguage.setLocale("IN");
-
-        try {
-            method = ServiceDiscoveryManager.class.getDeclaredMethod("filterDataForUrlbyCountry",
-                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlListener.class);
-            method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager, mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-                @Override
-                public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                    assertNotNull(urlMap);
-                }
-
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-                    assertNotNull(error);
-                    assertNotNull(message);
-                }
-            });
-
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void testfilterDataForUrlbyCountryArrayNegetivePath() {
-        mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage(false));
-        mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage(false));
-        try {
-            method = ServiceDiscoveryManager.class.getDeclaredMethod("filterDataForUrlbyCountry",
-                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlListener.class);
-            method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager, mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-                @Override
-                public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                    assertNotNull(urlMap);
-                }
-
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-                    assertNotNull(error);
-                    assertNotNull(message);
-                }
-            });
-
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public void testfilterDataForUrlbyCountryArrayNegetivePathFormServicesIdWithListner() {
-        mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage(false));
-        mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage(false));
-        try {
-            method = ServiceDiscoveryManager.class.getDeclaredMethod("filterDataForUrlbyCountry",
-                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlListener.class);
-            method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager, null, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-                @Override
-                public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                    assertNotNull(urlMap);
-                }
-
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-                    assertNotNull(error);
-                    assertNotNull(message);
-                }
-            });
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public void testfilterDataForLocalByLangNegetivePathLocale() {
-        mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage(false));
-        mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage(false));
-        mMatchByCountryOrLanguage.setLocale(null);
-        try {
-            method = ServiceDiscoveryManager.class.getDeclaredMethod("filterDataForLocalByLang",
-                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlListener.class);
-            method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager, mServicesId, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
-                @Override
-                public void onSuccess(String locale) {
-                    assertNotNull(locale);
-                }
-
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-                    assertNotNull(error);
-                    assertNotNull(message);
-                }
-            });
-
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public void testfilterDataForLocalByCountryNegetivePathLocale() {
-        mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage(false));
-        mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage(false));
-        mMatchByCountryOrLanguage.setLocale(null);
-
-        try {
-            method = ServiceDiscoveryManager.class.getDeclaredMethod("filterDataForLocalByCountry",
-                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlListener.class);
-            method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager, mServicesId, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
-                @Override
-                public void onSuccess(String locale) {
-                    assertNotNull(locale);
-                }
-
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-                    assertNotNull(error);
-                    assertNotNull(message);
-                }
-            });
-
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
 
 //    public void testemptyresultarray() {
 //
@@ -1123,7 +751,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         }
     }
 
-    public void testdownloadPropositionService(){
+    public void testdownloadPropositionService() {
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("downloadPropositionService");
             method.setAccessible(true);
@@ -1137,12 +765,81 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         String url = "https://www.philips.com/api/v1/discovery/b2c/77001?locale=en_IN&tags=apps%2b%2benv%2bdev&country=IN";
         ServiceDiscovery service = new ServiceDiscovery();
         try {
-            method = ServiceDiscoveryManager.class.getDeclaredMethod("processRequest",String.class,
-                    ServiceDiscovery.class , ServiceDiscoveryManager.AISDURLType.class);
+            method = ServiceDiscoveryManager.class.getDeclaredMethod("processRequest", String.class,
+                    ServiceDiscovery.class, ServiceDiscoveryManager.AISDURLType.class);
             method.setAccessible(true);
-            method.invoke(url,service, ServiceDiscoveryManager.AISDURLType.AISDURLTypeProposition);
+            method.invoke(mServiceDiscoveryManager, url, service, ServiceDiscoveryManager.AISDURLType.AISDURLTypeProposition);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
     }
+
+
+    public void testgetSDURLForType() {
+        try {
+            method = ServiceDiscoveryManager.class.getDeclaredMethod("getSDURLForType",
+                    ServiceDiscoveryManager.AISDURLType.class);
+            method.setAccessible(true);
+            String urlplatform = (String) method.invoke(mServiceDiscoveryManager, ServiceDiscoveryManager.AISDURLType.AISDURLTypePlatform);
+            assertNotNull(urlplatform);
+            String urlProposition = (String) method.invoke(mServiceDiscoveryManager, ServiceDiscoveryManager.AISDURLType.AISDURLTypeProposition);
+            assertNotNull(urlProposition);
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void testgetSDBaseURLForEnvironment() {
+        try {
+            method = ServiceDiscoveryManager.class.getDeclaredMethod("getSDBaseURLForEnvironment", String.class);
+            method.setAccessible(true);
+            String baseUrlproduction = (String) method.invoke(mServiceDiscoveryManager, "PRODUCTION");
+            assertNotNull(baseUrlproduction);
+            assertSame("www.philips.com", baseUrlproduction);
+
+            String baseUrltest = (String) method.invoke(mServiceDiscoveryManager, "TEST");
+            assertNotNull(baseUrltest);
+            assertSame("tst.philips.com", baseUrltest);
+
+            String baseUrlstaging = (String) method.invoke(mServiceDiscoveryManager, "STAGING");
+            assertNotNull(baseUrlstaging);
+            assertSame("dev.philips.com", baseUrlstaging);
+
+            String baseUrlacceptance = (String) method.invoke(mServiceDiscoveryManager, "ACCEPTANCE");
+            assertNotNull(baseUrlacceptance);
+            assertSame("acc.philips.com", baseUrlacceptance);
+
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void testgetAppStateStringFromState() {
+
+        try {
+            method = ServiceDiscoveryManager.class.getDeclaredMethod("getAppStateStringFromState", String.class);
+            method.setAccessible(true);
+
+            String urltest = (String) method.invoke(mServiceDiscoveryManager, "TEST");
+            assertSame("apps%2b%2benv%2btest", urltest);
+
+            String urldev = (String) method.invoke(mServiceDiscoveryManager, "DEVELOPMENT");
+            assertSame("apps%2b%2benv%2bdev", urldev);
+
+            String urlstag = (String) method.invoke(mServiceDiscoveryManager, "STAGING");
+            assertSame("apps%2b%2benv%2bstage", urlstag);
+
+            String urlprod = (String) method.invoke(mServiceDiscoveryManager, "PRODUCTION");
+            assertSame("apps%2b%2benv%2bacc", urlprod);
+
+            String urlaccp = (String) method.invoke(mServiceDiscoveryManager, "ACCEPTANCE");
+            assertSame("apps%2b%2benv%2bprod", urlaccp);
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 }

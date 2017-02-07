@@ -172,8 +172,10 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         propositionService = downloadPropositionService();
         if (propositionService != null && propositionService.isSuccess()) {
             String country = fetchFromSecureStorage(COUNTRY);
-            if (country == null) {
-                countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
+            String countrySource = fetchFromSecureStorage(COUNTRY_SOURCE);
+            if (country == null ) {
+                if(countrySource == null)
+                    countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
                 saveToSecureStore(propositionService.getCountry(), COUNTRY);
                 saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
             }
@@ -227,11 +229,11 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             //urlBuild = buildUrl();
             if (urlBuild != null) {
                 service = mRequestItemManager.execute(urlBuild, aisdurlType);
-                if (countryCode == null && countryCodeSource == null) {
-                    countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
-                    saveToSecureStore(service.getCountry(), COUNTRY);
-                    saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
-                }
+//                if (countryCode == null && countryCodeSource == null) {
+//                    countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
+//                    saveToSecureStore(service.getCountry(), COUNTRY);
+//                    saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
+//                }
 
                 if (service.isSuccess()) {
                     holdbackTime = 0;   //remove hold back time
@@ -694,7 +696,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                         if (result != null) {
                             String country = result.getCountryCode();
                             if (country != null) {
-                                countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
+                                if(countryCodeSource == null)
+                                    countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
                                 saveToSecureStore(country, COUNTRY);
                                 saveToSecureStore(countryCodeSource.name(), COUNTRY_SOURCE);
                                 listener.onSuccess(country, countryCodeSource);
