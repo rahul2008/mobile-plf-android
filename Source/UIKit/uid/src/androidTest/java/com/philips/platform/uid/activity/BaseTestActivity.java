@@ -76,6 +76,10 @@ public class BaseTestActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onSaveInstanceState(final Bundle outState) {
+    }
+
+    @Override
     protected void attachBaseContext(final Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
