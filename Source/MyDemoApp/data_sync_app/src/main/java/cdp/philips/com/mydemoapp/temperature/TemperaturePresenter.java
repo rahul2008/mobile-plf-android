@@ -20,7 +20,6 @@ import com.philips.cdp.uikit.utils.RowItem;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
-import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -89,9 +88,7 @@ public class TemperaturePresenter {
     }
 
     public void createMeasurementDetail(String value) {
-        MeasurementDetail measurementDetail = mDataServices.createMeasurementDetail(MeasurementDetailType.LOCATION, mMeasurement);
-        measurementDetail.setValue(value);
-        mMeasurement.addMeasurementDetail(measurementDetail);
+        mDataServices.createMeasurementDetail(MeasurementDetailType.LOCATION, value, mMeasurement);
     }
 
     private void createMeasurement(MeasurementGroup group, String value) {
@@ -102,16 +99,13 @@ public class TemperaturePresenter {
     }
 
     private void createMomentDetail(String value, Moment moment) {
-        MomentDetail momentDetail = mDataServices.
-                createMomentDetail(MomentDetailType.PHASE, moment);
-        momentDetail.setValue(value);
+        mDataServices.
+                createMomentDetail(MomentDetailType.PHASE, value, moment);
     }
 
     private void createMeasurementGroupDetail(String value) {
-        MeasurementGroupDetail measurementGroupDetail = mDataServices.
-                createMeasurementGroupDetail(MeasurementGroupDetailType.TEMP_OF_DAY, mMeasurementGroup);
-        measurementGroupDetail.setValue(value);
-        mMeasurementGroup.addMeasurementGroupDetail(measurementGroupDetail);
+        mDataServices.
+                createMeasurementGroupDetail(MeasurementGroupDetailType.TEMP_OF_DAY, value, mMeasurementGroup);
     }
 
     private void createMeasurementGroup(Moment moment) {
@@ -120,14 +114,14 @@ public class TemperaturePresenter {
     }
 
     void fetchData(DBRequestListener dbRequestListener) {
-        mDataServices.fetch(dbRequestListener, MomentType.getIDFromDescription(MomentType.TEMPERATURE));
+        mDataServices.fetchMomentWithType(dbRequestListener, MomentType.getIDFromDescription(MomentType.TEMPERATURE));
     }
 
     private void saveRequest(Moment moment) {
         if (moment.getCreatorId() == null || moment.getSubjectId() == null) {
             Toast.makeText(mContext, "Please Login again", Toast.LENGTH_SHORT).show();
         } else {
-            mDataServices.save(moment, dbRequestListener);
+            mDataServices.saveMoment(moment, dbRequestListener);
         }
     }
 
@@ -215,7 +209,7 @@ public class TemperaturePresenter {
             measurementGroup.setMeasurementGroups(measurementGroupsOutput);
         }
         old.setDateTime(DateTime.now());
-        mDataServices.update(old, dbRequestListener);
+        mDataServices.updateMoment(old, dbRequestListener);
     }
 
     void addOrUpdateMoment(final int addOrUpdate, final Moment moment) {

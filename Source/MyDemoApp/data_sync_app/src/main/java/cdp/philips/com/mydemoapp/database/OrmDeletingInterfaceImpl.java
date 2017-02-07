@@ -76,6 +76,11 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         notifyDBRequestListener.notifyFailure(e,dbRequestListener);
     }
 
+    @Override
+    public void deleteAllMoments(DBRequestListener dbRequestListener) throws SQLException {
+        ormDeleting.deleteAllMoments();
+    }
+
     private boolean isMomentSyncedToBackend(final Moment moment) {
         return moment.getSynchronisationData() != null;
     }

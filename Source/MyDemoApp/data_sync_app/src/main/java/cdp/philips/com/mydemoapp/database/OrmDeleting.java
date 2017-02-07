@@ -98,6 +98,14 @@ public class OrmDeleting {
         settingsDao.executeRawNoArgs("DELETE FROM `ormsettings`");
     }
 
+    public void deleteAllMoments() throws SQLException {
+        momentDao.executeRawNoArgs("DELETE FROM `ormmoment`");
+        momentDetailDao.executeRawNoArgs("DELETE FROM `ormmomentdetail`");
+        measurementDao.executeRawNoArgs("DELETE FROM `ormmeasurement`");
+        measurementDetailDao.executeRawNoArgs("DELETE FROM `ormmeasurementdetail`");
+        synchronisationDataDao.executeRawNoArgs("DELETE FROM `ormsynchronisationdata`");
+    }
+
     public void ormDeleteMoment(@NonNull final OrmMoment moment) throws SQLException {
         deleteMomentDetails(moment);
         deleteMeasurementGroups(moment);

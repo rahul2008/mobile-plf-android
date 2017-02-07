@@ -35,6 +35,7 @@ import com.philips.platform.core.events.SyncBitUpdateRequest;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
+import com.philips.platform.core.events.DeleteAllMomentsRequest;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
@@ -130,19 +131,21 @@ public class DataServicesManager {
     }
 
     @NonNull
-    public Moment save(@NonNull final Moment moment, DBRequestListener dbRequestListener) {
-        DSLog.i("***SPO***", "In DataServicesManager.save for " + moment.toString());
+    public void saveMoment(@NonNull final Moment moment, DBRequestListener dbRequestListener) {
+        DSLog.i("***SPO***", "In DataServicesManager.saveMoment for " + moment.toString());
         mEventing.post(new MomentSaveRequest(moment, dbRequestListener));
-        return moment;
     }
 
+/*
 
     public Moment update(@NonNull final Moment moment, DBRequestListener dbRequestListener) {
         mEventing.post(new MomentUpdateRequest(moment, dbRequestListener));
         return moment;
     }
+*/
 
-    public void fetch(DBRequestListener dbRequestListener, final @NonNull Integer... type) {
+    //TODO: discuss this again - 2nd parameter is integer
+    public void fetchMomentWithType(DBRequestListener dbRequestListener, final @NonNull Integer... type) {
         mEventing.post(new LoadMomentsRequest(dbRequestListener, type));
     }
 
@@ -199,9 +202,10 @@ public class DataServicesManager {
     }
 
     @NonNull
-    public MomentDetail createMomentDetail(@NonNull final String type, @NonNull final Moment moment) {
+    public MomentDetail createMomentDetail(@NonNull final String type, String value, @NonNull final Moment moment) {
         MomentDetail momentDetail = mDataCreater.createMomentDetail(type, moment);
         moment.addMomentDetail(momentDetail);
+        momentDetail.setValue(value);
         return momentDetail;
     }
 
@@ -219,8 +223,9 @@ public class DataServicesManager {
 
     @NonNull
     public MeasurementDetail createMeasurementDetail(@NonNull final String type,
-                                                     @NonNull final Measurement measurement) {
+                                                     String value, @NonNull final Measurement measurement) {
         MeasurementDetail measurementDetail = mDataCreater.createMeasurementDetail(type, measurement);
+        measurementDetail.setValue(value);
         measurement.addMeasurementDetail(measurementDetail);
         return measurementDetail;
     }
@@ -257,6 +262,7 @@ public class DataServicesManager {
         }
     }
 
+    //TODO: discuss if its required
     public void startMonitors() {
         if (mCore != null) {
             DSLog.i("***SPO***", "mCore not null, hence starting");
@@ -275,8 +281,8 @@ public class DataServicesManager {
         this.mUpdatingInterface = updatingInterface;
     }
 
-    public void initialize(Context context, BaseAppDataCreator creator, UserRegistrationInterface facade, ErrorHandlingInterface errorHandlingInterface) {
-        DSLog.i("SPO", "initialize called");
+    public void initializeDataServices(Context context, BaseAppDataCreator creator, UserRegistrationInterface facade, ErrorHandlingInterface errorHandlingInterface) {
+        DSLog.i("SPO", "initializeDataServices called");
         this.mDataCreater = creator;
         this.userRegistrationInterface = facade;
         this.errorHandlingInterface = errorHandlingInterface;
@@ -286,8 +292,8 @@ public class DataServicesManager {
         mEventing.post(new DataClearRequest(dbRequestListener));
     }
 
-    public void deleteAllMoment(DBRequestListener dbRequestListener) {
-        mEventing.post(new DataClearRequest(dbRequestListener));
+    public void deleteAllMoments(DBRequestListener dbRequestListener) {
+        mEventing.post(new DeleteAllMomentsRequest(dbRequestListener));
     }
 
 
@@ -314,8 +320,11 @@ public class DataServicesManager {
     }
 
 
-    public MeasurementGroupDetail createMeasurementGroupDetail(String tempOfDay, MeasurementGroup mMeasurementGroup) {
-        return mDataCreater.createMeasurementGroupDetail(tempOfDay, mMeasurementGroup);
+    public MeasurementGroupDetail createMeasurementGroupDetail(String type, String value, MeasurementGroup mMeasurementGroup) {
+        MeasurementGroupDetail measurementGroupDetail = mDataCreater.createMeasurementGroupDetail(type, mMeasurementGroup);
+        measurementGroupDetail.setValue(value);
+        mMeasurementGroup.addMeasurementGroupDetail(measurementGroupDetail);
+        return measurementGroupDetail;
     }
 
 

@@ -80,10 +80,10 @@ public class MomentsDataFetcher extends DataFetcher {
                 }
 
                 List<Moment> moments = converter.convert(uCoreMoments);
-                DSLog.e("***SPO***", "DataPullSynchronize fetch Success");
+                DSLog.e("***SPO***", "DataPullSynchronize fetchMomentWithType Success");
                 eventing.post(new BackendMomentListSaveRequest(moments, null));
             }
-            DSLog.e("***SPO***", "DataPullSynchronize fetch send null");
+            DSLog.e("***SPO***", "DataPullSynchronize fetchMomentWithType send null");
             return null;
         } catch (RetrofitError ex) {
             //TODO: - Veritcals should be forced to call this

@@ -3,9 +3,9 @@ package com.philips.platform.core.monitors;
 import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
-import com.philips.platform.core.listeners.SynchronisationChangeListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
+import com.philips.platform.datasync.synchronisation.SynchronisationManager;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -25,7 +25,7 @@ public class ErrorMonitor extends EventMonitor {
     UserRegistrationInterface userRegistrationInterface;
 
     @Inject
-    SynchronisationChangeListener synchronisationChangeListener;
+    SynchronisationManager synchronisationManager;
 
     int UNKNOWN = -1;
 
@@ -43,6 +43,7 @@ public class ErrorMonitor extends EventMonitor {
     }
 
     private void postError(RetrofitError exception) {
+        synchronisationManager.dataPushFail(exception);
         if (exception == null) {
             mErrorHandlingInterface.syncError(UNKNOWN);
             return;
