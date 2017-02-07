@@ -41,4 +41,11 @@
 
     <dimen name="separator_item_height">48dp</dimen>
     <dimen name="separator_drawable_padding">32dp</dimen>
+
+    <dimen name="recycler_view_drawable_padding">32dp</dimen>
+
+    <dimen name="listview_row_height">48dp</dimen>
+    <dimen name="uid_date_margin_start">32dp</dimen>
+    <dimen name="uid_date_picker_margin_left_right">16dp</dimen>
+    <dimen name="date_picker_date_width">200dp</dimen>
 </resources>

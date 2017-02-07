@@ -81,7 +81,7 @@ public class NavigationBarTest {
     }
 
     private int getNavigationTextExpectedFromThemeColor() {
-        return UIDTestUtils.getAttributeColor(baseTestActivity, R.attr.uidNavigationTextColor);
+        return UIDTestUtils.getAttributeColor(baseTestActivity, R.attr.uidNavigationBarTextColor);
     }
 
     @Test

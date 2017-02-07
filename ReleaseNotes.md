@@ -4,6 +4,11 @@ Philips UIKit DLS for Android
 # Release Notes MobileUitoolkit Android
 
 SPRINT - MUITK.PI17.1.Sprint4
+EHUFA-1285 - Android: enable unit-testing in Android Continuous Jenkins Job
+
+SPRINT - MUITK.PI17.1.Sprint4
+EHUFA-1273 - Android List View
+EHUFA-1271 - Android Date Pikcer
 EHUFA-1222 - Android: Social Icons
 EHUFA-1294 -[Android] The base fill of determinate progress indicator is not correct
 

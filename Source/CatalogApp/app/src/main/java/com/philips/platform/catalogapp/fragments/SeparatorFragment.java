@@ -38,12 +38,12 @@ public class SeparatorFragment extends BaseFragment {
         DataHolderView dataHolderView = new DataHolderView();
 
         final Context context = getContext();
-        dataHolderView.addUser(R.drawable.ic_add_folder, R.string.title1, context);
-        dataHolderView.addUser(R.drawable.ic_home, R.string.title2, context);
-        dataHolderView.addUser(R.drawable.ic_lock, R.string.title3, context);
-        dataHolderView.addUser(R.drawable.ic_alarm, R.string.title4, context);
-        dataHolderView.addUser(R.drawable.ic_bottle, R.string.title5, context);
-        dataHolderView.addUser(R.drawable.ic_location, R.string.title6, context);
+        dataHolderView.addIconItem(R.drawable.ic_add_folder, R.string.title1, context);
+        dataHolderView.addIconItem(R.drawable.ic_home, R.string.title2, context);
+        dataHolderView.addIconItem(R.drawable.ic_lock, R.string.title3, context);
+        dataHolderView.addIconItem(R.drawable.ic_alarm, R.string.title4, context);
+        dataHolderView.addIconItem(R.drawable.ic_bottle, R.string.title5, context);
+        dataHolderView.addIconItem(R.drawable.ic_location, R.string.title6, context);
 
         final FragmentSeparatorBinding fragmentSeparatorBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_separator, container, false);
         fragmentSeparatorBinding.recyclerviewSeparatorItems.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));

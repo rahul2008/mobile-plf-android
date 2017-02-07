@@ -7,14 +7,18 @@ package com.philips.platform.uid.matcher;
 import android.annotation.TargetApi;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.test.espresso.matcher.BoundedMatcher;
+import android.support.test.internal.util.Checks;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.philips.platform.uid.utils.UIDTestUtils;
 
+import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
 public class TextViewPropertiesMatchers {
@@ -239,7 +243,7 @@ public class TextViewPropertiesMatchers {
         };
     }
 
-    public static Matcher<? super View> sameBackgroundColor(final int attributeColor) {
+    public static Matcher<? super View> sameBackgroundColorTintList(final int attributeColor) {
         return new BaseTypeSafteyMatcher<View>() {
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -250,6 +254,19 @@ public class TextViewPropertiesMatchers {
                     return areEqual();
                 }
                 return false;
+            }
+        };
+    }
+
+    public static Matcher<View> sameBackgroundColor(final int color) {
+        Checks.checkNotNull(color);
+        return new BoundedMatcher<View, TextView>(TextView.class) {
+            @Override
+            public boolean matchesSafely(TextView view) {
+                return color == ((ColorDrawable) view.getBackground()).getColor();
+            }
+            @Override
+            public void describeTo(Description description) {
             }
         };
     }

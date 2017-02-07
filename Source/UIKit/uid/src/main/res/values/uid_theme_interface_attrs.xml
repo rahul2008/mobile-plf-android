@@ -57,7 +57,7 @@
 
     <declare-styleable name="UIDNavigationBar">
         <attr name="uidActionBarBackground" format="reference|color"/>
-        <attr name="uidNavigationTextColor" format="reference|color"/>
+        <attr name="uidNavigationBarTextColor" format="reference|color"/>
         <attr name="uidNavigationShadowLevelOne" format="reference|color"/>
         <attr name="uidNavigationShadowLevelOneAlpha" format="reference|float"/>
         <attr name="uidNavigationShadowLevelTwo" format="reference|color"/>
@@ -129,6 +129,17 @@
         <attr name="uidProgressIndicatorButtonProgressColor" format="reference|color"/>
     </declare-styleable>
 
+    <declare-styleable name="UIDPickers">
+        <attr name="uidDatePickerHeaderFillColor" format="reference|color"/>
+        <attr name="uidDatePickerHeaderTextColor" format="reference|color"/>
+        <attr name="uidDatePickerFillColor" format="reference|color"/>
+        <attr name="uidDatePickerTextColor" format="reference|color"/>
+        <attr name="uidDatePickerWeekDayTextColor" format="reference|color"/>
+        <attr name="uidDatePickerDayOfWeekTextColor" format="reference|color"/>
+        <attr name="uidDatePickerSelectedFillColor" format="reference|color"/>
+        <attr name="uidDatePickerButtonTextColor" format="reference|color"/>
+    </declare-styleable>
+
     <declare-styleable name="UIDSocialMediaButton">
         <attr name="uidSocialIconPrimaryButtonIconColor" format="reference|color"/>
         <attr name="uidSocialIconPrimaryButtonNormalFillColor" format="reference|color"/>
@@ -159,5 +170,10 @@
     <declare-styleable name="UIDSeparator">
         <attr name="uidSeparatorColor" format="reference|color"/>
         <attr name="uidSeparatorAlpha" format="float"/>
+    </declare-styleable>
+
+    <declare-styleable name="UIDRecyclerView">
+        <attr name="uidListPressedColor" format="reference|color"/>
+        <attr name="uidListPressedAlpha" format="float"/>
     </declare-styleable>
 </resources>

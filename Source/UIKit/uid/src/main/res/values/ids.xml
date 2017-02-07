@@ -15,4 +15,15 @@
     <item name="uid_alert_dialog_header" type="id"/>
     <item name="uid_alert_message_container" type="id"/>
     <item name="uid_alert_message_scroll_container" type="id"/>
+    <item name="uid_recyclerview_layout" type="id"/>
+    <item name="uid_recyclerview_recyclerview" type="id"/>
+    <item name="uid_recyclerview_header" type="id"/>
+    <item name="uid_recyclerview_item_one_line" type="id"/>
+    <item name="uid_recyclerview_item_two_lines" type="id"/>
+    <item name="uid_recyclerview_two_line_title" type="id"/>
+    <item name="uid_recyclerview_two_line_description" type="id"/>
+    <item name="uid_progress_indicator_button_layout" type="id"/>
+    <item name="uid_progress_indicator_button_button" type="id"/>
+    <item name="uid_progress_indicator_button_progress_bar" type="id"/>
+    <item name="uid_progress_indicator_button_text" type="id"/>
 </resources>
