@@ -102,7 +102,6 @@ public class AlertTest extends BaseTest {
         getAlertHeader().check(matches(ViewPropertiesMatchers.isSameRightMargin(expectedRightMargin)));
     }
 
-    @Ignore
     @Test
     public void verifyAlertHeaderLeftMargin() {
 
