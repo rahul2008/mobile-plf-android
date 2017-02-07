@@ -18,10 +18,10 @@ public class Response {
 	}
 
 	public void notifyResponseHandler(){
-		if(mError!=null){
-			mResponseHandler.onError(mError, mResponse);
-		}else{
+		if (mError == null) {
 			mResponseHandler.onSuccess(mResponse);
+		} else {
+			mResponseHandler.onError(mError, mResponse);
 		}
 	}
 	
