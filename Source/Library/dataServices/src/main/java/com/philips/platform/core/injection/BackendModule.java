@@ -19,6 +19,7 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
+import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.monitors.DeletingMonitor;
 import com.philips.platform.core.monitors.ErrorMonitor;
@@ -59,7 +60,6 @@ import com.squareup.okhttp.OkHttpClient;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 
 import javax.inject.Singleton;
 
@@ -97,6 +97,8 @@ public class BackendModule {
     @NonNull
     private final DBUpdatingInterface updatingInterface;
 
+    private final SynchronisationCompleteListener mSynchronisationCompleteListener;
+
 
     ArrayList<DataFetcher> fetchers;
     ArrayList<DataSender> senders;
@@ -108,7 +110,8 @@ public class BackendModule {
                          DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface,
                          DBUpdatingInterface updatingInterface,
                          ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders,
-                         ErrorHandlingInterface errorHandlingInterface) {
+                         ErrorHandlingInterface errorHandlingInterface,
+                         SynchronisationCompleteListener synchronisationCompleteListener) {
         this.fetchers = fetchers;
         this.senders = senders;
         this.eventing = eventing;
@@ -119,6 +122,7 @@ public class BackendModule {
         this.savingInterface = savingInterface;
         this.updatingInterface = updatingInterface;
         this.errorHandlingInterface = errorHandlingInterface;
+        this.mSynchronisationCompleteListener = synchronisationCompleteListener;
     }
 
     @Provides
@@ -151,15 +155,14 @@ public class BackendModule {
             @NonNull final MomentsDataFetcher momentsDataFetcher,
             @NonNull final ConsentsDataFetcher consentsDataFetcher,
             @NonNull final UserCharacteristicsFetcher userCharacteristicsFetcher,
-            @NonNull final SettingsDataFetcher settingsDataFetcher,
-            @NonNull final ExecutorService executor) {
+            @NonNull final SettingsDataFetcher settingsDataFetcher) {
         List<DataFetcher> dataFetchers = Arrays.asList(momentsDataFetcher, consentsDataFetcher, userCharacteristicsFetcher,settingsDataFetcher);
         if (fetchers != null && fetchers.size() != 0) {
             for (DataFetcher fetcher : fetchers) {
                 dataFetchers.add(fetcher);
             }
         }
-        return new DataPullSynchronise(dataFetchers, executor);
+        return new DataPullSynchronise(dataFetchers);
     }
 
     @Provides
@@ -176,8 +179,8 @@ public class BackendModule {
                 dataSenders.add(sender);
             }
         }
-        return new DataPushSynchronise(dataSenders,
-                null);
+        return new DataPushSynchronise(dataSenders
+        );
     }
 
     @Provides
@@ -296,5 +299,11 @@ public class BackendModule {
     @Singleton
     public SynchronisationManager providesSynchronisationManager() {
         return new SynchronisationManager();
+    }
+
+    @Provides
+    @Singleton
+    public SynchronisationCompleteListener providesSynchronisationCompleteListener() {
+        return mSynchronisationCompleteListener;
     }
 }

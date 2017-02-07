@@ -248,10 +248,11 @@ public class DataServicesManager {
     }
 
     @SuppressWarnings("rawtypes")
-    public void initializeSyncMonitors(Context context, ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
+    public void initializeSyncMonitors(Context context, ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders, SynchronisationCompleteListener synchronisationCompleteListener) {
         DSLog.i("***SPO***", "In DataServicesManager.initializeSyncMonitors");
         this.fetchers = fetchers;
         this.senders = senders;
+        this.mSynchronisationCompleteListener = synchronisationCompleteListener;
         prepareInjectionsGraph(context);
         startMonitors();
     }
@@ -261,7 +262,8 @@ public class DataServicesManager {
             DSLog.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
             startMonitors();
             //mEventing.post(new ReadDataFromBackendRequest(null));
-            mSynchronisationManager.startSync(mSynchronisationCompleteListener);
+
+      mSynchronisationManager.startSync(mSynchronisationCompleteListener);
         }
     }
 
@@ -302,7 +304,7 @@ public class DataServicesManager {
     private void prepareInjectionsGraph(Context context) {
         BackendModule backendModule = new BackendModule(new EventingImpl(new EventBus(), new Handler()), mDataCreater, userRegistrationInterface,
                 mDeletingInterface, mFetchingInterface, mSavingInterface, mUpdatingInterface,
-                fetchers, senders, errorHandlingInterface);
+                fetchers, senders, errorHandlingInterface,mSynchronisationCompleteListener);
         final ApplicationModule applicationModule = new ApplicationModule(context);
 
         mAppComponent = DaggerAppComponent.builder().backendModule(backendModule).applicationModule(applicationModule).build();
@@ -354,15 +356,6 @@ public class DataServicesManager {
     public void unRegisterDBChangeListener() {
         this.dbChangeListener = null;
     }
-
-    public void registerSyncCompletionListener(SynchronisationCompleteListener synchronisationCompleteListener) {
-        this.mSynchronisationCompleteListener = synchronisationCompleteListener;
-    }
-
-    public void unRegisterSyncCompletionListener() {
-        this.mSynchronisationCompleteListener = null;
-    }
-
 
     public void fetchSettings(DBRequestListener dbRequestListener) {
       mEventing.post(new LoadSettingsRequest(dbRequestListener));
