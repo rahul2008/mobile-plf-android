@@ -67,6 +67,8 @@ public class ConsentsDataFetcher extends DataFetcher {
         this.gsonConverter = gsonConverter;
         this.consentsConverter = consentsConverter;
         DataServicesManager.getInstance().getAppComponant().injectConsentsDataFetcher(this);
+
+        registerEvent();
     }
 
     @Nullable
@@ -98,7 +100,7 @@ public class ConsentsDataFetcher extends DataFetcher {
         List<? extends ConsentDetail> nonSynchronizedConsent = response.getConsentDetails();
         setConsentDetails((List<ConsentDetail>) nonSynchronizedConsent);
         if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
-           getConsent(new ConsentBackendGetRequest(1, consentDetails));
+            getConsent(new ConsentBackendGetRequest(1, consentDetails));
         }
     }
 
@@ -156,6 +158,12 @@ public class ConsentsDataFetcher extends DataFetcher {
 
     private RetrofitError getNonLoggedInError() {
         return RetrofitError.unexpectedError("", new IllegalStateException("you're not logged in"));
+    }
+
+    public void registerEvent() {
+        if (!eventing.isRegistered(this)) {
+            eventing.register(this);
+        }
     }
 
 }

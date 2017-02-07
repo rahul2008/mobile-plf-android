@@ -240,7 +240,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void ShouldCreateSettings_WhenCreateSettingsIsCalled() throws Exception {
-       // tracker.createSettings(anyString(),anyString(),anyString());
+       // tracker.createUserSettings(anyString(),anyString(),anyString());
     }
 
 
@@ -270,7 +270,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostUpdateSettingsEvent_WhenUpdateSettingsIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.updateSettings(any(Settings.class),dbRequestListener);
+        tracker.updateUserSettings(any(Settings.class),dbRequestListener);
 
         verify(eventingMock).post(any(DatabaseSettingsUpdateRequest.class));
     }

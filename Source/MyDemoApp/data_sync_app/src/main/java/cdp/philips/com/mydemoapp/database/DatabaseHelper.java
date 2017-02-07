@@ -136,8 +136,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     private void insertDefaultSettings() {
-        Settings settings = DataServicesManager.getInstance().createSettings("metric", "en_US");
-        DataServicesManager.getInstance().saveSettings(settings, null);
+        Settings settings = DataServicesManager.getInstance().createUserSettings("metric", "en_US");
+        DataServicesManager.getInstance().saveUserSettings(settings, null);
     }
 
     public Dao<OrmSettings, Integer> getSettingsDao() {

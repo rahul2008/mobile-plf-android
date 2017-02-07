@@ -175,17 +175,17 @@ public class DataServicesManager {
         mEventing.post(new DatabaseConsentUpdateRequest(consentDetails,dbRequestListener));
     }
 
-    public Settings createSettings(String unit,String locale) {
+    public Settings createUserSettings(String unit, String locale) {
         Settings settings = mDataCreater.createSettings(unit,locale);
         return settings;
     }
 
-    public void saveSettings(Settings settings, DBRequestListener dbRequestListener) {
+    public void saveUserSettings(Settings settings, DBRequestListener dbRequestListener) {
         mEventing.post(new DatabaseSettingsSaveRequest(settings,dbRequestListener));
     }
 
 
-    public void updateSettings(Settings settings, DBRequestListener dbRequestListener) {
+    public void updateUserSettings(Settings settings, DBRequestListener dbRequestListener) {
         mEventing.post(new DatabaseSettingsUpdateRequest(settings,dbRequestListener));
     }
 
