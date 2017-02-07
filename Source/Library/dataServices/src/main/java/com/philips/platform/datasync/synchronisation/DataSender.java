@@ -8,17 +8,31 @@ package com.philips.platform.datasync.synchronisation;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.trackers.DataServicesManager;
+
 import java.util.List;
+
+import javax.inject.Inject;
+
+import retrofit.RetrofitError;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public interface DataSender<T> {
-    enum State {
+public abstract class DataSender {
+
+    @Inject
+    SynchronisationManager synchronisationManager;
+
+    public DataSender() {
+        DataServicesManager.getInstance().getAppComponant().injectDataSender(this);
+    }
+
+    public enum State {
         IDLE(0), BUSY(1);
 
-        private final int state;
+        final int state;
 
         State(int state) {
             this.state = state;
@@ -35,8 +49,12 @@ public interface DataSender<T> {
      * @param dataToSend list of data to be sent
      * @return true if conflict error happened
      */
-    boolean sendDataToBackend(@NonNull List<? extends T> dataToSend);
+    public abstract boolean sendDataToBackend(@NonNull List dataToSend);
 
-    Class<? extends T> getClassForSyncData();
+    public abstract Class getClassForSyncData();
+
+    public void onError(RetrofitError error){
+        synchronisationManager.dataPushFail(error);
+    }
 }
 

@@ -43,6 +43,7 @@ public class ErrorMonitor extends EventMonitor {
     }
 
     private void postError(RetrofitError exception) {
+        //TODO: Remove it one's the senders are ready with send failure
         synchronisationManager.dataPushFail(exception);
         if (exception == null) {
             mErrorHandlingInterface.syncError(UNKNOWN);

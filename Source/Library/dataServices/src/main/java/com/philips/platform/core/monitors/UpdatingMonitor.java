@@ -98,7 +98,18 @@ public class UpdatingMonitor extends EventMonitor {
             return;
         }
         momentsSegregator.processMomentsReceivedFromBackend(moments, null);
+        sendDBChanged(momentSaveRequest);
+    }
 
+    private void sendDBChanged(BackendMomentListSaveRequest momentSaveRequest) {
+        if (momentSaveRequest.getDbChangeListener() != null) {
+            momentSaveRequest.getDbChangeListener().dBChangeSuccess();
+        } else if (DataServicesManager.getInstance().getDbChangeListener() != null) {
+            DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess();
+        } else {
+            //No Callback registered
+            DSLog.i(DataServicesManager.TAG, "No callback registered");
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)

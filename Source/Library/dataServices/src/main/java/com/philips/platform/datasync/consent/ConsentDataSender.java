@@ -6,7 +6,6 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.events.ConsentBackendListSaveRequest;
 import com.philips.platform.core.events.ConsentBackendListSaveResponse;
-import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.synchronisation.DataSender;
 
@@ -19,7 +18,7 @@ import javax.inject.Inject;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ConsentDataSender extends EventMonitor implements DataSender<Consent> {
+public class ConsentDataSender extends DataSender {
 
     @Inject
     Eventing eventing;
@@ -33,7 +32,7 @@ public class ConsentDataSender extends EventMonitor implements DataSender<Consen
     }
 
     @Override
-    public boolean sendDataToBackend(@NonNull final List<? extends Consent> dataToSend) {
+    public boolean sendDataToBackend(@NonNull final List dataToSend) {
           if (!dataToSend.isEmpty() && synchronizationState.get() != State.BUSY.getCode()) {
             eventing.post(new ConsentBackendListSaveRequest(dataToSend));
         }
@@ -46,7 +45,7 @@ public class ConsentDataSender extends EventMonitor implements DataSender<Consen
     }
 
     @Override
-    public Class<Consent> getClassForSyncData() {
+    public Class getClassForSyncData() {
         return Consent.class;
     }
 }

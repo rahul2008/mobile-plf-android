@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.events.SettingsBackendSaveRequest;
-import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.synchronisation.DataSender;
 
@@ -18,7 +17,7 @@ import javax.inject.Inject;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class SettingsDataSender extends EventMonitor implements DataSender<Settings> {
+public class SettingsDataSender extends DataSender {
 
     @Inject
     Eventing eventing;
@@ -32,10 +31,10 @@ public class SettingsDataSender extends EventMonitor implements DataSender<Setti
     }
 
     @Override
-    public boolean sendDataToBackend(@NonNull List<? extends Settings> dataToSend) {
+    public boolean sendDataToBackend(@NonNull List dataToSend) {
 
         if (dataToSend!=null && !dataToSend.isEmpty() && synchronizationState.get() != State.BUSY.getCode()) {
-            eventing.post(new SettingsBackendSaveRequest(dataToSend.get(0))); //As dataToSend List alsways contains a single setting Object
+            eventing.post(new SettingsBackendSaveRequest((Settings) dataToSend.get(0))); //As dataToSend List alsways contains a single setting Object
         }
 
         return false;

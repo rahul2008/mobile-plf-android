@@ -26,7 +26,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
 
-public class UserCharacteristicsSender implements DataSender<UserCharacteristics> {
+public class UserCharacteristicsSender extends DataSender {
 
     private static final int API_VERSION = 9;
 
@@ -52,13 +52,13 @@ public class UserCharacteristicsSender implements DataSender<UserCharacteristics
     }
 
     @Override
-    public boolean sendDataToBackend(@NonNull List<? extends UserCharacteristics> userCharacteristicsListToSend) {
+    public boolean sendDataToBackend(@NonNull List userCharacteristicsListToSend) {
         if (!mUCoreAccessProvider.isLoggedIn() && userCharacteristicsListToSend.size() > 0) {
             return false;
         }
 
         List<UserCharacteristics> userUserCharacteristicsList = new ArrayList<>();
-        for (UserCharacteristics userCharacteristics : userCharacteristicsListToSend) {
+        for (UserCharacteristics userCharacteristics : (List<? extends UserCharacteristics>)userCharacteristicsListToSend) {
             userUserCharacteristicsList.add(userCharacteristics);
         }
         //TODO:Spoorti - send only if not synced
@@ -84,6 +84,7 @@ public class UserCharacteristicsSender implements DataSender<UserCharacteristics
                 return true;
             }
         } catch (RetrofitError retrofitError) {
+            onError(retrofitError);
             postError(retrofitError);
         }
         return false;
