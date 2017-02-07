@@ -6,11 +6,11 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.MatchByCountryOrLanguage;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.InvocationTargetException;
@@ -44,6 +44,111 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     private ServiceDiscovery serviceDiscovery = null;
     private Method method;
 
+    private AISDResponse aisdResponse;
+
+    private String sdUrlJson = "{\n" +
+            "\t\"success\": true,\n" +
+            "\t\"payload\": {\n" +
+            "\t\t\"country\": \"IN\",\n" +
+            "\t\t\"matchByLanguage\": {\n" +
+            "\t\t\t\"available\": true,\n" +
+            "\t\t\t\"results\": [{\n" +
+            "\t\t\t\t\"locale\": \"en_IN\",\n" +
+            "\t\t\t\t\"configs\": [{\n" +
+            "\t\t\t\t\t\"micrositeId\": \"77001\",\n" +
+            "\t\t\t\t\t\"urls\": {\n" +
+            "\t\t\t\t\t\t\"appinfra.testing.service\": \"https://dev.appinfra.testing.service/en_IN/B2C/77001\",\n" +
+            "\t\t\t\t\t\t\"appinfra.testing.identity.service\": \"https://dev.appinfra.testing.identity.service/en_IN/B2C/77001\",\n" +
+            "\t\t\t\t\t\t\"appinfra.testing.configuration.service\": \"https://dev.appinfra.testing.configuration.service/en_IN/B2C/77001\",\n" +
+            "\t\t\t\t\t\t\"appinfra.testing.discovery.service\": \"https://www.philips.com/api/v1/discovery/b2c/77001?locale=en_IN&country=IN&testappstate=apps%2b%2benv%2bdev\"\n" +
+            "\t\t\t\t\t},\n" +
+            "\t\t\t\t\t\"tags\": [{\n" +
+            "\t\t\t\t\t\t\"id\": \"apps:env/dev\",\n" +
+            "\t\t\t\t\t\t\"name\": \"dev\",\n" +
+            "\t\t\t\t\t\t\"key\": \"apps++env+dev\"\n" +
+            "\t\t\t\t\t}]\n" +
+            "\t\t\t\t}]\n" +
+            "\t\t\t}]\n" +
+            "\t\t},\n" +
+            "\t\t\"matchByCountry\": {\n" +
+            "\t\t\t\"available\": true,\n" +
+            "\t\t\t\"results\": [{\n" +
+            "\t\t\t\t\"locale\": \"en_IN\",\n" +
+            "\t\t\t\t\"configs\": [{\n" +
+            "\t\t\t\t\t\"micrositeId\": \"77001\",\n" +
+            "\t\t\t\t\t\"urls\": {\n" +
+            "\t\t\t\t\t\t\"appinfra.testing.service\": \"https://dev.appinfra.testing.service/en_IN/B2C/77001\",\n" +
+            "\t\t\t\t\t\t\"appinfra.testing.identity.service\": \"https://dev.appinfra.testing.identity.service/en_IN/B2C/77001\",\n" +
+            "\t\t\t\t\t\t\"appinfra.testing.configuration.service\": \"https://dev.appinfra.testing.configuration.service/en_IN/B2C/77001\",\n" +
+            "\t\t\t\t\t\t\"appinfra.testing.discovery.service\": \"https://www.philips.com/api/v1/discovery/b2c/77001?locale=en_IN&country=IN&testappstate=apps%2b%2benv%2bdev\"\n" +
+            "\t\t\t\t\t},\n" +
+            "\t\t\t\t\t\"tags\": [{\n" +
+            "\t\t\t\t\t\t\"id\": \"apps:env/dev\",\n" +
+            "\t\t\t\t\t\t\"name\": \"dev\",\n" +
+            "\t\t\t\t\t\t\"key\": \"apps++env+dev\"\n" +
+            "\t\t\t\t\t}]\n" +
+            "\t\t\t\t}]\n" +
+            "\t\t\t}]\n" +
+            "\t\t}\n" +
+            "\t},\n" +
+            "\t\"httpStatus\": \"OK\"\n" +
+            "}";
+
+    private String sdUrlPlatformjson = "{\n" +
+            "\t\"success\": true,\n" +
+            "\t\"payload\": {\n" +
+            "\t\t\"country\": \"IN\",\n" +
+            "\t\t\"matchByLanguage\": {\n" +
+            "\t\t\t\"available\": true,\n" +
+            "\t\t\t\"results\": [{\n" +
+            "\t\t\t\t\"locale\": \"en_IN\",\n" +
+            "\t\t\t\t\"configs\": [{\n" +
+            "\t\t\t\t\t\"micrositeId\": \"77000\",\n" +
+            "\t\t\t\t\t\"urls\": {\n" +
+            "\t\t\t\t\t\t\"userreg.janrain.cdn\": \"https://d1lqe9temigv1p.cloudfront.net\",\n" +
+            "\t\t\t\t\t\t\"userreg.janrain.api\": \"https://philips.dev.janraincapture.com\",\n" +
+            "\t\t\t\t\t\t\"userreg.landing.emailverif\": \"https://10.128.41.111:4503/content/B2C/en_IN/verify-account.html\",\n" +
+            "\t\t\t\t\t\t\"userreg.landing.resetpass\": \"https://10.128.41.111:4503/content/B2C/en_IN/myphilips/reset-password.html?cl=mob.html\",\n" +
+            "\t\t\t\t\t\t\"userreg.hsdp.userserv\": \"https://user-registration-assembly-testing.us-east.philips-healthsuite.com\",\n" +
+            "\t\t\t\t\t\t\"appinfra.testing.service\": \"https://dev.appinfra.testing.service/en_IN/B2C/77000\",\n" +
+            "\t\t\t\t\t\t\"prxclient.assets\": \"https://tst.philips.com/prx/product/%sector%/en_IN/%catalog%/products/%ctn%.assets\"\n" +
+            "\n" +
+            "\t\t\t\t\t},\n" +
+            "\t\t\t\t\t\"tags\": [{\n" +
+            "\t\t\t\t\t\t\"id\": \"apps:env/dev\",\n" +
+            "\t\t\t\t\t\t\"name\": \"dev\",\n" +
+            "\t\t\t\t\t\t\"key\": \"apps++env+dev\"\n" +
+            "\t\t\t\t\t}]\n" +
+            "\t\t\t\t}]\n" +
+            "\t\t\t}]\n" +
+            "\t\t},\n" +
+            "\t\t\"matchByCountry\": {\n" +
+            "\t\t\t\"available\": true,\n" +
+            "\t\t\t\"results\": [{\n" +
+            "\t\t\t\t\"locale\": \"en_IN\",\n" +
+            "\t\t\t\t\"configs\": [{\n" +
+            "\t\t\t\t\t\"micrositeId\": \"77000\",\n" +
+            "\t\t\t\t\t\"urls\": {\n" +
+            "\t\t\t\t\t\t\"userreg.janrain.cdn\": \"https://d1lqe9temigv1p.cloudfront.net\",\n" +
+            "\t\t\t\t\t\t\"userreg.janrain.api\": \"https://philips.dev.janraincapture.com\",\n" +
+            "\t\t\t\t\t\t\"userreg.landing.emailverif\": \"https://10.128.41.111:4503/content/B2C/en_IN/verify-account.html\",\n" +
+            "\t\t\t\t\t\t\"userreg.landing.resetpass\": \"https://10.128.41.111:4503/content/B2C/en_IN/myphilips/reset-password.html?cl=mob.html\",\n" +
+            "\t\t\t\t\t\t\"userreg.hsdp.userserv\": \"https://user-registration-assembly-testing.us-east.philips-healthsuite.com\",\n" +
+            "\t\t\t\t\t\t\"appinfra.testing.service\": \"https://dev.appinfra.testing.service/en_IN/B2C/77000\",\n" +
+            "\t\t\t\t\t\t\"prxclient.assets\": \"https://tst.philips.com/prx/product/%sector%/en_IN/%catalog%/products/%ctn%.assets\"\n" +
+            "\n" +
+            "\t\t\t\t\t},\n" +
+            "\t\t\t\t\t\"tags\": [{\n" +
+            "\t\t\t\t\t\t\"id\": \"apps:env/dev\",\n" +
+            "\t\t\t\t\t\t\"name\": \"dev\",\n" +
+            "\t\t\t\t\t\t\"key\": \"apps++env+dev\"\n" +
+            "\t\t\t\t\t}]\n" +
+            "\t\t\t\t}]\n" +
+            "\t\t\t}]\n" +
+            "\t\t}\n" +
+            "\t},\n" +
+            "\t\"httpStatus\": \"OK\"\n" +
+            "}";
 
     @Override
     protected void setUp() throws Exception {
@@ -57,7 +162,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         testConfig();
         mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
         mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra);
-        mRequestItemManager = new RequestManager(context ,mAppInfra);
+        mRequestItemManager = new RequestManager(context, mAppInfra);
         assertNotNull(mRequestItemManager);
         mserviceDiscovery = new ServiceDiscovery();
         mserviceDiscovery = loadServiceDiscoveryModel();
@@ -73,6 +178,24 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
+
+        try {
+            JSONObject propositionObject = new JSONObject(sdUrlJson);
+            assertNotNull(propositionObject);
+            ServiceDiscovery propostionService = parseResponse(propositionObject);
+            assertNotNull(propostionService);
+            JSONObject platformObject = new JSONObject(sdUrlPlatformjson);
+            assertNotNull(platformObject);
+            ServiceDiscovery platformService = parseResponse(platformObject);
+            assertNotNull(platformService);
+            aisdResponse = new AISDResponse();
+            aisdResponse.setPropositionURLs(propostionService);
+            aisdResponse.setPlatformURLs(platformService);
+            assertNotNull(aisdResponse);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
     }
 
     public void testConfig() {
@@ -128,19 +251,20 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         }
     }
 
-    public void testApplyURLParameters(){
-       
+    public void testApplyURLParameters() {
+
         Map<String, String> parameters = new HashMap<>();
         parameters.put("ctn", "HD9740");
         parameters.put("sector", "B2C");
         parameters.put("catalog", "shavers");
         try {
             URL url = new URL("https://d1lqe9temigv1p.cloudfront.net");
-            assertNotNull(mServiceDiscoveryManager.applyURLParameters(url,parameters));
+            assertNotNull(mServiceDiscoveryManager.applyURLParameters(url, parameters));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
     }
+
     public void testdownloadServices() {
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("downloadServices");
@@ -883,4 +1007,109 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 //                    }
 //                }, false);
 //    }
+
+    public void testAisdResponse() {
+        try {
+            JSONObject propositionObject = new JSONObject(sdUrlJson);
+            ServiceDiscovery propostionService = parseResponse(propositionObject);
+
+            assertNotNull(propostionService);
+            JSONObject platformObject = new JSONObject(sdUrlPlatformjson);
+            ServiceDiscovery platformService = parseResponse(platformObject);
+            assertNotNull(platformService);
+            aisdResponse = new AISDResponse();
+            aisdResponse.setPropositionURLs(propostionService);
+            aisdResponse.setPlatformURLs(platformService);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
+    }
+
+    private ServiceDiscovery parseResponse(JSONObject response) {
+        ServiceDiscovery result = new ServiceDiscovery();
+        result.setSuccess(response.optBoolean("success"));
+        if (!result.isSuccess()) {
+            ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server reports failure");
+            result.setError(err);
+        } else { // no sense in further processing if server reports error
+            // START setting match by country
+            result.parseResponse(context, mAppInfra, response);
+        }
+
+        return result;
+    }
+
+
+    public void testgetServiceURL() {
+        URL url = aisdResponse.getServiceURL("userreg.janrain.api", AISDResponse.AISDPreference.AISDCountryPreference, null);
+        assertEquals("https://philips.dev.janraincapture.com", url.toString());
+
+        URL urllang = aisdResponse.getServiceURL("userreg.janrain.api", AISDResponse.AISDPreference.AISDLanguagePreference, null);
+        assertEquals("https://philips.dev.janraincapture.com", urllang.toString());
+
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("ctn", "HD9740");
+        parameters.put("sector", "B2C");
+        parameters.put("catalog", "shavers");
+
+        URL rurl = aisdResponse.getServiceURL("prxclient.assets", AISDResponse.AISDPreference.AISDCountryPreference, parameters);
+        assertNotNull(url.toString());
+        assertEquals("https://tst.philips.com/prx/product/B2C/en_IN/shavers/products/HD9740.assets",
+                rurl.toString());
+
+
+        URL urlLang = aisdResponse.getServiceURL("prxclient.assets", AISDResponse.AISDPreference.AISDLanguagePreference, parameters);
+        assertNotNull(urlLang.toString());
+        assertEquals("https://tst.philips.com/prx/product/B2C/en_IN/shavers/products/HD9740.assets",
+                rurl.toString());
+    }
+
+    public void testgetServicesUrl() {
+        HashMap<String, ServiceDiscoveryService> responseMap;
+        String[] serviceIds = {"userreg.janrain.api", "prxclient.assets"};
+        ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
+
+        responseMap = aisdResponse.getServicesUrl(serviceId,
+                AISDResponse.AISDPreference.AISDCountryPreference, null);
+        assertNotNull(responseMap);
+
+        responseMap = aisdResponse.getServicesUrl(serviceId,
+                AISDResponse.AISDPreference.AISDLanguagePreference, null);
+        assertNotNull(responseMap);
+
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("ctn", "HD9740");
+        parameters.put("sector", "B2C");
+        parameters.put("catalog", "shavers");
+
+        responseMap = aisdResponse.getServicesUrl(serviceId,
+                AISDResponse.AISDPreference.AISDCountryPreference, parameters);
+        assertNotNull(responseMap);
+
+        responseMap = aisdResponse.getServicesUrl(serviceId,
+                AISDResponse.AISDPreference.AISDLanguagePreference, parameters);
+        assertNotNull(responseMap);
+    }
+
+    public void testgetLocaleWithPreference() {
+        String localbyCountry = aisdResponse.getLocaleWithPreference(AISDResponse.AISDPreference.AISDCountryPreference);
+        assertEquals("en_IN", localbyCountry);
+        String localbyLang = aisdResponse.getLocaleWithPreference(AISDResponse.AISDPreference.AISDLanguagePreference);
+        assertEquals("en_IN", localbyLang);
+    }
+
+    public void testgetCountryCode() {
+        String country = aisdResponse.getCountryCode();
+        assertNotNull(country);
+    }
+
+    public void testgetError() {
+        ServiceDiscovery.Error err = aisdResponse.getError();
+        assertEquals(null, err);
+    }
+
+    public void testisSuccess() {
+        assertTrue(aisdResponse.isSuccess());
+    }
 }

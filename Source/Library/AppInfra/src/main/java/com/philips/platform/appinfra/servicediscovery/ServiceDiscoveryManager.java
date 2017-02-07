@@ -173,8 +173,9 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         if (propositionService != null && propositionService.isSuccess()) {
             String country = fetchFromSecureStorage(COUNTRY);
             if (country == null) {
+                countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
                 saveToSecureStore(propositionService.getCountry(), COUNTRY);
-                saveToSecureStore(OnGetHomeCountryListener.SOURCE.GEOIP.name(), COUNTRY_SOURCE);
+                saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
             }
             platformService = downloadPlatformService();
         }
@@ -227,8 +228,9 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             if (urlBuild != null) {
                 service = mRequestItemManager.execute(urlBuild, aisdurlType);
                 if (countryCode == null && countryCodeSource == null) {
+                    countryCodeSource= OnGetHomeCountryListener.SOURCE.GEOIP;
                     saveToSecureStore(service.getCountry(), COUNTRY);
-                    saveToSecureStore(OnGetHomeCountryListener.SOURCE.GEOIP.name(), COUNTRY_SOURCE);
+                    saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
                 }
 
                 if (service.isSuccess()) {
@@ -305,8 +307,9 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 if (country == null) {
                     country = getCountryCodeFromSim();
                     if (country != null) {
+                        countryCodeSource = OnGetHomeCountryListener.SOURCE.SIMCARD;
                         saveToSecureStore(country, COUNTRY);
-                        saveToSecureStore(country, COUNTRY_SOURCE);
+                        saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
                     }
                 }
                 if (country != null) {
@@ -713,7 +716,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 });
             }
         } else {
-            listener.onSuccess(homeCountry, OnGetHomeCountryListener.SOURCE.valueOf(countrySource));
+            listener.onSuccess(homeCountry, OnGetHomeCountryListener.SOURCE.valueOf(countrySource.trim()));
         }
     }
 
