@@ -33,125 +33,35 @@ import retrofit.converter.GsonConverter;
  * All rights reserved.
  */
 public class ConsentsMonitor extends EventMonitor {
-   /* @NonNull
-    private final UCoreAccessProvider accessProvider;*/
-
-    @NonNull
-    private final UCoreAdapter uCoreAdapter;
 
     @Inject
     UCoreAccessProvider uCoreAccessProvider;
 
+    @NonNull
+    private final ConsentDataSender consentDataSender;
 
     @NonNull
-    private final GsonConverter gsonConverter;
+    private final ConsentsDataFetcher consentsDataFetcher;
 
-    @NonNull
-    private final ConsentsConverter consentsConverter;
-
-    private DataServicesManager mDataServicesManager;
-
-    //private BaseAppDataCreator mDataCreater;
 
     @Inject
-    public ConsentsMonitor(@NonNull final UCoreAdapter uCoreAdapter,
-                           @NonNull final ConsentsConverter consentsConverter,
-                           @NonNull final GsonConverter gsonConverter) {
+    public ConsentsMonitor(@NonNull ConsentDataSender consentDataSender, @NonNull ConsentsDataFetcher consentsDataFetcher) {
+        this.consentDataSender = consentDataSender;
+        this.consentsDataFetcher = consentsDataFetcher;
         DataServicesManager.getInstance().getAppComponant().injectConsentsMonitor(this);
-        this.uCoreAdapter = uCoreAdapter;
-        this.consentsConverter = consentsConverter;
-        this.gsonConverter = gsonConverter;
-        mDataServicesManager = DataServicesManager.getInstance();
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(ConsentBackendSaveRequest event) {
         if (event.getRequestType() == ConsentBackendSaveRequest.RequestType.SAVE) {
-            sendToBackend(event);
+            consentDataSender.sendDataToBackend(event.getConsentDetailList());
         }
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(ConsentBackendGetRequest event) {
-        getConsent(event);
+        consentsDataFetcher.getConsent(event);
     }
 
-    private RetrofitError getNonLoggedInError() {
-        return RetrofitError.unexpectedError("", new IllegalStateException("you're not logged in"));
-    }
 
-    private void getConsent(ConsentBackendGetRequest event) {
-
-        if (isUserInvalid()) {
-            postError(event.getEventId(), getNonLoggedInError());
-            return;
-        }
-        if (event.getConsentDetails() == null || uCoreAccessProvider == null) {
-            return;
-        }
-
-        ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
-        try {
-
-            List<ConsentDetail> consentDetails = event.getConsentDetails();
-            ArrayList<String> consentTypes = new ArrayList<>();
-            ArrayList<String> deviceIdentificationList = new ArrayList<>();
-            ArrayList<String> documentVersionList = new ArrayList<>();
-
-            for (ConsentDetail consentDetail : consentDetails) {
-                consentTypes.add(consentDetail.getType());
-                deviceIdentificationList.add(consentDetail.getDeviceIdentificationNumber());
-                documentVersionList.add(consentDetail.getVersion());
-            }
-
-            List<UCoreConsentDetail> consentDetailList = client.getConsent(uCoreAccessProvider.getUserId(), consentTypes,
-                    deviceIdentificationList, documentVersionList);
-            if (consentDetailList != null && !consentDetailList.isEmpty()) {
-                List<ConsentDetail> appConsentDetails = consentsConverter.convertToAppConsentDetails(consentDetailList);
-
-                eventing.post(new ConsentBackendSaveResponse(appConsentDetails, HttpURLConnection.HTTP_OK, null));
-            } else {
-                eventing.post(new ConsentBackendSaveResponse(null, HttpURLConnection.HTTP_OK, null));
-            }
-        } catch (RetrofitError ex) {
-            eventing.post(new BackendDataRequestFailed(ex));
-
-        }
-    }
-
-    private void postError(int referenceId, final RetrofitError error) {
-        DSLog.i("***SPO***", "Error In ConsentsMonitor - posterror");
-        eventing.post(new BackendResponse(referenceId, error));
-    }
-
-    private void sendToBackend(ConsentBackendSaveRequest event) {
-        if (isUserInvalid()) {
-            postError(event.getEventId(), getNonLoggedInError());
-            return;
-        }
-        if (uCoreAccessProvider == null) {
-            return;
-        }
-        ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
-        try {
-            List<UCoreConsentDetail> consentDetailList = consentsConverter.convertToUCoreConsentDetails(event.getConsentDetailList());
-
-            if (consentDetailList.isEmpty()) {
-                return;
-            }
-            client.saveConsent(uCoreAccessProvider.getUserId(), consentDetailList);
-            eventing.post(new SyncBitUpdateRequest(OrmTableType.CONSENT, true));
-
-        } catch (RetrofitError error) {
-            postError(event.getEventId(), error);
-        }
-    }
-
-    public boolean isUserInvalid() {
-        if (uCoreAccessProvider != null) {
-            String accessToken = uCoreAccessProvider.getAccessToken();
-            return !uCoreAccessProvider.isLoggedIn() || accessToken == null || accessToken.isEmpty();
-        }
-        return false;
-    }
 }
