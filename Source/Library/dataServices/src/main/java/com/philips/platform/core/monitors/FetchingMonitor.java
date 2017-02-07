@@ -120,7 +120,7 @@ public class FetchingMonitor extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackgroundThread(LoadConsentsRequest event) {
         try {
-            dbInterface.fetchConsents(event.getDbRequestListener());
+            dbInterface.fetchConsentDetails(event.getDbRequestListener());
         } catch (SQLException e) {
             dbInterface.postError(e, event.getDbRequestListener());
         }
@@ -131,7 +131,7 @@ public class FetchingMonitor extends EventMonitor {
         DSLog.i("**SPO**","in Fetching Monitor GetNonSynchronizedMomentsRequest");
         try {
             List<? extends Moment> ormMomentList = (List<? extends Moment>)dbInterface.fetchNonSynchronizedMoments();
-             List<? extends ConsentDetail> consentDetails= (List<? extends ConsentDetail>) dbInterface.fetchNonSyncConsents();
+             List<? extends ConsentDetail> consentDetails= (List<? extends ConsentDetail>) dbInterface.fetchConsentDetails();
             if(consentDetails==null){
                 eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList,null));
             }else{

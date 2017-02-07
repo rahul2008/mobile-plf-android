@@ -25,7 +25,7 @@ public class ConsentsSegregator {
     }
 
     public Map<Class, List<?>> putConsentForSync(Map<Class, List<?>> dataToSync) throws SQLException {
-        List<? extends ConsentDetail> consentList = (List<? extends ConsentDetail>) dbFetchingInterface.fetchNonSyncConsents();
+        List<? extends ConsentDetail> consentList = (List<? extends ConsentDetail>) dbFetchingInterface.fetchNonSyncConsentDetails();
         dataToSync.put(ConsentDetail.class, consentList);
         return dataToSync;
     }

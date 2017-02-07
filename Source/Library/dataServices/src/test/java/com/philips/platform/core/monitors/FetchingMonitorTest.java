@@ -147,7 +147,7 @@ public class FetchingMonitorTest {
 
         fetchingMonitor.onEventBackgroundThread(new LoadConsentsRequest(dbRequestListener));
 
-        verify(fetching).fetchConsents(dbRequestListener);
+        verify(fetching).fetchConsentDetails(dbRequestListener);
     }
 
     @Test
@@ -179,7 +179,7 @@ public class FetchingMonitorTest {
     public void getNonSynchronizedMomentRequestTest() throws SQLException {
         fetchingMonitor.onEventBackgroundThread(getNonSynchronizedMomentsRequestMock);
         Map<Class, List<?>> dataToSync = new HashMap<>();
-        verify(fetching).fetchConsents(getNonSynchronizedMomentsRequestMock.getDbRequestListener());
+        verify(fetching).fetchConsentDetails(getNonSynchronizedMomentsRequestMock.getDbRequestListener());
         verify(fetching).fetchNonSynchronizedMoments();
         eventingMock.post(new GetNonSynchronizedDataResponse(1, dataToSync));
     }

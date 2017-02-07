@@ -81,7 +81,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     @Override
-    public void fetchConsents(DBRequestListener dbRequestListener) throws SQLException {
+    public void fetchConsentDetails(DBRequestListener dbRequestListener) throws SQLException {
 
         QueryBuilder<OrmConsentDetail, Integer> queryBuilder = consentDetailsDao.queryBuilder();
         ArrayList<OrmConsentDetail> ormConsents = (ArrayList<OrmConsentDetail>) consentDetailsDao.query(queryBuilder.prepare());
@@ -91,14 +91,22 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     @Override
-    public List<?> fetchNonSyncConsents() throws SQLException {
+    public List<?> fetchNonSyncConsentDetails() throws SQLException {
 
-        List<OrmConsentDetail> ormConsents =new ArrayList<>();
-        if(!isSynced(OrmTableType.CONSENT.getId())){
+        List<OrmConsentDetail> ormConsents = new ArrayList<>();
+        if (!isSynced(OrmTableType.CONSENT.getId())) {
             QueryBuilder<OrmConsentDetail, Integer> queryBuilder = consentDetailsDao.queryBuilder();
             ormConsents = consentDetailsDao.query(queryBuilder.prepare());
             return ormConsents;
         }
+        return ormConsents;
+    }
+
+    @Override
+    public List<?> fetchConsentDetails() throws SQLException {
+
+        QueryBuilder<OrmConsentDetail, Integer> queryBuilder = consentDetailsDao.queryBuilder();
+        List<OrmConsentDetail> ormConsents = consentDetailsDao.query(queryBuilder.prepare());
         return ormConsents;
     }
 
@@ -271,7 +279,6 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
             return ormSettingsList;
         }
     }
-
 
 
     public OrmCharacteristics fetchUCByCreatorId(@NonNull final String creatorId) throws SQLException {

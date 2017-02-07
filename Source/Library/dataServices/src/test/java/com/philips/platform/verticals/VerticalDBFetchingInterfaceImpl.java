@@ -52,7 +52,7 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     @Override
-    public void fetchConsents(DBRequestListener dbRequestListener) throws SQLException {
+    public void fetchConsentDetails(DBRequestListener dbRequestListener) throws SQLException {
 
     }
 
@@ -90,7 +90,7 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     @Override
-    public List<?> fetchNonSyncConsents() throws SQLException {
+    public List<?> fetchNonSyncConsentDetails() throws SQLException {
         return null;
     }
 

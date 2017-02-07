@@ -31,11 +31,13 @@ public interface DBFetchingInterface {
 
     Object fetchMomentById(final int id, DBRequestListener dbRequestListener) throws SQLException;
 
-    void fetchConsents(DBRequestListener dbRequestListener) throws SQLException;
+    void fetchConsentDetails(DBRequestListener dbRequestListener) throws SQLException;
 
     Map<Class, List<?>> putUserCharacteristicsForSync(Map<Class, List<?>> dataToSync) throws SQLException;
 
-    List<?> fetchNonSyncConsents() throws SQLException;
+    List<?> fetchNonSyncConsentDetails() throws SQLException;
+
+    List<?> fetchConsentDetails() throws SQLException;
 
     void postError(Exception e, DBRequestListener dbRequestListener);
 

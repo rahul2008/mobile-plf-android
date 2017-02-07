@@ -43,6 +43,6 @@ public class ConsentsSegregatorTest {
         Map<Class, List<?>> dataToSync = new HashMap<>();
         dataToSync.put(Consent.class, Arrays.asList(ormConsent));
         consentsSegregator.putConsentForSync(dataToSync);
-        verify(mockDBDbFetchingInterface).fetchNonSyncConsents();
+        verify(mockDBDbFetchingInterface).fetchNonSyncConsentDetails();
     }
 }
