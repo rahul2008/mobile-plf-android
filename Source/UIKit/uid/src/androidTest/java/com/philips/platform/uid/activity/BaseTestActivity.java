@@ -6,7 +6,11 @@ package com.philips.platform.uid.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.test.espresso.IdlingResource;
+import android.support.test.espresso.core.deps.guava.annotations.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -21,11 +25,13 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class BaseTestActivity extends AppCompatActivity {
+public class BaseTestActivity extends AppCompatActivity implements DelayerCallback {
     public static final String CONTENT_COLOR_KEY = "ContentColor";
     public static final String NAVIGATION_COLOR_KEY = "NavigationColor";
 
     private Toolbar toolbar;
+    @Nullable
+    private UidIdlingResource mIdlingResource;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,6 +93,7 @@ public class BaseTestActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(com.philips.platform.uid.test.R.menu.notificationbar, menu);
+        sendMessage();
         return true;
     }
 
@@ -97,5 +104,49 @@ public class BaseTestActivity extends AppCompatActivity {
 
     public Toolbar getToolbar() {
         return (Toolbar) findViewById(com.philips.platform.uid.test.R.id.uid_toolbar);
+    }
+
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            mIdlingResource = new UidIdlingResource();
+        }
+        return mIdlingResource;
+    }
+
+    @Override
+    protected void onSaveInstanceState(final Bundle outState) {
+    }
+
+    @Override
+    public void onDone(final String text) {
+        //Do nothing
+    }
+
+    static class MessageDelayer {
+
+        private static final long DELAY_MILLIS = 300;
+
+        static void sendMessage(final String message, final DelayerCallback callback,
+                                @Nullable final UidIdlingResource idlingResource) {
+            if (idlingResource != null) {
+                idlingResource.setIdleState(false);
+            }
+
+            // Delay the execution, return message via callback.
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (callback != null) {
+                        callback.onDone(message);
+                        if (idlingResource != null) {
+                            idlingResource.setIdleState(true);
+                        }
+                    }
+                }
+            }, DELAY_MILLIS);
+        }
     }
 }

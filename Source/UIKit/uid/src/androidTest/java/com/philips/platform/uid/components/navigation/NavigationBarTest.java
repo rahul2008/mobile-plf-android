@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 
@@ -21,6 +23,7 @@ import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.utils.UIDTestUtils;
 
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -39,6 +42,7 @@ public class NavigationBarTest {
     private BaseTestActivity baseTestActivity;
 
     private Resources resources;
+    private IdlingResource mIdlingResource;
 
     private void setupActivity(final int navigationColor) {
         final Intent intent = getLaunchIntent(navigationColor);
@@ -46,7 +50,16 @@ public class NavigationBarTest {
         baseTestActivity = mActivityTestRule.launchActivity(intent);
         baseTestActivity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
         baseTestActivity.switchFragment(new NavigationbarFragment());
+        mIdlingResource = baseTestActivity.getIdlingResource();
+        Espresso.registerIdlingResources(mIdlingResource);
         resources = baseTestActivity.getResources();
+        registerIdlingResources(baseTestActivity);
+    }
+
+    public void registerIdlingResources(final BaseTestActivity baseTestActivity) {
+        mIdlingResource = baseTestActivity.getIdlingResource();
+        // To prove that the test fails, omit this call:
+        Espresso.registerIdlingResources(mIdlingResource);
     }
 
     @NonNull
@@ -167,6 +180,7 @@ public class NavigationBarTest {
         setupActivity(NavigationColor.VERY_LIGHT.ordinal());
         int fontSize = (int) resources.getDimension(com.philips.platform.uid.test.R.dimen.navigation_menu_text_size);
         //Added wait because test is failing could be it takes time to inflate menu
+//        UIDTestUtils.waitFor(resources, 600);
         getOptionsMenuText().check(matches(TextViewPropertiesMatchers.isSameFontSize(fontSize)));
     }
 
@@ -176,6 +190,7 @@ public class NavigationBarTest {
 
         int iconSize = (int) resources.getDimension(com.philips.platform.uid.test.R.dimen.navigation_icon_size);
 
+//        UIDTestUtils.waitFor(resources, 600);
         getOptionsMenuIcon().check(matches(FunctionDrawableMatchers.isSameHeight(iconSize)));
         getOptionsMenuIcon().check(matches(FunctionDrawableMatchers.isSameWidth(iconSize)));
     }
@@ -212,5 +227,12 @@ public class NavigationBarTest {
 
     private ViewInteraction getTitle() {
         return onView(withId(com.philips.platform.uid.test.R.id.uid_toolbar_title));
+    }
+
+    @After
+    public void unregisterIdlingResource() {
+        if (mIdlingResource != null) {
+            Espresso.unregisterIdlingResources(mIdlingResource);
+        }
     }
 }
