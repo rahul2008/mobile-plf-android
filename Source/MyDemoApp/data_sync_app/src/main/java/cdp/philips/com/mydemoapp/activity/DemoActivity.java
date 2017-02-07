@@ -16,7 +16,6 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
-import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -105,8 +104,6 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
         DSLog.i(DSLog.LOG,"CALLBACK FROM UR RECIEVED");
-        DataServicesManager.getInstance().stopCore();
-        DataServicesManager.getInstance().startMonitors();
     }
 
     @Override
