@@ -128,6 +128,7 @@ public class AlertTest extends BaseTest {
         getAlertContent().check(matches(TextViewPropertiesMatchers.isSameLineSpacing(expectedTextLeading)));
     }
 
+    @Ignore
     @Test
     public void verifyAlertTitleTextLeading() {
 
