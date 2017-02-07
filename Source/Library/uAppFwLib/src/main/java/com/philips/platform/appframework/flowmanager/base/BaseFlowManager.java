@@ -82,16 +82,8 @@ public abstract class BaseFlowManager {
         throw new ConditionIdNotSetException();
     }
 
-    @Deprecated
-    /**
-     * @deprecated - Will be deprecated soon , will be replaced by factory approach
-     */
     public abstract void populateStateMap(final Map<String, BaseState> uiStateMap);
 
-    @Deprecated
-    /**
-     * @deprecated - Will be deprecated soon , will be replaced by factory approach
-     */
     public abstract void populateConditionMap(final Map<String, BaseCondition> baseConditionMap);
 
     /**
