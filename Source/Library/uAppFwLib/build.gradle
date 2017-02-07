@@ -156,7 +156,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:24.0.0'
     testCompile 'junit:junit:4.12'
-    compile('com.philips.cdp:AppInfra:1.4.0-SNAPSHOT@aar') {
+    compile('com.philips.cdp:AppInfra:1.5.4-SNAPSHOT@aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
