@@ -106,8 +106,8 @@ public class DataPullSynchroniseTest {
 
         //  when(accessProviderMock.isLoggedIn()).thenReturn(true);
         synchronise = new DataPullSynchronise(
-                Arrays.asList(firstFetcherMock, secondFetcherMock),
-                executorMock);
+                Arrays.asList(firstFetcherMock, secondFetcherMock)
+        );
         synchronise.accessProvider = accessProviderMock;
         synchronise.eventing = eventingMock;
     }

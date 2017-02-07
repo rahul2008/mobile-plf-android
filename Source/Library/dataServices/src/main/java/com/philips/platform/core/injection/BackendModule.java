@@ -60,7 +60,6 @@ import com.squareup.okhttp.OkHttpClient;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 
 import javax.inject.Singleton;
 
@@ -156,15 +155,14 @@ public class BackendModule {
             @NonNull final MomentsDataFetcher momentsDataFetcher,
             @NonNull final ConsentsDataFetcher consentsDataFetcher,
             @NonNull final UserCharacteristicsFetcher userCharacteristicsFetcher,
-            @NonNull final SettingsDataFetcher settingsDataFetcher,
-            @NonNull final ExecutorService executor) {
+            @NonNull final SettingsDataFetcher settingsDataFetcher) {
         List<DataFetcher> dataFetchers = Arrays.asList(momentsDataFetcher, consentsDataFetcher, userCharacteristicsFetcher,settingsDataFetcher);
         if (fetchers != null && fetchers.size() != 0) {
             for (DataFetcher fetcher : fetchers) {
                 dataFetchers.add(fetcher);
             }
         }
-        return new DataPullSynchronise(dataFetchers, executor);
+        return new DataPullSynchronise(dataFetchers);
     }
 
     @Provides
@@ -181,8 +179,8 @@ public class BackendModule {
                 dataSenders.add(sender);
             }
         }
-        return new DataPushSynchronise(dataSenders,
-                null);
+        return new DataPushSynchronise(dataSenders
+        );
     }
 
     @Provides

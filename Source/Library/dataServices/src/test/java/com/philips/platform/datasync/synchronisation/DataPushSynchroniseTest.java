@@ -95,7 +95,7 @@ public class DataPushSynchroniseTest {
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
         errorHandlerImpl = new ErrorHandlerImplTest();
         DataServicesManager.getInstance().setAppComponant(appComponantMock);
-        dataPushSynchronise = new DataPushSynchronise(Arrays.asList(firstDataSenderMock, secondDataSenderMock), executorMock);
+        dataPushSynchronise = new DataPushSynchronise(Arrays.asList(firstDataSenderMock, secondDataSenderMock));
         dataPushSynchronise.accessProvider = accessProviderMock;
         dataPushSynchronise.eventing = eventingMock;
     }

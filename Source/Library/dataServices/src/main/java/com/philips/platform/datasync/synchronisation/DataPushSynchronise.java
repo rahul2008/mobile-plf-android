@@ -57,12 +57,10 @@ public class DataPushSynchronise extends EventMonitor {
 
     DataServicesManager mDataServicesManager;
 
-    public DataPushSynchronise(@NonNull final List<? extends DataSender> senders,
-                               @NonNull final Executor executor) {
+    public DataPushSynchronise(@NonNull final List<? extends DataSender> senders) {
         mDataServicesManager = DataServicesManager.getInstance();
         mDataServicesManager.getAppComponant().injectDataPushSynchronize(this);
         this.senders = senders;
-       // this.executor = Executors.newFixedThreadPool(20);
     }
 
     public void startSynchronise(final int eventId) {

@@ -57,8 +57,7 @@ public class DataPullSynchronise {
     DataServicesManager mDataServicesManager;
 
     @Inject
-    public DataPullSynchronise(@NonNull final List<? extends DataFetcher> fetchers,
-                               @NonNull final Executor executor) {
+    public DataPullSynchronise(@NonNull final List<? extends DataFetcher> fetchers) {
         mDataServicesManager = DataServicesManager.getInstance();
         mDataServicesManager.getAppComponant().injectDataPullSynchronize(this);
         this.fetchers = fetchers;

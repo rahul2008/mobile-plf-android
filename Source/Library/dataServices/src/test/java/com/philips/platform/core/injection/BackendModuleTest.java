@@ -246,7 +246,7 @@ public class BackendModuleTest {
 
     @Test
     public void ShouldReturnDataPullSynchronise_WhenProvidesDataPullSynchroniseIsCalled() throws Exception {
-        final DataPullSynchronise dataPullSynchronise = backendModule.providesDataSynchronise(momentsDataFetcher, consentsDataFetcher, userCharacteristicsFetcher,settingsDataFetcher, executorService);
+        final DataPullSynchronise dataPullSynchronise = backendModule.providesDataSynchronise(momentsDataFetcher, consentsDataFetcher, userCharacteristicsFetcher,settingsDataFetcher);
         assertThat(dataPullSynchronise).isNotNull();
         assertThat(dataPullSynchronise).isInstanceOf(DataPullSynchronise.class);
     }
