@@ -50,8 +50,6 @@ public class NavigationBarTest {
         baseTestActivity = mActivityTestRule.launchActivity(intent);
         baseTestActivity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
         baseTestActivity.switchFragment(new NavigationbarFragment());
-        mIdlingResource = baseTestActivity.getIdlingResource();
-        Espresso.registerIdlingResources(mIdlingResource);
         resources = baseTestActivity.getResources();
         registerIdlingResources(baseTestActivity);
     }
