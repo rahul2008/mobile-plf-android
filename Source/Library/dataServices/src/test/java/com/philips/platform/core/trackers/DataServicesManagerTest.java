@@ -262,7 +262,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostSaveConsentEvent_WhenSaveConsentIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.saveConsentDetail(anyListOf(ConsentDetail.class),dbRequestListener);
+        tracker.saveConsentDetails(anyListOf(ConsentDetail.class),dbRequestListener);
 
         verify(eventingMock).post(any(DatabaseConsentSaveRequest.class));
     }
@@ -288,7 +288,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostUpdateConsentEvent_WhenUpdateConsentIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.updateConsentDetail(anyListOf(ConsentDetail.class),dbRequestListener);
+        tracker.updateConsentDetails(anyListOf(ConsentDetail.class),dbRequestListener);
 
         verify(eventingMock).post(any(DatabaseConsentSaveRequest.class));
     }

@@ -2,12 +2,14 @@ package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
+import com.philips.platform.core.events.ConsentBackendSaveRequest;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
@@ -28,6 +30,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -78,7 +81,13 @@ public class UpdatingMonitor extends EventMonitor {
     public void onEventAsync(final DatabaseConsentUpdateRequest consentUpdateRequest) {
         consentUpdateRequest.getConsentDetails();
         try {
-            dbUpdatingInterface.updateConsent(consentUpdateRequest.getConsentDetails(),consentUpdateRequest.getDbRequestListener());
+
+            if(dbUpdatingInterface.updateConsent(consentUpdateRequest.getConsentDetails(),consentUpdateRequest.getDbRequestListener()))
+            {
+                dbUpdatingInterface.updateSyncBit(OrmTableType.CONSENT.getId(),false);
+                eventing.post(new ConsentBackendSaveRequest((new ArrayList<>(consentUpdateRequest.getConsentDetails())), ConsentBackendSaveRequest.RequestType.SAVE));
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

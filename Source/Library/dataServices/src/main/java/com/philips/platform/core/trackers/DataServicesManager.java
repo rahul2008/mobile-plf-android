@@ -167,11 +167,11 @@ public class DataServicesManager {
         return mDataCreater.createConsentDetail(detailType, consentDetailStatusType.getDescription(), documentVersion, deviceIdentificationNumber);
     }
 
-    public void saveConsentDetail(List<ConsentDetail> consentDetails, DBRequestListener dbRequestListener) {
+    public void saveConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener dbRequestListener) {
         mEventing.post(new DatabaseConsentSaveRequest(consentDetails,dbRequestListener));
     }
 
-    public void updateConsentDetail(List<ConsentDetail> consentDetails, DBRequestListener dbRequestListener) {
+    public void updateConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener dbRequestListener) {
         mEventing.post(new SyncBitUpdateRequest(OrmTableType.CONSENT,false));
         mEventing.post(new DatabaseConsentUpdateRequest(consentDetails,dbRequestListener));
     }

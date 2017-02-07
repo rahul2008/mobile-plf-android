@@ -69,6 +69,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             }
 
         }
+        updating.updateDCSync(OrmTableType.CONSENT.getId(),true);
         notifyDBRequestListener.notifySuccess(consentDetails, dbRequestListener);
         return true;
 

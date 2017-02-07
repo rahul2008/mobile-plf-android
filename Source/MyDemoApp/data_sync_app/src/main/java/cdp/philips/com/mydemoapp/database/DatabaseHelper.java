@@ -118,7 +118,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         consentDetails.add(mDataServices.createConsentDetail
                 (ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED,ConsentDetail.DEFAULT_DOCUMENT_VERSION,
                         ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
-        mDataServices.saveConsentDetail(consentDetails, null);
+        mDataServices.saveConsentDetails(consentDetails, null);
     }
 
     private void insertDefaultDCSyncValues() {
