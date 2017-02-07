@@ -2,6 +2,7 @@ package com.philips.platform.appinfra.demo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -229,6 +230,27 @@ public class AppConfigurationActivity extends AppCompatActivity {
                         Toast.makeText(AppConfigurationActivity.this, "Invalid Value entered", Toast.LENGTH_SHORT).show();
                     }
                 }
+            }
+        });
+
+        Button btnFetchCloudConfig = (Button) findViewById(R.id.btn_fetchCloudConfig);//
+        final TextView cloudConfigResponse = (TextView) findViewById(R.id.cloudConfigResponse);
+        btnFetchCloudConfig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cloudConfigResponse.setText(null);
+                mConfigInterface.refreshCloudConfig(new AppConfigurationInterface.OnRefreshListener() {
+                    @Override
+                    public void onError(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum error, String message) {
+                        Log.v("refreshCloudConfig",message);
+                    }
+
+                    @Override
+                    public void onSuccess(REFRESH_RESULT result) {
+                        Log.v("refreshCloudConfig",result.toString());
+                        cloudConfigResponse.setText(result.toString());
+                    }
+                });
             }
         });
     }
