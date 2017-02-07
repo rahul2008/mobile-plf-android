@@ -114,7 +114,7 @@ public class TemperaturePresenter {
     }
 
     void fetchData(DBRequestListener dbRequestListener) {
-        mDataServices.fetchMomentWithType(dbRequestListener, MomentType.getIDFromDescription(MomentType.TEMPERATURE));
+        mDataServices.fetchMomentWithType(dbRequestListener, MomentType.TEMPERATURE);
     }
 
     private void saveRequest(Moment moment) {

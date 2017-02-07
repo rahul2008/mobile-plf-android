@@ -17,7 +17,7 @@ import com.philips.platform.core.listeners.DBRequestListener;
  */
 public class LoadMomentsRequest extends Event {
 
-    private final Integer type;
+    private final String type;
     private final int momentID;
 
     public DBRequestListener getDbRequestListener() {
@@ -28,7 +28,7 @@ public class LoadMomentsRequest extends Event {
         this.dbRequestListener = dbRequestListener;
     }
 
-    private Integer[] types;
+    private String[] types;
     private DBRequestListener dbRequestListener;
 
     public LoadMomentsRequest(DBRequestListener dbRequestListener) {
@@ -38,7 +38,7 @@ public class LoadMomentsRequest extends Event {
         momentID = -1;
     }
 
-    public LoadMomentsRequest(DBRequestListener dbRequestListener,final @NonNull Integer... type) {
+    public LoadMomentsRequest(DBRequestListener dbRequestListener,final @NonNull String... type) {
         this.type = type[0];
         this.types = type;
         momentID = -1;

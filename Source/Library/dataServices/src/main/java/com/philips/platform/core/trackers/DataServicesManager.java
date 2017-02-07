@@ -150,8 +150,7 @@ public class DataServicesManager {
     }
 */
 
-    //TODO: discuss this again - 2nd parameter is integer
-    public void fetchMomentWithType(DBRequestListener dbRequestListener, final @NonNull Integer... type) {
+    public void fetchMomentWithType(DBRequestListener dbRequestListener, final @NonNull String... type) {
         mEventing.post(new LoadMomentsRequest(dbRequestListener, type));
     }
 

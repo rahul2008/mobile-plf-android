@@ -11,10 +11,10 @@ import android.support.annotation.NonNull;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
-import com.philips.platform.core.datatypes.OrmTableType;
-import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.datatypes.Settings;
+import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.utils.DSLog;
@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristicsDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
@@ -151,12 +152,14 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
     @Override
     public void fetchMoments(DBRequestListener dbRequestListener, @NonNull final Object... types) throws SQLException {
-        List<OrmMoment> ormMoments = new ArrayList<OrmMoment>();
         List<Integer> ids = new ArrayList<>();
         final int i = 0;
         for (Object object : types) {
             if (object instanceof Integer) {
                 ids.add((Integer) object);
+            }else if(object instanceof String){
+                int idFromDescription = MomentType.getIDFromDescription((String) object);
+                ids.add(idFromDescription);
             }
         }
         final QueryBuilder<OrmMoment, Integer> queryBuilder = momentDao.queryBuilder();
