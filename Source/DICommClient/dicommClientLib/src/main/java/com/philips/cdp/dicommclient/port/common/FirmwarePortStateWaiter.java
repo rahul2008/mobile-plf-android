@@ -48,17 +48,8 @@ public class FirmwarePortStateWaiter implements DICommPortListener<FirmwarePort>
             firmwarePort.subscribe();
             firmwarePort.addPortListener(this);
 
-            /*this, new SHNResultListener() {
-                @Override
-                public void onActionCompleted(Result result) {
-                    if (result != Result.Ok) {
-                        listener.onStateUpdated(null, result);
-                    } else {
-                        FirmwarePortStateWaiter.this.listener = listener;
-                        FirmwarePortStateWaiter.this.expectedState = state;
-                    }
-                }
-            });*/
+            this.listener = listener;
+            this.expectedState = state;
         }
     }
 
