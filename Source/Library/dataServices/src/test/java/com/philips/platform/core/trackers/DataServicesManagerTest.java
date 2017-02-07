@@ -183,7 +183,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostSaveEvent_WhenSaveIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.save(momentMock,dbRequestListener);
+        tracker.saveMoment(momentMock,dbRequestListener);
 
         verify(eventingMock).post(any(MomentSaveRequest.class));
     }
@@ -191,7 +191,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostUpdateEvent_WhenUpdateIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.update(momentMock,dbRequestListener);
+        tracker.updateMoment(momentMock,dbRequestListener);
 
         verify(eventingMock).post(any(MomentUpdateRequest.class));
     }
@@ -199,7 +199,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostFetchEvent_WhenFetchIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.fetch(dbRequestListener ,new Integer(1));
+        tracker.fetchMomentWithType(dbRequestListener ,new Integer(1));
 
         verify(eventingMock).post(any(LoadMomentsRequest.class));
     }
@@ -259,7 +259,7 @@ public class DataServicesManagerTest {
     //TODO: Spoorti - Fix later
 /*    @Test(expected = NullPointerException.class)
     public void ShouldAddConcentDetail_WhenConsentDetailIsCreated() throws Exception {
-       // tracker.initialize(null, null, null,null);
+       // tracker.initializeDataServices(null, null, null,null);
         ConsentDetail consentDetail = baseAppDataCreator.createConsentDetail("TEMPERATURE", TEST_CONSENT_DETAIL_TYPE, "", "fsdfsdf", true, consentMock);
         verify(consentMock).addConsentDetails(consentDetail);
     }*/
@@ -307,7 +307,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostdeleteAllMomentEvent_WhendeleteAllMomentIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.deleteAllMoment(dbRequestListener);
+        tracker.deleteAllMoments(dbRequestListener);
 
         verify(eventingMock).post(any(DataClearRequest.class));
     }
@@ -330,7 +330,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldCreateMeasurementGroupDetail_WhenCreateMeasurementGroupDetailIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.createMeasurementGroupDetail("", measurementGroupMock);
+        tracker.createMeasurementGroupDetail("", "some", measurementGroupMock);
     }
 
     /*@Test
@@ -369,7 +369,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldCreateMeasurementDetail_WhenCreateMeasurementDetailIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.createMeasurementDetail(TEST_MEASUREMENT_TYPE, measurementMock);
+        tracker.createMeasurementDetail(TEST_MEASUREMENT_TYPE, "some", measurementMock);
     }
 
     @Test
@@ -417,21 +417,21 @@ public class DataServicesManagerTest {
     }*/
 //    @Test(expected = NullPointerException.class)
 //    public void ShouldAddMeasurement_WhenCreateMeasurementIsCreated() throws Exception {
-//        tracker.initialize(mockContext, baseAppDataCreator, userRegistrationInterface);
+//        tracker.initializeDataServices(mockContext, baseAppDataCreator, userRegistrationInterface);
 //        Measurement measurement = baseAppDataCreator.createMeasurement( TEST_MEASUREMENT_DETAIL_TYPE, measurementGroupMock);
 //        verify(measurementGroupMock).addMeasurement(measurement);
 //    }
 //
 //    @Test(expected = NullPointerException.class)
 //    public void ShouldAddMeasurementDetail_WhenCreateMeasurementDetailIsCreated() throws Exception {
-//        tracker.initialize(mockContext, baseAppDataCreator, userRegistrationInterface);
+//        tracker.initializeDataServices(mockContext, baseAppDataCreator, userRegistrationInterface);
 //        MeasurementDetail measurementGroup = baseAppDataCreator.createMeasurementDetail( TEST_MEASUREMENT_DETAIL_TYPE, measurementMock);
 //        verify(measurementMock).addMeasurementDetail(measurementGroup);
 //    }
 
 //    @Test(expected = NullPointerException.class)
 //    public void ShouldCreateMoment_WhenAsked() throws Exception {
-//        tracker.initialize(mockContext, baseAppDataCreator, userRegistrationInterface);
+//        tracker.initializeDataServices(mockContext, baseAppDataCreator, userRegistrationInterface);
 //        when(eventingMock).thenReturn(new EventingImpl(new EventBus(), new Handler()));
 //        when(backendIdProviderMock.getUserId()).thenReturn(TEST_USER_ID);
 //        when(backendIdProviderMock.getSubjectId()).thenReturn(TEST_BABY_ID);
@@ -445,7 +445,7 @@ public class DataServicesManagerTest {
 //
 //    @Test(expected = NullPointerException.class)
 //    public void ShouldSetSubjectIdAsUserId_WhenMomentTypeIsPumping() throws Exception {
-//        tracker.initialize(mockContext, baseAppDataCreator, userRegistrationInterface);
+//        tracker.initializeDataServices(mockContext, baseAppDataCreator, userRegistrationInterface);
 //
 //        when(backendIdProviderMock.getUserId()).thenReturn(TEST_USER_ID);
 //        when(baseAppDataCreator.createMoment(TEST_USER_ID, TEST_USER_ID, "PUMPING")).thenReturn(momentMock);
@@ -458,7 +458,7 @@ public class DataServicesManagerTest {
 //    @Test(expected = NullPointerException.class)
 //    public void ShouldAddMomentDetailToMoment_WhenMomentDetailIsCreated() throws Exception {
 //        //noinspection ConstantConditions
-//        tracker.initialize(mockContext, baseAppDataCreator, userRegistrationInterface);
+//        tracker.initializeDataServices(mockContext, baseAppDataCreator, userRegistrationInterface);
 //
 //        when(baseAppDataCreator.createMomentDetail(TEST_MOMENT_DETAIL_TYPE, momentMock)).thenReturn(momentDetailMock);
 //
@@ -471,7 +471,7 @@ public class DataServicesManagerTest {
 //    @Test(expected = NullPointerException.class)
 //    public void ShouldAddMeasurementToMoment_WhenMeasurementIsCreated() throws Exception {
 //        //noinspection ConstantConditions
-//        tracker.initialize(mockContext, baseAppDataCreator, userRegistrationInterface);
+//        tracker.initializeDataServices(mockContext, baseAppDataCreator, userRegistrationInterface);
 //
 //
 //        when(baseAppDataCreator.createMeasurement(TEST_MEASUREMENT_TYPE, measurementGroupMock)).thenReturn(measurementMock);
@@ -485,7 +485,7 @@ public class DataServicesManagerTest {
 //    @Test(expected = NullPointerException.class)
 //    public void ShouldAddMeasurementDetailToMoment_WhenMeasurementDetailIsCreated() throws Exception {
 //        //noinspection ConstantConditions
-//        tracker.initialize(mockContext, baseAppDataCreator, userRegistrationInterface);
+//        tracker.initializeDataServices(mockContext, baseAppDataCreator, userRegistrationInterface);
 //
 //        when(baseAppDataCreator.createMeasurementDetail(TEST_MEASUREMENT_DETAIL_TYPE, measurementMock)).thenReturn(measurementDetailMock);
 //
@@ -498,7 +498,7 @@ public class DataServicesManagerTest {
 //    @Test(expected = NullPointerException.class)
 //    public void ShouldPostDeleteEvent_WhenDeleteMomentAsked() throws Exception {
 //        //noinspection ConstantConditions
-//        tracker.initialize(mockContext, baseAppDataCreator, userRegistrationInterface);
+//        tracker.initializeDataServices(mockContext, baseAppDataCreator, userRegistrationInterface);
 //
 //        tracker.markAsInActive(momentMock);
 //
@@ -509,7 +509,7 @@ public class DataServicesManagerTest {
 //    @Test(expected = NullPointerException.class)
 //    public void ShouldPostUpdateEvent_WhenEditMomentAsked() throws Exception {
 //        //noinspection ConstantConditions
-//        tracker.initialize(mockContext, baseAppDataCreator, userRegistrationInterface);
+//        tracker.initializeDataServices(mockContext, baseAppDataCreator, userRegistrationInterface);
 //        when(eventingMock).thenReturn(new EventingImpl(new EventBus(), new Handler()));
 //        tracker.update(momentMock);
 //

@@ -9,7 +9,6 @@ package cdp.philips.com.mydemoapp.database;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.j256.ormlite.dao.BaseDaoImpl;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 
@@ -107,6 +106,14 @@ public class OrmDeleting {
         consentDetailDao.executeRawNoArgs("DELETE FROM `ormconsentdetail`");
         characteristicsDao.executeRawNoArgs("DELETE FROM `ormcharacteristics`");
         characteristicsDetailsDao.executeRawNoArgs("DELETE FROM `ormcharacteristicsDetail`");
+    }
+
+    public void deleteAllMoments() throws SQLException {
+        momentDao.executeRawNoArgs("DELETE FROM `ormmoment`");
+        momentDetailDao.executeRawNoArgs("DELETE FROM `ormmomentdetail`");
+        measurementDao.executeRawNoArgs("DELETE FROM `ormmeasurement`");
+        measurementDetailDao.executeRawNoArgs("DELETE FROM `ormmeasurementdetail`");
+        synchronisationDataDao.executeRawNoArgs("DELETE FROM `ormsynchronisationdata`");
     }
 
     public void ormDeleteMoment(@NonNull final OrmMoment moment) throws SQLException {

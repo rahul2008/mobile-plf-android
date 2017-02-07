@@ -62,7 +62,7 @@ public class UserCharacteristicsSender implements DataSender<UserCharacteristics
             userUserCharacteristicsList.add(userCharacteristics);
         }
         //TODO:Spoorti - send only if not synced
-        //While sending UC ,we used to fetch UC which are not synced ,So no need to check here
+        //While sending UC ,we used to fetchMomentWithType UC which are not synced ,So no need to check here
         return sendUserCharacteristics(userUserCharacteristicsList);
     }
 

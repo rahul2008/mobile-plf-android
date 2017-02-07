@@ -112,7 +112,7 @@ public class DataSyncApplication extends Application {
         OrmCreator creator = new OrmCreator(new UuidGenerator());
         UserRegistrationInterface userRegistrationInterface = new UserRegistrationInterfaceImpl(this, new User(this));
         ErrorHandlerInterfaceImpl errorHandlerInterface = new ErrorHandlerInterfaceImpl();
-        mDataServicesManager.initialize(this, creator, userRegistrationInterface, errorHandlerInterface);
+        mDataServicesManager.initializeDataServices(this, creator, userRegistrationInterface, errorHandlerInterface);
         injectDBInterfacesToCore();
         mDataServicesManager.initializeSyncMonitors(this, null, null,synchronisationCompleteListener);
     }

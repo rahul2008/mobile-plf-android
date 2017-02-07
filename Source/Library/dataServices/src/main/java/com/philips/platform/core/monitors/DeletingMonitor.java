@@ -6,6 +6,7 @@ package com.philips.platform.core.monitors;
 
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.events.DataClearRequest;
+import com.philips.platform.core.events.DeleteAllMomentsRequest;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -29,6 +30,17 @@ public class DeletingMonitor extends EventMonitor {
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackgroundThread(DataClearRequest event) {
+        final DBRequestListener dbRequestListener = event.getDbRequestListener();
+        try {
+            dbInterface.deleteAll(dbRequestListener);
+        } catch (SQLException e) {
+            dbInterface.deleteFailed(e, dbRequestListener);
+        }
+        //eventing.post(new DataClearResponse(event.getEventId()));
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventBackgroundThread(DeleteAllMomentsRequest event) {
         final DBRequestListener dbRequestListener = event.getDbRequestListener();
         try {
             dbInterface.deleteAll(dbRequestListener);

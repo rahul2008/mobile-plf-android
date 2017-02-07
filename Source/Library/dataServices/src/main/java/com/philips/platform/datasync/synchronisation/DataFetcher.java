@@ -10,7 +10,6 @@ import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.philips.platform.core.listeners.SynchronisationChangeListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAdapter;
 
@@ -29,7 +28,7 @@ public abstract class DataFetcher {
     protected final UCoreAdapter uCoreAdapter;
 
     @Inject
-    SynchronisationChangeListener synchronisationChangeListener;
+    SynchronisationManager synchronisationManager;
 
     public DataFetcher(@NonNull final UCoreAdapter uCoreAdapter) {
         DataServicesManager.getInstance().getAppComponant().injectDataFetcher(this);
@@ -45,7 +44,7 @@ public abstract class DataFetcher {
     }
 
     public void onError(RetrofitError error){
-        synchronisationChangeListener.dataPullFail(error);
+        synchronisationManager.dataPullFail(error);
     }
 }
 

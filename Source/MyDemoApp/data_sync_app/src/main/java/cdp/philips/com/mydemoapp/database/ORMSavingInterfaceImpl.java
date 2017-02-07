@@ -81,7 +81,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
         try {
             ormCharacteristics = OrmTypeChecking.checkOrmType(userCharacteristics, OrmCharacteristics.class);
             deleting.deleteCharacteristics();
-            DSLog.d("Inder saveUserCharacteristics OrmCharacteristeics save", ormCharacteristics.getCharacteristicsDetails().toString());
+            DSLog.d("Inder saveUserCharacteristics OrmCharacteristeics saveMoment", ormCharacteristics.getCharacteristicsDetails().toString());
             saving.saveCharacteristics(ormCharacteristics);
             updateUCUI(userCharacteristics,dbRequestListener);
             return true;

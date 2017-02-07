@@ -5,8 +5,6 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
 import org.joda.time.DateTime;
@@ -17,7 +15,6 @@ import javax.inject.Inject;
 
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
-import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
 
 /**
@@ -77,6 +74,11 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     @Override
     public void deleteFailed(Exception e, DBRequestListener dbRequestListener) {
         notifyDBRequestListener.notifyFailure(e,dbRequestListener);
+    }
+
+    @Override
+    public void deleteAllMoments(DBRequestListener dbRequestListener) throws SQLException {
+        ormDeleting.deleteAllMoments();
     }
 
     private boolean isMomentSyncedToBackend(final Moment moment) {

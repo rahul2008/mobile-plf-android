@@ -4,7 +4,6 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
-import com.philips.platform.core.listeners.DBRequestListener;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -17,4 +16,5 @@ public interface DBDeletingInterface {
     void deleteMomentDetail(Moment moment,DBRequestListener dbRequestListener) throws SQLException;
     void deleteMeasurementGroup(Moment moment,DBRequestListener dbRequestListener) throws SQLException;
     void deleteFailed(Exception e,DBRequestListener dbRequestListener);
+    void deleteAllMoments(DBRequestListener dbRequestListener) throws SQLException;
 }
