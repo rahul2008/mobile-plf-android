@@ -26,7 +26,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
 
-public class UserCharacteristicsSender implements DataSender<Characteristics> {
+public class UserCharacteristicsSender extends DataSender {
 
     private static final int API_VERSION = 9;
 
@@ -52,13 +52,13 @@ public class UserCharacteristicsSender implements DataSender<Characteristics> {
     }
 
     @Override
-    public boolean sendDataToBackend(@NonNull List<? extends Characteristics> userCharacteristicsListToSend) {
-        if (!mUCoreAccessProvider.isLoggedIn()) {
+    public boolean sendDataToBackend(@NonNull List userCharacteristicsListToSend) {
+        if (!mUCoreAccessProvider.isLoggedIn() && userCharacteristicsListToSend.size() > 0) {
             return false;
         }
         List<Characteristics> userUserCharacteristicsList = new ArrayList<>();
-        for (Characteristics characteristics : userCharacteristicsListToSend) {
-            userUserCharacteristicsList.add(characteristics);
+        for (Object characteristics : userCharacteristicsListToSend) {
+            userUserCharacteristicsList.add((Characteristics)characteristics);
         }
         return sendUserCharacteristics(userUserCharacteristicsList);
     }
@@ -81,6 +81,7 @@ public class UserCharacteristicsSender implements DataSender<Characteristics> {
                 return true;
             }
         } catch (RetrofitError retrofitError) {
+            onError(retrofitError);
             postError(retrofitError);
         }
         return false;

@@ -28,7 +28,7 @@ import retrofit.converter.GsonConverter;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class SettingsDataSender implements DataSender<Settings> {
+public class SettingsDataSender extends DataSender {
 
     @Inject
     Eventing eventing;
@@ -59,11 +59,11 @@ public class SettingsDataSender implements DataSender<Settings> {
     }
 
     @Override
-    public boolean sendDataToBackend(@NonNull List<? extends Settings> dataToSend) {
+    public boolean sendDataToBackend(@NonNull List dataToSend) {
 
         if (dataToSend!=null && !dataToSend.isEmpty() && synchronizationState.get() != State.BUSY.getCode()) {
-            for(Settings settings:dataToSend){
-                sendDataToBackend((List<? extends Settings>) settings);
+            for(Object settings:dataToSend){
+                sendSettingsToBackend((Settings)settings);
             }
 
         }
@@ -76,7 +76,7 @@ public class SettingsDataSender implements DataSender<Settings> {
         return Settings.class;
     }
 
-    public void sendToBackend(Settings settings) {
+    public void sendSettingsToBackend(Settings settings) {
         if (isUserInvalid()) {
             postError(1, getNonLoggedInError());
             return;
