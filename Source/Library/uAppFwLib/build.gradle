@@ -15,12 +15,12 @@ buildscript {
                 username = "readonly"
                 password = "readonly"
             }
-        }       
+        }
     }
 
     dependencies {
         classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
-        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.android.tools.build:gradle:2.1.2'
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12"
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.0.0', changing: true
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
@@ -28,9 +28,9 @@ buildscript {
         classpath "com.github.dcendents:android-maven-gradle-plugin:1.5"
     }
 }
-apply plugin: "com.jfrog.artifactory"
+
+
 apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'maven-publish'
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
@@ -39,7 +39,7 @@ objcdp.setProjectDir(projectDir)
 
 
 allprojects {
-	repositories {
+    repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven {
             url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
@@ -52,46 +52,49 @@ allprojects {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local'
         }
         maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local'
+        }
+
+        maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android'
         }
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
         }
-		maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
-
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
 
-        flatDir {
-            dirs 'libs'
-        }
     }
 }
 
-    
-    group = 'com.philips.cdp'
-	version = objcdp.getVersion()
-	
+apply plugin: 'com.jfrog.artifactory'
+
+group = 'com.philips.cdp'
+version = objcdp.getVersion()
+
 artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
     publish {
+        contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
         repository {
             repoKey = objcdp.getArtifactoryRepoKey('android')
-			username = objcdp.getArtifactoryUploadUser()
+            username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
             defaults {
-			publishPom = true
-            publishIvy = false
-            publishBuildInfo = true
-			publishArtifacts = true	
-            }			
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+                publishArtifacts = true
+            }			 
         }
     }
     resolve {
         repository {
-            repoKey = 'app-release-local'
+            repoKey = 'libs-release-local'
         }
     }
+    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 //=======To zip and upload "Documents/External" ==STARTS=============
