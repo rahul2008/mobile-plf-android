@@ -55,6 +55,19 @@ public interface AppConfigurationInterface {
      */
     Object getDefaultPropertyForKey(String key, String group, AppConfigurationError configError) throws IllegalArgumentException;
 
+
+    /**
+     * download app config file from cloud
+     */
+    void refreshCloudConfig(OnRefreshListener onRefreshListener);
+
+    interface OnRefreshListener {
+        enum REFRESH_RESULT { REFRESHED_FROM_SERVER, NO_REFRESH_REQUIRED,REFRESHED_FAILED};
+        void onError(AppConfigurationError.AppConfigErrorEnum error, String message);
+        void onSuccess(REFRESH_RESULT result);
+    }
+
+
     /**
      * The type Config error.
      */
@@ -63,8 +76,8 @@ public interface AppConfigurationInterface {
          * The enum Config error enum.
          */
         public enum AppConfigErrorEnum {
-            InvalidKey, GroupNotExists, KeyNotExists, FatalError, DeviceStoreError,
-            NoDataFoundForKey, SecureStorageError
+            NoError, FatalError, InvalidKey, NoDataFoundForKey, GroupNotExists, KeyNotExists,  DeviceStoreError, ServerError
+            ,DownloadInProgress  , SecureStorageError
         }
 
         private AppConfigErrorEnum errorCode = null;
