@@ -23,6 +23,7 @@ import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.prxclient.PRXDependencies;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.datamodels.assets.Asset;
 import com.philips.cdp.prxclient.datamodels.assets.AssetModel;
@@ -150,8 +151,9 @@ public class PrxWrapper {
         if (mRequestManager == null) {
             mRequestManager = new RequestManager();
         }
+        PRXDependencies prxDependencies = new PRXDependencies(mActivity, DigitalCareConfigManager.getInstance().getAPPInfraInstance());
         Locale locale = mConfigManager.getLocaleMatchResponseWithCountryFallBack();
-        mRequestManager.init(mActivity);
+        mRequestManager.init(prxDependencies);
         final DigitalCareConfigManager mConfigManager = DigitalCareConfigManager.getInstance();
         mProductInfo = mConfigManager.getConsumerProductInfo();
         mCtn = mProductInfo.getCtn();

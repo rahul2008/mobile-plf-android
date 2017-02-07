@@ -26,6 +26,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -84,7 +85,9 @@ import com.philips.cdp.digitalcare.request.ResponseCallback;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.Utils;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -296,7 +299,28 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     }
 
     protected String getAtosUrl(String ctn, String subcategory, String country) {
-        return String.format(ATOS_URL_PORT, ctn, subcategory, country);
+
+        HashMap<String,String> hm=new HashMap<String,String>();
+        hm.put("productSubCategory",""+subcategory);
+        hm.put("lattitude",""+mSourceLat);
+        hm.put("longitude",""+mSourceLng);
+
+        DigitalCareConfigManager.getInstance().getAPPInfraInstance().getServiceDiscovery().getServiceUrlWithCountryPreference("cc.atos", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            @Override
+            public void onSuccess(URL url) {
+                Log.i("ServiceDiscoveryurl","Locate Philips fragment - url - "+url);
+                DigitalCareConfigManager.getInstance().setAtosUrl(url.toString());
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+
+            }
+        }, hm);
+
+
+        //return String.format(ATOS_URL_PORT, ctn, subcategory, country);
+        return DigitalCareConfigManager.getInstance().getAtosUrl();
     }
 
     protected void requestATOSResponseData() {

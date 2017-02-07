@@ -9,8 +9,8 @@
 package com.philips.cdp.digitalcare.rateandreview.fragments;
 
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +22,12 @@ import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
-import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.Utils;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+
+import java.net.URL;
+import java.util.HashMap;
 
 
 public class ProductReviewFragment extends DigitalCareBaseFragment {
@@ -80,7 +83,7 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
             DigiCareLogger.d(TAG, getProductPageUri().toString());
             mProductReviewWebView.getSettings().setDomStorageEnabled(true);
             mProductReviewWebView.getSettings().setBuiltInZoomControls(true);
-            Utils.loadWebPageContent(getProductPageUri().toString(), mProductReviewWebView, mProgressBar);
+            Utils.loadWebPageContent(getProductPageUri(), mProductReviewWebView, mProgressBar);
         }
     }
 
@@ -96,8 +99,8 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
      *
      * @return
      */
-    protected Uri getProductPageUri() {
-        String language = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
+    protected String getProductPageUri() {
+       /* String language = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
                 .getLanguage().toLowerCase();
 
         String country = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
@@ -107,8 +110,13 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
 
         Uri uri = Uri.parse(String.format(PRODUCT_REVIEW_URL, countryFallBack,
                 productPageLink, getLocalizedReviewUrl(countryFallBack)));
+
+
         DigiCareLogger.i(TAG, "Product Review page link : " + uri);
-        return uri;
+    */
+
+
+        return DigitalCareConfigManager.getInstance().getProductReviewUrl();
     }
 
     @Override

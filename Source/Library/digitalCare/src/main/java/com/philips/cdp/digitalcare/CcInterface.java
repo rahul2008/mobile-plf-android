@@ -1,11 +1,13 @@
 package com.philips.cdp.digitalcare;
 
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -26,8 +28,24 @@ public class CcInterface implements UappInterface {
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         CcSettings ccSettings = (CcSettings) uappSettings;
         CcDependencies ccDependencies = (CcDependencies) uappDependencies;
+
+
+        ccDependencies.getAppInfra().getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+            @Override
+            public void onSuccess(String s, SOURCE source) {
+                DigitalCareConfigManager.getInstance().setCountry(s);
+                Log.i("sdlocale","inside ccInterface  "+s);
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+
+            }
+        });
+
         DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(ccSettings.getContext()
                 , ccDependencies.getAppInfra());
+
     }
 
     @Override

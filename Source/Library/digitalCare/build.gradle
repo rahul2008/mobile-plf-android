@@ -177,7 +177,7 @@ dependencies {
     {
         transitive = true
     }
-	compile(group: 'com.philips.cdp', name: 'productselection', version: '1.9.0-SNAPSHOT', ext: 'aar', changing: true)
+	compile(group: 'com.philips.cdp', name: 'productselection', version: '1.9.4-SNAPSHOT', ext: 'aar', changing: true)
     {
            transitive = true
     }

@@ -11,7 +11,6 @@ package com.philips.cdp.digitalcare.faq.fragments;
 
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
-import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -187,11 +185,6 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
                     mProgressBar.setVisibility(View.GONE);
                     enableWebView();
 
-                }
-
-                @Override
-                public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                    handler.proceed();
                 }
 
                 @Override

@@ -153,7 +153,7 @@ public class LocaleMatchHandler implements LocaleMatchListener {
                 localeFailCallback();
                 return;
             }
-            Locale countryFallbackLocale = new Locale(mPilLocaleWithCountryFallBack.getLanguageCode(), mPilLocaleWithCountryFallBack.getCountrycode());
+            Locale countryFallbackLocale = new Locale(Locale.getDefault().getLanguage(), DigitalCareConfigManager.getInstance().getCountry());
             DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithCountryFallBack(countryFallbackLocale);
             DigitalCareConfigManager.getInstance().getObserver().notificationReceived();
 
