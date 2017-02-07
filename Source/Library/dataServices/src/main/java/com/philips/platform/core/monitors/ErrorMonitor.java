@@ -3,6 +3,7 @@ package com.philips.platform.core.monitors;
 import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
+import com.philips.platform.core.listeners.SynchronisationChangeListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
@@ -22,6 +23,9 @@ public class ErrorMonitor extends EventMonitor {
     private ErrorHandlingInterface mErrorHandlingInterface;
     @Inject
     UserRegistrationInterface userRegistrationInterface;
+
+    @Inject
+    SynchronisationChangeListener synchronisationChangeListener;
 
     int UNKNOWN = -1;
 

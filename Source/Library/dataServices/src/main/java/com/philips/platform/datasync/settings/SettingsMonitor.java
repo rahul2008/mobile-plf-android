@@ -119,7 +119,7 @@ public class SettingsMonitor extends EventMonitor {
             }
 
         } catch (RetrofitError retrofitError) {
-            eventing.post(new BackendDataRequestFailed(retrofitError));
+            eventing.post(new BackendResponse(event.getReferenceId(), retrofitError));
         }
 
     }
