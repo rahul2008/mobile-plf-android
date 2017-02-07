@@ -324,7 +324,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     @Override
     public void refreshCloudConfig(final OnRefreshListener onRefreshListener) {
         AppConfigurationError configError = new AppConfigurationError();
-        String cloudServiceId = (String) getDefaultPropertyForKey( "appconfig.cloudServiceId","APPINFRA", configError);
+        String cloudServiceId = (String) getPropertyForKey( "appconfig.cloudServiceId","APPINFRA", configError);
         ServiceDiscoveryInterface serviceDiscoveryInterface = mAppInfra.getServiceDiscovery();
         serviceDiscoveryInterface.getServiceUrlWithCountryPreference(cloudServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
