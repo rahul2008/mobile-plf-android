@@ -1,7 +1,7 @@
 package com.philips.platform.core.monitors;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
@@ -28,9 +28,12 @@ import com.philips.testing.verticals.table.OrmMomentType;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Matchers;
 import org.mockito.Mock;
+import org.mockito.stubbing.OngoingStubbing;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyListOf;
@@ -77,9 +80,6 @@ public class UpdatingMonitorTest {
     Moment momentMock;
 
     @Mock
-    Consent consentMock;
-
-    @Mock
     Settings settingsMock;
     @Mock
     DBFetchingInterface dbFetchingInterface;
@@ -119,22 +119,6 @@ public class UpdatingMonitorTest {
         updatingMonitor.onEventAsync(momentUpdateRequestmock);
         verify(momentMock).setSynced(false);
         verify(dbUpdatingInterface).updateMoment(momentMock,momentUpdateRequestmock.getDbRequestListener());
-    }
-
-    @Test
-    public void shouldDeleteUpdateAndPostMoment_whenDatabaseConsentUpdateRequestIsCalled() throws Exception {
-
-        when(consentUpdateRequestmock.getConsent()).thenReturn(consentMock);
-        updatingMonitor.onEventAsync(consentUpdateRequestmock);
-//        verify(consentMock).setSynced(false);
-    }
-
-    @Test
-    public void shouldDeleteUpdateAndPostMoment_whenConsentBackendSaveResponseIsCalled() throws Exception {
-
-        when(consentBackendSaveResponseMock.getConsent()).thenReturn(consentMock);
-        updatingMonitor.onEventAsync(consentBackendSaveResponseMock);
-//        verify(consentMock).setSynced(false);
     }
 
     @Test

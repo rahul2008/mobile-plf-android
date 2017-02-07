@@ -1,6 +1,5 @@
 package com.philips.platform.verticals;
 
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 
 /**
@@ -15,15 +14,15 @@ public class ConsentDetailImpl implements ConsentDetail {
     String version;
     String deviceIdentificationNumber;
     boolean beSynchronized;
-    Consent ormConsent;
+    ConsentDetail ormConsentDetail;
 
-    public ConsentDetailImpl(String type, String status, String version, String deviceIdentificationNumber, boolean isSynchronized, Consent consent) {
+    public ConsentDetailImpl(String type, String status, String version, String deviceIdentificationNumber, boolean isSynchronized, ConsentDetail consentDetail) {
         this.type = type;
         this.status = status;
         this.version = version;
         this.deviceIdentificationNumber = deviceIdentificationNumber;
         this.beSynchronized = isSynchronized;
-        this.ormConsent = consent;
+        this.ormConsentDetail = consentDetail;
     }
 
     @Override
@@ -61,15 +60,7 @@ public class ConsentDetailImpl implements ConsentDetail {
         return deviceIdentificationNumber;
     }
 
-    @Override
-    public void setBackEndSynchronized(boolean b) {
-        beSynchronized = b;
-    }
 
-    @Override
-    public boolean getBackEndSynchronized() {
-        return beSynchronized;
-    }
 
     @Override
     public int getId() {

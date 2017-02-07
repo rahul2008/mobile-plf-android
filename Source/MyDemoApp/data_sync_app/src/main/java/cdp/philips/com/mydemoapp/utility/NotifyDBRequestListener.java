@@ -10,9 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cdp.philips.com.mydemoapp.database.OrmTypeChecking;
-import cdp.philips.com.mydemoapp.database.table.OrmConsent;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
-import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 
 /**
  * Created by sangamesh on 18/01/17.
@@ -54,9 +53,9 @@ public class NotifyDBRequestListener {
         }
     }
 
-    public void notifySuccess(DBRequestListener dbRequestListener, ArrayList<OrmConsent> ormConsents) {
+    public void notifySuccess(DBRequestListener dbRequestListener, ArrayList<OrmConsentDetail> ormConsents) {
         if(dbRequestListener!=null) {
-            dbRequestListener.onSuccess(ormConsents.get(0));
+            dbRequestListener.onSuccess(ormConsents);
         }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){
             DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess();
         }else {
@@ -76,9 +75,9 @@ public class NotifyDBRequestListener {
         }
     }
 
-    public void notifySuccess(DBRequestListener dbRequestListener, OrmConsent ormConsent) {
+    public void notifySuccess(DBRequestListener dbRequestListener, List<OrmConsentDetail> ormConsents) {
         if(dbRequestListener!=null) {
-            dbRequestListener.onSuccess(ormConsent);
+            dbRequestListener.onSuccess(ormConsents);
         }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){
             DBChangeListener dbChangeListener=DataServicesManager.getInstance().getDbChangeListener();
             dbChangeListener.dBChangeSuccess();

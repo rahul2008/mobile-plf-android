@@ -60,7 +60,7 @@
         android:id="@+id/tv_settings" />
 
     <TextView
-        android:text="@string/consents"
+        android:text="@string/consent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

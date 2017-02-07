@@ -8,9 +8,7 @@ package com.philips.platform.core.events;
 
 
 import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.Moment;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**

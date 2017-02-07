@@ -8,7 +8,6 @@ import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.Measurement;
@@ -57,6 +56,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -108,8 +108,7 @@ public class DataServicesManagerTest {
     private MeasurementGroup measurementGroupMock;
     @Mock
     private Measurement measurementMock;
-    @Mock
-    private Consent consentMock;
+
 
     @Mock
     private MeasurementDetail measurementDetailMock;
@@ -224,7 +223,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostFetchConsentEvent_WhenFetchConsentIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.fetchConsent(dbRequestListener);
+        tracker.fetchConsentDetail(dbRequestListener);
 
         verify(eventingMock).post(any(LoadConsentsRequest.class));
     }
@@ -240,14 +239,14 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldcreateConsent_WhenConsentIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.createConsent();
+        tracker.createConsentDetail("HEIGHT",ConsentDetailStatusType.ACCEPTED, "1.0", ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
 
-//        verify(baseAppDataCreator).createConsent("fsdf");
+//        verify(baseAppDataCreator).createConsentDetail("fsdf");
     }
 
     @Test
     public void ShouldCreateConsentDetail_WhenCreateConsentDetailIsCalled() throws Exception {
-        tracker.createConsentDetail(consentMock, TEST_CONSENT_DETAIL_TYPE, ConsentDetailStatusType.ACCEPTED, "fsdfsdf");
+        tracker.createConsentDetail("HEIGHT",ConsentDetailStatusType.ACCEPTED, "1.0", ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
     }
 
     @Test
@@ -261,8 +260,8 @@ public class DataServicesManagerTest {
 /*    @Test(expected = NullPointerException.class)
     public void ShouldAddConcentDetail_WhenConsentDetailIsCreated() throws Exception {
        // tracker.initialize(null, null, null,null);
-        ConsentDetail consentDetail = baseAppDataCreator.createConsentDetail("TEMPERATURE", TEST_CONSENT_DETAIL_TYPE, "", "fsdfsdf", true, consentMock);
-        verify(consentMock).addConsentDetails(consentDetail);
+        ConsentDetail consentDetail = baseAppDataCreator.createConsentDetail("TEMPERATURE", TEST_CONSENT_DETAIL_TYPE, "", "fsdfsdf", true, consentDetailMock);
+        verify(consentDetailMock).addConsentDetails(consentDetail);
     }*/
 
     //TODO: Spoorti -- Fix it later
@@ -274,7 +273,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostSaveConsentEvent_WhenSaveConsentIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.saveConsent(consentMock,dbRequestListener);
+        tracker.saveConsentDetail(anyListOf(ConsentDetail.class),dbRequestListener);
 
         verify(eventingMock).post(any(DatabaseConsentSaveRequest.class));
     }
@@ -290,7 +289,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostUpdateCharacteristicsRequest_WhenUpdateCharacteristicsIsCalled() throws Exception {
         List<Characteristics> characteristicsList = new ArrayList<>();
-        tracker.updateCharacteristics(characteristicsList, dbRequestListener);
+       // tracker.updateCharacteristics(characteristicsList, dbRequestListener);
     }
 
     @Test
@@ -301,7 +300,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostUpdateConsentEvent_WhenUpdateConsentIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.updateConsent(consentMock,dbRequestListener);
+        tracker.updateConsentDetail(anyListOf(ConsentDetail.class),dbRequestListener);
 
         verify(eventingMock).post(any(DatabaseConsentSaveRequest.class));
     }

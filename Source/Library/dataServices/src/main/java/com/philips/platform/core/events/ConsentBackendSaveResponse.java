@@ -1,33 +1,35 @@
 package com.philips.platform.core.events;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.listeners.DBRequestListener;
+
+import java.util.List;
 
 
 public class ConsentBackendSaveResponse extends Event{
-    @Nullable
-    private final Consent consent;
+
+    private final List<ConsentDetail> consentDetailList;
 
     private final int responseCode;
 
     private final DBRequestListener dbRequestListener;
 
-    public ConsentBackendSaveResponse(@NonNull final int refernceId, @Nullable final Consent consent, final int responseCode, DBRequestListener dbRequestListener) {
-        this.consent = consent;
+    public ConsentBackendSaveResponse(List<ConsentDetail> consentDetailList, final int responseCode, DBRequestListener dbRequestListener) {
+
+        this.consentDetailList = consentDetailList;
         this.responseCode = responseCode;
         this.dbRequestListener = dbRequestListener;
     }
 
-    @Nullable
-    public Consent getConsent() {
-        return consent;
+    public List<ConsentDetail> getConsentDetailList() {
+        return consentDetailList;
     }
 
-    //TODO: Spoorti: is it required
     public int getResponseCode() {
         return responseCode;
+    }
+
+    public DBRequestListener getDbRequestListener() {
+        return dbRequestListener;
     }
 }

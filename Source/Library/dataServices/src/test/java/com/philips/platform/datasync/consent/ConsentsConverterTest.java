@@ -3,7 +3,6 @@ package com.philips.platform.datasync.consent;
 import android.content.Context;
 
 import com.philips.platform.core.BaseAppDataCreator;
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -60,29 +59,29 @@ public class ConsentsConverterTest {
 
     @Test
     public void ShouldReturnEmptyList_WhenUCoreListIsEmpty() throws Exception {
-        Consent consent = consentsConverter.convertToAppConsentDetails(new ArrayList<UCoreConsentDetail>(), "TEST_CREATOR_ID");
+        List<ConsentDetail> consentDetails = consentsConverter.convertToAppConsentDetails(new ArrayList<UCoreConsentDetail>());
 
-        assertThat(consent.getConsentDetails()).isNotNull();
+        assertThat(consentDetails).isNotNull();
     }
 
     @Test
     public void ShouldReturnUCoreConsentDetailList_WhenAppConsentDetailListIsNotNull() throws Exception {
         ArrayList<UCoreConsentDetail> list = new ArrayList<>();
-        list.add(0, new UCoreConsentDetail(TEMPERATURE, TEST_STATUS, TEST_VERSION, Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
-        list.add(1, new UCoreConsentDetail(TEMPERATURE, TEST_STATUS, TEST_VERSION, Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
+        list.add(0, new UCoreConsentDetail(TEMPERATURE, TEST_STATUS, TEST_VERSION, ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
+        list.add(1, new UCoreConsentDetail(TEMPERATURE, TEST_STATUS, TEST_VERSION, ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
 
-        Consent consent = consentsConverter.convertToAppConsentDetails(list, "TEST_CREATOR_ID");
+        List<ConsentDetail> consentDetails = consentsConverter.convertToAppConsentDetails(list);
 
-        assertThat(consent.getConsentDetails()).isNotNull();
+        assertThat(consentDetails).isNotNull();
+        assertThat(consentDetails).isNotEmpty();
         assertThat(list).isNotEmpty();
     }
 
     @Test
     public void ShouldReturnUCoreConsentDetailList_WhenAppConsentDetailListIsPassed() throws Exception {
-        Consent consent = verticalDataCreater.createConsent("TEST_CREATORID");
-        ConsentDetail consentDetail = verticalDataCreater.createConsentDetail(TEMPERATURE, TEST_STATUS, TEST_VERSION, Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER, false, consent);
+        ConsentDetail consentDetailDetail = verticalDataCreater.createConsentDetail(TEMPERATURE, TEST_STATUS, TEST_VERSION, ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
 
-        List<UCoreConsentDetail> uCoreConsentDetailList = consentsConverter.convertToUCoreConsentDetails(Collections.singletonList(consentDetail));
+        List<UCoreConsentDetail> uCoreConsentDetailList = consentsConverter.convertToUCoreConsentDetails(Collections.singletonList(consentDetailDetail));
 
         assertThat(uCoreConsentDetailList).isNotNull();
         assertThat(uCoreConsentDetailList).hasSize(1);

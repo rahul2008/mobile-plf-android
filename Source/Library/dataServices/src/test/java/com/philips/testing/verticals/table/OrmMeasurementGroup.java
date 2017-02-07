@@ -82,15 +82,4 @@ public class OrmMeasurementGroup implements MeasurementGroup, Serializable {
     public void setMeasurementGroups(Collection<? extends MeasurementGroup> groups) {
 
     }
-
-
-/*    @Override
-    public Collection<? extends OrmMeasurement> getMeasurements() {
-        return ormMeasurements;
-    }
-
-    @Override
-    public void addMeasurement(final Measurement measurement) {
-        ormMeasurements.add((OrmMeasurement) measurement);
-    }*/
 }

@@ -1,7 +1,6 @@
 package com.philips.platform.core.monitors;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SynchronisationData;
@@ -66,8 +65,6 @@ public class FetchingMonitorTest {
     @Mock
     private GetNonSynchronizedDataResponse getNonSynchronizedDataResponseMock;
 
-    @Mock
-    private Consent consentMock;
 
     @Captor
     private ArgumentCaptor<GetNonSynchronizedDataResponse> getNonSynchronizedDataResponseCaptor;
@@ -91,7 +88,7 @@ public class FetchingMonitorTest {
     @Mock
     private SynchronisationData synchronizationDataMock;
     @Mock
-    private ConsentDetail consentDetailsMock;
+    private ConsentDetail consentDetailDetailsMock;
 
     private DateTime uGrowDateTime;
 
@@ -120,8 +117,8 @@ public class FetchingMonitorTest {
         fetchingMonitor.onEventBackgroundThread(new LoadTimelineEntryRequest(dbRequestListener));
 
         verify(fetching).fetchMoments(dbRequestListener);
-//        verify(fetching).fetchConsent();
-  //      verify(fetching).fetchConsent();
+//        verify(fetching).fetchConsentDetails();
+  //      verify(fetching).fetchConsentDetails();
     //    verify(fetching).fetchNonSynchronizedMoments();
     }
 
@@ -182,25 +179,9 @@ public class FetchingMonitorTest {
     public void getNonSynchronizedMomentRequestTest() throws SQLException {
         fetchingMonitor.onEventBackgroundThread(getNonSynchronizedMomentsRequestMock);
         Map<Class, List<?>> dataToSync = new HashMap<>();
-        verify(fetching).fetchConsent(getNonSynchronizedMomentsRequestMock.getDbRequestListener());
+        verify(fetching).fetchConsents(getNonSynchronizedMomentsRequestMock.getDbRequestListener());
         verify(fetching).fetchNonSynchronizedMoments();
         eventingMock.post(new GetNonSynchronizedDataResponse(1, dataToSync));
     }
 
-
-//    private GetNonSynchronizedDataResponse getNonSynchronizedDataResponse() {
-//        fetchingMonitor.onEventBackgroundThread(getNonSynchronizedDataRequestMock);
-//
-//        verify(eventingMock).post(getNonSynchronizedDataResponseCaptor.capture());
-//
-//        return getNonSynchronizedDataResponseCaptor.getValue();
-//    }
-//
-//    private GetNonSynchronizedMomentsRequest getNonSynchronizedMomentsRequest() {
-//        fetchingMonitor.onEventBackgroundThread(getNonSynchronizedMomentsRequestMock);
-//
-//        verify(eventingMock).post(getNonSynchronizedMomentsResponseCaptor.capture());
-//
-//        return getNonSynchronizedMomentsResponseCaptor.getValue();
-//    }
 }

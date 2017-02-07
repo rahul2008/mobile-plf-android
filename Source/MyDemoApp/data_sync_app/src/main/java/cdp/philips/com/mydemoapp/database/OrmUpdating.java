@@ -10,15 +10,11 @@ import android.support.annotation.NonNull;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
-import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
-import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmDCSync;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
@@ -41,9 +37,6 @@ public class OrmUpdating {
     private final Dao<OrmMeasurementDetail, Integer> measurementDetailDao;
 
     @NonNull
-    private final Dao<OrmConsent, Integer> constentDao;
-
-    @NonNull
     private final Dao<OrmSettings, Integer> settingsDao;
 
     @NonNull
@@ -62,7 +55,7 @@ public class OrmUpdating {
                        @NonNull final Dao<OrmMomentDetail, Integer> momentDetailDao,
                        @NonNull final Dao<OrmMeasurement, Integer> measurementDao,
                        @NonNull final Dao<OrmMeasurementDetail, Integer> measurementDetailDao,
-                       @NonNull final Dao<OrmConsent, Integer> constentDao, @NonNull Dao<OrmSettings, Integer> settingsDao,
+                       @NonNull Dao<OrmSettings, Integer> settingsDao,
                        @NonNull Dao<OrmDCSync, Integer> dcSyncDao,
                        @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroup,
                        @NonNull final Dao<OrmSynchronisationData, Integer> synchronisationDataDao,
@@ -71,7 +64,6 @@ public class OrmUpdating {
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
         this.measurementDetailDao = measurementDetailDao;
-        this.constentDao = constentDao;
         this.settingsDao = settingsDao;
         this.dcSyncDao = dcSyncDao;
         this.measurementGroupDao = measurementGroup;
@@ -87,9 +79,7 @@ public class OrmUpdating {
         measurementDao.refresh(measurement);
     }
 
-    public void updateConsent(OrmConsent consent) throws SQLException{
-        constentDao.refresh(consent);
-    }
+
 
     public void refreshMeasurementDetail(OrmMeasurementDetail measurementDetail) throws SQLException {
         measurementDetailDao.refresh(measurementDetail);

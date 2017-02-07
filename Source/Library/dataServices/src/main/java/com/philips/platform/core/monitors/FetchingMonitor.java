@@ -6,7 +6,7 @@ package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
@@ -29,7 +29,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,14 +64,14 @@ public class FetchingMonitor extends EventMonitor {
         try {
             dbInterface.fetchMoments(event.getDbRequestListener());
         } catch (SQLException e) {
-            dbInterface.postError(e, event.getDbRequestListener());
+            dbInterface.postError(e,event.getDbRequestListener());
         }
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackgroundThread(LoadLastMomentRequest event) {
         try {
-            dbInterface.fetchLastMoment(event.getType(), event.getDbRequestListener());
+            dbInterface.fetchLastMoment(event.getType(),event.getDbRequestListener());
         } catch (SQLException e) {
             dbInterface.postError(e, event.getDbRequestListener());
         }
@@ -80,14 +79,14 @@ public class FetchingMonitor extends EventMonitor {
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackgroundThread(GetNonSynchronizedDataRequest event) {
-        DSLog.i("***SPO***", "In Fetching Monitor GetNonSynchronizedDataRequest");
+        DSLog.i("***SPO***","In Fetching Monitor GetNonSynchronizedDataRequest");
         try {
             Map<Class, List<?>> dataToSync = new HashMap<>();
 
-            DSLog.i("***SPO***", "In Fetching Monitor before putMomentsForSync");
+            DSLog.i("***SPO***","In Fetching Monitor before putMomentsForSync");
             dataToSync = momentsSegregator.putMomentsForSync(dataToSync);
 
-            DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse");
+            DSLog.i("***SPO***","In Fetching Monitor before sending GetNonSynchronizedDataResponse");
             dataToSync = consentsSegregator.putConsentForSync(dataToSync);
 
             DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse for UC");
@@ -98,7 +97,7 @@ public class FetchingMonitor extends EventMonitor {
 
             eventing.post(new GetNonSynchronizedDataResponse(event.getEventId(), dataToSync));
         } catch (SQLException e) {
-            DSLog.i("***SPO***", "In Fetching Monitor before GetNonSynchronizedDataRequest error");
+            DSLog.i("***SPO***","In Fetching Monitor before GetNonSynchronizedDataRequest error");
             dbInterface.postError(e, null);
         }
     }
@@ -107,9 +106,9 @@ public class FetchingMonitor extends EventMonitor {
     public void onEventBackgroundThread(LoadMomentsRequest event) {
         try {
             if (event.hasType()) {
-                dbInterface.fetchMoments(event.getDbRequestListener(), event.getTypes());
+                dbInterface.fetchMoments(event.getDbRequestListener(),event.getTypes());
             } else if (event.hasID()) {
-                dbInterface.fetchMomentById(event.getMomentID(), event.getDbRequestListener());
+                dbInterface.fetchMomentById(event.getMomentID(),event.getDbRequestListener());
             } else {
                 dbInterface.fetchMoments(event.getDbRequestListener());
             }
@@ -129,14 +128,14 @@ public class FetchingMonitor extends EventMonitor {
 
     @Subscribe(sticky = true, threadMode = ThreadMode.BACKGROUND)
     public void onEventBackgroundThread(GetNonSynchronizedMomentsRequest event) {
-        DSLog.i("**SPO**", "in Fetching Monitor GetNonSynchronizedMomentsRequest");
+        DSLog.i("**SPO**","in Fetching Monitor GetNonSynchronizedMomentsRequest");
         try {
-            List<? extends Moment> ormMomentList = (List<? extends Moment>) dbInterface.fetchNonSynchronizedMoments();
-            Consent consent = dbInterface.fetchConsent(event.getDbRequestListener());
-            if (consent == null) {
-                eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList, null));
-            } else {
-                eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList, new ArrayList(consent.getConsentDetails())));
+            List<? extends Moment> ormMomentList = (List<? extends Moment>)dbInterface.fetchNonSynchronizedMoments();
+             List<? extends ConsentDetail> consentDetails= (List<? extends ConsentDetail>) dbInterface.fetchNonSyncConsents();
+            if(consentDetails==null){
+                eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList,null));
+            }else{
+                eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList, consentDetails));
             }
 
         } catch (SQLException e) {

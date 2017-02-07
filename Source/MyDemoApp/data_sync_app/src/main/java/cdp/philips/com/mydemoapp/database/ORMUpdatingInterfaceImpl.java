@@ -1,7 +1,7 @@
 package cdp.philips.com.mydemoapp.database;
 
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
-import cdp.philips.com.mydemoapp.database.table.OrmConsent;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
@@ -79,31 +79,22 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
 
 
     @Override
-    public boolean updateConsent(Consent consent, DBRequestListener dbRequestListener) throws SQLException {
-        OrmConsent ormConsent = null;
-        try {
-            ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
-            OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
-            if (consentInDatabase == null) {
+    public boolean updateConsent(final List<? extends ConsentDetail> consents, DBRequestListener dbRequestListener) throws SQLException {
+
+        deleting.deleteConsents();
+        for(ConsentDetail consentDetail :consents){
+            try {
+                OrmConsentDetail ormConsent = OrmTypeChecking.checkOrmType(consentDetail, OrmConsentDetail.class);
                 saving.saveConsent(ormConsent);
-                notifyDBRequestListener.notifySuccess(dbRequestListener, ormConsent);
-                return true;
-            } else {
-                ormConsent = fetching.getModifiedConsent(ormConsent, consentInDatabase);
-                ormConsent.setId(consentInDatabase.getId());
-                for (OrmConsent ormConsentInDB : fetching.fetchAllConsent()) {
-                    deleting.deleteConsent(ormConsentInDB);
-                }
-                saving.saveConsent(ormConsent);
-                notifyDBRequestListener.notifySuccess(dbRequestListener, ormConsent);
-                return true;
+            } catch (OrmTypeChecking.OrmTypeException e) {
+                e.printStackTrace();
+                notifyDBRequestListener.notifyFailure(e,dbRequestListener);
+                return false;
             }
 
-        } catch (OrmTypeChecking.OrmTypeException e) {
-            DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
-            notifyDBRequestListener.notifyOrmTypeCheckingFailure(dbRequestListener, e, "Callback Not registered");
-            return false;
         }
+        notifyDBRequestListener.notifySuccess(consents,dbRequestListener);
+        return true;
     }
 
     @Override

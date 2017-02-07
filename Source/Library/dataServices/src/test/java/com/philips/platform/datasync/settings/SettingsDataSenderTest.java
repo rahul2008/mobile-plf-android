@@ -1,16 +1,12 @@
 package com.philips.platform.datasync.settings;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.events.ConsentBackendListSaveRequest;
-import com.philips.platform.core.events.ConsentBackendListSaveResponse;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.events.SettingsBackendSaveRequest;
 import com.philips.platform.core.events.SettingsBackendSaveResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasync.consent.ConsentDataSender;
 import com.philips.platform.datasync.synchronisation.DataSender;
 
 import org.junit.Before;
@@ -22,7 +18,6 @@ import org.mockito.Mock;
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;

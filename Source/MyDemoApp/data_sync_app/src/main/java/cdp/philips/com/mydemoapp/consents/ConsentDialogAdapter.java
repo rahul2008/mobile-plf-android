@@ -8,15 +8,13 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
-import com.philips.platform.core.trackers.DataServicesManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cdp.philips.com.mydemoapp.R;
-import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -26,7 +24,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context mContext;
     private ArrayList<? extends ConsentDetail> consentDetails;
-    private Consent mConsent;
+   // private ConsentDetail mConsent;
     private final ConsentDialogPresenter consentDialogPresenter;
 
     public ConsentDialogAdapter(final Context context, ArrayList<? extends ConsentDetail> consentDetails, ConsentDialogPresenter consentDialogPresenter) {
@@ -59,7 +57,7 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
                     } else {
                         consentDetails.get(position).setStatus(ConsentDetailStatusType.REFUSED.name());
                     }
-                    consentDetails.get(position).setBackEndSynchronized(false);
+
                 }
             });
         }
@@ -72,7 +70,7 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public void updateConsent() {
-        consentDialogPresenter.updateConsent(mConsent);
+        consentDialogPresenter.updateConsent((List<ConsentDetail>) consentDetails);
     }
 
 
@@ -86,9 +84,9 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
 
-    public void setData(OrmConsent consent) {
-        this.consentDetails = new ArrayList(consent.getConsentDetails());
-        this.mConsent = consent;
+    public void setData(ArrayList<? extends ConsentDetail> consentDetails) {
+        this.consentDetails = consentDetails; //new ArrayList(consent.getConsentDetails());
+       // this.mConsent = consent;
     }
 
 }

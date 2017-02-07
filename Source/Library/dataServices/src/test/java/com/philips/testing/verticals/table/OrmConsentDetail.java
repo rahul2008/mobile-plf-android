@@ -20,18 +20,15 @@ public class OrmConsentDetail implements ConsentDetail, Serializable {
 
     private String status;
 
-    private boolean beSynchronized;
-
     private String deviceIdentificationNumber;
 
-    private OrmConsent ormConsent;
+    private OrmConsentDetail ormConsent;
 
-    public OrmConsentDetail(final String type, final String status, final String version, final String deviceIdentificationNumber, final OrmConsent ormConsent, boolean beSynchronized) {
+    public OrmConsentDetail(final String type, final String status, final String version, final String deviceIdentificationNumber) {
         this.type = type;
         this.status = status;
         this.version = version;
         this.deviceIdentificationNumber = deviceIdentificationNumber;
-        this.beSynchronized = beSynchronized;
         this.ormConsent = ormConsent;
     }
 
@@ -39,11 +36,6 @@ public class OrmConsentDetail implements ConsentDetail, Serializable {
     public int getId() {
         return id;
     }
-
-   /* @Override
-    public ConsentDetailType getTableType() {
-        return type.getTableType();
-    }*/
 
     @Override
     public String getType() {
@@ -71,15 +63,6 @@ public class OrmConsentDetail implements ConsentDetail, Serializable {
         return deviceIdentificationNumber;
     }
 
-    @Override
-    public void setBackEndSynchronized(boolean backEndSynchronized) {
-        this.beSynchronized = backEndSynchronized;
-    }
-
-    @Override
-    public boolean getBackEndSynchronized() {
-        return this.beSynchronized;
-    }
 
     @Override
     public void setVersion(final String version) {

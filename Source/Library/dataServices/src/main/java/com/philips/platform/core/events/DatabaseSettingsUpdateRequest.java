@@ -1,11 +1,8 @@
 package com.philips.platform.core.events;
 
 
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.listeners.DBRequestListener;
-
-import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

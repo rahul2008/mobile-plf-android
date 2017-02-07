@@ -1,7 +1,7 @@
 package com.philips.platform.core.monitors;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
@@ -22,6 +22,9 @@ import org.mockito.Mock;
 import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyList;
+import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -56,13 +59,10 @@ public class SavingMonitorTest {
     private DBDeletingInterface deletingMock;
 
     @Mock
-    private Consent consentMock;
-
-    @Mock
     private Moment moment;
 
     @Mock
-    private Consent consent;
+    ConsentDetail consentDetailMock;
 
     private SavingMonitor savingMonitor;
 
@@ -105,15 +105,15 @@ public class SavingMonitorTest {
     @Test
     public void ShouldSaveConsent_WhenSaveConsentRequestIsReceived() throws Exception {
 
-        savingMonitor.onEventAsync(new DatabaseConsentSaveRequest(consent,true, dbRequestListener));
+        savingMonitor.onEventAsync(new DatabaseConsentSaveRequest(anyListOf(ConsentDetail.class),dbRequestListener));
 
-        verify(savingMock).saveConsent(consent,dbRequestListener);
+        verify(savingMock).saveConsentDetails(anyListOf(ConsentDetail.class),dbRequestListener);
     }
 
     @Test
     public void ShouldPostSuccessEvent_WhenConsentIsProcessed() throws Exception {
 
-        savingMonitor.onEventAsync(new DatabaseConsentSaveRequest(consent,true, dbRequestListener));
+        savingMonitor.onEventAsync(new DatabaseConsentSaveRequest(anyListOf(ConsentDetail.class),dbRequestListener));
 
         /*DatabaseConsentSaveResponse response = captureEvent(DatabaseConsentSaveResponse.class, eventingMock, 1);
         assertThat(response.isSaved()).isTrue();*/

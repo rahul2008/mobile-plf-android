@@ -1,7 +1,9 @@
 package com.philips.platform.core.events;
 
 
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
+
+import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -9,19 +11,18 @@ import com.philips.platform.core.datatypes.Consent;
  */
 public class ConsentBackendSaveRequest extends Event {
 
-    private Consent consent;
-
+    private final List<ConsentDetail> consentDetailList;
     private RequestType requestType = RequestType.SAVE;
 
     public enum RequestType {SAVE, UPDATE};
 
-    public ConsentBackendSaveRequest(RequestType requestType, Consent consent) {
+    public ConsentBackendSaveRequest(List<ConsentDetail> consentDetailList, RequestType requestType) {
+        this.consentDetailList = consentDetailList;
         this.requestType = requestType;
-        this.consent = consent;
     }
 
-    public Consent getConsent() {
-        return consent;
+    public List<ConsentDetail> getConsentDetailList() {
+        return consentDetailList;
     }
 
     public RequestType getRequestType() {

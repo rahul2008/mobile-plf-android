@@ -1,10 +1,8 @@
 package com.philips.platform.datasync.consent;
 
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.testing.verticals.table.OrmConsent;
 
 import org.junit.Before;
 import org.junit.Test;
