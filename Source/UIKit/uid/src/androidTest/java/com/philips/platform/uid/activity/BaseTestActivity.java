@@ -97,6 +97,10 @@ public class BaseTestActivity extends AppCompatActivity implements DelayerCallba
         return true;
     }
 
+    private void sendMessage() {
+        MessageDelayer.sendMessage("Hello", this, mIdlingResource);
+    }
+
     @Override
     public boolean onPrepareOptionsMenu(final Menu menu) {
         return true;
@@ -113,10 +117,6 @@ public class BaseTestActivity extends AppCompatActivity implements DelayerCallba
             mIdlingResource = new UidIdlingResource();
         }
         return mIdlingResource;
-    }
-
-    @Override
-    protected void onSaveInstanceState(final Bundle outState) {
     }
 
     @Override
