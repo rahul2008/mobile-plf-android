@@ -180,7 +180,6 @@ public class NavigationBarTest {
         setupActivity(NavigationColor.VERY_LIGHT.ordinal());
         int fontSize = (int) resources.getDimension(com.philips.platform.uid.test.R.dimen.navigation_menu_text_size);
         //Added wait because test is failing could be it takes time to inflate menu
-//        UIDTestUtils.waitFor(resources, 600);
         getOptionsMenuText().check(matches(TextViewPropertiesMatchers.isSameFontSize(fontSize)));
     }
 
@@ -190,7 +189,6 @@ public class NavigationBarTest {
 
         int iconSize = (int) resources.getDimension(com.philips.platform.uid.test.R.dimen.navigation_icon_size);
 
-//        UIDTestUtils.waitFor(resources, 600);
         getOptionsMenuIcon().check(matches(FunctionDrawableMatchers.isSameHeight(iconSize)));
         getOptionsMenuIcon().check(matches(FunctionDrawableMatchers.isSameWidth(iconSize)));
     }

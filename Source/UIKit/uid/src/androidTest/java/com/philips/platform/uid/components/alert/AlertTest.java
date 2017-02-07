@@ -17,7 +17,6 @@ import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -101,7 +100,6 @@ public class AlertTest extends BaseTest {
         getAlertHeader().check(matches(ViewPropertiesMatchers.isSameRightMargin(expectedRightMargin)));
     }
 
-    @Ignore
     @Test
     public void verifyAlertHeaderLeftMargin() {
 
@@ -127,7 +125,6 @@ public class AlertTest extends BaseTest {
         getAlertContent().check(matches(TextViewPropertiesMatchers.isSameLineSpacing(expectedTextLeading)));
     }
 
-    @Ignore
     @Test
     public void verifyAlertTitleTextLeading() {
 
@@ -156,7 +153,6 @@ public class AlertTest extends BaseTest {
         getAlertContent().check(matches(ViewPropertiesMatchers.isSameRightMargin(expectedRightMargin)));
     }
 
-    @Ignore
     @Test
     public void verifyAlertContentBottomMargin() {
 
