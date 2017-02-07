@@ -2,6 +2,8 @@ Release notes for Android-CloudController
 
 Version NEXT
 -------------
+### New features:
+* Updated ICPClient to v7.2.1_A.2
 
 Version 5.0.0
 -------------
