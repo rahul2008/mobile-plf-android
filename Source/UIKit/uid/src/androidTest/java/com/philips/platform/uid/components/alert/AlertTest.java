@@ -21,7 +21,6 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -43,7 +42,7 @@ public class AlertTest extends BaseTest {
         activity = mActivityTestRule.launchActivity(getLaunchIntent(0));
         activity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
         activity.switchFragment(new DialogTestFragment());
-        testResources = getInstrumentation().getContext().getResources();
+        testResources = activity.getResources();
     }
 
     /*****************************************
