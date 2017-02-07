@@ -9,13 +9,11 @@ import com.philips.platform.uid.components.BaseTest;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 public class AlertNoTitleTest extends BaseTest {
     @Rule
@@ -29,7 +27,6 @@ public class AlertNoTitleTest extends BaseTest {
         activity.switchFragment(DialogTestFragment.create());
     }
 
-    @Ignore
     @Test
     public void verifyContentTopMarginWithNoTitle() {
         int expectedTopMargin = activity.getResources().getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.alert_content_top_margin_when_no_title);
