@@ -36,7 +36,7 @@ dependencies {
 
 
     compile project(':uAppFwLib')
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.5.0-SNAPSHOT', ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.5.4-SNAPSHOT', ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
