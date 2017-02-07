@@ -350,25 +350,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
             }
         });
 
-        ///////////////////////
-       /* URL url = null;
-        try {
-            url = new URL("https://hashim-rest.herokuapp.com/test/appconfig/acc/v1");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        SharedPreferences sharedPreferences = getCloudConfigSharedPreferences();
-        if (null != sharedPreferences && sharedPreferences.contains("cloudConfigUrl")) {
-            final String savedURL = sharedPreferences.getString("cloudConfigUrl", null);
-            if (url.toString().trim().equalsIgnoreCase(savedURL)) { // cloud config url has not changed
-                onRefreshListener.onSuccess(OnRefreshListener.REFRESH_RESULT.NO_REFRESH_REQUIRED);
-            } else { // cloud config url has  changed
-                clearCloudConfigFile(); // clear old cloud config data
-                fetchCloudConfig(url.toString(), onRefreshListener); // workaround
-            }
-        } else {
-            fetchCloudConfig(url.toString(), onRefreshListener); // workaround
-        }*/
+       
 
     }
     void fetchCloudConfig(final String url, final OnRefreshListener onRefreshListener) {
@@ -376,14 +358,14 @@ public class AppConfigurationManager implements AppConfigurationInterface {
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Log.v("fetchCloudConfig",response.toString());
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "fetchCloudConfig", response.toString());
                     saveCloudConfig(response,url);
                     onRefreshListener.onSuccess(OnRefreshListener.REFRESH_RESULT.REFRESHED_FROM_SERVER);
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.v("fetchCloudConfig",error.toString());
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "fetchCloudConfig", error.toString());
                     onRefreshListener.onError(AppConfigurationError.AppConfigErrorEnum.ServerError,error.toString());
                 }
             }, null, null, null);
