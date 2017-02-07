@@ -1112,4 +1112,37 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     public void testisSuccess() {
         assertTrue(aisdResponse.isSuccess());
     }
+
+    public void testdownloadPlatformService() {
+        try {
+            method = ServiceDiscoveryManager.class.getDeclaredMethod("downloadPlatformService");
+            method.setAccessible(true);
+            method.invoke(mServiceDiscoveryManager);
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void testdownloadPropositionService(){
+        try {
+            method = ServiceDiscoveryManager.class.getDeclaredMethod("downloadPropositionService");
+            method.setAccessible(true);
+            method.invoke(mServiceDiscoveryManager);
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void testprocessRequest() {
+        String url = "https://www.philips.com/api/v1/discovery/b2c/77001?locale=en_IN&tags=apps%2b%2benv%2bdev&country=IN";
+        ServiceDiscovery service = new ServiceDiscovery();
+        try {
+            method = ServiceDiscoveryManager.class.getDeclaredMethod("processRequest",String.class,
+                    ServiceDiscovery.class , ServiceDiscoveryManager.AISDURLType.class);
+            method.setAccessible(true);
+            method.invoke(url,service, ServiceDiscoveryManager.AISDURLType.AISDURLTypeProposition);
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
 }

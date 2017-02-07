@@ -228,7 +228,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             if (urlBuild != null) {
                 service = mRequestItemManager.execute(urlBuild, aisdurlType);
                 if (countryCode == null && countryCodeSource == null) {
-                    countryCodeSource= OnGetHomeCountryListener.SOURCE.GEOIP;
+                    countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
                     saveToSecureStore(service.getCountry(), COUNTRY);
                     saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
                 }
