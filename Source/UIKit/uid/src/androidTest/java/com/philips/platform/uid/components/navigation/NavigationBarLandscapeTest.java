@@ -69,6 +69,7 @@ public class NavigationBarLandscapeTest extends BaseTest {
         getTitle().check(matches(TextViewPropertiesMatchers.isSameLineSpacing(linespacing)));
     }
 
+    @Ignore
     @Test
     public void verifyTitleTextSizeInLandscape() throws Exception {
         setupLandscapeModeActivity();
