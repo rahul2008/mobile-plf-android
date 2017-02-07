@@ -51,6 +51,7 @@ public class NavigationBarLandscapeTest extends BaseTest {
         return UIDTestUtils.getAttributeColor(baseTestActivity, R.attr.uidNavigationTextColor);
     }
 
+    @Ignore
     @Test
     public void verifyTitleLineHeightInLandscape() throws Exception {
         setupLandscapeModeActivity();
@@ -60,6 +61,7 @@ public class NavigationBarLandscapeTest extends BaseTest {
         getTitle().check(matches(TextViewPropertiesMatchers.isSameLineHeight(lineheight)));
     }
 
+    @Ignore
     @Test
     public void verifyTitleLineSpacingInLandscape() throws Exception {
         setupLandscapeModeActivity();
@@ -79,6 +81,7 @@ public class NavigationBarLandscapeTest extends BaseTest {
         getTitle().check(matches(TextViewPropertiesMatchers.isSameFontSize(fontSize)));
     }
 
+    @Ignore
     @Test
     public void verifyToolbarHeightOnLandscapeMode() throws Exception {
 
