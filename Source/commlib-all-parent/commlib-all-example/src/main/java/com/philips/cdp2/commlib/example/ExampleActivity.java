@@ -41,6 +41,8 @@ import org.joda.time.format.ISODateTimeFormat;
 
 import java.util.Random;
 
+import static java.lang.System.currentTimeMillis;
+
 public class ExampleActivity extends AppCompatActivity {
 
     private static final String TAG = "ExampleActivity";
@@ -48,7 +50,7 @@ public class ExampleActivity extends AppCompatActivity {
     private static final int ACCESS_COARSE_LOCATION_REQUEST_CODE = 0x1;
 
     private static final String PROPERTY_DATETIME = "datetime";
-    private static final String DATE_OUTPUT_FORMAT = "dd MMM YYYY";
+    private final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm:ss");
 
     private TextView txtState;
     private TextView txtResult;
@@ -90,7 +92,7 @@ public class ExampleActivity extends AppCompatActivity {
                     bleReferenceAppliance.getTimePort().reloadProperties();
                     break;
                 case R.id.btnSetTime:
-                    DateTime dateTime = new DateTime(System.currentTimeMillis() + new Random().nextInt());
+                    DateTime dateTime = new DateTime(currentTimeMillis() + new Random().nextInt());
                     DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
                     String timestamp = dateTime.toString(fmt);
 
@@ -276,9 +278,12 @@ public class ExampleActivity extends AppCompatActivity {
 
             @Override
             public void onPortUpdate(TimePort timePort) {
-                DateTime dt = new DateTime(timePort.getPortProperties().datetime);
-                DateTimeFormatter fmt = DateTimeFormat.forPattern("DD-MM-YYYY HH:mm:ss");
-                String dateTimeString = fmt.print(dt);
+                final String datetime = timePort.getPortProperties().datetime;
+                if (datetime == null) {
+                    return;
+                }
+                DateTime dt = new DateTime(datetime);
+                String dateTimeString = DATETIME_FORMATTER.print(dt);
 
                 updateStateAndResult(getString(R.string.lblStateIdle), dateTimeString);
             }

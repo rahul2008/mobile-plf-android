@@ -19,11 +19,14 @@ import com.philips.pins.shinelib.SHNDevice;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import static com.philips.cdp.dicommclient.util.GsonProvider.EMPTY_JSON_OBJECT_STRING;
+import static java.lang.System.currentTimeMillis;
 
 /**
  * The type BleCommunicationStrategy.
@@ -31,9 +34,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class BleCommunicationStrategy extends CommunicationStrategy {
 
     @NonNull
-    private final String mCppId;
+    private final String cppId;
     @NonNull
-    private final BleDeviceCache mDeviceCache;
+    private final BleDeviceCache deviceCache;
+    private final int subscriptionPollingInterval;
     private final ScheduledThreadPoolExecutor requestExecutor;
 
     private AtomicBoolean disconnectAfterRequest = new AtomicBoolean(true);
@@ -67,72 +71,66 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
         }
     }
 
-    private class Subscription {
+    private class Subscription implements Runnable {
 
         private static final int POLLING_INTERVAL = 2000;
 
         @NonNull
-        private final String portName;
-        private final int productId;
-        private final int timeToLive;
+        private final PortParameters portParameters;
+        @NonNull
         private final ResponseHandler responseHandler;
-        private ScheduledExecutorService executor;
+        private final long endTime;
+        @NonNull
+        private ScheduledFuture<?> future;
 
-        Subscription(@NonNull String portName, final int productId, final int timeToLive, final ResponseHandler responseHandler) {
-            this.portName = portName;
-            this.productId = productId;
-            this.timeToLive = timeToLive;
+        Subscription(@NonNull ScheduledExecutorService executor, @NonNull PortParameters portParameters, final int timeToLiveMillis, final @NonNull ResponseHandler responseHandler) {
+            this.portParameters = portParameters;
+            this.endTime = currentTimeMillis() + timeToLiveMillis;
             this.responseHandler = responseHandler;
+
+            this.future = executor.scheduleWithFixedDelay(this, 0, POLLING_INTERVAL, TimeUnit.MILLISECONDS);
         }
 
-        void start() {
-            this.executor = Executors.newSingleThreadScheduledExecutor();
-            this.executor.scheduleAtFixedRate(new Runnable() {
-                @Override
-                public void run() {
-                    getProperties(portName, productId, responseHandler);
-                }
-            }, 0, POLLING_INTERVAL, TimeUnit.MILLISECONDS);
-
-            // Stop polling after TTL elapsed
-            Executors.newSingleThreadScheduledExecutor().schedule(new Runnable() {
-                @Override
-                public void run() {
-                    cancel();
-                }
-            }, timeToLive, TimeUnit.SECONDS);
-        }
-
-        void cancel() {
-            if (this.executor == null) {
-                return;
+        @Override
+        public void run() {
+            if (currentTimeMillis() > endTime) {
+                cancel();
+            } else {
+                getProperties(portParameters.portName, portParameters.productId, responseHandler);
             }
-            this.executor.shutdown();
+        }
+
+        public void cancel() {
+            future.cancel(false);
         }
     }
 
     /**
-     * Instantiates a new BleCommunicationStrategy.
+     * Instantiates a new Ble communication strategy with a sensible default subscription polling interval value.
      *
      * @param cppId       the cpp id
      * @param deviceCache the device cache
      */
     public BleCommunicationStrategy(@NonNull String cppId, @NonNull BleDeviceCache deviceCache) {
-        mCppId = cppId;
-        mDeviceCache = deviceCache;
+        this(cppId, deviceCache, 2000);
+    }
 
-        requestExecutor = new ScheduledThreadPoolExecutor(1);
+    public BleCommunicationStrategy(@NonNull String cppId, @NonNull BleDeviceCache deviceCache, final int subscriptionPollingInterval) {
+        this.cppId = cppId;
+        this.deviceCache = deviceCache;
+        this.subscriptionPollingInterval = subscriptionPollingInterval;
+        this.requestExecutor = new ScheduledThreadPoolExecutor(1);
     }
 
     @Override
     public void getProperties(final String portName, final int productId, final ResponseHandler responseHandler) {
-        final BleRequest request = new BleGetRequest(mDeviceCache, mCppId, portName, productId, responseHandler, disconnectAfterRequest);
+        final BleRequest request = new BleGetRequest(deviceCache, cppId, portName, productId, responseHandler, disconnectAfterRequest);
         dispatchRequest(request);
     }
 
     @Override
     public void putProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
-        final BleRequest request = new BlePutRequest(mDeviceCache, mCppId, portName, productId, dataMap, responseHandler, disconnectAfterRequest);
+        final BleRequest request = new BlePutRequest(deviceCache, cppId, portName, productId, dataMap, responseHandler, disconnectAfterRequest);
         dispatchRequest(request);
     }
 
@@ -147,14 +145,14 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     @Override
     public synchronized void subscribe(final String portName, final int productId, final int subscriptionTtl, final ResponseHandler responseHandler) {
         PortParameters portParameters = new PortParameters(portName, productId);
-        Subscription subscription = new Subscription(portName, productId, subscriptionTtl, responseHandler);
 
-        if (this.subscriptionsCache.put(portParameters, subscription) == null) {
-            subscription.start();
-
-            responseHandler.onSuccess(null);
+        if (this.subscriptionsCache.containsKey(portParameters)) {
+            responseHandler.onError(Error.PROPERTY_ALREADY_EXISTS, EMPTY_JSON_OBJECT_STRING);
         } else {
-            responseHandler.onError(Error.PROPERTY_ALREADY_EXISTS, null);
+            Subscription subscription = new Subscription(this.requestExecutor, portParameters, subscriptionTtl * 1000, responseHandler);
+            this.subscriptionsCache.put(portParameters, subscription);
+
+            responseHandler.onSuccess(EMPTY_JSON_OBJECT_STRING);
         }
     }
 
@@ -164,18 +162,18 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
         Subscription subscription = this.subscriptionsCache.get(portParameters);
 
         if (subscription == null) {
-            responseHandler.onError(Error.NOT_SUBSCRIBED, null);
+            responseHandler.onError(Error.NOT_SUBSCRIBED, EMPTY_JSON_OBJECT_STRING);
         } else {
             subscription.cancel();
-            this.subscriptionsCache.remove(subscription);
+            this.subscriptionsCache.remove(portParameters);
 
-            responseHandler.onSuccess(null);
+            responseHandler.onSuccess(EMPTY_JSON_OBJECT_STRING);
         }
     }
 
     @Override
     public boolean isAvailable() {
-        return mDeviceCache.getDeviceMap().containsKey(mCppId);
+        return deviceCache.getDeviceMap().containsKey(cppId);
     }
 
     /**
@@ -186,7 +184,7 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     @Override
     public synchronized void enableCommunication(SubscriptionEventListener subscriptionEventListener) {
         if (isAvailable()) {
-            SHNDevice device = mDeviceCache.getDeviceMap().get(mCppId);
+            SHNDevice device = deviceCache.getDeviceMap().get(cppId);
             device.connect();
         }
         disconnectAfterRequest.set(false);
@@ -201,7 +199,7 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     @Override
     public synchronized void disableCommunication() {
         if (isAvailable() && requestExecutor.getQueue().isEmpty() && requestExecutor.getActiveCount() == 0) {
-            SHNDevice device = mDeviceCache.getDeviceMap().get(mCppId);
+            SHNDevice device = deviceCache.getDeviceMap().get(cppId);
             device.disconnect();
         }
         disconnectAfterRequest.set(true);
