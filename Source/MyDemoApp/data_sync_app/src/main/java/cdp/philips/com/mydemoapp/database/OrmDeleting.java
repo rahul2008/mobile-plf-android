@@ -95,6 +95,7 @@ public class OrmDeleting {
         synchronisationDataDao.executeRawNoArgs("DELETE FROM `ormsynchronisationdata`");
         consentDetailDao.executeRawNoArgs("DELETE FROM `ormconsentdetail`");
         characteristicsDao.executeRawNoArgs("DELETE FROM `ormcharacteristics`");
+        settingsDao.executeRawNoArgs("DELETE FROM `ormsettings`");
     }
 
     public void ormDeleteMoment(@NonNull final OrmMoment moment) throws SQLException {
