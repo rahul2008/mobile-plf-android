@@ -29,7 +29,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uid.test.R.color.Gray65;
 import static com.philips.platform.uid.test.R.color.Gray75;
 
-@Ignore
 public class AlertTest extends BaseTest {
 
     private static final String NOTITLE = "NOTITLE";
@@ -156,6 +155,7 @@ public class AlertTest extends BaseTest {
         getAlertContent().check(matches(ViewPropertiesMatchers.isSameRightMargin(expectedRightMargin)));
     }
 
+    @Ignore
     @Test
     public void verifyAlertContentBottomMargin() {
 
