@@ -81,7 +81,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     @Override
     public boolean updateConsent(final List<? extends ConsentDetail> consents, DBRequestListener dbRequestListener) throws SQLException {
 
-        deleting.deleteConsents();
+        deleting.deleteAllConsentDetails();
         for(ConsentDetail consentDetail :consents){
             try {
                 OrmConsentDetail ormConsent = OrmTypeChecking.checkOrmType(consentDetail, OrmConsentDetail.class);

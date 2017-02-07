@@ -106,7 +106,6 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
     @Override
     public List<?> fetchConsentDetails() throws SQLException {
-
         QueryBuilder<OrmConsentDetail, Integer> queryBuilder = consentDetailsDao.queryBuilder();
         List<OrmConsentDetail> ormConsents = consentDetailsDao.query(queryBuilder.prepare());
         return ormConsents;

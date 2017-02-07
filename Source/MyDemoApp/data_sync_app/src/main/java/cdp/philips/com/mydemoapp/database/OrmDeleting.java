@@ -106,6 +106,10 @@ public class OrmDeleting {
         synchronisationDataDao.executeRawNoArgs("DELETE FROM `ormsynchronisationdata`");
     }
 
+    public void deleteAllConsentDetails() throws  SQLException{
+        consentDetailDao.executeRawNoArgs("DELETE FROM `ormconsentdetail`");
+    }
+
     public void ormDeleteMoment(@NonNull final OrmMoment moment) throws SQLException {
         deleteMomentDetails(moment);
         deleteMeasurementGroups(moment);
@@ -207,8 +211,8 @@ public class OrmDeleting {
 
 
     public void deleteConsents() throws SQLException {
-        DeleteBuilder<OrmConsentDetail, Integer> ormConsentDetailDao = consentDetailDao.deleteBuilder();
-        ormConsentDetailDao.delete();
+        DeleteBuilder<OrmConsentDetail, Integer> ormConsentDetailDeleteBuilder = consentDetailDao.deleteBuilder();
+        ormConsentDetailDeleteBuilder.delete();
     }
 
     public void deleteCharacteristics() throws SQLException{

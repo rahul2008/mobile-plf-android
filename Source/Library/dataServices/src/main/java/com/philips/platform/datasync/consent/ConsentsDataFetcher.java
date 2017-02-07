@@ -98,26 +98,24 @@ public class ConsentsDataFetcher extends DataFetcher {
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(GetNonSynchronizedMomentsResponse response) {
         List<? extends ConsentDetail> nonSynchronizedConsent = response.getConsentDetails();
-        setConsentDetails((List<ConsentDetail>) nonSynchronizedConsent);
         if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
-            getConsent(new ConsentBackendGetRequest(1, consentDetails));
+            getConsent(new ArrayList<>(nonSynchronizedConsent));
         }
     }
 
-    public void getConsent(ConsentBackendGetRequest event) {
+    public void getConsent(List<ConsentDetail> consentDetails) {
 
         if (isUserInvalid()) {
-            postError(event.getEventId(), getNonLoggedInError());
+            postError(1, getNonLoggedInError());
             return;
         }
-        if (event.getConsentDetails() == null || uCoreAccessProvider == null) {
+        if (consentDetails == null || consentDetails.size()==0 || uCoreAccessProvider == null) {
             return;
         }
 
         ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
         try {
 
-            List<ConsentDetail> consentDetails = event.getConsentDetails();
             ArrayList<String> consentTypes = new ArrayList<>();
             ArrayList<String> deviceIdentificationList = new ArrayList<>();
             ArrayList<String> documentVersionList = new ArrayList<>();

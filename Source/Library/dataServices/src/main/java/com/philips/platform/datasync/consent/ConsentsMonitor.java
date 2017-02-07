@@ -60,7 +60,7 @@ public class ConsentsMonitor extends EventMonitor {
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(ConsentBackendGetRequest event) {
-        consentsDataFetcher.getConsent(event);
+        consentsDataFetcher.getConsent(event.getConsentDetails());
     }
 
 

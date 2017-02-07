@@ -177,12 +177,6 @@ public class OrmSaving {
         }
     }
 
-    private void assureConsentDetailsAreSaved(Collection<? extends OrmConsentDetail> consentDetails) throws SQLException {
-        for (OrmConsentDetail consentDetail : consentDetails) {
-            saveConsent(consentDetail);
-        }
-    }
-
     public void saveConsent(OrmConsentDetail consentDetail) throws SQLException {
         consentDetailsDao.createOrUpdate(consentDetail);
     }
