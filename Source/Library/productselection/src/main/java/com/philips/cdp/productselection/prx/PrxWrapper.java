@@ -48,9 +48,9 @@ public class PrxWrapper {
         this.mLocale = locale;
         this.mCatalogCode = catalog;
 
-        PILLocaleManager localeManager = new PILLocaleManager(mContext);
-        String[] locales = mLocale.split("_");
-        localeManager.setInputLocale(locales[0], locales[1]);
+        //PILLocaleManager localeManager = new PILLocaleManager(mContext);
+        //String[] locales = mLocale.split("_");
+        //localeManager.setInputLocale(locales[0], locales[1]);
 
     }
 
