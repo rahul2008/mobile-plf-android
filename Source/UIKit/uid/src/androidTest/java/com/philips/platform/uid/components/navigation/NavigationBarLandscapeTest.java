@@ -44,7 +44,6 @@ public class NavigationBarLandscapeTest extends BaseTest {
         resources = baseTestActivity.getResources();
 
         baseTestActivity.switchFragment(new NavigationbarFragment());
-        registerIdlingResources(baseTestActivity);
     }
 
     private int getNavigationTextExpectedFromThemeColor() {

@@ -25,7 +25,7 @@ public class DialogTestFragment extends Fragment implements View.OnClickListener
                         setPositiveButton("Positive", this).
                         setNegativeButton("Negative", this);
         final Bundle arguments = getArguments();
-        if (arguments == null ) {
+        if (arguments == null) {
             builder.setTitle("dialog_screen_title_text");
             final boolean showIcon = true;
             if (showIcon) {
@@ -35,10 +35,6 @@ public class DialogTestFragment extends Fragment implements View.OnClickListener
         final AlertDialogFragment alertDialogFragment = builder.setCancelable(false).create();
         alertDialogFragment.show(getFragmentManager(), ALERT_DIALOG_TAG);
         return view;
-    }
-
-    @Override
-    public void onSaveInstanceState(final Bundle outState) {
     }
 
     @Override
