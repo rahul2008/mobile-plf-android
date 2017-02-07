@@ -38,12 +38,12 @@ public class NavigationBarLandscapeTest extends BaseTest {
     private Resources resources;
 
     private void setupLandscapeModeActivity() {
-        final LandscapeModeActivity landscapeModeActivity = landscapeModeActivityRule.launchActivity(getLaunchIntent(NAVIGATION_COLOR_ULTRALIGHT));
-        landscapeModeActivity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
-        resources = landscapeModeActivity.getResources();
+        baseTestActivity = landscapeModeActivityRule.launchActivity(getLaunchIntent(NAVIGATION_COLOR_ULTRALIGHT));
+        baseTestActivity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
+        resources = baseTestActivity.getResources();
 
-        landscapeModeActivity.switchFragment(new NavigationbarFragment());
-        registerIdlingResources(landscapeModeActivity);
+        baseTestActivity.switchFragment(new NavigationbarFragment());
+        registerIdlingResources(baseTestActivity);
     }
 
     private int getNavigationTextExpectedFromThemeColor() {
@@ -56,7 +56,6 @@ public class NavigationBarLandscapeTest extends BaseTest {
 
         float lineheight = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.navigation_title_text_height);
 
-        UIDTestUtils.waitFor(resources, 750);
         getTitle().check(matches(TextViewPropertiesMatchers.isSameLineHeight(lineheight)));
     }
 
@@ -75,7 +74,6 @@ public class NavigationBarLandscapeTest extends BaseTest {
 
         int fontSize = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.navigation_title_text_size);
 
-        UIDTestUtils.waitFor(resources, 750);
         getTitle().check(matches(TextViewPropertiesMatchers.isSameFontSize(fontSize)));
     }
 

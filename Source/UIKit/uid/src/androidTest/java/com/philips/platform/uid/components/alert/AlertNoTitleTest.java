@@ -1,16 +1,13 @@
 package com.philips.platform.uid.components.alert;
 
 import android.support.test.espresso.ViewInteraction;
-import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
-import android.view.View;
 
 import com.philips.platform.uid.DialogTestFragment;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.components.BaseTest;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 
-import org.hamcrest.core.IsNot;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -34,14 +31,7 @@ public class AlertNoTitleTest extends BaseTest {
 
     @Ignore
     @Test
-    public void verifyAlertIsDisplayedWithNoTitle() {
-        getAlertTitle().check(matches(new IsNot<View>(ViewMatchers.isDisplayed())));
-    }
-
-    @Test
     public void verifyContentTopMarginWithNoTitle() {
-        getAlertTitle().check(matches(new IsNot<View>(ViewMatchers.isDisplayed())));
-
         int expectedTopMargin = activity.getResources().getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.alert_content_top_margin_when_no_title);
         getAlertContainer().check(matches(ViewPropertiesMatchers.isSameTopMargin(expectedTopMargin)));
     }

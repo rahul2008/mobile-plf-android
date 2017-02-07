@@ -81,7 +81,7 @@ public class BaseTestActivity extends AppCompatActivity implements DelayerCallba
                     public void run() {
                         final FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.replace(com.philips.platform.uid.test.R.id.container, fragment);
-                        fragmentTransaction.commitNowAllowingStateLoss();
+                        fragmentTransaction.commitAllowingStateLoss();
                     }
                 });
     }
@@ -94,6 +94,7 @@ public class BaseTestActivity extends AppCompatActivity implements DelayerCallba
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(com.philips.platform.uid.test.R.menu.notificationbar, menu);
+        sendMessage();
         return true;
     }
 
