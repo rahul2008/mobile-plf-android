@@ -17,6 +17,7 @@ import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -28,6 +29,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uid.test.R.color.Gray65;
 import static com.philips.platform.uid.test.R.color.Gray75;
 
+@Ignore
 public class AlertTest extends BaseTest {
 
     private static final String NOTITLE = "NOTITLE";
