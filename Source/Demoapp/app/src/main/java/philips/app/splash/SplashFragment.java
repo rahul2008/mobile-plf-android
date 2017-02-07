@@ -51,7 +51,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.uikit_splash_screen_logo_center_tb,container,false);
+            View view = inflater.inflate(R.layout.uikit_splash_screen_logo_center_tb,container,false);
         initProgressDialog();
         logo = (ImageView) view.findViewById(R.id.splash_logo);
         logo.setImageDrawable(VectorDrawableCompat.create(getResources(),R.drawable.uikit_philips_logo, getActivity().getTheme()));
@@ -89,7 +89,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
         showProgressDialog(true);
         String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
         if (hasPermissions(PERMISSIONS)) {
-            //  setFlowManager();
+             setFlowManager();
             if (!isMultiwindowEnabled)
                 startTimer();
         } else {
@@ -97,9 +97,9 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
         }
     }
 
-    //private void setFlowManager() {
-    //   getApplicationContext().setTargetFlowManager();
-    // }
+    private void setFlowManager() {
+       getApplicationContext().setTargetFlowManager(this,getActivity());
+    }
 
     //Requesting permission
     private void requestStoragePermission() {
@@ -222,7 +222,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     }
 
     public void permissionGranted() {
-        //  setFlowManager();
+         setFlowManager();
         if (!isMultiwindowEnabled)
             startTimer();
     }

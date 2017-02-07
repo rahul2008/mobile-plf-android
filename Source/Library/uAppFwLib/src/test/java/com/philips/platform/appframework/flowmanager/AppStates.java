@@ -11,13 +11,7 @@ public class AppStates {
      */
     public static final String SUPPORT = "support";
     public static final String SPLASH = "splash";
-    public static final String ON_BOARDING_REGISTRATION = "onBoarding_registration";
     public static final String ABOUT = "about";
-    public static final String IAP = "iap";
-    public static final String PR = "pr";
-    public static final String SETTINGS = "settings";
-    public static final String DATA_SYNC = "data_sync";
     public static final String WELCOME = "welcome";
-    public static final String TEST = "test";
     public static final String HOME = "home";
 }

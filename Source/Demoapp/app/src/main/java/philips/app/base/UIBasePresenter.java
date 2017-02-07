@@ -7,6 +7,7 @@ package philips.app.base;
 
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
 
+import flowmanager.AppStates;
 import flowmanager.screens.utility.Constants;
 
 /**
@@ -15,13 +16,13 @@ import flowmanager.screens.utility.Constants;
 abstract public class UIBasePresenter {
     /*Event ID */
     protected static final int MENU_OPTION_HOME = 0;
-    protected final int MENU_OPTION_SETTINGS = 1;
+    /*protected final int MENU_OPTION_SETTINGS = 1;
     protected final int MENU_OPTION_SHOP = 2;
-    protected final int MENU_OPTION_SUPPORT = 3;
-    protected final int MENU_OPTION_ABOUT = 4;
-    protected final int MENU_OPTION_DATA_SYNC = 5;
+    protected final int MENU_OPTION_SUPPORT = 3;*/
+    protected final int MENU_OPTION_ABOUT = 1;
+   /* protected final int MENU_OPTION_DATA_SYNC = 5;
     protected final int MENU_OPTION_PR = 7;
-    protected final int MENU_OPTION_CONNECTIVITY = 6;
+    protected final int MENU_OPTION_CONNECTIVITY = 6;*/
 
     /* event to state map */
     protected final String HOME_SETTINGS = "settings";
@@ -42,39 +43,27 @@ abstract public class UIBasePresenter {
 
     /**
      * The onclick of objects in a particular state can be defined here
-     *
      * @param componentID The Id of any button or widget or any other component
+     *
      */
     public abstract void onEvent(int componentID);
 
     /**
      * For seeting the current state , so that flow manager is updated with current state
-     *
      * @param stateID requires AppFlowState ID
      */
-    public void setState(String stateID) {
+    public void setState(String stateID){
 
     }
 
-    protected UIStateData setStateData(final int componentID) {
+    protected UIStateData setStateData(final String componentID) {
         switch (componentID) {
-            case MENU_OPTION_HOME:
+            case AppStates.HOME_FRAGMENT:
                 UIStateData homeStateData = new UIStateData();
                 homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
                 return homeStateData;
-            case MENU_OPTION_SETTINGS:
-                UIStateData settingsStateData = new UIStateData();
-                settingsStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
-                return settingsStateData;
-            case MENU_OPTION_SHOP:
-                UIStateData iapStateData = new UIStateData();
-                iapStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
-                return iapStateData;
-            case MENU_OPTION_SUPPORT:
-                UIStateData supportStateData = new UIStateData();
-                supportStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
-                return supportStateData;
-            case MENU_OPTION_ABOUT:
+
+            case AppStates.ABOUT:
                 UIStateData aboutStateData = new UIStateData();
                 aboutStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return aboutStateData;
@@ -84,17 +73,17 @@ abstract public class UIBasePresenter {
                 uiStateDataModel.setIapFlow(IAPState.IAP_SHOPPING_CART_VIEW);
                 uiStateDataModel.setCtnList(getCtnList());
                 return uiStateDataModel;*/
-            case MENU_OPTION_PR:
+            /*case AppStates.PR:
                 UIStateData prStateDataModel = new UIStateData();
                 return prStateDataModel;
-            case MENU_OPTION_DATA_SYNC:
+            case AppStates.DATA_SYNC:
                 UIStateData syncStateData = new UIStateData();
                 syncStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return syncStateData;
-            case MENU_OPTION_CONNECTIVITY:
+            case AppStates.CONNECTIVITY:
                 UIStateData connectivityStateData = new UIStateData();
                 connectivityStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
-                return connectivityStateData;
+                return connectivityStateData;*/
             default:
                 homeStateData = new UIStateData();
                 homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
