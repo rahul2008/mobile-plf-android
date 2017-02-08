@@ -127,5 +127,19 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_fetchCloudConfig"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Refresh Cloud Config" />
+
+        <TextView
+            android:id="@+id/cloudConfigResponse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+           />
     </LinearLayout>
 </ScrollView>

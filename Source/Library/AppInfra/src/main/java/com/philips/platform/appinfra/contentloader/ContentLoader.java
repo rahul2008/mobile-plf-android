@@ -266,17 +266,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
     private void getContentBySingleOrMultipleID(String[] ids, OnResultListener<Content> listener){
         List<ContentItem> contentItems = mContentDatabaseHandler.getContentById(mServiceId, ids);
         if (null != contentItems && !contentItems.isEmpty()) {
-            List<Content> result = new ArrayList<>();
-            try {
-                for (ContentItem ci : contentItems) {
-                    Content c = mClassType.newInstance();
-                    c.parseInput(ci.getRawData());
-                    result.add(c);
-                }
-                listener.onSuccess(result);
-            } catch (InstantiationException | IllegalAccessException e) {
-                listener.onError(ERROR.CONFIGURATION_ERROR, "invalid generic class type provided");
-            }
+            contentItems(contentItems, listener);
         } else {
             listener.onError(ERROR.NO_DATA_FOUND_IN_DB, "Given ID not found in DB");
         }
@@ -301,19 +291,24 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         }
         final List<ContentItem> contentItems = mContentDatabaseHandler.getContentByTagId(mServiceId, tagIDs,logicalOperator );
         if (null != contentItems && !contentItems.isEmpty()) {
-            List<Content> result = new ArrayList<>(1);
-            try {
-                for (ContentItem ci : contentItems) {
-                    Content c = mClassType.newInstance();
-                    c.parseInput(ci.getRawData());
-                    result.add(c);
-                }
-                listener.onSuccess(result);
-            } catch (InstantiationException | IllegalAccessException e) {
-                listener.onError(ERROR.CONFIGURATION_ERROR, "invalid generic class type provided");
-            }
+            contentItems(contentItems, listener);
         } else {
             listener.onError(ERROR.NO_DATA_FOUND_IN_DB, "Given TAG(s) not found in DB");
+        }
+    }
+
+
+    private void contentItems(List<ContentItem> contentItems, OnResultListener<Content> listener) {
+        List<Content> result = new ArrayList<>();
+        try {
+            for (ContentItem ci : contentItems) {
+                Content c = mClassType.newInstance();
+                c.parseInput(ci.getRawData());
+                result.add(c);
+            }
+            listener.onSuccess(result);
+        } catch (InstantiationException | IllegalAccessException e) {
+            listener.onError(ERROR.CONFIGURATION_ERROR, "invalid generic class type provided");
         }
     }
 

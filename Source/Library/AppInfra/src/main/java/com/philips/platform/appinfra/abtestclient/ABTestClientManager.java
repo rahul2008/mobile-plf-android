@@ -78,12 +78,7 @@ public class ABTestClientManager implements ABTestClientInterface {
                 if (mCacheStatusValue != null && mCacheStatusValue.containsKey(test)) {
                     // shouldRefresh = false;
                 } else {
-                    CacheModel.ValueModel valueModel = new CacheModel.ValueModel();
-                    valueModel.setTestValue(null);
-                    valueModel.setUpdateType(UPDATETYPES.EVERY_APP_START.name());
-                    valueModel.setAppVersion(getAppVersion());
-                    mCacheStatusValue.put(test, valueModel);
-                    mCacheModel.setTestValues(mCacheStatusValue);
+                    cacheModel(null,UPDATETYPES.EVERY_APP_START.name(),test);
 
                     //shouldRefresh = true;
                 }
@@ -200,18 +195,25 @@ public class ABTestClientManager implements ABTestClientInterface {
             if (val.getTestValue() != null && updateType.name().equalsIgnoreCase(UPDATETYPES.EVERY_APP_START.name())) {
                 //value is already there in cache ignoring the new value
             } else {
-                CacheModel.ValueModel updatedVal = new CacheModel.ValueModel();
-                updatedVal.setTestValue(content);
-                updatedVal.setUpdateType(updateType.name());
-                updatedVal.setAppVersion(getAppVersion());
-                mCacheStatusValue.put(testName, updatedVal);
-                mCacheModel.setTestValues(mCacheStatusValue);
+                cacheModel(content,updateType.name(),testName);
+
             }
         }
         //remove from disk if it is already saved as appupdate variable
         if (updateType.equals(UPDATETYPES.EVERY_APP_START)) {
             removeCacheforTestName(testName);
         }
+    }
+
+
+    private void cacheModel(String testValue,String updateType, String cacheStatusKey)
+    {
+        CacheModel.ValueModel valueModel = new CacheModel.ValueModel();
+        valueModel.setTestValue(testValue);
+        valueModel.setUpdateType(updateType);
+        valueModel.setAppVersion(getAppVersion());
+        mCacheStatusValue.put(cacheStatusKey, valueModel);
+        mCacheModel.setTestValues(mCacheStatusValue);
     }
 
 

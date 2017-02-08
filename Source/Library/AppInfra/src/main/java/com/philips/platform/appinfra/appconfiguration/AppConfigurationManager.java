@@ -7,11 +7,17 @@
 package com.philips.platform.appinfra.appconfiguration;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,6 +26,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -37,6 +44,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     private JSONObject configJsonCache;
     private JSONObject staticconfigJsonCache;
     private static final String mAppConfig_SecureStoreKey = "ail.app_config";
+    private static final String CLOUD_APP_CONFIG_FILE = "CloudConfig";
 
     private SecureStorageInterface ssi;
 
@@ -57,6 +65,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                 total.append(line).append('\n');
             }
             result = new JSONObject(total.toString());
+            result = makeKeyUppercase(result); // converting all Group and child key Uppercase
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "Json",
                     result.toString());
 
@@ -134,6 +143,8 @@ public class AppConfigurationManager implements AppConfigurationInterface {
             throw new IllegalArgumentException("Invalid Argument Exception");
         } else {
             getjSONFromCache(); // fetch from cache
+            key = key.toUpperCase();
+            group = group.toUpperCase();
             try {
                 boolean isCocoPresent = configJsonCache.has(group);
                 JSONObject cocoJSONobject;
@@ -225,6 +236,8 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     }
 
     private Object getKey(String key, String group, AppConfigurationError configError, JSONObject jsonObject) {
+        key = key.toUpperCase();
+        group = group.toUpperCase();
         Object object = null;
         boolean isCocoPresent = jsonObject.has(group);
         if (!isCocoPresent) { // if request coco does not exist
@@ -276,5 +289,109 @@ public class AppConfigurationManager implements AppConfigurationInterface {
             map.put(key, value);
         }
         return map;
+    }
+
+    private JSONObject makeKeyUppercase(JSONObject json) {
+        JSONObject newJsonGroup = new JSONObject();
+        Iterator<String> iteratorGroup = json.keys();
+        while (iteratorGroup.hasNext()) {
+            String keyGroup = iteratorGroup.next();
+            try {
+                JSONObject objectGroup = json.optJSONObject(keyGroup);
+
+
+                JSONObject newJsonChildObject = new JSONObject();
+                Iterator<String> iteratorKey = objectGroup.keys();
+                while (iteratorKey.hasNext()) {
+                    String key = iteratorKey.next();
+                    try {
+                        Object objectKey = objectGroup.opt(key);
+                        newJsonChildObject.put(key.toUpperCase(), objectKey);
+                    } catch (JSONException e) {
+                        // Something went wrong!
+                    }
+
+                }
+                newJsonGroup.put(keyGroup.toUpperCase(), newJsonChildObject);
+
+            } catch (JSONException e) {
+                // Something went wrong!
+            }
+        }
+        return newJsonGroup;
+    }
+
+    @Override
+    public void refreshCloudConfig(final OnRefreshListener onRefreshListener) {
+        AppConfigurationError configError = new AppConfigurationError();
+        String cloudServiceId = (String) getPropertyForKey( "appconfig.cloudServiceId","APPINFRA", configError);
+        ServiceDiscoveryInterface serviceDiscoveryInterface = mAppInfra.getServiceDiscovery();
+        serviceDiscoveryInterface.getServiceUrlWithCountryPreference(cloudServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            @Override
+            public void onSuccess(URL url) {
+                SharedPreferences sharedPreferences = getCloudConfigSharedPreferences();
+                if (null != sharedPreferences && sharedPreferences.contains("cloudConfigUrl")) {
+                    final String savedURL = sharedPreferences.getString("cloudConfigUrl", null);
+                    if (url.toString().trim().equalsIgnoreCase(savedURL)) { // cloud config url has not changed
+                        onRefreshListener.onSuccess(OnRefreshListener.REFRESH_RESULT.NO_REFRESH_REQUIRED);
+                    } else { // cloud config url has  changed
+                        clearCloudConfigFile(); // clear old cloud config data
+                        fetchCloudConfig(url.toString(), onRefreshListener);
+                    }
+                } else {
+                    fetchCloudConfig(url.toString(), onRefreshListener);
+                }
+
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                onRefreshListener.onError(AppConfigurationError.AppConfigErrorEnum.ServerError,error.toString());
+            }
+        });
+
+
+
+    }
+    void fetchCloudConfig(final String url, final OnRefreshListener onRefreshListener) {
+        try {
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "fetchCloudConfig", response.toString());
+                    saveCloudConfig(response,url);
+                    onRefreshListener.onSuccess(OnRefreshListener.REFRESH_RESULT.REFRESHED_FROM_SERVER);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "fetchCloudConfig", error.toString());
+                    onRefreshListener.onError(AppConfigurationError.AppConfigErrorEnum.ServerError,error.toString());
+                }
+            }, null, null, null);
+            request.setShouldCache(true);
+            mAppInfra.getRestClient().getRequestQueue().add(request);
+        } catch (Exception e) {
+            onRefreshListener.onError(AppConfigurationError.AppConfigErrorEnum.ServerError,e.toString());
+        }
+    }
+
+    private void saveCloudConfig(JSONObject cloudConfig, String url) {
+        SharedPreferences sharedPreferences = getCloudConfigSharedPreferences();
+        SharedPreferences.Editor prefEditor = sharedPreferences.edit();
+        prefEditor.putString("cloudConfigJson", cloudConfig.toString());
+        prefEditor.putString("cloudConfigUrl", url);
+        prefEditor.commit();
+    }
+
+    void clearCloudConfigFile() {
+        SharedPreferences prefs = getCloudConfigSharedPreferences();
+        SharedPreferences.Editor prefEditor = prefs.edit();
+        prefEditor.clear();
+        prefEditor.commit();
+    }
+
+    private SharedPreferences getCloudConfigSharedPreferences() {
+        return mContext.getSharedPreferences(CLOUD_APP_CONFIG_FILE, Context.MODE_PRIVATE);
     }
 }

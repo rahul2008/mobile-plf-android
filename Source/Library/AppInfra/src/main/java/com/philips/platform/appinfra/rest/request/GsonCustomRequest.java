@@ -69,10 +69,8 @@ public class GsonCustomRequest<T> extends Request<T> {
             if (mProvider != null) {
                 Map<String, String> tokenHeader = RestManager.setTokenProvider(mProvider);
                 mHeader.putAll(tokenHeader);
-                return mHeader;
-            } else {
-                return mHeader;
             }
+            return mHeader;
         }
         return super.getHeaders();
     }
@@ -80,9 +78,9 @@ public class GsonCustomRequest<T> extends Request<T> {
     @Override
     protected Map<String, String> getParams()
             throws AuthFailureError {
-        if (mParams != null)
+        if (mParams != null) {
             return mParams;
-
+        }
         return super.getParams();
     }
 
