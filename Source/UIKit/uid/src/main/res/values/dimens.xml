@@ -138,6 +138,8 @@
     <dimen name="uid_checkbox_height">48dp</dimen>
     <dimen name="uid_checkbox_text_size">16sp</dimen>
     <dimen name="uid_checkbox_border_ripple_radius">20dp</dimen>
+    <dimen name="uid_checkbox_line_spacing">0dp</dimen>
+    <integer name="uid_checkbox_font_spacing_multiplier">1</integer>
 
     <!--Linear indeterminate progressbar-->
     <integer name="uid_indeterminate_progressbar_anim_duration">900</integer>
