@@ -173,8 +173,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         if (propositionService != null && propositionService.isSuccess()) {
             String country = fetchFromSecureStorage(COUNTRY);
             String countrySource = fetchFromSecureStorage(COUNTRY_SOURCE);
-            if (country == null ) {
-                if(countrySource == null)
+            if (country == null) {
+                if (countrySource == null)
                     countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
                 saveToSecureStore(propositionService.getCountry(), COUNTRY);
                 saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
@@ -224,17 +224,9 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "NO_NETWORK");
             service.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.NO_NETWORK, "NO_NETWORK"));
             errorvalues = OnErrorListener.ERRORVALUES.NO_NETWORK;
-            // service.setSuccess(false);
         } else {
-            //urlBuild = buildUrl();
             if (urlBuild != null) {
                 service = mRequestItemManager.execute(urlBuild, aisdurlType);
-//                if (countryCode == null && countryCodeSource == null) {
-//                    countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
-//                    saveToSecureStore(service.getCountry(), COUNTRY);
-//                    saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
-//                }
-
                 if (service.isSuccess()) {
                     holdbackTime = 0;   //remove hold back time
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "SD Fetched from server");
@@ -250,85 +242,84 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
     private String getSDURLForType(AISDURLType aisdurlType) {
-        try {
-            String sector = null, micrositeid = null, environment = null;
-            String url = null;
-            AppConfigurationInterface.AppConfigurationError error = new AppConfigurationInterface
-                    .AppConfigurationError();
-            final AppIdentityInterface identityManager = mAppInfra.getAppIdentity();
-            final InternationalizationInterface localManager = mAppInfra.getInternationalization();
-            final String locale = localManager.getUILocaleString();
-            final AppIdentityInterface.AppState state = identityManager.getAppState();
-            final String service_environment = identityManager.getServiceDiscoveryEnvironment();
 
-            final String appState = getAppStateStringFromState(state);
+        String sector = null, micrositeid = null, environment = null;
+        String url = null;
+        AppConfigurationInterface.AppConfigurationError error = new AppConfigurationInterface
+                .AppConfigurationError();
+        final AppIdentityInterface identityManager = mAppInfra.getAppIdentity();
+        final InternationalizationInterface localManager = mAppInfra.getInternationalization();
+        final String locale = localManager.getUILocaleString();
+        final AppIdentityInterface.AppState state = identityManager.getAppState();
+        final String service_environment = identityManager.getServiceDiscoveryEnvironment();
 
-            switch (aisdurlType) {
-                case AISDURLTypePlatform:
-                    sector = "B2C";
-                    AppIdentityManager appIdentityManager = new AppIdentityManager(mAppInfra);
-                    micrositeid = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
-                            ("servicediscovery.platformMicrositeId", "appinfra", error);
-                    appIdentityManager.validateMicrositeId(micrositeid);
+        final String appState = getAppStateStringFromState(state);
 
-                    String defSevicediscoveryEnv = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
-                            ("servicediscovery.platformEnvironment", "appinfra", error);
+        switch (aisdurlType) {
+            case AISDURLTypePlatform:
+                sector = "B2C";
+                AppIdentityManager appIdentityManager = new AppIdentityManager(mAppInfra);
+                micrositeid = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
+                        ("servicediscovery.platformMicrositeId", "appinfra", error);
+                appIdentityManager.validateMicrositeId(micrositeid);
 
-                    Object dynServiceDiscoveryEnvironment = mAppInfra.getConfigInterface()
-                            .getPropertyForKey("servicediscovery.platformEnvironment", "appinfra",
-                                    error);
-                    if (defSevicediscoveryEnv != null) {
-                        if (defSevicediscoveryEnv.equalsIgnoreCase("production")) // allow manual override only if static appstate != production
+                String defSevicediscoveryEnv = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
+                        ("servicediscovery.platformEnvironment", "appinfra", error);
+
+                Object dynServiceDiscoveryEnvironment = mAppInfra.getConfigInterface()
+                        .getPropertyForKey("servicediscovery.platformEnvironment", "appinfra",
+                                error);
+
+                if (defSevicediscoveryEnv != null) {
+                    if (defSevicediscoveryEnv.equalsIgnoreCase("production")) // allow manual override only if static appstate != production
+                        environment = defSevicediscoveryEnv;
+                    else {
+                        if (dynServiceDiscoveryEnvironment != null)
+                            environment = dynServiceDiscoveryEnvironment.toString();
+                        else
                             environment = defSevicediscoveryEnv;
-                        else {
-                            if (dynServiceDiscoveryEnvironment != null)
-                                environment = dynServiceDiscoveryEnvironment.toString();
-                            else
-                                environment = defSevicediscoveryEnv;
-                        }
-                    }
-                    appIdentityManager.validateServiceDiscoveryEnv(environment);
-                    environment = getSDBaseURLForEnvironment(environment);
-                    break;
-
-                case AISDURLTypeProposition:
-                    sector = identityManager.getSector();
-                    micrositeid = identityManager.getMicrositeId();
-                    environment = getSDBaseURLForEnvironment(service_environment);
-                    break;
-            }
-            if (sector != null && micrositeid != null &&
-                    localManager.getUILocale() != null && appState != null) {
-
-                url = "https://" + environment + "/api/v1/discovery/" + sector
-                        + "/" + micrositeid + "?locale=" +
-                        locale + "&tags=" + appState;
-
-
-                String country = fetchFromSecureStorage(COUNTRY);
-                if (country == null) {
-                    country = getCountryCodeFromSim();
-                    if (country != null) {
-                        countryCodeSource = OnGetHomeCountryListener.SOURCE.SIMCARD;
-                        saveToSecureStore(country, COUNTRY);
-                        saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
                     }
                 }
-                if (country != null) {
-                    url += "&country=" + country;
+                appIdentityManager.validateServiceDiscoveryEnv(environment);
+                environment = getSDBaseURLForEnvironment(environment);
+                if (micrositeid == null || micrositeid.isEmpty() || environment == null || environment.isEmpty()) {
+                    throw new IllegalArgumentException("Platform MicrositeId or Platform Service Environment is Missing");
                 }
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "URL", "" + url);
-            } else {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Build URL in SD", ""
-                        + "Appidentity values are null");
-            }
-            return url;
 
-        } catch (Exception exception) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ServiceDiscovery",
-                    exception.toString());
+                break;
+
+            case AISDURLTypeProposition:
+                sector = identityManager.getSector();
+                micrositeid = identityManager.getMicrositeId();
+                environment = getSDBaseURLForEnvironment(service_environment);
+                break;
         }
-        return null;
+        if (sector != null && micrositeid != null &&
+                localManager.getUILocale() != null && appState != null) {
+
+            url = "https://" + environment + "/api/v1/discovery/" + sector
+                    + "/" + micrositeid + "?locale=" +
+                    locale + "&tags=" + appState;
+
+
+            String country = fetchFromSecureStorage(COUNTRY);
+            if (country == null) {
+                country = getCountryCodeFromSim();
+                if (country != null) {
+                    countryCodeSource = OnGetHomeCountryListener.SOURCE.SIMCARD;
+                    saveToSecureStore(country, COUNTRY);
+                    saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
+                }
+            }
+            if (country != null) {
+                url += "&country=" + country;
+            }
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "URL", "" + url);
+        } else {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Build URL in SD", ""
+                    + "Appidentity values are null");
+        }
+        return url;
     }
 
     private String getSDBaseURLForEnvironment(String serviceEnv) {
@@ -442,7 +433,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Service Discovery",
                     "OnGetServiceUrlListener is null initialized");
         } else {
-            if (serviceId == null) {
+            if (serviceId == null || serviceId.isEmpty()) {
                 listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
             } else {
                 getServiceDiscoveryData(new AISDListener() {
@@ -506,7 +497,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Service Discovery",
                     "OnGetServiceUrlMapListener is null initialized");
         } else {
-            if (serviceIds == null) {
+            if (serviceIds == null || serviceIds.isEmpty()) {
                 listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
             } else {
                 getServiceDiscoveryData(new AISDListener() {
@@ -555,7 +546,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Service Discovery",
                     "OnGetServiceUrlMapListener is null initialized");
         } else {
-            if (serviceId == null) {
+            if (serviceId == null || serviceId.isEmpty()) {
                 listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
             } else {
                 getServiceDiscoveryData(new AISDListener() {
@@ -696,7 +687,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                         if (result != null) {
                             String country = result.getCountryCode();
                             if (country != null) {
-                                if(countryCodeSource == null)
+                                if (countryCodeSource == null)
                                     countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
                                 saveToSecureStore(country, COUNTRY);
                                 saveToSecureStore(countryCodeSource.name(), COUNTRY_SOURCE);
