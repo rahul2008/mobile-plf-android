@@ -6,6 +6,7 @@
 package com.philips.platform.appframework.flowmanager.base;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -38,6 +39,7 @@ public abstract class BaseFlowManager {
     private String firstState;
     private FlowManagerStack flowManagerStack;
     private String BACK = "back";
+    private Handler flowManagerHandler;
 
     @Deprecated
     /**
@@ -54,16 +56,33 @@ public abstract class BaseFlowManager {
         if (appFlowMap != null) {
             throw new JsonAlreadyParsedException();
         } else {
-            this.context = context;
-            mapAppFlowStates(jsonPath, flowManagerListener);
-            flowManagerStack = new FlowManagerStack();
-            stateMap = new TreeMap<>();
-            conditionMap = new TreeMap<>();
-            populateStateMap(stateMap);
-            populateConditionMap(conditionMap);
+            flowManagerHandler = getHandler(context);
+            Thread t =new Thread (new Runnable() {
+                    @Override
+                    public void run() {
+                        parseFlowManagerJson(context, jsonPath, flowManagerListener);
+                    }
+                });
+            t.start();
         }
 
     }
+
+    @NonNull
+    protected Handler getHandler(Context context) {
+        return new Handler(context.getMainLooper());
+    }
+
+    private void parseFlowManagerJson(final @NonNull Context context, final @NonNull String jsonPath, final @NonNull FlowManagerListener flowManagerListener) {
+        this.context = context;
+        mapAppFlowStates(jsonPath, flowManagerListener);
+        flowManagerStack = new FlowManagerStack();
+        stateMap = new TreeMap<>();
+        conditionMap = new TreeMap<>();
+        populateStateMap(stateMap);
+        populateConditionMap(conditionMap);
+    }
+
     /**
      * This method will create and return the object of BaseCondition depending on Condition ID.
      *
@@ -240,12 +259,23 @@ public abstract class BaseFlowManager {
         return isConditionSatisfies;
     }
 
-    private void mapAppFlowStates(final String jsonPath, FlowManagerListener flowManagerListener) throws JsonFileNotFoundException, JsonStructureException {
+    private void mapAppFlowStates(final String jsonPath, final FlowManagerListener flowManagerListener) throws JsonFileNotFoundException, JsonStructureException {
         final AppFlowParser appFlowParser = new AppFlowParser();
         AppFlowModel appFlowModel = appFlowParser.getAppFlow(jsonPath);
         getFirstStateAndAppFlowMap(appFlowParser, appFlowModel);
-        if (flowManagerListener != null)
-            flowManagerListener.onParseSuccess();
+        flowManagerHandler.post(getRunnable(flowManagerListener));
+    }
+
+    @NonNull
+    protected Runnable getRunnable(final FlowManagerListener flowManagerListener) {
+        Runnable r=new Runnable() {
+            @Override
+            public void run() {
+                flowManagerListener.onParseSuccess();
+
+            }
+        } ;
+                return r;
     }
 
     private void getFirstStateAndAppFlowMap(AppFlowParser appFlowParser, AppFlowModel appFlowModel) {

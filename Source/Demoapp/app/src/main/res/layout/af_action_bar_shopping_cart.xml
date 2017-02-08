@@ -1,0 +1,68 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ratingthememain"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:id="@+id/af_hamburger_frame_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:clickable="true"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/af_hamburger_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical" />
+    </FrameLayout>
+
+
+    <TextView
+        android:id="@+id/af_actionbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:ellipsize="end"
+        android:maxEms="10"
+        android:singleLine="true"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp" />
+
+    <FrameLayout
+        android:id="@+id/af_cart_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:visibility="visible">
+
+        <!--<ImageView
+            android:id="@+id/af_shoppng_cart_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:paddingRight="@dimen/network_margin_left_right"
+            android:visibility="visible" />
+-->
+        <!--<com.philips.cdp.uikit.customviews.BadgeView
+            android:id="@+id/af_cart_count_view"
+            style="@style/NotificationLabel.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|left"
+            android:layout_marginBottom="15dp"
+            android:visibility="visible" />-->
+    </FrameLayout>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>

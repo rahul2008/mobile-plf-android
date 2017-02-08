@@ -10,6 +10,8 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
+
     }
     buildTypes {
         release {
@@ -21,10 +23,26 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:24.0.0'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'uk.co.chrisjenx:calligraphy:2.1.0'
+    compile 'com.android.support:support-annotations:22.2.0'
+    compile 'uk.co.chrisjenx:calligraphy:2.1.0'
+    compile 'com.android.support:design:24.0.0'
+    compile 'com.shamanland:fonticon:0.1.8'
+    compile 'com.android.support:cardview-v7:+'
+    compile 'com.android.support:recyclerview-v7:+'
+    compile 'com.android.support:multidex:1.0.1'
+
+
+
     compile project(':uAppFwLib')
     compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.5.4-SNAPSHOT', ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
+    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.6.0-SNAPSHOT', ext: 'aar') {
+        exclude group: 'com.android.support'
+        transitive = true
+    }
+
 }

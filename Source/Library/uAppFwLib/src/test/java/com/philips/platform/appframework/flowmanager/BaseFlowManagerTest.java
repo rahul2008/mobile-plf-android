@@ -1,6 +1,9 @@
 package com.philips.platform.appframework.flowmanager;
 
+
 import android.content.Context;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.flowmanager.base.BaseCondition;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
@@ -39,9 +42,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SuppressWarnings("deprecation")
 public class BaseFlowManagerTest extends TestCase {
@@ -52,18 +57,50 @@ public class BaseFlowManagerTest extends TestCase {
     private Context context;
     private String path;
     private FlowManagerListener flowManagerListenerMock;
+    private Handler handlerMock;
+    private Runnable runnableMock;
 
     @Before
     protected void setUp() throws Exception {
         super.setUp();
         flowManagerListenerMock = mock(FlowManagerListener.class);
         context = mock(Context.class);
-        flowManagerTest = new FlowManagerTest();
+        runnableMock = mock(Runnable.class);
+        handlerMock = mock(Handler.class);
+        when(handlerMock.post(runnableMock)).thenReturn(true);
+        flowManagerTest = new FlowManagerTest()  {
+            @NonNull
+            @Override
+            protected Handler getHandler(Context context) {
+                return handlerMock;
+            }
+
+            @NonNull
+            @Override
+            protected Runnable getRunnable(FlowManagerListener flowManagerListener) {
+                return runnableMock;
+            }
+        };
         File fileFromInputStream = createFileFromInputStream(getClass().getClassLoader().getResourceAsStream("res/Appflow.json"));
         if (fileFromInputStream != null)
             path = fileFromInputStream.getPath();
+
         flowManagerTest.initialize(context, path, flowManagerListenerMock);
-        verify(flowManagerListenerMock).onParseSuccess();
+         sleep(2);
+
+        verify(handlerMock).post(runnableMock);
+
+
+    }
+
+
+
+    private void sleep(int seconds) {
+        try {
+            TimeUnit.SECONDS.sleep(seconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void testAlreadyInitialize() {
@@ -127,8 +164,22 @@ public class BaseFlowManagerTest extends TestCase {
     }
 
     public void testBackState() {
-        flowManagerTest = new FlowManagerTest();
+        flowManagerTest = new FlowManagerTest() {
+            @NonNull
+            @Override
+            protected Handler getHandler(Context context) {
+                return handlerMock;
+            }
+
+            @NonNull
+            @Override
+            protected Runnable getRunnable(FlowManagerListener flowManagerListener) {
+                return runnableMock;
+            }
+
+        };
         flowManagerTest.initialize(context, path, flowManagerListenerMock);
+       sleep(2);
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.SPLASH), "onSplashTimeOut");
         assertNull(flowManagerTest.getBackState());
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.SPLASH), "onSplashTimeOut");
@@ -142,7 +193,21 @@ public class BaseFlowManagerTest extends TestCase {
         flowManagerTest.getBackState(flowManagerTest.getCurrentState());
         assertEquals(flowManagerTest.getState(AppStates.WELCOME), flowManagerTest.getCurrentState());
 
-        flowManagerTest = new FlowManagerTest(context, path);
+        flowManagerTest = new FlowManagerTest(context, path) {
+            @NonNull
+            @Override
+            protected Handler getHandler(Context context) {
+                return handlerMock;
+            }
+
+            @NonNull
+            @Override
+            protected Runnable getRunnable(FlowManagerListener flowManagerListener) {
+                return runnableMock;
+            }
+
+        };
+        sleep(2);
         try {
             flowManagerTest.getBackState();
         } catch (NoStateException e) {
