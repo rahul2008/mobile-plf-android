@@ -159,9 +159,9 @@ public class DataServicesManager {
         mEventing.post(new LoadMomentsRequest(momentID, dbRequestListener));
     }
 
-  /*  public void fetchAllData(DBRequestListener dbRequestListener) {
+    public void fetchAllMoment(DBRequestListener dbRequestListener) {
         mEventing.post(new LoadMomentsRequest(dbRequestListener));
-    }*/
+    }
 
     @NonNull
     public void fetchConsentDetail(DBRequestListener dbRequestListener) {
