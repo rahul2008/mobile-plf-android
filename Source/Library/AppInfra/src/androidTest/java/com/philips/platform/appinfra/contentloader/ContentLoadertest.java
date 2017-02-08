@@ -298,9 +298,9 @@ public class ContentLoadertest extends MockitoTestCase {
         });
     }
 
-    public void testclearCache() {
-       // mContentLoader.clearCache();
-    }
+//    public void testclearCache() {
+//       // mContentLoader.clearCache();
+//    }
 
     public void testgetAllContentIds() {
         List<String> contentIds = contentDatabaseHandler.getAllContentIds(serviceId);
