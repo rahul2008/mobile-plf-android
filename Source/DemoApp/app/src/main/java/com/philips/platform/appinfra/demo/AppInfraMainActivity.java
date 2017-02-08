@@ -25,7 +25,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
 
     ListView listView;
     String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging", "Prx","AppIdentity",
-            "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client" , " A/B Testing", "Content Loader","WhiteBox API","SecureDB"};
+            "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client" , " A/B Testing", "Content Loader","WhiteBox API","Internet Check"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,7 +215,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
                 break;
             case 13:
                 Intent secureDbIntent = new Intent(AppInfraMainActivity.this,
-                        SecureDBMainActivity.class);
+                        InternetCheckActivity.class);
                 startActivity(secureDbIntent);
                 break;
         }
