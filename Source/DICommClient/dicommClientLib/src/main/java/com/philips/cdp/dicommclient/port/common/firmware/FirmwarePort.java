@@ -9,12 +9,16 @@ import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
+
 public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
 
     private final String FIRMWAREPORT_NAME = "firmware";
     private final int FIRMWAREPORT_PRODUCTID = 0;
 
     private FirmwareUpdateOperation operation;
+    private final Set<FirmwarePortListener> firmwarePortListeners = new CopyOnWriteArraySet();
 
     public FirmwarePort(CommunicationStrategy communicationStrategy) {
         super(communicationStrategy);
@@ -44,9 +48,11 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
     }
 
     public void addFirmwarePortListener(FirmwarePortListener listener) {
+        firmwarePortListeners.add(listener);
     }
 
     public void removeFirmwarePortListener(FirmwarePortListener listener) {
+        firmwarePortListeners.remove(listener);
     }
 
     @Override
@@ -90,4 +96,41 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
     public boolean supportsSubscription() {
         return true;
     }
+
+    private void notifyProgressUpdated(FirmwarePortListener.FirmwarePortProgressType type, int progress) {
+        for (FirmwarePortListener listener : firmwarePortListeners) {
+            listener.onProgressUpdated(type, progress);
+        }
+    }
+
+    private void notifyDownloadFailed(FirmwarePortListener.FirmwarePortException exception) {
+        for (FirmwarePortListener listener : firmwarePortListeners) {
+            listener.onDownloadFailed(exception);
+        }
+    }
+
+    private void notifyDownloadFinished() {
+        for (FirmwarePortListener listener : firmwarePortListeners) {
+            listener.onDownloadFinished();
+        }
+    }
+
+    private void notifyFirmwareAvailable(String version) {
+        for (FirmwarePortListener listener : firmwarePortListeners) {
+            listener.onFirmwareAvailable(version);
+        }
+    }
+
+    private void notifyDeployFailed(FirmwarePortListener.FirmwarePortException exception) {
+        for (FirmwarePortListener listener : firmwarePortListeners) {
+            listener.onDeployFailed(exception);
+        }
+    }
+
+    private void notifyDeployFinished() {
+        for (FirmwarePortListener listener : firmwarePortListeners) {
+            listener.onDeployFinished();
+        }
+    }
+
 }
