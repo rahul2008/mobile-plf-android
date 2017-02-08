@@ -3,7 +3,7 @@
  *   All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.port.common;
+package com.philips.cdp.dicommclient.port.common.firmware;
 
 import com.google.gson.Gson;
 import com.philips.cdp.dicommclient.helper.MockedHandler;

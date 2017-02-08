@@ -3,7 +3,7 @@
  *   All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.port.common;
+package com.philips.cdp.dicommclient.port.common.firmware;
 
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.util.DICommLog;
@@ -14,20 +14,25 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
     private final String FIRMWAREPORT_NAME = "firmware";
     private final int FIRMWAREPORT_PRODUCTID = 0;
 
+    private FirmwareUpdateOperation operation;
+
     public FirmwarePort(CommunicationStrategy communicationStrategy) {
         super(communicationStrategy);
     }
 
     public void pushLocalFirmware(final byte[] firmwareData) {
-        throw new UnsupportedOperationException();
+        operation = new FirmwareUpdatePushLocal(firmwareData);
     }
 
     public void pullRemoteFirmware(String version) {
-        throw new UnsupportedOperationException();
+        operation = new FirmwareUpdatePullRemote();
     }
 
     public void cancel() {
-        throw new UnsupportedOperationException();
+        if (operation == null) {
+            return;
+        }
+        operation.cancel();
     }
 
     public void checkForNewerFirmware() {
@@ -39,11 +44,9 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
     }
 
     public void addFirmwarePortListener(FirmwarePortListener listener) {
-        throw new UnsupportedOperationException();
     }
 
     public void removeFirmwarePortListener(FirmwarePortListener listener) {
-        throw new UnsupportedOperationException();
     }
 
     @Override

@@ -3,7 +3,7 @@
  *   All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.port.common;
+package com.philips.cdp.dicommclient.port.common.firmware;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -13,12 +13,12 @@ import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
 
-public class FirmwarePortStateWaiter implements DICommPortListener<FirmwarePort> {
+class FirmwarePortStateWaiter implements DICommPortListener<FirmwarePort> {
     private static final String TAG = "FirmwarePortStateWaiter";
 
     private FirmwarePortProperties.FirmwareState expectedState;
 
-    public interface Listener {
+    interface Listener {
         void onStateUpdated(FirmwarePortProperties.FirmwareState state, Result shnResult);
     }
 

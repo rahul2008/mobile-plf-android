@@ -11,7 +11,7 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.DevicePort;
-import com.philips.cdp.dicommclient.port.common.FirmwarePort;
+import com.philips.cdp.dicommclient.port.common.firmware.FirmwarePort;
 import com.philips.cdp.dicommclient.port.common.PairingPort;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiUIPort;

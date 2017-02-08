@@ -5,8 +5,10 @@
 
 package com.philips.cdp.dicommclient.port.common;
 
+import com.philips.cdp.dicommclient.port.common.firmware.FirmwarePort;
+import com.philips.cdp.dicommclient.port.common.firmware.FirmwarePortProperties;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
-import com.philips.cdp.dicommclient.port.common.FirmwarePortProperties.FirmwareState;
+import com.philips.cdp.dicommclient.port.common.firmware.FirmwarePortProperties.FirmwareState;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 
 import org.junit.Test;
