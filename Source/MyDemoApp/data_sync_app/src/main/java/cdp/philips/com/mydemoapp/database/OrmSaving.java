@@ -177,7 +177,7 @@ public class OrmSaving {
         }
     }
 
-    public void saveConsent(OrmConsentDetail consentDetail) throws SQLException {
+    public void saveConsentDetail(OrmConsentDetail consentDetail) throws SQLException {
         consentDetailsDao.createOrUpdate(consentDetail);
     }
 

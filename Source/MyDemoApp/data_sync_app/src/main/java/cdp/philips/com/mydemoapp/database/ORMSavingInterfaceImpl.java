@@ -75,7 +75,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
         for (ConsentDetail consentDetail : consentDetails) {
             try {
                 OrmConsentDetail ormConsent = OrmTypeChecking.checkOrmType(consentDetail, OrmConsentDetail.class);
-                saving.saveConsent(ormConsent);
+                saving.saveConsentDetail(ormConsent);
             } catch (OrmTypeChecking.OrmTypeException e) {
                 e.printStackTrace();
             }
