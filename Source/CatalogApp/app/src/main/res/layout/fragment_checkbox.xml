@@ -74,7 +74,6 @@
                     android:id="@+id/checkbox_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/checkbox_list_margin_top_bottom"
                     android:enabled="@{frag.isCheckBoxEnabled}"
                     android:text="@string/checkbox_check_item_3"/>
 
