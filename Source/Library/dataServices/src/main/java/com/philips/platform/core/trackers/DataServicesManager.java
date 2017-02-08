@@ -143,14 +143,6 @@ public class DataServicesManager {
         mEventing.post(new MomentsSaveRequest(moments, dbRequestListener));
     }
 
-/*
-
-    public Moment update(@NonNull final Moment moment, DBRequestListener dbRequestListener) {
-        mEventing.post(new MomentUpdateRequest(moment, dbRequestListener));
-        return moment;
-    }
-*/
-
     public void fetchMomentWithType(DBRequestListener dbRequestListener, final @NonNull String... type) {
         mEventing.post(new LoadMomentsRequest(dbRequestListener, type));
     }
