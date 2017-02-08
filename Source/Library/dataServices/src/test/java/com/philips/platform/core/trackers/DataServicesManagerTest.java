@@ -493,7 +493,7 @@ public class DataServicesManagerTest {
 //        tracker.markAsInActive(momentMock);
 //
 //        verify(eventingMock).post(momentDeleteEventCaptor.capture());
-//        assertThat(momentDeleteEventCaptor.getValue().getMoment()).isSameAs(momentMock);
+//        assertThat(momentDeleteEventCaptor.getValue().getMoments()).isSameAs(momentMock);
 //    }
 //
 //    @Test(expected = NullPointerException.class)
@@ -504,6 +504,6 @@ public class DataServicesManagerTest {
 //        tracker.update(momentMock);
 //
 //        verify(eventingMock).post(momentUpdateEventCaptor.capture());
-//        assertThat(momentUpdateEventCaptor.getValue().getMoment()).isSameAs(momentMock);
+//        assertThat(momentUpdateEventCaptor.getValue().getMoments()).isSameAs(momentMock);
 //    }
 }

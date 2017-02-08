@@ -39,6 +39,9 @@ import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
+import com.philips.platform.core.events.MomentsDeleteRequest;
+import com.philips.platform.core.events.MomentsSaveRequest;
+import com.philips.platform.core.events.MomentsUpdateRequest;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.injection.ApplicationModule;
@@ -133,6 +136,11 @@ public class DataServicesManager {
     public void saveMoment(@NonNull final Moment moment, DBRequestListener dbRequestListener) {
         DSLog.i("***SPO***", "In DataServicesManager.saveMoment for " + moment.toString());
         mEventing.post(new MomentSaveRequest(moment, dbRequestListener));
+    }
+
+    @NonNull
+    public void saveMoments(@NonNull final List<Moment> moments, DBRequestListener dbRequestListener) {
+        mEventing.post(new MomentsSaveRequest(moments, dbRequestListener));
     }
 
 /*
@@ -234,8 +242,16 @@ public class DataServicesManager {
         mEventing.post(new MomentDeleteRequest(moment, dbRequestListener));
     }
 
+    public void deleteMoments(final List<Moment> moments, DBRequestListener dbRequestListener) {
+        mEventing.post(new MomentsDeleteRequest(moments, dbRequestListener));
+    }
+
     public void updateMoment(Moment moment, DBRequestListener dbRequestListener) {
         mEventing.post((new MomentUpdateRequest(moment, dbRequestListener)));
+    }
+
+    public void updateMoments(List<Moment> moments, DBRequestListener dbRequestListener) {
+        mEventing.post((new MomentsUpdateRequest(moments, dbRequestListener)));
     }
 
     public void Synchronize() {

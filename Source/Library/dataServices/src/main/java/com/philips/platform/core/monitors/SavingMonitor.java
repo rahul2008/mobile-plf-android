@@ -8,10 +8,10 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.events.CharacteristicsBackendSaveRequest;
-import com.philips.platform.core.events.ConsentBackendSaveRequest;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
+import com.philips.platform.core.events.MomentsSaveRequest;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.utils.DSLog;
 
@@ -33,7 +33,17 @@ public class SavingMonitor extends EventMonitor {
     public void onEventAsync(final MomentSaveRequest momentSaveRequest) throws SQLException {
         boolean saved = dbInterface.saveMoment(momentSaveRequest.getMoment(),momentSaveRequest.getDbRequestListener());
         if (saved) {
-            //eventing.post(new MomentChangeEvent(momentSaveRequest.getReferenceId(), momentSaveRequest.getMoment()));
+            //eventing.post(new MomentChangeEvent(momentSaveRequest.getReferenceId(), momentSaveRequest.getMoments()));
+        } else {
+            dbInterface.postError(new Exception("Failed to insert"),momentSaveRequest.getDbRequestListener());
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void onEventAsync(final MomentsSaveRequest momentSaveRequest) throws SQLException {
+        boolean saved = dbInterface.saveMoments(momentSaveRequest.getMoments(),momentSaveRequest.getDbRequestListener());
+        if (saved) {
+            //eventing.post(new MomentChangeEvent(momentSaveRequest.getReferenceId(), momentSaveRequest.getMoments()));
         } else {
             dbInterface.postError(new Exception("Failed to insert"),momentSaveRequest.getDbRequestListener());
         }

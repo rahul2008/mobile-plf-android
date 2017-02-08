@@ -87,7 +87,7 @@ public class SavingMonitorTest {
 
         verify(savingMock).saveMoment(moment,dbRequestListener);
          //verify(eventingMock).post(changeEventArgumentCaptor.capture());
-     //   assertThat(changeEventArgumentCaptor.getValue().getMoment()).isEqualTo(moment);
+     //   assertThat(changeEventArgumentCaptor.getValue().getMoments()).isEqualTo(moment);
     }
 
     @Test

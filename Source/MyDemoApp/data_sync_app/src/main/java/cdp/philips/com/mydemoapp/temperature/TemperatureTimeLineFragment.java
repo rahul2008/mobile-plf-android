@@ -25,6 +25,7 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
@@ -47,7 +48,7 @@ import static android.content.Context.ALARM_SERVICE;
  * All rights reserved.
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBRequestListener, DBChangeListener{
+public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBRequestListener, DBChangeListener, SynchronisationCompleteListener{
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
@@ -94,6 +95,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         super.onStart();
 
         mDataServicesManager.registerDBChangeListener(this);
+        mDataServicesManager.registerSynchronisationCompleteListener(this);
 
         if (mUser != null && !mUser.isUserSignIn()) {
             Toast.makeText(getContext(), "Please Login", Toast.LENGTH_SHORT).show();
@@ -144,6 +146,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     public void onStop() {
         super.onStop();
         DataServicesManager.getInstance().unRegisterDBChangeListener();
+        mDataServicesManager.unRegisterSynchronisationCosmpleteListener();
         cancelPendingIntent();
         //mDataServicesManager.stopCore();
         dismissProgressDialog();
@@ -315,6 +318,23 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
             public void run() {
 
                 Toast.makeText(getActivity(), "Exception :" + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @Override
+    public void onSyncComplete() {
+
+    }
+
+    @Override
+    public void onSyncFailed(final Exception exception) {
+        if (getActivity() == null) return;
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                dismissProgressDialog();
+                Toast.makeText(getActivity(), "Exception :" + exception.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

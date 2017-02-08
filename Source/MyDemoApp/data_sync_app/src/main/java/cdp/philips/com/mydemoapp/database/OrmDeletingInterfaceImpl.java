@@ -10,6 +10,7 @@ import com.philips.platform.core.utils.DSLog;
 import org.joda.time.DateTime;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -54,6 +55,13 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
                     new OrmSynchronisationData(Moment.MOMENT_NEVER_SYNCED_AND_DELETED_GUID, true,
                             DateTime.now(), 0));
             saveMoment(moment, dbRequestListener);
+        }
+    }
+
+    @Override
+    public void markMomentsAsInActive(final List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
+        for(Moment moment : moments){
+            markAsInActive(moment,dbRequestListener);
         }
     }
 

@@ -160,7 +160,7 @@ public class DeletingMonitorTest {
         verify(eventingMock).post(eventCaptor.capture());
         MomentChangeEvent momentChangeEvent = (MomentChangeEvent) eventCaptor.getValue();
         assertThat(momentChangeEvent.getReferenceId()).isEqualTo(requestEvent.getEventId());
-        assertThat(momentChangeEvent.getMoment()).isSameAs(momentMock);
+        assertThat(momentChangeEvent.getMoments()).isSameAs(momentMock);
     }*/
 
     /*@Test

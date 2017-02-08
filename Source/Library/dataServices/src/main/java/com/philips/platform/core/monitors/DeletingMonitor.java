@@ -9,6 +9,7 @@ import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.events.MomentDeleteRequest;
+import com.philips.platform.core.events.MomentsDeleteRequest;
 import com.philips.platform.core.listeners.DBRequestListener;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -58,7 +59,19 @@ public class DeletingMonitor extends EventMonitor {
         } catch (SQLException e) {
             dbInterface.deleteFailed(e, dbRequestListener);
         }
-        //   eventing.post(new MomentChangeEvent(event.getEventId(), event.getMoment()));
+        //   eventing.post(new MomentChangeEvent(event.getEventId(), event.getMoments()));
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void onEventAsync(MomentsDeleteRequest event) {
+        final DBRequestListener dbRequestListener = event.getDbRequestListener();
+        try {
+            dbInterface.markMomentsAsInActive(event.getMoments(), dbRequestListener);
+        } catch (SQLException e) {
+            dbInterface.deleteFailed(e, dbRequestListener);
+        }
+        //   eventing.post(new MomentChangeEvent(event.getEventId(), event.getMoments()));
 
     }
 

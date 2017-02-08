@@ -110,6 +110,14 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         notifyDBRequestListener.notifySuccess(dbRequestListener, ormMoment);
     }
 
+    @Override
+    public void updateMoments(List<Moment> ormMoments, DBRequestListener dbRequestListener) throws SQLException {
+        for(Moment moment : ormMoments){
+            moment.setSynced(false);
+            updateMoment(moment,dbRequestListener);
+        }
+    }
+
     public OrmMoment getOrmMoment(final Moment moment, DBRequestListener dbRequestListener) {
         try {
             return OrmTypeChecking.checkOrmType(moment, OrmMoment.class);

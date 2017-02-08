@@ -2,7 +2,6 @@ package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
@@ -15,6 +14,7 @@ import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
+import com.philips.platform.core.events.MomentsUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
 import com.philips.platform.core.events.SettingsBackendSaveRequest;
 import com.philips.platform.core.events.SettingsBackendSaveResponse;
@@ -71,6 +71,18 @@ public class UpdatingMonitor extends EventMonitor {
         DBRequestListener dbRequestListener = momentUpdateRequest.getDbRequestListener();
         try {
             dbUpdatingInterface.updateMoment(moment, dbRequestListener);
+        } catch (SQLException e) {
+            dbUpdatingInterface.updateFailed(e,dbRequestListener);
+            e.printStackTrace();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void onEventAsync(final MomentsUpdateRequest momentsUpdateRequest) {
+        List<Moment> moments = momentsUpdateRequest.getMoments();
+        DBRequestListener dbRequestListener = momentsUpdateRequest.getDbRequestListener();
+        try {
+            dbUpdatingInterface.updateMoments(moments, dbRequestListener);
         } catch (SQLException e) {
             dbUpdatingInterface.updateFailed(e,dbRequestListener);
             e.printStackTrace();
