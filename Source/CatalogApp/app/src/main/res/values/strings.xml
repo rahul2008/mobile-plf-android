@@ -97,7 +97,7 @@
     <!--Checkbox-->
     <string name="page_title_checkbox">Check box</string>
     <string name="checkbox_check_box">Check box</string>
-    <string name="checkbox_check_item_1">Check item 1</string>
+    <string name="checkbox_check_item_1">Three line option \nMauris malesuada sapien. \nvolutpat eleifend metus.</string>
     <string name="checkbox_check_item_2">Check item 2</string>
     <string name="checkbox_check_item_3">Check item 3</string>
 

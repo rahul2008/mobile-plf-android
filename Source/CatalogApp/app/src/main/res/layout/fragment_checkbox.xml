@@ -58,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:enabled="@{frag.isCheckBoxEnabled}"
-                    android:text="HKHJJJJJJJJJJJJJJJJJJJJJLJKJL    KLJLJKLJKLJKLJLJKLJKLJLLJKLJLJ          KLJKKJLJLJKLJJKLJKLJLJLJJKJLJLJ     LJKLJKLJKLJ"/>
+                    android:text="@string/checkbox_check_item_1"/>
 
                 <include layout="@layout/divider_layout"/>
 
