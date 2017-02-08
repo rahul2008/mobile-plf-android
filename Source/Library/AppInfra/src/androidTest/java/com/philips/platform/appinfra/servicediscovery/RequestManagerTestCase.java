@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -170,15 +171,42 @@ public class RequestManagerTestCase extends MockitoTestCase {
             method.invoke(mRequestItemManager, makJsonObject(false, 2));
             method.invoke(mRequestItemManager, makJsonObject(true, 0));
 
-            method = RequestManager.class.getDeclaredMethod("execute", String.class);
+            method = RequestManager.class.getDeclaredMethod("execute", String.class, ServiceDiscoveryManager.AISDURLType.class);
             method.setAccessible(true);
-            method.invoke(mRequestItemManager, "https://www.philips.com/api/v1/discovery/b2c/77000?locale=nl_NL&tags=apps%2b%2benv%2bprod&country=CN");
+            method.invoke(mRequestItemManager, "https://www.philips.com/api/v1/discovery/b2c/77000?locale=nl_NL&tags=apps%2b%2benv%2bprod&country=CN", ServiceDiscoveryManager.AISDURLType.AISDURLTypeProposition);
 
-            method.invoke(mRequestItemManager, "http://www.philips.com/api/v1/discovery/b2c/77000?locale=nl_NL&tags=apps%2b%2benv%2bprod&country=CN");
+            method.invoke(mRequestItemManager, "http://www.philips.com/api/v1/discovery/b2c/77000?locale=nl_NL&tags=apps%2b%2benv%2bprod&country=CN",ServiceDiscoveryManager.AISDURLType.AISDURLTypePlatform);
 
-            method.invoke(mRequestItemManager, "Test URL");
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
+    }
+
+    public void testgetLocaleList() {
+        String list = mRequestItemManager.getLocaleList();
+        assertNotNull(list);
+    }
+
+    public void testgetCachedData() {
+        AISDResponse response = mRequestItemManager.getCachedData();
+//        assertNotNull(response);
+    }
+
+    public void testgetUrlProposition() {
+        String urlProposition = mRequestItemManager.getUrlProposition();
+        assertNotNull(urlProposition);
+    }
+
+    public void testgetUrlPlatform() {
+        String urlPlatform = mRequestItemManager.getUrlPlatform();
+//        assertNotNull(urlPlatform);
+    }
+
+    public void testisServiceDiscoveryDataExpired() {
+        boolean dateexpired = mRequestItemManager.isServiceDiscoveryDataExpired();
+    }
+
+    public void testclearCacheServiceDiscovery() {
+        mRequestItemManager.clearCacheServiceDiscovery();
     }
 }

@@ -49,7 +49,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         public abstract void onDownloadDone(AISDResponse result);
     }
 
-    private interface AISDListener {
+    interface AISDListener {
         void ondataReceived(AISDResponse response);
     }
 

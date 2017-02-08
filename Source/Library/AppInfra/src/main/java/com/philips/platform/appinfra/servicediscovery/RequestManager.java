@@ -143,15 +143,17 @@ public class RequestManager {
             String propositionCache = prefs.getString("SDPROPOSITION", null);
             String platformCache = prefs.getString("SDPLATFORM", null);
             try {
-                JSONObject propositionObject = new JSONObject(propositionCache);
-                ServiceDiscovery propostionService = parseResponse(propositionObject);
+                if(propositionCache != null && platformCache != null) {
+                    JSONObject propositionObject = new JSONObject(propositionCache);
+                    ServiceDiscovery propostionService = parseResponse(propositionObject);
 
-                JSONObject platformObject = new JSONObject(platformCache);
-                ServiceDiscovery platformService = parseResponse(platformObject);
-                cachedResponse = new AISDResponse();
-                cachedResponse.setPropositionURLs(propostionService);
-                cachedResponse.setPlatformURLs(platformService);
-                return cachedResponse;
+                    JSONObject platformObject = new JSONObject(platformCache);
+                    ServiceDiscovery platformService = parseResponse(platformObject);
+                    cachedResponse = new AISDResponse();
+                    cachedResponse.setPropositionURLs(propostionService);
+                    cachedResponse.setPlatformURLs(platformService);
+                    return cachedResponse;
+                }
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
