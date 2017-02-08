@@ -353,7 +353,7 @@ public class DataServicesManagerTest {
  /*   @Test
     public void ShouldSynchchronize_WhenSynchchronizeIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.Synchronize();
+        tracker.synchronize();
     }*/
 
     @Test
@@ -365,12 +365,11 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldCreateMeasurement_WhenCreateMeasurementIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.createMeasurement(measurementGroupMock,"some", TEST_MEASUREMENT_TYPE);
+        tracker.createMeasurement(TEST_MEASUREMENT_TYPE, "Some", "celcius", measurementGroupMock);
     }
 
     @Test
     public void ShouldCreateMeasurement_WhenqCreateMeasurementIsCalled() throws Exception {
-        //noinspection ConstantConditions
         tracker.createMeasurementGroup(measurementGroupMock);
 
         // verify(baseAppDataCreator).createMeasurementGroup(measurementGroupMock);

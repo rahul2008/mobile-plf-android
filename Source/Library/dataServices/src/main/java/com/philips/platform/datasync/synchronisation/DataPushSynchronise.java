@@ -119,10 +119,10 @@ public class DataPushSynchronise extends EventMonitor {
                 public void run() {
                     sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
                     int jobsRunning = numberOfRunningSenders.decrementAndGet();
-                    DSLog.i("**SPO**","In Data Push Synchronize preformFetch and jobsRunning = " + jobsRunning);
+                    DSLog.i("**SPO**","In Data Push synchronize preformFetch and jobsRunning = " + jobsRunning);
 
                     if (jobsRunning <= 0) {
-                        DSLog.i("**SPO**","In Data Push Synchronize preformPush and jobsRunning = " + jobsRunning + "calling report result");
+                        DSLog.i("**SPO**","In Data Push synchronize preformPush and jobsRunning = " + jobsRunning + "calling report result");
                         postPushComplete();
                     }
                 }
@@ -141,7 +141,7 @@ public class DataPushSynchronise extends EventMonitor {
     }
 
     private void initPush(int size) {
-        DSLog.i("**SPO**","In Data Push Synchronize initPush");
+        DSLog.i("**SPO**","In Data Push synchronize initPush");
         numberOfRunningSenders.set(size);
     }
 

@@ -56,6 +56,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
                             DateTime.now(), 0));
             saveMoment(moment, dbRequestListener);
         }
+        notifyDBRequestListener.notifySuccess(dbRequestListener,(OrmMoment) moment);
     }
 
     @Override

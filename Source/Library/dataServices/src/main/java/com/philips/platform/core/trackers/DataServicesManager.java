@@ -215,11 +215,11 @@ public class DataServicesManager {
     }
 
     @NonNull
-    public Measurement createMeasurement(@NonNull final MeasurementGroup measurementGroup, String value, @NonNull final String type) {
+    public Measurement createMeasurement(@NonNull final String type, String value, String unit, @NonNull final MeasurementGroup measurementGroup) {
         Measurement measurement = mDataCreater.createMeasurement(type, measurementGroup);
         measurement.setValue(value);
         measurement.setDateTime(DateTime.now());
-        measurement.setUnit("celsius");
+        measurement.setUnit(unit);
         measurementGroup.addMeasurement(measurement);
         return measurement;
     }
@@ -254,7 +254,7 @@ public class DataServicesManager {
         mEventing.post((new MomentsUpdateRequest(moments, dbRequestListener)));
     }
 
-    public void Synchronize() {
+    public void synchronize() {
         sendPullDataEvent();
     }
 
