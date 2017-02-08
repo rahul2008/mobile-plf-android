@@ -199,7 +199,7 @@ public class RequestManagerTestCase extends MockitoTestCase {
 
     public void testgetUrlPlatform() {
         String urlPlatform = mRequestItemManager.getUrlPlatform();
-//        assertNotNull(urlPlatform);
+//       assertNotNull(urlPlatform);
     }
 
     public void testisServiceDiscoveryDataExpired() {

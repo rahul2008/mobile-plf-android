@@ -3,6 +3,7 @@ package com.philips.platform.appinfra.servicediscovery;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.MockitoTestCase;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
@@ -205,31 +206,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
             protected JSONObject getMasterConfigFromApp() {
                 JSONObject result = null;
                 try {
-                    String testJson = "{\n" +
-                            "  \"UR\": {\n" +
-                            "\n" +
-                            "    \"Development\": \"ad7nn99y2mv5berw5jxewzagazafbyhu\",\n" +
-                            "    \"Testing\": \"xru56jcnu3rpf8q7cgnkr7xtf9sh8pp7\",\n" +
-                            "    \"Evaluation\": \"4r36zdbeycca933nufcknn2hnpsz6gxu\",\n" +
-                            "    \"Staging\": \"f2stykcygm7enbwfw2u9fbg6h6syb8yd\",\n" +
-                            "    \"Production\": \"mz6tg5rqrg4hjj3wfxfd92kjapsrdhy3\"\n" +
-                            "\n" +
-                            "  },\n" +
-                            "  \"AI\": {\n" +
-                            "    \"MicrositeID\": 77001,\n" +
-                            "    \"RegistrationEnvironment\": \"Staging\",\n" +
-                            "    \"NL\": [\"googleplus\", \"facebook\"  ],\n" +
-                            "    \"US\": [\"facebook\",\"googleplus\" ],\n" +
-                            "    \"Map\": {\"one\": \"123\", \"two\": \"123.45\"},\n" +
-                            "    \"EE\": [123,234 ]\n" +
-                            "  }, \n" +
-                            " \"appinfra\": { \n" +
-                            "   \"appidentity.micrositeId\" : \"77000\",\n" +
-                            "  \"appidentity.sector\"  : \"B2C\",\n" +
-                            " \"appidentity.appState\"  : \"Staging\",\n" +
-                            "\"appidentity.serviceDiscoveryEnvironment\"  : \"Staging\",\n" +
-                            "\"restclient.cacheSizeInKB\"  : 1024 \n" +
-                            "} \n" + "}";
+                    String testJson = ConfigValues.testJson();
                     result = new JSONObject(testJson);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -278,6 +255,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         }
     }
 
+
     public void testsaveToSecureStore() {
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("saveToSecureStore", String.class, String.class);
@@ -295,7 +273,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     }
 
     public void testRefresh() {
-        mserviceDiscovery = loadServiceDiscoveryModel();
+      //  mserviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryInterface.refresh(new ServiceDiscoveryInterface.OnRefreshListener() {
             @Override
             public void onSuccess() {
@@ -311,7 +289,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     }
 
     public void testgetServiceUrlWithLanguagePreference() throws Exception {
-        //mServiceDiscoveryManager.setServiceDiscovery(loadServiceDiscoveryModel());
+//        //mServiceDiscoveryManager.setServiceDiscovery(loadServiceDiscoveryModel());
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("getServiceUrlWithLanguagePreference",
                     String.class, ServiceDiscoveryInterface.OnGetServiceUrlListener.class);
@@ -389,7 +367,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     }
 
     public void testgetServicesWithLanguageMapUrl() throws Exception {
-        serviceDiscovery = loadServiceDiscoveryModel();
+//        serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryInterface.getServicesWithLanguagePreference(mServicesId,
                 new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
                     @Override
@@ -407,7 +385,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 
 
     public void testgetServiceUrlWithCountryPreference() throws Exception {
-        serviceDiscovery = loadServiceDiscoveryModel();
+//        serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(mServiceId,
                 new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
                     @Override
@@ -485,7 +463,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 
 
     public void testgetServicesWithCountryMapUrl() throws Exception {
-        serviceDiscovery = loadServiceDiscoveryModel();
+//        serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryInterface.getServicesWithCountryPreference(mServicesId,
                 new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
                     @Override
@@ -502,7 +480,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     }
 
     public void testgetServiceLocaleWithCountryPreference() throws Exception {
-        serviceDiscovery = loadServiceDiscoveryModel();
+//        serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryInterface.getServiceLocaleWithCountryPreference(mServiceId,
                 new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
 
@@ -532,7 +510,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 
         mServiceDiscoveryInterface.getServiceLocaleWithCountryPreference(mServiceId,null);
     }
-
+//
     public void testgetServiceLocaleWithLanguagePreference() throws Exception {
         mServiceDiscoveryInterface.getServiceLocaleWithLanguagePreference(mServiceId,
                 new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
