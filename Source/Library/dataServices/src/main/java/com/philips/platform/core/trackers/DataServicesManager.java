@@ -58,6 +58,7 @@ import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import org.greenrobot.eventbus.EventBus;
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 
@@ -158,9 +159,9 @@ public class DataServicesManager {
         mEventing.post(new LoadMomentsRequest(momentID, dbRequestListener));
     }
 
-  /*  public void fetchAllData(DBRequestListener dbRequestListener) {
+    public void fetchAllMoment(DBRequestListener dbRequestListener) {
         mEventing.post(new LoadMomentsRequest(dbRequestListener));
-    }*/
+    }
 
     @NonNull
     public void fetchConsent(DBRequestListener dbRequestListener) {
@@ -222,8 +223,11 @@ public class DataServicesManager {
     }
 
     @NonNull
-    public Measurement createMeasurement(@NonNull final String type, @NonNull final MeasurementGroup measurementGroup) {
+    public Measurement createMeasurement(@NonNull final String type, String value, String unit, @NonNull final MeasurementGroup measurementGroup) {
         Measurement measurement = mDataCreater.createMeasurement(type, measurementGroup);
+        measurement.setValue(value);
+        measurement.setDateTime(DateTime.now());
+        measurement.setUnit(unit);
         measurementGroup.addMeasurement(measurement);
         return measurement;
     }
@@ -250,7 +254,7 @@ public class DataServicesManager {
         mEventing.post((new MomentUpdateRequest(moment, dbRequestListener)));
     }
 
-    public void Synchronize() {
+    public void synchronize() {
         sendPullDataEvent();
     }
 
