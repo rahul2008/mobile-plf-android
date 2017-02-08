@@ -19,7 +19,7 @@
             android:orientation="vertical">
 
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
                 android:text="@string/page_title_label"/>
 
@@ -168,7 +168,7 @@
             <!--Audio buttons group [END[-->
 
             <!--Slider group [START]-->
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
                 android:layout_marginTop="@dimen/component_bottom_spacing"
                 android:text="Description label"/>

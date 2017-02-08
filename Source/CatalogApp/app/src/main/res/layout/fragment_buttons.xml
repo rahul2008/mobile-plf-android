@@ -93,7 +93,7 @@
 
             <include layout="@layout/divider_layout"/>
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
                 android:text="@string/buttons"/>
 
@@ -152,7 +152,7 @@
 
                 <include layout="@layout/divider_layout"/>
 
-                <TextView
+                <com.philips.platform.uid.view.widget.Label
                     style="@style/ButtonsCategoryStyle"
                     android:text="@string/buttons_text_left_aligned_category"/>
 
@@ -211,7 +211,7 @@
 
             <include layout="@layout/divider_layout"/>
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
                 android:text="@string/buttons_icon_only"/>
 
@@ -251,7 +251,7 @@
                 style="@style/ButtonsCategoryStyle"
                 android:onClick="@{(v) -> frag.showGridFragment()}">
 
-                <TextView
+                <com.philips.platform.uid.view.widget.Label
                     style="@style/ButtonsCategoryStyle"
                     android:layout_width="wrap_content"
                     android:layout_alignParentStart="true"
@@ -300,7 +300,7 @@
 
             </LinearLayout>
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
                 android:text="@string/buttons_progress"/>
 

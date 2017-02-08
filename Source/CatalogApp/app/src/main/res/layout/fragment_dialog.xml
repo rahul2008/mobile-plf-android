@@ -68,15 +68,9 @@
                     android:textSize="@dimen/button_toggle_text_size"/>
             </LinearLayout>
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
-                android:layout_height="32dp"
-                android:layout_marginTop="12dp"
-                android:background="?attr/uidApplicationBackground"
-                android:paddingEnd="20dp"
-                android:paddingStart="20dp"
-                android:text="@string/dialog_screen_text_dialogs"
-                android:textColor="?attr/uidTextPrimaryColor"/>
+                android:text="@string/dialog_screen_text_dialogs"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

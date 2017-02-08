@@ -32,7 +32,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             style="@style/ButtonsCategoryStyle"
             android:text="@string/date_time_picker"/>
 
@@ -77,7 +77,7 @@
                 android:visibility="@{fragment.disableTimePicker}"/>
         </LinearLayout>
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             style="@style/ButtonsCategoryStyle"
             android:text="@string/range_picker"/>
 
@@ -161,7 +161,7 @@
                 android:visibility="@{fragment.disableTimePicker}"/>
         </LinearLayout>
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             android:visibility="@{fragment.disableTimePicker}"
             style="@style/ButtonsCategoryStyle"
             android:text="@string/timeslot_picker"/>

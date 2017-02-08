@@ -42,7 +42,7 @@
 
             <include layout="@layout/divider_layout"/>
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
                 android:text="@string/checkbox_check_box"/>
 
@@ -78,7 +78,7 @@
                     android:enabled="@{frag.isCheckBoxEnabled}"
                     android:text="@string/checkbox_check_item_3"/>
 
-                <TextView
+                <com.philips.platform.uid.view.widget.Label
                     style="@style/ButtonsCategoryStyle"
                     android:text="@string/checkbox_check_multi_line"
                     android:layout_marginBottom="@dimen/checkbox_list_margin_top_bottom"/>
