@@ -58,7 +58,7 @@ public class TimeSyncDemo extends AppCompatActivity {
                 mTimeSyncInterface.refreshTime();
                 Date date = mTimeSyncInterface.getUTCTime();
                 formatter.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
-
+                System.out.println("KAVYA DEMO"+" "+formatter.format(date));
                 UTCtimeVal.setText(formatter.format(date));
             }
         });
