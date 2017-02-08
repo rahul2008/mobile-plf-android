@@ -249,6 +249,7 @@
 
             <RelativeLayout
                 style="@style/ButtonsCategoryStyle"
+                android:visibility="@{frag.isButtonsEnabled? View.VISIBLE: View.GONE}"
                 android:onClick="@{(v) -> frag.showGridFragment()}">
 
                 <com.philips.platform.uid.view.widget.Label
@@ -257,8 +258,7 @@
                     android:layout_alignParentStart="true"
                     android:paddingEnd="0dp"
                     android:paddingStart="0dp"
-                    android:text="@string/social_media_icons"
-                    android:visibility="@{frag.isButtonsEnabled ? View.VISIBLE : View.GONE}"/>
+                    android:text="@string/social_media_icons"/>
 
                 <ImageButton
                     android:layout_width="wrap_content"
