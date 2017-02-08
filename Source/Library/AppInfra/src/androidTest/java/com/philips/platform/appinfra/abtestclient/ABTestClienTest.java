@@ -3,8 +3,12 @@ package com.philips.platform.appinfra.abtestclient;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+
+import org.json.JSONObject;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -23,6 +27,8 @@ public class ABTestClienTest extends MockitoTestCase {
     private Method method;
     private ABTestClientManager abTestClienTestManager;
     private CacheModel cacheModel;
+    private AppConfigurationManager mConfigInterface;
+
 
     @Override
     protected void setUp() throws Exception {
@@ -32,6 +38,7 @@ public class ABTestClienTest extends MockitoTestCase {
 
         mAppInfra = new AppInfra.Builder().build(mContext);
         assertNotNull(mAppInfra);
+        testConfig();
         mAbTestClientInterface = mAppInfra.getAbTesting();
         assertNotNull(mAbTestClientInterface);
         abTestClienTestManager = new ABTestClientManager(mAppInfra);
@@ -50,6 +57,26 @@ public class ABTestClienTest extends MockitoTestCase {
         }
 
     }
+
+    public void testConfig() {
+
+        mConfigInterface = new AppConfigurationManager(mAppInfra) {
+            @Override
+            protected JSONObject getMasterConfigFromApp() {
+                JSONObject result = null;
+                try {
+                    String testJson = ConfigValues.testJson();
+                    result = new JSONObject(testJson);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return result;
+            }
+
+        };
+        mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(mContext);
+    }
+
 
     public void testCacheStatusValue() {
         try {
@@ -229,9 +256,9 @@ public class ABTestClienTest extends MockitoTestCase {
 
     public void testUpdateMemorycacheForTestName() {
         try {
-            method = abTestClienTestManager.getClass().getDeclaredMethod("updateMemorycacheForTestName",new Class[]{String.class,String.class, null});
+            method = abTestClienTestManager.getClass().getDeclaredMethod("updateMemorycacheForTestName", new Class[]{String.class, String.class, null});
             method.setAccessible(true);
-            method.invoke(abTestClienTestManager,new Object[]{"Test name","Content",null});
+            method.invoke(abTestClienTestManager, new Object[]{"Test name", "Content", null});
 
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTestClient",

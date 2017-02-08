@@ -9,6 +9,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.MockitoTestCase;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.rest.request.GsonCustomRequest;
@@ -37,6 +38,8 @@ public class RestManagerTest extends MockitoTestCase {
     private String baseURL = "https://hashim.herokuapp.com";
     private String serviceIdString = "userreg.janrain.api";
     private String accessToken;
+    private AppConfigurationManager mConfigInterface;
+
 
     @Override
     protected void setUp() throws Exception {
@@ -45,9 +48,30 @@ public class RestManagerTest extends MockitoTestCase {
         assertNotNull(context);
         mAppInfra = new AppInfra.Builder().build(context);
         assertNotNull(mAppInfra);
+        testConfig();
         mRestInterface = mAppInfra.getRestClient();
         assertNotNull(mRestInterface);
     }
+
+    public void testConfig() {
+
+        mConfigInterface = new AppConfigurationManager(mAppInfra) {
+            @Override
+            protected JSONObject getMasterConfigFromApp() {
+                JSONObject result = null;
+                try {
+                    String testJson = ConfigValues.testJson();
+                    result = new JSONObject(testJson);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return result;
+            }
+
+        };
+        mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(context);
+    }
+
 
     public void testgetRequestQueue() {
         queue = mRestInterface.getRequestQueue();
@@ -73,7 +97,7 @@ public class RestManagerTest extends MockitoTestCase {
                     String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
                     assertNotNull(errorcode);
                 }
-            }, null, null,null);
+            }, null, null, null);
         } catch (Exception e) {
             Log.i("LOG", "" + e.toString());
         }
@@ -101,7 +125,7 @@ public class RestManagerTest extends MockitoTestCase {
                     String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
                     assertNotNull(errorcode);
                 }
-            }, null, null,null);
+            }, null, null, null);
         } catch (Exception e) {
             Log.e("LOG REST SD", e.toString());
             e.printStackTrace();
@@ -124,7 +148,7 @@ public class RestManagerTest extends MockitoTestCase {
                 public void onErrorResponse(VolleyError error) {
                     assertNotNull(error);
                 }
-            }, null, null,null);
+            }, null, null, null);
 
         } catch (Exception e) {
             Log.e("LOG REST SD", e.toString());
@@ -234,7 +258,7 @@ public class RestManagerTest extends MockitoTestCase {
         GsonCustomRequest request = null;
         try {
             request = new GsonCustomRequest(Request.Method.GET, baseURL + "/RCT/test.php?action=data&id=" + "az",
-                    null,  new Response.Listener() {
+                    null, new Response.Listener() {
                 @Override
                 public void onResponse(Object response) {
                     assertSame("{\"id\":\"az\"}", "{\"id\":\"az\"}");
@@ -245,7 +269,7 @@ public class RestManagerTest extends MockitoTestCase {
                 public void onErrorResponse(VolleyError error) {
                     // Handle error
                 }
-            }, null, null,null);
+            }, null, null, null);
         } catch (Exception e) {
             Log.e("LOG REST SD", e.toString());
         }
@@ -256,8 +280,8 @@ public class RestManagerTest extends MockitoTestCase {
     }
 
     public void testAppInfraRequestWithServiceId() {
-        Map<String , String> header = new HashMap<>();
-        header.put("test","pwd");
+        Map<String, String> header = new HashMap<>();
+        header.put("test", "pwd");
         GsonCustomRequest request = null;
         try {
             request = new GsonCustomRequest(Request.Method.GET, serviceIdString, ServiceIDUrlFormatting.SERVICEPREFERENCE.BYLANGUAGE
@@ -310,7 +334,7 @@ public class RestManagerTest extends MockitoTestCase {
                     assertNotNull(errorcode);
                 }
 
-            }, null, null,null);
+            }, null, null, null);
         } catch (Exception e) {
             Log.i("LOG", "" + e.toString());
         }
@@ -357,7 +381,7 @@ public class RestManagerTest extends MockitoTestCase {
                             String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
                             assertNotNull(errorcode);
                         }
-                    }, header ,null , provider
+                    }, header, null, provider
             ) {
 
                 @Override
