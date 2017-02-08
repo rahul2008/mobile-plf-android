@@ -9,6 +9,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.MockitoTestCase;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.rest.request.GsonCustomRequest;
@@ -37,6 +38,8 @@ public class RestManagerTest extends MockitoTestCase {
     private String baseURL = "https://hashim.herokuapp.com";
     private String serviceIdString = "userreg.janrain.api";
     private String accessToken;
+    private AppConfigurationManager mConfigInterface;
+
 
     @Override
     protected void setUp() throws Exception {
@@ -45,9 +48,30 @@ public class RestManagerTest extends MockitoTestCase {
         assertNotNull(context);
         mAppInfra = new AppInfra.Builder().build(context);
         assertNotNull(mAppInfra);
+        testConfig();
         mRestInterface = mAppInfra.getRestClient();
         assertNotNull(mRestInterface);
     }
+
+    public void testConfig() {
+
+        mConfigInterface = new AppConfigurationManager(mAppInfra) {
+            @Override
+            protected JSONObject getMasterConfigFromApp() {
+                JSONObject result = null;
+                try {
+                    String testJson = ConfigValues.testJson();
+                    result = new JSONObject(testJson);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return result;
+            }
+
+        };
+        mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(context);
+    }
+
 
     public void testgetRequestQueue() {
         queue = mRestInterface.getRequestQueue();
