@@ -256,9 +256,9 @@ public class ABTestClienTest extends MockitoTestCase {
 
     public void testUpdateMemorycacheForTestName() {
         try {
-            method = abTestClienTestManager.getClass().getDeclaredMethod("updateMemorycacheForTestName",new Class[]{String.class,String.class, null});
+            method = abTestClienTestManager.getClass().getDeclaredMethod("updateMemorycacheForTestName", new Class[]{String.class, String.class, null});
             method.setAccessible(true);
-            method.invoke(abTestClienTestManager,new Object[]{"Test name","Content",null});
+            method.invoke(abTestClienTestManager, new Object[]{"Test name", "Content", null});
 
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTestClient",

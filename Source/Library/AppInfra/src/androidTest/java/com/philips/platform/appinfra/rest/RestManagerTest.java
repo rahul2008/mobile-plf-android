@@ -97,7 +97,7 @@ public class RestManagerTest extends MockitoTestCase {
                     String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
                     assertNotNull(errorcode);
                 }
-            }, null, null,null);
+            }, null, null, null);
         } catch (Exception e) {
             Log.i("LOG", "" + e.toString());
         }
@@ -125,7 +125,7 @@ public class RestManagerTest extends MockitoTestCase {
                     String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
                     assertNotNull(errorcode);
                 }
-            }, null, null,null);
+            }, null, null, null);
         } catch (Exception e) {
             Log.e("LOG REST SD", e.toString());
             e.printStackTrace();
@@ -148,7 +148,7 @@ public class RestManagerTest extends MockitoTestCase {
                 public void onErrorResponse(VolleyError error) {
                     assertNotNull(error);
                 }
-            }, null, null,null);
+            }, null, null, null);
 
         } catch (Exception e) {
             Log.e("LOG REST SD", e.toString());
@@ -258,7 +258,7 @@ public class RestManagerTest extends MockitoTestCase {
         GsonCustomRequest request = null;
         try {
             request = new GsonCustomRequest(Request.Method.GET, baseURL + "/RCT/test.php?action=data&id=" + "az",
-                    null,  new Response.Listener() {
+                    null, new Response.Listener() {
                 @Override
                 public void onResponse(Object response) {
                     assertSame("{\"id\":\"az\"}", "{\"id\":\"az\"}");
@@ -269,7 +269,7 @@ public class RestManagerTest extends MockitoTestCase {
                 public void onErrorResponse(VolleyError error) {
                     // Handle error
                 }
-            }, null, null,null);
+            }, null, null, null);
         } catch (Exception e) {
             Log.e("LOG REST SD", e.toString());
         }
@@ -280,8 +280,8 @@ public class RestManagerTest extends MockitoTestCase {
     }
 
     public void testAppInfraRequestWithServiceId() {
-        Map<String , String> header = new HashMap<>();
-        header.put("test","pwd");
+        Map<String, String> header = new HashMap<>();
+        header.put("test", "pwd");
         GsonCustomRequest request = null;
         try {
             request = new GsonCustomRequest(Request.Method.GET, serviceIdString, ServiceIDUrlFormatting.SERVICEPREFERENCE.BYLANGUAGE
@@ -334,7 +334,7 @@ public class RestManagerTest extends MockitoTestCase {
                     assertNotNull(errorcode);
                 }
 
-            }, null, null,null);
+            }, null, null, null);
         } catch (Exception e) {
             Log.i("LOG", "" + e.toString());
         }
@@ -381,7 +381,7 @@ public class RestManagerTest extends MockitoTestCase {
                             String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
                             assertNotNull(errorcode);
                         }
-                    }, header ,null , provider
+                    }, header, null, provider
             ) {
 
                 @Override
