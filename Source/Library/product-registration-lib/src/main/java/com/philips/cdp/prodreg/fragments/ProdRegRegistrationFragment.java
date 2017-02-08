@@ -10,10 +10,8 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -62,7 +60,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private EditText date_EditText;
     private ProdRegRegistrationController prodRegRegistrationController;
     private boolean textWatcherCalled = false;
-    private boolean loadingFlag = false;
     private Button registerButton;
     private FragmentActivity mActivity;
     private TextView tickIcon;
@@ -450,34 +447,11 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void dismissLoadingDialog() {
-        loadingFlag = false;
-        final FragmentActivity activity = mActivity;
-        if (activity != null && !activity.isFinishing()) {
-            Fragment prev = getFragmentManager().findFragmentByTag("dialog");
-            if (prev != null && prev instanceof DialogFragment) {
-                ((DialogFragment) prev).dismissAllowingStateLoss();
-            }
-        }
+         ProdRegLoadingAlertDialog.dismissProdRegLoadingDialog();
     }
 
     @Override
     public void showLoadingDialog() {
-        if (!loadingFlag && mActivity != null && !mActivity.isFinishing()) {
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            Fragment prev = getFragmentManager().findFragmentByTag("dialog");
-            if (prev != null) {
-                ft.remove(prev);
-                ft.commitAllowingStateLoss();
-            }
-            DialogFragment newFragment = ProdRegLoadingFragment.newInstance(getString(R.string.PPR_Registering_Products_Lbltxt));
-            try {
-                ft.add(newFragment, "dialog");
-                ft.commitAllowingStateLoss();
-                loadingFlag = true;
-                getFragmentManager().executePendingTransactions();
-            } catch (IllegalStateException e) {
-                e.printStackTrace();
-            }
-        }
+        ProdRegLoadingAlertDialog.showProdRegLoadingDialog(getString(R.string.PPR_Registering_Products_Lbltxt),getActivity());
     }
 }

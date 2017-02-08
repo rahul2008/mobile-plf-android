@@ -17,13 +17,9 @@ import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.request.RequestType;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-
 import org.json.JSONObject;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.HashMap;
@@ -39,6 +35,7 @@ public class ProductSummaryRequest extends PrxRequest {
     public ProductSummaryRequest(String ctn, String serviceID, Sector sector, Catalog catalog) {
         super(ctn, serviceID, sector, catalog);
         mServiceId = serviceID;
+        mCtn=ctn;
     }
 
 //    public ProductSummaryRequest(String ctn, String serviceId) {

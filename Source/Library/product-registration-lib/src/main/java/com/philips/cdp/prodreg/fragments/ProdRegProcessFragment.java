@@ -7,10 +7,8 @@ package com.philips.cdp.prodreg.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -163,24 +161,11 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
 
     @Override
     public void showLoadingDialog() {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
-        if (prev != null) {
-            ft.remove(prev);
-            ft.commitAllowingStateLoss();
-        }
-        DialogFragment newFragment = ProdRegLoadingFragment.newInstance(getString(R.string.PPR_Looking_For_Products_Lbltxt));
-        newFragment.show(getActivity().getSupportFragmentManager(), "dialog");
+        ProdRegLoadingAlertDialog.showProdRegLoadingDialog(getString(R.string.PPR_Looking_For_Products_Lbltxt), getActivity());
     }
 
     @Override
     public void dismissLoadingDialog() {
-        final FragmentActivity activity = getActivity();
-        if (activity != null && !activity.isFinishing()) {
-            Fragment prev = activity.getSupportFragmentManager().findFragmentByTag("dialog");
-            if (prev instanceof DialogFragment) {
-                ((DialogFragment) prev).dismissAllowingStateLoss();
-            }
-        }
+        ProdRegLoadingAlertDialog.dismissProdRegLoadingDialog();
     }
 }
