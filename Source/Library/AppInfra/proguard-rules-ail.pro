@@ -134,47 +134,8 @@
 -keep interface com.android.volley.** { *; }
 -keep class org.apache.commons.logging.**
 
-
--keep public class com.philips.platform.appinfra.AppInfra { *; }
--keep public class com.philips.platform.appinfra.AppInfra.Builder { *; }
--keepnames public class com.philips.platform.appinfra.AppInfra.Builder
--keep public class com.philips.platform.appinfra.GlobalStore { *; }
-
--keepnames public class com.philips.platform.appinfra.AppInfra
--keep public class  com.philips.platform.appinfra.AppInfra$* {
-        *;
- }
--keepclassmembers  public class com.philips.platform.appinfra.AppInfra
--keep public class com.philips.platform.appinfra.AppInfraLibraryApplication.**
-
-
--keep public class com.philips.platform.appinfra.appidentity.** {
-  public protected *;
-}
--keep public class com.philips.platform.appinfra.securestorage.** {
-  public protected *;
-}
--keep public class com.philips.platform.appinfra.logging.** {
-   public protected *;
- }
- -keep public class com.philips.platform.appinfra.servicediscovery.** {
-    public protected *;
-  }
--keep public class com.philips.platform.appinfra.timesync.** {
-    public protected *;
-  }
-
--keep public class com.philips.platform.appinfra.config.** {
-    public protected *;
-  }
-
--keep public class com.philips.platform.appinfra.rest.** {
-    public protected *;
-  }
-
--keep public interface com.philips.platform.appinfra.appidentity.AppIdentityInterface {*;}
-
--keep public interface com.philips.platform.appinfra.AppInfraInterface {*;}
+-keep public class com.philips.platform.appinfra.**(*;}
+-keep interface com.philips.platform.appinfra.**(*;}
 
 #notification
 -dontwarn android.app.Notification
