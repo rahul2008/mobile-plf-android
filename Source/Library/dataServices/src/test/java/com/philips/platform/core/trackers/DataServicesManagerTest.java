@@ -42,6 +42,7 @@ import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.philips.platform.verticals.VerticalCreater;
 import com.philips.platform.verticals.VerticalUCoreAccessProvider;
 import com.philips.platform.verticals.VerticalUserRegistrationInterface;
+import com.philips.testing.verticals.datatyes.MomentType;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -195,7 +196,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostFetchEvent_WhenFetchIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.fetchMomentWithType(dbRequestListener ,new Integer(1));
+        tracker.fetchMomentWithType(dbRequestListener , MomentType.TEMPERATURE);
 
         verify(eventingMock).post(any(LoadMomentsRequest.class));
     }
@@ -364,7 +365,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldCreateMeasurement_WhenCreateMeasurementIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.createMeasurement(TEST_MEASUREMENT_TYPE, measurementGroupMock);
+        tracker.createMeasurement(measurementGroupMock,"some", TEST_MEASUREMENT_TYPE);
     }
 
     @Test

@@ -92,10 +92,7 @@ public class TemperaturePresenter {
     }
 
     private void createMeasurement(MeasurementGroup group, String value) {
-        mMeasurement = mDataServices.createMeasurement(MeasurementType.TEMPERATURE, group);
-        mMeasurement.setValue(value);
-        mMeasurement.setDateTime(DateTime.now());
-        mMeasurement.setUnit("celsius");
+        mMeasurement = mDataServices.createMeasurement(group, value, MeasurementType.TEMPERATURE);
     }
 
     private void createMomentDetail(String value, Moment moment) {
