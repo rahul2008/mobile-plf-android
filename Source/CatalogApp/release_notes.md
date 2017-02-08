@@ -2,6 +2,8 @@
 
 
 SPRINT - MUITK.PI17.1.Sprint4
+EHUFA-1311 - Checkbox multiline support
+EHUFA-1324 - Headers fix for Gallery app
 EHUFA-1222 - Android: Social Icons
 EHUFA-1259 - [Android Test][Toggle Switch] Disabled color of thumb shadow is not as per color mapping
 EHUFA-1300 - [Android Test]][Text Box Password] Keypad doesn't launch when text box is disabled and enabled
