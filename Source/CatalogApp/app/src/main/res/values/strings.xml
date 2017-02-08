@@ -140,4 +140,7 @@
     <string name="two_lines">Two lines</string>
     <string name="template_selection">Template selection</string>
     <string name="recyclerview_the_header">The header</string>
+    <string name="page_title_gridView">GridView</string>
+    <string name="gridView_title">This is a long title for an image</string>
+    <string name="gridView_description">This is a very long description for an image</string>
 </resources>

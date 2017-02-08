@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/card_size"
+    android:layout_gravity="center"
+    android:layout_margin="@dimen/card_margin">
+
+    <ImageView
+        android:id="@+id/thumbnail"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/card_image_height"
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:contentDescription="@string/gridview_image"
+        android:scaleType="fitXY" />
+
+    <LinearLayout
+        android:id="@+id/twoLineTextLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/card_text_height"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/thumbnail"
+        android:background="?attr/uidControlPrimaryEnabledColor"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/UIDGridViewTitleText"
+            android:paddingRight="@dimen/card_title_padding" />
+
+        <TextView
+            android:id="@+id/description"
+            style="@style/UIDGridViewDescriptionText"
+            android:paddingRight="@dimen/card_title_padding" />
+    </LinearLayout>
+</RelativeLayout>
+
+
+
+

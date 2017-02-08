@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/card_size"
+    android:layout_margin="@dimen/card_margin"
+    android:id="@+id/card_view"
+    >
+    <ImageView
+        android:id="@+id/thumbnail"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/card_size"
+        android:contentDescription="@string/gridview_image"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:scaleType="center"
+        android:adjustViewBounds="true"
+        />
+    <com.philips.platform.uid.utils.GradientContainer
+        style="@style/UIDGridGradientStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        >
+        <LinearLayout
+            android:id="@+id/twoLineTextLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/card_text_height"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="#0000"
+            >
+            <TextView
+                style="@style/UIDGridViewTitleText"
+                android:id="@+id/title"
+                />
+            <TextView
+                style="@style/UIDGridViewDescriptionText"
+                android:id="@+id/description"
+                />
+        </LinearLayout>
+    </com.philips.platform.uid.utils.GradientContainer>
+</FrameLayout>

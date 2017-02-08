@@ -162,4 +162,5 @@
 
     <color name="uidColorWhite">#FFFFFF</color>
     <color name="uidColorBlack">#000000</color>
+    <color name="uidTransparent">#0000</color>
 </resources>

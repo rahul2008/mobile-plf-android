@@ -81,4 +81,8 @@
             <enum name="Secondary" value="2"/>
         </attr>
     </declare-styleable>
+    <declare-styleable name="UIDGradientView">
+        <attr name="gradientStartColor" format="reference|color"/>
+        <attr name="gradientEndColor" format="reference|color"/>
+    </declare-styleable>
 </resources>

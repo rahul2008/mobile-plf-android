@@ -169,4 +169,13 @@
     <dimen name="uid_date_picker_header_dayofmonth_size">88dp</dimen>
     <dimen name="uid_date_picker_header_dayofweek_size">14dp</dimen>
     <dimen name="uid_date_picker_header_year_size">24dp</dimen>
+    <!-- CardView -->
+    <dimen name="card_margin">5dp</dimen>
+    <dimen name="card_title_padding">16dp</dimen>
+    <dimen name="card_title_size">16sp</dimen>
+    <dimen name="card_descrption_size">12sp</dimen>
+    <dimen name="card_text_height">64dp</dimen>
+    <dimen name="card_image_height">160dp</dimen>
+    <dimen name="card_size">224dp</dimen>
+
 </resources>
