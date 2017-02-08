@@ -38,12 +38,11 @@ public class SeparatorTest extends BaseTest {
         activity = testRule.launchActivity(launchIntent);
         activity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
         activity.switchFragment(new ComponentListFragment());
-        registerIdlingResources(activity);
     }
 
     @Test
     public void verifyListViewSeparatorHeight() throws Exception {
-        final int height = (int) activity.getResources().getDimension(R.dimen.uid_divider_Height);
+        final int height = activity.getResources().getDimensionPixelSize(R.dimen.uid_divider_Height);
 
         onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.componentList)).check(matches(SeparatorMatcher.hasSameHeight(height)));
     }
@@ -63,8 +62,9 @@ public class SeparatorTest extends BaseTest {
     @Test
     public void verifySeparatorHeight() throws Exception {
         final float height = activity.getResources().getDimensionPixelSize(R.dimen.uid_divider_Height);
+        UIDTestUtils.waitFor(height, 750);
 
-        onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.uid_test_separator)).check(matches(SeparatorMatcher.hasHeight(height)));
+        onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.uid_test_separator)).check(matches(SeparatorMatcher.hasHeight((int) height)));
     }
 
     @Test
@@ -103,6 +103,8 @@ public class SeparatorTest extends BaseTest {
     @Test
     public void verifyRecyclerViewSeparatorHeight() throws Exception {
         final int height = activity.getResources().getDimensionPixelSize(R.dimen.uid_divider_Height);
+
+        UIDTestUtils.waitFor(height, 700);
 
         onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.recyclerviewSeparatorItems))
                 .check(matches(SeparatorMatcher.hasSameHeight(height)));
