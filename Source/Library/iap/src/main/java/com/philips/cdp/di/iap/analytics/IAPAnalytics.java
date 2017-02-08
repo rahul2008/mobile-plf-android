@@ -51,4 +51,8 @@ public class IAPAnalytics {
         if (sAppTaggingInterface != null)
             sAppTaggingInterface.collectLifecycleInfo(activity);
     }
+
+    public static void clearAppTaggingInterface() {
+        sAppTaggingInterface = null;
+    }
 }

@@ -162,6 +162,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
     protected void onDestroy() {
         dismissProgressDialog();
         NetworkUtility.getInstance().dismissErrorDialog();
+        IAPAnalytics.clearAppTaggingInterface();
         super.onDestroy();
     }
 
