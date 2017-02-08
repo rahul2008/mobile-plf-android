@@ -7,6 +7,8 @@ import java.sql.Savepoint;
 import android.database.Cursor;;
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteStatement;
+
+import com.j256.ormlite.android.AndroidDatabaseResults;
 import com.j256.ormlite.dao.ObjectCache;
 import com.j256.ormlite.field.FieldType;
 import com.j256.ormlite.field.SqlType;

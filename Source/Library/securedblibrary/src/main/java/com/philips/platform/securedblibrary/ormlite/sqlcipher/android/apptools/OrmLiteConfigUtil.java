@@ -25,6 +25,7 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.j256.ormlite.table.DatabaseTableConfig;
 import com.j256.ormlite.table.DatabaseTableConfigLoader;
+import com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper;
 
 /**
  * Database configuration file helper class that is used to write a configuration file into the raw resource

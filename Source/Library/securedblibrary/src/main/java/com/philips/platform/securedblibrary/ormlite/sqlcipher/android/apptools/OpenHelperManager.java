@@ -7,6 +7,7 @@ import com.j256.ormlite.dao.BaseDaoImpl;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.logger.Logger;
 import com.j256.ormlite.logger.LoggerFactory;
+import com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper;
 
 import net.sqlcipher.database.SQLiteOpenHelper;
 

@@ -6,24 +6,21 @@
 package com.philips.platform.securedblibrary.securestoragedb;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.securestorage.SecureStorage;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.securedblibrary.MockitoTestCase;
-import com.philips.platform.securedblibrary.ormlite.sqlcipher.android.apptools.SecureDbOrmLiteSqliteOpenHelper;
+import com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
 import java.sql.SQLException;
-import java.util.Arrays;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 
 /**
@@ -49,7 +46,8 @@ public class SecureStorageDBTest extends MockitoTestCase {
     }
 
     public void testDatabaseTable() throws Exception {
-        secureDbOrmLiteSqliteOpenHelper = new SecureDbOrmLiteSqliteOpenHelper(context,DATABASE_NAME,null,DATABASE_VERSION,DATABASE_PASSWORD_KEY) {
+       AppInfraInterface appInfra = new AppInfra.Builder().build(context);
+        secureDbOrmLiteSqliteOpenHelper = new SecureDbOrmLiteSqliteOpenHelper(context,appInfra,DATABASE_NAME,null,DATABASE_VERSION,DATABASE_PASSWORD_KEY) {
             @Override
             public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource)  {
                 try {

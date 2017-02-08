@@ -8,7 +8,7 @@ import com.j256.ormlite.misc.TransactionManager;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
-import com.philips.platform.securedblibrary.ormlite.sqlcipher.android.apptools.SecureDbOrmLiteSqliteOpenHelper;
+import com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
@@ -62,7 +62,7 @@ public class SecureDataBaseQueryHelper<T> {
 
     public SQLiteDatabase getWriteDbPermission() throws SQLException {
 
-        String pass = getHelper().getPassword();
+        char[] pass = getHelper().getPassword();
         return getHelper().getWritableDatabase(pass);
     }
 
@@ -282,7 +282,7 @@ public class SecureDataBaseQueryHelper<T> {
                         public Void call() throws Exception {
 
                             List<AddressBook> addressBooksList = new ArrayList<>();
-                            for (int i = 0; i < 1000; i++) {
+                            for (int i = 0; i < 10000; i++) {
                                 addressBooksList.add(new AddressBook("A", "AZ", "BANGALORE", "98484848488"));
                             }
 

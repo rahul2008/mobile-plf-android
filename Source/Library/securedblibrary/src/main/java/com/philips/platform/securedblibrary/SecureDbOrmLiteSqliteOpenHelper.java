@@ -1,8 +1,7 @@
-package com.philips.platform.securedblibrary.ormlite.sqlcipher.android.apptools;
+package com.philips.platform.securedblibrary;
 
 import android.content.Context;
 import android.util.Base64;
-import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -15,9 +14,11 @@ import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.table.DatabaseTableConfigLoader;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.securedblibrary.ormlite.sqlcipher.android.AndroidConnectionSource;
 import com.philips.platform.securedblibrary.ormlite.sqlcipher.android.AndroidDatabaseConnection;
+import com.philips.platform.securedblibrary.ormlite.sqlcipher.android.apptools.OrmLiteConfigUtil;
 
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteDatabase.CursorFactory;
@@ -29,6 +30,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.security.Key;
 import java.sql.SQLException;
 
@@ -38,14 +40,14 @@ import java.sql.SQLException;
  */
 public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelper {
 
-    protected static Logger logger = LoggerFactory.getLogger(SecureDbOrmLiteSqliteOpenHelper.class);
+    private  AppInfraInterface mAppInfraInterface;
     protected AndroidConnectionSource connectionSource;
     protected boolean cancelQueriesEnabled;
     SecureStorageInterface mSecureStorage = null;
     private volatile boolean isOpen = true;
     private String databaseKey;
     private Context context;
-    public String password;
+    public char[] password;
 
     /**
      * @param context         Associated content from the application. This is needed to locate the database.
@@ -54,13 +56,15 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
      * @param databaseVersion Version of the database we are opening. This causes {@link #onUpgrade(SQLiteDatabase, int, int)} to be
      *                        called if the stored database is a different version.
      */
-    public SecureDbOrmLiteSqliteOpenHelper(Context context, String dataBaseName, CursorFactory factory, int databaseVersion, String databaseKey) {
+    public SecureDbOrmLiteSqliteOpenHelper(Context context,AppInfraInterface mAppInfraInterface, String dataBaseName, CursorFactory factory, int databaseVersion, String databaseKey) {
         super(context, dataBaseName, factory, databaseVersion);
         this.context = context;
+        this.mAppInfraInterface=mAppInfraInterface;
         this.databaseKey = databaseKey;
-        password = retrievePassword(databaseKey);
+        password = retrievePassword(databaseKey,mAppInfraInterface);
         connectionSource = new AndroidConnectionSource(this);
-        logger.trace("{}: constructed connectionSource {}", this, connectionSource);
+        mAppInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, "{}: constructed connectionSource {}",connectionSource.toString());
+
     }
 
     /**
@@ -74,9 +78,9 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
      *                        called if the stored database is a different version.
      * @param configFileId    file-id which probably should be a R.raw.ormlite_config.txt or some static value.
      */
-    public SecureDbOrmLiteSqliteOpenHelper(Context context, String databaseName, CursorFactory factory, int databaseVersion,
+    public SecureDbOrmLiteSqliteOpenHelper(Context context,AppInfraInterface mAppInfraInterface, String databaseName, CursorFactory factory, int databaseVersion,
                                            int configFileId, String password) {
-        this(context, databaseName, factory, databaseVersion, openFileId(context, configFileId), password);
+        this(context,mAppInfraInterface, databaseName, factory, databaseVersion, openFileId(context, configFileId), password);
     }
 
     /**
@@ -89,9 +93,9 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
      *                        called if the stored database is a different version.
      * @param configFile      Configuration file to be loaded.
      */
-    public SecureDbOrmLiteSqliteOpenHelper(Context context, String databaseName, CursorFactory factory, int databaseVersion,
+    public SecureDbOrmLiteSqliteOpenHelper(Context context,AppInfraInterface mAppInfraInterface, String databaseName, CursorFactory factory, int databaseVersion,
                                            File configFile, String password) {
-        this(context, databaseName, factory, databaseVersion, openFile(configFile), password);
+        this(context, mAppInfraInterface,databaseName, factory, databaseVersion, openFile(configFile), password);
 
     }
 
@@ -106,12 +110,13 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
      *                        called if the stored database is a different version.
      * @param stream          Stream opened to the configuration file to be loaded.
      */
-    public SecureDbOrmLiteSqliteOpenHelper(Context context, String dataBaseName, CursorFactory factory, int databaseVersion,
+    public SecureDbOrmLiteSqliteOpenHelper(Context context,AppInfraInterface mAppInfraInterface, String dataBaseName, CursorFactory factory, int databaseVersion,
                                            InputStream stream, String databaseKey) {
         super(context, dataBaseName, factory, databaseVersion);
         this.context = context;
+        this.mAppInfraInterface=mAppInfraInterface;
         this.databaseKey = databaseKey;
-        password = retrievePassword(databaseKey);
+        password = retrievePassword(databaseKey,mAppInfraInterface);
         connectionSource = new AndroidConnectionSource(this);
         if (stream == null) {
             return;
@@ -188,7 +193,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
     public ConnectionSource getConnectionSource() {
         if (!isOpen) {
             // we don't throw this exception, but log it for debugging purposes
-            logger.warn(new IllegalStateException(), "Getting connectionSource was called after closed");
+            mAppInfraInterface.getLogging().log(LoggingInterface.LogLevel.WARNING,""+new IllegalStateException(),"Getting connectionSource was called after closed");
         }
         return connectionSource;
     }
@@ -255,11 +260,11 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
         }
     }
 
-    public String getPassword() {
+    public char[] getPassword() {
         if (password != null) {
             return password;
         } else {
-            return retrievePassword(databaseKey);
+            return retrievePassword(databaseKey,mAppInfraInterface);
         }
     }
 
@@ -324,15 +329,25 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
         return getClass().getSimpleName() + "@" + Integer.toHexString(super.hashCode());
     }
 
-    private String retrievePassword(String databaseKey) {
+    private char[] retrievePassword(String databaseKey,AppInfraInterface mAppInfraInterface) {
 
-        AppInfraInterface appInfra = new AppInfra.Builder().build(context.getApplicationContext());
-        mSecureStorage = appInfra.getSecureStorage();
+        mSecureStorage = mAppInfraInterface.getSecureStorage();
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError(); // to get error code if any
         if (mSecureStorage != null) {
             Key key = mSecureStorage.getKey(databaseKey, sse);
             if (key != null) {
-                return Base64.encodeToString(key.getEncoded(), Base64.DEFAULT);
+                byte[] data = key.getEncoded();
+
+                String text1 = null;   // if the charset is UTF-8
+                try {
+                    text1 = new String(data, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+                char[] chars = text1.toCharArray();
+                //return Base64.encodeToString(key.getEncoded(), Base64.DEFAULT);
+                return  chars;
             }
         }
         return null;

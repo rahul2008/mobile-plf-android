@@ -47,7 +47,7 @@ public class MainActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         SQLiteDatabase.loadLibs(this);
-        secureDataBaseHelper = new SecureDataBaseHelper<>(this, AddressBook.class, DATABASE_NAME, DATABASE_VERSION, DATABASE_PASSWORD_KEY);
+        secureDataBaseHelper = new SecureDataBaseHelper<>(this,SecureDBApplication.getAppInfraInterface() ,AddressBook.class, DATABASE_NAME, DATABASE_VERSION, DATABASE_PASSWORD_KEY);
         secureDataBaseQueryHelper = new SecureDataBaseQueryHelper(this, secureDataBaseHelper, "hi");
 
         add_btn = (Button) findViewById(R.id.createOrInsert_btn);

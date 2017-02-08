@@ -4,7 +4,9 @@ import android.content.Context;
 
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import com.philips.platform.securedblibrary.ormlite.sqlcipher.android.apptools.SecureDbOrmLiteSqliteOpenHelper;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
@@ -16,8 +18,8 @@ public class SecureDataBaseHelper<T> extends SecureDbOrmLiteSqliteOpenHelper {
 
 
 
-    public SecureDataBaseHelper(Context context, Class tableName, String dataBaseName, int databaseVersion, String databaseKey)  {
-        super(context, dataBaseName, null, databaseVersion, databaseKey);
+    public SecureDataBaseHelper(Context context, AppInfraInterface mAppInfraInterface, Class tableName, String dataBaseName, int databaseVersion, String databaseKey)  {
+        super(context, mAppInfraInterface,dataBaseName, null, databaseVersion, databaseKey);
         this.tableName=tableName;
         this.context=context;
 

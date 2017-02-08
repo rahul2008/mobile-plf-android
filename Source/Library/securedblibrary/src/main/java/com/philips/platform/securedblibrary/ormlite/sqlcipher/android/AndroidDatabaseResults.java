@@ -1,5 +1,12 @@
 package com.philips.platform.securedblibrary.ormlite.sqlcipher.android;
 
+import android.database.Cursor;
+
+import com.j256.ormlite.dao.ObjectCache;
+import com.j256.ormlite.db.DatabaseType;
+import com.j256.ormlite.db.SqliteAndroidDatabaseType;
+import com.j256.ormlite.support.DatabaseResults;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -8,13 +15,6 @@ import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.j256.ormlite.dao.ObjectCache;
-import com.j256.ormlite.db.DatabaseType;
-import com.j256.ormlite.db.SqliteAndroidDatabaseType;
-import com.j256.ormlite.support.DatabaseResults;
-
-import android.database.Cursor;
 
 /**
  * Android implementation of our results object.

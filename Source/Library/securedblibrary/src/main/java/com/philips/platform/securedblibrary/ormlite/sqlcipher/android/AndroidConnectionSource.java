@@ -1,6 +1,7 @@
 package com.philips.platform.securedblibrary.ormlite.sqlcipher.android;
 
 import com.j256.ormlite.db.DatabaseType;
+import com.j256.ormlite.db.SqliteAndroidDatabaseType;
 import com.j256.ormlite.logger.Logger;
 import com.j256.ormlite.logger.LoggerFactory;
 import com.j256.ormlite.misc.SqlExceptionUtil;
@@ -8,8 +9,7 @@ import com.j256.ormlite.support.BaseConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.support.DatabaseConnectionProxyFactory;
-import com.philips.platform.securedblibrary.ormlite.sqlcipher.android.apptools.SecureDbOrmLiteSqliteOpenHelper;
-import com.philips.platform.securedblibrary.ormlite.sqlcipher.db.SqliteAndroidDatabaseType;
+import com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper;
 
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteOpenHelper;
@@ -65,7 +65,7 @@ public class AndroidConnectionSource extends BaseConnectionSource implements Con
 			SQLiteDatabase db;
 			if (sqliteDatabase == null) {
 				try {
-					String password;
+					char[] password;
 					if (helper instanceof SecureDbOrmLiteSqliteOpenHelper) {
 						SecureDbOrmLiteSqliteOpenHelper openHelper = (SecureDbOrmLiteSqliteOpenHelper) helper;
 						password = openHelper.getPassword();
