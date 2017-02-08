@@ -16,8 +16,6 @@ import com.philips.platform.datasync.UCoreAccessProvider;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.Collections;
-
 import javax.inject.Inject;
 
 import retrofit.RetrofitError;
@@ -61,7 +59,10 @@ public class UserCharacteristicsMonitor extends EventMonitor {
             postError(characteristicsBackendSaveRequest.getEventId(), getNonLoggedInError());
             return;
         }
-         mUserCharacteristicsSender.sendDataToBackend(characteristicsBackendSaveRequest.getCharacteristicsList());
+
+        if (characteristicsBackendSaveRequest.getCharacteristicsList().size() != 0) {
+            mUserCharacteristicsSender.sendDataToBackend(characteristicsBackendSaveRequest.getCharacteristicsList());
+        }
     }
 
     private boolean isUserInvalid() {

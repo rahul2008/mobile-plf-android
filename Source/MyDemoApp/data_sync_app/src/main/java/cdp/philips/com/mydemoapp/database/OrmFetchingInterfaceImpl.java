@@ -239,14 +239,10 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     private List<? extends Characteristics> fetchNonSynchronizedCharacteristics() throws SQLException {
 
         List<OrmCharacteristics> query = new ArrayList<>();
-
         if (!isSynced(OrmTableType.CHARACTERISTICS.getId())) {
-            return query;
+            QueryBuilder<OrmCharacteristics, Integer> characteristicsIntegerQueryBuilder = characteristicsDao.queryBuilder();
+            query = characteristicsIntegerQueryBuilder.query();
         }
-        QueryBuilder<OrmCharacteristics, Integer> characteristicsIntegerQueryBuilder = characteristicsDao.queryBuilder();
-        query = characteristicsIntegerQueryBuilder.query();
-
-
         return query;
     }
 
