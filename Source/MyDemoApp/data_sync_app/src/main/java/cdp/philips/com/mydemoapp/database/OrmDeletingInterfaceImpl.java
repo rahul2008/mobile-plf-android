@@ -56,6 +56,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
                             DateTime.now(), 0));
             saveMoment(moment, dbRequestListener);
         }
+        notifyDBRequestListener.notifySuccess(dbRequestListener,(OrmMoment) moment);
     }
 
     @Override
@@ -69,6 +70,13 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     public void deleteMoment(Moment moment, DBRequestListener dbRequestListener) throws SQLException {
         ormDeleting.ormDeleteMoment((OrmMoment) moment);
         notifyDBRequestListener.notifySuccess(dbRequestListener,(OrmMoment) moment);
+    }
+
+    @Override
+    public void deleteMoments(List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
+       for(Moment moment: moments){
+           deleteMoment(moment,dbRequestListener);
+       }
     }
 
     @Override
