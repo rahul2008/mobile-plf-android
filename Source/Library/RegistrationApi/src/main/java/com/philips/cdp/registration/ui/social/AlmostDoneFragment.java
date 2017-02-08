@@ -733,7 +733,13 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             mEtEmail.showInvalidAlert();
             mEtEmail.showErrPopUp();
         } else {
-            mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+            if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
+                if (RegistrationHelper.getInstance().isChinaFlow()){
+                    mRegError.setError(mContext.getResources().getString(R.string.reg_CreateAccount_Using_Phone_Alreadytxt));
+                }else {
+                    mRegError.setError(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
+                }
+            }
         }
     }
 

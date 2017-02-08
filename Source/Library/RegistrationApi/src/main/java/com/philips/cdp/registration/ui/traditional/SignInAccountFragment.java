@@ -369,9 +369,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         mEtEmail.requestFocus();
 
-        mEtEmail.setHint(getResources().getString(R.string.reg_CreateAccount_Email_PhoneNumber));
-        mEtEmail.setInputType(InputType.TYPE_CLASS_TEXT);
-
         mEtPassword = (XPassword) view.findViewById(R.id.rl_reg_password_field);
         mEtPassword.setOnClickListener(this);
         mEtPassword.setOnUpdateListener(this);
