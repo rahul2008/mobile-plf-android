@@ -9,7 +9,6 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.exceptions.JsonFileNotFoundException;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
@@ -18,7 +17,6 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.io.File;
-import java.util.Locale;
 
 import flowmanager.FlowManager;
 import flowmanager.screens.utility.BaseAppUtil;
@@ -49,7 +47,7 @@ public class AppFrameworkApplication extends Application {
         loggingInterface = appInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
         loggingInterface.enableConsoleLog(true);
         loggingInterface.enableFileLog(true);
-        setLocale();
+      //  setLocale();
     }
 
     public LoggingInterface getLoggingInterface() {
@@ -60,13 +58,6 @@ public class AppFrameworkApplication extends Application {
         return appInfra;
     }
 
-    private void setLocale() {
-        String languageCode = Locale.getDefault().getLanguage();
-        String countryCode = Locale.getDefault().getCountry();
-
-        PILLocaleManager localeManager = new PILLocaleManager(this);
-        localeManager.setInputLocale(languageCode, countryCode);
-    }
 
     public BaseFlowManager getTargetFlowManager() {
         return targetFlowManager;
