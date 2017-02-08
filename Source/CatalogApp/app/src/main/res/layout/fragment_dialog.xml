@@ -70,6 +70,7 @@
 
             <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
+                android:layout_marginTop="14dp"
                 android:text="@string/dialog_screen_text_dialogs"/>
 
             <LinearLayout
