@@ -95,11 +95,11 @@ public class AppTagging implements AppTaggingInterface {
     protected JSONObject getMasterADBMobileConfig() {
         JSONObject result = null;
         try {
-            InputStream mInputStream = mAppInfra.getAppInfraContext().getAssets().open("ADBMobileConfig.json");
-            BufferedReader r = new BufferedReader(new InputStreamReader(mInputStream));
+            final InputStream mInputStream = mAppInfra.getAppInfraContext().getAssets().open("ADBMobileConfig.json");
+            final BufferedReader mBufferedReader = new BufferedReader(new InputStreamReader(mInputStream));
             StringBuilder total = new StringBuilder();
             String line;
-            while ((line = r.readLine()) != null) {
+            while ((line = mBufferedReader.readLine()) != null) {
                 total.append(line).append('\n');
             }
             result = new JSONObject(total.toString());
@@ -280,9 +280,7 @@ public class AppTagging implements AppTaggingInterface {
 
 
     private void track(String pageName, Map<String, String> paramMap, boolean isTrackPage) {
-        if (checkForSslConnection()) {
-            trackData(pageName, paramMap, isTrackPage);
-        } else if (checkForProductionState()) {
+        if (checkForSslConnection() || checkForProductionState()) {
             trackData(pageName, paramMap, isTrackPage);
         }
     }
@@ -324,18 +322,14 @@ public class AppTagging implements AppTaggingInterface {
     @Override
     public void trackTimedActionStart(String actionStart) {
 
-        if (checkForSslConnection()) {
-            Analytics.trackTimedActionStart(actionStart, addAnalyticsDataObject());
-        } else if (checkForProductionState()) {
+        if (checkForSslConnection() || checkForProductionState() ) {
             Analytics.trackTimedActionStart(actionStart, addAnalyticsDataObject());
         }
     }
 
     @Override
     public void trackTimedActionEnd(String actionEnd) {
-        if (checkForSslConnection()) {
-            Analytics.trackTimedActionEnd(actionEnd, null);
-        } else if (checkForProductionState()) {
+        if (checkForSslConnection() || checkForProductionState()) {
             Analytics.trackTimedActionEnd(actionEnd, null);
         }
 
@@ -351,7 +345,7 @@ public class AppTagging implements AppTaggingInterface {
     @Override
     public boolean getPrivacyConsentForSensitiveData() {
         boolean consentValue;
-        String consentValueString = mAppInfra.getSecureStorage().fetchValueForKey(AIL_PRIVACY_CONSENT, getSecureStorageErrorValue());
+        final String consentValueString = mAppInfra.getSecureStorage().fetchValueForKey(AIL_PRIVACY_CONSENT, getSecureStorageErrorValue());
         consentValue = consentValueString != null && consentValueString.equalsIgnoreCase("true");
         Log.i("consentValue", ""+consentValue);
         return consentValue;

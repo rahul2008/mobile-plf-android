@@ -274,20 +274,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         return ContentItemList;
     }
 
-    private boolean updateContentLoaderStateTable(SQLiteDatabase db, long mLastUpdatedTime, String serviceID, long expiryDate) {
-        ContentValues values = new ContentValues();
-        values.put(KEY_SERVICE_ID, serviceID);
-        values.put(KEY_EXPIRE_TIMESTAMP, expiryDate);
-        values.put(KEY_LAST_UPDATED_TIME, mLastUpdatedTime);
 
-        long rowId = db.replace(CONTENT_LOADER_STATES, null, values);
-        if (rowId == -1) {
-            Log.e("INS FAIL", CONTENT_LOADER_STATES);
-        } else {
-            Log.i("INS SUC", "row id " + CONTENT_LOADER_STATES + " " + rowId);
-        }
-        return rowId == -1 ? false : true;
-    }
 
 
     protected long getContentLoaderServiceStateExpiry(String serviceID) {
