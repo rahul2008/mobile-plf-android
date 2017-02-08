@@ -65,6 +65,7 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
         FirmwarePortProperties firmwarePortInfo = parseResponse(jsonResponse);
         if (firmwarePortInfo != null) {
             setPortProperties(firmwarePortInfo);
+            notifyListenersWithPortProperties(firmwarePortInfo);
             return;
         }
         DICommLog.e(DICommLog.FIRMWAREPORT, "FirmwarePort Info should never be NULL");
@@ -95,6 +96,27 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
     @Override
     public boolean supportsSubscription() {
         return true;
+    }
+
+    private int oldProgress = -1;
+
+    private void notifyListenersWithPortProperties(FirmwarePortProperties firmwarePortProperties) {
+        if (firmwarePortProperties.getProgress() != oldProgress && firmwarePortProperties.getState() != null) {
+            switch (firmwarePortProperties.getState()) {
+                case DOWNLOADING:
+                    notifyProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.DOWNLOADING, firmwarePortProperties.getProgress());
+                    break;
+                case CHECKING:
+                    notifyProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.CHECKING, firmwarePortProperties.getProgress());
+                    break;
+                case PROGRAMMING:
+                    notifyProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.DEPLOYING, firmwarePortProperties.getProgress());
+                    break;
+                default:
+                    DICommLog.d(DICommLog.FIRMWAREPORT, "There is no progress for the " + firmwarePortProperties.getState() + " state.");
+            }
+
+        }
     }
 
     private void notifyProgressUpdated(FirmwarePortListener.FirmwarePortProgressType type, int progress) {
