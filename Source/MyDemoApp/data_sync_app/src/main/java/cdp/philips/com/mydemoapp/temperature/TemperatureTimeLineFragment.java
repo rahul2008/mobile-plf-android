@@ -307,6 +307,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void dBChangeSuccess() {
+        DSLog.i(DSLog.LOG, "DB OnSuccess");
         mTemperaturePresenter.fetchData(this);
     }
 
