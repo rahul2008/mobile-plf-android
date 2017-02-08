@@ -1,5 +1,5 @@
 /*
- * (C) Koninklijke Philips N.V., 20NAVIGATION_COLOR_ULTRALIGHT6.
+ * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  *
  */
@@ -72,7 +72,7 @@ public class NavigationBarTest {
     @Test
     public void verifyTitleMargin() throws Exception {
         setupUltralightTonalRangeActivity();
-        int titleMargin = (int) resources.getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_margin);
+        int titleMargin = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.navigation_title_margin);
 
         getTitle().check(matches(ViewPropertiesMatchers.isSameLeftMargin(titleMargin)));
         getTitle().check(matches(ViewPropertiesMatchers.isSameRightMargin(titleMargin)));
@@ -104,7 +104,7 @@ public class NavigationBarTest {
     public void verifyTitleTextSize() throws Exception {
         setupUltralightTonalRangeActivity();
 
-        int fontSize = (int) resources.getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_size);
+        int fontSize = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.navigation_title_text_size);
 
         getTitle().check(matches(TextViewPropertiesMatchers.isSameFontSize(fontSize)));
     }
@@ -130,7 +130,7 @@ public class NavigationBarTest {
     public void verifyToolbarHeight() throws Exception {
         setupUltralightTonalRangeActivity();
 
-        int toolbarHeight = (int) resources.getDimension(com.philips.platform.uid.test.R.dimen.navigation_height);
+        int toolbarHeight = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.navigation_height);
 
         getNavigationBar().check(matches(ViewPropertiesMatchers.isSameViewHeight(toolbarHeight)));
     }
@@ -139,7 +139,7 @@ public class NavigationBarTest {
     public void verifyNavigationMenuIconSize() throws Exception {
         setupUltralightTonalRangeActivity();
 
-        int iconSize = (int) resources.getDimension(com.philips.platform.uid.test.R.dimen.navigation_icon_size);
+        int iconSize = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.navigation_icon_size);
 
         getNavigationIcon().check(matches(FunctionDrawableMatchers.isSameHeight("getDrawable", iconSize, com.philips.platform.uid.test.R.drawable.ic_hamburger_menu)));
         getNavigationIcon().check(matches(FunctionDrawableMatchers.isSameWidth("getDrawable", iconSize, com.philips.platform.uid.test.R.drawable.ic_hamburger_menu)));
@@ -176,7 +176,7 @@ public class NavigationBarTest {
     public void verifyOptionsMenuTextSize() throws Exception {
 
         setupActivity(NavigationColor.VERY_LIGHT.ordinal());
-        int fontSize = (int) resources.getDimension(com.philips.platform.uid.test.R.dimen.navigation_menu_text_size);
+        int fontSize = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.navigation_menu_text_size);
         //Added wait because test is failing could be it takes time to inflate menu
         getOptionsMenuText().check(matches(TextViewPropertiesMatchers.isSameFontSize(fontSize)));
     }
@@ -185,7 +185,7 @@ public class NavigationBarTest {
     public void verifyOptionsMenuIconSize() throws Exception {
         setupUltralightTonalRangeActivity();
 
-        int iconSize = (int) resources.getDimension(com.philips.platform.uid.test.R.dimen.navigation_icon_size);
+        int iconSize = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.navigation_icon_size);
 
         getOptionsMenuIcon().check(matches(FunctionDrawableMatchers.isSameHeight(iconSize)));
         getOptionsMenuIcon().check(matches(FunctionDrawableMatchers.isSameWidth(iconSize)));
@@ -195,7 +195,7 @@ public class NavigationBarTest {
     public void verifyOptionsMenuIconTargetArea() throws Exception {
         setupUltralightTonalRangeActivity();
 
-        int navigationbarHeight = (int) resources.getDimension(com.philips.platform.uid.test.R.dimen.navigation_button_touchable_area);
+        int navigationbarHeight = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.navigation_button_touchable_area);
 
         getOptionsMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(navigationbarHeight)));
         getOptionsMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewWidth(navigationbarHeight)));

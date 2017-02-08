@@ -1,9 +1,8 @@
 /*
- * (C) Koninklijke Philips N.V., 20NAVIGATION_COLOR_ULTRALIGHT6.
+ * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  *
  */
-
 package com.philips.platform.uid.components.navigation;
 
 import android.content.res.Resources;

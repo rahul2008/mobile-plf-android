@@ -1,13 +1,15 @@
+/*
+ * (C) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ *
+ */
+
 package com.philips.platform.uid.activity;
 
 import android.support.test.espresso.IdlingResource;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 class UidIdlingResource implements IdlingResource {
 
     private AtomicBoolean isIdleNow = new AtomicBoolean(true);

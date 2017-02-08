@@ -7,14 +7,13 @@
 package com.philips.platform.uid.components.separator;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v4.content.ContextCompat;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
+import com.philips.platform.uid.components.BaseTest;
 import com.philips.platform.uid.matcher.SeparatorMatcher;
 import com.philips.platform.uid.utils.UIDTestUtils;
 
@@ -27,7 +26,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 
-public class SeparatorTest {
+public class SeparatorTest extends BaseTest {
 
     @Rule
     public ActivityTestRule<BaseTestActivity> testRule = new ActivityTestRule<BaseTestActivity>(BaseTestActivity.class, false, false);
@@ -39,16 +38,7 @@ public class SeparatorTest {
         activity = testRule.launchActivity(launchIntent);
         activity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
         activity.switchFragment(new ComponentListFragment());
-    }
-
-    @NonNull
-    private Intent getLaunchIntent(final int navigationColor, final int contentColor) {
-        final Bundle bundleExtra = new Bundle();
-        bundleExtra.putInt(BaseTestActivity.NAVIGATION_COLOR_KEY, navigationColor);
-        bundleExtra.putInt(BaseTestActivity.CONTENT_COLOR_KEY, contentColor);
-        final Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.putExtras(bundleExtra);
-        return intent;
+        registerIdlingResources(activity);
     }
 
     @Test
@@ -73,9 +63,8 @@ public class SeparatorTest {
     @Test
     public void verifySeparatorHeight() throws Exception {
         final float height = activity.getResources().getDimensionPixelSize(R.dimen.uid_divider_Height);
-        UIDTestUtils.waitFor(height, 750);
 
-        onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.uid_test_separator)).check(matches(SeparatorMatcher.hasHeight((int) height)));
+        onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.uid_test_separator)).check(matches(SeparatorMatcher.hasHeight(height)));
     }
 
     @Test
@@ -113,9 +102,7 @@ public class SeparatorTest {
 
     @Test
     public void verifyRecyclerViewSeparatorHeight() throws Exception {
-        final int height = (int) activity.getResources().getDimension(R.dimen.uid_divider_Height);
-
-        UIDTestUtils.waitFor(height, 700);
+        final int height = activity.getResources().getDimensionPixelSize(R.dimen.uid_divider_Height);
 
         onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.recyclerviewSeparatorItems))
                 .check(matches(SeparatorMatcher.hasSameHeight(height)));

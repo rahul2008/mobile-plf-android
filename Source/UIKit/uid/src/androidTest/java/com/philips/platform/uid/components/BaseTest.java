@@ -1,3 +1,9 @@
+/*
+ * (C) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ *
+ */
+
 package com.philips.platform.uid.components;
 
 import android.content.Intent;
@@ -24,6 +30,16 @@ public class BaseTest {
     protected Intent getLaunchIntent(final int navigationColor) {
         final Bundle bundleExtra = new Bundle();
         bundleExtra.putInt(BaseTestActivity.NAVIGATION_COLOR_KEY, navigationColor);
+        final Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.putExtras(bundleExtra);
+        return intent;
+    }
+
+    @NonNull
+    protected Intent getLaunchIntent(final int navigationColor, final int contentColor) {
+        final Bundle bundleExtra = new Bundle();
+        bundleExtra.putInt(BaseTestActivity.NAVIGATION_COLOR_KEY, navigationColor);
+        bundleExtra.putInt(BaseTestActivity.CONTENT_COLOR_KEY, contentColor);
         final Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.putExtras(bundleExtra);
         return intent;
