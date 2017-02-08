@@ -89,7 +89,7 @@ public abstract class IAPState extends BaseState {
         IAPFlowInput iapFlowInput = new IAPFlowInput(getCtnList());
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(getLaunchType(), iapFlowInput);
-//        iapLaunchInput.setIapListener((IAPListener) fragmentLauncher.getFragmentActivity());
+        iapLaunchInput.setIapListener((IAPListener) fragmentLauncher.getFragmentActivity());
         try {
             iapInterface.launch(fragmentLauncher, iapLaunchInput);
 

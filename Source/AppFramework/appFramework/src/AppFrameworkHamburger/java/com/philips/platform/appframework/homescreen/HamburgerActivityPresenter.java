@@ -53,6 +53,7 @@ public class HamburgerActivityPresenter extends UIBasePresenter {
         try {
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
             if(targetFlowManager == null){
+                Toast.makeText(fragmentView.getFragmentActivity(), fragmentView.getFragmentActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
                 return;
             }
             baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.HAMBURGER_HOME), eventState);
