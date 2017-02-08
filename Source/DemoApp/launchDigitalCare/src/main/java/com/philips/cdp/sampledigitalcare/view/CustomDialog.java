@@ -7,9 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-
-import com.philips.cdp.sampledigitalcare.Listener;
-import com.philips.cdp.sampledigitalcare.R;
+import com.philips.cdp.sampledigitalcare.adapter.Listener;
+import com.philips.cl.di.dev.pa.R;
 
 import java.util.ArrayList;
 

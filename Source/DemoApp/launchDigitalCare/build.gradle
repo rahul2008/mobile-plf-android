@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply from: '../extra/calabash.gradle'
 
 repositories {
     maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
@@ -11,17 +12,20 @@ repositories {
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '23.0.3'
+    compileSdkVersion 24
+    buildToolsVersion "24.0.3"
 
     defaultConfig {
-        applicationId "com.philips.cdp.sampledigitalcare"
+        //applicationId "com.philips.cdp.sampledigitalcare"
+        applicationId "com.philips.cl.di.dev.pa"
         minSdkVersion 19
-        targetSdkVersion 23
+        targetSdkVersion 24
+        generatedDensities = []
+        multiDexEnabled true
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
         generatedDensities = []
-        multiDexEnabled true
+
     }
 
     lintOptions {
@@ -34,15 +38,22 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            minifyEnabled true
+            //  proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            proguardFile 'proguard.pro'
+            proguardFile 'appinfraproguard.pro'
             //  proguardFile 'proguard.pro'
             signingConfig signingConfigs.release
         }
         debug {
-            //   proguardFile 'C:/CodeRepository/ConsumerCare/consumer_care_android/Source/Library/launchDigitalCare/proguard.pro'
+            //   proguardFile 'C:/CodeRepository/ConsumerCare/consumer_care_android/Source/Library
+            // /launchDigitalCare/proguard.pro'
             minifyEnabled false
             proguardFile 'proguard.pro'
+            proguardFile 'appinfraproguard.pro'
+            //  proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            // proguardFile 'C:/CodeRepository/ConsumerCare/consumer_care_android/Source/Library/
+            // launchDigitalCare/proguard.pro'
         }
     }
 
@@ -74,14 +85,14 @@ android {
 
     productFlavors {
         simulator {
-            applicationId 'com.philips.cdp.sampledigitalcare'
-            versionCode 141
-            versionName '5.3.0.3'
+            applicationId 'com.philips.cl.di.dev.pa'
+            versionCode 601
+            versionName '7.0.0.1'
         }
         device {
-            applicationId 'com.philips.cdp.sampledigitalcare'
-            versionCode 141
-            versionName '5.3.0.3'
+            applicationId 'com.philips.cl.di.dev.pa'
+            versionCode 601
+            versionName '7.0.0.1'
         }
     }
 
@@ -91,25 +102,60 @@ android {
     }
 }
 
+calabash {
+    calabashPath "../TestAutomation"
+}
 
 dependencies {
-    compile 'com.android.support:recyclerview-v7:23.1.1'
+    //compile project(':digitalCare')
+    compile 'com.android.support:recyclerview-v7:+'
     compile 'com.android.support:appcompat-v7:+'
     compile 'com.android.support:support-v4:+'
     compile 'com.android.support:multidex:+'
-    compile(group: 'com.philips.cdp', name: 'Tagging', version: '3.0.0', ext: 'aar')
 
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '5.2.2', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.3.4-SNAPSHOT', ext: 'aar')
             {
-                transitive = true
+                transitive true
             }
-
 }
 
-android {
+task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
+
+    description 'Run findbugs'
+    group 'verification'
+    ignoreFailures = true
+    classes = fileTree('build/intermediates/classes/simulator/debug')
+    source = fileTree('src/main/java')
+    classpath = files()
+
+    effort = 'max'
+
+    excludeFilter = file("findbugs-exclude.xml")
+
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+}
+
+task pmd(type: Pmd, dependsOn: "assembleDebug") {
+
+    description 'Run pmd'
+    group 'verification'
+    ignoreFailures = true
+    ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
+    source = fileTree('src/main/java')
+
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+}
+
+/*android {
     packagingOptions {
         exclude 'lib/arm64-v8a/librsjni.so'
         pickFirst 'lib/arm64-v8a/libRSSupport.so'
     }
-}
+}*/
 
