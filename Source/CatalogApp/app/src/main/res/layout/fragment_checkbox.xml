@@ -50,7 +50,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/checkbox_list_margin_top_bottom"
-                android:layout_marginTop="@dimen/checkbox_list_margin_top_bottom"
                 android:orientation="vertical">
 
                 <com.philips.platform.uid.view.widget.CheckBox
@@ -75,10 +74,21 @@
                     android:id="@+id/checkbox_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/checkbox_list_margin_top_bottom"
                     android:enabled="@{frag.isCheckBoxEnabled}"
                     android:text="@string/checkbox_check_item_3"/>
 
-                <include layout="@layout/divider_layout"/>
+                <TextView
+                    style="@style/ButtonsCategoryStyle"
+                    android:text="@string/checkbox_check_multi_line"
+                    android:layout_marginBottom="@dimen/checkbox_list_margin_top_bottom"/>
+
+                <com.philips.platform.uid.view.widget.CheckBox
+                    android:id="@+id/checkbox_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:enabled="@{frag.isCheckBoxEnabled}"
+                    android:text="@string/checkbox_check_item_4"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
