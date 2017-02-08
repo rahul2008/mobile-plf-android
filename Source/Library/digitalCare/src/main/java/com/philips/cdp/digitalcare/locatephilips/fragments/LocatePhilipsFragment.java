@@ -491,6 +491,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                         REQUEST_CODE_ASK_PERMISSIONS);
             }
+			else {
+				getCurrentLocation();
+			}
         } else {
             getCurrentLocation();
         }
