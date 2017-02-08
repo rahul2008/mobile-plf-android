@@ -46,7 +46,6 @@ import com.philips.cdp.digitalcare.contactus.models.CdlsPhoneModel;
 import com.philips.cdp.digitalcare.contactus.models.CdlsResponseModel;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsParsingCallback;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsResponseParser;
-import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandlerObserver;
 import com.philips.cdp.digitalcare.request.RequestData;
@@ -89,9 +88,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     private LinearLayout mContactUsParent = null;
     private LinearLayout mSocialProviderParent = null;
     private FrameLayout.LayoutParams mParams = null;
-    private DigitalCareFontButton mChat = null;
-    private DigitalCareFontButton mEmail = null;
-    private DigitalCareFontButton mCallPhilips = null;
+    private Button mChat = null;
+    private Button mEmail = null;
+    private Button mCallPhilips = null;
     private CdlsResponseModel mCdlsParsedResponse = null;
     private TextView mFirstRowText = null;
     private TextView mContactUsOpeningHours = null;
@@ -186,11 +185,11 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
         mContactUsParent = (LinearLayout) getActivity().findViewById(
                 R.id.contactUsParent);
-        mChat = (DigitalCareFontButton) getActivity().findViewById(
+        mChat = (Button) getActivity().findViewById(
                 R.id.contactUsChat);
-        mCallPhilips = (DigitalCareFontButton) getActivity().findViewById(
+        mCallPhilips = (Button) getActivity().findViewById(
                 R.id.contactUsCall);
-        mEmail = (DigitalCareFontButton) getActivity().findViewById(
+        mEmail = (Button) getActivity().findViewById(
                 R.id.contactUsEmail);
         mContactUsOpeningHours = (TextView) getActivity().findViewById(
                 R.id.contactUsOpeningHours);
