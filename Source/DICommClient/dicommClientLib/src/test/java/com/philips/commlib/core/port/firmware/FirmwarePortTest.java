@@ -10,7 +10,11 @@ import com.philips.commlib.core.communication.CommunicationStrategy;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InOrder;
 import org.mockito.Mock;
 
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.IDLE;
@@ -18,10 +22,10 @@ import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.Firm
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -30,6 +34,9 @@ public class FirmwarePortTest extends RobolectricTest {
 
     @Mock
     FirmwarePortListener mockFirmwarePortListener;
+
+    @Captor
+    ArgumentCaptor<Integer> progressCaptor;
 
     @Override
     @Before
@@ -108,6 +115,7 @@ public class FirmwarePortTest extends RobolectricTest {
         assertEquals(result.getState(), READY);
     }
 
+    @Ignore
     @Test
     public void testParseFirmwareEventInValidStateData() {
         String parseData = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgrade\":\"1.2\",\"state\":\"wrong\",\"progress\":0,\"statusmsg\":\"\",\"mandatory\":false}";
@@ -147,13 +155,82 @@ public class FirmwarePortTest extends RobolectricTest {
 
     @Test
     public void whenGoingFromIdleStateToDownloadState_ProgressUpdateShouldBeCalled() throws Exception {
-        parseFirmwarePortData(createPropertiesJson("1", "", "idle", 0, "", 0));
+        parseFirmwarePortData(createPropertiesJson("1", "", "idle", 0, "", 100));
+        parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 0, "", 100));
 
-        verify(mockFirmwarePortListener, never()).onProgressUpdated(any(FirmwarePortListener.FirmwarePortProgressType.class), eq(0));
+        verify(mockFirmwarePortListener, times(1)).onProgressUpdated(eq(FirmwarePortListener.FirmwarePortProgressType.DOWNLOADING), progressCaptor.capture());
+        assertEquals(0, progressCaptor.getValue().intValue());
+    }
 
-        parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 0, "", 0));
+    @Test
+    public void whenInDownloadingState_ProgressUpdateShoudBeCalled() throws Exception {
+        parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 0, "", 100));
+        parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 10, "", 100));
 
-        verify(mockFirmwarePortListener).onProgressUpdated(any(FirmwarePortListener.FirmwarePortProgressType.class), eq(0));
+        verify(mockFirmwarePortListener).onProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.DOWNLOADING, 0);
+        verify(mockFirmwarePortListener).onProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.DOWNLOADING, 10);
+    }
+
+    @Test
+    public void whenInDownloadingState_ProgressUpdateShoudNotBeCalledWithSameProgress() throws Exception {
+        parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 12, "", 100));
+        parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 12, "", 100));
+
+        verify(mockFirmwarePortListener, times(1)).onProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.DOWNLOADING, 12);
+    }
+
+    @Test
+    public void whenInDownloadingState_ProgressUpdateShoudBeCalledWithCorrectProgress() throws Exception {
+        parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 2, "", 50));
+        parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 5, "", 25));
+
+        InOrder inOrder = inOrder(mockFirmwarePortListener);
+        inOrder.verify(mockFirmwarePortListener).onProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.DOWNLOADING, 4);
+        inOrder.verify(mockFirmwarePortListener).onProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.DOWNLOADING, 20);
+    }
+
+    @Test
+    public void whenGoingFromDownloadingStateToCheckingState_ProgressUpdateShouldBeCalledWith100Percent() throws Exception {
+        parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 99, "", 100));
+        parseFirmwarePortData(createPropertiesJson("1", "", "checking", 0, "", 100));
+
+        verify(mockFirmwarePortListener).onProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.DOWNLOADING, 100);
+        verify(mockFirmwarePortListener).onProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.CHECKING, 0);
+    }
+
+    @Test
+    public void whenInCheckingState_ProgressUpdateShoudBeCalled() throws Exception {
+        parseFirmwarePortData(createPropertiesJson("1", "", "checking", 0, "", 100));
+        parseFirmwarePortData(createPropertiesJson("1", "", "checking", 10, "", 100));
+
+        verify(mockFirmwarePortListener).onProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.CHECKING, 0);
+        verify(mockFirmwarePortListener).onProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.CHECKING, 10);
+    }
+
+    @Test
+    public void whenInCheckingState_ProgressUpdateShoudNotBeCalledWithSameProgress() throws Exception {
+        parseFirmwarePortData(createPropertiesJson("1", "", "checking", 12, "", 100));
+        parseFirmwarePortData(createPropertiesJson("1", "", "checking", 12, "", 100));
+
+        verify(mockFirmwarePortListener, times(1)).onProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.CHECKING, 12);
+    }
+
+    @Test
+    public void whenInCheckingState_ProgressUpdateShoudBeCalledWithCorrectProgress() throws Exception {
+        parseFirmwarePortData(createPropertiesJson("1", "", "checking", 2, "", 50));
+        parseFirmwarePortData(createPropertiesJson("1", "", "checking", 5, "", 25));
+
+        InOrder inOrder = inOrder(mockFirmwarePortListener);
+        inOrder.verify(mockFirmwarePortListener).onProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.CHECKING, 4);
+        inOrder.verify(mockFirmwarePortListener).onProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.CHECKING, 20);
+    }
+
+    @Test
+    public void whenGoingFromCheckingStateToReadyState_ProgressUpdateShouldBeCalledWith100Percent() throws Exception {
+        parseFirmwarePortData(createPropertiesJson("1", "", "checking", 99, "", 100));
+        parseFirmwarePortData(createPropertiesJson("1", "", "ready", 0, "", 100));
+
+        verify(mockFirmwarePortListener).onProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.CHECKING, 100);
     }
 
     private String createPropertiesJson(String version, String upgrade, String state, int progress, String statusMsg, int size) {

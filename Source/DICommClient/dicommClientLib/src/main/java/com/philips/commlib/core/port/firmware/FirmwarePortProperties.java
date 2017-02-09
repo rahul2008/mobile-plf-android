@@ -8,7 +8,7 @@ package com.philips.commlib.core.port.firmware;
 import android.support.annotation.NonNull;
 
 import static android.text.TextUtils.isEmpty;
-import static java.lang.Math.*;
+import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 public class FirmwarePortProperties {
@@ -82,6 +82,7 @@ public class FirmwarePortProperties {
     private int progress = -1;
     private String statusmsg = "";
     private boolean mandatory;
+    private int size = 0;
 
     public String getName() {
         return name;
@@ -109,6 +110,10 @@ public class FirmwarePortProperties {
 
     public boolean isMandatory() {
         return mandatory;
+    }
+
+    public int getSize() {
+        return size;
     }
 
     public boolean isUpdateAvailable() {

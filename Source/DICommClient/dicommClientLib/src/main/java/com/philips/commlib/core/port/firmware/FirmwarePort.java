@@ -113,20 +113,31 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
 
     private void notifyListenersWithPortProperties(FirmwarePortProperties firmwarePortProperties) {
         if (firmwarePortProperties.getProgress() != previousFirmwarePortProperties.getProgress() || firmwarePortProperties.getState() != previousFirmwarePortProperties.getState()) {
+            int progress = firmwarePortProperties.getSize() > 0 ? (int) ((float) firmwarePortProperties.getProgress() / firmwarePortProperties.getSize() * 100) : 0;
+
             switch (firmwarePortProperties.getState()) {
                 case DOWNLOADING:
-                    notifyProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.DOWNLOADING, firmwarePortProperties.getProgress());
+                    notifyProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.DOWNLOADING, progress);
                     break;
                 case CHECKING:
-                    notifyProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.CHECKING, firmwarePortProperties.getProgress());
+                    notifyProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.CHECKING, progress);
                     break;
                 case PROGRAMMING:
-                    notifyProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.DEPLOYING, firmwarePortProperties.getProgress());
+                    notifyProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.DEPLOYING, progress);
                     break;
                 default:
                     DICommLog.d(DICommLog.FIRMWAREPORT, "There is no progress for the " + firmwarePortProperties.getState() + " state.");
             }
         }
+
+        if (previousFirmwarePortProperties.getState() == FirmwarePortProperties.FirmwarePortState.DOWNLOADING && firmwarePortProperties.getState() == FirmwarePortProperties.FirmwarePortState.CHECKING) {
+            notifyProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.DOWNLOADING, 100);
+        }
+
+        if (previousFirmwarePortProperties.getState() == FirmwarePortProperties.FirmwarePortState.CHECKING && firmwarePortProperties.getState() == FirmwarePortProperties.FirmwarePortState.READY) {
+            notifyProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.CHECKING, 100);
+        }
+
         previousFirmwarePortProperties = firmwarePortProperties;
 	}
 
