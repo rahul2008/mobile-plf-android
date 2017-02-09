@@ -1,6 +1,0 @@
-configurations.maybeCreate("default")
-
-def commlibAar = rootDir.absolutePath + '/../../../dicomm-android/Source/DICommClient/dicommClientLib/build/outputs/aar/dicommClientLib-debug.aar'
-if (new File(commlibAar).exists()) {
-    artifacts.add("default", file(commlibAar))
-}
