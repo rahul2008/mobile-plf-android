@@ -76,11 +76,21 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/textViewCurrentCountry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/textView3"
+            android:layout_marginTop="14dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
+
         <GridLayout
             android:id="@+id/gridlayout1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/textView3"
+            android:layout_below="@+id/textViewCurrentCountry"
             android:layout_marginTop="10dp"
             android:columnCount="2"
             android:orientation="horizontal"
@@ -91,6 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/lanuauge"
+                android:visibility="gone"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -101,6 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:text="@string/country"
+                android:visibility="gone"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -109,6 +121,7 @@
                 android:id="@+id/spinner1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginTop="5dp" />
 
             <Spinner

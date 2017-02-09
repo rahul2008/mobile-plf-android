@@ -1,5 +1,3 @@
-/productselection-release
-/productselection
 /.idea
 /.gradle
 /gradle.properties
@@ -7,10 +5,8 @@
 /.gradle/**
 /captures
 /build
-/digitalCare/gradle/wrapper/
-/digitalCare/build/
 /launchDigitalCare/build/
 /launchDigitalCare/gradle/wrapper/
 /.idea/
 /build/generated/
-/digitalCare/digitalCare.iml
+
