@@ -27,7 +27,9 @@
     "appidentity.sector"  : "b2c",
     "appidentity.appState"  : "STAGING",
     "appidentity.serviceDiscoveryEnvironment"  : "production",
-    "abtest.precache": ["philipsmobileappabtest1content","philipsmobileappabtest1success"]
+    "abtest.precache": ["philipsmobileappabtest1content","philipsmobileappabtest1success"],
+    "servicediscovery.platformMicrositeId":"77000",
+    "servicediscovery.platformEnvironment":"production"
   }
 
 }
