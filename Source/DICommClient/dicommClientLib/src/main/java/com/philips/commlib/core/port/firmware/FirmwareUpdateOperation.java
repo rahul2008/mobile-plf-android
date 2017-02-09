@@ -5,7 +5,7 @@
 package com.philips.commlib.core.port.firmware;
 
 interface FirmwareUpdateOperation {
-    void finish();
+    void execute();
 
     void cancel();
 }

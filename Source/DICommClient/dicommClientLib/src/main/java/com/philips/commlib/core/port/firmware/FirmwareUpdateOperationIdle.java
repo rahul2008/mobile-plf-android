@@ -14,11 +14,17 @@ class FirmwareUpdateOperationIdle implements FirmwareUpdateOperationState {
 
     FirmwareUpdateOperationIdle(@NonNull FirmwareUpdatePushLocal operation) {
         this.operation = operation;
-        this.operation.setFirmwarePortState(FirmwarePortState.DOWNLOADING);
+    }
+
+    @Override
+    public void execute() {
+        FirmwarePortState state = this.operation.updateFirmwarePortState(FirmwarePortState.DOWNLOADING);
+
+        // TODO check for correct state and act
     }
 
     @Override
     public void cancel() {
-        this.operation.finish();
+        // Nothing to do.
     }
 }

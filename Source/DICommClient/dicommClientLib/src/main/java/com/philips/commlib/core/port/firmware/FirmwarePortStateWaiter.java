@@ -6,6 +6,7 @@
 package com.philips.commlib.core.port.firmware;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.port.DICommPortListener;
@@ -25,46 +26,51 @@ class FirmwarePortStateWaiter {
     private final FirmwarePort firmwarePort;
     private final ExecutorService executor;
 
-    private class WaitTask implements Callable<Boolean> {
+    private class WaitTask implements Callable<FirmwarePortState> {
 
-        private FirmwarePortState expectedState;
+        private FirmwarePortState initialState;
+        private FirmwarePortState portState;
+
         private final long timeoutMillis;
         private CountDownLatch latch;
 
         private final DICommPortListener<FirmwarePort> firmwarePortListener = new DICommPortListener<FirmwarePort>() {
             @Override
             public void onPortUpdate(FirmwarePort port) {
-                FirmwarePortState portState = port.getPortProperties().getState();
-                if (portState == expectedState) {
+                portState = port.getPortProperties().getState();
+                if (portState != initialState) {
                     latch.countDown();
                 }
             }
 
             @Override
             public void onPortError(FirmwarePort port, Error error, String errorData) {
-                // Ignored
+                portState = null;
+                latch.countDown();
             }
         };
 
-        WaitTask(FirmwarePortState expectedState, long timeoutMillis) {
-            this.expectedState = expectedState;
+        WaitTask(FirmwarePortState initialState, long timeoutMillis) {
+            this.initialState = initialState;
             this.timeoutMillis = timeoutMillis;
             this.latch = createCountDownLatch();
         }
 
         @Override
-        public Boolean call() throws Exception {
+        public FirmwarePortState call() throws Exception {
             firmwarePort.addPortListener(firmwarePortListener);
             firmwarePort.subscribe();
 
             try {
-                return latch.await(this.timeoutMillis, TimeUnit.MILLISECONDS);
-            } catch (InterruptedException e) {
-                return false;
+                if (latch.await(this.timeoutMillis, TimeUnit.MILLISECONDS)) {
+                    return this.portState;
+                }
+            } catch (InterruptedException ignored) {
             } finally {
                 firmwarePort.unsubscribe();
                 firmwarePort.removePortListener(firmwarePortListener);
             }
+            return null;
         }
     }
 
@@ -76,23 +82,25 @@ class FirmwarePortStateWaiter {
     /**
      * Await.
      *
-     * @param expectedState the expected state
+     * @param initialState  the initial state
      * @param timeoutMillis the timeout in milliseconds
-     * @return true, if the expected state was obtained or false
-     * if the expected state wasn't obtained within the given timeout.
+     * @return the new state, or null if new state could not be obtained or a timeout occurred.
      */
-    public boolean await(FirmwarePortState expectedState, long timeoutMillis) {
-        if (expectedState == this.firmwarePort.getPortProperties().getState()) {
-            return true;
-        } else {
-            WaitTask waitTask = new WaitTask(expectedState, timeoutMillis);
-            Future<Boolean> future = executor.submit(waitTask);
+    @Nullable
+    public FirmwarePortState await(FirmwarePortState initialState, long timeoutMillis) {
+        final FirmwarePortState state = this.firmwarePort.getPortProperties().getState();
+
+        if (initialState == state) {
+            WaitTask waitTask = new WaitTask(initialState, timeoutMillis);
+            Future<FirmwarePortState> future = executor.submit(waitTask);
 
             try {
                 return future.get();
             } catch (ExecutionException | InterruptedException e) {
-                return false;
+                return null;
             }
+        } else {
+            return state;
         }
     }
 

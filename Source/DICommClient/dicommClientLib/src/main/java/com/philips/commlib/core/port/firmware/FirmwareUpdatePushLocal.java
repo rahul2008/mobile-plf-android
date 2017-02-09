@@ -13,13 +13,18 @@ import java.util.concurrent.ExecutorService;
 
 class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
 
+    private static final String TAG = "FirmwareUpdatePushLocal";
+    private static final long TIMEOUT_MILLIS = 30000L;
+
     @NonNull
     private final FirmwarePort firmwarePort;
     @NonNull
     private final byte[] firmwareData;
 
-    private FirmwareUpdateOperationState firmwareUpdateOperationState;
-    private ExecutorService executor;
+    private final ExecutorService executor;
+    private final FirmwarePortStateWaiter firmwarePortStateWaiter;
+
+    private FirmwareUpdateOperationState state;
 
     FirmwareUpdatePushLocal(@NonNull final ExecutorService executor, @NonNull final FirmwarePort firmwarePort, @NonNull byte[] firmwareData) {
         this.executor = executor;
@@ -29,29 +34,31 @@ class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
             throw new IllegalArgumentException("Firmware data has zero length.");
         }
         this.firmwareData = firmwareData;
+        this.firmwarePortStateWaiter = new FirmwarePortStateWaiter(this.executor, this.firmwarePort);
 
-        setFirmwareUpdateOperationState(new FirmwareUpdateOperationIdle(this));
+        // TODO check device state first
+
+        setState(new FirmwareUpdateOperationIdle(this));
     }
 
-    void setFirmwareUpdateOperationState(@NonNull FirmwareUpdateOperationState firmwareUpdateOperationState) {
-        this.firmwareUpdateOperationState = firmwareUpdateOperationState;
+    void setState(@NonNull FirmwareUpdateOperationState state) {
+        this.state = state;
     }
 
-    void setFirmwarePortState(@NonNull final FirmwarePortState state) {
-        FirmwarePortStateWaiter waiter = new FirmwarePortStateWaiter(this.executor, this.firmwarePort);
-        waiter.await(state, 5000L);
-
-
+    FirmwarePortState updateFirmwarePortState(@NonNull final FirmwarePortState state) {
         this.firmwarePort.putProperties(FirmwarePortKey.STATE.toString(), state.toString());
+
+        return firmwarePortStateWaiter.await(state, TIMEOUT_MILLIS);
     }
 
     @Override
-    public void finish() {
-        this.firmwarePort.finishFirmwareUpdateOperation();
+    public void execute() {
+        this.state.execute();
     }
 
     @Override
     public void cancel() {
-        this.firmwareUpdateOperationState.cancel();
+        this.state.cancel();
+        this.firmwarePort.finishFirmwareUpdateOperation();
     }
 }

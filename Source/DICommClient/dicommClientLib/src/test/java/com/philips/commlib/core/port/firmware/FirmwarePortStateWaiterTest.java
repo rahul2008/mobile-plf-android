@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +27,9 @@ import java.util.concurrent.TimeUnit;
 
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.DOWNLOADING;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.IDLE;
+import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.PROGRAMMING;
 import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doAnswer;
@@ -58,13 +61,13 @@ public class FirmwarePortStateWaiterTest {
 
         DICommLog.disableLogging();
 
-        doAnswer(new Answer<Future<Boolean>>() {
+        doAnswer(new Answer<Future<FirmwarePortState>>() {
             @Override
-            public Future<Boolean> answer(InvocationOnMock invocation) throws Throwable {
+            public Future<FirmwarePortState> answer(InvocationOnMock invocation) throws Throwable {
                 Future future = mock(Future.class);
-                Boolean result = (Boolean) invocation.getArgumentAt(0, Callable.class).call();
+                FirmwarePortState newState = (FirmwarePortState) invocation.getArgumentAt(0, Callable.class).call();
 
-                when(future.get()).thenReturn(result);
+                when(future.get()).thenReturn(newState);
 
                 return future;
             }
@@ -79,13 +82,15 @@ public class FirmwarePortStateWaiterTest {
 
     @Test
     public void whenPortIsInExpectedStateThenWaiterShouldReturnTrue() {
-        boolean result = firmwarePortStateWaiter.await(IDLE, TIMEOUT_MILLIS);
-        assertTrue(result);
+        when(portPropertiesMock.getState()).thenReturn(PROGRAMMING);
+        FirmwarePortState state = firmwarePortStateWaiter.await(IDLE, TIMEOUT_MILLIS);
+
+        assertFalse(state == IDLE);
     }
 
     @Test
     public void whenPortIsNotInExpectedStateThenSubscribeIsCalled() {
-        firmwarePortStateWaiter.await(DOWNLOADING, TIMEOUT_MILLIS);
+        firmwarePortStateWaiter.await(IDLE, TIMEOUT_MILLIS);
 
         verify(portMock).subscribe();
     }
@@ -110,12 +115,14 @@ public class FirmwarePortStateWaiterTest {
             }
         }).when(mockCountDownLatch).countDown();
 
-        assertTrue(firmwarePortStateWaiter.await(DOWNLOADING, TIMEOUT_MILLIS));
+        FirmwarePortState state = firmwarePortStateWaiter.await(IDLE, TIMEOUT_MILLIS);
+
+        assertTrue(state == DOWNLOADING);
     }
 
     @Test
     public void whenTimeoutThenAwaitReturnsFalse() {
-        assertFalse(firmwarePortStateWaiter.await(DOWNLOADING, TIMEOUT_MILLIS));
+        assertNull(firmwarePortStateWaiter.await(IDLE, TIMEOUT_MILLIS));
     }
 
     private FirmwarePortStateWaiter createFirmwarePortStateWaiter() {
