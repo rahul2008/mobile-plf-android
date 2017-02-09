@@ -230,12 +230,14 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void onSuccess(final ArrayList<? extends Object> data) {
+
+
         if (getActivity() == null) return;
 
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                DSLog.i(TAG, "http : UI updated");
+                DSLog.i(TAG, "http TEmperature TimeLine : UI updated");
                 mData = (ArrayList<? extends Moment>) data;
                 mAdapter.setData(mData);
                 mAdapter.notifyDataSetChanged();
@@ -307,7 +309,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void dBChangeSuccess() {
-        DSLog.i(DSLog.LOG, "DB OnSuccess");
+        DSLog.i(DSLog.LOG, "pabitra DB OnSuccess");
         if (getActivity() == null) return;
         getActivity().runOnUiThread(new Runnable() {
             @Override
