@@ -15,6 +15,8 @@ import org.mockito.Mock;
 
 import java.util.Collections;
 
+import retrofit.converter.GsonConverter;
+
 import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
@@ -26,6 +28,12 @@ public class ConsentsDataFetcherTest {
 
     @Mock
     UCoreAdapter uCoreAdapterMock;
+
+    @Mock
+    GsonConverter gsonConverterMock;
+
+    @Mock
+    ConsentsConverter consentsConverterMock;
 
     @Mock
     Eventing eventingMock;
@@ -43,7 +51,7 @@ public class ConsentsDataFetcherTest {
     public void setUp() {
         initMocks(this);
         DataServicesManager.getInstance().setAppComponant(appComponantMock);
-        consentDataFetcher=new ConsentsDataFetcher(uCoreAdapterMock);
+        consentDataFetcher = new ConsentsDataFetcher(uCoreAdapterMock, gsonConverterMock, consentsConverterMock);
         consentDataFetcher.eventing = eventingMock;
     }
 
@@ -68,6 +76,7 @@ public class ConsentsDataFetcherTest {
         consentDataFetcher.getConsentDetails();
 
     }
+
     @Test
     public void shouldFetchDataSince_WhenDataSenderToSetConsentDetail() throws Exception {
         consentDataFetcher.setConsentDetails(Collections.singletonList(consentDetailMock));

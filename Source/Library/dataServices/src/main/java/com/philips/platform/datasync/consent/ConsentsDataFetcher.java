@@ -11,7 +11,6 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
-import com.philips.platform.core.events.ConsentBackendGetRequest;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
@@ -68,12 +67,13 @@ public class ConsentsDataFetcher extends DataFetcher {
         this.consentsConverter = consentsConverter;
         DataServicesManager.getInstance().getAppComponant().injectConsentsDataFetcher(this);
 
-        registerEvent();
+
     }
 
     @Nullable
     @Override
     public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
+        registerEvent();
         eventing.post(new GetNonSynchronizedMomentsRequest(null));
         /*if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
             eventing.post(new ConsentBackendGetRequest(1, consentDetails));
@@ -109,7 +109,7 @@ public class ConsentsDataFetcher extends DataFetcher {
             postError(1, getNonLoggedInError());
             return;
         }
-        if (consentDetails == null || consentDetails.size()==0 || uCoreAccessProvider == null) {
+        if (consentDetails == null || consentDetails.size() == 0 || uCoreAccessProvider == null) {
             return;
         }
 

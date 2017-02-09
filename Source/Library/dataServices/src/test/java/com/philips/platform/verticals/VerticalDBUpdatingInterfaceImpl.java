@@ -2,8 +2,8 @@ package com.philips.platform.verticals;
 
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
 
@@ -18,6 +18,11 @@ public class VerticalDBUpdatingInterfaceImpl implements DBUpdatingInterface {
 
     @Override
     public void updateMoment(final Moment ormMoment, final DBRequestListener dbRequestListener) throws SQLException {
+
+    }
+
+    @Override
+    public void updateMoments(List<Moment> ormMoments, DBRequestListener dbRequestListener) throws SQLException {
 
     }
 

@@ -56,7 +56,13 @@ public class SettingsMonitorTest {
     private SettingsMonitor settingsMonitor;
 
 
-    private Response response=null;
+    private Response response = null;
+
+    @Mock
+    SettingsDataSender settingsDataSenderMock;
+
+    @Mock
+    SettingsDataFetcher settingsDataFetcherMock;
 
     @Mock
     private UCoreAccessProvider accessProviderMock;
@@ -108,6 +114,7 @@ public class SettingsMonitorTest {
     @Captor
     private ArgumentCaptor<Event> eventArgumentCaptor;
 
+
     private DataServicesManager dataServicesManager;
     private OrmCreatorTest verticalDataCreater;
     private ErrorHandlerImplTest errorHandlerImplTest;
@@ -123,7 +130,7 @@ public class SettingsMonitorTest {
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
         errorHandlerImplTest = new ErrorHandlerImplTest();
         DataServicesManager.getInstance().setAppComponant(appComponantMock);
-        settingsMonitor = new SettingsMonitor(settingsDataSender, settingsDataFetcher);
+        settingsMonitor = new SettingsMonitor(settingsDataSenderMock, settingsDataFetcherMock);
         settingsMonitor.uCoreAccessProvider = accessProviderMock;
         settingsMonitor.start(eventingMock);
     }
@@ -204,7 +211,7 @@ public class SettingsMonitorTest {
         doReturn(uCoreSettingsMock).when(settingsConverterMock).convertAppToUcoreSettings(any(Settings.class));
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(settingsBackendSaveRequestMock.getSettings()).thenReturn(settingsMock);
-        when(settingsClientMock.updateSettings(anyString(),anyString(), any(UCoreSettings.class))).thenThrow(retrofitError);
+        when(settingsClientMock.updateSettings(anyString(), anyString(), any(UCoreSettings.class))).thenThrow(retrofitError);
 
         settingsMonitor.onEventAsync(settingsBackendSaveRequestMock);
 
@@ -244,14 +251,14 @@ public class SettingsMonitorTest {
 
         assertThat(events).hasSize(1);
         assertThat(events.get(0)).isInstanceOf(BackendResponse.class);
-      //  assertThat(events.get(1)).isInstanceOf(SettingsBackendSaveResponse.class);
+        //  assertThat(events.get(1)).isInstanceOf(SettingsBackendSaveResponse.class);
     }
 
     @Test
     public void ShouldReturn_WhenUCoreAccessProviderIsNull() throws Exception {
         settingsMonitor.uCoreAccessProvider = null;
         //when(uCoreSettingsMock.isEmpty()).thenReturn(true);
-        when(settingsClientMock.getSettings(anyString(), anyString(),anyInt())).thenReturn(uCoreSettingsMock);
+        when(settingsClientMock.getSettings(anyString(), anyString(), anyInt())).thenReturn(uCoreSettingsMock);
 
         settingsMonitor.onEventAsync(settingsBackendGetRequest);
         verifyNoMoreInteractions(uCoreAdapterMock);

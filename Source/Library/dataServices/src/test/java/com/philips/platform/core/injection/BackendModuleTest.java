@@ -138,7 +138,7 @@ public class BackendModuleTest {
 
         backendModule = new BackendModule(eventingMock, baseAppDataCreator, userRegistrationInterface,
                 dbDeletingInterface, dbFetchingInterface, dbSavingInterface, dbUpdatingInterface,
-                fetchers, senders, errorHandlingInterface, mSynchronisationCompleteListener);
+                fetchers, senders, errorHandlingInterface);
     }
 
     @Test

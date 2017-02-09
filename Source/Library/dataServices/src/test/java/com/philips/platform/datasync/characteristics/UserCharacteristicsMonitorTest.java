@@ -21,6 +21,7 @@ import java.util.List;
 import retrofit.converter.GsonConverter;
 
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -86,7 +87,7 @@ public class UserCharacteristicsMonitorTest {
 
         userCharacteristicsMonitor.onEventAsync(characteristicsBackendSaveRequestMock);
 
-       // verify(userCharacteristicsSenderMock).sendDataToBackend(Collections.singletonList(characteristicsMock));
+        // verify(userCharacteristicsSenderMock).sendDataToBackend(Collections.singletonList(characteristicsMock));
 
     }
 
@@ -94,7 +95,6 @@ public class UserCharacteristicsMonitorTest {
     public void ShouldSendCharacteristics_WhenCharacteristicsSend() throws Exception {
         // when(characteristicsBackendSaveRequestMock.getCharacteristic()).thenReturn(userCharacteristicsMock);
         when(userCharacteristicsSenderMock.sendDataToBackend(Collections.singletonList((characteristicsMock)))).thenReturn(true);
-
         userCharacteristicsMonitor.onEventAsync(characteristicsBackendSaveRequestMock);
 
         //verify(userCharacteristicsFetcherMock).fetchDataSince(any(DateTime.class));
@@ -113,6 +113,18 @@ public class UserCharacteristicsMonitorTest {
         //verify(userCharacteristicsFetcherMock).fetchDataSince(any(DateTime.class));
 
         verify(eventingMock, never()).post(isA(CharacteristicsBackendGetRequest.class));
+
+    }
+
+    @Test
+    public void ShouldFetchCharacteristics_WhenCharacteristicsSizeIsNotZero() throws Exception {
+        //when(characteristicsBackendSaveRequestMock.getEventId()).thenReturn(anyInt());
+
+        userCharacteristicsMonitor.onEventAsync(characteristicsBackendSaveRequestMock);
+
+        //verify(userCharacteristicsFetcherMock).fetchDataSince(any(DateTime.class));
+
+        verify(eventingMock, never()).post(isA(CharacteristicsBackendSaveRequest.class));
 
     }
 }
