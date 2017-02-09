@@ -140,19 +140,13 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
     }
 
     private void updateConfigurationWithCurrentLocale() {
-//        PILLocaleManager localeManager = new PILLocaleManager(getApplicationContext());
-//        String localeAsString = localeManager.getInputLocale();
-//        if (localeAsString != null) {
-//            String[] localeArray = localeAsString.split("_");
-//            Locale locale = new Locale(localeArray[0], localeArray[1]);
         Locale locale = new Locale(CartModelContainer.getInstance().getLanguage(),
                 CartModelContainer.getInstance().getCountry());
         Locale.setDefault(locale);
         Configuration config = new Configuration();
-        config.locale = locale;
+        config.setLocale(locale);
         getResources().updateConfiguration(config,
                 getResources().getDisplayMetrics());
-//        }
     }
 
     @Override
