@@ -6,7 +6,5 @@
 include ':shinelib', ':pluginreferenceboard', ':bluelibtestapp', ':bluelibexampleapp'
 
 def commonDir = '../common'
-if (new File(commonDir).exists()) {
-    include ':common'
-    project(':common').projectDir = new File(commonDir)
-}
+include ':common'
+project(':common').projectDir = new File(commonDir)

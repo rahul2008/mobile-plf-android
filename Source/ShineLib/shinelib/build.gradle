@@ -95,8 +95,6 @@ dependencies {
     }
 }
 
-
-
 def javaDocClassesForPublicApi = ['SHNCentral',
                                   'SHNBluetoothHardwareUnavailableException',
                                   'SHNDeviceDefinitionInfo', // for plugin registration via SHNCentral
