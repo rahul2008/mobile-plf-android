@@ -29,6 +29,12 @@ def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 version = objcdp.getVersion()
 
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+}
+
+
 artifactory {
     contextUrl = repos.base
     publish {
