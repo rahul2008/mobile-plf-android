@@ -1,4 +1,5 @@
-include ':commlib-all', ':commlib-all-example'
+include ':commlib-all', ':commlib-all-example', ':common'
+project(':common').projectDir = new File('../common')
 
 def localCommLibDir = rootDir.absolutePath + '/../../../dicomm-android/Source/DICommClient/dicommClientLib/'
 if (new File(localCommLibDir).exists()) {
@@ -10,10 +11,4 @@ def localBlueLibDir = rootDir.absolutePath + '/../../../android-shinelib/Source/
 if (new File(localBlueLibDir).exists()) {
     include ':bluelib'
     project(':bluelib').projectDir = new File(localBlueLibDir)
-}
-
-def commonDir = '../common'
-if (new File(commonDir).exists()) {
-    include ':common'
-    project(':common').projectDir = new File(commonDir)
 }

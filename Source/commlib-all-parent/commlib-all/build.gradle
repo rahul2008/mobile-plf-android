@@ -34,7 +34,6 @@ artifacts {
     archives zipDoc
 }
 
-
 artifactory {
     contextUrl = repos.base
     publish {
