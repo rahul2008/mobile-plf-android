@@ -18,6 +18,8 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
     private final int FIRMWAREPORT_PRODUCTID = 0;
 
     private FirmwareUpdateOperation operation;
+    private FirmwarePortProperties previousFirmwarePortProperties = new FirmwarePortProperties();
+
     private final Set<FirmwarePortListener> firmwarePortListeners = new CopyOnWriteArraySet();
 
     public FirmwarePort(CommunicationStrategy communicationStrategy) {
@@ -98,10 +100,8 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
         return true;
     }
 
-    private int oldProgress = -1;
-
     private void notifyListenersWithPortProperties(FirmwarePortProperties firmwarePortProperties) {
-        if (firmwarePortProperties.getProgress() != oldProgress && firmwarePortProperties.getState() != null) {
+        if (firmwarePortProperties.getProgress() != previousFirmwarePortProperties.getProgress() || firmwarePortProperties.getState() != previousFirmwarePortProperties.getState()) {
             switch (firmwarePortProperties.getState()) {
                 case DOWNLOADING:
                     notifyProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.DOWNLOADING, firmwarePortProperties.getProgress());
@@ -115,8 +115,9 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
                 default:
                     DICommLog.d(DICommLog.FIRMWAREPORT, "There is no progress for the " + firmwarePortProperties.getState() + " state.");
             }
-
         }
+
+        previousFirmwarePortProperties = firmwarePortProperties;
     }
 
     private void notifyProgressUpdated(FirmwarePortListener.FirmwarePortProgressType type, int progress) {

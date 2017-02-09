@@ -3,22 +3,53 @@
  *   All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.port.common;
+package com.philips.cdp.dicommclient.port.common.firmware;
 
-import com.philips.cdp.dicommclient.port.common.firmware.FirmwarePort;
-import com.philips.cdp.dicommclient.port.common.firmware.FirmwarePortProperties;
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.google.gson.Gson;
 import com.philips.cdp.dicommclient.port.common.firmware.FirmwarePortProperties.FirmwareState;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
+import com.philips.cdp.dicommclient.util.GsonProvider;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 public class FirmwarePortTest extends RobolectricTest {
+    private FirmwarePort firmwarePort;
+
+    private Gson gson = GsonProvider.get();
+
+    @Mock
+    FirmwarePortListener mockFirmwarePortListener;
+
+    @Override
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+
+        initMocks(this);
+
+        firmwarePort = new FirmwarePort(mock(CommunicationStrategy.class));
+        firmwarePort.addFirmwarePortListener(mockFirmwarePortListener);
+    }
+
+    @Override
+    @After
+    public void tearDown() throws Exception {
+        firmwarePort.removeFirmwarePortListener(mockFirmwarePortListener);
+    }
 
     @Test
     public void testParseFirmwareEventNullData() {
@@ -113,8 +144,23 @@ public class FirmwarePortTest extends RobolectricTest {
     }
 
     private FirmwarePortProperties parseFirmwarePortData(String parseData) {
-        FirmwarePort firmwarePort = new FirmwarePort(mock(CommunicationStrategy.class));
         firmwarePort.processResponse(parseData);
         return firmwarePort.getPortProperties();
+    }
+
+    @Test
+    public void whenGoingFromIdleStateToDownloadState_ProgressUpdateShouldBeCalled() throws Exception {
+        parseFirmwarePortData(createPropertiesJson("1", "", "idle", 0, "", 0));
+
+        verify(mockFirmwarePortListener, never()).onProgressUpdated(any(FirmwarePortListener.FirmwarePortProgressType.class), eq(0));
+
+        parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 0, "", 0));
+
+        verify(mockFirmwarePortListener).onProgressUpdated(any(FirmwarePortListener.FirmwarePortProgressType.class), eq(0));
+    }
+
+    private String createPropertiesJson(String version, String upgrade, String state, int progress, String statusMsg, int size) {
+        String propertiesJson = "{\"name\": \"test-firmware\", \"version\": \"" + version + "\", \"upgrade\": \"" + upgrade + "\", \"state\": \"" + state + "\", \"progress\": \"" + progress + "\", \"statusMsg\": \"" + statusMsg + "\", \"size\": \"" + size + "\"}";
+        return propertiesJson;
     }
 }
