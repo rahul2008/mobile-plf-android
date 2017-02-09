@@ -17,7 +17,7 @@ public class UserRegistrationImplTest implements UserRegistrationInterface {
 
     @NonNull
     @Override
-    public String getAccessToken() {
+    public String getHSDPAccessToken() {
         return "dfsdfsd3423";
     }
 
@@ -28,7 +28,7 @@ public class UserRegistrationImplTest implements UserRegistrationInterface {
     }
 
     @Override
-    public String getHSDHsdpUrl() {
+    public String getHSDPUrl() {
         return "sdfsd";
     }
 

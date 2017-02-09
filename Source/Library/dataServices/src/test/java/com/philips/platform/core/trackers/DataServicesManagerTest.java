@@ -204,7 +204,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostFetchMomentByIdEvent_WhenFetchMomentByIdIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.fetchMomentById(1,dbRequestListener);
+        tracker.fetchMomentForMomentID(1,dbRequestListener);
 
         verify(eventingMock).post(any(LoadMomentsRequest.class));
     }
@@ -228,7 +228,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostFetchSettingsEvent_WhenFetchSettingsIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.fetchSettings(dbRequestListener);
+        tracker.fetchUserSettings(dbRequestListener);
 
         verify(eventingMock).post(any(LoadSettingsRequest.class));
     }
@@ -378,7 +378,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldInitializeDBMonitors_WhenInitializeDBMonitorsIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.initializeDBMonitors(null, deletingInterfaceMock, fetchingInterfaceMock, savingInterfaceMock, updatingInterfaceMock);
+        tracker.initializeDatabaseMonitor(null, deletingInterfaceMock, fetchingInterfaceMock, savingInterfaceMock, updatingInterfaceMock);
     }
 
 

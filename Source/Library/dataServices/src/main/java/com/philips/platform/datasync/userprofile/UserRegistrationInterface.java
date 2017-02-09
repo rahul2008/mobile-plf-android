@@ -13,12 +13,12 @@ public interface UserRegistrationInterface {
     boolean isUserLoggedIn();
 
     @NonNull
-    String getAccessToken();
+    String getHSDPAccessToken();
 
     @NonNull
     UserProfile getUserProfile();
 
-    String getHSDHsdpUrl();
+    String getHSDPUrl();
 
     void refreshAccessTokenUsingWorkAround();
 

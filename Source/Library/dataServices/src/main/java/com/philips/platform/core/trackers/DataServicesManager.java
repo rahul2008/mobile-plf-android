@@ -147,7 +147,7 @@ public class DataServicesManager {
         mEventing.post(new LoadMomentsRequest(dbRequestListener, type));
     }
 
-    public void fetchMomentById(final int momentID, DBRequestListener dbRequestListener) {
+    public void fetchMomentForMomentID(final int momentID, DBRequestListener dbRequestListener) {
         mEventing.post(new LoadMomentsRequest(momentID, dbRequestListener));
     }
 
@@ -173,7 +173,7 @@ public class DataServicesManager {
         mEventing.post(new DatabaseConsentUpdateRequest(consentDetails,dbRequestListener));
     }
 
-    public Settings createUserSettings(String unit, String locale) {
+    public Settings createUserSettings(String locale ,String unit) {
         Settings settings = mDataCreater.createSettings(unit,locale);
         return settings;
     }
@@ -281,7 +281,7 @@ public class DataServicesManager {
         }
     }
 
-    public void initializeDBMonitors(Context context, DBDeletingInterface deletingInterface, DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface, DBUpdatingInterface updatingInterface) {
+    public void initializeDatabaseMonitor(Context context, DBDeletingInterface deletingInterface, DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface, DBUpdatingInterface updatingInterface) {
         this.mDeletingInterface = deletingInterface;
         this.mFetchingInterface = fetchingInterface;
         this.mSavingInterface = savingInterface;
@@ -376,7 +376,7 @@ public class DataServicesManager {
         this.mSynchronisationCompleteListener = null;
     }
 
-    public void fetchSettings(DBRequestListener dbRequestListener) {
+    public void fetchUserSettings(DBRequestListener dbRequestListener) {
       mEventing.post(new LoadSettingsRequest(dbRequestListener));
     }
 

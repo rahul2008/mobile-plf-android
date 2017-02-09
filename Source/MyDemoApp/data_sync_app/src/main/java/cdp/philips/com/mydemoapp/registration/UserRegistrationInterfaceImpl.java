@@ -100,8 +100,8 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface{
 
     @NonNull
     @Override
-    public String getAccessToken() {
-        Log.i(TAG,"Inside getAccessToken");
+    public String getHSDPAccessToken() {
+        Log.i(TAG,"Inside getHSDPAccessToken");
 
         if(accessToken!=null){
             Log.i(TAG,"AccessToken is not null = " + accessToken);
@@ -171,7 +171,7 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface{
 
 //    @Override
 //    public UserCredentials getUserCredentials() {
-//        return new UserCredentials(user.getHsdpUUID(), user.getHsdpAccessToken(), user.getJanrainUUID(), user.getAccessToken());
+//        return new UserCredentials(user.getHsdpUUID(), user.getHSDPAccessToken(), user.getJanrainUUID(), user.getHSDPAccessToken());
 //    }
 
 //    @Nullable
@@ -200,7 +200,7 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface{
     }
 
     @Override
-    public String getHSDHsdpUrl() {
+    public String getHSDPUrl() {
 
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();

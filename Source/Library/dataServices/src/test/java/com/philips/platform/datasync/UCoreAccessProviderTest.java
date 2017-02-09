@@ -69,7 +69,7 @@ public class UCoreAccessProviderTest {
 
     @Test
     public void ShouldReturnValueFromFacade_WhenGetAccessTokenIsCalled() {
-        when(userRegistrationFacadeMock.getAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
+        when(userRegistrationFacadeMock.getHSDPAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
 
         String accessToken = uCoreAccessProvider.getAccessToken();
 

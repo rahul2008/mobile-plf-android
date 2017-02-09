@@ -196,12 +196,12 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
 
     public void fetchSettings() {
         showProgressDialog();
-        DataServicesManager.getInstance().fetchSettings(this);
+        DataServicesManager.getInstance().fetchUserSettings(this);
     }
 
     @Override
     public void dBChangeSuccess() {
-        DataServicesManager.getInstance().fetchSettings(this);
+        DataServicesManager.getInstance().fetchUserSettings(this);
     }
 
     @Override
