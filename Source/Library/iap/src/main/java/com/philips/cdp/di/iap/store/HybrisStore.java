@@ -155,7 +155,7 @@ public class HybrisStore extends AbstractStore {
     public void initStoreConfig(String language, String countryCode, RequestListener listener) {
         mLanguage = language;
         mCountry = countryCode;
-        mStoreConfig.initConfig(language, countryCode, listener);
+        mStoreConfig.initConfig(listener);
     }
 
     void generateStoreUrls() {

@@ -49,7 +49,9 @@ public class StoreControllerTest {
     public void matchMockedPILLocaleIsReturned() {
        // mWebsStoreConfig.mPILLocale = mock(PILLocale.class);
 //        when(mWebsStoreConfig.mPILLocale.getLocaleCode()).thenReturn(NetworkURLConstants.LOCALE);
-        assertEquals(NetworkURLConstants.LOCALE, mWebsStoreConfig.getLocale());
+        MockStoreController config = new MockStoreController(mContext, mStoreConfiguration);
+        config.getLocale();
+        assertEquals(NetworkURLConstants.LOCALE, config.getLocale());
     }
 
     @Test
@@ -57,7 +59,7 @@ public class StoreControllerTest {
         final CountDownLatch latch = new CountDownLatch(1);
 
         MockStoreController config = new MockStoreController(mContext, mStoreConfiguration);
-        config.initConfig("en", "us", mock(RequestListener.class));
+        config.initConfig(mock(RequestListener.class));
 //        config.startConfigDownloadThread();
 
         latch.await(1, TimeUnit.SECONDS);

@@ -38,7 +38,7 @@ public class StoreController {
         mStoreConfig = storeConfig;
     }
 
-    public void initConfig(final String language, String countryCode, final RequestListener listener) {
+    public void initConfig(final RequestListener listener) {
         mRequestListener = listener;
         // refreshPILocaleManager(language, countryCode);
         startConfigDownloadThread();

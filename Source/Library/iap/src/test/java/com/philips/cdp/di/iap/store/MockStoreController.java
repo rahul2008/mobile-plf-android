@@ -39,7 +39,6 @@ public class MockStoreController extends StoreController {
 //        mStoreConfig.generateStoreUrls();
 //    }
 
-
     @Override
     String getSiteID() {
         return SITE_ID;

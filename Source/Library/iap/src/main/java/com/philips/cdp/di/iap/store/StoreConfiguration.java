@@ -26,8 +26,8 @@ public class StoreConfiguration {
         return new StoreController(context, this);
     }
 
-    void initConfig(final String language, String countryCode, RequestListener listener) {
-        mWebStoreConfig.initConfig(language, countryCode, listener);
+    void initConfig(RequestListener listener) {
+        mWebStoreConfig.initConfig(listener);
     }
 
     public String getHostPort() {
