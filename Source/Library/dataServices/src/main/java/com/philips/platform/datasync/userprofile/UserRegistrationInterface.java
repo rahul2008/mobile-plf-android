@@ -18,7 +18,7 @@ public interface UserRegistrationInterface {
     @NonNull
     UserProfile getUserProfile();
 
-    String getHSDHsdpUrl();
+    String getHsdpUrl();
 
     void refreshAccessTokenUsingWorkAround();
 

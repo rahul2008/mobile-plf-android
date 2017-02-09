@@ -28,7 +28,7 @@ public class UserRegistrationImplTest implements UserRegistrationInterface {
     }
 
     @Override
-    public String getHSDHsdpUrl() {
+    public String getHsdpUrl() {
         return "sdfsd";
     }
 

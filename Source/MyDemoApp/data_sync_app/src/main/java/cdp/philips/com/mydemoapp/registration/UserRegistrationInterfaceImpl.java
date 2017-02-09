@@ -200,7 +200,7 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface{
     }
 
     @Override
-    public String getHSDHsdpUrl() {
+    public String getHsdpUrl() {
 
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();

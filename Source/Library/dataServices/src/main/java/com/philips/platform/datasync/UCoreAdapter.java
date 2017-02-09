@@ -72,7 +72,7 @@ public class UCoreAdapter {
     public <T> T getAppFrameworkClient(Class<T> clientClass, @NonNull final String accessToken, GsonConverter gsonConverter) {
         String baseUrl = null;
         if(userRegistrationImpl!=null) {
-            baseUrl = userRegistrationImpl.getHSDHsdpUrl();
+            baseUrl = userRegistrationImpl.getHsdpUrl();
         }
         if (baseUrl == null || baseUrl.isEmpty()) {
             return null;

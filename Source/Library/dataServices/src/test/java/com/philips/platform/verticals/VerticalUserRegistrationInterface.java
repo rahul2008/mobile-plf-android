@@ -28,7 +28,7 @@ public class VerticalUserRegistrationInterface implements UserRegistrationInterf
     }
 
     @Override
-    public String getHSDHsdpUrl() {
+    public String getHsdpUrl() {
         return "";
     }
 

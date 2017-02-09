@@ -28,7 +28,7 @@ public class VerticalUserRegistrationInterfaceImpl implements UserRegistrationIn
     }
 
     @Override
-    public String getHSDHsdpUrl() {
+    public String getHsdpUrl() {
         return "http://google.com";
     }
 
