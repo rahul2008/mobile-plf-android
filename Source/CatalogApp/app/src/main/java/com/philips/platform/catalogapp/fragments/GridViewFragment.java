@@ -52,14 +52,13 @@ public class GridViewFragment extends BaseFragment {
     {
         Context mContext = getContext();
         cardList = new ArrayList<>();
-        cardList.add(new CardData(R.drawable.grid_view_image, mContext.getString(R.string.gridView_title),mContext.getString(R.string.gridView_description)));
-        cardList.add(new CardData(R.drawable.grid_view_image, mContext.getString(R.string.gridView_title),mContext.getString(R.string.gridView_description)));
-        cardList.add(new CardData(R.drawable.grid_view_image, mContext.getString(R.string.gridView_title),mContext.getString(R.string.gridView_description)));
-        cardList.add(new CardData(R.drawable.grid_view_image, mContext.getString(R.string.gridView_title),mContext.getString(R.string.gridView_description)));
-        cardList.add(new CardData(R.drawable.grid_view_image, mContext.getString(R.string.gridView_title),mContext.getString(R.string.gridView_description)));
-        cardList.add(new CardData(R.drawable.grid_view_image, mContext.getString(R.string.gridView_title),mContext.getString(R.string.gridView_description)));
-        cardList.add(new CardData(R.drawable.grid_view_image, mContext.getString(R.string.gridView_title),mContext.getString(R.string.gridView_description)));
-        cardList.add(new CardData(R.drawable.grid_view_image, mContext.getString(R.string.gridView_title),mContext.getString(R.string.gridView_description)));
+        cardList.add(new CardData(R.drawable.gridview_asset_1, "1. " + mContext.getString(R.string.gridView_title),mContext.getString(R.string.gridView_description)));
+        cardList.add(new CardData(R.drawable.gridview_asset_2, "2. " + mContext.getString(R.string.gridView_title),mContext.getString(R.string.gridView_description)));
+        cardList.add(new CardData(R.drawable.gridview_asset_3, "3. " + mContext.getString(R.string.gridView_title),mContext.getString(R.string.gridView_description)));
+        cardList.add(new CardData(R.drawable.gridview_asset_4, "4. " + mContext.getString(R.string.gridView_title),mContext.getString(R.string.gridView_description)));
+        cardList.add(new CardData(R.drawable.gridview_asset_5, "5. " + mContext.getString(R.string.gridView_title),mContext.getString(R.string.gridView_description)));
+        cardList.add(new CardData(R.drawable.gridview_asset_6, "6. " + mContext.getString(R.string.gridView_title),mContext.getString(R.string.gridView_description)));
+        cardList.add(new CardData(R.drawable.gridview_asset_7, "7. " + mContext.getString(R.string.gridView_title),mContext.getString(R.string.gridView_description)));
     }
 
 }
