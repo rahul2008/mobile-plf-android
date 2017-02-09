@@ -546,7 +546,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Service Discovery",
                     "OnGetServiceUrlMapListener is null initialized");
         } else {
-            if (serviceId == null || serviceId.isEmpty()) {
+            if (serviceId == null) {
                 listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
             } else {
                 getServiceDiscoveryData(new AISDListener() {
@@ -588,7 +588,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             for (Map.Entry<String, String> param : parameters.entrySet()) {
                 String key = param.getKey();
                 String value = param.getValue();
-                url = url.replace('%' + key + '%', value);
+                if(key != null && value!= null)
+                     url = url.replace('%' + key + '%', value);
             }
         }
         try {

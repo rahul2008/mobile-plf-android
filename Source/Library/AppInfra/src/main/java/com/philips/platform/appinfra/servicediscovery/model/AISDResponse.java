@@ -15,6 +15,7 @@ public class AISDResponse {
 
     private ServiceDiscovery platformURLs = null;
     private ServiceDiscovery propositionURLs = null;
+    private final String SDEmptyURL = "https://delete.delete";
 
 
     public ServiceDiscovery getPlatformURLs() {
@@ -39,7 +40,10 @@ public class AISDResponse {
         if (getPropositionURLs() != null) {
             url = getPropositionURLs().getServiceURLWithServiceID(serviceId, preference, replacement);
             if (url != null) {
-                return url;
+                if(url.toString().equalsIgnoreCase(SDEmptyURL))
+                    return null;
+                else
+                    return url;
             }
         }
         if (getPlatformURLs() != null) {
