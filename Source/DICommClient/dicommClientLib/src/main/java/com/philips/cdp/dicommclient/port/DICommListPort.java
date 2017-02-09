@@ -5,7 +5,7 @@
 
 package com.philips.cdp.dicommclient.port;
 
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.commlib.core.communication.CommunicationStrategy;
 
 import java.util.Map;
 import java.util.Set;

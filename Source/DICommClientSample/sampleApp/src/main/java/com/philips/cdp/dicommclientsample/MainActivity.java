@@ -18,17 +18,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
-import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.commlib.core.appliance.Appliance;
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclientsample.airpurifier.AirPurifier;
-import com.philips.cdp2.commlib.core.CommCentral;
-import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
-import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
-import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
+import com.philips.commlib.core.CommCentral;
+import com.philips.commlib.core.appliance.ApplianceManager;
+import com.philips.commlib.core.exception.MissingPermissionException;
+import com.philips.commlib.core.exception.TransportUnavailableException;
 
 public class MainActivity extends AppCompatActivity {
 

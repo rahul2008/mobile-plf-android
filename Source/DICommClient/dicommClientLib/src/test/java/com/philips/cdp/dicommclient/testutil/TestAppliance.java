@@ -5,8 +5,8 @@
 
 package com.philips.cdp.dicommclient.testutil;
 
-import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.communication.NullCommunicationStrategy;
+import com.philips.commlib.core.appliance.Appliance;
+import com.philips.commlib.core.communication.NullCommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 public class TestAppliance extends Appliance {

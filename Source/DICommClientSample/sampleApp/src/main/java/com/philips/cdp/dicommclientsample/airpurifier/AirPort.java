@@ -7,7 +7,7 @@ package com.philips.cdp.dicommclientsample.airpurifier;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.dicommclient.port.DICommPort;
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.commlib.core.communication.CommunicationStrategy;
 
 public abstract class AirPort<T extends AirPortProperties> extends DICommPort<T> {
 
