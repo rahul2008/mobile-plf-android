@@ -50,6 +50,11 @@ artifactory {
     }
 }
 
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+}
+
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
