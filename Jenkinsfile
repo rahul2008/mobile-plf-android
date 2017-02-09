@@ -1,7 +1,7 @@
 node('Android') {
     stage('Checkout') {
         sh 'rm -rf *'
-        checkout([$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'android-commlib-all'], [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false],[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://git@bitbucket.atlas.philips.com:7999/com/android-commlib-all.git']]])
+        checkout([$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'android-commlib-all'], [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false], [$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://git@bitbucket.atlas.philips.com:7999/com/android-commlib-all.git']]])
     }
 
     def Slack = load "android-commlib-all/Source/common/jenkins/Slack.groovy"
@@ -47,10 +47,11 @@ node('Android') {
 
         if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME == "master") {
             stage('Publish') {
-                sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew artifactoryPublish'
+                sh 'rm -rf ./android_shinelib ./dicomm_android'
+                sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew zipDoc artifactoryPublish'
             }
         }
-    
+
         /* next if-then + stage is mandatory for the platform CI pipeline integration */
         if (env.triggerBy != "ppc" && (env.BRANCH_NAME =~ /master|develop|release.*/)) {
             def platform = "android"
