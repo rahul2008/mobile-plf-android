@@ -6,6 +6,8 @@ apply plugin: 'jacoco'
 def coverageSourceDirs = [
         '../uAppFwLib/src/main/java'
 ]
+
+archivesBaseName = "uAppFwLib"
 buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
@@ -31,6 +33,7 @@ buildscript {
 
 
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'maven-publish'
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
@@ -86,7 +89,12 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-            }			 
+            }
+			defaults {
+				publications ('aar')
+				publishPom = true
+				publishArtifacts = true
+			}
         }
     }
     resolve {
@@ -120,6 +128,35 @@ task tgzTask(type: Tar) {
 	exclude ('build')
 	extension = 'tgz'
 	compression = Compression.GZIP
+}
+
+publishing {
+    publications {
+        apk(MavenPublication) {
+            groupId group
+            version = version
+            artifactId project.archivesBaseName
+
+            artifact zipDoc
+
+            if (new File("$buildDir/outputs/apk/${project.archivesBaseName}-release.apk").exists()) {
+                artifact("$buildDir/outputs/apk/${project.archivesBaseName}-release.apk")
+            } else if (new File("$buildDir/outputs/apk/${project.archivesBaseName}-debug.aar").exists()) {
+                artifact("$buildDir/outputs/apk/${project.archivesBaseName}-debug.aar")
+            } else {
+            }
+
+            pom.withXml{
+                def dependenciesNode = asNode().appendNode('dependencies')
+                configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.moduleGroup)
+                    dependencyNode.appendNode('artifactId', it.moduleName)
+                    dependencyNode.appendNode('version', it.moduleVersion)
+                }
+            }
+        }
+    }
 }
 
 //=======To zip and upload "Documents/External" ==ENDS=============
