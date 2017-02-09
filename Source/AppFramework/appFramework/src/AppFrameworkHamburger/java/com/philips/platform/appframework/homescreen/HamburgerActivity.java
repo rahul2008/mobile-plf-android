@@ -54,7 +54,6 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
     private String[] hamburgerMenuTitles;
     private ArrayList<HamburgerItem> hamburgerItems;
     private DrawerLayout philipsDrawerLayout;
-    private ActionBarDrawerToggle drawerToggle;
     private ListView drawerListView;
     private NavigationView navigationView;
     private Toolbar toolbar;
@@ -84,7 +83,8 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
         setContentView(R.layout.uikit_hamburger_menu);
         initViews();
         setActionBar(getSupportActionBar());
-        configureDrawer();
+        philipsDrawerLayout.addDrawerListener(configureDrawer());
+
         renderHamburgerMenu();
         getSupportFragmentManager().addOnBackStackChangedListener(this);
     }
@@ -144,7 +144,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
                 ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER);
-     View mCustomView = LayoutInflater.from(this).inflate(R.layout.af_action_bar_shopping_cart, null); // layout which contains your button.
+        View mCustomView = LayoutInflater.from(this).inflate(R.layout.af_action_bar_shopping_cart, null); // layout which contains your button.
         hamburgerIcon = (ImageView) mCustomView.findViewById(R.id.af_hamburger_imageview);
         hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_hamburger_icon));
         hamburgerClick = (FrameLayout) mCustomView.findViewById(R.id.af_hamburger_frame_layout);
@@ -155,7 +155,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
             }
         });
         actionBarTitle = (TextView) mCustomView.findViewById(R.id.af_actionbar_title);
-        setTitle(getResources().getString(com.philips.cdp.di.iap.R.string.app_name));
+        setTitle(getResources().getString(R.string.app_name));
        /* cartIcon = (ImageView) mCustomView.findViewById(R.id.af_shoppng_cart_icon);
         shoppingCartLayout = (FrameLayout) mCustomView.findViewById(R.id.af_cart_layout);
         Drawable mCartIconDrawable = VectorDrawable.create(this, R.drawable.uikit_cart);
@@ -192,6 +192,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
                 hamburgerItems, totalCountView, false);
         adapter.notifyDataSetChanged();
         drawerListView.setAdapter(adapter);
+
     }
 
     @Override
@@ -201,8 +202,9 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
         actionBarTitle.setSelected(true);
     }
 
-    private void configureDrawer() {
-        drawerToggle = new ActionBarDrawerToggle(this, philipsDrawerLayout, R.string.af_app_name, R.string.af_app_name) {
+    protected ActionBarDrawerToggle configureDrawer() {
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, philipsDrawerLayout,
+                R.string.af_app_name, R.string.af_app_name) {
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
             }
@@ -211,7 +213,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
                 super.onDrawerOpened(drawerView);
             }
         };
-        philipsDrawerLayout.addDrawerListener(drawerToggle);
+        return drawerToggle;
     }
 
     private void setHamburgerAdapter() {
@@ -250,7 +252,6 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
             }
         }
     }
-
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -306,6 +307,10 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
 
     }
 
+    public String getActionbarTag() {
+        return (String)hamburgerIcon.getTag();
+    }
+
     /**
      * Method for showing the hamburger Icon or Back key on home fragments
      */
@@ -313,6 +318,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
     {
         if (b) {
             hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
+            hamburgerIcon.setTag(String.valueOf(R.drawable.left_arrow));
             hamburgerClick.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -321,6 +327,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
             });
         } else {
             hamburgerIcon.setImageDrawable(VectorDrawable.create(HamburgerActivity.this, R.drawable.uikit_hamburger_icon));
+            hamburgerIcon.setTag(String.valueOf(R.drawable.uikit_hamburger_icon));
             hamburgerClick.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

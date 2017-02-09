@@ -11,6 +11,7 @@ buildscript {
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.9'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+        classpath 'org.robolectric:robolectric-gradle-plugin:1.1.0'
     }
 }
 
@@ -18,6 +19,9 @@ buildscript {
 
 
 allprojects {
+
+    ext.androidAssertJVer = '1.1.1'
+
     repositories {
 
 
@@ -30,7 +34,17 @@ allprojects {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android'
         }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven { url "https://mvnrepository.com/artifact/org.robolectric/shadows-core" }
 
+    }
+
+    tasks.withType(Test) {
+        maxHeapSize = '4g'
+        scanForTestClasses = false
+        include "**/*Test.class"
+        test { // set JVM arguments for the test JVM(s)
+             jvmArgs '-noverify'
+        }
     }
 }
 
