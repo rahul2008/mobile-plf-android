@@ -32,6 +32,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -95,6 +96,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private LinearLayout mLlCreateBtnContainer;
     private LinearLayout mLlLoginBtnContainer;
     private LinearLayout mLlSocialProviderBtnContainer;
+    private RelativeLayout mCountrySelectionContainer;
     private XRegError mRegError;
     private User mUser;
     private String mProvider;
@@ -108,6 +110,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private String mWeChatAppSecret;
     private IWXAPI mWeChatApi;
     private String mWeChatCode;
+    private String mHideCountrySelection;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -385,6 +388,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mPbJanrainInit.setEnabled(false);
         mLlSocialProviderBtnContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_social_provider_container);
+        mCountrySelectionContainer= (RelativeLayout) view.findViewById(R.id.reg_country_selection);
         mUser = new User(mContext);
         linkifyTermAndPolicy(mTvWelcomeDesc);
         handleUiState(false);
@@ -405,6 +409,19 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 mCountryDisplayy.setText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
             }
         });
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        mHideCountrySelection = (String) RegistrationHelper.getInstance().getAppInfraInstance().
+                getConfigInterface().
+                getPropertyForKey("HideCountrySelection", UR,
+                        configError);
+        RLog.d(RLog.SERVICE_DISCOVERY, " Country mHideCountrySelection :" + mHideCountrySelection);
+        if (mHideCountrySelection!=null)
+        {
+            if (mHideCountrySelection.equalsIgnoreCase("true")){
+                mCountrySelectionContainer.setVisibility(View.INVISIBLE);
+            }
+        }
     }
 
     @Override
