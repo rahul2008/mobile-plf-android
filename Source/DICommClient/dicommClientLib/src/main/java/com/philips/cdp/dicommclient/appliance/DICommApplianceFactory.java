@@ -15,8 +15,8 @@ public interface DICommApplianceFactory<T> {
     /**
      * Called when {@link DiscoveryManager} finds any DiComm appliance on the network.
      *
-     * @param networkNode The network node for which the factory has to check if it can create a {link Appliance} (e.g. by checking the model name and/or type).
-     * @return true if it can create, false if not
+     * @param networkNode The network node for which the factory has to check if it can wait a {link Appliance} (e.g. by checking the model name and/or type).
+     * @return true if it can wait, false if not
      */
     boolean canCreateApplianceForNode(NetworkNode networkNode);
 

@@ -1,0 +1,121 @@
+/*
+ * © Koninklijke Philips N.V., 2015.
+ *   All rights reserved.
+ */
+
+package com.philips.cdp2.commlib.core.port.firmware;
+
+import android.support.annotation.NonNull;
+
+import static android.text.TextUtils.isEmpty;
+import static java.lang.Math.*;
+import static java.lang.Math.min;
+
+public class FirmwarePortProperties {
+
+    public static final int INVALID_INT_VALUE = Integer.MIN_VALUE;
+
+    enum FirmwarePortKey {
+        NAME("name"),
+        VERSION("version"),
+        UPGRADE("upgrade"),
+        STATE("state"),
+        PROGRESS("progress"),
+        STATUS_MESSAGE("statusmsg"),
+        MANDATORY("mandatory"),
+        CAN_UPGRADE("canupgrade"),
+        MAX_CHUNK_SIZE("maxchunksize"),
+        SIZE("size"),
+        DATA("data");
+
+        private final String keyName;
+
+        FirmwarePortKey(String keyName) {
+            this.keyName = keyName;
+        }
+
+        @Override
+        public String toString() {
+            return keyName;
+        }
+    }
+
+    enum FirmwarePortState {
+        IDLE("idle"),
+        PREPARING("preparing"),
+        DOWNLOADING("downloading"),
+        CHECKING("checking"),
+        READY("ready"),
+        PROGRAMMING("programming"),
+        CANCELING("cancel", "canceling", "cancelling"),
+        ERROR("error"),
+        UNKNOWN("unknown"),
+        GO("go");
+
+        private final String[] stateNames;
+
+        FirmwarePortState(String... stateNames) {
+            this.stateNames = stateNames;
+        }
+
+        @Override
+        public String toString() {
+            return stateNames[0];
+        }
+
+        static FirmwarePortState fromString(@NonNull String stateString) {
+            for (FirmwarePortState state : FirmwarePortState.values()) {
+                for (String stateName : state.stateNames) {
+                    if (stateName.equalsIgnoreCase(stateString)) {
+                        return state;
+                    }
+                }
+            }
+            return UNKNOWN;
+        }
+    }
+
+    private String name = "";
+    private String version = "";
+    private String upgrade = "";
+    private String state = "";
+    private int progress = -1;
+    private String statusmsg = "";
+    private boolean mandatory;
+
+    public String getName() {
+        return name;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public String getUpgrade() {
+        return upgrade;
+    }
+
+    public FirmwarePortState getState() {
+        return FirmwarePortState.fromString(state);
+    }
+
+    public int getProgress() {
+        return max(0, min(progress, 100));
+    }
+
+    public String getStatusMessage() {
+        return statusmsg;
+    }
+
+    public boolean isMandatory() {
+        return mandatory;
+    }
+
+    public boolean isUpdateAvailable() {
+        return !isEmpty(upgrade);
+    }
+
+    public boolean isValid() {
+        return !isEmpty(name) && !isEmpty(version) && progress != INVALID_INT_VALUE;
+    }
+}

@@ -2,8 +2,8 @@
  * Copyright (c) Koninklijke Philips N.V. 2017
  * All rights reserved.
  */
-package com.philips.cdp.dicommclient.port.common.firmware;
+package com.philips.cdp2.commlib.core.port.firmware;
 
-interface FirmwareUpdateOperation {
+interface FirmwareUpdateOperationState {
     void cancel();
 }

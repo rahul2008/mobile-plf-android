@@ -3,7 +3,7 @@
  *   All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.port.common.firmware;
+package com.philips.cdp2.commlib.core.port.firmware;
 
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.util.DICommLog;
@@ -12,6 +12,8 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import static java.util.concurrent.Executors.newSingleThreadExecutor;
+
 public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
 
     private final String FIRMWAREPORT_NAME = "firmware";
@@ -19,19 +21,27 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
 
     private FirmwareUpdateOperation operation;
     private FirmwarePortProperties previousFirmwarePortProperties = new FirmwarePortProperties();
+    private final Set<FirmwarePortListener> firmwarePortListeners = new CopyOnWriteArraySet<>();
 
-    private final Set<FirmwarePortListener> firmwarePortListeners = new CopyOnWriteArraySet();
 
     public FirmwarePort(CommunicationStrategy communicationStrategy) {
         super(communicationStrategy);
     }
 
     public void pushLocalFirmware(final byte[] firmwareData) {
-        operation = new FirmwareUpdatePushLocal(firmwareData);
+        if (operation == null) {
+            operation = new FirmwareUpdatePushLocal(newSingleThreadExecutor(), this, firmwareData);
+        } else {
+            throw new UnsupportedOperationException("Not yet implemented.");
+        }
     }
 
     public void pullRemoteFirmware(String version) {
-        operation = new FirmwareUpdatePullRemote();
+        if (operation == null) {
+            operation = new FirmwareUpdatePullRemote();
+        } else {
+            throw new UnsupportedOperationException("Not yet implemented.");
+        }
     }
 
     public void cancel() {
@@ -65,12 +75,13 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
     @Override
     public void processResponse(String jsonResponse) {
         FirmwarePortProperties firmwarePortInfo = parseResponse(jsonResponse);
-        if (firmwarePortInfo != null) {
+
+        if (firmwarePortInfo == null) {
+            DICommLog.e(DICommLog.FIRMWAREPORT, "FirmwarePort Info should never be NULL");
+        } else {
             setPortProperties(firmwarePortInfo);
             notifyListenersWithPortProperties(firmwarePortInfo);
-            return;
         }
-        DICommLog.e(DICommLog.FIRMWAREPORT, "FirmwarePort Info should never be NULL");
     }
 
     private FirmwarePortProperties parseResponse(String response) {
@@ -116,8 +127,11 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
                     DICommLog.d(DICommLog.FIRMWAREPORT, "There is no progress for the " + firmwarePortProperties.getState() + " state.");
             }
         }
-
         previousFirmwarePortProperties = firmwarePortProperties;
+	}
+
+    void finishFirmwareUpdateOperation() {
+        this.operation = null;
     }
 
     private void notifyProgressUpdated(FirmwarePortListener.FirmwarePortProgressType type, int progress) {
@@ -155,5 +169,4 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
             listener.onDeployFinished();
         }
     }
-
 }

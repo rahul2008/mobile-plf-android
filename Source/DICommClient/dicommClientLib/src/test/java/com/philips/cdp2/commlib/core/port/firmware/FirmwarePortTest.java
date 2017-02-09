@@ -3,12 +3,9 @@
  *   All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.port.common.firmware;
+package com.philips.cdp2.commlib.core.port.firmware;
 
-import com.google.gson.Gson;
-import com.philips.cdp.dicommclient.port.common.firmware.FirmwarePortProperties.FirmwareState;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
-import com.philips.cdp.dicommclient.util.GsonProvider;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 import org.junit.After;
@@ -16,6 +13,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.IDLE;
+import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.READY;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
@@ -28,8 +27,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class FirmwarePortTest extends RobolectricTest {
     private FirmwarePort firmwarePort;
-
-    private Gson gson = GsonProvider.get();
 
     @Mock
     FirmwarePortListener mockFirmwarePortListener;
@@ -73,9 +70,9 @@ public class FirmwarePortTest extends RobolectricTest {
         assertEquals(result.getName(), "HCN_DEVGEN");
         assertEquals(result.getVersion(), "1.1");
         assertEquals(result.getUpgrade(), "1.2");
-        assertEquals(result.getState(), FirmwareState.IDLE);
+        assertEquals(result.getState(), IDLE);
         assertEquals(result.getProgress(), 0);
-        assertEquals(result.getStatusmsg(), "");
+        assertEquals(result.getStatusMessage(), "");
         assertEquals(result.isMandatory(), false);
     }
 
@@ -108,7 +105,7 @@ public class FirmwarePortTest extends RobolectricTest {
         String parseData = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgrade\":\"1.2\",\"state\":\"ready\",\"progress\":0,\"statusmsg\":\"\",\"mandatory\":false}";
 
         FirmwarePortProperties result = parseFirmwarePortData(parseData);
-        assertEquals(result.getState(), FirmwareState.READY);
+        assertEquals(result.getState(), READY);
     }
 
     @Test

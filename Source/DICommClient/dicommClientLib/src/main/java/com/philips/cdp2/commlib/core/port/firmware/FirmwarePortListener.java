@@ -3,7 +3,7 @@
  *   All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.port.common.firmware;
+package com.philips.cdp2.commlib.core.port.firmware;
 
 public interface FirmwarePortListener {
     void onProgressUpdated(FirmwarePortProgressType type, int progress);

@@ -167,7 +167,7 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
             });
             return appliance;
         } else {
-            DICommLog.d(DICommLog.DISCOVERY, "Cannot create appliance for network node: " + networkNode.toString());
+            DICommLog.d(DICommLog.DISCOVERY, "Cannot wait appliance for network node: " + networkNode.toString());
             return null;
         }
     }
