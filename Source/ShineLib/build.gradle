@@ -1,41 +1,12 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2017.
  * All rights reserved.
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-buildscript {
-    repositories {
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android'
-        }
-    }
-    dependencies {
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.2.0'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.0.0', changing: true
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-
-        classpath 'com.android.tools.build:gradle:2.2.0'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath('com.terrafolio:gradle-jenkins-plugin:1.2.3') {
-            exclude group: 'asm', module: 'asm-tree'
-            exclude group: 'asm', module: 'asm'
-        }
-    }
+buildscript { bs ->
+    apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
 }
 
-apply from: 'extra/jenkins.gradle'
-
-allprojects {
-    repositories {
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local' }
-    }
-
-    ext._compileSdkVersion = 24
-    ext._buildToolsVersion = '24.0.3'
-    ext._minSdkVersion = 19
-    ext._targetSdkVersion = 23
-    ext._versionCode = 3
+subprojects {
+    apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
 }

@@ -1,13 +1,18 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights reserved.
+ */
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion _compileSdkVersion
-    buildToolsVersion _buildToolsVersion
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
+
         applicationId "com.philips.cdp.bluelibtestapp"
-        minSdkVersion _minSdkVersion
-        targetSdkVersion _targetSdkVersion
         versionCode 1
         versionName "0.0.1"
     }
@@ -21,12 +26,14 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.2.1'
     compile project(path: ':shinelib')
     compile project(path: ':pluginreferenceboard')
+
+    compile deps.gson
+
+    compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.philips.pins.shinelib:shinepluginmoonshinelib-release:+@aar'
     compile 'com.philips.pins.shinelib:packetcommunication-release:+@aar'
-    compile 'com.google.code.gson:gson:2.7'
+
+    testCompile 'junit:junit:4.12'
 }

@@ -1,15 +1,21 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights reserved.
+ */
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion _compileSdkVersion
-    buildToolsVersion _buildToolsVersion
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion _minSdkVersion
-        targetSdkVersion _targetSdkVersion
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
+
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -19,9 +25,8 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(path: ':shinelib')
+
     testCompile 'junit:junit:4.12'
     testCompile 'org.powermock:powermock-api-mockito:1.6.4'
-
-    compile project(path: ':shinelib')
 }
