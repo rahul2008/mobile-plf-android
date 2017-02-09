@@ -47,7 +47,6 @@ public class TimeSyncSntpClient implements TimeInterface {
         mAppInfra = aAppInfra;
         mRefreshInProgressLock = new ReentrantLock();
         init();
-        refreshTime();
         registerReciever();
     }
 
