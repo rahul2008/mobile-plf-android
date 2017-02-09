@@ -239,7 +239,7 @@ public class ConsentsMonitorTest {
 //    @Test
 //    public void ShouldRetrieveConsentDetailsAndPostTheSuccessEvent_WhenUserIsLoggedIn() throws Exception {
 //        when(accessProviderMock.isLoggedIn()).thenReturn(true);
-//        when(accessProviderMock.getAccessToken()).thenReturn(ACCESS_TOKEN);
+//        when(accessProviderMock.getHSDPAccessToken()).thenReturn(ACCESS_TOKEN);
 //        when(consentsClientMock.getConsent(anyString(), anyListOf(String.class), anyListOf(String.class), anyListOf(String.class))).thenReturn(uCoreConsentDetailMock);
 //        when(uCoreConsentDetailMock.isEmpty()).thenReturn(false);
 //        when(accessProviderMock.getUserId()).thenReturn(USER_ID);
@@ -276,7 +276,7 @@ public class ConsentsMonitorTest {
 //    @Test
 //    public void ShouldPostExceptionEvent_WhenGetRequestIsFetchedWithNullConsent() throws Exception {
 //        when(accessProviderMock.isLoggedIn()).thenReturn(true);
-//        when(accessProviderMock.getAccessToken()).thenReturn(ACCESS_TOKEN);
+//        when(accessProviderMock.getHSDPAccessToken()).thenReturn(ACCESS_TOKEN);
 //        when(consentsClientMock.getConsent(anyString(), anyListOf(String.class), anyListOf(String.class), anyListOf(String.class))).thenReturn(uCoreConsentDetailMock);
 //
 //        consentsMonitor.onEventAsync(consentBackendGetRequestMock);
@@ -290,7 +290,7 @@ public class ConsentsMonitorTest {
 //    @Test(expected = NullPointerException.class)
 //    public void ShouldReportEmptyConsent_When200AndListIsEmptyAndNotEqualToReferenceId() throws Exception {
 //        when(consentsMonitor.uCoreAccessProvider.isLoggedIn()).thenReturn(true);
-//        when(consentsMonitor.uCoreAccessProvider.getAccessToken()).thenReturn(ACCESS_TOKEN);
+//        when(consentsMonitor.uCoreAccessProvider.getHSDPAccessToken()).thenReturn(ACCESS_TOKEN);
 //        when(uCoreConsentDetailMock.isEmpty()).thenReturn(true);
 //        when(consentsClientMock.getConsent(anyString(), anyListOf(String.class), anyListOf(String.class), anyListOf(String.class))).thenReturn(uCoreConsentDetailMock);
 //
@@ -327,7 +327,7 @@ public class ConsentsMonitorTest {
 //    @Test
 //    public void ShouldReturnEvent_WhenConcentDetailsIsNotNullAndUCoreConsentDetailIsEmpity() throws Exception {
 //        when(consentsMonitor.uCoreAccessProvider.isLoggedIn()).thenReturn(true);
-//        when(consentsMonitor.uCoreAccessProvider.getAccessToken()).thenReturn(ACCESS_TOKEN);
+//        when(consentsMonitor.uCoreAccessProvider.getHSDPAccessToken()).thenReturn(ACCESS_TOKEN);
 //        // when(uCoreConsentDetailMock.isEmpty()).thenReturn(true);
 //        when(consentsClientMock.getConsent(anyString(), anyListOf(String.class), anyListOf(String.class), anyListOf(String.class))).thenReturn(uCoreConsentDetailMock);
 //
@@ -342,7 +342,7 @@ public class ConsentsMonitorTest {
 //    @Test
 //    public void ShouldReturnEvent_WhenConcentDetailsIsNotNullAndUCoreConsentDetailISNotEmpity() throws Exception {
 //        when(consentsMonitor.uCoreAccessProvider.isLoggedIn()).thenReturn(true);
-//        when(consentsMonitor.uCoreAccessProvider.getAccessToken()).thenReturn(ACCESS_TOKEN);
+//        when(consentsMonitor.uCoreAccessProvider.getHSDPAccessToken()).thenReturn(ACCESS_TOKEN);
 //        when(uCoreAdapterMock.getClient(ConsentsClient.class, "sdf", "sdfs", gsonConverterMock)).thenReturn(consentsClientMock);
 //        when(consentsClientMock.getConsent(anyString(), anyListOf(String.class), anyListOf(String.class), anyListOf(String.class))).thenReturn(uCoreConsentDetailMock);
 //        when(uCoreConsentDetailMock.get(0)).thenReturn(new UCoreConsentDetail("dfs", "dfs", "dsfs", "dfs"));

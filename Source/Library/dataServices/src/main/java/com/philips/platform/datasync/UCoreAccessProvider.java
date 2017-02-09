@@ -48,7 +48,7 @@ public class UCoreAccessProvider implements BackendIdProvider {
 
     public String getAccessToken() {
         if (userRegistrationInterface != null)
-            return userRegistrationInterface.getAccessToken();
+            return userRegistrationInterface.getHSDPAccessToken();
         else
             return null;
     }

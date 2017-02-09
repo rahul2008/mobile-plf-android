@@ -17,7 +17,7 @@ public class VerticalUserRegistrationInterfaceImpl implements UserRegistrationIn
 
     @NonNull
     @Override
-    public String getAccessToken() {
+    public String getHSDPAccessToken() {
         return "abc";
     }
 
@@ -28,7 +28,7 @@ public class VerticalUserRegistrationInterfaceImpl implements UserRegistrationIn
     }
 
     @Override
-    public String getHsdpUrl() {
+    public String getHSDPUrl() {
         return "http://google.com";
     }
 
