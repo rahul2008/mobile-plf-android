@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class IAPAnalytics {
-    private static AppTaggingInterface sAppTaggingInterface;
+    public static AppTaggingInterface sAppTaggingInterface;
 
     public static void initIAPAnalytics(IAPDependencies dependencies) {
         sAppTaggingInterface =

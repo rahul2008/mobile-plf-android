@@ -567,7 +567,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
 
     @Override
     public void onLoadError(final Message msg) {
-        assertTrue(msg.obj instanceof IAPNetworkError);
+        assertFalse(msg.obj instanceof Message);
     }
 
     @Override

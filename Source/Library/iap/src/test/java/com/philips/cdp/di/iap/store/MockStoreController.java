@@ -30,13 +30,19 @@ public class MockStoreController extends StoreController {
         return LOCALE;
     }
 
+//    @Override
+//    void refreshPILocaleManager(String language, String countryCode) {
+//        //mLocaleManager = mPILLocalManager;
+//        mSiteID = SITE_ID;
+//        mStoreConfig.getProposition();
+//        mStoreConfig.getRawConfigUrl();
+//        mStoreConfig.generateStoreUrls();
+//    }
+
+
     @Override
-    void refreshPILocaleManager(String language, String countryCode) {
-        mLocaleManager = mPILLocalManager;
-        mSiteID = SITE_ID;
-        mStoreConfig.getProposition();
-        mStoreConfig.getRawConfigUrl();
-        mStoreConfig.generateStoreUrls();
+    String getSiteID() {
+        return SITE_ID;
     }
 
     @Override

@@ -9,11 +9,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
-import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.config.HybrisConfigResponse;
 import com.philips.cdp.di.iap.session.IAPHurlStack;
 import com.philips.cdp.di.iap.session.IAPJsonRequest;
@@ -21,23 +21,16 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.session.SynchronizedNetwork;
 import com.philips.cdp.di.iap.session.SynchronizedNetworkListener;
-import com.philips.cdp.localematch.LocaleMatchListener;
-import com.philips.cdp.localematch.PILLocale;
-import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.LocaleMatchError;
-import com.philips.cdp.localematch.enums.Platform;
-import com.philips.cdp.localematch.enums.Sector;
 
 import org.json.JSONObject;
 
 public class StoreController {
     final Context mContext;
-    protected PILLocaleManager mLocaleManager;
-    protected PILLocale mPILLocale;
+    //    protected PILLocaleManager mLocaleManager;
+//    protected PILLocale mPILLocale;
     protected StoreConfiguration mStoreConfig;
     protected RequestListener mRequestListener;
-    protected String mFallBackLocale;
+    //    protected String mFallBackLocale;
     protected String mSiteID;
 
     public StoreController(Context context, StoreConfiguration storeConfig) {
@@ -47,27 +40,31 @@ public class StoreController {
 
     public void initConfig(final String language, String countryCode, final RequestListener listener) {
         mRequestListener = listener;
-        refreshPILocaleManager(language, countryCode);
+        // refreshPILocaleManager(language, countryCode);
+        startConfigDownloadThread();
     }
 
-    void refreshPILocaleManager(String language, String countryCode) {
-        mLocaleManager = new PILLocaleManager(mContext);
-        mLocaleManager.setInputLocale(language, countryCode);
-        mLocaleManager.refresh(mLocaleMatchListener);
-    }
+//    void refreshPILocaleManager(String language, String countryCode) {
+//        mLocaleManager = new PILLocaleManager(mContext);
+//        mLocaleManager.setInputLocale(language, countryCode);
+//        mLocaleManager.refresh(mLocaleMatchListener);
+//    }
 
     String getSiteID() {
         return mSiteID;
     }
 
     String getLocale() {
-        if (mPILLocale != null) {
-            return mPILLocale.getLocaleCode();
-        }
-        return mFallBackLocale;
+        if (CartModelContainer.getInstance().getCountry() == null || CartModelContainer.getInstance().getLanguage() == null)
+            return null;
+        return CartModelContainer.getInstance().getLanguage() + "_" + CartModelContainer.getInstance().getCountry();
+//        if (mPILLocale != null) {
+//            return mPILLocale.getLocaleCode();
+//        }
+//        return mFallBackLocale;
     }
 
-    void startConfigDownloadThread() {
+    private void startConfigDownloadThread() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -122,24 +119,24 @@ public class StoreController {
         });
     }
 
-    private LocaleMatchListener mLocaleMatchListener = new LocaleMatchListener() {
-        @Override
-        public void onLocaleMatchRefreshed(final String s) {
-            mFallBackLocale = s;
-            mPILLocale = mLocaleManager.currentLocaleWithCountryFallbackForPlatform(mContext, s,
-                    Platform.PRX, Sector.B2C, Catalog.CONSUMER);
-            startConfigDownloadThread();
-        }
-
-        @Override
-        public void onErrorOccurredForLocaleMatch(final LocaleMatchError localeMatchError) {
-            if (mRequestListener != null) {
-                Message msg = Message.obtain();
-                if (LocaleMatchError.INPUT_VALIDATION_ERROR != localeMatchError) {
-                    msg.obj = new IAPNetworkError(new NoConnectionError(), 0, null);
-                }
-                notifyConfigListener(false, msg);
-            }
-        }
-    };
+//    private LocaleMatchListener mLocaleMatchListener = new LocaleMatchListener() {
+//        @Override
+//        public void onLocaleMatchRefreshed(final String s) {
+//            mFallBackLocale = s;
+//            mPILLocale = mLocaleManager.currentLocaleWithCountryFallbackForPlatform(mContext, s,
+//                    Platform.PRX, Sector.B2C, Catalog.CONSUMER);
+//            startConfigDownloadThread();
+//        }
+//
+//        @Override
+//        public void onErrorOccurredForLocaleMatch(final LocaleMatchError localeMatchError) {
+//            if (mRequestListener != null) {
+//                Message msg = Message.obtain();
+//                if (LocaleMatchError.INPUT_VALIDATION_ERROR != localeMatchError) {
+//                    msg.obj = new IAPNetworkError(new NoConnectionError(), 0, null);
+//                }
+//                notifyConfigListener(false, msg);
+//            }
+//        }
+//    };
 }

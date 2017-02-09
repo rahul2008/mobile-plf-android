@@ -41,6 +41,11 @@ public class MockStore {
             IAPUser createUser(final Context context) {
                 return mUser;
             }
+
+            @Override
+            public String getCountry() {
+                return "US";
+            }
         };
         hybrisStore.createNewUser(mContext);
         return hybrisStore;
