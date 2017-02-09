@@ -23,16 +23,16 @@ import android.widget.TextView;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
-import com.philips.cdp.dicommclient.port.common.FirmwarePort;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
-import com.philips.cdp2.commlib.core.CommCentral;
-import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
-import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.example.appliance.BleReferenceAppliance;
 import com.philips.cdp2.commlib.example.appliance.BleReferenceApplianceFactory;
 import com.philips.cdp2.commlib.example.appliance.TimePort;
+import com.philips.commlib.core.CommCentral;
+import com.philips.commlib.core.appliance.Appliance;
+import com.philips.commlib.core.appliance.ApplianceManager;
+import com.philips.commlib.core.exception.MissingPermissionException;
+import com.philips.commlib.core.port.firmware.FirmwarePort;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;

@@ -5,7 +5,7 @@
 package com.philips.cdp2.commlib.ble.communication;
 
 import com.philips.cdp.dicommclient.request.ResponseHandler;
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.commlib.core.communication.CommunicationStrategy;
 
 import org.junit.Before;
 import org.junit.Test;
