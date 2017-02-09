@@ -144,6 +144,7 @@ public class DataServicesManager {
     }
 
     public void fetchMomentWithType(DBRequestListener dbRequestListener, final @NonNull String... type) {
+        DSLog.i(DSLog.LOG, "pabitra DataServiceManger fetchMomentWithType");
         mEventing.post(new LoadMomentsRequest(dbRequestListener, type));
     }
 

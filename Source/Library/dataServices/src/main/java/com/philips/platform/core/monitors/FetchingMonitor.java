@@ -106,6 +106,7 @@ public class FetchingMonitor extends EventMonitor {
     public void onEventBackgroundThread(LoadMomentsRequest event) {
         try {
             if (event.hasType()) {
+                DSLog.i(DSLog.LOG, "pabitra LoadMomentsRequest monitor fetchMomentWithType");
                 dbInterface.fetchMoments(event.getDbRequestListener(), event.getTypes());
             } else if (event.hasID()) {
                 dbInterface.fetchMomentById(event.getMomentID(), event.getDbRequestListener());
