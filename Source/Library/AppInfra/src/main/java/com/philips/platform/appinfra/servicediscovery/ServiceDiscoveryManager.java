@@ -145,13 +145,21 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                     }
                 }).start();
             } else {
-                AISDResponse ServiceDiscoveryError = new AISDResponse();
-                ServiceDiscoveryError.getPlatformURLs().setError(new ServiceDiscovery.Error
-                        (OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server is not reachable at the moment,Please try after some time"));
-                ServiceDiscoveryError.getPropositionURLs().setError(new ServiceDiscovery.Error
-                        (OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server is not reachable at the moment,Please try after some time"));
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "Server is not reachable at the moment,Please try after some time");
-                listener.onDownloadDone(ServiceDiscoveryError);
+                AISDResponse serviceDiscoveryError = new AISDResponse();
+                if (serviceDiscoveryError.getPlatformURLs() != null) {
+                    ServiceDiscovery platformError = serviceDiscoveryError.getPlatformURLs();
+                    platformError.setError(new ServiceDiscovery.Error
+                            (OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server is not reachable at the moment,Please try after some time"));
+                }
+                if (serviceDiscoveryError.getPropositionURLs() != null) {
+                    serviceDiscoveryError.getPropositionURLs().setError(new ServiceDiscovery.Error
+                            (OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server is not reachable at the moment,Please try after some time"));
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "Server is not reachable at the moment,Please try after some time");
+
+                }
+
+                if(listener != null)
+                    listener.onDownloadDone(serviceDiscoveryError);
             }
         } else {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "Download already in progress, please wait for response");
@@ -586,8 +594,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             for (Map.Entry<String, String> param : parameters.entrySet()) {
                 String key = param.getKey();
                 String value = param.getValue();
-                if(key != null && value!= null)
-                     url = url.replace('%' + key + '%', value);
+                if (key != null && value != null)
+                    url = url.replace('%' + key + '%', value);
             }
         }
         try {

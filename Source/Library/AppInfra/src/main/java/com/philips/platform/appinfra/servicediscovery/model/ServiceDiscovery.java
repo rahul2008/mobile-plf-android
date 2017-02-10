@@ -324,6 +324,7 @@ public class ServiceDiscovery {
         Map<String, String> urls = null;
         String modelLocale = null;
         mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra);
+
         final HashMap<String, ServiceDiscoveryService> responseMap = new HashMap<>();
 
         for (int config = 0; config < configSize; config++) {
@@ -346,10 +347,12 @@ public class ServiceDiscovery {
                             if (replacement != null && replacement.size() > 0) {
                                 URL replacedUrl;
                                 try {
-                                    replacedUrl = mServiceDiscoveryManager.applyURLParameters(new URL(serviceUrlval), replacement);
                                     ServiceDiscoveryService sdService = new ServiceDiscoveryService();
-                                    sdService.init(modelLocale, replacedUrl.toString());
-                                    responseMap.put(key, sdService);
+                                    replacedUrl = mServiceDiscoveryManager.applyURLParameters(new URL(serviceUrlval), replacement);
+                                    if(replacedUrl != null)
+                                        sdService.init(modelLocale, replacedUrl.toString());
+                                        responseMap.put(key, sdService);
+
                                 } catch (MalformedURLException e) {
                                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
                                             "ServiceDiscovery URL error",

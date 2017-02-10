@@ -40,7 +40,7 @@ public class AISDResponse {
         if (getPropositionURLs() != null) {
             url = getPropositionURLs().getServiceURLWithServiceID(serviceId, preference, replacement);
             if (url != null) {
-                if(url.toString().equalsIgnoreCase(SDEmptyURL))
+                if (url.toString().equalsIgnoreCase(SDEmptyURL))
                     return null;
                 else
                     return url;
@@ -58,23 +58,37 @@ public class AISDResponse {
     public HashMap<String, ServiceDiscoveryService> getServicesUrl(ArrayList<String> serviceIds,
                                                                    AISDResponse.AISDPreference preference,
                                                                    Map<String, String> replacement) {
-        HashMap<String, ServiceDiscoveryService> response;
+        HashMap<String, ServiceDiscoveryService> response = new HashMap<>();
+        HashMap<String, ServiceDiscoveryService> propositionResponse = null, platformResponse = null;
 
         if (getPropositionURLs() != null) {
-            response = getPropositionURLs().getServicesWithServiceID(serviceIds, preference, replacement);
-            if (response != null && response.size() > 0) {
-                return response;
-            }
+            propositionResponse = getPropositionURLs().getServicesWithServiceID(serviceIds, preference, replacement);
         }
 
         if (getPlatformURLs() != null) {
-            response = getPlatformURLs().getServicesWithServiceID(serviceIds, preference, replacement);
-            if (response != null && response.size() > 0) {
-                return response;
-            }
+            platformResponse = getPlatformURLs().getServicesWithServiceID(serviceIds, preference, replacement);
         }
 
-        return null;
+        for (String serviceId : serviceIds) {
+            if (propositionResponse != null) {
+                ServiceDiscoveryService propositionService = propositionResponse.get(serviceId);
+                if (propositionService != null && propositionService.getConfigUrls() != null) {
+                    if (propositionService.getConfigUrls().equalsIgnoreCase(SDEmptyURL)) {
+                        propositionService.setConfigUrl(null);
+                        propositionService.setmError("ServiceDiscovery cannot find the URL for serviceID" + serviceId);
+                    }
+                    response.put(serviceId, propositionService);
+                } else {
+                    if(platformResponse != null) {
+                        ServiceDiscoveryService platformService = platformResponse.get(serviceId);
+                        if(platformService != null) {
+                            response.put(serviceId,platformService);
+                        }
+                    }
+                }
+            }
+        }
+        return response;
     }
 
     public String getLocaleWithPreference(AISDPreference preference) {

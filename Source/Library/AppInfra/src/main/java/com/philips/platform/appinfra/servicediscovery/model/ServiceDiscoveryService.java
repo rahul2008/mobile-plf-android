@@ -6,20 +6,33 @@ package com.philips.platform.appinfra.servicediscovery.model;
 
 public class ServiceDiscoveryService {
 
-    String locale;
-    String configUrl;
+    private String mLocale;
+    private String mConfigUrl;
+    private String mError;
 
     public void init(String localeParam, String configUrlParam) {
-        locale = localeParam;
-        configUrl = configUrlParam;
+        mLocale = localeParam;
+        mConfigUrl = configUrlParam;
+    }
+
+    public String getmError() {
+        return mError;
+    }
+
+    public void setmError(String mError) {
+        this.mError = mError;
     }
 
     public String getLocale() {
-        return locale;
+        return mLocale;
     }
 
     public String getConfigUrls() {
-        return configUrl;
+        return mConfigUrl;
+    }
+
+    public void setConfigUrl(String mConfigUrl) {
+        this.mConfigUrl = mConfigUrl;
     }
 
 }
