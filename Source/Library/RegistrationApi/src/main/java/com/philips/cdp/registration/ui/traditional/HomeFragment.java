@@ -32,6 +32,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +43,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
@@ -95,6 +97,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private LinearLayout mLlCreateBtnContainer;
     private LinearLayout mLlLoginBtnContainer;
     private LinearLayout mLlSocialProviderBtnContainer;
+    private RelativeLayout mCountrySelectionContainer;
     private XRegError mRegError;
     private User mUser;
     private String mProvider;
@@ -108,6 +111,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private String mWeChatAppSecret;
     private IWXAPI mWeChatApi;
     private String mWeChatCode;
+    private String mShowCountrySelection;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -385,6 +389,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mPbJanrainInit.setEnabled(false);
         mLlSocialProviderBtnContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_social_provider_container);
+        mCountrySelectionContainer= (RelativeLayout) view.findViewById(R.id.reg_country_selection);
         mUser = new User(mContext);
         linkifyTermAndPolicy(mTvWelcomeDesc);
         handleUiState(false);
@@ -405,6 +410,22 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 mCountryDisplayy.setText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
             }
         });
+        showCountrySelection();
+    }
+    private void showCountrySelection() {
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        mShowCountrySelection = (String) RegistrationHelper.getInstance().getAppInfraInstance().
+                getConfigInterface().
+                getPropertyForKey(URConfigurationConstants.SHOW_COUNTRY_SELECTION, UR,
+                        configError);
+        RLog.d(RLog.SERVICE_DISCOVERY, " Country Show Country Selection :" + mShowCountrySelection);
+        if (mShowCountrySelection!=null)
+        {
+            if (mShowCountrySelection.equalsIgnoreCase("false")){
+                mCountrySelectionContainer.setVisibility(View.INVISIBLE);
+            }
+        }
     }
 
     @Override
