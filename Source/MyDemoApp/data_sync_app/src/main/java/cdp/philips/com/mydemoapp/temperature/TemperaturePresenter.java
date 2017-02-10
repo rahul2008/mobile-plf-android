@@ -225,6 +225,7 @@ public class TemperaturePresenter {
             mTemperature.setText(String.valueOf(helper.getTemperature(moment)));
             mLocation.setText(helper.getNotes(moment));
             mPhase.setText(helper.getTime(moment));
+            mDialogButton.setText(R.string.update);
         }
 
         mDialogButton.setOnClickListener(new View.OnClickListener() {
