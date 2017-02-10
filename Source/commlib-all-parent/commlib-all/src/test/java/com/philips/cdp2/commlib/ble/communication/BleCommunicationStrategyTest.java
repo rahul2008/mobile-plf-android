@@ -27,6 +27,8 @@ public class BleCommunicationStrategyTest {
     private BleDeviceCache deviceCache;
     @Mock
     private ResponseHandler responseHandler;
+    @Mock
+    private android.os.Handler callbackHandler;
 
     private BleCommunicationStrategy strategy;
 
@@ -34,7 +36,7 @@ public class BleCommunicationStrategyTest {
     public void setUp() {
         initMocks(this);
 
-        strategy = new BleCommunicationStrategy("NCC-1701", deviceCache);
+        strategy = new BleCommunicationStrategy("NCC-1701", deviceCache, callbackHandler);
     }
 
     @Test
@@ -43,7 +45,6 @@ public class BleCommunicationStrategyTest {
 
         verify(responseHandler).onSuccess(anyString());
     }
-
 
     @Test
     public void testSameSubscribeTwiceReturnsError() {
@@ -60,7 +61,6 @@ public class BleCommunicationStrategyTest {
 
         verify(responseHandler).onSuccess(anyString());
     }
-
 
     @Test
     public void testUnsubscribeWhenNotSubscribed() {
