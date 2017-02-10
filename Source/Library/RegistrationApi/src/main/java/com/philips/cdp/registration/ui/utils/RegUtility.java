@@ -199,7 +199,6 @@ public class RegUtility {
                 RegistrationHelper.getInstance().getAppInfraInstance().getAbTesting().
                         getTestValue("DOT-ReceiveMarketingOptIn", "OriginalOptInText",
                                 ABTestClientInterface.UPDATETYPES.EVERY_APP_START, null);
-        System.out.print("flowType  :" +flowType);
         if(flowType.equalsIgnoreCase(UIFlow.STRING_EXPERIENCE_A.toString())){
             return UIFlow.STRING_EXPERIENCE_A;
         }else if(flowType.equalsIgnoreCase(UIFlow.STRING_EXPERIENCE_B.toString())){
