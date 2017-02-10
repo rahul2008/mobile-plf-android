@@ -5,6 +5,7 @@
 package com.philips.cdp2.commlib.ble.discovery;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
@@ -21,7 +22,11 @@ import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import java.util.HashSet;
 import java.util.List;
@@ -58,6 +63,12 @@ public class BleDiscoveryStrategyTestSteps {
     private BleDeviceCache bleDeviceCache;
     private static int cppId = 0;
 
+    @Mock
+    private Handler callbackHandlerMock;
+
+    @Captor
+    private ArgumentCaptor<Runnable> runnableCaptor;
+
     @Before
     public void setup() throws SHNBluetoothHardwareUnavailableException {
         initMocks(this);
@@ -73,6 +84,14 @@ public class BleDiscoveryStrategyTestSteps {
             }
         };
         when(bleTransportContext.getDiscoveryStrategy()).thenReturn(bleDiscoveryStrategy);
+
+        when(callbackHandlerMock.post(runnableCaptor.capture())).thenAnswer(new Answer<Void>() {
+            @Override
+            public Void answer(final InvocationOnMock invocation) throws Throwable {
+                runnableCaptor.getValue().run();
+                return null;
+            }
+        });
     }
 
     @Given("^a BlueLib mock$")
@@ -91,7 +110,7 @@ public class BleDiscoveryStrategyTestSteps {
             @Override
             public Appliance createApplianceForNode(final NetworkNode networkNode) {
                 if (canCreateApplianceForNode(networkNode)) {
-                    return new Appliance(networkNode, new BleCommunicationStrategy(networkNode.getCppId(), bleDeviceCache)) {
+                    return new Appliance(networkNode, new BleCommunicationStrategy(networkNode.getCppId(), bleDeviceCache, callbackHandlerMock)) {
                         @Override
                         public String getDeviceType() {
                             return networkNode.getModelName();

@@ -4,6 +4,7 @@
  */
 package com.philips.cdp2.commlib.ble.request;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
@@ -76,6 +77,8 @@ public abstract class BleRequest implements Runnable {
     final String productId;
     @NonNull
     final String portName;
+    @NonNull
+    private final Handler handlerToPostResponseOnto;
     @NonNull
     final private AtomicBoolean disconnectAfterRequest;
 
@@ -152,12 +155,14 @@ public abstract class BleRequest implements Runnable {
                @NonNull String portName,
                int productId,
                @NonNull ResponseHandler responseHandler,
+               @NonNull Handler handlerToPostResponseOnto,
                @NonNull AtomicBoolean disconnectAfterRequest) {
         this.responseHandler = responseHandler;
         this.deviceCache = deviceCache;
         this.cppId = cppId;
         this.portName = portName;
         this.productId = Integer.toString(productId);
+        this.handlerToPostResponseOnto = handlerToPostResponseOnto;
         this.disconnectAfterRequest = disconnectAfterRequest;
     }
 
@@ -275,16 +280,26 @@ public abstract class BleRequest implements Runnable {
         }
     }
 
-    private void onError(Error error, String errorMessage) {
+    private void onError(final Error error, final String errorMessage) {
         if (setStateIfStateIs(COMPLETED, STARTED, CREATED)) {
-            responseHandler.onError(error, errorMessage);
+            handlerToPostResponseOnto.post(new Runnable() {
+                @Override
+                public void run() {
+                    responseHandler.onError(error, errorMessage);
+                }
+            });
             finishRequest();
         }
     }
 
-    private void onSuccess(String data) {
+    private void onSuccess(final String data) {
         if (setStateIfStateIs(COMPLETED, STARTED)) {
-            responseHandler.onSuccess(data);
+            handlerToPostResponseOnto.post(new Runnable() {
+                @Override
+                public void run() {
+                    responseHandler.onSuccess(data);
+                }
+            });
             finishRequest();
         }
     }

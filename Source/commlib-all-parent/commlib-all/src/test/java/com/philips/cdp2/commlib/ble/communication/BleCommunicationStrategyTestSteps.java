@@ -4,6 +4,7 @@
  */
 package com.philips.cdp2.commlib.ble.communication;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
@@ -96,6 +97,12 @@ public class BleCommunicationStrategyTestSteps {
     @Captor
     private ArgumentCaptor<String> successStringCaptor;
 
+    @Mock
+    private Handler callbackHandlerMock;
+
+    @Captor
+    private ArgumentCaptor<Runnable> runnableCaptor;
+
     @Before
     public void setup() {
         initMocks(this);
@@ -106,6 +113,14 @@ public class BleCommunicationStrategyTestSteps {
         mRequestQueue = new ArrayDeque<>();
         mGson = new GsonBuilder().serializeNulls().create();
         deviceListenerMap = new ConcurrentHashMap<>();
+
+        when(callbackHandlerMock.post(runnableCaptor.capture())).thenAnswer(new Answer<Void>() {
+            @Override
+            public Void answer(final InvocationOnMock invocation) throws Throwable {
+                runnableCaptor.getValue().run();
+                return null;
+            }
+        });
     }
 
     @After
@@ -115,7 +130,7 @@ public class BleCommunicationStrategyTestSteps {
 
     @Given("^the BleStrategy is initialized with id '(.*?)'$")
     public void the_BleStrategy_is_initialized_with_id(String deviceId) {
-        mStrategy = new BleCommunicationStrategy(deviceId, mDeviceCache) {
+        mStrategy = new BleCommunicationStrategy(deviceId, mDeviceCache, callbackHandlerMock) {
 
             @Override
             protected void dispatchRequest(final BleRequest request) {

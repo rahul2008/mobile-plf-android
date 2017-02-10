@@ -4,6 +4,8 @@
  */
 package com.philips.cdp2.commlib.ble.communication;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
@@ -35,10 +37,14 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     private final String cppId;
     @NonNull
     private final BleDeviceCache deviceCache;
-    private final long subscriptionPollingInterval;
+    @NonNull
     private final ScheduledThreadPoolExecutor requestExecutor;
-
+    @NonNull
     private AtomicBoolean disconnectAfterRequest = new AtomicBoolean(true);
+    @NonNull
+    private Handler callbackHandler;
+
+    private final long subscriptionPollingInterval;
     private Map<PortParameters, PollingSubscription> subscriptionsCache = new ConcurrentHashMap<>();
 
     /**
@@ -48,25 +54,45 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
      * @param deviceCache the device cache
      */
     public BleCommunicationStrategy(@NonNull String cppId, @NonNull BleDeviceCache deviceCache) {
-        this(cppId, deviceCache, DEFAULT_SUBSCRIPTION_POLLING_INTERVAL);
+        this(cppId, deviceCache, new Handler(Looper.getMainLooper()));
     }
 
-    public BleCommunicationStrategy(@NonNull String cppId, @NonNull BleDeviceCache deviceCache, final long subscriptionPollingInterval) {
+    /**
+     * Instantiates a new BleCommunicationStrategy that provides callbacks on the specified handler.
+     *
+     * @param cppId           the cpp id
+     * @param deviceCache     the device cache
+     * @param callbackHandler the handler on which callbacks will be posted
+     */
+    public BleCommunicationStrategy(@NonNull String cppId, @NonNull BleDeviceCache deviceCache, @NonNull Handler callbackHandler) {
+        this(cppId, deviceCache, callbackHandler, DEFAULT_SUBSCRIPTION_POLLING_INTERVAL);
+    }
+
+    /**
+     * Instantiates a new BleCommunicationStrategy that provides callbacks on the specified handler.
+     *
+     * @param cppId                       the cpp id
+     * @param deviceCache                 the device cache
+     * @param callbackHandler             the handler on which callbacks will be posted
+     * @param subscriptionPollingInterval the interval used for polling subscriptions
+     */
+    public BleCommunicationStrategy(@NonNull String cppId, @NonNull BleDeviceCache deviceCache, @NonNull Handler callbackHandler, long subscriptionPollingInterval) {
         this.cppId = cppId;
         this.deviceCache = deviceCache;
+        this.callbackHandler = callbackHandler;
         this.subscriptionPollingInterval = subscriptionPollingInterval;
         this.requestExecutor = new ScheduledThreadPoolExecutor(1);
     }
 
     @Override
     public void getProperties(final String portName, final int productId, final ResponseHandler responseHandler) {
-        final BleRequest request = new BleGetRequest(deviceCache, cppId, portName, productId, responseHandler, disconnectAfterRequest);
+        final BleRequest request = new BleGetRequest(deviceCache, cppId, portName, productId, responseHandler, callbackHandler, disconnectAfterRequest);
         dispatchRequest(request);
     }
 
     @Override
     public void putProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
-        final BleRequest request = new BlePutRequest(deviceCache, cppId, portName, productId, dataMap, responseHandler, disconnectAfterRequest);
+        final BleRequest request = new BlePutRequest(deviceCache, cppId, portName, productId, dataMap, responseHandler, callbackHandler, disconnectAfterRequest);
         dispatchRequest(request);
     }
 

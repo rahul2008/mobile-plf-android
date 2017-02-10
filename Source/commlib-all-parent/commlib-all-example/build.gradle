@@ -1,18 +1,18 @@
+/*
+ * (c) Koninklijke Philips N.V., 2017.
+ *     All rights reserved.
+ */
+
 apply plugin: 'com.android.application'
 
-import com.philips.cdp.cdpSCM
-
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.1"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.sdk
         applicationId "com.philips.cdp2.commlib.example"
-        minSdkVersion _minSdkVersion
-        targetSdkVersion _targetSdkVersion
         versionCode 1
         versionName "1.0"
     }
@@ -26,16 +26,16 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:24.2.0'
-    compile 'com.philips.cdp:cloudcontroller:5.0.0'
-    compile group: 'joda-time', name: 'joda-time', version: '2.9.7'
+    compile 'com.philips.cdp:cloudcontroller:5.1.1-SNAPSHOT'
 
     debugCompile project(path:':commlib-all', configuration:'debug')
     releaseCompile project(path:':commlib-all', configuration:'release')
 
+    compile 'com.android.support:appcompat-v7:24.2.0'
+    compile group: 'joda-time', name: 'joda-time', version: '2.9.7'
+
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
     testCompile 'junit:junit:4.12'
 }
