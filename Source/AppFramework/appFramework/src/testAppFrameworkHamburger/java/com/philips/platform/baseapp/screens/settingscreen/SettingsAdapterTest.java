@@ -104,7 +104,7 @@ public class SettingsAdapterTest {
     public void getViewLoginWhenRegistrationNotDone() throws Exception {
         settingsAdapter.getView(3, null, null);
         UIKitButton urButton = settingsAdapter.getUrButton();
-        String logoutText = hamburgerActivity.getResources().getString(R.string.settings_list_item_login);
+        String logoutText = hamburgerActivity.getResources().getString(R.string.RA_Settings_Login);
         assertEquals(logoutText, urButton.getText());
     }
 
@@ -115,7 +115,7 @@ public class SettingsAdapterTest {
                 fragmentPresenter, userRegistrationSettingsState, userRegIsLoggedIn, false);
         settingsAdapter.getView(3, null, null);
         UIKitButton urButton = settingsAdapter.getUrButton();
-        String logoutText = hamburgerActivity.getResources().getString(R.string.settings_list_item_log_out);
+        String logoutText = hamburgerActivity.getResources().getString(R.string.RA_Settings_Logout);
         assertEquals(logoutText, urButton.getText());
     }
 
@@ -148,10 +148,10 @@ public class SettingsAdapterTest {
 
     private ArrayList<SettingListItem> buildSettingsScreenList() {
         ArrayList<SettingListItem> settingScreenItemList = new ArrayList<SettingListItem>();
-        settingScreenItemList.add(formDataSection(getResourceString(R.string.settings_list_item_main), SettingListItemType.HEADER, false));
-        settingScreenItemList.add(formDataSection(getResourceString(R.string.settings_list_item_one), SettingListItemType.CONTENT, false));
-        settingScreenItemList.add(formDataSection(getResourceString(R.string.settings_list_item_notify), SettingListItemType.NOTIFICATION, false));
-        settingScreenItemList.add(formDataSection(getResourceString(R.string.settings_list_item_login), SettingListItemType.CONTENT, false));
+        settingScreenItemList.add(formDataSection(getResourceString(R.string.RA_Settings_Menu_Title), SettingListItemType.HEADER, false));
+        settingScreenItemList.add(formDataSection(getResourceString(R.string.RA_Vertical_App_Setting_A), SettingListItemType.CONTENT, false));
+        settingScreenItemList.add(formDataSection(getResourceString(R.string.RA_Setting_Philips_Promo_Title), SettingListItemType.NOTIFICATION, false));
+        settingScreenItemList.add(formDataSection(getResourceString(R.string.RA_Settings_Login), SettingListItemType.CONTENT, false));
         return settingScreenItemList;
     }
 
