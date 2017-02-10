@@ -57,7 +57,7 @@ public class UserCharacteristicsSender extends DataSender {
             return false;
         }
 
-        if(userCharacteristicsListToSend.size() == 0){
+        if(userCharacteristicsListToSend == null){
             return false;
         }
         List<Characteristics> userUserCharacteristicsList = new ArrayList<>();
