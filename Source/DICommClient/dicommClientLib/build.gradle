@@ -1,45 +1,36 @@
 /*
- * © Koninklijke Philips N.V., 2016.
- *   All rights reserved.
+ * (c) Koninklijke Philips N.V., 2016, 2017.
+ *     All rights reserved.
  */
+
+import com.philips.cdp.cdpSCM
 
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory-upload'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'cdpSCM'
+
+apply from: rootDir.absolutePath + '/../common/gradle/module-tasks.gradle'
 
 buildscript {
     repositories {
-        maven {
-            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter"
-        }
-        maven {
-            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
-            credentials {
-                username = "readonly"
-                password = "readonly"
-            }
-        }
+        maven { url repos.jcenter }
+        maven { url repos.release }
     }
 
     dependencies {
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
+        classpath(builddeps.androidmavengradleplugin)
+        classpath(builddeps.buildinfoextractor)
+        classpath(builddeps.cdpscm)
     }
 }
 
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-
-// maven configuration stuff required for artifactory plugin
-group = 'com.philips.cdp'
 version = objcdp.getVersion()
 
 artifactory {
-    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+    contextUrl = repos.base
     publish {
         repository {
             repoKey = objcdp.getArtifactoryRepoKey('android')
@@ -59,28 +50,17 @@ artifactory {
     }
 }
 
-//=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
 artifacts {
     archives zipDoc
 }
 
-task zipDocuments(type: Zip) {
-    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
-    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
-    from files(docfiles) {
-        baseName = project.name
-        classifier 'docs'
-    }
-}
-//=======To zip and upload "Documents/External" ==ENDS=============
-
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion 9
+        minSdkVersion versions.minsdk
         versionCode 1
         versionName version
         consumerProguardFiles 'proguard-rules.pro'
@@ -110,9 +90,13 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.philips.cdp:cloudcontroller-api:3.0.0'
-    compile 'com.google.code.gson:gson:2.7'
-    testCompile 'com.philips.cdp:cloudcontroller:5.0.0'
+
+    compile 'com.philips.cdp:cloudcontroller-api:3.1.1-SNAPSHOT'
+    testCompile 'com.philips.cdp:cloudcontroller:5.1.1-SNAPSHOT'
+
+    provided deps.support_annotations
+    compile deps.gson
+
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
@@ -126,15 +110,10 @@ dependencies {
     }
     testCompile 'org.powermock:powermock-api-mockito:1.6.4'
     testCompile 'org.powermock:powermock-module-junit4:1.6.4'
+
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile 'org.mockito:mockito-core:1.9.5'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     androidTestCompile 'com.squareup.assertj:assertj-android:1.1.1'
-    provided 'com.android.support:support-annotations:24.2.0'
-}
-
-task sourceJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier 'sources'
 }

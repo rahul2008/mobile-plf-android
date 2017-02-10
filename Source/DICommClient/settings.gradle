@@ -1,1 +1,7 @@
 include ':dicommClientLib'
+
+def commonDir = '../common'
+if (new File(commonDir).exists()) {
+    include ':common'
+    project(':common').projectDir = new File(commonDir)
+}
