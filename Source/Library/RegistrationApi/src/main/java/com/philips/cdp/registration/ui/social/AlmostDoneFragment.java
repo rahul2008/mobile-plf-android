@@ -443,13 +443,15 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 scrollViewAutomatically(mRegError, mSvRootLayout);
             }
         } else {
-            if (NetworkUtility.isNetworkAvailable(mContext) && mEtEmail.isValidEmail() && mEtEmail.isShown()) {
-                mBtnContinue.setEnabled(true);
-                mRegError.hideError();
-            } else if (NetworkUtility.isNetworkAvailable(mContext)) {
-                mBtnContinue.setEnabled(true);
+            if (NetworkUtility.isNetworkAvailable(mContext)) {
+
+                if ((mEtEmail.isShown() && mEtEmail.isValidEmail()) ||
+                        (mEtEmail.getVisibility() != View.VISIBLE)) {
+                    mBtnContinue.setEnabled(true);
+                }
                 mRegError.hideError();
             } else {
+
                 mRegError.setError(getString(R.string.reg_NoNetworkConnection));
                 mBtnContinue.setEnabled(false);
                 scrollViewAutomatically(mRegError, mSvRootLayout);
