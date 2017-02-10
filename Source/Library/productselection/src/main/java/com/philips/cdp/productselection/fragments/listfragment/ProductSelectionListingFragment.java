@@ -136,7 +136,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
 
         for (int i = 0; i < ctnList.length; i++) {
             final String ctn = ctnList[i];
-            PrxWrapper prxWrapperCode = new PrxWrapper(getActivity().getApplicationContext(), null, ctn,
+            PrxWrapper prxWrapperCode = new PrxWrapper(getActivity().getApplicationContext(), ProductModelSelectionHelper.getInstance().getAPPInfraInstance(), ctn,
                     ProductModelSelectionHelper.getInstance().getProductModelSelectionType().getSector(),
                     ProductModelSelectionHelper.getInstance().getLocale().toString(),
                     ProductModelSelectionHelper.getInstance().getProductModelSelectionType().getCatalog());
