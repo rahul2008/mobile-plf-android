@@ -27,6 +27,8 @@ import org.json.JSONObject;
 
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 
 public class RequestManager {
@@ -50,10 +52,10 @@ public class RequestManager {
 
         ServiceDiscovery result = new ServiceDiscovery();
         try {
-            JSONObject response = future.get();
+            JSONObject response = future.get(10 , TimeUnit.SECONDS);
             cacheServiceDiscovery(response, url, urlType);
             return parseResponse(response);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException|TimeoutException e) {
             ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface
                     .OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "Timed out or interrupted");
             result.setError(err);
