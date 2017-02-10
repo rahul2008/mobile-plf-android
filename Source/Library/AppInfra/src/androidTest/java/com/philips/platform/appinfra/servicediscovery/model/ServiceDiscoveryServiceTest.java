@@ -35,8 +35,8 @@ public class ServiceDiscoveryServiceTest extends MockitoTestCase {
 
     public void testInit() {
         mServiceDiscoveyService.init("TestLocal", "TestConfig");
-        assertSame("TestLocal", mServiceDiscoveyService.locale);
-        assertSame("TestConfig", mServiceDiscoveyService.configUrl);
+        assertSame("TestLocal", mServiceDiscoveyService.getLocale());
+        assertSame("TestConfig", mServiceDiscoveyService.getConfigUrls());
     }
 
     public void testgetLocale() {

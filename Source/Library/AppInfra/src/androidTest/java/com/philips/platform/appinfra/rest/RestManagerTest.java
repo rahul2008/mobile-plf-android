@@ -78,6 +78,24 @@ public class RestManagerTest extends MockitoTestCase {
         assertNotNull(queue);
     }
 
+    public void testIsInternetReachable()
+    {
+        if(mRestInterface.isInternetReachable()) {
+            assertTrue(mRestInterface.isInternetReachable());
+        }else
+        {
+            assertFalse(mRestInterface.isInternetReachable());
+        }
+    }
+
+    public void testGetNetworkInfo()
+    {
+        RestInterface.NetworkTypes netWorkInfo=mRestInterface.getNetworkReachabilityStatus();
+        Log.v("NetworkInfo","device connected to "+netWorkInfo);
+
+    }
+
+
     public void testStringRequestwithUrl() {
 
         StringRequest mStringRequest = null;

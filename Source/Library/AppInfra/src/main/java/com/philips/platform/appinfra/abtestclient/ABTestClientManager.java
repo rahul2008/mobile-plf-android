@@ -7,8 +7,6 @@ package com.philips.platform.appinfra.abtestclient;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -301,7 +299,7 @@ public class ABTestClientManager implements ABTestClientInterface {
      */
     @Override
     public void updateCache(final OnRefreshListener listener) {
-        if (!isOnline()) {
+        if (null!=mAppInfra.getRestClient() && !mAppInfra.getRestClient().isInternetReachable()) {
             mCachestatusvalues = CACHESTATUSVALUES.EXPERIENCES_NOT_UPDATED;
             if (listener != null)
                 listener.onError(OnRefreshListener.ERRORVALUES.NO_NETWORK, "NO INTERNET");
@@ -437,17 +435,6 @@ public class ABTestClientManager implements ABTestClientInterface {
     }
 
 
-    /**
-     * Method to check the network connectivity.
-     *
-     * @return boolean true/false.
-     */
-    private boolean isOnline() {
-        ConnectivityManager connMgr = (ConnectivityManager)
-                mAppInfra.getAppInfraContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnected());
-    }
 
     /**
      * method to save cachemodel object in preference.

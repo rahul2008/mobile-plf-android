@@ -10,8 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.SntpClient;
 import android.util.Log;
 
@@ -49,7 +47,6 @@ public class TimeSyncSntpClient implements TimeInterface {
         mAppInfra = aAppInfra;
         mRefreshInProgressLock = new ReentrantLock();
         init();
-        refreshTime();
         registerReciever();
     }
 
@@ -147,15 +144,15 @@ public class TimeSyncSntpClient implements TimeInterface {
                 @Override
                 public void run() {
                     try {
-                        if (isOnline()) {
-                            refreshOffset();
-                        } else {
+                            if (null!=mAppInfra.getRestClient()&& mAppInfra.getRestClient().isInternetReachable()) {
+                                refreshOffset();
+                            } else {
 //                            if (mAppInfra != null && mAppInfra.getLogging() != null) {
 //                                mAppInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, "TimeSyncError",
 //                                        "Network connectivity not found");
 //                            }
-                            Log.e("TIMESYNC" , "Network connectivity not found");
-                        }
+                                Log.e("TIMESYNC", "Network connectivity not found");
+                            }
                     } catch (IllegalArgumentException e) {
                         if (mAppInfra != null && mAppInfra.getLogging() != null)
                             mAppInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, "TimeSyncError",
@@ -187,10 +184,4 @@ public class TimeSyncSntpClient implements TimeInterface {
         }
     }
 
-    private boolean isOnline() {
-        ConnectivityManager connMgr = (ConnectivityManager)
-                mAppInfra.getAppInfraContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnected());
-    }
 }
