@@ -97,8 +97,10 @@ dependencies {
     provided deps.support_annotations
     compile deps.gson
 
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.9.5'
+    testCompile deps.junit
+    testCompile deps.powermock_mockito
+    testCompile deps.powermock_junit
+
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
     testCompile('org.robolectric:robolectric:3.1.4') {
         exclude group: 'commons-logging', module: 'commons-logging'
@@ -108,11 +110,10 @@ dependencies {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
-    testCompile 'org.powermock:powermock-api-mockito:1.6.4'
-    testCompile 'org.powermock:powermock-module-junit4:1.6.4'
 
-    androidTestCompile 'junit:junit:4.12'
-    androidTestCompile 'org.mockito:mockito-core:1.9.5'
+    androidTestCompile deps.junit
+    androidTestCompile deps.mockito
+
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     androidTestCompile 'com.squareup.assertj:assertj-android:1.1.1'
