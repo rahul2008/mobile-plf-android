@@ -2,24 +2,17 @@ package com.philips.cdp.registration.ui.utils;
 
 
 public enum UIFlow {
-    STRING_EXPERIENCE_A("Experience A"),
-    STRING_EXPERIENCE_B("Experience B"),
-    STRING_EXPERIENCE_C("Experience C");
+    FLOW_A("OriginalOptInText"),
+    FLOW_B("OptInInSeparateScreen"),
+    FLOW_C("AddBenefitsToOptInInRegistrationScreen");
 
-    private final String text;
+    private final String flow;
 
-    /**
-     * @param text
-     */
-    private UIFlow(final String text) {
-        this.text = text;
+    UIFlow(final String flow) {
+        this.flow = flow;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Enum#toString()
-     */
-    @Override
-    public String toString() {
-        return text;
+    public String getValue() {
+        return flow;
     }
 }

@@ -26,7 +26,6 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.apptagging.AppTaggingErrors;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -58,7 +57,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Handler;
 
 public class AlmostDoneFragment extends RegistrationBaseFragment implements EventListener,
         onUpdateListener, SocialProviderLoginHandler, NetworStateListener, OnClickListener, XCheckBox.OnCheckedChangeListener {
@@ -403,18 +401,18 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 mLlAcceptTermsContainer.setVisibility(View.GONE);
             } else {
                 final UIFlow abStrings = RegUtility.getUiFlow();
-                if (abStrings.equals(UIFlow.STRING_EXPERIENCE_A)) {
+                if (abStrings.equals(UIFlow.FLOW_A)) {
                     RLog.d(RLog.AB_TESTING, "UI Flow Type A");
                     RLog.d(RLog.AB_TESTING, "UI Flow Type A");
                     mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
                     mJoinNow.setVisibility(View.GONE);
-                } else if (abStrings.equals(UIFlow.STRING_EXPERIENCE_B)) {
+                } else if (abStrings.equals(UIFlow.FLOW_B)) {
                     RLog.d(RLog.AB_TESTING, "UI Flow Type B");
                     mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
                     mLlPeriodicOffersCheck.setVisibility(View.GONE);
                     view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.GONE);
                     mJoinNow.setVisibility(View.GONE);
-                } else if (abStrings.equals(UIFlow.STRING_EXPERIENCE_C)) {
+                } else if (abStrings.equals(UIFlow.FLOW_C)) {
                     RLog.d(RLog.AB_TESTING, "UI Flow Type C");
                     mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
                     mJoinNow.setVisibility(View.VISIBLE);
@@ -661,7 +659,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         trackMultipleActions();
         User user = new User(mContext);
         final UIFlow abStrings = RegUtility.getUiFlow();
-        if (abStrings.equals(UIFlow.STRING_EXPERIENCE_A)) {
+        if (abStrings.equals(UIFlow.FLOW_A)) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type A");
             trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
                     AppTagingConstants.REGISTRATION_CONTROL);
@@ -670,7 +668,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             } else {
                 launchAccountActivateFragment();
             }
-        } else if (abStrings.equals(UIFlow.STRING_EXPERIENCE_B)) {
+        } else if (abStrings.equals(UIFlow.FLOW_B)) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type B");
             trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
                     AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);

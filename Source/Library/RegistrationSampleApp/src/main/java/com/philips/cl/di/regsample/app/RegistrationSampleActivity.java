@@ -307,13 +307,13 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 urInterface = new URInterface();
                 urInterface.launch(activityLauncher, urLaunchInput);
                 final UIFlow abStrings=RegUtility.getUiFlow();
-                if (abStrings.equals(UIFlow.STRING_EXPERIENCE_A)){
+                if (abStrings.equals(UIFlow.FLOW_A)){
                     Toast.makeText(mContext,"UI Flow Type A",Toast.LENGTH_LONG).show();
                     RLog.d(RLog.AB_TESTING,"UI Flow Type A");
-                }else  if (abStrings.equals(UIFlow.STRING_EXPERIENCE_B)){
+                }else  if (abStrings.equals(UIFlow.FLOW_B)){
                     Toast.makeText(mContext,"UI Flow Type B",Toast.LENGTH_LONG).show();
                     RLog.d(RLog.AB_TESTING,"UI Flow Type B");
-                }else  if (abStrings.equals(UIFlow.STRING_EXPERIENCE_C)){
+                }else  if (abStrings.equals(UIFlow.FLOW_C)){
                     Toast.makeText(mContext,"UI Flow Type C",Toast.LENGTH_LONG).show();
                     RLog.d(RLog.AB_TESTING,"UI Flow Type C");
                 }
@@ -333,13 +333,13 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 urInterface = new URInterface();
                 urInterface.launch(activityLauncher, urLaunchInput);
                 final UIFlow uiFlow=RegUtility.getUiFlow();
-                if (uiFlow.equals(UIFlow.STRING_EXPERIENCE_A)){
+                if (uiFlow.equals(UIFlow.FLOW_A)){
                     Toast.makeText(mContext,"UI Flow Type A",Toast.LENGTH_LONG).show();
                     RLog.d(RLog.AB_TESTING,"UI Flow Type A");
-                }else  if (uiFlow.equals(UIFlow.STRING_EXPERIENCE_B)){
+                }else  if (uiFlow.equals(UIFlow.FLOW_B)){
                     Toast.makeText(mContext,"UI Flow Type B",Toast.LENGTH_LONG).show();
                     RLog.d(RLog.AB_TESTING,"UI Flow Type B");
-                }else  if (uiFlow.equals(UIFlow.STRING_EXPERIENCE_C)){
+                }else  if (uiFlow.equals(UIFlow.FLOW_C)){
                     Toast.makeText(mContext,"UI Flow Type C",Toast.LENGTH_LONG).show();
                     RLog.d(RLog.AB_TESTING,"UI Flow Type C");
                 }
