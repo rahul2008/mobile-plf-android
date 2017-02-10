@@ -129,6 +129,25 @@
         <attr name="uidProgressIndicatorButtonProgressColor" format="reference|color"/>
     </declare-styleable>
 
+    <declare-styleable name="UIDProgressIndicatorWithLabel">
+        <attr name="uidIsIndeterminateProgressIndicator"/>
+        <attr name="uidLinearProgressBar"/>
+        <attr name="uidLabelTextAlpha"/>
+        <attr name="android:text"/>
+        <attr name="android:textSize"/>
+        <attr name="android:textColor"/>
+        <attr name="android:progress"/>
+        <attr name="android:secondaryProgress"/>
+        <attr name="uidLabelPosition" format="enum">
+            <enum name="TOP_LEFT" value="0"/>
+            <enum name="TOP_RIGHT" value="1"/>
+            <enum name="BOTTOM_LEFT" value="2"/>
+            <enum name="BOTTOM_RIGHT" value="3"/>
+            <enum name="CENTER" value="4"/>
+            <enum name="BOTTOM_CENTER" value="5"/>
+        </attr>
+    </declare-styleable>
+
     <declare-styleable name="UIDPickers">
         <attr name="uidDatePickerHeaderFillColor" format="reference|color"/>
         <attr name="uidDatePickerHeaderTextColor" format="reference|color"/>
@@ -176,4 +195,5 @@
         <attr name="uidListPressedColor" format="reference|color"/>
         <attr name="uidListPressedAlpha" format="float"/>
     </declare-styleable>
+
 </resources>

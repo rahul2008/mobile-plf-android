@@ -166,5 +166,16 @@
             android:layout_marginTop="@dimen/progress_bar_margin_top"
             android:progress="@integer/progress_bar_default_progress"
             android:secondaryProgress="@integer/progress_bar_default_secondary_progress"/>
+
+        <com.philips.platform.uid.view.widget.ProgressBarWithLabel
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:uidLabelPosition="BOTTOM_RIGHT"
+            android:text="test"
+            android:progress="50"
+            android:secondaryProgress="90"
+            android:textColor="@color/uid_orange_level_90"
+            app:uidLabelTextAlpha="0.5"
+            app:uidIsIndeterminateProgressIndicator="false"/>
     </LinearLayout>
 </ScrollView>
