@@ -50,6 +50,12 @@ public class ConsentsMonitorTest {
     private UCoreAdapter uCoreAdapterMock;
 
     @Mock
+    private ConsentDataSender consentDataSenderMock;
+
+    @Mock
+    private ConsentsDataFetcher consentsDataFetcherMock;
+
+    @Mock
     private ConsentsConverter consentsConverterMock;
 
     @Mock
@@ -106,7 +112,7 @@ public class ConsentsMonitorTest {
         errorHandlerImplTest = new ErrorHandlerImplTest();
 
         DataServicesManager.getInstance().setAppComponant(appComponantMock);
-        consentsMonitor = new ConsentsMonitor(consentDataSender, consentsDataFetcher);
+        consentsMonitor = new ConsentsMonitor(consentDataSenderMock, consentsDataFetcherMock);
         consentsMonitor.uCoreAccessProvider = accessProviderMock;
         consentsMonitor.start(eventingMock);
     }

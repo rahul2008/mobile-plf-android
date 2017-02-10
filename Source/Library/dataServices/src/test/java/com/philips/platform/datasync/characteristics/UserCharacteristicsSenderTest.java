@@ -9,6 +9,7 @@ import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
+import com.philips.platform.datasync.synchronisation.SynchronisationManager;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -61,6 +62,8 @@ public class UserCharacteristicsSenderTest {
     @Mock
     private UserCharacteristicsClient clientMock;
 
+    @Mock
+    SynchronisationManager synchronisationManagerMock;
     @Before
     public void setUp() {
         initMocks(this);
@@ -70,6 +73,7 @@ public class UserCharacteristicsSenderTest {
         userCharacteristicsSender.mUCoreAdapter = uCoreAdapterMock;
         userCharacteristicsSender.mUCoreAccessProvider = accessProviderMock;
         userCharacteristicsSender.mEventing = eventingMock;
+        userCharacteristicsSender.synchronisationManager = synchronisationManagerMock;
         userCharacteristicsSender.mUserCharacteristicsConverter = userCharacteristicsConverterMock;
         when(accessProviderMock.getAccessToken()).thenReturn(ACCESS_TOKEN);
         when(accessProviderMock.getUserId()).thenReturn("USER_ID");

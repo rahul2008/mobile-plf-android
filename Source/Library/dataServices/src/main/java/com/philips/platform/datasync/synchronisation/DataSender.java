@@ -23,7 +23,7 @@ import retrofit.RetrofitError;
 public abstract class DataSender {
 
     @Inject
-    SynchronisationManager synchronisationManager;
+    public SynchronisationManager synchronisationManager;
 
     public DataSender() {
         DataServicesManager.getInstance().getAppComponant().injectDataSender(this);

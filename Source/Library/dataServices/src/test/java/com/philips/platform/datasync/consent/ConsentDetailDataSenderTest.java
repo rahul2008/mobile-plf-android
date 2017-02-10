@@ -7,6 +7,7 @@ import com.philips.platform.core.events.ConsentBackendSaveRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataSender;
 
 import org.junit.Before;
@@ -16,6 +17,8 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.util.Collections;
+
+import retrofit.converter.GsonConverter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.never;
@@ -29,6 +32,14 @@ public class ConsentDetailDataSenderTest {
 
     private ConsentDataSender consentDataSender;
 
+    @Mock
+    GsonConverter gsonConverterMock;
+
+    @Mock
+    ConsentsConverter consentsConverterMock;
+
+    @Mock
+    UCoreAdapter uCoreAdapterMock;
     @Mock
     private Eventing eventingMock;
 
@@ -52,7 +63,7 @@ public class ConsentDetailDataSenderTest {
     public void setUp() {
         initMocks(this);
         DataServicesManager.getInstance().setAppComponant(appComponantMock);
-        consentDataSender = new ConsentDataSender(uCoreAdapter, gsonConverter, consentsConverter);
+        consentDataSender = new ConsentDataSender(uCoreAdapterMock, gsonConverterMock, consentsConverterMock);
         consentDataSender.eventing = eventingMock;
     }
 
@@ -81,13 +92,6 @@ public class ConsentDetailDataSenderTest {
 
         verify(eventingMock).post(consentListSaveRequestEventCaptor.capture());
         assertThat(consentListSaveRequestEventCaptor.getValue().getConsentDetailList()).hasSize(1);
-    }
-
-    @Test
-    public void ShouldBeIdle_WhenNothingToSync() throws Exception {
-        consentDataSender.onEventAsync(consentListSaveResponseMock);
-
-        assertThat(consentDataSender.synchronizationState.get()).isEqualTo(DataSender.State.IDLE.getCode());
     }
 
     @Test

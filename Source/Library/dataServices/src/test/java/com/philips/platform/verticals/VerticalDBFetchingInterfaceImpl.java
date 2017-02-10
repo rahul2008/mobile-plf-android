@@ -95,6 +95,11 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     @Override
+    public List<?> fetchConsentDetails() throws SQLException {
+        return null;
+    }
+
+    @Override
     public boolean isSynced(int tableID) throws SQLException {
         return false;
     }

@@ -28,7 +28,7 @@ public abstract class DataFetcher {
     protected final UCoreAdapter uCoreAdapter;
 
     @Inject
-    SynchronisationManager synchronisationManager;
+    public SynchronisationManager synchronisationManager;
 
     public DataFetcher(@NonNull final UCoreAdapter uCoreAdapter) {
         DataServicesManager.getInstance().getAppComponant().injectDataFetcher(this);

@@ -3,10 +3,12 @@ package com.philips.platform.datasync.settings;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.events.SettingsBackendGetRequest;
+import com.philips.platform.core.events.SettingsBackendSaveResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
+import com.philips.platform.datasync.characteristics.UserCharacteristicsClient;
 import com.philips.platform.datasync.synchronisation.DataSender;
 
 import org.joda.time.DateTime;
@@ -16,8 +18,11 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
+import retrofit.converter.GsonConverter;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -28,6 +33,12 @@ public class SettingsDataFetcherTest {
     private String TEST_USER_ID = "TEST_USER_ID";
 
     private SettingsDataFetcher settingsDataFetcher;
+
+    @Mock
+    GsonConverter gsonConverterMock;
+
+    @Mock
+    SettingsConverter settingsConverterMock;
 
     @Mock
     UCoreAdapter uCoreAdapterMock;
@@ -51,7 +62,7 @@ public class SettingsDataFetcherTest {
     public void setUp() {
         initMocks(this);
         DataServicesManager.getInstance().setAppComponant(appComponantMock);
-        settingsDataFetcher = new SettingsDataFetcher(uCoreAdapterMock);
+        settingsDataFetcher = new SettingsDataFetcher(uCoreAdapterMock, gsonConverterMock, settingsConverterMock);
         settingsDataFetcher.uCoreAccessProvider = accessProviderMock;
         settingsDataFetcher.eventing = eventingMock;
     }
@@ -100,9 +111,11 @@ public class SettingsDataFetcherTest {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
         when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
+        final SettingsClient uSettingClientMock = mock(SettingsClient.class);
+        when(uCoreAdapterMock.getAppFrameworkClient(SettingsClient.class, TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(uSettingClientMock);
         settingsDataFetcher.fetchDataSince(null);
 
-        verify(eventingMock).post(isA(SettingsBackendGetRequest.class));
+        verify(eventingMock).post(isA(SettingsBackendSaveResponse.class));
     }
 
 }

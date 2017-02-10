@@ -53,7 +53,11 @@ public class UserCharacteristicsSender extends DataSender {
 
     @Override
     public boolean sendDataToBackend(@NonNull List userCharacteristicsListToSend) {
-        if (!mUCoreAccessProvider.isLoggedIn() && userCharacteristicsListToSend.size() > 0) {
+        if (!mUCoreAccessProvider.isLoggedIn()) {
+            return false;
+        }
+
+        if(userCharacteristicsListToSend.size() == 0){
             return false;
         }
         List<Characteristics> userUserCharacteristicsList = new ArrayList<>();

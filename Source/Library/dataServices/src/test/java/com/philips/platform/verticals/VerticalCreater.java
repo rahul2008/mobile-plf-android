@@ -3,9 +3,8 @@ package com.philips.platform.verticals;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BaseAppDataCreator;
-import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
@@ -14,9 +13,23 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SynchronisationData;
+import com.philips.testing.verticals.OrmTypeCheckingMock;
+import com.philips.testing.verticals.datatyes.MeasurementDetailType;
+import com.philips.testing.verticals.datatyes.MeasurementGroupDetailType;
+import com.philips.testing.verticals.datatyes.MeasurementType;
+import com.philips.testing.verticals.datatyes.MomentDetailType;
 import com.philips.testing.verticals.datatyes.MomentType;
 import com.philips.testing.verticals.table.OrmConsentDetail;
+import com.philips.testing.verticals.table.OrmMeasurement;
+import com.philips.testing.verticals.table.OrmMeasurementDetail;
+import com.philips.testing.verticals.table.OrmMeasurementDetailType;
+import com.philips.testing.verticals.table.OrmMeasurementGroup;
+import com.philips.testing.verticals.table.OrmMeasurementGroupDetail;
+import com.philips.testing.verticals.table.OrmMeasurementGroupDetailType;
+import com.philips.testing.verticals.table.OrmMeasurementType;
 import com.philips.testing.verticals.table.OrmMoment;
+import com.philips.testing.verticals.table.OrmMomentDetail;
+import com.philips.testing.verticals.table.OrmMomentDetailType;
 import com.philips.testing.verticals.table.OrmMomentType;
 import com.philips.testing.verticals.table.OrmSettings;
 import com.philips.testing.verticals.table.OrmSynchronisationData;
@@ -36,50 +49,75 @@ public class VerticalCreater implements BaseAppDataCreator {
     }
 
 
-
     @NonNull
     @Override
     public MomentDetail createMomentDetail(@NonNull String type, @NonNull Moment moment) {
-        /*OrmMomentDetailType ormMomentDetailType = new OrmMomentDetailType(MomentDetailType.getIDFromDescription(type), type);
-        return new OrmMomentDetail(ormMomentDetailType,(OrmMoment) moment);*/
+        try {
+            OrmMomentDetailType ormMomentDetailType = new OrmMomentDetailType(MomentDetailType.getIDFromDescription(type), type);
+            return new OrmMomentDetail(ormMomentDetailType, OrmTypeCheckingMock.checkOrmType(moment, OrmMoment.class));
+        } catch (OrmTypeCheckingMock.OrmTypeException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public Measurement createMeasurement(@NonNull String type, @NonNull MeasurementGroup measurementGroup) {
-        /*OrmMeasurementType ormMeasurementType = new OrmMeasurementType(MeasurementType.getIDFromDescription(type),
-                type,
-                MeasurementType.getUnitFromDescription(type));
-        return new OrmMeasurement(ormMeasurementType,(OrmMeasurementGroup) measurementGroup);*/
+        try {
+            OrmMeasurementType ormMeasurementType = new OrmMeasurementType(MeasurementType.getIDFromDescription(type),
+                    type,
+                    MeasurementType.getUnitFromDescription(type));
+
+            return new OrmMeasurement(ormMeasurementType, OrmTypeCheckingMock.checkOrmType(measurementGroup, OrmMeasurementGroup.class));
+        } catch (OrmTypeCheckingMock.OrmTypeException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     @NonNull
     @Override
     public MeasurementDetail createMeasurementDetail(@NonNull String type, @NonNull Measurement measurement) {
-        /*OrmMeasurementDetailType ormMeasurementDetailType = new OrmMeasurementDetailType(MeasurementDetailType.getIDFromDescription(type), type);
-        return new OrmMeasurementDetail(ormMeasurementDetailType,(OrmMeasurement)measurement);*/
+        OrmMeasurementDetailType ormMeasurementDetailType = new OrmMeasurementDetailType(MeasurementDetailType.getIDFromDescription(type), type);
+        try {
+            return new OrmMeasurementDetail(ormMeasurementDetailType, OrmTypeCheckingMock.checkOrmType(measurement, OrmMeasurement.class));
+        } catch (OrmTypeCheckingMock.OrmTypeException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     @NonNull
     @Override
     public MeasurementGroup createMeasurementGroup(@NonNull MeasurementGroup measurementGroup) {
+        try {
+            return new OrmMeasurementGroup(OrmTypeCheckingMock.checkOrmType(measurementGroup, OrmMeasurementGroup.class));
+        } catch (OrmTypeCheckingMock.OrmTypeException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     @NonNull
     @Override
     public MeasurementGroup createMeasurementGroup(@NonNull Moment moment) {
-        //return new OrmMeasurementGroup((OrmMoment)moment);
+        try {
+            return new OrmMeasurementGroup(OrmTypeCheckingMock.checkOrmType(moment, OrmMoment.class));
+        } catch (OrmTypeCheckingMock.OrmTypeException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     @NonNull
     @Override
     public MeasurementGroupDetail createMeasurementGroupDetail(@NonNull String type, @NonNull MeasurementGroup measurementGroup) {
-       /* OrmMeasurementGroupDetailType ormMeasurementGroupDetailType = new OrmMeasurementGroupDetailType(MeasurementGroupDetailType.getIDFromDescription(type), type);
-        return new OrmMeasurementGroupDetail(ormMeasurementGroupDetailType,(OrmMeasurementGroup)measurementGroup);*/
+        OrmMeasurementGroupDetailType ormMeasurementGroupDetailType = new OrmMeasurementGroupDetailType(MeasurementGroupDetailType.getIDFromDescription(type), type);
+        try {
+            return new OrmMeasurementGroupDetail(ormMeasurementGroupDetailType, OrmTypeCheckingMock.checkOrmType(measurementGroup, OrmMeasurementGroup.class));
+        } catch (OrmTypeCheckingMock.OrmTypeException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -92,7 +130,7 @@ public class VerticalCreater implements BaseAppDataCreator {
     @NonNull
     @Override
     public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber) {
-        return new OrmConsentDetail("sleep","Accepted","","",null);
+        return new OrmConsentDetail("SLEEP", "Accepted", "1.0", "");
     }
 
     @NonNull
@@ -104,7 +142,12 @@ public class VerticalCreater implements BaseAppDataCreator {
     @NonNull
     @Override
     public Characteristics createCharacteristics(@NonNull String type, @NonNull String value, @NonNull Characteristics characteristics) {
-        return new OrmCharacteristics(type, value, (OrmCharacteristics) characteristics);
+        try {
+            return new OrmCharacteristics(type, value, OrmTypeCheckingMock.checkOrmType(characteristics, OrmCharacteristics.class));
+        } catch (OrmTypeCheckingMock.OrmTypeException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @NonNull

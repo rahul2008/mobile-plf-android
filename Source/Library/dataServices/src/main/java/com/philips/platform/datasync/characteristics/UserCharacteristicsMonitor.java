@@ -54,7 +54,7 @@ public class UserCharacteristicsMonitor extends EventMonitor {
         mUserCharacteristicsFetcher.fetchDataSince(null);
     }
 
-    public void sendToBackend(CharacteristicsBackendSaveRequest characteristicsBackendSaveRequest) {
+    private void sendToBackend(CharacteristicsBackendSaveRequest characteristicsBackendSaveRequest) {
         if (isUserInvalid()) {
             postError(characteristicsBackendSaveRequest.getEventId(), getNonLoggedInError());
             return;

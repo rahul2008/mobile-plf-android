@@ -7,6 +7,7 @@ import com.philips.platform.core.events.SettingsBackendSaveRequest;
 import com.philips.platform.core.events.SettingsBackendSaveResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataSender;
 
 import org.junit.Before;
@@ -16,6 +17,8 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.util.Collections;
+
+import retrofit.converter.GsonConverter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.never;
@@ -47,11 +50,21 @@ public class SettingsDataSenderTest {
     @Mock
     private AppComponent appComponantMock;
 
+    @Mock
+    GsonConverter gsonConverterMock;
+
+    @Mock
+    SettingsConverter settingsConverterMock;
+
+    @Mock
+    UCoreAdapter uCoreAdapterMock;
+
+
     @Before
     public void setUp() {
         initMocks(this);
         DataServicesManager.getInstance().setAppComponant(appComponantMock);
-        settingsDataSender = new SettingsDataSender(uCoreAdapter, gsonConverter, settingsConverter);
+        settingsDataSender = new SettingsDataSender(uCoreAdapterMock, gsonConverterMock, settingsConverterMock);
         settingsDataSender.eventing = eventingMock;
     }
 
