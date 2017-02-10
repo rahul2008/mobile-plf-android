@@ -242,8 +242,9 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         if (!isSynced(OrmTableType.CHARACTERISTICS.getId())) {
             QueryBuilder<OrmCharacteristics, Integer> characteristicsIntegerQueryBuilder = characteristicsDao.queryBuilder();
             query = characteristicsIntegerQueryBuilder.query();
+            return query;
         }
-        return query;
+        return null;
     }
 
     @Override
