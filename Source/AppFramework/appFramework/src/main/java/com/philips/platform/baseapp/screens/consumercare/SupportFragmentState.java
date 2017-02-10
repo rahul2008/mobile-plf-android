@@ -7,6 +7,8 @@ package com.philips.platform.baseapp.screens.consumercare;
 
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.philips.cdp.digitalcare.CcDependencies;
 import com.philips.cdp.digitalcare.CcInterface;
@@ -22,7 +24,11 @@ import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.flowmanager.base.UIStateListener;
+import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
+import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -126,8 +132,10 @@ public class SupportFragmentState extends BaseState implements CcListener {
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
             try {
                 baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), SUPPORT_PR);
-            } catch (NoEventFoundException e) {
-                e.printStackTrace();
+            } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
+                    e) {
+                Log.d(getClass() + "", e.getMessage());
+                Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
             }
             if (baseState != null)
                 baseState.navigate(new FragmentLauncher(getFragmentActivity(), ((AppFrameworkBaseActivity) getFragmentActivity()).getContainerId(), (ActionBarListener) getFragmentActivity()));

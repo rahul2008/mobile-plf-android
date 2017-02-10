@@ -220,7 +220,7 @@ android {
             minifyEnabled false
             shrinkResources false
             debuggable true
-            testCoverageEnabled = false
+            testCoverageEnabled = true
         }
 
 
@@ -305,14 +305,18 @@ repositories {
 configurations.all {
     // check for updates every build
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+
+    resolutionStrategy.force 'com.android.support:support-annotations:24.0.0'
 }
 
 dependencies {
-    testCompile('org.mockito:mockito-core:1.10.19')
-    testCompile 'org.robolectric:robolectric:3.0'
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:support-annotations:24.0.0'
-    compile 'com.android.support:multidex:1.0.1'
+  //  testCompile('org.mockito:mockito-core:2.7.0')
+   // testCompile "org.robolectric:shadows-multidex:3.0"
+
+    compile ('com.android.support:support-annotations:24.0.0') {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+
     compile 'com.android.support:design:24.0.0'
     compile 'com.android.support:appcompat-v7:24.2.1'
     debugCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
@@ -330,37 +334,49 @@ dependencies {
     compile "com.j256.ormlite:ormlite-core:4.48"
     compile "com.j256.ormlite:ormlite-android:4.48"
 
-    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '2.2.0-SNAPSHOT', ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '2.3.4-SNAPSHOT', ext: 'aar', changing: true) {
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.2.0-SNAPSHOT', ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.3.4-SNAPSHOT', ext: 'aar', changing: true) {
         transitive=true
     }
 
-    compile(group: 'com.philips.cdp', name: 'iap', version: '5.2.0-SNAPSHOT', ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'iap', version: '5.2.4-SNAPSHOT', ext: 'aar', changing: true) {
         transitive=true
     }
 
-    compile(group: 'com.philips.cdp', name: 'dataServices', version: '0.2.0-SNAPSHOT', ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'dataServices', version: '0.3.4-SNAPSHOT', ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '2.2.0-SNAPSHOT', ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'commlib-all', version: '1.2.1-SNAPSHOT.+', classifier: 'release', ext: 'aar'){
         exclude group: 'com.android.support'
         transitive = true
     }
-
-    compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.2.0-SNAPSHOT', ext: 'aar'){
-        exclude group: 'com.android.support'
-        transitive = true
-    }
-    compile project(':pluginreferenceboard')
 
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-all:1.10.17'
-    testCompile "org.robolectric:robolectric:3.1.1"
+ //    compile group: 'org.robolectric', name: 'shadows-core', version: '3.0-rc2'
+//    compile 'junit:junit:4.12'
+//    compile 'org.robolectric:robolectric:3.2.2'
+
+
+//    testCompile 'org.mockito:mockito-all:1.10.17'
+//    compile group: 'org.robolectric', name: 'android-all', version: '7.0.0_r1-robolectric-0'
+//    testCompile ('org.robolectric:robolectric:3.2.2')
+    testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
+//    testCompile 'junit:junit:4.12'
+//    compile 'com.android.support:multidex:1.0.1'
+
+    testCompile ('org.robolectric:robolectric:3.2.2') /*{
+        exclude group: 'commons-logging', module: 'commons-logging'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    }*/
+    testCompile "org.mockito:mockito-all:1.10.17"
+
+    testCompile "com.squareup.assertj:assertj-android:${androidAssertJVer}"
+
 
 }
 

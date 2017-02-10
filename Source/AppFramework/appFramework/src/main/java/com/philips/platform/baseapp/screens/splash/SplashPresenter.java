@@ -5,10 +5,19 @@
 */
 package com.philips.platform.baseapp.screens.splash;
 
+import android.util.Log;
+import android.widget.Toast;
+
+import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.flowmanager.base.UIStateListener;
+import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
+import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.introscreen.LaunchView;
@@ -36,15 +45,23 @@ public class SplashPresenter extends UIBasePresenter implements UIStateListener 
      */
     @Override
     public void onEvent(int componentID) {
-        BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-        final BaseState splashState = targetFlowManager.getState(AppStates.SPLASH);
-        BaseState baseState = targetFlowManager.getNextState(splashState, APP_START);
-        if (null != baseState) {
-            baseState.setStateListener(this);
-            if (baseState instanceof UserRegistrationState) {
-                uiView.showActionBar();
+        try {
+            BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
+            final BaseState splashState = targetFlowManager.getState(AppStates.SPLASH);
+            BaseState baseState = targetFlowManager.getNextState(splashState, APP_START);
+            if (null != baseState) {
+                baseState.setUiStateData(setStateData(baseState.getStateID()));
+                baseState.setStateListener(this);
+                if (baseState instanceof UserRegistrationState) {
+                    uiView.showActionBar();
+                }
+                baseState.navigate(getFragmentLauncher());
+                baseState.setStateListener(null);
             }
-            baseState.navigate(getFragmentLauncher());
+        } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
+                e) {
+            Log.d(getClass() + "", e.getMessage());
+            Toast.makeText(uiView.getFragmentActivity(), uiView.getFragmentActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
         }
     }
 

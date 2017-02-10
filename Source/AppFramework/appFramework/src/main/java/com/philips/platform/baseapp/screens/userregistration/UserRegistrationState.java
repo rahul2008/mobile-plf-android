@@ -132,12 +132,12 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
      * Launch registration fragment
      */
     private void launchUR() {
-        userObject = new User(activityContext);
+        userObject = new User(getApplicationContext());
         userObject.registerUserRegistrationListener(this);
         URLaunchInput urLaunchInput = new URLaunchInput();
         urLaunchInput.setUserRegistrationUIEventListener(this);
-        urLaunchInput.setAccountSettings(false);
         urLaunchInput.enableAddtoBackStack(true);
+        urLaunchInput.setAccountSettings(false);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         URInterface urInterface = new URInterface();
         urInterface.launch(fragmentLauncher, urLaunchInput);

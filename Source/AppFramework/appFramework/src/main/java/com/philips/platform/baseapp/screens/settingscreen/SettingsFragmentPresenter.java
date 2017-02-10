@@ -5,12 +5,19 @@
 */
 package com.philips.platform.baseapp.screens.settingscreen;
 
+import android.util.Log;
+import android.widget.Toast;
+
+import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
-import com.philips.platform.appframework.flowmanager.base.UIStateListener;
+import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
+import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -22,13 +29,10 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  */
 public class SettingsFragmentPresenter extends UIBasePresenter{
 
-    private static final int USER_REGISTRATION_STATE = 999;
-    private static final int HOME_ACTIVITY_STATE = 998;
     private static final String SETTINGS_LOGIN = "login";
     private final SettingsView settingsView;
     private BaseState baseState;
     private FragmentLauncher fragmentLauncher;
-    private String SETTINGS_REGISTRATION = "settings_registration";
     private String SETTINGS_LOGOUT = "logout";
     private String SETTINGS_ORDER_HISTORY = "order_history";
 
@@ -54,8 +58,10 @@ public class SettingsFragmentPresenter extends UIBasePresenter{
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
             try {
                 baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), eventState);
-            } catch (NoEventFoundException e) {
-                e.printStackTrace();
+            } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
+                    e) {
+                Log.d(getClass() + "", e.getMessage());
+                Toast.makeText(settingsView.getFragmentActivity(), settingsView.getFragmentActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
             }
         }
         if (baseState != null) {

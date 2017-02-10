@@ -64,10 +64,12 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
             testRunner.CollectScenarioErrors();
         }
         
-        [TechTalk.SpecRun.ScenarioAttribute("Enhancement of coverage : App Journey1", SourceLine=3)]
+        [TechTalk.SpecRun.ScenarioAttribute("Enhancement of coverage : App Journey1", new string[] {
+                "E2ETesting"}, SourceLine=3)]
         public virtual void EnhancementOfCoverageAppJourney1()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Enhancement of coverage : App Journey1", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Enhancement of coverage : App Journey1", new string[] {
+                        "E2ETesting"});
 #line 4
 this.ScenarioSetup(scenarioInfo);
 #line 5

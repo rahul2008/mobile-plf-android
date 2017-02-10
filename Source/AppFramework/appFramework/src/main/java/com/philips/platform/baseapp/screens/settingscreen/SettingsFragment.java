@@ -6,7 +6,6 @@
 
 package com.philips.platform.baseapp.screens.settingscreen;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -130,7 +129,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
         }
     }
 
-    private ArrayList<SettingListItem> filterSettingScreenItemList(ArrayList<SettingListItem> settingScreenItemList) {
+    protected ArrayList<SettingListItem> filterSettingScreenItemList(ArrayList<SettingListItem> settingScreenItemList) {
         userRegistrationState = new UserRegistrationSettingsState();
         if (getActivity() != null && userRegistrationState.getUserObject(getActivity()).isUserSignIn()) {
             return settingScreenItemList;
@@ -145,9 +144,17 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
     }
 
     @Override
+    public void onDetach() {
+        super.onDetach();
+        settingsFragmentWeakReference = null;
+        adapter = null;
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         settingsFragmentWeakReference = null;
+        adapter = null;
     }
 
     /*

@@ -73,18 +73,6 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     @Override
     public void onSuccess(final ArrayList<? extends Object> data) {
 
-        if(getActivity()!=null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    dismissProgressDialog();
-                    if (data == null) {
-                        showProgressDialog();
-                        consentDialogPresenter.createSaveDefaultConsent();
-                    }
-                }
-            });
-        }
     }
 
     @Override
@@ -191,7 +179,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
 
     private void showProgressDialog() {
         if(mProgressDialog!=null && !mProgressDialog.isShowing()) {
-            mProgressDialog.show();
+             mProgressDialog.show();
         }
     }
 

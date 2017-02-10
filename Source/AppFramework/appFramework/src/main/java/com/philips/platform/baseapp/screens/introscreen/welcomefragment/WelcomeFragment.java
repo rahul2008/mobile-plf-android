@@ -10,14 +10,21 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
+import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
+import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.OnboardingBaseFragment;
@@ -50,10 +57,16 @@ public class WelcomeFragment extends OnboardingBaseFragment implements View.OnCl
     public void onBackPressed() {
         if (pager.getCurrentItem() == 0) {
             AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) getFragmentActivity().getApplication();
-            BaseFlowManager targetFlowManager = appFrameworkApplication.getTargetFlowManager();
-            targetFlowManager.getBackState(targetFlowManager.getCurrentState());
-            targetFlowManager.clearStates();
-            getActivity().finishAffinity();
+            try {
+                BaseFlowManager targetFlowManager = appFrameworkApplication.getTargetFlowManager();
+                targetFlowManager.getBackState(targetFlowManager.getCurrentState());
+                targetFlowManager.clearStates();
+                getActivity().finishAffinity();
+            } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
+                    e) {
+                Log.d(getClass() + "", e.getMessage());
+                Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+            }
         } else {
             pager.arrowScroll(View.FOCUS_LEFT);
         }

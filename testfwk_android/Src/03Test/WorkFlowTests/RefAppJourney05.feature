@@ -4,7 +4,7 @@
     Verify that user can login with My Philips account and verify that the Receive promotional is retained if the user has changed .
 
 
-@E2E
+@E2ETesting
 Scenario: RefAppJourney05
 	Given that the user should not previously be previously logged in  
 	Given that the user is able to see the Splash screen after the launch of the application

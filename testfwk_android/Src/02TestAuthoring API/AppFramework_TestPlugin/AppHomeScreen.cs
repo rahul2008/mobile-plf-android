@@ -46,7 +46,9 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
             MomentValueFromDatacore,
             Terms,
             Support,
-            PhilipShop
+            PhilipShop,
+            BackTo_UserReg_Homescreen,
+            PhilipsAccount_Homescreen
 
         }
 
@@ -74,6 +76,8 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
                  _instance.ClickById(AppFrameWork.Android.HomeScreen.MomentValueFromDatacore);
             if (btn == Button.Terms)
                 _instance.ClickById(AppFrameWork.Android.HomeScreen.Terms);
+            if (btn == Button.BackTo_UserReg_Homescreen)
+                _instance.ClickById(AppFrameWork.Android.HomeScreen.BackTo_UserReg_Homescreen);
             if (btn == Button.Support)
                 _instance.GetElementByXpath(AppFrameWork.Android.HomeScreen.Support).Click();
              if (btn == Button.PhilipShop)
@@ -85,6 +89,12 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
             ReferenceDeviceIDValue,
             MeasurementValue,
             Moment
+        }
+
+        public static string PhilipsAccount_Homescreen()
+        {
+            return _instance.GetElement(SearchBy.Name, AppFrameWork.Android.HomeScreen.PhilipsAccount_Homescreen).Text;
+
         }
 
         /// <summary>

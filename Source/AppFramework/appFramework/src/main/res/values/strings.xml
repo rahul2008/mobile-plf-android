@@ -75,6 +75,33 @@
     <string name="characteristics">User Characteristics</string>
     <string name="cancel">CANCEL</string>
     <string name="ok">OK</string>
+    <string name="something_wrong">Something went wrong</string>
+
+    <string-array name="metrics">
+        <item>"metric"</item>
+        <item>"imperial"</item>
+        <item>"us-customary"</item>
+    </string-array>
+
+    <string-array name="locals">
+        <item>"en_AU"</item>
+        <item>"en_GB""</item>
+        <item>"en_CA"</item>
+        <item>"en_HK"</item>
+        <item>"en_ID"</item>
+        <item>"en_IE"</item>
+        <item>"en_IN"</item>
+        <item>"en_MY"</item>
+        <item>"en_NZ"</item>
+        <item>"en_PH"</item>
+        <item>"en_PK"</item>
+        <item>"en_SA"</item>
+        <item>"en_SG"</item>
+        <item>"en_US"</item>
+        <item>"en_ZA"</item>
+
+    </string-array>
+    <string name="settings">User Settings</string>
 
     <!-- Connectivity component -->
     <string name="RA_Connectivity_DeviceID">Device ID</string>
@@ -127,6 +154,11 @@
     <string name="RA_Iap_Connection_Time_Out">Connection time out</string>
     <string name="RA_Iap_Authentication_Failure">Authentication failure</string>
     <string name="RA_Iap_Product_Out_Of_Stock">Product out of stock</string>
+
+    <string name="reference_device_scan">Reference Device Scan</string>
+    <string name="ble_ref_device">ble ref device</string>
+    <string name="unknown_device">Unknown Device</string>
+
 
 
     <!--<array name="hamburger_drawer_icons">-->

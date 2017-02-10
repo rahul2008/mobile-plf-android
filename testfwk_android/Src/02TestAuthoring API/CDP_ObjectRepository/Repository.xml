@@ -65,7 +65,7 @@
     <AUsername>com.philips.platform.referenceapp:id/et_reg_email</AUsername>
     <APassWord>com.philips.platform.referenceapp:id/et_reg_password</APassWord>
     <Terms>com.philips.platform.referenceapp:id/rl_x_checkbox</Terms>
-    <Alogout>com.philips.platform.referenceapp:id/ifo</Alogout>
+    <Alogout>com.philips.platform.referenceapp:id/btn_settings_logout</Alogout>
     <LoginSettings>com.philips.platform.referenceapp:id/btn_settings_logout</LoginSettings>
     <LogoutSettings>com.philips.platform.referenceapp:id/btn_settings_logout</LogoutSettings>
     <LogoutDialog>android:id/button1</LogoutDialog>
@@ -74,6 +74,8 @@
     <toggleStatus>com.philips.platform.referenceapp:id/switch_button</toggleStatus>
     <Swipe_Welcome>com.philips.platform.referenceapp:id/welcome_pager</Swipe_Welcome>
     <CarouselHighlighted>com.philips.platform.referenceapp:id/uikit_linear</CarouselHighlighted>
+    <BackTo_UserReg_Homescreen>com.philips.platform.referenceapp:id/home_action_bar_arrow_left</BackTo_UserReg_Homescreen>
+    <PhilipsAccount_Homescreen>Log in with Philips account</PhilipsAccount_Homescreen>
   </AppFramework>
 
   <!--IAP-->
