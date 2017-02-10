@@ -43,6 +43,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
@@ -110,7 +111,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private String mWeChatAppSecret;
     private IWXAPI mWeChatApi;
     private String mWeChatCode;
-    private String mHideCountrySelection;
+    private String mShowCountrySelection;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -409,16 +410,19 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 mCountryDisplayy.setText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
             }
         });
+        showCountrySelection();
+    }
+    private void showCountrySelection() {
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
-        mHideCountrySelection = (String) RegistrationHelper.getInstance().getAppInfraInstance().
+        mShowCountrySelection = (String) RegistrationHelper.getInstance().getAppInfraInstance().
                 getConfigInterface().
-                getPropertyForKey("HideCountrySelection", UR,
+                getPropertyForKey(URConfigurationConstants.SHOW_COUNTRY_SELECTION, UR,
                         configError);
-        RLog.d(RLog.SERVICE_DISCOVERY, " Country mHideCountrySelection :" + mHideCountrySelection);
-        if (mHideCountrySelection!=null)
+        RLog.d(RLog.SERVICE_DISCOVERY, " Country Show Country Selection :" + mShowCountrySelection);
+        if (mShowCountrySelection!=null)
         {
-            if (mHideCountrySelection.equalsIgnoreCase("true")){
+            if (mShowCountrySelection.equalsIgnoreCase("false")){
                 mCountrySelectionContainer.setVisibility(View.INVISIBLE);
             }
         }
