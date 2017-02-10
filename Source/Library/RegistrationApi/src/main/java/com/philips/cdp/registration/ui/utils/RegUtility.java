@@ -32,7 +32,6 @@ import java.util.Map;
 
 
 public class RegUtility {
-
     private static long createAccountStartTime;
 
     public static int getCheckBoxPadding(Context context) {
@@ -197,16 +196,16 @@ public class RegUtility {
     public static UIFlow getUiFlow() {
         String flowType =
                 RegistrationHelper.getInstance().getAppInfraInstance().getAbTesting().
-                        getTestValue("DOT-ReceiveMarketingOptIn", "OriginalOptInText",
+                        getTestValue(RegConstants.DOT_RECEIVE_MARKETING_OPT_IN, UIFlow.FLOW_A.getValue(),
                                 ABTestClientInterface.UPDATETYPES.EVERY_APP_START, null);
-        if(flowType.equalsIgnoreCase(UIFlow.STRING_EXPERIENCE_A.toString())){
-            return UIFlow.STRING_EXPERIENCE_A;
-        }else if(flowType.equalsIgnoreCase(UIFlow.STRING_EXPERIENCE_B.toString())){
-            return UIFlow.STRING_EXPERIENCE_B;
-        }else if(flowType.equalsIgnoreCase(UIFlow.STRING_EXPERIENCE_C.toString())){
-            return UIFlow.STRING_EXPERIENCE_C;
+        if(flowType.equalsIgnoreCase(UIFlow.FLOW_A.toString())){
+            return UIFlow.FLOW_A;
+        }else if(flowType.equalsIgnoreCase(UIFlow.FLOW_B.toString())){
+            return UIFlow.FLOW_B;
+        }else if(flowType.equalsIgnoreCase(UIFlow.FLOW_C.toString())){
+            return UIFlow.FLOW_C;
         }
-        return UIFlow.STRING_EXPERIENCE_C;
+        return UIFlow.FLOW_C;
     }
     public static void checkIsValidSignInProviders(HashMap<String, ArrayList<String>> providers) {
         if(providers!=null){

@@ -168,4 +168,7 @@ public class RegConstants {
 
     public static final String COUNTRY_CODE_US = "US";
 
+    public static final String DOT_RECEIVE_MARKETING_OPT_IN = "DOT-ReceiveMarketingOptIn";
+
+
 }

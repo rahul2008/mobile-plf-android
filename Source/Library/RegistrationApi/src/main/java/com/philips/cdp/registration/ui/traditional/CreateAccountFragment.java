@@ -308,15 +308,15 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         mTvFirstToKnow = (TextView)view.findViewById(R.id.tv_reg_first_to_know);
 
         final UIFlow abStrings=RegUtility.getUiFlow();
-        if (abStrings.equals(UIFlow.STRING_EXPERIENCE_A)){
+        if (abStrings.equals(UIFlow.FLOW_A)){
             RLog.d(RLog.AB_TESTING,"UI Flow Type A");
             mLlCreateAccountContainer.setVisibility(View.VISIBLE);
             mJoinnow.setVisibility(View.GONE);
-        }else if (abStrings.equals(UIFlow.STRING_EXPERIENCE_B)){
+        }else if (abStrings.equals(UIFlow.FLOW_B)){
             RLog.d(RLog.AB_TESTING, "UI Flow Type B");
             mLlCreateAccountContainer.setVisibility(View.GONE);
             mJoinnow.setVisibility(View.GONE);
-        }else if (abStrings.equals(UIFlow.STRING_EXPERIENCE_C)){
+        }else if (abStrings.equals(UIFlow.FLOW_C)){
             RLog.d(RLog.AB_TESTING,"UI Flow Type C");
             mLlCreateAccountContainer.setVisibility(View.VISIBLE);
             mJoinnow.setVisibility(View.VISIBLE);
@@ -444,13 +444,13 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         final UIFlow abStrings=RegUtility.getUiFlow();
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
-            if (abStrings.equals(UIFlow.STRING_EXPERIENCE_A)){
+            if (abStrings.equals(UIFlow.FLOW_A)){
                 RLog.d(RLog.AB_TESTING,"UI Flow Type A");
                 mViewLine.setVisibility(View.VISIBLE);
-            }else if (abStrings.equals(UIFlow.STRING_EXPERIENCE_B)){
+            }else if (abStrings.equals(UIFlow.FLOW_B)){
                 RLog.d(RLog.AB_TESTING,"UI Flow Type B");
                 mViewLine.setVisibility(View.GONE);
-            }else if (abStrings.equals(UIFlow.STRING_EXPERIENCE_C)){
+            }else if (abStrings.equals(UIFlow.FLOW_C)){
                 RLog.d(RLog.AB_TESTING,"UI Flow Type C");
                 mViewLine.setVisibility(View.VISIBLE);
             }
@@ -480,7 +480,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         final UIFlow abStrings=RegUtility.getUiFlow();
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_USER_CREATION);
-        if (abStrings.equals(UIFlow.STRING_EXPERIENCE_A)) {
+        if (abStrings.equals(UIFlow.FLOW_A)) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type A ");
             trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
                     AppTagingConstants.REGISTRATION_CONTROL);
@@ -493,7 +493,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
             } else {
                 launchWelcomeFragment();
             }
-        } else if (abStrings.equals(UIFlow.STRING_EXPERIENCE_B)) {
+        } else if (abStrings.equals(UIFlow.FLOW_B)) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type B");
             trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
                     AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
