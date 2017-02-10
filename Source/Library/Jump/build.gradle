@@ -43,7 +43,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = "6.1.4-SNAPSHOT"
+version = "6.1.4-rc.1"
 
 
 artifactory {
@@ -130,7 +130,7 @@ dependencies {
     androidTestCompile 'org.mockito:mockito-core:2.0.106-beta'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.5.4-SNAPSHOT', ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.5.4-rc.1', ext: 'aar', changing: true)
     compile 'com.squareup.okio:okio:1.6.0'
 //    compile project(':servertime')
     //WeChat China
