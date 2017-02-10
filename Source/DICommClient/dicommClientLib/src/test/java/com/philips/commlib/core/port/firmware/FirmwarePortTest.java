@@ -10,10 +10,8 @@ import com.philips.commlib.core.communication.CommunicationStrategy;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InOrder;
@@ -31,7 +29,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-@FixMethodOrder(MethodSorters.JVM)
 public class FirmwarePortTest extends RobolectricTest {
     private FirmwarePort firmwarePort;
 
