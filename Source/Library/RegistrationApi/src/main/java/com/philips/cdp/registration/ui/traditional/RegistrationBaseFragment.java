@@ -262,22 +262,6 @@ public abstract class RegistrationBaseFragment extends Fragment {
         AppTagging.trackAction(state, null, null);
     }
 
-    protected void trackActionRegisterError(int errorCode) {
-        AppTaggingErrors.trackActionRegisterError(errorCode);
-    }
-
-    protected void trackActionLoginError(int errorCode) {
-        AppTaggingErrors.trackActionLoginError(errorCode);
-    }
-
-    protected void trackActionForgotPasswordFailure(int errorCode) {
-        AppTaggingErrors.trackActionForgotPasswordFailure(errorCode);
-    }
-
-    protected void trackActionResendVerificationFailure(int errorCode) {
-        AppTaggingErrors.trackActionResendNetworkFailure(errorCode);
-    }
-
     protected void trackMultipleActionsRegistration() {
         Map<String, String> map = new HashMap<String, String>();
         map.put(AppTagingConstants.REGISTRATION_CHANNEL, AppTagingConstants.MY_PHILIPS);

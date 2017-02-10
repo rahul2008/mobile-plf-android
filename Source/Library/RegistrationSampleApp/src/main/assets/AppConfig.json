@@ -13,7 +13,8 @@
     "SigninProviders.NL": ["facebook","googleplus"],
     "SigninProviders.CN": ["wechat"],
     "weChatAppId" : "wxbdf2ab8822f6022f",
-    "weChatAppSecret":"df749e21c43c65a042df6f3f4ebe18f1"
+    "weChatAppSecret":"df749e21c43c65a042df6f3f4ebe18f1",
+    "ShowCountrySelection":"true"
   },
 
   "appinfra": {
@@ -21,7 +22,9 @@
     "appidentity.sector"  : "b2c",
     "appidentity.appState"  : "STAGING",
     "appidentity.serviceDiscoveryEnvironment"  : "Production",
-    "abtest.precache": ["philipsmobileappabtest1content","philipsmobileappabtest1success"]
+    "abtest.precache": ["philipsmobileappabtest1content","philipsmobileappabtest1success"],
+    "servicediscovery.platformMicrositeId":"77000",
+    "servicediscovery.platformEnvironment":"production"
   }
 }
 

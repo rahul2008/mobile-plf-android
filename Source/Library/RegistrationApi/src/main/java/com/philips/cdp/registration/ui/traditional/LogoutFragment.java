@@ -250,7 +250,6 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
             mCbTerms.setOnCheckedChangeListener(this);
             mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             scrollViewAutomatically(mRegError, mSvLayout);
-            trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
         }
     }
 

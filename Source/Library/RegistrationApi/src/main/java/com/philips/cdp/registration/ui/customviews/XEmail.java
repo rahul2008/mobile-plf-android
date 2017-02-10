@@ -89,8 +89,8 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
     private void checkingEmailorMobile() {
         //need to changed by service discover as 01 or 02
         if (RegistrationHelper.getInstance().isChinaFlow()) {
-            mEtEmail.setHint(getResources().getString(R.string.reg_CreateAccount_PhoneNumber));
-            mEtEmail.setInputType(InputType.TYPE_CLASS_NUMBER);
+            mEtEmail.setHint(getResources().getString(R.string.reg_CreateAccount_Email_PhoneNumber));
+            mEtEmail.setInputType(InputType.TYPE_CLASS_TEXT);
         }else {
             mEtEmail.setHint(getResources().getString(R.string.reg_EmailAddPlaceHolder_txtField));
         }

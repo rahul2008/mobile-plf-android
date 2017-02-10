@@ -108,10 +108,6 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
             @Override
             public void onFailure(CaptureAPIError failureParam) {
 
-                System.out.println("Error " + failureParam.captureApiError);
-                System.out.println("Error code" + failureParam.captureApiError.code);
-                System.out.println("Error error " + failureParam.captureApiError.error);
-
                 if (failureParam.captureApiError.code == 414 && failureParam.captureApiError.error.equalsIgnoreCase("access_token_expired")) {
                     //refresh login session
 

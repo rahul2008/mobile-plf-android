@@ -69,13 +69,11 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
     private static boolean isParentConsentRequested;
     private static boolean isParentalFragmentLaunched;
     private static int lastKnownResourceId = -99;
-    private static boolean isRegistrationLunched;
     private static ProgressDialog mProgressDialog;
     private UserRegistrationUIEventListener userRegistrationUIEventListener = new UserRegistrationUIEventListener() {
         @Override
         public void onUserRegistrationComplete(Activity activity) {
             //Launch the Approval fragment
-            isRegistrationLunched = false;
             isParentalFragmentLaunched = true;
             showRefreshProgress(activity);
 
@@ -299,10 +297,6 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
         lastKnownResourceId = -99;
         coppaExtension = new CoppaExtension(getContext());
-        if (savedInstanceState != null) {
-            savedInstanceState.putBoolean("isRegistrationLaunched", isRegistrationLunched);
-
-        }
         super.onCreate(savedInstanceState);
     }
 
@@ -368,18 +362,11 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putBoolean("isRegistrationLaunched", isRegistrationLunched);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            isRegistrationLunched = savedInstanceState.getBoolean("isRegistrationLaunched");
-            if (!isRegistrationLunched) {
-                this.setOnUpdateTitleListener((RegistrationCoppaActivity) getActivity());
-            }
-        }
         super.onViewStateRestored(savedInstanceState);
     }
 
@@ -598,8 +585,6 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
             fragmentTransaction.add(R.id.fl_reg_fragment_container, registrationFragment,
                     RegConstants.REGISTRATION_FRAGMENT_TAG);
-
-            isRegistrationLunched = true;
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,

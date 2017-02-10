@@ -116,6 +116,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical" />
                 <RelativeLayout
+                    android:id="@+id/reg_country_selection"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/reg_header_margin_top"
