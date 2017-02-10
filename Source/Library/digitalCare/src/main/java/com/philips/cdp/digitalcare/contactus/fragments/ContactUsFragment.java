@@ -23,7 +23,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -54,9 +54,8 @@ import com.philips.cdp.digitalcare.social.facebook.FacebookWebFragment;
 import com.philips.cdp.digitalcare.social.twitter.TwitterWebFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.Utils;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.shamanland.fonticon.FontIconDrawable;
 
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -836,7 +835,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         final int title = getResources().getIdentifier(
                 packageName + ":string/" + buttonTitle, null, null);
         final int drawable = getResources().getIdentifier(
-                packageName + ":drawable/" + buttonDrawable, null, null);
+                packageName + ":string/" + buttonDrawable, null, null);
         final float density = getResources().getDisplayMetrics().density;
 
         final RelativeLayout relativeLayout = createRelativeLayout(buttonTitle, density);
@@ -896,14 +895,25 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                         "digitalcarefonts/CentraleSans-Book.otf");
         button.setTypeface(buttonTypeface);
         if (mSdkVersion < Build.VERSION_CODES.JELLY_BEAN) {
-            button.setBackgroundResource(resId);
             button.setGravity(Gravity.CENTER);
         } else {
             button.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            button.setBackground(getDrawable(resId));
         }
+
+        button.setBackgroundResource(R.drawable.consumercare_selector_option_button_bg);
+        Drawable icon = getDrawable(getActivity(),32,resId);
+        button.setCompoundDrawables(icon, null, null, null);
         button.setText(title);
+        button.setPadding((int) (19 * density),0,0,0);
         return button;
+    }
+
+    private  Drawable getDrawable(Context context, int size, int resID) {
+        FontIconDrawable drawable = FontIconDrawable.inflate(getActivity(), com.philips.cdp.uikit.R.xml.uikit_fonticon_base);
+        drawable.setText(getActivity().getResources().getString(resID));
+        float textSize = TypedValue.applyDimension(1, (float)size, context.getResources().getDisplayMetrics());
+        drawable.setTextSize(textSize);
+        return drawable;
     }
 
     private void setButtonParams(Button button, float density) {
