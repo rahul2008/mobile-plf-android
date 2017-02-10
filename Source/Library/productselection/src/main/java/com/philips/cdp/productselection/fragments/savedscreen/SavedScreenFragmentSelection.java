@@ -117,8 +117,8 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
         String imagepath = mUserSelectedProduct.getData().getImageURL();
         int imageWidth = (int) (getResources().getDimension(R.dimen.productdetails_screen_image) * Resources.getSystem().getDisplayMetrics().density);
         imagepath = /*imagepath + "?wid=" + imageWidth + "&;";*/
-                imagepath + "?wid=" + imageWidth +
-                        "&hei=" + imageWidth +
+                imagepath + "?wid=" + 480 +
+                        "&hei=" + 480 +
                         "&fit=fit,1";
 
         ProductSelectionLogger.v(TAG, "Image loaded in the Saved Screen is from the PATH : " + imagepath);
