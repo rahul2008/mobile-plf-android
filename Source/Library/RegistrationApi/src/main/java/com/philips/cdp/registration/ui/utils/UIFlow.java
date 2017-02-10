@@ -2,9 +2,9 @@ package com.philips.cdp.registration.ui.utils;
 
 
 public enum UIFlow {
-    STRING_EXPERIENCE_A("Experience A"),
-    STRING_EXPERIENCE_B("Experience B"),
-    STRING_EXPERIENCE_C("Experience C");
+    STRING_EXPERIENCE_A("OriginalOptInText"),
+    STRING_EXPERIENCE_B("OptInInSeparateScreen"),
+    STRING_EXPERIENCE_C("AddBenefitsToOptInInRegistrationScreen");
 
     private final String text;
 

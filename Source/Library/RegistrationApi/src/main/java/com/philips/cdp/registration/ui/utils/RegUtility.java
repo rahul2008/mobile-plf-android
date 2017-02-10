@@ -196,9 +196,10 @@ public class RegUtility {
 
     public static UIFlow getUiFlow() {
         String flowType =
-        RegistrationHelper.getInstance().getAppInfraInstance().getAbTesting().
-                getTestValue("philipsmobileappabtest1content", "Experience A",
-                        ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE, null);
+                RegistrationHelper.getInstance().getAppInfraInstance().getAbTesting().
+                        getTestValue("DOT-ReceiveMarketingOptIn", "OriginalOptInText",
+                                ABTestClientInterface.UPDATETYPES.EVERY_APP_START, null);
+        System.out.print("flowType  :" +flowType);
         if(flowType.equalsIgnoreCase(UIFlow.STRING_EXPERIENCE_A.toString())){
             return UIFlow.STRING_EXPERIENCE_A;
         }else if(flowType.equalsIgnoreCase(UIFlow.STRING_EXPERIENCE_B.toString())){
