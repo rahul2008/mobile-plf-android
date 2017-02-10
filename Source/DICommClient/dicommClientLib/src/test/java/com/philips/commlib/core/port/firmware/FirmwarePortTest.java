@@ -10,8 +10,10 @@ import com.philips.commlib.core.communication.CommunicationStrategy;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InOrder;
@@ -29,6 +31,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+@FixMethodOrder(MethodSorters.JVM)
 public class FirmwarePortTest extends RobolectricTest {
     private FirmwarePort firmwarePort;
 
@@ -153,6 +156,8 @@ public class FirmwarePortTest extends RobolectricTest {
         return firmwarePort.getPortProperties();
     }
 
+    // onProgressUpdated
+
     @Test
     public void whenGoingFromIdleStateToDownloadState_ProgressUpdateShouldBeCalled() throws Exception {
         parseFirmwarePortData(createPropertiesJson("1", "", "idle", 0, "", 100));
@@ -233,8 +238,91 @@ public class FirmwarePortTest extends RobolectricTest {
         verify(mockFirmwarePortListener).onProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.CHECKING, 100);
     }
 
+    // onDownloadFailed
+
+    @Test
+    public void whenGoingFromPreparingStateToErrorState_DownloadFailedShouldBeCalled() throws Exception {
+        parseFirmwarePortData(createPropertiesJson("1", "", "preparing", 2, "", 100));
+        parseFirmwarePortData(createPropertiesJson("1", "", "error", 0, "Prepare failed", 100));
+
+        ArgumentCaptor<FirmwarePortListener.FirmwarePortException> firmwarePortExceptionArgumentCaptor = ArgumentCaptor.forClass(FirmwarePortListener.FirmwarePortException.class);
+        verify(mockFirmwarePortListener).onDownloadFailed(firmwarePortExceptionArgumentCaptor.capture());
+        assertEquals("Prepare failed", firmwarePortExceptionArgumentCaptor.getValue().getMessage());
+    }
+
+    @Test
+    public void whenGoingFromDownloadingStateToErrorState_DownloadFailedShouldBeCalled() throws Exception {
+        parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 2, "", 100));
+        parseFirmwarePortData(createPropertiesJson("1", "", "error", 0, "Error downloading", 100));
+
+        ArgumentCaptor<FirmwarePortListener.FirmwarePortException> firmwarePortExceptionArgumentCaptor = ArgumentCaptor.forClass(FirmwarePortListener.FirmwarePortException.class);
+        verify(mockFirmwarePortListener).onDownloadFailed(firmwarePortExceptionArgumentCaptor.capture());
+        assertEquals("Error downloading", firmwarePortExceptionArgumentCaptor.getValue().getMessage());
+    }
+
+    @Test
+    public void whenGoingFromCheckingStateToErrorState_DownloadFailedShouldBeCalled() throws Exception {
+        parseFirmwarePortData(createPropertiesJson("1", "", "checking", 5, "", 100));
+        parseFirmwarePortData(createPropertiesJson("1", "", "error", 0, "Invalid firmware", 100));
+
+        ArgumentCaptor<FirmwarePortListener.FirmwarePortException> firmwarePortExceptionArgumentCaptor = ArgumentCaptor.forClass(FirmwarePortListener.FirmwarePortException.class);
+        verify(mockFirmwarePortListener).onDownloadFailed(firmwarePortExceptionArgumentCaptor.capture());
+        assertEquals("Invalid firmware", firmwarePortExceptionArgumentCaptor.getValue().getMessage());
+    }
+
+    // onDownloadFinished
+
+    @Test
+    public void whenGoingFromCheckingToReadyState_DownloadFinishedShouldBeCalled() throws Exception {
+        parseFirmwarePortData(createPropertiesJson("1", "", "checking", 100, "", 100));
+        parseFirmwarePortData(createPropertiesJson("1", "", "ready", 0, "", 100));
+
+        verify(mockFirmwarePortListener).onDownloadFinished();
+    }
+
+    // onFirmwareAvailable
+
+    @Test
+    public void whenFirmwareIsAvailable_FirmwareAvailableShouldBeCalled() throws Exception {
+        parseFirmwarePortData(createPropertiesJson("1", "2", "idle", 0, "", 0));
+
+        verify(mockFirmwarePortListener).onFirmwareAvailable("2");
+    }
+
+    // onDeployFailed
+
+    @Test
+    public void whenGoingFromReadyStateToErrorStateWithBecauseOfCancel_DeployFailedShouldBeCalled() throws Exception {
+        parseFirmwarePortData(createPropertiesJson("1", "2", "ready", 0, "", 100));
+        parseFirmwarePortData(createPropertiesJson("1", "2", "error", 0, "Upgrade canceled", 100));
+
+        ArgumentCaptor<FirmwarePortListener.FirmwarePortException> firmwarePortExceptionArgumentCaptor = ArgumentCaptor.forClass(FirmwarePortListener.FirmwarePortException.class);
+        verify(mockFirmwarePortListener).onDeployFailed(firmwarePortExceptionArgumentCaptor.capture());
+        assertEquals("Upgrade canceled", firmwarePortExceptionArgumentCaptor.getValue().getMessage());
+    }
+
+    @Test
+    public void whenGoingFromReadyStateToErrorStateBecauseOfProgrammingError_DeployFailedShouldBeCalled() throws Exception {
+        parseFirmwarePortData(createPropertiesJson("1", "2", "ready", 0, "", 100));
+        parseFirmwarePortData(createPropertiesJson("1", "2", "error", 0, "Error programming", 100));
+
+        ArgumentCaptor<FirmwarePortListener.FirmwarePortException> firmwarePortExceptionArgumentCaptor = ArgumentCaptor.forClass(FirmwarePortListener.FirmwarePortException.class);
+        verify(mockFirmwarePortListener).onDeployFailed(firmwarePortExceptionArgumentCaptor.capture());
+        assertEquals("Error programming", firmwarePortExceptionArgumentCaptor.getValue().getMessage());
+    }
+
+    // onDeployFinished
+
+    @Test
+    public void whenGoingFromReadyStateToErrorStateBecauseOfProgrammingError_DeployFinishedShouldBeCalled() throws Exception {
+        parseFirmwarePortData(createPropertiesJson("1", "2", "ready", 0, "", 100));
+        parseFirmwarePortData(createPropertiesJson("1", "2", "idle", 0, "", 0));
+
+        verify(mockFirmwarePortListener).onDeployFinished();
+    }
+
     private String createPropertiesJson(String version, String upgrade, String state, int progress, String statusMsg, int size) {
-        String propertiesJson = "{\"name\": \"test-firmware\", \"version\": \"" + version + "\", \"upgrade\": \"" + upgrade + "\", \"state\": \"" + state + "\", \"progress\": \"" + progress + "\", \"statusMsg\": \"" + statusMsg + "\", \"size\": \"" + size + "\"}";
+        String propertiesJson = "{\"name\": \"test-firmware\", \"version\": \"" + version + "\", \"upgrade\": \"" + upgrade + "\", \"state\": \"" + state + "\", \"progress\": \"" + progress + "\", \"statusmsg\": \"" + statusMsg + "\", \"size\": \"" + size + "\"}";
         return propertiesJson;
     }
 }

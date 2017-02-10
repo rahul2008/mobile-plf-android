@@ -20,10 +20,16 @@ public interface FirmwarePortListener {
 
     enum FirmwarePortProgressType {
         DOWNLOADING,
-        CHECKING,
-        DEPLOYING
+        CHECKING
     }
 
     class FirmwarePortException extends Exception {
+        public FirmwarePortException(String message) {
+            super(message);
+        }
+
+        public FirmwarePortException(String message, Throwable cause) {
+            super(message, cause);
+        }
     }
 }
