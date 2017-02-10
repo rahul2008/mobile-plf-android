@@ -317,11 +317,11 @@ public class DataServicesManagerTest {
         tracker.createMeasurementGroup(momentMock);
     }
 
-    @Test
-    public void ShouldCreateMeasurementGroupDetail_WhenCreateMeasurementGroupDetailIsCalled() throws Exception {
-        //noinspection ConstantConditions
-        tracker.createMeasurementGroupDetail("", "some", measurementGroupMock);
-    }
+//    @Test
+//    public void ShouldCreateMeasurementGroupDetail_WhenCreateMeasurementGroupDetailIsCalled() throws Exception {
+//        //noinspection ConstantConditions
+//        tracker.createMeasurementGroupDetail("", "some", measurementGroupMock);
+//    }
 
     /*@Test
     public void ShouldReleaseDataServicesInstances_WhenReleaseDataServicesInstancesIsCalled() throws Exception {
@@ -356,17 +356,17 @@ public class DataServicesManagerTest {
         tracker.synchronize();
     }*/
 
-    @Test
-    public void ShouldCreateMeasurementDetail_WhenCreateMeasurementDetailIsCalled() throws Exception {
-        //noinspection ConstantConditions
-        tracker.createMeasurementDetail(TEST_MEASUREMENT_TYPE, "some", measurementMock);
-    }
-
-    @Test
-    public void ShouldCreateMeasurement_WhenCreateMeasurementIsCalled() throws Exception {
-        //noinspection ConstantConditions
-        tracker.createMeasurement(TEST_MEASUREMENT_TYPE, "Some", "celcius", measurementGroupMock);
-    }
+//    @Test
+//    public void ShouldCreateMeasurementDetail_WhenCreateMeasurementDetailIsCalled() throws Exception {
+//        //noinspection ConstantConditions
+//        tracker.createMeasurementDetail(TEST_MEASUREMENT_TYPE, "some", measurementMock);
+//    }
+//
+//    @Test
+//    public void ShouldCreateMeasurement_WhenCreateMeasurementIsCalled() throws Exception {
+//        //noinspection ConstantConditions
+//        tracker.createMeasurement(TEST_MEASUREMENT_TYPE, "Some", "celcius", measurementGroupMock);
+//    }
 
     @Test
     public void ShouldCreateMeasurement_WhenqCreateMeasurementIsCalled() throws Exception {
