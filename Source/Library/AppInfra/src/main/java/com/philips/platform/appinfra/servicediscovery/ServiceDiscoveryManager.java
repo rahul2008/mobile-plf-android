@@ -6,8 +6,6 @@
 package com.philips.platform.appinfra.servicediscovery;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Looper;
 import android.telephony.TelephonyManager;
@@ -220,7 +218,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     private ServiceDiscovery processRequest(String urlBuild, ServiceDiscovery service,
                                             AISDURLType aisdurlType) {
-        if (!isOnline()) {
+        if (null!=mAppInfra.getRestClient()&& !mAppInfra.getRestClient().isInternetReachable()) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "NO_NETWORK");
             service.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.NO_NETWORK, "NO_NETWORK"));
             errorvalues = OnErrorListener.ERRORVALUES.NO_NETWORK;
@@ -629,11 +627,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
 
-    private boolean isOnline() {
-        ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnected());
-    }
+
 
     @Override
     public void refresh(final OnRefreshListener listener) {

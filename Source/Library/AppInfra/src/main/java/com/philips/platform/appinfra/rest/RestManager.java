@@ -6,7 +6,8 @@
 package com.philips.platform.appinfra.rest;
 
 import android.content.Context;
-import android.util.Log;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import com.android.volley.Cache;
 import com.android.volley.Network;
@@ -64,6 +65,32 @@ public class RestManager implements RestInterface {
             // mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
         }
         return mRequestQueue;
+    }
+
+    @Override
+    public NetworkTypes  getNetworkReachabilityStatus() {
+        NetworkTypes networkStatus=NetworkTypes.NO_NETWORK;
+        final NetworkInfo connectionInfo = getNetworkInfo();
+        if (null != connectionInfo && connectionInfo.isConnected()) {
+            if (connectionInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                networkStatus = NetworkTypes.WIFI;
+            } else if (connectionInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+                networkStatus = NetworkTypes.MOBILE_DATA;
+            }
+        }
+        return networkStatus;
+    }
+
+    @Override
+    public boolean isInternetReachable() {
+        final NetworkInfo networkInfo = getNetworkInfo();
+        return (null != networkInfo && networkInfo.isConnected());
+    }
+
+    private NetworkInfo getNetworkInfo() {
+        //Check for mobile data or Wifi network Info
+        final ConnectivityManager connMgr = (ConnectivityManager) mAppInfra.getAppInfraContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        return connMgr.getActiveNetworkInfo();
     }
 
     private Network getNetwork() {

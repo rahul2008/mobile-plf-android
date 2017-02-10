@@ -38,6 +38,7 @@ public class AppInfraApplication extends Application {
         LeakCanary.install(this);
 
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
+        gAppInfra.getTime().refreshTime();
         mAppInfra = (AppInfra)gAppInfra;
         mAIAppTaggingInterface = gAppInfra.getTagging().createInstanceForComponent("Component name", "Component ID");
         mAIAppTaggingInterface.setPreviousPage("SomePreviousPage");

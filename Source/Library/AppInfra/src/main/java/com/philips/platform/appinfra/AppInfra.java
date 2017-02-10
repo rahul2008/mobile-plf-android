@@ -189,6 +189,7 @@ public class AppInfra implements AppInfraInterface {
             AppInfra ai = new AppInfra(pContext);
             ai.setConfigInterface(configInterface == null ? new AppConfigurationManager(ai) : configInterface);
             Log.v("APPINFRA INT", "AppConfig Intitialization Done");
+
             ai.setTime(mTimeSyncInterfaceBuilder == null ? new TimeSyncSntpClient(ai) : mTimeSyncInterfaceBuilder);
             Log.v("APPINFRA INT", "TimeSync Intitialization Done");
 
@@ -225,13 +226,12 @@ public class AppInfra implements AppInfraInterface {
                 appInfraLogStatement.append("\"");
                 ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AppInfra initialized", appInfraLogStatement.toString());
             }
-
             ai.setRestInterface(mRestInterface == null ? new RestManager(ai) : mRestInterface);
             Log.v("APPINFRA INT", "Rest Intitialization Done");
-            Log.v("APPINFRA INT", "AI Intitialization Done");
 
             ai.setTagging(tagging == null ? new AppTagging(ai) : tagging);
             Log.v("APPINFRA INT", "Tagging Intitialization Done");
+            Log.v("APPINFRA INT", "AI Intitialization Done");
 
             return ai;
         }
@@ -349,5 +349,6 @@ public class AppInfra implements AppInfraInterface {
     public void setConfigInterface(AppConfigurationInterface configInterface) {
         this.configInterface = configInterface;
     }
+
 
 }
