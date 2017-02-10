@@ -36,8 +36,10 @@ repositories {
 }
 
 dependencies {
+    def bluelib = findProject(':bluelib') ? ':bluelib' : ':shinelib'
+
     compile project(':pluginreferenceboard')
-    compile project(':shinelib')
+    compile project(bluelib)
 
     compile deps.gson
     compile deps.support_annotations

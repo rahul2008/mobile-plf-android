@@ -25,7 +25,11 @@ android {
 }
 
 dependencies {
-    compile project(path: ':shinelib')
+    if (findProject(':bluelib')) {
+        compile project(':bluelib')
+    }else {
+        compile project(':shinelib')
+    }
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.powermock:powermock-api-mockito:1.6.4'
