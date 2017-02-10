@@ -84,10 +84,12 @@ dependencies {
     compile deps.support_annotations
     compile deps.gson
 
+    testCompile deps.junit
+    testCompile deps.powermock_mockito
+    testCompile deps.powermock_junit
+
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.powermock:powermock-module-junit4:1.6.4'
-    testCompile 'org.powermock:powermock-api-mockito:1.6.4'
+
     testCompile 'com.nitorcreations:junit-runners:1.3'
 
     testCompile("org.robolectric:robolectric:3.1.4") {
