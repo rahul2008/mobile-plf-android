@@ -84,7 +84,6 @@ dependencies {
     if (findProject(':bluelib')) {
         println("!!! taking local shinelib !!!")
         compile project(':bluelib')
-        compile deps.gson
     } else {
         compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.3.1-SNAPSHOT.+')
     }
@@ -92,8 +91,6 @@ dependencies {
     if (findProject(':commlib')) {
         println("!!! taking local commlib !!!")
         compile project(':commlib')
-        compile 'com.philips.cdp:cloudcontroller-api:3.1.1-SNAPSHOT'
-        compile deps.gson
     } else {
         compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '3.1.1-SNAPSHOT.+')
     }
