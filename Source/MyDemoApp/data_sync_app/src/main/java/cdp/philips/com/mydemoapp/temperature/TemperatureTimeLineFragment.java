@@ -346,7 +346,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
             @Override
             public void run() {
                 dismissProgressDialog();
-                Toast.makeText(getActivity(), "Exception :" + exception.getMessage(), Toast.LENGTH_LONG).show();
+               // Toast.makeText(getActivity(), "Exception :" + exception.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
