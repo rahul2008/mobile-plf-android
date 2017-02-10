@@ -289,7 +289,11 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
             locale = service.getLocale();
             configUrl = service.getConfigUrls();
 
-            dataMap.put(locale, configUrl);
+            if(configUrl != null) {
+                dataMap.put(locale, configUrl);
+            } else {
+                dataMap.put(locale,service.getmError());
+            }
             mMap.put(key, dataMap);
             it.remove(); // avoids a ConcurrentModificationException
         }
