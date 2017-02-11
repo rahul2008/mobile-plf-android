@@ -148,6 +148,9 @@ public class FieldsValidator {
     }
 
     public static boolean isValidMobileNumber(String mobile) {
+        if(mobile == null){
+            return false;
+        }
         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
         if (mobile.length() > 0) {
             if (android.util.Patterns.PHONE.matcher(mobile).matches()) {

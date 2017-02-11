@@ -506,11 +506,12 @@ public class User {
         }
 
         if (isAcceptTerms) {
-            boolean isTermAccepted;
-            if (FieldsValidator.isValidEmail(getEmail())){
-                isTermAccepted = RegPreferenceUtility.getStoredState(mContext, getEmail());
-            }else {
+            boolean isTermAccepted = false;
+
+            if(FieldsValidator.isValidMobileNumber(getMobile())){
                 isTermAccepted = RegPreferenceUtility.getStoredState(mContext, getMobile());
+            }else if(FieldsValidator.isValidEmail(getEmail())){
+                isTermAccepted = RegPreferenceUtility.getStoredState(mContext, getEmail());
             }
             if (!isTermAccepted) {
                 signedIn = false;

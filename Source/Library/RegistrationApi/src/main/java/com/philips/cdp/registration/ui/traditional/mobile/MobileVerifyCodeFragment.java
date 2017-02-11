@@ -236,9 +236,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     private Intent createSMSActivationIntent() {
         String UUid = mUser.getJanrainUUID();
         String verifiedMobileNumber = FieldsValidator.getVerifiedMobileNumber(UUid, mEtCodeNUmber.getNumber());
-        System.out.println("JUMP URL : "+Jump.getCaptureDomain());
         String url = "https://"+Jump.getCaptureDomain()+"/access/useVerificationCode";
-        System.out.print("**************** URL : "+url);
         Intent httpServiceIntent = new Intent(mContext, HttpClientService.class);
         HttpClientServiceReceiver receiver = new HttpClientServiceReceiver(new Handler());
         receiver.setListener(this);
@@ -410,11 +408,11 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
         RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER *** : " + mUser.getMobile());
         String  eMobileNumber;
-        System.out.println("Configration : "+RegistrationConfiguration.getInstance().getRegistrationEnvironment());
+        RLog.d("Configration : "," envir :"+RegistrationConfiguration.getInstance().getRegistrationEnvironment());
         String url = verification_Sms_Code_URL+"?provider=" +
                 "JANRAIN-CN&locale=zh_CN" + "&phonenumber=" + FieldsValidator.getMobileNumber(mUser.getMobile());
 
-        System.out.println("RESEND URL : "+url);
+        RLog.d("RESEND URL : "," Mobile :"+RegistrationConfiguration.getInstance().getRegistrationEnvironment());
 
         Intent httpServiceIntent = new Intent(mContext, HttpClientService.class);
         HttpClientServiceReceiver receiver = new HttpClientServiceReceiver(new Handler());
