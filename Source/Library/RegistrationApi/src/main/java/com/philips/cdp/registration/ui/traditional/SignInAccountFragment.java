@@ -363,6 +363,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mRlSignInBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_welcome_container);
 
         mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
+        mEtEmail.checkingEmailorMobileSignIn();
         mEtEmail.setOnClickListener(this);
         mEtEmail.setOnUpdateListener(this);
         mEtEmail.setFocusable(true);
