@@ -1,27 +1,29 @@
 /*
- * (C) Koninklijke Philips N.V., 20NAVIGATION_COLOR_ULTRALIGHT6.
+ * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  *
  */
 
 package com.philips.platform.uid.components.navigation;
 
-import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
-import com.philips.platform.uid.activity.LandscapeModeActivity;
 import com.philips.platform.uid.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.utils.UIDTestUtils;
 
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -36,17 +38,26 @@ public class NavigationBarTest {
     private static final int NAVIGATION_COLOR_ULTRALIGHT = NavigationColor.ULTRA_LIGHT.ordinal();
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class, false, false);
-    public final ActivityTestRule<LandscapeModeActivity> landscapeModeActivityRule = new ActivityTestRule<>(LandscapeModeActivity.class, false, false);
 
-    private Context applicationContext;
     private BaseTestActivity baseTestActivity;
+
+    private Resources resources;
+    private IdlingResource mIdlingResource;
 
     private void setupActivity(final int navigationColor) {
         final Intent intent = getLaunchIntent(navigationColor);
+
         baseTestActivity = mActivityTestRule.launchActivity(intent);
         baseTestActivity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
         baseTestActivity.switchFragment(new NavigationbarFragment());
-        applicationContext = baseTestActivity.getApplicationContext();
+        resources = baseTestActivity.getResources();
+        registerIdlingResources(baseTestActivity);
+    }
+
+    public void registerIdlingResources(final BaseTestActivity baseTestActivity) {
+        mIdlingResource = baseTestActivity.getIdlingResource();
+        // To prove that the test fails, omit this call:
+        Espresso.registerIdlingResources(mIdlingResource);
     }
 
     @NonNull
@@ -61,7 +72,7 @@ public class NavigationBarTest {
     @Test
     public void verifyTitleMargin() throws Exception {
         setupUltralightTonalRangeActivity();
-        int titleMargin = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_margin);
+        int titleMargin = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.navigation_title_margin);
 
         getTitle().check(matches(ViewPropertiesMatchers.isSameLeftMargin(titleMargin)));
         getTitle().check(matches(ViewPropertiesMatchers.isSameRightMargin(titleMargin)));
@@ -69,14 +80,6 @@ public class NavigationBarTest {
 
     private int getNavigationTextExpectedFromThemeColor() {
         return UIDTestUtils.getAttributeColor(baseTestActivity, R.attr.uidNavigationBarTextColor);
-    }
-
-    @Test
-    public void verifyTitleTextColorInUltraLight() throws Exception {
-        setupUltralightTonalRangeActivity();
-
-        int expectedColor = getNavigationTextExpectedFromThemeColor();
-        getTitle().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test
@@ -98,82 +101,45 @@ public class NavigationBarTest {
     }
 
     @Test
-    public void verifyTitleLineSpacing() throws Exception {
-        setupUltralightTonalRangeActivity();
-
-        float linespacing = applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_spacing);
-
-        getTitle().check(matches(TextViewPropertiesMatchers.isSameLineSpacing(linespacing)));
-    }
-
-    @Test
     public void verifyTitleTextSize() throws Exception {
         setupUltralightTonalRangeActivity();
 
-        int fontSize = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_size);
+        int fontSize = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.navigation_title_text_size);
 
         getTitle().check(matches(TextViewPropertiesMatchers.isSameFontSize(fontSize)));
     }
 
     @Test
-    public void verifyTitleLineHeightInLandscape() throws Exception {
-        setupLandscapeModeActivity();
+    public void verifyTitleTextColorInUltraLight() throws Exception {
+        setupUltralightTonalRangeActivity();
 
-        float lineheight = applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_height);
-
-        getTitle().check(matches(TextViewPropertiesMatchers.isSameLineHeight(lineheight)));
+        int expectedColor = getNavigationTextExpectedFromThemeColor();
+        getTitle().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test
-    public void verifyTitleLineSpacingInLandscape() throws Exception {
-        setupLandscapeModeActivity();
+    public void verifyTitleLineSpacing() throws Exception {
+        setupUltralightTonalRangeActivity();
 
-        float linespacing = applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_spacing);
+        float linespacing = resources.getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_spacing);
 
         getTitle().check(matches(TextViewPropertiesMatchers.isSameLineSpacing(linespacing)));
-    }
-
-    @Test
-    public void verifyTitleTextSizeInLandscape() throws Exception {
-        setupLandscapeModeActivity();
-
-        int fontSize = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_size);
-
-        getTitle().check(matches(TextViewPropertiesMatchers.isSameFontSize(fontSize)));
-    }
-
-    private void setupLandscapeModeActivity() {
-        final LandscapeModeActivity landscapeModeActivity = landscapeModeActivityRule.launchActivity(getLaunchIntent(NAVIGATION_COLOR_ULTRALIGHT));
-        applicationContext = landscapeModeActivity.getApplicationContext();
-        landscapeModeActivity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
-        landscapeModeActivity.switchFragment(new NavigationbarFragment());
-    }
-
-    //Toolbar tests cases
-    @Test
-    public void verifyToolbarHeightOnLandscapeMode() throws Exception {
-
-        setupLandscapeModeActivity();
-
-        int toolbarHeight = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_height_land);
-        getNavigationBar().check(matches(ViewPropertiesMatchers.isSameViewHeight(toolbarHeight)));
     }
 
     @Test
     public void verifyToolbarHeight() throws Exception {
         setupUltralightTonalRangeActivity();
 
-        int toolbarHeight = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_height);
+        int toolbarHeight = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.navigation_height);
 
         getNavigationBar().check(matches(ViewPropertiesMatchers.isSameViewHeight(toolbarHeight)));
     }
 
-    //Menu icon test cases
     @Test
     public void verifyNavigationMenuIconSize() throws Exception {
         setupUltralightTonalRangeActivity();
 
-        int iconSize = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_icon_size);
+        int iconSize = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.navigation_icon_size);
 
         getNavigationIcon().check(matches(FunctionDrawableMatchers.isSameHeight("getDrawable", iconSize, com.philips.platform.uid.test.R.drawable.ic_hamburger_menu)));
         getNavigationIcon().check(matches(FunctionDrawableMatchers.isSameWidth("getDrawable", iconSize, com.philips.platform.uid.test.R.drawable.ic_hamburger_menu)));
@@ -210,9 +176,8 @@ public class NavigationBarTest {
     public void verifyOptionsMenuTextSize() throws Exception {
 
         setupActivity(NavigationColor.VERY_LIGHT.ordinal());
-        int fontSize = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_menu_text_size);
+        int fontSize = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.navigation_menu_text_size);
         //Added wait because test is failing could be it takes time to inflate menu
-        UIDTestUtils.waitFor(applicationContext, 800);
         getOptionsMenuText().check(matches(TextViewPropertiesMatchers.isSameFontSize(fontSize)));
     }
 
@@ -220,7 +185,7 @@ public class NavigationBarTest {
     public void verifyOptionsMenuIconSize() throws Exception {
         setupUltralightTonalRangeActivity();
 
-        int iconSize = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_icon_size);
+        int iconSize = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.navigation_icon_size);
 
         getOptionsMenuIcon().check(matches(FunctionDrawableMatchers.isSameHeight(iconSize)));
         getOptionsMenuIcon().check(matches(FunctionDrawableMatchers.isSameWidth(iconSize)));
@@ -230,20 +195,10 @@ public class NavigationBarTest {
     public void verifyOptionsMenuIconTargetArea() throws Exception {
         setupUltralightTonalRangeActivity();
 
-        int navigationbarHeight = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_button_touchable_area);
+        int navigationbarHeight = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.navigation_button_touchable_area);
 
         getOptionsMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(navigationbarHeight)));
         getOptionsMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewWidth(navigationbarHeight)));
-    }
-
-    @Test
-    public void verifyOptionsMenuIconTargetAreaInLandscape() throws Exception {
-
-        setupLandscapeModeActivity();
-
-        int navigationbarHeight = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_button_touchable_area_landscape);
-
-        getOptionsMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(navigationbarHeight)));
     }
 
     private void setupUltralightTonalRangeActivity() {
@@ -255,7 +210,7 @@ public class NavigationBarTest {
     }
 
     private ViewInteraction getNavigationIcon() {
-        return onView(withContentDescription(applicationContext.getResources().getString(com.philips.platform.uid.test.R.string.navigation_content_desc)));
+        return onView(withContentDescription(resources.getString(com.philips.platform.uid.test.R.string.navigation_content_desc)));
     }
 
     private ViewInteraction getOptionsMenuIcon() {
@@ -268,5 +223,12 @@ public class NavigationBarTest {
 
     private ViewInteraction getTitle() {
         return onView(withId(com.philips.platform.uid.test.R.id.uid_toolbar_title));
+    }
+
+    @After
+    public void unregisterIdlingResource() {
+        if (mIdlingResource != null) {
+            Espresso.unregisterIdlingResources(mIdlingResource);
+        }
     }
 }
