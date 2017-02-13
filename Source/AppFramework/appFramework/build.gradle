@@ -338,7 +338,7 @@ dependencies {
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.3.5-SNAPSHOT', ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.3.5-SNAPSHOT.+', ext: 'aar', changing: true) {
         transitive=true
     }
 
@@ -346,7 +346,7 @@ dependencies {
         transitive=true
     }
 
-    compile(group: 'com.philips.cdp', name: 'dataServices', version: '0.3.5-SNAPSHOT', ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'dataServices', version: '0.3.5-SNAPSHOT.+', ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
