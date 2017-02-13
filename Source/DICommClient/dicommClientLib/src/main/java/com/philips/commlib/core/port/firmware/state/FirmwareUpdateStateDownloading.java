@@ -16,8 +16,7 @@ public class FirmwareUpdateStateDownloading extends CancelableFirmwareUpdateStat
 
     @Override
     public void execute(FirmwareUpdateState previousState) {
-        // TODO do the actual download (upload)
-
+        operation.pushData();
         operation.waitForNextState();
     }
 }

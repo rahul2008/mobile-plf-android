@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 
 import com.philips.commlib.core.port.firmware.FirmwarePort;
 import com.philips.commlib.core.port.firmware.FirmwarePortProperties;
-import com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortKey;
 import com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState;
 import com.philips.commlib.core.port.firmware.state.FirmwareUpdateState;
 import com.philips.commlib.core.port.firmware.state.FirmwareUpdateStateCanceling;
@@ -21,9 +20,12 @@ import com.philips.commlib.core.port.firmware.state.FirmwareUpdateStateProgrammi
 import com.philips.commlib.core.port.firmware.state.FirmwareUpdateStateReady;
 import com.philips.commlib.core.port.firmware.util.FirmwarePortStateWaiter;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
+import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortKey.STATE;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.CANCELING;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.CHECKING;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.DOWNLOADING;
@@ -100,6 +102,23 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
         this.state.cancel();
     }
 
+    public void pushData() {
+        int maxChunkSize = this.firmwarePort.getPortProperties().getMaxChunkSize();
+        int size = this.firmwarePort.getPortProperties().getSize();
+
+        if (maxChunkSize > 0 && maxChunkSize < size) {
+            uploadNextChunk(0, maxChunkSize);
+        }
+    }
+
+    private void uploadNextChunk(int offset, int maxChunkSize) {
+        Map<String, Object> properties = new HashMap<>();
+        int nextChunkSize = Math.min(maxChunkSize, this.firmwareData.length - offset);
+        properties.put(FirmwarePortProperties.FirmwarePortKey.DATA.toString(), Arrays.copyOfRange(firmwareData, offset, offset + nextChunkSize));
+
+        this.firmwarePort.putProperties(properties);
+    }
+
     public void finish() {
         this.firmwarePort.finishFirmwareUpdateOperation();
     }
@@ -119,7 +138,7 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
     }
 
     public void requestState(@NonNull final FirmwarePortState requestedState) {
-        this.firmwarePort.putProperties(FirmwarePortKey.STATE.toString(), requestedState.toString());
+        this.firmwarePort.putProperties(STATE.toString(), requestedState.toString());
     }
 
     public void waitForNextState() {

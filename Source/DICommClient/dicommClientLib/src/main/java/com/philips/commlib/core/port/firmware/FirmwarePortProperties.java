@@ -75,14 +75,15 @@ public class FirmwarePortProperties {
         }
     }
 
-    private String name = "";
-    private String version = "";
-    private String upgrade = "";
-    private String state = "";
-    private int progress = -1;
-    private String statusmsg = "";
     private boolean mandatory;
+    private int maxchunksize;
+    private int progress;
     private int size = 0;
+    private String name;
+    private String state = "";
+    private String statusmsg;
+    private String upgrade;
+    private String version = "";
 
     public String getName() {
         return name;
@@ -110,6 +111,10 @@ public class FirmwarePortProperties {
 
     public boolean isMandatory() {
         return mandatory;
+    }
+
+    public int getMaxChunkSize() {
+        return maxchunksize;
     }
 
     public int getSize() {

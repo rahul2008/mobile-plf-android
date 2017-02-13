@@ -16,8 +16,6 @@ public class FirmwareUpdateStateChecking extends CancelableFirmwareUpdateState {
 
     @Override
     public void execute(FirmwareUpdateState previousState) {
-        // TODO do the actual checking
-
         operation.waitForNextState();
     }
 }
