@@ -99,19 +99,19 @@ public class SavingMonitorTest {
         //verify(eventingMock).post(exceptionEventArgumentCaptor.capture());
         //assertThat(exceptionEventArgumentCaptor.getValue().getCause()).isInstanceOf(SQLException.class);
     }
+//
+//    @Test
+//    public void ShouldSaveConsent_WhenSaveConsentRequestIsReceived() throws Exception {
+//
+//        savingMonitor.onEventAsync(new DatabaseConsentSaveRequest(anyListOf(ConsentDetail.class), dbRequestListener));
+//
+//       // verify(savingMock).saveConsentDetails(anyListOf(ConsentDetail.class), dbRequestListener);
+//    }
 
-    @Test
-    public void ShouldSaveConsent_WhenSaveConsentRequestIsReceived() throws Exception {
-
-        savingMonitor.onEventAsync(new DatabaseConsentSaveRequest(anyListOf(ConsentDetail.class), dbRequestListener));
-
-        verify(savingMock).saveConsentDetails(anyListOf(ConsentDetail.class), dbRequestListener);
-    }
-
-    @Test
-    public void ShouldPostSuccessEvent_WhenConsentIsProcessed() throws Exception {
-        savingMonitor.onEventAsync(new DatabaseConsentSaveRequest(anyListOf(ConsentDetail.class), dbRequestListener));
-    }
+//    @Test
+//    public void ShouldPostSuccessEvent_WhenConsentIsProcessed() throws Exception {
+//        savingMonitor.onEventAsync(new DatabaseConsentSaveRequest(anyListOf(ConsentDetail.class), dbRequestListener));
+//    }
 
 
     private <T extends Event> T captureEvent(Class<T> clazz, final Eventing eventingMock, final int wantedNumberOfInvocations) throws SQLException {
