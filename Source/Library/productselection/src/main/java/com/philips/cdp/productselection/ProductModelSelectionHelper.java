@@ -124,7 +124,7 @@ public class ProductModelSelectionHelper {
     public AppTaggingInterface getTaggingInterface() {
         AppTaggingInterface taggingInterface =
                 getAPPInfraInstance().getTagging().createInstanceForComponent
-                        ("com.philips.cdp.productselection", "1.4.0");
+                        ("com.philips.cdp.productselection", "1.9.5");
         taggingInterface.setPreviousPage("vertical:productSelection:home");
         return taggingInterface;
     }
@@ -135,7 +135,7 @@ public class ProductModelSelectionHelper {
         AppInfraInterface appInfraInstance = getAPPInfraInstance();
         if (appInfraInstance != null) {
             loggingInterface = appInfraInstance.getLogging().
-                    createInstanceForComponent("com.philips.cdp.productselection", "1.4.0");
+                    createInstanceForComponent("com.philips.cdp.productselection", "1.9.5");
             return loggingInterface;
         }
         return loggingInterface;
