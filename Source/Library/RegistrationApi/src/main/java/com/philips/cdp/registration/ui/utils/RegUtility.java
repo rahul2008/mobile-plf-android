@@ -198,11 +198,11 @@ public class RegUtility {
                 RegistrationHelper.getInstance().getAppInfraInstance().getAbTesting().
                         getTestValue(RegConstants.DOT_RECEIVE_MARKETING_OPT_IN, UIFlow.FLOW_A.getValue(),
                                 ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE, null);
-        if(flowType.equalsIgnoreCase(UIFlow.FLOW_A.toString())){
+        if(flowType.equalsIgnoreCase(UIFlow.FLOW_A.getValue())){
             return UIFlow.FLOW_A;
-        }else if(flowType.equalsIgnoreCase(UIFlow.FLOW_B.toString())){
+        }else if(flowType.equalsIgnoreCase(UIFlow.FLOW_B.getValue())){
             return UIFlow.FLOW_B;
-        }else if(flowType.equalsIgnoreCase(UIFlow.FLOW_C.toString())){
+        }else if(flowType.equalsIgnoreCase(UIFlow.FLOW_C.getValue())){
             return UIFlow.FLOW_C;
         }
         return UIFlow.FLOW_C;
