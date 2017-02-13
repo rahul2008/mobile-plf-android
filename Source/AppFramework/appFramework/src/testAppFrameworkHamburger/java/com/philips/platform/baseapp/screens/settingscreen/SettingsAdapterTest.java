@@ -150,7 +150,7 @@ public class SettingsAdapterTest {
         ArrayList<SettingListItem> settingScreenItemList = new ArrayList<SettingListItem>();
         settingScreenItemList.add(formDataSection(getResourceString(R.string.RA_Settings_Menu_Title), SettingListItemType.HEADER, false));
         settingScreenItemList.add(formDataSection(getResourceString(R.string.RA_Vertical_App_Setting_A), SettingListItemType.CONTENT, false));
-        settingScreenItemList.add(formDataSection(getResourceString(R.string.RA_Setting_Philips_Promo_Title), SettingListItemType.NOTIFICATION, false));
+        settingScreenItemList.add(formDataSection(getResourceString(R.string.RA_Setting_Philips_Promo_Title_Only), SettingListItemType.NOTIFICATION, false));
         settingScreenItemList.add(formDataSection(getResourceString(R.string.RA_Settings_Login), SettingListItemType.CONTENT, false));
         return settingScreenItemList;
     }

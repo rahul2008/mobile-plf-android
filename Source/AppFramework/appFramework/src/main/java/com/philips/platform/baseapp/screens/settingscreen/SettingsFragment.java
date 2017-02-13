@@ -55,7 +55,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
         settingScreenItemList.add(formDataSection(getResourceString(R.string.RA_Vertical_App_Setting_A), SettingListItemType.CONTENT, false));
         settingScreenItemList.add(formDataSection(getResourceString(R.string.RA_Vertical_App_Setting_B), SettingListItemType.CONTENT, false));
         settingScreenItemList.add(formDataSection(getResourceString(R.string.RA_Vertical_App_Setting_C), SettingListItemType.CONTENT, false));
-        settingScreenItemList.add(formDataSection(getResourceString(R.string.RA_Setting_Philips_Promo_Title), SettingListItemType.NOTIFICATION, true));
+        settingScreenItemList.add(formDataSection(getResourceString(R.string.RA_Setting_Philips_Promo_Title_Only), SettingListItemType.NOTIFICATION, true));
         settingScreenItemList.add(formDataSection(getResourceString(R.string.RA_Settings_MyAccount), SettingListItemType.HEADER, false));
         settingScreenItemList.add(formDataSection(getResourceString(R.string.RA_Settings_Login), SettingListItemType.CONTENT, false));
         return settingScreenItemList;
