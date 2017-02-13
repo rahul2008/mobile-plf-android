@@ -450,11 +450,18 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         JSONObject oldDynamicConfigJson = null;
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         String jsonString = ssi.fetchValueForKey(mAppConfig_SecureStoreKey, sse);
-        if (sse.getErrorCode() != SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey && null != jsonString) {
+        if (sse.getErrorCode() != SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey && null != jsonString || null!=dynamicConfigJsonCache) {
            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Migration starts for old dyanmic data > " + jsonString);
-            dynamicConfigJsonCache =  null;// reset cache
+            //dynamicConfigJsonCache =  null;// reset cache
             try {
-                oldDynamicConfigJson = new JSONObject(jsonString);
+                if(null!=jsonString) {
+                    oldDynamicConfigJson = new JSONObject(jsonString);
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Migration starts for old dyanmic data > " + jsonString);
+                }else if(null!=dynamicConfigJsonCache){
+                    oldDynamicConfigJson = dynamicConfigJsonCache;
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Migration starts for old dyanmic data > " + dynamicConfigJsonCache);
+                }
+                dynamicConfigJsonCache=null;
                 oldDynamicConfigJson = makeKeyUppercase(oldDynamicConfigJson); // converting all Group and child key Uppercase
             } catch (JSONException e) {
                 e.printStackTrace();
