@@ -40,6 +40,9 @@ allprojects {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
         maven { url objcdp.getArtifactoryUrl() }
     }
+
+    apply plugin: 'com.jfrog.artifactory'
+    group = 'com.philips.platform.appinfra'
 }
 
 group = 'com.philips.cdp'
