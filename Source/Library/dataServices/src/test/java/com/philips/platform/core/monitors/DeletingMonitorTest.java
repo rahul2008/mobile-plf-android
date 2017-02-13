@@ -17,7 +17,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -56,7 +55,7 @@ public class DeletingMonitorTest {
 
     @Test
     public void DeletionAsked_WhenEventReceived() throws Exception {
-        monitor.onEventBackgroundThread(new DataClearRequest(dbRequestListener));
+        monitor.onEventAsync(new DataClearRequest(dbRequestListener));
         verify(deletingMock).deleteAll(dbRequestListener);
     }
 
@@ -68,7 +67,7 @@ public class DeletingMonitorTest {
 
     @Test
     public void MomentBackendDeleteResponse_WhenEventReceived() throws Exception {
-        monitor.onEventBackgroundThread(new MomentBackendDeleteResponse(momentMock,dbRequestListener));
+        monitor.onEventAsync(new MomentBackendDeleteResponse(momentMock,dbRequestListener));
         verify(deletingMock).deleteMoment(momentMock,dbRequestListener);
     }
 
@@ -101,7 +100,7 @@ public class DeletingMonitorTest {
     @Test
     public void ResponseEventRaised_WhenDeletedHappens() throws Exception {
         DataClearRequest request = new DataClearRequest(dbRequestListener);
-        monitor.onEventBackgroundThread(request);
+        monitor.onEventAsync(request);
 
        /* verify(eventingMock).post(eventCaptor.capture());
         assertThat(eventCaptor.getValue()).isInstanceOf(DataClearResponse.class);

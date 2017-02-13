@@ -11,8 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import javax.inject.Inject;
-
 import retrofit.RetrofitError;
 
 import static org.mockito.Mockito.verify;
@@ -51,7 +49,7 @@ public class ErrorMonitorTest {
 
     @Test
     public void ShouldStart_WhenonEventBackgroundThread() throws Exception {
-        errorMonitor.onEventBackgroundThread(backendDataRequestFailed);
+        errorMonitor.onEventAsync(backendDataRequestFailed);
         verify(errorHandlingInterface).syncError(-1);
     }
 

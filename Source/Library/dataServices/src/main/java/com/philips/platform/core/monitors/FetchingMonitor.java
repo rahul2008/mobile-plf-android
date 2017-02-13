@@ -60,7 +60,7 @@ public class FetchingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackgroundThread(LoadTimelineEntryRequest event) {
+    public void onEventAsync(LoadTimelineEntryRequest event) {
         try {
             dbInterface.fetchMoments(event.getDbRequestListener());
         } catch (SQLException e) {
@@ -69,7 +69,7 @@ public class FetchingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackgroundThread(LoadLastMomentRequest event) {
+    public void onEventAsync(LoadLastMomentRequest event) {
         try {
             dbInterface.fetchLastMoment(event.getType(), event.getDbRequestListener());
         } catch (SQLException e) {
@@ -78,7 +78,7 @@ public class FetchingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackgroundThread(GetNonSynchronizedDataRequest event) {
+    public void onEventAsync(GetNonSynchronizedDataRequest event) {
         DSLog.i("***SPO***", "In Fetching Monitor GetNonSynchronizedDataRequest");
         try {
             Map<Class, List<?>> dataToSync = new HashMap<>();
@@ -103,7 +103,7 @@ public class FetchingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackgroundThread(LoadMomentsRequest event) {
+    public void onEventAsync(LoadMomentsRequest event) {
         try {
             if (event.hasType()) {
                 DSLog.i(DSLog.LOG, "pabitra LoadMomentsRequest monitor fetchMomentWithType");
@@ -119,7 +119,7 @@ public class FetchingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackgroundThread(LoadConsentsRequest event) {
+    public void onEventAsync(LoadConsentsRequest event) {
         try {
             dbInterface.fetchConsentDetails(event.getDbRequestListener());
         } catch (SQLException e) {
@@ -128,7 +128,7 @@ public class FetchingMonitor extends EventMonitor {
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackgroundThread(GetNonSynchronizedMomentsRequest event) {
+    public void onEventAsync(GetNonSynchronizedMomentsRequest event) {
         DSLog.i("**SPO**", "in Fetching Monitor GetNonSynchronizedMomentsRequest");
         try {
             List<? extends Moment> ormMomentList = (List<? extends Moment>) dbInterface.fetchNonSynchronizedMoments();
@@ -143,7 +143,7 @@ public class FetchingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackgroundThread(LoadUserCharacteristicsRequest loadUserCharacteristicsRequest) {
+    public void onEventAsync(LoadUserCharacteristicsRequest loadUserCharacteristicsRequest) {
         try {
             dbInterface.fetchCharacteristics(loadUserCharacteristicsRequest.getDbRequestListener());
         } catch (SQLException e) {
@@ -152,7 +152,7 @@ public class FetchingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackgroundThread(LoadSettingsRequest loadSettingsRequest) {
+    public void onEventAsync(LoadSettingsRequest loadSettingsRequest) {
 
         try {
             dbInterface.fetchSettings(loadSettingsRequest.getDbRequestListener());

@@ -114,7 +114,7 @@ public class FetchingMonitorTest {
 
     @Test
     public void ShouldFetchMomentsInsightsAndBabyProfile_WhenLoadTimelineEntryRequestIsReceived() throws Exception {
-        fetchingMonitor.onEventBackgroundThread(new LoadTimelineEntryRequest(dbRequestListener));
+        fetchingMonitor.onEventAsync(new LoadTimelineEntryRequest(dbRequestListener));
 
         verify(fetching).fetchMoments(dbRequestListener);
 //        verify(fetching).fetchConsentDetails();
@@ -124,20 +124,20 @@ public class FetchingMonitorTest {
 
     @Test
     public void ShouldThrowException_FetchingMoments() throws Exception {
-        fetchingMonitor.onEventBackgroundThread(new LoadTimelineEntryRequest(dbRequestListener));
+        fetchingMonitor.onEventAsync(new LoadTimelineEntryRequest(dbRequestListener));
         verify(fetching).fetchMoments(dbRequestListener);
     }
 
     @Test
     public void fetchingMomentsLoadLastMomentRequest() throws Exception {
-        fetchingMonitor.onEventBackgroundThread(new LoadLastMomentRequest("temperature", dbRequestListener));
+        fetchingMonitor.onEventAsync(new LoadLastMomentRequest("temperature", dbRequestListener));
         verify(fetching).fetchLastMoment("temperature", dbRequestListener);
     }
 
     @Test
     public void ShouldFetchMoments_WhenLoadMomentsRequestIsReceived() throws Exception {
 
-        fetchingMonitor.onEventBackgroundThread(new LoadMomentsRequest(dbRequestListener));
+        fetchingMonitor.onEventAsync(new LoadMomentsRequest(dbRequestListener));
 
         verify(fetching).fetchMoments(dbRequestListener);
     }
@@ -145,7 +145,7 @@ public class FetchingMonitorTest {
     @Test
     public void ShouldFetchConsents_WhenLoadConsentsRequest() throws Exception {
 
-        fetchingMonitor.onEventBackgroundThread(new LoadConsentsRequest(dbRequestListener));
+        fetchingMonitor.onEventAsync(new LoadConsentsRequest(dbRequestListener));
 
         verify(fetching).fetchConsentDetails(dbRequestListener);
     }
@@ -153,7 +153,7 @@ public class FetchingMonitorTest {
     @Test
     public void ShouldFetchSettings_WhenLoadSettingsRequestIsCalled() throws Exception {
 
-        fetchingMonitor.onEventBackgroundThread(new LoadSettingsRequest(dbRequestListener));
+        fetchingMonitor.onEventAsync(new LoadSettingsRequest(dbRequestListener));
 
         verify(fetching).fetchSettings(dbRequestListener);
     }
@@ -161,14 +161,14 @@ public class FetchingMonitorTest {
     @Test
     public void ShouldFetchCharacteristics_WhenLoadCharacterSicsRequest() throws Exception {
 
-        fetchingMonitor.onEventBackgroundThread(new LoadUserCharacteristicsRequest(dbRequestListener));
+        fetchingMonitor.onEventAsync(new LoadUserCharacteristicsRequest(dbRequestListener));
 
         verify(fetching).fetchCharacteristics(dbRequestListener);
     }
 
     @Test
     public void getNonSynchronizedDataRequestTest() throws SQLException {
-        fetchingMonitor.onEventBackgroundThread(new GetNonSynchronizedDataRequest(1));
+        fetchingMonitor.onEventAsync(new GetNonSynchronizedDataRequest(1));
         Map<Class, List<?>> dataToSync = new HashMap<>();
         verify(momentsSegregatorMock).putMomentsForSync(dataToSync);
         verify(consentsSegregatorMock).putConsentForSync(dataToSync);
@@ -177,7 +177,7 @@ public class FetchingMonitorTest {
 
     @Test
     public void getNonSynchronizedMomentRequestTest() throws SQLException {
-        fetchingMonitor.onEventBackgroundThread(getNonSynchronizedMomentsRequestMock);
+        fetchingMonitor.onEventAsync(getNonSynchronizedMomentsRequestMock);
         Map<Class, List<?>> dataToSync = new HashMap<>();
         verify(fetching).fetchConsentDetails();
         verify(fetching).fetchNonSynchronizedMoments();
