@@ -180,7 +180,7 @@ dependencies {
             {
                 transitive = true
             }
-    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '2.4.5-SNAPSHOT', ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '2.4.5-SNAPSHOT.+', ext: 'aar', changing: true)
             {
                 transitive = true
             }
