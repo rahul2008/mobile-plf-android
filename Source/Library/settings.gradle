@@ -1,4 +1,3 @@
-
 rootProject.setName 'productselection'
 include ':app', ':productselection'
 
