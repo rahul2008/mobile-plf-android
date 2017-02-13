@@ -82,7 +82,7 @@ public class FirmwarePortProperties {
     private String name;
     private String state = "";
     private String statusmsg;
-    private String upgrade;
+    private String upgrade = "";
     private String version = "";
 
     public String getName() {
