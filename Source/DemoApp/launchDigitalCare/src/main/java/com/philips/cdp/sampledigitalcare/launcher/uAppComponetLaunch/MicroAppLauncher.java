@@ -98,7 +98,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
             @Override
             public void onSuccess(String s, SOURCE source) {
 
-                tv.setText("Current Country : " +s);
+                tv.setText("Country from Service discovery : " +s);
             }
 
             @Override
