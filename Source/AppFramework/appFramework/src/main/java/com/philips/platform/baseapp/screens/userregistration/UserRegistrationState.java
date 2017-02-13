@@ -110,7 +110,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
                 UR,
                 //"https://referenceplatform-ds-platforminfradev.cloud.pcftest.com",
                // "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com",
-                "https://healthysleep-ds-development.eu-west.philips-healthsuite.com",
+                "https://healthysleep-ds-staging.eu-west.philips-healthsuite.com",
                 configError);
     }
 
