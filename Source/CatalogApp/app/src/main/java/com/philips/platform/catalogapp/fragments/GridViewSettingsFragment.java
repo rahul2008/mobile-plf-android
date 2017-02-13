@@ -47,4 +47,8 @@ public class GridViewSettingsFragment extends BaseFragment {
 //        setEnlargedGutterEnabled(gridDataHelper.isEnlargedGutterEnabled());
 //        setGridDisableEnabled(gridDataHelper.isSetDisableStateEnabled());
 //    }
+
+    public void setSeparatorEnabled(boolean checked) {
+
+    }
 }
