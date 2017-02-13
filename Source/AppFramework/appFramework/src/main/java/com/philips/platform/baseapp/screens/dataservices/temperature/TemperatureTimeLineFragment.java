@@ -121,6 +121,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     public void onStart() {
         super.onStart();
         mDataServicesManager.registerDBChangeListener(this);
+        mDataServicesManager.registerSynchronisationCompleteListener(this);
         setProgressBarVisibility(true);
 
         Thread t = new Thread(new BuildModel());
