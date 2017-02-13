@@ -1,9 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
+            android:orientation="horizontal"
+            android:id="@+id/trigger_gridview_settings">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
+                    android:text="@string/page_title_gridview_settings"
+                    android:textSize="@dimen/uid_recyclerview_item_title_text_size"
+                    android:textColor="?attr/uidTextPrimaryColor"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
+                    android:clickable="false"
+                    android:gravity="center"
+                    app:srcCompat="@drawable/ic_right_arrow_show_more"/>
+        </RelativeLayout>
         <GridView
             android:id="@+id/gridView"
             android:layout_width="match_parent"

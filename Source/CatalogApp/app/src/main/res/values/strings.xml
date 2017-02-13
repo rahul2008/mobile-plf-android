@@ -141,6 +141,7 @@
     <string name="template_selection">Template selection</string>
     <string name="recyclerview_the_header">The header</string>
 
+    <!--GridView-->
     <string name="page_title_gridView">GridView</string>
     <string name="page_title_gridview_settings">GridView Settings</string>
     <string name="gridView_title">This is a long title for an image</string>
@@ -150,4 +151,7 @@
     <string name="enlarged_gutter">Enlarged Gutter</string>
     <string name="grid_disabled">Disabled</string>
     <string name="secondary_action_description">Secondary action can be placed at 4 corner of the tiles</string>
+    <string name="without_secondary_content">Without Secondary Content</string>
+    <string name="double_line_footer">Double-line Filled Footer</string>
+    <string name="single_line_header">Single-line Gradient Header</string>
 </resources>

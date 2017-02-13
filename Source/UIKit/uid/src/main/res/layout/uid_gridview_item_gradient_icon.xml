@@ -12,12 +12,11 @@
         android:layout_height="@dimen/card_size"
         android:adjustViewBounds="true"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="false"
         android:contentDescription="@string/gridview_image"
-        android:scaleType="center"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        android:clickable="false"
-        />
+        android:scaleType="center" />
 
     <com.philips.platform.uid.utils.GradientContainer
         style="@style/UIDGridGradientStyle"
@@ -39,32 +38,25 @@
                     android:layout_width="@dimen/star_icon_size"
                     android:layout_height="@dimen/star_icon_size"
                     android:layout_gravity="center"
-                    android:paddingLeft="@dimen/star_icon_padding"
-                    android:paddingRight="@dimen/star_icon_padding"
+                    android:clickable="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
-                    android:clickable="false"/>
+                    android:paddingLeft="@dimen/star_icon_padding"
+                    android:paddingRight="@dimen/star_icon_padding" />
             </FrameLayout>
 
             <LinearLayout
-                android:id="@+id/twoLineTextLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/card_text_height"
                 android:layout_alignParentLeft="true"
                 android:layout_toLeftOf="@id/star_icon_holder"
                 android:background="#0000"
                 android:gravity="center"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/title"
-                    style="@style/UIDGridViewTitleText"
-                    />
-
-                <TextView
-                    android:id="@+id/description"
-                    style="@style/UIDGridViewDescriptionText"/>
+                    style="@style/UIDGridViewTitleText" />
             </LinearLayout>
 
         </RelativeLayout>

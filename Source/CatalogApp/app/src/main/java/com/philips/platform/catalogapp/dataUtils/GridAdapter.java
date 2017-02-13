@@ -30,6 +30,7 @@ public class GridAdapter extends ArrayAdapter<GridData> {
     private ArrayList<GridData> cardList;
     GridDataHelper gridDataHelper;
     boolean isdisabled, isSecondary;
+    int templateSelection;
 
     public GridAdapter(Context context, ArrayList<GridData> cardList) {
         super(context,0,cardList);
@@ -40,6 +41,7 @@ public class GridAdapter extends ArrayAdapter<GridData> {
         gridDataHelper = new GridDataHelper(mContext);
         isdisabled = gridDataHelper.isSetDisableStateEnabled();
         isSecondary = gridDataHelper.isSecondaryActionEnabled();
+        templateSelection = gridDataHelper.getTemplateSelection();
     }
 
     @Override
@@ -78,15 +80,35 @@ public class GridAdapter extends ArrayAdapter<GridData> {
 
         if (convertView == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-            convertView = layoutInflater.inflate(R.layout.uid_gridview_item_gradient_icon, null);
+
+            switch (templateSelection){
+                case 1:
+                    convertView = layoutInflater.inflate(R.layout.uid_gridview_item_plain_icon, null);
+                    break;
+                case 2:
+                    convertView = layoutInflater.inflate(R.layout.uid_gridview_item_solid_icon, null);
+                    break;
+                case 3:
+                    convertView = layoutInflater.inflate(R.layout.uid_gridview_item_gradient_icon, null);
+                    break;
+                default:
+                    convertView = layoutInflater.inflate(R.layout.uid_gridview_item_plain_icon, null);
+            }
+
+
+            ImageView thumbnail = (ImageView) convertView.findViewById(R.id.thumbnail);
+            Glide.with(mContext).load(gridData.getThumbnail()).into(thumbnail);
 
             TextView title = (TextView) convertView.findViewById(R.id.title);
-            TextView description = (TextView) convertView.findViewById(R.id.description);
-            ImageView thumbnail = (ImageView) convertView.findViewById(R.id.thumbnail);
+            if(title!=null){
+                title.setText(gridData.getTitle());
+            }
 
-            Glide.with(mContext).load(gridData.getThumbnail()).into(thumbnail);
-            title.setText(gridData.getTitle());
-            description.setText(gridData.getDescription());
+            TextView description = (TextView) convertView.findViewById(R.id.description);
+            if(description!= null){
+                description.setText(gridData.getDescription());
+            }
+
             android.widget.ImageButton star_icon = new ImageButton(mContext);
 
             if(isSecondary){
@@ -102,9 +124,15 @@ public class GridAdapter extends ArrayAdapter<GridData> {
 
         }else {
             ViewHolder viewHolder = (ViewHolder)convertView.getTag();
-            viewHolder.title.setText(gridData.getTitle());
-            viewHolder.description.setText(gridData.getDescription());
             Glide.with(mContext).load(gridData.getThumbnail()).into(viewHolder.thumbnail);
+
+            if(viewHolder.title!=null){
+                viewHolder.title.setText(gridData.getTitle());
+            }
+
+            if(viewHolder.description!= null){
+                viewHolder.description.setText(gridData.getDescription());
+            }
 
             if(isSecondary){
                 int icon_drawable = gridData.isFavorite()? R.drawable.uid_star_filled : R.drawable.uid_star_outlined;

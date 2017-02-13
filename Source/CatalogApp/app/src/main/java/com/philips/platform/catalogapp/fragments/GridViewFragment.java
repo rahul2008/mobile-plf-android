@@ -10,8 +10,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.philips.platform.catalogapp.MainActivity;
 import com.philips.platform.catalogapp.dataUtils.GridAdapter;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.dataUtils.GridData;
@@ -25,6 +27,7 @@ import java.util.List;
 public class GridViewFragment extends BaseFragment {
 
     private GridView gridView;
+    private RelativeLayout relativeLayout;
     private ArrayList<GridData> cardList;
     GridAdapter adapter;
 
@@ -38,16 +41,19 @@ public class GridViewFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        GridDataHelper gridDataHelper = new GridDataHelper(getContext());
+        populateList();
 
-        //TODO:Replace below mocks with input from GridViewSettingsFragment
-        gridDataHelper.setDarkBackgroundEnabled(true);
-        gridDataHelper.setEnlargedGutterEnabled(true);
-        gridDataHelper.setSecondaryActionEnabled(true);
-        gridDataHelper.setSetDisableStateEnabled(false);
+        GridDataHelper gridDataHelper = new GridDataHelper(getContext());
 
         View view = inflater.inflate(R.layout.fragment_gridview, container, false);
         gridView = (GridView) view.findViewById(R.id.gridView);
+        relativeLayout = (RelativeLayout) view.findViewById(R.id.trigger_gridview_settings);
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).getNavigationController().switchFragment(new GridViewSettingsFragment());
+            }
+        });
 
         int color = gridDataHelper.isDarkBackgroundEnabled() ? R.color.uidColorBlack : R.color.uidColorWhite;
         gridView.setBackgroundResource(color);
@@ -56,7 +62,7 @@ public class GridViewFragment extends BaseFragment {
         gridView.setHorizontalSpacing(getResources().getDimensionPixelSize(spacing));
         gridView.setVerticalSpacing(getResources().getDimensionPixelSize(spacing));
 
-        populateList();
+
         adapter = new GridAdapter(getContext(), cardList);
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

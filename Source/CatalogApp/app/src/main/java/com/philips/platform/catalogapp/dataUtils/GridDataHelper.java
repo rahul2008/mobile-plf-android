@@ -10,6 +10,7 @@ public class GridDataHelper {
     public static final String IS_DARK_BACKGROUND_ENABLED = "isDarkBackgroundEnabled";
     public static final String IS_ENLARGED_GUTTER_ENABLED = "isEnlargedGutterEnabled";
     public static final String IS_SET_DISABLE_STATE_ENABLED = "isSetDisableStateEnabled";
+    public static final String TEMPLATE_SELECTION = "templateSelection";
 
     final SharedPreferences sharedPreferences;
     final SharedPreferences.Editor editor;
@@ -20,15 +21,15 @@ public class GridDataHelper {
     }
 
     public boolean isSecondaryActionEnabled() {
-        return sharedPreferences.getBoolean(IS_SECONDARY_ACTION_ENABLED, false);
+        return sharedPreferences.getBoolean(IS_SECONDARY_ACTION_ENABLED, true);
     }
 
     public boolean isDarkBackgroundEnabled() {
-        return sharedPreferences.getBoolean(IS_DARK_BACKGROUND_ENABLED, false);
+        return sharedPreferences.getBoolean(IS_DARK_BACKGROUND_ENABLED, true);
     }
 
     public boolean isEnlargedGutterEnabled() {
-        return sharedPreferences.getBoolean(IS_ENLARGED_GUTTER_ENABLED, false);
+        return sharedPreferences.getBoolean(IS_ENLARGED_GUTTER_ENABLED, true);
     }
 
     public boolean isSetDisableStateEnabled() {
@@ -49,5 +50,13 @@ public class GridDataHelper {
 
     public void setSetDisableStateEnabled(boolean enabled) {
         editor.putBoolean(IS_SET_DISABLE_STATE_ENABLED, enabled).apply();
+    }
+
+    public void setTemplateSelection(int templateSelection) {
+        editor.putInt(TEMPLATE_SELECTION, templateSelection).apply();
+    }
+
+    public int getTemplateSelection(){
+        return sharedPreferences.getInt(TEMPLATE_SELECTION, 1);
     }
 }
