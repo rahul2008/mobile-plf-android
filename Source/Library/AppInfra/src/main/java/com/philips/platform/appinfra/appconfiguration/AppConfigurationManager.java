@@ -425,6 +425,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
     private void saveCloudConfig(JSONObject cloudConfig, String url) {
         cloudConfig = makeKeyUppercase(cloudConfig); // converting all Group and child key to Uppercase
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Cloud config "+cloudConfig);
         SharedPreferences sharedPreferences = getCloudConfigSharedPreferences();
         SharedPreferences.Editor prefEditor = sharedPreferences.edit();
         prefEditor.putString(CLOUD_APP_CONFIG_JSON, cloudConfig.toString());
@@ -450,7 +451,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         String jsonString = ssi.fetchValueForKey(mAppConfig_SecureStoreKey, sse);
         if (sse.getErrorCode() != SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey && null != jsonString) {
-           mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Migration starts for  > " + jsonString);
+           mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Migration starts for old dyanmic data > " + jsonString);
             dynamicConfigJsonCache =  null;// reset cache
             try {
                 oldDynamicConfigJson = new JSONObject(jsonString);
@@ -475,13 +476,15 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                                }
                            }
                     }
-                    ssi.removeValueForKey(mAppConfig_SecureStoreKey);
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Migration completes for  > " + jsonString);
+
                 } catch (Exception e) {
                     // Something went wrong!
                 }
             }
-
+            ssi.removeValueForKey(mAppConfig_SecureStoreKey);
+            String migratedDynamicData = ssi.fetchValueForKey(mAppConfig_SecureStoreKey_new,sse);
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Dynamic data  > " + migratedDynamicData);
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Migration completes for  > " + jsonString);
         }else{
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Migration not required");
             //Log.v("uAPP_CONFIG","Migration not required" );

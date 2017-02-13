@@ -27,7 +27,7 @@ public class AppConfigurationActivity extends AppCompatActivity {
 
     AppConfigurationInterface mConfigInterface;
     private Spinner dataTypeSpinner;
-    final String[] dataType = {"String", "Integer", "Map of <String,String>/<String,Integer>"};
+    final String[] dataType = {"String", "Integer", "Map of <String,String>/<String,Integer>", "Delete"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +84,7 @@ public class AppConfigurationActivity extends AppCompatActivity {
                     } catch (IllegalArgumentException e) {
                         e.printStackTrace();
                     }
-                    if (null != configError.getErrorCode()) {
+                    if (null != configError.getErrorCode() && AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.NoError != configError.getErrorCode()) {
                         Toast.makeText(AppConfigurationActivity.this, configError.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
                     } else {
                         if (object != null) {
@@ -123,7 +123,7 @@ public class AppConfigurationActivity extends AppCompatActivity {
                     } catch (IllegalArgumentException e) {
                         e.printStackTrace();
                     }
-                    if (null != configError.getErrorCode()) {
+                    if (null != configError.getErrorCode() && AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.NoError != configError.getErrorCode()) {
                         Toast.makeText(AppConfigurationActivity.this, configError.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
                     } else {
                         if (object != null) {
@@ -205,6 +205,8 @@ public class AppConfigurationActivity extends AppCompatActivity {
                             // hmS.put("Key1", "value1");
                             // hmS.put("Key2", "value2");
                             value = hmS;
+                        }else if (dataTypeSpinner.getSelectedItem().toString().equalsIgnoreCase("Delete")) {// if input data is Null
+                            value = null; // this value will be deleted
                         }
                     } catch (Exception e) {
                         isInputDataValid = false; // if parsing String and Integer fails
