@@ -1,4 +1,4 @@
-package cdp.philips.com.mydemoapp.pojo;
+package com.philips.platform.baseapp.screens.dataservices.pojo;
 
 import java.io.Serializable;
 import java.util.List;

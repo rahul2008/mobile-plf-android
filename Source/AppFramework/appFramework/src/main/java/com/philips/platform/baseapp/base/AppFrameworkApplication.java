@@ -8,6 +8,7 @@ package com.philips.platform.baseapp.base;
 import android.app.Application;
 import android.support.multidex.MultiDex;
 
+import com.facebook.stetho.Stetho;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
@@ -57,6 +58,7 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
             }
             LeakCanary.install(this);
         }
+        Stetho.initializeWithDefaults(this);
         isSdCardFileCreated = new BaseAppUtil().createDirIfNotExists();
         final int resId = R.string.com_philips_app_fmwk_app_flow_url;
         FileUtility fileUtility = new FileUtility(this);

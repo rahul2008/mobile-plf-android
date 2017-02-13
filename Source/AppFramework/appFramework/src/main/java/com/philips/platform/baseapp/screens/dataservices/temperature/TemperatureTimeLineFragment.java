@@ -40,6 +40,7 @@ import com.philips.platform.baseapp.screens.dataservices.utility.Utility;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
@@ -53,7 +54,7 @@ import static android.content.Context.ALARM_SERVICE;
  * All rights reserved.
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implements View.OnClickListener, DBRequestListener,DBChangeListener {
+public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implements View.OnClickListener, DBRequestListener, DBChangeListener, SynchronisationCompleteListener {
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
@@ -63,7 +64,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     ImageButton mAddButton;
     TemperaturePresenter mTemperaturePresenter;
     TemperatureMomentHelper mTemperatureMomentHelper;
-    TextView mTvConsents, mTvCharacteristics,mTvSettings;
+    TextView mTvConsents, mTvCharacteristics, mTvSettings;
     private Context mContext;
     SharedPreferences mSharedPreferences;
     ProgressDialog mProgressBar;
@@ -73,7 +74,9 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     private Handler handler = new Handler();
     private ProgressBar settingsProgressBar;
     private WeakReference<TemperatureTimeLineFragment> temperatureTimeLineFragmentWeakReference;
-   
+
+
+
     @Override
     public String getActionbarTitle() {
         return "Datasync";
@@ -101,7 +104,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         mTemperatureMomentHelper = new TemperatureMomentHelper();
         alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
         //EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
-        mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE,this);
+        mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE, this);
         mUtility = new Utility();
         mSharedPreferences = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
         mProgressBar = new ProgressDialog(getContext());
@@ -117,23 +120,11 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     @Override
     public void onStart() {
         super.onStart();
-
+        mDataServicesManager.registerDBChangeListener(this);
         setProgressBarVisibility(true);
 
         Thread t = new Thread(new BuildModel());
         t.start();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-     mDataServicesManager.registerDBChangeListener(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mDataServicesManager.unRegisterDBChangeListener();
     }
 
     public class BuildModel implements Runnable {
@@ -142,7 +133,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         public void run() {
             Log.i(DataServicesState.TAG, "TemperatureTimeLieFragment on start");
             if (isFragmentAlive()) {
-                if (mUser != null && !mUser.isUserSignIn() && handler!=null) {
+                if (mUser != null && !mUser.isUserSignIn() && handler != null) {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -164,25 +155,26 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
                 mTemperaturePresenter.fetchData(TemperatureTimeLineFragment.this);
 
                 //Reseting the sync Flags
-                mDataServicesManager.setPullComplete(true);
-                mDataServicesManager.setPushComplete(true);
+        /*mDataServicesManager.setPullComplete(true);
+        mDataServicesManager.setPushComplete(true);*/
 
                 setUpBackendSynchronizationLoop();
 
-                if (!mUtility.isOnline(getContext()) && handler!=null) {
-                    handler.post(new Runnable() {
+                if(getActivity()==null) return;
+                if (!mUtility.isOnline(getActivity())) {
+
+                    getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if (isFragmentAlive()) {
-                                Toast.makeText(getContext(), "Please check your connection", Toast.LENGTH_LONG).show();
-                                setProgressBarVisibility(false);
-                            }
+
+                            Toast.makeText(getActivity(), "Please check your connection", Toast.LENGTH_LONG).show();
                         }
                     });
+
                     return;
                 }
 
-                if (!mSharedPreferences.getBoolean("isSynced", false) && handler!=null) {
+                if (!mSharedPreferences.getBoolean("isSynced", false) && handler != null) {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -209,24 +201,23 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     }
 
     private void deleteUserDataIfNewUserLoggedIn() {
-        Log.i(DataServicesState.TAG,"TemperatureTimeLieFragment - deleteUserDataIfNewUserLoggedIn");
-        if(getLastStoredEmail()==null){
-            Log.i(DataServicesState.TAG,"TemperatureTimeLieFragment - getLastStoredEmail()==null");
+        Log.i(DataServicesState.TAG, "TemperatureTimeLieFragment - deleteUserDataIfNewUserLoggedIn");
+        if (getLastStoredEmail() == null) {
+            Log.i(DataServicesState.TAG, "TemperatureTimeLieFragment - getLastStoredEmail()==null");
             storeLastEmail();
             return;
         }
 
-        Log.i(DataServicesState.TAG,"TemperatureTimeLieFragment - before email same check");
-        if(!isSameEmail()){
-            Log.i(DataServicesState.TAG,"TemperatureTimeLieFragment - !isSameEmail() clear data called");
+        Log.i(DataServicesState.TAG, "TemperatureTimeLieFragment - before email same check");
+        if (!isSameEmail()) {
+            Log.i(DataServicesState.TAG, "TemperatureTimeLieFragment - !isSameEmail() clear data called");
             userRegistrationInterface.clearUserData(this);
         }
         storeLastEmail();
     }
 
     private boolean isSameEmail() {
-        String lastStoredEmail = getLastStoredEmail();
-        if(lastStoredEmail!=null && lastStoredEmail.equalsIgnoreCase(mUser.getEmail()))
+        if (getLastStoredEmail().equalsIgnoreCase(mUser.getEmail()))
             return true;
         return false;
     }
@@ -234,6 +225,8 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     @Override
     public void onStop() {
         super.onStop();
+        DataServicesManager.getInstance().unRegisterDBChangeListener();
+        mDataServicesManager.unRegisterSynchronisationCosmpleteListener();
         cancelPendingIntent();
         //mDataServicesManager.stopCore();
         dismissProgressDialog();
@@ -253,7 +246,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         mAddButton.setOnClickListener(this);
         mTvConsents = (TextView) view.findViewById(R.id.tv_set_consents);
         mTvCharacteristics = (TextView) view.findViewById(R.id.tv_set_characteristics);
-        mTvSettings= (TextView) view.findViewById(R.id.tv_settings);
+        mTvSettings = (TextView) view.findViewById(R.id.tv_settings);
 
         mTvConsents.setOnClickListener(this);
         mTvCharacteristics.setOnClickListener(this);
@@ -286,7 +279,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     @Override
     public void onDestroy() {
         super.onDestroy();
-       // EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT, this);
+        // EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT, this);
         //mDataServicesManager.releaseDataServicesInstances();
     }
 
@@ -380,30 +373,34 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         }
     }
 
-    String getLastStoredEmail(){
-        String decryptedData = null;
-        if(getContext()!=null) {
-            AppInfraInterface gAppInfra = ((AppFrameworkApplication) getContext().getApplicationContext()).getAppInfra();
-            SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
-            SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
-            decryptedData = ssInterface.fetchValueForKey("last_email", ssError);
-        }
+    String getLastStoredEmail() {
+        AppInfraInterface gAppInfra = ((AppFrameworkApplication) getContext().getApplicationContext()).getAppInfra();
+        SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
+        SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
+        String decryptedData = ssInterface.fetchValueForKey("last_email", ssError);
         return decryptedData;
     }
 
-    void storeLastEmail(){
-        if(getContext()!=null) {
-            AppInfraInterface gAppInfra = ((AppFrameworkApplication) getContext().getApplicationContext()).getAppInfra();
-            SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
-            SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
-            ssInterface.storeValueForKey("last_email", mUser.getEmail(), ssError);
-            Log.i(DataServicesState.TAG, "TemperatureTimeLieFragment - storeLastEmail = " + mUser.getEmail());
-        }
+    void storeLastEmail() {
+        AppInfraInterface gAppInfra = ((AppFrameworkApplication) getContext().getApplicationContext()).getAppInfra();
+        SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
+        SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
+        ssInterface.storeValueForKey("last_email", mUser.getEmail(), ssError);
     }
 
     @Override
     public void dBChangeSuccess() {
-        mTemperaturePresenter.fetchData(this);
+        DSLog.i(DSLog.LOG, "DB OnSuccess");
+        if (getActivity() == null) return;
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                mTemperaturePresenter.fetchData(TemperatureTimeLineFragment.this);
+            }
+        });
+
+
     }
 
     @Override
@@ -413,7 +410,32 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
             @Override
             public void run() {
 
-                Toast.makeText(getActivity(),"Exception :"+e.getMessage() ,Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Exception :" + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @Override
+    public void onSyncComplete() {
+        if (getActivity() == null) return;
+        DSLog.i("***SPO***", "In TemperatureTimeLineFragment ONSYNCCOMPLETE");
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                mTemperaturePresenter.fetchData(TemperatureTimeLineFragment.this);
+            }
+        });
+    }
+
+    @Override
+    public void onSyncFailed(final Exception exception) {
+        if (getActivity() == null) return;
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                dismissProgressDialog();
+                //Toast.makeText(getActivity(), "Exception :" + exception.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

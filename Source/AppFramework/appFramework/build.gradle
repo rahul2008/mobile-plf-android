@@ -38,6 +38,7 @@ objcdp.setProjectDir(projectDir)
 allprojects {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
         maven {
             url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
             credentials {
@@ -58,7 +59,6 @@ allprojects {
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
         }
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
 
@@ -310,13 +310,11 @@ configurations.all {
 }
 
 dependencies {
-  //  testCompile('org.mockito:mockito-core:2.7.0')
-   // testCompile "org.robolectric:shadows-multidex:3.0"
-
-    compile ('com.android.support:support-annotations:24.0.0') {
+    //  testCompile('org.mockito:mockito-core:2.7.0')
+    // testCompile "org.robolectric:shadows-multidex:3.0"
+    compile('com.android.support:support-annotations:24.0.0') {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-
     compile 'com.android.support:design:24.0.0'
     compile 'com.android.support:appcompat-v7:24.2.1'
     debugCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
@@ -325,59 +323,58 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     // Module projects
     //compile project(':dataServices')
-    // DEBUG
+    // DAGGER
+    compile 'com.google.dagger:dagger:2.0.2'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+    provided 'javax.annotation:jsr250-api:1.0'
+    compile 'javax.inject:javax.inject:1'
     debugCompile 'com.facebook.stetho:stetho:1.2.0'
-
-    compile "com.j256.ormlite:ormlite-core:4.48"
-    compile "com.j256.ormlite:ormlite-android:4.48"
-
-    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '2.3.4-SNAPSHOT', ext: 'aar', changing: true) {
+    // DEBUG
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'javax.inject:javax.inject:1'
+    compile 'com.squareup.okhttp:okhttp:2.5.0'
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'net.danlew:android.joda:2.9.2'
+    debugCompile 'com.facebook.stetho:stetho:1.2.0'
+    compile 'com.j256.ormlite:ormlite-core:4.48'
+    compile 'com.j256.ormlite:ormlite-android:4.48'
+    compile('com.philips.cdp:product-registration-lib:2.3.4-SNAPSHOT@aar') {
         transitive = true
     }
-
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.3.4-SNAPSHOT', ext: 'aar', changing: true) {
-        transitive=true
-    }
-
-    compile(group: 'com.philips.cdp', name: 'iap', version: '5.2.4-SNAPSHOT', ext: 'aar', changing: true) {
-        transitive=true
-    }
-
-    compile(group: 'com.philips.cdp', name: 'dataServices', version: '0.3.4-SNAPSHOT', ext: 'aar') {
-        exclude group: 'com.android.support'
+    compile('com.philips.cdp:digitalCare:7.3.4-SNAPSHOT@aar') {
         transitive = true
     }
-
+    compile('com.philips.cdp:iap:5.2.4-SNAPSHOT@aar') {
+        transitive = true
+    }
+    //    compile(group: 'com.philips.cdp', name: 'dataServices', version: '0.3.4-SNAPSHOT', ext: 'aar') {
+    //        exclude group: 'com.android.support'
+    //        transitive = true
+    //    }
     compile(group: 'com.philips.cdp', name: 'commlib-all', version: '1.2.1-SNAPSHOT.+', classifier: 'release', ext: 'aar'){
         exclude group: 'com.android.support'
         transitive = true
     }
-
     testCompile 'junit:junit:4.12'
- //    compile group: 'org.robolectric', name: 'shadows-core', version: '3.0-rc2'
-//    compile 'junit:junit:4.12'
-//    compile 'org.robolectric:robolectric:3.2.2'
-
-
-//    testCompile 'org.mockito:mockito-all:1.10.17'
-//    compile group: 'org.robolectric', name: 'android-all', version: '7.0.0_r1-robolectric-0'
-//    testCompile ('org.robolectric:robolectric:3.2.2')
+    //    compile group: 'org.robolectric', name: 'shadows-core', version: '3.0-rc2'
+    //    compile 'junit:junit:4.12'
+    //    compile 'org.robolectric:robolectric:3.2.2'
+    //    testCompile 'org.mockito:mockito-all:1.10.17'
+    //    compile group: 'org.robolectric', name: 'android-all', version: '7.0.0_r1-robolectric-0'
+    //    testCompile ('org.robolectric:robolectric:3.2.2')
     testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
-//    testCompile 'junit:junit:4.12'
-//    compile 'com.android.support:multidex:1.0.1'
-
-    testCompile ('org.robolectric:robolectric:3.2.2') /*{
-        exclude group: 'commons-logging', module: 'commons-logging'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-    }*/
-    testCompile "org.mockito:mockito-all:1.10.17"
-
-    testCompile "com.squareup.assertj:assertj-android:${androidAssertJVer}"
-
-
+    //    testCompile 'junit:junit:4.12'
+    //    compile 'com.android.support:multidex:1.0.1'
+    testCompile 'org.robolectric:robolectric:3.2.2'
+    /*{
+                exclude group: 'commons-logging', module: 'commons-logging'
+                exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+            }*/
+    testCompile 'org.mockito:mockito-all:1.10.17'
+    // testCompile "com.squareup.assertj:assertj-android:${androidAssertJVer}" compile project(':dataServices')
+    compile project(':dataServices')
 }
 
 task copyToLib(type: Copy) {

@@ -1,19 +1,19 @@
 package com.philips.platform.baseapp.screens.dataservices.database;
 
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
-import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsent;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMoment;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSettings;
 import com.philips.platform.baseapp.screens.dataservices.utility.NotifyDBRequestListener;
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     private static final String TAG = ORMUpdatingInterfaceImpl.class.getSimpleName();
@@ -77,31 +77,20 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
 
 
     @Override
-    public boolean updateConsent(Consent consent, DBRequestListener dbRequestListener) throws SQLException {
-        OrmConsent ormConsent = null;
-        try {
-            ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
-            OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
-            if (consentInDatabase == null) {
-                saving.saveConsent(ormConsent);
-                notifyDBRequestListener.notifySuccess(dbRequestListener, ormConsent);
-                return true;
-            } else {
-                ormConsent = fetching.getModifiedConsent(ormConsent, consentInDatabase);
-                ormConsent.setId(consentInDatabase.getId());
-                for (OrmConsent ormConsentInDB : fetching.fetchAllConsent()) {
-                    deleting.deleteConsent(ormConsentInDB);
-                }
-                saving.saveConsent(ormConsent);
-                notifyDBRequestListener.notifySuccess(dbRequestListener, ormConsent);
-                return true;
+    public boolean updateConsent(final List<? extends ConsentDetail> consents, DBRequestListener dbRequestListener) throws SQLException {
+
+        for(ConsentDetail consentDetail :consents){
+            try {
+                updating.updateConsentDetails(consentDetail);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                notifyDBRequestListener.notifyFailure(e,dbRequestListener);
+                return false;
             }
 
-        } catch (OrmTypeChecking.OrmTypeException e) {
-            DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
-            notifyDBRequestListener.notifyOrmTypeCheckingFailure(dbRequestListener, e, "Callback Not registered");
-            return false;
         }
+        notifyDBRequestListener.notifySuccess(consents,dbRequestListener);
+        return true;
     }
 
     @Override
@@ -117,6 +106,14 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         notifyDBRequestListener.notifySuccess(dbRequestListener, ormMoment);
     }
 
+    @Override
+    public void updateMoments(List<Moment> ormMoments, DBRequestListener dbRequestListener) throws SQLException {
+        for(Moment moment : ormMoments){
+            moment.setSynced(false);
+            updateMoment(moment,dbRequestListener);
+        }
+    }
+
     public OrmMoment getOrmMoment(final Moment moment, DBRequestListener dbRequestListener) {
         try {
             return OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
@@ -129,12 +126,16 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
 
     //User AppUserCharacteristics
     @Override
-    public boolean updateCharacteristics(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) throws SQLException {
-        OrmCharacteristics ormCharacteristics;
+    public boolean updateCharacteristics(List<Characteristics> characteristicsList, DBRequestListener dbRequestListener) throws SQLException {
+
         try {
-            ormCharacteristics = OrmTypeChecking.checkOrmType(userCharacteristics, OrmCharacteristics.class);
+
             deleting.deleteCharacteristics();
-            saving.saveCharacteristics(ormCharacteristics);
+
+            for(Characteristics characteristics:characteristicsList) {
+                OrmCharacteristics ormCharacteristics = OrmTypeChecking.checkOrmType(characteristics, OrmCharacteristics.class);
+                saving.saveCharacteristics(ormCharacteristics);
+            }
             notifyDBRequestListener.notifySuccess(null);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
