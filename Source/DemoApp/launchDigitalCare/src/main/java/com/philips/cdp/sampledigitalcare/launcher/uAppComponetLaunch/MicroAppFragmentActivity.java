@@ -28,6 +28,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 /**
  * SampleActivity is the main container class which can contain Digital Care fragments.
@@ -93,23 +94,37 @@ public class MicroAppFragmentActivity extends FragmentActivity implements View.O
 
             DigitalCareConfigManager.getInstance().invokeDigitalCare(fragLauncher, productsSelection);*/
 
-            com.philips.platform.uappframework.launcher.FragmentLauncher launcher =
+            final com.philips.platform.uappframework.launcher.FragmentLauncher launcher =
                     new com.philips.platform.uappframework.launcher.FragmentLauncher
                             (this, R.id.sampleMainContainer, actionBarListener);
             launcher.setCustomAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
 
             mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
 
-            CcInterface ccInterface = new CcInterface();
+            final CcInterface ccInterface = new CcInterface();
             if (ccSettings == null) ccSettings = new CcSettings(this);
             if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
             ccLaunchInput.setProductModelSelectionType(productsSelection);
             ccLaunchInput.setConsumerCareListener(this);
-            //ccLaunchInput.setLiveChatUrl("http://ph-china.livecom.cn/webapp/index.html?app_openid=ph_6idvd4fj&token=PhilipsTest");
             CcDependencies ccDependencies = new CcDependencies(mAppInfraInterface);
 
             ccInterface.init(ccDependencies, ccSettings);
-            ccInterface.launch(launcher, ccLaunchInput);
+            mAppInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+                @Override
+                public void onSuccess(String s, SOURCE source) {
+                    if(s.equals("CN")) {
+                        ccLaunchInput.setLiveChatUrl("http://ph-china.livecom.cn/webapp/index.html?app_openid=ph_6idvd4fj&token=PhilipsTest");
+                    }  else {
+                        ccLaunchInput.setLiveChatUrl(null);
+                    }
+                    ccInterface.launch(launcher, ccLaunchInput);
+                }
+
+                @Override
+                public void onError(ERRORVALUES errorvalues, String s) {
+                    ccInterface.launch(launcher, ccLaunchInput);
+                }
+            });
 
 
             try {
