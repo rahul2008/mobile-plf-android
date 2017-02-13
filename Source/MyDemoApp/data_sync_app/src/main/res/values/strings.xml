@@ -30,6 +30,7 @@
     <string name="hide_characteristics">Hide Characteristics</string>
     <string name="edit">Edit</string>
     <string name="settings">User Settings</string>
+    <string name="moments">Moments</string>
 
     <string-array name="metrics">
         <item>"metric"</item>

@@ -337,6 +337,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void onSyncComplete() {
+        if (getActivity() == null) return;
         DSLog.i("***SPO***", "In TemperatureTimeLineFragment ONSYNCCOMPLETE");
         getActivity().runOnUiThread(new Runnable() {
             @Override
