@@ -51,4 +51,7 @@ public class GridViewSettingsFragment extends BaseFragment {
     public void setSeparatorEnabled(boolean checked) {
 
     }
+    public void setHeaderEnabled(boolean checked) {
+
+    }
 }
