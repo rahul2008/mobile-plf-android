@@ -14,15 +14,14 @@ import android.content.Context;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.localematch.LocaleMatchListener;
-import com.philips.cdp.localematch.PILLocale;
-import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.LocaleMatchError;
-import com.philips.cdp.localematch.enums.Platform;
 import com.philips.cdp.localematch.enums.Sector;
 
 import java.util.HashMap;
 import java.util.Locale;
+
+//import com.philips.cdp.localematch.PILLocale;
+//import com.philips.cdp.localematch.PILLocaleManager;
 
 
 public class LocaleMatchHandler implements LocaleMatchListener {
@@ -33,12 +32,12 @@ public class LocaleMatchHandler implements LocaleMatchListener {
     private String mLanguageCode = null;
     private String mCountryCode = null;
     private Locale mLocale = null;
-    private PILLocaleManager mPLocaleManager = null;
+    //private PILLocaleManager mPLocaleManager = null;
     private LocaleMatchHandlerObserver mLocaleMatchHandlerObserver = null;
 
     public LocaleMatchHandler(Context context) {
         mContext = context;
-        mPLocaleManager = new PILLocaleManager(mContext);
+        //mPLocaleManager = new PILLocaleManager(mContext);
         DigiCareLogger.v(TAG, "Contructor..");
     }
 
@@ -119,7 +118,7 @@ public class LocaleMatchHandler implements LocaleMatchListener {
         mLanguageCode = langCode;
         mCountryCode = countryCode;
         mLocale = new Locale(mLanguageCode, mCountryCode);
-        mPLocaleManager.refresh(this);
+        //mPLocaleManager.refresh(this);
     }
 
     @Override
@@ -144,7 +143,7 @@ public class LocaleMatchHandler implements LocaleMatchListener {
         int mSectorValue = isSectorExistsInLocaleMatch(mSector);
         if (mSectorValue != 0) {
 
-            PILLocale mPilLocaleWithCountryFallBack = mPLocaleManager.
+           /* PILLocale mPilLocaleWithCountryFallBack = mPLocaleManager.
                     currentLocaleWithCountryFallbackForPlatform(mContext,
                     arg0, Platform.PRX,
                     setSector(mSectorValue), Catalog.CONSUMER);
@@ -152,9 +151,9 @@ public class LocaleMatchHandler implements LocaleMatchListener {
             if (mPilLocaleWithCountryFallBack == null) {
                 localeFailCallback();
                 return;
-            }
-            Locale countryFallbackLocale = new Locale(Locale.getDefault().getLanguage(), DigitalCareConfigManager.getInstance().getCountry());
-            DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithCountryFallBack(countryFallbackLocale);
+            }*/
+            //Locale countryFallbackLocale = new Locale(DigitalCareConfigManager.getInstance().getLocaleFromSeviceDiscovery());
+            //DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithCountryFallBack(countryFallbackLocale);
             DigitalCareConfigManager.getInstance().getObserver().notificationReceived();
 
         } else {

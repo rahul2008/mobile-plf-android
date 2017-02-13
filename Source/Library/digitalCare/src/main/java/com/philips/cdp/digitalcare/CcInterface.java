@@ -28,20 +28,6 @@ public class CcInterface implements UappInterface {
         CcSettings ccSettings = (CcSettings) uappSettings;
         CcDependencies ccDependencies = (CcDependencies) uappDependencies;
 
-
-        ccDependencies.getAppInfra().getServiceDiscovery().getServiceLocaleWithCountryPreference("", new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
-            @Override
-            public void onSuccess(String s) {
-                DigitalCareConfigManager.getInstance().setLocaleFromSeviceDiscovery(s);
-                DigiCareLogger.v(TAG,"Response from Service Discovery : getServiceLocaleWithCountryPreference() - "+s);
-            }
-
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-
-            }
-        });
-
         ccDependencies.getAppInfra().getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {

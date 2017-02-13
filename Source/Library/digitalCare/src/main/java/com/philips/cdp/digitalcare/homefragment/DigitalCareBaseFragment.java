@@ -41,7 +41,6 @@ import com.philips.cdp.digitalcare.listeners.NetworkStateListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.NetworkReceiver;
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
@@ -115,9 +114,9 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     }
 
     private void setLocaleLanguage() {
-        PILLocaleManager localeManager = new PILLocaleManager(getActivity().getApplicationContext());
+        //PILLocaleManager localeManager = new PILLocaleManager(getActivity().getApplicationContext());
         String[] localeArray = new String[2];
-        String localeAsString = Locale.getDefault().getLanguage()+"_"+DigitalCareConfigManager.getInstance().getCountry();//localeManager.getInputLocale();
+        String localeAsString = Locale.getDefault().getLanguage()+"_"+DigitalCareConfigManager.getInstance().getCountry();// DigitalCareConfigManager.getInstance().getLocaleFromSeviceDiscovery();//localeManager.getInputLocale();
         localeArray = localeAsString.split("_");
 
         Locale locale = new Locale(localeArray[0], localeArray[1]);

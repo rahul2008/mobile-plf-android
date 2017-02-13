@@ -49,6 +49,7 @@ import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cdp.digitalcare.request.RequestData;
 import com.philips.cdp.digitalcare.request.ResponseCallback;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.Utils;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
@@ -897,7 +898,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         if (summaryData.getSubcategory() != null)
             productSubCategoryKey = summaryData.getSubcategory();
 
-        DigiCareLogger.d(TAG, "************ Subcategory Key : " + productSubCategoryKey);
+        DigiCareLogger.d(TAG, "Subcategory Key : " + productSubCategoryKey);
         DigitalCareConfigManager.getInstance().getConsumerProductInfo().
                 setCtn(summaryData.getCtn());
         DigitalCareConfigManager.getInstance().getConsumerProductInfo().
@@ -1139,63 +1140,47 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     private void initialiseServiceDiscoveryRequests(){
 
         ArrayList<String> var1 = new ArrayList<>();
-        var1.add("cc.cdls");
-        var1.add("cc.emailformurl");
-        var1.add("cc.prx.category");
-        var1.add("cc.productreviewurl");
-        //var1.add("cc.atos");
+        var1.add(DigitalCareConstants.SERVICE_ID_CC_CDLS);
+        var1.add(DigitalCareConstants.SERVICE_ID_CC_EMAILFROMURL);
+        var1.add(DigitalCareConstants.SERVICE_ID_CC_PRX_CATEGORY);
+        var1.add(DigitalCareConstants.SERVICE_ID_CC_PRODUCTREVIEWURL);
 
-      /*  LocationManager lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        double longitude = location.getLongitude();
-        double latitude = location.getLatitude();*/
         HashMap<String,String> hm=new HashMap<String,String>();
 
-        hm.put("productSector",""+DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSector());
-        hm.put("productCatalog",""+DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCatalog());
-        hm.put("productCategory",""+DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSubCategory());
-        hm.put("productSubcategory",""+DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSubCategory());
-        hm.put("productReviewURL",""+DigitalCareConfigManager.getInstance().getViewProductDetailsData().getProductInfoLink());
+        hm.put(DigitalCareConstants.KEY_PRODUCT_SECTOR, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSector());
+        hm.put(DigitalCareConstants.KEY_PRODUCT_CATALOG, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCatalog());
+        hm.put(DigitalCareConstants.KEY_PRODUCT_CATEGORY, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSubCategory());
+        hm.put(DigitalCareConstants.KEY_PRODUCT_SUBCATEGORY, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSubCategory());
+        hm.put(DigitalCareConstants.KEY_PRODUCT_REVIEWURL, DigitalCareConfigManager.getInstance().getViewProductDetailsData().getProductInfoLink());
 
-        Log.i("servicediscovery",""+DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSector());
-
-        hm.put("appName",""+getAppName());
-       // hm.put("lattitude",""+longitude);
-       // hm.put("longitude",""+latitude);
+        hm.put(DigitalCareConstants.KEY_APPNAME, getAppName());
 
         DigitalCareConfigManager.getInstance().getAPPInfraInstance().getServiceDiscovery().getServicesWithCountryPreference(var1, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> map) {
 
-                //disableProgressDialog();
                 ServiceDiscoveryService serviceDiscoveryService = map.get("cc.prx.category");
                 if(serviceDiscoveryService != null){
                     DigitalCareConfigManager.getInstance().setSubCategoryUrl(serviceDiscoveryService.getConfigUrls());
-                    Log.i("ServiceDiscoveryurl","setSubCategoryUrl - "+serviceDiscoveryService.getConfigUrls());
+                    DigiCareLogger.v(TAG,"Response from Service Discovery : Service ID : 'cc.prx.category' - "+serviceDiscoveryService.getConfigUrls());
                 }
 
                 serviceDiscoveryService = map.get("cc.cdls");
                 if(serviceDiscoveryService != null){
                     DigitalCareConfigManager.getInstance().setCdlsUrl(serviceDiscoveryService.getConfigUrls());
-                    Log.i("ServiceDiscoveryurl","setCdlsUrl - "+serviceDiscoveryService.getConfigUrls());
+                    DigiCareLogger.v(TAG,"Response from Service Discovery : Service ID : 'cc.cdls' - "+serviceDiscoveryService.getConfigUrls());
                 }
 
                 serviceDiscoveryService = map.get("cc.emailformurl");
                 if(serviceDiscoveryService != null){
                     DigitalCareConfigManager.getInstance().setEmailUrl(serviceDiscoveryService.getConfigUrls());
-                    Log.i("ServiceDiscoveryurl","setEmailUrl - "+serviceDiscoveryService.getConfigUrls());
+                    DigiCareLogger.v(TAG,"Response from Service Discovery : Service ID : 'cc.emailformurl' - "+serviceDiscoveryService.getConfigUrls());
                 }
-
-                /*serviceDiscoveryService = map.get("cc.atos");
-                if(serviceDiscoveryService != null){
-                    DigitalCareConfigManager.getInstance().setAtosUrl(serviceDiscoveryService.getConfigUrls());
-                    Log.i("ServiceDiscoveryurl","setAtosUrl - "+serviceDiscoveryService.getConfigUrls());
-                }*/
 
                 serviceDiscoveryService = map.get("cc.productreviewurl");
                 if(serviceDiscoveryService != null){
                     DigitalCareConfigManager.getInstance().setProductReviewUrl(serviceDiscoveryService.getConfigUrls());
-                    Log.i("ServiceDiscoveryurl","setProductReviewUrl - "+serviceDiscoveryService.getConfigUrls());
+                    DigiCareLogger.v(TAG,"Response from Service Discovery : Service ID : 'cc.productreviewurl' - "+serviceDiscoveryService.getConfigUrls());
                 }
 
                 executeSubcategoryRequest();
@@ -1207,7 +1192,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-                Log.i("ServiceDiscoveryurl","error service discovery - "+s);
+                DigiCareLogger.v(TAG,"Error Response from Service Discovery :"+s);
             }
         }, hm);
     }

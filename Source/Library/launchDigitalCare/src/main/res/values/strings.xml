@@ -106,7 +106,6 @@
 
     <!-- Country -->
     <string-array name="country">
-        <item>Defalut country from Sim or GPS(if no sim)</item>
         <item>United Kingdom (GB)</item>
         <item>India (IN)</item>
         <item>United States (US)</item>
@@ -169,7 +168,6 @@
 
     <!-- country code -->
     <string-array name="country_code">
-        <item>Defalut country from Sim or GPS(if no sim)</item>
         <item>GB</item>
         <item>IN</item>
         <item>US</item>
@@ -238,7 +236,7 @@
     <string name="app_not_description">DigitalCare Library is dependent on &quot;v4 library&quot;.&quot; Additionally you can personalize the &quot;DigitalCare Component&quot; by modifying the &quot;DigitalCare_Config.xml&quot; under res>values.</string>
     <string name="app_note">Note:</string>
     <string name="lanuauge">Langauage :</string>
-    <string name="country">Country :</string>
+    <string name="country">Set Country</string>
 
 
     <string-array name="category">

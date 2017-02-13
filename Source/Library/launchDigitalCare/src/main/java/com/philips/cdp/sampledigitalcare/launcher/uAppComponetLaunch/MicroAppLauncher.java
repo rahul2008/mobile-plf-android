@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -15,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.philips.cdp.digitalcare.CcDependencies;
 import com.philips.cdp.digitalcare.CcInterface;
@@ -33,6 +35,8 @@ import com.philips.cdp.sampledigitalcare.view.CustomDialog;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,8 +64,8 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
     private SampleAdapter adapter = null;
 
 
-    private Spinner mLanguage_spinner, mCountry_spinner;
-    private String mLanguage[], mCountry[], mlanguageCode[], mcountryCode[];
+    private Spinner mCountry_spinner;
+    private String mCountry[], mcountryCode[];
     private CcSettings ccSettings;
     private CcLaunchInput ccLaunchInput;
     private AppInfraInterface mAppInfraInterface;
@@ -82,14 +86,6 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         mLaunchDigitalCare.setOnClickListener(this);
         mLaunchAsFragment.setOnClickListener(this);
 
-        // setting language spinner
-        mLanguage_spinner = (Spinner) findViewById(R.id.spinner1);
-        mLanguage = getResources().getStringArray(R.array.Language);
-        mlanguageCode = getResources().getStringArray(R.array.Language_code);
-        ArrayAdapter<String> mLanguage_adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, mLanguage);
-        mLanguage_spinner.setAdapter(mLanguage_adapter);
-
         // setting country spinner
         mCountry_spinner = (Spinner) findViewById(R.id.spinner2);
         mCountry = getResources().getStringArray(R.array.country);
@@ -98,6 +94,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                 android.R.layout.simple_list_item_1, mCountry);
         mCountry_spinner.setAdapter(mCountry_adapter);
 
+        restoreCountryOption();
 
         // Ctn List Code Snippet
 
@@ -115,7 +112,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(mRecyclerView);
         // Digital care initialization
-        initializeDigitalCareLibrary();
+        //initializeDigitalCareLibrary();
 
     }
 
@@ -138,17 +135,19 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
     protected void onResume() {
         super.onResume();
 
-        mLanguage_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        final TextView tv = (TextView) findViewById(R.id.textViewCurrentCountry);
+        mAppInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                initializeDigitalCareLibrary();
+            public void onSuccess(String s, SOURCE source) {
+                tv.setText("Country from Service Discovery : " +s);
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onError(ERRORVALUES errorvalues, String s) {
 
             }
         });
+
 
         mCountry_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -178,7 +177,11 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
     @NonNull
     private SampleAdapter setAdapter(ArrayList<String> mList) {
         mRecyclerView.setAdapter(adapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager layoutManager =new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
+        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
+                layoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(mDividerItemDecoration);
         return adapter;
     }
 
@@ -194,20 +197,39 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         dialog.show();
     }
 
+    private void restoreCountryOption() {
+        if(mAppInfraInterface == null) {
+            mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
+        }
+        mAppInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+            @Override
+            public void onSuccess(String s, SOURCE source) {
+                for (int i=0; i < mcountryCode.length; i++) {
+                    if(s.equalsIgnoreCase(mcountryCode[i])) {
+                        mCountry_spinner.setSelection(i);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+            }
+        });
+    }
+
     private void initializeDigitalCareLibrary() {
-
-       /* if (AppInfraSingleton.getInstance() == null)
-            AppInfraSingleton.setInstance(new AppInfra.Builder().build(this));*/
-//  localeManager.setInputLocale("ar", "SA");
-       // PILLocaleManager localeManager = new PILLocaleManager(this);
-        //localeManager.setInputLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()],
-          //      mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
-
-        mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
+/*
 
         if(!(mCountry_spinner.getSelectedItemId() == 0)){
             mAppInfraInterface.getServiceDiscovery().setHomeCountry(mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
         }
+*/
+        if(mAppInfraInterface == null) {
+            mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
+        }
+
+       // if(!(mCountry_spinner.getSelectedItemId() == 0))
+            mAppInfraInterface.getServiceDiscovery().setHomeCountry(mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
     }
 
     @Override
@@ -281,8 +303,8 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                 uiLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
                 DigitalCareConfigManager.getInstance().invokeDigitalCare(uiLauncher, productsSelection);*/
 
-                com.philips.platform.uappframework.launcher.ActivityLauncher activityLauncher =
-                        new com.philips.platform.uappframework.launcher.ActivityLauncher
+                final ActivityLauncher activityLauncher =
+                        new ActivityLauncher
                                 (com.philips.platform.uappframework.
                                         launcher.ActivityLauncher.
                                         ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
@@ -292,7 +314,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
 
 //                mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
 
-                CcInterface ccInterface = new CcInterface();
+                final CcInterface ccInterface = new CcInterface();
                 if (ccSettings == null) ccSettings = new CcSettings(this);
                 if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
                 ccLaunchInput.setProductModelSelectionType(productsSelection);
@@ -301,9 +323,22 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                 CcDependencies ccDependencies = new CcDependencies(mAppInfraInterface);
 
                 ccInterface.init(ccDependencies, ccSettings);
-                ccInterface.launch(activityLauncher, ccLaunchInput);
-              /*  } else
-                    Toast.makeText(this, "CTN list is null", Toast.LENGTH_SHORT).show();*/
+                mAppInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+                    @Override
+                    public void onSuccess(String s, SOURCE source) {
+                        if(s.equals("CN")) {
+                            ccLaunchInput.setLiveChatUrl("http://ph-china.livecom.cn/webapp/index.html?app_openid=ph_6idvd4fj&token=PhilipsTest");
+                        } else {
+                            ccLaunchInput.setLiveChatUrl(null);
+                        }
+                        ccInterface.launch(activityLauncher, ccLaunchInput);
+                    }
+
+                    @Override
+                    public void onError(ERRORVALUES errorvalues, String s) {
+                        ccInterface.launch(activityLauncher, ccLaunchInput);
+                    }
+                });
                 break;
 
             case R.id.launchAsFragment:
