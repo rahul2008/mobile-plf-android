@@ -10,8 +10,6 @@
     <drawable name="consumercare_background">@drawable/tuscany</drawable>
 
     <!-- Actionbar related -->
-    <color name="actionbar_background_start_color">#003478</color>
-    <color name="actionbar_background_end_color">#0066A1</color>
     <color name="actionbar_title_color">#FFFFFF</color>
 
     <!-- Action bar back arrow button -->
@@ -35,10 +33,6 @@
     <color name="button_text_color">@color/actionbar_title_color</color>
     <color name="button_background">#003478</color>
     <color name="button_background_pressed">#005A8B</color>
-
-    <!-- Register Button -->
-    <color name="button_register_background">#005AAB</color>
-    <color name="button_register_background_pressed">#005AAB</color>
 
     <!-- UiTheme End -->
 
