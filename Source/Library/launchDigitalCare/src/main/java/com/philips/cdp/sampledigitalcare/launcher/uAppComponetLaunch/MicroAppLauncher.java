@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -176,7 +177,12 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
     @NonNull
     private SampleAdapter setAdapter(ArrayList<String> mList) {
         mRecyclerView.setAdapter(adapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager layoutManager =new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
+        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
+                layoutManager.getOrientation());
+//        mDividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.list_divider));
+        mRecyclerView.addItemDecoration(mDividerItemDecoration);
         return adapter;
     }
 
