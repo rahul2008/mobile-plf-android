@@ -177,5 +177,8 @@
     <dimen name="card_text_height">64dp</dimen>
     <dimen name="card_image_height">160dp</dimen>
     <dimen name="card_size">224dp</dimen>
+    <dimen name="star_icon_size">24dp</dimen>
+    <dimen name="star_icon_padding">12dp</dimen>
+    <dimen name="star_holder_width">48dp</dimen>
 
 </resources>

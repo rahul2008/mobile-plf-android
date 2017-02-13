@@ -140,7 +140,14 @@
     <string name="two_lines">Two lines</string>
     <string name="template_selection">Template selection</string>
     <string name="recyclerview_the_header">The header</string>
+
     <string name="page_title_gridView">GridView</string>
+    <string name="page_title_gridview_settings">GridView Settings</string>
     <string name="gridView_title">This is a long title for an image</string>
     <string name="gridView_description">This is a very long description for an image</string>
+    <string name="secondary_action">Secondary Action</string>
+    <string name="dark_background">Dark Background</string>
+    <string name="enlarged_gutter">Enlarged Gutter</string>
+    <string name="grid_disabled">Disabled</string>
+    <string name="secondary_action_description">Secondary action can be placed at 4 corner of the tiles</string>
 </resources>

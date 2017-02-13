@@ -1,43 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="@dimen/card_size"
     android:layout_margin="@dimen/card_margin"
-    android:id="@+id/card_view"
-    >
+    android:descendantFocusability="blocksDescendants">
+
     <ImageView
         android:id="@+id/thumbnail"
         android:layout_width="match_parent"
         android:layout_height="@dimen/card_size"
-        android:contentDescription="@string/gridview_image"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:clickable="true"
-        android:scaleType="center"
         android:adjustViewBounds="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/gridview_image"
+        android:scaleType="center"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
         />
+
     <com.philips.platform.uid.utils.GradientContainer
         style="@style/UIDGridGradientStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="wrap_content">
 
-        >
-        <LinearLayout
-            android:id="@+id/twoLineTextLayout"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/card_text_height"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="#0000"
-            >
-            <TextView
-                style="@style/UIDGridViewTitleText"
-                android:id="@+id/title"
-                />
-            <TextView
-                style="@style/UIDGridViewDescriptionText"
-                android:id="@+id/description"
-                />
-        </LinearLayout>
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:id="@+id/star_icon_holder"
+                android:layout_width="@dimen/star_holder_width"
+                android:layout_height="@dimen/card_text_height"
+                android:layout_alignParentRight="true">
+
+                <ImageButton
+                    android:id="@+id/star_icon"
+                    android:layout_width="@dimen/star_icon_size"
+                    android:layout_height="@dimen/star_icon_size"
+                    android:layout_gravity="center"
+                    android:paddingLeft="@dimen/star_icon_padding"
+                    android:paddingRight="@dimen/star_icon_padding"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:clickable="false"/>
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/twoLineTextLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/card_text_height"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@id/star_icon_holder"
+                android:background="#0000"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:id="@+id/title"
+                    style="@style/UIDGridViewTitleText"
+                    />
+
+                <TextView
+                    android:id="@+id/description"
+                    style="@style/UIDGridViewDescriptionText"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
     </com.philips.platform.uid.utils.GradientContainer>
 </FrameLayout>

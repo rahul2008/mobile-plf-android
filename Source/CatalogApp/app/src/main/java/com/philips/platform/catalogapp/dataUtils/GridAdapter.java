@@ -1,0 +1,143 @@
+package com.philips.platform.catalogapp.dataUtils;
+
+
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.philips.platform.catalogapp.R;
+import com.philips.platform.catalogapp.themesettings.ThemeColorAdapter;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+public class GridAdapter extends ArrayAdapter<GridData> {
+
+    private Context mContext;
+    private ArrayList<GridData> cardList;
+    GridDataHelper gridDataHelper;
+    boolean isdisabled, isSecondary;
+
+    public GridAdapter(Context context, ArrayList<GridData> cardList) {
+        super(context,0,cardList);
+        this.mContext = context;
+        this.cardList = new ArrayList<>(cardList);
+
+
+        gridDataHelper = new GridDataHelper(mContext);
+        isdisabled = gridDataHelper.isSetDisableStateEnabled();
+        isSecondary = gridDataHelper.isSecondaryActionEnabled();
+    }
+
+    @Override
+    public boolean areAllItemsEnabled() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+        return !isdisabled;
+    }
+
+    @Override
+    public int getCount() {
+        if (cardList == null) {
+            return 0;
+        }
+        return cardList.size();
+    }
+
+    @Override
+    public GridData getItem(int position) {
+        return cardList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        GridData gridData = cardList.get(position);
+
+
+        if (convertView == null) {
+            LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+            convertView = layoutInflater.inflate(R.layout.uid_gridview_item_gradient_icon, null);
+
+            TextView title = (TextView) convertView.findViewById(R.id.title);
+            TextView description = (TextView) convertView.findViewById(R.id.description);
+            ImageView thumbnail = (ImageView) convertView.findViewById(R.id.thumbnail);
+
+            Glide.with(mContext).load(gridData.getThumbnail()).into(thumbnail);
+            title.setText(gridData.getTitle());
+            description.setText(gridData.getDescription());
+            android.widget.ImageButton star_icon = new ImageButton(mContext);
+
+            if(isSecondary){
+                star_icon = (android.widget.ImageButton) convertView.findViewById(R.id.star_icon);
+                int icon_drawable = gridData.isFavorite()? R.drawable.uid_star_filled : R.drawable.uid_star_outlined;
+                Drawable drawable = VectorDrawableCompat.create(mContext.getResources(), icon_drawable, mContext.getTheme());
+                DrawableCompat.setTint(drawable, ContextCompat.getColor(mContext, R.color.uidColorWhite));
+                star_icon.setImageDrawable(drawable);
+            }
+
+            ViewHolder viewHolder = new ViewHolder(title, description, thumbnail, star_icon);
+            convertView.setTag(viewHolder);
+
+        }else {
+            ViewHolder viewHolder = (ViewHolder)convertView.getTag();
+            viewHolder.title.setText(gridData.getTitle());
+            viewHolder.description.setText(gridData.getDescription());
+            Glide.with(mContext).load(gridData.getThumbnail()).into(viewHolder.thumbnail);
+
+            if(isSecondary){
+                int icon_drawable = gridData.isFavorite()? R.drawable.uid_star_filled : R.drawable.uid_star_outlined;
+                Drawable drawable = VectorDrawableCompat.create(mContext.getResources(), icon_drawable, mContext.getTheme());
+                DrawableCompat.setTint(drawable, ContextCompat.getColor(mContext, R.color.uidColorWhite));
+                viewHolder.star_icon.setImageDrawable(drawable);
+            }
+        }
+
+        if(isdisabled){
+            convertView.setAlpha(Float.parseFloat("0.35"));
+        }
+
+        return convertView;
+    }
+
+    static class ViewHolder {
+        private TextView title;
+        private TextView description;
+        private ImageView thumbnail;
+        private ImageButton star_icon;
+
+        public ViewHolder(TextView title, TextView description, ImageView thumbnail, ImageButton star_icon) {
+            this.title = title;
+            this.description = description;
+            this.thumbnail = thumbnail;
+            this.star_icon = star_icon;
+        }
+    }
+
+    public void updateGrid(ArrayList<GridData> newList) {
+        this.cardList.clear();
+        this.cardList = new ArrayList<>(newList);
+        this.notifyDataSetChanged();
+    }
+}

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="frag"
+            type="com.philips.platform.catalogapp.fragments.GridViewSettingsFragment" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/BaseLayoutMargins.Dimens"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TestButtonTexts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/secondary_action" />
+
+            <com.philips.platform.uid.view.widget.Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/layout_margin_left_right"
+                android:layout_weight="1"
+                android:checked="@={frag.isSecondaryActionEnabled}"
+                android:onCheckedChanged="@{(v, isChecked) -> frag.setSeparatorEnabled(isChecked)}" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/BaseLayoutMargins.Dimens"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TestButtonTexts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/dark_background" />
+
+            <com.philips.platform.uid.view.widget.Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/layout_margin_left_right"
+                android:layout_weight="1"
+                android:checked="@={frag.isDarkBackroungEnabled}"
+                android:onCheckedChanged="@{(v, isChecked) -> frag.setHeaderEnabled(isChecked)}" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/BaseLayoutMargins.Dimens"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TestButtonTexts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/enlarged_gutter" />
+
+            <com.philips.platform.uid.view.widget.Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/layout_margin_left_right"
+                android:layout_weight="1"
+                android:checked="@={frag.isEnlargedGutterEnabled}"
+                android:onCheckedChanged="@{(v, isChecked) -> frag.setSeparatorEnabled(isChecked)}" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/BaseLayoutMargins.Dimens"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TestButtonTexts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/grid_disabled" />
+
+            <com.philips.platform.uid.view.widget.Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/layout_margin_left_right"
+                android:layout_weight="1"
+                android:checked="@={frag.isGridDisableEnabled}"
+                android:onCheckedChanged="@{(v, isChecked) -> frag.setHeaderEnabled(isChecked)}" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

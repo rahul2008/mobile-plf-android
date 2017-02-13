@@ -49,6 +49,7 @@
     <dimen name="uid_date_picker_margin_left_right">16dp</dimen>
     <dimen name="date_picker_date_width">200dp</dimen>
     <!-- GridView page-->
-    <dimen name="grid_spacing">5dp</dimen>
+    <dimen name="grid_spacing_normal">2dp</dimen>
+    <dimen name="grid_spacing_enlarged">4dp</dimen>
     <dimen name="grid_column_width">160dp</dimen>
 </resources>
