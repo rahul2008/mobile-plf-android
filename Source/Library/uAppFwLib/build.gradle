@@ -2,17 +2,18 @@ apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'jacoco'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
 
 def coverageSourceDirs = [
         '../uAppFwLib/src/main/java'
 ]
 
-archivesBaseName = "uAppFwLib"
 buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven {
-            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
+            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "readonly"
@@ -24,64 +25,36 @@ buildscript {
         classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
         classpath 'com.android.tools.build:gradle:2.1.2'
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12"
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.0.0', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.0', changing: true
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
-        classpath "com.github.dcendents:android-maven-gradle-plugin:1.5"
     }
 }
-
-
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'maven-publish'
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-
+objcdp.setEnv(platform: 'android', env: envCode)
+archivesBaseName = rootProject.name
 
 allprojects {
     repositories {
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
-        maven {
-            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
-            credentials {
-                username = "readonly"
-                password = "readonly"
-            }
-        }
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local'
-        }
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local'
-        }
-
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android'
-        }
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
-        }
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
+        maven { url objcdp.getArtifactoryUrl() }
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
-
     }
 }
-
-apply plugin: 'com.jfrog.artifactory'
 
 group = 'com.philips.cdp'
 version = objcdp.getVersion()
 
 artifactory {
-    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+    contextUrl = objcdp.getArtifactoryContextUrl()
     publish {
-        contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
         repository {
-            repoKey = objcdp.getArtifactoryRepoKey('android')
+            repoKey = objcdp.getArtifactoryPublishRepoKey()
             username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
             defaults {
@@ -89,17 +62,13 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
+                publications ('aar')
             }
-			defaults {
-				publications ('aar')
-				publishPom = true
-				publishArtifacts = true
-			}
         }
     }
     resolve {
         repository {
-            repoKey = 'libs-release-local'
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
     clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
@@ -113,9 +82,7 @@ artifacts {
 }
 
 task zipDocuments(type: Zip) {
-    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
-    def docfiles = docpath + File.separator + "Documents"+ File.separator + "External"
-    from files(docfiles) {
+    from files(objcdp.getExternalDocPath()) {
         baseName = project.name
         classifier 'docs'
     }
@@ -135,14 +102,16 @@ publishing {
         aar(MavenPublication) {
             groupId group
             version = version
-            artifactId project.archivesBaseName
+            artifactId archivesBaseName
 
-            artifact zipDoc
+            artifact zipDocuments
 
-            if (new File("$buildDir/outputs/aar/${project.archivesBaseName}-release.aar").exists()) {
-                artifact("$buildDir/outputs/aar/${project.archivesBaseName}-release.aar")
-            } else if (new File("$buildDir/outputs/aar/${project.archivesBaseName}-debug.aar").exists()) {
-                artifact("$buildDir/outputs/aar/${project.archivesBaseName}-debug.aar")
+            if (new File("$buildDir/outputs/aar/${archivesBaseName}-release.aar").exists()) {
+                artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
+            } else if (new File("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar").exists()) {
+                artifact("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar")
+            } else if (new File("$buildDir/outputs/aar/${archivesBaseName}-debug.aar").exists()) {
+                artifact("$buildDir/outputs/aar/${archivesBaseName}-debug.aar")
             } else {
             }
 
@@ -169,7 +138,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 24
         versionCode 1
-        versionName "1.0"
+        versionName objcdp.getVersionWithHash()
     }
     buildTypes {
         release {
@@ -196,7 +165,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:24.0.0'
     testCompile 'junit:junit:4.12'
-    compile('com.philips.cdp:AppInfra:1.5.5-SNAPSHOT@aar') {
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.5.5' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         exclude group: 'com.android.support'
         transitive = true
     }
