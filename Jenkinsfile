@@ -37,7 +37,7 @@ node('Android') {
             sh 'rm -rf android-commlib-all/Source/commlib-all-parent/commlib-all/build/test-results'
             sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew testDebug'
 
-            // step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/*/*.json'])
+            step([$class: 'JUnitResultArchiver', testResults: 'android-commlib-all/Source/commlib-all-parent/commlib-all/build/test-results/*/*.xml'])
             step([$class: 'CucumberReportPublisher', jsonReportDirectory: 'android-commlib-all/Source/commlib-all-parent/build/cucumber-reports', fileIncludePattern: '*.json'])
         }
 
