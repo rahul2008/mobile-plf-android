@@ -6,23 +6,17 @@
 
     <com.philips.platform.uid.view.widget.ProgressBar
         android:id="@+id/uid_progress_indicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         style="@style/UIDProgressBarCircularIndeterminateSmall"/>
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/uid_progress_indicator_label_bottom_center"
-        style="@style/UIDLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/UIDLabel.ProgressBarLabel"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/uid_progress_indicator"
         android:layout_marginTop="12dp"/>
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/uid_progress_indicator_label_center"
-        style="@style/UIDLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/UIDLabel.ProgressBarLabel"
         android:layout_centerInParent="true"/>
 </RelativeLayout>

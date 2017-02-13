@@ -7,17 +7,13 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/uid_progress_indicator_label_top_left"
-        style="@style/UIDLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/UIDLabel.ProgressBarLabel"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="9dp"/>
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/uid_progress_indicator_label_top_right"
-        style="@style/UIDLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/UIDLabel.ProgressBarLabel"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="9dp"/>
 
@@ -29,18 +25,14 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/uid_progress_indicator_label_bottom_left"
-        style="@style/UIDLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/UIDLabel.ProgressBarLabel"
         android:layout_alignParentStart="true"
         android:layout_below="@id/uid_progress_indicator"
         android:layout_marginTop="9dp"/>
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/uid_progress_indicator_label_bottom_right"
-        style="@style/UIDLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/UIDLabel.ProgressBarLabel"
         android:layout_alignParentEnd="true"
         android:layout_below="@id/uid_progress_indicator"
         android:layout_marginTop="9dp"/>

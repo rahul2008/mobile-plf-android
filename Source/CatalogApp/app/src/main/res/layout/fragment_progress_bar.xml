@@ -172,8 +172,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/progress_bar_margin_top"
             android:progress="50"
-            app:uidIsIndeterminateProgressIndicator="true"
-            app:uidCircularProgressBarSize="SMALL"
-            app:uidLabelPosition="CENTER"/>
+            app:uidLinearProgressBar="true"
+            app:uidIsIndeterminateProgressIndicator="false"
+            android:text="test"/>
     </LinearLayout>
 </ScrollView>

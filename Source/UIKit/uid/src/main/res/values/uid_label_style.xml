@@ -77,4 +77,13 @@
         <item name="uidLabelTextAlpha">?attr/uidTextTertiaryAlpha</item>
         <item name="android:background">?attr/uidContentTertiary</item>
     </style>
+
+    <style name="UIDLabel.ProgressBarLabel">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="uidLabelTextSize">@dimen/uid_label_text_size</item>
+        <item name="uidLabelTextColor">?attr/uidTextTertiaryColor</item>
+        <item name="uidLabelTextAlpha">?attr/uidTextTertiaryAlpha</item>
+    </style>
 </resources>
