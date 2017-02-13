@@ -296,7 +296,9 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         switch (v.getId()) {
             case R.id.btn_registration_with_account:
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
-                RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
+                User user = new User(this);
+                user.isUserSignIn();
+        /*        RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
                 urLaunchInput = new URLaunchInput();
                 urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
                 urLaunchInput.setAccountSettings(true);
@@ -316,7 +318,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 }else  if (abStrings.equals(UIFlow.FLOW_C)){
                     Toast.makeText(mContext,"UI Flow Type C",Toast.LENGTH_LONG).show();
                     RLog.d(RLog.AB_TESTING,"UI Flow Type C");
-                }
+                }*/
                 break;
 
             case R.id.btn_marketing_opt_in:
@@ -368,13 +370,13 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
             case R.id.btn_refresh_token:
                 if (RegistrationConfiguration.getInstance().isHsdpFlow()) {
-                    User user = new User(mContext);
-                    if (!user.isUserSignIn()) {
+                    User user1 = new User(mContext);
+                    if (!user1.isUserSignIn()) {
                         Toast.makeText(this, "Please login before refreshing access token", Toast.LENGTH_LONG).show();
                     } else {
                         mProgressDialog.setMessage("Refreshing...");
                         mProgressDialog.show();
-                        user.refreshLoginSession(this);
+                        user1.refreshLoginSession(this);
                     }
                 }
                 break;
@@ -393,13 +395,13 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 break;
 
             case R.id.btn_update_date_of_birth:
-                User user = new User(mContext);
-                System.out.println("before login"+user.getDateOfBirth());
-                if (!user.isUserSignIn()) {
+                User user2 = new User(mContext);
+                System.out.println("before login"+user2.getDateOfBirth());
+                if (!user2.isUserSignIn()) {
                     Toast.makeText(this, "Please login before updating user", Toast.LENGTH_LONG).show();
                 } else {
-                    System.out.println("pre  login"+user.getDateOfBirth());
-                    handleDoBUpdate(user.getDateOfBirth());
+                    System.out.println("pre  login"+user2.getDateOfBirth());
+                    handleDoBUpdate(user2.getDateOfBirth());
                 }
                 break;
 
@@ -501,7 +503,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
             user.refreshLoginSession(new RefreshLoginSessionHandler() {
                 @Override
                 public void onRefreshLoginSessionSuccess() {
-                    showToast("Success to refresh access token");
+                    showToast("Success to refresh access token"+user.getHsdpAccessToken());
                 }
 
                 @Override

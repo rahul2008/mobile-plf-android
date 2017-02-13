@@ -1,7 +1,5 @@
 package com.philips.cdp.registration.hsdp;
 
-import android.content.Context;
-
 import com.philips.dhpclient.util.MapUtils;
 
 import java.io.Serializable;
@@ -16,7 +14,7 @@ public class HsdpUserRecord implements Serializable {
 
     private Profile mProfile;
     private String loginId;
-    private transient Context context;
+
     private String userUUID;
     private int userIsActive;
     private AccessCredential accessCredential;
@@ -25,9 +23,7 @@ public class HsdpUserRecord implements Serializable {
 
     private static final long serialVersionUID = 6128016096756071380L;
 
-    public HsdpUserRecord(Context context) {
-        this.context = context;
-    }
+
 
     public String getLoginId() {
         return loginId;
