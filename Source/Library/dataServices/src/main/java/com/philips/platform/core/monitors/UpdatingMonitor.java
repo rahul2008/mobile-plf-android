@@ -106,7 +106,7 @@ public class UpdatingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void onEventBackgroundThread(ReadDataFromBackendResponse response) {
+    public void onEventAsync(ReadDataFromBackendResponse response) {
         try {
             dbFetchingInterface.fetchMoments(response.getDbRequestListener());
         } catch (SQLException e) {
@@ -116,7 +116,7 @@ public class UpdatingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackgroundThread(final BackendMomentListSaveRequest momentSaveRequest) {
+    public void onEventAsync(final BackendMomentListSaveRequest momentSaveRequest) {
         List<? extends Moment> moments = momentSaveRequest.getList();
         if (moments == null || moments.isEmpty()) {
             return;
@@ -137,7 +137,7 @@ public class UpdatingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackgroundThread(final MomentDataSenderCreatedRequest momentSaveRequest) {
+    public void onEventAsync(final MomentDataSenderCreatedRequest momentSaveRequest) {
         List<? extends Moment> moments = momentSaveRequest.getList();
         if (moments == null || moments.isEmpty()) {
             return;

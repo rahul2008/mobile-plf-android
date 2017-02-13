@@ -1,7 +1,6 @@
 package com.philips.platform.core.monitors;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
@@ -28,15 +27,10 @@ import com.philips.testing.verticals.table.OrmMomentType;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
 import org.mockito.Mock;
-import org.mockito.stubbing.OngoingStubbing;
 
 import java.util.Arrays;
-import java.util.List;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -146,21 +140,21 @@ public class UpdatingMonitorTest {
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenReadDataFromBackendResponsePassed() throws Exception {
-        updatingMonitor.onEventBackgroundThread(readDataFromBackendResponseMock);
+        updatingMonitor.onEventAsync(readDataFromBackendResponseMock);
         verify(dbFetchingInterface).fetchMoments(readDataFromBackendResponseMock.getDbRequestListener());
     }
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenBackendMomentListSaveRequestPassed() throws Exception {
         Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
-        updatingMonitor.onEventBackgroundThread(new BackendMomentListSaveRequest(Arrays.asList(moment1), dbChangeListener));
+        updatingMonitor.onEventAsync(new BackendMomentListSaveRequest(Arrays.asList(moment1), dbChangeListener));
         verify(momentsSegregatorMock).processMomentsReceivedFromBackend(Arrays.asList(moment1),null);
     }
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenMomentDataSenderCreatedRequestPassed() throws Exception {
         Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
-        updatingMonitor.onEventBackgroundThread(new MomentDataSenderCreatedRequest(Arrays.asList(moment1), dbChangeListener));
+        updatingMonitor.onEventAsync(new MomentDataSenderCreatedRequest(Arrays.asList(moment1), dbChangeListener));
       //  List<? extends Moment> moments = momentDataSenderCreatedRequestMock.getList();
          verify(momentsSegregatorMock).processCreatedMoment(Arrays.asList(moment1),null);
     }

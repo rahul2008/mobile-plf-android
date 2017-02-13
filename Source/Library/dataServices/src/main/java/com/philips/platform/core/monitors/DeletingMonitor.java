@@ -30,7 +30,7 @@ public class DeletingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackgroundThread(DataClearRequest event) {
+    public void onEventAsync(DataClearRequest event) {
         final DBRequestListener dbRequestListener = event.getDbRequestListener();
         try {
             dbInterface.deleteAll(dbRequestListener);
@@ -41,7 +41,7 @@ public class DeletingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackgroundThread(DeleteAllMomentsRequest event) {
+    public void onEventAsync(DeleteAllMomentsRequest event) {
         final DBRequestListener dbRequestListener = event.getDbRequestListener();
         try {
             dbInterface.deleteAll(dbRequestListener);
@@ -76,7 +76,7 @@ public class DeletingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackgroundThread(MomentBackendDeleteResponse backendDeleteResponse) {
+    public void onEventAsync(MomentBackendDeleteResponse backendDeleteResponse) {
         final DBRequestListener dbRequestListener = backendDeleteResponse.getDbRequestListener();
         try {
             dbInterface.deleteMoment(backendDeleteResponse.getMoment(),
