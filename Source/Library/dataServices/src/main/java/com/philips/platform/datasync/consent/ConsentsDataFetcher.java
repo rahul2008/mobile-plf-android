@@ -136,6 +136,7 @@ public class ConsentsDataFetcher extends DataFetcher {
                 eventing.post(new ConsentBackendSaveResponse(null, HttpURLConnection.HTTP_OK, null));
             }
         } catch (RetrofitError ex) {
+            onError(ex);
             eventing.post(new BackendDataRequestFailed(ex));
 
         }

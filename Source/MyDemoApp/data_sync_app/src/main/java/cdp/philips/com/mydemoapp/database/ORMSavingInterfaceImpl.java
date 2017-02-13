@@ -136,5 +136,4 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     public void postError(Exception e, DBRequestListener dbRequestListener) {
         notifyDBRequestListener.notifyFailure(e, dbRequestListener);
     }
-
 }

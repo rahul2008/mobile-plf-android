@@ -6,9 +6,7 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.events.BackendResponse;
-import com.philips.platform.core.events.SettingsBackendSaveRequest;
 import com.philips.platform.core.events.SyncBitUpdateRequest;
-import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
@@ -96,6 +94,7 @@ public class SettingsDataSender extends DataSender {
 
         } catch (RetrofitError retrofitError) {
             eventing.post(new BackendResponse(1, retrofitError));
+            onError(retrofitError);
         }
 
     }

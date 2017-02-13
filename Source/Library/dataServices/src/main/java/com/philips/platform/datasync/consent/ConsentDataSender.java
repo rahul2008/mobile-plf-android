@@ -93,6 +93,7 @@ public class ConsentDataSender extends DataSender {
             eventing.post(new SyncBitUpdateRequest(OrmTableType.CONSENT, true));
 
         } catch (RetrofitError error) {
+            onError(error);
             postError(1, error);
         }
     }
