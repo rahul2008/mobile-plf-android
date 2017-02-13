@@ -237,6 +237,17 @@ public class AppInfra implements AppInfraInterface {
 
             /////////////
             appConfigurationManager.migrateDynamicData();
+            appConfigurationManager.refreshCloudConfig(new AppConfigurationInterface.OnRefreshListener() {
+                @Override
+                public void onError(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum error, String message) {
+                    Log.v("refreshCloudConfig",message);
+                }
+                @Override
+                public void onSuccess(REFRESH_RESULT result) {
+                    Log.v("refreshCloudConfig",result.toString());
+
+                }
+            });
             return ai;
         }
     }

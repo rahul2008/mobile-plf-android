@@ -221,17 +221,19 @@ public class AppConfigurationTest extends MockitoTestCase {
 
     public void testSetAndGetKey() throws IllegalArgumentException {
         AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
-        String existingGroup = "AI";
+        String existingGroup = "APPINFRA";
+        String existingKey = "appidentity.micrositeId";
+        mConfigInterface.setPropertyForKey(existingKey, existingGroup, "OldValue", configError);
 
         // Modify a existing Key
         configError.setErrorCode(null);// reset error code to null
-        String existingKey = "MICROSITEID";
+
 
         assertNotNull(mConfigInterface.getPropertyForKey(existingKey, existingGroup, configError));//  Existing Group and  Existing key
         // make sure AI and MicrositeID exist in configuration file else this test case will fail
         assertEquals(null, configError.getErrorCode()); // success
         configError.setErrorCode(null);// reset error code to null
-        assertTrue(mConfigInterface.setPropertyForKey(existingKey, existingGroup, "NewValue", configError));//  Existing Group  and Non Existing key
+        assertTrue(mConfigInterface.setPropertyForKey(existingKey, existingGroup, "NewValue", configError));//  Existing Group  and  Existing key with new value
 
         assertNotNull(mConfigInterface.getDefaultPropertyForKey(existingKey, existingGroup, configError));//  Existing Group and  Existing key
         // make sure AI and MicrositeID exist in configuration file else this test case will fail

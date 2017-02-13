@@ -163,6 +163,17 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                             configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.KeyNotExists) {   // key in cloud config does not exist
                         configError.setErrorCode(null);// reset error code to null
                         object = getKey(key, group, configError, getStaticConfigJsonCache()); // Level 3 search in static config
+                        if (configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.NoError) { //if key is found in cloud config
+                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "uAppConfig", "key found in static config");
+                        }
+                    }else{
+                        if (configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.NoError) { //if key is found in cloud config
+                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "uAppConfig", "key found in cloud config");
+                        }
+                    }
+                } else {
+                    if (configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.NoError) { //if key is found in dynamic config
+                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "uAppConfig", "key found in dynamic config");
                     }
                 }
             } catch (Exception e) {
@@ -425,7 +436,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
     private void saveCloudConfig(JSONObject cloudConfig, String url) {
         cloudConfig = makeKeyUppercase(cloudConfig); // converting all Group and child key to Uppercase
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Cloud config "+cloudConfig);
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Cloud config " + cloudConfig);
         SharedPreferences sharedPreferences = getCloudConfigSharedPreferences();
         SharedPreferences.Editor prefEditor = sharedPreferences.edit();
         prefEditor.putString(CLOUD_APP_CONFIG_JSON, cloudConfig.toString());
@@ -450,18 +461,18 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         JSONObject oldDynamicConfigJson = null;
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         String jsonString = ssi.fetchValueForKey(mAppConfig_SecureStoreKey, sse);
-        if (sse.getErrorCode() != SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey && null != jsonString || null!=dynamicConfigJsonCache) {
-           mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Migration starts for old dyanmic data > " + jsonString);
+        if (sse.getErrorCode() != SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey && null != jsonString || null != dynamicConfigJsonCache) {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Migration starts for old dyanmic data > " + jsonString);
             //dynamicConfigJsonCache =  null;// reset cache
             try {
-                if(null!=jsonString) {
+                if (null != jsonString) {
                     oldDynamicConfigJson = new JSONObject(jsonString);
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Migration starts for old dyanmic data > " + jsonString);
-                }else if(null!=dynamicConfigJsonCache){
+                } else if (null != dynamicConfigJsonCache) {
                     oldDynamicConfigJson = dynamicConfigJsonCache;
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Migration starts for old dyanmic data > " + dynamicConfigJsonCache);
                 }
-                dynamicConfigJsonCache=null;
+                dynamicConfigJsonCache = null;
                 oldDynamicConfigJson = makeKeyUppercase(oldDynamicConfigJson); // converting all Group and child key Uppercase
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -474,14 +485,14 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                     Iterator<String> iteratorKey = objectGroup.keys();
                     while (iteratorKey.hasNext()) {
                         String key = iteratorKey.next();
-                           Object value= getDefaultPropertyForKey(key, keyGroup,configError );
-                           if(null!=value && configError.getErrorCode()== AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.NoError ){
-                               Object dynamicValue= objectGroup.opt(key);
-                               if(!value.equals(dynamicValue)){ // check if values are NOT equal
-                                   AppConfigurationInterface.AppConfigurationError configErrorForNewKey = new AppConfigurationInterface.AppConfigurationError();
-                                   setPropertyForKey(key.toUpperCase(),keyGroup, dynamicValue,configErrorForNewKey); // add only changed value to dynamic migrated json
-                               }
-                           }
+                        Object value = getDefaultPropertyForKey(key, keyGroup, configError);
+                        if (null != value && configError.getErrorCode() == AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.NoError) {
+                            Object dynamicValue = objectGroup.opt(key);
+                            if (!value.equals(dynamicValue)) { // check if values are NOT equal
+                                AppConfigurationInterface.AppConfigurationError configErrorForNewKey = new AppConfigurationInterface.AppConfigurationError();
+                                setPropertyForKey(key.toUpperCase(), keyGroup, dynamicValue, configErrorForNewKey); // add only changed value to dynamic migrated json
+                            }
+                        }
                     }
 
                 } catch (Exception e) {
@@ -489,10 +500,10 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                 }
             }
             ssi.removeValueForKey(mAppConfig_SecureStoreKey);
-            String migratedDynamicData = ssi.fetchValueForKey(mAppConfig_SecureStoreKey_new,sse);
+            String migratedDynamicData = ssi.fetchValueForKey(mAppConfig_SecureStoreKey_new, sse);
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Dynamic data  > " + migratedDynamicData);
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Migration completes for  > " + jsonString);
-        }else{
+        } else {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Migration not required");
             //Log.v("uAPP_CONFIG","Migration not required" );
         }
