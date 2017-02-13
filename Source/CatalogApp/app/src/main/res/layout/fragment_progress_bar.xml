@@ -63,7 +63,7 @@
             android:layout_height="@dimen/button_layout_divider"
             android:background="?attr/uidApplicationBackground"/>
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             style="@style/ButtonsCategoryStyle"
             android:text="@string/progress_bar_circular_subtitle"/>
 
@@ -131,7 +131,7 @@
             android:layout_height="@dimen/button_layout_divider"
             android:background="?attr/uidApplicationBackground"/>
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             style="@style/ButtonsCategoryStyle"
             android:text="@string/progress_bar_linear_subtitle"/>
 
