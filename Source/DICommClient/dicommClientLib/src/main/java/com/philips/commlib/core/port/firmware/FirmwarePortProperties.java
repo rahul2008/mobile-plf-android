@@ -15,7 +15,7 @@ public class FirmwarePortProperties {
 
     public static final int INVALID_INT_VALUE = Integer.MIN_VALUE;
 
-    enum FirmwarePortKey {
+    public enum FirmwarePortKey {
         NAME("name"),
         VERSION("version"),
         UPGRADE("upgrade"),
@@ -40,7 +40,7 @@ public class FirmwarePortProperties {
         }
     }
 
-    enum FirmwarePortState {
+    public enum FirmwarePortState {
         IDLE("idle"),
         PREPARING("preparing"),
         DOWNLOADING("downloading"),

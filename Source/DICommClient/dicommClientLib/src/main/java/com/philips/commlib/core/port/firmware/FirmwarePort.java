@@ -8,6 +8,9 @@ package com.philips.commlib.core.port.firmware;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.commlib.core.communication.CommunicationStrategy;
+import com.philips.commlib.core.port.firmware.operation.FirmwareUpdateOperation;
+import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePullRemote;
+import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePushLocal;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -31,8 +34,9 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
     public void pushLocalFirmware(final byte[] firmwareData) {
         if (operation == null) {
             operation = new FirmwareUpdatePushLocal(newSingleThreadExecutor(), this, firmwareData);
+            operation.execute();
         } else {
-            throw new UnsupportedOperationException("Not yet implemented.");
+            throw new IllegalStateException("Operation already in progress.");
         }
     }
 
@@ -40,7 +44,7 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
         if (operation == null) {
             operation = new FirmwareUpdatePullRemote();
         } else {
-            throw new UnsupportedOperationException("Not yet implemented.");
+            throw new IllegalStateException("Operation already in progress.");
         }
     }
 
@@ -164,9 +168,9 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
         }
 
         previousFirmwarePortProperties = firmwarePortProperties;
-	}
+    }
 
-    void finishFirmwareUpdateOperation() {
+    public void finishFirmwareUpdateOperation() {
         this.operation = null;
     }
 

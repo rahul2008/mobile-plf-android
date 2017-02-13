@@ -3,7 +3,7 @@
  *   All rights reserved.
  */
 
-package com.philips.commlib.core.port.firmware;
+package com.philips.commlib.core.port.firmware.util;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +11,7 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
+import com.philips.commlib.core.port.firmware.FirmwarePort;
 import com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState;
 
 import java.util.concurrent.Callable;
@@ -20,7 +21,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-class FirmwarePortStateWaiter {
+public class FirmwarePortStateWaiter {
 
     @NonNull
     private final FirmwarePort firmwarePort;
@@ -80,14 +81,14 @@ class FirmwarePortStateWaiter {
     }
 
     /**
-     * Await.
+     * Wait for new state.
      *
      * @param initialState  the initial state
      * @param timeoutMillis the timeout in milliseconds
      * @return the new state, or null if new state could not be obtained or a timeout occurred.
      */
     @Nullable
-    public FirmwarePortState await(FirmwarePortState initialState, long timeoutMillis) {
+    public FirmwarePortState waitForNewState(FirmwarePortState initialState, long timeoutMillis) {
         final FirmwarePortState state = this.firmwarePort.getPortProperties().getState();
 
         if (initialState == state) {

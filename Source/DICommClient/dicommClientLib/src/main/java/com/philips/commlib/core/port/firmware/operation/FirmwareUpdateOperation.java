@@ -2,9 +2,9 @@
  * Copyright (c) Koninklijke Philips N.V. 2017
  * All rights reserved.
  */
-package com.philips.commlib.core.port.firmware;
+package com.philips.commlib.core.port.firmware.operation;
 
-interface FirmwareUpdateOperation {
+public interface FirmwareUpdateOperation {
     void execute();
 
     void cancel();

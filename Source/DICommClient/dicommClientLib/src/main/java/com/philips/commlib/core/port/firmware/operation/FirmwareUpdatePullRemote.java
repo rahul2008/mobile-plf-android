@@ -2,10 +2,10 @@
  * Copyright (c) Koninklijke Philips N.V. 2017
  * All rights reserved.
  */
-package com.philips.commlib.core.port.firmware;
+package com.philips.commlib.core.port.firmware.operation;
 
-class FirmwareUpdatePullRemote implements FirmwareUpdateOperation {
-    FirmwareUpdatePullRemote() {
+public class FirmwareUpdatePullRemote implements FirmwareUpdateOperation {
+    public FirmwareUpdatePullRemote() {
         throw new UnsupportedOperationException("Not implemented yet.");
     }
 

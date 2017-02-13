@@ -3,12 +3,14 @@
  *   All rights reserved.
  */
 
-package com.philips.commlib.core.port.firmware;
+package com.philips.commlib.core.port.firmware.util;
 
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.commlib.core.port.firmware.FirmwarePort;
+import com.philips.commlib.core.port.firmware.FirmwarePortProperties;
 import com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState;
 
 import org.junit.Before;
@@ -83,14 +85,14 @@ public class FirmwarePortStateWaiterTest {
     @Test
     public void whenPortIsInExpectedStateThenWaiterShouldReturnTrue() {
         when(portPropertiesMock.getState()).thenReturn(PROGRAMMING);
-        FirmwarePortState state = firmwarePortStateWaiter.await(IDLE, TIMEOUT_MILLIS);
+        FirmwarePortState state = firmwarePortStateWaiter.waitForNewState(IDLE, TIMEOUT_MILLIS);
 
         assertFalse(state == IDLE);
     }
 
     @Test
     public void whenPortIsNotInExpectedStateThenSubscribeIsCalled() {
-        firmwarePortStateWaiter.await(IDLE, TIMEOUT_MILLIS);
+        firmwarePortStateWaiter.waitForNewState(IDLE, TIMEOUT_MILLIS);
 
         verify(portMock).subscribe();
     }
@@ -115,14 +117,14 @@ public class FirmwarePortStateWaiterTest {
             }
         }).when(mockCountDownLatch).countDown();
 
-        FirmwarePortState state = firmwarePortStateWaiter.await(IDLE, TIMEOUT_MILLIS);
+        FirmwarePortState state = firmwarePortStateWaiter.waitForNewState(IDLE, TIMEOUT_MILLIS);
 
         assertTrue(state == DOWNLOADING);
     }
 
     @Test
     public void whenTimeoutThenAwaitReturnsFalse() {
-        assertNull(firmwarePortStateWaiter.await(IDLE, TIMEOUT_MILLIS));
+        assertNull(firmwarePortStateWaiter.waitForNewState(IDLE, TIMEOUT_MILLIS));
     }
 
     private FirmwarePortStateWaiter createFirmwarePortStateWaiter() {
