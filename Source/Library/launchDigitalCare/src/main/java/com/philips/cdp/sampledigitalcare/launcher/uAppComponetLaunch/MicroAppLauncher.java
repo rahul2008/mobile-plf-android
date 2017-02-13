@@ -98,7 +98,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         ArrayAdapter<String> mCountry_adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, mCountry);
         mCountry_spinner.setAdapter(mCountry_adapter);
-
+        restoreCountryOption();
 
         // Ctn List Code Snippet
 
@@ -115,9 +115,6 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                 new SimpleItemTouchHelperCallback(adapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(mRecyclerView);
-        // Digital care initialization
-        initializeDigitalCareLibrary();
-
     }
 
 
@@ -195,6 +192,27 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         dialog.show();
     }
 
+    private void restoreCountryOption() {
+        if(mAppInfraInterface == null) {
+            mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
+        }
+        mAppInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+            @Override
+            public void onSuccess(String s, SOURCE source) {
+                for (int i=0; i < mcountryCode.length; i++) {
+                    if(s.equalsIgnoreCase(mcountryCode[i])) {
+                        mCountry_spinner.setSelection(i);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+            }
+        });
+    }
+
+
     private void initializeDigitalCareLibrary() {
 
        /* if (AppInfraSingleton.getInstance() == null)
@@ -204,11 +222,11 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         //localeManager.setInputLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()],
           //      mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
 
-        mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
-
-        if(!(mCountry_spinner.getSelectedItemId() == 0)){
-            mAppInfraInterface.getServiceDiscovery().setHomeCountry(mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
+        if(mAppInfraInterface == null) {
+            mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
         }
+        
+        mAppInfraInterface.getServiceDiscovery().setHomeCountry(mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
     }
 
     @Override
@@ -307,6 +325,8 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                     public void onSuccess(String s, SOURCE source) {
                         if(s.equals("CN")) {
                             ccLaunchInput.setLiveChatUrl("http://ph-china.livecom.cn/webapp/index.html?app_openid=ph_6idvd4fj&token=PhilipsTest");
+                        } else {
+                            ccLaunchInput.setLiveChatUrl(null);
                         }
                         ccInterface.launch(activityLauncher, ccLaunchInput);
                     }
