@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:orientation="vertical">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
     <com.philips.platform.uid.view.widget.Label
-        style="@style/UIDLabel"
         android:id="@+id/uid_progress_indicator_label_top_left"
+        style="@style/UIDLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="9dp"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="9dp"/>
 
     <com.philips.platform.uid.view.widget.Label
-        style="@style/UIDLabel"
         android:id="@+id/uid_progress_indicator_label_top_right"
+        style="@style/UIDLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="9dp"
-        android:layout_alignParentEnd="true"/>
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="9dp"/>
 
     <com.philips.platform.uid.view.widget.IndeterminateLinearProgressBar
         android:id="@+id/uid_progress_indicator"
@@ -28,20 +28,20 @@
         android:layout_below="@+id/uid_progress_indicator_label_top_left"/>
 
     <com.philips.platform.uid.view.widget.Label
-        style="@style/UIDLabel"
         android:id="@+id/uid_progress_indicator_label_bottom_left"
+        style="@style/UIDLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_below="@id/uid_progress_indicator"
-        android:layout_marginTop="9dp"
-        android:layout_alignParentStart="true"/>
+        android:layout_marginTop="9dp"/>
 
     <com.philips.platform.uid.view.widget.Label
-        style="@style/UIDLabel"
         android:id="@+id/uid_progress_indicator_label_bottom_right"
+        style="@style/UIDLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="9dp"
+        android:layout_alignParentEnd="true"
         android:layout_below="@id/uid_progress_indicator"
-        android:layout_alignParentEnd="true"/>
+        android:layout_marginTop="9dp"/>
 </RelativeLayout>
