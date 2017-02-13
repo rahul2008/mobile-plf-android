@@ -401,21 +401,26 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 mLlAcceptTermsContainer.setVisibility(View.GONE);
             } else {
                 final UIFlow abStrings = RegUtility.getUiFlow();
-                if (abStrings.equals(UIFlow.FLOW_A)) {
-                    RLog.d(RLog.AB_TESTING, "UI Flow Type A");
+                if (abStrings.equals(UIFlow.FLOW_A.getValue())) {
                     RLog.d(RLog.AB_TESTING, "UI Flow Type A");
                     mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
                     mJoinNow.setVisibility(View.GONE);
-                } else if (abStrings.equals(UIFlow.FLOW_B)) {
+                    trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                            AppTagingConstants.REGISTRATION_CONTROL);
+                } else if (abStrings.equals(UIFlow.FLOW_B.getValue())) {
                     RLog.d(RLog.AB_TESTING, "UI Flow Type B");
                     mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
                     mLlPeriodicOffersCheck.setVisibility(View.GONE);
                     view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.GONE);
                     mJoinNow.setVisibility(View.GONE);
-                } else if (abStrings.equals(UIFlow.FLOW_C)) {
+                    trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                            AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
+                } else if (abStrings.equals(UIFlow.FLOW_C.getValue())) {
                     RLog.d(RLog.AB_TESTING, "UI Flow Type C");
                     mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
                     mJoinNow.setVisibility(View.VISIBLE);
+                    trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                            AppTagingConstants.REGISTRATION_SOCIAL_PROOF);
                 }
             }
         } else {
@@ -661,24 +666,18 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         trackMultipleActions();
         User user = new User(mContext);
         final UIFlow abStrings = RegUtility.getUiFlow();
-        if (abStrings.equals(UIFlow.FLOW_A)) {
+        if (abStrings.equals(UIFlow.FLOW_A.getValue())) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type A");
-            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                    AppTagingConstants.REGISTRATION_CONTROL);
             if (user.getEmailVerificationStatus()) {
                 launchWelcomeFragment();
             } else {
                 launchAccountActivateFragment();
             }
-        } else if (abStrings.equals(UIFlow.FLOW_B)) {
+        } else if (abStrings.equals(UIFlow.FLOW_B.getValue())) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                    AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
             getRegistrationFragment().addFragment(new MarketingAccountFragment());
-        } else {
+        } else if (abStrings.equals(UIFlow.FLOW_C.getValue())) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type C");
-            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                    AppTagingConstants.REGISTRATION_SOCIAL_PROOF);
             if (user.getEmailVerificationStatus()) {
                 launchWelcomeFragment();
             } else {
