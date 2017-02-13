@@ -2,6 +2,7 @@ package com.philips.platform.securedblibrary.ormlite.sqlcipher.android;
 
 import  android.database.Cursor;
 
+import com.j256.ormlite.android.AndroidDatabaseResults;
 import com.j256.ormlite.dao.ObjectCache;
 import com.j256.ormlite.field.SqlType;
 import com.j256.ormlite.logger.Logger;
@@ -24,7 +25,6 @@ import java.util.List;
 /**
  * Android implementation of the compiled statement.
  *
- * @author kevingalligan, graywatson
  */
 public class AndroidCompiledStatement implements CompiledStatement {
 

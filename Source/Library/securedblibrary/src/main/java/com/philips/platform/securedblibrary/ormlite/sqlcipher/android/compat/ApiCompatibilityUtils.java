@@ -5,7 +5,6 @@ import android.os.Build;
 /**
  * Utility class which loads the various classes based on which API version is being supported.
  * 
- * @author graywatson
  */
 @SuppressWarnings("unused")
 public class ApiCompatibilityUtils {

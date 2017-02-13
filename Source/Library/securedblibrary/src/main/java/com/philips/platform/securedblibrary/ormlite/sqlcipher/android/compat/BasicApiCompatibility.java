@@ -6,7 +6,6 @@ import net.sqlcipher.database.SQLiteDatabase;;
 /**
  * Basic class which provides no-op methods for all Android version.
  *
- * @author graywatson
  */
 public class BasicApiCompatibility implements ApiCompatibility {
 

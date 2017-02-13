@@ -33,7 +33,6 @@ import java.lang.reflect.Type;
  * Every time you use the helper, you should call {@link #getHelper(Context)} or {@link #getHelper(Context, Class)}.
  * When you are done with the helper you should call {@link #releaseHelper()}.
  * 
- * @author graywatson, kevingalligan
  */
 public class OpenHelperManager {
 
@@ -46,7 +45,7 @@ public class OpenHelperManager {
 	private static int instanceCount = 0;
 
 	/**
-	 * If you are _not_ using the {@link com.philips.platform.securedblibrary.ormlite.OrmLiteBaseActivity} type classes then you will need to call this in a static
+	 * If you are _not_ using the {@link com.j256.ormlite.android.apptools.OrmLiteBaseActivity} type classes then you will need to call this in a static
 	 * method in your code.
 	 */
 	public static synchronized void setOpenHelperClass(Class<? extends SecureDbOrmLiteSqliteOpenHelper> openHelperClass) {
@@ -83,7 +82,7 @@ public class OpenHelperManager {
 	/**
 	 * Similar to {@link #getHelper(Context, Class)} (which is recommended) except we have to find the helper class
 	 * through other means. This method requires that the Context be a class that extends one of ORMLite's Android base
-	 * classes such as {@link com.philips.platform.securedblibrary.ormlite.OrmLiteBaseActivity}. Either that or the helper class needs to be set in the strings.xml.
+	 * classes such as {@link com.j256.ormlite.android.apptools.OrmLiteBaseActivity}. Either that or the helper class needs to be set in the strings.xml.
 	 * 
 	 * <p>
 	 * To find the helper class, this does the following: <br />
@@ -91,7 +90,7 @@ public class OpenHelperManager {
 	 * helper. <br />
 	 * 2) If the resource class name is configured in the strings.xml file it will be used. <br />
 	 * 3) The context class hierarchy is walked looking at the generic parameters for a class extending
-	 * SecureDbOrmLiteSqliteOpenHelper. This is used by the {@link com.philips.platform.securedblibrary.ormlite.OrmLiteBaseActivity} and other base classes. <br />
+	 * SecureDbOrmLiteSqliteOpenHelper. This is used by the {@link com.j256.ormlite.android.apptools.OrmLiteBaseActivity} and other base classes. <br />
 	 * 4) An exception is thrown saying that it was not able to set the helper class.
 	 * </p>
 	 * 

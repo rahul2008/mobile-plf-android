@@ -9,6 +9,8 @@ import com.j256.ormlite.support.BaseConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.support.DatabaseConnectionProxyFactory;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper;
 
 import net.sqlcipher.database.SQLiteDatabase;
@@ -20,7 +22,6 @@ import java.sql.SQLException;
  * Android version of the connection source. Takes a standard Android {@link SQLiteOpenHelper}. For best results, use
  * {@link SecureDbOrmLiteSqliteOpenHelper}. You can also construct with a {@link SQLiteDatabase}.
  *
- * @author kevingalligan, graywatson
  */
 public class AndroidConnectionSource extends BaseConnectionSource implements ConnectionSource {
 
@@ -33,14 +34,19 @@ public class AndroidConnectionSource extends BaseConnectionSource implements Con
 	private final DatabaseType databaseType = new SqliteAndroidDatabaseType();
 	private static DatabaseConnectionProxyFactory connectionProxyFactory;
 	private boolean cancelQueriesEnabled = false;
+	private  AppInfraInterface mAppInfraInterface;
+	private char[] key;
 
-	public AndroidConnectionSource(SQLiteOpenHelper helper) {
+	public AndroidConnectionSource(SQLiteOpenHelper helper,char[] key, AppInfraInterface mAppInfraInterface) {
 		this.helper = helper;
 		this.sqliteDatabase = null;
+		this.key=key;
+		this.mAppInfraInterface=mAppInfraInterface;
 	}
 
-	public AndroidConnectionSource(SQLiteDatabase sqliteDatabase) {
+	public AndroidConnectionSource(SQLiteDatabase sqliteDatabase,char[] key) {
 		this.helper = null;
+		this.key=key;
 		this.sqliteDatabase = sqliteDatabase;
 	}
 
@@ -65,14 +71,12 @@ public class AndroidConnectionSource extends BaseConnectionSource implements Con
 			SQLiteDatabase db;
 			if (sqliteDatabase == null) {
 				try {
-					char[] password;
 					if (helper instanceof SecureDbOrmLiteSqliteOpenHelper) {
 						SecureDbOrmLiteSqliteOpenHelper openHelper = (SecureDbOrmLiteSqliteOpenHelper) helper;
-						password = openHelper.getPassword();
 					} else {
 						throw new IllegalStateException("SQLiteOpenHelper must be an instance of OrmLiteSqliteOpenHelper");
 					}
-					db = helper.getWritableDatabase(password);
+					db = helper.getWritableDatabase(key);
 				} catch (android.database.SQLException e) {
 					throw SqlExceptionUtil.create("Getting a writable database from helper " + helper + " failed", e);
 				}
@@ -83,9 +87,9 @@ public class AndroidConnectionSource extends BaseConnectionSource implements Con
 			if (connectionProxyFactory != null) {
 				connection = connectionProxyFactory.createProxy(connection);
 			}
-			logger.trace("created connection {} for db {}, helper {}", connection, db, helper);
+			mAppInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, "created connection {} for db {}, helper {}",null);
 		} else {
-			logger.trace("{}: returning read-write connection {}, helper {}", this, connection, helper);
+			mAppInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, "{}: returning read-write connection {}, helper {}",null);
 		}
 		return connection;
 	}

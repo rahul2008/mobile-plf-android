@@ -12,7 +12,6 @@ import net.sqlcipher.database.SQLiteDatabase;
  * <b>NOTE:</b> Will show as in error if compiled with previous Android versions.
  * </p>
  *
- * @author graywatson
  */
 public class JellyBeanApiCompatibility extends BasicApiCompatibility {
     @Override

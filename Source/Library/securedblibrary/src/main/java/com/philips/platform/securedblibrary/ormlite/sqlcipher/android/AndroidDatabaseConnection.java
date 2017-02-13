@@ -27,7 +27,6 @@ import com.j256.ormlite.support.GeneratedKeyHolder;
 /**
  * Database connection for Android.
  *
- * @author kevingalligan, graywatson
  */
 public class AndroidDatabaseConnection implements DatabaseConnection {
 

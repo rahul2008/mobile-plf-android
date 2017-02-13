@@ -50,7 +50,7 @@ public class SecureDataBaseQueryHelper<T> {
         this.dataBasePassword = dataBasePassword;
         df = new SimpleDateFormat("HH:mm:ss.SSS a", Locale.ENGLISH);
         try {
-            getWriteDbPermission();
+            getHelper().getWriteDbPermission();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -60,24 +60,20 @@ public class SecureDataBaseQueryHelper<T> {
         return secureDataBaseHelper;
     }
 
-    public SQLiteDatabase getWriteDbPermission() throws SQLException {
-
-        char[] pass = getHelper().getPassword();
-        return getHelper().getWritableDatabase(pass);
-    }
 
 
     public void beginTransaction() {
         try {
-            getWriteDbPermission().beginTransaction();
+            getHelper().getWriteDbPermission().beginTransaction();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
 
     public void endTransaction() {
         try {
-            getWriteDbPermission().endTransaction();
+            getHelper().getWriteDbPermission().endTransaction();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -85,7 +81,7 @@ public class SecureDataBaseQueryHelper<T> {
 
     public void setTransactionSuccessful() {
         try {
-            getWriteDbPermission().setTransactionSuccessful();
+            getHelper().getWriteDbPermission().setTransactionSuccessful();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -94,7 +90,7 @@ public class SecureDataBaseQueryHelper<T> {
 
     public boolean inTransaction() {
         try {
-            return getWriteDbPermission().inTransaction();
+            return getHelper().getWriteDbPermission().inTransaction();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -105,7 +101,7 @@ public class SecureDataBaseQueryHelper<T> {
 
     public void createOrInsert(Class clazz, T obj) {
         try {
-            getWriteDbPermission();
+            getHelper().getWriteDbPermission();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -114,7 +110,7 @@ public class SecureDataBaseQueryHelper<T> {
 
     public int deleteAll(Class clazz) {
         try {
-            getWriteDbPermission();
+            getHelper().getWriteDbPermission();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -124,7 +120,7 @@ public class SecureDataBaseQueryHelper<T> {
 
     public int deleteById(Class clazz, T obj) {
         try {
-            getWriteDbPermission();
+            getHelper().getWriteDbPermission();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -134,7 +130,7 @@ public class SecureDataBaseQueryHelper<T> {
 
     public int updateAllRecords(Class clazz, String columnToBeUpdate, T valueToBeSet) {
         try {
-            getWriteDbPermission();
+            getHelper().getWriteDbPermission();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -143,7 +139,7 @@ public class SecureDataBaseQueryHelper<T> {
 
     public int updateRecordByWhere(Class clazz, T obj, String whereCauseColumnName, T whereCauseValue, String columnToBeUpdate) {
         try {
-            getWriteDbPermission();
+            getHelper().getWriteDbPermission();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -152,7 +148,7 @@ public class SecureDataBaseQueryHelper<T> {
 
     public List retrieveByQuery(Class clazz, String columnName, T obj) {
         try {
-            getWriteDbPermission();
+            getHelper().getWriteDbPermission();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -161,7 +157,7 @@ public class SecureDataBaseQueryHelper<T> {
 
     public T retrieveById(Class clazz, T obj) {
         try {
-            getWriteDbPermission();
+            getHelper().getWriteDbPermission();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -170,7 +166,7 @@ public class SecureDataBaseQueryHelper<T> {
 
     public List retrieveAll(Class<T> clazz) {
         try {
-            getWriteDbPermission();
+            getHelper().getWriteDbPermission();
         } catch (SQLException e) {
             e.printStackTrace();
         }

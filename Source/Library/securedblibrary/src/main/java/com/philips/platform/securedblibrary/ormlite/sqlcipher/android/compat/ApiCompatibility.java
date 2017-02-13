@@ -7,7 +7,6 @@ import net.sqlcipher.database.SQLiteDatabase;
 /**
  * Compatibility interface to support various different versions of the Android API.
  *
- * @author graywatson
  */
 public interface ApiCompatibility {
 

@@ -1,13 +1,12 @@
 package com.philips.platform.securedblibrary;
 
 import android.content.Context;
-import android.util.Base64;
+import android.content.SharedPreferences;
 
+import com.j256.ormlite.android.apptools.OrmLiteConfigUtil;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
-import com.j256.ormlite.logger.Logger;
-import com.j256.ormlite.logger.LoggerFactory;
 import com.j256.ormlite.misc.IOUtils;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
@@ -18,7 +17,6 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.securedblibrary.ormlite.sqlcipher.android.AndroidConnectionSource;
 import com.philips.platform.securedblibrary.ormlite.sqlcipher.android.AndroidDatabaseConnection;
-import com.philips.platform.securedblibrary.ormlite.sqlcipher.android.apptools.OrmLiteConfigUtil;
 
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteDatabase.CursorFactory;
@@ -34,6 +32,8 @@ import java.io.UnsupportedEncodingException;
 import java.security.Key;
 import java.sql.SQLException;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * SQLite database open helper which can be extended by your application to help manage when the application needs to
  * create or upgrade its database.
@@ -47,7 +47,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
     private volatile boolean isOpen = true;
     private String databaseKey;
     private Context context;
-    public char[] password;
+    private char[] key;
 
     /**
      * @param context         Associated content from the application. This is needed to locate the database.
@@ -58,12 +58,14 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
      */
     public SecureDbOrmLiteSqliteOpenHelper(Context context,AppInfraInterface mAppInfraInterface, String dataBaseName, CursorFactory factory, int databaseVersion, String databaseKey) {
         super(context, dataBaseName, factory, databaseVersion);
-        this.context = context;
+        this.context=context;
+        SQLiteDatabase.loadLibs(context);
         this.mAppInfraInterface=mAppInfraInterface;
         this.databaseKey = databaseKey;
-        password = retrievePassword(databaseKey,mAppInfraInterface);
-        connectionSource = new AndroidConnectionSource(this);
-        mAppInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, "{}: constructed connectionSource {}",connectionSource.toString());
+        createKey();
+        key = getKeyValue(databaseKey,mAppInfraInterface);
+        connectionSource = new AndroidConnectionSource(this,key,mAppInfraInterface);
+        mAppInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, "{}: constructed connectionSource {}",null);
 
     }
 
@@ -113,11 +115,13 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
     public SecureDbOrmLiteSqliteOpenHelper(Context context,AppInfraInterface mAppInfraInterface, String dataBaseName, CursorFactory factory, int databaseVersion,
                                            InputStream stream, String databaseKey) {
         super(context, dataBaseName, factory, databaseVersion);
-        this.context = context;
+        this.context=context;
+        SQLiteDatabase.loadLibs(context);
         this.mAppInfraInterface=mAppInfraInterface;
         this.databaseKey = databaseKey;
-        password = retrievePassword(databaseKey,mAppInfraInterface);
-        connectionSource = new AndroidConnectionSource(this);
+        createKey();
+        key = getKeyValue(databaseKey,mAppInfraInterface);
+        connectionSource = new AndroidConnectionSource(this,key,mAppInfraInterface);
         if (stream == null) {
             return;
         }
@@ -259,14 +263,35 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
             }
         }
     }
+private void createKey()
+{
+    final SharedPreferences sharedPreferences = context.getSharedPreferences("com.philips.platform.database", MODE_PRIVATE);;
+    SharedPreferences.Editor editor;
+    if (sharedPreferences.getBoolean("firstRun", true)) {
+        mSecureStorage = mAppInfraInterface.getSecureStorage();
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError(); // to get error code if any
+        mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, databaseKey, sse);
+        editor = sharedPreferences.edit();
+        editor.putBoolean("firstRun", false);
+        editor.commit();
 
-    public char[] getPassword() {
-        if (password != null) {
-            return password;
+    }
+}
+
+    public SQLiteDatabase getWriteDbPermission() throws SQLException {
+
+        return getWritableDatabase(getKeyName());
+    }
+
+
+    private char[] getKeyName() {
+        if (key != null) {
+            return key;
         } else {
-            return retrievePassword(databaseKey,mAppInfraInterface);
+            return getKeyValue(databaseKey,mAppInfraInterface);
         }
     }
+
 
     /**
      * Close any open connections.
@@ -329,25 +354,24 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
         return getClass().getSimpleName() + "@" + Integer.toHexString(super.hashCode());
     }
 
-    private char[] retrievePassword(String databaseKey,AppInfraInterface mAppInfraInterface) {
+    private char[] getKeyValue(String databaseKey, AppInfraInterface mAppInfraInterface) {
 
         mSecureStorage = mAppInfraInterface.getSecureStorage();
-        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError(); // to get error code if any
+        final SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError(); // to get error code if any
         if (mSecureStorage != null) {
-            Key key = mSecureStorage.getKey(databaseKey, sse);
+          final Key key = mSecureStorage.getKey(databaseKey, sse);
             if (key != null) {
-                byte[] data = key.getEncoded();
-
-                String text1 = null;   // if the charset is UTF-8
+                final byte[] keyData = key.getEncoded();
+                String keyString = null;   // if the charset is UTF-8
                 try {
-                    text1 = new String(data, "UTF-8");
+                    keyString = new String(keyData, "UTF-8");
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-
-                char[] chars = text1.toCharArray();
+            //Directly byte[] to char[] typecast not good soluation in the case getKey contains numberic value like 67,68 that time char will return ASCII Value of 67,68.
+                final  char[] keyCharArray = keyString.toCharArray();
                 //return Base64.encodeToString(key.getEncoded(), Base64.DEFAULT);
-                return  chars;
+                return  keyCharArray;
             }
         }
         return null;
