@@ -4,7 +4,7 @@ BranchName = env.BRANCH_NAME
 
 properties([
     [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy']]],
-    [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '50']]
+    [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']]
 ])
 
 def MailRecipient = 'DL_CDP2_Callisto@philips.com'
@@ -22,7 +22,7 @@ node ('Ubuntu && 24.0.3 &&' + node_ext) {
 		}
 		try {
 			stage ('build') {
-				// sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew clean assembleDebug && ../../check_and_delete_artifact.sh dataServices && ./gradlew assembleRelease zipDocuments artifactoryPublish'
+				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew clean assembleDebug && ../../check_and_delete_artifact.sh dataServices && ./gradlew assembleRelease zipDocuments artifactoryPublish'
 				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew clean assembleDebug && ../../check_and_delete_artifact.sh dataServices'
 			}
             currentBuild.result = 'SUCCESS'
