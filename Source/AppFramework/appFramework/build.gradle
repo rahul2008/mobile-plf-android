@@ -334,19 +334,19 @@ dependencies {
     compile "com.j256.ormlite:ormlite-core:4.48"
     compile "com.j256.ormlite:ormlite-android:4.48"
 
-    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '2.3.4-SNAPSHOT', ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '2.3.5-SNAPSHOT', ext: 'aar', changing: true) {
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.3.4-SNAPSHOT', ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.3.5-SNAPSHOT', ext: 'aar', changing: true) {
         transitive=true
     }
 
-    compile(group: 'com.philips.cdp', name: 'iap', version: '5.2.4-SNAPSHOT', ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'iap', version: '5.2.5-SNAPSHOT', ext: 'aar', changing: true) {
         transitive=true
     }
 
-    compile(group: 'com.philips.cdp', name: 'dataServices', version: '0.3.4-SNAPSHOT', ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'dataServices', version: '0.3.5-SNAPSHOT', ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
