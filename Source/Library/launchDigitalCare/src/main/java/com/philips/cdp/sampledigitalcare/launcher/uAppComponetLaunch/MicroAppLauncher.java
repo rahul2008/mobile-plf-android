@@ -33,6 +33,7 @@ import com.philips.cdp.sampledigitalcare.view.CustomDialog;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -281,7 +282,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                 uiLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
                 DigitalCareConfigManager.getInstance().invokeDigitalCare(uiLauncher, productsSelection);*/
 
-                com.philips.platform.uappframework.launcher.ActivityLauncher activityLauncher =
+                final com.philips.platform.uappframework.launcher.ActivityLauncher activityLauncher =
                         new com.philips.platform.uappframework.launcher.ActivityLauncher
                                 (com.philips.platform.uappframework.
                                         launcher.ActivityLauncher.
@@ -292,7 +293,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
 
 //                mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
 
-                CcInterface ccInterface = new CcInterface();
+                final CcInterface ccInterface = new CcInterface();
                 if (ccSettings == null) ccSettings = new CcSettings(this);
                 if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
                 ccLaunchInput.setProductModelSelectionType(productsSelection);
@@ -301,7 +302,20 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                 CcDependencies ccDependencies = new CcDependencies(mAppInfraInterface);
 
                 ccInterface.init(ccDependencies, ccSettings);
-                ccInterface.launch(activityLauncher, ccLaunchInput);
+                mAppInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+                    @Override
+                    public void onSuccess(String s, SOURCE source) {
+                        if(s.equals("CN")) {
+                            ccLaunchInput.setLiveChatUrl("http://ph-china.livecom.cn/webapp/index.html?app_openid=ph_6idvd4fj&token=PhilipsTest");
+                        }
+                        ccInterface.launch(activityLauncher, ccLaunchInput);
+                    }
+
+                    @Override
+                    public void onError(ERRORVALUES errorvalues, String s) {
+                        ccInterface.launch(activityLauncher, ccLaunchInput);
+                    }
+                });
               /*  } else
                     Toast.makeText(this, "CTN list is null", Toast.LENGTH_SHORT).show();*/
                 break;
