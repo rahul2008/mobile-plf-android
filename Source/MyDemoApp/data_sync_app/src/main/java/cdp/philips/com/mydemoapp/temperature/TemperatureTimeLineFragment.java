@@ -275,7 +275,10 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                     if (mContext != null)
                         Toast.makeText(mContext, "UI update Failed", Toast.LENGTH_SHORT).show();
                 }
-                dismissProgressDialog();
+                if (mSharedPreferences.getBoolean("isSynced", false)) {
+                    dismissProgressDialog();
+                }
+               // dismissProgressDialog();
             }
         });
     }
@@ -354,7 +357,10 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                dismissProgressDialog();
+                if (mSharedPreferences.getBoolean("isSynced", false)) {
+                    dismissProgressDialog();
+                }
+                //dismissProgressDialog();
                // Toast.makeText(getActivity(), "Exception :" + exception.getMessage(), Toast.LENGTH_LONG).show();
             }
         });

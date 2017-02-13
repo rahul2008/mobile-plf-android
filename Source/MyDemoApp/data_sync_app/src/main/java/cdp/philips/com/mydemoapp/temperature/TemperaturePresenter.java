@@ -242,13 +242,15 @@ public class TemperaturePresenter {
 
                 switch (addOrUpdate) {
                     case ADD:
+                        dialog.dismiss();
                         createAndSaveMoment();
                         break;
                     case UPDATE:
+                        dialog.dismiss();
                         updateMoment((OrmMoment) moment);
                         break;
                 }
-                dialog.dismiss();
+
             }
         });
 

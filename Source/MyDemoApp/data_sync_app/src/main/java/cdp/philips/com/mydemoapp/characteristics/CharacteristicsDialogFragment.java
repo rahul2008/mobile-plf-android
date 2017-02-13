@@ -39,7 +39,7 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DataServicesManager.getInstance().registerDBChangeListener(this);
+
     }
 
     @Nullable
@@ -97,6 +97,7 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
     @Override
     public void onStart() {
         super.onStart();
+        DataServicesManager.getInstance().registerDBChangeListener(this);
         Dialog dialog = getDialog();
         dialog.setTitle(getString(R.string.characteristics));
         if (dialog != null) {
