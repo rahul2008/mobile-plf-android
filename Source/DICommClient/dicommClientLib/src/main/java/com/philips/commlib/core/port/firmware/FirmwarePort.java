@@ -150,7 +150,7 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
             notifyProgressUpdated(DOWNLOADING, 100);
         }
 
-        if (previousFirmwarePortProperties.getState() == CHECKING && firmwarePortProperties.getState() == READY) {
+        if ((previousFirmwarePortProperties.getState() == DOWNLOADING || previousFirmwarePortProperties.getState() == CHECKING) && (firmwarePortProperties.getState() == READY || firmwarePortProperties.getState() == IDLE)) {
             notifyProgressUpdated(CHECKING, 100);
         }
 
@@ -166,7 +166,7 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
             notifyDownloadFailed(new FirmwarePortListener.FirmwarePortException(firmwarePortProperties.getStatusMessage()));
         }
 
-        if (previousFirmwarePortProperties.getState() == CHECKING && firmwarePortProperties.getState() == READY) {
+        if ((previousFirmwarePortProperties.getState() == DOWNLOADING || previousFirmwarePortProperties.getState() == CHECKING) && firmwarePortProperties.getState() == READY) {
             notifyDownloadFinished();
         }
 
@@ -178,7 +178,7 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
             notifyDeployFailed(new FirmwarePortListener.FirmwarePortException(firmwarePortProperties.getStatusMessage()));
         }
 
-        if (previousFirmwarePortProperties.getState() == READY && firmwarePortProperties.getState() == IDLE) {
+        if ((previousFirmwarePortProperties.getState() == DOWNLOADING || previousFirmwarePortProperties.getState() == CHECKING || previousFirmwarePortProperties.getState() == READY) && firmwarePortProperties.getState() == IDLE) {
             notifyDeployFinished();
         }
 

@@ -237,6 +237,22 @@ public class FirmwarePortTest extends RobolectricTest {
         verify(mockFirmwarePortListener).onProgressUpdated(CHECKING, 100);
     }
 
+    @Test
+    public void whenGoingFromDownloadingStateToReadyState_AndCheckingStateIsSkipped_ProgressUpdateShouldBeCalledWith100Percent() throws Exception {
+        parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 99, "", 100));
+        parseFirmwarePortData(createPropertiesJson("1", "", "ready", 0, "", 100));
+
+        verify(mockFirmwarePortListener).onProgressUpdated(CHECKING, 100);
+    }
+
+    @Test
+    public void whenGoingFromDownloadingStateToIdleState_AndCheckingStateAndReadyStateIsSkipped_ProgressUpdateShouldBeCalledWith100Percent() throws Exception {
+        parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 99, "", 100));
+        parseFirmwarePortData(createPropertiesJson("1", "", "idle", 0, "", 100));
+
+        verify(mockFirmwarePortListener).onProgressUpdated(CHECKING, 100);
+    }
+
     // onDownloadFailed
 
     @Test
@@ -272,8 +288,16 @@ public class FirmwarePortTest extends RobolectricTest {
     // onDownloadFinished
 
     @Test
-    public void whenGoingFromCheckingToReadyState_DownloadFinishedShouldBeCalled() throws Exception {
+    public void whenGoingFromCheckingStateToReadyState_DownloadFinishedShouldBeCalled() throws Exception {
         parseFirmwarePortData(createPropertiesJson("1", "", "checking", 100, "", 100));
+        parseFirmwarePortData(createPropertiesJson("1", "", "ready", 0, "", 100));
+
+        verify(mockFirmwarePortListener).onDownloadFinished();
+    }
+
+    @Test
+    public void whenGoingFromDownloadingStateToReadyState_AndCheckingStateIsSkipped_DownloadFinishedShouldBeCalled() throws Exception {
+        parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 80, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "ready", 0, "", 100));
 
         verify(mockFirmwarePortListener).onDownloadFinished();
@@ -316,6 +340,22 @@ public class FirmwarePortTest extends RobolectricTest {
     public void whenGoingFromReadyStateToErrorStateBecauseOfProgrammingError_DeployFinishedShouldBeCalled() throws Exception {
         parseFirmwarePortData(createPropertiesJson("1", "2", "ready", 0, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "2", "idle", 0, "", 0));
+
+        verify(mockFirmwarePortListener).onDeployFinished();
+    }
+
+    @Test
+    public void whenGoingFromCheckingStateToIdleState_AndReadyStateIsSkipped_DeployFinishedShouldBeCalled() throws Exception {
+        parseFirmwarePortData(createPropertiesJson("1", "", "checking", 99, "", 100));
+        parseFirmwarePortData(createPropertiesJson("1", "", "idle", 0, "", 100));
+
+        verify(mockFirmwarePortListener).onDeployFinished();
+    }
+
+    @Test
+    public void whenGoingFromDownloadingStateToIdleState_AndCheckingStateAndReadyStateIsSkipped_DeployFinishedShouldBeCalled() throws Exception {
+        parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 99, "", 100));
+        parseFirmwarePortData(createPropertiesJson("1", "", "idle", 0, "", 100));
 
         verify(mockFirmwarePortListener).onDeployFinished();
     }
