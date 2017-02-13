@@ -52,8 +52,6 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
         mBtnCancel.setOnClickListener(this);
         settingsFragmentPresenter = new SettingsFragmentPresenter(getActivity(), this);
         mProgressDialog = new ProgressDialog(getActivity());
-        mDataServicesManager.registerDBChangeListener(this);
-
         mSpinner_Unit = (Spinner) rootView.findViewById(R.id.spinner_metrics);
         mSpinner_Local = (Spinner) rootView.findViewById(R.id.spinner_locale);
         ArrayAdapter<CharSequence> adapterMetrics = ArrayAdapter.createFromResource(getActivity(),
@@ -173,6 +171,7 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
     @Override
     public void onStart() {
         super.onStart();
+        mDataServicesManager.registerDBChangeListener(this);
         Dialog dialog = getDialog();
         dialog.setTitle(R.string.settings);
         if (dialog != null) {
