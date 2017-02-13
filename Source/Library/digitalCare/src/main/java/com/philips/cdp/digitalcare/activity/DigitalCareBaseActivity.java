@@ -22,6 +22,7 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
@@ -37,7 +38,7 @@ public abstract class DigitalCareBaseActivity extends UiKitActivity {
     protected RelativeLayout mActionbarlayout = null;
     protected ImageView mActionBarMenuIcon = null;
     protected ImageView mActionBarArrow = null;
-    protected DigitalCareFontTextView mActionBarTitle = null;
+    protected TextView mActionBarTitle = null;
     protected FragmentManager fragmentManager = null;
     protected DigitalCareConfigManager mDigitalCareConfigManager = null;
     protected OnClickListener actionBarClickListener = new OnClickListener() {
@@ -71,7 +72,7 @@ public abstract class DigitalCareBaseActivity extends UiKitActivity {
         mActionbarlayout = (RelativeLayout) findViewById(R.id.action_bar_icon_parent);
         mActionBarMenuIcon = (ImageView) findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) findViewById(R.id.back_to_home_img);
-        mActionBarTitle = (DigitalCareFontTextView) findViewById(R.id.action_bar_title);
+        mActionBarTitle = (TextView) findViewById(R.id.action_bar_title);
 
         mActionBarMenuIcon.setOnClickListener(actionBarClickListener);
         mActionBarArrow.setOnClickListener(actionBarClickListener);
