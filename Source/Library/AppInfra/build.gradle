@@ -43,9 +43,6 @@ allprojects {
 
     apply plugin: 'com.jfrog.artifactory'
     group = 'com.philips.platform.appinfra'
-    flatDir {
-        dirs 'libs'
-    }
 }
 
 group = 'com.philips.cdp'
