@@ -5,27 +5,35 @@
 
 package com.philips.commlib.core.port.firmware;
 
+import android.support.annotation.NonNull;
+
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.commlib.core.communication.CommunicationStrategy;
+import com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState;
 import com.philips.commlib.core.port.firmware.operation.FirmwareUpdateOperation;
 import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePullRemote;
 import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePushLocal;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
-import static java.util.concurrent.Executors.newSingleThreadExecutor;
+import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.CHECKING;
+import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.DOWNLOADING;
+import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.ERROR;
+import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.IDLE;
+import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.PREPARING;
+import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.READY;
 
 public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
 
-    private final String FIRMWAREPORT_NAME = "firmware";
-    private final int FIRMWAREPORT_PRODUCTID = 0;
+    private static final String FIRMWAREPORT_NAME = "firmware";
+    private static final int FIRMWAREPORT_PRODUCTID = 0;
 
     private FirmwareUpdateOperation operation;
     private FirmwarePortProperties previousFirmwarePortProperties = new FirmwarePortProperties();
     private final Set<FirmwarePortListener> firmwarePortListeners = new CopyOnWriteArraySet<>();
-
 
     public FirmwarePort(CommunicationStrategy communicationStrategy) {
         super(communicationStrategy);
@@ -33,7 +41,7 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
 
     public void pushLocalFirmware(final byte[] firmwareData) {
         if (operation == null) {
-            operation = new FirmwareUpdatePushLocal(newSingleThreadExecutor(), this, firmwareData);
+            operation = new FirmwareUpdatePushLocal(new ScheduledThreadPoolExecutor(1), this, firmwareData);
             operation.execute();
         } else {
             throw new IllegalStateException("Operation already in progress.");
@@ -60,7 +68,10 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
     }
 
     public void deployFirmware() {
-        throw new UnsupportedOperationException();
+        if (operation == null) {
+            return;
+        }
+        operation.deploy();
     }
 
     public void addFirmwarePortListener(FirmwarePortListener listener) {
@@ -73,18 +84,18 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
 
     @Override
     public boolean isResponseForThisPort(String jsonResponse) {
-        return (parseResponse(jsonResponse) != null);
+        return parseResponse(jsonResponse) != null;
     }
 
     @Override
     public void processResponse(String jsonResponse) {
-        FirmwarePortProperties firmwarePortInfo = parseResponse(jsonResponse);
+        FirmwarePortProperties firmwarePortProperties = parseResponse(jsonResponse);
 
-        if (firmwarePortInfo == null) {
-            DICommLog.e(DICommLog.FIRMWAREPORT, "FirmwarePort Info should never be NULL");
+        if (firmwarePortProperties == null) {
+            DICommLog.e(DICommLog.FIRMWAREPORT, "FirmwarePort properties is null.");
         } else {
-            setPortProperties(firmwarePortInfo);
-            notifyListenersWithPortProperties(firmwarePortInfo);
+            setPortProperties(firmwarePortProperties);
+            notifyListenersWithPortProperties(firmwarePortProperties);
         }
     }
 
@@ -115,43 +126,47 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
         return true;
     }
 
-    private void notifyListenersWithPortProperties(FirmwarePortProperties firmwarePortProperties) {
+    public void finishFirmwareUpdateOperation() {
+        this.operation = null;
+    }
+
+    private void notifyListenersWithPortProperties(@NonNull FirmwarePortProperties firmwarePortProperties) {
         if (firmwarePortProperties.getProgress() != previousFirmwarePortProperties.getProgress() || firmwarePortProperties.getState() != previousFirmwarePortProperties.getState()) {
             int progress = firmwarePortProperties.getSize() > 0 ? (int) ((float) firmwarePortProperties.getProgress() / firmwarePortProperties.getSize() * 100) : 0;
 
             switch (firmwarePortProperties.getState()) {
                 case DOWNLOADING:
-                    notifyProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.DOWNLOADING, progress);
+                    notifyProgressUpdated(DOWNLOADING, progress);
                     break;
                 case CHECKING:
-                    notifyProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.CHECKING, progress);
+                    notifyProgressUpdated(CHECKING, progress);
                     break;
                 default:
                     DICommLog.d(DICommLog.FIRMWAREPORT, "There is no progress for the " + firmwarePortProperties.getState() + " state.");
             }
         }
 
-        if (previousFirmwarePortProperties.getState() == FirmwarePortProperties.FirmwarePortState.DOWNLOADING && firmwarePortProperties.getState() == FirmwarePortProperties.FirmwarePortState.CHECKING) {
-            notifyProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.DOWNLOADING, 100);
+        if (previousFirmwarePortProperties.getState() == DOWNLOADING && firmwarePortProperties.getState() == CHECKING) {
+            notifyProgressUpdated(DOWNLOADING, 100);
         }
 
-        if (previousFirmwarePortProperties.getState() == FirmwarePortProperties.FirmwarePortState.CHECKING && firmwarePortProperties.getState() == FirmwarePortProperties.FirmwarePortState.READY) {
-            notifyProgressUpdated(FirmwarePortListener.FirmwarePortProgressType.CHECKING, 100);
+        if (previousFirmwarePortProperties.getState() == CHECKING && firmwarePortProperties.getState() == READY) {
+            notifyProgressUpdated(CHECKING, 100);
         }
 
-        if (previousFirmwarePortProperties.getState() == FirmwarePortProperties.FirmwarePortState.PREPARING && firmwarePortProperties.getState() == FirmwarePortProperties.FirmwarePortState.ERROR) {
+        if (previousFirmwarePortProperties.getState() == PREPARING && firmwarePortProperties.getState() == ERROR) {
             notifyDownloadFailed(new FirmwarePortListener.FirmwarePortException(firmwarePortProperties.getStatusMessage()));
         }
 
-        if (previousFirmwarePortProperties.getState() == FirmwarePortProperties.FirmwarePortState.DOWNLOADING && firmwarePortProperties.getState() == FirmwarePortProperties.FirmwarePortState.ERROR) {
+        if (previousFirmwarePortProperties.getState() == DOWNLOADING && firmwarePortProperties.getState() == ERROR) {
             notifyDownloadFailed(new FirmwarePortListener.FirmwarePortException(firmwarePortProperties.getStatusMessage()));
         }
 
-        if (previousFirmwarePortProperties.getState() == FirmwarePortProperties.FirmwarePortState.CHECKING && firmwarePortProperties.getState() == FirmwarePortProperties.FirmwarePortState.ERROR) {
+        if (previousFirmwarePortProperties.getState() == CHECKING && firmwarePortProperties.getState() == ERROR) {
             notifyDownloadFailed(new FirmwarePortListener.FirmwarePortException(firmwarePortProperties.getStatusMessage()));
         }
 
-        if (previousFirmwarePortProperties.getState() == FirmwarePortProperties.FirmwarePortState.CHECKING && firmwarePortProperties.getState() == FirmwarePortProperties.FirmwarePortState.READY) {
+        if (previousFirmwarePortProperties.getState() == CHECKING && firmwarePortProperties.getState() == READY) {
             notifyDownloadFinished();
         }
 
@@ -159,24 +174,20 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
             notifyFirmwareAvailable(firmwarePortProperties.getUpgrade());
         }
 
-        if (previousFirmwarePortProperties.getState() == FirmwarePortProperties.FirmwarePortState.READY && firmwarePortProperties.getState() == FirmwarePortProperties.FirmwarePortState.ERROR) {
+        if (previousFirmwarePortProperties.getState() == READY && firmwarePortProperties.getState() == ERROR) {
             notifyDeployFailed(new FirmwarePortListener.FirmwarePortException(firmwarePortProperties.getStatusMessage()));
         }
 
-        if (previousFirmwarePortProperties.getState() == FirmwarePortProperties.FirmwarePortState.READY && firmwarePortProperties.getState() == FirmwarePortProperties.FirmwarePortState.IDLE) {
+        if (previousFirmwarePortProperties.getState() == READY && firmwarePortProperties.getState() == IDLE) {
             notifyDeployFinished();
         }
 
         previousFirmwarePortProperties = firmwarePortProperties;
     }
 
-    public void finishFirmwareUpdateOperation() {
-        this.operation = null;
-    }
-
-    private void notifyProgressUpdated(FirmwarePortListener.FirmwarePortProgressType type, int progress) {
+    private void notifyProgressUpdated(FirmwarePortState state, int progress) {
         for (FirmwarePortListener listener : firmwarePortListeners) {
-            listener.onProgressUpdated(type, progress);
+            listener.onProgressUpdated(state, progress);
         }
     }
 

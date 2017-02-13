@@ -23,6 +23,10 @@ public class FirmwareUpdateStateIdle extends FirmwareUpdateState {
             operation.waitForNextState();
         } else {
             operation.finish();
+
+            if (previousState instanceof FirmwareUpdateStateError) {
+                throw new RuntimeException();
+            }
         }
     }
 }

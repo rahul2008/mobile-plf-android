@@ -17,7 +17,7 @@ public class FirmwareUpdateStateError extends FirmwareUpdateState {
 
     @Override
     public void execute(FirmwareUpdateState previousState) {
-        // TODO handle error
+        operation.onError(previousState);
 
         operation.requestState(IDLE);
         operation.waitForNextState();

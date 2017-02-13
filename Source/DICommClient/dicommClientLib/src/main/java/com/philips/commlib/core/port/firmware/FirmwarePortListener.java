@@ -5,8 +5,10 @@
 
 package com.philips.commlib.core.port.firmware;
 
+import com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState;
+
 public interface FirmwarePortListener {
-    void onProgressUpdated(FirmwarePortProgressType type, int progress);
+    void onProgressUpdated(FirmwarePortState state, int progress);
 
     void onDownloadFailed(FirmwarePortException exception);
 
@@ -17,11 +19,6 @@ public interface FirmwarePortListener {
     void onDeployFailed(FirmwarePortException exception);
 
     void onDeployFinished();
-
-    enum FirmwarePortProgressType {
-        DOWNLOADING,
-        CHECKING
-    }
 
     class FirmwarePortException extends Exception {
         public FirmwarePortException(String message) {

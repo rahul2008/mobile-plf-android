@@ -20,5 +20,10 @@ public abstract class FirmwareUpdateState {
     public abstract void execute(@Nullable FirmwareUpdateState previousState);
 
     public void cancel() {
+        throw new UnsupportedOperationException("Canceling not allowed in this state.");
+    }
+
+    public void deploy() {
+        throw new UnsupportedOperationException("Deploying not allowed in this state.");
     }
 }
