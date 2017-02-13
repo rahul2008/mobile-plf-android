@@ -1,13 +1,14 @@
 #!/usr/bin/env groovy																											
 
 BranchName = env.BRANCH_NAME
+JENKINS_ENV = env.JENKINS_ENV
 
 properties([
     [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy']]],
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']]
 ])
 
-def MailRecipient = 'DL_CDP2_Callisto@philips.com'
+def MailRecipient = 'DL_CDP2_Callisto@philips.com, DL_ph_cdp2_iap@philips.com'
 
 node_ext = "build_t"
 if (env.triggerBy == "ppc") {
@@ -22,8 +23,8 @@ node ('Ubuntu && 24.0.3 &&' + node_ext) {
 		}
 		try {
 			stage ('build') {
-				 sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew clean assembleDebug && ../../check_and_delete_artifact.sh dataServices && ./gradlew assembleRelease zipDocuments artifactoryPublish'
-				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew clean assembleDebug && ../../check_and_delete_artifact.sh dataServices'
+				 sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} clean assembleDebug && ../../check_and_delete_artifact.sh dataServices && ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease zipDocuments artifactoryPublish'
+				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} clean assembleDebug && ../../check_and_delete_artifact.sh dataServices'
 			}
             currentBuild.result = 'SUCCESS'
 
