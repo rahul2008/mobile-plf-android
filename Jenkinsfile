@@ -24,7 +24,7 @@ node ('android_pipeline &&' + node_ext) {
 		try {
 		if (BranchName =~ /master|develop|release.*/) {
 			stage ('build') {
-			sh 'chmod -R 775 . && cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew clean assembleDebug && ./gradlew cC assembleRelease zipDocuments artifactoryPublish'
+			sh 'chmod -R 775 . && cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew --refresh-dependencies clean assembleDebug && ./gradlew --refresh-dependencies cC assembleRelease zipDocuments artifactoryPublish'
                 //echo "fetch git config"
                 //echo "******"
                // sh 'cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew :coppa:clean'
@@ -34,7 +34,7 @@ node ('android_pipeline &&' + node_ext) {
 			else
 			{
 			stage ('build') {
-				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew clean assembleDebug assembleRelease'
+				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew --refresh-dependencies clean assembleDebug assembleRelease'
 			}
 			}
             currentBuild.result = 'SUCCESS'
