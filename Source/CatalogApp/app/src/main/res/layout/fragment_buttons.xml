@@ -93,7 +93,7 @@
 
             <include layout="@layout/divider_layout"/>
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
                 android:text="@string/buttons"/>
 
@@ -152,7 +152,7 @@
 
                 <include layout="@layout/divider_layout"/>
 
-                <TextView
+                <com.philips.platform.uid.view.widget.Label
                     style="@style/ButtonsCategoryStyle"
                     android:text="@string/buttons_text_left_aligned_category"/>
 
@@ -211,7 +211,7 @@
 
             <include layout="@layout/divider_layout"/>
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
                 android:text="@string/buttons_icon_only"/>
 
@@ -249,23 +249,22 @@
 
             <RelativeLayout
                 style="@style/ButtonsCategoryStyle"
+                android:visibility="@{frag.isButtonsEnabled? View.VISIBLE: View.GONE}"
                 android:onClick="@{(v) -> frag.showGridFragment()}">
 
-                <TextView
+                <com.philips.platform.uid.view.widget.Label
                     style="@style/ButtonsCategoryStyle"
                     android:layout_width="wrap_content"
                     android:layout_alignParentStart="true"
                     android:paddingEnd="0dp"
                     android:paddingStart="0dp"
-                    android:text="@string/social_media_icons"
-                    android:visibility="@{frag.isButtonsEnabled ? View.VISIBLE : View.GONE}"/>
+                    android:text="@string/social_media_icons"/>
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="16dp"
                     android:clickable="false"
                     android:gravity="center"
                     app:srcCompat="@drawable/ic_right_arrow_show_more"/>
@@ -300,7 +299,7 @@
 
             </LinearLayout>
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
                 android:text="@string/buttons_progress"/>
 

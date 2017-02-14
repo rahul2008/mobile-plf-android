@@ -8,6 +8,7 @@
     android:layout_height="?attr/actionBarSize"
     android:layout_width="match_parent"
     android:title="@null"
+    android:keepScreenOn="true"
     app:theme="@style/UIDToolbar">
 
     <TextView

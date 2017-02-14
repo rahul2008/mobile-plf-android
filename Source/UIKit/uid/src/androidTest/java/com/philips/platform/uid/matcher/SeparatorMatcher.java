@@ -25,6 +25,7 @@ public class SeparatorMatcher {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(final View view) {
+                boolean retValue = false;
                 if (view instanceof ListView) {
                     ListView listView = (ListView) view;
                     setValues(listView.getDividerHeight(), height);
@@ -91,11 +92,11 @@ public class SeparatorMatcher {
         };
     }
 
-    public static Matcher<? super View> hasHeight(final float height) {
+    public static Matcher<? super View> hasHeight(final int height) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(final View view) {
-                return DrawableMatcher.isSameHeight((int) height).matches(view.getBackground());
+                return DrawableMatcher.isSameHeight(height).matches(view.getBackground());
             }
         };
     }

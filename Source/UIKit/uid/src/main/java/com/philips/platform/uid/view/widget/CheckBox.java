@@ -19,6 +19,7 @@ import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.util.AttributeSet;
+import android.view.Gravity;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
@@ -149,6 +150,10 @@ public class CheckBox extends AppCompatCheckBox {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         final int measuredWidth = getMeasuredWidth() + checkBoxStartPadding;
         setMeasuredDimension(measuredWidth, ViewCompat.getMeasuredHeightAndState(this));
+        final int gravity = getGravity() & Gravity.VERTICAL_GRAVITY_MASK;
+        if(gravity == Gravity.CENTER_VERTICAL && getLineCount() >1) {
+            setGravity(Gravity.TOP);
+        }
     }
 
     private int getStartPaddingAsPerLayoutDirection() {

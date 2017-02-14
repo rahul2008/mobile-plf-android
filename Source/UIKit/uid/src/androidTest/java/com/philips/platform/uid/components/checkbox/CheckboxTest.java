@@ -7,7 +7,6 @@ package com.philips.platform.uid.components.checkbox;
 
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.test.espresso.UiController;
@@ -18,23 +17,20 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 import com.philips.platform.uid.activity.BaseTestActivity;
-import com.philips.platform.uid.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
-import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.view.widget.CheckBox;
 
 import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
 
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uid.activity.BaseTestActivity.CONTENT_COLOR_KEY;
 import static com.philips.platform.uid.test.R.color.Gray75;
-import static com.philips.platform.uid.test.R.color.GroupBlue45;
 import static com.philips.platform.uid.test.R.color.GroupBlue75;
 import static com.philips.platform.uid.test.R.color.White;
 import static com.philips.platform.uid.utils.UIDUtils.modulateColorAlpha;
@@ -131,6 +127,19 @@ public class CheckboxTest {
         getCheckbox().check(matches(TextViewPropertiesMatchers.isSameTextColor(-android.R.attr.state_enabled, expectedDisabledCheckBoxTextColor)));
     }
 
+    @Test
+    public void verifyLineSpacing() {
+        setUpTheme(VERY_DARK);
+        int lineSpacing = getInstrumentation().getContext().getResources().getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.checkbox_line_spacing);
+        getCheckbox().check(matches(TextViewPropertiesMatchers.isSameLineSpacing(lineSpacing)));
+    }
+
+    @Test
+    public void verifyLineMultiplier() {
+        setUpTheme(VERY_DARK);
+        int lineMultiplier = getInstrumentation().getContext().getResources().getInteger(com.philips.platform.uid.test.R.integer.checkbox_line_spacing_multiplier);
+        getCheckbox().check(matches(TextViewPropertiesMatchers.isSameLineSpacingMultiplier(lineMultiplier)));
+    }
 
     public void setUpTheme(final int theme) {
         final Intent intent = getIntent(theme);
