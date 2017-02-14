@@ -393,13 +393,7 @@ public class User {
 
     // For getting values from Captured and Saved Json object
     private DIUserProfile getUserInstance() {
-        CaptureRecord captureRecord = null;
-        if(null != Jump.getSignedInUser()){
-            captureRecord = Jump.getSignedInUser();
-        }else{
-            captureRecord = CaptureRecord.loadFromDisk(mContext);
-        }
-
+        CaptureRecord captureRecord = Jump.getSignedInUser();
 
         if (captureRecord == null) {
             return null;
@@ -455,7 +449,7 @@ public class User {
 
     // For checking email verification
     public boolean getEmailVerificationStatus() {
-        CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
+        CaptureRecord captured = Jump.getSignedInUser();
 
         if (captured == null)
             return false;
@@ -610,8 +604,8 @@ public class User {
 
         AddConsumerInterest addConsumerInterest = new AddConsumerInterest(
                 addConsumerInterestHandler);
-        CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
-        JSONObject originalUserInfo = CaptureRecord.loadFromDisk(mContext);
+        CaptureRecord captured = Jump.getSignedInUser();
+        JSONObject originalUserInfo = Jump.getSignedInUser();
         mConsumerInterestArray = new JSONArray();
         ConsumerArray consumer = consumerArray;
 
@@ -678,7 +672,7 @@ public class User {
     // For getting access token
     public String getAccessToken() {
 
-        CaptureRecord captureRecord = CaptureRecord.loadFromDisk(mContext);
+        CaptureRecord captureRecord = Jump.getSignedInUser();
 
         if (captureRecord == null) {
             return null;

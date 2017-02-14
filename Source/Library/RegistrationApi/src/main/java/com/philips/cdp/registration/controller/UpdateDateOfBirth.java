@@ -11,6 +11,7 @@ package com.philips.cdp.registration.controller;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.JanrainInitializer;
@@ -62,8 +63,8 @@ public class UpdateDateOfBirth extends UpdateUserDetailsBase {
 
 
     protected void performActualUpdate() {
-        CaptureRecord userData = CaptureRecord.loadFromDisk(mContext);
-        mUpdatedUserdata = CaptureRecord.loadFromDisk(mContext);
+        CaptureRecord userData = Jump.getSignedInUser();
+        mUpdatedUserdata = Jump.getSignedInUser();
         try {
             if (null != mUpdatedUserdata) {
                 mUpdatedUserdata.put(USER_DATE_OF_BIRTH, mBirthDate);

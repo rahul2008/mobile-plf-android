@@ -256,7 +256,7 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 
 	private void handleOnLoginSuccess() {
 		boolean isEmailVerified;
-		CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
+		CaptureRecord captured = Jump.getSignedInUser();
 		if (captured == null || (captured != null && captured.isNull("emailVerified"))) {
 			isEmailVerified = false;
 		} else {

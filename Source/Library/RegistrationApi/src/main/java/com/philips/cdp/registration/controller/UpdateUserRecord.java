@@ -20,7 +20,6 @@ import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.RegistrationSettings;
-import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.ntputils.ServerTime;
 import com.philips.ntputils.constants.ServerTimeConstants;
@@ -100,8 +99,8 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                 @Override
                 public void onSuccess(String s, SOURCE source) {
                     RLog.d(RLog.SERVICE_DISCOVERY, " Country Sucess :" + s);
-                    CaptureRecord updatedUser = CaptureRecord.loadFromDisk(mContext);
-                    JSONObject originalUserInfo = CaptureRecord.loadFromDisk(mContext);
+                    CaptureRecord updatedUser = Jump.getSignedInUser();
+                    JSONObject originalUserInfo = Jump.getSignedInUser();
                     SharedPreferences myPrefs = mContext.getSharedPreferences(
                             RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
                     String microSiteId = myPrefs.getString(RegistrationSettings.MICROSITE_ID, null);
@@ -179,8 +178,8 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
     public void updateUserRecordLogin() {
 
         if (Jump.getSignedInUser() != null) {
-            CaptureRecord updatedUser = CaptureRecord.loadFromDisk(mContext);
-            JSONObject originalUserInfo = CaptureRecord.loadFromDisk(mContext);
+            CaptureRecord updatedUser = Jump.getSignedInUser();
+            JSONObject originalUserInfo = Jump.getSignedInUser();
             SharedPreferences myPrefs = mContext.getSharedPreferences(
                     RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
             String microSiteId = myPrefs.getString(RegistrationSettings.MICROSITE_ID, null);
