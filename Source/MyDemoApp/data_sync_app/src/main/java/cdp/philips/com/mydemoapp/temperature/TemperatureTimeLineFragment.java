@@ -328,7 +328,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void dBChangeFailed(final Exception e) {
-        if (getActivity() == null) return;
         showToastOnUiThread("Exception :" + e.getMessage());
     }
 
@@ -363,14 +362,11 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     private void showToastOnUiThread(final String msg){
 
         if(getActivity() == null) return;
-
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
                 Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
             }
         });
-
     }
 }
