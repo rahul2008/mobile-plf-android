@@ -9,6 +9,7 @@
 package com.philips.cdp.digitalcare.contactus.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -134,6 +135,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     private View mSocialDivider = null;
     private int mSdkVersion;
     private Utils mUtils = null;
+    private AlertDialog mAlertDialog = null;
 
     private boolean isCdlsResponseNull(CdlsResponseModel response) {
         return response == null;
@@ -543,18 +545,18 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         } else if (id == R.id.contactUsCall) {
             DigiCareLogger.i(TAG, "Clicked on the Call Button");
             if (!isContactNumberCached()) {
-                showAlert(getActivity().getString(R.string.no_data));
+                showDialog(getActivity().getString(R.string.no_data));
             } else if (isSimAvailable() && !isTelephonyEnabled()){
                 //show alert
-                showAlert(getActivity().getString(R.string.no_call_functionality));
+                showDialog(getActivity().getString(R.string.no_call_functionality));
             } else if (isSimAvailable()) {
                 tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_CALL);
                 callPhilips();
             } else if (!isSimAvailable()) {
-                showAlert(getActivity().getString(R.string.check_sim));
+                showDialog(getActivity().getString(R.string.check_sim));
             }
             else {
-                showAlert(getActivity().getString(R.string.check_sim));
+                showDialog(getActivity().getString(R.string.check_sim));
             }
         } else if (tag != null
                 && tag.equalsIgnoreCase(getStringKey(R.string.facebook))
@@ -761,7 +763,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         }*/
 
         if (!isSocialButtonsEnabled && !isEmailEnabled) {
-            showAlert(getResources().getString(R.string.NO_SUPPORT_KEY));
+            showDialog(getResources().getString(R.string.NO_SUPPORT_KEY));
         }
 
       /*if (mChat != null) {
@@ -956,10 +958,33 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	 */
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if(null != mAlertDialog && mAlertDialog.isShowing())
+            mAlertDialog.cancel();
+    }
+
+    @Override
     public void update(Observable observable, Object data) {
         if (!(getActivity() == null)) {
             requestCdlsData();
         }
     }
 
+    private void showDialog(String message){
+
+            mAlertDialog = new AlertDialog.Builder(getActivity(), R.style.alertDialogStyle)
+                    .setTitle(null)
+                    .setMessage(message)
+                    .setPositiveButton(android.R.string.yes,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    int which) {
+                                    mAlertDialog.dismiss();
+
+                                }
+                            }).show();
+
+        }
 }
