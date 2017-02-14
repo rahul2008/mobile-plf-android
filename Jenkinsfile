@@ -24,13 +24,13 @@ node ('android_pipeline &&' + node_ext) {
 		try {
 		if (BranchName =~ /master|develop|release.*/) {
 			stage ('build') {
-                sh 'chmod -R 755 . && cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew -PenvCode=${JENKINS_ENV} clean assembleDebug && ../../check_and_delete_artifact.sh "uAppFwLib" && ./gradlew -PenvCode=${JENKINS_ENV} lint assembleRelease zipDocuments artifactoryPublish'
+                sh 'chmod -R 755 . && cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug && ../../check_and_delete_artifact.sh "uAppFwLib" && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} lint assembleRelease zipDocuments artifactoryPublish'
 			}
 			}
 			else
 			{
 			stage ('build') {
-				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} clean assembleDebug assembleRelease'
+				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug assembleRelease'
 			}
 			}
 			stage ('save dependencies list') {
