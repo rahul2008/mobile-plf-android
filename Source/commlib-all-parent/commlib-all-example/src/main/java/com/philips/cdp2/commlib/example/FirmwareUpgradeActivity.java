@@ -91,6 +91,9 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
                 case R.id.btnUploadFirmware:
                     uploadSelectedFirmware();
                     break;
+                case R.id.btnDeployFirmware:
+                    deployFirmware();
+                    break;
                 default:
                     Log.d(TAG, "Unknown view clicked");
                     break;
@@ -123,6 +126,10 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
             Log.e(TAG, "error accessing fw image", e);
         }
         return bytes;
+    }
+
+    private void deployFirmware() {
+        bleReferenceAppliance.getFirmwarePort().deployFirmware();
     }
 
 }
