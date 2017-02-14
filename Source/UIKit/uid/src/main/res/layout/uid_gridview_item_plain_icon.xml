@@ -18,7 +18,7 @@
     <FrameLayout
         android:id="@id/uid_gridView_star_icon_holder"
         android:layout_width="@dimen/uid_grid_star_holder_width"
-        android:layout_height="@dimen/uid_grid_star_holder_height"
+        android:layout_height="@dimen/uid_grid_single_line_text_height"
         android:layout_gravity="top"
         >
 
@@ -30,8 +30,6 @@
             android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:paddingLeft="@dimen/uid_grid_star_icon_padding"
-            android:paddingRight="@dimen/uid_grid_star_icon_padding"
             />
     </FrameLayout>
 

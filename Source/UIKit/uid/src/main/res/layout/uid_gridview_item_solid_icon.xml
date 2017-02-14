@@ -26,7 +26,7 @@
         <FrameLayout
             android:id="@id/uid_gridView_star_icon_holder"
             android:layout_width="@dimen/uid_grid_star_holder_width"
-            android:layout_height="@dimen/uid_grid_text_height"
+            android:layout_height="@dimen/uid_grid_two_line_text_height"
             android:layout_alignParentRight="true"
             >
 
@@ -43,9 +43,9 @@
         </FrameLayout>
 
         <LinearLayout
-            android:id="@+id/twoLineTextLayout"
+            android:id="@id/uid_gridView_two_line_text"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/uid_grid_text_height"
+            android:layout_height="@dimen/uid_grid_two_line_text_height"
             android:layout_alignParentLeft="true"
             android:layout_toLeftOf="@id/uid_gridView_star_icon_holder"
             android:background="#0000"

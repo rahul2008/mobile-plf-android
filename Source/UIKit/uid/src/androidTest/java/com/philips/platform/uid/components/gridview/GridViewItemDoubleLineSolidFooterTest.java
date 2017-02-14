@@ -20,9 +20,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-
-public class GridViewItemWithoutSecondaryTest {
-
+public class GridViewItemDoubleLineSolidFooterTest {
     Resources testResources;
 
     @Rule
@@ -33,7 +31,7 @@ public class GridViewItemWithoutSecondaryTest {
     public void setUp() throws Exception {
         final Intent launchIntent = getLaunchIntent(1, 0);
         activity = testRule.launchActivity(launchIntent);
-        activity.switchTo(R.layout.uid_gridview_item_plain_icon);
+        activity.switchTo(R.layout.uid_gridview_item_solid_icon);
         testResources = activity.getResources();
     }
 
@@ -53,14 +51,8 @@ public class GridViewItemWithoutSecondaryTest {
 
     @Test
     public void verifyIconHolderHeight() {
-        int expectedHeight = testResources.getDimensionPixelSize(R.dimen.uid_grid_single_line_text_height);
+        int expectedHeight = testResources.getDimensionPixelSize(R.dimen.uid_grid_two_line_text_height);
         getIconHolder().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
-    }
-
-    @Test
-    public void verifyIconHolderWidth() {
-        int expectedWidth = testResources.getDimensionPixelSize(R.dimen.uid_grid_star_holder_width);
-        getIconHolder().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedWidth)));
     }
 
     private ViewInteraction getStarIcon() {
