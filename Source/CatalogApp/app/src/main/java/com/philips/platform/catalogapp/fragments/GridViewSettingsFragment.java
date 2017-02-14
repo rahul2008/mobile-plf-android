@@ -43,7 +43,6 @@ public class GridViewSettingsFragment extends BaseFragment {
         return gridviewSettingsBinding.getRoot();
     }
 
-<<<<<<< HEAD
 //    private void initSavedSettings(){
 //        setSecondaryActionEnabled(gridDataHelper.isSecondaryActionEnabled());
 //        setDarkBackgroundEnabled(gridDataHelper.isDarkBackgroundEnabled());
@@ -56,7 +55,8 @@ public class GridViewSettingsFragment extends BaseFragment {
     }
     public void setHeaderEnabled(boolean checked) {
 
-=======
+    }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -112,6 +112,5 @@ public class GridViewSettingsFragment extends BaseFragment {
             default:
                 setTemplateSelection(1);
         }
->>>>>>> Integrated the new template - without Secondary Content; added GridView Settings page into the app.
     }
 }
