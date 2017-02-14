@@ -18,7 +18,7 @@ public class FirmwareUpdateStateReady extends CancelableFirmwareUpdateState {
 
     @Override
     public void execute(FirmwareUpdateState previousState) {
-        operation.onReadyToDeploy();
+        operation.onDownloadFinished();
     }
 
     @Override

@@ -21,9 +21,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.CHECKING;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.DOWNLOADING;
-import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.ERROR;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.IDLE;
-import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.PREPARING;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.READY;
 
 public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
@@ -35,13 +33,57 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
     private FirmwarePortProperties previousFirmwarePortProperties = new FirmwarePortProperties();
     private final Set<FirmwarePortListener> firmwarePortListeners = new CopyOnWriteArraySet<>();
 
+    private final FirmwarePortListener listener = new FirmwarePortListener() {
+        @Override
+        public void onProgressUpdated(final FirmwarePortState state, final int progress) {
+            for (FirmwarePortListener listener : firmwarePortListeners) {
+                listener.onProgressUpdated(state, progress);
+            }
+        }
+
+        @Override
+        public void onDownloadFailed(final FirmwarePortException exception) {
+            for (FirmwarePortListener listener : firmwarePortListeners) {
+                listener.onDownloadFailed(exception);
+            }
+        }
+
+        @Override
+        public void onDownloadFinished() {
+            for (FirmwarePortListener listener : firmwarePortListeners) {
+                listener.onDownloadFinished();
+            }
+        }
+
+        @Override
+        public void onFirmwareAvailable(final String version) {
+            for (FirmwarePortListener listener : firmwarePortListeners) {
+                listener.onFirmwareAvailable(version);
+            }
+        }
+
+        @Override
+        public void onDeployFailed(final FirmwarePortException exception) {
+            for (FirmwarePortListener listener : firmwarePortListeners) {
+                listener.onDeployFailed(exception);
+            }
+        }
+
+        @Override
+        public void onDeployFinished() {
+            for (FirmwarePortListener listener : firmwarePortListeners) {
+                listener.onDeployFinished();
+            }
+        }
+    };
+
     public FirmwarePort(CommunicationStrategy communicationStrategy) {
         super(communicationStrategy);
     }
 
     public void pushLocalFirmware(final byte[] firmwareData) {
         if (operation == null) {
-            operation = new FirmwareUpdatePushLocal(new ScheduledThreadPoolExecutor(1), this, this.mCommunicationStrategy, firmwareData);
+            operation = new FirmwareUpdatePushLocal(new ScheduledThreadPoolExecutor(1), this, this.mCommunicationStrategy, this.listener, firmwareData);
             operation.execute();
         } else {
             throw new IllegalStateException("Operation already in progress.");
@@ -132,92 +174,32 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
 
     private void notifyListenersWithPortProperties(@NonNull FirmwarePortProperties firmwarePortProperties) {
         if (firmwarePortProperties.getProgress() != previousFirmwarePortProperties.getProgress() || firmwarePortProperties.getState() != previousFirmwarePortProperties.getState()) {
-            int progress = firmwarePortProperties.getSize() > 0 ? (int) ((float) firmwarePortProperties.getProgress() / firmwarePortProperties.getSize() * 100) : 0;
+            int progress = getProgressPercentage(firmwarePortProperties);
 
             switch (firmwarePortProperties.getState()) {
                 case DOWNLOADING:
-                    notifyProgressUpdated(DOWNLOADING, progress);
+                    listener.onProgressUpdated(DOWNLOADING, progress);
                     break;
                 case CHECKING:
-                    notifyProgressUpdated(CHECKING, progress);
+                    listener.onProgressUpdated(CHECKING, progress);
                     break;
                 default:
                     DICommLog.d(DICommLog.FIRMWAREPORT, "There is no progress for the " + firmwarePortProperties.getState() + " state.");
             }
         }
 
-        if (previousFirmwarePortProperties.getState() == DOWNLOADING && firmwarePortProperties.getState() == CHECKING) {
-            notifyProgressUpdated(DOWNLOADING, 100);
-        }
-
         if ((previousFirmwarePortProperties.getState() == DOWNLOADING || previousFirmwarePortProperties.getState() == CHECKING) && (firmwarePortProperties.getState() == READY || firmwarePortProperties.getState() == IDLE)) {
-            notifyProgressUpdated(CHECKING, 100);
-        }
-
-        if (previousFirmwarePortProperties.getState() == PREPARING && firmwarePortProperties.getState() == ERROR) {
-            notifyDownloadFailed(new FirmwarePortListener.FirmwarePortException(firmwarePortProperties.getStatusMessage()));
-        }
-
-        if (previousFirmwarePortProperties.getState() == DOWNLOADING && firmwarePortProperties.getState() == ERROR) {
-            notifyDownloadFailed(new FirmwarePortListener.FirmwarePortException(firmwarePortProperties.getStatusMessage()));
-        }
-
-        if (previousFirmwarePortProperties.getState() == CHECKING && firmwarePortProperties.getState() == ERROR) {
-            notifyDownloadFailed(new FirmwarePortListener.FirmwarePortException(firmwarePortProperties.getStatusMessage()));
-        }
-
-        if ((previousFirmwarePortProperties.getState() == DOWNLOADING || previousFirmwarePortProperties.getState() == CHECKING) && firmwarePortProperties.getState() == READY) {
-            notifyDownloadFinished();
+            listener.onProgressUpdated(CHECKING, 100);
         }
 
         if (!previousFirmwarePortProperties.getUpgrade().equals(firmwarePortProperties.getUpgrade())) {
-            notifyFirmwareAvailable(firmwarePortProperties.getUpgrade());
-        }
-
-        if (previousFirmwarePortProperties.getState() == READY && firmwarePortProperties.getState() == ERROR) {
-            notifyDeployFailed(new FirmwarePortListener.FirmwarePortException(firmwarePortProperties.getStatusMessage()));
-        }
-
-        if ((previousFirmwarePortProperties.getState() == DOWNLOADING || previousFirmwarePortProperties.getState() == CHECKING || previousFirmwarePortProperties.getState() == READY) && firmwarePortProperties.getState() == IDLE) {
-            notifyDeployFinished();
+            listener.onFirmwareAvailable(firmwarePortProperties.getUpgrade());
         }
 
         previousFirmwarePortProperties = firmwarePortProperties;
     }
 
-    private void notifyProgressUpdated(FirmwarePortState state, int progress) {
-        for (FirmwarePortListener listener : firmwarePortListeners) {
-            listener.onProgressUpdated(state, progress);
-        }
-    }
-
-    private void notifyDownloadFailed(FirmwarePortListener.FirmwarePortException exception) {
-        for (FirmwarePortListener listener : firmwarePortListeners) {
-            listener.onDownloadFailed(exception);
-        }
-    }
-
-    private void notifyDownloadFinished() {
-        for (FirmwarePortListener listener : firmwarePortListeners) {
-            listener.onDownloadFinished();
-        }
-    }
-
-    private void notifyFirmwareAvailable(String version) {
-        for (FirmwarePortListener listener : firmwarePortListeners) {
-            listener.onFirmwareAvailable(version);
-        }
-    }
-
-    private void notifyDeployFailed(FirmwarePortListener.FirmwarePortException exception) {
-        for (FirmwarePortListener listener : firmwarePortListeners) {
-            listener.onDeployFailed(exception);
-        }
-    }
-
-    private void notifyDeployFinished() {
-        for (FirmwarePortListener listener : firmwarePortListeners) {
-            listener.onDeployFinished();
-        }
+    private int getProgressPercentage(final @NonNull FirmwarePortProperties firmwarePortProperties) {
+        return firmwarePortProperties.getSize() > 0 ? (int) ((float) firmwarePortProperties.getProgress() / firmwarePortProperties.getSize() * 100) : 0;
     }
 }

@@ -26,4 +26,8 @@ public abstract class FirmwareUpdateState {
     public void deploy() {
         throw new UnsupportedOperationException("Deploying not allowed in this state.");
     }
+
+    public void onStateEnd() {
+
+    }
 }

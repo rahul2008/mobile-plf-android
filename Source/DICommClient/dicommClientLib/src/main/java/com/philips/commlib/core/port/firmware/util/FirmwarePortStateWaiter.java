@@ -89,19 +89,19 @@ public class FirmwarePortStateWaiter {
      */
     @Nullable
     public FirmwarePortState waitForNewState(FirmwarePortState initialState, long timeoutMillis) {
-        final FirmwarePortState state = this.firmwarePort.getPortProperties().getState();
+        final FirmwarePortState currentState = this.firmwarePort.getPortProperties().getState();
 
-        if (initialState == state) {
-            WaitTask waitTask = new WaitTask(initialState, timeoutMillis);
-            Future<FirmwarePortState> future = executor.submit(waitTask);
+        if (initialState != currentState) {
+            return currentState;
+        }
 
-            try {
-                return future.get();
-            } catch (ExecutionException | InterruptedException e) {
-                return null;
-            }
-        } else {
-            return state;
+        WaitTask waitTask = new WaitTask(initialState, timeoutMillis);
+        Future<FirmwarePortState> future = executor.submit(waitTask);
+
+        try {
+            return future.get();
+        } catch (ExecutionException | InterruptedException e) {
+            return null;
         }
     }
 

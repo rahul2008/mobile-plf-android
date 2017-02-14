@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 
 import com.philips.commlib.core.communication.CommunicationStrategy;
 import com.philips.commlib.core.port.firmware.FirmwarePort;
+import com.philips.commlib.core.port.firmware.FirmwarePortListener;
+import com.philips.commlib.core.port.firmware.FirmwarePortListener.FirmwarePortException;
 import com.philips.commlib.core.port.firmware.FirmwarePortProperties;
 import com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState;
 import com.philips.commlib.core.port.firmware.state.FirmwareUpdateState;
@@ -59,13 +61,20 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
     private final StateMap stateMap = new StateMap();
     @NonNull
     private final CommunicationStrategy communicationStrategy;
+    @NonNull
+    private final FirmwarePortListener firmwarePortListener;
 
     private final FirmwarePortStateWaiter firmwarePortStateWaiter;
 
     private FirmwareUpdateState state;
 
-    public FirmwareUpdatePushLocal(@NonNull final ExecutorService executor, @NonNull final FirmwarePort firmwarePort, @NonNull final CommunicationStrategy communicationStrategy, @NonNull byte[] firmwareData) {
+    public FirmwareUpdatePushLocal(@NonNull final ExecutorService executor,
+                                   @NonNull final FirmwarePort firmwarePort,
+                                   @NonNull final CommunicationStrategy communicationStrategy,
+                                   @NonNull final FirmwarePortListener firmwarePortListener,
+                                   @NonNull byte[] firmwareData) {
         this.communicationStrategy = communicationStrategy;
+        this.firmwarePortListener = firmwarePortListener;
         setupStates();
 
         this.firmwarePort = firmwarePort;
@@ -110,22 +119,38 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
         new FirmwareUploader(firmwarePort, communicationStrategy, firmwareData).upload();
     }
 
-    public void finish() {
+    public void onDeployFinished() {
+        this.firmwarePortListener.onDeployFinished();
+    }
+
+    public void onOperationFinished(){
         this.firmwarePort.finishFirmwareUpdateOperation();
     }
 
-    public void onError(FirmwareUpdateState previousState) {
+    public void onDownloadFailed() {
         final FirmwarePortProperties portProperties = this.firmwarePort.getPortProperties();
         if (portProperties == null) {
             return;
         }
         String statusMsg = portProperties.getStatusMessage();
-
-        // TODO inform UI
+        firmwarePortListener.onDownloadFailed(new FirmwarePortException(statusMsg));
     }
 
-    public void onReadyToDeploy() {
-        // TODO inform UI
+    public void onDeployFailed() {
+        final FirmwarePortProperties portProperties = this.firmwarePort.getPortProperties();
+        if (portProperties == null) {
+            return;
+        }
+        String statusMsg = portProperties.getStatusMessage();
+        firmwarePortListener.onDownloadFailed(new FirmwarePortException(statusMsg));
+    }
+
+    public void onDownloadFinished() {
+        firmwarePortListener.onDownloadFinished();
+    }
+
+    public void onProgress(final int progressPercentage) {
+        firmwarePortListener.onProgressUpdated(stateMap.findByState(this.state), progressPercentage);
     }
 
     public void requestState(@NonNull final FirmwarePortState requestedState) {
@@ -142,6 +167,7 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
             cancel();
         } else {
             FirmwareUpdateState previousState = this.state;
+            this.state.onStateEnd();
             this.state = stateMap.get(newState);
             this.state.execute(previousState);
         }

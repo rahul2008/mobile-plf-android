@@ -20,6 +20,7 @@ public class FirmwareUpdateStateDownloading extends CancelableFirmwareUpdateStat
     public void execute(FirmwareUpdateState previousState) {
         try {
             operation.pushData();
+            operation.onProgress(100);
         } catch (IOException e) {
             // TODO inform UI, stop operation!
         }

@@ -42,9 +42,7 @@ public class FirmwarePortTest extends RobolectricTest {
 
     @Override
     @Before
-    public void setUp() throws Exception {
-        super.setUp();
-
+    public void setUp() {
         initMocks(this);
 
         firmwarePort = new FirmwarePort(mock(CommunicationStrategy.class));
@@ -53,7 +51,7 @@ public class FirmwarePortTest extends RobolectricTest {
 
     @Override
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         firmwarePort.removeFirmwarePortListener(mockFirmwarePortListener);
     }
 
@@ -158,7 +156,7 @@ public class FirmwarePortTest extends RobolectricTest {
     // onProgressUpdated
 
     @Test
-    public void whenGoingFromIdleStateToDownloadState_ProgressUpdateShouldBeCalled() throws Exception {
+    public void whenGoingFromIdleStateToDownloadState_ProgressUpdateShouldBeCalled() {
         parseFirmwarePortData(createPropertiesJson("1", "", "idle", 0, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 0, "", 100));
 
@@ -167,7 +165,7 @@ public class FirmwarePortTest extends RobolectricTest {
     }
 
     @Test
-    public void whenInDownloadingState_ProgressUpdateShoudBeCalled() throws Exception {
+    public void whenInDownloadingState_ProgressUpdateShoudBeCalled() {
         parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 0, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 10, "", 100));
 
@@ -176,7 +174,7 @@ public class FirmwarePortTest extends RobolectricTest {
     }
 
     @Test
-    public void whenInDownloadingState_ProgressUpdateShoudNotBeCalledWithSameProgress() throws Exception {
+    public void whenInDownloadingState_ProgressUpdateShoudNotBeCalledWithSameProgress() {
         parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 12, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 12, "", 100));
 
@@ -184,7 +182,7 @@ public class FirmwarePortTest extends RobolectricTest {
     }
 
     @Test
-    public void whenInDownloadingState_ProgressUpdateShoudBeCalledWithCorrectProgress() throws Exception {
+    public void whenInDownloadingState_ProgressUpdateShoudBeCalledWithCorrectProgress() {
         parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 2, "", 50));
         parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 5, "", 25));
 
@@ -194,7 +192,7 @@ public class FirmwarePortTest extends RobolectricTest {
     }
 
     @Test
-    public void whenGoingFromDownloadingStateToCheckingState_ProgressUpdateShouldBeCalledWith100Percent() throws Exception {
+    public void whenGoingFromDownloadingStateToCheckingState_ProgressUpdateShouldBeCalledWith100Percent() {
         parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 99, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "checking", 0, "", 100));
 
@@ -203,7 +201,7 @@ public class FirmwarePortTest extends RobolectricTest {
     }
 
     @Test
-    public void whenInCheckingState_ProgressUpdateShoudBeCalled() throws Exception {
+    public void whenInCheckingState_ProgressUpdateShoudBeCalled() {
         parseFirmwarePortData(createPropertiesJson("1", "", "checking", 0, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "checking", 10, "", 100));
 
@@ -212,7 +210,7 @@ public class FirmwarePortTest extends RobolectricTest {
     }
 
     @Test
-    public void whenInCheckingState_ProgressUpdateShoudNotBeCalledWithSameProgress() throws Exception {
+    public void whenInCheckingState_ProgressUpdateShoudNotBeCalledWithSameProgress() {
         parseFirmwarePortData(createPropertiesJson("1", "", "checking", 12, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "checking", 12, "", 100));
 
@@ -220,7 +218,7 @@ public class FirmwarePortTest extends RobolectricTest {
     }
 
     @Test
-    public void whenInCheckingState_ProgressUpdateShoudBeCalledWithCorrectProgress() throws Exception {
+    public void whenInCheckingState_ProgressUpdateShoudBeCalledWithCorrectProgress() {
         parseFirmwarePortData(createPropertiesJson("1", "", "checking", 2, "", 50));
         parseFirmwarePortData(createPropertiesJson("1", "", "checking", 5, "", 25));
 
@@ -230,7 +228,7 @@ public class FirmwarePortTest extends RobolectricTest {
     }
 
     @Test
-    public void whenGoingFromCheckingStateToReadyState_ProgressUpdateShouldBeCalledWith100Percent() throws Exception {
+    public void whenGoingFromCheckingStateToReadyState_ProgressUpdateShouldBeCalledWith100Percent() {
         parseFirmwarePortData(createPropertiesJson("1", "", "checking", 99, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "ready", 0, "", 100));
 
@@ -238,7 +236,7 @@ public class FirmwarePortTest extends RobolectricTest {
     }
 
     @Test
-    public void whenGoingFromDownloadingStateToReadyState_AndCheckingStateIsSkipped_ProgressUpdateShouldBeCalledWith100Percent() throws Exception {
+    public void whenGoingFromDownloadingStateToReadyState_AndCheckingStateIsSkipped_ProgressUpdateShouldBeCalledWith100Percent() {
         parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 99, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "ready", 0, "", 100));
 
@@ -246,7 +244,7 @@ public class FirmwarePortTest extends RobolectricTest {
     }
 
     @Test
-    public void whenGoingFromDownloadingStateToIdleState_AndCheckingStateAndReadyStateIsSkipped_ProgressUpdateShouldBeCalledWith100Percent() throws Exception {
+    public void whenGoingFromDownloadingStateToIdleState_AndCheckingStateAndReadyStateIsSkipped_ProgressUpdateShouldBeCalledWith100Percent() {
         parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 99, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "idle", 0, "", 100));
 
@@ -256,7 +254,7 @@ public class FirmwarePortTest extends RobolectricTest {
     // onDownloadFailed
 
     @Test
-    public void whenGoingFromPreparingStateToErrorState_DownloadFailedShouldBeCalled() throws Exception {
+    public void whenGoingFromPreparingStateToErrorState_DownloadFailedShouldBeCalled() {
         parseFirmwarePortData(createPropertiesJson("1", "", "preparing", 2, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "error", 0, "Prepare failed", 100));
 
@@ -266,7 +264,7 @@ public class FirmwarePortTest extends RobolectricTest {
     }
 
     @Test
-    public void whenGoingFromDownloadingStateToErrorState_DownloadFailedShouldBeCalled() throws Exception {
+    public void whenGoingFromDownloadingStateToErrorState_DownloadFailedShouldBeCalled() {
         parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 2, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "error", 0, "Error downloading", 100));
 
@@ -276,7 +274,7 @@ public class FirmwarePortTest extends RobolectricTest {
     }
 
     @Test
-    public void whenGoingFromCheckingStateToErrorState_DownloadFailedShouldBeCalled() throws Exception {
+    public void whenGoingFromCheckingStateToErrorState_DownloadFailedShouldBeCalled() {
         parseFirmwarePortData(createPropertiesJson("1", "", "checking", 5, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "error", 0, "Invalid firmware", 100));
 
@@ -288,7 +286,7 @@ public class FirmwarePortTest extends RobolectricTest {
     // onDownloadFinished
 
     @Test
-    public void whenGoingFromCheckingStateToReadyState_DownloadFinishedShouldBeCalled() throws Exception {
+    public void whenGoingFromCheckingStateToReadyState_DownloadFinishedShouldBeCalled() {
         parseFirmwarePortData(createPropertiesJson("1", "", "checking", 100, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "ready", 0, "", 100));
 
@@ -296,7 +294,7 @@ public class FirmwarePortTest extends RobolectricTest {
     }
 
     @Test
-    public void whenGoingFromDownloadingStateToReadyState_AndCheckingStateIsSkipped_DownloadFinishedShouldBeCalled() throws Exception {
+    public void whenGoingFromDownloadingStateToReadyState_AndCheckingStateIsSkipped_DownloadFinishedShouldBeCalled() {
         parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 80, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "ready", 0, "", 100));
 
@@ -306,7 +304,7 @@ public class FirmwarePortTest extends RobolectricTest {
     // onFirmwareAvailable
 
     @Test
-    public void whenFirmwareIsAvailable_FirmwareAvailableShouldBeCalled() throws Exception {
+    public void whenFirmwareIsAvailable_FirmwareAvailableShouldBeCalled() {
         parseFirmwarePortData(createPropertiesJson("1", "2", "idle", 0, "", 0));
 
         verify(mockFirmwarePortListener).onFirmwareAvailable("2");
@@ -315,7 +313,7 @@ public class FirmwarePortTest extends RobolectricTest {
     // onDeployFailed
 
     @Test
-    public void whenGoingFromReadyStateToErrorStateWithBecauseOfCancel_DeployFailedShouldBeCalled() throws Exception {
+    public void whenGoingFromReadyStateToErrorStateWithBecauseOfCancel_DeployFailedShouldBeCalled() {
         parseFirmwarePortData(createPropertiesJson("1", "2", "ready", 0, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "2", "error", 0, "Upgrade canceled", 100));
 
@@ -325,7 +323,7 @@ public class FirmwarePortTest extends RobolectricTest {
     }
 
     @Test
-    public void whenGoingFromReadyStateToErrorStateBecauseOfProgrammingError_DeployFailedShouldBeCalled() throws Exception {
+    public void whenGoingFromReadyStateToErrorStateBecauseOfProgrammingError_DeployFailedShouldBeCalled() {
         parseFirmwarePortData(createPropertiesJson("1", "2", "ready", 0, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "2", "error", 0, "Error programming", 100));
 
@@ -337,7 +335,7 @@ public class FirmwarePortTest extends RobolectricTest {
     // onDeployFinished
 
     @Test
-    public void whenGoingFromReadyStateToErrorStateBecauseOfProgrammingError_DeployFinishedShouldBeCalled() throws Exception {
+    public void whenGoingFromReadyStateToErrorStateBecauseOfProgrammingError_DeployFinishedShouldBeCalled() {
         parseFirmwarePortData(createPropertiesJson("1", "2", "ready", 0, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "2", "idle", 0, "", 0));
 
@@ -345,7 +343,7 @@ public class FirmwarePortTest extends RobolectricTest {
     }
 
     @Test
-    public void whenGoingFromCheckingStateToIdleState_AndReadyStateIsSkipped_DeployFinishedShouldBeCalled() throws Exception {
+    public void whenGoingFromCheckingStateToIdleState_AndReadyStateIsSkipped_DeployFinishedShouldBeCalled() {
         parseFirmwarePortData(createPropertiesJson("1", "", "checking", 99, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "idle", 0, "", 100));
 
@@ -353,7 +351,7 @@ public class FirmwarePortTest extends RobolectricTest {
     }
 
     @Test
-    public void whenGoingFromDownloadingStateToIdleState_AndCheckingStateAndReadyStateIsSkipped_DeployFinishedShouldBeCalled() throws Exception {
+    public void whenGoingFromDownloadingStateToIdleState_AndCheckingStateAndReadyStateIsSkipped_DeployFinishedShouldBeCalled() {
         parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 99, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "idle", 0, "", 100));
 

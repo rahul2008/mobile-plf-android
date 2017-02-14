@@ -21,12 +21,12 @@ public class FirmwareUpdateStateIdle extends FirmwareUpdateState {
         if (previousState == null) {
             operation.requestState(DOWNLOADING);
             operation.waitForNextState();
-        } else {
-            operation.finish();
-
-            if (previousState instanceof FirmwareUpdateStateError) {
-                throw new RuntimeException();
-            }
+            return;
         }
+
+        if (!(previousState instanceof FirmwareUpdateStateError)) {
+            operation.onDeployFinished();
+        }
+        operation.onOperationFinished();
     }
 }
