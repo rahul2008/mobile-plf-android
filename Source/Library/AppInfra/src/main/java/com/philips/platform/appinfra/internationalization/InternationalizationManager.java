@@ -30,7 +30,8 @@ public class InternationalizationManager implements InternationalizationInterfac
     @Override
     public String getUILocaleString() {
         Locale mLocale = Locale.getDefault();
-        return mLocale.getLanguage() + "_" + mLocale.getCountry();
+       // return mLocale.getLanguage() + "_" + mLocale.getCountry();
+        return mLocale.getLanguage() + (mLocale.getCountry() == null ? "" : "_" + mLocale.getCountry());
     }
 
 //    @Override
