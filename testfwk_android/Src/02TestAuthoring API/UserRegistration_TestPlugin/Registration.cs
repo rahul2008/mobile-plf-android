@@ -648,7 +648,8 @@ namespace UserRegistration_TestPlugin
             if (btn == Button.Next)
                 _instance.ClickByName(UserRegistration.Android.HomeScreen.NextEmail);
             else if (btn == Button.SignIn)
-                _instance.ClickByName(UserRegistration.Android.HomeScreen.SigninName);
+                //_instance.ClickByName(UserRegistration.Android.HomeScreen.SigninName);
+            _instance.GetElement(SearchBy.Id, UserRegistration.Android.HomeScreen.SignInText).Click();
             else if (btn == Button.Allow)
                 _instance.ClickById(UserRegistration.Android.HomeScreen.AllowName);
             else if (btn == Button.SignOut)

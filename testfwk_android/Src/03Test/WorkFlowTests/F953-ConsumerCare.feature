@@ -47,7 +47,15 @@ Scenario: 04 Verify Facebook and Twitter feature
 
 @CC	
 Scenario: 05 Verify Read FAQs
-	Given the user is on Mobile App Home page
+	Given that the application is in logout state
+	Then I click on Skip
+	Then Verify that the user is in User Registration screen
+	Given user select the country as "United Kingdom"
+	Then I click on Philips Account
+	Then enter email as "eno55465@gmail.com" and password as "Philips123"
+	Then I click on Log In button
+	Then accept terms conditions and click on continue
+	Then Verify that the user should land to home screen
 	Then I click on Hamburger Menu Icon
 	Then I click on Support from Hamburger Menu List and verify support page
 	Then reach FAQs screen

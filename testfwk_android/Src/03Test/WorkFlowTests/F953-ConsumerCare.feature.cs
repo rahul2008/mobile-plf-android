@@ -181,38 +181,54 @@ this.ScenarioSetup(scenarioInfo);
 #line 49
 this.ScenarioSetup(scenarioInfo);
 #line 50
- testRunner.Given("the user is on Mobile App Home page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("that the application is in logout state", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 51
- testRunner.Then("I click on Hamburger Menu Icon", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I click on Skip", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 52
- testRunner.Then("I click on Support from Hamburger Menu List and verify support page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Verify that the user is in User Registration screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 53
- testRunner.Then("reach FAQs screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Given("user select the country as \"United Kingdom\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 54
- testRunner.Then("verify each FAQ is clickable and readable", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I click on Philips Account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 55
+ testRunner.Then("enter email as \"eno55465@gmail.com\" and password as \"Philips123\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 56
+ testRunner.Then("I click on Log In button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 57
+ testRunner.Then("accept terms conditions and click on continue", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 58
+ testRunner.Then("Verify that the user should land to home screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 59
+ testRunner.Then("I click on Hamburger Menu Icon", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 60
+ testRunner.Then("I click on Support from Hamburger Menu List and verify support page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 61
+ testRunner.Then("reach FAQs screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 62
+ testRunner.Then("verify each FAQ is clickable and readable", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 63
  testRunner.Then("come back to support screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
         
         [TechTalk.SpecRun.ScenarioAttribute("06 Verify Tell us What you think", new string[] {
-                "CC"}, SourceLine=57)]
+                "CC"}, SourceLine=65)]
         public virtual void _06VerifyTellUsWhatYouThink()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("06 Verify Tell us What you think", new string[] {
                         "CC"});
-#line 58
+#line 66
 this.ScenarioSetup(scenarioInfo);
-#line 59
+#line 67
  testRunner.Given("the user is on Mobile App Home page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 60
+#line 68
  testRunner.Then("I click on Hamburger Menu Icon", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 61
+#line 69
  testRunner.Then("I click on Support from Hamburger Menu List and verify support page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 62
+#line 70
  testRunner.Then("select \"Tell us what you think\" from support screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 63
+#line 71
  testRunner.Then("verify tell us what you think screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
