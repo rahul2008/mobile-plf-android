@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tvFirmwareSearchLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Firmware search location:"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/firmware_images"/>
+
+    <ListView
+        android:id="@+id/lvFirmwareImages"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:choiceMode="singleChoice"
+        android:listSelector="?android:attr/colorMultiSelectHighlight" />
+
+    <Button
+        android:id="@+id/btnUploadFirmware"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/upload_firmware" />
+
+    <Button
+        android:id="@+id/btnDeployFirmware"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/deploy_firmware" />
+
+    <ProgressBar
+        android:id="@+id/progressUploadFirmware"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="false"/>
+</LinearLayout>
