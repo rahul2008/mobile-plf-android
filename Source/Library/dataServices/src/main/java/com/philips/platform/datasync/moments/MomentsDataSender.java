@@ -35,7 +35,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Header;
 import retrofit.client.Response;
 
-public class MomentsDataSender implements DataSender<Moment> {
+public class MomentsDataSender extends DataSender {
     @Inject
     UCoreAccessProvider accessProvider;
 
@@ -74,7 +74,7 @@ public class MomentsDataSender implements DataSender<Moment> {
     }
 
     @Override
-    public boolean sendDataToBackend(@NonNull final List<? extends Moment> dataToSend) {
+    public boolean sendDataToBackend(@NonNull final List dataToSend) {
         DSLog.i("***SPO***","sendDataToBackend MomentsDataSender sendDataToBackend data = " + dataToSend.toString());
         if (!accessProvider.isLoggedIn()) {
             return false;
@@ -82,7 +82,7 @@ public class MomentsDataSender implements DataSender<Moment> {
 
         List<Moment> momentToSync = new ArrayList<>();
         synchronized (momentIds) {
-            for (Moment moment : dataToSend) {
+            for (Moment moment : (List<Moment>)dataToSend) {
                 if (momentIds.add(moment.getId())) {
                     momentToSync.add(moment);
                 }
@@ -97,7 +97,7 @@ public class MomentsDataSender implements DataSender<Moment> {
             return true;
         }
         boolean conflictHappened = false;
-        String BASE = userRegistrationImpl.getHSDHsdpUrl();
+        String BASE = userRegistrationImpl.getHSDPUrl();
 
         MomentsClient client = uCoreAdapter.getClient(MomentsClient.class, BASE,
                 accessProvider.getAccessToken(), momentGsonConverter);
@@ -155,6 +155,7 @@ public class MomentsDataSender implements DataSender<Moment> {
                 postCreatedOk(Collections.singletonList(moment));
             }
         } catch (RetrofitError error) {
+            onError(error);
             eventing.post(new BackendResponse(1, error));
         }
         return false;
@@ -184,6 +185,7 @@ public class MomentsDataSender implements DataSender<Moment> {
                 //dont do anything
             }else {
                 eventing.post(new BackendResponse(1, error));
+                onError(error);
             }
 
             return isConflict(error);
@@ -203,6 +205,7 @@ public class MomentsDataSender implements DataSender<Moment> {
                 postDeletedOk(moment);
             }
         } catch (RetrofitError error) {
+            onError(error);
             eventing.post(new BackendResponse(1, error));
         }
         return false;

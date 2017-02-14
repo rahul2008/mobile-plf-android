@@ -5,12 +5,13 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by 310218660 on 1/2/2017.
  */
 
-public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface{
+public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface {
     @Override
     public void deleteAll(DBRequestListener dbRequestListener) {
 
@@ -27,6 +28,11 @@ public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface{
     }
 
     @Override
+    public void deleteMoments(List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
+
+    }
+
+    @Override
     public void deleteMomentDetail(Moment moment, DBRequestListener dbRequestListener) throws SQLException {
 
     }
@@ -38,6 +44,16 @@ public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface{
 
     @Override
     public void deleteFailed(Exception e, DBRequestListener dbRequestListener) {
+
+    }
+
+    @Override
+    public void deleteAllMoments(DBRequestListener dbRequestListener) throws SQLException {
+
+    }
+
+    @Override
+    public void markMomentsAsInActive(List<Moment> moment, DBRequestListener dbRequestListener) throws SQLException {
 
     }
 }

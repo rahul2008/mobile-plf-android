@@ -1,14 +1,14 @@
 package com.philips.platform.datasync.settings;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.events.ConsentBackendGetRequest;
 import com.philips.platform.core.events.SettingsBackendGetRequest;
+import com.philips.platform.core.events.SettingsBackendSaveResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
-import com.philips.platform.datasync.consent.ConsentsDataFetcher;
+import com.philips.platform.datasync.characteristics.UserCharacteristicsClient;
 import com.philips.platform.datasync.synchronisation.DataSender;
 
 import org.joda.time.DateTime;
@@ -18,17 +18,27 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
-import static org.junit.Assert.*;
+import retrofit.converter.GsonConverter;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * Created by sangamesh on 31/01/17.
- */
 public class SettingsDataFetcherTest {
+    private String TEST_ACCESS_TOKEN = "TEST_ACCESS_TOKEN";
+    private String TEST_USER_ID = "TEST_USER_ID";
 
     private SettingsDataFetcher settingsDataFetcher;
+
+    @Mock
+    GsonConverter gsonConverterMock;
+
+    @Mock
+    SettingsConverter settingsConverterMock;
 
     @Mock
     UCoreAdapter uCoreAdapterMock;
@@ -45,11 +55,15 @@ public class SettingsDataFetcherTest {
     @Mock
     private AppComponent appComponantMock;
 
+    @Mock
+    private UCoreAccessProvider accessProviderMock;
+
     @Before
     public void setUp() {
         initMocks(this);
         DataServicesManager.getInstance().setAppComponant(appComponantMock);
-        settingsDataFetcher=new SettingsDataFetcher(uCoreAdapterMock);
+        settingsDataFetcher = new SettingsDataFetcher(uCoreAdapterMock, gsonConverterMock, settingsConverterMock);
+        settingsDataFetcher.uCoreAccessProvider = accessProviderMock;
         settingsDataFetcher.eventing = eventingMock;
     }
 
@@ -69,5 +83,39 @@ public class SettingsDataFetcherTest {
         verify(eventingMock).post(settingsBackendGetRequestArgumentCaptor.capture());
     }
 
+    @Test
+    public void ShouldNotFetchData_WhenUserIsNotLoggedIn() throws Exception {
+        when(accessProviderMock.isLoggedIn()).thenReturn(false);
+
+        assertThat(settingsDataFetcher.fetchDataSince(null)).isNull();
+    }
+
+    @Test
+    public void ShouldNotFetchData_WhenAccessTokenIsEmpty() throws Exception {
+        when(accessProviderMock.isLoggedIn()).thenReturn(true);
+        when(accessProviderMock.getAccessToken()).thenReturn("");
+
+        assertThat(settingsDataFetcher.fetchDataSince(null)).isNull();
+    }
+
+    @Test
+    public void ShouldNotFetchData_WhenAccessTokenIsNull() throws Exception {
+        when(accessProviderMock.isLoggedIn()).thenReturn(true);
+        when(accessProviderMock.getAccessToken()).thenReturn(null);
+
+        assertThat(settingsDataFetcher.fetchDataSince(null)).isNull();
+    }
+
+    @Test
+    public void ShouldFetchData_WhenUserIsValid() throws Exception {
+        when(accessProviderMock.isLoggedIn()).thenReturn(true);
+        when(accessProviderMock.getAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
+        when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
+        final SettingsClient uSettingClientMock = mock(SettingsClient.class);
+        when(uCoreAdapterMock.getAppFrameworkClient(SettingsClient.class, TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(uSettingClientMock);
+        settingsDataFetcher.fetchDataSince(null);
+
+        verify(eventingMock).post(isA(SettingsBackendSaveResponse.class));
+    }
 
 }

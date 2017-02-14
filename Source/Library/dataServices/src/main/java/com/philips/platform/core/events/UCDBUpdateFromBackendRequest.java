@@ -4,25 +4,27 @@
  */
 package com.philips.platform.core.events;
 
-import com.philips.platform.core.datatypes.UserCharacteristics;
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.listeners.DBRequestListener;
+
+import java.util.List;
 
 public class UCDBUpdateFromBackendRequest extends Event {
 
-    private UserCharacteristics userCharacteristics;
+    private List<Characteristics> characteristicsList;
     private final DBRequestListener dbRequestListener;
 
     public DBRequestListener getDbRequestListener() {
         return dbRequestListener;
     }
 
-    public UCDBUpdateFromBackendRequest(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) {
-        this.userCharacteristics = userCharacteristics;
+    public UCDBUpdateFromBackendRequest(List<Characteristics> characteristicsList, DBRequestListener dbRequestListener) {
+        this.characteristicsList = characteristicsList;
         this.dbRequestListener = dbRequestListener;
 
     }
 
-    public UserCharacteristics getUserCharacteristics() {
-        return userCharacteristics;
+    public List<Characteristics> getUserCharacteristics() {
+        return characteristicsList;
     }
 }

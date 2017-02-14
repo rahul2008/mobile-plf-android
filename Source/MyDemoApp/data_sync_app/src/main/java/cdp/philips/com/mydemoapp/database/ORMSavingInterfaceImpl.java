@@ -5,24 +5,24 @@
 
 package cdp.philips.com.mydemoapp.database;
 
+import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.datatypes.UserCharacteristics;
 
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
-import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
-import cdp.philips.com.mydemoapp.database.table.OrmConsent;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSettings;
-import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
 
 public class ORMSavingInterfaceImpl implements DBSavingInterface {
@@ -59,31 +59,45 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     }
 
     @Override
-    public boolean saveConsent(Consent consent,DBRequestListener dbRequestListener) throws SQLException {
-        OrmConsent ormConsent = null;
-        try {
-            ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
-            updateConsentAndSetIdIfConsentExists(ormConsent);
-            notifyDBRequestListener.notifySuccess(dbRequestListener, ormConsent);
-            return true;
-        } catch (OrmTypeChecking.OrmTypeException e) {
-            DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
-            notifyDBRequestListener.notifyOrmTypeCheckingFailure(dbRequestListener, e, "OrmType check failed");
-            return false;
+    public boolean saveMoments(final List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
+        boolean result = true;
+        for(Moment moment : moments){
+            result = saveMoment(moment,dbRequestListener);
         }
+        return result;
+    }
+
+    @Override
+    public boolean saveConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener dbRequestListener) throws SQLException {
+
+        deleting.deleteAllConsentDetails();
+
+        for (ConsentDetail consentDetail : consentDetails) {
+            try {
+                OrmConsentDetail ormConsent = OrmTypeChecking.checkOrmType(consentDetail, OrmConsentDetail.class);
+                saving.saveConsentDetail(ormConsent);
+            } catch (OrmTypeChecking.OrmTypeException e) {
+                e.printStackTrace();
+            }
+
+        }
+        updating.updateDCSync(OrmTableType.CONSENT.getId(),true);
+        notifyDBRequestListener.notifySuccess(consentDetails, dbRequestListener);
+        return true;
 
     }
 
     @Override
-    public boolean saveUserCharacteristics(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) throws SQLException {
-        DSLog.d("Inder saveUserCharacteristics delete", userCharacteristics.getCharacteristicsDetails().toString());
-        OrmCharacteristics ormCharacteristics;
+    public boolean saveUserCharacteristics(List<Characteristics> characteristicsList, DBRequestListener dbRequestListener) throws SQLException {
+
         try {
-            ormCharacteristics = OrmTypeChecking.checkOrmType(userCharacteristics, OrmCharacteristics.class);
             deleting.deleteCharacteristics();
-            DSLog.d("Inder saveUserCharacteristics OrmCharacteristeics save", ormCharacteristics.getCharacteristicsDetails().toString());
-            saving.saveCharacteristics(ormCharacteristics);
-            updateUCUI(userCharacteristics,dbRequestListener);
+            for (Characteristics characteristics : characteristicsList) {
+                OrmCharacteristics ormCharacteristics = OrmTypeChecking.checkOrmType(characteristics, OrmCharacteristics.class);
+                saving.saveCharacteristics(ormCharacteristics);
+            }
+            updating.updateDCSync(OrmTableType.CHARACTERISTICS.getId(), false);
+            updateUCUI(characteristicsList, dbRequestListener);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             e.printStackTrace();
@@ -107,36 +121,19 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
     }
 
-    private void updateUCUI(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) {
-            if(dbRequestListener==null){
-                return;
-            }
-            if(userCharacteristics !=null){
-                dbRequestListener.onSuccess(userCharacteristics);
-            } else {
-                dbRequestListener.onSuccess(null);
-            }
+    private void updateUCUI(List<Characteristics> characteristicsList, DBRequestListener dbRequestListener) {
+        if (dbRequestListener == null) {
+            return;
+        }
+        if (characteristicsList != null) {
+            dbRequestListener.onSuccess(characteristicsList);
+        } else {
+            dbRequestListener.onSuccess(null);
+        }
     }
 
     @Override
     public void postError(Exception e, DBRequestListener dbRequestListener) {
-        notifyDBRequestListener.notifyFailure(e,dbRequestListener);
+        notifyDBRequestListener.notifyFailure(e, dbRequestListener);
     }
-
-    private void updateConsentAndSetIdIfConsentExists(OrmConsent ormConsent) throws SQLException {
-        OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
-        DSLog.d("Creator ID MODI",ormConsent.getCreatorId());
-        if (consentInDatabase != null) {
-            int id = consentInDatabase.getId();
-            for(OrmConsent ormConsentInDB:fetching.fetchAllConsent()) {
-                deleting.deleteConsent(ormConsentInDB);
-            }
-            ormConsent.setId(id);
-            saving.saveConsent(ormConsent);
-        }else{
-            saving.saveConsent(ormConsent);
-        }
-    }
-
-
 }

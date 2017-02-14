@@ -4,26 +4,23 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.datatypes.UserCharacteristics;
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.utils.UuidGenerator;
+import com.philips.platform.verticals.OrmCharacteristics;
 import com.philips.testing.verticals.datatyes.MeasurementDetailType;
 import com.philips.testing.verticals.datatyes.MeasurementGroupDetailType;
 import com.philips.testing.verticals.datatyes.MeasurementType;
 import com.philips.testing.verticals.datatyes.MomentDetailType;
 import com.philips.testing.verticals.datatyes.MomentType;
-import com.philips.testing.verticals.table.OrmCharacteristics;
-import com.philips.testing.verticals.table.OrmCharacteristicsDetail;
-import com.philips.testing.verticals.table.OrmConsent;
 import com.philips.testing.verticals.table.OrmConsentDetail;
 import com.philips.testing.verticals.table.OrmMeasurement;
 import com.philips.testing.verticals.table.OrmMeasurementDetail;
@@ -114,38 +111,27 @@ public class OrmCreatorTest implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public Consent createConsent(@NonNull String creatorId) {
-        return new OrmConsent(creatorId);
+    public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber) {
+        return new OrmConsentDetail(type,status,version,deviceIdentificationNumber);
     }
 
-    @NonNull
-    @Override
-    public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber, boolean isSynchronized, @NonNull Consent consent) {
-        return new OrmConsentDetail(type, status, version, deviceIdentificationNumber, (OrmConsent) consent, isSynchronized);
-    }
 
     @NonNull
     @Override
     public Settings createSettings(String type, String value) {
-        return new OrmSettings(type,value);
+        return new OrmSettings(type, value);
     }
 
     @NonNull
     @Override
-    public UserCharacteristics createCharacteristics(@NonNull String creatorId) {
-        return new OrmCharacteristics(creatorId);
+    public Characteristics createCharacteristics(@NonNull String type, @NonNull String value, @NonNull Characteristics characteristics) {
+        return new OrmCharacteristics(type, value, (OrmCharacteristics) characteristics);
     }
 
     @NonNull
     @Override
-    public Characteristics createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics, @NonNull Characteristics characteristics) {
-        return new OrmCharacteristicsDetail(type, value, (OrmCharacteristics) userCharacteristics, (OrmCharacteristicsDetail) characteristics);
-    }
-
-    @NonNull
-    @Override
-    public Characteristics createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics) {
-        return new OrmCharacteristicsDetail(type, value, (OrmCharacteristics) userCharacteristics);
+    public Characteristics createCharacteristics(@NonNull String type, @NonNull String value) {
+        return new OrmCharacteristics(type, value);
     }
 
     @NonNull

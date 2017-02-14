@@ -23,7 +23,7 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import java.util.ArrayList;
 
 import cdp.philips.com.mydemoapp.R;
-import cdp.philips.com.mydemoapp.database.table.OrmConsent;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 
 /**
  * Created by sangamesh on 08/11/16.
@@ -75,6 +75,21 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     @Override
     public void onSuccess(final ArrayList<? extends Object> data) {
 
+        final ArrayList<OrmConsentDetail> ormConsents = (ArrayList<OrmConsentDetail>) data;
+
+        if (getActivity()!=null && ormConsents != null ) {
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    lConsentAdapter.setData(ormConsents);
+                    lConsentAdapter.notifyDataSetChanged();
+                    mBtnOk.setEnabled(true);
+                    dismissProgressDialog();
+                }
+            });
+        }
+
     }
 
     @Override
@@ -86,35 +101,11 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     @Override
     public void onSuccess(Object data) {
 
-        final OrmConsent ormConsent = (OrmConsent) data;
-        if (getActivity()!=null && ormConsent != null ) {
-
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    lConsentAdapter.setData(ormConsent);
-                    lConsentAdapter.notifyDataSetChanged();
-                    mBtnOk.setEnabled(true);
-                    dismissProgressDialog();
-                }
-            });
-        }
 
     }
 
     @Override
     public void onFailure(final Exception exception) {
-
-        if(getActivity()!=null) {
-
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    dismissProgressDialog();
-                    Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
 
         if(getActivity()!=null) {
 
@@ -171,7 +162,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
         super.onStart();
         mDataServicesManager.registerDBChangeListener(this);
         Dialog dialog = getDialog();
-        dialog.setTitle(R.string.consents);
+        dialog.setTitle(R.string.consent);
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -193,12 +184,12 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
 
     public void fetchConsent() {
         showProgressDialog();
-        DataServicesManager.getInstance().fetchConsent(this);
+        DataServicesManager.getInstance().fetchConsentDetail(this);
     }
 
     @Override
     public void dBChangeSuccess() {
-        DataServicesManager.getInstance().fetchConsent(this);
+        DataServicesManager.getInstance().fetchConsentDetail(this);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.philips.platform.core.monitors;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
@@ -32,8 +31,6 @@ import org.mockito.Mock;
 
 import java.util.Arrays;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -75,9 +72,6 @@ public class UpdatingMonitorTest {
     ConsentBackendSaveResponse consentBackendSaveResponseMock;
     @Mock
     Moment momentMock;
-
-    @Mock
-    Consent consentMock;
 
     @Mock
     Settings settingsMock;
@@ -122,22 +116,6 @@ public class UpdatingMonitorTest {
     }
 
     @Test
-    public void shouldDeleteUpdateAndPostMoment_whenDatabaseConsentUpdateRequestIsCalled() throws Exception {
-
-        when(consentUpdateRequestmock.getConsent()).thenReturn(consentMock);
-        updatingMonitor.onEventAsync(consentUpdateRequestmock);
-//        verify(consentMock).setSynced(false);
-    }
-
-    @Test
-    public void shouldDeleteUpdateAndPostMoment_whenConsentBackendSaveResponseIsCalled() throws Exception {
-
-        when(consentBackendSaveResponseMock.getConsent()).thenReturn(consentMock);
-        updatingMonitor.onEventAsync(consentBackendSaveResponseMock);
-//        verify(consentMock).setSynced(false);
-    }
-
-    @Test
     public void shouldUpdateSettings_whenDatabaseSettingsUpdateRequestIsCalled() throws Exception {
         when(databaseSettingsUpdateRequestMock.getSettings()).thenReturn(settingsMock);
         updatingMonitor.onEventAsync(databaseSettingsUpdateRequestMock);
@@ -162,21 +140,21 @@ public class UpdatingMonitorTest {
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenReadDataFromBackendResponsePassed() throws Exception {
-        updatingMonitor.onEventBackgroundThread(readDataFromBackendResponseMock);
+        updatingMonitor.onEventAsync(readDataFromBackendResponseMock);
         verify(dbFetchingInterface).fetchMoments(readDataFromBackendResponseMock.getDbRequestListener());
     }
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenBackendMomentListSaveRequestPassed() throws Exception {
         Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
-        updatingMonitor.onEventBackgroundThread(new BackendMomentListSaveRequest(Arrays.asList(moment1), dbChangeListener));
+        updatingMonitor.onEventAsync(new BackendMomentListSaveRequest(Arrays.asList(moment1), dbChangeListener));
         verify(momentsSegregatorMock).processMomentsReceivedFromBackend(Arrays.asList(moment1),null);
     }
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenMomentDataSenderCreatedRequestPassed() throws Exception {
         Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
-        updatingMonitor.onEventBackgroundThread(new MomentDataSenderCreatedRequest(Arrays.asList(moment1), dbChangeListener));
+        updatingMonitor.onEventAsync(new MomentDataSenderCreatedRequest(Arrays.asList(moment1), dbChangeListener));
       //  List<? extends Moment> moments = momentDataSenderCreatedRequestMock.getList();
          verify(momentsSegregatorMock).processCreatedMoment(Arrays.asList(moment1),null);
     }

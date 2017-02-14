@@ -86,7 +86,7 @@ public class OrmMeasurement implements Measurement, Serializable {
     }
 
    /* @Override
-    public OrmMoment getMoment() {
+    public OrmMoment getMoments() {
         return ormMoment;
     }*/
 

@@ -9,6 +9,7 @@ import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cdp.philips.com.mydemoapp.pojo.AppCharacteristics;
@@ -28,6 +29,7 @@ public class CharacteristicsPresenter {
     }
 
     boolean createOrUpdateCharacteristics(String userCharacteristics) {
+        List<Characteristics> characteristicsList = new ArrayList<>();
         try {
             AppUserCharacteristics mAppUserCharacteristics = parseUserCharacteristics(userCharacteristics);
             if (mAppUserCharacteristics == null || mAppUserCharacteristics.getCharacteristics() == null)
@@ -38,10 +40,11 @@ public class CharacteristicsPresenter {
                     String type = mAppUserCharacteristics.getCharacteristics().get(i).getType();
                     String value = mAppUserCharacteristics.getCharacteristics().get(i).getValue();
                     Characteristics characteristics = mDataServicesManager.createUserCharacteristics(type, value, null);
-                    saveUserCharacteristicsToLocalDBRecursively(characteristics, mAppUserCharacteristics.getCharacteristics().get(i).getCharacteristics());
+                    characteristicsList.add(characteristics);
+                    saveUserCharacteristicsToLocalDBRecursively(characteristicsList, characteristics, mAppUserCharacteristics.getCharacteristics().get(i).getCharacteristics());
                 }
             }
-            mDataServicesManager.updateCharacteristics(dbRequestListener);
+            mDataServicesManager.updateUserCharacteristics(characteristicsList,dbRequestListener);
         } catch (JsonParseException exception) {
             return false;
         }
@@ -58,14 +61,15 @@ public class CharacteristicsPresenter {
         }
     }
 
-    private void saveUserCharacteristicsToLocalDBRecursively(Characteristics parentCharacteristics, List<AppCharacteristics> appCharacteristicsList) {
+    private void saveUserCharacteristicsToLocalDBRecursively(List<Characteristics> parentCharacteristicsList, Characteristics parentCharacteristics, List<AppCharacteristics> appCharacteristicsList) {
         if (appCharacteristicsList != null && appCharacteristicsList.size() > 0) {
             for (int i = 0; i < appCharacteristicsList.size(); i++) {
                 String type = appCharacteristicsList.get(i).getType();
                 String value = appCharacteristicsList.get(i).getValue();
                 Characteristics childCharacteristics = mDataServicesManager.createUserCharacteristics(type, value, parentCharacteristics);
+                parentCharacteristicsList.add(childCharacteristics);
                 parentCharacteristics.setCharacteristicsDetail(childCharacteristics);
-                saveUserCharacteristicsToLocalDBRecursively(childCharacteristics, appCharacteristicsList.get(i).getCharacteristics());
+                saveUserCharacteristicsToLocalDBRecursively(parentCharacteristicsList, childCharacteristics, appCharacteristicsList.get(i).getCharacteristics());
             }
         }
     }

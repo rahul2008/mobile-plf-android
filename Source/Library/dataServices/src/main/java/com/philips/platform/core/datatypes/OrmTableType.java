@@ -8,7 +8,8 @@ public enum OrmTableType {
 
     UNKNOWN(-1, "UNKNOWN"),
     SETTINGS(100, "Settings"),
-    CHARACTERISTICS(101, "characteristics");
+    CHARACTERISTICS(101, "characteristics"),
+    CONSENT(102, "consent");
 
     private final int id;
     private final String description;

@@ -10,16 +10,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.j256.ormlite.dao.Dao;
-import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
-import cdp.philips.com.mydemoapp.database.table.OrmCharacteristicsDetail;
-import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
@@ -55,16 +51,11 @@ public class OrmSaving {
     private final Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
 
     @NonNull
-    private final Dao<OrmConsent, Integer> consentDao;
-
-    @NonNull
     private final Dao<OrmConsentDetail, Integer> consentDetailsDao;
 
     @NonNull
     private final Dao<OrmCharacteristics, Integer> characteristicsesDao;
 
-    @NonNull
-    private final Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailsDao;
     @NonNull
     private final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetailsDao;
 
@@ -76,24 +67,21 @@ public class OrmSaving {
                      @NonNull final Dao<OrmMeasurement, Integer> measurementDao,
                      @NonNull final Dao<OrmMeasurementDetail, Integer> measurementDetailDao,
                      @NonNull final Dao<OrmSynchronisationData, Integer> synchronisationDataDao,
-                     @NonNull final Dao<OrmConsent, Integer> constentDao,
                      @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao,
                      @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroup,
                      @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails,
                      @NonNull final Dao<OrmCharacteristics, Integer> characteristicsesDao,
-                     @NonNull final Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailsDao, @NonNull Dao<OrmSettings, Integer> settingsDao) {
+                     @NonNull Dao<OrmSettings, Integer> settingsDao) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
         this.measurementDetailDao = measurementDetailDao;
         this.synchronisationDataDao = synchronisationDataDao;
 
-        this.consentDao = constentDao;
         this.consentDetailsDao = constentDetailsDao;
         this.measurementGroupDao = measurementGroup;
         this.measurementGroupDetailsDao = measurementGroupDetails;
         this.characteristicsesDao = characteristicsesDao;
-        this.characteristicsDetailsDao = characteristicsDetailsDao;
         this.settingsDao = settingsDao;
     }
 
@@ -120,7 +108,7 @@ public class OrmSaving {
     }
 
     public void saveMeasurementGroup(OrmMeasurementGroup measurementGroup) throws SQLException {
-        if(measurementGroup!=null) {
+        if (measurementGroup != null) {
             measurementGroupDao.createOrUpdate(measurementGroup);
             assureMeasurementsAreSaved(measurementGroup.getMeasurements());
             assureMeasurementGroupDetailsAreSaved(measurementGroup.getMeasurementGroupDetails());
@@ -163,7 +151,7 @@ public class OrmSaving {
     }
 
     private void assureMeasurementGroupsInsideAreSaved(OrmMeasurementGroup measurementGroup) throws SQLException {
-        if(measurementGroup!=null) {
+        if (measurementGroup != null) {
             ArrayList<? extends OrmMeasurementGroup> measurementGroups = new ArrayList<>(measurementGroup.getMeasurementGroups());
             for (OrmMeasurementGroup group : measurementGroups) {
                 saveMeasurementGroupWithinGroup(group);
@@ -189,17 +177,6 @@ public class OrmSaving {
         }
     }
 
-    public void saveConsent(OrmConsent consent) throws SQLException {
-        consentDao.createOrUpdate(consent);
-        assureConsentDetailsAreSaved((Collection<? extends OrmConsentDetail>) consent.getConsentDetails());
-    }
-
-    private void assureConsentDetailsAreSaved(Collection<? extends OrmConsentDetail> consentDetails) throws SQLException {
-        for (OrmConsentDetail consentDetail : consentDetails) {
-            saveConsentDetail(consentDetail);
-        }
-    }
-
     public void saveConsentDetail(OrmConsentDetail consentDetail) throws SQLException {
         consentDetailsDao.createOrUpdate(consentDetail);
     }
@@ -207,17 +184,6 @@ public class OrmSaving {
     //User AppUserCharacteristics
     public void saveCharacteristics(OrmCharacteristics ormCharacteristics) throws SQLException {
         characteristicsesDao.createOrUpdate(ormCharacteristics);
-        assureCharacteristicDetailsAreSaved((Collection<? extends OrmCharacteristicsDetail>) ormCharacteristics.getCharacteristicsDetails());
-    }
-
-    private void assureCharacteristicDetailsAreSaved(Collection<? extends OrmCharacteristicsDetail> characteristicsDetails) throws SQLException {
-        for (OrmCharacteristicsDetail characteristicsDetail : characteristicsDetails) {
-            saveCharacteristicsDetail(characteristicsDetail);
-        }
-    }
-
-    public void saveCharacteristicsDetail(OrmCharacteristicsDetail characteristicsDetail) throws SQLException {
-        characteristicsDetailsDao.createOrUpdate(characteristicsDetail);
     }
 
     public void saveSettings(OrmSettings settings) throws SQLException {

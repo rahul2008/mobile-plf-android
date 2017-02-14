@@ -20,7 +20,7 @@ public class SettingsFragmentPresenter {
     }
 
     public void updateSettings(Settings settings) {
-        DataServicesManager.getInstance().updateSettings(settings, dbRequestListener);
+        DataServicesManager.getInstance().updateUserSettings(settings, dbRequestListener);
     }
 
 

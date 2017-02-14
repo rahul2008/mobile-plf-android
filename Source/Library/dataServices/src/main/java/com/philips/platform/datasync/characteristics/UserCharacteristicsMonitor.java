@@ -5,7 +5,6 @@
 package com.philips.platform.datasync.characteristics;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.CharacteristicsBackendGetRequest;
 import com.philips.platform.core.events.CharacteristicsBackendSaveRequest;
@@ -16,8 +15,6 @@ import com.philips.platform.datasync.UCoreAccessProvider;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.Collections;
 
 import javax.inject.Inject;
 
@@ -57,18 +54,15 @@ public class UserCharacteristicsMonitor extends EventMonitor {
         mUserCharacteristicsFetcher.fetchDataSince(null);
     }
 
-    public void sendToBackend(CharacteristicsBackendSaveRequest characteristicsBackendSaveRequest) {
+    private void sendToBackend(CharacteristicsBackendSaveRequest characteristicsBackendSaveRequest) {
         if (isUserInvalid()) {
             postError(characteristicsBackendSaveRequest.getEventId(), getNonLoggedInError());
             return;
         }
-        UserCharacteristics characteristic = characteristicsBackendSaveRequest.getCharacteristic();
-         mUserCharacteristicsSender.sendDataToBackend(Collections.singletonList(characteristic));
-//        if(isSentToBackEnd){
-//            characteristic.setSynchronized(true);
-//            DSLog.d(DSLog.LOG, "Inder = Inside UC Monitor "+characteristic.getCharacteristicsDetails());
-//            eventing.post(new UserCharacteristicsSaveRequest(characteristic));
-//        }
+
+        if (characteristicsBackendSaveRequest.getCharacteristicsList().size() != 0) {
+            mUserCharacteristicsSender.sendDataToBackend(characteristicsBackendSaveRequest.getCharacteristicsList());
+        }
     }
 
     private boolean isUserInvalid() {

@@ -1,10 +1,10 @@
 package com.philips.platform.datasync.consent;
 
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.testing.verticals.table.OrmConsent;
+import com.philips.testing.verticals.table.OrmConsentDetail;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,15 +36,15 @@ public class ConsentsSegregatorTest {
         initMocks(this);
         DataServicesManager.getInstance().setAppComponant(appComponantMock);
         consentsSegregator = new ConsentsSegregator();
-        consentsSegregator.dbFetchingInterface=mockDBDbFetchingInterface;
+        consentsSegregator.dbFetchingInterface = mockDBDbFetchingInterface;
     }
 
     @Test
     public void shouldReturnDataToSyn_WhenPutConsentForSyncIsCalled() throws Exception {
-        OrmConsent ormConsent=new OrmConsent(null);
+        OrmConsentDetail ormConsent = new OrmConsentDetail(null, null, null, null);
         Map<Class, List<?>> dataToSync = new HashMap<>();
-        dataToSync.put(Consent.class, Arrays.asList(ormConsent));
+        dataToSync.put(ConsentDetail.class, Arrays.asList(ormConsent));
         consentsSegregator.putConsentForSync(dataToSync);
-        verify(mockDBDbFetchingInterface).fetchNonSyncConsents();
+        verify(mockDBDbFetchingInterface).fetchNonSyncConsentDetails();
     }
 }

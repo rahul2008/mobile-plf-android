@@ -209,7 +209,7 @@ public class MomentsConverterTest {
 //        MomentDetail momentDetail = momentDetails.iterator().next();
 //        assertThat(momentDetail.getTableType()).isEqualTo(TEST_MOMENT_TYPE);
 //        assertThat(momentDetail.getValue()).isEqualTo(TEST_VALUE_STRING);
-//        assertThat(momentDetail.getMoment()).isEqualTo(moments.get(0));
+//        assertThat(momentDetail.getMoments()).isEqualTo(moments.get(0));
 //    }
 //
 //    @Test
@@ -262,7 +262,7 @@ public class MomentsConverterTest {
 ////        assertThat(measurementGroup1.getTableType()).isEqualTo(TEST_MEASUREMENT_TYPE);
 ////        assertThat(measurementGroup1.getValue()).isEqualTo(TEST_VALUE_DOUBLE);
 ////        assertThat(measurementGroup1.getDateTime()).isEqualTo(TEST_TIMESTAMP);
-////        assertThat(measurementGroup1.getMoment()).isEqualTo(moments.get(0));
+////        assertThat(measurementGroup1.getMoments()).isEqualTo(moments.get(0));
 //    }
 
 //    @Test
@@ -300,7 +300,7 @@ public class MomentsConverterTest {
 ////        assertThat(measurement.getMeasurements().get.getTableType()).isEqualTo(TEST_MEASUREMENT_TYPE);
 ////        assertThat(measurement.getValue()).isEqualTo(TEST_VALUE_DOUBLE);
 ////        assertThat(measurement.getDateTime()).isEqualTo(TEST_TIMESTAMP);
-//        //assertThat(measurement.getMoment()).isEqualTo(moments.get(0));
+//        //assertThat(measurement.getMoments()).isEqualTo(moments.get(0));
 //    }
 
 //    @Test

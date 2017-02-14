@@ -8,6 +8,10 @@ import java.io.Serializable;
  */
 public interface ConsentDetail extends BaseAppData, Serializable {
 
+    String DEFAULT_DOCUMENT_VERSION = "draft";
+    String DEFAULT_DEVICE_IDENTIFICATION_NUMBER = "manual";
+    String SMART_BABY_MONITOR = "smartBabyMonitor";
+
     void setStatus(String status);
     void setVersion(String version);
     void setDeviceIdentificationNumber(String deviceIdentificationNumber);
@@ -19,6 +23,4 @@ public interface ConsentDetail extends BaseAppData, Serializable {
 
     String getDeviceIdentificationNumber();
 
-    void setBackEndSynchronized(boolean b);
-    boolean getBackEndSynchronized();
 }

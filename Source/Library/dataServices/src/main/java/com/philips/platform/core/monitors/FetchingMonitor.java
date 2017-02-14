@@ -6,7 +6,7 @@ package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
@@ -29,7 +29,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +60,7 @@ public class FetchingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackgroundThread(LoadTimelineEntryRequest event) {
+    public void onEventAsync(LoadTimelineEntryRequest event) {
         try {
             dbInterface.fetchMoments(event.getDbRequestListener());
         } catch (SQLException e) {
@@ -70,7 +69,7 @@ public class FetchingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackgroundThread(LoadLastMomentRequest event) {
+    public void onEventAsync(LoadLastMomentRequest event) {
         try {
             dbInterface.fetchLastMoment(event.getType(), event.getDbRequestListener());
         } catch (SQLException e) {
@@ -79,7 +78,7 @@ public class FetchingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackgroundThread(GetNonSynchronizedDataRequest event) {
+    public void onEventAsync(GetNonSynchronizedDataRequest event) {
         DSLog.i("***SPO***", "In Fetching Monitor GetNonSynchronizedDataRequest");
         try {
             Map<Class, List<?>> dataToSync = new HashMap<>();
@@ -104,9 +103,10 @@ public class FetchingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackgroundThread(LoadMomentsRequest event) {
+    public void onEventAsync(LoadMomentsRequest event) {
         try {
             if (event.hasType()) {
+                DSLog.i(DSLog.LOG, "pabitra LoadMomentsRequest monitor fetchMomentWithType");
                 dbInterface.fetchMoments(event.getDbRequestListener(), event.getTypes());
             } else if (event.hasID()) {
                 dbInterface.fetchMomentById(event.getMomentID(), event.getDbRequestListener());
@@ -119,25 +119,23 @@ public class FetchingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackgroundThread(LoadConsentsRequest event) {
+    public void onEventAsync(LoadConsentsRequest event) {
         try {
-            dbInterface.fetchConsents(event.getDbRequestListener());
+            dbInterface.fetchConsentDetails(event.getDbRequestListener());
         } catch (SQLException e) {
             dbInterface.postError(e, event.getDbRequestListener());
         }
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackgroundThread(GetNonSynchronizedMomentsRequest event) {
+    public void onEventAsync(GetNonSynchronizedMomentsRequest event) {
         DSLog.i("**SPO**", "in Fetching Monitor GetNonSynchronizedMomentsRequest");
         try {
             List<? extends Moment> ormMomentList = (List<? extends Moment>) dbInterface.fetchNonSynchronizedMoments();
-            Consent consent = dbInterface.fetchConsent(event.getDbRequestListener());
-            if (consent == null) {
-                eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList, null));
-            } else {
-                eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList, new ArrayList(consent.getConsentDetails())));
-            }
+            List<? extends ConsentDetail> consentDetails = (List<? extends ConsentDetail>) dbInterface.fetchConsentDetails();
+
+            eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList, consentDetails));
+
 
         } catch (SQLException e) {
             dbInterface.postError(e, event.getDbRequestListener());
@@ -145,7 +143,7 @@ public class FetchingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackgroundThread(LoadUserCharacteristicsRequest loadUserCharacteristicsRequest) {
+    public void onEventAsync(LoadUserCharacteristicsRequest loadUserCharacteristicsRequest) {
         try {
             dbInterface.fetchCharacteristics(loadUserCharacteristicsRequest.getDbRequestListener());
         } catch (SQLException e) {
@@ -154,7 +152,7 @@ public class FetchingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackgroundThread(LoadSettingsRequest loadSettingsRequest) {
+    public void onEventAsync(LoadSettingsRequest loadSettingsRequest) {
 
         try {
             dbInterface.fetchSettings(loadSettingsRequest.getDbRequestListener());

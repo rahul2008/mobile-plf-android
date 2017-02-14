@@ -8,12 +8,7 @@ package com.philips.platform.core.injection;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Handler;
-
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import javax.inject.Singleton;
 
@@ -28,12 +23,10 @@ import dagger.Provides;
 public class ApplicationModule {
 
     private SharedPreferences sharedPreferences;
-    private PackageManager packageManager;
     private Context context;
 
     public ApplicationModule(Context context) {
         sharedPreferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
-        packageManager = context.getPackageManager();
         this.context = context;
     }
 
@@ -44,19 +37,8 @@ public class ApplicationModule {
     }
 
     @Provides
-    @Singleton
-    ExecutorService provideBackgroundExecutor() {
-        return Executors.newFixedThreadPool(2);
-    }
-
-    @Provides
     Handler providesHandler() {
         return new Handler();
-    }
-
-    @Provides
-    Executor providesExecutor(ExecutorService executorService) {
-        return executorService;
     }
 
     @Provides

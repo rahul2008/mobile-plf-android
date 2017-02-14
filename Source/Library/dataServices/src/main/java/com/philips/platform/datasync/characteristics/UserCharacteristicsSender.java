@@ -7,11 +7,11 @@ package com.philips.platform.datasync.characteristics;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.UserCharacteristics;
+import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.events.BackendResponse;
-import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
+import com.philips.platform.core.events.SyncBitUpdateRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataSender;
@@ -26,7 +26,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
 
-public class UserCharacteristicsSender implements DataSender<UserCharacteristics> {
+public class UserCharacteristicsSender extends DataSender {
 
     private static final int API_VERSION = 9;
 
@@ -52,41 +52,42 @@ public class UserCharacteristicsSender implements DataSender<UserCharacteristics
     }
 
     @Override
-    public boolean sendDataToBackend(@NonNull List<? extends UserCharacteristics> userCharacteristicsListToSend) {
-        if (!mUCoreAccessProvider.isLoggedIn() && userCharacteristicsListToSend.size() > 0) {
+    public boolean sendDataToBackend(@NonNull List userCharacteristicsListToSend) {
+        if (!mUCoreAccessProvider.isLoggedIn()) {
             return false;
         }
 
-        List<UserCharacteristics> userUserCharacteristicsList = new ArrayList<>();
-        for (UserCharacteristics userCharacteristics : userCharacteristicsListToSend) {
-            userUserCharacteristicsList.add(userCharacteristics);
+        if(userCharacteristicsListToSend == null){
+            return false;
         }
-        //TODO:Spoorti - send only if not synced
-        //While sending UC ,we used to fetch UC which are not synced ,So no need to check here
+        List<Characteristics> userUserCharacteristicsList = new ArrayList<>();
+        for (Object characteristics : userCharacteristicsListToSend) {
+            userUserCharacteristicsList.add((Characteristics)characteristics);
+        }
         return sendUserCharacteristics(userUserCharacteristicsList);
     }
 
-    private boolean sendUserCharacteristics(List<UserCharacteristics> userUserCharacteristicsList) {
+    private boolean sendUserCharacteristics(List<Characteristics> userUserCharacteristicsList) {
 
-        if (userUserCharacteristicsList == null || userUserCharacteristicsList.size() == 0 ) return false;
+        if (userUserCharacteristicsList == null) return false;
         try {
             UserCharacteristicsClient uClient =
                     mUCoreAdapter.getAppFrameworkClient(UserCharacteristicsClient.class,
                             mUCoreAccessProvider.getAccessToken(), mGsonConverter);
 
             Response response = uClient.createOrUpdateUserCharacteristics(mUCoreAccessProvider.getUserId(),
-                            mUCoreAccessProvider.getUserId(),
-                            mUserCharacteristicsConverter.convertToUCoreUserCharacteristics(userUserCharacteristicsList),
-                            API_VERSION);
+                    mUCoreAccessProvider.getUserId(),
+                    mUserCharacteristicsConverter.convertToUCoreUserCharacteristics(userUserCharacteristicsList),
+                    API_VERSION);
 
             if (isResponseSuccess(response)) {
-                postOk(userUserCharacteristicsList.get(0));
+                mEventing.post(new SyncBitUpdateRequest(OrmTableType.CHARACTERISTICS, true));
                 return true;
             }
         } catch (RetrofitError retrofitError) {
+            onError(retrofitError);
             postError(retrofitError);
         }
-
         return false;
     }
 
@@ -94,17 +95,9 @@ public class UserCharacteristicsSender implements DataSender<UserCharacteristics
         mEventing.post(new BackendResponse(1, retrofitError));
     }
 
-    private void postOk(UserCharacteristics characteristic) {
-        characteristic.setSynchronized(true);
-        DSLog.d(DSLog.LOG, "Inder = Inside UC Sender postOk " + characteristic.getCharacteristicsDetails());
-        //TODO: SPoorti - As of now I see that the below event is posted to saving monitor, genrally it could go to UpdatingMonitor.
-        // We can get it one's verified with Ajay
-        mEventing.post(new UserCharacteristicsSaveRequest(characteristic, null));
-    }
-
     @Override
-    public Class<? extends UserCharacteristics> getClassForSyncData() {
-        return UserCharacteristics.class;
+    public Class<? extends Characteristics> getClassForSyncData() {
+        return Characteristics.class;
     }
 
     private boolean isResponseSuccess(final Response response) {

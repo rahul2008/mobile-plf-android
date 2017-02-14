@@ -2,9 +2,7 @@ package com.philips.platform.verticals;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
 
@@ -54,7 +52,7 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     @Override
-    public void fetchConsents(DBRequestListener dbRequestListener) throws SQLException {
+    public void fetchConsentDetails(DBRequestListener dbRequestListener) throws SQLException {
 
     }
 
@@ -63,10 +61,7 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
         return null;
     }
 
-    @Override
-    public Consent fetchConsent(DBRequestListener dbRequestListener) throws SQLException {
-        return null;
-    }
+
 
     @Override
     public void postError(Exception e, DBRequestListener dbRequestListener) {
@@ -78,15 +73,6 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
 
     }
 
-    @Override
-    public List<?> fetchNonSyncConsentDetails() throws SQLException {
-        return null;
-    }
-
-    @Override
-    public UserCharacteristics fetchUCByCreatorId(@NonNull String creatorId) throws SQLException {
-        return null;
-    }
 
     @Override
     public Settings fetchSettings(DBRequestListener dbRequestListener) throws SQLException {
@@ -104,7 +90,12 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     @Override
-    public List<?> fetchNonSyncConsents() throws SQLException {
+    public List<?> fetchNonSyncConsentDetails() throws SQLException {
+        return null;
+    }
+
+    @Override
+    public List<?> fetchConsentDetails() throws SQLException {
         return null;
     }
 

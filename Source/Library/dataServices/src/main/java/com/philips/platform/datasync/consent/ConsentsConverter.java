@@ -3,7 +3,6 @@ package com.philips.platform.datasync.consent;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BaseAppDataCreator;
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.trackers.DataServicesManager;
 
@@ -28,15 +27,15 @@ public class ConsentsConverter {
     }
 
     @NonNull
-    public Consent convertToAppConsentDetails(@NonNull final List<UCoreConsentDetail> uCoreConsentDetails, @NonNull final String creatorId) {
-        Consent consent = dataCreator.createConsent(creatorId);
+    public List<ConsentDetail> convertToAppConsentDetails(@NonNull final List<UCoreConsentDetail> uCoreConsentDetails) {
+
+        List<ConsentDetail> consentDetails =new ArrayList<>();
         for (UCoreConsentDetail uCoreConsentDetail : uCoreConsentDetails) {
-            //Needs to be modified later
-            ConsentDetail consentDetail = dataCreator.createConsentDetail(uCoreConsentDetail.getName(), uCoreConsentDetail.getStatus(), uCoreConsentDetail.getDocumentVersion(), uCoreConsentDetail.getDeviceIdentificationNumber(),false, consent);
-            consent.addConsentDetails(consentDetail);
+            ConsentDetail consentDetail = dataCreator.createConsentDetail(uCoreConsentDetail.getName(), uCoreConsentDetail.getStatus(), uCoreConsentDetail.getDocumentVersion(), uCoreConsentDetail.getDeviceIdentificationNumber());
+            consentDetails.add(consentDetail);
         }
 
-        return consent;
+        return consentDetails;
     }
 
     @NonNull

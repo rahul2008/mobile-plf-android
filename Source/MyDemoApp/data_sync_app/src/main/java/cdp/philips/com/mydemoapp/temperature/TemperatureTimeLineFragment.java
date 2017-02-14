@@ -25,6 +25,7 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
@@ -47,7 +48,7 @@ import static android.content.Context.ALARM_SERVICE;
  * All rights reserved.
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBRequestListener, DBChangeListener {
+public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBRequestListener, DBChangeListener, SynchronisationCompleteListener{
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
@@ -94,6 +95,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         super.onStart();
 
         mDataServicesManager.registerDBChangeListener(this);
+        mDataServicesManager.registerSynchronisationCompleteListener(this);
 
         if (mUser != null && !mUser.isUserSignIn()) {
             Toast.makeText(getContext(), "Please Login", Toast.LENGTH_SHORT).show();
@@ -107,13 +109,13 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mTemperaturePresenter.fetchData(this);
 
         //Reseting the sync Flags
-        mDataServicesManager.setPullComplete(true);
-        mDataServicesManager.setPushComplete(true);
+        /*mDataServicesManager.setPullComplete(true);
+        mDataServicesManager.setPushComplete(true);*/
 
         setUpBackendSynchronizationLoop();
 
         if (!mUtility.isOnline(getContext())) {
-            Toast.makeText(getContext(), "Please check your connection", Toast.LENGTH_LONG).show();
+            showToastOnUiThread("Please check your connection");
             return;
         }
 
@@ -144,6 +146,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     public void onStop() {
         super.onStop();
         DataServicesManager.getInstance().unRegisterDBChangeListener();
+        mDataServicesManager.unRegisterSynchronisationCosmpleteListener();
         cancelPendingIntent();
         //mDataServicesManager.stopCore();
         dismissProgressDialog();
@@ -227,12 +230,14 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void onSuccess(final ArrayList<? extends Object> data) {
+
+        DSLog.i("***SPO***","On Sucess ArrayList TemperatureTimeLineFragment");
         if (getActivity() == null) return;
 
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                DSLog.i(TAG, "http : UI updated");
+                DSLog.i("***SPO***", "http TEmperature TimeLine : UI updated");
                 mData = (ArrayList<? extends Moment>) data;
                 mAdapter.setData(mData);
                 mAdapter.notifyDataSetChanged();
@@ -247,6 +252,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void onSuccess(final Object data) {
+        DSLog.i("***SPO***", "on Success Object Temperature");
         mTemperaturePresenter.fetchData(this);
     }
 
@@ -269,7 +275,10 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                     if (mContext != null)
                         Toast.makeText(mContext, "UI update Failed", Toast.LENGTH_SHORT).show();
                 }
-                dismissProgressDialog();
+                if (mSharedPreferences.getBoolean("isSynced", false)) {
+                    dismissProgressDialog();
+                }
+               // dismissProgressDialog();
             }
         });
     }
@@ -304,17 +313,59 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void dBChangeSuccess() {
-        mTemperaturePresenter.fetchData(this);
-    }
-
-    @Override
-    public void dBChangeFailed(final Exception e) {
+        DSLog.i("***SPO***", "pabitra DB OnSuccess");
         if (getActivity() == null) return;
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
 
-                Toast.makeText(getActivity(), "Exception :" + e.getMessage(), Toast.LENGTH_LONG).show();
+                mTemperaturePresenter.fetchData(TemperatureTimeLineFragment.this);
+            }
+        });
+
+
+    }
+
+    @Override
+    public void dBChangeFailed(final Exception e) {
+        showToastOnUiThread("Exception :" + e.getMessage());
+    }
+
+    @Override
+    public void onSyncComplete() {
+        if (getActivity() == null) return;
+        DSLog.i("***SPO***", "In TemperatureTimeLineFragment ONSYNCCOMPLETE");
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                mTemperaturePresenter.fetchData(TemperatureTimeLineFragment.this);
+            }
+        });
+    }
+
+    @Override
+    public void onSyncFailed(final Exception exception) {
+        if (getActivity() == null) return;
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mSharedPreferences.getBoolean("isSynced", false)) {
+                    dismissProgressDialog();
+                }
+                //dismissProgressDialog();
+               // Toast.makeText(getActivity(), "Exception :" + exception.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void showToastOnUiThread(final String msg){
+
+        if(getActivity() == null) return;
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
             }
         });
     }

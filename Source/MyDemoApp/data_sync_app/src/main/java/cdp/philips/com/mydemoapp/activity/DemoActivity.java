@@ -16,7 +16,6 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
-import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -26,7 +25,7 @@ import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.database.DatabaseHelper;
 import cdp.philips.com.mydemoapp.temperature.TemperatureTimeLineFragment;
 
-public class DemoActivity extends AppCompatActivity implements UserRegistrationListener, UserRegistrationUIEventListener, ActionBarListener{
+public class DemoActivity extends AppCompatActivity implements UserRegistrationListener, UserRegistrationUIEventListener, ActionBarListener {
 
     private ActionBarListener actionBarListener;
     private DatabaseHelper databaseHelper;
@@ -39,25 +38,25 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
         User user = new User(this);
 
         if (savedInstanceState == null)
-            if(user.isUserSignIn()){
+            if (user.isUserSignIn()) {
                 showFragment(new TemperatureTimeLineFragment(), TemperatureTimeLineFragment.TAG);
                 databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
                 databaseHelper.getWritableDatabase();
-            }else {
+            } else {
                 startRegistrationFragment();
             }
-        else{
+        else {
             onRestoreInstanceState(savedInstanceState);
         }
 
     }
 
-    void startRegistrationFragment(){
+    void startRegistrationFragment() {
         loadPlugIn();
         runUserRegistration();
     }
 
-    private void loadPlugIn(){
+    private void loadPlugIn() {
         User userObject = new User(this);
         userObject.registerUserRegistrationListener(this);
     }
@@ -73,7 +72,7 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
     }
 
 
-    private void runUserRegistration(){
+    private void runUserRegistration() {
         launchRegistrationFragment(false);
     }
 
@@ -84,11 +83,12 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
         int containerID = R.id.frame_container_user_reg;
         URLaunchInput urLaunchInput = new URLaunchInput();
         urLaunchInput.setUserRegistrationUIEventListener(this);
+        urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
         urLaunchInput.setAccountSettings(true);
         urLaunchInput.enableAddtoBackStack(true);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         FragmentLauncher fragmentLauncher = new FragmentLauncher
-                (DemoActivity.this,containerID,actionBarListener);
+                (DemoActivity.this, containerID, actionBarListener);
         URInterface urInterface = new URInterface();
         urInterface.launch(fragmentLauncher, urLaunchInput);
     }
@@ -104,9 +104,7 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
 
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
-        DSLog.i(DSLog.LOG,"CALLBACK FROM UR RECIEVED");
-        DataServicesManager.getInstance().stopCore();
-        DataServicesManager.getInstance().startMonitors();
+        DSLog.i(DSLog.LOG, "CALLBACK FROM UR RECIEVED");
     }
 
     @Override
@@ -153,7 +151,7 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container_user_reg);
         if (currentFrag instanceof TemperatureTimeLineFragment) {
             finishAffinity();
-        }else {
+        } else {
             super.onBackPressed();
         }
     }
@@ -161,7 +159,7 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(databaseHelper!=null && databaseHelper.isOpen()){
+        if (databaseHelper != null && databaseHelper.isOpen()) {
             databaseHelper.close();
         }
         //DataServicesManager.getInstance().releaseDataServicesInstances();

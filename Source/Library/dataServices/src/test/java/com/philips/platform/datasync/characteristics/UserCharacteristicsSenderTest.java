@@ -1,13 +1,15 @@
 package com.philips.platform.datasync.characteristics;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.UserCharacteristics;
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.events.BackendResponse;
+import com.philips.platform.core.events.SyncBitUpdateRequest;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
+import com.philips.platform.datasync.synchronisation.SynchronisationManager;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +39,7 @@ public class UserCharacteristicsSenderTest {
     UserCharacteristicsSender userCharacteristicsSender;
 
     @Mock
-    private UserCharacteristics userCharacteristicsMock;
+    private Characteristics characteristicsMock;
 
     @Mock
     private UCoreAccessProvider accessProviderMock;
@@ -60,6 +62,8 @@ public class UserCharacteristicsSenderTest {
     @Mock
     private UserCharacteristicsClient clientMock;
 
+    @Mock
+    SynchronisationManager synchronisationManagerMock;
     @Before
     public void setUp() {
         initMocks(this);
@@ -69,20 +73,20 @@ public class UserCharacteristicsSenderTest {
         userCharacteristicsSender.mUCoreAdapter = uCoreAdapterMock;
         userCharacteristicsSender.mUCoreAccessProvider = accessProviderMock;
         userCharacteristicsSender.mEventing = eventingMock;
+        userCharacteristicsSender.synchronisationManager = synchronisationManagerMock;
         userCharacteristicsSender.mUserCharacteristicsConverter = userCharacteristicsConverterMock;
         when(accessProviderMock.getAccessToken()).thenReturn(ACCESS_TOKEN);
         when(accessProviderMock.getUserId()).thenReturn("USER_ID");
         when(accessProviderMock.getSubjectId()).thenReturn("BABY_ID");
         when(uCoreAdapterMock.getAppFrameworkClient(UserCharacteristicsClient.class, ACCESS_TOKEN, gsonConverterMock)).thenReturn(clientMock);
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
-        when(userCharacteristicsMock.getCreatorId()).thenReturn("USER_ID");
     }
 
     @Test
     public void ShouldNotSendDataToBackend_WhenUserIsNotLoggedIn() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
 
-        boolean sendDataToBackend = userCharacteristicsSender.sendDataToBackend(Collections.singletonList(userCharacteristicsMock));
+        boolean sendDataToBackend = userCharacteristicsSender.sendDataToBackend(Collections.singletonList(characteristicsMock));
 
         verifyZeroInteractions(clientMock);
         assertThat(sendDataToBackend).isFalse();
@@ -95,7 +99,7 @@ public class UserCharacteristicsSenderTest {
         when(accessProviderMock.getAccessToken()).thenReturn("");
         when(accessProviderMock.getUserId()).thenReturn("");
 
-        userCharacteristicsSender.sendDataToBackend(Collections.singletonList(userCharacteristicsMock));
+        userCharacteristicsSender.sendDataToBackend(Collections.singletonList(characteristicsMock));
 
         verifyZeroInteractions(uCoreAdapterMock);
     }
@@ -104,7 +108,7 @@ public class UserCharacteristicsSenderTest {
     public void ShouldNotSendDataToBackend_WhenAccessTokenIsEmpty() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
         when(accessProviderMock.getAccessToken()).thenReturn("");
-        userCharacteristicsSender.sendDataToBackend(Collections.singletonList(userCharacteristicsMock));
+        userCharacteristicsSender.sendDataToBackend(Collections.singletonList(characteristicsMock));
 
         verifyZeroInteractions(uCoreAdapterMock);
     }
@@ -114,8 +118,8 @@ public class UserCharacteristicsSenderTest {
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
         when(accessProviderMock.getAccessToken()).thenReturn("");
 
-       // List<UserCharacteristics> characteristicsList = new ArrayList<>();
-        boolean isReturnFalse = userCharacteristicsSender.sendDataToBackend(Collections.singletonList(userCharacteristicsMock));
+        // List<UserCharacteristics> characteristicsList = new ArrayList<>();
+        boolean isReturnFalse = userCharacteristicsSender.sendDataToBackend(Collections.singletonList(characteristicsMock));
         assertThat(isReturnFalse).isEqualTo(false);
         verifyZeroInteractions(uCoreAdapterMock);
     }
@@ -146,9 +150,9 @@ public class UserCharacteristicsSenderTest {
         when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
         when(uCoreClientMock.createOrUpdateUserCharacteristics(eq(TEST_USER_ID), eq(TEST_USER_ID), any(UCoreUserCharacteristics.class), eq(9))).thenReturn(response);
 
-        userCharacteristicsSender.sendDataToBackend(Collections.singletonList(userCharacteristicsMock));
+        userCharacteristicsSender.sendDataToBackend(Collections.singletonList(characteristicsMock));
 
-        verify(eventingMock).post(isA(UserCharacteristicsSaveRequest.class));
+        verify(eventingMock).post(isA(SyncBitUpdateRequest.class));
     }
 
     @Test
@@ -161,16 +165,16 @@ public class UserCharacteristicsSenderTest {
         when(accessProviderMock.getAccessToken()).thenReturn(ACCESS_TOKEN);
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
-        when(uCoreClientMock.createOrUpdateUserCharacteristics(eq(TEST_USER_ID), eq(TEST_USER_ID), (UCoreUserCharacteristics) any(UserCharacteristics.class), eq(9))).thenThrow(retrofitErrorMock);
+        when(uCoreClientMock.createOrUpdateUserCharacteristics(eq(TEST_USER_ID), eq(TEST_USER_ID), (UCoreUserCharacteristics) any(Characteristics.class), eq(9))).thenThrow(retrofitErrorMock);
 
 
-        userCharacteristicsSender.sendDataToBackend(Collections.singletonList(userCharacteristicsMock));
+        userCharacteristicsSender.sendDataToBackend(Collections.singletonList(characteristicsMock));
 
         verify(eventingMock).post(isA(BackendResponse.class));
     }
 
     @Test
     public void ShouldReturnClassForSyncData_WhenAsked() throws Exception {
-        assertThat(userCharacteristicsSender.getClassForSyncData()).isEqualTo(UserCharacteristics.class);
+        assertThat(userCharacteristicsSender.getClassForSyncData()).isEqualTo(Characteristics.class);
     }
 }

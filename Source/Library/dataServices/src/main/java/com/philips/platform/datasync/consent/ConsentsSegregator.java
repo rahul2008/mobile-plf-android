@@ -4,7 +4,7 @@
  */
 package com.philips.platform.datasync.consent;
 
-import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.trackers.DataServicesManager;
 
@@ -25,8 +25,8 @@ public class ConsentsSegregator {
     }
 
     public Map<Class, List<?>> putConsentForSync(Map<Class, List<?>> dataToSync) throws SQLException {
-        List<? extends Consent> consentList = (List<? extends Consent>) dbFetchingInterface.fetchNonSyncConsents();
-        dataToSync.put(Consent.class, consentList);
+        List<? extends ConsentDetail> consentList = (List<? extends ConsentDetail>) dbFetchingInterface.fetchNonSyncConsentDetails();
+        dataToSync.put(ConsentDetail.class, consentList);
         return dataToSync;
     }
 

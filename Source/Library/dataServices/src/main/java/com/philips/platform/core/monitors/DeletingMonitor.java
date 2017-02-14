@@ -6,8 +6,10 @@ package com.philips.platform.core.monitors;
 
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.events.DataClearRequest;
+import com.philips.platform.core.events.DeleteAllMomentsRequest;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.events.MomentDeleteRequest;
+import com.philips.platform.core.events.MomentsDeleteRequest;
 import com.philips.platform.core.listeners.DBRequestListener;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -28,7 +30,18 @@ public class DeletingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackgroundThread(DataClearRequest event) {
+    public void onEventAsync(DataClearRequest event) {
+        final DBRequestListener dbRequestListener = event.getDbRequestListener();
+        try {
+            dbInterface.deleteAll(dbRequestListener);
+        } catch (SQLException e) {
+            dbInterface.deleteFailed(e, dbRequestListener);
+        }
+        //eventing.post(new DataClearResponse(event.getEventId()));
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventAsync(DeleteAllMomentsRequest event) {
         final DBRequestListener dbRequestListener = event.getDbRequestListener();
         try {
             dbInterface.deleteAll(dbRequestListener);
@@ -46,12 +59,24 @@ public class DeletingMonitor extends EventMonitor {
         } catch (SQLException e) {
             dbInterface.deleteFailed(e, dbRequestListener);
         }
-        //   eventing.post(new MomentChangeEvent(event.getEventId(), event.getMoment()));
+        //   eventing.post(new MomentChangeEvent(event.getEventId(), event.getMoments()));
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void onEventAsync(MomentsDeleteRequest event) {
+        final DBRequestListener dbRequestListener = event.getDbRequestListener();
+        try {
+            dbInterface.markMomentsAsInActive(event.getMoments(), dbRequestListener);
+        } catch (SQLException e) {
+            dbInterface.deleteFailed(e, dbRequestListener);
+        }
+        //   eventing.post(new MomentChangeEvent(event.getEventId(), event.getMoments()));
 
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackgroundThread(MomentBackendDeleteResponse backendDeleteResponse) {
+    public void onEventAsync(MomentBackendDeleteResponse backendDeleteResponse) {
         final DBRequestListener dbRequestListener = backendDeleteResponse.getDbRequestListener();
         try {
             dbInterface.deleteMoment(backendDeleteResponse.getMoment(),

@@ -1,16 +1,20 @@
 package com.philips.platform.datasync.characteristics;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.UserCharacteristics;
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
+import com.philips.platform.datasync.synchronisation.DataFetcher;
+import com.philips.platform.datasync.synchronisation.SynchronisationManager;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+
+import java.util.List;
 
 import retrofit.RetrofitError;
 import retrofit.converter.GsonConverter;
@@ -26,7 +30,7 @@ public class UserCharacteristicsFetcherTest {
     UserCharacteristicsFetcher userCharacteristicsFetcher;
 
     @Mock
-    private UserCharacteristics userCharacteristicsMock;
+    private List<Characteristics> characteristicsMock;
     @Mock
     private UCoreAdapter uCoreAdapterMock;
 
@@ -37,11 +41,21 @@ public class UserCharacteristicsFetcherTest {
     private Eventing eventingMock;
 
     @Mock
+    SynchronisationManager synchronisationManagerMock;
+
+    @Mock
+    DataFetcher dataFetcherMock;
+
+    @Mock
     private GsonConverter gsonConverterMock;
+
     private String TEST_ACCESS_TOKEN = "TEST_ACCESS_TOKEN";
+
     private String TEST_USER_ID = "TEST_USER_ID";
+
     @Mock
     private AppComponent appComponantMock;
+
     @Mock
     private UserCharacteristicsConverter userCharacteristicsConverterMock;
 
@@ -51,8 +65,10 @@ public class UserCharacteristicsFetcherTest {
         DataServicesManager.getInstance().setAppComponant(appComponantMock);
         userCharacteristicsFetcher = new UserCharacteristicsFetcher(uCoreAdapterMock, gsonConverterMock);
         userCharacteristicsFetcher.eventing = eventingMock;
+        userCharacteristicsFetcher.synchronisationManager = synchronisationManagerMock;
         userCharacteristicsFetcher.mUCoreAccessProvider = accessProviderMock;
         userCharacteristicsFetcher.mUserCharacteristicsConverter = userCharacteristicsConverterMock;
+
     }
 
     @Test
@@ -85,7 +101,7 @@ public class UserCharacteristicsFetcherTest {
         when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
         final UserCharacteristicsClient uCoreClientMock = mock(UserCharacteristicsClient.class);
         when(uCoreAdapterMock.getAppFrameworkClient(UserCharacteristicsClient.class, TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(uCoreClientMock);
-        when(userCharacteristicsConverterMock.convertToCharacteristics(null, accessProviderMock.getUserId())).thenReturn(userCharacteristicsMock);
+        when(userCharacteristicsConverterMock.convertToCharacteristics(null, accessProviderMock.getUserId())).thenReturn(characteristicsMock);
         userCharacteristicsFetcher.fetchDataSince(null);
 
         verify(eventingMock).post(isA(UCDBUpdateFromBackendRequest.class));
@@ -101,7 +117,6 @@ public class UserCharacteristicsFetcherTest {
         final RetrofitError retrofitErrorMock = mock(RetrofitError.class);
         when(retrofitErrorMock.getMessage()).thenReturn("ERROR");
         when(uCoreClientMock.getUserCharacteristics(TEST_USER_ID, TEST_USER_ID, 9)).thenThrow(retrofitErrorMock);
-
         RetrofitError retrofitError = userCharacteristicsFetcher.fetchDataSince(null);
 
         assertThat(retrofitError).isNotNull();

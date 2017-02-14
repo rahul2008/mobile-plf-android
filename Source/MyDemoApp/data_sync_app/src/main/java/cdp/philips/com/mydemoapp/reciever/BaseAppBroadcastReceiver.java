@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -19,7 +18,7 @@ import cdp.philips.com.mydemoapp.utility.Utility;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class BaseAppBroadcastReceiver extends BroadcastReceiver {
+public class BaseAppBroadcastReceiver extends BroadcastReceiver{
 
     public static final long DATA_FETCH_FREQUENCY = 30 * DateTimeConstants.MILLIS_PER_SECOND;
 
@@ -44,8 +43,7 @@ public class BaseAppBroadcastReceiver extends BroadcastReceiver {
         //TODO: review changing connection
         if (mUtility.isOnline(context) && (action.equals(ACTION_USER_DATA_FETCH) || action.equals(ConnectivityManager.CONNECTIVITY_ACTION))) {
             Log.i("***SPO***","START SYNC FROM REC");
-            mDataServices.synchchronize();
+            mDataServices.synchronize();
         }
     }
-
 }

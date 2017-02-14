@@ -5,19 +5,17 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
 import org.joda.time.DateTime;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
-import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
 
 /**
@@ -45,6 +43,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     @Override
     public void deleteAll(DBRequestListener dbRequestListener) throws SQLException {
         ormDeleting.deleteAll();
+        notifyDBRequestListener.notifySuccess(dbRequestListener);
     }
 
     @Override
@@ -57,11 +56,27 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
                             DateTime.now(), 0));
             saveMoment(moment, dbRequestListener);
         }
+        notifyDBRequestListener.notifySuccess(dbRequestListener,(OrmMoment) moment);
+    }
+
+    @Override
+    public void markMomentsAsInActive(final List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
+        for(Moment moment : moments){
+            markAsInActive(moment,dbRequestListener);
+        }
     }
 
     @Override
     public void deleteMoment(Moment moment, DBRequestListener dbRequestListener) throws SQLException {
         ormDeleting.ormDeleteMoment((OrmMoment) moment);
+        notifyDBRequestListener.notifySuccess(dbRequestListener,(OrmMoment) moment);
+    }
+
+    @Override
+    public void deleteMoments(List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
+       for(Moment moment: moments){
+           deleteMoment(moment,dbRequestListener);
+       }
     }
 
     @Override
@@ -77,6 +92,12 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     @Override
     public void deleteFailed(Exception e, DBRequestListener dbRequestListener) {
         notifyDBRequestListener.notifyFailure(e,dbRequestListener);
+    }
+
+    @Override
+    public void deleteAllMoments(DBRequestListener dbRequestListener) throws SQLException {
+        ormDeleting.deleteAllMoments();
+        notifyDBRequestListener.notifySuccess(dbRequestListener);
     }
 
     private boolean isMomentSyncedToBackend(final Moment moment) {

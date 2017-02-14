@@ -34,6 +34,9 @@ allprojects {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android'
+        }
+        maven {
             url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
             credentials {
                 username = "readonly"
@@ -48,9 +51,6 @@ allprojects {
         }
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
-        }
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android'
         }
 //        apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
@@ -249,9 +249,8 @@ dependencies {
 
     compile "com.j256.ormlite:ormlite-core:4.48"
     compile "com.j256.ormlite:ormlite-android:4.48"
-    compile "com.philips.cdp:registrationApi:8.4.4-SNAPSHOT"
+    compile "com.philips.cdp:registrationApi:8.4.5-SNAPSHOT"
     compile "com.philips.cdp:uikitLib:3.2.3"
-    compile "com.philips.cdp:AppInfra:1.5.4-SNAPSHOT"
     //compile 'com.github.chrisbanes.actionbarpulltorefresh:library:+'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'

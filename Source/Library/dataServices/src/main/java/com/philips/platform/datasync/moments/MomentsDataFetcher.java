@@ -69,6 +69,7 @@ public class MomentsDataFetcher extends DataFetcher {
                     accessProvider.getAccessToken(), gsonConverter);
 
             if (client != null) {
+                DSLog.i("***SPO***", "Moments DataFetching started");
                 momentsHistory = client.getMomentsHistory(accessProvider.getUserId(),
                         accessProvider.getUserId(), momentsLastSyncUrl);
 
@@ -76,19 +77,21 @@ public class MomentsDataFetcher extends DataFetcher {
 
                 List<UCoreMoment> uCoreMoments = momentsHistory.getUCoreMoments();
                 if (uCoreMoments != null && uCoreMoments.size() <= 0) {
+                    DSLog.i("***SPO***", "DataPullSynchronize Moments fetch Success No change");
                     return null;
                 }
-
+                DSLog.i("***SPO***", "DataPullSynchronize Moments fetch Success before convert");
                 List<Moment> moments = converter.convert(uCoreMoments);
-                DSLog.e("***SPO***", "DataPullSynchronize fetch Success");
+                DSLog.i("***SPO***", "DataPullSynchronize Moments fetch Success after converting");
                 eventing.post(new BackendMomentListSaveRequest(moments, null));
             }
-            DSLog.e("***SPO***", "DataPullSynchronize fetch send null");
+            DSLog.e("***SPO***", "DataPullSynchronize fetchMomentWithType send null");
             return null;
         } catch (RetrofitError ex) {
             //TODO: - Veritcals should be forced to call this
             DSLog.e(TAG, "RetrofitError: " + ex.getMessage() + ex);
             eventing.post(new BackendDataRequestFailed(ex));
+            onError(ex);
             return ex;
         }
     }

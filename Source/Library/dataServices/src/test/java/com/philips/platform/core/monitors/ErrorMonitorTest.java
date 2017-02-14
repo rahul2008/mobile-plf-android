@@ -4,6 +4,7 @@ import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.datasync.synchronisation.SynchronisationManager;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import org.junit.Before;
@@ -14,10 +15,6 @@ import retrofit.RetrofitError;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
-
-/**
- * Created by 310218660 on 1/8/2017.
- */
 
 public class ErrorMonitorTest {
 
@@ -38,17 +35,21 @@ public class ErrorMonitorTest {
     @Mock
     BackendDataRequestFailed backendDataRequestFailed;
 
+    @Mock
+    SynchronisationManager synchronisationManager;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
         DataServicesManager.getInstance().setAppComponant(appComponantMock);
         errorMonitor = new ErrorMonitor(errorHandlingInterface);
         errorMonitor.userRegistrationInterface = userRegistrationInterfaceMock;
+        errorMonitor.synchronisationManager = synchronisationManager;
     }
 
     @Test
     public void ShouldStart_WhenonEventBackgroundThread() throws Exception {
-        errorMonitor.onEventBackgroundThread(backendDataRequestFailed);
+        errorMonitor.onEventAsync(backendDataRequestFailed);
         verify(errorHandlingInterface).syncError(-1);
     }
 

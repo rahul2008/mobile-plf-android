@@ -72,6 +72,6 @@ public class OrmDCSync implements DCSync, Serializable {
 
     @Override
     public String toString() {
-        return "[OrmConsent, id=" + id + ", tableType=" + tableType + ", dateTime=" + dateTime + "]";
+        return "[OrmConsentDetail, id=" + id + ", tableType=" + tableType + ", dateTime=" + dateTime + "]";
     }
 }
