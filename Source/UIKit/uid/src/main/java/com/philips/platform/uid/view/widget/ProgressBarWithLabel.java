@@ -32,6 +32,7 @@ public class ProgressBarWithLabel extends FrameLayout {
     private Label labelCenter;
     private Label labelBottomCenter;
     private ProgressBar.CircularProgressBarSize circularProgressBarSize;
+    private Label label;
 
     public ProgressBarWithLabel(final Context context) {
         this(context, null);
@@ -89,14 +90,11 @@ public class ProgressBarWithLabel extends FrameLayout {
         setText(text);
         setProgress(progress);
         setSecondaryProgress(secondaryProgress);
-        setLabelVisibility(labelPosition);
+        setLabelVisibility();
     }
 
     private void initializeLinearProgressBarViews() {
-        labelTopLeft = (Label) getRootView().findViewById(R.id.uid_progress_indicator_label_top_left);
-        labelTopRight = (Label) getRootView().findViewById(R.id.uid_progress_indicator_label_top_right);
-        labelBottomLeft = (Label) getRootView().findViewById(R.id.uid_progress_indicator_label_bottom_left);
-        labelBottomRight = (Label) getRootView().findViewById(R.id.uid_progress_indicator_label_bottom_right);
+        label = (Label) getRootView().findViewById(getLinearProgressBarLabelID());
 
         if (isIndeterminateProgressIndicator) {
             indeterminateLinearProgressBar = (IndeterminateLinearProgressBar) findViewById(R.id.uid_progress_indicator);
@@ -105,23 +103,33 @@ public class ProgressBarWithLabel extends FrameLayout {
         }
     }
 
-    private void initializeCircularProgressBarViews() {
-        labelCenter = (Label) getRootView().findViewById(R.id.uid_progress_indicator_label_center);
-        labelBottomCenter = (Label) getRootView().findViewById(R.id.uid_progress_indicator_label_bottom_center);
+    private int getLinearProgressBarLabelID() {
+        switch (labelPosition) {
+            case TOP_RIGHT:
+                return R.id.uid_progress_indicator_label_top_right;
+            case BOTTOM_LEFT:
+                return  R.id.uid_progress_indicator_label_bottom_left;
+            case BOTTOM_RIGHT:
+                return R.id.uid_progress_indicator_label_bottom_right;
+        }
+        return R.id.uid_progress_indicator_label_top_left;
+    }
 
+    private int getCircularProgressBarLabelID() {
+        switch (labelPosition) {
+            case BOTTOM_CENTER:
+                return R.id.uid_progress_indicator_label_bottom_center;
+        }
+        return R.id.uid_progress_indicator_label_center;
+    }
+
+    private void initializeCircularProgressBarViews() {
+        label = (Label) getRootView().findViewById(getCircularProgressBarLabelID());
         progressBar = (ProgressBar) findViewById(R.id.uid_progress_indicator);
     }
 
-    private void setLabelVisibility(LabelPosition position) {
-        if (isLinearProgressBarEnabled) {
-            labelTopLeft.setVisibility(position == LabelPosition.TOP_LEFT ? VISIBLE : GONE);
-            labelTopRight.setVisibility(position == LabelPosition.TOP_RIGHT ? VISIBLE : GONE);
-            labelBottomLeft.setVisibility(position == LabelPosition.BOTTOM_LEFT ? VISIBLE : GONE);
-            labelBottomRight.setVisibility(position == LabelPosition.BOTTOM_RIGHT ? VISIBLE : GONE);
-        } else {
-            labelCenter.setVisibility(position == LabelPosition.CENTER ? VISIBLE : GONE);
-            labelBottomCenter.setVisibility(position == LabelPosition.BOTTOM_CENTER ? VISIBLE : GONE);
-        }
+    private void setLabelVisibility() {
+        label.setVisibility(VISIBLE);
     }
 
     private int getCircularProgressBarLayout(ProgressBar.CircularProgressBarSize bar) {
@@ -141,39 +149,15 @@ public class ProgressBarWithLabel extends FrameLayout {
     }
 
     public void setText(String text) {
-        if (isLinearProgressBarEnabled) {
-            labelTopLeft.setText(text);
-            labelTopRight.setText(text);
-            labelBottomLeft.setText(text);
-            labelBottomRight.setText(text);
-        } else {
-            labelCenter.setText(text);
-            labelBottomCenter.setText(text);
-        }
+        label.setText(text);
     }
 
     public void setTextSize(int size) {
-        if (isLinearProgressBarEnabled) {
-            labelTopLeft.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
-            labelTopRight.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
-            labelBottomLeft.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
-            labelBottomRight.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
-        } else {
-            labelCenter.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
-            labelBottomCenter.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
-        }
+        label.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
     }
 
     public void setTextColor(int textColor) {
-        if (isLinearProgressBarEnabled) {
-            labelTopLeft.setTextColor(textColor);
-            labelTopRight.setTextColor(textColor);
-            labelBottomLeft.setTextColor(textColor);
-            labelBottomRight.setTextColor(textColor);
-        } else {
-            labelCenter.setTextColor(textColor);
-            labelBottomCenter.setTextColor(textColor);
-        }
+        label.setTextColor(textColor);
     }
 
     public void setProgress(int progress) {

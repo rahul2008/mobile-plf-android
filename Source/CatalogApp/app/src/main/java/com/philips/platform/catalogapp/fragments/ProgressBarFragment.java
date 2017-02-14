@@ -19,7 +19,7 @@ import com.philips.platform.uid.view.widget.ProgressBar;
 
 public class ProgressBarFragment extends BaseFragment {
 
-    public ObservableBoolean showLabels = new ObservableBoolean(Boolean.FALSE);
+    public ObservableBoolean showLabels = new ObservableBoolean(Boolean.TRUE);
     public ObservableInt progress = new ObservableInt(50);
     public ObservableInt secondaryProgress = new ObservableInt(progress.get() + 10);
     public ObservableInt circularProgressBarSize = new ObservableInt(ProgressBar.CircularProgressBarSize.BIG.ordinal());
