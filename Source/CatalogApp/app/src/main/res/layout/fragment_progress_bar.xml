@@ -1,179 +1,240 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="frag"
+            type="com.philips.platform.catalogapp.fragments.ProgressBarFragment"/>
+    </data>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/progress_bar_margin_top">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/progress_bar_seekbar_area_height"
-            android:layout_marginEnd="@dimen/progress_bar_margin_left_right"
-            android:layout_marginStart="@dimen/progress_bar_margin_left_right"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/progress_bar_margin_top">
+
+            <LinearLayout
+                style="@style/BaseLayoutMargins.Dimens"
+                android:orientation="horizontal">
+
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel.MarginEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/progress_bar_margin_left_right"
+                    android:text="@string/display_labels"/>
+
+                <com.philips.platform.uid.view.widget.Switch
+                    android:id="@+id/toggleLabels"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_weight="1"
+                    android:checked="false"
+                    android:gravity="center_vertical|end"
+                    android:onCheckedChanged="@{(v, isChecked) -> frag.toggleLabels(isChecked)}"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_layout_divider"
+                android:background="?attr/uidApplicationBackground"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/progress_bar_seekbar_area_height"
+                android:layout_marginEnd="@dimen/progress_bar_margin_left_right"
+                android:layout_marginStart="@dimen/progress_bar_margin_left_right"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel.MarginEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/progress_bar_scale"/>
+
+                <SeekBar
+                    android:id="@+id/progress_bar_seekbar_scale"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="@integer/progress_bar_scale_bar_max"
+                    android:onProgressChanged="@{(v, progress, frmUser) -> frag.setCircularProgresSize(progress, frmUser)}"
+                    android:progress="@{frag.progress}"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_layout_divider"
+                android:background="?attr/uidApplicationBackground"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/progress_bar_seekbar_area_height"
+                android:layout_marginEnd="@dimen/progress_bar_margin_left_right"
+                android:layout_marginStart="@dimen/progress_bar_margin_left_right"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel.MarginEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/progress_bar_value"/>
+
+                <SeekBar
+                    android:id="@+id/progress_bar_seekbar_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onProgressChanged="@{(v, progress, frmUser) -> frag.setProgress(progress, frmUser)}"
+                    android:progress="@{frag.progress}"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_layout_divider"
+                android:background="?attr/uidApplicationBackground"/>
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/UIDLabel.MarginEnd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/progress_bar_scale"/>
+                style="@style/ButtonsCategoryStyle"
+                android:text="@string/progress_bar_circular_subtitle"/>
 
-            <SeekBar
-                android:id="@+id/progress_bar_seekbar_scale"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:max="@integer/progress_bar_scale_bar_max"/>
-        </LinearLayout>
+                android:layout_height="@dimen/button_layout_divider"
+                android:background="?attr/uidApplicationBackground"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_layout_divider"
-            android:background="?attr/uidApplicationBackground"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/progress_bar_circular_area_height"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="@{frag.showLabels ? View.GONE : View.VISIBLE}">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/progress_bar_seekbar_area_height"
-            android:layout_marginEnd="@dimen/progress_bar_margin_left_right"
-            android:layout_marginStart="@dimen/progress_bar_margin_left_right"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.philips.platform.uid.view.widget.ProgressBar
+                        android:id="@+id/progress_bar_indeterminate_circular_small"
+                        style="@style/UIDProgressBarCircularIndeterminateSmall"
+                        android:visibility="@{frag.circularProgressBarSize == 0 ? View.VISIBLE : View.GONE}"/>
+
+                    <com.philips.platform.uid.view.widget.ProgressBar
+                        android:id="@+id/progress_bar_indeterminate_circular_middle"
+                        style="@style/UIDProgressBarCircularIndeterminateMiddle"
+                        android:visibility="@{frag.circularProgressBarSize == 1 ? View.VISIBLE : View.GONE}"/>
+
+                    <com.philips.platform.uid.view.widget.ProgressBar
+                        android:id="@+id/progress_bar_indeterminate_circular_big"
+                        style="@style/UIDProgressBarCircularIndeterminateBig"
+                        android:visibility="@{frag.circularProgressBarSize == 2 ? View.VISIBLE : View.GONE}"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.philips.platform.uid.view.widget.ProgressBar
+                        android:id="@+id/progress_bar_determinate_circular_small"
+                        style="@style/UIDProgressBarCircularDeterminateSmall"
+                        android:progress="@{frag.progress}"
+                        android:visibility="@{frag.circularProgressBarSize == 0 ? View.VISIBLE : View.GONE}"/>
+
+                    <com.philips.platform.uid.view.widget.ProgressBar
+                        android:id="@+id/progress_bar_determinate_circular_middle"
+                        style="@style/UIDProgressBarCircularDeterminateMiddle"
+                        android:progress="@{frag.progress}"
+                        android:visibility="@{frag.circularProgressBarSize == 1 ? View.VISIBLE : View.GONE}"/>
+
+                    <com.philips.platform.uid.view.widget.ProgressBar
+                        android:id="@+id/progress_bar_determinate_circular_big"
+                        style="@style/UIDProgressBarCircularDeterminateBig"
+                        android:progress="@{frag.progress}"
+                        android:visibility="@{frag.circularProgressBarSize == 2 ? View.VISIBLE : View.GONE}"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_layout_divider"
+                android:background="?attr/uidApplicationBackground"/>
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/UIDLabel.MarginEnd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/progress_bar_value"/>
+                style="@style/ButtonsCategoryStyle"
+                android:text="@string/progress_bar_linear_subtitle"/>
 
-            <SeekBar
-                android:id="@+id/progress_bar_seekbar_value"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:progress="@integer/progress_bar_default_progress"/>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_layout_divider"
-            android:background="?attr/uidApplicationBackground"/>
-
-        <com.philips.platform.uid.view.widget.Label
-            style="@style/ButtonsCategoryStyle"
-            android:text="@string/progress_bar_circular_subtitle"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_layout_divider"
-            android:background="?attr/uidApplicationBackground"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/progress_bar_circular_area_height"
-            android:gravity="center"
-            android:orientation="horizontal">
+                android:layout_height="@dimen/button_layout_divider"
+                android:background="?attr/uidApplicationBackground"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:visibility="@{frag.showLabels ? View.GONE : View.VISIBLE}">
+
+                <com.philips.platform.uid.view.widget.IndeterminateLinearProgressBar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/uid_progress_bar_margin_left"
+                    android:layout_marginRight="@dimen/uid_progress_bar_margin_left"
+                    android:layout_marginTop="@dimen/progress_bar_margin_top"/>
 
                 <com.philips.platform.uid.view.widget.ProgressBar
-                    android:id="@+id/progress_bar_indeterminate_circular_small"
-                    style="@style/UIDProgressBarCircularIndeterminateSmall"/>
+                    android:id="@+id/progress_bar"
+                    style="@style/UIDProgressBarHorizontalDeterminateWithMargins"
+                    android:layout_marginTop="@dimen/progress_bar_margin_top"
+                    android:progress="@{frag.progress}"/>
 
                 <com.philips.platform.uid.view.widget.ProgressBar
-                    android:id="@+id/progress_bar_indeterminate_circular_middle"
-                    style="@style/UIDProgressBarCircularIndeterminateMiddle"
-                    android:visibility="gone"/>
+                    android:id="@+id/progress_bar_secondary"
+                    style="@style/UIDProgressBarHorizontalDeterminateWithMargins"
+                    android:layout_marginTop="@dimen/progress_bar_margin_top"
+                    android:progress="@{frag.progress}"
+                    android:secondaryProgress="@{frag.secondaryProgress}"/>
 
                 <com.philips.platform.uid.view.widget.ProgressBar
-                    android:id="@+id/progress_bar_indeterminate_circular_big"
-                    style="@style/UIDProgressBarCircularIndeterminateBig"
-                    android:visibility="gone"/>
+                    android:id="@+id/progress_bar_wide"
+                    style="@style/UIDProgressBarHorizontalDeterminate"
+                    android:layout_marginTop="@dimen/progress_bar_margin_top"
+                    android:progress="@{frag.progress}"
+                    android:secondaryProgress="@{frag.secondaryProgress}"/>
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:visibility="@{frag.showLabels ? View.VISIBLE : View.GONE}">
 
-                <com.philips.platform.uid.view.widget.ProgressBar
-                    android:id="@+id/progress_bar_determinate_circular_small"
-                    style="@style/UIDProgressBarCircularDeterminateSmall"
-                    android:progress="@integer/progress_bar_default_progress"/>
-
-                <com.philips.platform.uid.view.widget.ProgressBar
-                    android:id="@+id/progress_bar_determinate_circular_middle"
-                    style="@style/UIDProgressBarCircularDeterminateMiddle"
-                    android:progress="@integer/progress_bar_default_progress"
-                    android:visibility="gone"/>
-
-                <com.philips.platform.uid.view.widget.ProgressBar
-                    android:id="@+id/progress_bar_determinate_circular_big"
-                    style="@style/UIDProgressBarCircularDeterminateBig"
-                    android:progress="@integer/progress_bar_default_progress"
-                    android:visibility="gone"/>
+                <com.philips.platform.uid.view.widget.ProgressBarWithLabel
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/progress_bar_margin_top"
+                    android:progress="50"
+                    android:text="test"
+                    app:uidIsIndeterminateProgressIndicator="false"
+                    app:uidLinearProgressBar="true"/>
             </LinearLayout>
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_layout_divider"
-            android:background="?attr/uidApplicationBackground"/>
-
-        <com.philips.platform.uid.view.widget.Label
-            style="@style/ButtonsCategoryStyle"
-            android:text="@string/progress_bar_linear_subtitle"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_layout_divider"
-            android:background="?attr/uidApplicationBackground"/>
-
-        <com.philips.platform.uid.view.widget.IndeterminateLinearProgressBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/uid_progress_bar_margin_left"
-            android:layout_marginRight="@dimen/uid_progress_bar_margin_left"
-            android:layout_marginTop="@dimen/progress_bar_margin_top"/>
-
-        <com.philips.platform.uid.view.widget.ProgressBar
-            android:id="@+id/progress_bar"
-            style="@style/UIDProgressBarHorizontalDeterminateWithMargins"
-            android:layout_marginTop="@dimen/progress_bar_margin_top"
-            android:progress="@integer/progress_bar_default_progress"/>
-
-        <com.philips.platform.uid.view.widget.ProgressBar
-            android:id="@+id/progress_bar_secondary"
-            style="@style/UIDProgressBarHorizontalDeterminateWithMargins"
-            android:layout_marginTop="@dimen/progress_bar_margin_top"
-            android:progress="@integer/progress_bar_default_progress"
-            android:secondaryProgress="@integer/progress_bar_default_secondary_progress"/>
-
-        <com.philips.platform.uid.view.widget.ProgressBar
-            android:id="@+id/progress_bar_wide"
-            style="@style/UIDProgressBarHorizontalDeterminate"
-            android:layout_marginTop="@dimen/progress_bar_margin_top"
-            android:progress="@integer/progress_bar_default_progress"
-            android:secondaryProgress="@integer/progress_bar_default_secondary_progress"/>
-
-        <com.philips.platform.uid.view.widget.ProgressBarWithLabel
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/progress_bar_margin_top"
-            android:progress="50"
-            app:uidLinearProgressBar="true"
-            app:uidIsIndeterminateProgressIndicator="false"
-            android:text="test"/>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+</layout>

@@ -142,4 +142,5 @@
     <string name="two_lines">Two lines</string>
     <string name="template_selection">Template selection</string>
     <string name="recyclerview_the_header">The header</string>
+    <string name="display_labels">Display labels</string>
 </resources>
