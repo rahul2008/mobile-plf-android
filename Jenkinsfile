@@ -1,13 +1,14 @@
 #!/usr/bin/env groovy                                                                                                           
 
 BranchName = env.BRANCH_NAME
+JENKINS_ENV = env.JENKINS_ENV
 
 properties([
     [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy']]],
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']]
 ])
 
-def MailRecipient = 'benit.dhotekar@philips.com, DL_CDP2_Callisto@philips.com, abhishek.gadewar@philips.com, krishna.kumar.a@philips.com, ramesh.r.m@philips.com'
+def MailRecipient = 'DL_CDP2_Callisto@philips.com, DL_App_Framework.com@philips.com'
 
 node_ext = "build_t"
 if (env.triggerBy == "ppc") {
@@ -23,10 +24,10 @@ node ('Ubuntu && 23.0.3 &&' + node_ext) {
 
         try {
             stage ('build') {
-                sh 'cd ./Source/AppFramework && ./gradlew clean assembleDebug assembleLeakCanary'
+                sh 'cd ./Source/AppFramework && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug assembleLeakCanary'
             }
             
-            sh 'cd ./Source/AppFramework && ./gradlew assembleDebug assembleLeakCanary'
+            sh 'cd ./Source/AppFramework && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleDebug assembleLeakCanary'
 
             if(env.BRANCH_NAME == 'master') {
                 stage ('Release') {
@@ -45,6 +46,11 @@ node ('Ubuntu && 23.0.3 &&' + node_ext) {
                     sh 'cd ./Source/AppFramework && chmod -R 775 ../../check_and_delete_artifact.sh && ../../check_and_delete_artifact.sh referenceApp && ./gradlew zipDoc appFramework:aP'
                 }
             }
+
+            stage ('save dependencies list') {
+            	sh 'chmod -R 775 . && cd ./Source/AppFramework && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
+            }
+            archiveArtifacts '**/dependencies.lock'
 
             currentBuild.result = 'SUCCESS'
             archiveArtifacts '**/build/**/*.apk'
