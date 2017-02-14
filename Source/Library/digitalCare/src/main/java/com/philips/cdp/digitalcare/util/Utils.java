@@ -80,7 +80,9 @@ public class Utils {
 
     public static boolean isCountryChina() {
 
-        if(DigitalCareConfigManager.getInstance().getLocale().getLanguage().equals("zh"))
+        String currCountry = DigitalCareConfigManager.getInstance().getCountry();
+
+        if(DigitalCareConfigManager.getInstance().getCountry().equals("CN"))
             return true;
 
         return false;

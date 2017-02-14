@@ -1,5 +1,4 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
     android:background="@color/transparent">
@@ -18,22 +17,22 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+            <TextView
                 android:id="@+id/tellus_philips_submitreview_text"
                 style="@style/supportHomeHelpText"
                 android:layout_gravity="fill_horizontal"
                 android:text="@string/rate_playstore_headertext"
                 android:textStyle="bold"
                 android:visibility="visible"
-                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" />
+                fontPath="digitalcarefonts/CentraleSans-Bold.otf" />
 
 
-            <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
+            <Button
                 android:id="@+id/tellus_PlayStoreReviewButton"
                 style="@style/fontButton"
                 android:text="@string/rate_playstore_buttontext"
                 android:visibility="visible"
-                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+                fontPath="digitalcarefonts/CentraleSans-Book.otf" />
         </LinearLayout>
 
         <View
@@ -50,26 +49,26 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+            <TextView
                 style="@style/supportHomeHelpText"
                 android:layout_gravity="fill_horizontal"
                 android:text="@string/rate_philips_headertext"
-                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+                fontPath="digitalcarefonts/CentraleSans-Book.otf" />
 
-            <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+            <TextView
                 style="@style/supportHomeHelpText"
                 android:layout_gravity="fill_horizontal"
                 android:layout_marginTop="0dp"
                 android:text="@string/rate_philips_description"
-                android:textColor="@color/text_sub_header_color"
+                android:textColor="?attr/uikit_baseColor"
                 android:textSize="@dimen/title_text_size_medium"
-                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+                fontPath="digitalcarefonts/CentraleSans-Book.otf" />
 
-            <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
+            <Button
                 android:id="@+id/tellus_PhilipsReviewButton"
                 style="@style/fontButton"
                 android:text="@string/rate_philips_headertext"
-                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+                fontPath="digitalcarefonts/CentraleSans-Book.otf" />
         </LinearLayout>
     </LinearLayout>
 

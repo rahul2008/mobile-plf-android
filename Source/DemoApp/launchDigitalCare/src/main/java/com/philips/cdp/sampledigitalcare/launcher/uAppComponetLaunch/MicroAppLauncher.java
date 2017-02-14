@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -93,21 +94,6 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         mCountry_spinner.setAdapter(mCountry_adapter);
 
         mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
-        final TextView tv = (TextView) findViewById(R.id.textViewCurrentCountry);
-        mAppInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
-            @Override
-            public void onSuccess(String s, SOURCE source) {
-
-                tv.setText("Country from Service discovery : " +s);
-            }
-
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-
-            }
-        });
-
-
 
         // Ctn List Code Snippet
 
@@ -147,6 +133,19 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
     protected void onResume() {
         super.onResume();
 
+        final TextView tv = (TextView) findViewById(R.id.textViewCurrentCountry);
+        mAppInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+            @Override
+            public void onSuccess(String s, SOURCE source) {
+
+                tv.setText("Country from Service discovery : " +s);
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+            }
+        });
+
         mCountry_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -175,7 +174,11 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
     @NonNull
     private SampleAdapter setAdapter(ArrayList<String> mList) {
         mRecyclerView.setAdapter(adapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager layoutManager =new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
+        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
+                layoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(mDividerItemDecoration);
         return adapter;
     }
 
@@ -269,7 +272,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                 uiLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
                 DigitalCareConfigManager.getInstance().invokeDigitalCare(uiLauncher, productsSelection);*/
 
-                com.philips.platform.uappframework.launcher.ActivityLauncher activityLauncher =
+                final com.philips.platform.uappframework.launcher.ActivityLauncher activityLauncher =
                         new com.philips.platform.uappframework.launcher.ActivityLauncher
                                 (com.philips.platform.uappframework.
                                         launcher.ActivityLauncher.
@@ -280,7 +283,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
 
 //                mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
 
-                CcInterface ccInterface = new CcInterface();
+                final CcInterface ccInterface = new CcInterface();
                 if (ccSettings == null) ccSettings = new CcSettings(this);
                 if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
                 ccLaunchInput.setProductModelSelectionType(productsSelection);
@@ -288,7 +291,22 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                 CcDependencies ccDependencies = new CcDependencies(mAppInfraInterface);
 
                 ccInterface.init(ccDependencies, ccSettings);
-                ccInterface.launch(activityLauncher, ccLaunchInput);
+                mAppInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+                    @Override
+                    public void onSuccess(String s, SOURCE source) {
+                        if(s.equals("CN")) {
+                            ccLaunchInput.setLiveChatUrl("http://ph-china.livecom.cn/webapp/index.html?app_openid=ph_6idvd4fj&token=PhilipsTest");
+                        } else {
+                            ccLaunchInput.setLiveChatUrl(null);
+                        }
+                        ccInterface.launch(activityLauncher, ccLaunchInput);
+                    }
+
+                    @Override
+                    public void onError(ERRORVALUES errorvalues, String s) {
+                        ccInterface.launch(activityLauncher, ccLaunchInput);
+                    }
+                });
                 break;
 
             case R.id.launchAsFragment:

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -33,6 +34,7 @@ import com.philips.cdp.sampledigitalcare.view.CustomDialog;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -97,7 +99,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         ArrayAdapter<String> mCountry_adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, mCountry);
         mCountry_spinner.setAdapter(mCountry_adapter);
-
+        restoreCountryOption();
 
         // Ctn List Code Snippet
 
@@ -114,9 +116,6 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                 new SimpleItemTouchHelperCallback(adapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(mRecyclerView);
-        // Digital care initialization
-        initializeDigitalCareLibrary();
-
     }
 
 
@@ -178,7 +177,12 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
     @NonNull
     private SampleAdapter setAdapter(ArrayList<String> mList) {
         mRecyclerView.setAdapter(adapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager layoutManager =new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
+        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
+                layoutManager.getOrientation());
+//        mDividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.list_divider));
+        mRecyclerView.addItemDecoration(mDividerItemDecoration);
         return adapter;
     }
 
@@ -194,6 +198,27 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         dialog.show();
     }
 
+    private void restoreCountryOption() {
+        if(mAppInfraInterface == null) {
+            mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
+        }
+        mAppInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+            @Override
+            public void onSuccess(String s, SOURCE source) {
+                for (int i=0; i < mcountryCode.length; i++) {
+                    if(s.equalsIgnoreCase(mcountryCode[i])) {
+                        mCountry_spinner.setSelection(i);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+            }
+        });
+    }
+
+
     private void initializeDigitalCareLibrary() {
 
        /* if (AppInfraSingleton.getInstance() == null)
@@ -203,11 +228,11 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         //localeManager.setInputLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()],
           //      mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
 
-        mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
-
-        if(!(mCountry_spinner.getSelectedItemId() == 0)){
-            mAppInfraInterface.getServiceDiscovery().setHomeCountry(mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
+        if(mAppInfraInterface == null) {
+            mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
         }
+        
+        mAppInfraInterface.getServiceDiscovery().setHomeCountry(mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
     }
 
     @Override
@@ -281,7 +306,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                 uiLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
                 DigitalCareConfigManager.getInstance().invokeDigitalCare(uiLauncher, productsSelection);*/
 
-                com.philips.platform.uappframework.launcher.ActivityLauncher activityLauncher =
+                final com.philips.platform.uappframework.launcher.ActivityLauncher activityLauncher =
                         new com.philips.platform.uappframework.launcher.ActivityLauncher
                                 (com.philips.platform.uappframework.
                                         launcher.ActivityLauncher.
@@ -292,7 +317,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
 
 //                mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
 
-                CcInterface ccInterface = new CcInterface();
+                final CcInterface ccInterface = new CcInterface();
                 if (ccSettings == null) ccSettings = new CcSettings(this);
                 if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
                 ccLaunchInput.setProductModelSelectionType(productsSelection);
@@ -301,7 +326,22 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                 CcDependencies ccDependencies = new CcDependencies(mAppInfraInterface);
 
                 ccInterface.init(ccDependencies, ccSettings);
-                ccInterface.launch(activityLauncher, ccLaunchInput);
+                mAppInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+                    @Override
+                    public void onSuccess(String s, SOURCE source) {
+                        if(s.equals("CN")) {
+                            ccLaunchInput.setLiveChatUrl("http://ph-china.livecom.cn/webapp/index.html?app_openid=ph_6idvd4fj&token=PhilipsTest");
+                        } else {
+                            ccLaunchInput.setLiveChatUrl(null);
+                        }
+                        ccInterface.launch(activityLauncher, ccLaunchInput);
+                    }
+
+                    @Override
+                    public void onError(ERRORVALUES errorvalues, String s) {
+                        ccInterface.launch(activityLauncher, ccLaunchInput);
+                    }
+                });
               /*  } else
                     Toast.makeText(this, "CTN list is null", Toast.LENGTH_SHORT).show();*/
                 break;

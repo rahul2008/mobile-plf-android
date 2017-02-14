@@ -1,5 +1,4 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:id="@+id/chatScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -31,8 +30,7 @@
                 <TextView
                     android:id="@+id/helpText"
                     style="@style/chatNowHelpText"
-
-                    custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+                    fontPath="digitalcarefonts/CentraleSans-Book.otf" />
             </FrameLayout>
         </LinearLayout>
 
@@ -45,8 +43,8 @@
             <TextView
                 android:id="@+id/chatDesc"
                 style="@style/chatNowDesc"
-                android:text="@string/chat_desc"
-                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+                fontPath="digitalcarefonts/CentraleSans-Book.otf"
+                android:text="@string/chat_desc" />
 
             <LinearLayout
                 android:id="@+id/chatNowParentPort"
@@ -56,14 +54,14 @@
                 android:orientation="vertical"
                 android:weightSum="1">
 
-                <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
+                <Button
                     android:id="@+id/chatNow"
                     style="@style/fontButton"
+                    fontPath="digitalcarefonts/CentraleSans-Bold.otf"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
                     android:layout_weight="1"
-                    android:text="@string/chat_now"
-                    custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" />
+                    android:text="@string/chat_now" />
 
                 <RelativeLayout
                     android:id="@+id/chatNoThanksParent"
@@ -73,15 +71,15 @@
                     android:layout_weight="1"
                     android:padding="2dp">
 
-                    <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
+                    <Button
                         android:id="@+id/chatNoThanks"
-                        style="@style/fontButton"
+                        style="?attr/uikit_outlinedButtonStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/support_btn_height"
                         android:layout_marginTop="0dp"
-                        android:background="@drawable/consumercare_selector_no_thanks_button_bg"
-                        android:text="@string/cancel"
-                        android:textColor="@color/button_background"
-                        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" />
+                        android:text="@string/cancel" />
                 </RelativeLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -101,24 +99,24 @@
                     android:layout_weight="1"
                     android:padding="2dp">
 
-                    <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
+                    <Button
                         android:id="@+id/chatNoThanksLand"
-                        style="@style/fontButton"
+                        style="?attr/uikit_outlinedButtonStyle"
+                        fontPath="digitalcarefonts/CentraleSans-Bold.otf"
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/support_btn_height"
                         android:layout_marginTop="0dp"
-                        android:background="@drawable/consumercare_selector_no_thanks_button_bg"
-                        android:text="@string/cancel"
-                        android:textColor="@color/button_background"
-                        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" />
+                        android:text="@string/cancel" />
                 </RelativeLayout>
 
-                <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
+                <Button
                     android:id="@+id/chatNowLand"
                     style="@style/fontButton"
+                    fontPath="digitalcarefonts/CentraleSans-Bold.otf"
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
                     android:layout_weight="1"
-                    android:text="@string/chat_now"
-                    custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" />
+                    android:text="@string/chat_now" />
             </LinearLayout>
 
         </LinearLayout>
