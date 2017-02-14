@@ -24,6 +24,7 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -156,8 +157,7 @@ public class FirmwarePortTest extends RobolectricTest {
         parseFirmwarePortData(createPropertiesJson("1", "", "idle", 0, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 0, "", 100));
 
-        //verify(mockFirmwarePortListener, times(1)).onProgressUpdated(eq(DOWNLOADING), progressCaptor.capture());
-        assertEquals(0, progressCaptor.getValue().intValue());
+        verify(mockFirmwarePortListener, times(1)).onDownloadProgress(0);
     }
 
     @Test
@@ -165,8 +165,8 @@ public class FirmwarePortTest extends RobolectricTest {
         parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 0, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 10, "", 100));
 
-        //verify(mockFirmwarePortListener).onProgressUpdated(DOWNLOADING, 0);
-        //verify(mockFirmwarePortListener).onProgressUpdated(DOWNLOADING, 10);
+        verify(mockFirmwarePortListener).onDownloadProgress(0);
+        verify(mockFirmwarePortListener).onDownloadProgress(10);
     }
 
     @Test
@@ -174,7 +174,7 @@ public class FirmwarePortTest extends RobolectricTest {
         parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 12, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 12, "", 100));
 
-        //verify(mockFirmwarePortListener, times(1)).onProgressUpdated(DOWNLOADING, 12);
+        verify(mockFirmwarePortListener, times(1)).onDownloadProgress(12);
     }
 
     @Test
@@ -183,8 +183,8 @@ public class FirmwarePortTest extends RobolectricTest {
         parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 5, "", 25));
 
         InOrder inOrder = inOrder(mockFirmwarePortListener);
-        //inOrder.verify(mockFirmwarePortListener).onProgressUpdated(DOWNLOADING, 4);
-        //inOrder.verify(mockFirmwarePortListener).onProgressUpdated(DOWNLOADING, 20);
+        inOrder.verify(mockFirmwarePortListener).onDownloadProgress(4);
+        inOrder.verify(mockFirmwarePortListener).onDownloadProgress(20);
     }
 
     @Test
@@ -192,8 +192,8 @@ public class FirmwarePortTest extends RobolectricTest {
         parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 99, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "checking", 0, "", 100));
 
-//        verify(mockFirmwarePortListener).onProgressUpdated(DOWNLOADING, 100);
-//        verify(mockFirmwarePortListener).onProgressUpdated(CHECKING, 0);
+        verify(mockFirmwarePortListener).onDownloadProgress(100);
+        verify(mockFirmwarePortListener).onCheckingProgress(0);
     }
 
     @Test
@@ -201,8 +201,8 @@ public class FirmwarePortTest extends RobolectricTest {
         parseFirmwarePortData(createPropertiesJson("1", "", "checking", 0, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "checking", 10, "", 100));
 
-        //      verify(mockFirmwarePortListener).onProgressUpdated(CHECKING, 0);
-        //    verify(mockFirmwarePortListener).onProgressUpdated(CHECKING, 10);
+        verify(mockFirmwarePortListener).onCheckingProgress(0);
+        verify(mockFirmwarePortListener).onCheckingProgress(10);
     }
 
     @Test
@@ -210,7 +210,7 @@ public class FirmwarePortTest extends RobolectricTest {
         parseFirmwarePortData(createPropertiesJson("1", "", "checking", 12, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "checking", 12, "", 100));
 
-        //verify(mockFirmwarePortListener, times(1)).onProgressUpdated(CHECKING, 12);
+        verify(mockFirmwarePortListener, times(1)).onCheckingProgress(12);
     }
 
     @Test
@@ -219,8 +219,8 @@ public class FirmwarePortTest extends RobolectricTest {
         parseFirmwarePortData(createPropertiesJson("1", "", "checking", 5, "", 25));
 
         InOrder inOrder = inOrder(mockFirmwarePortListener);
-        //inOrder.verify(mockFirmwarePortListener).onProgressUpdated(CHECKING, 4);
-        //inOrder.verify(mockFirmwarePortListener).onProgressUpdated(CHECKING, 20);
+        inOrder.verify(mockFirmwarePortListener).onCheckingProgress(4);
+        inOrder.verify(mockFirmwarePortListener).onCheckingProgress(20);
     }
 
     @Test
@@ -228,7 +228,7 @@ public class FirmwarePortTest extends RobolectricTest {
         parseFirmwarePortData(createPropertiesJson("1", "", "checking", 99, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "ready", 0, "", 100));
 
-        //verify(mockFirmwarePortListener).onProgressUpdated(CHECKING, 100);
+        verify(mockFirmwarePortListener).onCheckingProgress(100);
     }
 
     @Test
