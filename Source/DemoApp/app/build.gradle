@@ -53,10 +53,12 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:design:24.2.1'
 
+
     compile(group: 'com.philips.cdp', name: 'prx', version: '2.5.0-SNAPSHOT', ext: 'aar', changing: true)
             {
                 transitive = true
             }
+
 
     compile project(':AppInfra')
     compile(group: 'adobeMobileLibrary', name: 'adobeMobileLibrary', version: '4.8.3')

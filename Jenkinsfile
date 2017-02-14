@@ -1,6 +1,7 @@
 #!/usr/bin/env groovy																											
 
 BranchName = env.BRANCH_NAME
+JENKINS_ENV = env.JENKINS_ENV
 
 properties([
     [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy']]],
@@ -19,20 +20,20 @@ if (env.triggerBy == "ppc") {
 node ('android_pipeline &&' + node_ext) {
 	timestamps {
 		stage ('Checkout') {
-            checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '4edede71-63a0-455e-a9dd-d250f8955958', url: 'ssh://git@bitbucket.atlas.philips.com:7999/mail/app-infra_android.git']]])
+             checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '4edede71-63a0-455e-a9dd-d250f8955958', url: 'ssh://git@bitbucket.atlas.philips.com:7999/mail/app-infra_android.git']]])
 			step([$class: 'StashNotifier'])
 		}
 		
         try {
 			if (BranchName =~ /master|develop|release.*/) {
 			stage ('build') {
-				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew clean assembleDebug && ../../check_and_delete_artifact.sh "AppInfra" && ./gradlew lint cC assembleRelease zipDocuments artifactoryPublish'
+				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} clean assembleDebug && ../../check_and_delete_artifact.sh "AppInfra" && ./gradlew -PenvCode=${JENKINS_ENV} lint cC assembleRelease zipDocuments artifactoryPublish'
 			}	
 			}
 			else
 			{
 			stage ('build') {
-				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew clean assembleDebug assembleRelease'
+				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} clean assembleDebug assembleRelease'
 			}
 			}
             currentBuild.result = 'SUCCESS'

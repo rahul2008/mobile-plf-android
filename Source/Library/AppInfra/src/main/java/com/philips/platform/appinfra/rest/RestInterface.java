@@ -16,4 +16,20 @@ public interface RestInterface {
      * @return the REST request queue
      */
     public RequestQueue getRequestQueue();
+
+
+    enum NetworkTypes {WIFI,MOBILE_DATA,NO_NETWORK};
+
+/**
+ * Get the network  connection and sets the wifiConnected and mobileConnected
+ * @return enum WIFI,MOBILE_DATA,NO_NETWORK
+ */
+    public NetworkTypes  getNetworkReachabilityStatus();
+
+    /**
+     * Method to check the network connectivity availability .
+     * @return boolean true/false.
+     */
+    public boolean isInternetReachable() ;
+
 }

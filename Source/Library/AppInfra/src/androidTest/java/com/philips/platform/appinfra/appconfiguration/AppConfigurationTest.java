@@ -3,6 +3,7 @@ package com.philips.platform.appinfra.appconfiguration;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.MockitoTestCase;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
@@ -48,7 +49,7 @@ public class AppConfigurationTest extends MockitoTestCase {
                         total.append(line).append('\n');
                     }
                     result = new JSONObject(total.toString());*/
-                    String testJson = getJSONString();
+                    String testJson = ConfigValues.testJson();
                     result = new JSONObject(testJson);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -61,33 +62,6 @@ public class AppConfigurationTest extends MockitoTestCase {
 
     }
 
-    private String getJSONString() {
-        return "{\n" +
-                "  \"UR\": {\n" +
-                "\n" +
-                "    \"Development\": \"ad7nn99y2mv5berw5jxewzagazafbyhu\",\n" +
-                "    \"Testing\": \"xru56jcnu3rpf8q7cgnkr7xtf9sh8pp7\",\n" +
-                "    \"Evaluation\": \"4r36zdbeycca933nufcknn2hnpsz6gxu\",\n" +
-                "    \"Staging\": \"f2stykcygm7enbwfw2u9fbg6h6syb8yd\",\n" +
-                "    \"Production\": \"mz6tg5rqrg4hjj3wfxfd92kjapsrdhy3\"\n" +
-                "\n" +
-                "  },\n" +
-                "  \"AI\": {\n" +
-                "    \"MICROSITEID\": 77001,\n" +
-                "    \"RegistrationEnvironment\": \"Staging\",\n" +
-                "    \"NL\": [\"googleplus\", \"facebook\"  ],\n" +
-                "    \"US\": [\"facebook\",\"googleplus\" ],\n" +
-                "    \"Map\": {\"one\": \"123\", \"two\": \"123.45\"},\n" +
-                "    \"EE\": [123,234 ]\n" +
-                "  }, \n" +
-                " \"appinfra\": { \n" +
-                "   \"appidentity.micrositeId\" : \"77000\",\n" +
-                "  \"appidentity.sector\"  : \"B2C\",\n" +
-                " \"appidentity.appState\"  : \"Staging\",\n" +
-                "\"appidentity.serviceDiscoveryEnvironment\"  : \"Staging\",\n" +
-                "\"restclient.cacheSizeInKB\"  : 1024 \n" +
-                "} \n" + "}";
-    }
 
     public void testGetPropertyForKey() throws IllegalArgumentException {
         try {

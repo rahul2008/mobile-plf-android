@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 
 
 public class AppInfraLogging implements LoggingInterface {
-    private static final String DIRECTORY_FILE_NAME = "AppInfra Logs";
+    private static final String DIRECTORY_FILE_NAME = "AppInfraLogs";
     private static final String PROPERTIES_FILE_NAME = "logging.properties";
     private static final String APP_INFRA_LOG_FILE_NAME = "AppInfra.log%u"; //AppInfra.log0, AppInfra.log1, AppInfra.log2, AppInfra.log3, AppInfra.log4
 
