@@ -37,8 +37,13 @@ node('Android') {
             sh 'rm -rf android-commlib-all/Source/commlib-all-parent/commlib-all/build/test-results'
             sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew testDebug || true'
 
-            step([$class: 'JUnitResultArchiver', testResults: 'android-commlib-all/Source/commlib-all-parent/commlib-all/build/test-results/*/*.xml'])
-            step([$class: 'CucumberReportPublisher', jsonReportDirectory: 'android-commlib-all/Source/commlib-all-parent/build/cucumber-reports', fileIncludePattern: '*.json'])
+            step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/*/*.xml'])
+
+            if (fileExists('android-commlib-all/Source/commlib-all-parent/build/cucumber-reports/report.json')) {
+               step([$class: 'CucumberReportPublisher', jsonReportDirectory: 'android-commlib-all/Source/commlib-all-parent/build/cucumber-reports', fileIncludePattern: '*.json'])
+            } else {
+               echo 'No Cucumber result found, nothing to publish'
+            }
         }
 
         stage('Archive App') {
