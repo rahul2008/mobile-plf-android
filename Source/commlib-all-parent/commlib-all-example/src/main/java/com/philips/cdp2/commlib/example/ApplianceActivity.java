@@ -64,6 +64,8 @@ public final class ApplianceActivity extends AppCompatActivity {
         if (bleReferenceAppliance == null) {
             finish();
         } else {
+            getSupportActionBar().setTitle(bleReferenceAppliance.getNetworkNode().getName());
+
             setupAppliance(bleReferenceAppliance);
 
             findViewById(R.id.btnGetTime).setEnabled(true);
