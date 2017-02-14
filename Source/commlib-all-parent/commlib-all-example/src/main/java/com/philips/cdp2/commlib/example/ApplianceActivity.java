@@ -31,10 +31,10 @@ import static java.lang.System.currentTimeMillis;
 
 public final class ApplianceActivity extends AppCompatActivity {
 
-    private static final String TAG = "ApplianceActivity";
-
-    private static final String PROPERTY_DATETIME = "datetime";
     public static final String CPPID = "cppid";
+
+    private static final String TAG = "ApplianceActivity";
+    private static final String PROPERTY_DATETIME = "datetime";
     private final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm:ss");
     private int requestCount;
 
@@ -62,7 +62,7 @@ public final class ApplianceActivity extends AppCompatActivity {
         switchLoopGet.setOnCheckedChangeListener(loopGetCheckedChangeListener);
 
         final Set<? extends Appliance> availableAppliances = ((App) getApplication()).getCommCentral().getApplianceManager().getAvailableAppliances();
-        for (Appliance appliance: availableAppliances) {
+        for (Appliance appliance : availableAppliances) {
             if (appliance.getNetworkNode().getCppId().equals(getIntent().getExtras().getString(CPPID))) {
                 bleReferenceAppliance = (BleReferenceAppliance) appliance;
             }

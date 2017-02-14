@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.philips.cdp2.commlib.example.appliance.BleReferenceAppliance;
 import com.philips.commlib.core.appliance.Appliance;
 import com.philips.commlib.core.port.firmware.FirmwarePortListener;
-import com.philips.commlib.core.port.firmware.FirmwarePortProperties;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,8 +26,6 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Set;
-
-import static com.philips.cdp2.commlib.example.ApplianceActivity.CPPID;
 
 public class FirmwareUpgradeActivity extends AppCompatActivity {
     private static final String TAG = "FirmwareUpgradeActivity";
@@ -46,7 +43,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
 
         final Set<? extends Appliance> availableAppliances = ((App) getApplication()).getCommCentral().getApplianceManager().getAvailableAppliances();
         for (Appliance appliance : availableAppliances) {
-            if (appliance.getNetworkNode().getCppId().equals(getIntent().getExtras().getString(CPPID))) {
+            if (appliance.getNetworkNode().getCppId().equals(getIntent().getExtras().getString(ApplianceActivity.CPPID))) {
                 bleReferenceAppliance = (BleReferenceAppliance) appliance;
             }
         }
@@ -157,14 +154,18 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
         private String TAG = "FirmwarePortListener";
 
         @Override
-        public void onProgressUpdated(FirmwarePortProperties.FirmwarePortState state, int progress) {
-            Log.i(TAG, "onProgressUpdated(" + state.toString() + ", " + progress + ")");
+        public void onCheckingProgress(int progress) {
+            Log.i(TAG, "onCheckingProgress(" + progress + ")");
 
-            if (state == FirmwarePortProperties.FirmwarePortState.DOWNLOADING) {
-                statusTextView.setText(R.string.uploading_firmware_image);
-            } else if (state == FirmwarePortProperties.FirmwarePortState.CHECKING) {
-                statusTextView.setText(R.string.checking_firmware);
-            }
+            statusTextView.setText(R.string.checking_firmware);
+            firmwareUploadProgressBar.setProgress(progress);
+        }
+
+        @Override
+        public void onDownloadProgress(int progress) {
+            Log.i(TAG, "onDownloadProgress(" + progress + ")");
+
+            statusTextView.setText(R.string.uploading_firmware_image);
             firmwareUploadProgressBar.setProgress(progress);
         }
 
