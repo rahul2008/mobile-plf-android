@@ -1,67 +1,45 @@
-apply plugin: 'com.android.application'
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
 
-android {
-    signingConfigs {
-        release
+buildscript {
+    repositories {
+//        jcenter()
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
     }
-    compileSdkVersion 24
-    buildToolsVersion '25'
 
-    defaultConfig {
-        applicationId "com.philips.platform.appinfra.demo"
-        minSdkVersion 19
-        targetSdkVersion 24
-        versionCode 1
-        versionName "1.2.0"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-        }
-    }
-    /*
-   This defined for signing the apk -- start
-    */
-    def Properties props = new Properties()
-    def propFile = new File('signing.properties')
-    if (propFile.canRead()) {
-        props.load(new FileInputStream(propFile))
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.3'
 
-        if (props != null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') && props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
-            android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
-            android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
-            android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
-            android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
-        } else {
-            println 'signing.properties found but some entries are missing'
-            android.buildTypes.release.signingConfig = null
-        }
-    } else {
-        println 'signing.properties not found'
-        android.buildTypes.release.signingConfig = null
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
     }
 }
-//repositories {
-//    flatDir {
-//        dirs 'lib'
+
+allprojects {
+    repositories {
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local'
+        }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android'
+        }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
+        }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local'
+        }
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
+    }
+}
+
+//allprojects {
+//    repositories {
+////        jcenter()
+//        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
 //    }
 //}
-dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:design:24.2.1'
 
-
-    compile(group: 'com.philips.cdp', name: 'prx', version: '2.5.0-SNAPSHOT', ext: 'aar', changing: true)
-            {
-                transitive = true
-            }
-
-
-    compile project(':AppInfra')
-    compile(group: 'adobeMobileLibrary', name: 'adobeMobileLibrary', version: '4.8.3')
-    compile 'com.squareup.leakcanary:leakcanary-android:1.5'
-
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }
