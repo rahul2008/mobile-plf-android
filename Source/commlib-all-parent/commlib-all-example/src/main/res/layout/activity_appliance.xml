@@ -74,4 +74,10 @@
         android:paddingTop="8dp"
         android:text="@string/switchStayConnected" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnFirmwareUpgrade"
+        android:text="Firmware upgrade"/>
+
 </LinearLayout>

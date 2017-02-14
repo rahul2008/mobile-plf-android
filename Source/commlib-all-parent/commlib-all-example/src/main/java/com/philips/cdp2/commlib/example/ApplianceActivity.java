@@ -4,6 +4,7 @@
  */
 package com.philips.cdp2.commlib.example;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -50,6 +51,7 @@ public final class ApplianceActivity extends AppCompatActivity {
 
         findViewById(R.id.btnGetTime).setOnClickListener(buttonClickListener);
         findViewById(R.id.btnSetTime).setOnClickListener(buttonClickListener);
+        findViewById(R.id.btnFirmwareUpgrade).setOnClickListener(buttonClickListener);
 
         txtResult = (TextView) findViewById(R.id.txtResult);
         txtPerformanceProgress = (TextView) findViewById(R.id.txtPerformanceProgress);
@@ -91,6 +93,14 @@ public final class ApplianceActivity extends AppCompatActivity {
                     String timestamp = dateTime.toString(fmt);
 
                     bleReferenceAppliance.getTimePort().putProperties(PROPERTY_DATETIME, timestamp);
+                    break;
+                case R.id.btnFirmwareUpgrade:
+                    Intent firmwareUpgradeIntent = new Intent(ApplianceActivity.this, FirmwareUpgradeActivity.class);
+                    firmwareUpgradeIntent.putExtra(ApplianceActivity.CPPID, bleReferenceAppliance.getNetworkNode().getCppId());
+                    startActivity(firmwareUpgradeIntent);
+                    break;
+                default:
+                    Log.d(TAG, "Unknown view clicked");
                     break;
             }
         }
