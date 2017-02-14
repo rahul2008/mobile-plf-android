@@ -56,7 +56,6 @@
             android:id="@+id/contactUsCall"
             style="@style/fontButton"
             android:layout_marginBottom="@dimen/marginTopButton"
-            android:background="@drawable/consumercare_selector_call_button_bg"
             android:text="@string/call_number"
             android:visibility="gone"
             fontPath="digitalcarefonts/CentraleSans-Book.otf" />
