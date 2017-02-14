@@ -41,7 +41,7 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
 
     public void pushLocalFirmware(final byte[] firmwareData) {
         if (operation == null) {
-            operation = new FirmwareUpdatePushLocal(new ScheduledThreadPoolExecutor(1), this, firmwareData);
+            operation = new FirmwareUpdatePushLocal(new ScheduledThreadPoolExecutor(1), this, this.mCommunicationStrategy, firmwareData);
             operation.execute();
         } else {
             throw new IllegalStateException("Operation already in progress.");

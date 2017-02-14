@@ -8,12 +8,14 @@ package com.philips.commlib.core.port.firmware;
 import android.support.annotation.NonNull;
 
 import static android.text.TextUtils.isEmpty;
+import static java.lang.Math.floor;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 public class FirmwarePortProperties {
 
     public static final int INVALID_INT_VALUE = Integer.MIN_VALUE;
+    public static final double BASE64_FACTOR = .75;
 
     public enum FirmwarePortKey {
         NAME("name"),
@@ -63,7 +65,7 @@ public class FirmwarePortProperties {
             return stateNames[0];
         }
 
-        static FirmwarePortState fromString(@NonNull String stateString) {
+        public static FirmwarePortState fromString(@NonNull String stateString) {
             for (FirmwarePortState state : FirmwarePortState.values()) {
                 for (String stateName : state.stateNames) {
                     if (stateName.equalsIgnoreCase(stateString)) {
@@ -114,7 +116,7 @@ public class FirmwarePortProperties {
     }
 
     public int getMaxChunkSize() {
-        return maxchunksize;
+        return (int) floor(maxchunksize * BASE64_FACTOR);
     }
 
     public int getSize() {

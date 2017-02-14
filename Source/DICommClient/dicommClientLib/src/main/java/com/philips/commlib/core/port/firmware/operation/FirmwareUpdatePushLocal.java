@@ -6,6 +6,7 @@ package com.philips.commlib.core.port.firmware.operation;
 
 import android.support.annotation.NonNull;
 
+import com.philips.commlib.core.communication.CommunicationStrategy;
 import com.philips.commlib.core.port.firmware.FirmwarePort;
 import com.philips.commlib.core.port.firmware.FirmwarePortProperties;
 import com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState;
@@ -18,11 +19,11 @@ import com.philips.commlib.core.port.firmware.state.FirmwareUpdateStateIdle;
 import com.philips.commlib.core.port.firmware.state.FirmwareUpdateStatePreparing;
 import com.philips.commlib.core.port.firmware.state.FirmwareUpdateStateProgramming;
 import com.philips.commlib.core.port.firmware.state.FirmwareUpdateStateReady;
+import com.philips.commlib.core.port.firmware.util.FirmwareUploader;
 import com.philips.commlib.core.port.firmware.util.FirmwarePortStateWaiter;
 
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortKey.STATE;
@@ -55,13 +56,16 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
     @NonNull
     private final byte[] firmwareData;
     @NonNull
-    final private StateMap stateMap = new StateMap();
+    private final StateMap stateMap = new StateMap();
+    @NonNull
+    private final CommunicationStrategy communicationStrategy;
 
     private final FirmwarePortStateWaiter firmwarePortStateWaiter;
 
     private FirmwareUpdateState state;
 
-    public FirmwareUpdatePushLocal(@NonNull final ExecutorService executor, @NonNull final FirmwarePort firmwarePort, @NonNull byte[] firmwareData) {
+    public FirmwareUpdatePushLocal(@NonNull final ExecutorService executor, @NonNull final FirmwarePort firmwarePort, @NonNull final CommunicationStrategy communicationStrategy, @NonNull byte[] firmwareData) {
+        this.communicationStrategy = communicationStrategy;
         setupStates();
 
         this.firmwarePort = firmwarePort;
@@ -102,21 +106,8 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
         this.state.cancel();
     }
 
-    public void pushData() {
-        int maxChunkSize = this.firmwarePort.getPortProperties().getMaxChunkSize();
-        int size = this.firmwarePort.getPortProperties().getSize();
-
-        if (maxChunkSize > 0 && maxChunkSize < size) {
-            uploadNextChunk(0, maxChunkSize);
-        }
-    }
-
-    private void uploadNextChunk(int offset, int maxChunkSize) {
-        Map<String, Object> properties = new HashMap<>();
-        int nextChunkSize = Math.min(maxChunkSize, this.firmwareData.length - offset);
-        properties.put(FirmwarePortProperties.FirmwarePortKey.DATA.toString(), Arrays.copyOfRange(firmwareData, offset, offset + nextChunkSize));
-
-        this.firmwarePort.putProperties(properties);
+    public void pushData() throws IOException {
+        new FirmwareUploader(firmwarePort, communicationStrategy, firmwareData).upload();
     }
 
     public void finish() {
