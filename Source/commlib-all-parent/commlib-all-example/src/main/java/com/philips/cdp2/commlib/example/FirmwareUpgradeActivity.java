@@ -59,6 +59,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
 
             findViewById(R.id.btnUploadFirmware).setOnClickListener(clickListener);
             findViewById(R.id.btnDeployFirmware).setOnClickListener(clickListener);
+            findViewById(R.id.btnCancel).setOnClickListener(clickListener);
             firmwareUploadProgressBar = (ProgressBar) findViewById(R.id.progressUploadFirmware);
             firmwareUploadProgressBar.setProgress(0);
             firmwareImagesListView = (ListView) findViewById(R.id.lvFirmwareImages);
@@ -105,6 +106,9 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
                 case R.id.btnDeployFirmware:
                     deployFirmware();
                     break;
+                case R.id.btnCancel:
+                    cancelFirmware();
+                    break;
                 default:
                     Log.d(TAG, "Unknown view clicked");
                     break;
@@ -141,6 +145,10 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
 
     private void deployFirmware() {
         bleReferenceAppliance.getFirmwarePort().deployFirmware();
+    }
+
+    private void cancelFirmware() {
+        bleReferenceAppliance.getFirmwarePort().cancel();
     }
 
     private FirmwarePortListener firmwarePortListener = new FirmwarePortListener() {

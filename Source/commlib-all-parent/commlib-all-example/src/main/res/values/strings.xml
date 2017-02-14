@@ -26,6 +26,7 @@
     <string name="switchLoopGet">Continuously get time</string>
     <string name="upload_firmware">Upload firmware</string>
     <string name="deploy_firmware">Deploy firmware</string>
+    <string name="cancel_firmware">Cancel firmware</string>
     <string name="firmware_images">Firmware images</string>
     <string name="select_a_firmware_image">Please, select a firmware image</string>
 </resources>
