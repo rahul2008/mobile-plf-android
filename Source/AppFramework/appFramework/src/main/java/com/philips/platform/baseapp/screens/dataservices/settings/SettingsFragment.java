@@ -52,7 +52,7 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
         mBtnCancel.setOnClickListener(this);
         settingsFragmentPresenter = new SettingsFragmentPresenter(getActivity(), this);
         mProgressDialog = new ProgressDialog(getActivity());
-        mDataServicesManager.registerDBChangeListener(this);
+
 
         mSpinner_Unit = (Spinner) rootView.findViewById(R.id.spinner_metrics);
         mSpinner_Local = (Spinner) rootView.findViewById(R.id.spinner_locale);
@@ -69,11 +69,6 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
         fetchSettings();
         return rootView;
 
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     @Override
@@ -173,6 +168,7 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
     @Override
     public void onStart() {
         super.onStart();
+        mDataServicesManager.registerDBChangeListener(this);
         Dialog dialog = getDialog();
         dialog.setTitle(R.string.settings);
         if (dialog != null) {
@@ -196,12 +192,12 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
 
     public void fetchSettings() {
         showProgressDialog();
-        DataServicesManager.getInstance().fetchSettings(this);
+        DataServicesManager.getInstance().fetchUserSettings(this);
     }
 
     @Override
     public void dBChangeSuccess() {
-        DataServicesManager.getInstance().fetchSettings(this);
+        DataServicesManager.getInstance().fetchUserSettings(this);
     }
 
     @Override

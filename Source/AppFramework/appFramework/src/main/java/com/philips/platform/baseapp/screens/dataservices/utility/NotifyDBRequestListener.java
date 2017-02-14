@@ -1,7 +1,7 @@
 package com.philips.platform.baseapp.screens.dataservices.utility;
 
 import com.philips.platform.baseapp.screens.dataservices.database.OrmTypeChecking;
-import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsent;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMoment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.listeners.DBChangeListener;
@@ -11,6 +11,7 @@ import com.philips.platform.core.utils.DSLog;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Created by sangamesh on 18/01/17.
@@ -52,9 +53,9 @@ public class NotifyDBRequestListener {
         }
     }
 
-    public void notifySuccess(DBRequestListener dbRequestListener, ArrayList<OrmConsent> ormConsents) {
+    public void notifySuccess(DBRequestListener dbRequestListener, ArrayList<OrmConsentDetail> ormConsents) {
         if(dbRequestListener!=null) {
-            dbRequestListener.onSuccess(ormConsents.get(0));
+            dbRequestListener.onSuccess(ormConsents);
         }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){
             DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess();
         }else {
@@ -74,9 +75,9 @@ public class NotifyDBRequestListener {
         }
     }
 
-    public void notifySuccess(DBRequestListener dbRequestListener, OrmConsent ormConsent) {
+    public void notifySuccess(DBRequestListener dbRequestListener, List<OrmConsentDetail> ormConsents) {
         if(dbRequestListener!=null) {
-            dbRequestListener.onSuccess(ormConsent);
+            dbRequestListener.onSuccess(ormConsents);
         }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){
             DBChangeListener dbChangeListener=DataServicesManager.getInstance().getDbChangeListener();
             dbChangeListener.dBChangeSuccess();

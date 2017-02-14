@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.philips.platform.appframework.R;
-import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristicsDetail;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -35,11 +35,26 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
     private CharacteristicsPresenter mCharacteristicsDialogPresenter;
     private boolean isEditable ;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        DataServicesManager.getInstance().registerDBChangeListener(this);
-    }
+    String jsonString="{\n" +
+            "  \"characteristics\": [\n" +
+            "    {\n" +
+            "      \"type\": \"title\",\n" +
+            "      \"value\": \"Mrs\",\n" +
+            "      \"characteristics\": []\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"type\": \"name\",\n" +
+            "      \"value\": \"User\",\n" +
+            "      \"characteristics\": []\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"type\": \"age\",\n" +
+            "      \"value\": \"28\",\n" +
+            "      \"characteristics\": []\n" +
+            "    }\n" +
+            "  ]\n" +
+            "}";
+
 
     @Nullable
     @Override
@@ -63,6 +78,8 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
         mEtCharacteristics.setEnabled(false);
         isEditable = false;
         DataServicesManager.getInstance().fetchUserCharacteristics(this);
+
+        mEtCharacteristics.setText(jsonString);
         return rootView;
     }
 
@@ -96,6 +113,7 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
     @Override
     public void onStart() {
         super.onStart();
+        DataServicesManager.getInstance().registerDBChangeListener(this);
         Dialog dialog = getDialog();
         dialog.setTitle(getString(R.string.characteristics));
         if (dialog != null) {
@@ -187,11 +205,11 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
         if (data == null) return;
         if (getActivity() == null) return;
 
-        final ArrayList<OrmCharacteristicsDetail> ormCharacteristicsDetailList = (ArrayList<OrmCharacteristicsDetail>) data;
+        final ArrayList<OrmCharacteristics> ormCharacteristicsList = (ArrayList<OrmCharacteristics>) data;
 
         final List<Characteristics> parentList = new ArrayList<>();
-        for (Characteristics characteristics : ormCharacteristicsDetailList) {
-            if (ormCharacteristicsDetailList.size() > 0) {
+        for (Characteristics characteristics : ormCharacteristicsList) {
+            if (ormCharacteristicsList.size() > 0) {
                 parentList.add(characteristics);
             }
         }
@@ -201,9 +219,6 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
             @Override
             public void run() {
                 try {
-                   // final List<Characteristics> characteristicsList = new ArrayList<>();
-                 //   characteristicsList.add(parentList);
-
                     UCoreUserCharacteristics uCoreCharacteristics = convertToUCoreUserCharacteristics(parentList);
 
                     Gson gson = new GsonBuilder().setPrettyPrinting().create();

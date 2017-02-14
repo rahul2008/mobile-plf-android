@@ -100,8 +100,8 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface{
 
     @NonNull
     @Override
-    public String getAccessToken() {
-        Log.i(TAG,"Inside getAccessToken");
+    public String getHSDPAccessToken() {
+        Log.i(TAG,"Inside getHSDPAccessToken");
 
         if(accessToken!=null){
             Log.i(TAG,"AccessToken is not null = " + accessToken);
@@ -200,13 +200,11 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface{
     }
 
     @Override
-    public String getHSDHsdpUrl() {
+    public String getHSDPUrl() {
 
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
-        Object propertyForKey = ((AppFrameworkApplication)context.getApplicationContext()).
-                getAppInfra().getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL,
-                URConfigurationConstants.UR, configError);
+        Object propertyForKey = ((AppFrameworkApplication)context.getApplicationContext()).getAppInfra().getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL, URConfigurationConstants.UR, configError);
         return propertyForKey.toString();
     }
 }

@@ -5,10 +5,6 @@ import com.philips.platform.baseapp.screens.dataservices.database.annotations.Da
 
 import java.io.Serializable;
 
-/**
- * Created by 310218660 on 11/17/2016.
- */
-
 public class OrmMeasurementGroupDetailType implements Serializable {
     private static final long serialVersionUID = 11L;
 
