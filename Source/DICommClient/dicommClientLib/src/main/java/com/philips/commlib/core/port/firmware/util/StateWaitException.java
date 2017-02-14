@@ -8,4 +8,8 @@ public class StateWaitException extends Exception {
     public StateWaitException(Exception cause) {
         super(cause);
     }
+
+    public StateWaitException(String reason) {
+        super(reason);
+    }
 }

@@ -7,6 +7,7 @@ package com.philips.commlib.core.port.firmware.state;
 import android.support.annotation.NonNull;
 
 import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePushLocal;
+import com.philips.commlib.core.port.firmware.util.StateWaitException;
 
 public class FirmwareUpdateStatePreparing extends CancelableFirmwareUpdateState {
 
@@ -15,7 +16,17 @@ public class FirmwareUpdateStatePreparing extends CancelableFirmwareUpdateState 
     }
 
     @Override
-    public void start(FirmwareUpdateState previousState) {
-        operation.waitForNextState();
+    public void onStart(FirmwareUpdateState previousState) {
+        try {
+            operation.waitForNextState();
+        } catch (StateWaitException e) {
+            operation.onDownloadFailed("Could not upload firmware.");
+            operation.onFinish();
+        }
+    }
+
+    @Override
+    protected void onFinish() {
+
     }
 }

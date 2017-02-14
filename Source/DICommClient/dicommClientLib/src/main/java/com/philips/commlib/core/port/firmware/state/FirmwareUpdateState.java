@@ -7,9 +7,12 @@ package com.philips.commlib.core.port.firmware.state;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePushLocal;
 
 public abstract class FirmwareUpdateState {
+
+    protected final String TAG = getClass().getSimpleName();
 
     protected final FirmwareUpdatePushLocal operation;
 
@@ -17,17 +20,25 @@ public abstract class FirmwareUpdateState {
         this.operation = operation;
     }
 
-    public abstract void start(@Nullable FirmwareUpdateState previousState);
-
-    public void cancel() {
-        throw new IllegalStateException("Canceling not allowed in this state.");
+    public void start(@Nullable FirmwareUpdateState previousState) {
+        DICommLog.d(DICommLog.FIRMWAREPORT, ">>> Started state [" + TAG + "]");
+        onStart(previousState);
     }
 
-    public void deploy() {
-        throw new IllegalStateException("Deploying not allowed in this state.");
+    protected abstract void onStart(@Nullable FirmwareUpdateState previousState);
+
+    public void cancel() throws IncompatibleStateException {
+        throw new IncompatibleStateException("Cancel not allowed in state [" + getClass().getSimpleName() + "]");
     }
 
-    public void onFinish() {
-
+    public void deploy() throws IncompatibleStateException {
+        throw new IncompatibleStateException("Deploying not allowed in state [" + getClass().getSimpleName() + "]");
     }
+
+    public void finish() {
+        onFinish();
+        DICommLog.d(DICommLog.FIRMWAREPORT, "<<< Finished state [" + TAG + "]");
+    }
+
+    protected abstract void onFinish();
 }

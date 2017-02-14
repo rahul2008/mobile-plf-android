@@ -4,10 +4,12 @@
  */
 package com.philips.commlib.core.port.firmware.operation;
 
+import com.philips.commlib.core.port.firmware.state.IncompatibleStateException;
+
 public interface FirmwareUpdateOperation {
-    void execute();
+    void start();
 
-    void deploy();
+    void deploy() throws IncompatibleStateException;
 
-    void cancel();
+    void cancel() throws IncompatibleStateException;
 }

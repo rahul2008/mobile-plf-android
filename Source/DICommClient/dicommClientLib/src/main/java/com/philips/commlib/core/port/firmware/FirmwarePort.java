@@ -5,6 +5,8 @@
 
 package com.philips.commlib.core.port.firmware;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.port.DICommPort;
@@ -13,6 +15,7 @@ import com.philips.commlib.core.communication.CommunicationStrategy;
 import com.philips.commlib.core.port.firmware.operation.FirmwareUpdateOperation;
 import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePullRemote;
 import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePushLocal;
+import com.philips.commlib.core.port.firmware.state.IncompatibleStateException;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -27,66 +30,110 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
     private FirmwarePortProperties previousFirmwarePortProperties = new FirmwarePortProperties();
     private final Set<FirmwarePortListener> firmwarePortListeners = new CopyOnWriteArraySet<>();
 
+    private Handler callbackHandler;
+    private ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+
     private final FirmwarePortListener listener = new FirmwarePortListener() {
 
         @Override
         public void onCheckingProgress(final int progress) {
-            for (FirmwarePortListener listener : firmwarePortListeners) {
-                listener.onCheckingProgress(progress);
+            for (final FirmwarePortListener listener : firmwarePortListeners) {
+                callbackHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        listener.onCheckingProgress(progress);
+                    }
+                });
             }
         }
 
         @Override
         public void onDownloadProgress(final int progress) {
-            for (FirmwarePortListener listener : firmwarePortListeners) {
-                listener.onDownloadProgress(progress);
+            for (final FirmwarePortListener listener : firmwarePortListeners) {
+                callbackHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        listener.onDownloadProgress(progress);
+                    }
+                });
             }
         }
 
         @Override
         public void onDownloadFailed(final FirmwarePortException exception) {
-            for (FirmwarePortListener listener : firmwarePortListeners) {
-                listener.onDownloadFailed(exception);
+            for (final FirmwarePortListener listener : firmwarePortListeners) {
+                callbackHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        listener.onDownloadFailed(exception);
+                    }
+                });
             }
         }
 
         @Override
         public void onDownloadFinished() {
-            for (FirmwarePortListener listener : firmwarePortListeners) {
-                listener.onDownloadFinished();
+            for (final FirmwarePortListener listener : firmwarePortListeners) {
+                callbackHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        listener.onDownloadFinished();
+                    }
+                });
             }
         }
 
         @Override
         public void onFirmwareAvailable(final String version) {
-            for (FirmwarePortListener listener : firmwarePortListeners) {
-                listener.onFirmwareAvailable(version);
+            for (final FirmwarePortListener listener : firmwarePortListeners) {
+                callbackHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        listener.onFirmwareAvailable(version);
+                    }
+                });
             }
         }
 
         @Override
         public void onDeployFailed(final FirmwarePortException exception) {
-            for (FirmwarePortListener listener : firmwarePortListeners) {
-                listener.onDeployFailed(exception);
+            for (final FirmwarePortListener listener : firmwarePortListeners) {
+                callbackHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        listener.onDeployFailed(exception);
+                    }
+                });
             }
         }
 
         @Override
         public void onDeployFinished() {
-            for (FirmwarePortListener listener : firmwarePortListeners) {
-                listener.onDeployFinished();
+            for (final FirmwarePortListener listener : firmwarePortListeners) {
+                callbackHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        listener.onDeployFinished();
+                    }
+                });
             }
         }
     };
 
     public FirmwarePort(CommunicationStrategy communicationStrategy) {
         super(communicationStrategy);
+        callbackHandler = new Handler(Looper.getMainLooper());
     }
 
     public void pushLocalFirmware(final byte[] firmwareData) {
         if (operation == null) {
-            operation = new FirmwareUpdatePushLocal(new ScheduledThreadPoolExecutor(1), this, this.mCommunicationStrategy, this.listener, firmwareData);
-            operation.execute();
+            operation = new FirmwareUpdatePushLocal(executor, this, this.mCommunicationStrategy, this.listener, firmwareData);
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    operation.start();
+                }
+            });
         } else {
             throw new IllegalStateException("Operation already in progress.");
         }
@@ -104,7 +151,11 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
         if (operation == null) {
             return;
         }
-        operation.cancel();
+        try {
+            operation.cancel();
+        } catch (IncompatibleStateException e) {
+            DICommLog.e(DICommLog.FIRMWAREPORT, "Error while canceling operation: " + e.getMessage());
+        }
     }
 
     public void checkForNewerFirmware() {
@@ -115,7 +166,11 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
         if (operation == null) {
             return;
         }
-        operation.deploy();
+        try {
+            operation.deploy();
+        } catch (IncompatibleStateException e) {
+            DICommLog.e(DICommLog.FIRMWAREPORT, "Error while canceling operation: " + e.getMessage());
+        }
     }
 
     public void addFirmwarePortListener(FirmwarePortListener listener) {
@@ -186,14 +241,13 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
                     listener.onCheckingProgress(progress);
                     break;
                 default:
-                    DICommLog.d(DICommLog.FIRMWAREPORT, "There is no progress for the " + firmwarePortProperties.getState() + " state.");
+                    DICommLog.d(DICommLog.FIRMWAREPORT, "There is no progress for state [" + firmwarePortProperties.getState() + "]");
             }
         }
 
         if (!previousFirmwarePortProperties.getUpgrade().equals(firmwarePortProperties.getUpgrade())) {
             listener.onFirmwareAvailable(firmwarePortProperties.getUpgrade());
         }
-
         previousFirmwarePortProperties = firmwarePortProperties;
     }
 

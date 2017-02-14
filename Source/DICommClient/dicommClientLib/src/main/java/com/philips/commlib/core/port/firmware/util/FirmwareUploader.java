@@ -52,7 +52,7 @@ public class FirmwareUploader {
             throw new IOException("Upload already in progress.");
         }
 
-        latch = createCountdownLatch();
+        latch = createCountDownLatch();
         uploadNextChunk(0);
         try {
             latch.await();
@@ -69,7 +69,7 @@ public class FirmwareUploader {
 
     @VisibleForTesting
     @NonNull
-    protected CountDownLatch createCountdownLatch() {
+    CountDownLatch createCountDownLatch() {
         return new CountDownLatch(1);
     }
 
@@ -93,19 +93,18 @@ public class FirmwareUploader {
                 }
 
                 FirmwarePortProperties.FirmwarePortState firmwarePortState = FirmwarePortProperties.FirmwarePortState.fromString((String) dataMap.get(STATE.toString()));
-                Integer progress = (Integer) dataMap.get(PROGRESS.toString());
+                Double progress = (Double) dataMap.get(PROGRESS.toString());
 
                 if (firmwarePortState == null || progress == null) {
-                    error = new IOException("Invalid data received");
+                    error = new IOException("Invalid data received.");
                     latch.countDown();
                     return;
                 }
 
                 if (firmwarePortState == DOWNLOADING) {
-                    uploadNextChunk(progress);
+                    uploadNextChunk(progress.intValue());
                     return;
                 }
-
                 latch.countDown();
             }
 

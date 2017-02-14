@@ -7,6 +7,7 @@ package com.philips.commlib.core.port.firmware.state;
 import android.support.annotation.NonNull;
 
 import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePushLocal;
+import com.philips.commlib.core.port.firmware.util.StateWaitException;
 
 public class FirmwareUpdateStateProgramming extends FirmwareUpdateState {
 
@@ -15,9 +16,17 @@ public class FirmwareUpdateStateProgramming extends FirmwareUpdateState {
     }
 
     @Override
-    public void start(FirmwareUpdateState previousState) {
-        // TODO do the actual programming
+    public void onStart(FirmwareUpdateState previousState) {
+        try {
+            operation.waitForNextState();
+        } catch (StateWaitException e) {
+            operation.onDeployFailed("Deployment failed.");
+            operation.onFinish();
+        }
+    }
 
-        operation.waitForNextState();
+    @Override
+    protected void onFinish() {
+
     }
 }

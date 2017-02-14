@@ -21,8 +21,9 @@ import com.philips.commlib.core.port.firmware.state.FirmwareUpdateStateIdle;
 import com.philips.commlib.core.port.firmware.state.FirmwareUpdateStatePreparing;
 import com.philips.commlib.core.port.firmware.state.FirmwareUpdateStateProgramming;
 import com.philips.commlib.core.port.firmware.state.FirmwareUpdateStateReady;
-import com.philips.commlib.core.port.firmware.util.FirmwareUploader;
+import com.philips.commlib.core.port.firmware.state.IncompatibleStateException;
 import com.philips.commlib.core.port.firmware.util.FirmwarePortStateWaiter;
+import com.philips.commlib.core.port.firmware.util.FirmwareUploader;
 import com.philips.commlib.core.port.firmware.util.StateWaitException;
 
 import java.io.IOException;
@@ -52,7 +53,7 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
         }
     }
 
-    private static final long TIMEOUT_MILLIS = 30000L;
+    private static final long TIMEOUT_MILLIS = 5000L; // FIXME
 
     @NonNull
     private final FirmwarePort firmwarePort;
@@ -106,18 +107,18 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
     }
 
     @Override
-    public void execute() {
+    public void start() {
         this.state.start(null);
     }
 
     @Override
-    public void deploy() {
+    public void deploy() throws IncompatibleStateException {
         this.state.deploy();
     }
 
     @Override
-    public void cancel() {
-        this.state.cancel();
+    public void cancel() throws IncompatibleStateException {
+       this.state.cancel();
     }
 
     public void pushData() throws IOException {
@@ -128,26 +129,24 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
         this.firmwarePortListener.onDeployFinished();
     }
 
-    public void onOperationFinished() {
+    public void onFinish() {
         this.firmwarePort.finishFirmwareUpdateOperation();
     }
 
     public void onDownloadFailed() {
-        final FirmwarePortProperties portProperties = this.firmwarePort.getPortProperties();
-        if (portProperties == null) {
-            return;
-        }
-        final String statusMessage = portProperties.getStatusMessage();
-        firmwarePortListener.onDownloadFailed(new FirmwarePortException(statusMessage));
+        onDownloadFailed(getStatusMessage());
+    }
+
+    public void onDownloadFailed(final String reason) {
+        firmwarePortListener.onDownloadFailed(new FirmwarePortException(reason));
     }
 
     public void onDeployFailed() {
-        final FirmwarePortProperties portProperties = this.firmwarePort.getPortProperties();
-        if (portProperties == null) {
-            return;
-        }
-        final String statusMessage = portProperties.getStatusMessage();
-        firmwarePortListener.onDownloadFailed(new FirmwarePortException(statusMessage));
+        onDeployFailed(getStatusMessage());
+    }
+
+    public void onDeployFailed(final String reason) {
+        firmwarePortListener.onDownloadFailed(new FirmwarePortException(reason));
     }
 
     public void onDownloadFinished() {
@@ -166,18 +165,20 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
         this.firmwarePort.putProperties(STATE.toString(), requestedState.toString());
     }
 
-    public void waitForNextState() {
+    public void waitForNextState() throws StateWaitException {
         FirmwareUpdateState previousState = this.state;
         FirmwarePortState currentPortState = stateMap.findByState(this.state);
 
-        try {
-            final FirmwarePortState newState = firmwarePortStateWaiter.waitForNextState(currentPortState, TIMEOUT_MILLIS);
+        final FirmwarePortState newState = firmwarePortStateWaiter.waitForNextState(currentPortState, TIMEOUT_MILLIS);
 
-            this.state.onFinish();
-            this.state = stateMap.get(newState);
-            this.state.start(previousState);
-        } catch (StateWaitException e) {
-            // TODO handle
-        }
+        this.state.finish();
+        this.state = stateMap.get(newState);
+        this.state.start(previousState);
+    }
+
+    private String getStatusMessage() {
+        final FirmwarePortProperties portProperties = this.firmwarePort.getPortProperties();
+
+        return (portProperties == null) ? "Unknown failure." : portProperties.getStatusMessage();
     }
 }

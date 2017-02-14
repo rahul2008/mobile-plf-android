@@ -5,14 +5,18 @@
 
 package com.philips.commlib.core.port.firmware.util;
 
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.commlib.core.port.firmware.FirmwarePort;
+import com.philips.commlib.core.port.firmware.FirmwarePortProperties;
 import com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState;
 
+import java.util.Locale;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
@@ -21,6 +25,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class FirmwarePortStateWaiter {
+
+    private static final String TAG = "FirmwarePortStateWaiter";
 
     @NonNull
     private final FirmwarePort firmwarePort;
@@ -37,7 +43,13 @@ public class FirmwarePortStateWaiter {
         private final DICommPortListener<FirmwarePort> firmwarePortListener = new DICommPortListener<FirmwarePort>() {
             @Override
             public void onPortUpdate(FirmwarePort port) {
-                portState = port.getPortProperties().getState();
+                final FirmwarePortProperties firmwarePortProperties = port.getPortProperties();
+                if (firmwarePortProperties == null) {
+                    return;
+                }
+                portState = firmwarePortProperties.getState();
+                DICommLog.d(DICommLog.FIRMWAREPORT, String.format(Locale.US, "onPortUpdate - initialState [%s], portState [%s]", initialState.toString(), portState));
+
                 if (portState != initialState) {
                     latch.countDown();
                 }
@@ -91,12 +103,22 @@ public class FirmwarePortStateWaiter {
      */
     @NonNull
     public FirmwarePortState waitForNextState(FirmwarePortState initialState, long timeoutMillis) throws StateWaitException {
-        final FirmwarePortState currentState = this.firmwarePort.getPortProperties().getState();
+        FirmwarePortProperties firmwarePortProperties;
+        firmwarePortProperties = this.firmwarePort.getPortProperties();
 
-        if (initialState != currentState) {
-            return currentState;
+        while (firmwarePortProperties == null) {
+            firmwarePortProperties = this.firmwarePort.getPortProperties();
+            SystemClock.sleep(100);
+
+            // FIXME do this in a timer task
         }
 
+        final FirmwarePortState currentState = firmwarePortProperties.getState();
+        DICommLog.d(DICommLog.FIRMWAREPORT, String.format(Locale.US, "waitForNextState - initial state [%s], current state [%s]", initialState.toString(), currentState.toString()));
+
+        if (currentState != initialState) {
+            return initialState;
+        }
         final StateWaitTask stateWaitTask = new StateWaitTask(initialState, timeoutMillis);
 
         try {
