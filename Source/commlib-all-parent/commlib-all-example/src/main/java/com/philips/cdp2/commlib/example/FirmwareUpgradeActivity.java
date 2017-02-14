@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.philips.cdp2.commlib.example.appliance.BleReferenceAppliance;
 import com.philips.commlib.core.appliance.Appliance;
+import com.philips.commlib.core.port.firmware.FirmwarePortListener;
+import com.philips.commlib.core.port.firmware.FirmwarePortProperties;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -74,6 +76,15 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
             fwImageAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, files);
             firmwareImagesListView.setAdapter(fwImageAdapter);
         }
+
+        bleReferenceAppliance.getFirmwarePort().addFirmwarePortListener(firmwarePortListener);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        bleReferenceAppliance.getFirmwarePort().removeFirmwarePortListener(firmwarePortListener);
     }
 
     private FilenameFilter upgradeFilesFilter = new FilenameFilter() {
@@ -132,4 +143,37 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
         bleReferenceAppliance.getFirmwarePort().deployFirmware();
     }
 
+    private FirmwarePortListener firmwarePortListener = new FirmwarePortListener() {
+        private String TAG = "FirmwarePortListener";
+
+        @Override
+        public void onProgressUpdated(FirmwarePortProperties.FirmwarePortState state, int progress) {
+            Log.i(TAG, "onProgressUpdated(" + state.toString() + ", " + progress + ")");
+        }
+
+        @Override
+        public void onDownloadFailed(FirmwarePortException exception) {
+            Log.i(TAG, "onDownloadFailed(" + exception.getMessage() + ")");
+        }
+
+        @Override
+        public void onDownloadFinished() {
+            Log.i(TAG, "onDownloadFinished()");
+        }
+
+        @Override
+        public void onFirmwareAvailable(String version) {
+            Log.i(TAG, "onFirmwareAvailable(" + version + ")");
+        }
+
+        @Override
+        public void onDeployFailed(FirmwarePortException exception) {
+            Log.i(TAG, "onDeployFailed(" + exception.getMessage() + ")");
+        }
+
+        @Override
+        public void onDeployFinished() {
+            Log.i(TAG, "onDeployFinished()");
+        }
+    };
 }
