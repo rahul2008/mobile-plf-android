@@ -237,7 +237,7 @@ public class ServiceDiscovery {
 
 
     private void setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES error, String message) {
-        Error err = new ServiceDiscovery.Error(error, message);
+        Error err = new Error(error, message);
         setError(err);
     }
 
@@ -259,8 +259,8 @@ public class ServiceDiscovery {
                         }
                     }
                 } else if (preference.equals(AISDLanguagePreference)) {
-                    if(getMatchByLanguage() != null && getMatchByLanguage().getConfigs() != null) {
-                        if(getMatchByLanguage().getLocale() == null) {
+                    if (getMatchByLanguage() != null && getMatchByLanguage().getConfigs() != null) {
+                        if (getMatchByLanguage().getLocale() == null) {
                             setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
                                     "ServiceDiscovery cannot find the locale");
                         } else {
@@ -286,7 +286,6 @@ public class ServiceDiscovery {
 
         return url;
     }
-
 
 
     protected HashMap<String, ServiceDiscoveryService> getServicesWithServiceID(ArrayList<String> serviceIds,
@@ -335,49 +334,48 @@ public class ServiceDiscovery {
                 modelLocale = getMatchByLanguage().getLocale();
                 urls = getMatchByLanguage().getConfigs().get(config).getUrls();
             }
-
             for (int i = 0; i < serviceIds.size(); i++) {
+                ServiceDiscoveryService sdService = new ServiceDiscoveryService();
                 if (urls != null) {
-                    for (final String key : urls.keySet()) {
-                        if (key.equalsIgnoreCase(serviceIds.get(i).trim())) {
-                            String serviceUrlval = urls.get(key);
-                            if (serviceUrlval.contains("%22")) {
-                                serviceUrlval = serviceUrlval.replace("%22", "\"");
-                            }
-                            if (replacement != null && replacement.size() > 0) {
-                                URL replacedUrl;
-                                try {
-                                    ServiceDiscoveryService sdService = new ServiceDiscoveryService();
-                                    replacedUrl = mServiceDiscoveryManager.applyURLParameters(new URL(serviceUrlval), replacement);
-                                    if(replacedUrl != null)
-                                        sdService.init(modelLocale, replacedUrl.toString());
-                                        responseMap.put(key, sdService);
-
-                                } catch (MalformedURLException e) {
-                                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                                            "ServiceDiscovery URL error",
-                                            "Malformed URL");
-                                }
-                            } else {
-                                ServiceDiscoveryService sdService = new ServiceDiscoveryService();
-                                sdService.init(modelLocale, serviceUrlval);
-                                responseMap.put(key, sdService);
-                            }
+                    if (urls.get(serviceIds.get(i)) != null) {
+                        String serviceUrlval = urls.get(serviceIds.get(i));
+                        if (serviceUrlval.contains("%22")) {
+                            serviceUrlval = serviceUrlval.replace("%22", "\"");
                         }
+                        if (replacement != null && replacement.size() > 0) {
+                            URL replacedUrl;
+                            try {
+                                replacedUrl = mServiceDiscoveryManager.applyURLParameters(new URL(serviceUrlval), replacement);
+                                if (replacedUrl != null)
+                                    sdService.init(modelLocale, replacedUrl.toString());
+                                responseMap.put(serviceIds.get(i), sdService);
+                            } catch (MalformedURLException e) {
+                                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                                        "ServiceDiscovery URL error",
+                                        "Malformed URL");
+                                setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.INVALID_RESPONSE,
+                                        "MalformedURLException");
+                            }
+                        } else {
+                            sdService.init(modelLocale, serviceUrlval);
+                            responseMap.put(serviceIds.get(i), sdService);
+                        }
+                    } else {
+                        sdService.init(modelLocale, null);
+                        sdService.setmError("ServiceDiscovery cannot find the URL for serviceId" + " " + serviceIds.get(i));
+                        responseMap.put(serviceIds.get(i), sdService);
+
                     }
-                } else {
-                    setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
-                            "ServiceDiscovery cannot find the locale");
                 }
             }
-        }
-        if (responseMap.isEmpty()) {
-            setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
-                    "ServiceDiscovery cannot find the locale");
-        } else {
-            return responseMap;
-        }
+            if (responseMap.isEmpty()) {
+                setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
+                        "ServiceDiscovery cannot find the locale");
+            } else {
+                return responseMap;
+            }
 
+        }
         return responseMap;
     }
 
