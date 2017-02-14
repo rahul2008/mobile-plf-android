@@ -27,9 +27,9 @@ import com.philips.commlib.core.appliance.Appliance;
 import com.philips.commlib.core.appliance.ApplianceManager;
 import com.philips.commlib.core.exception.MissingPermissionException;
 
-public class ExampleActivity extends AppCompatActivity {
+public class DiscoveryActivity extends AppCompatActivity {
 
-    private static final String TAG = "ExampleActivity";
+    private static final String TAG = "DiscoveryActivity";
 
     private static final int ACCESS_COARSE_LOCATION_REQUEST_CODE = 0x1;
 
@@ -101,7 +101,7 @@ public class ExampleActivity extends AppCompatActivity {
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 stopDiscovery();
 
-                Intent applianceActivityIntent = new Intent(ExampleActivity.this, ApplianceActivity.class);
+                Intent applianceActivityIntent = new Intent(DiscoveryActivity.this, ApplianceActivity.class);
                 applianceActivityIntent.putExtra(ApplianceActivity.CPPID, applianceAdapter.getItem(position).getNetworkNode().getCppId());
 
                 startActivity(applianceActivityIntent);
