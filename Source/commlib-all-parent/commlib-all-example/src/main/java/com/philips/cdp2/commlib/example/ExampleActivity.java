@@ -5,6 +5,7 @@
 package com.philips.cdp2.commlib.example;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,31 +18,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
-import com.philips.cdp.dicommclient.port.DICommPortListener;
-import com.philips.cdp.dicommclient.request.Error;
-import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.example.appliance.BleReferenceAppliance;
-import com.philips.cdp2.commlib.example.appliance.BleReferenceApplianceFactory;
-import com.philips.cdp2.commlib.example.appliance.TimePort;
 import com.philips.commlib.core.CommCentral;
 import com.philips.commlib.core.appliance.Appliance;
 import com.philips.commlib.core.appliance.ApplianceManager;
 import com.philips.commlib.core.exception.MissingPermissionException;
-import com.philips.commlib.core.port.firmware.FirmwarePort;
-
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
-
-import java.util.Random;
-
-import static java.lang.System.currentTimeMillis;
 
 public class ExampleActivity extends AppCompatActivity {
 
@@ -49,17 +33,10 @@ public class ExampleActivity extends AppCompatActivity {
 
     private static final int ACCESS_COARSE_LOCATION_REQUEST_CODE = 0x1;
 
-    private static final String PROPERTY_DATETIME = "datetime";
-    private final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm:ss");
+    private CommCentral commCentral;
+    private ArrayAdapter<Appliance> applianceAdapter;
 
     private TextView txtState;
-    private TextView txtResult;
-
-    private ArrayAdapter<Appliance> applianceAdapter;
-    private BleReferenceAppliance bleReferenceAppliance;
-
-    private CommCentral commCentral;
-    private DICommApplianceFactory applianceFactory;
 
     private Runnable permissionCallback;
 
@@ -88,45 +65,6 @@ public class ExampleActivity extends AppCompatActivity {
                 case R.id.btnStopDiscovery:
                     stopDiscovery();
                     break;
-                case R.id.btnGetTime:
-                    bleReferenceAppliance.getTimePort().reloadProperties();
-                    break;
-                case R.id.btnSetTime:
-                    DateTime dateTime = new DateTime(currentTimeMillis() + new Random().nextInt());
-                    DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
-                    String timestamp = dateTime.toString(fmt);
-
-                    bleReferenceAppliance.getTimePort().putProperties(PROPERTY_DATETIME, timestamp);
-                    break;
-            }
-        }
-    };
-
-    private final CompoundButton.OnCheckedChangeListener connectionCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-            if (bleReferenceAppliance == null) {
-                return;
-            }
-
-            if (isChecked) {
-                bleReferenceAppliance.enableCommunication();
-            } else {
-                bleReferenceAppliance.disableCommunication();
-            }
-        }
-    };
-    private final CompoundButton.OnCheckedChangeListener subscriptionCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-            if (bleReferenceAppliance == null) {
-                return;
-            }
-
-            if (isChecked) {
-                bleReferenceAppliance.getTimePort().subscribe();
-            } else {
-                bleReferenceAppliance.getTimePort().unsubscribe();
             }
         }
     };
@@ -136,28 +74,14 @@ public class ExampleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Setup CommCentral
-        final boolean showPopupIfBleIsTurnedOff = false;
-        final BleTransportContext bleTransportContext = new BleTransportContext(this, showPopupIfBleIsTurnedOff);
-        this.applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
-
-        this.commCentral = new CommCentral(this.applianceFactory, bleTransportContext);
+        commCentral = ((App)getApplication()).getCommCentral();
         this.commCentral.getApplianceManager().addApplianceListener(this.applianceListener);
 
-        // Setup buttons
         findViewById(R.id.btnStartDiscovery).setOnClickListener(buttonClickListener);
         findViewById(R.id.btnStopDiscovery).setOnClickListener(buttonClickListener);
-        findViewById(R.id.btnGetTime).setOnClickListener(buttonClickListener);
-        findViewById(R.id.btnSetTime).setOnClickListener(buttonClickListener);
 
-        ((CompoundButton) findViewById(R.id.switchStayConnected)).setOnCheckedChangeListener(connectionCheckedChangeListener);
-        ((CompoundButton) findViewById(R.id.switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
-
-        // Text fields
         txtState = (TextView) findViewById(R.id.txtState);
-        txtResult = (TextView) findViewById(R.id.txtResult);
 
-        // Setup appliance list
         applianceAdapter = new ArrayAdapter<Appliance>(this, android.R.layout.simple_list_item_2, android.R.id.text1) {
             public View getView(final int position, final View convertView, final ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -177,22 +101,15 @@ public class ExampleActivity extends AppCompatActivity {
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 stopDiscovery();
 
-                bleReferenceAppliance = (BleReferenceAppliance) applianceAdapter.getItem(position);
-                if (bleReferenceAppliance == null) {
-                    return;
-                }
-                setupAppliance(bleReferenceAppliance);
+                Intent applianceActivityIntent = new Intent(ExampleActivity.this, ApplianceActivity.class);
+                applianceActivityIntent.putExtra(ApplianceActivity.CPPID, applianceAdapter.getItem(position).getNetworkNode().getCppId());
 
-                findViewById(R.id.btnGetTime).setEnabled(true);
-                findViewById(R.id.btnSetTime).setEnabled(true);
-
-                // Perform request on port
-                bleReferenceAppliance.getFirmwarePort().getPortProperties();
+                startActivity(applianceActivityIntent);
             }
         });
 
         // Init view
-        updateStateAndResult(getString(R.string.lblStateIdle), getString(R.string.lblResultNotApplicable));
+        updateState(getString(R.string.lblStateIdle));
     }
 
     @Override
@@ -202,7 +119,7 @@ public class ExampleActivity extends AppCompatActivity {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     new Handler().post(this.permissionCallback);
                 } else {
-                    updateStateAndResult(getString(R.string.lblStateError), getString(R.string.lblResultNotApplicable));
+                    updateState(getString(R.string.lblStateError));
                 }
             }
         }
@@ -223,9 +140,9 @@ public class ExampleActivity extends AppCompatActivity {
 
         try {
             this.commCentral.startDiscovery();
-            updateStateAndResult(getString(R.string.lblStateDiscovering), getString(R.string.lblResultNotApplicable));
+            updateState(getString(R.string.lblStateDiscovering));
         } catch (MissingPermissionException e) {
-            updateStateAndResult(getString(R.string.lblStatePermissionError), getString(R.string.lblResultDiscoveryFailed));
+            updateState(getString(R.string.lblStatePermissionError));
 
             acquirePermission(new Runnable() {
                 @Override
@@ -238,61 +155,14 @@ public class ExampleActivity extends AppCompatActivity {
 
     private void stopDiscovery() {
         this.commCentral.stopDiscovery();
-        updateStateAndResult(getString(R.string.lblStateIdle), getString(R.string.lblResultNotApplicable));
+        updateState(getString(R.string.lblStateIdle));
     }
 
-    private void updateStateAndResult(final String state, final String result) {
+    private void updateState(final String state) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 txtState.setText(state);
-                txtResult.setText(result);
-            }
-        });
-    }
-
-    private void setupAppliance(@NonNull BleReferenceAppliance appliance) {
-        boolean stayConnected = ((CompoundButton) findViewById(R.id.switchStayConnected)).isChecked();
-
-        if (stayConnected) {
-            appliance.enableCommunication();
-        } else {
-            appliance.disableCommunication();
-        }
-
-        // Setup firmware port
-        appliance.getFirmwarePort().addPortListener(new DICommPortListener<FirmwarePort>() {
-            @Override
-            public void onPortUpdate(FirmwarePort firmwarePort) {
-                updateStateAndResult(getString(R.string.lblStateIdle), getString(R.string.lblResultGetPropsSuccess, firmwarePort.getPortProperties().getVersion()));
-            }
-
-            @Override
-            public void onPortError(FirmwarePort diCommPort, Error error, String s) {
-                updateStateAndResult(getString(R.string.lblStateIdle), getString(R.string.lblResultGetPropsFailed, s));
-            }
-        });
-
-        // Setup time port
-        appliance.getTimePort().addPortListener(new DICommPortListener<TimePort>() {
-
-            @Override
-            public void onPortUpdate(TimePort timePort) {
-                final String datetime = timePort.getPortProperties().datetime;
-                if (datetime == null) {
-                    return;
-                }
-                DateTime dt = new DateTime(datetime);
-                String dateTimeString = DATETIME_FORMATTER.print(dt);
-
-                updateStateAndResult(getString(R.string.lblStateIdle), dateTimeString);
-            }
-
-            @Override
-            public void onPortError(TimePort timePort, Error error, final String s) {
-                Log.e(TAG, "Time port error: " + error.getErrorMessage() + " (" + s + ")");
-
-                updateStateAndResult(getString(R.string.lblStateIdle), getString(R.string.lblResultPortError, s));
             }
         });
     }
