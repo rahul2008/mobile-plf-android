@@ -76,7 +76,6 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     private WeakReference<TemperatureTimeLineFragment> temperatureTimeLineFragmentWeakReference;
 
 
-
     @Override
     public String getActionbarTitle() {
         return "Datasync";
@@ -161,7 +160,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
 
                 setUpBackendSynchronizationLoop();
 
-                if(getActivity()==null) return;
+                if (getActivity() == null) return;
                 if (!mUtility.isOnline(getActivity())) {
 
                     getActivity().runOnUiThread(new Runnable() {
@@ -355,7 +354,9 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
                     if (mContext != null)
                         Toast.makeText(mContext, "UI update Failed", Toast.LENGTH_SHORT).show();
                 }
-                dismissProgressDialog();
+                if (mSharedPreferences.getBoolean("isSynced", false)) {
+                    dismissProgressDialog();
+                }
                 setProgressBarVisibility(false);
             }
         });
@@ -435,7 +436,9 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                dismissProgressDialog();
+                if (mSharedPreferences.getBoolean("isSynced", false)) {
+                    dismissProgressDialog();
+                }
                 //Toast.makeText(getActivity(), "Exception :" + exception.getMessage(), Toast.LENGTH_LONG).show();
             }
         });

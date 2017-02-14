@@ -72,7 +72,10 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        if (mData != null)
+            return mData.size();
+        else
+            return 0;
     }
 
     public void setData(final ArrayList<? extends Moment> data) {
@@ -81,8 +84,8 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
 
     public class DataSyncViewHolder extends RecyclerView.ViewHolder {
         public TextView mTemperature;
-        public  TextView mPhase;
-        public  TextView mLocation;
+        public TextView mPhase;
+        public TextView mLocation;
         public ImageView mOptions;
         public FrameLayout mDotsLayout;
         public TextView mIsSynced;
@@ -92,7 +95,7 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
             mTemperature = (TextView) itemView.findViewById(R.id.time_line_data);
             mPhase = (TextView) itemView.findViewById(R.id.phasedata);
             mLocation = (TextView) itemView.findViewById(R.id.location_detail);
-            mOptions = (ImageView)itemView.findViewById(R.id.dots);
+            mOptions = (ImageView) itemView.findViewById(R.id.dots);
             mDotsLayout = (FrameLayout) itemView.findViewById(R.id.frame);
             mIsSynced = (TextView) itemView.findViewById(R.id.is_synced);
         }
