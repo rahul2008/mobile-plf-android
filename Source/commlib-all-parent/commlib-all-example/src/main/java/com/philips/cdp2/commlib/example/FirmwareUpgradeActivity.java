@@ -73,8 +73,13 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
         if (externalFilesDir != null) {
             firmwareSearchLocationTextView.setText(externalFilesDir.getAbsolutePath());
             final File[] files = externalFilesDir.listFiles(upgradeFilesFilter);
-            fwImageAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, files);
+            if (files != null) {
+                fwImageAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, files);
+            } else {
+                Toast.makeText(FirmwareUpgradeActivity.this, R.string.no_firmware_directory_found, Toast.LENGTH_SHORT).show();
+            }
             firmwareImagesListView.setAdapter(fwImageAdapter);
+        } else {
         }
 
         bleReferenceAppliance.getFirmwarePort().addFirmwarePortListener(firmwarePortListener);
