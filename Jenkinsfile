@@ -27,7 +27,7 @@ node ('Ubuntu && 24.0.3 &&' + node_ext) {
 
 			}
 			stage ('save dependencies list') {
-            	sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
+            	sh 'chmod -R 775 . && cd ./Source/CatalogApp && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
             }
             archiveArtifacts '**/dependencies.lock'
             currentBuild.result = 'SUCCESS'
