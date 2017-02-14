@@ -23,7 +23,7 @@ node ('Ubuntu && 24.0.3 &&' + node_ext) {
 		}
 		try {
 			stage ('build') {
-                sh 'chmod -R 775 . && cd ./Source/CatalogApp && chmod -R 775 ./gradlew && ./gradlew -PenvCode=${JENKINS_ENV} clean assembleDebug && ../../check_and_delete_artifact.sh "uikitLib" && ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease zipDocuments artifactoryPublish'
+                sh 'chmod -R 775 . && cd ./Source/CatalogApp && chmod -R 775 ./gradlew && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug && ../../check_and_delete_artifact.sh "uikitLib" && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease zipDocuments artifactoryPublish'
 
 			}
 			stage ('save dependencies list') {
