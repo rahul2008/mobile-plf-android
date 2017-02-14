@@ -26,4 +26,10 @@
     <item name="uid_progress_indicator_button_button" type="id"/>
     <item name="uid_progress_indicator_button_progress_bar" type="id"/>
     <item name="uid_progress_indicator_button_text" type="id"/>
+    <item name="uid_gridView" type="id"/>
+    <item name="uid_gridView_thumbnail" type="id"/>
+    <item name="uid_gridView_star_icon_holder" type="id"/>
+    <item name="uid_gridView_star_icon" type="id"/>
+    <item name="uid_gridView_title" type="id"/>
+    <item name="uid_gridView_description" type="id"/>
 </resources>

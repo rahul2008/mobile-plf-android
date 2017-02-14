@@ -53,7 +53,7 @@
     <style name="UIDGridViewText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingLeft">@dimen/card_title_padding</item>
+        <item name="android:paddingLeft">@dimen/uid_grid_title_padding</item>
         <item name="android:textIsSelectable">true</item>
         <item name="android:maxLines">1</item>
         <item name="android:lines">1</item>
@@ -61,15 +61,14 @@
         <item name="android:ellipsize">end</item>
         <item name="android:scrollHorizontally">true</item>
         <item name="android:textColor">@color/uidColorWhite</item>
-        <item name="android:includeFontPadding">false</item>
     </style>
     <style name="UIDGridViewTitleText" parent="UIDGridViewText">
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
-        <item name="android:textSize">@dimen/card_title_size</item>
+        <item name="android:textSize">@dimen/uid_grid_title_size</item>
     </style>
     <style name="UIDGridViewDescriptionText" parent="UIDGridViewText">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
-        <item name="android:textSize">@dimen/card_descrption_size</item>
+        <item name="android:textSize">@dimen/uid_grid_descrption_size</item>
     </style>
     <style name="UIDGridGradientStyle">
         <item name="gradientStartColor">@color/uidTransparent</item>

@@ -96,15 +96,15 @@ public class GridAdapter extends ArrayAdapter<GridData> {
             }
 
 
-            ImageView thumbnail = (ImageView) convertView.findViewById(R.id.thumbnail);
+            ImageView thumbnail = (ImageView) convertView.findViewById(R.id.uid_gridView_thumbnail);
             Glide.with(mContext).load(gridData.getThumbnail()).into(thumbnail);
 
-            TextView title = (TextView) convertView.findViewById(R.id.title);
+            TextView title = (TextView) convertView.findViewById(R.id.uid_gridView_title);
             if(title!=null){
                 title.setText(gridData.getTitle());
             }
 
-            TextView description = (TextView) convertView.findViewById(R.id.description);
+            TextView description = (TextView) convertView.findViewById(R.id.uid_gridView_description);
             if(description!= null){
                 description.setText(gridData.getDescription());
             }
@@ -112,7 +112,7 @@ public class GridAdapter extends ArrayAdapter<GridData> {
             android.widget.ImageButton star_icon = new ImageButton(mContext);
 
             if(isSecondary){
-                star_icon = (android.widget.ImageButton) convertView.findViewById(R.id.star_icon);
+                star_icon = (android.widget.ImageButton) convertView.findViewById(R.id.uid_gridView_star_icon);
                 int icon_drawable = gridData.isFavorite()? R.drawable.uid_star_filled : R.drawable.uid_star_outlined;
                 Drawable drawable = VectorDrawableCompat.create(mContext.getResources(), icon_drawable, mContext.getTheme());
                 DrawableCompat.setTint(drawable, ContextCompat.getColor(mContext, R.color.uidColorWhite));

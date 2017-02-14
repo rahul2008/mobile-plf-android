@@ -169,16 +169,17 @@
     <dimen name="uid_date_picker_header_dayofmonth_size">88dp</dimen>
     <dimen name="uid_date_picker_header_dayofweek_size">14dp</dimen>
     <dimen name="uid_date_picker_header_year_size">24dp</dimen>
-    <!-- CardView -->
-    <dimen name="card_margin">5dp</dimen>
-    <dimen name="card_title_padding">16dp</dimen>
-    <dimen name="card_title_size">16sp</dimen>
-    <dimen name="card_descrption_size">12sp</dimen>
-    <dimen name="card_text_height">64dp</dimen>
-    <dimen name="card_image_height">160dp</dimen>
-    <dimen name="card_size">224dp</dimen>
-    <dimen name="star_icon_size">24dp</dimen>
-    <dimen name="star_icon_padding">12dp</dimen>
-    <dimen name="star_holder_width">48dp</dimen>
+
+    <!-- GridView -->
+    <dimen name="uid_grid_title_padding">16dp</dimen>
+    <dimen name="uid_grid_title_size">16sp</dimen>
+    <dimen name="uid_grid_descrption_size">12sp</dimen>
+    <dimen name="uid_grid_text_height">64dp</dimen>
+    <dimen name="uid_grid_star_holder_height">48dp</dimen>
+    <dimen name="uid_grid_image_height">160dp</dimen>
+    <dimen name="uid_grid_item_size">224dp</dimen>
+    <dimen name="uid_grid_star_icon_size">24dp</dimen>
+    <dimen name="uid_grid_star_icon_padding">12dp</dimen>
+    <dimen name="uid_grid_star_holder_width">48dp</dimen>
 
 </resources>

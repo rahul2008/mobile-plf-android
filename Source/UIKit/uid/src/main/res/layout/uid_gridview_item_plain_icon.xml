@@ -1,41 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/card_view"
+    android:id="@id/uid_gridView"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/card_size"
-    android:layout_margin="@dimen/card_margin"
+    android:layout_height="@dimen/uid_grid_item_size"
     android:descendantFocusability="blocksDescendants">
 
     <ImageView
-        android:id="@+id/thumbnail"
+        android:id="@id/uid_gridView_thumbnail"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/card_size"
+        android:layout_height="@dimen/uid_grid_item_size"
         android:adjustViewBounds="true"
-        android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="false"
-        android:contentDescription="@string/gridview_image"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:scaleType="center"
         android:layout_gravity="bottom"/>
     <FrameLayout
-        android:id="@+id/star_icon_holder"
-        android:layout_width="@dimen/star_holder_width"
-        android:layout_height="@dimen/card_text_height"
-        android:layout_alignParentRight="true"
+        android:id="@id/uid_gridView_star_icon_holder"
+        android:layout_width="@dimen/uid_grid_star_holder_width"
+        android:layout_height="@dimen/uid_grid_star_holder_height"
         android:layout_gravity="top"
         >
 
         <ImageButton
-            android:id="@+id/star_icon"
-            android:layout_width="@dimen/star_icon_size"
-            android:layout_height="@dimen/star_icon_size"
+            android:id="@id/uid_gridView_star_icon"
+            android:layout_width="@dimen/uid_grid_star_icon_size"
+            android:layout_height="@dimen/uid_grid_star_icon_size"
             android:layout_gravity="center"
             android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:paddingLeft="@dimen/star_icon_padding"
-            android:paddingRight="@dimen/star_icon_padding"
+            android:paddingLeft="@dimen/uid_grid_star_icon_padding"
+            android:paddingRight="@dimen/uid_grid_star_icon_padding"
             />
     </FrameLayout>
 
