@@ -6,27 +6,15 @@ buildscript {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter'
         }
         dependencies {
-            classpath 'com.android.tools.build:gradle:2.2.0'            
+            classpath 'com.android.tools.build:gradle:2.2.0'
         }
+    }
 }
 
 allprojects {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local'
-        }
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android'
-        }
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
-        }
-		maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
-        
     }
-}
-
 }
 
 task clean(type: Delete) {
