@@ -31,11 +31,16 @@ buildscript {
     }
 }
 
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: envCode)
+objcdp.setEnv(platform: 'android', env: environment )
 archivesBaseName = rootProject.name
 
 allprojects {
