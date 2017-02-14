@@ -29,4 +29,11 @@
     <string name="cancel_firmware">Cancel firmware</string>
     <string name="firmware_images">Firmware images</string>
     <string name="select_a_firmware_image">Please, select a firmware image</string>
+    <string name="uploading_firmware_image">Uploading firmware image to device</string>
+    <string name="checking_firmware">Checking firmware</string>
+    <string name="uploading_firmware_failed">"Uploading firmware failed: "</string>
+    <string name="upload_firmware_finished">Uploading firmware finished</string>
+    <string name="new_firmware_available">"New firmware available: "</string>
+    <string name="deploy_firmware_failed">"Deploying firmware failed: "</string>
+    <string name="firmware_deploy_finished">Firmware deployment finished</string>
 </resources>

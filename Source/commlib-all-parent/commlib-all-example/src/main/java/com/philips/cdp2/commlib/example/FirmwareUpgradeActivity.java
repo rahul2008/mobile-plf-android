@@ -35,7 +35,8 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
     private BleReferenceAppliance bleReferenceAppliance;
     private ProgressBar firmwareUploadProgressBar;
     private ListView firmwareImagesListView;
-    private TextView txtFirmwareSearchLocation;
+    private TextView firmwareSearchLocationTextView;
+    private TextView statusTextView;
     private ArrayAdapter<File> fwImageAdapter;
 
     @Override
@@ -50,7 +51,8 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
             }
         }
 
-        txtFirmwareSearchLocation = (TextView) findViewById(R.id.tvFirmwareSearchLocation);
+        firmwareSearchLocationTextView = (TextView) findViewById(R.id.tvFirmwareSearchLocation);
+        statusTextView = (TextView) findViewById(R.id.tvStatus);
 
         if (bleReferenceAppliance == null) {
             finish();
@@ -72,7 +74,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
 
         final File externalFilesDir = getExternalFilesDir(null);
         if (externalFilesDir != null) {
-            txtFirmwareSearchLocation.setText(externalFilesDir.getAbsolutePath());
+            firmwareSearchLocationTextView.setText(externalFilesDir.getAbsolutePath());
             final File[] files = externalFilesDir.listFiles(upgradeFilesFilter);
             fwImageAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, files);
             firmwareImagesListView.setAdapter(fwImageAdapter);
@@ -157,31 +159,43 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
         @Override
         public void onProgressUpdated(FirmwarePortProperties.FirmwarePortState state, int progress) {
             Log.i(TAG, "onProgressUpdated(" + state.toString() + ", " + progress + ")");
+
+            if (state == FirmwarePortProperties.FirmwarePortState.DOWNLOADING) {
+                statusTextView.setText(R.string.uploading_firmware_image);
+            } else if (state == FirmwarePortProperties.FirmwarePortState.CHECKING) {
+                statusTextView.setText(R.string.checking_firmware);
+            }
+            firmwareUploadProgressBar.setProgress(progress);
         }
 
         @Override
         public void onDownloadFailed(FirmwarePortException exception) {
             Log.i(TAG, "onDownloadFailed(" + exception.getMessage() + ")");
+            statusTextView.setText(getString(R.string.uploading_firmware_failed) + exception.getMessage());
         }
 
         @Override
         public void onDownloadFinished() {
             Log.i(TAG, "onDownloadFinished()");
+            statusTextView.setText(R.string.upload_firmware_finished);
         }
 
         @Override
         public void onFirmwareAvailable(String version) {
             Log.i(TAG, "onFirmwareAvailable(" + version + ")");
+            statusTextView.setText(getString(R.string.new_firmware_available) + version);
         }
 
         @Override
         public void onDeployFailed(FirmwarePortException exception) {
             Log.i(TAG, "onDeployFailed(" + exception.getMessage() + ")");
+            statusTextView.setText(getString(R.string.deploy_firmware_failed) + exception.getMessage());
         }
 
         @Override
         public void onDeployFinished() {
             Log.i(TAG, "onDeployFinished()");
+            statusTextView.setText(R.string.firmware_deploy_finished);
         }
     };
 }
