@@ -5,10 +5,10 @@
 
 package com.philips.commlib.core.port.firmware;
 
-import com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState;
-
 public interface FirmwarePortListener {
-    void onProgressUpdated(FirmwarePortState state, int progress);
+    void onCheckingProgress(int progress);
+
+    void onDownloadProgress(int progress);
 
     void onDownloadFailed(FirmwarePortException exception);
 

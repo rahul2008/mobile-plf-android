@@ -21,6 +21,6 @@ public class FirmwareUpdateStateChecking extends CancelableFirmwareUpdateState {
 
     @Override
     public void onFinish() {
-        operation.onProgress(100);
+        operation.onCheckingProgress(100);
     }
 }

@@ -18,6 +18,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class FirmwarePortStateWaiter {
 
@@ -63,6 +64,8 @@ public class FirmwarePortStateWaiter {
             try {
                 if (latch.await(this.timeoutMillis, TimeUnit.MILLISECONDS)) {
                     return this.portState;
+                } else {
+                    throw new TimeoutException();
                 }
             } catch (InterruptedException e) {
                 throw e;
@@ -70,7 +73,6 @@ public class FirmwarePortStateWaiter {
                 firmwarePort.unsubscribe();
                 firmwarePort.removePortListener(firmwarePortListener);
             }
-            return null;
         }
     }
 

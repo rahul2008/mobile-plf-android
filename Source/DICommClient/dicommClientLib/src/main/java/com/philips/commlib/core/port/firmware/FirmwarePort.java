@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.commlib.core.communication.CommunicationStrategy;
-import com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState;
 import com.philips.commlib.core.port.firmware.operation.FirmwareUpdateOperation;
 import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePullRemote;
 import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePushLocal;
@@ -18,11 +17,6 @@ import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePushLocal;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-
-import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.CHECKING;
-import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.DOWNLOADING;
-import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.IDLE;
-import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.READY;
 
 public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
 
@@ -34,10 +28,18 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
     private final Set<FirmwarePortListener> firmwarePortListeners = new CopyOnWriteArraySet<>();
 
     private final FirmwarePortListener listener = new FirmwarePortListener() {
+
         @Override
-        public void onProgressUpdated(final FirmwarePortState state, final int progress) {
+        public void onCheckingProgress(final int progress) {
             for (FirmwarePortListener listener : firmwarePortListeners) {
-                listener.onProgressUpdated(state, progress);
+                listener.onCheckingProgress(progress);
+            }
+        }
+
+        @Override
+        public void onDownloadProgress(final int progress) {
+            for (FirmwarePortListener listener : firmwarePortListeners) {
+                listener.onDownloadProgress(progress);
             }
         }
 
@@ -178,18 +180,14 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
 
             switch (firmwarePortProperties.getState()) {
                 case DOWNLOADING:
-                    listener.onProgressUpdated(DOWNLOADING, progress);
+                    listener.onDownloadProgress(progress);
                     break;
                 case CHECKING:
-                    listener.onProgressUpdated(CHECKING, progress);
+                    listener.onCheckingProgress(progress);
                     break;
                 default:
                     DICommLog.d(DICommLog.FIRMWAREPORT, "There is no progress for the " + firmwarePortProperties.getState() + " state.");
             }
-        }
-
-        if ((previousFirmwarePortProperties.getState() == DOWNLOADING || previousFirmwarePortProperties.getState() == CHECKING) && (firmwarePortProperties.getState() == READY || firmwarePortProperties.getState() == IDLE)) {
-            listener.onProgressUpdated(CHECKING, 100);
         }
 
         if (!previousFirmwarePortProperties.getUpgrade().equals(firmwarePortProperties.getUpgrade())) {

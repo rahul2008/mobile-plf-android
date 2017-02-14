@@ -81,6 +81,7 @@ public class FirmwareUploader {
         communicationStrategy.putProperties(properties, firmwarePort.getDICommPortName(), firmwarePort.getDICommProductId(), new ResponseHandler() {
             @Override
             public void onSuccess(final String data) {
+                firmwarePort.processResponse(data);
                 HashMap<String, Object> dataMap = new HashMap<>();
 
                 try {

@@ -154,8 +154,12 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
         firmwarePortListener.onDownloadFinished();
     }
 
-    public void onProgress(final int progressPercentage) {
-        firmwarePortListener.onProgressUpdated(stateMap.findByState(this.state), progressPercentage);
+    public void onCheckingProgress(final int progressPercentage) {
+        firmwarePortListener.onCheckingProgress(progressPercentage);
+    }
+
+    public void onDownloadProgress(final int progressPercentage) {
+        firmwarePortListener.onDownloadProgress(progressPercentage);
     }
 
     public void requestState(@NonNull final FirmwarePortState requestedState) {
