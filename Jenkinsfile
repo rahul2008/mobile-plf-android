@@ -26,6 +26,10 @@ node ('Ubuntu && 24.0.3 &&' + node_ext) {
 				 sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} clean assembleDebug && ../../check_and_delete_artifact.sh dataServices && ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease zipDocuments artifactoryPublish'
 				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} clean assembleDebug && ../../check_and_delete_artifact.sh dataServices'
 			}
+			stage ('save dependencies list') {
+            	sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
+            }
+            archiveArtifacts '**/dependencies.lock'
             currentBuild.result = 'SUCCESS'
 
         }
