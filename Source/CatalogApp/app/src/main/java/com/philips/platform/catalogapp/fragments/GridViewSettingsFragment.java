@@ -43,20 +43,6 @@ public class GridViewSettingsFragment extends BaseFragment {
         return gridviewSettingsBinding.getRoot();
     }
 
-//    private void initSavedSettings(){
-//        setSecondaryActionEnabled(gridDataHelper.isSecondaryActionEnabled());
-//        setDarkBackgroundEnabled(gridDataHelper.isDarkBackgroundEnabled());
-//        setEnlargedGutterEnabled(gridDataHelper.isEnlargedGutterEnabled());
-//        setGridDisableEnabled(gridDataHelper.isSetDisableStateEnabled());
-//    }
-
-    public void setSeparatorEnabled(boolean checked) {
-
-    }
-    public void setHeaderEnabled(boolean checked) {
-
-    }
-
     @Override
     public void onPause() {
         super.onPause();
