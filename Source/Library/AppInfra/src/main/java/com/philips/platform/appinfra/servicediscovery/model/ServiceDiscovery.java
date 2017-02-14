@@ -335,6 +335,7 @@ public class ServiceDiscovery {
                 urls = getMatchByLanguage().getConfigs().get(config).getUrls();
             }
             for (int i = 0; i < serviceIds.size(); i++) {
+                ServiceDiscoveryService sdService = new ServiceDiscoveryService();
                 if (urls != null) {
                     if (urls.get(serviceIds.get(i)) != null) {
                         String serviceUrlval = urls.get(serviceIds.get(i));
@@ -344,26 +345,25 @@ public class ServiceDiscovery {
                         if (replacement != null && replacement.size() > 0) {
                             URL replacedUrl;
                             try {
-                                ServiceDiscoveryService sdService = new ServiceDiscoveryService();
                                 replacedUrl = mServiceDiscoveryManager.applyURLParameters(new URL(serviceUrlval), replacement);
                                 if (replacedUrl != null)
-                                    sdService.init(modelLocale,replacedUrl.toString());
+                                    sdService.init(modelLocale, replacedUrl.toString());
                                 responseMap.put(serviceIds.get(i), sdService);
                             } catch (MalformedURLException e) {
                                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
                                         "ServiceDiscovery URL error",
                                         "Malformed URL");
+                                setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.INVALID_RESPONSE,
+                                        "MalformedURLException");
                             }
                         } else {
-                            ServiceDiscoveryService sdService = new ServiceDiscoveryService();
                             sdService.init(modelLocale, serviceUrlval);
                             responseMap.put(serviceIds.get(i), sdService);
                         }
                     } else {
-                        ServiceDiscoveryService eService = new ServiceDiscoveryService();
-                        eService.init(modelLocale,null);
-                        eService.setmError("ServiceDiscovery cannot find the URL for serviceId" + " " + serviceIds.get(i));
-                        responseMap.put(serviceIds.get(i), eService);
+                        sdService.init(modelLocale, null);
+                        sdService.setmError("ServiceDiscovery cannot find the URL for serviceId" + " " + serviceIds.get(i));
+                        responseMap.put(serviceIds.get(i), sdService);
 
                     }
                 }

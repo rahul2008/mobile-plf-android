@@ -30,19 +30,6 @@ public class InternationalizationManager implements InternationalizationInterfac
     @Override
     public String getUILocaleString() {
         Locale mLocale = Locale.getDefault();
-       // return mLocale.getLanguage() + "_" + mLocale.getCountry();
         return mLocale.getLanguage() + (mLocale.getCountry() == null ? "" : "_" + mLocale.getCountry());
     }
-
-//    @Override
-//    public LocaleList getLocaleList() {
-//        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            return LocaleList.getDefault();
-//        }else {
-//            return null;
-//        }
-//
-//    }
-
-
 }
