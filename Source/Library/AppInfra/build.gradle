@@ -2,8 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'jacoco'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
 
 def coverageSourceDirs = [
         '../AppInfra/src/main/java'
@@ -13,7 +11,7 @@ buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven {
-            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/plugins-release-local"
+            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
             credentials {
                 username = "readonly"
                 password = "readonly"
@@ -23,36 +21,65 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.0'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.0', changing: true
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
     }
 }
+
+apply plugin: 'com.jfrog.artifactory-upload'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'maven-publish'
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: envCode)
-archivesBaseName = rootProject.name
+
 
 allprojects {
     repositories {
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
-        maven { url objcdp.getArtifactoryUrl() }
-    }
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
+        maven {
+            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
+            credentials {
+                username = "readonly"
+                password = "readonly"
+            }
+        }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local'
+        }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android'
+        }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
+        }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android'
+        }
 
-    apply plugin: 'com.jfrog.artifactory'
-    group = 'com.philips.platform.appinfra'
+        apply plugin: 'com.jfrog.artifactory'
+        group = 'com.philips.platform.appinfra'
+
+        flatDir {
+            dirs 'libs'
+        }
+    }
 }
+
 
 group = 'com.philips.cdp'
 version = objcdp.getVersion()
 
 artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
+    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
     publish {
+        contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
         repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
+            repoKey = objcdp.getArtifactoryRepoKey('android')
             username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
             defaults {
@@ -60,16 +87,16 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('aar')
             }
         }
     }
     resolve {
         repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
+            repoKey = 'libs-release-local'
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 //=======To zip and upload "Documents/External" ==STARTS=============
@@ -79,43 +106,14 @@ artifacts {
 }
 
 task zipDocuments(type: Zip) {
-    from files(objcdp.getExternalDocPath()) {
+    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
+    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
+    from files(docfiles) {
         baseName = project.name
         classifier 'docs'
     }
 }
 //=======To zip and upload "Documents/External" ==ENDS===========
-
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId group
-            version = version
-            artifactId archivesBaseName
-
-            artifact zipDocuments
-
-            if (new File("$buildDir/outputs/aar/${archivesBaseName}-release.aar").exists()) {
-                artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-            } else if (new File("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar").exists()) {
-                artifact("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar")
-            } else if (new File("$buildDir/outputs/aar/${archivesBaseName}-debug.aar").exists()) {
-                artifact("$buildDir/outputs/aar/${archivesBaseName}-debug.aar")
-            } else {
-            }
-
-            pom.withXml{
-                def dependenciesNode = asNode().appendNode('dependencies')
-                configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleGroup)
-                    dependencyNode.appendNode('artifactId', it.moduleName)
-                    dependencyNode.appendNode('version', it.moduleVersion)
-                }
-            }
-        }
-    }
-}
 
 android {
     signingConfigs {
@@ -219,6 +217,39 @@ dependencies {
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
 }
 
+/*task findbugs(type: FindBugs, dependsOn: assembleDebug) {
+
+    description 'Run findbugs'
+    group 'verification'
+    ignoreFailures = true
+    classes = fileTree('build/intermediates/classes/debug')
+    source = fileTree('src/main/java')
+    classpath = files()
+
+    effort = 'max'
+
+    excludeFilter = file("findbugs-exclude.xml")
+
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+}
+
+task pmd(type: Pmd, dependsOn: assembleDebug) {
+
+    description 'Run pmd'
+    group 'verification'
+    ignoreFailures = true
+    ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
+    source = fileTree('src/main/java')
+
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+
+}*/
 task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     group = "Reporting"
 
@@ -247,4 +278,6 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
         xml.enabled = true
         html.enabled = true
     }
+
 }
+
