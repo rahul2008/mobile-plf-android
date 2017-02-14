@@ -11,12 +11,12 @@ package com.philips.cdp.registration.controller;
 import android.content.Context;
 
 import com.janrain.android.Jump;
-import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.JanrainInitializer;
 import com.philips.cdp.registration.update.UpdateUser;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
 
@@ -42,7 +42,7 @@ public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
     }
 
     protected void performActualUpdate() {
-        CaptureRecord userData = Jump.getSignedInUser();
+        JSONObject userData = getCurrentUserAsJsonObject();
         mUpdatedUserdata = Jump.getSignedInUser();
         try {
             if (null != mUpdatedUserdata) {
