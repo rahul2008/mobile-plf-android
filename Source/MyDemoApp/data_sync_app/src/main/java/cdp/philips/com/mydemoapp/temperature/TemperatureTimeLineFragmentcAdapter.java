@@ -73,7 +73,10 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        if (mData != null)
+            return mData.size();
+        else
+            return 0;
     }
 
     public void setData(final ArrayList<? extends Moment> data) {
