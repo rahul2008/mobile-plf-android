@@ -27,7 +27,6 @@ import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
 import com.philips.cdp.registration.coppa.base.CoppaStatus;
-import com.philips.cdp.registration.coppa.ui.activity.RegistrationCoppaActivity;
 import com.philips.cdp.registration.coppa.utils.AppTaggingCoppaPages;
 import com.philips.cdp.registration.coppa.utils.CoppaConstants;
 import com.philips.cdp.registration.events.NetworStateListener;
@@ -37,6 +36,8 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
+import com.philips.cdp.registration.ui.utils.NetworkStateReceiver;
+import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
@@ -63,6 +64,8 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
     }
 
     private UserRegistrationUIEventListener userRegistrationCoppaUIEventListener;
+
+    private NetworkStateReceiver mNetworkReceiver = new NetworkStateReceiver();
 
     private Activity mActivity;
     private static boolean isParentalConsent = true;
@@ -334,12 +337,15 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                 getParentActivity().getApplicationContext(), "doPopBackStack")) {
             performReplaceWithPerentalAccess();
         }
+
+        NetworkUtility.registerNetworkListener(mActivity.getApplicationContext(),mNetworkReceiver);
     }
 
     @Override
     public void onPause() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaFragment : onPause");
         super.onPause();
+        NetworkUtility.unRegisterNetworkListener(mActivity.getApplicationContext(),mNetworkReceiver);
     }
 
     @Override

@@ -35,6 +35,8 @@ import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
 import com.philips.cdp.registration.ui.social.MergeAccountFragment;
 import com.philips.cdp.registration.ui.social.MergeSocialToSocialAccountFragment;
+import com.philips.cdp.registration.ui.utils.NetworkStateReceiver;
+import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
@@ -69,6 +71,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     }
 
     private UserRegistrationUIEventListener userRegistrationUIEventListener;
+
+    private NetworkStateReceiver mNetworkReceiver = new NetworkStateReceiver();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -116,12 +120,14 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onResume");
 
         super.onResume();
+        NetworkUtility.registerNetworkListener(mActivity.getApplicationContext(),mNetworkReceiver);
     }
 
     @Override
     public void onPause() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onPause");
         super.onPause();
+        NetworkUtility.unRegisterNetworkListener(mActivity.getApplicationContext(),mNetworkReceiver);
     }
 
     @Override
