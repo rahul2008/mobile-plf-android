@@ -15,7 +15,6 @@ import com.philips.platform.baseapp.screens.dataservices.database.datatypes.Mome
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentType;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristicsDetail;
-import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsent;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurement;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementDetail;
@@ -32,7 +31,6 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSetti
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynchronisationData;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
@@ -41,7 +39,6 @@ import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.utils.UuidGenerator;
 
 import org.joda.time.DateTime;
@@ -71,15 +68,6 @@ public class OrmCreator implements BaseAppDataCreator {
         return new OrmMoment(creatorId, subjectId, ormMomentType);
     }
 
-    /*@NonNull
-    @Override
-    public OrmMoment createMomentWithoutUUID(@NonNull final String creatorId, @NonNull final String subjectId,
-                                             @NonNull final String type) {
-        final OrmMomentType ormMomentType = new OrmMomentType(MomentType.getIDFromDescription(type), type);
-
-        return new OrmMoment(creatorId, subjectId, ormMomentType);
-    }*/
-
     @Override
     @NonNull
     public MomentDetail createMomentDetail(@NonNull final String type,
@@ -87,18 +75,6 @@ public class OrmCreator implements BaseAppDataCreator {
         return createMomentDetail(type, (OrmMoment) moment);
     }
 
-//    @NonNull
-//    @Override
-//    public Measurement createMeasurement(@NonNull String type, @NonNull Moment moment) {
-//        return createMeasurement(type, (OrmMoment) moment);
-//    }
-
-   /* @Override
-    @NonNull
-    public Measurement createMeasurement(@NonNull final String type,
-                                         @NonNull final Moment moment) {
-        return createMeasurement(type, (OrmMoment) moment);
-    }*/
 
     @Override
     @NonNull
@@ -139,35 +115,24 @@ public class OrmCreator implements BaseAppDataCreator {
         return new OrmSynchronisationData(guid, inactive, lastModifiedTime, version);
     }
 
+
     @NonNull
     @Override
-    public Consent createConsent(@NonNull String creatorId) {
-        return new OrmConsent(creatorId);
+    public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber) {
+
+        return new OrmConsentDetail(type, status, version, deviceIdentificationNumber);
     }
 
     @NonNull
     @Override
-    public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber, boolean isSynchronized, @NonNull Consent consent) {
-
-        return new OrmConsentDetail(type, status, version, deviceIdentificationNumber, (OrmConsent) consent, isSynchronized);
+    public Characteristics createCharacteristics(@NonNull String type, @NonNull String value, @NonNull Characteristics characteristics) {
+        return new OrmCharacteristics(type,value,(OrmCharacteristics) characteristics);
     }
 
     @NonNull
     @Override
-    public UserCharacteristics createCharacteristics(@NonNull String creatorId) {
-        return new OrmCharacteristics(creatorId);
-    }
-
-    @NonNull
-    @Override
-    public Characteristics createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics, @NonNull Characteristics characteristics) {
-        return new OrmCharacteristicsDetail(type,value,(OrmCharacteristics) userCharacteristics,(OrmCharacteristicsDetail) characteristics);
-    }
-
-    @NonNull
-    @Override
-    public Characteristics createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics) {
-        return new OrmCharacteristicsDetail(type,value,(OrmCharacteristics) userCharacteristics);
+    public Characteristics createCharacteristics(@NonNull String type, @NonNull String value) {
+        return new OrmCharacteristics(type,value);
     }
 
     @NonNull
@@ -182,17 +147,6 @@ public class OrmCreator implements BaseAppDataCreator {
         OrmMomentDetailType ormMomentDetailType = new OrmMomentDetailType(MomentDetailType.getIDFromDescription(type), type);
         return new OrmMomentDetail(ormMomentDetailType, moment);
     }
-
-    /*@NonNull
-    public OrmMeasurement createMeasurement(@NonNull final MeasurementType type,
-    @NonNull
-    public OrmMeasurement createMeasurement(@NonNull final String type,
-                                            @NonNull final OrmMoment moment) {
-        OrmMeasurementType ormMeasurementType = new OrmMeasurementType(MeasurementType.getIDFromDescription(type),
-                type,
-                MeasurementType.getUnitFromDescription(type));
-        return new OrmMeasurement(ormMeasurementType, moment);
-    }*/
 
     @NonNull
     public OrmMeasurement createMeasurement(@NonNull final String type,
