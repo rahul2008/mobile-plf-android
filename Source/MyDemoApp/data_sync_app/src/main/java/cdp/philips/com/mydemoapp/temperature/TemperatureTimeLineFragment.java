@@ -115,7 +115,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         setUpBackendSynchronizationLoop();
 
         if (!mUtility.isOnline(getContext())) {
-            Toast.makeText(getContext(), "Please check your connection", Toast.LENGTH_LONG).show();
+            showToastOnUiThread("Please check your connection");
             return;
         }
 
@@ -329,13 +329,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void dBChangeFailed(final Exception e) {
         if (getActivity() == null) return;
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                Toast.makeText(getActivity(), "Exception :" + e.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
+        showToastOnUiThread("Exception :" + e.getMessage());
     }
 
     @Override
@@ -364,5 +358,11 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                // Toast.makeText(getActivity(), "Exception :" + exception.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void showToastOnUiThread(String msg){
+
+        if(getActivity() == null) return;
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
     }
 }
