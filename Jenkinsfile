@@ -36,6 +36,10 @@ node ('android_pipeline &&' + node_ext) {
 				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} clean assembleDebug assembleRelease'
 			}
 			}
+			stage ('save dependencies list') {
+            	sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
+            }
+            archiveArtifacts '**/dependencies.lock'
             currentBuild.result = 'SUCCESS'
         }
 
