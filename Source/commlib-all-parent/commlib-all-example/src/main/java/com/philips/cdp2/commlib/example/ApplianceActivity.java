@@ -17,7 +17,6 @@ import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.commlib.example.appliance.BleReferenceAppliance;
 import com.philips.cdp2.commlib.example.appliance.TimePort;
 import com.philips.commlib.core.appliance.Appliance;
-import com.philips.commlib.core.port.firmware.FirmwarePort;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -36,8 +35,11 @@ public final class ApplianceActivity extends AppCompatActivity {
     private static final String PROPERTY_DATETIME = "datetime";
     public static final String CPPID = "cppid";
     private final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm:ss");
+    private int requestCount;
 
     private TextView txtResult;
+    private TextView txtPerformanceProgress;
+    private CompoundButton switchLoopGet;
 
     private BleReferenceAppliance bleReferenceAppliance;
 
@@ -49,10 +51,13 @@ public final class ApplianceActivity extends AppCompatActivity {
         findViewById(R.id.btnGetTime).setOnClickListener(buttonClickListener);
         findViewById(R.id.btnSetTime).setOnClickListener(buttonClickListener);
 
+        txtResult = (TextView) findViewById(R.id.txtResult);
+        txtPerformanceProgress = (TextView) findViewById(R.id.txtPerformanceProgress);
+        switchLoopGet = (CompoundButton) findViewById(R.id.switchLoopGet);
+
         ((CompoundButton) findViewById(R.id.switchStayConnected)).setOnCheckedChangeListener(connectionCheckedChangeListener);
         ((CompoundButton) findViewById(R.id.switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
-
-        txtResult = (TextView) findViewById(R.id.txtResult);
+        switchLoopGet.setOnCheckedChangeListener(loopGetCheckedChangeListener);
 
         final Set<? extends Appliance> availableAppliances = ((App) getApplication()).getCommCentral().getApplianceManager().getAvailableAppliances();
         for (Appliance appliance: availableAppliances) {
@@ -120,6 +125,15 @@ public final class ApplianceActivity extends AppCompatActivity {
         }
     };
 
+    private final CompoundButton.OnCheckedChangeListener loopGetCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
+            if (isChecked) {
+                bleReferenceAppliance.getTimePort().reloadProperties();
+            }
+        }
+    };
+
     private void setupAppliance(@NonNull BleReferenceAppliance appliance) {
         boolean stayConnected = ((CompoundButton) findViewById(R.id.switchStayConnected)).isChecked();
 
@@ -128,18 +142,6 @@ public final class ApplianceActivity extends AppCompatActivity {
         } else {
             appliance.disableCommunication();
         }
-
-        appliance.getFirmwarePort().addPortListener(new DICommPortListener<FirmwarePort>() {
-            @Override
-            public void onPortUpdate(FirmwarePort firmwarePort) {
-                updateResult(getString(R.string.lblResultGetPropsSuccess, firmwarePort.getPortProperties().getVersion()));
-            }
-
-            @Override
-            public void onPortError(FirmwarePort diCommPort, Error error, String s) {
-                updateResult(getString(R.string.lblResultGetPropsFailed, s));
-            }
-        });
 
         appliance.getTimePort().addPortListener(new DICommPortListener<TimePort>() {
 
@@ -153,6 +155,10 @@ public final class ApplianceActivity extends AppCompatActivity {
                 String dateTimeString = DATETIME_FORMATTER.print(dt);
 
                 updateResult(dateTimeString);
+
+                if (switchLoopGet.isChecked()) {
+                    timePort.reloadProperties();
+                }
             }
 
             @Override
@@ -165,11 +171,8 @@ public final class ApplianceActivity extends AppCompatActivity {
     }
 
     private void updateResult(final String result) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                txtResult.setText(result);
-            }
-        });
+        requestCount++;
+        txtPerformanceProgress.setText("Count: " + requestCount);
+        txtResult.setText("Last result: " + result);
     }
 }

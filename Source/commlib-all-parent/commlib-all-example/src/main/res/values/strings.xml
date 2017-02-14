@@ -23,4 +23,5 @@
 
     <string name="switchStayConnected">Stay connected</string>
     <string name="switchSubscription">Subscribe</string>
+    <string name="switchLoopGet">Continuously get time</string>
 </resources>

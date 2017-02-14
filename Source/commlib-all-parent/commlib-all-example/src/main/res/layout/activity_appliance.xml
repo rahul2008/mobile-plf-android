@@ -13,10 +13,17 @@
         android:id="@+id/txtResult"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/switchSubscription"
         android:layout_marginTop="12dp"
         android:textSize="18sp"
-        tools:text="Result here" />
+        android:text="Last result: " />
+
+    <TextView
+        android:id="@+id/txtPerformanceProgress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textSize="18sp"
+        android:text="Count: 0"/>
 
     <LinearLayout
         android:id="@+id/timeButtons"
@@ -44,10 +51,17 @@
     </LinearLayout>
 
     <Switch
+        android:id="@+id/switchLoopGet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="12dp"
+        android:paddingTop="8dp"
+        android:text="@string/switchLoopGet" />
+
+    <Switch
         android:id="@+id/switchSubscription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/timeButtons"
         android:paddingBottom="12dp"
         android:paddingTop="8dp"
         android:text="@string/switchSubscription" />
