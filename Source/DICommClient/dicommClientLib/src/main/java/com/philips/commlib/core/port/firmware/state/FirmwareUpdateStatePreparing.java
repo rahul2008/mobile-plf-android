@@ -15,7 +15,7 @@ public class FirmwareUpdateStatePreparing extends CancelableFirmwareUpdateState 
     }
 
     @Override
-    public void execute(FirmwareUpdateState previousState) {
+    public void start(FirmwareUpdateState previousState) {
         operation.waitForNextState();
     }
 }

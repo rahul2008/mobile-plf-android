@@ -17,7 +17,7 @@ public class FirmwareUpdateStateDownloading extends CancelableFirmwareUpdateStat
     }
 
     @Override
-    public void execute(FirmwareUpdateState previousState) {
+    public void start(FirmwareUpdateState previousState) {
         try {
             operation.pushData();
             operation.onProgress(100);

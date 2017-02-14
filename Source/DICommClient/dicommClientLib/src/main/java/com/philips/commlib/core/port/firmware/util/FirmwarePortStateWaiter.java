@@ -6,7 +6,6 @@
 package com.philips.commlib.core.port.firmware.util;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.port.DICommPortListener;
@@ -18,7 +17,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 public class FirmwarePortStateWaiter {
@@ -27,7 +25,7 @@ public class FirmwarePortStateWaiter {
     private final FirmwarePort firmwarePort;
     private final ExecutorService executor;
 
-    private class WaitTask implements Callable<FirmwarePortState> {
+    private class StateWaitTask implements Callable<FirmwarePortState> {
 
         private FirmwarePortState initialState;
         private FirmwarePortState portState;
@@ -51,7 +49,7 @@ public class FirmwarePortStateWaiter {
             }
         };
 
-        WaitTask(FirmwarePortState initialState, long timeoutMillis) {
+        StateWaitTask(FirmwarePortState initialState, long timeoutMillis) {
             this.initialState = initialState;
             this.timeoutMillis = timeoutMillis;
             this.latch = createCountDownLatch();
@@ -66,7 +64,8 @@ public class FirmwarePortStateWaiter {
                 if (latch.await(this.timeoutMillis, TimeUnit.MILLISECONDS)) {
                     return this.portState;
                 }
-            } catch (InterruptedException ignored) {
+            } catch (InterruptedException e) {
+                throw e;
             } finally {
                 firmwarePort.unsubscribe();
                 firmwarePort.removePortListener(firmwarePortListener);
@@ -86,22 +85,22 @@ public class FirmwarePortStateWaiter {
      * @param initialState  the initial state
      * @param timeoutMillis the timeout in milliseconds
      * @return the new state, or null if new state could not be obtained or a timeout occurred.
+     * @throws StateWaitException if an error occurred while waiting for the new state
      */
-    @Nullable
-    public FirmwarePortState waitForNewState(FirmwarePortState initialState, long timeoutMillis) {
+    @NonNull
+    public FirmwarePortState waitForNextState(FirmwarePortState initialState, long timeoutMillis) throws StateWaitException {
         final FirmwarePortState currentState = this.firmwarePort.getPortProperties().getState();
 
         if (initialState != currentState) {
             return currentState;
         }
 
-        WaitTask waitTask = new WaitTask(initialState, timeoutMillis);
-        Future<FirmwarePortState> future = executor.submit(waitTask);
+        final StateWaitTask stateWaitTask = new StateWaitTask(initialState, timeoutMillis);
 
         try {
-            return future.get();
+            return executor.submit(stateWaitTask).get();
         } catch (ExecutionException | InterruptedException e) {
-            return null;
+            throw new StateWaitException(e);
         }
     }
 

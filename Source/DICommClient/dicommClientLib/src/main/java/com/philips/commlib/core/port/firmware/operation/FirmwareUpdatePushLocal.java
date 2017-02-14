@@ -23,6 +23,7 @@ import com.philips.commlib.core.port.firmware.state.FirmwareUpdateStateProgrammi
 import com.philips.commlib.core.port.firmware.state.FirmwareUpdateStateReady;
 import com.philips.commlib.core.port.firmware.util.FirmwareUploader;
 import com.philips.commlib.core.port.firmware.util.FirmwarePortStateWaiter;
+import com.philips.commlib.core.port.firmware.util.StateWaitException;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -58,7 +59,7 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
     @NonNull
     private final byte[] firmwareData;
     @NonNull
-    private final StateMap stateMap = new StateMap();
+    private final StateMap stateMap;
     @NonNull
     private final CommunicationStrategy communicationStrategy;
     @NonNull
@@ -73,23 +74,27 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
                                    @NonNull final CommunicationStrategy communicationStrategy,
                                    @NonNull final FirmwarePortListener firmwarePortListener,
                                    @NonNull byte[] firmwareData) {
+        this.firmwarePort = firmwarePort;
         this.communicationStrategy = communicationStrategy;
         this.firmwarePortListener = firmwarePortListener;
-        setupStates();
-
-        this.firmwarePort = firmwarePort;
 
         if (firmwareData.length == 0) {
             throw new IllegalArgumentException("Firmware data has zero length.");
         }
         this.firmwareData = firmwareData;
         this.firmwarePortStateWaiter = new FirmwarePortStateWaiter(executor, this.firmwarePort);
+        this.stateMap = new StateMap();
 
-        // TODO check device state first
+        initStateMap();
+        initDeviceState();
+    }
+
+    private void initDeviceState() {
+        // TODO check for actual device state
         this.state = stateMap.get(IDLE);
     }
 
-    private void setupStates() {
+    private void initStateMap() {
         stateMap.put(CANCELING, new FirmwareUpdateStateCanceling(this));
         stateMap.put(CHECKING, new FirmwareUpdateStateChecking(this));
         stateMap.put(DOWNLOADING, new FirmwareUpdateStateDownloading(this));
@@ -102,7 +107,7 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
 
     @Override
     public void execute() {
-        this.state.execute(null);
+        this.state.start(null);
     }
 
     @Override
@@ -123,7 +128,7 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
         this.firmwarePortListener.onDeployFinished();
     }
 
-    public void onOperationFinished(){
+    public void onOperationFinished() {
         this.firmwarePort.finishFirmwareUpdateOperation();
     }
 
@@ -132,8 +137,8 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
         if (portProperties == null) {
             return;
         }
-        String statusMsg = portProperties.getStatusMessage();
-        firmwarePortListener.onDownloadFailed(new FirmwarePortException(statusMsg));
+        final String statusMessage = portProperties.getStatusMessage();
+        firmwarePortListener.onDownloadFailed(new FirmwarePortException(statusMessage));
     }
 
     public void onDeployFailed() {
@@ -141,8 +146,8 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
         if (portProperties == null) {
             return;
         }
-        String statusMsg = portProperties.getStatusMessage();
-        firmwarePortListener.onDownloadFailed(new FirmwarePortException(statusMsg));
+        final String statusMessage = portProperties.getStatusMessage();
+        firmwarePortListener.onDownloadFailed(new FirmwarePortException(statusMessage));
     }
 
     public void onDownloadFinished() {
@@ -158,18 +163,17 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
     }
 
     public void waitForNextState() {
-        FirmwarePortState currentState = stateMap.findByState(this.state);
-        final FirmwarePortState newState = firmwarePortStateWaiter.waitForNewState(currentState, TIMEOUT_MILLIS);
+        FirmwareUpdateState previousState = this.state;
+        FirmwarePortState currentPortState = stateMap.findByState(this.state);
 
-        if (newState == null) {
-            // TODO cancel ?
-            // TODO throw StateWaitException?
-            cancel();
-        } else {
-            FirmwareUpdateState previousState = this.state;
-            this.state.onStateEnd();
+        try {
+            final FirmwarePortState newState = firmwarePortStateWaiter.waitForNextState(currentPortState, TIMEOUT_MILLIS);
+
+            this.state.onFinish();
             this.state = stateMap.get(newState);
-            this.state.execute(previousState);
+            this.state.start(previousState);
+        } catch (StateWaitException e) {
+            // TODO handle
         }
     }
 }

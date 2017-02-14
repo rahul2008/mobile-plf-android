@@ -85,14 +85,14 @@ public class FirmwarePortStateWaiterTest {
     @Test
     public void whenPortIsInExpectedStateThenWaiterShouldReturnTrue() {
         when(portPropertiesMock.getState()).thenReturn(PROGRAMMING);
-        FirmwarePortState state = firmwarePortStateWaiter.waitForNewState(IDLE, TIMEOUT_MILLIS);
+        FirmwarePortState state = firmwarePortStateWaiter.waitForNextState(IDLE, TIMEOUT_MILLIS);
 
         assertFalse(state == IDLE);
     }
 
     @Test
     public void whenPortIsNotInExpectedStateThenSubscribeIsCalled() {
-        firmwarePortStateWaiter.waitForNewState(IDLE, TIMEOUT_MILLIS);
+        firmwarePortStateWaiter.waitForNextState(IDLE, TIMEOUT_MILLIS);
 
         verify(portMock).subscribe();
     }
@@ -117,14 +117,14 @@ public class FirmwarePortStateWaiterTest {
             }
         }).when(mockCountDownLatch).countDown();
 
-        FirmwarePortState state = firmwarePortStateWaiter.waitForNewState(IDLE, TIMEOUT_MILLIS);
+        FirmwarePortState state = firmwarePortStateWaiter.waitForNextState(IDLE, TIMEOUT_MILLIS);
 
         assertTrue(state == DOWNLOADING);
     }
 
     @Test
     public void whenTimeoutThenAwaitReturnsFalse() {
-        assertNull(firmwarePortStateWaiter.waitForNewState(IDLE, TIMEOUT_MILLIS));
+        assertNull(firmwarePortStateWaiter.waitForNextState(IDLE, TIMEOUT_MILLIS));
     }
 
     private FirmwarePortStateWaiter createFirmwarePortStateWaiter() {

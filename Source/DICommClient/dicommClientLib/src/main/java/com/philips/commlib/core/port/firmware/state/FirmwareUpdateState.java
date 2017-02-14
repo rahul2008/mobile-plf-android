@@ -17,17 +17,17 @@ public abstract class FirmwareUpdateState {
         this.operation = operation;
     }
 
-    public abstract void execute(@Nullable FirmwareUpdateState previousState);
+    public abstract void start(@Nullable FirmwareUpdateState previousState);
 
     public void cancel() {
-        throw new UnsupportedOperationException("Canceling not allowed in this state.");
+        throw new IllegalStateException("Canceling not allowed in this state.");
     }
 
     public void deploy() {
-        throw new UnsupportedOperationException("Deploying not allowed in this state.");
+        throw new IllegalStateException("Deploying not allowed in this state.");
     }
 
-    public void onStateEnd() {
+    public void onFinish() {
 
     }
 }

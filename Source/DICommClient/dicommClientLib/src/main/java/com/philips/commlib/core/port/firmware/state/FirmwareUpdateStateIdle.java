@@ -17,7 +17,7 @@ public class FirmwareUpdateStateIdle extends FirmwareUpdateState {
     }
 
     @Override
-    public void execute(FirmwareUpdateState previousState) {
+    public void start(FirmwareUpdateState previousState) {
         if (previousState == null) {
             operation.requestState(DOWNLOADING);
             operation.waitForNextState();

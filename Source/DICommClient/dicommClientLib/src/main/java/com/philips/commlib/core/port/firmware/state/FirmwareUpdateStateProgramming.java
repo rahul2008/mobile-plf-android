@@ -15,7 +15,7 @@ public class FirmwareUpdateStateProgramming extends FirmwareUpdateState {
     }
 
     @Override
-    public void execute(FirmwareUpdateState previousState) {
+    public void start(FirmwareUpdateState previousState) {
         // TODO do the actual programming
 
         operation.waitForNextState();

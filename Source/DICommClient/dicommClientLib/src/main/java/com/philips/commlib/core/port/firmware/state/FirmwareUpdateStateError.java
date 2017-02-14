@@ -16,7 +16,7 @@ public class FirmwareUpdateStateError extends FirmwareUpdateState {
     }
 
     @Override
-    public void execute(FirmwareUpdateState previousState) {
+    public void start(FirmwareUpdateState previousState) {
         if (previousState instanceof FirmwareUpdateStatePreparing ||
                 previousState instanceof FirmwareUpdateStateDownloading ||
                 previousState instanceof FirmwareUpdateStateChecking) {

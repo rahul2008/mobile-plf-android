@@ -15,12 +15,12 @@ public class FirmwareUpdateStateChecking extends CancelableFirmwareUpdateState {
     }
 
     @Override
-    public void execute(FirmwareUpdateState previousState) {
+    public void start(FirmwareUpdateState previousState) {
         operation.waitForNextState();
     }
 
     @Override
-    public void onStateEnd() {
+    public void onFinish() {
         operation.onProgress(100);
     }
 }
