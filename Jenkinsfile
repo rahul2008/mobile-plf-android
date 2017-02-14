@@ -34,6 +34,8 @@ node('Android') {
         }
 
         stage('Tests') {
+            sh 'rm -rf android-shinelib/Source/ShineLib/shinelib/build/test-results'
+            sh 'rm -rf dicomm-android/Source/DICommClient/dicommClientLib/build/test-results'
             sh 'rm -rf android-commlib-all/Source/commlib-all-parent/commlib-all/build/test-results'
             sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew testDebug || true'
 
