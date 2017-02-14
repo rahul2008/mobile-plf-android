@@ -360,9 +360,17 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         });
     }
 
-    private void showToastOnUiThread(String msg){
+    private void showToastOnUiThread(final String msg){
 
         if(getActivity() == null) return;
-        Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 }
