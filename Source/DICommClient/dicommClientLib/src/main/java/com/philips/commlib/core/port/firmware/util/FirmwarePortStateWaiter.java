@@ -5,7 +5,6 @@
 
 package com.philips.commlib.core.port.firmware.util;
 
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
@@ -106,23 +105,21 @@ public class FirmwarePortStateWaiter {
         FirmwarePortProperties firmwarePortProperties;
         firmwarePortProperties = this.firmwarePort.getPortProperties();
 
-        while (firmwarePortProperties == null) {
-            firmwarePortProperties = this.firmwarePort.getPortProperties();
-            SystemClock.sleep(100);
+        if (firmwarePortProperties != null) {
+            final FirmwarePortState currentState = firmwarePortProperties.getState();
+            DICommLog.d(DICommLog.FIRMWAREPORT, String.format(Locale.US, "waitForNextState - from [%s] to [%s]", initialState.toString(), currentState.toString()));
 
-            // FIXME do this in a timer task
+            if (currentState != initialState) {
+                return currentState;
+            }
         }
 
-        final FirmwarePortState currentState = firmwarePortProperties.getState();
-        DICommLog.d(DICommLog.FIRMWAREPORT, String.format(Locale.US, "waitForNextState - initial state [%s], current state [%s]", initialState.toString(), currentState.toString()));
-
-        if (currentState != initialState) {
-            return initialState;
-        }
         final StateWaitTask stateWaitTask = new StateWaitTask(initialState, timeoutMillis);
 
         try {
-            return executor.submit(stateWaitTask).get();
+            final FirmwarePortState currentState = executor.submit(stateWaitTask).get();
+            DICommLog.d(DICommLog.FIRMWAREPORT, String.format(Locale.US, "waitForNextState - from [%s] to [%s]", initialState.toString(), currentState.toString()));
+            return currentState;
         } catch (ExecutionException | InterruptedException e) {
             throw new StateWaitException(e);
         }
