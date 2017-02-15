@@ -26,12 +26,12 @@
     <item name="uid_progress_indicator_button_button" type="id"/>
     <item name="uid_progress_indicator_button_progress_bar" type="id"/>
     <item name="uid_progress_indicator_button_text" type="id"/>
-    <item name="uid_gridView" type="id"/>
-    <item name="uid_gridView_thumbnail" type="id"/>
-    <item name="uid_gridView_star_icon_holder" type="id"/>
-    <item name="uid_gridView_star_icon" type="id"/>
-    <item name="uid_gridView_title" type="id"/>
-    <item name="uid_gridView_description" type="id"/>
-    <item name="uid_gridView_two_line_text" type="id"/>
-    <item name="uid_gridView_solid_holder" type="id"/>
+    <item name="uid_gridview" type="id"/>
+    <item name="uid_gridview_thumbnail" type="id"/>
+    <item name="uid_gridview_star_icon_holder" type="id"/>
+    <item name="uid_gridview_star_icon" type="id"/>
+    <item name="uid_gridview_title" type="id"/>
+    <item name="uid_gridview_description" type="id"/>
+    <item name="uid_gridview_two_line_text" type="id"/>
+    <item name="uid_gridview_solid_holder" type="id"/>
 </resources>

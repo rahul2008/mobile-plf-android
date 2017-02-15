@@ -10,7 +10,9 @@ import android.support.test.rule.ActivityTestRule;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
+import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
+import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -19,9 +21,9 @@ import org.junit.Test;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static com.philips.platform.uid.utils.UIDTestUtils.waitFor;
 
-
-public class GridViewItemWithoutSecondaryTest {
+public class GridViewSingleLineGradientHeaderTest {
 
     Resources testResources;
 
@@ -33,7 +35,7 @@ public class GridViewItemWithoutSecondaryTest {
     public void setUp() throws Exception {
         final Intent launchIntent = getLaunchIntent(1, 0);
         activity = testRule.launchActivity(launchIntent);
-        activity.switchTo(R.layout.uid_gridview_item_plain_icon);
+        activity.switchTo(R.layout.uid_gridview_item_gradient_icon);
         testResources = activity.getResources();
     }
 
@@ -59,8 +61,8 @@ public class GridViewItemWithoutSecondaryTest {
 
     @Test
     public void verifyIconHolderWidth() {
-        int expectedWidth = testResources.getDimensionPixelSize(R.dimen.uid_grid_star_holder_width);
-        getIconHolder().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedWidth)));
+        int expectedHeight = testResources.getDimensionPixelSize(R.dimen.uid_grid_star_holder_width);
+        getIconHolder().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
     }
 
     private ViewInteraction getStarIcon() {
@@ -79,4 +81,33 @@ public class GridViewItemWithoutSecondaryTest {
         getStarIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedWidth)));
     }
 
+    private ViewInteraction getTitleText() {
+        return onView(withId(com.philips.platform.uid.test.R.id.uid_gridview_title));
+    }
+
+    @Test
+    public void verifyTitleTextColor() {
+        int expectedTextColor = UIDTestUtils.getAttributeColor(activity, R.color.uidColorWhite);
+        getTitleText().check(matches(TextViewPropertiesMatchers.isSameTextColor(expectedTextColor)));
+    }
+
+    @Test
+    public void verifyTitleTextFontSize() {
+        float expectedFontSize = testResources.getDimensionPixelSize(R.dimen.uid_grid_title_size);
+        getTitleText().check(matches(TextViewPropertiesMatchers.isSameFontSize((int) expectedFontSize)));
+    }
+
+    @Test
+    public void verifyTitleTextPadding() {
+        waitFor(testResources, 750);
+        int expectedStartPadding = testResources.getDimensionPixelSize(R.dimen.uid_grid_title_padding);
+        getTitleText().check(matches(ViewPropertiesMatchers.isSameStartPadding(expectedStartPadding)));
+    }
+
+    @Test
+    public void verifyTitleTextMargin(){
+        waitFor(testResources, 750);
+        int expectedEndMargin = testResources.getDimensionPixelSize(R.dimen.uid_grid_star_holder_width);
+        getTitleText().check(matches(ViewPropertiesMatchers.isSameRightMargin(expectedEndMargin)));
+    }
 }

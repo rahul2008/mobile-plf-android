@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@id/uid_gridView"
+    android:id="@id/uid_gridview"
     android:layout_width="match_parent"
     android:layout_height="@dimen/uid_grid_item_size"
     android:descendantFocusability="blocksDescendants">
 
     <ImageView
-        android:id="@id/uid_gridView_thumbnail"
+        android:id="@id/uid_gridview_thumbnail"
         style="@style/UIDGridViewImage"
         android:layout_height="@dimen/uid_grid_item_size" />
 
@@ -16,21 +16,21 @@
         android:layout_height="@dimen/uid_grid_single_line_text_height">
 
         <FrameLayout
-            android:id="@id/uid_gridView_star_icon_holder"
+            android:id="@id/uid_gridview_star_icon_holder"
             android:layout_width="@dimen/uid_grid_star_holder_width"
             android:layout_height="@dimen/uid_grid_single_line_text_height"
-            android:layout_gravity="center|right">
+            android:layout_gravity="center|end">
 
             <ImageButton
-                android:id="@id/uid_gridView_star_icon"
+                android:id="@id/uid_gridview_star_icon"
                 style="@style/UIDGridViewImageButton"/>
         </FrameLayout>
 
         <TextView
-            android:id="@id/uid_gridView_title"
+            android:id="@id/uid_gridview_title"
             style="@style/UIDGridViewTitleText"
-            android:layout_gravity="center|left"
-            android:layout_marginRight="@dimen/uid_grid_star_holder_width"
+            android:layout_gravity="center|start"
+            android:layout_marginEnd="@dimen/uid_grid_star_holder_width"
             />
 
     </com.philips.platform.uid.utils.GradientContainer>
