@@ -147,7 +147,7 @@ configurations.all {
 }
 
 dependencies {
-    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '2.4.5' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '2.4.6' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     {
         transitive = true
     }
