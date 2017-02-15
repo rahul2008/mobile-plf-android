@@ -26,9 +26,7 @@ android {
 
 dependencies {
     def commlib_ble = findProject(':commlib-ble') ? ':commlib-ble' : ':commlib-all'
-
-    compile 'com.philips.cdp:cloudcontroller:5.1.1-SNAPSHOT'
-
+    
     debugCompile project(path: commlib_ble, configuration: 'debug')
     releaseCompile project(path: commlib_ble, configuration: 'release')
 
