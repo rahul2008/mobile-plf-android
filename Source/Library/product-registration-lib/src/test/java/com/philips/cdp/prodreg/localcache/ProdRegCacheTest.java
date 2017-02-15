@@ -22,7 +22,6 @@ import static org.mockito.Mockito.when;
  * All rights reserved.
  */
 
-@RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
 public class ProdRegCacheTest extends TestCase {
 
@@ -49,25 +48,25 @@ public class ProdRegCacheTest extends TestCase {
         };
     }
 
-//    @Test
-//    public void testStoreStringData() {
-//        prodRegCache.storeStringData("", "data");
-//        verify(ssInterface).storeValueForKey("", "data", ssError);
-//    }
-//
-//    @Test
-//    public void testGetStringData() {
-//        final String testData = "test";
-//        when(ssInterface.fetchValueForKey("", ssError)).thenReturn(testData);
-//        final String data = prodRegCache.getStringData("");
-//        assertEquals(data, testData);
-//    }
-//
-//    @Test
-//    public void testGetIntData() {
-//        final String testData = "5";
-//        when(ssInterface.fetchValueForKey("", ssError)).thenReturn(testData);
-//        final int data = prodRegCache.getIntData("");
-//        assertEquals(String.valueOf(data), testData);
-//    }
+    @Test
+    public void testStoreStringData() {
+        prodRegCache.storeStringData("", "data");
+        verify(ssInterface).storeValueForKey("", "data", ssError);
+    }
+
+    @Test
+    public void testGetStringData() {
+        final String testData = "test";
+        when(ssInterface.fetchValueForKey("", ssError)).thenReturn(testData);
+        final String data = prodRegCache.getStringData("");
+        assertEquals(data, testData);
+    }
+
+    @Test
+    public void testGetIntData() {
+        final String testData = "5";
+        when(ssInterface.fetchValueForKey("", ssError)).thenReturn(testData);
+        final int data = prodRegCache.getIntData("");
+        assertEquals(String.valueOf(data), testData);
+    }
 }
