@@ -28,8 +28,10 @@ import com.philips.commlib.core.port.firmware.util.StateWaitException;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
+import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortKey.SIZE;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortKey.STATE;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.CANCELING;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.CHECKING;
@@ -118,11 +120,11 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
 
     @Override
     public void cancel() throws IncompatibleStateException {
-       this.state.cancel();
+        this.state.cancel();
     }
 
     public void pushData() throws IOException {
-        new FirmwareUploader(firmwarePort, communicationStrategy, firmwareData).upload();
+        new FirmwareUploader(firmwarePort, communicationStrategy, this, firmwareData).upload();
     }
 
     public void onDeployFinished() {
@@ -163,6 +165,13 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
 
     public void requestState(@NonNull final FirmwarePortState requestedState) {
         this.firmwarePort.putProperties(STATE.toString(), requestedState.toString());
+    }
+
+    public void requestStateDownloading() {
+        final Map<String, Object> properties = new HashMap<>();
+        properties.put(STATE.toString(), DOWNLOADING.toString());
+        properties.put(SIZE.toString(), firmwareData.length);
+        this.firmwarePort.putProperties(properties);
     }
 
     public void waitForNextState() throws StateWaitException {

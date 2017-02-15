@@ -14,6 +14,7 @@ import com.philips.cdp.dicommclient.util.GsonProvider;
 import com.philips.commlib.core.communication.CommunicationStrategy;
 import com.philips.commlib.core.port.firmware.FirmwarePort;
 import com.philips.commlib.core.port.firmware.FirmwarePortProperties;
+import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePushLocal;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -24,21 +25,27 @@ import java.util.concurrent.CountDownLatch;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortKey.PROGRESS;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortKey.STATE;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.DOWNLOADING;
+import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.UNKNOWN;
+import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.fromString;
 import static java.lang.Math.min;
 
 public class FirmwareUploader {
 
     private final FirmwarePort firmwarePort;
     private final CommunicationStrategy communicationStrategy;
+    private final FirmwareUpdatePushLocal operation;
     private final byte[] firmwareData;
 
     private IOException error;
     private CountDownLatch latch;
     private int maxChunkSize;
 
-    public FirmwareUploader(@NonNull final FirmwarePort firmwarePort, @NonNull final CommunicationStrategy communicationStrategy, final byte[] firmwareData) {
+    private int progress;
+
+    public FirmwareUploader(@NonNull final FirmwarePort firmwarePort, @NonNull final CommunicationStrategy communicationStrategy, final FirmwareUpdatePushLocal firmwareUpdatePushLocal, final byte[] firmwareData) {
         this.firmwarePort = firmwarePort;
         this.communicationStrategy = communicationStrategy;
+        this.operation = firmwareUpdatePushLocal;
         this.firmwareData = firmwareData;
     }
 
@@ -81,7 +88,6 @@ public class FirmwareUploader {
         communicationStrategy.putProperties(properties, firmwarePort.getDICommPortName(), firmwarePort.getDICommProductId(), new ResponseHandler() {
             @Override
             public void onSuccess(final String data) {
-                firmwarePort.processResponse(data);
                 HashMap<String, Object> dataMap = new HashMap<>();
 
                 try {
@@ -92,7 +98,7 @@ public class FirmwareUploader {
                     return;
                 }
 
-                FirmwarePortProperties.FirmwarePortState firmwarePortState = FirmwarePortProperties.FirmwarePortState.fromString((String) dataMap.get(STATE.toString()));
+                FirmwarePortProperties.FirmwarePortState firmwarePortState = fromString((String) dataMap.get(STATE.toString()));
                 Double progress = (Double) dataMap.get(PROGRESS.toString());
 
                 if (firmwarePortState == null || progress == null) {
@@ -101,7 +107,13 @@ public class FirmwareUploader {
                     return;
                 }
 
-                if (firmwarePortState == DOWNLOADING) {
+                int progressPercentage = (int) (progress / firmwareData.length * 100);
+                if (FirmwareUploader.this.progress != progressPercentage) {
+                    FirmwareUploader.this.progress = progressPercentage;
+                    operation.onDownloadProgress(progressPercentage);
+                }
+
+                if (firmwarePortState == DOWNLOADING || firmwarePortState == UNKNOWN) {
                     uploadNextChunk(progress.intValue());
                     return;
                 }
