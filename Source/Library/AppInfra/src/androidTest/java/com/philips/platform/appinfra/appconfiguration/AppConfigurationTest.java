@@ -1,12 +1,15 @@
 package com.philips.platform.appinfra.appconfiguration;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.MockitoTestCase;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.InvocationTargetException;
@@ -195,27 +198,28 @@ public class AppConfigurationTest extends MockitoTestCase {
 
     public void testSetAndGetKey() throws IllegalArgumentException {
         AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
-        String existingGroup = "AI";
+        String existingGroup = "APPINFRA";
+        String existingKey = "appidentity.micrositeId";
+        mConfigInterface.setPropertyForKey(existingKey, existingGroup, "OldValue", configError);
 
         // Modify a existing Key
         configError.setErrorCode(null);// reset error code to null
-        String existingKey = "MICROSITEID";
+
 
         assertNotNull(mConfigInterface.getPropertyForKey(existingKey, existingGroup, configError));//  Existing Group and  Existing key
         // make sure AI and MicrositeID exist in configuration file else this test case will fail
-        assertEquals(null, configError.getErrorCode()); // success
+        assertEquals(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.NoError, configError.getErrorCode()); // success
         configError.setErrorCode(null);// reset error code to null
-        assertTrue(mConfigInterface.setPropertyForKey(existingKey, existingGroup, "NewValue", configError));//  Existing Group  and Non Existing key
+        assertTrue(mConfigInterface.setPropertyForKey(existingKey, existingGroup, "NewValue", configError));//  Existing Group  and  Existing key with new value
 
         assertNotNull(mConfigInterface.getDefaultPropertyForKey(existingKey, existingGroup, configError));//  Existing Group and  Existing key
         // make sure AI and MicrositeID exist in configuration file else this test case will fail
-        assertEquals(null, configError.getErrorCode()); // success
+        assertEquals(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.NoError, configError.getErrorCode()); // success
         configError.setErrorCode(null);// reset error code to null
         assertTrue(mConfigInterface.setPropertyForKey(existingKey, existingGroup, "NewValue", configError));//  Existing Group  and Non Existing key
 
         configError.setErrorCode(null);// reset error code to null
         assertTrue(mConfigInterface.setPropertyForKey("NEWKEY", "AI", "test", configError));//  Existing Group  and Non Existing key
-        assertEquals(null, configError.getErrorCode());
         assertEquals(null, configError.getErrorCode());
 
         // Add a new String value
@@ -228,7 +232,7 @@ public class AppConfigurationTest extends MockitoTestCase {
         assertEquals(newlyAddedValue1, mConfigInterface.getPropertyForKey(newlyAddedKey1, existingGroup, configError));//  Existing Group and  Existing key
         //assertEquals(newlyAddedValue1, mConfigInterface.getDefaultPropertyForKey(newlyAddedKey1, existingGroup, configError));//  Existing Group and  Existing key
 
-        assertEquals(null, configError.getErrorCode()); // success
+        assertEquals(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.NoError, configError.getErrorCode()); // success
 
         // Add a new Integer value
         configError.setErrorCode(null);// reset error code to null
@@ -240,7 +244,7 @@ public class AppConfigurationTest extends MockitoTestCase {
         assertEquals(integer, mConfigInterface.getPropertyForKey(newlyAddedKey2, existingGroup, configError));//  Existing Group and  Existing key
         //   assertEquals(integer, mConfigInterface.getDefaultPropertyForKey(newlyAddedKey2, existingGroup, configError));//  Existing Group and  Existing key
 
-        assertEquals(null, configError.getErrorCode()); // success
+        //  assertEquals(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.NoError, configError.getErrorCode()); // success
 
         // Add a new String Arraylist value
         configError.setErrorCode(null);// reset error code to null
@@ -253,7 +257,7 @@ public class AppConfigurationTest extends MockitoTestCase {
         configError.setErrorCode(null);// reset error code to null
         assertEquals(stringArrayList, mConfigInterface.getPropertyForKey(newlyAddedKey3, existingGroup, configError));//  Existing Group and  Existing key
         // assertEquals(stringArrayList, mConfigInterface.getDefaultPropertyForKey(newlyAddedKey3, existingGroup, configError));//  Existing Group and  Existing key
-        assertEquals(null, configError.getErrorCode()); // success
+        assertEquals(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.NoError, configError.getErrorCode()); // success
 
 
         // Add a new Integer ArrayList value
@@ -268,7 +272,7 @@ public class AppConfigurationTest extends MockitoTestCase {
         configError.setErrorCode(null);// reset error code to null
         assertEquals(integerArrayList, mConfigInterface.getPropertyForKey(newlyAddedKey4, existingGroup, configError));//  Existing Group and  Existing key
         // assertEquals(integerArrayList, mConfigInterface.getDefaultPropertyForKey(newlyAddedKey4, existingGroup, configError));//  Existing Group and  Existing key
-        assertEquals(null, configError.getErrorCode()); // success
+        assertEquals(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.NoError, configError.getErrorCode()); // success
 
         // Add a new null value
         configError.setErrorCode(null);// reset error code to null
@@ -410,5 +414,140 @@ public class AppConfigurationTest extends MockitoTestCase {
                     e.getMessage());
         }
 
+    }
+
+
+    // If someone modifies ConfigValues then this method needs to be updated else test case will fail
+    public void testMigration() {
+        SecureStorageInterface.SecureStorageError sse;
+        SecureStorageInterface.SecureStorageError sse2;
+        AppConfigurationManager appConfigurationManager = (AppConfigurationManager) mConfigInterface;
+        String mAppConfig_SecureStoreKeyOLD = "ail.app_config";
+        String mAppConfig_SecureStoreKey_NEW = "ailNew.app_config";
+        SecureStorageInterface ssi = mAppInfra.getSecureStorage();
+        JSONObject oldData = null;
+        try {
+            oldData = new JSONObject(testJsonOld());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        // set the previos file to old data with duplicate values
+        sse = new SecureStorageInterface.SecureStorageError();
+        ssi.storeValueForKey(mAppConfig_SecureStoreKeyOLD, oldData.toString(), sse);
+        // set the new file empty
+        sse2 = new SecureStorageInterface.SecureStorageError();
+        appConfigurationManager.migrateDynamicData();
+        sse = new SecureStorageInterface.SecureStorageError();
+        ssi.fetchValueForKey(mAppConfig_SecureStoreKeyOLD, sse);
+        assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
+        sse2 = new SecureStorageInterface.SecureStorageError();
+        String newDynamicValue = ssi.fetchValueForKey(mAppConfig_SecureStoreKey_NEW, sse2);
+        JSONObject newJSON = null;
+        try {
+            newJSON = new JSONObject(newDynamicValue);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if ((testJsonNew().toString()).equalsIgnoreCase(newJSON.toString())) {
+            Log.v("MIGRATION", "SUCCESS");
+        } else {
+            Log.v("MIGRATION", "FAILURE");
+        }
+        assertEquals(testJsonNew().toString(), newJSON.toString());
+    }
+
+
+    private String testJsonOld() {
+        String testJsonString = "{\n" +
+                "  \"UR\": {\n" +
+                "\n" +
+                "    \"DEVELOPMENT\": \"moodifiedData1\",\n" +
+                "    \"TESTING\": \"moodifiedData2\",\n" +
+                "    \"EVALUATION\": \"4r36zdbeycca933nufcknn2hnpsz6gxu\",\n" +
+                "    \"STAGING\": \"f2stykcygm7enbwfw2u9fbg6h6syb8yd\",\n" +
+                "    \"PRODUCTION\": \"mz6tg5rqrg4hjj3wfxfd92kjapsrdhy3\"\n" +
+                "\n" +
+                "  },\n" +
+                "  \"AI\": {\n" +
+                "    \"MICROSITEID\": 2222,\n" +
+                "    \"REGISTRATIONENVIRONMENT\": \"Staging\",\n" +
+                "    \"NL\": [\"googleplus\", \"facebook\"  ],\n" +
+                "    \"US\": [\"facebook\",\"googleplus\" ],\n" +
+                "    \"MAP\": {\"one\": \"123\", \"two\": \"123.45\"},\n" +
+                "    \"EE\": [123,234 ]\n" +
+                "  }, \n" +
+                " \"APPINFRA\": { \n" +
+                "   \"APPIDENTITY.NEWKEY1\" : \"101010\",\n" +
+                "   \"APPIDENTITY.MICROSITEID\" : \"77000\",\n" +
+                "  \"APPIDENTITY.SECTOR\"  : \"B2C\",\n" +
+                " \"APPIDENTITY.APPSTATE\"  : \"Staging\",\n" +
+                "\"APPIDENTITY.SERVICEDISCOVERYENVIRONMENT\"  : \"Staging\",\n" +
+                "\"RESTCLIENT.CACHESIZEINKB\"  : 1024, \n" +
+                " \"TAGGING.SENSITIVEDATA\": [\"bundleId, language\"] ,\n" +
+                "  \"ABTEST.PRECACHE\":[\"philipsmobileappabtest1content\",\"philipsmobileappabtest1success\"],\n" +
+                "    \"CONTENTLOADER.LIMITSIZE\":555,\n" +
+                "    \"SERVICEDISCOVERY.PLATFORMMICROSITEID\":\"77000\",\n" +
+                "    \"SERVICEDISCOVERY.PLATFORMENVIRONMENT\":\"production\",\n" +
+                "    \"APPCONFIG.CLOUDSERVICEID\":\" appinfra.appconfigdownload\"\n" +
+                "  }\n" +
+                "}\n";
+
+        return testJsonString;
+    }
+
+
+    // expected modified value
+    private JSONObject testJsonNew() {
+        String testJsonString = "{\n" +
+                "  \"UR\": {\n" +
+                "\n" +
+                "    \"DEVELOPMENT\": \"moodifiedData1\",\n" +
+                "    \"TESTING\": \"moodifiedData2\"\n" +
+                "\n" +
+                "  },\n" +
+                "  \"AI\": {\n" +
+                "    \"MICROSITEID\": 2222\n" +
+
+                "  }, \n" +
+                " \"APPINFRA\": { \n" +
+
+                "    \"CONTENTLOADER.LIMITSIZE\":555\n" +
+
+                "  }\n" +
+                "}\n";
+
+        JSONObject obj = null;
+        try {
+            obj = new JSONObject(testJsonString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return obj;
+    }
+
+    public void testRefreshCloudConfig() {
+        AppConfigurationManager appConfigurationManager = (AppConfigurationManager) mAppInfra.getConfigInterface();
+        Method method;
+        try {
+            method = AppConfigurationManager.class.getDeclaredMethod("refreshCloudConfig", AppConfigurationInterface.OnRefreshListener.class);
+
+            method.setAccessible(true);
+            AppConfigurationInterface.OnRefreshListener listener = new AppConfigurationInterface.OnRefreshListener() {
+                @Override
+                public void onError(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum error, String message) {
+                    Log.v("refreshCloudConfig", message);
+                }
+
+                @Override
+                public void onSuccess(REFRESH_RESULT result) {
+                    Log.v("refreshCloudConfig", result.toString());
+
+                }
+            };
+            method.invoke(appConfigurationManager, listener);
+
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 }

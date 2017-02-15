@@ -772,7 +772,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 return true;
             }
 
-            if (URLStringPlatform != null) {
+            if (savedURLPlatform != null) {
                 //if previously saved URL differs from current platform URL, URLs are expired
                 if (!savedURLPlatform.equals(URLStringPlatform)) {
                     return true;

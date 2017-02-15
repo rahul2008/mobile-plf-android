@@ -61,7 +61,7 @@ public class AppInfra implements AppInfraInterface {
 
         private SecureStorageInterface secStor;
         private LoggingInterface logger; // builder logger
-        private LoggingInterface aiLogger; // app infra logger
+     //   private LoggingInterface aiLogger; // app infra logger
         private AppTaggingInterface tagging;
         private AppIdentityInterface appIdentity;
         private InternationalizationInterface local;
@@ -80,7 +80,7 @@ public class AppInfra implements AppInfraInterface {
         public Builder() {
             secStor = null;
             logger = null;
-            aiLogger = null;
+            //aiLogger = null;
             tagging = null;
             appIdentity = null;
             local = null;
@@ -187,7 +187,8 @@ public class AppInfra implements AppInfraInterface {
         public AppInfra build(Context pContext) {
             Log.v("APPINFRA INT", "AI Intitialization Starts");
             AppInfra ai = new AppInfra(pContext);
-            ai.setConfigInterface(configInterface == null ? new AppConfigurationManager(ai) : configInterface);
+            AppConfigurationManager appConfigurationManager=new AppConfigurationManager(ai);
+            ai.setConfigInterface(configInterface == null ? appConfigurationManager : configInterface);
             Log.v("APPINFRA INT", "AppConfig Intitialization Done");
 
             ai.setTime(mTimeSyncInterfaceBuilder == null ? new TimeSyncSntpClient(ai) : mTimeSyncInterfaceBuilder);
@@ -233,6 +234,20 @@ public class AppInfra implements AppInfraInterface {
             Log.v("APPINFRA INT", "Tagging Intitialization Done");
             Log.v("APPINFRA INT", "AI Intitialization Done");
 
+
+            /////////////
+            appConfigurationManager.migrateDynamicData();
+            appConfigurationManager.refreshCloudConfig(new AppConfigurationInterface.OnRefreshListener() {
+                @Override
+                public void onError(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum error, String message) {
+                    Log.v("refreshCloudConfig",message);
+                }
+                @Override
+                public void onSuccess(REFRESH_RESULT result) {
+                    Log.v("refreshCloudConfig",result.toString());
+
+                }
+            });
             return ai;
         }
     }
