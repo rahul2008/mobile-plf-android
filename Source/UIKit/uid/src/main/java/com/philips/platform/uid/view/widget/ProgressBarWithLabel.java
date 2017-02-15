@@ -2,6 +2,8 @@ package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -9,6 +11,8 @@ import android.widget.FrameLayout;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.utils.UIDUtils;
+
+import static com.philips.platform.uid.view.widget.ProgressBarWithLabel.LabelPosition.BOTTOM_CENTER;
 
 public class ProgressBarWithLabel extends FrameLayout {
 
@@ -108,7 +112,7 @@ public class ProgressBarWithLabel extends FrameLayout {
             case TOP_RIGHT:
                 return R.id.uid_progress_indicator_label_top_right;
             case BOTTOM_LEFT:
-                return  R.id.uid_progress_indicator_label_bottom_left;
+                return R.id.uid_progress_indicator_label_bottom_left;
             case BOTTOM_RIGHT:
                 return R.id.uid_progress_indicator_label_bottom_right;
         }
@@ -116,11 +120,11 @@ public class ProgressBarWithLabel extends FrameLayout {
     }
 
     private int getCircularProgressBarLabelID() {
-        switch (labelPosition) {
-            case BOTTOM_CENTER:
-                return R.id.uid_progress_indicator_label_bottom_center;
+        if (labelPosition == BOTTOM_CENTER) {
+            return R.id.uid_progress_indicator_label_bottom_center;
+        } else {
+            return R.id.uid_progress_indicator_label_center;
         }
-        return R.id.uid_progress_indicator_label_center;
     }
 
     private void initializeCircularProgressBarViews() {
@@ -148,6 +152,33 @@ public class ProgressBarWithLabel extends FrameLayout {
         return id;
     }
 
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Parcelable parcelable = super.onSaveInstanceState();
+        SavedState savedState = new SavedState(parcelable);
+
+        savedState.label = label.getText().toString();
+        savedState.progress = progress;
+        savedState.secondaryProgress = secondaryProgress;
+
+        return savedState;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(final Parcelable state) {
+        if (!(state instanceof SavedState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
+        final SavedState savedState = (SavedState) state;
+        super.onRestoreInstanceState(savedState.getSuperState());
+
+        setText(savedState.label);
+        setProgress(savedState.progress);
+        setSecondaryProgress(savedState.secondaryProgress);
+    }
+
     public void setText(String text) {
         label.setText(text);
     }
@@ -170,5 +201,42 @@ public class ProgressBarWithLabel extends FrameLayout {
         if (!isIndeterminateProgressIndicator) {
             progressBar.setSecondaryProgress(progress);
         }
+    }
+
+    static class SavedState extends BaseSavedState {
+        String label;
+        int progress;
+        int secondaryProgress;
+
+        SavedState(final Parcelable superState) {
+            super(superState);
+        }
+
+        SavedState(final Parcel in) {
+            super(in);
+            label = in.readString();
+            progress = in.readInt();
+            secondaryProgress = in.readInt();
+        }
+
+        @Override
+        public void writeToParcel(final Parcel out, final int flags) {
+            super.writeToParcel(out, flags);
+
+            out.writeString(label);
+            out.writeInt(progress);
+            out.writeInt(secondaryProgress);
+        }
+
+        public static final Parcelable.Creator<ProgressBarWithLabel.SavedState> CREATOR
+                = new Parcelable.Creator<ProgressBarWithLabel.SavedState>() {
+            public ProgressBarWithLabel.SavedState createFromParcel(Parcel in) {
+                return new ProgressBarWithLabel.SavedState(in);
+            }
+
+            public ProgressBarWithLabel.SavedState[] newArray(int size) {
+                return new ProgressBarWithLabel.SavedState[size];
+            }
+        };
     }
 }
