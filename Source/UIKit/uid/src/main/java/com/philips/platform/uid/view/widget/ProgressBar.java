@@ -47,7 +47,7 @@ public class ProgressBar extends android.widget.ProgressBar {
 
     private void obtainStyleAttributes(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         final TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attrs, R.styleable.UIDProgressBar, defStyleAttr, R.style.UIDProgressBarHorizontalDeterminate);
-        isLinearProgressBarEnabled = obtainStyledAttributes.getBoolean(R.styleable.UIDProgressBar_uidLinearProgressBar, false);
+        isLinearProgressBarEnabled = obtainStyledAttributes.getBoolean(R.styleable.UIDProgressBar_uidIsLinearProgressBar, false);
         indeterminateCircularEndColor = obtainStyledAttributes.getColor(R.styleable.UIDProgressBar_uidProgressBarCircularEndColor, indeterminateCircularEndColor);
         determinateCircularProgressColorList = obtainStyledAttributes.getResourceId(R.styleable.UIDProgressBar_uidProgressBarCircularProgressColorList, determinateCircularProgressColorList);
         obtainStyledAttributes.recycle();

@@ -14,7 +14,7 @@
         style="@style/UIDLabel.ProgressBarLabel"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/uid_progress_indicator"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/uid_circular_progress_indicator_big_label_margin"
         android:visibility="gone"/>
 
     <com.philips.platform.uid.view.widget.Label

@@ -143,4 +143,9 @@
     <string name="template_selection">Template selection</string>
     <string name="recyclerview_the_header">The header</string>
     <string name="display_labels">Display labels</string>
+    <string name="label">Label</string>
+    <string name="label_left_top">Label left top</string>
+    <string name="label_right_top">Label right top</string>
+    <string name="label_left_bottom">Label left bottom</string>
+    <string name="label_right_bottom">Label right bottom</string>
 </resources>

@@ -63,7 +63,7 @@ public class ProgressBarWithLabel extends FrameLayout {
 
     private void obtainStyleAttributes(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         final TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attrs, R.styleable.UIDProgressIndicatorWithLabel);
-        isLinearProgressBarEnabled = obtainStyledAttributes.getBoolean(R.styleable.UIDProgressIndicatorWithLabel_uidLinearProgressBar, false);
+        isLinearProgressBarEnabled = obtainStyledAttributes.getBoolean(R.styleable.UIDProgressIndicatorWithLabel_uidIsLinearProgressBar, false);
         isIndeterminateProgressIndicator = obtainStyledAttributes.getBoolean(R.styleable.UIDProgressIndicatorWithLabel_uidIsIndeterminateProgressIndicator, false);
         labelPosition = LabelPosition.values()[obtainStyledAttributes.getInt(R.styleable.UIDProgressIndicatorWithLabel_uidLabelPosition, 0)];
         text = obtainStyledAttributes.getString(R.styleable.UIDProgressIndicatorWithLabel_android_text);

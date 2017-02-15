@@ -171,4 +171,9 @@
     <dimen name="uid_date_picker_header_dayofmonth_size">88dp</dimen>
     <dimen name="uid_date_picker_header_dayofweek_size">14dp</dimen>
     <dimen name="uid_date_picker_header_year_size">24dp</dimen>
+    <dimen name="uid_circular_progress_indicator_big_label_margin">16dp</dimen>
+    <dimen name="uid_circular_progress_indicator_middle_label_margin">14dp</dimen>
+    <dimen name="uid_circular_progress_indicator_small_label_margin">12dp</dimen>
+    <dimen name="uid_indeterminate_linear_progress_indicator_label_margin">9dp</dimen>
+    <dimen name="uid_determinate_linear_progress_indicator_label_margin">7dp</dimen>
 </resources>
