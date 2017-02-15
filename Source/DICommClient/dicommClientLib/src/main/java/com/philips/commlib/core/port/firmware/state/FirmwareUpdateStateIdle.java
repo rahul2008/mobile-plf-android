@@ -9,8 +9,6 @@ import android.support.annotation.NonNull;
 import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePushLocal;
 import com.philips.commlib.core.port.firmware.util.StateWaitException;
 
-import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.DOWNLOADING;
-
 public class FirmwareUpdateStateIdle extends FirmwareUpdateState {
 
     public FirmwareUpdateStateIdle(@NonNull FirmwareUpdatePushLocal operation) {
@@ -20,7 +18,7 @@ public class FirmwareUpdateStateIdle extends FirmwareUpdateState {
     @Override
     public void onStart(FirmwareUpdateState previousState) {
         if (previousState == null) {
-            operation.requestState(DOWNLOADING);
+            operation.requestStateDownloading();
             try {
                 operation.waitForNextState();
             } catch (StateWaitException e) {

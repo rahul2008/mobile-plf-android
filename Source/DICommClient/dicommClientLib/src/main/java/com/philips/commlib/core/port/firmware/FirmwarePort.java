@@ -165,11 +165,16 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
         if (operation == null) {
             return;
         }
-        try {
-            operation.deploy();
-        } catch (FirmwareUpdateException e) {
-            DICommLog.e(DICommLog.FIRMWAREPORT, "Error while canceling operation: " + e.getMessage());
-        }
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    operation.deploy();
+                } catch (FirmwareUpdateException e) {
+                    DICommLog.e(DICommLog.FIRMWAREPORT, "Error while canceling operation: " + e.getMessage());
+                }
+            }
+        });
     }
 
     public void addFirmwarePortListener(FirmwarePortListener listener) {
@@ -190,7 +195,7 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
         FirmwarePortProperties firmwarePortProperties = parseResponse(jsonResponse);
 
         if (firmwarePortProperties == null) {
-            DICommLog.e(DICommLog.FIRMWAREPORT, "FirmwarePort properties is null.");
+            DICommLog.d(DICommLog.FIRMWAREPORT, "FirmwarePort properties is null.");
         } else {
             setPortProperties(firmwarePortProperties);
             notifyListenersWithPortProperties(firmwarePortProperties);
@@ -233,9 +238,6 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
             int progress = getProgressPercentage(firmwarePortProperties);
 
             switch (firmwarePortProperties.getState()) {
-                case DOWNLOADING:
-                    listener.onDownloadProgress(progress);
-                    break;
                 case CHECKING:
                     listener.onCheckingProgress(progress);
                     break;

@@ -107,7 +107,7 @@ public class FirmwarePortStateWaiter {
 
         if (firmwarePortProperties != null) {
             final FirmwarePortState currentState = firmwarePortProperties.getState();
-            DICommLog.d(DICommLog.FIRMWAREPORT, String.format(Locale.US, "waitForNextState - from [%s] to [%s]", initialState.toString(), currentState.toString()));
+            DICommLog.d(DICommLog.FIRMWAREPORT, String.format(Locale.US, "requested to waitForNextState - from [%s] to [%s]", initialState.toString(), currentState.toString()));
 
             if (currentState != initialState) {
                 return currentState;
@@ -118,7 +118,7 @@ public class FirmwarePortStateWaiter {
 
         try {
             final FirmwarePortState currentState = executor.submit(stateWaitTask).get();
-            DICommLog.d(DICommLog.FIRMWAREPORT, String.format(Locale.US, "waitForNextState - from [%s] to [%s]", initialState.toString(), currentState.toString()));
+            DICommLog.d(DICommLog.FIRMWAREPORT, String.format(Locale.US, "done waitForNextState - from [%s] to [%s]", initialState.toString(), currentState.toString()));
             return currentState;
         } catch (ExecutionException | InterruptedException e) {
             throw new StateWaitException(e);

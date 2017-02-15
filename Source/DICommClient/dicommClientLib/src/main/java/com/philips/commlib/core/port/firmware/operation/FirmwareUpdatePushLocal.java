@@ -28,8 +28,10 @@ import com.philips.commlib.core.port.firmware.util.StateWaitException;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
+import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortKey.SIZE;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortKey.STATE;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.CANCELING;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.CHECKING;
@@ -53,7 +55,7 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
         }
     }
 
-    private static final long TIMEOUT_MILLIS = 5000L; // FIXME
+    private static final long TIMEOUT_MILLIS = 30000L;
 
     @NonNull
     private final FirmwarePort firmwarePort;
@@ -127,7 +129,7 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
     }
 
     public void pushData() throws IOException {
-        new FirmwareUploader(firmwarePort, communicationStrategy, firmwareData).upload();
+        new FirmwareUploader(firmwarePort, communicationStrategy, this, firmwareData).upload();
     }
 
     public void onDeployFinished() {
@@ -147,7 +149,7 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
     }
 
     public void onDeployFailed(final String reason) {
-        firmwarePortListener.onDownloadFailed(new FirmwarePortException(reason));
+        firmwarePortListener.onDeployFailed(new FirmwarePortException(reason));
     }
 
     public void onDownloadFinished() {
@@ -164,6 +166,13 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
 
     public void requestState(@NonNull final FirmwarePortState requestedState) {
         this.firmwarePort.putProperties(STATE.toString(), requestedState.toString());
+    }
+
+    public void requestStateDownloading() {
+        final Map<String, Object> properties = new HashMap<>();
+        properties.put(STATE.toString(), DOWNLOADING.toString());
+        properties.put(SIZE.toString(), firmwareData.length);
+        this.firmwarePort.putProperties(properties);
     }
 
     public void waitForNextState() throws StateWaitException {
