@@ -39,13 +39,13 @@ android {
 }
 
 dependencies {
-    compile 'com.philips.cdp:cloudcontroller:5.1.1-SNAPSHOT'
+    compile 'com.philips.cdp:cloudcontroller:5.1.2-SNAPSHOT'
 
     if (findProject(':commlib') || findProject(':dicommClientLib')) {
         def commlib = findProject(':commlib') ? ':commlib' : ':dicommClientLib'
         compile project(commlib)
     } else {
-        compile 'com.philips.cdp:dicommClientLib:3.1.1-SNAPSHOT.+'
+        compile 'com.philips.cdp:dicommClientLib:3.1.2-SNAPSHOT.+'
     }
 
     compile "com.android.support:appcompat-v7:24.2.0"
