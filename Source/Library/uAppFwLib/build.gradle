@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
-apply plugin: 'jacoco'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
@@ -22,7 +21,6 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
         classpath 'com.android.tools.build:gradle:2.1.2'
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12"
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.0', changing: true
@@ -186,30 +184,6 @@ task copyToLib(type: Copy) {
     from configurations.compile
 }
 
-task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
-    group = "Reporting"
 
-    description = "Generate Jacoco coverage reports"
-
-    classDirectories = fileTree(
-            dir: '../uAppFwLib/build/intermediates/classes/debug',
-            excludes: ['**/R.class',
-                       '**/R$*.class',
-                       '**/*$ViewInjector*.*',
-                       '**/listener/*.class',
-                       '**/BuildConfig.*',
-                       '**/Manifest*.*']
-    )
-
-    additionalSourceDirs = files(coverageSourceDirs)
-    sourceDirectories = files(coverageSourceDirs)
-    executionData = files('../uAppFwLib/build/jacoco/testDebugUnitTest.exec')
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
-}
 
 //apply from: "resolution.gradle"
