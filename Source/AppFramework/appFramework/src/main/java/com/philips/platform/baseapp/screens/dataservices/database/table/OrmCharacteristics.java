@@ -4,8 +4,6 @@
  */
 package com.philips.platform.baseapp.screens.dataservices.database.table;
 
-import android.support.annotation.NonNull;
-
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
@@ -13,15 +11,12 @@ import com.j256.ormlite.table.DatabaseTable;
 import com.philips.platform.baseapp.screens.dataservices.database.EmptyForeignCollection;
 import com.philips.platform.baseapp.screens.dataservices.database.annotations.DatabaseConstructor;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.UserCharacteristics;
-
-import org.joda.time.DateTime;
 
 import java.io.Serializable;
 import java.util.Collection;
 
 @DatabaseTable
-public class OrmCharacteristics implements UserCharacteristics, Serializable {
+public class OrmCharacteristics implements Characteristics, Serializable {
 
     public static final long serialVersionUID = 11L;
 
@@ -29,24 +24,36 @@ public class OrmCharacteristics implements UserCharacteristics, Serializable {
     private int id;
 
     @DatabaseField(canBeNull = true)
-    private String creatorId;
-
-    @DatabaseField(canBeNull = false)
-    private DateTime dateTime = new DateTime();
+    private String type;
 
     @DatabaseField(canBeNull = true)
-    private boolean mIsSynchronized = false;
+    private String value;
 
+    @DatabaseField(canBeNull = true)
+    private int parent;
+
+
+    @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = true)
+    private OrmCharacteristics ormCharacteristics;
 
     @ForeignCollectionField(eager = true)
-    private ForeignCollection<OrmCharacteristicsDetail> ormCharacteristicsDetails= new EmptyForeignCollection<>();
+    ForeignCollection<OrmCharacteristics> ormCharacteristicses = new EmptyForeignCollection<>();
 
     @DatabaseConstructor
     OrmCharacteristics() {
     }
 
-    public OrmCharacteristics(@NonNull final String creatorId) {
-        this.creatorId = creatorId;
+    public OrmCharacteristics(final String type, final String value, OrmCharacteristics ormCharacteristicsDetail) {
+        this.type = type;
+        this.value = value;
+        this.ormCharacteristics = ormCharacteristicsDetail;
+        parent=1;
+    }
+
+    public OrmCharacteristics(final String type, final String value) {
+        this.type = type;
+        this.value = value;
+        parent=0;
     }
 
     @Override
@@ -54,42 +61,43 @@ public class OrmCharacteristics implements UserCharacteristics, Serializable {
         return id;
     }
 
-    public void setId(final int id) {
-        this.id = id;
+    @Override
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
-    public String getCreatorId() {
-        return creatorId;
+    public String getType() {
+        return type;
     }
 
     @Override
-    public Collection<? extends Characteristics> getCharacteristicsDetails() {
-        return ormCharacteristicsDetails;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     @Override
-    public void addCharacteristicsDetail(Characteristics characteristics) {
-        ormCharacteristicsDetails.add((OrmCharacteristicsDetail) characteristics);
+    public String getValue() {
+        return value;
     }
 
     @Override
-    public boolean isSynchronized() {
-        return mIsSynchronized;
+    public Collection<? extends Characteristics> getCharacteristicsDetail() {
+        return ormCharacteristicses;
     }
 
     @Override
-    public void setSynchronized(boolean isSynchronized) {
-        mIsSynchronized = isSynchronized;
+    public void setCharacteristicsDetail(Characteristics characteristics) {
+        ormCharacteristicses.add((OrmCharacteristics) characteristics);
     }
 
     @Override
-    public DateTime getDateTime() {
-        return dateTime;
+    public int getParent() {
+        return parent;
     }
 
     @Override
     public String toString() {
-        return "[OrmCharacteristics, id=" + id + ", creatorId=" + creatorId + ", dateTime=" + dateTime + "]";
+        return "[OrmCharacteristics, id=" + id + ", type=" + type + ", value=" + value + ", OrmCharacteristics=" + ormCharacteristics + " ,ormCharacteristics=" + ormCharacteristics + "]";
     }
 }

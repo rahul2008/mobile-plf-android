@@ -13,7 +13,6 @@ import com.philips.platform.core.datatypes.MomentDetail;
 
 import java.io.Serializable;
 
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.

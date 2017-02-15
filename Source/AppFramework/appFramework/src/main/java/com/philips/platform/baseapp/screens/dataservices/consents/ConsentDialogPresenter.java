@@ -2,15 +2,12 @@ package com.philips.platform.baseapp.screens.dataservices.consents;
 
 import android.content.Context;
 
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 
-/**
- * Created by sangamesh on 16/11/16.
- */
+import java.util.List;
 
 public class ConsentDialogPresenter {
 
@@ -30,7 +27,7 @@ public class ConsentDialogPresenter {
         return false;
     }
 
-    public void updateConsent(Consent mConsent) {
-        DataServicesManager.getInstance().updateConsent(mConsent,dbRequestListener);
+    public void updateConsent(List<ConsentDetail> consentDetails) {
+        DataServicesManager.getInstance().updateConsentDetails(consentDetails,dbRequestListener);
     }
 }

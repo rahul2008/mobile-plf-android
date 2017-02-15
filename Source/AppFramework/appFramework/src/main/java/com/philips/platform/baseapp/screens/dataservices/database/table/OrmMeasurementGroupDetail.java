@@ -7,9 +7,7 @@ import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 
 import java.io.Serializable;
 
-/**
- * Created by 310218660 on 11/17/2016.
- */
+
 @DatabaseTable
 public class OrmMeasurementGroupDetail implements MeasurementGroupDetail, Serializable{
 
