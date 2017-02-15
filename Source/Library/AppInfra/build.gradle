@@ -141,7 +141,7 @@ android {
         versionName objcdp.getVersionWithHash()
         testApplicationId "com.philips.platform.appinfra.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
-        consumerProguardFiles 'proguard-rules.pro'
+        consumerProguardFiles 'proguard-rules-ail.pro'
 
         ndk{
             moduleName "pshmac"
