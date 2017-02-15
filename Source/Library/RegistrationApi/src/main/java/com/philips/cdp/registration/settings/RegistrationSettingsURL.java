@@ -206,6 +206,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> resultMap) {
                 ServiceDiscoveryService serviceDiscoveyService = resultMap.get("userreg.janrain.api");
+                Log.d(RLog.SERVICE_DISCOVERY, " onSuccess serviceDiscoveyService " + serviceDiscoveyService);
                 if (serviceDiscoveyService != null) {
                     String urlLocal = serviceDiscoveyService.getConfigUrls();
                     String janrainURL = urlLocal.substring(8);//Please don't remove this line.\
@@ -298,9 +299,9 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                 }
 
                 serviceDiscoveyService = resultMap.get("userreg.janrain.engage");
+                Log.d(RLog.SERVICE_DISCOVERY, " onSuccess serviceDiscoveyService " + serviceDiscoveyService);
                 if (serviceDiscoveyService != null) {
-                    RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.engage :" +
-                            serviceDiscoveyService.getConfigUrls());
+                    Log.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.engage :" + serviceDiscoveyService.getConfigUrls());
                     jumpConfig.engageAppUrl = serviceDiscoveyService.getConfigUrls().substring(8);
                     mPreferredCountryCode = countryCode;
                     mPreferredLangCode = langCode;
