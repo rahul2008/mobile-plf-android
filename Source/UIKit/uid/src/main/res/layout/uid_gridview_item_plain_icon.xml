@@ -6,14 +6,9 @@
     android:descendantFocusability="blocksDescendants">
 
     <ImageView
+        style="@style/UIDGridViewImage"
         android:id="@id/uid_gridView_thumbnail"
-        android:layout_width="match_parent"
         android:layout_height="@dimen/uid_grid_item_size"
-        android:adjustViewBounds="true"
-        android:clickable="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:scaleType="center"
         android:layout_gravity="bottom"/>
     <FrameLayout
         android:id="@id/uid_gridView_star_icon_holder"
@@ -23,14 +18,8 @@
         >
 
         <ImageButton
-            android:id="@id/uid_gridView_star_icon"
-            android:layout_width="@dimen/uid_grid_star_icon_size"
-            android:layout_height="@dimen/uid_grid_star_icon_size"
-            android:layout_gravity="center"
-            android:clickable="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            />
+            style="@style/UIDGridViewImageButton"
+            android:id="@id/uid_gridView_star_icon"/>
     </FrameLayout>
 
 </FrameLayout>

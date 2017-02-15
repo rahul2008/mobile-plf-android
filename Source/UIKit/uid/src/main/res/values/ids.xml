@@ -33,4 +33,5 @@
     <item name="uid_gridView_title" type="id"/>
     <item name="uid_gridView_description" type="id"/>
     <item name="uid_gridView_two_line_text" type="id"/>
+    <item name="uid_gridView_solid_holder" type="id"/>
 </resources>

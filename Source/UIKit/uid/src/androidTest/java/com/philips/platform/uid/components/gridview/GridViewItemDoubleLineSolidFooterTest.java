@@ -71,4 +71,10 @@ public class GridViewItemDoubleLineSolidFooterTest {
         getStarIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedWidth)));
     }
 
+    private ViewInteraction getSolidFillHolder() {
+        return onView(withId(R.id.uid_gridView_solid_holder));
+    }
+
+
+
 }

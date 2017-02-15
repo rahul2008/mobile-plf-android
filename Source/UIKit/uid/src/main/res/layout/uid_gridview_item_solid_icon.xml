@@ -7,17 +7,13 @@
     android:descendantFocusability="blocksDescendants">
 
     <ImageView
+        style="@style/UIDGridViewImage"
         android:id="@id/uid_gridView_thumbnail"
-        android:layout_width="match_parent"
         android:layout_height="@dimen/uid_grid_image_height"
-        android:layout_alignParentTop="true"
-        android:adjustViewBounds="true"
-        android:scaleType="center"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:clickable="false"/>
+        android:layout_alignParentTop="true"/>
 
     <RelativeLayout
+        android:id="@id/uid_gridView_solid_holder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/uid_gridView_thumbnail"
@@ -31,15 +27,8 @@
             >
 
             <ImageButton
-                android:id="@id/uid_gridView_star_icon"
-                android:layout_width="@dimen/uid_grid_star_icon_size"
-                android:layout_height="@dimen/uid_grid_star_icon_size"
-                android:layout_gravity="center"
-                android:paddingLeft="@dimen/uid_grid_star_icon_padding"
-                android:paddingRight="@dimen/uid_grid_star_icon_padding"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:clickable="false"/>
+                style="@style/UIDGridViewImageButton"
+                android:id="@id/uid_gridView_star_icon"/>
         </FrameLayout>
 
         <LinearLayout
@@ -52,7 +41,6 @@
             android:gravity="center"
             android:orientation="vertical"
             >
-
             <TextView
                 android:id="@id/uid_gridView_title"
                 style="@style/UIDGridViewTitleText"/>
