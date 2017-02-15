@@ -25,20 +25,20 @@ public abstract class FirmwareUpdateState {
         onStart(previousState);
     }
 
-    protected abstract void onStart(@Nullable FirmwareUpdateState previousState);
-
     public void cancel() throws IncompatibleStateException {
-        throw new IncompatibleStateException("Cancel not allowed in state [" + getClass().getSimpleName() + "]");
+        throw new IncompatibleStateException("Cancel not allowed in state [" + TAG + "]");
     }
 
     public void deploy() throws IncompatibleStateException {
-        throw new IncompatibleStateException("Deploying not allowed in state [" + getClass().getSimpleName() + "]");
+        throw new IncompatibleStateException("Deploying not allowed in state [" + TAG + "]");
     }
 
     public void finish() {
         onFinish();
         DICommLog.d(DICommLog.FIRMWAREPORT, "<<< Finished state [" + TAG + "]");
     }
+
+    protected abstract void onStart(@Nullable FirmwareUpdateState previousState);
 
     protected abstract void onFinish();
 }
