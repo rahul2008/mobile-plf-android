@@ -46,5 +46,5 @@ public abstract class FirmwareUpdateState implements FirmwareUpdate {
 
     protected abstract void onStart(@Nullable FirmwareUpdateState previousState);
 
-    protected abstract void onFinish();
+    protected void onFinish(){}
 }

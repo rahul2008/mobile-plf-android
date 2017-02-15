@@ -37,9 +37,4 @@ public class FirmwareUpdateStateError extends FirmwareUpdateState {
             operation.finish();
         }
     }
-
-    @Override
-    protected void onFinish() {
-
-    }
 }

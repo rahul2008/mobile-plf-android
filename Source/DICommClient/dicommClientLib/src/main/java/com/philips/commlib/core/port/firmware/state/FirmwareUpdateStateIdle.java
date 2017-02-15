@@ -35,9 +35,4 @@ public class FirmwareUpdateStateIdle extends FirmwareUpdateState {
         }
         operation.finish();
     }
-
-    @Override
-    protected void onFinish() {
-
-    }
 }

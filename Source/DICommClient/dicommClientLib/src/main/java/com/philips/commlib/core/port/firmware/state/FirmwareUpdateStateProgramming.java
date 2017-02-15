@@ -24,9 +24,4 @@ public class FirmwareUpdateStateProgramming extends FirmwareUpdateState {
             operation.finish();
         }
     }
-
-    @Override
-    protected void onFinish() {
-
-    }
 }

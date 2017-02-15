@@ -24,9 +24,4 @@ public class FirmwareUpdateStatePreparing extends CancelableFirmwareUpdateState 
             operation.finish();
         }
     }
-
-    @Override
-    protected void onFinish() {
-
-    }
 }

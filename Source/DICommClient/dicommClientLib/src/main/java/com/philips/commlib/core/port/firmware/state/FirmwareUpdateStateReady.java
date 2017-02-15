@@ -32,9 +32,4 @@ public class FirmwareUpdateStateReady extends CancelableFirmwareUpdateState {
             operation.finish();
         }
     }
-
-    @Override
-    protected void onFinish() {
-
-    }
 }
