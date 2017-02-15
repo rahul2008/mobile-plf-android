@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
-apply plugin: 'jacoco'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
@@ -222,34 +221,4 @@ dependencies {
 
     testCompile 'org.robolectric:robolectric:3.0'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
-}
-
-task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
-    group = "Reporting"
-
-//    jvmArgs = ["-XX:-UseSplitVerifier"]
-    description = "Generate Jacoco coverage reports"
-
-    classDirectories = fileTree(
-            dir: '../AppInfra/build/intermediates/classes/debug',
-            excludes: ['**/R.class',
-                       '**/R$*.class',
-                       '**/BuildConfig.*',
-                       '**/response/*/*.class',
-                       '**/view/*.class',
-                       '**/adapters/*.class',
-                       '**/analytics/*.class',
-                       '**/utils/*.class',
-                       '**/activity/*.class',
-                       '**/Fragments/*.class']
-    )
-
-    additionalSourceDirs = files(coverageSourceDirs)
-    sourceDirectories = files(coverageSourceDirs)
-    executionData = files('../AppInfra/build/jacoco/testDebugUnitTest.exec')
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
 }
