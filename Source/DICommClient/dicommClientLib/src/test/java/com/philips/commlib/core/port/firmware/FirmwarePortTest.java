@@ -269,16 +269,6 @@ public class FirmwarePortTest extends RobolectricTest {
         assertEquals("Error downloading", firmwarePortExceptionArgumentCaptor.getValue().getMessage());
     }
 
-    @Test
-    public void whenGoingFromCheckingStateToErrorState_DownloadFailedShouldBeCalled() {
-        parseFirmwarePortData(createPropertiesJson("1", "", "checking", 5, "", 100));
-        parseFirmwarePortData(createPropertiesJson("1", "", "error", 0, "Invalid firmware", 100));
-
-        ArgumentCaptor<FirmwarePortListener.FirmwarePortException> firmwarePortExceptionArgumentCaptor = ArgumentCaptor.forClass(FirmwarePortListener.FirmwarePortException.class);
-        verify(mockFirmwarePortListener).onDownloadFailed(firmwarePortExceptionArgumentCaptor.capture());
-        assertEquals("Invalid firmware", firmwarePortExceptionArgumentCaptor.getValue().getMessage());
-    }
-
     // onDownloadFinished
 
     @Test
