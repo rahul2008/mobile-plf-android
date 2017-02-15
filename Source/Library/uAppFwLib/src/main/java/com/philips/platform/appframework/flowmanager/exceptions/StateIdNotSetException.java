@@ -10,6 +10,6 @@ public class StateIdNotSetException extends RuntimeException {
     private static final long serialVersionUID = 3331247819494979016L;
 
     public StateIdNotSetException() {
-        super("No State id set on constructor");
+        super("There is no State Id for the passed State");
     }
 }

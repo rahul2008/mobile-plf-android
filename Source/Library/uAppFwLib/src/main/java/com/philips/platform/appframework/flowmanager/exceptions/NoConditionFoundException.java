@@ -11,6 +11,6 @@ public class NoConditionFoundException extends RuntimeException {
     private static final long serialVersionUID = -2818644841378764351L;
 
     public NoConditionFoundException() {
-        super("No Condition Found");
+        super("No Condition found with that Id");
     }
 }

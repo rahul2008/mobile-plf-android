@@ -6,6 +6,6 @@ public class NoStateException extends RuntimeException {
     private static final long serialVersionUID = 2474977360521233155L;
 
     public NoStateException() {
-        super("No State Found");
+        super("No State found with that Id");
     }
 }

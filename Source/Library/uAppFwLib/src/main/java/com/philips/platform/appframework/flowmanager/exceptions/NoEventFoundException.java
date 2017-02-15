@@ -11,6 +11,6 @@ public class NoEventFoundException extends RuntimeException {
     private static final long serialVersionUID = -3607974490392199565L;
 
     public NoEventFoundException() {
-        super("No Event Found");
+        super("No Event found with that Id");
     }
 }

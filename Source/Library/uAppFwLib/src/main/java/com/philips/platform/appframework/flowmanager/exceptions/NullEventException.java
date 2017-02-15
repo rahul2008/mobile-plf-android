@@ -10,6 +10,6 @@ public class NullEventException extends RuntimeException {
     private static final long serialVersionUID = -1493290864496896236L;
 
     public NullEventException() {
-        super("Null Event Found");
+        super("Passed Event is not valid");
     }
 }
