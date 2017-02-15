@@ -91,6 +91,19 @@ public class TextViewPropertiesMatchers {
         };
     }
 
+    public static Matcher<View> isSameLineSpacingMultiplier(final float expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                if (view instanceof TextView) {
+                    setValues(((TextView) view).getLineSpacingMultiplier(), expectedValue);
+                    return areEqual();
+                }
+                throw new RuntimeException("expected TextView got " + view.getClass().getName());
+            }
+        };
+    }
+
     public static Matcher<View> isSameCompoundDrawablePadding(final int expectedValue) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override

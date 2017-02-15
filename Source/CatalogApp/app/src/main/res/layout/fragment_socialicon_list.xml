@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             style="@style/ButtonsCategoryStyle"
             android:text="@string/primary_social_media_icons"/>
 
@@ -31,7 +31,7 @@
             android:verticalSpacing="2dp">
         </GridView>
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             style="@style/ButtonsCategoryStyle"
             android:text="@string/white_social_media_icons"
             android:visibility="@{fragment.supportsWhiteSocialIcons()? View.VISIBLE : View.GONE}"/>

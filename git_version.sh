@@ -12,11 +12,9 @@ case "$arg" in
   "rc")
      describe=`git describe --abbrev=0 2> /dev/null`
      if [[ $describe == *"rc"* ]]; then
-       IFS="-"
-       tags=($describe)
-       IFS="."
-       candidates=($tags[1])
-       git_tag="${tags[0]}-rc.$((candidates[1]+1))"
+       version=`echo $describe | cut -d- -f1`
+       rc=`echo $describe | cut -d- -f2 | cut -d. -f2`
+       git_tag="${version}-rc.$((rc+1))"
      else
        describe=`git describe --match *SNAPSHOT*`
        IFS="-"

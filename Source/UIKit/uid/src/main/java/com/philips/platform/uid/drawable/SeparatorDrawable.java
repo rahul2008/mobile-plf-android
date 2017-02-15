@@ -42,7 +42,7 @@ public class SeparatorDrawable extends Drawable {
 
     public SeparatorDrawable(@NonNull final Context context) {
         final TypedArray styledAttributes = context.obtainStyledAttributes(ATTRS);
-        this.height = (int) styledAttributes.getDimension(HEIGHT_ATTR_INDEX, 1);
+        this.height = styledAttributes.getDimensionPixelSize(HEIGHT_ATTR_INDEX, 1);
         final int color = styledAttributes.getColor(SEPARATOR_ATT_INDEX, ContextCompat.getColor(context, R.color.uid_gray_level_75));
         final float alpha = styledAttributes.getFloat(SEPARATOR_ALPHA_ATTR_INDEX, 0);
         final int modulateColorAlpha = UIDUtils.modulateColorAlpha(color, alpha);
