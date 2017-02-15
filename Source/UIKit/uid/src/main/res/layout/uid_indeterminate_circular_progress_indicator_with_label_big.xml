@@ -6,6 +6,7 @@
 
     <com.philips.platform.uid.view.widget.ProgressBar
         android:id="@+id/uid_progress_indicator"
+        android:layout_centerHorizontal="true"
         style="@style/UIDProgressBarCircularIndeterminateBig"/>
 
     <com.philips.platform.uid.view.widget.Label
@@ -13,10 +14,12 @@
         style="@style/UIDLabel.ProgressBarLabel"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/uid_progress_indicator"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        android:visibility="gone"/>
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/uid_progress_indicator_label_center"
         style="@style/UIDLabel.ProgressBarLabel"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
 </RelativeLayout>
