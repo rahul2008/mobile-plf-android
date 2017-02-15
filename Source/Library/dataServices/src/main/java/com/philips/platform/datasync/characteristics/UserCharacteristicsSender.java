@@ -26,6 +26,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class UserCharacteristicsSender extends DataSender {
 
     private static final int API_VERSION = 9;

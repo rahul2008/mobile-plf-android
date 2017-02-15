@@ -35,6 +35,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Header;
 import retrofit.client.Response;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class MomentsDataSender extends DataSender {
     @Inject
     UCoreAccessProvider accessProvider;

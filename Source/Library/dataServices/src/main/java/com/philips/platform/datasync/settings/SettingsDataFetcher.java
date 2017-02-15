@@ -90,7 +90,7 @@ public class SettingsDataFetcher extends DataFetcher {
         SettingsClient client = uCoreAdapter.getAppFrameworkClient(SettingsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
 
         try {
-            UCoreSettings settings = client.getSettings(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId(), uCoreAdapter.API_VERSION);
+            UCoreSettings settings = client.getSettings(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId(), UCoreAdapter.API_VERSION);
             Settings appSettings = settingsConverter.convertUcoreToAppSettings(settings);
             eventing.post(new SettingsBackendSaveResponse(appSettings));
         } catch (RetrofitError retrofitError) {

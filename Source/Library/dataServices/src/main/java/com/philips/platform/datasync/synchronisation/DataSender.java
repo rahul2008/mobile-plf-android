@@ -20,6 +20,7 @@ import retrofit.RetrofitError;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public abstract class DataSender {
 
     @Inject
