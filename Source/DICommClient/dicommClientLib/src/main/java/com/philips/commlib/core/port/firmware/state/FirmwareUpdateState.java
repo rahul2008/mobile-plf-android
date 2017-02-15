@@ -23,7 +23,6 @@ public abstract class FirmwareUpdateState implements FirmwareUpdate {
 
     @Override
     public void start() {
-
     }
 
     public void start(@Nullable FirmwareUpdateState previousState) {
@@ -46,5 +45,6 @@ public abstract class FirmwareUpdateState implements FirmwareUpdate {
 
     protected abstract void onStart(@Nullable FirmwareUpdateState previousState);
 
-    protected void onFinish(){}
+    protected void onFinish() {
+    }
 }
