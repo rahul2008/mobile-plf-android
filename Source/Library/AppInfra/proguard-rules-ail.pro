@@ -95,5 +95,5 @@
 -keep class com.android.volley.** { *; }
 -keep interface com.android.volley.** { *; }
 
--keep public class com.philips.platform.appinfra.**(*;}
--keep interface com.philips.platform.appinfra.**(*;}
+-keep public class com.philips.platform.appinfra.**{*;}
+-keep interface com.philips.platform.appinfra.**{*;}
