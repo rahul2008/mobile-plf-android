@@ -14,26 +14,26 @@ import static com.philips.cdp.dicommclient.util.DICommLog.disableLogging;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class FirmwareUpdateStateErrorTest {
+public class FirmwareUpdateStateIdleTest {
 
     @Mock
     private FirmwareUpdatePushLocal mockOperation;
 
-    private FirmwareUpdateStateError stateUnderTest;
+    private FirmwareUpdateStateIdle stateUnderTest;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         initMocks(this);
         disableLogging();
 
-        stateUnderTest = new FirmwareUpdateStateError(mockOperation);
+        stateUnderTest = new FirmwareUpdateStateIdle(mockOperation);
     }
 
     @Test
-    public void whenStartingFromChecking_DownloadFailed() {
+    public void whenStartingFromChecking_DeployFinished() {
 
         stateUnderTest.start(new FirmwareUpdateStateChecking(mockOperation));
 
-        verify(mockOperation).onDownloadFailed();
+        verify(mockOperation).onDeployFinished();
     }
 }
