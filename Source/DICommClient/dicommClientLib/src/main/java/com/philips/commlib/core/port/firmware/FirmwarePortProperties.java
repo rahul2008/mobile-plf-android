@@ -48,11 +48,10 @@ public class FirmwarePortProperties {
         DOWNLOADING("downloading"),
         CHECKING("checking"),
         READY("ready"),
-        PROGRAMMING("programming"),
+        PROGRAMMING("go", "programming"),
         CANCELING("cancel", "canceling", "cancelling"),
         ERROR("error"),
-        UNKNOWN("unknown"),
-        GO("go");
+        UNKNOWN("unknown");
 
         private final String[] stateNames;
 
