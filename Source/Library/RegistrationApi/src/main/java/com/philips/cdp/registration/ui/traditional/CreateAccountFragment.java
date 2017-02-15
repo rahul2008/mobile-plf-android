@@ -312,15 +312,24 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
             RLog.d(RLog.AB_TESTING,"UI Flow Type A");
             mLlCreateAccountContainer.setVisibility(View.VISIBLE);
             mJoinnow.setVisibility(View.GONE);
+            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                    AppTagingConstants.REGISTRATION_CONTROL);
+
         }else if (abStrings.equals(UIFlow.FLOW_B)){
             RLog.d(RLog.AB_TESTING, "UI Flow Type B");
             mLlCreateAccountContainer.setVisibility(View.GONE);
             mJoinnow.setVisibility(View.GONE);
+            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                    AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
+
         }else if (abStrings.equals(UIFlow.FLOW_C)){
             RLog.d(RLog.AB_TESTING,"UI Flow Type C");
             mLlCreateAccountContainer.setVisibility(View.VISIBLE);
             mJoinnow.setVisibility(View.VISIBLE);
             mTvFirstToKnow.setVisibility(View.VISIBLE);
+            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                    AppTagingConstants.REGISTRATION_SOCIAL_PROOF);
+
 
         }
         mLlAcceptTermsContainer = (LinearLayout) view
@@ -444,22 +453,16 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         final UIFlow abStrings=RegUtility.getUiFlow();
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
-            if (abStrings.equals(UIFlow.FLOW_A.getValue())){
+            if (abStrings.equals(UIFlow.FLOW_A)){
                 RLog.d(RLog.AB_TESTING,"UI Flow Type A");
                 mViewLine.setVisibility(View.VISIBLE);
-                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                        AppTagingConstants.REGISTRATION_CONTROL);
-            }else if (abStrings.equals(UIFlow.FLOW_B.getValue())){
+               }else if (abStrings.equals(UIFlow.FLOW_B)){
                 RLog.d(RLog.AB_TESTING,"UI Flow Type B");
                 mViewLine.setVisibility(View.GONE);
-                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                        AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
-            }else if (abStrings.equals(UIFlow.FLOW_C.getValue())){
+              }else if (abStrings.equals(UIFlow.FLOW_C)){
                 RLog.d(RLog.AB_TESTING,"UI Flow Type C");
                 mViewLine.setVisibility(View.VISIBLE);
-                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                        AppTagingConstants.REGISTRATION_SOCIAL_PROOF);
-            }
+                            }
         } else {
             mLlAcceptTermsContainer.setVisibility(View.GONE);
             mViewLine.setVisibility(View.GONE);
@@ -484,9 +487,10 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         hideSpinner();
         trackCheckMarketing();
         final UIFlow abStrings=RegUtility.getUiFlow();
+
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_USER_CREATION);
-        if (abStrings.equals(UIFlow.FLOW_A.getValue())) {
+        if (abStrings.equals(UIFlow.FLOW_A)) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type A ");
             if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
                 if (FieldsValidator.isValidEmail(mUser.getEmail().toString())) {
@@ -497,10 +501,10 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
             } else {
                 launchWelcomeFragment();
             }
-        } else if (abStrings.equals(UIFlow.FLOW_B.getValue())) {
+        } else if (abStrings.equals(UIFlow.FLOW_B)) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type B");
             getRegistrationFragment().addFragment(new MarketingAccountFragment());
-        } else if (abStrings.equals(UIFlow.FLOW_C.getValue())) {
+        } else if (abStrings.equals(UIFlow.FLOW_C)) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type  C");
             if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
                 if (FieldsValidator.isValidEmail(mUser.getEmail().toString())) {

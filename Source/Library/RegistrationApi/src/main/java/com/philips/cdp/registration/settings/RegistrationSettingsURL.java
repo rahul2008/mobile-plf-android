@@ -206,7 +206,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> resultMap) {
                 ServiceDiscoveryService serviceDiscoveyService = resultMap.get("userreg.janrain.api");
-                if (serviceDiscoveyService != null) {
+                if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
                     String urlLocal = serviceDiscoveyService.getConfigUrls();
                     String janrainURL = urlLocal.substring(8);//Please don't remove this line.\
 
@@ -235,7 +235,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                 }
 
                 serviceDiscoveyService = resultMap.get("userreg.landing.emailverif");
-                if (serviceDiscoveyService != null) {
+                if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
                     jumpConfig.captureRedirectUri = serviceDiscoveyService.getConfigUrls()
                             + "?loc=" + langCode + "_" + countryCode;
                     RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.emailverif :"
@@ -250,7 +250,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                 }
 
                 serviceDiscoveyService = resultMap.get("userreg.landing.resetpass");
-                if (serviceDiscoveyService != null) {
+                if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
                     String modifiedUrl = serviceDiscoveyService.getConfigUrls().
                             replaceAll("c-w", "myphilips");
                     //https://philips-cn.capture.cn.janrain.com/
@@ -267,7 +267,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                 }
 
                 serviceDiscoveyService = resultMap.get("userreg.janrain.cdn");
-                if (serviceDiscoveyService != null) {
+                if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
                     RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.cdn :" +
                             serviceDiscoveyService.getConfigUrls());
                     jumpConfig.downloadFlowUrl = serviceDiscoveyService.getConfigUrls();
@@ -278,7 +278,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                 }
 
                 serviceDiscoveyService = resultMap.get("userreg.smssupported");
-                if (serviceDiscoveyService != null) {
+                if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
                     String smsSupport = serviceDiscoveyService.getConfigUrls();
                     setChinaFlow(true);
                     RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.smssupported :" +
@@ -298,7 +298,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                 }
 
                 serviceDiscoveyService = resultMap.get("userreg.janrain.engage");
-                if (serviceDiscoveyService != null) {
+                if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
                     RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.engage :" +
                             serviceDiscoveyService.getConfigUrls());
                     jumpConfig.engageAppUrl = serviceDiscoveyService.getConfigUrls().substring(8);
