@@ -33,6 +33,7 @@ import static org.mockito.Mockito.when;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+@RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
 public class ProdRegProcessControllerTest extends TestCase {
 
