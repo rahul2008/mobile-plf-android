@@ -272,14 +272,6 @@ public class FirmwarePortTest extends RobolectricTest {
     // onDownloadFinished
 
     @Test
-    public void whenGoingFromCheckingStateToReadyState_DownloadFinishedShouldBeCalled() {
-        parseFirmwarePortData(createPropertiesJson("1", "", "checking", 100, "", 100));
-        parseFirmwarePortData(createPropertiesJson("1", "", "ready", 0, "", 100));
-
-        verify(mockFirmwarePortListener).onDownloadFinished();
-    }
-
-    @Test
     public void whenGoingFromDownloadingStateToReadyState_AndCheckingStateIsSkipped_DownloadFinishedShouldBeCalled() {
         parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 80, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "ready", 0, "", 100));
