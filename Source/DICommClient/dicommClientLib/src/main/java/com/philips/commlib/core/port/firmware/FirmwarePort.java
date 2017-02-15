@@ -31,7 +31,7 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
     private final Set<FirmwarePortListener> firmwarePortListeners = new CopyOnWriteArraySet<>();
 
     private Handler callbackHandler;
-    private ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+    private ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(5);
 
     private final FirmwarePortListener listener = new FirmwarePortListener() {
 
