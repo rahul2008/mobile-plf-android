@@ -147,7 +147,8 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     public Object getPropertyForKey(String key, String group, AppConfigurationError configError)
             throws IllegalArgumentException {
         Object object = null;
-        if (null == group || null == key || group.isEmpty() || key.isEmpty() || !group.matches("[a-zA-Z0-9_.-]+") || !key.matches("[a-zA-Z0-9_.-]+")) {
+        if (null == group || null == key || group.isEmpty() || key.isEmpty() ||
+                !group.matches("[a-zA-Z0-9_.-]+") || !key.matches("[a-zA-Z0-9_.-]+")) {
             configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.InvalidKey);
             throw new IllegalArgumentException("Invalid Argument Exception");
         } else {
@@ -166,7 +167,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                         if (configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.NoError) { //if key is found in cloud config
                             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "uAppConfig", "key found in static config");
                         }
-                    }else{
+                    } else {
                         if (configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.NoError) { //if key is found in cloud config
                             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "uAppConfig", "key found in cloud config");
                         }
@@ -272,7 +273,8 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     public Object getDefaultPropertyForKey(String key, String group, AppConfigurationError configError) throws IllegalArgumentException {
 
         Object object = null;
-        if (null == group || null == key || group.isEmpty() || key.isEmpty() || !group.matches("[a-zA-Z0-9_.-]+") || !key.matches("[a-zA-Z0-9_.-]+")) {
+        if (null == group || null == key || group.isEmpty() || key.isEmpty()
+                || !group.matches("[a-zA-Z0-9_.-]+") || !key.matches("[a-zA-Z0-9_.-]+")) {
             configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.InvalidKey);
             throw new IllegalArgumentException("Invalid Argument Exception");
         } else {

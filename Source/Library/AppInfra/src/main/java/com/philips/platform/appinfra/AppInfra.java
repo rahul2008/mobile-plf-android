@@ -61,7 +61,7 @@ public class AppInfra implements AppInfraInterface {
 
         private SecureStorageInterface secStor;
         private LoggingInterface logger; // builder logger
-        private LoggingInterface aiLogger; // app infra logger
+     //   private LoggingInterface aiLogger; // app infra logger
         private AppTaggingInterface tagging;
         private AppIdentityInterface appIdentity;
         private InternationalizationInterface local;
@@ -80,7 +80,7 @@ public class AppInfra implements AppInfraInterface {
         public Builder() {
             secStor = null;
             logger = null;
-            aiLogger = null;
+            //aiLogger = null;
             tagging = null;
             appIdentity = null;
             local = null;
