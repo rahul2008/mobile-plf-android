@@ -21,7 +21,7 @@ public class FirmwareUpdateStateCanceling extends FirmwareUpdateState {
             operation.waitForNextState();
         } catch (StateWaitException e) {
             operation.onDownloadFailed("Could not cancel.");
-            operation.onFinish();
+            operation.finish();
         }
     }
 

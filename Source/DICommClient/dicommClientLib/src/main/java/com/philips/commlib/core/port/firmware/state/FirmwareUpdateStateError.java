@@ -34,7 +34,7 @@ public class FirmwareUpdateStateError extends FirmwareUpdateState {
         try {
             operation.waitForNextState();
         } catch (StateWaitException e) {
-            operation.onFinish();
+            operation.finish();
         }
     }
 

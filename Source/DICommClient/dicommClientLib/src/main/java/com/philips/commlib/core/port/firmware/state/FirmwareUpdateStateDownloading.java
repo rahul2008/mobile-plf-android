@@ -24,14 +24,14 @@ public class FirmwareUpdateStateDownloading extends CancelableFirmwareUpdateStat
             operation.onDownloadProgress(100);
         } catch (IOException e) {
             operation.onDownloadFailed("Could not upload firmware.");
-            operation.onFinish();
+            operation.finish();
         }
 
         try {
             operation.waitForNextState();
         } catch (StateWaitException e) {
             operation.onDownloadFailed("Could not upload firmware.");
-            operation.onFinish();
+            operation.finish();
         }
     }
 

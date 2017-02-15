@@ -25,7 +25,7 @@ public class FirmwareUpdateStateIdle extends FirmwareUpdateState {
                 operation.waitForNextState();
             } catch (StateWaitException e) {
                 operation.onDownloadFailed("Could not start uploading.");
-                operation.onFinish();
+                operation.finish();
             }
             return;
         }
@@ -33,7 +33,7 @@ public class FirmwareUpdateStateIdle extends FirmwareUpdateState {
         if (!(previousState instanceof FirmwareUpdateStateError)) {
             operation.onDeployFinished();
         }
-        operation.onFinish();
+        operation.finish();
     }
 
     @Override

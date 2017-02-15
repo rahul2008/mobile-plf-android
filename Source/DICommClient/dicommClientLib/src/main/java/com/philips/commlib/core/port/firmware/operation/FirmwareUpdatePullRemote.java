@@ -4,10 +4,9 @@
  */
 package com.philips.commlib.core.port.firmware.operation;
 
-public class FirmwareUpdatePullRemote implements FirmwareUpdateOperation {
-    public FirmwareUpdatePullRemote() {
-        throw new UnsupportedOperationException("Not implemented yet.");
-    }
+import com.philips.commlib.core.port.firmware.FirmwareUpdate;
+
+public class FirmwareUpdatePullRemote implements FirmwareUpdate {
 
     @Override
     public void start() {
@@ -15,12 +14,17 @@ public class FirmwareUpdatePullRemote implements FirmwareUpdateOperation {
     }
 
     @Override
-    public void deploy() {
+    public void deploy() throws FirmwareUpdateException {
         throw new UnsupportedOperationException("Not implemented yet.");
     }
 
     @Override
-    public void cancel() {
+    public void cancel() throws FirmwareUpdateException {
+        throw new UnsupportedOperationException("Not implemented yet.");
+    }
+
+    @Override
+    public void finish() {
         throw new UnsupportedOperationException("Not implemented yet.");
     }
 }

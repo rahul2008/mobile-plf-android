@@ -12,6 +12,7 @@ import com.philips.commlib.core.port.firmware.FirmwarePortListener;
 import com.philips.commlib.core.port.firmware.FirmwarePortListener.FirmwarePortException;
 import com.philips.commlib.core.port.firmware.FirmwarePortProperties;
 import com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState;
+import com.philips.commlib.core.port.firmware.FirmwareUpdate;
 import com.philips.commlib.core.port.firmware.state.FirmwareUpdateState;
 import com.philips.commlib.core.port.firmware.state.FirmwareUpdateStateCanceling;
 import com.philips.commlib.core.port.firmware.state.FirmwareUpdateStateChecking;
@@ -21,7 +22,6 @@ import com.philips.commlib.core.port.firmware.state.FirmwareUpdateStateIdle;
 import com.philips.commlib.core.port.firmware.state.FirmwareUpdateStatePreparing;
 import com.philips.commlib.core.port.firmware.state.FirmwareUpdateStateProgramming;
 import com.philips.commlib.core.port.firmware.state.FirmwareUpdateStateReady;
-import com.philips.commlib.core.port.firmware.state.IncompatibleStateException;
 import com.philips.commlib.core.port.firmware.util.FirmwarePortStateWaiter;
 import com.philips.commlib.core.port.firmware.util.FirmwareUploader;
 import com.philips.commlib.core.port.firmware.util.StateWaitException;
@@ -40,7 +40,7 @@ import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.Firm
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.PROGRAMMING;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.READY;
 
-public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
+public class FirmwareUpdatePushLocal implements FirmwareUpdate {
 
     private static final class StateMap extends HashMap<FirmwarePortState, FirmwareUpdateState> {
         FirmwarePortState findByState(@NonNull FirmwareUpdateState state) {
@@ -112,13 +112,18 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
     }
 
     @Override
-    public void deploy() throws IncompatibleStateException {
+    public void deploy() throws FirmwareUpdateException {
         this.state.deploy();
     }
 
     @Override
-    public void cancel() throws IncompatibleStateException {
-       this.state.cancel();
+    public void cancel() throws FirmwareUpdateException {
+        this.state.cancel();
+    }
+
+    @Override
+    public void finish() {
+        this.firmwarePort.finishFirmwareUpdateOperation();
     }
 
     public void pushData() throws IOException {
@@ -127,10 +132,6 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
 
     public void onDeployFinished() {
         this.firmwarePortListener.onDeployFinished();
-    }
-
-    public void onFinish() {
-        this.firmwarePort.finishFirmwareUpdateOperation();
     }
 
     public void onDownloadFailed() {

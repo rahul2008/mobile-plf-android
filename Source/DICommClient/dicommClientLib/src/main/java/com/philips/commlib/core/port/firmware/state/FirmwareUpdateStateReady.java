@@ -29,7 +29,7 @@ public class FirmwareUpdateStateReady extends CancelableFirmwareUpdateState {
             operation.waitForNextState();
         } catch (StateWaitException e) {
             operation.onDeployFailed("Deployment failed.");
-            operation.onFinish();
+            operation.finish();
         }
     }
 

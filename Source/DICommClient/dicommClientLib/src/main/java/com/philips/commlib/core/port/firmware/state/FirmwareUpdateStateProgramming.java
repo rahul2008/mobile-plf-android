@@ -21,7 +21,7 @@ public class FirmwareUpdateStateProgramming extends FirmwareUpdateState {
             operation.waitForNextState();
         } catch (StateWaitException e) {
             operation.onDeployFailed("Deployment failed.");
-            operation.onFinish();
+            operation.finish();
         }
     }
 

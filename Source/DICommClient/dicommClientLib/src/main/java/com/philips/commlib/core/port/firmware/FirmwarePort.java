@@ -12,10 +12,9 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.commlib.core.communication.CommunicationStrategy;
-import com.philips.commlib.core.port.firmware.operation.FirmwareUpdateOperation;
+import com.philips.commlib.core.port.firmware.FirmwareUpdate.FirmwareUpdateException;
 import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePullRemote;
 import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePushLocal;
-import com.philips.commlib.core.port.firmware.state.IncompatibleStateException;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -26,7 +25,7 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
     private static final String FIRMWAREPORT_NAME = "firmware";
     private static final int FIRMWAREPORT_PRODUCTID = 0;
 
-    private FirmwareUpdateOperation operation;
+    private FirmwareUpdate operation;
     private FirmwarePortProperties previousFirmwarePortProperties = new FirmwarePortProperties();
     private final Set<FirmwarePortListener> firmwarePortListeners = new CopyOnWriteArraySet<>();
 
@@ -153,7 +152,7 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
         }
         try {
             operation.cancel();
-        } catch (IncompatibleStateException e) {
+        } catch (FirmwareUpdateException e) {
             DICommLog.e(DICommLog.FIRMWAREPORT, "Error while canceling operation: " + e.getMessage());
         }
     }
@@ -168,7 +167,7 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
         }
         try {
             operation.deploy();
-        } catch (IncompatibleStateException e) {
+        } catch (FirmwareUpdateException e) {
             DICommLog.e(DICommLog.FIRMWAREPORT, "Error while canceling operation: " + e.getMessage());
         }
     }

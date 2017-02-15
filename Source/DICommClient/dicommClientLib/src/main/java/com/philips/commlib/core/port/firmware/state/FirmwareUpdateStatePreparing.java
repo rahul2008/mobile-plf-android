@@ -21,7 +21,7 @@ public class FirmwareUpdateStatePreparing extends CancelableFirmwareUpdateState 
             operation.waitForNextState();
         } catch (StateWaitException e) {
             operation.onDownloadFailed("Could not upload firmware.");
-            operation.onFinish();
+            operation.finish();
         }
     }
 
