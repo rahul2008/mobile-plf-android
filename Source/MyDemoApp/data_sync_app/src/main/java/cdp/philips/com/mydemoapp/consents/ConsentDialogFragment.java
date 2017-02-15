@@ -14,13 +14,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
@@ -73,7 +73,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     }
 
     @Override
-    public void onSuccess(final ArrayList<? extends Object> data) {
+    public void onSuccess(final List<? extends Object> data) {
 
         final ArrayList<OrmConsentDetail> ormConsents = (ArrayList<OrmConsentDetail>) data;
 

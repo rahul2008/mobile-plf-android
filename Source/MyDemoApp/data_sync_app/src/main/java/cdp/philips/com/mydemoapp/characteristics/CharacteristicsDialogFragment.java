@@ -136,7 +136,7 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
     }
 
     @Override
-    public void onSuccess(ArrayList<? extends Object> data) {
+    public void onSuccess(List<? extends Object> data) {
         //Display User characteristics from DB
     }
 

@@ -14,13 +14,14 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
-import java.util.ArrayList;
+
 import java.util.Arrays;
+import java.util.List;
+
 import cdp.philips.com.mydemoapp.R;
 
 /**
@@ -75,7 +76,7 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
     }
 
     @Override
-    public void onSuccess(final ArrayList<? extends Object> ormObjectList) {
+    public void onSuccess(final List<? extends Object> ormObjectList) {
 
 
     }
