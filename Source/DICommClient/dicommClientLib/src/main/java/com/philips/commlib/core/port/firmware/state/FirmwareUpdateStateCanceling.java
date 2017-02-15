@@ -24,9 +24,4 @@ public class FirmwareUpdateStateCanceling extends FirmwareUpdateState {
             operation.onFinish();
         }
     }
-
-    @Override
-    protected void onFinish() {
-
-    }
 }

@@ -34,9 +34,4 @@ public class FirmwareUpdateStateDownloading extends CancelableFirmwareUpdateStat
             operation.onFinish();
         }
     }
-
-    @Override
-    protected void onFinish() {
-
-    }
 }

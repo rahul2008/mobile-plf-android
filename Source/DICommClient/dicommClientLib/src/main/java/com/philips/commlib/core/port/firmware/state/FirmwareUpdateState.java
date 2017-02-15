@@ -40,5 +40,5 @@ public abstract class FirmwareUpdateState {
 
     protected abstract void onStart(@Nullable FirmwareUpdateState previousState);
 
-    protected abstract void onFinish();
+    protected void onFinish(){}
 }
