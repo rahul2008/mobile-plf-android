@@ -15,7 +15,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class TimeGuardedSharedPreferencesProviderWrapperTest {
 
-    private static final long EXCEEDED_EXECUTION_TIME = 60L;
+    private static final long EXCEEDED_EXECUTION_TIME = 360L;
     private TimeGuardedSharedPreferencesProviderWrapper timeGuardedSharedPreferencesProviderWrapper;
 
     @Mock

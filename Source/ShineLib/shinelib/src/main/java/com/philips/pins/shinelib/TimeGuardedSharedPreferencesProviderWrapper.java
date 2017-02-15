@@ -12,7 +12,7 @@ import com.philips.pins.shinelib.utility.SHNLogger;
 
 class TimeGuardedSharedPreferencesProviderWrapper implements SharedPreferencesProvider {
 
-    public static final int DELAY_MILLIS = 50;
+    public static final int DELAY_MILLIS = 350;
     private static final String TAG = "TimeGuardedSharedPrefProvider";
 
     private SharedPreferencesProvider sharedPreferencesProvider;
@@ -32,7 +32,7 @@ class TimeGuardedSharedPreferencesProviderWrapper implements SharedPreferencesPr
         long dif = getCurrentTimeInMillis() - startTime;
 
         if (dif > DELAY_MILLIS) {
-            final String msg = "The internal thread is not responding! Custom SharedPreference's execution time has exceeded expected execution time of 50 ms! Execution time is " + dif;
+            final String msg = "The internal thread is not responding! Custom SharedPreference's execution time has exceeded expected execution time of 350 ms! Execution time is " + dif;
             SHNLogger.wtf(TAG, msg);
             throw new TimeoutException(msg);
         }

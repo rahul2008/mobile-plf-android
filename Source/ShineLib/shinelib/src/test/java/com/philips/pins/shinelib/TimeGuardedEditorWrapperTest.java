@@ -19,7 +19,7 @@ public class TimeGuardedEditorWrapperTest {
     public static final String VALUE = "value";
 
     public static final long NORMAL_EXECUTION_TIME = 10L;
-    public static final long EXCEEDED_EXECUTION_TIME = 60L;
+    public static final long EXCEEDED_EXECUTION_TIME = 360L;
 
     private TimeGuardedEditorWrapper wrapper;
 
