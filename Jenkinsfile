@@ -16,7 +16,6 @@ if (env.triggerBy == "ppc") {
   node_ext = "build_p"
 }
 
-
 node ('Ubuntu &&' + node_ext) {
 	timestamps {
 		stage ('Checkout') {
