@@ -26,7 +26,7 @@ public class WhiteBoxAPIActivity extends AppCompatActivity {
         TextView tvPsHmacResult = new TextView(this);
 
         //for testing purpose, please don't remove
-        /*PshmacLib mGenerateHmacLib = new PshmacLib();
+        /*PsLib mGenerateHmacLib = new PsLib();
         byte[] resultBytes = mGenerateHmacLib.createHmac(mKey, httpMethodType);
         tvHmacResult.setText(bytesToHex(resultBytes));
         System.out.println("Result : "+bytesToHex(resultBytes));*/

@@ -137,9 +137,7 @@ android {
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         consumerProguardFiles 'proguard-rules.pro'
 
-        ndk{
-            moduleName "pshmac"
-        }
+
     }
 
     sourceSets.main
