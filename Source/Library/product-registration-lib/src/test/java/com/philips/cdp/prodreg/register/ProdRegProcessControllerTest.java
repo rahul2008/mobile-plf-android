@@ -82,47 +82,47 @@ public class ProdRegProcessControllerTest extends TestCase {
     }
 
 
-//    @Test
-//    public void testMetadataListener() {
-//        final SummaryListener summaryListenerMock = mock(SummaryListener.class);
-//        prodRegProcessController = new ProdRegProcessController(processControllerCallBacksMock, fragmentActivity) {
-//            @NonNull
-//            @Override
-//            protected SummaryListener getSummaryListener() {
-//                return summaryListenerMock;
-//            }
-//        };
-//        prodRegProcessController.process(bundle);
-//        ProductMetadataResponse productMetadataResponse = mock(ProductMetadataResponse.class);
-//        final MetadataListener metadataListener = prodRegProcessController.getMetadataListener();
-//        metadataListener.onMetadataResponse(productMetadataResponse);
-//        verify(productMock).getProductSummary(fragmentActivity, productMock, summaryListenerMock);
-//        metadataListener.onErrorResponse("error in metadata", -1);
-//        verify(processControllerCallBacksMock).dismissLoadingDialog();
-//        verify(processControllerCallBacksMock).showAlertOnError(-1);
-//    }
-//
-//    @Test
-//    public void testGetSummaryListener() {
-//        UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
-//        when(prodRegHelperMock.getSignedInUserWithProducts(fragmentActivity)).thenReturn(userWithProductsMock);
-//        prodRegProcessController.process(bundle);
-//        final SummaryListener summaryListener = prodRegProcessController.getSummaryListener();
-//        ProductSummaryResponse productSummaryResponseMock = mock(ProductSummaryResponse.class);
-//        summaryListener.onSummaryResponse(productSummaryResponseMock);
-//        verify(processControllerCallBacksMock).dismissLoadingDialog();
-//        verify(processControllerCallBacksMock).showFragment(prodRegRegistrationFragmentMock);
-//        summaryListener.onErrorResponse("error in getting summary", -1);
-//        verify(processControllerCallBacksMock, atLeastOnce()).dismissLoadingDialog();
-//        verify(processControllerCallBacksMock, atLeastOnce()).showFragment(prodRegRegistrationFragmentMock);
-//    }
-//
-//    @Test
-//    public void testProcess() {
-//        when(userMock.isUserSignIn()).thenReturn(true);
-//        UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
-//        when(prodRegHelperMock.getSignedInUserWithProducts(fragmentActivity)).thenReturn(userWithProductsMock);
-//        prodRegProcessController.process(bundle);
-//        verify(productMock).getProductMetadata(fragmentActivity, metadataListenerMock);
-//    }
+    @Test
+    public void testMetadataListener() {
+        final SummaryListener summaryListenerMock = mock(SummaryListener.class);
+        prodRegProcessController = new ProdRegProcessController(processControllerCallBacksMock, fragmentActivity) {
+            @NonNull
+            @Override
+            protected SummaryListener getSummaryListener() {
+                return summaryListenerMock;
+            }
+        };
+        prodRegProcessController.process(bundle);
+        ProductMetadataResponse productMetadataResponse = mock(ProductMetadataResponse.class);
+        final MetadataListener metadataListener = prodRegProcessController.getMetadataListener();
+        metadataListener.onMetadataResponse(productMetadataResponse);
+        verify(productMock).getProductSummary(fragmentActivity, productMock, summaryListenerMock);
+        metadataListener.onErrorResponse("error in metadata", -1);
+        verify(processControllerCallBacksMock).dismissLoadingDialog();
+        verify(processControllerCallBacksMock).showAlertOnError(-1);
+    }
+
+    @Test
+    public void testGetSummaryListener() {
+        UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
+        when(prodRegHelperMock.getSignedInUserWithProducts(fragmentActivity)).thenReturn(userWithProductsMock);
+        prodRegProcessController.process(bundle);
+        final SummaryListener summaryListener = prodRegProcessController.getSummaryListener();
+        ProductSummaryResponse productSummaryResponseMock = mock(ProductSummaryResponse.class);
+        summaryListener.onSummaryResponse(productSummaryResponseMock);
+        verify(processControllerCallBacksMock).dismissLoadingDialog();
+        verify(processControllerCallBacksMock).showFragment(prodRegRegistrationFragmentMock);
+        summaryListener.onErrorResponse("error in getting summary", -1);
+        verify(processControllerCallBacksMock, atLeastOnce()).dismissLoadingDialog();
+        verify(processControllerCallBacksMock, atLeastOnce()).showFragment(prodRegRegistrationFragmentMock);
+    }
+
+    @Test
+    public void testProcess() {
+        when(userMock.isUserSignIn()).thenReturn(true);
+        UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
+        when(prodRegHelperMock.getSignedInUserWithProducts(fragmentActivity)).thenReturn(userWithProductsMock);
+        prodRegProcessController.process(bundle);
+        verify(productMock).getProductMetadata(fragmentActivity, metadataListenerMock);
+    }
 }
