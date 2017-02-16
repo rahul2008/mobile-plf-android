@@ -217,7 +217,11 @@ public abstract class BleRequest implements Runnable {
             if (shnDevice.getState() == Connected) {
                 onConnected();
             } else if (shnDevice.getState() == Disconnected) {
-                completeRequest();
+                if (stateIs(COMPLETED)) {
+                    completeRequest();
+                } else {
+                    onError(Error.REQUEST_FAILED, "device disconnected");
+                }
             }
         }
 

@@ -16,6 +16,9 @@ import java.util.concurrent.ScheduledFuture;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 class PollingSubscription implements Runnable {
+    interface Callback {
+        void onCancel();
+    }
 
     @NonNull
     private final CommunicationStrategy communicationStrategy;
@@ -23,6 +26,7 @@ class PollingSubscription implements Runnable {
     private final PortParameters portParameters;
     @NonNull
     private final ResponseHandler responseHandler;
+    private Callback callback;
     private final long endTime;
     @NonNull
     private ScheduledFuture<?> future;
@@ -32,7 +36,6 @@ class PollingSubscription implements Runnable {
         this.portParameters = portParameters;
         this.endTime = currentTimeMillis() + timeToLiveMillis;
         this.responseHandler = responseHandler;
-
         this.future = executor.scheduleWithFixedDelay(this, 0, intervalMillis, MILLISECONDS);
     }
 
@@ -45,8 +48,16 @@ class PollingSubscription implements Runnable {
         }
     }
 
+    public void addCallback(Callback callback) {
+        this.callback = callback;
+    }
+
     void cancel() {
         future.cancel(false);
+
+        if (this.callback != null) {
+            this.callback.onCancel();
+        }
     }
 
     @VisibleForTesting

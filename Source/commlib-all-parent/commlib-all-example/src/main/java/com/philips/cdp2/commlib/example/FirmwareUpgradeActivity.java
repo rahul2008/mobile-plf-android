@@ -79,9 +79,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
                 Toast.makeText(FirmwareUpgradeActivity.this, R.string.no_firmware_directory_found, Toast.LENGTH_SHORT).show();
             }
             firmwareImagesListView.setAdapter(fwImageAdapter);
-        } else {
         }
-
         bleReferenceAppliance.getFirmwarePort().addFirmwarePortListener(firmwarePortListener);
     }
 
@@ -126,8 +124,10 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
             Toast.makeText(FirmwareUpgradeActivity.this, R.string.select_a_firmware_image, Toast.LENGTH_SHORT).show();
         } else {
             File firmwareFile = fwImageAdapter.getItem(selectedItemPosition);
-            byte[] firmwareBytes = fileToBytes(firmwareFile);
+            final byte[] firmwareBytes = fileToBytes(firmwareFile);
+
             bleReferenceAppliance.getFirmwarePort().pushLocalFirmware(firmwareBytes);
+
         }
     }
 
@@ -175,9 +175,15 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onDownloadFailed(FirmwarePortException exception) {
+        public void onDownloadFailed(final FirmwarePortException exception) {
             Log.i(TAG, "onDownloadFailed(" + exception.getMessage() + ")");
-            statusTextView.setText(getString(R.string.uploading_firmware_failed) + exception.getMessage());
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    statusTextView.setText(getString(R.string.uploading_firmware_failed) + exception.getMessage());
+                }
+            });
         }
 
         @Override

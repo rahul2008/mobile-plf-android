@@ -4,7 +4,6 @@
  */
 package com.philips.cdp2.commlib.ble.communication;
 
-import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 
@@ -13,7 +12,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -47,11 +45,12 @@ public class BleCommunicationStrategyTest {
     }
 
     @Test
-    public void testSameSubscribeTwiceReturnsError() {
+    public void givenSubscribedWhenSubscribingAgainThenSuccessReturned() {
         strategy.subscribe(PORTNAME, PRODUCT_ID, 5000, mock(ResponseHandler.class));
+
         strategy.subscribe(PORTNAME, PRODUCT_ID, 5000, responseHandler);
 
-        verify(responseHandler).onError(eq(Error.PROPERTY_ALREADY_EXISTS), anyString());
+        verify(responseHandler).onSuccess(anyString());
     }
 
     @Test
@@ -63,9 +62,9 @@ public class BleCommunicationStrategyTest {
     }
 
     @Test
-    public void testUnsubscribeWhenNotSubscribed() {
+    public void givenNoSubscriptionWhenUnsubscribingThenSuccessReturned() {
         strategy.unsubscribe(PORTNAME, PRODUCT_ID, responseHandler);
 
-        verify(responseHandler).onError(eq(Error.NOT_SUBSCRIBED), anyString());
+        verify(responseHandler).onSuccess(anyString());
     }
 }

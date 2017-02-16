@@ -187,4 +187,20 @@ public class BleRequestTest {
 
         verify(mockDevice).registerSHNDeviceListener(null);
     }
+
+    @Test
+    public void givenRequestIsExecutingWhenDeviceDisconnectsThenOnErrorIsReported() throws Exception {
+        doAnswer(new Answer() {
+            @Override
+            public Void answer(final InvocationOnMock invocation) throws Throwable {
+                when(mockDevice.getState()).thenReturn(Disconnected);
+                stateListener.onStateUpdated(mockDevice);
+                return null;
+            }
+        }).when(mockInProgressLatch).await();
+
+        request.run();
+
+        verify(responseHandlerMock).onError(eq(Error.REQUEST_FAILED), anyString());
+    }
 }

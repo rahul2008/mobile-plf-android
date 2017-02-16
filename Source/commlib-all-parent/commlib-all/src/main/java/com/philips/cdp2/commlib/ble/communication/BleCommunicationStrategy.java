@@ -12,6 +12,7 @@ import android.support.annotation.VisibleForTesting;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.request.BleGetRequest;
 import com.philips.cdp2.commlib.ble.request.BlePutRequest;
@@ -19,6 +20,7 @@ import com.philips.cdp2.commlib.ble.request.BleRequest;
 import com.philips.commlib.core.communication.CommunicationStrategy;
 import com.philips.pins.shinelib.SHNDevice;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -106,16 +108,30 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
 
     @Override
     public synchronized void subscribe(final String portName, final int productId, final int subscriptionTtl, final ResponseHandler responseHandler) {
-        PortParameters portParameters = new PortParameters(portName, productId);
+        final PortParameters portParameters = new PortParameters(portName, productId);
 
-        if (this.subscriptionsCache.containsKey(portParameters)) {
-            responseHandler.onError(Error.PROPERTY_ALREADY_EXISTS, EMPTY_JSON_OBJECT_STRING);
-        } else {
-            PollingSubscription subscription = new PollingSubscription(this, this.requestExecutor, portParameters, subscriptionPollingInterval, subscriptionTtl * 1000, responseHandler);
+        if (!this.subscriptionsCache.containsKey(portParameters)) {
+            final PollingSubscription subscription = new PollingSubscription(this, this.requestExecutor, portParameters, subscriptionPollingInterval, subscriptionTtl * 1000, new ResponseHandler() {
+                @Override
+                public void onSuccess(String data) {
+                    notifySubscriptionEventListeners(data);
+                }
+
+                @Override
+                public void onError(Error error, String errorData) {
+                    DICommLog.e(DICommLog.LOCAL_SUBSCRIPTION, String.format(Locale.US, "Subscription - onError, error [%s], message [%s]", error, errorData));
+                }
+            });
+
+            subscription.addCallback(new PollingSubscription.Callback() {
+                @Override
+                public void onCancel() {
+                    subscriptionsCache.remove(portParameters);
+                }
+            });
             this.subscriptionsCache.put(portParameters, subscription);
-
-            responseHandler.onSuccess(EMPTY_JSON_OBJECT_STRING);
         }
+        responseHandler.onSuccess(EMPTY_JSON_OBJECT_STRING);
     }
 
     @Override
@@ -123,14 +139,11 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
         PortParameters portParameters = new PortParameters(portName, productId);
         PollingSubscription subscription = this.subscriptionsCache.get(portParameters);
 
-        if (subscription == null) {
-            responseHandler.onError(Error.NOT_SUBSCRIBED, EMPTY_JSON_OBJECT_STRING);
-        } else {
+        if (subscription != null) {
             subscription.cancel();
             this.subscriptionsCache.remove(portParameters);
-
-            responseHandler.onSuccess(EMPTY_JSON_OBJECT_STRING);
         }
+        responseHandler.onSuccess(EMPTY_JSON_OBJECT_STRING);
     }
 
     @Override
