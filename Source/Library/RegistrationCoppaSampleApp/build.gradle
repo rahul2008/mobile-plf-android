@@ -95,7 +95,7 @@ task zipDocuments(type: Zip) {
 
 publishing {
     publications {
-        aar(MavenPublication) {
+        apk(MavenPublication) {
             groupId group
             version = version
             artifactId archivesBaseName
