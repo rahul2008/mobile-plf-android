@@ -49,11 +49,7 @@
             android:label="Log Test"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
-            android:name=".PrxLauncherActivity"
-            android:label="Log Test"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+
         <activity
             android:name=".AIATDemoPage"
             android:label="Log Test"
@@ -126,10 +122,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-        android:name=".ContentLoaderCreateActivity"
-        android:label="ContentLoader"
-        android:screenOrientation="portrait"
-        android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".ContentLoaderCreateActivity"
+            android:label="ContentLoader"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".ContentLoaderList"
@@ -143,7 +139,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".WhiteBoxAPIActivity"/>
+        <activity android:name=".WhiteBoxAPIActivity" />
 
     </application>
 

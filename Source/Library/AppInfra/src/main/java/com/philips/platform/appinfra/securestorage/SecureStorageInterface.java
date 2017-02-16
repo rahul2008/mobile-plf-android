@@ -6,7 +6,6 @@
 package com.philips.platform.appinfra.securestorage;
 
 
-import android.inputmethodservice.Keyboard;
 
 import java.security.Key;
 

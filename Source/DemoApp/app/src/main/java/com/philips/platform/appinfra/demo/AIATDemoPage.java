@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.HashMap;
