@@ -1,6 +1,5 @@
 package com.philips.platform.catalogapp.dataUtils;
 
-
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.graphics.drawable.VectorDrawableCompat;
@@ -28,10 +27,9 @@ public class GridAdapter extends ArrayAdapter<GridData> {
     int templateSelection;
 
     public GridAdapter(Context context, ArrayList<GridData> cardList) {
-        super(context,0,cardList);
+        super(context, 0, cardList);
         this.mContext = context;
         this.cardList = new ArrayList<>(cardList);
-
 
         gridDataHelper = new GridDataHelper(mContext);
         isdisabled = gridDataHelper.isSetDisableStateEnabled();
@@ -72,11 +70,10 @@ public class GridAdapter extends ArrayAdapter<GridData> {
 
         GridData gridData = cardList.get(position);
 
-
         if (convertView == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 
-            switch (templateSelection){
+            switch (templateSelection) {
                 case 1:
                     convertView = layoutInflater.inflate(R.layout.uid_gridview_item_plain_icon, null);
                     break;
@@ -90,25 +87,24 @@ public class GridAdapter extends ArrayAdapter<GridData> {
                     convertView = layoutInflater.inflate(R.layout.uid_gridview_item_plain_icon, null);
             }
 
-
             ImageView thumbnail = (ImageView) convertView.findViewById(R.id.uid_gridview_thumbnail);
             Glide.with(mContext).load(gridData.getThumbnail()).into(thumbnail);
 
             TextView title = (TextView) convertView.findViewById(R.id.uid_gridview_title);
-            if(title!=null){
+            if (title != null) {
                 title.setText(gridData.getTitle());
             }
 
             TextView description = (TextView) convertView.findViewById(R.id.uid_gridview_description);
-            if(description!= null){
+            if (description != null) {
                 description.setText(gridData.getDescription());
             }
 
             android.widget.ImageButton star_icon = new ImageButton(mContext);
 
-            if(isSecondary){
+            if (isSecondary) {
                 star_icon = (android.widget.ImageButton) convertView.findViewById(R.id.uid_gridview_star_icon);
-                int icon_drawable = gridData.isFavorite()? R.drawable.star_filled : R.drawable.star_outlined;
+                int icon_drawable = gridData.isFavorite() ? R.drawable.star_filled : R.drawable.star_outlined;
                 Drawable drawable = VectorDrawableCompat.create(mContext.getResources(), icon_drawable, mContext.getTheme());
                 DrawableCompat.setTint(drawable, ContextCompat.getColor(mContext, R.color.uidColorWhite));
                 star_icon.setImageDrawable(drawable);
@@ -116,28 +112,27 @@ public class GridAdapter extends ArrayAdapter<GridData> {
 
             ViewHolder viewHolder = new ViewHolder(title, description, thumbnail, star_icon);
             convertView.setTag(viewHolder);
-
-        }else {
-            ViewHolder viewHolder = (ViewHolder)convertView.getTag();
+        } else {
+            ViewHolder viewHolder = (ViewHolder) convertView.getTag();
             Glide.with(mContext).load(gridData.getThumbnail()).into(viewHolder.thumbnail);
 
-            if(viewHolder.title!=null){
+            if (viewHolder.title != null) {
                 viewHolder.title.setText(gridData.getTitle());
             }
 
-            if(viewHolder.description!= null){
+            if (viewHolder.description != null) {
                 viewHolder.description.setText(gridData.getDescription());
             }
 
-            if(isSecondary){
-                int icon_drawable = gridData.isFavorite()? R.drawable.star_filled : R.drawable.star_outlined;
+            if (isSecondary) {
+                int icon_drawable = gridData.isFavorite() ? R.drawable.star_filled : R.drawable.star_outlined;
                 Drawable drawable = VectorDrawableCompat.create(mContext.getResources(), icon_drawable, mContext.getTheme());
                 DrawableCompat.setTint(drawable, ContextCompat.getColor(mContext, R.color.uidColorWhite));
                 viewHolder.star_icon.setImageDrawable(drawable);
             }
         }
 
-        if(isdisabled){
+        if (isdisabled) {
             convertView.setAlpha(Float.parseFloat("0.35"));
         }
 
