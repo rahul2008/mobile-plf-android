@@ -62,7 +62,11 @@ artifactory {
             publishIvy = false
             publishBuildInfo = true
             publishArtifacts = true
-            publications ('aar')
+        }
+        defaults {
+            publications ('apk')
+            publishPom = true
+            publishArtifacts = true
         }
     }
 
@@ -107,7 +111,7 @@ publishing {
             } else {
             } */
 
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
+            artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
