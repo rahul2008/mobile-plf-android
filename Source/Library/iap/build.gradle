@@ -2,6 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'jacoco'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
 
 jacoco {
     toolVersion = "0.7.1.201405082137"
@@ -15,7 +17,7 @@ buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven {
-            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
+            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "readonly"
@@ -25,44 +27,27 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.0'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.0', changing: true
     }
 }
 
-apply plugin: 'com.jfrog.artifactory-upload'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'maven-publish'
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
-
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment )
+archivesBaseName = rootProject.name
 
 allprojects {
     repositories {
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android'
-        }
-        maven {
-            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
-            credentials {
-                username = "readonly"
-                password = "readonly"
-            }
-        }
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local'
-        }
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android'
-        }
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
-        }
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
+        maven { url objcdp.getArtifactoryUrl() }
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
 
@@ -76,28 +61,27 @@ group = 'com.philips.cdp'
 version = objcdp.getVersion()
 
 artifactory {
-    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+    contextUrl = objcdp.getArtifactoryContextUrl()
     publish {
-        contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
         repository {
-            repoKey = objcdp.getArtifactoryRepoKey('android')
+            repoKey = objcdp.getArtifactoryPublishRepoKey()
             username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
-        }
-        defaults {
-            publishIvy = false
-            publishPom = true
-            publishArtifacts = true
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+                publishArtifacts = true
+                publications ('aar')
+            }
         }
     }
-
     resolve {
         repository {
-            repoKey = 'libs-release-local'
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600
-    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 //=======To zip and upload "Documents/External" ==STARTS=============
@@ -107,14 +91,43 @@ artifacts {
 }
 
 task zipDocuments(type: Zip) {
-    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
-    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
-    from files(docfiles) {
+    from files(objcdp.getExternalDocPath()) {
         baseName = project.name
         classifier 'docs'
     }
 }
 //=======To zip and upload "Documents/External" ==ENDS=============
+
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId group
+            version = version
+            artifactId archivesBaseName
+
+            artifact zipDocuments
+
+            if (new File("$buildDir/outputs/aar/${archivesBaseName}-release.aar").exists()) {
+                artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
+            } else if (new File("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar").exists()) {
+                artifact("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar")
+            } else if (new File("$buildDir/outputs/aar/${archivesBaseName}-debug.aar").exists()) {
+                artifact("$buildDir/outputs/aar/${archivesBaseName}-debug.aar")
+            } else {
+            }
+
+            pom.withXml{
+                def dependenciesNode = asNode().appendNode('dependencies')
+                configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.moduleGroup)
+                    dependencyNode.appendNode('artifactId', it.moduleName)
+                    dependencyNode.appendNode('version', it.moduleVersion)
+                }
+            }
+        }
+    }
+}
 
 android {
     compileSdkVersion 24
@@ -190,7 +203,7 @@ dependencies {
     //3rd party
     compile 'com.google.code.gson:gson:2.2.4'
     //Coco
-    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.7.5-SNAPSHOT.+', ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.7.5' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
             {
                 transitive = true
             }
@@ -198,7 +211,7 @@ dependencies {
 
         transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'prx', version: '3.1.5-SNAPSHOT.+', ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'prx', version: '3.1.5' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive = true
     }
     // Tests

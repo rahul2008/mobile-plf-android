@@ -1,6 +1,7 @@
 #!/usr/bin/env groovy																											
 
 BranchName = env.BRANCH_NAME
+JENKINS_ENV = env.JENKINS_ENV
 
 properties([
     [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy']]],
@@ -23,15 +24,19 @@ node ('android_pipeline &&' + node_ext) {
 		try {
 		if (BranchName =~ /master|develop|release.*/) {
 			stage ('build') {
-                sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew clean assembleDebug && ../../check_and_delete_artifact.sh "iap" && ./gradlew assembleRelease zipDocuments artifactoryPublish'
+                sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease zipDocuments artifactoryPublish'
 			}
 			}
 			else
 			{
 			stage ('build') {
-				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew clean assembleDebug assembleRelease'
+				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug assembleRelease'
 			}
 			}
+			stage ('save dependencies list') {
+            	sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
+            }
+            archiveArtifacts '**/dependencies.lock'
             currentBuild.result = 'SUCCESS'
         }
 
