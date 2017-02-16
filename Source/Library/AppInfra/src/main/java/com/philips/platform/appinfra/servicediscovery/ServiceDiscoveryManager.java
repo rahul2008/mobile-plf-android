@@ -40,18 +40,46 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
 
     private abstract class DownloadItemListener {
+        /**
+         * Force refresh boolean.
+         *
+         * @return the boolean
+         */
         public boolean forceRefresh() {
             return false;
         }
 
+        /**
+         * On download done.
+         *
+         * @param result the result
+         */
         public abstract void onDownloadDone(AISDResponse result);
     }
 
+    /**
+     * The interface Aisd listener.
+     */
     interface AISDListener {
+        /**
+         * Ondata received.
+         *
+         * @param response the response
+         */
         void ondataReceived(AISDResponse response);
     }
 
-    enum AISDURLType {AISDURLTypeProposition, AISDURLTypePlatform}
+    /**
+     * The enum Aisdurl type.
+     */
+    enum AISDURLType {
+        /**
+         * Aisdurl type proposition aisdurl type.
+         */
+        AISDURLTypeProposition, /**
+         * Aisdurl type platform aisdurl type.
+         */
+        AISDURLTypePlatform}
 
     private static final String COUNTRY = "country";
     private static final String COUNTRY_SOURCE = "country_source";
@@ -90,6 +118,11 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private ArrayDeque<DownloadItemListener> downloadAwaiters;
     private ReentrantLock downloadLock;
 
+    /**
+     * Instantiates a new Service discovery manager.
+     *
+     * @param aAppInfra the a app infra
+     */
     public ServiceDiscoveryManager(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
         context = mAppInfra.getAppInfraContext();
@@ -766,23 +799,26 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         String URLStringPlatform = getSDURLForType(AISDURLType.AISDURLTypePlatform);
         String savedURLPlatform = mRequestItemManager.getUrlPlatform();
 
-        if (savedURLProposition != null) {
+        if (savedURLProposition != null && URLStringProposition != null) {
             //if previously saved URL differs from current proposition URL, URLs are expired
             if (!savedURLProposition.equals(URLStringProposition)) {
                 return true;
             }
+        } else {
+            return true;
+        }
 
-            if (savedURLPlatform != null) {
-                //if previously saved URL differs from current platform URL, URLs are expired
-                if (!savedURLPlatform.equals(URLStringPlatform)) {
-                    return true;
-                }
-            }
-
-            if (mRequestItemManager.isServiceDiscoveryDataExpired()) {
+        if (savedURLPlatform != null && URLStringPlatform != null) {
+            //if previously saved URL differs from current platform URL, URLs are expired
+            if (!savedURLPlatform.equals(URLStringPlatform)) {
                 return true;
             }
+        } else {
+            return true;
+        }
 
+        if (mRequestItemManager.isServiceDiscoveryDataExpired()) {
+            return true;
         }
         return false;
     }
