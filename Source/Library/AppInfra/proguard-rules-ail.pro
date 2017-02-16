@@ -176,5 +176,9 @@
 
 -keep public interface com.philips.platform.appinfra.AppInfraInterface {*;}
 
+
+-keep public class com.philips.platform.appinfra.**{*;}
+-keep interface com.philips.platform.appinfra.**{*;}
+
 #notification
 -dontwarn android.app.Notification
