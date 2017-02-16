@@ -150,43 +150,6 @@ public class FirmwarePortTest extends RobolectricTest {
         return firmwarePort.getPortProperties();
     }
 
-    // onProgressUpdated
-
-    @Test
-    public void whenGoingFromIdleStateToDownloadState_ProgressUpdateShouldBeCalled() {
-        parseFirmwarePortData(createPropertiesJson("1", "", "idle", 0, "", 100));
-        parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 0, "", 100));
-
-        verify(mockFirmwarePortListener, times(1)).onDownloadProgress(0);
-    }
-
-    @Test
-    public void whenInDownloadingState_ProgressUpdateShoudBeCalled() {
-        parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 0, "", 100));
-        parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 10, "", 100));
-
-        verify(mockFirmwarePortListener).onDownloadProgress(0);
-        verify(mockFirmwarePortListener).onDownloadProgress(10);
-    }
-
-    @Test
-    public void whenInDownloadingState_ProgressUpdateShoudNotBeCalledWithSameProgress() {
-        parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 12, "", 100));
-        parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 12, "", 100));
-
-        verify(mockFirmwarePortListener, times(1)).onDownloadProgress(12);
-    }
-
-    @Test
-    public void whenInDownloadingState_ProgressUpdateShoudBeCalledWithCorrectProgress() {
-        parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 2, "", 50));
-        parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 5, "", 25));
-
-        InOrder inOrder = inOrder(mockFirmwarePortListener);
-        inOrder.verify(mockFirmwarePortListener).onDownloadProgress(4);
-        inOrder.verify(mockFirmwarePortListener).onDownloadProgress(20);
-    }
-
     @Test
     public void whenInCheckingState_ProgressUpdateShoudBeCalled() {
         parseFirmwarePortData(createPropertiesJson("1", "", "checking", 0, "", 100));

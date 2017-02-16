@@ -60,6 +60,7 @@ public class FirmwareUploader {
         }
 
         latch = createCountDownLatch();
+        operation.onDownloadProgress(progress);
         uploadNextChunk(0);
         try {
             latch.await();
