@@ -52,8 +52,7 @@ public class DiCommByteStreamReader {
                 SHNLogger.e(TAG, msg);
                 mListener.onError(msg);
                 reduceReceivedBuffer(byteBuffer);
-            } catch (IncompleteMessageException e) {
-                SHNLogger.d(TAG, "Incomplete message.");
+            } catch (IncompleteMessageException ignored) {
                 break;
             }
         }
