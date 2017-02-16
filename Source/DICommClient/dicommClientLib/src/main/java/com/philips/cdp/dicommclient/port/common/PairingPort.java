@@ -21,34 +21,33 @@ public class PairingPort extends DICommPort<Object> {
     private static final String KEY_CONNECTION = "connection";
 
     public PairingPort(CommunicationStrategy communicationStrategy) {
-		super(communicationStrategy);
-	}
+        super(communicationStrategy);
+    }
 
-	@Override
-	public boolean isResponseForThisPort(String jsonResponse) {
-	    DICommLog.e(DICommLog.PAIRINGPORT,"Pairing does not return responses");
-		return false;
-	}
+    @Override
+    public boolean isResponseForThisPort(String jsonResponse) {
+        return false;
+    }
 
-	@Override
-	public void processResponse(String jsonResponse) {
-        DICommLog.e(DICommLog.PAIRINGPORT,"Pairing does not return responses");
-	}
+    @Override
+    public void processResponse(String jsonResponse) {
+        DICommLog.e(DICommLog.PAIRINGPORT, "Pairing does not return responses.");
+    }
 
-	@Override
-	public String getDICommPortName() {
-		return PAIRINGPORT_NAME;
-	}
+    @Override
+    public String getDICommPortName() {
+        return PAIRINGPORT_NAME;
+    }
 
-	@Override
-	public int getDICommProductId() {
-		return PAIRINGPORT_PRODUCTID;
-	}
+    @Override
+    public int getDICommProductId() {
+        return PAIRINGPORT_PRODUCTID;
+    }
 
-	@Override
-	public boolean supportsSubscription() {
-		return false;
-	}
+    @Override
+    public boolean supportsSubscription() {
+        return false;
+    }
 
     public void disableDemoMode() {
         Map<String, Object> dataMap = new HashMap<String, Object>();

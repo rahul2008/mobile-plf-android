@@ -5,17 +5,23 @@
 
 package com.philips.commlib.core.communication;
 
-import java.util.HashMap;
-import java.util.Map;
+import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
+
 public abstract class CommunicationStrategy {
 
     public static final String SUBSCRIBER_KEY = "subscriber";
     public static final String TTL_KEY = "ttl";
+
+    private final Set<SubscriptionEventListener> subscriptionEventListeners = new CopyOnWriteArraySet<>();
 
     public abstract void getProperties(String portName, int productId, ResponseHandler responseHandler);
 
@@ -34,6 +40,20 @@ public abstract class CommunicationStrategy {
     public abstract void enableCommunication(SubscriptionEventListener subscriptionEventListener);
 
     public abstract void disableCommunication();
+
+    public boolean addSubscriptionEventListener(@NonNull final SubscriptionEventListener listener) {
+        return subscriptionEventListeners.add(listener);
+    }
+
+    public boolean removeSubscriptionEventListener(@NonNull final SubscriptionEventListener listener) {
+        return subscriptionEventListeners.remove(listener);
+    }
+
+    protected void notifySubscriptionEventListeners(@NonNull final String data) {
+        for (SubscriptionEventListener listener : subscriptionEventListeners) {
+            listener.onSubscriptionEventReceived(data);
+        }
+    }
 
     protected Map<String, Object> getSubscriptionData(int subscriptionTtl) {
         Map<String, Object> dataMap = getUnsubscriptionData();

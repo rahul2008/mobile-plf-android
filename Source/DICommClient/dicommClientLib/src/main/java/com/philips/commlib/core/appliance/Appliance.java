@@ -35,9 +35,26 @@ public abstract class Appliance {
 
     private final List<DICommPort<?>> mPortList = new ArrayList<>();
 
+    private SubscriptionEventListener mSubscriptionEventListener = new SubscriptionEventListener() {
+
+        @Override
+        public void onSubscriptionEventReceived(String data) {
+            DICommLog.d(DICommLog.APPLIANCE, "Notify subscription listeners - " + data);
+
+            List<DICommPort<?>> portList = getAllPorts();
+
+            for (DICommPort<?> port : portList) {
+                if (port.isResponseForThisPort(data)) {
+                    port.handleResponse(data);
+                }
+            }
+        }
+    };
+
     public Appliance(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
         mNetworkNode = networkNode;
         mCommunicationStrategy = communicationStrategy;
+        mCommunicationStrategy.addSubscriptionEventListener(mSubscriptionEventListener);
 
         mDevicePort = new DevicePort(mCommunicationStrategy);
         mFirmwarePort = new FirmwarePort(mCommunicationStrategy);
@@ -143,22 +160,6 @@ public abstract class Appliance {
     public void disableCommunication() {
         mCommunicationStrategy.disableCommunication();
     }
-
-    private SubscriptionEventListener mSubscriptionEventListener = new SubscriptionEventListener() {
-
-        @Override
-        public void onSubscriptionEventReceived(String data) {
-            DICommLog.d(DICommLog.APPLIANCE, "Notify subscription listeners - " + data);
-
-            List<DICommPort<?>> portList = getAllPorts();
-
-            for (DICommPort<?> port : portList) {
-                if (port.isResponseForThisPort(data)) {
-                    port.handleResponse(data);
-                }
-            }
-        }
-    };
 
     @Override
     public String toString() {

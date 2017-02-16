@@ -25,8 +25,6 @@ import java.util.concurrent.TimeoutException;
 
 public class FirmwarePortStateWaiter {
 
-    private static final String TAG = "FirmwarePortStateWaiter";
-
     @NonNull
     private final FirmwarePort firmwarePort;
     private final ExecutorService executor;
@@ -56,6 +54,7 @@ public class FirmwarePortStateWaiter {
 
             @Override
             public void onPortError(FirmwarePort port, Error error, String errorData) {
+                DICommLog.e(DICommLog.FIRMWAREPORT, String.format(Locale.US, "onPortError - error [%s], message [%s], state [%s]", error.toString(), errorData, portState.toString()));
                 portState = null;
                 latch.countDown();
             }
@@ -69,11 +68,16 @@ public class FirmwarePortStateWaiter {
 
         @Override
         public FirmwarePortState call() throws Exception {
+            DICommLog.d(DICommLog.FIRMWAREPORT, String.format(Locale.US, "StateWaitTask - start, state [%s]", this.initialState));
+
             firmwarePort.addPortListener(firmwarePortListener);
             firmwarePort.subscribe();
 
             try {
                 if (latch.await(this.timeoutMillis, TimeUnit.MILLISECONDS)) {
+                    if (this.portState == null) {
+                        throw new IllegalStateException("Error obtaining port state.");
+                    }
                     return this.portState;
                 } else {
                     throw new TimeoutException();
@@ -81,6 +85,8 @@ public class FirmwarePortStateWaiter {
             } catch (InterruptedException e) {
                 throw e;
             } finally {
+                DICommLog.d(DICommLog.FIRMWAREPORT, String.format(Locale.US, "StateWaitTask - end, state [%s]", this.portState));
+
                 firmwarePort.unsubscribe();
                 firmwarePort.removePortListener(firmwarePortListener);
             }
@@ -97,7 +103,7 @@ public class FirmwarePortStateWaiter {
      *
      * @param initialState  the initial state
      * @param timeoutMillis the timeout in milliseconds
-     * @return the new state, or null if new state could not be obtained or a timeout occurred.
+     * @return the new state
      * @throws StateWaitException if an error occurred while waiting for the new state
      */
     @NonNull
@@ -121,6 +127,7 @@ public class FirmwarePortStateWaiter {
             DICommLog.d(DICommLog.FIRMWAREPORT, String.format(Locale.US, "done waitForNextState - from [%s] to [%s]", initialState.toString(), currentState.toString()));
             return currentState;
         } catch (ExecutionException | InterruptedException e) {
+            DICommLog.e(DICommLog.FIRMWAREPORT, "Exception caught while waiting for next state: " + e.getMessage());
             throw new StateWaitException(e);
         }
     }

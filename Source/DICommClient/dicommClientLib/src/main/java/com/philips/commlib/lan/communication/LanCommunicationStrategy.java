@@ -96,8 +96,7 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
         if (networkNode.getEncryptionKey() == null && !isKeyExchangeOngoing) {
             if (!networkNode.getHttps()) {
                 doKeyExchange(networkNode);
-            }
-            else {
+            } else {
                 getKey(networkNode);
             }
         }

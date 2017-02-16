@@ -273,7 +273,7 @@ public abstract class DICommPort<T> {
     }
 
     private void performSubscribe() {
-        DICommLog.i(LOG_TAG, "subscribe");
+        DICommLog.i(LOG_TAG, "perform subscribe");
         mCommunicationStrategy.subscribe(getDICommPortName(), getDICommProductId(), SUBSCRIPTION_TTL, new ResponseHandler() {
 
             @Override
@@ -295,7 +295,7 @@ public abstract class DICommPort<T> {
     }
 
     private void performUnsubscribe() {
-        DICommLog.i(LOG_TAG, "unsubscribe");
+        DICommLog.i(LOG_TAG, "perform unsubscribe");
         mCommunicationStrategy.unsubscribe(getDICommPortName(), getDICommProductId(), new ResponseHandler() {
 
             @Override
