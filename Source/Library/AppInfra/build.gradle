@@ -100,16 +100,16 @@ publishing {
             artifact zipDocuments
 
             if (new File("$buildDir/outputs/aar/${archivesBaseName}-release.aar").exists()) {
-                println 'publishing -release.aar'
+                logger.quiet ('publishing -release.aar')
                 artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
             } else if (new File("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar").exists()) {
-                println 'publishing -release-unsigned.aar'
+                logger.quiet ('publishing -release-unsigned.aar')
                 artifact("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar")
             } else if (new File("$buildDir/outputs/aar/${archivesBaseName}-debug.aar").exists()) {
-                println 'publishing -debug.aar'
+                logger.quiet ('publishing -debug.aar')
                 artifact("$buildDir/outputs/aar/${archivesBaseName}-debug.aar")
             } else {
-                println 'no aar found'
+                logger.quiet ('no aar found')
             }
 
             pom.withXml{
