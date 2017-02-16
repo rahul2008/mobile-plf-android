@@ -100,16 +100,13 @@ publishing {
             artifact zipDocuments
 
             if (new File("$buildDir/outputs/aar/${archivesBaseName}-release.aar").exists()) {
-                logger.quiet ('publishing -release.aar')
                 artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-            } else if (new File("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar").exists()) {
-                logger.quiet ('publishing -release-unsigned.aar')
-                artifact("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar")
-            } else if (new File("$buildDir/outputs/aar/${archivesBaseName}-debug.aar").exists()) {
-                logger.quiet ('publishing -debug.aar')
-                artifact("$buildDir/outputs/aar/${archivesBaseName}-debug.aar")
+            //}  else if (new File("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar").exists()) {
+                // artifact("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar")
+            // } else if (new File("$buildDir/outputs/aar/${archivesBaseName}-debug.aar").exists()) {
+            //    artifact("$buildDir/outputs/aar/${archivesBaseName}-debug.aar")
             } else {
-                logger.quiet ('no aar found')
+                throw new GradleException('no aar published')
             }
 
             pom.withXml{
