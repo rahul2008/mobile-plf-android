@@ -106,7 +106,7 @@ publishing {
             } else if (new File("$buildDir/outputs/aar/${archivesBaseName}-debug.aar").exists()) {
                 artifact("$buildDir/outputs/aar/${archivesBaseName}-debug.aar")
             } else {
-                throw new GradleException('no artifact published')
+                // throw new GradleException('no artifact published')
             }
 
             pom.withXml{
