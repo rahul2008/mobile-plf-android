@@ -24,7 +24,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
 
 
     ListView listView;
-    String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging", "Prx","AppIdentity",
+    String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging","AppIdentity",
             "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client" , " A/B Testing", "Content Loader","WhiteBox API","Internet Check"};
 
     @Override
@@ -152,68 +152,62 @@ public class AppInfraMainActivity extends AppCompatActivity {
                 startActivity(intentLoggingActivity);
 
                 break;
+
             case 3:
-                Intent intentPrxActivity = new Intent(AppInfraMainActivity.this,
-                        PrxLauncherActivity.class);
-                startActivity(intentPrxActivity);
-
-                break;
-
-            case 4:
                 Intent intentAppIdentityActivity = new Intent(AppInfraMainActivity.this,
                         AppIndentityDemoPage.class);
                 startActivity(intentAppIdentityActivity);
 
                 break;
-            case 5:
+            case 4:
                 Intent intentLocalMainActivity = new Intent(AppInfraMainActivity.this,
                         InternationalizationDemoPage.class);
                 startActivity(intentLocalMainActivity);
 
                 break;
-            case 6:
+            case 5:
                 Intent intentServiceDiscoveryActivity = new Intent(AppInfraMainActivity.this,
                         ServiceDiscoveryDemo.class);
                 startActivity(intentServiceDiscoveryActivity);
 
                 break;
-            case 7:
+            case 6:
                 Intent intentTimeSyncActivity = new Intent(AppInfraMainActivity.this,
                         TimeSyncDemo.class);
                 startActivity(intentTimeSyncActivity);
 
                 break;
-            case 8:
+            case 7:
 
                 Intent configActivity = new Intent(AppInfraMainActivity.this,
                         AppConfigurationActivity.class);
                 startActivity(configActivity);
                 break;
 
-            case 9:
+            case 8:
 
                 Intent restClientActivity = new Intent(AppInfraMainActivity.this,
                         RestMenuActivity.class);
                 startActivity(restClientActivity);
                 break;
 
-            case 10 :
+            case 9 :
                 Intent abTesting = new Intent(AppInfraMainActivity.this , AbTestingDemo.class );
                 startActivity(abTesting);
                 break;
 
-            case 11:
+            case 10:
                 Intent contentLoaderActivity = new Intent(AppInfraMainActivity.this,
                         ContentLoaderCreateActivity.class);
                 startActivity(contentLoaderActivity);
                 break;
 
-            case 12:
+            case 11:
                 Intent whiteBoxAPISignInIntent = new Intent(AppInfraMainActivity.this,
                         WhiteBoxAPIActivity.class);
                 startActivity(whiteBoxAPISignInIntent);
                 break;
-            case 13:
+            case 12:
                 Intent secureDbIntent = new Intent(AppInfraMainActivity.this,
                         InternetCheckActivity.class);
                 startActivity(secureDbIntent);

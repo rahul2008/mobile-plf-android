@@ -46,18 +46,6 @@ public class AppInfraApplication extends Application {
         mAppInfra = (AppInfra)gAppInfra;
         mAIAppTaggingInterface = gAppInfra.getTagging().createInstanceForComponent("Component name", "Component ID");
         mAIAppTaggingInterface.setPreviousPage("SomePreviousPage");
-        gAppInfra.getServiceDiscovery().getServiceUrlWithLanguagePreference("userreg.janrain.api", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-            @Override
-            public void onSuccess(URL url) {
-                Log.i("KAVYA-SUCCESS ***", "" + url);
-            }
-
-            @Override
-            public void onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES error, String message) {
-                Log.i("KAVYA - ERRORVALUES ***", "" + message);
-            }
-        });
-
         ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler(mAppInfra);
         registerActivityLifecycleCallbacks(handler);
         registerComponentCallbacks(handler);
