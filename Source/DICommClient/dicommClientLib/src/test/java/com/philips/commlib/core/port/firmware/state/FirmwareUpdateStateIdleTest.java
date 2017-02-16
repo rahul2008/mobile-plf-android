@@ -44,4 +44,12 @@ public class FirmwareUpdateStateIdleTest {
 
         verify(mockOperation).onDeployFinished();
     }
+
+    @Test
+    public void onStartFromReady_DeployFinished() {
+
+        stateUnderTest.start(new FirmwareUpdateStateReady(mockOperation));
+
+        verify(mockOperation).onDeployFinished();
+    }
 }
