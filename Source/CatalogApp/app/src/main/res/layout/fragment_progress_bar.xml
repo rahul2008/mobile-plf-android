@@ -44,10 +44,9 @@
                     android:onCheckedChanged="@{(v, isChecked) -> frag.toggleLabels(isChecked)}"/>
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/button_layout_divider"
-                android:background="?attr/uidApplicationBackground"/>
+            <include
+                android:id="@+id/divider1"
+                layout="@layout/uid_horizontal_separator"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -71,10 +70,9 @@
                     android:progress="@{frag.progress}"/>
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/button_layout_divider"
-                android:background="?attr/uidApplicationBackground"/>
+            <include
+                android:id="@+id/divider2"
+                layout="@layout/uid_horizontal_separator"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -98,19 +96,9 @@
                     android:progress="@{frag.progress}"/>
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/button_layout_divider"
-                android:background="?attr/uidApplicationBackground"/>
-
             <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
                 android:text="@string/progress_bar_circular_subtitle"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/button_layout_divider"
-                android:background="?attr/uidApplicationBackground"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

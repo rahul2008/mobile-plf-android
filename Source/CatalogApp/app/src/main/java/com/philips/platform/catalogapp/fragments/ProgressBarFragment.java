@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentProgressBarBinding;
+import com.philips.platform.uid.drawable.SeparatorDrawable;
 import com.philips.platform.uid.view.widget.ProgressBar;
 
 public class ProgressBarFragment extends BaseFragment {
@@ -30,6 +31,10 @@ public class ProgressBarFragment extends BaseFragment {
 
         FragmentProgressBarBinding fragmentProgressBarBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_progress_bar, container, false);
         fragmentProgressBarBinding.setFrag(this);
+
+        SeparatorDrawable separatorDrawable = new SeparatorDrawable(getContext());
+        fragmentProgressBarBinding.getRoot().findViewById(R.id.divider1).setBackground(separatorDrawable);
+        fragmentProgressBarBinding.getRoot().findViewById(R.id.divider2).setBackground(separatorDrawable);
 
         return fragmentProgressBarBinding.getRoot();
     }
