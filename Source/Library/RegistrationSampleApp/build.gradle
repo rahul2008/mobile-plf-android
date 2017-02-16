@@ -13,6 +13,9 @@ buildscript {
                 password = "readonly"
             }
         }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android'
+        }
     }
     dependencies {
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
