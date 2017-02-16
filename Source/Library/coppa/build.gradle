@@ -1,82 +1,104 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.artifactory-upload'
-apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
 
 buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven {
-            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
+            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "readonly"
             }
         }
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android'
-        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.2'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.0', changing: true
     }
+}
+
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
 }
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment )
+archivesBaseName = "coppa"
 
-allprojects {
-    repositories {
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
-        }
-
-    }
-
-    apply plugin: 'com.jfrog.artifactory-upload'
-
-    group = 'com.philips.cdp'
+repositories {
+    maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
+    maven { url objcdp.getArtifactoryUrl() }
 }
 
 group = 'com.philips.cdp'
-version = '1.1.2-SNAPSHOT'
-
+def libVersionNumber = new File('../../VERSION_COPPA').text.trim()
+if(objcdp.getWorkingBranch().startsWith('master')) {
+    libVersionNumber = libVersionNumber.replaceAll('-SNAPSHOT', '')
+} else if(objcdp.getWorkingBranch().startsWith('release')) {
+    libVersionNumber = libVersionNumber.replaceAll('-SNAPSHOT', '-rc.' + objcdp.getTimeStamp())
+} else {
+    libVersionNumber = libVersionNumber.replaceAll('-SNAPSHOT', '-SNAPSHOT.' + objcdp.getTimeStamp())
+}
+version = libVersionNumber
 
 artifactory {
-    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+    contextUrl = objcdp.getArtifactoryContextUrl()
     publish {
-        contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
         repository {
-            repoKey = objcdp.getArtifactoryRepoKey('android')
+            repoKey = objcdp.getArtifactoryPublishRepoKey()
             username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
-            //  publishPom = true
-            //  publishIvy = false
-            //  publishBuildInfo = true
-        }
-        defaults {
-            publishIvy = false
-            publishPom = true
-            publishArtifacts = true
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+                publishArtifacts = true
+                publications ('aar')
+            }
         }
     }
-
     resolve {
         repository {
-            repoKey = 'libs-release-local'
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
     clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
-
 }
 
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId group
+            version = version
+            artifactId archivesBaseName
 
+            if (new File("$buildDir/outputs/aar/${archivesBaseName}-release.aar").exists()) {
+                artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
+            } else if (new File("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar").exists()) {
+                artifact("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar")
+            } else if (new File("$buildDir/outputs/aar/${archivesBaseName}-debug.aar").exists()) {
+                artifact("$buildDir/outputs/aar/${archivesBaseName}-debug.aar")
+            } else {
+            }
+
+            pom.withXml{
+                def dependenciesNode = asNode().appendNode('dependencies')
+                configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.moduleGroup)
+                    dependencyNode.appendNode('artifactId', it.moduleName)
+                    dependencyNode.appendNode('version', it.moduleVersion)
+                }
+            }
+        }
+    }
+}
 
 android {
     compileSdkVersion 24

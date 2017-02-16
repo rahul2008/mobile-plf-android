@@ -373,7 +373,20 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 mEtEmail.setVisibility(View.VISIBLE);
             }
         }
-
+        final UIFlow abStrings = RegUtility.getUiFlow();
+        if (abStrings.equals(UIFlow.FLOW_A)) {
+            RLog.d(RLog.AB_TESTING, "UI Flow Type A");
+            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                    AppTagingConstants.REGISTRATION_CONTROL);
+        } else if (abStrings.equals(UIFlow.FLOW_B)) {
+            RLog.d(RLog.AB_TESTING, "UI Flow Type B");
+            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                    AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
+        } else if (abStrings.equals(UIFlow.FLOW_C)) {
+            RLog.d(RLog.AB_TESTING, "UI Flow Type C");
+            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                    AppTagingConstants.REGISTRATION_SOCIAL_PROOF);
+        }
         handleUiAcceptTerms(view);
     }
 
@@ -401,27 +414,21 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 mLlAcceptTermsContainer.setVisibility(View.GONE);
             } else {
                 final UIFlow abStrings = RegUtility.getUiFlow();
-                if (abStrings.equals(UIFlow.FLOW_A.getValue())) {
+                if (abStrings.equals(UIFlow.FLOW_A)) {
                     RLog.d(RLog.AB_TESTING, "UI Flow Type A");
                     mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
                     mJoinNow.setVisibility(View.GONE);
-                    trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                            AppTagingConstants.REGISTRATION_CONTROL);
-                } else if (abStrings.equals(UIFlow.FLOW_B.getValue())) {
+                 } else if (abStrings.equals(UIFlow.FLOW_B)) {
                     RLog.d(RLog.AB_TESTING, "UI Flow Type B");
                     mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
                     mLlPeriodicOffersCheck.setVisibility(View.GONE);
                     view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.GONE);
                     mJoinNow.setVisibility(View.GONE);
-                    trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                            AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
-                } else if (abStrings.equals(UIFlow.FLOW_C.getValue())) {
+                   } else if (abStrings.equals(UIFlow.FLOW_C)) {
                     RLog.d(RLog.AB_TESTING, "UI Flow Type C");
                     mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
                     mJoinNow.setVisibility(View.VISIBLE);
-                    trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                            AppTagingConstants.REGISTRATION_SOCIAL_PROOF);
-                }
+                   }
             }
         } else {
             View acceptTermsLine = view.findViewById(R.id.reg_view_accep_terms_line);
@@ -666,17 +673,17 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         trackMultipleActions();
         User user = new User(mContext);
         final UIFlow abStrings = RegUtility.getUiFlow();
-        if (abStrings.equals(UIFlow.FLOW_A.getValue())) {
+        if (abStrings.equals(UIFlow.FLOW_A)) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type A");
             if (user.getEmailVerificationStatus()) {
                 launchWelcomeFragment();
             } else {
                 launchAccountActivateFragment();
             }
-        } else if (abStrings.equals(UIFlow.FLOW_B.getValue())) {
+        } else if (abStrings.equals(UIFlow.FLOW_B)) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type B");
             getRegistrationFragment().addFragment(new MarketingAccountFragment());
-        } else if (abStrings.equals(UIFlow.FLOW_C.getValue())) {
+        } else if (abStrings.equals(UIFlow.FLOW_C)) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type C");
             if (user.getEmailVerificationStatus()) {
                 launchWelcomeFragment();
