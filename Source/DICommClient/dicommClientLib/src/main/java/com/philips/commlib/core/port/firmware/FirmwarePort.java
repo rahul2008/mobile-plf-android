@@ -6,7 +6,6 @@
 package com.philips.commlib.core.port.firmware;
 
 import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.port.DICommPort;
@@ -15,6 +14,7 @@ import com.philips.commlib.core.communication.CommunicationStrategy;
 import com.philips.commlib.core.port.firmware.FirmwareUpdate.FirmwareUpdateException;
 import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePullRemote;
 import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePushLocal;
+import com.philips.commlib.core.util.HandlerProvider;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -121,7 +121,7 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
 
     public FirmwarePort(CommunicationStrategy communicationStrategy) {
         super(communicationStrategy);
-        callbackHandler = new Handler(Looper.getMainLooper());
+        callbackHandler = HandlerProvider.createHandler();
     }
 
     public void pushLocalFirmware(final byte[] firmwareData) {
