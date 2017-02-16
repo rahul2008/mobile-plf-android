@@ -90,8 +90,7 @@
         <com.philips.platform.uid.view.widget.ProgressBar
             android:id="@+id/progress_bar_indeterminate"
             style="@style/UIDProgressBarHorizontalIndeterminateWithMargins"
-
-            app:uidLinearProgressBar="true"/>
+            app:uidIsLinearProgressBar="true"/>
 
         <com.philips.platform.uid.view.widget.ProgressBar
             android:id="@+id/progress_bar"
