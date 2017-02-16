@@ -488,8 +488,13 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         trackCheckMarketing();
         final UIFlow abStrings=RegUtility.getUiFlow();
 
+        long startTrackActionProfiling = System.nanoTime();
+
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_USER_CREATION);
+
+        RLog.i("Profile", "Track action profile " + (System.nanoTime() - startTrackActionProfiling));
+
         if (abStrings.equals(UIFlow.FLOW_A)) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type A ");
             if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
