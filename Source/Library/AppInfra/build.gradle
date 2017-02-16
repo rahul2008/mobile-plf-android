@@ -101,12 +101,12 @@ publishing {
 
             if (new File("$buildDir/outputs/aar/${archivesBaseName}-release.aar").exists()) {
                 artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-            //}  else if (new File("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar").exists()) {
-                // artifact("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar")
-            // } else if (new File("$buildDir/outputs/aar/${archivesBaseName}-debug.aar").exists()) {
-            //    artifact("$buildDir/outputs/aar/${archivesBaseName}-debug.aar")
+            }  else if (new File("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar").exists()) {
+                artifact("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar")
+            } else if (new File("$buildDir/outputs/aar/${archivesBaseName}-debug.aar").exists()) {
+                artifact("$buildDir/outputs/aar/${archivesBaseName}-debug.aar")
             } else {
-                throw new GradleException('no aar published')
+                throw new GradleException('no artifact published')
             }
 
             pom.withXml{
