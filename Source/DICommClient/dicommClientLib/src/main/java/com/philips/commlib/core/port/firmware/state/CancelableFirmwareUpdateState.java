@@ -11,9 +11,9 @@ import com.philips.commlib.core.port.firmware.util.StateWaitException;
 
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.CANCELING;
 
-public abstract class CancelableFirmwareUpdateState extends FirmwareUpdateState {
+abstract class CancelableFirmwareUpdateState extends FirmwareUpdateState {
 
-    public CancelableFirmwareUpdateState(@NonNull FirmwareUpdatePushLocal operation) {
+    CancelableFirmwareUpdateState(@NonNull FirmwareUpdatePushLocal operation) {
         super(operation);
     }
 

@@ -6,6 +6,7 @@
 import com.philips.cdp.cdpSCM
 
 apply plugin: 'com.android.library'
+apply plugin: 'pl.droidsonroids.pitest'
 apply plugin: 'com.jfrog.artifactory-upload'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'cdpSCM'
@@ -28,6 +29,14 @@ buildscript {
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 version = objcdp.getVersion()
+
+pitest {
+    targetClasses = ['com.philips.commlib.core.port.firmware.*']  /* specify target classes to be mutated */
+    pitestVersion = "1.1.10"
+    threads = 8 /* specify number of threads */
+    outputFormats = ['XML', 'HTML'] /* specify output format */
+    reportDir = "./build/pitest/"
+}
 
 artifactory {
     contextUrl = repos.base

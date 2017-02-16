@@ -21,6 +21,7 @@ public class FirmwareUpdateStateChecking extends CancelableFirmwareUpdateState {
             operation.waitForNextState();
         } catch (StateWaitException e) {
             operation.onDownloadFailed("Error while checking firmware.");
+            operation.finish();
         }
     }
 
