@@ -8,15 +8,15 @@ package com.philips.platform.appinfra.apisigning;
  * (JNIEnv *env, jclass thisClass, jbyteArray keyJNI, jbyteArray messageJNI)
  */
 
-public class PshmacLib{
+public class PsLib {
 
     static {
-        System.loadLibrary("pshmac");
+        System.loadLibrary("ps");
     }
 
-    public static native byte[] pshmac(byte[] key, byte[] message);
+    public static native byte[] svm100514(byte[] key, byte[] message);
 
     public byte[] createHmac(final byte[] key, final byte[] data) {
-        return pshmac(key, data);
+        return svm100514(key, data);
     }
 }
