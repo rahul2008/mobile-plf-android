@@ -92,7 +92,6 @@
 
 #Tagging lib and jar
 -keep public class com.adobe.mobile.** {*;}
--keep public class com.philips.platform.appinfra.tagging.** {*;}
 -keep class com.android.volley.** { *; }
 -keep interface com.android.volley.** { *; }
 
