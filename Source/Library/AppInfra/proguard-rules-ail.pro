@@ -21,7 +21,7 @@
 
 # Preserve all annotations.
 
--keepattributes *Annotation*,InnerClasses
+-keepattributes *Annotation*
 
 # Preserve all public classes, and their public and protected fields and
 # methods.
@@ -43,8 +43,28 @@
     native <methods>;
 }
 
+# Preserve the special static methods that are required in all enumeration
+# classes.
 
+-keepclassmembers class * extends java.lang.Enum {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
 
+# Explicitly preserve all serialization members. The Serializable interface
+# is only a marker interface, so it wouldn't save them.
+# You can comment this out if your library doesn't use serialization.
+# If your code contains serializable classes that have to be backward
+# compatible, please refer to the manual.
+
+-keepclassmembers class * implements java.io.Serializable {
+    static final long serialVersionUID;
+    static final java.io.ObjectStreamField[] serialPersistentFields;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
+}
 
 # Your library may contain more items that need to be preserved;
 # typically classes that are dynamically created using Class.forName:
@@ -70,6 +90,21 @@
 # "proguard-android-optimize.txt" file instead of this one from your
 # project.properties file.
 
+-keepattributes *Annotation*, InnerClasses
+
+# For enumeration classes, see http://proguard.sourceforge.net/manual/examples.html#enumerations
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+-keepclassmembers class * implements android.os.Parcelable {
+  public static final android.os.Parcelable$Creator CREATOR;
+}
+
+-keepclassmembers class **.R$* {
+    public static <fields>;
+}
 
 # The support library contains references to newer platform versions.
 # Don't warn about those in case this app is linking against an older
@@ -84,16 +119,62 @@
 -keepclassmembers public class org.apache.http.** {*;}
 -keepattributes InnerClasses,Exceptions
 -dontwarn com.philips.platform.appinfra.**
+-dontwarn com.google.android.gms.**
 
 -dontwarn org.apache.**
 -keep class org.apache.http.** { *; }
+-keep class android.net.http.** { *; }
 
 
 
 #Tagging lib and jar
 -keep public class com.adobe.mobile.** {*;}
+-keep public class com.philips.platform.appinfra.tagging.** {*;}
 -keep class com.android.volley.** { *; }
 -keep interface com.android.volley.** { *; }
+-keep class org.apache.commons.logging.**
 
--keep public class com.philips.platform.appinfra.**{*;}
--keep interface com.philips.platform.appinfra.**{*;}
+
+-keep public class com.philips.platform.appinfra.AppInfra { *; }
+-keep public class com.philips.platform.appinfra.AppInfra.Builder { *; }
+-keepnames public class com.philips.platform.appinfra.AppInfra.Builder
+-keep public class com.philips.platform.appinfra.GlobalStore { *; }
+
+-keepnames public class com.philips.platform.appinfra.AppInfra
+-keep public class  com.philips.platform.appinfra.AppInfra$* {
+        *;
+ }
+-keepclassmembers  public class com.philips.platform.appinfra.AppInfra
+-keep public class com.philips.platform.appinfra.AppInfraLibraryApplication.**
+
+
+-keep public class com.philips.platform.appinfra.appidentity.** {
+  public protected *;
+}
+-keep public class com.philips.platform.appinfra.securestorage.** {
+  public protected *;
+}
+-keep public class com.philips.platform.appinfra.logging.** {
+   public protected *;
+ }
+ -keep public class com.philips.platform.appinfra.servicediscovery.** {
+    public protected *;
+  }
+-keep public class com.philips.platform.appinfra.timesync.** {
+    public protected *;
+  }
+
+-keep public class com.philips.platform.appinfra.config.** {
+    public protected *;
+  }
+
+-keep public class com.philips.platform.appinfra.rest.** {
+    public protected *;
+  }
+
+-keep public interface com.philips.platform.appinfra.appidentity.AppIdentityInterface {*;}
+
+-keep public interface com.philips.platform.appinfra.AppInfraInterface {*;}
+
+#notification
+-dontwarn android.app.Notification
