@@ -109,14 +109,16 @@ publishing {
 
             artifact zipDocuments
 
-            if (new File("$buildDir/outputs/aar/${archivesBaseName}-release.aar").exists()) {
+            /* if (new File("$buildDir/outputs/aar/${archivesBaseName}-release.aar").exists()) {
                 artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
             } else if (new File("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar").exists()) {
                 artifact("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar")
             } else if (new File("$buildDir/outputs/aar/${archivesBaseName}-debug.aar").exists()) {
                 artifact("$buildDir/outputs/aar/${archivesBaseName}-debug.aar")
             } else {
-            }
+            } */
+			
+			artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
