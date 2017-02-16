@@ -31,19 +31,19 @@ node ('Ubuntu && 23.0.3 &&' + node_ext) {
 
             if(env.BRANCH_NAME == 'master') {
                 stage ('Release') {
-                    sh 'cd ./Source/AppFramework && chmod -R 775 ../../check_and_delete_artifact.sh && ../../check_and_delete_artifact.sh referenceApp && ./gradlew zipDoc appFramework:aP'
+                    sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
                 }
             }
 
             if(env.BRANCH_NAME == 'develop') {
                 stage ('Release') {
-                    sh 'cd ./Source/AppFramework && chmod -R 775 ../../check_and_delete_artifact.sh && ../../check_and_delete_artifact.sh referenceApp && ./gradlew zipDoc appFramework:aP'
+                    sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
                 }
             }
 
             if(env.BRANCH_NAME =~ /release\/.*/) {
                 stage ('Release') {
-                    sh 'cd ./Source/AppFramework && chmod -R 775 ../../check_and_delete_artifact.sh && ../../check_and_delete_artifact.sh referenceApp && ./gradlew zipDoc appFramework:aP'
+                    sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
                 }
             }
 
