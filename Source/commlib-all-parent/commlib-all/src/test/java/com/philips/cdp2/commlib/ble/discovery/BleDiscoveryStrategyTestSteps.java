@@ -17,6 +17,7 @@ import com.philips.commlib.core.CommCentral;
 import com.philips.commlib.core.appliance.Appliance;
 import com.philips.commlib.core.exception.MissingPermissionException;
 import com.philips.commlib.core.exception.TransportUnavailableException;
+import com.philips.commlib.core.util.HandlerProvider;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
@@ -72,6 +73,9 @@ public class BleDiscoveryStrategyTestSteps {
     @Before
     public void setup() throws SHNBluetoothHardwareUnavailableException {
         initMocks(this);
+
+        Handler mockMainThreadHandler = mock(Handler.class);
+        HandlerProvider.enableMockedHandler(mockMainThreadHandler);
 
         final Context mockContext = mock(Context.class);
 
