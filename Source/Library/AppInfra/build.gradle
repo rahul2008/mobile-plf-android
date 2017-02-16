@@ -101,11 +101,15 @@ publishing {
 
             if (new File("$buildDir/outputs/aar/${archivesBaseName}-release.aar").exists()) {
                 artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
+                println 'publishing -release.aar'
             } else if (new File("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar").exists()) {
                 artifact("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar")
+                println 'publishing -release-unsigned.aar'
             } else if (new File("$buildDir/outputs/aar/${archivesBaseName}-debug.aar").exists()) {
                 artifact("$buildDir/outputs/aar/${archivesBaseName}-debug.aar")
+                println 'publishing -debug.aar'
             } else {
+                println 'did not publish any aar'
             }
 
             pom.withXml{
