@@ -242,16 +242,6 @@ public class FirmwarePortTest extends RobolectricTest {
         assertEquals("Prepare failed", firmwarePortExceptionArgumentCaptor.getValue().getMessage());
     }
 
-    @Test
-    public void whenGoingFromDownloadingStateToErrorState_DownloadFailedShouldBeCalled() {
-        parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 2, "", 100));
-        parseFirmwarePortData(createPropertiesJson("1", "", "error", 0, "Error downloading", 100));
-
-        ArgumentCaptor<FirmwarePortListener.FirmwarePortException> firmwarePortExceptionArgumentCaptor = ArgumentCaptor.forClass(FirmwarePortListener.FirmwarePortException.class);
-        verify(mockFirmwarePortListener).onDownloadFailed(firmwarePortExceptionArgumentCaptor.capture());
-        assertEquals("Error downloading", firmwarePortExceptionArgumentCaptor.getValue().getMessage());
-    }
-
     // onDownloadFinished
 
     @Test
@@ -299,14 +289,6 @@ public class FirmwarePortTest extends RobolectricTest {
     public void whenGoingFromReadyStateToErrorStateBecauseOfProgrammingError_DeployFinishedShouldBeCalled() {
         parseFirmwarePortData(createPropertiesJson("1", "2", "ready", 0, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "2", "idle", 0, "", 0));
-
-        verify(mockFirmwarePortListener).onDeployFinished();
-    }
-
-    @Test
-    public void whenGoingFromDownloadingStateToIdleState_AndCheckingStateAndReadyStateIsSkipped_DeployFinishedShouldBeCalled() {
-        parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 99, "", 100));
-        parseFirmwarePortData(createPropertiesJson("1", "", "idle", 0, "", 100));
 
         verify(mockFirmwarePortListener).onDeployFinished();
     }

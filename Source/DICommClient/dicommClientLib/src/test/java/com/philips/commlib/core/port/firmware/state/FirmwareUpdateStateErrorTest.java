@@ -36,4 +36,12 @@ public class FirmwareUpdateStateErrorTest {
 
         verify(mockOperation).onDownloadFailed();
     }
+
+    @Test
+    public void onStartFromDownloading_DownloadFailed() {
+
+        stateUnderTest.start(new FirmwareUpdateStateDownloading(mockOperation));
+
+        verify(mockOperation).onDownloadFailed();
+    }
 }

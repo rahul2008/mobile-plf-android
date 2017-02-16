@@ -36,4 +36,12 @@ public class FirmwareUpdateStateIdleTest {
 
         verify(mockOperation).onDeployFinished();
     }
+
+    @Test
+    public void onStartFromDownloading_DeployFinished() {
+
+        stateUnderTest.start(new FirmwareUpdateStateDownloading(mockOperation));
+
+        verify(mockOperation).onDeployFinished();
+    }
 }
