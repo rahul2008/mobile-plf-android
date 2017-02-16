@@ -85,19 +85,19 @@ public class TabbedActivity extends AppFrameworkBaseActivity implements Fragment
         TabUtils utils = new TabUtils(this, topLayout, true);
 
         TabLayout.Tab tab = utils.newTab(R.string.uikit_splash_title, android.R.drawable.btn_star, 0);
-        utils.setTitle(tab, "Home");
+        utils.setTitle(tab, R.string.RA_HomeTab_Menu_Title);
         topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, android.R.drawable.btn_radio, 0);
-        utils.setTitle(tab, "Settings");
+        utils.setTitle(tab, R.string.RA_Settings_Menu_Title);
         topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, android.R.drawable.btn_star_big_on, 0);
-        utils.setTitle(tab, "Philips Shop");
+        utils.setTitle(tab, R.string.RA_Philips_Shop_Menu_Title);
         topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, android.R.drawable.btn_star_big_off, 0);
-        utils.setTitle(tab, "Support");
+        utils.setTitle(tab, R.string.RA_Support_Menu_Title);
         topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, android.R.drawable.btn_star_big_off, 0);
@@ -177,15 +177,15 @@ public class TabbedActivity extends AppFrameworkBaseActivity implements Fragment
     }
 
     private void showToast(int errorCode) {
-        String errorText = getResources().getString(R.string.af_iap_server_error);
+        String errorText = getResources().getString(R.string.RA_Iap_Server_Error);
         if (IAPConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
-            errorText = getResources().getString(R.string.af_iap_no_connection);
+            errorText = getResources().getString(R.string.RA_Iap_No_Connection);
         } else if (IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT == errorCode) {
-            errorText = getResources().getString(R.string.af_iap_connection_time_out);
+            errorText = getResources().getString(R.string.RA_Iap_Connection_Time_Out);
         } else if (IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE == errorCode) {
-            errorText = getResources().getString(R.string.af_iap_authentication_failure);
+            errorText = getResources().getString(R.string.RA_Iap_Authentication_Failure);
         } else if (IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
-            errorText = getResources().getString(R.string.af_iap_prod_out_of_stock);
+            errorText = getResources().getString(R.string.RA_Iap_Product_Out_Of_Stock);
         }
         Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);

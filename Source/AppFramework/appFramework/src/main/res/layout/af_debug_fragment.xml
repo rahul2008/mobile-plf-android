@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dip"
-                android:text="@string/change_configuration"
+                android:text="@string/RA_Change_Configuration"
                 android:textColor="#fff" />
 
 
@@ -44,7 +44,7 @@
                 android:id="@+id/spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:prompt="@string/settings_list_item_order_history" />
+                android:prompt="@string/RA_Settings_OrderHistory" />
 
 
         </LinearLayout>
@@ -58,7 +58,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/current_configuration"
+                android:text="@string/RA_Current_Configuration"
                 android:textColor="@android:color/white"
                 android:textSize="18dp" />
 

@@ -50,7 +50,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
 
     @Override
     public String getActionbarTitle() {
-        return getResources().getString(R.string.debug_screen_title);
+        return getResources().getString(R.string.RA_DebugScreen_Title);
     }
 
     @Override
@@ -135,7 +135,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
 
     private void initViews(final View view) {
         version = (TextView) view.findViewById(R.id.version);
-        version.setText(getResources().getString(R.string.about_screen_app_version) + BuildConfig.VERSION_NAME);
+        version.setText(getResources().getString(R.string.RA_About_App_Version) + BuildConfig.VERSION_NAME);
         spinner = (Spinner) view.findViewById(R.id.spinner);
         configurationTextView = (TextView) view.findViewById(R.id.configuration);
     }

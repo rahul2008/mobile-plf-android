@@ -78,7 +78,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
 
     @Override
     public String getActionbarTitle() {
-        return "Datasync";
+        return getContext().getResources().getString(R.string.RA_DataServicesScreen_Title);
     }
 
     @Override

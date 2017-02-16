@@ -89,8 +89,8 @@ public class SettingsAdapter extends BaseAdapter {
     @SuppressWarnings("deprecation")
     @Override
     public int getItemViewType(int position) {
-        if (settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_login)).toString())
-                || settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_log_out)).toString())) {
+        if (settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.RA_Settings_Login)).toString())
+                || settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.RA_Settings_Logout)).toString())) {
             return LOGIN_VIEW;
         }
         return VERTICAL_SETTING_VIEW;
@@ -159,9 +159,9 @@ public class SettingsAdapter extends BaseAdapter {
     protected void loginButtonView(View vi) {
         btn_settings_logout = (UIKitButton) vi.findViewById(R.id.btn_settings_logout);
         if (isUserLoggedIn) {
-            btn_settings_logout.setText(getString(R.string.settings_list_item_log_out));
+            btn_settings_logout.setText(getString(R.string.RA_Settings_Logout));
         } else {
-            btn_settings_logout.setText(getString(R.string.settings_list_item_login));
+            btn_settings_logout.setText(getString(R.string.RA_Settings_Login));
         }
 
         btn_settings_logout.setOnClickListener(new View.OnClickListener() {
@@ -192,8 +192,8 @@ public class SettingsAdapter extends BaseAdapter {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     progress = new ProgressDialog(activityContext);
-                    progress.setTitle(activityContext.getResources().getString(R.string.settings_progress_title));
-                    progress.setMessage(activityContext.getResources().getString(R.string.settings_progress_message));
+                    progress.setTitle(activityContext.getResources().getString(R.string.RA_Settings_Progress_Title));
+                    progress.setMessage(activityContext.getResources().getString(R.string.RA_Settings_Progress_Message));
                     progress.setCancelable(true);
                     progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                     progress.show();
@@ -204,13 +204,13 @@ public class SettingsAdapter extends BaseAdapter {
                                 isMarketingEnabled=true;
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, true);
                                 progress.cancel();
-                                Toast.makeText(activityContext, activityContext.getResources().getString(R.string.settings_update_success), Toast.LENGTH_LONG).show();
+                                Toast.makeText(activityContext, activityContext.getResources().getString(R.string.RA_Settings_Update_Success), Toast.LENGTH_LONG).show();
                             }
 
                             @Override
                             public void onUpdateFailedWithError(int i) {
                                 progress.cancel();
-                                Toast.makeText(activityContext, activityContext.getResources().getString(R.string.settings_update_fail), Toast.LENGTH_LONG).show();
+                                Toast.makeText(activityContext, activityContext.getResources().getString(R.string.RA_Settings_Update_Fail), Toast.LENGTH_LONG).show();
 
                             }
                         }, true);
@@ -221,21 +221,21 @@ public class SettingsAdapter extends BaseAdapter {
                                 isMarketingEnabled=false;
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, false);
                                 progress.cancel();
-                                Toast.makeText(activityContext, activityContext.getResources().getString(R.string.settings_update_success), Toast.LENGTH_LONG).show();
+                                Toast.makeText(activityContext, activityContext.getResources().getString(R.string.RA_Settings_Update_Success), Toast.LENGTH_LONG).show();
                             }
 
                             @Override
                             public void onUpdateFailedWithError(int i) {
                                 progress.cancel();
-                                Toast.makeText(activityContext, activityContext.getResources().getString(R.string.settings_update_fail), Toast.LENGTH_LONG).show();
+                                Toast.makeText(activityContext, activityContext.getResources().getString(R.string.RA_Settings_Update_Fail), Toast.LENGTH_LONG).show();
                             }
                         }, false);
                     }
                 }
             });
 
-            String descText = getString(R.string.settings_list_item_four_desc) + "\n" +
-                    getString(R.string.settings_list_item_four_term_cond);
+            String descText = getString(R.string.RA_Setting_Philips_Promo_PartTwo) + "\n" +
+                    getString(R.string.RA_Settings_Promo_Question_Text);
 
             viewHolder.description.setVisibility(View.VISIBLE);
             viewHolder.description.setText(descText);
@@ -276,19 +276,19 @@ public class SettingsAdapter extends BaseAdapter {
             return;
         }
         logoutAlertDialog=new AlertDialog.Builder(activityContext, R.style.alertDialogStyle)
-                .setTitle(getString(R.string.settings_list_item_log_out))
-                .setMessage(activityContext.getResources().getString(R.string.settings_logout_alert))
+                .setTitle(getString(R.string.RA_Settings_Logout))
+                .setMessage(activityContext.getResources().getString(R.string.RA_Settings_Logout_Alert))
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 })
-                .setPositiveButton(getString(R.string.settings_list_item_log_out),
+                .setPositiveButton(getString(R.string.RA_Settings_Logout),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 progressDialog = new ProgressDialog(activityContext);
-                                progressDialog.setTitle(activityContext.getResources().getString(R.string.settings_progress_title));
-                                progressDialog.setMessage(activityContext.getResources().getString(R.string.settings_progress_message));
+                                progressDialog.setTitle(activityContext.getResources().getString(R.string.RA_Settings_Progress_Title));
+                                progressDialog.setMessage(activityContext.getResources().getString(R.string.RA_Settings_Progress_Message));
                                 progressDialog.setCancelable(false);
                                 progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                                 progressDialog.setCancelable(false);
@@ -304,7 +304,7 @@ public class SettingsAdapter extends BaseAdapter {
                                     @Override
                                     public void onLogoutFailure(final int i, final String s) {
                                         progressDialog.cancel();
-                                        Toast.makeText(activityContext, getString(R.string.logout_failed), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(activityContext, getString(R.string.RA_Logout_Failed), Toast.LENGTH_LONG).show();
                                     }
                                 });
                             }
@@ -316,9 +316,9 @@ public class SettingsAdapter extends BaseAdapter {
     @SuppressWarnings("deprecation")
     @Override
     public boolean isEnabled(int position) {
-        if (settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_main)).toString())
-                || settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_purchases)).toString())
-                || settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_my_acc)).toString())) {
+        if (settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.RA_Settings_Screen_Header_Title)).toString())
+                || settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.RA_Settings_Purchases)).toString())
+                || settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.RA_Settings_MyAccount)).toString())) {
             return false;
         } else {
             return super.isEnabled(position);

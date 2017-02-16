@@ -160,7 +160,7 @@ public class HamburgerActivityTest {
         HamburgerAdapter adapter = hamburgerActivity.getHamburgerAdapter();
         HamburgerItem hamburgerItem = (HamburgerItem) adapter.getItem(fragmentCount);
 
-        String menuItem = hamburgerActivity.getResources().getString(R.string.app_home_title);
+        String menuItem = hamburgerActivity.getResources().getString(R.string.RA_HomeScreen_Title);
 
         if(fragmentCount==0) {
             assertEquals(hamburgerItem.getTitle(), menuItem);

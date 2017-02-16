@@ -128,7 +128,7 @@ public class SupportFragmentState extends BaseState implements CcListener {
      */
     @Override
     public boolean onMainMenuItemClicked(String s) {
-        if (s.equalsIgnoreCase("product_registration")) {
+        if (s.equalsIgnoreCase("RA_Product_Registration_Text")) {
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
             try {
                 baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), SUPPORT_PR);

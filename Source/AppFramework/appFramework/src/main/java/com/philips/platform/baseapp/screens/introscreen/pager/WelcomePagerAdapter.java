@@ -32,14 +32,14 @@ public class WelcomePagerAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case PAGER_POSITION_ONE:
-                return WelcomePagerFragment.newInstance(R.string.introduction_screen_one_bottom_text,
-                        R.string.introduction_screen_one_bottom_text, R.drawable.af_welcome_start_page_bg);
+                return WelcomePagerFragment.newInstance(R.string.RA_WelcomeScreen_Title,
+                        R.string.RA_WelcomeScreen_First_Text, R.drawable.af_welcome_start_page_bg);
             case PAGER_POSITION_TWO:
-                return WelcomePagerFragment.newInstance(R.string.introduction_screen_two_bottom_text,
-                        R.string.introduction_screen_two_bottom_text, R.drawable.af_welcome_center_page_bg);
+                return WelcomePagerFragment.newInstance(R.string.RA_WelcomeScreen_Title,
+                        R.string.RA_WelcomeScreen_Second_Text, R.drawable.af_welcome_center_page_bg);
             case PAGER_POSITION_THREE:
-                return WelcomePagerFragment.newInstance(R.string.introduction_screen_three_bottom_text,
-                        R.string.introduction_screen_three_bottom_text, R.drawable.af_welcome_end_page_bg);
+                return WelcomePagerFragment.newInstance(R.string.RA_WelcomeScreen_Title,
+                        R.string.RA_WelcomeScreen_Third_Text, R.drawable.af_welcome_end_page_bg);
             default:
                 return null;
         }

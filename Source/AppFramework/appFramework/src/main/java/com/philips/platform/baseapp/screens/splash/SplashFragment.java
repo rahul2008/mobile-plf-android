@@ -54,7 +54,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
         logo = (ImageView) view.findViewById(R.id.splash_logo);
         logo.setImageDrawable(VectorDrawableCompat.create(getResources(),R.drawable.uikit_philips_logo, getActivity().getTheme()));
         initProgressDialog();
-        String splashScreenTitle = getResources().getString(R.string.splash_screen_title);
+        String splashScreenTitle = getResources().getString(R.string.RA_SplashScreen_Title);
         CharSequence titleText;
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {

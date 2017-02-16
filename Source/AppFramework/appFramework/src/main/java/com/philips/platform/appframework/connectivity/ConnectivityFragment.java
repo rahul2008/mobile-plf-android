@@ -75,7 +75,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
 
     @Override
     public String getActionbarTitle() {
-        return getResources().getString(R.string.app_connectivity_title);
+        return getResources().getString(R.string.RA_ConnectivityScreen_Menu_Title);
     }
 
     @Override
@@ -179,7 +179,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                         bleScanDialogFragment.setBLEDialogListener(new BLEScanDialogFragment.BLEScanDialogListener() {
                             @Override
                             public void onDeviceSelected(BleReferenceAppliance bleRefAppliance) {
-                                updateConnectionStateText(getString(R.string.connected));
+                                updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Connected));
                                 connectivityPresenter.setUpApplicance(bleRefAppliance);
                                 bleRefAppliance.getDeviceMeasurementPort().getPortProperties();
                             }
@@ -196,7 +196,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                                 }
                             }
                         },30000);
-                        updateConnectionStateText(getString(R.string.disconnected));
+                        updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Disconnected));
                     } catch (MissingPermissionException e) {
                         Log.e(TAG,"Permission missing");
                     }

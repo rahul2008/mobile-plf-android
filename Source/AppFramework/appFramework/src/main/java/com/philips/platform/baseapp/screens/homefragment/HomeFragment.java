@@ -33,7 +33,7 @@ public class HomeFragment extends AppFrameworkBaseFragment {
 
     @Override
     public String getActionbarTitle() {
-        return getResources().getString(R.string.app_home_title);
+        return getResources().getString(R.string.RA_HomeScreen_Title);
     }
 
     @Override

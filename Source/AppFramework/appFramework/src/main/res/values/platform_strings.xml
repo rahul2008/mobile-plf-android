@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_connectivity_title">Connectivity</string>
-    <string name="reference_device_scan">Reference Device Scan</string>
-    <string name="unknown_device">Unknown Device</string>
-    <string name="ble_ref_device">ble ref device</string>
-    <string name="disconnected">Disconnected</string>
-    <string name="connected">Connected</string>
-</resources>
