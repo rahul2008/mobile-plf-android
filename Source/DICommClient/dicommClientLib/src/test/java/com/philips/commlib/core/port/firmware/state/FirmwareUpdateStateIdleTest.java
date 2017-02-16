@@ -30,7 +30,7 @@ public class FirmwareUpdateStateIdleTest {
     }
 
     @Test
-    public void whenStartingFromChecking_DeployFinished() {
+    public void onStartFromChecking_DeployFinished() {
 
         stateUnderTest.start(new FirmwareUpdateStateChecking(mockOperation));
 

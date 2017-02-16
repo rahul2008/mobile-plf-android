@@ -21,7 +21,6 @@ public class FirmwareUpdateStateDownloading extends CancelableFirmwareUpdateStat
     public void onStart(FirmwareUpdateState previousState) {
         try {
             operation.pushData();
-            operation.onDownloadProgress(100);
         } catch (IOException e) {
             operation.onDownloadFailed("Could not upload firmware.");
             operation.finish();
@@ -33,5 +32,10 @@ public class FirmwareUpdateStateDownloading extends CancelableFirmwareUpdateStat
             operation.onDownloadFailed("Could not upload firmware.");
             operation.finish();
         }
+    }
+
+    @Override
+    protected void onFinish() {
+        operation.onDownloadProgress(100);
     }
 }

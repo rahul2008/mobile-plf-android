@@ -30,7 +30,7 @@ public class FirmwareUpdateStateErrorTest {
     }
 
     @Test
-    public void whenStartingFromChecking_DownloadFailed() {
+    public void onStartFromChecking_DownloadFailed() {
 
         stateUnderTest.start(new FirmwareUpdateStateChecking(mockOperation));
 

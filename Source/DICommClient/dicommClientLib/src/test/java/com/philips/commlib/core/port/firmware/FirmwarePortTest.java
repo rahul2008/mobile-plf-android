@@ -188,15 +188,6 @@ public class FirmwarePortTest extends RobolectricTest {
     }
 
     @Test
-    public void whenGoingFromDownloadingStateToCheckingState_ProgressUpdateShouldBeCalledWith100Percent() {
-        parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 99, "", 100));
-        parseFirmwarePortData(createPropertiesJson("1", "", "checking", 0, "", 100));
-
-        verify(mockFirmwarePortListener).onDownloadProgress(100);
-        verify(mockFirmwarePortListener).onCheckingProgress(0);
-    }
-
-    @Test
     public void whenInCheckingState_ProgressUpdateShoudBeCalled() {
         parseFirmwarePortData(createPropertiesJson("1", "", "checking", 0, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "checking", 10, "", 100));
@@ -224,19 +215,11 @@ public class FirmwarePortTest extends RobolectricTest {
     }
 
     @Test
-    public void whenGoingFromCheckingStateToReadyState_ProgressUpdateShouldBeCalledWith100Percent() {
-        parseFirmwarePortData(createPropertiesJson("1", "", "checking", 99, "", 100));
-        parseFirmwarePortData(createPropertiesJson("1", "", "ready", 0, "", 100));
-
-        verify(mockFirmwarePortListener).onCheckingProgress(100);
-    }
-
-    @Test
     public void whenGoingFromDownloadingStateToReadyState_AndCheckingStateIsSkipped_ProgressUpdateShouldBeCalledWith100Percent() {
         parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 99, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "ready", 0, "", 100));
 
-        //verify(mockFirmwarePortListener).onProgressUpdated(CHECKING, 100);
+        verify(mockFirmwarePortListener).onCheckingProgress(100);
     }
 
     @Test
@@ -244,7 +227,7 @@ public class FirmwarePortTest extends RobolectricTest {
         parseFirmwarePortData(createPropertiesJson("1", "", "downloading", 99, "", 100));
         parseFirmwarePortData(createPropertiesJson("1", "", "idle", 0, "", 100));
 
-        //verify(mockFirmwarePortListener).onProgressUpdated(CHECKING, 100);
+        verify(mockFirmwarePortListener).onCheckingProgress(100);
     }
 
     // onDownloadFailed
