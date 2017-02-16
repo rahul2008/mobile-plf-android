@@ -108,7 +108,7 @@ publishing {
 
             artifact zipDoc
 
-            if (new File("$buildDir/outputs/apk/${archivesBaseName}-release.apk").exists()) {
+            /* if (new File("$buildDir/outputs/apk/${archivesBaseName}-release.apk").exists()) {
                 artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
             } else if (new File("$buildDir/outputs/apk/${archivesBaseName}-release-unsigned.apk").exists()) {
                 artifact("$buildDir/outputs/apk/${archivesBaseName}-release-unsigned.apk")
@@ -119,7 +119,9 @@ publishing {
             } else if (new File("$buildDir/outputs/apk/${archivesBaseName}-AppFrameworkTabbed-debug.apk").exists()) {
                 artifact("$buildDir/outputs/apk/${archivesBaseName}-AppFrameworkTabbed-debug.apk")
             } else {
-            }
+            } */
+
+            artifact("$buildDir/outputs/apk/${archivesBaseName}-AppFrameworkHamburger-debug.apk")
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
