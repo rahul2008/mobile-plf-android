@@ -37,7 +37,7 @@ node('Android') {
             sh 'rm -rf android-shinelib/Source/ShineLib/shinelib/build/test-results'
             sh 'rm -rf dicomm-android/Source/DICommClient/dicommClientLib/build/test-results'
             sh 'rm -rf android-commlib-all/Source/commlib-all-parent/commlib-all/build/test-results'
-            sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew testDebug || true'
+            sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew commlib-all:testDebug || true'
 
             step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/*/*.xml'])
 
