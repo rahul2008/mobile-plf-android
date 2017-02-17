@@ -12,7 +12,6 @@ public class HandlerProvider {
 
     private static Handler mockedHandler;
 
-
     public static void enableMockedHandler(Handler handler) {
         mockedHandler = handler;
     }
