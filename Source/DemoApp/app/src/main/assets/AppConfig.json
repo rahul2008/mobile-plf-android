@@ -28,7 +28,7 @@
     "propositionid": "Tuscany2016"
   },
   "appinfra": {
-    "servicediscovery.platformMicrositeId":77000,
+    "servicediscovery.platformMicrositeId":"77000",
     "servicediscovery.platformEnvironment":"PRODUCTION",
     "appidentity.micrositeId": "77000",
     "appidentity.sector": "b2c",
