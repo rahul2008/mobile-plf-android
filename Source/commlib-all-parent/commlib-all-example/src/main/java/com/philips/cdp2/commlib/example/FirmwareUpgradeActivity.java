@@ -81,6 +81,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
             firmwareImagesListView.setAdapter(fwImageAdapter);
         }
         bleReferenceAppliance.getFirmwarePort().addFirmwarePortListener(firmwarePortListener);
+        bleReferenceAppliance.enableCommunication();
     }
 
     @Override
@@ -88,6 +89,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
         super.onPause();
 
         bleReferenceAppliance.getFirmwarePort().removeFirmwarePortListener(firmwarePortListener);
+        bleReferenceAppliance.disableCommunication();
     }
 
     private FilenameFilter upgradeFilesFilter = new FilenameFilter() {
