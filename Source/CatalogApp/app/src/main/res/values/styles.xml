@@ -24,15 +24,10 @@
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
 
-    <style name="ButtonsCategoryStyle">
-        <item name="android:layout_height">@dimen/button_category_divider_height</item>
+    <style name="ButtonsCategoryStyle" parent="UIDLabel.RecyclerViewHeaderText">
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:textColor">?attr/uidTextPrimary</item>
-        <item name="android:textSize">@dimen/button_category_text_size</item>
-        <item name="android:background">?attr/uidApplicationBackground</item>
-        <item name="fontPath">fonts/centralesansbook.ttf</item>
-        <item name="android:gravity">left|center_vertical</item>
-        <item name="android:paddingLeft">@dimen/layout_margin_left_right</item>
+        <item name="android:gravity">start|center_vertical</item>
     </style>
     <style name="ThemeSettingsHeader1Text">
         <item name="android:textColor">@android:color/primary_text_light</item>
@@ -53,4 +48,29 @@
         <item name="android:paddingTop">4dp</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
+
+    <style name="RecyclerViewRadioButton">
+        <item name="android:textColor">?attr/uidTextPrimaryColor</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+    <style name="TestButtonSecondaryText">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?attr/uidCheckBoxTextDisabledColor</item>
+        <item name="android:textSize">@dimen/button_category_text_size</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/layout_margin_left_right</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
+    <style name="UIDLabel.TestButtonTexts">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="uidLabelTextColor">?attr/uidTextPrimaryColor</item>
+        <item name="uidLabelTextSize">@dimen/button_toggle_text_size</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/layout_margin_left_right</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_100</item>
+    </style>
 </resources>
+

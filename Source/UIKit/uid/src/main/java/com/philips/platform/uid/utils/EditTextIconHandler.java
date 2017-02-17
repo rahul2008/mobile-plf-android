@@ -21,6 +21,7 @@ public abstract class EditTextIconHandler {
     private boolean isIconActionUpDetected;
     private boolean isIconActionDownDetected;
     private boolean isIconDisplayed;
+    private Drawable icon;
     protected EditText editText;
 
     protected EditTextIconHandler(@NonNull final EditText editText) {
@@ -34,6 +35,10 @@ public abstract class EditTextIconHandler {
     public abstract Drawable getIconDrawable();
 
     public boolean isTouchProcessed(final MotionEvent event) {
+        if (icon == null || !isIconTouched(event, icon)) {
+            resetIconTouch();
+            return false;
+        }
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             isIconActionDownDetected = true;
@@ -47,17 +52,11 @@ public abstract class EditTextIconHandler {
 
     private boolean processTouch(final MotionEvent event) {
         if (isIconActionDownDetected && isIconActionUpDetected) {
-            final Drawable[] compoundDrawables = editText.getCompoundDrawables();
-            final Drawable drawable = compoundDrawables[getDrawableIndexBasedOnLayoutDirection()];
-            if (drawable != null && isIconTouched(event, drawable)) {
-                final Editable editableText = editText.getEditableText();
-                if (editableText != null && editableText.length() > 0) {
-                    resetIconTouch();
-                    processIconTouch();
-                    return true;
-                }
-            } else {
+            final Editable editableText = editText.getEditableText();
+            if (editableText != null && editableText.length() > 0) {
                 resetIconTouch();
+                processIconTouch();
+                return true;
             }
         }
         return false;
@@ -79,7 +78,8 @@ public abstract class EditTextIconHandler {
         if (!isIconDisplayed) {
             isIconDisplayed = true;
             final Drawable[] compoundDrawables = editText.getCompoundDrawables();
-            compoundDrawables[getDrawableIndexBasedOnLayoutDirection()] = getIconDrawable();
+            icon = getIconDrawable();
+            compoundDrawables[getDrawableIndexBasedOnLayoutDirection()] =icon;
             editText.setCompoundDrawablesWithIntrinsicBounds(compoundDrawables[LEFT_DRAWABLE_INDEX], compoundDrawables[TOP_DRAWABLE_INDEX], compoundDrawables[RIGHT_DRAWABLE_INDEX], compoundDrawables[BOTTOM_DRAWABLE_INDEX]);
         }
     }

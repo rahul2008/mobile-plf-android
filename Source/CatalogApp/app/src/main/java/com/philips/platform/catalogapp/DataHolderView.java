@@ -19,7 +19,11 @@ public class DataHolderView extends BaseObservable {
         this.dataHolders = new ObservableArrayList<>();
     }
 
-    public void addUser(int icon, int title, final Context context) {
-        this.dataHolders.add(new DataHolder(icon, title, context));
+    public void addIconItem(int icon, int title, final Context context) {
+        this.dataHolders.add(new DataHolder(icon, title, title , context));
+    }
+
+    public void addTwoLineItem(int title, int description, final Context context) {
+        this.dataHolders.add(new DataHolder(0, title, description , context));
     }
 }

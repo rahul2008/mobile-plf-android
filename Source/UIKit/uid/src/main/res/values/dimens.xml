@@ -123,6 +123,12 @@
     </item>
     <item name="uid_progress_bar_circular_big_thicknessRatio" format="float" type="dimen">22</item>
 
+    <dimen name="uid_circular_progress_indicator_big_label_margin">16dp</dimen>
+    <dimen name="uid_circular_progress_indicator_middle_label_margin">14dp</dimen>
+    <dimen name="uid_circular_progress_indicator_small_label_margin">12dp</dimen>
+    <dimen name="uid_indeterminate_linear_progress_indicator_label_margin">9dp</dimen>
+    <dimen name="uid_determinate_linear_progress_indicator_label_margin">7dp</dimen>
+
     <!--Labels-->
     <dimen name="uid_label_text_size">16sp</dimen>
     <dimen name="uid_label_margin_bottom">8dp</dimen>
@@ -137,6 +143,8 @@
     <dimen name="uid_checkbox_height">48dp</dimen>
     <dimen name="uid_checkbox_text_size">16sp</dimen>
     <dimen name="uid_checkbox_border_ripple_radius">20dp</dimen>
+    <dimen name="uid_checkbox_line_spacing">0dp</dimen>
+    <integer name="uid_checkbox_font_spacing_multiplier">1</integer>
 
     <!--Linear indeterminate progressbar-->
     <integer name="uid_indeterminate_progressbar_anim_duration">900</integer>
@@ -144,4 +152,43 @@
     <!-- Separator -->
     <dimen name="uid_divider_Height">1dp</dimen>
 
+    <!-- RecyclerView -->
+    <dimen name="uid_recyclerview_margin_left_right">16dp</dimen>
+    <dimen name="uid_recyclerview_header_height">48dp</dimen>
+    <dimen name="uid_recyclerview_header_text_size">14sp</dimen>
+    <dimen name="uid_recyclerview_item_title_text_size">16sp</dimen>
+    <dimen name="uid_recyclerview_item_subtitle_text_size">14sp</dimen>
+    <dimen name="uid_recyclerview_item_description_text_size">14sp</dimen>
+    <dimen name="uid_recyclerview_item_one_line_height">48dp</dimen>
+    <dimen name="uid_recyclerview_item_two_lines_height">72dp</dimen>
+    <dimen name="uid_recyclerview_item_three_lines_height">88dp</dimen>
+    <dimen name="uid_recyclerview_drawable_padding">32dp</dimen>
+    <dimen name="uid_recyclerview_padding_top_bottom">8dp</dimen>
+
+    <!--Social Icons-->
+    <dimen name="uid_social_icons_width">32dp</dimen>
+    <dimen name="uid_social_icons_height">32dp</dimen>
+    <dimen name="uid_social_icons_padding">0px</dimen>
+    <dimen name="uid_social_icons_drawable_padding">0dp</dimen>
+
+    <!--date picker-->
+    <dimen name="uid_date_picker_header_text_size">16sp</dimen>
+    <dimen name="uid_date_picker_header_dayofmonth_size">88dp</dimen>
+    <dimen name="uid_date_picker_header_dayofweek_size">14dp</dimen>
+    <dimen name="uid_date_picker_header_year_size">24dp</dimen>
+
+    <!-- GridView -->
+    <dimen name="uid_grid_title_padding">16dp</dimen>
+    <dimen name="uid_grid_title_size">16sp</dimen>
+    <dimen name="uid_grid_descrption_size">12sp</dimen>
+    <dimen name="uid_grid_two_line_text_height">64dp</dimen>
+    <dimen name="uid_grid_single_line_text_height">48dp</dimen>
+    <dimen name="uid_grid_image_height">160dp</dimen>
+    <dimen name="uid_grid_item_size">224dp</dimen>
+    <dimen name="uid_grid_icon_size">24dp</dimen>
+    <dimen name="uid_grid_icon_padding">12dp</dimen>
+    <dimen name="uid_grid_icon_holder_width">48dp</dimen>
+    <dimen name="uid_gridview_margin_left_right">16dp</dimen>
+    <dimen name="uid_gridview_header_height">48dp</dimen>
+    <dimen name="uid_gridview_header_text_size">14sp</dimen>
 </resources>

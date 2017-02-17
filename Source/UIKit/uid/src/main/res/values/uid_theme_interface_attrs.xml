@@ -57,7 +57,7 @@
 
     <declare-styleable name="UIDNavigationBar">
         <attr name="uidActionBarBackground" format="reference|color"/>
-        <attr name="uidNavigationTextColor" format="reference|color"/>
+        <attr name="uidNavigationBarTextColor" format="reference|color"/>
         <attr name="uidNavigationShadowLevelOne" format="reference|color"/>
         <attr name="uidNavigationShadowLevelOneAlpha" format="reference|float"/>
         <attr name="uidNavigationShadowLevelTwo" format="reference|color"/>
@@ -80,11 +80,12 @@
     </declare-styleable>
 
     <declare-styleable name="UIDProgressBar">
-        <attr name="uidControlPrimaryTrackOff" format="reference|color"/>
-        <attr name="uidControlPrimaryBuffer" format="reference|color"/>
-        <attr name="uidControlPrimaryTrackOffAlpha" format="reference|float"/>
-        <attr name="uidControlPrimaryBufferAlpha" format="reference|float"/>
-        <attr name="uidLinearProgressBar" format="boolean"/>
+        <attr name="uidProgressBarBGColor" format="reference|color"/>
+        <attr name="uidProgressBarBGColorAlpha" format="reference|float"/>
+        <attr name="uidProgressBarSecondaryColor" format="reference|color"/>
+        <attr name="uidProgressBarSecondaryColorAlpha" format="reference|float"/>
+        <attr name="uidProgressBarProgressColor" format="reference|float"/>
+        <attr name="uidIsLinearProgressBar" format="boolean"/>
         <attr name="uidProgressBarCircularEndColor" format="reference|color"/>
         <attr name="uidProgressBarCircularProgressColorList" format="reference|color"/>
     </declare-styleable>
@@ -128,6 +129,51 @@
         <attr name="uidProgressIndicatorButtonProgressColor" format="reference|color"/>
     </declare-styleable>
 
+    <declare-styleable name="UIDProgressIndicatorWithLabel">
+        <attr name="uidIsIndeterminateProgressIndicator"/>
+        <attr name="uidIsLinearProgressBar"/>
+        <attr name="uidLabelTextAlpha"/>
+        <attr name="android:text"/>
+        <attr name="android:textSize"/>
+        <attr name="android:textColor"/>
+        <attr name="android:progress"/>
+        <attr name="android:secondaryProgress"/>
+        <attr name="uidLabelPosition" format="enum">
+            <enum name="top_left" value="0"/>
+            <enum name="top_right" value="1"/>
+            <enum name="bottom_left" value="2"/>
+            <enum name="bottom_right" value="3"/>
+            <enum name="center" value="4"/>
+            <enum name="bottom_center" value="5"/>
+        </attr>
+        <attr name="uidCircularProgressBarSize" format="enum">
+            <enum name="small" value="0"/>
+            <enum name="middle" value="1"/>
+            <enum name="big" value="2"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="UIDPickers">
+        <attr name="uidDatePickerHeaderFillColor" format="reference|color"/>
+        <attr name="uidDatePickerHeaderTextColor" format="reference|color"/>
+        <attr name="uidDatePickerFillColor" format="reference|color"/>
+        <attr name="uidDatePickerTextColor" format="reference|color"/>
+        <attr name="uidDatePickerWeekDayTextColor" format="reference|color"/>
+        <attr name="uidDatePickerDayOfWeekTextColor" format="reference|color"/>
+        <attr name="uidDatePickerSelectedFillColor" format="reference|color"/>
+        <attr name="uidDatePickerButtonTextColor" format="reference|color"/>
+    </declare-styleable>
+
+    <declare-styleable name="UIDSocialMediaButton">
+        <attr name="uidSocialIconPrimaryButtonIconColor" format="reference|color"/>
+        <attr name="uidSocialIconPrimaryButtonNormalFillColor" format="reference|color"/>
+        <attr name="uidSocialIconPrimaryButtonPressedColor" format="reference|color"/>
+        <attr name="uidSocialIconWhiteButtonIconColor" format="reference|color"/>
+        <attr name="uidSocialIconWhiteButtonNormalFillColor" format="reference|color"/>
+        <attr name="uidSocialIconWhitePressedColor" format="reference|color"/>
+
+    </declare-styleable>
+
     <declare-styleable name="UIDCheckBox">
         <attr name="uidCheckBoxTextEnabledColor" format="reference|color"/>
         <attr name="uidCheckBoxTextDisabledColor" format="reference|color"/>
@@ -157,5 +203,15 @@
             <enum name="primary" value="0"/>
             <enum name="secondary" value="1"/>
         </attr>
+    </declare-styleable>
+
+    <declare-styleable name="UIDRecyclerView">
+        <attr name="uidListPressedColor" format="reference|color"/>
+        <attr name="uidListPressedAlpha" format="float"/>
+    </declare-styleable>
+
+    <declare-styleable name="UIDGradientView">
+        <attr name="gradientStartColor" format="reference|color"/>
+        <attr name="gradientEndColor" format="reference|color"/>
     </declare-styleable>
 </resources>

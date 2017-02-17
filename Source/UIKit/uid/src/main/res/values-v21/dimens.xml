@@ -2,4 +2,8 @@
 <resources>
     <dimen name="uid_edittext_line_spacing">26dp</dimen>
     <integer name="uid_edittext_font_spacing_multiplier">0</integer>
+
+    <!--checkbox text leading-->
+    <dimen name="uid_checkbox_line_spacing">6dp</dimen>
+    <integer name="uid_checkbox_font_spacing_multiplier">1</integer>
 </resources>

@@ -26,19 +26,31 @@
 
     <!--ProgressBar test page-->
     <dimen name="progress_bar_margin_top">60dp</dimen>
+    <dimen name="progress_bar_margin_top_big">84dp</dimen>
     <dimen name="progress_bar_margin_left_right">24dp</dimen>
-    <dimen name="progress_bar_circular_area_height">132dp</dimen>
+    <dimen name="progress_bar_circular_area_margin_top">24dp</dimen>
+    <dimen name="progress_bar_circular_area_margin_bottom">20dp</dimen>
     <dimen name="progress_bar_seekbar_area_height">48dp</dimen>
-    <integer name="progress_bar_default_progress">50</integer>
-    <integer name="progress_bar_default_secondary_progress">60</integer>
     <integer name="progress_bar_scale_bar_max">2</integer>
 
     <!--label test page-->
     <dimen name="label_textbox_margin">16dp</dimen>
 
     <!--Checkbox test page-->
-    <dimen name="checkbox_list_margin_top_bottom">8dp</dimen>
+    <dimen name="checkbox_list_margin_top_bottom">14dp</dimen>
 
     <dimen name="separator_item_height">48dp</dimen>
     <dimen name="separator_drawable_padding">32dp</dimen>
+
+    <dimen name="recycler_view_drawable_padding">32dp</dimen>
+
+    <dimen name="listview_row_height">48dp</dimen>
+    <dimen name="uid_date_margin_start">32dp</dimen>
+    <dimen name="uid_date_picker_margin_left_right">16dp</dimen>
+    <dimen name="date_picker_date_width">200dp</dimen>
+    <!-- GridView page-->
+    <dimen name="grid_spacing_normal">2dp</dimen>
+    <dimen name="grid_spacing_enlarged">4dp</dimen>
+    <dimen name="grid_column_width">160dp</dimen>
+    <string name="gridview_item_opacity">0.35</string>
 </resources>

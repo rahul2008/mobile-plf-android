@@ -4,12 +4,15 @@
  */
 package com.philips.platform.uid.matcher;
 
+import android.graphics.drawable.ColorDrawable;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.hamcrest.Matcher;
 
+@SuppressWarnings("ReturnOfInnerClass")
 public class ViewPropertiesMatchers {
     public static Matcher<View> isSameLeftPadding(final int expectedValue) {
         return new BaseTypeSafteyMatcher<View>() {
@@ -186,6 +189,42 @@ public class ViewPropertiesMatchers {
                 if (view instanceof Toolbar) {
                     Toolbar toolbar = (Toolbar) view;
                     setValues(toolbar.getTitleMarginStart(), leftMargin);
+                    return areEqual();
+                }
+                return false;
+            }
+        };
+    }
+
+    public static Matcher<? super View> hasSameColorDrawableBackgroundColor(final int color) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                if (view instanceof ViewGroup) {
+                    ViewGroup group = (ViewGroup) view;
+                    final int drawablecolor = ((ColorDrawable) group.getBackground()).getColor();
+                    setValues(Integer.toHexString(drawablecolor), Integer.toHexString(color));
+                    return areEqual();
+                }
+                if (view instanceof View) {
+                    final int drawablecolor = ((ColorDrawable) view.getBackground()).getColor();
+                    setValues(Integer.toHexString(drawablecolor), Integer.toHexString(color));
+                    return areEqual();
+                }
+                return false;
+            }
+        };
+    }
+
+    public static Matcher<? super View> hasChildrensWithSameTextColor(final int color) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                if (view instanceof ViewGroup) {
+                    ViewGroup group = (ViewGroup) view;
+
+                    final int drawablecolor = ((AppCompatTextView) group.getChildAt(0)).getTextColors().getDefaultColor();
+                    setValues(Integer.toHexString(drawablecolor), Integer.toHexString(color));
                     return areEqual();
                 }
                 return false;

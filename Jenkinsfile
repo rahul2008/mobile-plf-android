@@ -3,6 +3,18 @@
 def getArchiveConfig() {
   return ( env.BRANCH_NAME == 'master' ) ? 'Release' : 'Debug'
 }
+ 
+stage('Espresso testing') {
+    timestamps {
+        node('android && espresso && mobile') {
+            checkout([$class: 'GitSCM', branches: [[name: '*/'+env.BRANCH_NAME]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CheckoutOption', timeout: 30], [$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'bbd4d9e8-2a6c-4970-b856-4e4cf901e857', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/uid-android']]])
+            bat "espresso.cmd"
+            publishHTML(target: [reportDir:'Source/UIKit/uid/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'Unit Tests'])
+            publishHTML(target: [reportDir:'Source/UIKit/uid/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'Code Coverage'])
+            step([$class: 'ArtifactArchiver', artifacts: 'Source/UIKit/uid/build/reports/coverage/debug/report.xml', excludes: null, fingerprint: true, onlyIfSuccessful: true])
+        }
+    }
+}
 
 node('Android && 25.0.0 && Ubuntu') {
   timestamps {
@@ -11,16 +23,16 @@ node('Android && 25.0.0 && Ubuntu') {
     def ANDROID_RELEASE_CANDIDATE = ""
     def ANDROID_VERSION_CODE = ""
 
-    stage('Checkout') {
-      checkout scm
-      step([$class: 'StashNotifier'])
-    }
+  stage('Checkout') {
+			checkout([$class: 'GitSCM', branches: [[name: '*/'+env.BRANCH_NAME]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CheckoutOption', timeout: 30], [$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'bbd4d9e8-2a6c-4970-b856-4e4cf901e857', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/uid-android']]])
+		}
+
 
     try {
       sh 'chmod +x git_version.sh'
       VERSION = sh(returnStdout: true, script: './git_version.sh snapshot').trim()
       ANDROID_RELEASE_CANDIDATE = sh(returnStdout: true, script: "echo ${VERSION} | cut -d. -f4").trim()
-      ANDROID_RELEASE_CANDIDATE = ("00" + ANDROID_RELEASE_CANDIDATE).substring(ANDROID_RELEASE_CANDIDATE.length())
+      ANDROID_RELEASE_CANDIDATE = ("000" + ANDROID_RELEASE_CANDIDATE).substring(ANDROID_RELEASE_CANDIDATE.length())
       ANDROID_VERSION_CODE = sh(returnStdout: true, script: "echo ${VERSION} | cut -d- -f1 | sed 's/[^0-9]*//g'").trim()
       ANDROID_VERSION_CODE = (ANDROID_VERSION_CODE + ANDROID_RELEASE_CANDIDATE).toInteger()
 
@@ -45,6 +57,7 @@ node('Android && 25.0.0 && Ubuntu') {
 
       stage('Archive Apps') {
         step([$class: 'ArtifactArchiver', artifacts: 'Source/CatalogApp/app/build/outputs/apk/*debug.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
+        step([$class: 'ArtifactArchiver', artifacts: 'Source/UIKit/uid/build/outputs/aar/uid-debug.aar', excludes: null, fingerprint: true, onlyIfSuccessful: true])
       }
 
       if(env.BRANCH_NAME == "develop") {
@@ -56,8 +69,7 @@ node('Android && 25.0.0 && Ubuntu') {
           '''
         }
       }
-    
-      currentBuild.result = 'SUCCESS'
+
     } catch(err) {
       currentBuild.result = 'FAILED'
     }

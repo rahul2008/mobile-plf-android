@@ -4,12 +4,21 @@
  */
 package com.philips.platform.uid.matcher;
 
+import android.annotation.TargetApi;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.test.espresso.matcher.BoundedMatcher;
+import android.support.test.internal.util.Checks;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.philips.platform.uid.utils.UIDTestUtils;
+
+import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
 public class TextViewPropertiesMatchers {
@@ -75,6 +84,19 @@ public class TextViewPropertiesMatchers {
             protected boolean matchesSafely(View view) {
                 if (view instanceof TextView) {
                     setValues(((TextView) view).getLineSpacingExtra(), expectedValue);
+                    return areEqual();
+                }
+                throw new RuntimeException("expected TextView got " + view.getClass().getName());
+            }
+        };
+    }
+
+    public static Matcher<View> isSameLineSpacingMultiplier(final float expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                if (view instanceof TextView) {
+                    setValues(((TextView) view).getLineSpacingMultiplier(), expectedValue);
                     return areEqual();
                 }
                 throw new RuntimeException("expected TextView got " + view.getClass().getName());
@@ -230,6 +252,50 @@ public class TextViewPropertiesMatchers {
                     return areEqual();
                 }
                 return false;
+            }
+        };
+    }
+
+    public static Matcher<? super View> sameBackgroundColorTintList(final int attributeColor) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            protected boolean matchesSafely(final View view) {
+                if (view instanceof TextView) {
+                    TextView textView = (TextView) view;
+                    setValues(textView.getBackgroundTintList(), attributeColor);
+                    return areEqual();
+                }
+                return false;
+            }
+        };
+    }
+
+    public static Matcher<View> sameBackgroundColor(final int color) {
+        Checks.checkNotNull(color);
+        return new BoundedMatcher<View, TextView>(TextView.class) {
+            @Override
+            public boolean matchesSafely(TextView view) {
+                return color == ((ColorDrawable) view.getBackground()).getColor();
+            }
+            @Override
+            public void describeTo(Description description) {
+            }
+        };
+    }
+
+    public static Matcher<View> isSameTextColorWithReflection(final int index, final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                if (view instanceof TextView) {
+                    final ColorStateList textColors = ((TextView) view).getTextColors();
+                    final int[] colors = UIDTestUtils.getColorsWithReflection(textColors);
+
+                    setValues(colors[index], expectedValue);
+                    return areEqual();
+                }
+                throw new RuntimeException("expected TextView got " + view.getClass().getName());
             }
         };
     }
