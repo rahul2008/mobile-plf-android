@@ -120,12 +120,9 @@ public class URInterface implements UappInterface {
 
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        RegistrationHelper.getInstance().setAppInfraInstance(((URDependancies)
-                uappDependencies).getAppInfra());
-        RegistrationHelper.getInstance().setUrSettings(((URSettings) uappSettings));
-        RegistrationHelper.getInstance().initializeUserRegistration(((URSettings)
-                uappSettings).getContext());
-        Jump.init(((URDependancies)
-                uappDependencies).getAppInfra().getSecureStorage());
+        RegistrationHelper.getInstance().setAppInfraInstance(uappDependencies.getAppInfra());
+        RegistrationHelper.getInstance().setUrSettings(uappSettings);
+        RegistrationHelper.getInstance().initializeUserRegistration(uappSettings.getContext());
+        Jump.init(uappSettings.getContext(), uappDependencies.getAppInfra().getSecureStorage());
     }
 }

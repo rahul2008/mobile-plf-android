@@ -26,6 +26,7 @@ import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.events.SocialProvider;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -242,4 +243,5 @@ public class RegUtility {
         }
         return false;
     }
+
 }

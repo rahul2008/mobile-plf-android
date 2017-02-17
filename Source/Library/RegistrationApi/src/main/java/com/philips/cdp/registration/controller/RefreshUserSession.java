@@ -38,7 +38,7 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
 
     private void refreshSession() {
         if(!UserRegistrationInitializer.getInstance().isRefreshUserSessionInProgress()) {
-            CaptureRecord captureRecord = CaptureRecord.loadFromDisk(mContext);
+            CaptureRecord captureRecord = Jump.getSignedInUser();
             if (captureRecord == null) {
                 return;
             }

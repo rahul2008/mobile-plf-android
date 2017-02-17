@@ -9,7 +9,9 @@
 package com.philips.cdp.registration.controller;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 
+import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
@@ -17,6 +19,9 @@ import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.JanrainInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.update.UpdateUser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class UpdateUserDetailsBase implements
         JanrainInitializer.JanrainInitializeListener,
@@ -102,5 +107,17 @@ public class UpdateUserDetailsBase implements
     @Override
     public void onRefreshLoginSessionInProgress(String message) {
         //PerformNothing
+    }
+
+
+    @Nullable
+    protected JSONObject getCurrentUserAsJsonObject() {
+        JSONObject userData = null;
+        try {
+            userData = new JSONObject(Jump.getSignedInUser().toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return userData;
     }
 }

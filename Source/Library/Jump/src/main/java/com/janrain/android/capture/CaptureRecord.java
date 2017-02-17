@@ -49,6 +49,7 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -124,25 +125,27 @@ public class CaptureRecord extends JSONObject {
         String fileContents = null;
         FileInputStream fis = null;
         try {
-            fis = applicationContext.openFileInput(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-           byte[] enctText = (byte[]) ois.readObject();
-           byte[] decrtext = SecureStorage.decrypt(enctText);
-           fileContents = new String(decrtext);
-            fis = null;
-            applicationContext.deleteFile(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
-            Jump.getSecureStorageInterface().storeValueForKey(JR_CAPTURE_SIGNED_IN_USER_FILENAME,
-                    fileContents ,new SecureStorageInterface.SecureStorageError());
 
-            return inflateCaptureRecord(fileContents);
-        } catch (FileNotFoundException ignore) {
-        } catch (NullPointerException ignore){
+            File file = applicationContext.getFileStreamPath(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
+            if(file != null && file.exists()) {
+
+                fis = applicationContext.openFileInput(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                byte[] enctText = (byte[]) ois.readObject();
+                byte[] decrtext = SecureStorage.decrypt(enctText);
+                fileContents = new String(decrtext);
+                fis = null;
+                applicationContext.deleteFile(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
+                Jump.getSecureStorageInterface().storeValueForKey(JR_CAPTURE_SIGNED_IN_USER_FILENAME,
+                        fileContents, new SecureStorageInterface.SecureStorageError());
+
+                return inflateCaptureRecord(fileContents);
+            }
+        } catch (FileNotFoundException | NullPointerException ignore) {
         } catch (JSONException ignore) {
             throwDebugException(new RuntimeException("Bad CaptureRecord file contents:\n" + fileContents,
                     ignore));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
             if (fis != null) try {
