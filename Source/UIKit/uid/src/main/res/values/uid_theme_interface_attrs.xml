@@ -201,4 +201,8 @@
         <attr name="uidListPressedAlpha" format="float"/>
     </declare-styleable>
 
+    <declare-styleable name="UIDGradientView">
+        <attr name="gradientStartColor" format="reference|color"/>
+        <attr name="gradientEndColor" format="reference|color"/>
+    </declare-styleable>
 </resources>

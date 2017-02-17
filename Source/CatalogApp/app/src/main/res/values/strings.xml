@@ -148,4 +148,21 @@
     <string name="label_right_top">Label right top</string>
     <string name="label_left_bottom">Label left bottom</string>
     <string name="label_right_bottom">Label right bottom</string>
+
+    <!--GridView-->
+    <string name="page_title_gridView">GridView</string>
+    <string name="page_title_gridview_settings">GridView Settings</string>
+    <string name="gridView_title_long">This is a long title for an image</string>
+    <string name="gridView_description_long">This is a long description for an image</string>
+    <string name="gridView_title_short">Title</string>
+    <string name="gridView_description_short">Description</string>
+    <string name="secondary_action">Secondary Action</string>
+    <string name="dark_background">Dark Background</string>
+    <string name="enlarged_gutter">Enlarged Gutter</string>
+    <string name="grid_disabled">Disabled</string>
+    <string name="secondary_action_description">Secondary action can be placed at 4 corner of the tiles</string>
+    <string name="without_secondary_content">Without Secondary Content</string>
+    <string name="double_line_footer">Double-line Filled Footer</string>
+    <string name="single_line_header">Single-line Gradient Header</string>
+    <string name="gridview_header">Title</string>
 </resources>
