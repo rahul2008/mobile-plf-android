@@ -28,15 +28,6 @@ def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 version = objcdp.getVersion()
 
-pitest {
-    targetClasses = ['com.philips.commlib.core.port.firmware.*']  /* specify target classes to be mutated */
-    pitestVersion = "1.1.10"
-    avoidCallsTo = ['com.philips.cdp.dicommclient.util.DICommLog']
-    threads = 8 /* specify number of threads */
-    outputFormats = ['XML', 'HTML'] /* specify output format */
-    reportDir = "./build/pitest/"
-}
-
 artifactory {
     contextUrl = repos.base
     publish {
@@ -125,4 +116,19 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     androidTestCompile 'com.squareup.assertj:assertj-android:1.1.1'
+}
+
+pitest {
+    targetClasses = [
+            'com.philips.commlib.cloud.*',
+            'com.philips.commlib.core.*',
+            'com.philips.commlib.lan.communication.*',
+            'com.philips.commlib.lan.context.*',
+            'com.philips.commlib.lan.discovery.*',
+    ]  /* specify target classes to be mutated */
+    pitestVersion = "1.1.10"
+    avoidCallsTo = ['com.philips.cdp.dicommclient.util.DICommLog']
+    threads = 8 /* specify number of threads */
+    outputFormats = ['XML', 'HTML'] /* specify output format */
+    reportDir = rootDir.absolutePath + "/build/report/pitest/"
 }
