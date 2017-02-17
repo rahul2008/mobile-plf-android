@@ -473,30 +473,19 @@ public class User {
      */
     public boolean isUserSignIn() {
         long start  = System.nanoTime();
-        RLog.d("isUserSignIn","Complete Start"+ start +" ns");
         CaptureRecord capturedRecord = Jump.getSignedInUser();
-        RLog.d("isUserSignIn","Jump.getSignedInUser() End"+ (System.nanoTime()- start ) +" ns");
         if (capturedRecord == null) {
             capturedRecord = CaptureRecord.loadFromDisk(mContext);
-            RLog.d("isUserSignIn","CaptureRecord file read  End"+ (System.nanoTime()- start ) +" ns");
         }
         if (capturedRecord == null) {
             return false;
         }
-
-        RLog.d("isUserSignIn","CaptureRecord check  End"+ (System.nanoTime()- start ) +" ns");
-
-    long appinfarstart = System.nanoTime();
-        RLog.d("isUserSignIn","App infra read start"+ (appinfarstart +" ns"));
-
 
         boolean isEmailVerificationRequired  = RegistrationConfiguration.getInstance().
                 isEmailVerificationRequired();
         boolean isHsdpFlow = RegistrationConfiguration.getInstance().isHsdpFlow();
         boolean isAcceptTerms = RegistrationConfiguration.getInstance().
                 isTermsAndConditionsAcceptanceRequired();
-
-        RLog.d("isUserSignIn","App infra read end"+ ( System.nanoTime() - appinfarstart +" ns"));
 
         boolean signedIn = true;
         if (isEmailVerificationRequired) {
@@ -533,7 +522,6 @@ public class User {
                 clearData();
             }
         }
-        RLog.d("isUserSignIn","Complete End"+ (System.nanoTime()- start ) +" ns");
         return signedIn;
     }
 
