@@ -42,7 +42,7 @@
         android:id="@+id/uid_progress_indicator_label_bottom_left"
         style="@style/UIDLabel.ProgressBarLabel"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/uid_progress_indicator"
+        android:layout_below="@id/uid_determinate_linear_progress_indicator"
         android:layout_marginTop="@dimen/uid_determinate_linear_progress_indicator_label_margin"
         android:visibility="gone"/>
 
@@ -50,7 +50,7 @@
         android:id="@+id/uid_progress_indicator_label_bottom_right"
         style="@style/UIDLabel.ProgressBarLabel"
         android:layout_alignParentEnd="true"
-        android:layout_below="@id/uid_progress_indicator"
+        android:layout_below="@id/uid_determinate_linear_progress_indicator"
         android:layout_marginTop="@dimen/uid_determinate_linear_progress_indicator_label_margin"
         android:visibility="gone"/>
 </RelativeLayout>
