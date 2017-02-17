@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:max="@integer/progress_bar_scale_bar_max"
                     android:onProgressChanged="@{(v, progress, frmUser) -> frag.setCircularProgresSize(progress, frmUser)}"
-                    android:progress="@{frag.progress}"/>
+                    android:progress="@{frag.circularProgressBarSize}"/>
             </LinearLayout>
 
             <include
@@ -89,7 +89,6 @@
                     android:text="@string/progress_bar_value"/>
 
                 <SeekBar
-                    android:id="@+id/progress_bar_seekbar_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onProgressChanged="@{(v, progress, frmUser) -> frag.setProgress(progress, frmUser)}"

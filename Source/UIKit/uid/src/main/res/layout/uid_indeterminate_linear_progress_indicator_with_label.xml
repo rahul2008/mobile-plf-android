@@ -30,10 +30,10 @@
 
 
     <com.philips.platform.uid.view.widget.IndeterminateLinearProgressBar
-        android:id="@+id/uid_progress_indicator"
+        android:id="@+id/uid_indeterminate_linear_progress_indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/uid_progress_indicator_label_top_layout"/>
+        android:layout_below="@id/uid_progress_indicator_label_top_layout"/>
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/uid_progress_indicator_label_bottom_left"

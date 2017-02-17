@@ -12,8 +12,6 @@ import android.widget.FrameLayout;
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.utils.UIDUtils;
 
-import static com.philips.platform.uid.view.widget.ProgressBarWithLabel.LabelPosition.BOTTOM_CENTER;
-
 public class ProgressBarWithLabel extends FrameLayout {
 
     public enum LabelPosition {TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, CENTER, BOTTOM_CENTER}
@@ -101,9 +99,9 @@ public class ProgressBarWithLabel extends FrameLayout {
         label = (Label) getRootView().findViewById(getLinearProgressBarLabelID());
 
         if (isIndeterminateProgressIndicator) {
-            indeterminateLinearProgressBar = (IndeterminateLinearProgressBar) findViewById(R.id.uid_progress_indicator);
+            indeterminateLinearProgressBar = (IndeterminateLinearProgressBar) findViewById(R.id.uid_indeterminate_linear_progress_indicator);
         } else {
-            progressBar = (ProgressBar) findViewById(R.id.uid_progress_indicator);
+            progressBar = (ProgressBar) findViewById(R.id.uid_determinate_linear_progress_indicator);
         }
     }
 
@@ -120,7 +118,7 @@ public class ProgressBarWithLabel extends FrameLayout {
     }
 
     private int getCircularProgressBarLabelID() {
-        if (labelPosition == BOTTOM_CENTER) {
+        if (labelPosition == LabelPosition.BOTTOM_CENTER) {
             return R.id.uid_progress_indicator_label_bottom_center;
         } else {
             return R.id.uid_progress_indicator_label_center;
@@ -155,7 +153,7 @@ public class ProgressBarWithLabel extends FrameLayout {
     @Override
     protected Parcelable onSaveInstanceState() {
         Parcelable parcelable = super.onSaveInstanceState();
-        SavedState savedState = new SavedState(parcelable);
+        SavedState savedState = new ProgressBarWithLabel.SavedState(parcelable);
 
         savedState.label = label.getText().toString();
         savedState.progress = progress;
@@ -166,17 +164,23 @@ public class ProgressBarWithLabel extends FrameLayout {
 
     @Override
     protected void onRestoreInstanceState(final Parcelable state) {
-        if (!(state instanceof SavedState)) {
+        if (!(state instanceof ProgressBarWithLabel.SavedState)) {
             super.onRestoreInstanceState(state);
             return;
         }
 
-        final SavedState savedState = (SavedState) state;
+        final ProgressBarWithLabel.SavedState savedState = (ProgressBarWithLabel.SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
 
         setText(savedState.label);
-        setProgress(savedState.progress);
-        setSecondaryProgress(savedState.secondaryProgress);
+
+        progressBar.post(new Runnable() {
+            @Override
+            public void run() {
+                setProgress(savedState.progress);
+                setSecondaryProgress(savedState.secondaryProgress);
+            }
+        });
     }
 
     public void setText(String text) {
