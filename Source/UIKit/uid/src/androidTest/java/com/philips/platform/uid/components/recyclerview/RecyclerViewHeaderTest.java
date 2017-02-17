@@ -80,12 +80,6 @@ public class RecyclerViewHeaderTest {
         getHeader().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedLeftPadding)));
     }
 
-    @Test
-    public void verifyHeaderRightPadding() {
-        int expectedRightPadding = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.recyclerview_header_padding_left_right));
-        getHeader().check(matches(ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding)));
-    }
-
     private ViewInteraction getHeader() {
         return onView(withId(com.philips.platform.uid.test.R.id.uid_recyclerview_header));
     }

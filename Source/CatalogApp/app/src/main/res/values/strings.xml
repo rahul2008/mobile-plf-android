@@ -146,8 +146,10 @@
     <!--GridView-->
     <string name="page_title_gridView">GridView</string>
     <string name="page_title_gridview_settings">GridView Settings</string>
-    <string name="gridView_title">This is a long title for an image</string>
-    <string name="gridView_description">This is a very long description for an image</string>
+    <string name="gridView_title_long">This is a long title for an image</string>
+    <string name="gridView_description_long">This is a long description for an image</string>
+    <string name="gridView_title_short">Title</string>
+    <string name="gridView_description_short">Description</string>
     <string name="secondary_action">Secondary Action</string>
     <string name="dark_background">Dark Background</string>
     <string name="enlarged_gutter">Enlarged Gutter</string>

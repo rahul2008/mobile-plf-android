@@ -7,22 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.philips.platform.catalogapp.MainActivity;
-import com.philips.platform.catalogapp.dataUtils.GridAdapter;
 import com.philips.platform.catalogapp.R;
+import com.philips.platform.catalogapp.dataUtils.GridAdapter;
 import com.philips.platform.catalogapp.dataUtils.GridData;
 import com.philips.platform.catalogapp.dataUtils.GridDataHelper;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 
 public class GridViewFragment extends BaseFragment {
 
@@ -30,7 +24,6 @@ public class GridViewFragment extends BaseFragment {
     private RelativeLayout relativeLayout;
     private ArrayList<GridData> cardList;
     GridAdapter adapter;
-
 
     @Override
     public int getPageTitle() {
@@ -62,7 +55,6 @@ public class GridViewFragment extends BaseFragment {
         gridView.setHorizontalSpacing(getResources().getDimensionPixelSize(spacing));
         gridView.setVerticalSpacing(getResources().getDimensionPixelSize(spacing));
 
-
         adapter = new GridAdapter(getContext(), cardList);
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -71,10 +63,9 @@ public class GridViewFragment extends BaseFragment {
                 GridData gridData = cardList.get(position);
                 gridData.toggleFavorite();
                 cardList.remove(position);
-                cardList.add(position,gridData);
+                cardList.add(position, gridData);
                 gridView.invalidateViews();
                 adapter.updateGrid(cardList);
-
             }
         });
 
@@ -84,19 +75,17 @@ public class GridViewFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     public void populateList() {
         Context mContext = getContext();
         cardList = new ArrayList<>();
-        cardList.add(new GridData(R.drawable.gridview_asset_1, "1. " + mContext.getString(R.string.gridView_title), mContext.getString(R.string.gridView_description), false));
-        cardList.add(new GridData(R.drawable.gridview_asset_2, "2. " + mContext.getString(R.string.gridView_title), mContext.getString(R.string.gridView_description), false));
-        cardList.add(new GridData(R.drawable.gridview_asset_3, "3. " + mContext.getString(R.string.gridView_title), mContext.getString(R.string.gridView_description), false));
-        cardList.add(new GridData(R.drawable.gridview_asset_4, "4. " + mContext.getString(R.string.gridView_title), mContext.getString(R.string.gridView_description), false));
-        cardList.add(new GridData(R.drawable.gridview_asset_5, "5. " + mContext.getString(R.string.gridView_title), mContext.getString(R.string.gridView_description), false));
-        cardList.add(new GridData(R.drawable.gridview_asset_6, "6. " + mContext.getString(R.string.gridView_title), mContext.getString(R.string.gridView_description), false));
-        cardList.add(new GridData(R.drawable.gridview_asset_7, "7. " + mContext.getString(R.string.gridView_title), mContext.getString(R.string.gridView_description), false));
+        cardList.add(new GridData(R.drawable.gridview_asset_1, mContext.getString(R.string.gridView_title_short), mContext.getString(R.string.gridView_description_short), false));
+        cardList.add(new GridData(R.drawable.gridview_asset_2, mContext.getString(R.string.gridView_title_short), mContext.getString(R.string.gridView_description_short), false));
+        cardList.add(new GridData(R.drawable.gridview_asset_3, mContext.getString(R.string.gridView_title_short), mContext.getString(R.string.gridView_description_short), false));
+        cardList.add(new GridData(R.drawable.gridview_asset_4, mContext.getString(R.string.gridView_title_short), mContext.getString(R.string.gridView_description_short), false));
+        cardList.add(new GridData(R.drawable.gridview_asset_5, mContext.getString(R.string.gridView_title_short), mContext.getString(R.string.gridView_description_short), false));
+        cardList.add(new GridData(R.drawable.gridview_asset_6, mContext.getString(R.string.gridView_title_short), mContext.getString(R.string.gridView_description_short), false));
+        cardList.add(new GridData(R.drawable.gridview_asset_7, mContext.getString(R.string.gridView_title_long), mContext.getString(R.string.gridView_description_long), false));
     }
-
 }
