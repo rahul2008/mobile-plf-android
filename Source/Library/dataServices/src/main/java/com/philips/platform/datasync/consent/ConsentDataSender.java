@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.OrmTableType;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.SyncBitUpdateRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -91,7 +91,7 @@ public class ConsentDataSender extends DataSender {
                 return;
             }
             client.saveConsent(uCoreAccessProvider.getUserId(), consentDetailList);
-            eventing.post(new SyncBitUpdateRequest(OrmTableType.CONSENT, true));
+            eventing.post(new SyncBitUpdateRequest(SyncType.CONSENT, true));
 
         } catch (RetrofitError error) {
             onError(error);
