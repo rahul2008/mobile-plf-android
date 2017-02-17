@@ -6,7 +6,6 @@ package com.philips.cdp.dicommclientsample;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -18,39 +17,22 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
-import com.philips.commlib.core.appliance.Appliance;
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
+import com.philips.cdp.dicommclient.discovery.DiscoveryEventListener;
+import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.cdp.dicommclientsample.airpurifier.AirPurifier;
-import com.philips.commlib.core.CommCentral;
-import com.philips.commlib.core.appliance.ApplianceManager;
-import com.philips.commlib.core.exception.MissingPermissionException;
-import com.philips.commlib.core.exception.TransportUnavailableException;
+import com.philips.commlib.core.appliance.Appliance;
+
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
-    private CommCentral commCentral;
+    private DiscoveryManager<?> discoveryManager;
     private ArrayAdapter<Appliance> applianceAdapter;
-
-    private final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener<AirPurifier>() {
-        @Override
-        public void onApplianceFound(@NonNull AirPurifier foundAppliance) {
-            foundAppliance.getWifiPort().addPortListener(wifiPortListener);
-
-            applianceAdapter.clear();
-            applianceAdapter.addAll(commCentral.getApplianceManager().getAvailableAppliances());
-        }
-
-        @Override
-        public void onApplianceUpdated(@NonNull AirPurifier updatedAppliance) {
-            // NOOP
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,34 +59,49 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ((TextView) findViewById(R.id.textViewAppId)).setText(DICommClientWrapper.getAppId());
+        discoveryManager = DiscoveryManager.getInstance();
 
-        this.commCentral = ((App) getApplication()).getCommCentral();
-        this.commCentral.getApplianceManager().addApplianceListener(this.applianceListener);
+        ((TextView) findViewById(R.id.textViewAppId)).setText(DICommClientWrapper.getAppId());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        applianceAdapter.clear();
-        applianceAdapter.addAll(this.commCentral.getApplianceManager().getAvailableAppliances());
+        discoveryManager.addDiscoveryEventListener(discoveryEventListener);
+        discoveryManager.start();
 
-        try {
-            this.commCentral.startDiscovery();
-        } catch (MissingPermissionException e) {
-            Log.e(TAG, "Missing permission for discovery: " + e.getMessage());
-        } catch (TransportUnavailableException e) {
-            Log.e(TAG, "Transport unavailable for discovery: " + e.getMessage());
-        }
+
+        applianceAdapter.clear();
+        applianceAdapter.addAll(discoveryManager.getAllDiscoveredAppliances());
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
-        this.commCentral.stopDiscovery();
+        discoveryManager.removeDiscoverEventListener(discoveryEventListener);
+        discoveryManager.stop();
     }
+
+    private DiscoveryEventListener discoveryEventListener = new DiscoveryEventListener() {
+
+        @Override
+        public void onDiscoveredAppliancesListChanged() {
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    applianceAdapter.clear();
+                    applianceAdapter.addAll(discoveryManager.getAllDiscoveredAppliances());
+                }
+            });
+
+            for (Appliance appliance : discoveryManager.getAllDiscoveredAppliances()) {
+                appliance.getWifiPort().addPortListener(wifiPortListener);
+            }
+        }
+    };
 
     private DICommPortListener<WifiPort> wifiPortListener = new DICommPortListener<WifiPort>() {
 
