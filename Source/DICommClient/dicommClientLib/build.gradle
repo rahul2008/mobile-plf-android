@@ -20,8 +20,6 @@ buildscript {
     }
 
     dependencies {
-        classpath(builddeps.androidmavengradleplugin)
-        classpath(builddeps.buildinfoextractor)
         classpath(builddeps.cdpscm)
     }
 }
@@ -33,6 +31,7 @@ version = objcdp.getVersion()
 pitest {
     targetClasses = ['com.philips.commlib.core.port.firmware.*']  /* specify target classes to be mutated */
     pitestVersion = "1.1.10"
+    avoidCallsTo = ['com.philips.cdp.dicommclient.util.DICommLog']
     threads = 8 /* specify number of threads */
     outputFormats = ['XML', 'HTML'] /* specify output format */
     reportDir = "./build/pitest/"
