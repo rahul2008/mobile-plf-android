@@ -59,6 +59,7 @@ public class UserCharacteristicsFetcher extends DataFetcher {
 
                 List<Characteristics> characteristicsList = mUserCharacteristicsConverter.convertToCharacteristics(uCoreUserCharacteristics,
                         mUCoreAccessProvider.getUserId());
+                if(characteristicsList==null)return null;
 
                 DSLog.d(DSLog.LOG, "Inder = Inside UC Fetcher " + characteristicsList);
                 eventing.post(new UCDBUpdateFromBackendRequest(characteristicsList, null));
