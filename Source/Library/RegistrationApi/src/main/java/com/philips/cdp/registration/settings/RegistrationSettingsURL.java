@@ -308,7 +308,8 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                     RLog.d(RLog.SERVICE_DISCOVERY, " ChinaFlow : " + isChinaFlow());
                 } else {
                     RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.janrain.engage : ");
-                    EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+                    initialize();
+                    return;
                 }
             }
 
