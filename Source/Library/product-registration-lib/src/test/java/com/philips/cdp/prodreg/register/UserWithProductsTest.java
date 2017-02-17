@@ -261,13 +261,13 @@ public class UserWithProductsTest extends TestCase {
         assertNull(userWithProducts.createDummyRegisteredProduct(product));
     }
 
-    @Test
-    public void
-    testGettingRegisteredListener() {
-        RegisteredProductsListener registeredProductsListener = mock(RegisteredProductsListener.class);
-        userWithProducts.getRegisteredProducts(registeredProductsListener);
-        assertEquals(registeredProductsListener, userWithProducts.getRegisteredProductsListener());
-    }
+//    @Test
+//    public void
+//    testGettingRegisteredListener() {
+//        RegisteredProductsListener registeredProductsListener = mock(RegisteredProductsListener.class);
+//        userWithProducts.getRegisteredProducts(registeredProductsListener);
+//        assertEquals(registeredProductsListener, userWithProducts.getRegisteredProductsListener());
+//    }
 
     @Test
     public void testReturnCorrectRequestType() {
@@ -377,54 +377,54 @@ public class UserWithProductsTest extends TestCase {
         assertFalse(userWithProducts.isCtnRegistered(registeredProducts, product));
     }
 
-    @Test
-    public void testGetPrxResponseListenerForRegisteringProducts() {
-        final UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
-        RegisteredProduct product = mock(RegisteredProduct.class);
-
-        ProdRegCache prodRegCacheMock = mock(ProdRegCache.class);
-        SecureStorageInterface ssInterface = mock(SecureStorageInterface.class);
-        SecureStorageInterface.SecureStorageError ssError = mock(SecureStorageInterface.SecureStorageError.class);
-        String key = ProdRegConstants.PRODUCT_REGISTRATION_KEY;
-        when(prodRegCacheMock.getStringData(key)).thenReturn("data");
-
-        when(prodRegCacheMock.getAppInfraSecureStorageInterface()).thenReturn(ssInterface);
-        when(prodRegCacheMock.getSecureStorageError()).thenReturn(ssError);
-        when(localRegisteredProducts.getProdRegCache()).thenReturn(prodRegCacheMock);
-
-        UserWithProducts userWithProducts = new UserWithProducts(context, userMock, prodRegListener) {
-            @NonNull
-            @Override
-            UserWithProducts getUserProduct() {
-                return userWithProductsMock;
-            }
-
-            @NonNull
-            @Override
-            protected LocalRegisteredProducts getLocalRegisteredProductsInstance() {
-                return localRegisteredProducts;
-            }
-
-            @Override
-            protected ErrorHandler getErrorHandler() {
-                return errorHandlerMock;
-            }
-        };
-        ResponseListener responseListener = userWithProducts.getPrxResponseListener(product);
-        RegistrationResponse responseData = mock(RegistrationResponse.class);
-        final RegistrationResponseData data = mock(RegistrationResponseData.class);
-        when(responseData.getData()).thenReturn(data);
-
-        when(data.getWarrantyEndDate()).thenReturn("2016-03-22");
-        userWithProducts.setCurrentRegisteredProduct(product);
-        responseListener.onResponseSuccess(responseData);
-        verify(product).setRegistrationState(RegistrationState.REGISTERED);
-        verify(localRegisteredProducts).updateRegisteredProducts(product);
-        verify(prodRegListener).onProdRegSuccess(product, userWithProductsMock);
-        verify(userWithProductsMock).mapRegistrationResponse(responseData, product);
-        responseListener.onResponseError(new PrxError("test", 10));
-        verify(errorHandlerMock).handleError(userWithProductsMock, product, 10);
-    }
+//    @Test
+//    public void testGetPrxResponseListenerForRegisteringProducts() {
+//        final UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
+//        RegisteredProduct product = mock(RegisteredProduct.class);
+//
+//        ProdRegCache prodRegCacheMock = mock(ProdRegCache.class);
+//        SecureStorageInterface ssInterface = mock(SecureStorageInterface.class);
+//        SecureStorageInterface.SecureStorageError ssError = mock(SecureStorageInterface.SecureStorageError.class);
+//        String key = ProdRegConstants.PRODUCT_REGISTRATION_KEY;
+//        when(prodRegCacheMock.getStringData(key)).thenReturn("data");
+//
+//        when(prodRegCacheMock.getAppInfraSecureStorageInterface()).thenReturn(ssInterface);
+//        when(prodRegCacheMock.getSecureStorageError()).thenReturn(ssError);
+//        when(localRegisteredProducts.getProdRegCache()).thenReturn(prodRegCacheMock);
+//
+//        UserWithProducts userWithProducts = new UserWithProducts(context, userMock, prodRegListener) {
+//            @NonNull
+//            @Override
+//            UserWithProducts getUserProduct() {
+//                return userWithProductsMock;
+//            }
+//
+//            @NonNull
+//            @Override
+//            protected LocalRegisteredProducts getLocalRegisteredProductsInstance() {
+//                return localRegisteredProducts;
+//            }
+//
+//            @Override
+//            protected ErrorHandler getErrorHandler() {
+//                return errorHandlerMock;
+//            }
+//        };
+//        ResponseListener responseListener = userWithProducts.getPrxResponseListener(product);
+//        RegistrationResponse responseData = mock(RegistrationResponse.class);
+//        final RegistrationResponseData data = mock(RegistrationResponseData.class);
+//        when(responseData.getData()).thenReturn(data);
+//
+//        when(data.getWarrantyEndDate()).thenReturn("2016-03-22");
+//        userWithProducts.setCurrentRegisteredProduct(product);
+//        responseListener.onResponseSuccess(responseData);
+//        verify(product).setRegistrationState(RegistrationState.REGISTERED);
+//        verify(localRegisteredProducts).updateRegisteredProducts(product);
+//        verify(prodRegListener).onProdRegSuccess(product, userWithProductsMock);
+//        verify(userWithProductsMock).mapRegistrationResponse(responseData, product);
+//        responseListener.onResponseError(new PrxError("test", 10));
+//        verify(errorHandlerMock).handleError(userWithProductsMock, product, 10);
+//    }
 
     @Test
     public void testMapRegistrationResponse() {
@@ -538,42 +538,42 @@ public class UserWithProductsTest extends TestCase {
         verify(requestManagerMock).executeRequest(registrationRequest, responseListenerMock);
     }
 
-    @Test
-    public void testRetryMethod() {
-        final UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
-        final Product product = new Product("ctn", null, null);
-        final RegisteredProduct registeredProduct = new RegisteredProduct("ctn", null, null);
-        ProdRegListener prodRegListenerMock = mock(ProdRegListener.class);
-        RegisteredProductsListener registeredProductsListenerMock = mock(RegisteredProductsListener.class);
-        UserWithProducts userWithProducts = new UserWithProducts(context, userMock, prodRegListener) {
-            @NonNull
-            @Override
-            UserWithProducts getUserProduct() {
-                return userWithProductsMock;
-            }
-
-            @NonNull
-            @Override
-            protected LocalRegisteredProducts getLocalRegisteredProductsInstance() {
-                return localRegisteredProducts;
-            }
-
-            @NonNull
-            @Override
-            protected User getUser() {
-                return userMock;
-            }
-        };
-        when(userWithProductsMock.createDummyRegisteredProduct(product)).thenReturn(registeredProduct);
-        userWithProducts.registerProduct(product);
-        userWithProducts.retryRequests(context, registeredProduct);
-        verify(userWithProductsMock).makeRegistrationRequest(context, registeredProduct);
-        userWithProducts.getRegisteredProducts(registeredProductsListenerMock);
-        userWithProducts.retryRequests(context, registeredProduct);
-        userWithProducts.setRequestType(-1);
-        userWithProducts.retryRequests(context, registeredProduct);
-        verify(prodRegListenerMock, never()).onProdRegFailed(registeredProduct, userWithProductsMock);
-    }
+//    @Test
+//    public void testRetryMethod() {
+//        final UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
+//        final Product product = new Product("ctn", null, null);
+//        final RegisteredProduct registeredProduct = new RegisteredProduct("ctn", null, null);
+//        ProdRegListener prodRegListenerMock = mock(ProdRegListener.class);
+//        RegisteredProductsListener registeredProductsListenerMock = mock(RegisteredProductsListener.class);
+//        UserWithProducts userWithProducts = new UserWithProducts(context, userMock, prodRegListener) {
+//            @NonNull
+//            @Override
+//            UserWithProducts getUserProduct() {
+//                return userWithProductsMock;
+//            }
+//
+//            @NonNull
+//            @Override
+//            protected LocalRegisteredProducts getLocalRegisteredProductsInstance() {
+//                return localRegisteredProducts;
+//            }
+//
+//            @NonNull
+//            @Override
+//            protected User getUser() {
+//                return userMock;
+//            }
+//        };
+//        when(userWithProductsMock.createDummyRegisteredProduct(product)).thenReturn(registeredProduct);
+//        userWithProducts.registerProduct(product);
+//        userWithProducts.retryRequests(context, registeredProduct);
+//        verify(userWithProductsMock).makeRegistrationRequest(context, registeredProduct);
+//        userWithProducts.getRegisteredProducts(registeredProductsListenerMock);
+//        userWithProducts.retryRequests(context, registeredProduct);
+//        userWithProducts.setRequestType(-1);
+//        userWithProducts.retryRequests(context, registeredProduct);
+//        verify(prodRegListenerMock, never()).onProdRegFailed(registeredProduct, userWithProductsMock);
+//    }
 
     @Test
     public void testUpdateLocaleCacheOnError() {
