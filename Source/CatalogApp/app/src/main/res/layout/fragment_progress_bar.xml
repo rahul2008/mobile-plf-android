@@ -171,7 +171,7 @@
                     <com.philips.platform.uid.view.widget.ProgressBarWithLabel
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/label"
+                        android:text="@string/loading"
                         android:visibility="@{frag.circularProgressBarSize == 0 ? View.VISIBLE : View.GONE}"
                         app:uidCircularProgressBarSize="small"
                         app:uidIsIndeterminateProgressIndicator="true"
@@ -180,7 +180,7 @@
                     <com.philips.platform.uid.view.widget.ProgressBarWithLabel
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/label"
+                        android:text="@string/loading"
                         android:visibility="@{frag.circularProgressBarSize == 1 ? View.VISIBLE : View.GONE}"
                         app:uidCircularProgressBarSize="middle"
                         app:uidIsIndeterminateProgressIndicator="true"
@@ -189,7 +189,7 @@
                     <com.philips.platform.uid.view.widget.ProgressBarWithLabel
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/label"
+                        android:text="@string/loading"
                         android:visibility="@{frag.circularProgressBarSize == 2 ? View.VISIBLE : View.GONE}"
                         app:uidCircularProgressBarSize="big"
                         app:uidIsIndeterminateProgressIndicator="true"/>
@@ -206,7 +206,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:progress="@{frag.progress}"
-                        android:text="@string/label"
+                        android:text="@{Integer.toString(frag.progress) + '%'}"
                         android:visibility="@{frag.circularProgressBarSize == 0 ? View.VISIBLE : View.GONE}"
                         app:uidCircularProgressBarSize="small"
                         app:uidLabelPosition="bottom_center"/>
@@ -215,19 +215,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:progress="@{frag.progress}"
-                        android:text="@string/label"
+                        android:text="@{Integer.toString(frag.progress) + '%'}"
                         android:visibility="@{frag.circularProgressBarSize == 1 ? View.VISIBLE : View.GONE}"
                         app:uidCircularProgressBarSize="middle"
-                        app:uidLabelPosition="bottom_center"/>
+                        app:uidLabelPosition="center"/>
 
                     <com.philips.platform.uid.view.widget.ProgressBarWithLabel
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:progress="@{frag.progress}"
-                        android:text="@string/label"
+                        android:text="@{Integer.toString(frag.progress) + '%'}"
                         android:visibility="@{frag.circularProgressBarSize == 2 ? View.VISIBLE : View.GONE}"
                         app:uidCircularProgressBarSize="big"
-                        app:uidLabelPosition="bottom_center"/>
+                        app:uidLabelPosition="center"/>
                 </LinearLayout>
             </LinearLayout>
 
