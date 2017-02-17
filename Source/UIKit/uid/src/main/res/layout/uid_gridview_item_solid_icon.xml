@@ -20,15 +20,15 @@
         android:background="?attr/uidControlPrimaryEnabledColor">
 
         <FrameLayout
-            android:id="@id/uid_gridview_star_icon_holder"
-            android:layout_width="@dimen/uid_grid_star_holder_width"
+            android:id="@id/uid_gridview_icon_holder"
+            android:layout_width="@dimen/uid_grid_icon_holder_width"
             android:layout_height="@dimen/uid_grid_two_line_text_height"
             android:layout_alignParentEnd="true"
             >
 
             <ImageButton
                 style="@style/UIDGridViewImageButton"
-                android:id="@id/uid_gridview_star_icon"/>
+                android:id="@id/uid_gridview_icon"/>
         </FrameLayout>
 
         <LinearLayout
@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/uid_grid_two_line_text_height"
             android:layout_alignParentEnd="true"
-            android:layout_toStartOf="@id/uid_gridview_star_icon_holder"
+            android:layout_toStartOf="@id/uid_gridview_icon_holder"
             android:background="#0000"
             android:gravity="center"
             android:orientation="vertical"

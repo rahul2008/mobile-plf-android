@@ -180,8 +180,8 @@
     <dimen name="uid_grid_single_line_text_height">48dp</dimen>
     <dimen name="uid_grid_image_height">160dp</dimen>
     <dimen name="uid_grid_item_size">224dp</dimen>
-    <dimen name="uid_grid_star_icon_size">24dp</dimen>
-    <dimen name="uid_grid_star_icon_padding">12dp</dimen>
-    <dimen name="uid_grid_star_holder_width">48dp</dimen>
+    <dimen name="uid_grid_icon_size">24dp</dimen>
+    <dimen name="uid_grid_icon_padding">12dp</dimen>
+    <dimen name="uid_grid_icon_holder_width">48dp</dimen>
 
 </resources>

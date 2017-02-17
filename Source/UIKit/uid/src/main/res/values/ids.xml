@@ -28,8 +28,8 @@
     <item name="uid_progress_indicator_button_text" type="id"/>
     <item name="uid_gridview" type="id"/>
     <item name="uid_gridview_thumbnail" type="id"/>
-    <item name="uid_gridview_star_icon_holder" type="id"/>
-    <item name="uid_gridview_star_icon" type="id"/>
+    <item name="uid_gridview_icon_holder" type="id"/>
+    <item name="uid_gridview_icon" type="id"/>
     <item name="uid_gridview_title" type="id"/>
     <item name="uid_gridview_description" type="id"/>
     <item name="uid_gridview_two_line_text" type="id"/>

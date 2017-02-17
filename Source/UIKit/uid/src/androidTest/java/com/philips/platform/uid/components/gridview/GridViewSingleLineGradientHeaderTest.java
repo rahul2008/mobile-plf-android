@@ -50,7 +50,7 @@ public class GridViewSingleLineGradientHeaderTest {
     }
 
     private ViewInteraction getIconHolder() {
-        return onView(withId(R.id.uid_gridview_star_icon_holder));
+        return onView(withId(R.id.uid_gridview_icon_holder));
     }
 
     @Test
@@ -61,23 +61,23 @@ public class GridViewSingleLineGradientHeaderTest {
 
     @Test
     public void verifyIconHolderWidth() {
-        int expectedHeight = testResources.getDimensionPixelSize(R.dimen.uid_grid_star_holder_width);
+        int expectedHeight = testResources.getDimensionPixelSize(R.dimen.uid_grid_icon_holder_width);
         getIconHolder().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
     }
 
     private ViewInteraction getStarIcon() {
-        return onView(withId(R.id.uid_gridview_star_icon));
+        return onView(withId(R.id.uid_gridview_icon));
     }
 
     @Test
     public void verifyIconHeight() {
-        int expectedHeight = testResources.getDimensionPixelSize(R.dimen.uid_grid_star_icon_size);
+        int expectedHeight = testResources.getDimensionPixelSize(R.dimen.uid_grid_icon_size);
         getStarIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
     }
 
     @Test
     public void verifyIconWidth() {
-        int expectedWidth = testResources.getDimensionPixelSize(R.dimen.uid_grid_star_icon_size);
+        int expectedWidth = testResources.getDimensionPixelSize(R.dimen.uid_grid_icon_size);
         getStarIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedWidth)));
     }
 
@@ -107,7 +107,7 @@ public class GridViewSingleLineGradientHeaderTest {
     @Test
     public void verifyTitleTextMargin(){
         waitFor(testResources, 750);
-        int expectedEndMargin = testResources.getDimensionPixelSize(R.dimen.uid_grid_star_holder_width);
+        int expectedEndMargin = testResources.getDimensionPixelSize(R.dimen.uid_grid_icon_holder_width);
         getTitleText().check(matches(ViewPropertiesMatchers.isSameRightMargin(expectedEndMargin)));
     }
 }

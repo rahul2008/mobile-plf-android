@@ -107,7 +107,7 @@ public class GridAdapter extends ArrayAdapter<GridData> {
             android.widget.ImageButton star_icon = new ImageButton(mContext);
 
             if(isSecondary){
-                star_icon = (android.widget.ImageButton) convertView.findViewById(R.id.uid_gridview_star_icon);
+                star_icon = (android.widget.ImageButton) convertView.findViewById(R.id.uid_gridview_icon);
                 int icon_drawable = gridData.isFavorite()? R.drawable.star_filled : R.drawable.star_outlined;
                 Drawable drawable = VectorDrawableCompat.create(mContext.getResources(), icon_drawable, mContext.getTheme());
                 DrawableCompat.setTint(drawable, ContextCompat.getColor(mContext, R.color.uidColorWhite));

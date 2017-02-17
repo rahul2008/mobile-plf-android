@@ -48,7 +48,7 @@ public class GridViewItemWithoutSecondaryTest {
     }
 
     private ViewInteraction getIconHolder() {
-        return onView(withId(R.id.uid_gridview_star_icon_holder));
+        return onView(withId(R.id.uid_gridview_icon_holder));
     }
 
     @Test
@@ -59,23 +59,23 @@ public class GridViewItemWithoutSecondaryTest {
 
     @Test
     public void verifyIconHolderWidth() {
-        int expectedWidth = testResources.getDimensionPixelSize(R.dimen.uid_grid_star_holder_width);
+        int expectedWidth = testResources.getDimensionPixelSize(R.dimen.uid_grid_icon_holder_width);
         getIconHolder().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedWidth)));
     }
 
     private ViewInteraction getStarIcon() {
-        return onView(withId(R.id.uid_gridview_star_icon));
+        return onView(withId(R.id.uid_gridview_icon));
     }
 
     @Test
     public void verifyIconHeight() {
-        int expectedHeight = testResources.getDimensionPixelSize(R.dimen.uid_grid_star_icon_size);
+        int expectedHeight = testResources.getDimensionPixelSize(R.dimen.uid_grid_icon_size);
         getStarIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
     }
 
     @Test
     public void verifyIconWidth() {
-        int expectedWidth = testResources.getDimensionPixelSize(R.dimen.uid_grid_star_icon_size);
+        int expectedWidth = testResources.getDimensionPixelSize(R.dimen.uid_grid_icon_size);
         getStarIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedWidth)));
     }
 
