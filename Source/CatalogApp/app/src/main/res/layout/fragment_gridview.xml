@@ -11,15 +11,14 @@
         android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
         android:orientation="horizontal">
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel.GridViewSettingsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
-            android:text="@string/page_title_gridview_settings"
-            android:textSize="@dimen/uid_recyclerview_item_title_text_size"
-            android:textColor="?attr/uidTextPrimaryColor"/>
+            android:text="@string/page_title_gridview_settings"/>
 
         <ImageButton
             android:layout_width="wrap_content"

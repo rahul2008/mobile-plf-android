@@ -52,4 +52,5 @@
     <dimen name="grid_spacing_normal">2dp</dimen>
     <dimen name="grid_spacing_enlarged">4dp</dimen>
     <dimen name="grid_column_width">160dp</dimen>
+    <string name="gridview_item_opacity">0.35</string>
 </resources>

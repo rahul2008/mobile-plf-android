@@ -74,9 +74,6 @@ public class GridAdapter extends ArrayAdapter<GridData> {
             LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 
             switch (templateSelection) {
-                case 1:
-                    convertView = layoutInflater.inflate(R.layout.uid_gridview_item_plain_icon, null);
-                    break;
                 case 2:
                     convertView = layoutInflater.inflate(R.layout.uid_gridview_item_solid_icon, null);
                     break;
@@ -134,7 +131,7 @@ public class GridAdapter extends ArrayAdapter<GridData> {
         }
 
         if (isdisabled) {
-            convertView.setAlpha(Float.parseFloat("0.35"));
+            convertView.setAlpha(Float.parseFloat(mContext.getResources().getString(R.string.gridview_item_opacity)));
         }
 
         return convertView;
