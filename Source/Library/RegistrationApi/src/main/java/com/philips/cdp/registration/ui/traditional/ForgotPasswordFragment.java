@@ -11,6 +11,7 @@ package com.philips.cdp.registration.ui.traditional;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,8 @@ import com.philips.cdp.registration.ui.customviews.XButton;
 import com.philips.cdp.registration.ui.customviews.XEmail;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.onUpdateListener;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileForgotPasswordVerifyCodeFragment;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -114,7 +117,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
         mLlEmailField = (LinearLayout) view.findViewById(R.id.ll_reg_email_field_container);
         mRlContinueBtnContainer = (RelativeLayout) view
                 .findViewById(R.id.rl_reg_btn_continue_container);
-        mEtEmail.setHint(mContext.getResources().getString(R.string.reg_Social_SignIn_Email_PlaceHolder_txtFiled));
+        mEtEmail.setHint(mContext.getResources().getString(R.string.reg_CreateAccount_Email_PhoneNumber));
+        mEtEmail.setInputType(InputType.TYPE_CLASS_TEXT);
     }
 
     @Override
@@ -219,7 +223,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     }
 
     private void updateUiStatus() {
-        if (NetworkUtility.isNetworkAvailable(mContext)&& mEtEmail.isValidEmail()) {
+        if (NetworkUtility.isNetworkAvailable(mContext)&& (mEtEmail.isValidEmail()||FieldsValidator.isValidMobileNumber(mEtEmail.getEmailId()))) {
             mBtnContinue.setEnabled(true);
             mRegError.hideError();
         } else {
@@ -252,15 +256,27 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     }
 
     private void resetPassword() {
-        boolean validatorResult = FieldsValidator.isValidEmail(mEtEmail.getEmailId().toString());
+        boolean validatorResult ;
+
+        if(FieldsValidator.isValidEmail(mEtEmail.getEmailId())){
+            validatorResult = true;
+        }else{
+            validatorResult = FieldsValidator.isValidMobileNumber(mEtEmail.getEmailId());
+        }
+
         if (!validatorResult) {
             mEtEmail.showInvalidAlert();
         } else {
             if (NetworkUtility.isNetworkAvailable(mContext)) {
+
                 if (mUser != null) {
                     mEtEmail.clearFocus();
                     showForgotPasswordSpinner();
-                    mUser.forgotPassword(mEtEmail.getEmailId(), this);
+                    if(FieldsValidator.isValidEmail(mEtEmail.getEmailId())){
+                        mUser.forgotPassword(mEtEmail.getEmailId(), this);
+                    }else {
+                        getRegistrationFragment().addFragment(new MobileForgotPasswordVerifyCodeFragment());
+                    }
                 }
 
             } else {

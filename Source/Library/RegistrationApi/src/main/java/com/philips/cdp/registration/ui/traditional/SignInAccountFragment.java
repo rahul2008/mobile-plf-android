@@ -48,6 +48,7 @@ import com.philips.cdp.registration.ui.customviews.XHavingProblems;
 import com.philips.cdp.registration.ui.customviews.XPassword;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.onUpdateListener;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileForgotPasswordVerifyCodeFragment;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
 import com.philips.cdp.registration.ui.traditional.mobile.ResetPasswordWebView;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
@@ -314,9 +315,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mEtPassword.clearFocus();
             if (mEtEmail.getEmailId().length() == 0) {
                 launchResetPasswordFragment();
-            } else if (registrationSettingsURL.isChinaFlow()) {
-                RLog.d(RLog.ONCLICK, "SignInAccountFragment : I am in China");
-                getRegistrationFragment().addFragment(new ResetPasswordWebView());
             } else {
                 RLog.d(RLog.ONCLICK, "SignInAccountFragment : I am in Other Country");
                 resetPassword();
@@ -335,12 +333,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void launchResetPasswordFragment() {
-        if (registrationSettingsURL.isChinaFlow()) {
-            getRegistrationFragment().addFragment(new ResetPasswordWebView());
-        } else {
+//        if (registrationSettingsURL.isChinaFlow()) {
+//            getRegistrationFragment().addFragment(new ResetPasswordWebView());
+//        } else {
             getRegistrationFragment().addResetPasswordFragment();
 
-        }
+        //}
         trackPage(AppTaggingPages.FORGOT_PASSWORD);
     }
 
@@ -588,7 +586,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void resetPassword() {
-        boolean validatorResult = FieldsValidator.isValidEmail(mEtEmail.getEmailId().toString());
+        boolean validatorResult;
+        if(FieldsValidator.isValidEmail(mEtEmail.getEmailId())){
+            validatorResult = true;
+        }else{
+            validatorResult = FieldsValidator.isValidMobileNumber(mEtEmail.getEmailId());
+        }
         if (!validatorResult) {
             mEtEmail.showInvalidAlert();
         } else {
@@ -599,7 +602,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                     mEtPassword.clearFocus();
                     mBtnSignInAccount.setEnabled(false);
                     mBtnResend.setEnabled(false);
-                    mUser.forgotPassword(mEtEmail.getEmailId(), this);
+                    //mUser.forgotPassword(mEtEmail.getEmailId(), this);
+                    if(FieldsValidator.isValidEmail(mEtEmail.getEmailId())){
+                        mUser.forgotPassword(mEtEmail.getEmailId(), this);
+                    }else {
+                        getRegistrationFragment().addFragment(new MobileForgotPasswordVerifyCodeFragment());
+                    }
                 }
 
             } else {

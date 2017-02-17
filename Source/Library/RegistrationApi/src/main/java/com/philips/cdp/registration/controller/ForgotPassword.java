@@ -10,6 +10,7 @@
 package com.philips.cdp.registration.controller;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureApiError;
@@ -19,6 +20,7 @@ import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import org.json.JSONArray;
@@ -105,7 +107,9 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler , JumpFl
 		if(!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
 			UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
 		}else {
-			Jump.performForgotPassword(emailAddress, this);
+			if(FieldsValidator.isValidEmail(emailAddress)){
+				Jump.performForgotPassword(emailAddress, this);
+			}
 			UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
 			return;
 		}
