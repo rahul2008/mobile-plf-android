@@ -41,12 +41,12 @@ public abstract class CommunicationStrategy {
 
     public abstract void disableCommunication();
 
-    public boolean addSubscriptionEventListener(@NonNull final SubscriptionEventListener listener) {
-        return subscriptionEventListeners.add(listener);
+    public void addSubscriptionEventListener(@NonNull final SubscriptionEventListener listener) {
+        subscriptionEventListeners.add(listener);
     }
 
-    public boolean removeSubscriptionEventListener(@NonNull final SubscriptionEventListener listener) {
-        return subscriptionEventListeners.remove(listener);
+    public void removeSubscriptionEventListener(@NonNull final SubscriptionEventListener listener) {
+        subscriptionEventListeners.remove(listener);
     }
 
     protected void notifySubscriptionEventListeners(@NonNull final String data) {
