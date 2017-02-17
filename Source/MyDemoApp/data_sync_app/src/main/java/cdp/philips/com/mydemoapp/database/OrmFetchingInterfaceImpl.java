@@ -12,8 +12,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.OrmTableType;
-import com.philips.platform.core.datatypes.OrmTableType;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -96,7 +95,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     public List<?> fetchNonSyncConsentDetails() throws SQLException {
 
         List<OrmConsentDetail> ormConsents = new ArrayList<>();
-        if (!isSynced(OrmTableType.CONSENT.getId())) {
+        if (!isSynced(SyncType.CONSENT.getId())) {
             QueryBuilder<OrmConsentDetail, Integer> queryBuilder = consentDetailsDao.queryBuilder();
             ormConsents = consentDetailsDao.query(queryBuilder.prepare());
             return ormConsents;
@@ -239,7 +238,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     private List<? extends Characteristics> fetchNonSynchronizedCharacteristics() throws SQLException {
 
         List<OrmCharacteristics> query = new ArrayList<>();
-        if (!isSynced(OrmTableType.CHARACTERISTICS.getId())) {
+        if (!isSynced(SyncType.CHARACTERISTICS.getId())) {
             QueryBuilder<OrmCharacteristics, Integer> characteristicsIntegerQueryBuilder = characteristicsDao.queryBuilder();
             query = characteristicsIntegerQueryBuilder.query();
             return query;
@@ -270,7 +269,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
         List<OrmSettings> ormSettingsList = new ArrayList<>();
 
-        if (isSynced(OrmTableType.SETTINGS.getId()) == true) {
+        if (isSynced(SyncType.SETTINGS.getId()) == true) {
             return ormSettingsList;
         } else {
             QueryBuilder<OrmSettings, Integer> settingsQueryBuilder = settingsDao.queryBuilder();
