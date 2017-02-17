@@ -78,6 +78,15 @@
         <item name="android:background">?attr/uidContentTertiary</item>
     </style>
 
+    <style name="UIDLabel.ProgressBarLabel">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="uidLabelTextSize">@dimen/uid_label_text_size</item>
+        <item name="uidLabelTextColor">?attr/uidTextTertiaryColor</item>
+        <item name="uidLabelTextAlpha">?attr/uidTextTertiaryAlpha</item>
+    </style>
+
     <style name="UIDLabel.GridViewHeaderText">
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
         <item name="uidLabelTextSize">@dimen/uid_gridview_header_text_size</item>
@@ -124,5 +133,4 @@
         <item name="uidLabelTextColor">?attr/uidTextPrimaryColor</item>
         <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_100</item>
     </style>
-
 </resources>

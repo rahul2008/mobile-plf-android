@@ -124,6 +124,12 @@
     </item>
     <item name="uid_progress_bar_circular_big_thicknessRatio" format="float" type="dimen">22</item>
 
+    <dimen name="uid_circular_progress_indicator_big_label_margin">16dp</dimen>
+    <dimen name="uid_circular_progress_indicator_middle_label_margin">14dp</dimen>
+    <dimen name="uid_circular_progress_indicator_small_label_margin">12dp</dimen>
+    <dimen name="uid_indeterminate_linear_progress_indicator_label_margin">9dp</dimen>
+    <dimen name="uid_determinate_linear_progress_indicator_label_margin">7dp</dimen>
+
     <!--Labels-->
     <dimen name="uid_label_text_size">16sp</dimen>
     <dimen name="uid_label_margin_bottom">8dp</dimen>
@@ -186,5 +192,4 @@
     <dimen name="uid_gridview_margin_left_right">16dp</dimen>
     <dimen name="uid_gridview_header_height">48dp</dimen>
     <dimen name="uid_gridview_header_text_size">14sp</dimen>
-
 </resources>

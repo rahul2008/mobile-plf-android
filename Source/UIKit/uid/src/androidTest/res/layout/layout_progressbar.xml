@@ -90,24 +90,23 @@
         <com.philips.platform.uid.view.widget.ProgressBar
             android:id="@+id/progress_bar_indeterminate"
             style="@style/UIDProgressBarHorizontalIndeterminateWithMargins"
-
-            app:uidLinearProgressBar="true"/>
+            app:uidIsLinearProgressBar="true"/>
 
         <com.philips.platform.uid.view.widget.ProgressBar
             android:id="@+id/progress_bar"
             style="@style/UIDProgressBarHorizontalDeterminateWithMargins"
 
-            app:uidLinearProgressBar="true"/>
+            app:uidIsLinearProgressBar="true"/>
 
         <com.philips.platform.uid.view.widget.ProgressBar
             android:id="@+id/progress_bar_secondary"
             style="@style/UIDProgressBarHorizontalDeterminateWithMargins"
 
-            app:uidLinearProgressBar="true"/>
+            app:uidIsLinearProgressBar="true"/>
 
         <com.philips.platform.uid.view.widget.ProgressBar
             android:id="@+id/progress_bar_wide"
             style="@style/UIDProgressBarHorizontalDeterminate"
-            app:uidLinearProgressBar="true"/>
+            app:uidIsLinearProgressBar="true"/>
     </LinearLayout>
 </ScrollView>
