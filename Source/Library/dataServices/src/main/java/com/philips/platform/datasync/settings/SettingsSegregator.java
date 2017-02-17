@@ -14,6 +14,7 @@ import javax.inject.Inject;
  * Created by 310218660 on 1/10/2017.
  */
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class SettingsSegregator {
 
     @Inject
