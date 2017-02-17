@@ -158,4 +158,5 @@
     <string name="without_secondary_content">Without Secondary Content</string>
     <string name="double_line_footer">Double-line Filled Footer</string>
     <string name="single_line_header">Single-line Gradient Header</string>
+    <string name="gridview_header">Title</string>
 </resources>

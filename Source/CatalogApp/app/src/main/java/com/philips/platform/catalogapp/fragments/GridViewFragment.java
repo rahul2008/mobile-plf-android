@@ -1,6 +1,9 @@
 package com.philips.platform.catalogapp.fragments;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -15,12 +18,16 @@ import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.dataUtils.GridAdapter;
 import com.philips.platform.catalogapp.dataUtils.GridData;
 import com.philips.platform.catalogapp.dataUtils.GridDataHelper;
+import com.philips.platform.uid.drawable.SeparatorDrawable;
+import com.philips.platform.uid.thememanager.ThemeUtils;
+import com.philips.platform.uid.view.widget.Label;
 
 import java.util.ArrayList;
 
 public class GridViewFragment extends BaseFragment {
 
     private GridView gridView;
+    private Label label;
     private RelativeLayout relativeLayout;
     private ArrayList<GridData> cardList;
     GridAdapter adapter;
@@ -40,7 +47,12 @@ public class GridViewFragment extends BaseFragment {
 
         View view = inflater.inflate(R.layout.fragment_gridview, container, false);
         gridView = (GridView) view.findViewById(R.id.gridView);
+        label = (Label) view.findViewById(R.id.uid_gridview_header);
         relativeLayout = (RelativeLayout) view.findViewById(R.id.trigger_gridview_settings);
+
+        SeparatorDrawable separatorDrawable = new SeparatorDrawable(getContext());
+        view.findViewById(R.id.divider).setBackground(separatorDrawable);
+
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,8 +60,14 @@ public class GridViewFragment extends BaseFragment {
             }
         });
 
-        int color = gridDataHelper.isDarkBackgroundEnabled() ? R.color.uidColorBlack : R.color.uidColorWhite;
-        gridView.setBackgroundResource(color);
+        Resources.Theme theme = ThemeUtils.getTheme(gridView.getContext(), null);
+        ColorStateList colorStateList = ThemeUtils.buildColorStateList(gridView.getResources(), theme, R.color.uid_gridview_background_selector);
+        final int selectedStateColor = colorStateList.getDefaultColor();
+
+        int color = gridDataHelper.isDarkBackgroundEnabled() ? selectedStateColor : Color.WHITE;
+        gridView.setBackgroundColor(color);
+
+        label.setBackgroundColor(color);
 
         int spacing = gridDataHelper.isEnlargedGutterEnabled() ? R.dimen.grid_spacing_enlarged : R.dimen.grid_spacing_normal;
         gridView.setHorizontalSpacing(getResources().getDimensionPixelSize(spacing));

@@ -11,10 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.philips.platform.catalogapp.R;
+import com.philips.platform.uid.view.widget.Label;
 
 import java.util.ArrayList;
 
@@ -90,27 +90,22 @@ public class GridAdapter extends ArrayAdapter<GridData> {
             ImageView thumbnail = (ImageView) convertView.findViewById(R.id.uid_gridview_thumbnail);
             Glide.with(mContext).load(gridData.getThumbnail()).into(thumbnail);
 
-            TextView title = (TextView) convertView.findViewById(R.id.uid_gridview_title);
+            Label title = (Label) convertView.findViewById(R.id.uid_gridview_title);
             if (title != null) {
                 title.setText(gridData.getTitle());
             }
 
-            TextView description = (TextView) convertView.findViewById(R.id.uid_gridview_description);
+            Label description = (Label) convertView.findViewById(R.id.uid_gridview_description);
             if (description != null) {
                 description.setText(gridData.getDescription());
             }
 
             android.widget.ImageButton star_icon = new ImageButton(mContext);
 
-<<<<<<< HEAD
-            if(isSecondary){
-                star_icon = (android.widget.ImageButton) convertView.findViewById(R.id.uid_gridview_icon);
-                int icon_drawable = gridData.isFavorite()? R.drawable.star_filled : R.drawable.star_outlined;
-=======
             if (isSecondary) {
-                star_icon = (android.widget.ImageButton) convertView.findViewById(R.id.uid_gridview_star_icon);
+                star_icon = (android.widget.ImageButton) convertView.findViewById(R.id.uid_gridview_icon);
                 int icon_drawable = gridData.isFavorite() ? R.drawable.star_filled : R.drawable.star_outlined;
->>>>>>> f5e0cb3db621bac64821a2fdff44ab33a8c83473
+
                 Drawable drawable = VectorDrawableCompat.create(mContext.getResources(), icon_drawable, mContext.getTheme());
                 DrawableCompat.setTint(drawable, ContextCompat.getColor(mContext, R.color.uidColorWhite));
                 star_icon.setImageDrawable(drawable);
@@ -146,12 +141,12 @@ public class GridAdapter extends ArrayAdapter<GridData> {
     }
 
     static class ViewHolder {
-        private TextView title;
-        private TextView description;
+        private Label title;
+        private Label description;
         private ImageView thumbnail;
         private ImageButton star_icon;
 
-        public ViewHolder(TextView title, TextView description, ImageView thumbnail, ImageButton star_icon) {
+        public ViewHolder(Label title, Label description, ImageView thumbnail, ImageButton star_icon) {
             this.title = title;
             this.description = description;
             this.thumbnail = thumbnail;

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="UIDLabel">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="uidLabelTextSize">@dimen/uid_label_text_size</item>
@@ -76,4 +77,46 @@
         <item name="uidLabelTextAlpha">?attr/uidTextTertiaryAlpha</item>
         <item name="android:background">?attr/uidContentTertiary</item>
     </style>
+
+    <style name="UIDLabel.GridViewHeaderText">
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
+        <item name="uidLabelTextSize">@dimen/uid_gridview_header_text_size</item>
+        <item name="android:paddingStart">@dimen/uid_gridview_margin_left_right</item>
+        <item name="android:minHeight">@dimen/uid_gridview_header_height</item>
+        <item name="uidLabelTextColor">?attr/uidTextTertiaryColor</item>
+        <item name="uidLabelTextAlpha">?attr/uidTextTertiaryAlpha</item>
+    </style>
+
+    <style name="UIDLabel.GridViewTitleText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">@dimen/uid_grid_title_padding</item>
+        <item name="android:textIsSelectable">true</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:lines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="uidLabelTextSize">@dimen/uid_grid_title_size</item>
+        <item name="uidLabelTextColor">@color/uidColorWhite</item>
+        <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_100</item>
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
+    </style>
+
+    <style name="UIDLabel.GridViewDescriptionText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">@dimen/uid_grid_title_padding</item>
+        <item name="android:textIsSelectable">true</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:lines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="uidLabelTextSize">@dimen/uid_grid_descrption_size</item>
+        <item name="uidLabelTextColor">@color/uidColorWhite</item>
+        <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_100</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
 </resources>

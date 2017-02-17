@@ -26,9 +26,9 @@
                 style="@style/UIDGridViewImageButton"/>
         </FrameLayout>
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@id/uid_gridview_title"
-            style="@style/UIDGridViewTitleText"
+            style="@style/UIDLabel.GridViewTitleText"
             android:layout_gravity="center|start"
             android:layout_marginEnd="@dimen/uid_grid_icon_holder_width"
             />
