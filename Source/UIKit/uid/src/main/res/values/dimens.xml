@@ -171,4 +171,20 @@
     <dimen name="uid_date_picker_header_dayofmonth_size">88dp</dimen>
     <dimen name="uid_date_picker_header_dayofweek_size">14dp</dimen>
     <dimen name="uid_date_picker_header_year_size">24dp</dimen>
+
+    <!-- GridView -->
+    <dimen name="uid_grid_title_padding">16dp</dimen>
+    <dimen name="uid_grid_title_size">16sp</dimen>
+    <dimen name="uid_grid_descrption_size">12sp</dimen>
+    <dimen name="uid_grid_two_line_text_height">64dp</dimen>
+    <dimen name="uid_grid_single_line_text_height">48dp</dimen>
+    <dimen name="uid_grid_image_height">160dp</dimen>
+    <dimen name="uid_grid_item_size">224dp</dimen>
+    <dimen name="uid_grid_icon_size">24dp</dimen>
+    <dimen name="uid_grid_icon_padding">12dp</dimen>
+    <dimen name="uid_grid_icon_holder_width">48dp</dimen>
+    <dimen name="uid_gridview_margin_left_right">16dp</dimen>
+    <dimen name="uid_gridview_header_height">48dp</dimen>
+    <dimen name="uid_gridview_header_text_size">14sp</dimen>
+
 </resources>

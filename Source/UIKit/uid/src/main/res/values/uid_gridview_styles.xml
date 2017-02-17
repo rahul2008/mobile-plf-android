@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="UIDGridGradientStyle">
+        <item name="gradientStartColor">@color/uidTransparent</item>
+        <item name="gradientEndColor">?attr/uidColorLevel90</item>
+    </style>
+    <style name="UIDGridViewImage">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:scaleType">center</item>
+    </style>
+    <style name="UIDGridViewImageButton">
+        <item name="android:layout_width">@dimen/uid_grid_icon_size</item>
+        <item name="android:layout_height">@dimen/uid_grid_icon_size</item>
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+</resources>
