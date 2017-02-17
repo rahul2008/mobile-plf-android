@@ -46,7 +46,7 @@ public abstract class BaseFlowManager {
      * @deprecated  - Will be absolute soon , request to use default constructor with initialize api
      */
     public BaseFlowManager(final Context context, final String jsonPath) throws JsonAlreadyParsedException {
-        initialize(context, jsonPath, null);
+        parseFlowManagerJson(context, jsonPath, null);
     }
 
     public BaseFlowManager() {
@@ -57,13 +57,12 @@ public abstract class BaseFlowManager {
             throw new JsonAlreadyParsedException();
         } else {
             flowManagerHandler = getHandler(context);
-            Thread t =new Thread (new Runnable() {
+            new Thread (new Runnable() {
                     @Override
                     public void run() {
                         parseFlowManagerJson(context, jsonPath, flowManagerListener);
                     }
-                });
-            t.start();
+                }).start();
         }
 
     }
@@ -263,19 +262,19 @@ public abstract class BaseFlowManager {
         final AppFlowParser appFlowParser = new AppFlowParser();
         AppFlowModel appFlowModel = appFlowParser.getAppFlow(jsonPath);
         getFirstStateAndAppFlowMap(appFlowParser, appFlowModel);
-        flowManagerHandler.post(getRunnable(flowManagerListener));
+        if (flowManagerHandler != null)
+            flowManagerHandler.post(getRunnable(flowManagerListener));
     }
 
     @NonNull
     protected Runnable getRunnable(final FlowManagerListener flowManagerListener) {
-        Runnable r=new Runnable() {
+        return new Runnable() {
             @Override
             public void run() {
-                flowManagerListener.onParseSuccess();
-
+                if (flowManagerListener != null)
+                    flowManagerListener.onParseSuccess();
             }
         } ;
-                return r;
     }
 
     private void getFirstStateAndAppFlowMap(AppFlowParser appFlowParser, AppFlowModel appFlowModel) {
