@@ -73,7 +73,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
         progressDialog = new ProgressDialog(getFragmentActivity());
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Please wait...");
+        progressDialog.setMessage(getActivity().getResources().getString(R.string.RA_Settings_Progress_Title));
     }
 
     private void showProgressDialog(boolean show) {
