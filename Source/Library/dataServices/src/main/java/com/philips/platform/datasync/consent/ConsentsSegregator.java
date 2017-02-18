@@ -24,8 +24,13 @@ public class ConsentsSegregator {
         DataServicesManager.getInstance().getAppComponant().injectConsentsSegregator(this);
     }
 
-    public Map<Class, List<?>> putConsentForSync(Map<Class, List<?>> dataToSync) throws SQLException {
-        List<? extends ConsentDetail> consentList = (List<? extends ConsentDetail>) dbFetchingInterface.fetchNonSyncConsentDetails();
+    public Map<Class, List<?>> putConsentForSync(Map<Class, List<?>> dataToSync) {
+        List<? extends ConsentDetail> consentList = null;
+        try {
+            consentList = (List<? extends ConsentDetail>) dbFetchingInterface.fetchNonSyncConsentDetails();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         dataToSync.put(ConsentDetail.class, consentList);
         return dataToSync;
     }

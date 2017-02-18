@@ -76,6 +76,9 @@ public class SettingsDataSender extends DataSender {
     }
 
     public void sendSettingsToBackend(Settings settings) {
+
+        if(settings==null) return;
+
         if (isUserInvalid()) {
             postError(1, getNonLoggedInError());
             return;
