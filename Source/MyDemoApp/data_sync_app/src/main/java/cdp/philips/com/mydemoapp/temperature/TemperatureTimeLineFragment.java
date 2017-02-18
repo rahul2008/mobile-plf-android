@@ -243,6 +243,12 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 mAdapter.setData(mData);
                 mAdapter.notifyDataSetChanged();
 
+                if (mDataServicesManager.getSyncTypes()!=null && mDataServicesManager.getSyncTypes().size()<=0) {
+                    dismissProgressDialog();
+                    Toast.makeText(getContext(),"No Sync Types Configured",Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 if (mSharedPreferences.getBoolean("isSynced", false)) {
                     dismissProgressDialog();
                 }
