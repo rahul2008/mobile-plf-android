@@ -25,6 +25,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -171,7 +172,7 @@ public class DataPushSynchronise extends EventMonitor {
     }
 
     private List<? extends DataSender> getSenders(){
-        List<String> configurableSenders = mDataServicesManager.getSyncTypes();
+      Set<String> configurableSenders = mDataServicesManager.getSyncTypes();
 
         if(configurableSenders == null){
             return senders;

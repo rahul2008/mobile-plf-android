@@ -83,7 +83,9 @@ public class MomentsDataFetcher extends DataFetcher {
                 DSLog.i("***SPO***", "DataPullSynchronize Moments fetch Success before convert");
                 List<Moment> moments = converter.convert(uCoreMoments);
                 DSLog.i("***SPO***", "DataPullSynchronize Moments fetch Success after converting");
-                eventing.post(new BackendMomentListSaveRequest(moments, null));
+                if(moments!=null) {
+                    eventing.post(new BackendMomentListSaveRequest(moments, null));
+                }
             }
             DSLog.e("***SPO***", "DataPullSynchronize fetchMomentWithType send null");
             return null;
