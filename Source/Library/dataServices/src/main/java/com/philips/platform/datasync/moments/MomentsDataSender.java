@@ -77,7 +77,8 @@ public class MomentsDataSender extends DataSender {
     @Override
     public boolean sendDataToBackend(@NonNull final List dataToSend) {
         DSLog.i("***SPO***","sendDataToBackend MomentsDataSender sendDataToBackend data = " + dataToSend.toString());
-        if (!accessProvider.isLoggedIn()) {
+
+        if (dataToSend==null || dataToSend.isEmpty() || !accessProvider.isLoggedIn()) {
             return false;
         }
 

@@ -50,6 +50,7 @@ public class MomentsConverter {
         try {
             for (UCoreMoment uCoreMoment : uCoreMoments) {
                 Moment moment = createMoment(uCoreMoment);
+                if(moment==null)return null;
                 momentList.add(moment);
             }
         } catch (Exception e) {
@@ -62,6 +63,10 @@ public class MomentsConverter {
     private Moment createMoment(@NonNull final UCoreMoment uCoreMoment) {
         Moment moment = baseAppDataCreater.createMoment(uCoreMoment.getCreatorId(), uCoreMoment.getSubjectId(),
                 uCoreMoment.getType());
+
+        if(moment==null){
+            return null;
+        }
 
         moment.setDateTime(new DateTime(uCoreMoment.getTimestamp()));
 

@@ -99,7 +99,11 @@ public class ConsentsDataFetcher extends DataFetcher {
     public void onEventAsync(GetNonSynchronizedMomentsResponse response) {
         List<? extends ConsentDetail> nonSynchronizedConsent = response.getConsentDetails();
         if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
-            getConsent(new ArrayList<>(nonSynchronizedConsent));
+
+            if (nonSynchronizedConsent != null || nonSynchronizedConsent.size() != 0){
+                getConsent(new ArrayList<>(nonSynchronizedConsent));
+            }
+
         }
     }
 
@@ -131,7 +135,11 @@ public class ConsentsDataFetcher extends DataFetcher {
             if (consentDetailList != null && !consentDetailList.isEmpty()) {
                 List<ConsentDetail> appConsentDetails = consentsConverter.convertToAppConsentDetails(consentDetailList);
 
-                eventing.post(new ConsentBackendSaveResponse(appConsentDetails, HttpURLConnection.HTTP_OK, null));
+                if(appConsentDetails!=null) {
+                    eventing.post(new ConsentBackendSaveResponse(appConsentDetails, HttpURLConnection.HTTP_OK, null));
+                }else {
+                    eventing.post(new ConsentBackendSaveResponse(null, HttpURLConnection.HTTP_OK, null));
+                }
             } else {
                 eventing.post(new ConsentBackendSaveResponse(null, HttpURLConnection.HTTP_OK, null));
             }

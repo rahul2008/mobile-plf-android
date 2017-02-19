@@ -31,8 +31,9 @@ import com.squareup.leakcanary.LeakCanary;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 import cdp.philips.com.mydemoapp.database.DatabaseHelper;
 import cdp.philips.com.mydemoapp.database.ORMSavingInterfaceImpl;
@@ -115,7 +116,7 @@ public class DataSyncApplication extends Application {
         mDataServicesManager.initializeDataServices(this, creator, userRegistrationInterface, errorHandlerInterface);
         injectDBInterfacesToCore();
         mDataServicesManager.initializeSyncMonitors(this, null, null,synchronisationCompleteListener);
-        List fetchList = new ArrayList();
+        Set fetchList = new HashSet();
         fetchList.add(OrmTableType.MOMENT.getDescription());
         mDataServicesManager.configureSyncDataType(fetchList);
     }
