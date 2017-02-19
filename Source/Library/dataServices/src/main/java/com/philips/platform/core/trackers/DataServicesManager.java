@@ -64,6 +64,7 @@ import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -119,7 +120,7 @@ public class DataServicesManager {
     private ArrayList<DataFetcher> mCustomeFetchers;
     private ArrayList<DataSender> mCustomSenders;
 
-    private List<String> mSyncDataTypes;
+    private Set<String> mSyncDataTypes;
 
     @Singleton
     private DataServicesManager() {
@@ -289,7 +290,7 @@ public class DataServicesManager {
         this.mUpdatingInterface = updatingInterface;
     }
 
-    public void configureSyncDataType(List<String> fetchers){
+    public void configureSyncDataType(Set<String> fetchers){
         mSyncDataTypes = fetchers;
     }
 
@@ -391,7 +392,7 @@ public class DataServicesManager {
         mAppComponent = appComponent;
     }
 
-    public List<String> getSyncTypes() {
+    public Set<String> getSyncTypes() {
         return mSyncDataTypes;
     }
 }

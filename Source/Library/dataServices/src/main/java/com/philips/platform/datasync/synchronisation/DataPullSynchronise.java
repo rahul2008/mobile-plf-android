@@ -22,6 +22,7 @@ import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -191,7 +192,7 @@ public class DataPullSynchronise {
     }
 
     private List<? extends DataFetcher> getFetchers(){
-        List<String> configurableFetchers = mDataServicesManager.getSyncTypes();
+        Set<String> configurableFetchers = mDataServicesManager.getSyncTypes();
 
         if(configurableFetchers == null){
             return fetchers;
