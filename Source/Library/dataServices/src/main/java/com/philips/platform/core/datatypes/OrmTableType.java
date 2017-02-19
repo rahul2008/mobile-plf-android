@@ -6,6 +6,7 @@ package com.philips.platform.core.datatypes;
 
 public enum OrmTableType {
 
+    MOMENT(103,"moment"),
     UNKNOWN(-1, "UNKNOWN"),
     SETTINGS(100, "Settings"),
     CHARACTERISTICS(101, "characteristics"),

@@ -116,10 +116,10 @@ public class DataServicesManager {
     @Inject
     ErrorHandlingInterface errorHandlingInterface;
 
-    private ArrayList<DataFetcher> fetchers;
-    private ArrayList<DataSender> senders;
+    private ArrayList<DataFetcher> mCustomeFetchers;
+    private ArrayList<DataSender> mCustomSenders;
 
-
+    private List<String> mSyncDataTypes;
 
     @Singleton
     private DataServicesManager() {
@@ -254,8 +254,8 @@ public class DataServicesManager {
     @SuppressWarnings("rawtypes")
     public void initializeSyncMonitors(Context context, ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders, SynchronisationCompleteListener synchronisationCompleteListener) {
         DSLog.i("***SPO***", "In DataServicesManager.initializeSyncMonitors");
-        this.fetchers = fetchers;
-        this.senders = senders;
+        this.mCustomeFetchers = fetchers;
+        this.mCustomSenders = senders;
         this.mSynchronisationCompleteListener = synchronisationCompleteListener;
         prepareInjectionsGraph(context);
         startMonitors();
@@ -289,6 +289,10 @@ public class DataServicesManager {
         this.mUpdatingInterface = updatingInterface;
     }
 
+    public void configureSyncDataType(List<String> fetchers){
+        mSyncDataTypes = fetchers;
+    }
+
     public void initializeDataServices(Context context, BaseAppDataCreator creator, UserRegistrationInterface facade, ErrorHandlingInterface errorHandlingInterface) {
         DSLog.i("SPO", "initializeDataServices called");
         this.mDataCreater = creator;
@@ -308,7 +312,7 @@ public class DataServicesManager {
     private void prepareInjectionsGraph(Context context) {
         BackendModule backendModule = new BackendModule(new EventingImpl(new EventBus(), new Handler()), mDataCreater, userRegistrationInterface,
                 mDeletingInterface, mFetchingInterface, mSavingInterface, mUpdatingInterface,
-                fetchers, senders, errorHandlingInterface);
+                mCustomeFetchers, mCustomSenders, errorHandlingInterface);
         final ApplicationModule applicationModule = new ApplicationModule(context);
 
         mAppComponent = DaggerAppComponent.builder().backendModule(backendModule).applicationModule(applicationModule).build();
@@ -334,8 +338,6 @@ public class DataServicesManager {
         mMeasurementGroup.addMeasurementGroupDetail(measurementGroupDetail);
         return measurementGroupDetail;
     }
-
-
 
     public void updateUserCharacteristics(List<Characteristics> characteristicses, DBRequestListener dbRequestListener) {
         mEventing.post(new UserCharacteristicsSaveRequest(characteristicses, dbRequestListener));
@@ -387,5 +389,9 @@ public class DataServicesManager {
 
     public void setAppComponant(AppComponent appComponent){
         mAppComponent = appComponent;
+    }
+
+    public List<String> getSyncTypes() {
+        return mSyncDataTypes;
     }
 }

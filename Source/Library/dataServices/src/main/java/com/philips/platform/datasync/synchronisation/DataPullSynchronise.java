@@ -13,9 +13,14 @@ import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
+import com.philips.platform.datasync.characteristics.UserCharacteristicsFetcher;
+import com.philips.platform.datasync.consent.ConsentsDataFetcher;
+import com.philips.platform.datasync.moments.MomentsDataFetcher;
+import com.philips.platform.datasync.settings.SettingsDataFetcher;
 
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
@@ -43,7 +48,19 @@ public class DataPullSynchronise {
     private Executor executor;
 
     @NonNull
-    private final List<? extends com.philips.platform.datasync.synchronisation.DataFetcher> fetchers;
+    private final List<? extends DataFetcher> fetchers;
+
+    @Inject
+    MomentsDataFetcher momentsDataFetcher;
+
+    @Inject
+    ConsentsDataFetcher consentsDataFetcher;
+
+    @Inject
+    SettingsDataFetcher settingsDataFetcher;
+
+    @Inject
+    UserCharacteristicsFetcher userCharacteristicsFetcher;
 
     @Inject
     Eventing eventing;
@@ -158,10 +175,47 @@ public class DataPullSynchronise {
 
     private void fetchData(final DateTime lastSyncDateTime, final int referenceId) {
         DSLog.i("**SPO**", "In Data Pull synchronize fetchData");
-        initFetch(fetchers.size());
+        List<? extends DataFetcher> configurableFetchers = getFetchers();
+
+        if(configurableFetchers.size()<=0){
+            DSLog.i("**SPO**", "In Data Pull synchronize Zero fetchers configured");
+            synchronisationManager.dataSyncComplete();
+            return;
+        }
+
+        initFetch(configurableFetchers.size());
         executor = Executors.newFixedThreadPool(20);
-        for (DataFetcher fetcher : fetchers) {
+        for (DataFetcher fetcher : configurableFetchers) {
             startFetching(lastSyncDateTime, referenceId, fetcher);
         }
     }
+
+    private List<? extends DataFetcher> getFetchers(){
+        List<String> configurableFetchers = mDataServicesManager.getSyncTypes();
+
+        if(configurableFetchers == null){
+            return fetchers;
+        }
+
+        ArrayList<DataFetcher> fetchList = new ArrayList<>();
+
+        for (String fetcher : configurableFetchers){
+            switch (fetcher){
+                case "moment":
+                    fetchList.add(momentsDataFetcher);
+                    break;
+                case "Settings":
+                    fetchList.add(settingsDataFetcher);
+                    break;
+                case "characteristics":
+                    fetchList.add(userCharacteristicsFetcher);
+                    break;
+                case "consent":
+                    fetchList.add(consentsDataFetcher);
+                    break;
+            }
+        }
+        return fetchList;
+    }
 }
+
