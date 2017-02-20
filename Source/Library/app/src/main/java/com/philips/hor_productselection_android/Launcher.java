@@ -63,6 +63,10 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
 
 
         //AppInfraSingleton.setInstance(new AppInfra.Builder().build(getApplicationContext()));
+        mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
+        mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
+        mProductSelectionHelper.initialize(this, mAppInfraInterface);
+
         AppTaggingInterface aiAppTaggingInterface = ProductModelSelectionHelper.getInstance().getAPPInfraInstance().getTagging();
         aiAppTaggingInterface.setPreviousPage("demoapp:home");
         aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
@@ -203,13 +207,12 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         for (int i = 0; i < mList.size(); i++) {
             ctnList[i] = mList.get(i);
         }
-        mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
+
         ProductModelSelectionType productsSelection = new HardcodedProductList(ctnList);
         productsSelection.setCatalog(Catalog.CARE);
         productsSelection.setSector(Sector.B2C);
 
-        mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
-        mProductSelectionHelper.initialize(this, mAppInfraInterface);
+
         mProductSelectionHelper.setLocale("en", "GB");
 
         ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
