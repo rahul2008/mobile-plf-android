@@ -15,6 +15,8 @@ import android.webkit.WebViewClient;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 
 /**
  * Created by 310190722 on 6/21/2016.
@@ -27,6 +29,11 @@ public class ResetPasswordWebView extends Fragment {
     public static final String TEST_RESET_PASSWORD = "https://tst.philips.com.cn/c-w/user-registration/apps/login.html";
     public static final String STAGE_RESET_PASSWORD = "https://acc.philips.com.cn/c-w/user-registration/apps/login.html";
     public static final String PROD_RESET_PASSWORD = "https://www.philips.com.cn/c-w/user-registration/apps/login.html";
+
+
+    private String code ;
+    private String token;
+
 
 
     @Override
@@ -57,7 +64,21 @@ public class ResetPasswordWebView extends Fragment {
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setLoadWithOverviewMode(true);
         mWebView.getSettings().setUseWideViewPort(true);
-        String url = initializeRestPasswordLinks(RegistrationConfiguration.getInstance().getRegistrationEnvironment());
+
+        Bundle bundle = getArguments();
+        System.out.print("bundle size "+bundle.size());
+        code = bundle.getString("code");
+        token = bundle.getString("token");
+
+        String url;
+        if(code!=null && code.length()>0){
+            url = initializeRestPasswordSMSLinks(RegistrationConfiguration.getInstance().getRegistrationEnvironment(),code,token);
+        }else{
+            url = initializeRestPasswordLinks(RegistrationConfiguration.getInstance().getRegistrationEnvironment());
+        }
+        RLog.i("MobileVerifyCodeFragment ", "response val 2 token url "+url);
+
+
         mWebView.loadUrl(url);
         //mWebView.loadUrl("https://acc.philips.co.in/myphilips/reset-password.html?cl=mob&loc=en_IN&code=q5sybj87nbsr4d");
         //mWebView.loadUrl("https://www.philips.co.in/myphilips/reset-password.html?cl=mob&loc=en_IN&code=q5sybj87nbsr4d");
@@ -115,4 +136,23 @@ public class ResetPasswordWebView extends Fragment {
         }
         return null;
     }
+
+    private String initializeRestPasswordSMSLinks(String registrationEnv, String code, String token) {
+
+        String url;
+        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.PRODUCTION.getValue())) {
+            url = RegConstants.PROD_RESET_PASSWORD_SMS_REDIRECT_URI+"?code="+code+"&token="+token;
+            return url;
+        }
+        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.STAGING.getValue())) {
+            url = RegConstants.STAGE_RESET_PASSWORD_SMS_REDIRECT_URI+"?code="+code+"&token="+token;
+            return  url;
+        }
+        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.TESTING.getValue())) {
+            url = RegConstants.TEST_RESET_PASSWORD_SMS_REDIRECT_URI+"?code="+code+"&token="+token;
+            return  url;
+        }
+        return null;
+    }
+
 }

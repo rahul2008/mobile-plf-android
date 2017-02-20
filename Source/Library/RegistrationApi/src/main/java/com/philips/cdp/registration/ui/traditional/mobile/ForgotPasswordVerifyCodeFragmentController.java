@@ -30,7 +30,7 @@ public class ForgotPasswordVerifyCodeFragmentController implements View.OnClickL
 
         if (id == R.id.btn_reg_Verify) {
             RLog.d(RLog.ONCLICK, "Verify Account : Activiate Account");
-            mVerifyCodeFragment.verifyMobileNumberService();
+            mVerifyCodeFragment.createSMSPasswordResetIntent();
         }
     }
 

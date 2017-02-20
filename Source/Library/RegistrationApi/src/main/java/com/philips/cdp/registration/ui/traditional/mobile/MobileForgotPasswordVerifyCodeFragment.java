@@ -15,6 +15,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,11 +26,11 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
-import com.janrain.android.Jump;
 import com.philips.cdp.registration.HttpClientService;
 import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.appconfig.AppConfig;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -45,13 +46,12 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegAlertDialog;
-import com.philips.cdp.registration.ui.utils.RegChinaConstants;
 import com.philips.cdp.registration.ui.utils.RegChinaUtil;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.squareup.okhttp.RequestBody;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URL;
@@ -78,23 +78,16 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
 
     private ForgotPasswordVerifyCodeFragmentController mobileActivationController;
 
-    private FragmentManager mFragmentManager;
-
-    private User mUser;
 
     private XRegError mRegError;
     private final long startTime = 60 * 1000;
     private final long interval = 1 * 1000;
     private CountDownTimer countDownTimer;
-    private boolean isAccountActivate;
+    private boolean isResendRequested;
     private String verification_Sms_Code_URL;
-
-  /*  public static final String DEV_VERFICATION_CODE = "http://10.128.30.23:8080/philips-api/api/v1/user/requestVerificationSmsCode";
-    public static final String EVAL_VERFICATION_CODE = "https://acc.philips.com.cn/api/v1/user/requestVerificationSmsCode";
-    public static final String PROD_VERFICATION_CODE = "https://www.philips.com.cn/api/v1/user/requestVerificationSmsCode";
-    public static final String STAGE_VERFICATION_CODE = "https://acc.philips.com.cn/api/v1/user/requestVerificationSmsCode";
-    public static final String TEST_VERFICATION_CODE = "https://tst.philips.com/api/v1/user/requestVerificationSmsCode";
-*/
+    private String mobileNumber;
+    private String responseToken;
+    private String sms_code;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -106,13 +99,14 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileActivationFragment : onCreateView");
-        trackActionStatus(AppTagingConstants.REGISTRATION_ACTIVATION_SMS,"","");
+        trackActionStatus(AppTagingConstants.REGISTRATION_ACTIVATION_SMS, "", "");
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
-        mUser = new User(mContext);
+        Bundle bundle = getArguments();
+        mobileNumber = bundle.getString("mobileNumber");
+        responseToken = bundle.getString("token");
         serviceDiscovery();
         View view = inflater.inflate(R.layout.reg_mobile_forgot_password_verify_fragment, container, false);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
-        mFragmentManager = getChildFragmentManager();
         initUI(view);
         countDownTimer = new MyCountDownTimer(startTime, interval);
         countDownTimer.start();
@@ -210,7 +204,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_RegCreateAccount_NavTitle;
+        return R.string.reg_Account_ActivationCode_Verify_Account;
     }
 
     private void updateUiStatus() {
@@ -225,84 +219,57 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
         getActivity().startService(createResendSMSIntent());
     }
 
-    public void verifyMobileNumberService() {
-        isAccountActivate = true;
-        mPbSpinner.setVisibility(View.VISIBLE);
-        mBtnVerify.setEnabled(false);
-        mEtCodeNUmber.disableResendSpinner();
-        getActivity().startService(createSMSActivationIntent());
-    }
 
-    private Intent createSMSActivationIntent() {
-        String UUid = mUser.getJanrainUUID();
-        String verifiedMobileNumber = FieldsValidator.getVerifiedMobileNumber(UUid, mEtCodeNUmber.getNumber());
-        String url = "https://"+Jump.getCaptureDomain()+"/access/useVerificationCode";
-        Intent httpServiceIntent = new Intent(mContext, HttpClientService.class);
-        HttpClientServiceReceiver receiver = new HttpClientServiceReceiver(new Handler());
-        receiver.setListener(this);
+    public Intent createSMSPasswordResetIntent() {
 
-        String bodyContent = "verification_code=" + verifiedMobileNumber;
-        RLog.i("MobileVerifyCodeFragment ", "verification_code" + verifiedMobileNumber);
-        httpServiceIntent.putExtra("receiver", receiver);
-        httpServiceIntent.putExtra("bodyContent", bodyContent);
-        httpServiceIntent.putExtra("url", url);
-        return httpServiceIntent;
+        RLog.i("MobileVerifyCodeFragment ", "response val 2 token " + mEtCodeNUmber.getNumber() + " " + responseToken);
+
+        ResetPasswordWebView resetPasswordWebView = new ResetPasswordWebView();
+        Bundle bundle = new Bundle();
+        bundle.putString("code", mEtCodeNUmber.getNumber());
+        bundle.putString("token", responseToken);
+        resetPasswordWebView.setArguments(bundle);
+        getRegistrationFragment().addFragment(resetPasswordWebView);
+        return null;
     }
 
     @Override
     public void onReceiveResult(int resultCode, Bundle resultData) {
         String response = resultData.getString("responseStr");
         RLog.i("MobileVerifyCodeFragment ", "onReceiveResult Response Val = " + response);
-        try{
+        try {
             String timer = String.valueOf(mEtCodeNUmber.getTimer().charAt(0));
-            if(Integer.parseInt(timer) < 1){
+            if (Integer.parseInt(timer) < 1) {
                 countDownTimer.onFinish();
             }
-        }catch (NumberFormatException ignore){
+        } catch (NumberFormatException ignore) {
 
         }
-        mBtnVerify.setEnabled(true);
-
         if (response == null) {
             mEtCodeNUmber.hideResendSpinner();
             mEtCodeNUmber.showEmailIsInvalidAlert();
             mEtCodeNUmber.setErrDescription(mContext.getResources().getString(R.string.reg_URX_SMS_InternalServerError));
             return;
-        }
-        RLog.i("MobileVerifyCodeFragment ", " isAccountActivate is " + isAccountActivate);
-        if (isAccountActivate) {
-            handleActivate(response);
         } else {
-            mEtCodeNUmber.setEnabled(false);
             handleResendSMSRespone(response);
         }
-        isAccountActivate = false;
-    }
-
-    private void handleResendSMSRespone(String response) {
+        JSONObject json = null;
+        String payload = null;
+        String token = null;
         try {
-            JSONObject jsonObject = new JSONObject(response);
-            if (jsonObject.getString("errorCode").toString().equals("0")) {
-                mEtCodeNUmber.setEnabled(true);
-                trackMultipleActionsOnMobileSuccess();
-                mEtCodeNUmber.hideResendSpinner();
-                handleResendVerificationEmailSuccess();
-                resetTimer();
-            } else {
-                  trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.TECHNICAL_ERROR,AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
-                String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode").toString(), mContext);
-                mEtCodeNUmber.hideResendSpinner();
-                RLog.i("MobileVerifyCodeFragment ", " SMS Resend failure = " + response);
-                mEtCodeNUmber.showEmailIsInvalidAlert();
-                mEtCodeNUmber.setErrDescription(errorMsg);
-            }
-
-        } catch (Exception e) {
+            json = new JSONObject(response);
+            payload = json.getString("payload");
+            json = new JSONObject(payload);
+            token = json.getString("token");
+        } catch (JSONException e) {
             e.printStackTrace();
         }
+        RLog.i("MobileVerifyCodeFragment ", " isAccountActivate is " + token + " -- " + response);
+        responseToken = token;
     }
 
-    private void resetTimer(){
+
+    private void resetTimer() {
         countDownTimer.onFinish();
         countDownTimer.cancel();
         countDownTimer = null;
@@ -310,40 +277,6 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
         countDownTimer.start();
     }
 
-    private void handleResendVerificationEmailSuccess() {
-        trackActionStatus(AppTagingConstants.SEND_DATA,
-                AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
-        RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.reg_Resend_SMS_title),
-                mContext.getResources().getString(R.string.reg_Resend_SMS_Success_Content), getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
-    }
-
-    private void handleActivate(String response) {
-        if (response != null) {
-            try {
-                JSONObject jsonObject = new JSONObject(response);
-                if (jsonObject.getString("stat").toString().equals("ok")) {
-                    trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
-                            AppTagingConstants.SUCCESS_USER_REGISTRATION);
-                    mUser.refreshUser(this);
-                } else {
-                    hideSpinner();
-                    RLog.i("MobileVerifyCodeFragment ", "SMS activation failure: " + response);
-                    trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ERROR,
-                            AppTagingConstants.ACTIVATION_NOT_VERIFIEF);
-                    if (jsonObject.getString("code").toString().equals(String.valueOf(RegChinaConstants.URXInvalidVerificationCode))) {
-                        mEtCodeNUmber.setErrDescription(mContext.getResources().getString(R.string.reg_Mobile_Verification_Invalid_Code));
-                    } else {
-                        mEtCodeNUmber.setErrDescription(jsonObject.getString("error_description").toString());
-                    }
-                    mEtCodeNUmber.showEmailIsInvalidAlert();
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-
-            }
-        }
-    }
 
     public void handleUI() {
         handleOnUIThread(new Runnable() {
@@ -404,24 +337,72 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
         }
     }
 
+
+    private String getClientId() {
+
+        return AppConfig.getResetPasswordClientId();
+    }
+
+
+    private String getRedirectUri() {
+
+        return AppConfig.getResetPasswordRedirectUri();
+    }
+
+
+
     private Intent createResendSMSIntent() {
 
-        RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER *** : " + mUser.getMobile());
-        String  eMobileNumber;
-        RLog.d("Configration : "," envir :"+RegistrationConfiguration.getInstance().getRegistrationEnvironment());
-        String url = verification_Sms_Code_URL+"?provider=" +
-                "JANRAIN-CN&locale=zh_CN" + "&phonenumber=" + FieldsValidator.getMobileNumber(mUser.getMobile());
-
-        RLog.d("RESEND URL : "," Mobile :"+RegistrationConfiguration.getInstance().getRegistrationEnvironment());
+        RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER *** : " + mobileNumber);
+        RLog.d("Configration : ", " envir :" + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
+        String url = verification_Sms_Code_URL;
 
         Intent httpServiceIntent = new Intent(mContext, HttpClientService.class);
         HttpClientServiceReceiver receiver = new HttpClientServiceReceiver(new Handler());
         receiver.setListener(this);
-        RequestBody emptyBody = RequestBody.create(null, new byte[0]);
+
+        String bodyContent = "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(mobileNumber) +
+                "&locale=zh_CN&clientId=" + getClientId() + "&code_type=short&" +
+                "redirectUri="+getRedirectUri();
+        RLog.d("Configration : ", " envir :" + getClientId()+getRedirectUri());
+
         httpServiceIntent.putExtra("receiver", receiver);
-        httpServiceIntent.putExtra("bodyContent", emptyBody.toString());
+        httpServiceIntent.putExtra("bodyContent", bodyContent);
         httpServiceIntent.putExtra("url", url);
         return httpServiceIntent;
+    }
+
+    private void handleResendSMSRespone(String response) {
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            if (jsonObject.getString("errorCode").toString().equals("0")) {
+                mEtCodeNUmber.setEnabled(true);
+                trackMultipleActionsOnMobileSuccess();
+                mEtCodeNUmber.hideResendSpinner();
+                handleResendVerificationEmailSuccess();
+                resetTimer();
+            } else {
+                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.TECHNICAL_ERROR, AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
+                String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode").toString(), mContext);
+                mEtCodeNUmber.hideResendSpinner();
+                RLog.i("MobileVerifyCodeFragment ", " SMS Resend failure = " + response);
+                mEtCodeNUmber.showEmailIsInvalidAlert();
+                mEtCodeNUmber.setErrDescription(errorMsg);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void handleResendVerificationEmailSuccess() {
+        trackActionStatus(AppTagingConstants.SEND_DATA,
+                AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
+        if(isResendRequested) {
+            RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.reg_Resend_SMS_title),
+                    mContext.getResources().getString(R.string.reg_Resend_SMS_Success_Content), getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
+            isResendRequested = false;
+        }
     }
 
     private View.OnClickListener mResendBtnClick = new View.OnClickListener() {
@@ -431,6 +412,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
             mEtCodeNUmber.showResendSpinner();
             mEtCodeNUmber.showValidEmailAlert();
             mBtnVerify.setEnabled(false);
+            isResendRequested = true;
             mPbSpinner.setVisibility(View.GONE);
             resendMobileNumberService();
         }
@@ -443,24 +425,25 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
             RegAlertDialog.dismissDialog();
         }
     };
-   /* private String initializePRXLinks(String registrationEnv) {
-        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.DEVELOPMENT.getValue())) {
-            return DEV_VERFICATION_CODE;
-        }
-        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.PRODUCTION.getValue())) {
-            return PROD_VERFICATION_CODE;
-        }
-        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.STAGING.getValue())) {
-            return STAGE_VERFICATION_CODE;
-        }
-        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.TESTING.getValue())) {
-            return TEST_VERFICATION_CODE;
-        }
-        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.EVALUATION.getValue())) {
-            return EVAL_VERFICATION_CODE;
-        }
-        return null;
-    }*/
+
+    /* private String initializePRXLinks(String registrationEnv) {
+         if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.DEVELOPMENT.getValue())) {
+             return DEV_VERFICATION_CODE;
+         }
+         if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.PRODUCTION.getValue())) {
+             return PROD_VERFICATION_CODE;
+         }
+         if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.STAGING.getValue())) {
+             return STAGE_VERFICATION_CODE;
+         }
+         if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.TESTING.getValue())) {
+             return TEST_VERFICATION_CODE;
+         }
+         if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.EVALUATION.getValue())) {
+             return EVAL_VERFICATION_CODE;
+         }
+         return null;
+     }*/
     private void trackMultipleActionsOnMobileSuccess() {
         Map<String, String> map = new HashMap<String, String>();
         map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.MOBILE_RESEND_EMAIL_VERFICATION);
@@ -469,25 +452,32 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
     }
 
     private void serviceDiscovery() {
-//        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
-//        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
-//        RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
-//
-//        serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.urx.verificationsmscode", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-//
-//            @Override
-//            public void onError(ERRORVALUES errorvalues, String s) {
-//
-//                RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.urx.verificationsmscode : " + errorvalues);
-//                verification_Sms_Code_URL=null;
-//            }
-//
-//            @Override
-//            public void onSuccess(URL url) {
-//                RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.urx.verificationsmscode:" +url.toString());
-//                verification_Sms_Code_URL=url.toString();
-//            }
-//        });
-        verification_Sms_Code_URL = "http://acc.philips.com.cn/api/v1/user/requestPasswordResetSmsCode";
+        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
+        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
+        RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
+
+        //Temp: will be updated once actual URX received for reset sms
+
+        serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.urx.verificationsmscode", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+
+                RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.urx.verificationsmscode : " + errorvalues);
+                verification_Sms_Code_URL=null;
+            }
+
+            @Override
+            public void onSuccess(URL url) {
+                RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.urx.verificationsmscode:" +url.toString());
+                verification_Sms_Code_URL=url.toString();
+            }
+        });
+
+        int i = verification_Sms_Code_URL.lastIndexOf("/");
+        String[] a =  {verification_Sms_Code_URL.substring(0, i), verification_Sms_Code_URL.substring(i)};
+        System.out.println("aaa "+ a[0]);
+        verification_Sms_Code_URL = a[0]+"/requestPasswordResetSmsCode";
+
     }
 }
