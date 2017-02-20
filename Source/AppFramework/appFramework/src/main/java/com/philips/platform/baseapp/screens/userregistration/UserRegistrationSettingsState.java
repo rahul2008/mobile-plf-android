@@ -5,12 +5,9 @@
 */
 package com.philips.platform.baseapp.screens.userregistration;
 
-import android.app.Activity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.philips.cdp.registration.listener.UserRegistrationListener;
-import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
@@ -23,7 +20,7 @@ import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetExc
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-public class UserRegistrationSettingsState extends UserRegistrationState implements UserRegistrationUIEventListener,UserRegistrationListener {
+public class UserRegistrationSettingsState extends UserRegistrationState {
 
     private BaseState baseState;
     private String SETTINGS_LOGOUT = "logout";
@@ -35,33 +32,6 @@ public class UserRegistrationSettingsState extends UserRegistrationState impleme
         super(AppStates.SETTINGS_REGISTRATION);
     }
 
-    @Override
-    public void onUserRegistrationComplete(Activity activity) {
-        if (null != activity) {
-            BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-            try {
-                baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), "URComplete");
-            } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
-                    e) {
-                Log.d(getClass() + "", e.getMessage());
-                Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
-            }
-            if (null != baseState) {
-                getFragmentActivity().finish();
-                baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.frame_container, (ActionBarListener) getFragmentActivity()));
-            }
-        }
-    }
-
-    @Override
-    public void onPrivacyPolicyClick(Activity activity) {
-
-    }
-
-    @Override
-    public void onTermsAndConditionClick(Activity activity) {
-
-    }
 
     @Override
     public void onUserLogoutSuccess() {
@@ -75,14 +45,6 @@ public class UserRegistrationSettingsState extends UserRegistrationState impleme
         }
         if (baseState != null)
             baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.frame_container, (ActionBarListener) getFragmentActivity()));
-    }
-
-    @Override
-    public void onUserLogoutFailure() {
-    }
-
-    @Override
-    public void onUserLogoutSuccessWithInvalidAccessToken() {
     }
 
 }

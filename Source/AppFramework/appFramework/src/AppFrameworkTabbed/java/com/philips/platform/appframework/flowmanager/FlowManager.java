@@ -9,22 +9,10 @@ import com.philips.platform.appframework.flowmanager.base.BaseCondition;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.stateimpl.HomeTabbedActivityState;
+import com.philips.platform.baseapp.FlowManagerUtil;
 import com.philips.platform.baseapp.condition.ConditionAppLaunch;
 import com.philips.platform.baseapp.condition.ConditionIsDonePressed;
 import com.philips.platform.baseapp.condition.ConditionIsLoggedIn;
-import com.philips.platform.baseapp.screens.aboutscreen.AboutScreenState;
-import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
-import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
-import com.philips.platform.baseapp.screens.debugtest.DebugTestFragmentState;
-import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
-import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
-import com.philips.platform.baseapp.screens.introscreen.welcomefragment.WelcomeState;
-import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
-import com.philips.platform.baseapp.screens.settingscreen.SettingsFragmentState;
-import com.philips.platform.baseapp.screens.splash.SplashState;
-import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
-import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
-import com.philips.platform.modularui.stateimpl.ConnectivityFragmentState;
 
 import java.util.Map;
 
@@ -33,20 +21,8 @@ public class FlowManager extends BaseFlowManager {
 
     @Override
     public void populateStateMap(final Map<String, BaseState> uiStateMap) {
-        uiStateMap.put(AppStates.WELCOME, new WelcomeState());
-        uiStateMap.put(AppStates.ON_BOARDING_REGISTRATION, new UserRegistrationOnBoardingState());
-        uiStateMap.put(AppStates.SETTINGS_REGISTRATION, new UserRegistrationSettingsState());
-        uiStateMap.put(AppStates.HOME_FRAGMENT, new HomeFragmentState());
+        new FlowManagerUtil().addValuesToMap(uiStateMap);
         uiStateMap.put(AppStates.TAB_HOME, new HomeTabbedActivityState());
-        uiStateMap.put(AppStates.ABOUT, new AboutScreenState());
-        uiStateMap.put(AppStates.DEBUG, new DebugTestFragmentState());
-        uiStateMap.put(AppStates.SETTINGS, new SettingsFragmentState());
-        uiStateMap.put(AppStates.IAP, new IAPRetailerFlowState());
-        uiStateMap.put(AppStates.PR, new ProductRegistrationState());
-        uiStateMap.put(AppStates.SUPPORT, new SupportFragmentState());
-        uiStateMap.put(AppStates.SPLASH, new SplashState());
-        uiStateMap.put(AppStates.DATA_SYNC, new DataServicesState());
-        uiStateMap.put(AppStates.CONNECTIVITY, new ConnectivityFragmentState());
     }
 
     @Override

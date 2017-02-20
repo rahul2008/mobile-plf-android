@@ -5,8 +5,11 @@
 */
 package com.philips.platform.baseapp.screens.userregistration;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
@@ -17,11 +20,19 @@ import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.cdp.registration.ui.utils.URSettings;
+import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
+import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.Locale;
 
@@ -31,7 +42,7 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
  * This class contains all initialization & Launching details of UR
  * Setting configuration using App infra
  */
-public abstract class UserRegistrationState extends BaseState implements UserRegistrationListener,UserRegistrationUIEventListener{
+public abstract class UserRegistrationState extends BaseState implements UserRegistrationListener, UserRegistrationUIEventListener{
 
     final String AI = "appinfra";
     private Context activityContext;
@@ -71,6 +82,26 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         this.applicationContext = context;
         initializeUserRegistrationLibrary();
         initHSDP();
+    }
+
+
+    @Override
+    public void onUserRegistrationComplete(Activity activity) {
+        if (null != activity) {
+            BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
+            BaseState baseState = null;
+            try {
+                baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), "URComplete");
+            } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
+                    e) {
+                Log.d(getClass() + "", e.getMessage());
+                Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+            }
+            if (null != baseState) {
+                getFragmentActivity().finish();
+                baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.frame_container, (ActionBarListener) getFragmentActivity()));
+            }
+        }
     }
 
     @Override
@@ -161,5 +192,28 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     public void unregisterUserRegistrationListener() {
         userObject.unRegisterUserRegistrationListener(this);
+    }
+
+
+    @Override
+    public void onPrivacyPolicyClick(Activity activity) {
+
+    }
+
+    @Override
+    public void onTermsAndConditionClick(Activity activity) {
+
+    }
+
+    @Override
+    public void onUserLogoutSuccess() {
+    }
+
+    @Override
+    public void onUserLogoutFailure() {
+    }
+
+    @Override
+    public void onUserLogoutSuccessWithInvalidAccessToken() {
     }
 }
