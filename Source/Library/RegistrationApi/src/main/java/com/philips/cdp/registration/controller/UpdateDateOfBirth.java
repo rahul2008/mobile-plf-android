@@ -11,13 +11,14 @@ package com.philips.cdp.registration.controller;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.janrain.android.capture.CaptureRecord;
+import com.janrain.android.Jump;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.JanrainInitializer;
 import com.philips.cdp.registration.update.UpdateUser;
 import com.philips.ntputils.ServerTime;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -62,8 +63,8 @@ public class UpdateDateOfBirth extends UpdateUserDetailsBase {
 
 
     protected void performActualUpdate() {
-        CaptureRecord userData = CaptureRecord.loadFromDisk(mContext);
-        mUpdatedUserdata = CaptureRecord.loadFromDisk(mContext);
+        JSONObject userData = getCurrentUserAsJsonObject();
+        mUpdatedUserdata = Jump.getSignedInUser();
         try {
             if (null != mUpdatedUserdata) {
                 mUpdatedUserdata.put(USER_DATE_OF_BIRTH, mBirthDate);

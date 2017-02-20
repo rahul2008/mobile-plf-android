@@ -154,8 +154,15 @@ public class Jump {
 
     private static SecureStorageInterface mSecureStorageInterface;
 
-    public static void init(final SecureStorageInterface secureStorageInterface) {
+    public static void init(final Context context , final SecureStorageInterface secureStorageInterface) {
         mSecureStorageInterface = secureStorageInterface;
+        ThreadUtils.executeInBg(new Runnable() {
+            public void run() {
+                loadUserFromDiskInternal(context);
+                loadRefreshSecretFromDiskInternal(context);
+            }
+        });
+
     }
 
     public static SecureStorageInterface getSecureStorageInterface(){

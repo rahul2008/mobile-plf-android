@@ -487,9 +487,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         hideSpinner();
         trackCheckMarketing();
         final UIFlow abStrings=RegUtility.getUiFlow();
-
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_USER_CREATION);
+
         if (abStrings.equals(UIFlow.FLOW_A)) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type A ");
             if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {

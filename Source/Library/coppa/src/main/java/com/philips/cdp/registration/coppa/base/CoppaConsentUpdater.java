@@ -10,6 +10,7 @@ package com.philips.cdp.registration.coppa.base;
 
 import android.content.Context;
 
+import com.janrain.android.Jump;
 import com.janrain.android.capture.Capture;
 import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -41,8 +42,8 @@ class CoppaConsentUpdater {
             final CoppaConsentUpdateCallback coppaConsentUpdateCallback) {
         //  if(Jump.getSignedInUser() != null){
         ServerTime.init(RegistrationHelper.getInstance().getAppInfraInstance().getTime());
-        CaptureRecord updatedUser = CaptureRecord.loadFromDisk(mContext);
-        JSONObject originalUserInfo = CaptureRecord.loadFromDisk(mContext);
+        CaptureRecord updatedUser = Jump.getSignedInUser();
+        JSONObject originalUserInfo = Jump.getSignedInUser();
         JSONObject consentsObject = new JSONObject();
 
         try {
@@ -114,8 +115,8 @@ class CoppaConsentUpdater {
             final boolean coppaConsentStatus,
             final CoppaConsentUpdateCallback coppaConsentUpdateCallback) {
         ServerTime.init(RegistrationHelper.getInstance().getAppInfraInstance().getTime());
-        CaptureRecord updatedUser = CaptureRecord.loadFromDisk(mContext);
-        JSONObject originalUserInfo = CaptureRecord.loadFromDisk(mContext);
+        CaptureRecord updatedUser = Jump.getSignedInUser();
+        JSONObject originalUserInfo = Jump.getSignedInUser();
         JSONObject consentsObject = new JSONObject();
 
         try {

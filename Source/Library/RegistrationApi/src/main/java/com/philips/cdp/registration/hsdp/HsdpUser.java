@@ -32,6 +32,7 @@ import com.philips.dhpclient.response.DhpAuthenticationResponse;
 import com.philips.dhpclient.response.DhpResponse;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.Map;
@@ -44,7 +45,7 @@ public class HsdpUser {
 
     private Context mContext;
 
-    private HsdpUserRecord mHsdpUserRecord;
+
 
     private final String SUCCESS_CODE = "200";
 
@@ -75,14 +76,12 @@ public class HsdpUser {
                 public void run() {
                     DhpAuthenticationManagementClient authenticationManagementClient
                             = new DhpAuthenticationManagementClient(getDhpApiClientConfiguration());
-                    if (mHsdpUserRecord == null) {
-                        mHsdpUserRecord = getHsdpUserRecord();
-                    }
+
                     dhpResponse = null;
-                    if (null != mHsdpUserRecord && null != mHsdpUserRecord.getAccessCredential()) {
+                    if (null != getHsdpUserRecord() && null != getHsdpUserRecord().getAccessCredential()) {
                         dhpResponse = authenticationManagementClient.
-                                logout(mHsdpUserRecord.getUserUUID(),
-                                        mHsdpUserRecord.getAccessCredential().getAccessToken());
+                                logout(getHsdpUserRecord().getUserUUID(),
+                                        getHsdpUserRecord().getAccessCredential().getAccessToken());
                     }
                     if (dhpResponse == null) {
                         handler.post(new Runnable() {
@@ -157,26 +156,24 @@ public class HsdpUser {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    if (mHsdpUserRecord == null) {
-                        mHsdpUserRecord = getHsdpUserRecord();
-                    }
+
                     DhpAuthenticationManagementClient authenticationManagementClient =
                             new DhpAuthenticationManagementClient(getDhpApiClientConfiguration());
                     dhpAuthenticationResponse = null;
-                    if (mHsdpUserRecord != null &&
-                            mHsdpUserRecord.getAccessCredential() != null &&
-                            mHsdpUserRecord.getAccessCredential().getRefreshToken() != null
+                    if (getHsdpUserRecord() != null &&
+                            getHsdpUserRecord().getAccessCredential() != null &&
+                            getHsdpUserRecord().getAccessCredential().getRefreshToken() != null
                             ) {
                         dhpAuthenticationResponse = authenticationManagementClient.
-                                refresh(mHsdpUserRecord.getUserUUID(),
-                                        mHsdpUserRecord.getAccessCredential().getRefreshToken());
-                    } else if (mHsdpUserRecord != null &&
-                            null != mHsdpUserRecord.getUserUUID() &&
-                            null != mHsdpUserRecord.getAccessCredential()) {
+                                refresh(getHsdpUserRecord().getUserUUID(),
+                                        getHsdpUserRecord().getAccessCredential().getRefreshToken());
+                    } else if (getHsdpUserRecord() != null &&
+                            null != getHsdpUserRecord().getUserUUID() &&
+                            null != getHsdpUserRecord().getAccessCredential()) {
                         dhpAuthenticationResponse = authenticationManagementClient.
-                                refreshSecret(mHsdpUserRecord.getUserUUID(),
-                                        mHsdpUserRecord.getAccessCredential().
-                                                getAccessToken(), mHsdpUserRecord.
+                                refreshSecret(getHsdpUserRecord().getUserUUID(),
+                                        getHsdpUserRecord().getAccessCredential().
+                                                getAccessToken(), getHsdpUserRecord().
                                                 getRefreshSecret());
                     }
                     if (dhpAuthenticationResponse == null) {
@@ -191,11 +188,11 @@ public class HsdpUser {
                         });
                     } else if (null!= dhpAuthenticationResponse.responseCode &&
                             dhpAuthenticationResponse.responseCode.equals(SUCCESS_CODE)) {
-                        mHsdpUserRecord.getAccessCredential().setExpiresIn(
+                        getHsdpUserRecord().getAccessCredential().setExpiresIn(
                                 dhpAuthenticationResponse.expiresIn);
-                        mHsdpUserRecord.getAccessCredential().setRefreshToken
+                        getHsdpUserRecord().getAccessCredential().setRefreshToken
                                 (dhpAuthenticationResponse.refreshToken);
-                        mHsdpUserRecord.getAccessCredential().setAccessToken
+                        getHsdpUserRecord().getAccessCredential().setAccessToken
                                 (dhpAuthenticationResponse.accessToken);
                         saveToDisk(new UserFileWriteListener() {
                             @Override
@@ -277,7 +274,7 @@ public class HsdpUser {
      * @param userFileWriteListener user file write listener
      */
     private void saveToDisk(UserFileWriteListener userFileWriteListener) {
-        String objectPlainString = SecureStorage.objectToString(mHsdpUserRecord);
+        String objectPlainString = SecureStorage.objectToString(getHsdpUserRecord());
         try {
             mContext.deleteFile(HSDP_RECORD_FILE);
             Jump.getSecureStorageInterface().storeValueForKey(HSDP_RECORD_FILE,
@@ -295,12 +292,15 @@ public class HsdpUser {
      * {@link HsdpUserRecord}
      */
     public HsdpUserRecord getHsdpUserRecord() {
-        if (mHsdpUserRecord != null) {
-            return mHsdpUserRecord;
+        if ( null != HsdpUserInstance.getInstance().getHsdpUserRecord() ) {
+            return HsdpUserInstance.getInstance().getHsdpUserRecord();
         }
 
         try {
             //Read from file
+            //Migrate user data
+            File file = mContext.getFileStreamPath(HSDP_RECORD_FILE);
+            if(file != null && file.exists()) {
             final FileInputStream fis = mContext.openFileInput(HSDP_RECORD_FILE);
             final ObjectInputStream ois = new ObjectInputStream(fis);
             final Object object = ois.readObject();
@@ -314,6 +314,8 @@ public class HsdpUser {
 
             Jump.getSecureStorageInterface().storeValueForKey(HSDP_RECORD_FILE,
                     new String(plainBytes), new SecureStorageInterface.SecureStorageError());
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -325,10 +327,11 @@ public class HsdpUser {
         if (hsdpRecord != null) {
             Object obj = SecureStorage.stringToObject(hsdpRecord);
             if (obj instanceof HsdpUserRecord) {
-                mHsdpUserRecord = (HsdpUserRecord) obj;
+
+                HsdpUserInstance.getInstance().setHsdpUserRecord ((HsdpUserRecord) obj);
             }
         }
-        return mHsdpUserRecord;
+        return HsdpUserInstance.getInstance().getHsdpUserRecord();
 
     }
 
@@ -339,7 +342,7 @@ public class HsdpUser {
     public void deleteFromDisk() {
         mContext.deleteFile(HSDP_RECORD_FILE);
         Jump.getSecureStorageInterface().removeValueForKey(HSDP_RECORD_FILE);
-        mHsdpUserRecord = null;
+        HsdpUserInstance.getInstance().setHsdpUserRecord(null);
     }
 
 
@@ -374,9 +377,11 @@ public class HsdpUser {
                     if (dhpAuthenticationResponse.responseCode.equals(SUCCESS_CODE)) {
                         final Map<String, Object> rawResponse = dhpAuthenticationResponse.
                                 rawResponse;
-                        mHsdpUserRecord = new HsdpUserRecord(mContext);
-                        mHsdpUserRecord = mHsdpUserRecord.parseHsdpUserInfo(rawResponse);
-                        mHsdpUserRecord.setRefreshSecret(refreshSecret);
+
+                        HsdpUserRecord hsdpUserRecord = new HsdpUserRecord();
+                        hsdpUserRecord = hsdpUserRecord.parseHsdpUserInfo(rawResponse);
+                        hsdpUserRecord.setRefreshSecret(refreshSecret);
+                        HsdpUserInstance.getInstance().setHsdpUserRecord(hsdpUserRecord);
                         saveToDisk(new UserFileWriteListener() {
 
                             @Override

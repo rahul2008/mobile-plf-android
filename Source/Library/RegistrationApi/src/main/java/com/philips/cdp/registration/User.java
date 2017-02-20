@@ -393,8 +393,8 @@ public class User {
 
     // For getting values from Captured and Saved Json object
     private DIUserProfile getUserInstance() {
-        CaptureRecord captureRecord = null;
-        captureRecord = CaptureRecord.loadFromDisk(mContext);
+        CaptureRecord captureRecord = Jump.getSignedInUser();
+
         if (captureRecord == null) {
             return null;
         }
@@ -449,7 +449,7 @@ public class User {
 
     // For checking email verification
     public boolean getEmailVerificationStatus() {
-        CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
+        CaptureRecord captured = Jump.getSignedInUser();
 
         if (captured == null)
             return false;
@@ -472,6 +472,7 @@ public class User {
      * @return boolean
      */
     public boolean isUserSignIn() {
+        long start  = System.nanoTime();
         CaptureRecord capturedRecord = Jump.getSignedInUser();
         if (capturedRecord == null) {
             capturedRecord = CaptureRecord.loadFromDisk(mContext);
@@ -479,7 +480,6 @@ public class User {
         if (capturedRecord == null) {
             return false;
         }
-
 
         boolean isEmailVerificationRequired  = RegistrationConfiguration.getInstance().
                 isEmailVerificationRequired();
@@ -508,10 +508,14 @@ public class User {
         if (isAcceptTerms) {
             boolean isTermAccepted = false;
 
-            if(FieldsValidator.isValidMobileNumber(getMobile())){
-                isTermAccepted = RegPreferenceUtility.getStoredState(mContext, getMobile());
-            }else if(FieldsValidator.isValidEmail(getEmail())){
-                isTermAccepted = RegPreferenceUtility.getStoredState(mContext, getEmail());
+            String mobileNo = getMobile();
+
+            String email  = getEmail();
+
+            if(FieldsValidator.isValidMobileNumber(mobileNo)){
+                isTermAccepted = RegPreferenceUtility.getStoredState(mContext, mobileNo);
+            }else if(FieldsValidator.isValidEmail(email)){
+                isTermAccepted = RegPreferenceUtility.getStoredState(mContext, email);
             }
             if (!isTermAccepted) {
                 signedIn = false;
@@ -520,6 +524,11 @@ public class User {
         }
         return signedIn;
     }
+
+
+
+
+
 
 //    private boolean isJanrainUserRecord() {
 //        CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
@@ -583,8 +592,8 @@ public class User {
 
         AddConsumerInterest addConsumerInterest = new AddConsumerInterest(
                 addConsumerInterestHandler);
-        CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
-        JSONObject originalUserInfo = CaptureRecord.loadFromDisk(mContext);
+        CaptureRecord captured = Jump.getSignedInUser();
+        JSONObject originalUserInfo = Jump.getSignedInUser();
         mConsumerInterestArray = new JSONArray();
         ConsumerArray consumer = consumerArray;
 
@@ -651,7 +660,7 @@ public class User {
     // For getting access token
     public String getAccessToken() {
 
-        CaptureRecord captureRecord = CaptureRecord.loadFromDisk(mContext);
+        CaptureRecord captureRecord = Jump.getSignedInUser();
 
         if (captureRecord == null) {
             return null;
