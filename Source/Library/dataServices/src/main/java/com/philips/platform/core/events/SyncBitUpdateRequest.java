@@ -1,9 +1,6 @@
 package com.philips.platform.core.events;
 
-import com.philips.platform.core.datatypes.OrmTableType;
-import com.philips.platform.core.datatypes.Settings;
-
-import java.util.List;
+import com.philips.platform.core.datatypes.SyncType;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -11,9 +8,9 @@ import java.util.List;
  */
 public class SyncBitUpdateRequest extends Event {
 
-    private final OrmTableType tableType;
+    private final SyncType tableType;
     private final boolean isSynced;
-    public SyncBitUpdateRequest(OrmTableType tableType, boolean isSynced) {
+    public SyncBitUpdateRequest(SyncType tableType, boolean isSynced) {
 
         this.tableType = tableType;
         this.isSynced = isSynced;
@@ -23,7 +20,7 @@ public class SyncBitUpdateRequest extends Event {
         return isSynced;
     }
 
-    public OrmTableType getTableType() {
+    public SyncType getTableType() {
         return tableType;
     }
 }
