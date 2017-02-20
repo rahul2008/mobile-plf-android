@@ -194,11 +194,11 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
         product.setPurchaseDate(mPurchaseDate.getText().toString());
         product.setFriendlyName(mFriendlyName.getText().toString());
         product.sendEmail(eMailConfiguration);
-        initServicDiscveryLocale();
+        initServiceDiscoveryLocale();
         invokeProdRegFragment(product, isActivity, type);
     }
 
-    private void initServicDiscveryLocale() {
+    private void initServiceDiscoveryLocale() {
         AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
 
@@ -213,18 +213,9 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             }
 
             @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                System.out.println(" ERRORVALUES STRING S : " + s);
+            public void onError(ERRORVALUES errorvalues, String errDescription) {
+                Toast.makeText(getActivity(), errDescription, Toast.LENGTH_SHORT).show();
                 return;
-               /* try {
-                    String localeArr[] = s.split("_");
-                    RegistrationHelper.getInstance().setCountryCode(localeArr[1]);
-                    System.out.println("STRING Change : " +localeArr[0].trim()+"-"+localeArr[1].trim());
-                    PILLocaleManager localeManager = new PILLocaleManager(context);
-                    localeManager.setInputLocale(localeArr[0].trim(), localeArr[1].trim());
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    e.printStackTrace();
-                }*/
             }
         });
 
