@@ -128,7 +128,7 @@ public class ProductSummaryRequest extends PrxRequest {
             }
 
             public void onError(ERRORVALUES error, String message) {
-                PrxLogger.i("ProductSummary","*********** ProductSummary :error :"+error.toString() + ":  message : "+message );
+                PrxLogger.i("ProductSummary"," ProductSummary :error :"+error.toString() + ":  message : "+message );
                 listener.onError(error, message);
             }
         });

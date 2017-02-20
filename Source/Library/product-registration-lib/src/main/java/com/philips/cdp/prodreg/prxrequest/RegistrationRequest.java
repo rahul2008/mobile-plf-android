@@ -202,7 +202,6 @@ public class RegistrationRequest extends PrxRequest {
 
     @Override
     public ResponseData getResponseData(JSONObject jsonObject) {
-        System.out.println("************ Request : "+jsonObject);
         return new RegistrationResponse().parseJsonResponseData(jsonObject);
     }
 
@@ -252,7 +251,7 @@ public class RegistrationRequest extends PrxRequest {
             }
 
             public void onError(ERRORVALUES error, String message) {
-                PrxLogger.i("Registration Request","*********** Registration Request :error :"+error.toString() + ":  message : "+message );
+                PrxLogger.i("Registration Request","Registration Request :error :"+error.toString() + ":  message : "+message );
                 //PrxLogger.i("ERRORVALUES ***", "" + message);
                 listener.onError(error, message);
             }
@@ -271,7 +270,6 @@ public class RegistrationRequest extends PrxRequest {
         final Map<String, String> headers = new HashMap<>();
         headers.put(ACCESS_TOKEN_TAG, getAccessToken());
         if(PRUiHelper.getInstance().getCountryCode().equalsIgnoreCase("CN")){
-            System.out.println("*********** Header Registered Request :CN");
             headers.put("x-provider", "JANRAIN-CN");
         }
         return headers;

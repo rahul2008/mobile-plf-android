@@ -135,7 +135,7 @@ public class ProductMetadataRequest extends PrxRequest {
             }
 
             public void onError(ERRORVALUES error, String message) {
-                PrxLogger.i("Product Meta","*********** Product Meta data :error :"+error.toString() + ":  message : "+message );
+                PrxLogger.i("Product Meta","Product Meta data :error :"+error.toString() + ":  message : "+message );
                 //PrxLogger.i("ERRORVALUES ***", "" + message);
                 listener.onError(error, message);
             }

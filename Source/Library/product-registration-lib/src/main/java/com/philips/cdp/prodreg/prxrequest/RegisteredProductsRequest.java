@@ -56,7 +56,6 @@ public class RegisteredProductsRequest extends PrxRequest {
 
     @Override
     public ResponseData getResponseData(JSONObject jsonObject) {
-        System.out.println("************ getResponseData : "+jsonObject.toString());
         return new RegisteredResponse().parseJsonResponseData(jsonObject);
     }
 
@@ -117,12 +116,11 @@ public void getRequestUrlFromAppInfra(AppInfraInterface appInfra, final PrxReque
             }
             PrxLogger.i("SUCCESS ***", "" + chinaURL);
            // String url1 = "https://acc.philips.com.cn/prx/registration.registeredProducts";
-            System.out.println("****** registration.registeredProducts : "+getRequestUrl(chinaURL));
             listener.onSuccess(getRequestUrl(chinaURL));
         }
 
         public void onError(ERRORVALUES error, String message) {
-            PrxLogger.i("Registered Products Request","*********** ProductRequest :error :"+error.toString() + ":  message : "+message );
+            PrxLogger.i("Registered Products Request","ProductRequest :error :"+error.toString() + ":  message : "+message );
             //PrxLogger.i("******* ERRORVALUES ***", "" + message);
             listener.onError(error, message);
         }
@@ -139,7 +137,6 @@ public void getRequestUrlFromAppInfra(AppInfraInterface appInfra, final PrxReque
         final Map<String, String> headers = new HashMap<>();
         headers.put(ACCESS_TOKEN_TAG, getAccessToken());
         if(PRUiHelper.getInstance().getCountryCode().equalsIgnoreCase("CN")){
-            System.out.println("***** CHINA header");
             headers.put("x-provider", "JANRAIN-CN");
         }
         return headers;
