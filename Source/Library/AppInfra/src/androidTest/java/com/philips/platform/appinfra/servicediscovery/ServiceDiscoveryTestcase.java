@@ -189,7 +189,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
             assertNotNull(platformObject);
             ServiceDiscovery platformService = parseResponse(platformObject);
             assertNotNull(platformService);
-            aisdResponse = new AISDResponse();
+            aisdResponse = new AISDResponse(mAppInfra);
             aisdResponse.setPropositionURLs(propostionService);
             aisdResponse.setPlatformURLs(platformService);
             assertNotNull(aisdResponse);
@@ -875,7 +875,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
             JSONObject platformObject = new JSONObject(sdUrlPlatformjson);
             ServiceDiscovery platformService = parseResponse(platformObject);
             assertNotNull(platformService);
-            aisdResponse = new AISDResponse();
+            aisdResponse = new AISDResponse(mAppInfra);
             aisdResponse.setPropositionURLs(propostionService);
             aisdResponse.setPlatformURLs(platformService);
         } catch (Exception exception) {
