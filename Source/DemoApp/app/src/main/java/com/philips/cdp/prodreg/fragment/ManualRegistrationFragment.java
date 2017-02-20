@@ -26,12 +26,16 @@ import com.philips.cdp.prodreg.activity.MainActivity;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.launcher.PRInterface;
 import com.philips.cdp.prodreg.launcher.PRLaunchInput;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -190,7 +194,31 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
         product.setPurchaseDate(mPurchaseDate.getText().toString());
         product.setFriendlyName(mFriendlyName.getText().toString());
         product.sendEmail(eMailConfiguration);
+        initServiceDiscoveryLocale();
         invokeProdRegFragment(product, isActivity, type);
+    }
+
+    private void initServiceDiscoveryLocale() {
+        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
+        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
+
+        //serviceDiscoveryInterface.getServiceLocaleWithCountryPreference();
+        serviceDiscoveryInterface.getServiceLocaleWithCountryPreference("userreg.janrain.api", new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+            @Override
+            public void onSuccess(String locale) {
+                PRUiHelper.getInstance().setLocale(locale);
+                System.out.println("STRING S : " + locale);
+                String localeArr[] = locale.split("_");
+                PRUiHelper.getInstance().setCountryCode(localeArr[1].trim().toUpperCase());
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String errDescription) {
+                Toast.makeText(getActivity(), errDescription, Toast.LENGTH_SHORT).show();
+                return;
+            }
+        });
+
     }
 
     private void invokeProdRegFragment(Product product, final boolean isActivity, final String type) {
