@@ -6,6 +6,7 @@ package com.philips.cdp2.commlib.ble.communication;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import android.util.Log;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
@@ -56,6 +57,7 @@ class PollingSubscription implements Runnable {
         this.endTime = currentTimeMillis() + timeToLiveMillis;
         this.responseHandler = responseHandler;
         this.future = executor.scheduleWithFixedDelay(this, 0, intervalMillis, MILLISECONDS);
+        Log.d("chuck", "scheduling poll");
     }
 
     @Override
@@ -79,6 +81,7 @@ class PollingSubscription implements Runnable {
         if (currentTimeMillis() > endTime) {
             cancel();
         } else {
+            Log.d("chuck", "poll");
             communicationStrategy.getProperties(portParameters.portName, portParameters.productId, internalResponseHandler);
             try {
                 latch.await();
@@ -93,6 +96,7 @@ class PollingSubscription implements Runnable {
     }
 
     void cancel() {
+        Log.d("chuck", "cancelling poll");
         future.cancel(false);
 
         if (this.callback != null) {
