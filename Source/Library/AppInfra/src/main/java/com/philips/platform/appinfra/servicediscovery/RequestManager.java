@@ -33,173 +33,173 @@ import java.util.concurrent.TimeoutException;
 
 public class RequestManager {
 
-    //    RequestQueue mRequestQueue;
-    private static final String TAG = "RequestManager";//this.class.getSimpleName();
-    private AppInfra mAppInfra;
-    private static final String ServiceDiscoveryCacheFile = "SDCacheFile";
-    private Context mContext = null;
+	//    RequestQueue mRequestQueue;
+	private static final String TAG = "RequestManager";//this.class.getSimpleName();
+	private AppInfra mAppInfra;
+	private static final String ServiceDiscoveryCacheFile = "SDCacheFile";
+	private Context mContext = null;
 
-    public RequestManager(Context context, AppInfra appInfra) {
-        mContext = context;
-        mAppInfra = appInfra;
-    }
+	public RequestManager(Context context, AppInfra appInfra) {
+		mContext = context;
+		mAppInfra = appInfra;
+	}
 
-    public ServiceDiscovery execute(final String url, ServiceDiscoveryManager.AISDURLType urlType) {
-        RequestFuture<JSONObject> future = RequestFuture.newFuture();
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, future, future, null, null, null);
-        request.setShouldCache(true);
-        mAppInfra.getRestClient().getRequestQueue().add(request);
+	public ServiceDiscovery execute(final String url, ServiceDiscoveryManager.AISDURLType urlType) {
+		RequestFuture<JSONObject> future = RequestFuture.newFuture();
+		JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, future, future, null, null, null);
+		request.setShouldCache(true);
+		mAppInfra.getRestClient().getRequestQueue().add(request);
 
-        ServiceDiscovery result = new ServiceDiscovery();
-        try {
-            JSONObject response = future.get(10 , TimeUnit.SECONDS);
-            cacheServiceDiscovery(response, url, urlType);
-            return parseResponse(response);
-        } catch (InterruptedException|TimeoutException e) {
-            ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface
-                    .OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "Timed out or interrupted");
-            result.setError(err);
-            result.setSuccess(false);
-        } catch (ExecutionException e) {
-            Throwable error = e.getCause();
-            ServiceDiscovery.Error volleyError;
-            if (error instanceof TimeoutError) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
-                        error.toString());
-                volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "TimeoutORNoConnection");
-            } else if (error instanceof NoConnectionError) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
-                        error.toString());
-                volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_NETWORK, "NoConnectionError");
-            } else if (error instanceof AuthFailureError) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
-                        error.toString());
-                volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "AuthFailureError");
-            } else if (error instanceof ServerError) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
-                        error.toString());
-                volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "ServerError");
-            } else if (error instanceof NetworkError) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
-                        error.toString());
-                volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "NetworkError");
-            } else if (error instanceof ParseError) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
-                        error.toString());
-                volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "ServerError");
-            } else {
-                volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.UNKNOWN_ERROR, e.getMessage());
-            }
-            result.setError(volleyError);
-        }
-        return result;
-    }
+		ServiceDiscovery result = new ServiceDiscovery();
+		try {
+			JSONObject response = future.get(10, TimeUnit.SECONDS);
+			cacheServiceDiscovery(response, url, urlType);
+			return parseResponse(response);
+		} catch (InterruptedException | TimeoutException e) {
+			ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface
+					.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "Timed out or interrupted");
+			result.setError(err);
+			result.setSuccess(false);
+		} catch (ExecutionException e) {
+			Throwable error = e.getCause();
+			ServiceDiscovery.Error volleyError;
+			if (error instanceof TimeoutError) {
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
+						error.toString());
+				volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "TimeoutORNoConnection");
+			} else if (error instanceof NoConnectionError) {
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
+						error.toString());
+				volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_NETWORK, "NoConnectionError");
+			} else if (error instanceof AuthFailureError) {
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
+						error.toString());
+				volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "AuthFailureError");
+			} else if (error instanceof ServerError) {
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
+						error.toString());
+				volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "ServerError");
+			} else if (error instanceof NetworkError) {
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
+						error.toString());
+				volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "NetworkError");
+			} else if (error instanceof ParseError) {
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
+						error.toString());
+				volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "ServerError");
+			} else {
+				volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.UNKNOWN_ERROR, e.getMessage());
+			}
+			result.setError(volleyError);
+		}
+		return result;
+	}
 
-    private ServiceDiscovery parseResponse(JSONObject response) {
-        ServiceDiscovery result = new ServiceDiscovery();
-        result.setSuccess(response.optBoolean("success"));
-        if (!result.isSuccess()) {
-            ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server reports failure");
-            result.setError(err);
-        } else { // no sense in further processing if server reports error
-            // START setting match by country
-            result.parseResponse(mContext, mAppInfra, response);
-        }
+	private ServiceDiscovery parseResponse(JSONObject response) {
+		ServiceDiscovery result = new ServiceDiscovery();
+		result.setSuccess(response.optBoolean("success"));
+		if (!result.isSuccess()) {
+			ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server reports failure");
+			result.setError(err);
+		} else { // no sense in further processing if server reports error
+			// START setting match by country
+			result.parseResponse(mContext, mAppInfra, response);
+		}
 
-        return result;
-    }
-
-
-    public String getLocaleList() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return LocaleList.getDefault().toString();
-        } else {
-            return mAppInfra.getInternationalization().getUILocaleString();
-        }
-    }
-
-    private void cacheServiceDiscovery(JSONObject serviceDiscovery, String url, ServiceDiscoveryManager.AISDURLType urlType) {
-        SharedPreferences sharedPreferences = getServiceDiscoverySharedPreferences();
-        SharedPreferences.Editor prefEditor = sharedPreferences.edit();
-        Date currentDate = new Date();
-        long refreshTimeExpiry = currentDate.getTime() + 24 * 3600 * 1000;  // current time + 24 hour
-        switch (urlType) {
-            case AISDURLTypeProposition:
-                prefEditor.putString("SDPROPOSITION", serviceDiscovery.toString());
-                prefEditor.putString("SDPROPOSITIONURL", url);
-                break;
-            case AISDURLTypePlatform:
-                prefEditor.putString("SDPLATFORM", serviceDiscovery.toString());
-                prefEditor.putString("SDPLATFORMURL", url);
-                break;
-        }
-        prefEditor.putLong("SDrefreshTime", refreshTimeExpiry);
-        prefEditor.commit();
-    }
+		return result;
+	}
 
 
-    protected AISDResponse getCachedData() {
-        AISDResponse cachedResponse = null;
-        SharedPreferences prefs = getServiceDiscoverySharedPreferences();
-        if (prefs != null) {
-            String propositionCache = prefs.getString("SDPROPOSITION", null);
-            String platformCache = prefs.getString("SDPLATFORM", null);
-            try {
-                if(propositionCache != null && platformCache != null) {
-                    JSONObject propositionObject = new JSONObject(propositionCache);
-                    ServiceDiscovery propostionService = parseResponse(propositionObject);
+	public String getLocaleList() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+			return LocaleList.getDefault().toString();
+		} else {
+			return mAppInfra.getInternationalization().getUILocaleString();
+		}
+	}
 
-                    JSONObject platformObject = new JSONObject(platformCache);
-                    ServiceDiscovery platformService = parseResponse(platformObject);
-                    cachedResponse = new AISDResponse(mAppInfra);
-                    cachedResponse.setPropositionURLs(propostionService);
-                    cachedResponse.setPlatformURLs(platformService);
-                    return cachedResponse;
-                }
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
-        }
-        return cachedResponse;
-    }
-
-    String getUrlProposition() {
-        SharedPreferences prefs = getServiceDiscoverySharedPreferences();
-        if (prefs != null) {
-            return prefs.getString("SDPROPOSITIONURL", null);
-        }
-        return null;
-    }
-
-    String getUrlPlatform() {
-        SharedPreferences prefs = getServiceDiscoverySharedPreferences();
-        if (prefs != null) {
-            return prefs.getString("SDPLATFORMURL", null);
-        }
-        return null;
-    }
-
-    boolean isServiceDiscoveryDataExpired() {
-        SharedPreferences prefs = getServiceDiscoverySharedPreferences();
-        if (prefs != null) {
-            final long refreshTimeExpiry = prefs.getLong("SDrefreshTime", 0);
-            Date currentDate = new Date();
-            long currentDateLong = currentDate.getTime();
-            return currentDateLong >= refreshTimeExpiry;
-        }
-        return false;
-    }
+	private void cacheServiceDiscovery(JSONObject serviceDiscovery, String url, ServiceDiscoveryManager.AISDURLType urlType) {
+		SharedPreferences sharedPreferences = getServiceDiscoverySharedPreferences();
+		SharedPreferences.Editor prefEditor = sharedPreferences.edit();
+		Date currentDate = new Date();
+		long refreshTimeExpiry = currentDate.getTime() + 24 * 3600 * 1000;  // current time + 24 hour
+		switch (urlType) {
+			case AISDURLTypeProposition:
+				prefEditor.putString("SDPROPOSITION", serviceDiscovery.toString());
+				prefEditor.putString("SDPROPOSITIONURL", url);
+				break;
+			case AISDURLTypePlatform:
+				prefEditor.putString("SDPLATFORM", serviceDiscovery.toString());
+				prefEditor.putString("SDPLATFORMURL", url);
+				break;
+		}
+		prefEditor.putLong("SDrefreshTime", refreshTimeExpiry);
+		prefEditor.commit();
+	}
 
 
-    void clearCacheServiceDiscovery() {
-        SharedPreferences prefs = getServiceDiscoverySharedPreferences();
-        SharedPreferences.Editor prefEditor = prefs.edit();
-        prefEditor.clear();
-        prefEditor.commit();
-    }
+	protected AISDResponse getCachedData() {
+		AISDResponse cachedResponse = null;
+		SharedPreferences prefs = getServiceDiscoverySharedPreferences();
+		if (prefs != null) {
+			String propositionCache = prefs.getString("SDPROPOSITION", null);
+			String platformCache = prefs.getString("SDPLATFORM", null);
+			try {
+				if (propositionCache != null && platformCache != null) {
+					JSONObject propositionObject = new JSONObject(propositionCache);
+					ServiceDiscovery propostionService = parseResponse(propositionObject);
 
-    private SharedPreferences getServiceDiscoverySharedPreferences() {
-        return mContext.getSharedPreferences(ServiceDiscoveryCacheFile, Context.MODE_PRIVATE);
-    }
+					JSONObject platformObject = new JSONObject(platformCache);
+					ServiceDiscovery platformService = parseResponse(platformObject);
+					cachedResponse = new AISDResponse(mAppInfra);
+					cachedResponse.setPropositionURLs(propostionService);
+					cachedResponse.setPlatformURLs(platformService);
+					return cachedResponse;
+				}
+			} catch (Exception exception) {
+				exception.printStackTrace();
+			}
+		}
+		return cachedResponse;
+	}
+
+	String getUrlProposition() {
+		SharedPreferences prefs = getServiceDiscoverySharedPreferences();
+		if (prefs != null) {
+			return prefs.getString("SDPROPOSITIONURL", null);
+		}
+		return null;
+	}
+
+	String getUrlPlatform() {
+		SharedPreferences prefs = getServiceDiscoverySharedPreferences();
+		if (prefs != null) {
+			return prefs.getString("SDPLATFORMURL", null);
+		}
+		return null;
+	}
+
+	boolean isServiceDiscoveryDataExpired() {
+		SharedPreferences prefs = getServiceDiscoverySharedPreferences();
+		if (prefs != null) {
+			final long refreshTimeExpiry = prefs.getLong("SDrefreshTime", 0);
+			Date currentDate = new Date();
+			long currentDateLong = currentDate.getTime();
+			return currentDateLong >= refreshTimeExpiry;
+		}
+		return false;
+	}
+
+
+	void clearCacheServiceDiscovery() {
+		SharedPreferences prefs = getServiceDiscoverySharedPreferences();
+		SharedPreferences.Editor prefEditor = prefs.edit();
+		prefEditor.clear();
+		prefEditor.commit();
+	}
+
+	private SharedPreferences getServiceDiscoverySharedPreferences() {
+		return mContext.getSharedPreferences(ServiceDiscoveryCacheFile, Context.MODE_PRIVATE);
+	}
 
 }
