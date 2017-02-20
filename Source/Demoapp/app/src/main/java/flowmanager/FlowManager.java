@@ -5,6 +5,8 @@
 */
 package flowmanager;
 
+import android.content.Context;
+
 import com.philips.platform.appframework.flowmanager.base.BaseCondition;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
@@ -20,6 +22,12 @@ import philips.app.splash.SplashState;
 import philips.app.stateimpl.HamburgerActivityState;
 
 public class FlowManager extends BaseFlowManager {
+
+    public FlowManager(Context applicationContext, String path) {
+        super(applicationContext,path);
+    }
+
+    public FlowManager(){}
 
     @Override
     public void populateStateMap(final Map<String, BaseState> uiStateMap) {
