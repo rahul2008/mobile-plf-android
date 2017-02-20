@@ -14,6 +14,7 @@ import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
+import com.philips.cdp2.commlib.ble.communication.PollingSubscription.Callback;
 import com.philips.cdp2.commlib.ble.request.BleGetRequest;
 import com.philips.cdp2.commlib.ble.request.BlePutRequest;
 import com.philips.cdp2.commlib.ble.request.BleRequest;
@@ -120,6 +121,13 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
                 @Override
                 public void onError(Error error, String errorData) {
                     DICommLog.e(DICommLog.LOCAL_SUBSCRIPTION, String.format(Locale.US, "Subscription - onError, error [%s], message [%s]", error, errorData));
+                }
+            });
+
+            subscription.addCancelCallback(new Callback() {
+                @Override
+                public void onCancel() {
+                    subscriptionsCache.remove(portParameters);
                 }
             });
             this.subscriptionsCache.put(portParameters, subscription);

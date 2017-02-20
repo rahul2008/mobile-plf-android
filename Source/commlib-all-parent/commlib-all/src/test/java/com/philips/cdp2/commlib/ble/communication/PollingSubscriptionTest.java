@@ -5,6 +5,7 @@
 package com.philips.cdp2.commlib.ble.communication;
 
 import com.philips.cdp.dicommclient.request.ResponseHandler;
+import com.philips.cdp2.commlib.ble.communication.PollingSubscription.Callback;
 import com.philips.commlib.core.communication.CommunicationStrategy;
 
 import org.junit.Before;
@@ -23,9 +24,12 @@ import java.util.concurrent.TimeUnit;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -47,13 +51,18 @@ public class PollingSubscriptionTest {
     @Mock
     CountDownLatch countDownLatch;
 
+    @Mock
+    private Callback mockCallback;
+
     private PortParameters portParameters = new PortParameters("testPort", 42);
 
     private final List<Long> currentTime = new ArrayList<Long>() {{
         add(0L);
     }};
 
-    private PollingSubscription subscription;
+    private final List<ResponseHandler> capturedHandlers = new ArrayList<>();
+
+    private PollingSubscription pollerUnderTest;
 
     @Before
     public void setUp() {
@@ -66,7 +75,15 @@ public class PollingSubscriptionTest {
             }
         });
 
-        subscription = new PollingSubscription(strategy, executor, portParameters, 500, 5000, responseHandler) {
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(final InvocationOnMock invocation) throws Throwable {
+                capturedHandlers.add(invocation.getArgumentAt(2, ResponseHandler.class));
+                return null;
+            }
+        }).when(strategy).getProperties(anyString(), anyInt(), any(ResponseHandler.class));
+
+        pollerUnderTest = new PollingSubscription(strategy, executor, portParameters, 500, 5000, responseHandler) {
             @Override
             long currentTimeMillis() {
                 return currentTime.get(0);
@@ -80,23 +97,33 @@ public class PollingSubscriptionTest {
     }
 
     @Test
-    public void testSubscriptionIsScheduledWhenCreated() {
-        verify(executor).scheduleWithFixedDelay(subscription, 0L, 500L, MILLISECONDS);
+    public void whenCreated_thenSubscriptionIsScheduled() {
+        verify(executor).scheduleWithFixedDelay(pollerUnderTest, 0L, 500L, MILLISECONDS);
     }
 
     @Test
-    public void testSubscriptionInvokesGetProperties() {
-        subscription.run();
+    public void whenRunning_thenCallesGetProperties() {
+        pollerUnderTest.run();
 
         verify(strategy).getProperties(eq("testPort"), eq(42), isA(ResponseHandler.class));
     }
 
     @Test
-    public void testSubscriptionExpires() {
+    public void whenRunningAfterTTL_thenFutureIsCancelled() {
         currentTime.add(0, 5001L);
 
-        subscription.run();
+        pollerUnderTest.run();
 
         verify(future).cancel(anyBoolean());
+    }
+
+    @Test
+    public void whenRunningAfterTTL_thenCallbackIsCalled() {
+        currentTime.add(0, 5001L);
+        pollerUnderTest.addCancelCallback(mockCallback);
+
+        pollerUnderTest.run();
+
+        verify(mockCallback).onCancel();
     }
 }
