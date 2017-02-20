@@ -11,6 +11,7 @@ import com.philips.cdp.dicommclient.util.GsonProvider;
 import com.philips.commlib.core.communication.CommunicationStrategy;
 import com.philips.commlib.core.port.firmware.FirmwarePort;
 import com.philips.commlib.core.port.firmware.FirmwarePortProperties;
+import com.philips.commlib.core.port.firmware.FirmwareUpdate;
 import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePushLocal;
 
 import org.junit.Before;
@@ -43,14 +44,21 @@ public class FirmwareUploaderTest {
 
     @Mock
     private CommunicationStrategy mockCommunicationStrategy;
+
     @Mock
     private CountDownLatch mockCountDownLatch;
+
     @Mock
     private FirmwarePort mockFirmwarePort;
+
     @Mock
-    private FirmwareUpdatePushLocal mockOperation;
+    private FirmwareUpdate mockFirmwareUpdate;
+
     @Mock
     private FirmwarePortProperties mockPortProperties;
+
+    @Mock
+    private FirmwareUploader.UploadListener mockUploadListener;
 
     private byte[] firmwaredata = {0xF, 0xE, 0xD, 0xE, 0xF};
     private final Set<ResponseHandler> handlers = new HashSet<>();
@@ -75,13 +83,7 @@ public class FirmwareUploaderTest {
             }
         }).when(mockCommunicationStrategy).putProperties(any(Map.class), anyString(), anyInt(), any(ResponseHandler.class));
 
-        uploaderUnderTest = new FirmwareUploader(mockFirmwarePort, mockCommunicationStrategy, mockOperation, firmwaredata) {
-            @NonNull
-            @Override
-            CountDownLatch createCountDownLatch() {
-                return mockCountDownLatch;
-            }
-        };
+        uploaderUnderTest = new FirmwareUploader(mockFirmwarePort, mockCommunicationStrategy, firmwaredata, mockUploadListener);
     }
 
     @Test
@@ -91,12 +93,12 @@ public class FirmwareUploaderTest {
             getNextHandler().onSuccess(createPutPropsReply(progress));
         }
 
-        InOrder inOrder = inOrder(mockOperation);
-        inOrder.verify(mockOperation).onDownloadProgress(0);
-        inOrder.verify(mockOperation).onDownloadProgress(20);
-        inOrder.verify(mockOperation).onDownloadProgress(40);
-        inOrder.verify(mockOperation).onDownloadProgress(60);
-        inOrder.verify(mockOperation).onDownloadProgress(80);
+        InOrder inOrder = inOrder(mockUploadListener);
+        inOrder.verify(mockUploadListener).onProgress(0);
+        inOrder.verify(mockUploadListener).onProgress(20);
+        inOrder.verify(mockUploadListener).onProgress(40);
+        inOrder.verify(mockUploadListener).onProgress(60);
+        inOrder.verify(mockUploadListener).onProgress(80);
     }
 
     private ResponseHandler getNextHandler() {

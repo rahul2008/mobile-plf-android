@@ -5,13 +5,14 @@
 
 package com.philips.commlib.core.port.firmware.util;
 
-import android.support.annotation.NonNull;
-
 import com.philips.cdp.dicommclient.port.DICommPortListener;
+import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.commlib.core.communication.CommunicationStrategy;
 import com.philips.commlib.core.port.firmware.FirmwarePort;
 import com.philips.commlib.core.port.firmware.FirmwarePortProperties;
 import com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState;
+import com.philips.commlib.core.port.firmware.state.FirmwareUpdateState;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +22,7 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import java.util.TimerTask;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
@@ -28,14 +30,19 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import static com.philips.cdp.dicommclient.port.DICommPort.SUBSCRIPTION_TTL;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.DOWNLOADING;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.IDLE;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.PROGRAMMING;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -43,16 +50,27 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class FirmwarePortStateWaiterTest {
 
+    private static final int PORT_PRODUCT_ID = 10;
+    private static final String PORT_NAME = "TawnyPort";
+
     @Mock
     private ExecutorService executorMock;
+
     @Mock
     private FirmwarePort portMock;
+
     @Mock
     private FirmwarePortProperties portPropertiesMock;
+
+    @Mock
+    private FirmwarePortStateWaiter.WaiterListener mockWaiterListener;
+
     @Mock
     private CountDownLatch mockCountDownLatch;
 
-    private FirmwarePortStateWaiter firmwarePortStateWaiter;
+    @Mock
+    private CommunicationStrategy communicationStrategyMock;
+
     private static final long TIMEOUT_MILLIS = 1000L;
 
     @Captor
@@ -80,30 +98,37 @@ public class FirmwarePortStateWaiterTest {
         }).when(executorMock).submit(any(Callable.class));
 
         when(portMock.getPortProperties()).thenReturn(portPropertiesMock);
+        when(portMock.getDICommPortName()).thenReturn(PORT_NAME);
+        when(portMock.getDICommProductId()).thenReturn(PORT_PRODUCT_ID);
 
         when(portPropertiesMock.getState()).thenReturn(IDLE);
-
-        this.firmwarePortStateWaiter = new FirmwarePortStateWaiter(executorMock, portMock);
     }
 
     @Test
-    public void whenPortIsInOtherStateThenWaiterShouldReturnNewState() throws StateWaitException {
+    public void whenPortIsInOtherStateThenWaiterShouldReturnNewState() {
         when(portPropertiesMock.getState()).thenReturn(PROGRAMMING);
-        FirmwarePortState state = firmwarePortStateWaiter.waitForNextState(IDLE, TIMEOUT_MILLIS);
 
-        assertFalse(state == IDLE);
+        FirmwarePortStateWaiter firmwarePortStateWaiter = new FirmwarePortStateWaiter(portMock, communicationStrategyMock, IDLE, TIMEOUT_MILLIS, mockWaiterListener);
+        firmwarePortStateWaiter.waitForNextState();
+
+        ArgumentCaptor<FirmwarePortState> captor = ArgumentCaptor.forClass(FirmwarePortState.class);
+
+        verify(mockWaiterListener, times(1)).onNewState(captor.capture());
+        assertFalse(captor.getValue() == IDLE);
     }
 
     @Test
-    public void whenPortIsInOtherStateThenSubscribeIsNotCalled() throws StateWaitException {
+    public void whenPortIsAlreadyInOtherStateThenSubscribeIsNotCalled() {
         when(portPropertiesMock.getState()).thenReturn(PROGRAMMING);
-        firmwarePortStateWaiter.waitForNextState(IDLE, TIMEOUT_MILLIS);
 
-        verify(portMock, times(0)).subscribe();
+        FirmwarePortStateWaiter firmwarePortStateWaiter = new FirmwarePortStateWaiter(portMock, communicationStrategyMock, IDLE, TIMEOUT_MILLIS, mockWaiterListener);
+        firmwarePortStateWaiter.waitForNextState();
+
+        verify(communicationStrategyMock, times(0)).subscribe(eq(PORT_NAME), eq(PORT_PRODUCT_ID), eq(SUBSCRIPTION_TTL), isA(ResponseHandler.class));
     }
 
     @Test
-    public void whenPortIsNotInOtherStateThenSubscribeIsCalled() throws StateWaitException {
+    public void whenPortIsNotInOtherStateThenSubscribeIsCalled() {
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
@@ -121,14 +146,15 @@ public class FirmwarePortStateWaiterTest {
             }
         }).when(mockCountDownLatch).countDown();
 
-        firmwarePortStateWaiter.waitForNextState(IDLE, TIMEOUT_MILLIS);
+        FirmwarePortStateWaiter firmwarePortStateWaiter = new FirmwarePortStateWaiter(portMock, communicationStrategyMock, IDLE, TIMEOUT_MILLIS, mockWaiterListener);
+        firmwarePortStateWaiter.waitForNextState();
 
-        verify(portMock).subscribe();
+        verify(communicationStrategyMock).subscribe(eq(PORT_NAME), eq(PORT_PRODUCT_ID), eq(SUBSCRIPTION_TTL), isA(ResponseHandler.class));
     }
 
     @Test
     @SuppressWarnings("unchecked")
-    public void whenStateChangedThenReturnsNewState() throws StateWaitException {
+    public void whenStateChangedThenReturnsNewState() {
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
@@ -146,23 +172,22 @@ public class FirmwarePortStateWaiterTest {
             }
         }).when(mockCountDownLatch).countDown();
 
-        FirmwarePortState state = firmwarePortStateWaiter.waitForNextState(IDLE, TIMEOUT_MILLIS);
+        FirmwarePortStateWaiter firmwarePortStateWaiter = new FirmwarePortStateWaiter(portMock, communicationStrategyMock, IDLE, TIMEOUT_MILLIS, mockWaiterListener);
+        firmwarePortStateWaiter.waitForNextState();
 
-        assertTrue(state == DOWNLOADING);
+        verify(mockWaiterListener, times(1)).onNewState(DOWNLOADING);
     }
 
-    @Test(expected = StateWaitException.class)
-    public void whenTimeoutThenThrowsException() throws StateWaitException {
-        firmwarePortStateWaiter.waitForNextState(IDLE, TIMEOUT_MILLIS);
-    }
-
-    private FirmwarePortStateWaiter createFirmwarePortStateWaiter() {
-        return new FirmwarePortStateWaiter(this.executorMock, this.portMock) {
-            @NonNull
+    @Test
+    public void whenTimeoutThenOnErrorIsCalled() {
+        FirmwarePortStateWaiter firmwarePortStateWaiter = new FirmwarePortStateWaiter(portMock, communicationStrategyMock, IDLE, TIMEOUT_MILLIS, mockWaiterListener) {
             @Override
-            CountDownLatch createCountDownLatch() {
-                return mockCountDownLatch;
+            void scheduleTask(final TimerTask timeoutTask) {
+                timeoutTask.run();
             }
         };
+        firmwarePortStateWaiter.waitForNextState();
+
+        verify(mockWaiterListener, times(1)).onError(anyString());
     }
 }

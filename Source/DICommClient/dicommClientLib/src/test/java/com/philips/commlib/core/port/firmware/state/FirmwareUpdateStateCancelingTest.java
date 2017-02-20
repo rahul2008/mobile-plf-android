@@ -16,6 +16,6 @@ public class FirmwareUpdateStateCancelingTest extends WaitingFirmwareUpdateState
         initMocks(this);
         disableLogging();
 
-        stateUnderTest = new FirmwareUpdateStateCanceling(mockOperation);
+        stateUnderTest = new FirmwareUpdateStateCanceling(mockFirmwareUpdate);
     }
 }

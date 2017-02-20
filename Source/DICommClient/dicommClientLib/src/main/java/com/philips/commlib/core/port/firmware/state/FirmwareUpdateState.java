@@ -15,10 +15,10 @@ public abstract class FirmwareUpdateState implements FirmwareUpdate {
 
     protected final String TAG = getClass().getSimpleName();
 
-    protected final FirmwareUpdatePushLocal operation;
+    protected final FirmwareUpdatePushLocal firmwareUpdate;
 
-    public FirmwareUpdateState(@NonNull FirmwareUpdatePushLocal operation) {
-        this.operation = operation;
+    public FirmwareUpdateState(@NonNull FirmwareUpdatePushLocal firmwareUpdate) {
+        this.firmwareUpdate = firmwareUpdate;
     }
 
     @Override
@@ -30,14 +30,17 @@ public abstract class FirmwareUpdateState implements FirmwareUpdate {
         onStart(previousState);
     }
 
+    @Override
     public void cancel() throws FirmwareUpdateException {
         throw new FirmwareUpdateException("Cancel not allowed in state [" + TAG + "]");
     }
 
+    @Override
     public void deploy() throws FirmwareUpdateException {
         throw new FirmwareUpdateException("Deploying not allowed in state [" + TAG + "]");
     }
 
+    @Override
     public void finish() {
         onFinish();
         DICommLog.d(DICommLog.FIRMWAREPORT, "<<< Finished state [" + TAG + "]");

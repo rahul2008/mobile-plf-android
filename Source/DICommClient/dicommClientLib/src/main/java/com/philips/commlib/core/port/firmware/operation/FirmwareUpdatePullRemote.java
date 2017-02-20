@@ -27,4 +27,9 @@ public class FirmwareUpdatePullRemote implements FirmwareUpdate {
     public void finish() {
         throw new UnsupportedOperationException("Not implemented yet.");
     }
+
+    @Override
+    public void onError(final String message) {
+        throw new UnsupportedOperationException("Not implemented yet.");
+    }
 }

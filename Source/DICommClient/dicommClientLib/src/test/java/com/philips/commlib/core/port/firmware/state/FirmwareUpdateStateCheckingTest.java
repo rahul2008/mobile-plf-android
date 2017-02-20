@@ -18,13 +18,13 @@ public class FirmwareUpdateStateCheckingTest extends WaitingFirmwareUpdateState 
         initMocks(this);
         disableLogging();
 
-        stateUnderTest = new FirmwareUpdateStateChecking(mockOperation);
+        stateUnderTest = new FirmwareUpdateStateChecking(mockFirmwareUpdate);
     }
 
     @Test
     public void onFinish_checkingProgress100() {
         stateUnderTest.finish();
 
-        verify(mockOperation).onCheckingProgress(100);
+        verify(mockFirmwareUpdate).onCheckingProgress(100);
     }
 }

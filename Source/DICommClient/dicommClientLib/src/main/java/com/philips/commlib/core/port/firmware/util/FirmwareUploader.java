@@ -21,6 +21,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortKey.PROGRESS;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortKey.STATE;
@@ -33,52 +35,39 @@ public class FirmwareUploader {
 
     private final FirmwarePort firmwarePort;
     private final CommunicationStrategy communicationStrategy;
-    private final FirmwareUpdatePushLocal operation;
     private final byte[] firmwareData;
+    @NonNull
+    private final UploadListener listener;
 
-    private IOException error;
-    private CountDownLatch latch;
     private int maxChunkSize;
 
     private int progress;
 
-    public FirmwareUploader(@NonNull final FirmwarePort firmwarePort, @NonNull final CommunicationStrategy communicationStrategy, final FirmwareUpdatePushLocal firmwareUpdatePushLocal, final byte[] firmwareData) {
+    public interface UploadListener {
+        void onSuccess();
+
+        void onError(String message, Throwable t);
+
+        void onProgress(int progress);
+    }
+
+    public FirmwareUploader(@NonNull final FirmwarePort firmwarePort, @NonNull final CommunicationStrategy communicationStrategy, final byte[] firmwareData, @NonNull UploadListener listener) {
         this.firmwarePort = firmwarePort;
         this.communicationStrategy = communicationStrategy;
-        this.operation = firmwareUpdatePushLocal;
         this.firmwareData = firmwareData;
+        this.listener = listener;
     }
 
-    public void upload() throws IOException {
+    public void upload() {
         maxChunkSize = this.firmwarePort.getPortProperties().getMaxChunkSize();
         if (maxChunkSize <= 0) {
-            throw new IOException("Max chunk size is invalid.");
+            Throwable t = new IOException("Max chunk size is invalid.");
+            listener.onError(t.getMessage(), t);
         }
 
-        if (latch != null) {
-            throw new IOException("Upload already in progress.");
-        }
-
-        latch = createCountDownLatch();
-        operation.onDownloadProgress(progress);
-        uploadNextChunk(0);
-        try {
-            latch.await();
-            if (error != null) {
-                throw error;
-            }
-        } catch (InterruptedException e) {
-            throw new IOException(e);
-        } finally {
-            latch = null;
-            error = null;
-        }
-    }
-
-    @VisibleForTesting
-    @NonNull
-    CountDownLatch createCountDownLatch() {
-        return new CountDownLatch(1);
+        progress = 0;
+        listener.onProgress(progress);
+        uploadNextChunk(progress);
     }
 
     private void uploadNextChunk(int offset) {
@@ -87,6 +76,7 @@ public class FirmwareUploader {
         properties.put(FirmwarePortProperties.FirmwarePortKey.DATA.toString(), Arrays.copyOfRange(firmwareData, offset, offset + nextChunkSize));
 
         communicationStrategy.putProperties(properties, firmwarePort.getDICommPortName(), firmwarePort.getDICommProductId(), new ResponseHandler() {
+
             @Override
             public void onSuccess(final String data) {
                 HashMap<String, Object> dataMap = new HashMap<>();
@@ -94,8 +84,7 @@ public class FirmwareUploader {
                 try {
                     dataMap = GsonProvider.get().fromJson(data, dataMap.getClass());
                 } catch (JsonSyntaxException e) {
-                    error = new IOException(e);
-                    latch.countDown();
+                    listener.onError(e.getMessage(), e);
                     return;
                 }
 
@@ -103,28 +92,29 @@ public class FirmwareUploader {
                 Double progress = (Double) dataMap.get(PROGRESS.toString());
 
                 if (firmwarePortState == null || progress == null) {
-                    error = new IOException("Invalid data received.");
-                    latch.countDown();
+                    Throwable t = new IOException("Invalid data received.");
+                    listener.onError(t.getMessage(), t);
                     return;
                 }
 
                 int progressPercentage = (int) (progress / firmwareData.length * 100);
                 if (FirmwareUploader.this.progress != progressPercentage) {
                     FirmwareUploader.this.progress = progressPercentage;
-                    operation.onDownloadProgress(progressPercentage);
+                    listener.onProgress(progressPercentage);
                 }
 
                 if (firmwarePortState == DOWNLOADING || firmwarePortState == UNKNOWN) {
                     uploadNextChunk(progress.intValue());
                     return;
                 }
-                latch.countDown();
+
+                listener.onSuccess();
             }
 
             @Override
             public void onError(final Error error, final String errorData) {
-                FirmwareUploader.this.error = new IOException(error.getErrorMessage());
-                latch.countDown();
+                Throwable t = new IOException(error.getErrorMessage());
+                listener.onError(t.getMessage(), t);
             }
         });
     }

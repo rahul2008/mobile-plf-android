@@ -16,6 +16,6 @@ public class FirmwareUpdateStatePreparingTest extends WaitingFirmwareUpdateState
         initMocks(this);
         disableLogging();
 
-        stateUnderTest = new FirmwareUpdateStatePreparing(mockOperation);
+        stateUnderTest = new FirmwareUpdateStatePreparing(mockFirmwareUpdate);
     }
 }

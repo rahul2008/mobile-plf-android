@@ -11,17 +11,18 @@ import com.philips.commlib.core.port.firmware.util.StateWaitException;
 
 public class FirmwareUpdateStateProgramming extends FirmwareUpdateState {
 
-    public FirmwareUpdateStateProgramming(@NonNull FirmwareUpdatePushLocal operation) {
-        super(operation);
+    public FirmwareUpdateStateProgramming(@NonNull FirmwareUpdatePushLocal firmwareUpdate) {
+        super(firmwareUpdate);
     }
 
     @Override
     public void onStart(FirmwareUpdateState previousState) {
-        try {
-            operation.waitForNextState();
-        } catch (StateWaitException e) {
-            operation.onDeployFailed("Deployment failed.");
-            operation.finish();
-        }
+        firmwareUpdate.waitForNextState();
+    }
+
+    @Override
+    public void onError(final String message) {
+        firmwareUpdate.onDeployFailed("Deployment failed: " + message);
+        firmwareUpdate.finish();
     }
 }

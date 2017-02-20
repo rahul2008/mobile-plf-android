@@ -4,6 +4,7 @@
  */
 package com.philips.commlib.core.port.firmware.state;
 
+import com.philips.commlib.core.port.firmware.FirmwareUpdate;
 import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePushLocal;
 import com.philips.commlib.core.port.firmware.util.StateWaitException;
 
@@ -17,32 +18,28 @@ import static org.mockito.Mockito.verify;
 abstract public class WaitingFirmwareUpdateState {
 
     @Mock
-    FirmwareUpdatePushLocal mockOperation;
+    FirmwareUpdatePushLocal mockFirmwareUpdate;
 
     FirmwareUpdateState stateUnderTest;
 
     @Test
-    public void onStart_waitForNextState() throws StateWaitException {
+    public void onStart_waitForNextState() {
         stateUnderTest.start(null);
 
-        verify(mockOperation).waitForNextState();
+        verify(mockFirmwareUpdate).waitForNextState();
     }
 
     @Test
-    public void onStartStateChangeError_downloadFailed() throws StateWaitException {
-        doThrow(new StateWaitException("")).when(mockOperation).waitForNextState();
+    public void onStartStateChangeError_downloadFailed() {
+        stateUnderTest.onError("Something went wrong!");
 
-        stateUnderTest.start(null);
-
-        verify(mockOperation).onDownloadFailed(anyString());
+        verify(mockFirmwareUpdate).onDownloadFailed(anyString());
     }
 
     @Test
-    public void onStartStateChangeError_finishOperation() throws StateWaitException {
-        doThrow(new StateWaitException("")).when(mockOperation).waitForNextState();
+    public void onStartStateChangeError_finishOperation() {
+        stateUnderTest.onError("Something went wrong!");
 
-        stateUnderTest.start(null);
-
-        verify(mockOperation).finish();
+        verify(mockFirmwareUpdate).finish();
     }
 }

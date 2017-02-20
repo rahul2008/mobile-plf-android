@@ -7,14 +7,18 @@ package com.philips.commlib.core.port.firmware.state;
 import android.support.annotation.Nullable;
 
 import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePushLocal;
-import com.philips.commlib.core.port.firmware.util.StateWaitException;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import static com.philips.cdp.dicommclient.util.DICommLog.disableLogging;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.CANCELING;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -22,7 +26,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class CancelableFirmwareUpdateStateTest {
 
     @Mock
-    private FirmwareUpdatePushLocal mockOperation;
+    private FirmwareUpdatePushLocal mockFirmwareUpdate;
 
     private CancelableFirmwareUpdateState stateUnderTest;
 
@@ -31,7 +35,7 @@ public class CancelableFirmwareUpdateStateTest {
         initMocks(this);
         disableLogging();
 
-        stateUnderTest = new CancelableFirmwareUpdateState(mockOperation) {
+        stateUnderTest = new CancelableFirmwareUpdateState(mockFirmwareUpdate) {
             @Override
             protected void onStart(@Nullable final FirmwareUpdateState previousState) {
 
@@ -43,15 +47,21 @@ public class CancelableFirmwareUpdateStateTest {
     public void onCancel_requestStateCancel() {
         stateUnderTest.cancel();
 
-        verify(mockOperation).requestState(CANCELING);
+        verify(mockFirmwareUpdate).requestState(CANCELING);
     }
 
     @Test
-    public void onCancelStateChangeError_downloadFailed() throws StateWaitException {
-        doThrow(new StateWaitException("")).when(mockOperation).waitForNextState();
+    public void onCancelStateChangeError_downloadFailed() {
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(final InvocationOnMock invocation) throws Throwable {
+                stateUnderTest.onError("A specific error message.");
+                return null;
+            }
+        }).when(mockFirmwareUpdate).waitForNextState();
 
         stateUnderTest.cancel();
 
-        verify(mockOperation).onDownloadFailed();
+        verify(mockFirmwareUpdate).onDownloadFailed(anyString());
     }
 }

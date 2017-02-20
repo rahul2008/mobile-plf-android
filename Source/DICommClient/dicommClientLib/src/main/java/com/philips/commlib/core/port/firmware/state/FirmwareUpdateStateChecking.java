@@ -17,16 +17,16 @@ public class FirmwareUpdateStateChecking extends CancelableFirmwareUpdateState {
 
     @Override
     public void onStart(FirmwareUpdateState previousState) {
-        try {
-            operation.waitForNextState();
-        } catch (StateWaitException e) {
-            operation.onDownloadFailed("Error while checking firmware.");
-            operation.finish();
-        }
+        firmwareUpdate.waitForNextState();
+    }
+
+    @Override
+    public void onError(final String message) {
+        super.onError("Error while checking firmware: " + message);
     }
 
     @Override
     public void onFinish() {
-        operation.onCheckingProgress(100);
+        firmwareUpdate.onCheckingProgress(100);
     }
 }

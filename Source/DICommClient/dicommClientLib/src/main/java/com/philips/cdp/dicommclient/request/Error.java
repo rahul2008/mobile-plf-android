@@ -11,7 +11,7 @@ public enum Error {
     REQUEST_FAILED("Failed to perform request."),
     INVALID_PARAMETER("Invalid parameter."),
     NO_SUCH_METHOD("No such method."),
-    NO_SUCH_OPERATION("No such operation."),
+    NO_SUCH_OPERATION("No such firmwareUpdate."),
     NO_SUCH_PORT("No such port."),
     NO_SUCH_PRODUCT("No such product."),
     NO_SUCH_PROPERTY("No such property."),

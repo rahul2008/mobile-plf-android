@@ -18,4 +18,6 @@ public interface FirmwareUpdate {
     void cancel() throws FirmwareUpdateException;
 
     void finish();
+
+    void onError(String message);
 }

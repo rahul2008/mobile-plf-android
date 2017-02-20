@@ -25,13 +25,14 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class FirmwareUpdatePushLocalTest {
 
     @Mock
-    private ExecutorService mockExecutor;
-    @Mock
     private FirmwarePort mockFirmwarePort;
+
     @Mock
     private CommunicationStrategy mockCommunicationStrategy;
+
     @Mock
     private FirmwarePortListener mockListener;
+
     @Mock
     private FirmwarePortProperties mockPortProperties;
 
@@ -46,7 +47,7 @@ public class FirmwareUpdatePushLocalTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        operationUnderTest = new FirmwareUpdatePushLocal(mockExecutor, mockFirmwarePort, mockCommunicationStrategy, mockListener, firmwaredata);
+        operationUnderTest = new FirmwareUpdatePushLocal(mockFirmwarePort, mockCommunicationStrategy, mockListener, firmwaredata);
     }
 
     @Test

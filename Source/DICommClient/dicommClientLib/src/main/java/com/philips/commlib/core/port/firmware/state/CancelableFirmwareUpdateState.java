@@ -7,23 +7,24 @@ package com.philips.commlib.core.port.firmware.state;
 import android.support.annotation.NonNull;
 
 import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePushLocal;
-import com.philips.commlib.core.port.firmware.util.StateWaitException;
 
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.CANCELING;
 
 abstract class CancelableFirmwareUpdateState extends FirmwareUpdateState {
 
-    CancelableFirmwareUpdateState(@NonNull FirmwareUpdatePushLocal operation) {
-        super(operation);
+    CancelableFirmwareUpdateState(@NonNull FirmwareUpdatePushLocal firmwareUpdate) {
+        super(firmwareUpdate);
     }
 
     @Override
     public void cancel() {
-        operation.requestState(CANCELING);
-        try {
-            operation.waitForNextState();
-        } catch (StateWaitException e) {
-            operation.onDownloadFailed();
-        }
+        firmwareUpdate.requestState(CANCELING);
+        firmwareUpdate.waitForNextState();
+    }
+
+    @Override
+    public void onError(final String message) {
+        firmwareUpdate.onDownloadFailed(message);
+        firmwareUpdate.finish();
     }
 }

@@ -25,12 +25,11 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
     private static final String FIRMWAREPORT_NAME = "firmware";
     private static final int FIRMWAREPORT_PRODUCTID = 0;
 
-    private FirmwareUpdate operation;
+    private FirmwareUpdate firmwareUpdate;
     private FirmwarePortProperties previousFirmwarePortProperties = new FirmwarePortProperties();
     private final Set<FirmwarePortListener> firmwarePortListeners = new CopyOnWriteArraySet<>();
 
     private Handler callbackHandler;
-    private ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(5);
 
     private final FirmwarePortListener listener = new FirmwarePortListener() {
 
@@ -124,57 +123,58 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
         callbackHandler = HandlerProvider.createHandler();
     }
 
-    public void pushLocalFirmware(final byte[] firmwareData) {
-        if (operation == null) {
-            operation = new FirmwareUpdatePushLocal(executor, this, this.mCommunicationStrategy, this.listener, firmwareData);
-            executor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    operation.start();
-                }
-            });
+    /**
+     * Initiate upload of firmwareData
+     *
+     * @param firmwareData The data to upload
+     * @throws IllegalStateException When firmware upload process is already running
+     */
+    public void pushLocalFirmware(final byte[] firmwareData) throws IllegalStateException {
+        if (firmwareUpdate == null) {
+            firmwareUpdate = new FirmwareUpdatePushLocal(this, this.mCommunicationStrategy, this.listener, firmwareData);
+            firmwareUpdate.start();
         } else {
             throw new IllegalStateException("Operation already in progress.");
         }
     }
 
     public void pullRemoteFirmware(String version) {
-        if (operation == null) {
-            operation = new FirmwareUpdatePullRemote();
+        if (firmwareUpdate == null) {
+            firmwareUpdate = new FirmwareUpdatePullRemote();
         } else {
             throw new IllegalStateException("Operation already in progress.");
         }
     }
 
     public void cancel() {
-        if (operation == null) {
+        if (firmwareUpdate == null) {
             return;
         }
         try {
-            operation.cancel();
+            firmwareUpdate.cancel();
         } catch (FirmwareUpdateException e) {
-            DICommLog.e(DICommLog.FIRMWAREPORT, "Error while canceling operation: " + e.getMessage());
+            DICommLog.e(DICommLog.FIRMWAREPORT, "Error while canceling firmwareUpdate: " + e.getMessage());
         }
     }
 
+    /**
+     * Future feature, don't use yet
+     */
     public void checkForNewerFirmware() {
         throw new UnsupportedOperationException();
     }
 
     public void deployFirmware() {
-        if (operation == null) {
+        if (firmwareUpdate == null) {
+            //todo: inform listener of error
             return;
         }
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    operation.deploy();
-                } catch (FirmwareUpdateException e) {
-                    DICommLog.e(DICommLog.FIRMWAREPORT, "Error while canceling operation: " + e.getMessage());
-                }
-            }
-        });
+        try {
+            firmwareUpdate.deploy();
+        } catch (FirmwareUpdateException e) {
+            //todo: inform listener of error
+            DICommLog.e(DICommLog.FIRMWAREPORT, "Error while canceling firmwareUpdate: " + e.getMessage());
+        }
     }
 
     public void addFirmwarePortListener(FirmwarePortListener listener) {
@@ -230,7 +230,7 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
     }
 
     public void finishFirmwareUpdateOperation() {
-        this.operation = null;
+        this.firmwareUpdate = null;
     }
 
     private void notifyListenersWithPortProperties(@NonNull FirmwarePortProperties firmwarePortProperties) {

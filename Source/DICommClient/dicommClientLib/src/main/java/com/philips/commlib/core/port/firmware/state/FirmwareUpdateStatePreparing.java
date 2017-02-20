@@ -17,11 +17,11 @@ public class FirmwareUpdateStatePreparing extends CancelableFirmwareUpdateState 
 
     @Override
     public void onStart(FirmwareUpdateState previousState) {
-        try {
-            operation.waitForNextState();
-        } catch (StateWaitException e) {
-            operation.onDownloadFailed("Could not upload firmware.");
-            operation.finish();
-        }
+        firmwareUpdate.waitForNextState();
+    }
+
+    @Override
+    public void onError(final String message) {
+        super.onError("Could not upload firmware: " + message);
     }
 }

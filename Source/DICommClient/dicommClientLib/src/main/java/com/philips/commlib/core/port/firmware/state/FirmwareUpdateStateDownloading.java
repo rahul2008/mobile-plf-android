@@ -5,11 +5,10 @@
 package com.philips.commlib.core.port.firmware.state;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePushLocal;
-import com.philips.commlib.core.port.firmware.util.StateWaitException;
-
-import java.io.IOException;
+import com.philips.commlib.core.port.firmware.util.FirmwareUploader;
 
 public class FirmwareUpdateStateDownloading extends CancelableFirmwareUpdateState {
 
@@ -17,25 +16,36 @@ public class FirmwareUpdateStateDownloading extends CancelableFirmwareUpdateStat
         super(operation);
     }
 
-    @Override
-    public void onStart(FirmwareUpdateState previousState) {
-        try {
-            operation.pushData();
-        } catch (IOException e) {
-            operation.onDownloadFailed("Could not upload firmware.");
-            operation.finish();
+    @VisibleForTesting
+    FirmwareUploader.UploadListener firmwareUploadListener = new FirmwareUploader.UploadListener() {
+        @Override
+        public void onSuccess() {
+            firmwareUpdate.waitForNextState();
         }
 
-        try {
-            operation.waitForNextState();
-        } catch (StateWaitException e) {
-            operation.onDownloadFailed("Could not upload firmware.");
-            operation.finish();
+        @Override
+        public void onProgress(final int progress) {
+            firmwareUpdate.onDownloadProgress(progress);
         }
+
+        @Override
+        public void onError(final String message, final Throwable t) {
+            FirmwareUpdateStateDownloading.this.onError(message);
+        }
+    };
+
+    @Override
+    public void onStart(FirmwareUpdateState previousState) {
+        firmwareUpdate.uploadFirmware(firmwareUploadListener);
+    }
+
+    @Override
+    public void onError(final String message) {
+        super.onError("Could not upload firmware: " + message);
     }
 
     @Override
     protected void onFinish() {
-        operation.onDownloadProgress(100);
+        firmwareUpdate.onDownloadProgress(100);
     }
 }

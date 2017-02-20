@@ -5,6 +5,7 @@
 package com.philips.commlib.core.port.firmware.operation;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.commlib.core.communication.CommunicationStrategy;
 import com.philips.commlib.core.port.firmware.FirmwarePort;
@@ -24,12 +25,11 @@ import com.philips.commlib.core.port.firmware.state.FirmwareUpdateStateProgrammi
 import com.philips.commlib.core.port.firmware.state.FirmwareUpdateStateReady;
 import com.philips.commlib.core.port.firmware.util.FirmwarePortStateWaiter;
 import com.philips.commlib.core.port.firmware.util.FirmwareUploader;
-import com.philips.commlib.core.port.firmware.util.StateWaitException;
+import com.philips.commlib.core.port.firmware.util.FirmwareUploader.UploadListener;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
 
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortKey.SIZE;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortKey.STATE;
@@ -68,12 +68,11 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
     @NonNull
     private final FirmwarePortListener firmwarePortListener;
 
-    private final FirmwarePortStateWaiter firmwarePortStateWaiter;
+    private FirmwarePortStateWaiter firmwarePortStateWaiter;
 
-    private FirmwareUpdateState state;
+    private FirmwareUpdateState currentState;
 
-    public FirmwareUpdatePushLocal(@NonNull final ExecutorService executor,
-                                   @NonNull final FirmwarePort firmwarePort,
+    public FirmwareUpdatePushLocal(@NonNull final FirmwarePort firmwarePort,
                                    @NonNull final CommunicationStrategy communicationStrategy,
                                    @NonNull final FirmwarePortListener firmwarePortListener,
                                    @NonNull byte[] firmwareData) {
@@ -85,16 +84,14 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
             throw new IllegalArgumentException("Firmware data has zero length.");
         }
         this.firmwareData = firmwareData;
-        this.firmwarePortStateWaiter = new FirmwarePortStateWaiter(executor, this.firmwarePort);
         this.stateMap = new StateMap();
-
         initStateMap();
         initDeviceState();
     }
 
     private void initDeviceState() {
-        // TODO check for actual device state
-        this.state = stateMap.get(IDLE);
+        // TODO check for actual device currentState
+        currentState = stateMap.get(IDLE);
     }
 
     private void initStateMap() {
@@ -110,17 +107,17 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
 
     @Override
     public void start() {
-        this.state.start(null);
+        currentState.start(null);
     }
 
     @Override
     public void deploy() throws FirmwareUpdateException {
-        this.state.deploy();
+        currentState.deploy();
     }
 
     @Override
     public void cancel() throws FirmwareUpdateException {
-        this.state.cancel();
+        currentState.cancel();
     }
 
     @Override
@@ -128,8 +125,13 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
         this.firmwarePort.finishFirmwareUpdateOperation();
     }
 
-    public void pushData() throws IOException {
-        new FirmwareUploader(firmwarePort, communicationStrategy, this, firmwareData).upload();
+    @Override
+    public void onError(final String message) {
+        currentState.onError(message);
+    }
+
+    public void uploadFirmware(UploadListener firmwareUploadListener) {
+        new FirmwareUploader(firmwarePort, communicationStrategy, firmwareData, firmwareUploadListener).upload();
     }
 
     public void onDeployFinished() {
@@ -175,20 +177,35 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
         this.firmwarePort.putProperties(properties);
     }
 
-    public void waitForNextState() throws StateWaitException {
-        FirmwareUpdateState previousState = this.state;
-        FirmwarePortState currentPortState = stateMap.findByState(this.state);
+    public void waitForNextState() {
+        FirmwarePortState currentPortState = stateMap.findByState(currentState);
 
-        final FirmwarePortState newState = firmwarePortStateWaiter.waitForNextState(currentPortState, TIMEOUT_MILLIS);
-
-        this.state.finish();
-        this.state = stateMap.get(newState);
-        this.state.start(previousState);
+        this.firmwarePortStateWaiter = createFirmwarePortStateWaiter(currentPortState);
+        this.firmwarePortStateWaiter.waitForNextState();
     }
 
     private String getStatusMessage() {
         final FirmwarePortProperties portProperties = this.firmwarePort.getPortProperties();
 
         return (portProperties == null) ? "Unknown failure." : portProperties.getStatusMessage();
+    }
+
+    @VisibleForTesting
+    FirmwarePortStateWaiter createFirmwarePortStateWaiter(FirmwarePortState portState) {
+        return new FirmwarePortStateWaiter(this.firmwarePort, this.communicationStrategy, portState, TIMEOUT_MILLIS, new FirmwarePortStateWaiter.WaiterListener() {
+
+            @Override
+            public void onNewState(final FirmwarePortState newState) {
+                FirmwareUpdateState previousState = FirmwareUpdatePushLocal.this.currentState;
+                FirmwareUpdatePushLocal.this.currentState.finish();
+                FirmwareUpdatePushLocal.this.currentState = stateMap.get(newState);
+                FirmwareUpdatePushLocal.this.currentState.start(previousState);
+            }
+
+            @Override
+            public void onError(String message) {
+                currentState.onError(message);
+            }
+        });
     }
 }

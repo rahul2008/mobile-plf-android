@@ -112,8 +112,8 @@ public class FirmwarePortTest extends RobolectricTest {
         assertEquals(result.getState(), READY);
     }
 
-    @Ignore
     @Test
+    @Ignore
     public void testParseFirmwareEventInValidStateData() {
         String parseData = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgrade\":\"1.2\",\"state\":\"wrong\",\"progress\":0,\"statusmsg\":\"\",\"mandatory\":false}";
 

@@ -10,131 +10,128 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.commlib.core.communication.CommunicationStrategy;
 import com.philips.commlib.core.port.firmware.FirmwarePort;
 import com.philips.commlib.core.port.firmware.FirmwarePortProperties;
 import com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState;
 
 import java.util.Locale;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static com.philips.cdp.dicommclient.port.DICommPort.SUBSCRIPTION_TTL;
 
 public class FirmwarePortStateWaiter {
 
     @NonNull
     private final FirmwarePort firmwarePort;
-    private final ExecutorService executor;
 
-    private class StateWaitTask implements Callable<FirmwarePortState> {
+    @NonNull
+    private final long timeoutMillis;
 
-        private FirmwarePortState initialState;
-        private FirmwarePortState portState;
+    @NonNull
+    private final WaiterListener listener;
 
-        private final long timeoutMillis;
-        private CountDownLatch latch;
+    @NonNull
+    private final CommunicationStrategy communicationStrategy;
+    private FirmwarePortState initialState;
 
-        private final DICommPortListener<FirmwarePort> firmwarePortListener = new DICommPortListener<FirmwarePort>() {
-            @Override
-            public void onPortUpdate(FirmwarePort port) {
-                final FirmwarePortProperties firmwarePortProperties = port.getPortProperties();
-                if (firmwarePortProperties == null) {
-                    return;
-                }
-                portState = firmwarePortProperties.getState();
-                DICommLog.d(DICommLog.FIRMWAREPORT, String.format(Locale.US, "onPortUpdate - initialState [%s], portState [%s]", initialState.toString(), portState));
+    private TimerTask timeoutTask;
 
-                if (portState != initialState) {
-                    latch.countDown();
+    public interface WaiterListener {
+        void onNewState(FirmwarePortState state);
+
+        void onError(String message);
+    }
+
+    private final DICommPortListener<FirmwarePort> firmwarePortListener = new DICommPortListener<FirmwarePort>() {
+        @Override
+        public void onPortUpdate(FirmwarePort port) {
+            final FirmwarePortProperties firmwarePortProperties = port.getPortProperties();
+            if (firmwarePortProperties == null) {
+                return;
+            }
+            final FirmwarePortState newState = firmwarePortProperties.getState();
+            DICommLog.d(DICommLog.FIRMWAREPORT, String.format(Locale.US, "onPortUpdate - initialState [%s], newState [%s]", initialState.toString(), newState.toString()));
+
+            if (initialState != newState) {
+                firmwarePort.removePortListener(firmwarePortListener);
+                communicationStrategy.unsubscribe(firmwarePort.getDICommPortName(), firmwarePort.getDICommProductId(), new ResponseHandler() {
+                    @Override
+                    public void onSuccess(final String data) {
+
+                    }
+
+                    @Override
+                    public void onError(final Error error, final String errorData) {
+
+                    }
+                });
+
+                listener.onNewState(newState);
+                if (timeoutTask != null) {
+                    timeoutTask.cancel();
                 }
             }
-
-            @Override
-            public void onPortError(FirmwarePort port, Error error, String errorData) {
-                DICommLog.e(DICommLog.FIRMWAREPORT, String.format(Locale.US, "onPortError - error [%s], message [%s], state [%s]", error.toString(), errorData, portState.toString()));
-                portState = null;
-                latch.countDown();
-            }
-        };
-
-        StateWaitTask(FirmwarePortState initialState, long timeoutMillis) {
-            this.initialState = initialState;
-            this.timeoutMillis = timeoutMillis;
-            this.latch = createCountDownLatch();
         }
 
         @Override
-        public FirmwarePortState call() throws Exception {
-            DICommLog.d(DICommLog.FIRMWAREPORT, String.format(Locale.US, "StateWaitTask - start, state [%s]", this.initialState));
-
-            firmwarePort.addPortListener(firmwarePortListener);
-            firmwarePort.subscribe();
-
-            try {
-                if (latch.await(this.timeoutMillis, TimeUnit.MILLISECONDS)) {
-                    if (this.portState == null) {
-                        throw new IllegalStateException("Error obtaining port state.");
-                    }
-                    return this.portState;
-                } else {
-                    throw new TimeoutException();
-                }
-            } catch (InterruptedException e) {
-                throw e;
-            } finally {
-                DICommLog.d(DICommLog.FIRMWAREPORT, String.format(Locale.US, "StateWaitTask - end, state [%s]", this.portState));
-
-                firmwarePort.unsubscribe();
-                firmwarePort.removePortListener(firmwarePortListener);
-            }
+        public void onPortError(FirmwarePort port, Error error, String errorData) {
+            DICommLog.e(DICommLog.FIRMWAREPORT, String.format(Locale.US, "onPortError - error [%s], message [%s], state [%s]", error.toString(), errorData, initialState.toString()));
+            firmwarePort.removePortListener(firmwarePortListener);
+            firmwarePort.unsubscribe();
+            listener.onError(error.toString());
         }
-    }
+    };
 
-    public FirmwarePortStateWaiter(ExecutorService executor, FirmwarePort firmwarePort) {
-        this.executor = executor;
+    public FirmwarePortStateWaiter(@NonNull FirmwarePort firmwarePort, @NonNull CommunicationStrategy communicationStrategy, @NonNull FirmwarePortState initialState, @NonNull long timeoutMillis, @NonNull WaiterListener listener) {
         this.firmwarePort = firmwarePort;
+        this.communicationStrategy = communicationStrategy;
+        this.initialState = initialState;
+        this.timeoutMillis = timeoutMillis;
+        this.listener = listener;
     }
 
-    /**
-     * Wait for new state.
-     *
-     * @param initialState  the initial state
-     * @param timeoutMillis the timeout in milliseconds
-     * @return the new state
-     * @throws StateWaitException if an error occurred while waiting for the new state
-     */
-    @NonNull
-    public FirmwarePortState waitForNextState(FirmwarePortState initialState, long timeoutMillis) throws StateWaitException {
+    public void waitForNextState() {
         FirmwarePortProperties firmwarePortProperties;
         firmwarePortProperties = this.firmwarePort.getPortProperties();
 
         if (firmwarePortProperties != null) {
             final FirmwarePortState currentState = firmwarePortProperties.getState();
-            DICommLog.d(DICommLog.FIRMWAREPORT, String.format(Locale.US, "requested to waitForNextState - from [%s] to [%s]", initialState.toString(), currentState.toString()));
+            DICommLog.d(DICommLog.FIRMWAREPORT, String.format(Locale.US, "requested to waitForNextState - initiated in [%s], currently in [%s]", initialState.toString(), currentState.toString()));
 
             if (currentState != initialState) {
-                return currentState;
+                listener.onNewState(currentState);
+                return;
             }
         }
 
-        final StateWaitTask stateWaitTask = new StateWaitTask(initialState, timeoutMillis);
+        firmwarePort.addPortListener(firmwarePortListener);
+        communicationStrategy.subscribe(firmwarePort.getDICommPortName(), firmwarePort.getDICommProductId(), SUBSCRIPTION_TTL, new ResponseHandler() {
+            @Override
+            public void onSuccess(final String data) {
 
-        try {
-            final FirmwarePortState currentState = executor.submit(stateWaitTask).get();
-            DICommLog.d(DICommLog.FIRMWAREPORT, String.format(Locale.US, "done waitForNextState - from [%s] to [%s]", initialState.toString(), currentState.toString()));
-            return currentState;
-        } catch (ExecutionException | InterruptedException e) {
-            DICommLog.e(DICommLog.FIRMWAREPORT, "Exception caught while waiting for next state: " + e.getMessage());
-            throw new StateWaitException(e);
-        }
+            }
+
+            @Override
+            public void onError(final Error error, final String errorData) {
+
+            }
+        });
+
+        timeoutTask = new TimerTask() {
+            @Override
+            public void run() {
+                listener.onError("Timeout while waiting for next state.");
+            }
+        };
+        scheduleTask(timeoutTask);
     }
 
-    @NonNull
     @VisibleForTesting
-    CountDownLatch createCountDownLatch() {
-        return new CountDownLatch(1);
+    void scheduleTask(final TimerTask timeoutTask) {
+        new Timer().schedule(timeoutTask, timeoutMillis);
     }
 }
