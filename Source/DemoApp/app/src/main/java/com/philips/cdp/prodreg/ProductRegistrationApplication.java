@@ -11,6 +11,7 @@ import com.philips.cdp.prodreg.launcher.PRSettings;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URSettings;
@@ -35,7 +36,8 @@ public class ProductRegistrationApplication extends Application {
         initAppInfra();
         setLocale();
         initProductRegistration();
-        initRegistration(Configuration.EVALUATION);
+        initRegistration(Configuration.STAGING);
+        RLog.enableLogging();
     }
 
     private void initProductRegistration() {
@@ -51,7 +53,7 @@ public class ProductRegistrationApplication extends Application {
      * @param configuration The environment ype as required by UR
      */
     public void initRegistration(Configuration configuration) {
-        AppConfigurationInterface.AppConfigurationError configError = new
+        /*AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
         mAppInfraInterface.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
                         "RegistrationClientID." + Configuration.DEVELOPMENT
@@ -89,9 +91,9 @@ public class ProductRegistrationApplication extends Application {
                 UR,
                 configuration.getValue(),
                 configError);
-       /* System.out.println("Microsite Id : " + RegistrationConfiguration.getInstance().getMicrositeId());
+       *//* System.out.println("Microsite Id : " + RegistrationConfiguration.getInstance().getMicrositeId());
         System.out.println("Environment : " + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
-*/
+*//*
         mAppInfraInterface.
                 getConfigInterface().setPropertyForKey("Flow." +
                         "EmailVerificationRequired",
@@ -104,9 +106,9 @@ public class ProductRegistrationApplication extends Application {
                 UR,
                 "" + true,
                 configError);
-       /* System.out.println("Email verification : " + RegistrationConfiguration.getInstance().isEmailVerificationRequired());
+       *//* System.out.println("Email verification : " + RegistrationConfiguration.getInstance().isEmailVerificationRequired());
         System.out.println("Terms : " + RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired());
-*/
+*//*
         String minAge = "{ \"NL\":12 ,\"GB\":0,\"default\": 16}";
         mAppInfraInterface.
                 getConfigInterface().setPropertyForKey("Flow." +
@@ -144,7 +146,7 @@ public class ProductRegistrationApplication extends Application {
         SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
         editor.putString("reg_environment", configuration.getValue());
         editor.commit();
-
+*/
         String languageCode = Locale.getDefault().getLanguage();
         String countryCode = Locale.getDefault().getCountry();
 

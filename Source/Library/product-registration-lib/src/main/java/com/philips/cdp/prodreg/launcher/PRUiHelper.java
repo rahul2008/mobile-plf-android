@@ -55,6 +55,8 @@ public class PRUiHelper {
     private ProdRegUiListener prodRegUiListener;
     private Context context;
     private AppInfra appInfra;
+    private String mCountryCode;
+    private String mLocale;
 
     /*
      * Initialize everything(resources, variables etc) required for Product Registration.
@@ -224,4 +226,19 @@ public class PRUiHelper {
         return appInfraInterface;
     }
 
+    public String getCountryCode() {
+        return mCountryCode;
+    }
+
+    public void setCountryCode(String mCountryCode) {
+        this.mCountryCode = mCountryCode;
+    }
+
+    public String getLocale() {
+        return mLocale;
+    }
+
+    public void setLocale(String mLocale) {
+        this.mLocale = mLocale;
+    }
 }

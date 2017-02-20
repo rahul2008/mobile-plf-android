@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
@@ -201,6 +202,7 @@ public class RegistrationRequest extends PrxRequest {
 
     @Override
     public ResponseData getResponseData(JSONObject jsonObject) {
+        System.out.println("************ Request : "+jsonObject);
         return new RegistrationResponse().parseJsonResponseData(jsonObject);
     }
 
@@ -217,7 +219,7 @@ public class RegistrationRequest extends PrxRequest {
         Uri builtUri = Uri.parse(serviceURL)
                 .buildUpon()
                 .appendPath(getSector().name())
-                .appendPath(Locale.getDefault().getLanguage()+"_"+Locale.getDefault().getCountry())
+                .appendPath(PRUiHelper.getInstance().getLocale())
                 .appendPath(getCatalog().name())
                 .appendPath("products")
                 .appendPath(ctn + ".register.type.product")
@@ -237,15 +239,21 @@ public class RegistrationRequest extends PrxRequest {
         replaceUrl.put("ctn", ctn);
         replaceUrl.put("sector", this.getSector().toString());
         replaceUrl.put("catalog", this.getCatalog().toString());
+
         appInfra.getServiceDiscovery().getServiceUrlWithCountryPreference(serviceID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             public void onSuccess(URL url) {
                 PrxLogger.i("SUCCESS ***", "" + url);
-                Log.d(TAG, " Request URL " + getRequestUrl(url.toString()));
-                listener.onSuccess(getRequestUrl(url.toString()));
+                String chinaURL = url.toString();
+                if(PRUiHelper.getInstance().getCountryCode().equalsIgnoreCase("CN")){
+                    chinaURL = "https://acc.philips.com.cn/prx/registration/";
+                }
+               // String url1 = "https://acc.philips.com.cn/prx/registration/B2C/zh_CN/CONSUMER/products/XZ5810/70.register.type.product";
+                listener.onSuccess(getRequestUrl(chinaURL));
             }
 
             public void onError(ERRORVALUES error, String message) {
-                PrxLogger.i("ERRORVALUES ***", "" + message);
+                PrxLogger.i("Registration Request","*********** Registration Request :error :"+error.toString() + ":  message : "+message );
+                //PrxLogger.i("ERRORVALUES ***", "" + message);
                 listener.onError(error, message);
             }
         });
@@ -262,6 +270,10 @@ public class RegistrationRequest extends PrxRequest {
         String ACCESS_TOKEN_TAG = "x-accessToken";
         final Map<String, String> headers = new HashMap<>();
         headers.put(ACCESS_TOKEN_TAG, getAccessToken());
+        if(PRUiHelper.getInstance().getCountryCode().equalsIgnoreCase("CN")){
+            System.out.println("*********** Header Registered Request :CN");
+            headers.put("x-provider", "JANRAIN-CN");
+        }
         return headers;
     }
 

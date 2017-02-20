@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
@@ -28,6 +29,8 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import static com.philips.cdp.prodreg.launcher.PRUiHelper.getInstance;
 
 public class ProductMetadataRequest extends PrxRequest {
     private static final String TAG = ProductMetadataRequest.class.getSimpleName();
@@ -99,7 +102,7 @@ public class ProductMetadataRequest extends PrxRequest {
         Uri builtUri = Uri.parse(url)
                 .buildUpon()
                 .appendPath(this.getSector().toString())
-                .appendPath(Locale.getDefault().getLanguage()+"_"+Locale.getDefault().getCountry())
+                .appendPath(PRUiHelper.getInstance().getLocale())
                 .appendPath(this.getCatalog().toString())
                 .appendPath("products")
                 .appendPath(mCtn + ".metadata")
@@ -119,15 +122,21 @@ public class ProductMetadataRequest extends PrxRequest {
         replaceUrl.put("ctn", this.mCtn);
         replaceUrl.put("sector", this.getSector().toString());
         replaceUrl.put("catalog", this.getCatalog().toString());
+
         appInfra.getServiceDiscovery().getServiceUrlWithCountryPreference(this.mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-            public void onSuccess(URL url) {
+            public void onSuccess(final URL url) {
                 PrxLogger.i("SUCCESS ***", "" + url);
-                Log.d(TAG, " Request URL " + getRequestUrl(url.toString()));
-                listener.onSuccess(getRequestUrl(url.toString()));
+                String chinaURL = url.toString();
+                if(PRUiHelper.getInstance().getCountryCode().equalsIgnoreCase("CN")){
+                     chinaURL = "https://acc.philips.com.cn/prx/registration/";
+                }
+               // String url1 = "https://acc.philips.com.cn/prx/registration/B2C/zh_CN/CONSUMER/products/XZ5810/70.metadata";
+                listener.onSuccess(getRequestUrl(chinaURL));
             }
 
             public void onError(ERRORVALUES error, String message) {
-                PrxLogger.i("ERRORVALUES ***", "" + message);
+                PrxLogger.i("Product Meta","*********** Product Meta data :error :"+error.toString() + ":  message : "+message );
+                //PrxLogger.i("ERRORVALUES ***", "" + message);
                 listener.onError(error, message);
             }
         });

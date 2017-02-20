@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.summary.ProductSummaryResponse;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
@@ -93,7 +94,7 @@ public class ProductSummaryRequest extends PrxRequest {
         Uri builtUri = Uri.parse(url)
                 .buildUpon()
                 .appendPath(this.getSector().toString())
-                .appendPath(Locale.getDefault().getLanguage()+"_"+Locale.getDefault().getCountry())
+                .appendPath(PRUiHelper.getInstance().getLocale())
                 .appendPath(this.getCatalog().toString())
                 .appendPath("products")
                 .appendPath(mCtn + ".summary")
@@ -102,6 +103,7 @@ public class ProductSummaryRequest extends PrxRequest {
         try {
             retunUrl = java.net.URLDecoder.decode(retunUrl, "UTF-8");
         } catch (UnsupportedEncodingException e) {
+
             ProdRegLogger.e(TAG, e.getMessage());
         }
         ProdRegLogger.d(getClass() + "URl :", retunUrl);
@@ -116,13 +118,17 @@ public class ProductSummaryRequest extends PrxRequest {
         replaceUrl.put("catalog", this.getCatalog().toString());
         appInfra.getServiceDiscovery().getServiceUrlWithCountryPreference(this.mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             public void onSuccess(URL url) {
-                PrxLogger.i("SUCCESS ***", "" + url);
-                Log.d(TAG, " Request URL " + getRequestUrl(url.toString()));
-                listener.onSuccess(getRequestUrl(url.toString()));
+                String chinaURL = url.toString();
+                if(PRUiHelper.getInstance().getCountryCode().equalsIgnoreCase("CN")){
+                    chinaURL = "https://acc.philips.com.cn/prx/product/";
+                }
+                PrxLogger.i("SUCCESS ***", "" + chinaURL);
+                //String url1 = "https://acc.philips.com.cn/prx/product/B2C/zh_CN/CONSUMER/products/XZ5810/70.summary";
+                listener.onSuccess(getRequestUrl(chinaURL));
             }
 
             public void onError(ERRORVALUES error, String message) {
-                PrxLogger.i("ERRORVALUES ***", "" + message);
+                PrxLogger.i("ProductSummary","*********** ProductSummary :error :"+error.toString() + ":  message : "+message );
                 listener.onError(error, message);
             }
         });

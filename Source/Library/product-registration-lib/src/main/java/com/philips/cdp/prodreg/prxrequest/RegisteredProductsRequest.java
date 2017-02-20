@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponse;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
@@ -55,6 +56,7 @@ public class RegisteredProductsRequest extends PrxRequest {
 
     @Override
     public ResponseData getResponseData(JSONObject jsonObject) {
+        System.out.println("************ getResponseData : "+jsonObject.toString());
         return new RegisteredResponse().parseJsonResponseData(jsonObject);
     }
 
@@ -108,12 +110,20 @@ public void getRequestUrlFromAppInfra(AppInfraInterface appInfra, final PrxReque
     appInfra.getServiceDiscovery().getServiceUrlWithCountryPreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
         public void onSuccess(URL url) {
             PrxLogger.i("SUCCESS ***", "" + url);
-            Log.d(TAG, " Request URL " + getRequestUrl(url.toString()));
-            listener.onSuccess(getRequestUrl(url.toString()));
+
+            String chinaURL = url.toString();
+            if(PRUiHelper.getInstance().getCountryCode().equalsIgnoreCase("CN")){
+                chinaURL = "https://acc.philips.com.cn/prx/product/";
+            }
+            PrxLogger.i("SUCCESS ***", "" + chinaURL);
+           // String url1 = "https://acc.philips.com.cn/prx/registration.registeredProducts";
+            System.out.println("****** registration.registeredProducts : "+getRequestUrl(chinaURL));
+            listener.onSuccess(getRequestUrl(chinaURL));
         }
 
         public void onError(ERRORVALUES error, String message) {
-            PrxLogger.i("ERRORVALUES ***", "" + message);
+            PrxLogger.i("Registered Products Request","*********** ProductRequest :error :"+error.toString() + ":  message : "+message );
+            //PrxLogger.i("******* ERRORVALUES ***", "" + message);
             listener.onError(error, message);
         }
     });
@@ -128,6 +138,10 @@ public void getRequestUrlFromAppInfra(AppInfraInterface appInfra, final PrxReque
         String ACCESS_TOKEN_TAG = "x-accessToken";
         final Map<String, String> headers = new HashMap<>();
         headers.put(ACCESS_TOKEN_TAG, getAccessToken());
+        if(PRUiHelper.getInstance().getCountryCode().equalsIgnoreCase("CN")){
+            System.out.println("***** CHINA header");
+            headers.put("x-provider", "JANRAIN-CN");
+        }
         return headers;
     }
 
