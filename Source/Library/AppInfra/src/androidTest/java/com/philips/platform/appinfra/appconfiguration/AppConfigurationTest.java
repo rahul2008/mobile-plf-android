@@ -434,6 +434,7 @@ public class AppConfigurationTest extends MockitoTestCase {
         // set the previos file to old data with duplicate values
         sse = new SecureStorageInterface.SecureStorageError();
         ssi.storeValueForKey(mAppConfig_SecureStoreKeyOLD, oldData.toString(), sse);
+        ssi.removeValueForKey(mAppConfig_SecureStoreKey_NEW);
         // set the new file empty
         sse2 = new SecureStorageInterface.SecureStorageError();
         appConfigurationManager.migrateDynamicData();
@@ -546,6 +547,56 @@ public class AppConfigurationTest extends MockitoTestCase {
             };
             method.invoke(appConfigurationManager, listener);
 
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void testFetchCloudConfig() {
+        AppConfigurationManager appConfigurationManager = (AppConfigurationManager) mAppInfra.getConfigInterface();
+        Method method;
+        try {
+            method = AppConfigurationManager.class.getDeclaredMethod("fetchCloudConfig",String.class, AppConfigurationInterface.OnRefreshListener.class);
+            method.setAccessible(true);
+            AppConfigurationInterface.OnRefreshListener listener = new AppConfigurationInterface.OnRefreshListener() {
+                @Override
+                public void onError(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum error, String message) {
+                    Log.v("refreshCloudConfig", message);
+                }
+
+                @Override
+                public void onSuccess(REFRESH_RESULT result) {
+                    Log.v("refreshCloudConfig", result.toString());
+
+                }
+            };
+            method.invoke(appConfigurationManager,"url", listener);
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void testSaveCloudConfig(){
+        AppConfigurationManager appConfigurationManager = (AppConfigurationManager) mAppInfra.getConfigInterface();
+        Method method;
+        try {
+            method = AppConfigurationManager.class.getDeclaredMethod("saveCloudConfig",JSONObject.class, String.class);
+            method.setAccessible(true);
+           JSONObject jObject = new JSONObject();
+            method.invoke(appConfigurationManager,jObject, "url");
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void testClearCloudConfigFile(){
+        AppConfigurationManager appConfigurationManager = (AppConfigurationManager) mAppInfra.getConfigInterface();
+        Method method;
+        try {
+            method = AppConfigurationManager.class.getDeclaredMethod("clearCloudConfigFile");
+            method.setAccessible(true);
+            JSONObject jObject = new JSONObject();
+            method.invoke(appConfigurationManager);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
