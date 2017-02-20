@@ -83,14 +83,14 @@ dependencies {
         println("!!! taking local shinelib !!!")
         compile project(':bluelib')
     } else {
-        compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.3.1-SNAPSHOT.+')
+        compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.3.2-SNAPSHOT.+')
     }
 
     if (findProject(':commlib')) {
         println("!!! taking local commlib !!!")
         compile project(':commlib')
     } else {
-        compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '3.1.1-SNAPSHOT.+')
+        compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '3.1.2-SNAPSHOT.+')
     }
 
     testCompile deps.mockito
