@@ -92,7 +92,9 @@ public class SettingsDataFetcher extends DataFetcher {
         try {
             UCoreSettings settings = client.getSettings(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId(), UCoreAdapter.API_VERSION);
             Settings appSettings = settingsConverter.convertUcoreToAppSettings(settings);
-            eventing.post(new SettingsBackendSaveResponse(appSettings));
+            if(appSettings!=null) {
+                eventing.post(new SettingsBackendSaveResponse(appSettings));
+            }
         } catch (RetrofitError retrofitError) {
             eventing.post(new BackendDataRequestFailed(retrofitError));
         }

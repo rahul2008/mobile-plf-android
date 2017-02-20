@@ -50,6 +50,7 @@ public class SynchronisationManager implements SynchronisationChangeListener {
         isSyncComplete = true;
         if (mSynchronisationCompleteListner != null)
             mSynchronisationCompleteListner.onSyncFailed(e);
+        mSynchronisationCompleteListner = null;
     }
 
     @Override
@@ -57,6 +58,7 @@ public class SynchronisationManager implements SynchronisationChangeListener {
         isSyncComplete = true;
         if (mSynchronisationCompleteListner != null)
             mSynchronisationCompleteListner.onSyncFailed(e);
+        mSynchronisationCompleteListner = null;
     }
 
     @Override
@@ -64,10 +66,12 @@ public class SynchronisationManager implements SynchronisationChangeListener {
         isSyncComplete = true;
         if (mSynchronisationCompleteListner != null)
             mSynchronisationCompleteListner.onSyncComplete();
+        mSynchronisationCompleteListner = null;
     }
 
     public void stopSync() {
         isSyncComplete = true;
+        mSynchronisationCompleteListner = null;
     }
 
     void shutdownAndAwaitTermination(ExecutorService pool) {

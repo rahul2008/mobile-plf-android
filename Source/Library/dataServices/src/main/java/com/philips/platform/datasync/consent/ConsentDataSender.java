@@ -61,7 +61,7 @@ public class ConsentDataSender extends DataSender {
 
     @Override
     public boolean sendDataToBackend(@NonNull final List dataToSend) {
-          if (!dataToSend.isEmpty()) {
+          if (dataToSend!=null && !dataToSend.isEmpty()) {
               sendToBackend(new ArrayList<>(dataToSend));
         }
 
@@ -76,6 +76,10 @@ public class ConsentDataSender extends DataSender {
 
 
     private void sendToBackend(List<ConsentDetail> consentDetails) {
+
+        if(consentDetails == null || consentDetails.isEmpty()){
+            return;
+        }
         if (isUserInvalid()) {
             postError(1, getNonLoggedInError());
             return;
