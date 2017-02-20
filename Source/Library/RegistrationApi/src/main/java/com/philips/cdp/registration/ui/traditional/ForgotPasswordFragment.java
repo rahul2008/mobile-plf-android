@@ -39,6 +39,7 @@ import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.RegistrationSettingsURL;
 import com.philips.cdp.registration.ui.customviews.XButton;
 import com.philips.cdp.registration.ui.customviews.XEmail;
 import com.philips.cdp.registration.ui.customviews.XRegError;
@@ -133,8 +134,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
         mLlEmailField = (LinearLayout) view.findViewById(R.id.ll_reg_email_field_container);
         mRlContinueBtnContainer = (RelativeLayout) view
                 .findViewById(R.id.rl_reg_btn_continue_container);
-        mEtEmail.setHint(mContext.getResources().getString(R.string.reg_CreateAccount_Email_PhoneNumber));
-        mEtEmail.setInputType(InputType.TYPE_CLASS_TEXT);
+
+        mEtEmail.checkingEmailorMobileSignIn();
     }
 
     @Override

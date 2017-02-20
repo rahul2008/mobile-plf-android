@@ -173,8 +173,8 @@ public class RegConstants {
 
     //Forgot password
     public static final String RESET_PASSWORD_SMS_CLIENT_ID_STAG ="mfvjprjmgbrhfbtn6cq6q2yupzhxn977";
-    public static final String RESET_PASSWORD_SMS_CLIENT_ID_TEST ="4c5tqzbneykdw2md7mkp75uycp23x3qz";
-    public static final String RESET_PASSWORD_SMS_CLIENT_ID_PROD ="";//Temp: need to be updated with actual value
+    public static final String RESET_PASSWORD_SMS_CLIENT_ID_TEST ="v2s8qajf9ncfzsyy6ghjpqvsrju9xgvt";
+    public static final String RESET_PASSWORD_SMS_CLIENT_ID_PROD ="65dzkyh48ux4vcguhvwsgvtk4bzyh2va";
 
     public static final String TEST_RESET_PASSWORD_SMS_REDIRECT_URI = "https://tst.philips.com/c-w/user-registration/apps/reset-password.html";
     public static final String STAGE_RESET_PASSWORD_SMS_REDIRECT_URI = "https://acc.philips.com.cn/c-w/user-registration/apps/reset-password.html";
