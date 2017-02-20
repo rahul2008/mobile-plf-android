@@ -136,41 +136,8 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
     }
 
     @Override
-    public void onSuccess(List<? extends Object> data) {
+    public void onSuccess(ArrayList<? extends Object> data) {
         //Display User characteristics from DB
-        //Display User characteristics UI
-        if (data == null) return;
-        if (getActivity() == null) return;
-
-        final ArrayList<OrmCharacteristics> ormCharacteristicsList = (ArrayList<OrmCharacteristics>) data;
-
-        final List<Characteristics> parentList = new ArrayList<>();
-        for (Characteristics characteristics : ormCharacteristicsList) {
-            if (ormCharacteristicsList.size() > 0) {
-                parentList.add(characteristics);
-            }
-        }
-
-
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    UCoreUserCharacteristics uCoreCharacteristics = convertToUCoreUserCharacteristics(parentList);
-
-                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                    String jsonObj = gson.toJson(uCoreCharacteristics);
-
-                    DSLog.i(DSLog.LOG, "Inder AppUserCharacteristics onSuccess= " + jsonObj);
-                    mEtCharacteristics.setText(jsonObj);
-                } catch (Exception e) {
-                    DSLog.i(DSLog.LOG, "Inder Exception onSuccess= " + e.getMessage());
-                    e.printStackTrace();
-                }
-            }
-
-
-        });
     }
 
 
@@ -218,7 +185,39 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
 
     @Override
     public void onSuccess(final Object data) {
+        //Display User characteristics UI
+        if (data == null) return;
+        if (getActivity() == null) return;
 
+        final ArrayList<OrmCharacteristics> ormCharacteristicsList = (ArrayList<OrmCharacteristics>) data;
+
+        final List<Characteristics> parentList = new ArrayList<>();
+        for (Characteristics characteristics : ormCharacteristicsList) {
+            if (ormCharacteristicsList.size() > 0) {
+                parentList.add(characteristics);
+            }
+        }
+
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UCoreUserCharacteristics uCoreCharacteristics = convertToUCoreUserCharacteristics(parentList);
+
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                    String jsonObj = gson.toJson(uCoreCharacteristics);
+
+                    DSLog.i(DSLog.LOG, "Inder AppUserCharacteristics onSuccess= " + jsonObj);
+                    mEtCharacteristics.setText(jsonObj);
+                } catch (Exception e) {
+                    DSLog.i(DSLog.LOG, "Inder Exception onSuccess= " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+
+
+        });
     }
 
     @Override

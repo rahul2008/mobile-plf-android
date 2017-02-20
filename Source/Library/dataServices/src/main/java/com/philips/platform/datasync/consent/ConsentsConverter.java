@@ -32,8 +32,6 @@ public class ConsentsConverter {
         List<ConsentDetail> consentDetails =new ArrayList<>();
         for (UCoreConsentDetail uCoreConsentDetail : uCoreConsentDetails) {
             ConsentDetail consentDetail = dataCreator.createConsentDetail(uCoreConsentDetail.getName(), uCoreConsentDetail.getStatus(), uCoreConsentDetail.getDocumentVersion(), uCoreConsentDetail.getDeviceIdentificationNumber());
-
-            if(consentDetail == null) return null;
             consentDetails.add(consentDetail);
         }
 

@@ -7,7 +7,7 @@ package cdp.philips.com.mydemoapp.database;
 
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.SyncType;
+import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.datatypes.Settings;
 
 import com.philips.platform.core.datatypes.Moment;
@@ -81,7 +81,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             }
 
         }
-        updating.updateDCSync(SyncType.CONSENT.getId(),true);
+        updating.updateDCSync(OrmTableType.CONSENT.getId(),true);
         notifyDBRequestListener.notifySuccess(consentDetails, dbRequestListener);
         return true;
 
@@ -96,7 +96,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
                 OrmCharacteristics ormCharacteristics = OrmTypeChecking.checkOrmType(characteristics, OrmCharacteristics.class);
                 saving.saveCharacteristics(ormCharacteristics);
             }
-            updating.updateDCSync(SyncType.CHARACTERISTICS.getId(), false);
+            updating.updateDCSync(OrmTableType.CHARACTERISTICS.getId(), false);
             updateUCUI(characteristicsList, dbRequestListener);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {

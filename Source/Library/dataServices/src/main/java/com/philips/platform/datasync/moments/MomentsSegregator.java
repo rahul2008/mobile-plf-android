@@ -161,14 +161,9 @@ public class MomentsSegregator {
         }
     }
 
-    public Map<Class, List<?>> putMomentsForSync(final Map<Class, List<?>> dataToSync) {
+    public Map<Class, List<?>> putMomentsForSync(final Map<Class, List<?>> dataToSync) throws SQLException {
         DSLog.i("***SPO***", "In OrmFetchingInterfaceImpl before fetchNonSynchronizedMoments");
-        List<? extends Moment> ormMomentList = null;
-        try {
-            ormMomentList = (List<? extends Moment>) dbFetchingInterface.fetchNonSynchronizedMoments();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        List<? extends Moment> ormMomentList = (List<? extends Moment>) dbFetchingInterface.fetchNonSynchronizedMoments();
         DSLog.i("***SPO***", "In OrmFetchingInterfaceImpl dataToSync.put");
         dataToSync.put(Moment.class, ormMomentList);
         return dataToSync;

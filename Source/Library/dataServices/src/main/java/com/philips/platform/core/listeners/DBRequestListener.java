@@ -1,10 +1,10 @@
 package com.philips.platform.core.listeners;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface DBRequestListener {
 
-    void onSuccess(List<? extends Object> data);
+    void onSuccess(ArrayList<? extends Object> data);
 
     void onSuccess(Object data);
 

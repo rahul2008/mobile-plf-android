@@ -3,7 +3,7 @@ package com.philips.platform.datasync.settings;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.SyncType;
+import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.SyncBitUpdateRequest;
@@ -76,9 +76,6 @@ public class SettingsDataSender extends DataSender {
     }
 
     public void sendSettingsToBackend(Settings settings) {
-
-        if(settings==null) return;
-
         if (isUserInvalid()) {
             postError(1, getNonLoggedInError());
             return;
@@ -93,7 +90,7 @@ public class SettingsDataSender extends DataSender {
             Response response = appFrameworkClient.updateSettings(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId(), uCoreSettings);
 
             if (isResponseSuccess(response)) {
-                eventing.post(new SyncBitUpdateRequest(SyncType.SETTINGS, true));
+                eventing.post(new SyncBitUpdateRequest(OrmTableType.SETTINGS, true));
             }
 
         } catch (RetrofitError retrofitError) {

@@ -121,9 +121,6 @@ public class ConsentsDataFetcher extends DataFetcher {
             ArrayList<String> documentVersionList = new ArrayList<>();
 
             for (ConsentDetail consentDetail : consentDetails) {
-
-                if(consentDetail==null)return;
-
                 consentTypes.add(consentDetail.getType());
                 deviceIdentificationList.add(consentDetail.getDeviceIdentificationNumber());
                 documentVersionList.add(consentDetail.getVersion());
@@ -133,8 +130,6 @@ public class ConsentsDataFetcher extends DataFetcher {
                     deviceIdentificationList, documentVersionList);
             if (consentDetailList != null && !consentDetailList.isEmpty()) {
                 List<ConsentDetail> appConsentDetails = consentsConverter.convertToAppConsentDetails(consentDetailList);
-
-                if(appConsentDetails == null) return;
 
                 eventing.post(new ConsentBackendSaveResponse(appConsentDetails, HttpURLConnection.HTTP_OK, null));
             } else {

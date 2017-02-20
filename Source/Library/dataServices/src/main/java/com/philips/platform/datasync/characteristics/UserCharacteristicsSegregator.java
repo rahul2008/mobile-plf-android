@@ -5,7 +5,7 @@
 
 package com.philips.platform.datasync.characteristics;
 
-import com.philips.platform.core.datatypes.SyncType;
+import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -26,6 +26,6 @@ public class UserCharacteristicsSegregator {
     }
 
     public boolean isUCSynced() throws SQLException {
-        return dbFetchingInterface.isSynced(SyncType.CHARACTERISTICS.getId());
+        return dbFetchingInterface.isSynced(OrmTableType.CHARACTERISTICS.getId());
     }
 }

@@ -6,7 +6,6 @@ package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
@@ -81,29 +80,26 @@ public class FetchingMonitor extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventAsync(GetNonSynchronizedDataRequest event) {
         DSLog.i("***SPO***", "In Fetching Monitor GetNonSynchronizedDataRequest");
-
-        Map<Class, List<?>> dataToSync = new HashMap<>();
-
-        DSLog.i("***SPO***", "In Fetching Monitor before putMomentsForSync");
-        dataToSync = momentsSegregator.putMomentsForSync(dataToSync);
-
-        DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse");
-        dataToSync = consentsSegregator.putConsentForSync(dataToSync);
-
-        DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse for UC");
-
         try {
+            Map<Class, List<?>> dataToSync = new HashMap<>();
+
+            DSLog.i("***SPO***", "In Fetching Monitor before putMomentsForSync");
+            dataToSync = momentsSegregator.putMomentsForSync(dataToSync);
+
+            DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse");
+            dataToSync = consentsSegregator.putConsentForSync(dataToSync);
+
+            DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse for UC");
             dataToSync = dbInterface.putUserCharacteristicsForSync(dataToSync);
+
+            DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse for UC");
+            dataToSync = settingsSegregator.putSettingsForSync(dataToSync);
+
+            eventing.post(new GetNonSynchronizedDataResponse(event.getEventId(), dataToSync));
         } catch (SQLException e) {
-            e.printStackTrace();
-            dataToSync.put(Characteristics.class, null);
+            DSLog.i("***SPO***", "In Fetching Monitor before GetNonSynchronizedDataRequest error");
+            dbInterface.postError(e, null);
         }
-
-        DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse for UC");
-        dataToSync = settingsSegregator.putSettingsForSync(dataToSync);
-
-        eventing.post(new GetNonSynchronizedDataResponse(event.getEventId(), dataToSync));
-
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
@@ -134,22 +130,16 @@ public class FetchingMonitor extends EventMonitor {
     @Subscribe(sticky = true, threadMode = ThreadMode.BACKGROUND)
     public void onEventAsync(GetNonSynchronizedMomentsRequest event) {
         DSLog.i("**SPO**", "in Fetching Monitor GetNonSynchronizedMomentsRequest");
-
-        List<? extends Moment> ormMomentList = null;
-        List<? extends ConsentDetail> consentDetails = null;
         try {
-            ormMomentList = (List<? extends Moment>) dbInterface.fetchNonSynchronizedMoments();
-        } catch (SQLException e) {
-            //dbInterface.postError(e, event.getDbRequestListener());
-        }
+            List<? extends Moment> ormMomentList = (List<? extends Moment>) dbInterface.fetchNonSynchronizedMoments();
+            List<? extends ConsentDetail> consentDetails = (List<? extends ConsentDetail>) dbInterface.fetchConsentDetails();
 
-        try {
-            consentDetails = (List<? extends ConsentDetail>) dbInterface.fetchConsentDetails();
-        } catch (SQLException e) {
-            //dbInterface.postError(e, event.getDbRequestListener());
-        }
+            eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList, consentDetails));
 
-        eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList, consentDetails));
+
+        } catch (SQLException e) {
+            dbInterface.postError(e, event.getDbRequestListener());
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)

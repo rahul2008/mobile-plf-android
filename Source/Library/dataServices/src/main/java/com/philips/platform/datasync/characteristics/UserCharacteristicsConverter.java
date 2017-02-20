@@ -37,10 +37,6 @@ public class UserCharacteristicsConverter {
 
             Characteristics characteristics = dataCreator.createCharacteristics(type, value);
 
-            if(characteristics==null){
-                return null;
-            }
-
             characteristicsList.add(characteristics);
 
             convertUCoreCharacteristicsToCharacteristicsDetailRecursively(characteristicsList, characteristics,

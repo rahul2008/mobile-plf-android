@@ -30,7 +30,6 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import cdp.philips.com.mydemoapp.DataSyncApplication;
 import cdp.philips.com.mydemoapp.R;
@@ -230,7 +229,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     }
 
     @Override
-    public void onSuccess(final List<? extends Object> data) {
+    public void onSuccess(final ArrayList<? extends Object> data) {
 
         DSLog.i("***SPO***","On Sucess ArrayList TemperatureTimeLineFragment");
         if (getActivity() == null) return;
@@ -242,12 +241,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 mData = (ArrayList<? extends Moment>) data;
                 mAdapter.setData(mData);
                 mAdapter.notifyDataSetChanged();
-
-                if (mDataServicesManager.getSyncTypes()!=null && mDataServicesManager.getSyncTypes().size()<=0) {
-                    dismissProgressDialog();
-                    Toast.makeText(getContext(),"No Sync Types Configured",Toast.LENGTH_LONG).show();
-                    return;
-                }
 
                 if (mSharedPreferences.getBoolean("isSynced", false)) {
                     dismissProgressDialog();

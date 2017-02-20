@@ -15,17 +15,11 @@ import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
-import com.philips.platform.datasync.characteristics.UserCharacteristicsSender;
-import com.philips.platform.datasync.consent.ConsentDataSender;
-import com.philips.platform.datasync.moments.MomentsDataSender;
-import com.philips.platform.datasync.settings.SettingsDataSender;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -58,18 +52,6 @@ public class DataPushSynchronise extends EventMonitor {
 
     @NonNull
     private final AtomicInteger numberOfRunningSenders = new AtomicInteger(0);
-
-    @Inject
-    MomentsDataSender momentsDataSender;
-
-    @Inject
-    ConsentDataSender consentsDataSender;
-
-    @Inject
-    SettingsDataSender settingsDataSender;
-
-    @Inject
-    UserCharacteristicsSender userCharacteristicsSender;
 
 
     DataServicesManager mDataServicesManager;
@@ -128,18 +110,9 @@ public class DataPushSynchronise extends EventMonitor {
 
     private void startAllSenders(final GetNonSynchronizedDataResponse nonSynchronizedData) {
         DSLog.i("***SPO***", "DataPushSynchronize startAllSenders");
-
-        List<? extends DataSender> configurableSenders = getSenders();
-
-        if(configurableSenders.size()<=0){
-            DSLog.i("**SPO**", "In Data Push synchronize Zero Senders configured");
-            synchronisationManager.dataSyncComplete();
-            return;
-        }
-
-        initPush(configurableSenders.size());
+        initPush(senders.size());
         executor = Executors.newFixedThreadPool(20);
-        for (final DataSender sender : configurableSenders) {
+        for (final DataSender sender : senders) {
             executor.execute(new Runnable() {
                 @Override
                 public void run() {
@@ -169,33 +142,5 @@ public class DataPushSynchronise extends EventMonitor {
     private void initPush(int size) {
         DSLog.i("**SPO**","In Data Push synchronize initPush");
         numberOfRunningSenders.set(size);
-    }
-
-    private List<? extends DataSender> getSenders(){
-        Set<String> configurableSenders = mDataServicesManager.getSyncTypes();
-
-        if(configurableSenders == null){
-            return senders;
-        }
-
-        ArrayList<DataSender> dataSenders = new ArrayList<>();
-
-        for (String sender : configurableSenders){
-            switch (sender){
-                case "moment":
-                    dataSenders.add(momentsDataSender);
-                    break;
-                case "Settings":
-                    dataSenders.add(settingsDataSender);
-                    break;
-                case "characteristics":
-                    dataSenders.add(userCharacteristicsSender);
-                    break;
-                case "consent":
-                    dataSenders.add(consentsDataSender);
-                    break;
-            }
-        }
-        return dataSenders;
     }
 }

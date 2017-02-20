@@ -3,7 +3,7 @@ package com.philips.platform.core.monitors;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Moment;
-import com.philips.platform.core.datatypes.SyncType;
+import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
@@ -96,7 +96,7 @@ public class UpdatingMonitor extends EventMonitor {
 
             if(dbUpdatingInterface.updateConsent(consentUpdateRequest.getConsentDetails(),consentUpdateRequest.getDbRequestListener()))
             {
-                dbUpdatingInterface.updateSyncBit(SyncType.CONSENT.getId(),false);
+                dbUpdatingInterface.updateSyncBit(OrmTableType.CONSENT.getId(),false);
                 eventing.post(new ConsentBackendSaveRequest((new ArrayList<>(consentUpdateRequest.getConsentDetails())), ConsentBackendSaveRequest.RequestType.SAVE));
             }
 
@@ -148,7 +148,7 @@ public class UpdatingMonitor extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final ConsentBackendSaveResponse consentBackendSaveResponse) throws SQLException {
         try {
-            if(dbFetchingInterface.isSynced(SyncType.CONSENT.getId())) {
+            if(dbFetchingInterface.isSynced(OrmTableType.CONSENT.getId())) {
                 dbUpdatingInterface.updateConsent(consentBackendSaveResponse.getConsentDetailList(), null);
             }
         }catch (SQLException e){
@@ -171,7 +171,7 @@ public class UpdatingMonitor extends EventMonitor {
     public void onEventAsync(final DatabaseSettingsUpdateRequest databaseSettingsUpdateRequest) throws SQLException{
         try{
             dbUpdatingInterface.updateSettings(databaseSettingsUpdateRequest.getSettings(), databaseSettingsUpdateRequest.getDbRequestListener());
-            dbUpdatingInterface.updateSyncBit(SyncType.SETTINGS.getId(),false);
+            dbUpdatingInterface.updateSyncBit(OrmTableType.SETTINGS.getId(),false);
             eventing.post(new SettingsBackendSaveRequest(databaseSettingsUpdateRequest.getSettings()));
         }catch (SQLException e){
             dbUpdatingInterface.updateFailed(e, databaseSettingsUpdateRequest.getDbRequestListener());
@@ -190,7 +190,7 @@ public class UpdatingMonitor extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final SettingsBackendSaveResponse settingsBackendSaveResponse) throws SQLException{
         try{
-            if(dbFetchingInterface.isSynced(SyncType.SETTINGS.getId())){
+            if(dbFetchingInterface.isSynced(OrmTableType.SETTINGS.getId())){
                 dbUpdatingInterface.updateSettings(settingsBackendSaveResponse.getSettings(),null);
             }
 
