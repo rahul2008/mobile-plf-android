@@ -151,7 +151,7 @@ public class RequestManager {
 
                     JSONObject platformObject = new JSONObject(platformCache);
                     ServiceDiscovery platformService = parseResponse(platformObject);
-                    cachedResponse = new AISDResponse();
+                    cachedResponse = new AISDResponse(mAppInfra);
                     cachedResponse.setPropositionURLs(propostionService);
                     cachedResponse.setPlatformURLs(platformService);
                     return cachedResponse;

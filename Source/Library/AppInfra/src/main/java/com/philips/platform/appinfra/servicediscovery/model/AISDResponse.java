@@ -1,5 +1,8 @@
 package com.philips.platform.appinfra.servicediscovery.model;
 
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +19,12 @@ public class AISDResponse {
     private ServiceDiscovery platformURLs = null;
     private ServiceDiscovery propositionURLs = null;
     private final String SDEmptyURL = "https://delete.delete";
+    private AppInfra mAppInfra;
 
+
+     public AISDResponse(AppInfra appInfra) {
+         this.mAppInfra = appInfra;
+     }
 
     public ServiceDiscovery getPlatformURLs() {
         return platformURLs;
@@ -36,23 +44,30 @@ public class AISDResponse {
 
     public URL getServiceURL(String serviceId, AISDPreference preference,
                              Map<String, String> replacement) {
-        URL url;
+        URL propositionUrl = null, platformUrl = null;
         if (getPropositionURLs() != null) {
-            url = getPropositionURLs().getServiceURLWithServiceID(serviceId, preference, replacement);
-            if (url != null) {
-                if (url.toString().equalsIgnoreCase(SDEmptyURL))
-                    return null;
-                else
-                    return url;
-            }
+            propositionUrl = getPropositionURLs().getServiceURLWithServiceID(serviceId, preference, replacement);
         }
         if (getPlatformURLs() != null) {
-            url = getPlatformURLs().getServiceURLWithServiceID(serviceId, preference, replacement);
-            if (url != null) {
-                return url;
-            }
+            platformUrl = getPlatformURLs().getServiceURLWithServiceID(serviceId, preference, replacement);
         }
-        return null;
+
+        if(propositionUrl != null && platformUrl != null) {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO , "Service Discovery" ,
+                    "Platform URL is overriden by proposition URL ");
+        }
+
+        if(propositionUrl != null) {
+            if (propositionUrl.toString().equalsIgnoreCase(SDEmptyURL)) {
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Service Discovery" ,
+                        "Proposition has empty UTL , So ignoring platform URL");
+                return null;
+            }
+            return propositionUrl;
+
+        }
+
+        return platformUrl;
     }
 
     public HashMap<String, ServiceDiscoveryService> getServicesUrl(ArrayList<String> serviceIds,
@@ -70,8 +85,18 @@ public class AISDResponse {
         }
 
         for (String serviceId : serviceIds) {
-            if (propositionResponse != null) {
+            if (propositionResponse != null && platformResponse !=null) {
                 ServiceDiscoveryService propositionService = propositionResponse.get(serviceId);
+                ServiceDiscoveryService platformService = platformResponse.get(serviceId);
+
+                if(propositionService != null && platformService != null) {
+                    if(propositionService.getConfigUrls() != null && platformService.getConfigUrls() != null) {
+                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"Service Discovery" ,
+                                "Platform URL is overridden by proposition URL for serviceId"+" "+serviceId);
+                    }
+                }
+
+
                 if (propositionService != null && propositionService.getConfigUrls() != null) {
                     if (propositionService.getConfigUrls().equalsIgnoreCase(SDEmptyURL)) {
                         propositionService.setConfigUrl(null);
@@ -79,12 +104,9 @@ public class AISDResponse {
                     }
                     response.put(serviceId, propositionService);
                 } else {
-                    if(platformResponse != null) {
-                        ServiceDiscoveryService platformService = platformResponse.get(serviceId);
                         if(platformService != null) {
                             response.put(serviceId,platformService);
                         }
-                    }
                 }
             }
         }
