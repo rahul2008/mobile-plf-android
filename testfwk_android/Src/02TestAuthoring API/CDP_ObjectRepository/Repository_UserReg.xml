@@ -22,6 +22,7 @@
     <SigninName>Sign in</SigninName>
     <AllowName>Allow</AllowName>
     <Signout>Sign out</Signout>
+    <GoogleSignIn>android.widget.Button</GoogleSignIn>
   </Name>
   
   <ClassName>
@@ -32,7 +33,7 @@
     <EnterEmail>Enter your email</EnterEmail>
     <NextEmail>Next</NextEmail>
     <GetMergeHeader>Merge your accounts</GetMergeHeader>
-    <SignInText>Sign In</SignInText>
+    <SignInText>signIn</SignInText>
   </ClassName>
   <LoginScreen>
     <countrycode>com.philips.platform.referenceapp:id/tv_country_displat</countrycode>

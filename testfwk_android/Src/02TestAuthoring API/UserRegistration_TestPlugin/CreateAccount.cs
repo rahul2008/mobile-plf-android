@@ -35,7 +35,8 @@ namespace UserRegistration_TestPlugin
             Activated_Account,
             Resend,
             URContinue,
-            LoogedIn_Continue
+            LoogedIn_Continue,
+            GoogleSignIn
         }
 
         public enum TextBox
@@ -179,8 +180,10 @@ namespace UserRegistration_TestPlugin
             if (btn == Button.URContinue)
                 _instance.ClickById(UserRegistration.Android.CreateAccount.URContinue);
             if (btn == Button.LoogedIn_Continue)
-                _instance.ClickById(UserRegistration.Android.HomeScreen.Loggedin_Continue);                
-                
+                _instance.ClickById(UserRegistration.Android.HomeScreen.Loggedin_Continue);
+            if (btn == Button.GoogleSignIn)
+                _instance.GetElement(SearchBy.ClassName, UserRegistration.Android.HomeScreen.LogintoGoogle).Click();
+               
 
         }
 

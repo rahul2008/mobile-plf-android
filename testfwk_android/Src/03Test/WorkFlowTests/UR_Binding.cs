@@ -255,7 +255,8 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
                 if (b == true)
                 {
                     LoginGooglePlus.Enter_Details(p0, p1);
-                    LoginGooglePlus.Click(LoginGooglePlus.Button.SignIn);
+                    MobileDriver.FireKeyEvent(4);
+                    CreateAccount.Click(CreateAccount.Button.GoogleSignIn);
                     Thread.Sleep(10000);
                     LoginGooglePlus.Click(LoginGooglePlus.Button.Allow);
                     Thread.Sleep(15000);
@@ -263,7 +264,8 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
                 else
                 {
                     LoginGooglePlus.Enter_Password(p1);
-                    LoginGooglePlus.Click(LoginGooglePlus.Button.SignIn);
+                    MobileDriver.FireKeyEvent(4);
+                    CreateAccount.Click(CreateAccount.Button.GoogleSignIn);
                     Thread.Sleep(10000);
                     LoginGooglePlus.Click(LoginGooglePlus.Button.Allow);
                     Thread.Sleep(15000);
@@ -415,6 +417,7 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
             {
                 LoginFacebook.Wait();
                 LoginFacebook.Enter_FBDetails(p0, p1);
+                MobileDriver.FireKeyEvent(4);
                 Thread.Sleep(8000);
                 LoginFacebook.Click(LoginFacebook.Button.LogIn);
                 Thread.Sleep(10000);
