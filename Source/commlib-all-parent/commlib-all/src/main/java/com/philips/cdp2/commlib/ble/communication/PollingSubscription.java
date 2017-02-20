@@ -83,6 +83,7 @@ class PollingSubscription implements Runnable {
             try {
                 latch.await();
             } catch (InterruptedException ignored) {
+                // Just means the next getProps will get scheduled a bit early
             }
         }
     }

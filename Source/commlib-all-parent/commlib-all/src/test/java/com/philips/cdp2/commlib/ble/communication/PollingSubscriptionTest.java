@@ -4,6 +4,7 @@
  */
 package com.philips.cdp2.commlib.ble.communication;
 
+import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp2.commlib.ble.communication.PollingSubscription.Callback;
 import com.philips.commlib.core.communication.CommunicationStrategy;
@@ -22,6 +23,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static junit.framework.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyInt;
@@ -30,6 +32,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -37,19 +40,19 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class PollingSubscriptionTest {
 
     @Mock
-    ScheduledExecutorService executor;
+    ScheduledExecutorService mockExecutor;
 
     @Mock
-    CommunicationStrategy strategy;
+    CommunicationStrategy mockStrategy;
 
     @Mock
-    ResponseHandler responseHandler;
+    ResponseHandler mockResponseHandler;
 
     @Mock
-    ScheduledFuture<?> future;
+    ScheduledFuture<?> mockFuture;
 
     @Mock
-    CountDownLatch countDownLatch;
+    CountDownLatch mockCountDownLatch;
 
     @Mock
     private Callback mockCallback;
@@ -68,10 +71,10 @@ public class PollingSubscriptionTest {
     public void setUp() {
         initMocks(this);
 
-        when(executor.scheduleWithFixedDelay(any(Runnable.class), anyLong(), anyLong(), any(TimeUnit.class))).thenAnswer(new Answer<ScheduledFuture<?>>() {
+        when(mockExecutor.scheduleWithFixedDelay(any(Runnable.class), anyLong(), anyLong(), any(TimeUnit.class))).thenAnswer(new Answer<ScheduledFuture<?>>() {
             @Override
             public ScheduledFuture<?> answer(InvocationOnMock invocation) throws Throwable {
-                return future;
+                return mockFuture;
             }
         });
 
@@ -81,9 +84,9 @@ public class PollingSubscriptionTest {
                 capturedHandlers.add(invocation.getArgumentAt(2, ResponseHandler.class));
                 return null;
             }
-        }).when(strategy).getProperties(anyString(), anyInt(), any(ResponseHandler.class));
+        }).when(mockStrategy).getProperties(anyString(), anyInt(), any(ResponseHandler.class));
 
-        pollerUnderTest = new PollingSubscription(strategy, executor, portParameters, 500, 5000, responseHandler) {
+        pollerUnderTest = new PollingSubscription(mockStrategy, mockExecutor, portParameters, 500, 5000, mockResponseHandler) {
             @Override
             long currentTimeMillis() {
                 return currentTime.get(0);
@@ -91,21 +94,21 @@ public class PollingSubscriptionTest {
 
             @Override
             CountDownLatch createCountdownLatch() {
-                return countDownLatch;
+                return mockCountDownLatch;
             }
         };
     }
 
     @Test
     public void whenCreated_thenSubscriptionIsScheduled() {
-        verify(executor).scheduleWithFixedDelay(pollerUnderTest, 0L, 500L, MILLISECONDS);
+        verify(mockExecutor).scheduleWithFixedDelay(pollerUnderTest, 0L, 500L, MILLISECONDS);
     }
 
     @Test
     public void whenRunning_thenCallesGetProperties() {
         pollerUnderTest.run();
 
-        verify(strategy).getProperties(eq("testPort"), eq(42), isA(ResponseHandler.class));
+        verify(mockStrategy).getProperties(eq("testPort"), eq(42), isA(ResponseHandler.class));
     }
 
     @Test
@@ -114,7 +117,7 @@ public class PollingSubscriptionTest {
 
         pollerUnderTest.run();
 
-        verify(future).cancel(anyBoolean());
+        verify(mockFuture).cancel(anyBoolean());
     }
 
     @Test
@@ -125,5 +128,65 @@ public class PollingSubscriptionTest {
         pollerUnderTest.run();
 
         verify(mockCallback).onCancel();
+    }
+
+    @Test
+    public void whenRunningJustBeforeTTL_thenCallbackIsNotCalled() {
+        currentTime.add(0, 5000L);
+        pollerUnderTest.addCancelCallback(mockCallback);
+
+        pollerUnderTest.run();
+
+        verify(mockCallback, never()).onCancel();
+    }
+
+    @Test
+    public void whenHandlerOnSuccessCalled_thenLatchCountdown() throws Exception {
+        pollerUnderTest.run();
+
+        capturedHandlers.get(0).onSuccess("");
+
+        verify(mockCountDownLatch).countDown();
+    }
+
+    @Test
+    public void whenHandlerOnErrorCalled_thenLatchCountdown() throws Exception {
+        pollerUnderTest.run();
+
+        capturedHandlers.get(0).onError(null, "");
+
+        verify(mockCountDownLatch).countDown();
+    }
+
+    @Test
+    public void whenHandlerOnSuccessCalled_thenExternalHandlerCalled() throws Exception {
+        pollerUnderTest.run();
+
+        capturedHandlers.get(0).onSuccess("TEST");
+
+        verify(mockResponseHandler).onSuccess("TEST");
+    }
+
+    @Test
+    public void whenHandlerOnErrorCalled_thenExternalHandlerCalled() throws Exception {
+        pollerUnderTest.run();
+
+        capturedHandlers.get(0).onError(Error.IOEXCEPTION, "TEST");
+
+        verify(mockResponseHandler).onError(Error.IOEXCEPTION, "TEST");
+    }
+
+    @Test
+    public void whenRunning_thenAwaitsCountdown() throws Exception {
+        pollerUnderTest.run();
+
+        verify(mockCountDownLatch).await();
+    }
+
+    @Test
+    public void whenCreatingCountDownLatch_thenCreatesCountDownLatchWithValueOne() throws Exception {
+        CountDownLatch countdownLatch = new PollingSubscription(mockStrategy, mockExecutor, portParameters, 500, 5000, mockResponseHandler).createCountdownLatch();
+
+        assertEquals(1, countdownLatch.getCount());
     }
 }
