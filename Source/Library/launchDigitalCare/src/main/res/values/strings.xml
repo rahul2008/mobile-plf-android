@@ -236,7 +236,7 @@
     <string name="app_not_description">DigitalCare Library is dependent on &quot;v4 library&quot;.&quot; Additionally you can personalize the &quot;DigitalCare Component&quot; by modifying the &quot;DigitalCare_Config.xml&quot; under res>values.</string>
     <string name="app_note">Note:</string>
     <string name="lanuauge">Langauage :</string>
-    <string name="country">Country :</string>
+    <string name="country">Set Country</string>
 
 
     <string-array name="category">

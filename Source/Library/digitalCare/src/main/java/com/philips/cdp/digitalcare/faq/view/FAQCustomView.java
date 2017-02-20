@@ -9,7 +9,6 @@
 package com.philips.cdp.digitalcare.faq.view;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
@@ -406,17 +405,19 @@ public class FAQCustomView implements Serializable {
                     Locale locale = DigitalCareConfigManager.getInstance().
                             getLocaleMatchResponseWithCountryFallBack();
                     String languageCode = locale.getLanguage();
+/*
 
                     if (languageCode.equalsIgnoreCase("en")) {
                         map.put(questionCategory, engFaqQuestionModelList);
                     } else {
+*/
 
                         if (nonEngfaqQuestionModelList.size() != 0) {
                             map.put(questionCategory, nonEngfaqQuestionModelList);
                         } else {
                             map.put(questionCategory, engFaqQuestionModelList);
                         }
-                    }
+                    //}
                 }
             }
             return map;

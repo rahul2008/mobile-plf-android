@@ -3,7 +3,6 @@ package com.philips.cdp.sampledigitalcare.launcher.uAppComponetLaunch;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
@@ -16,7 +15,6 @@ import com.philips.cdp.digitalcare.CcDependencies;
 import com.philips.cdp.digitalcare.CcInterface;
 import com.philips.cdp.digitalcare.CcLaunchInput;
 import com.philips.cdp.digitalcare.CcSettings;
-import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.listeners.CcListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.localematch.enums.Catalog;
@@ -25,11 +23,12 @@ import com.philips.cdp.productselection.productselectiontype.HardcodedProductLis
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cl.di.dev.pa.R;
-//import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.appinfra.AppInfraInterface;
+
+//import com.philips.platform.appinfra.AppInfraSingleton;
 
 /**
  * SampleActivity is the main container class which can contain Digital Care fragments.
@@ -141,7 +140,7 @@ public class MicroAppFragmentActivity extends UiKitActivity implements View.OnCl
             }
             enableActionBarHome();
 
-            DigitalCareConfigManager.getInstance();
+           // DigitalCareConfigManager.getInstance();
             mFragmentManager = getSupportFragmentManager();
         }
     }

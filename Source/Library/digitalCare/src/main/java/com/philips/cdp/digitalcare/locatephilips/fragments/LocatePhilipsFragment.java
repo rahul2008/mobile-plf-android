@@ -85,6 +85,7 @@ import com.philips.cdp.digitalcare.request.ResponseCallback;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.Utils;
+import com.philips.cdp.productselection.utils.Constants;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.net.URL;
@@ -301,20 +302,20 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     protected String getAtosUrl(String ctn, String subcategory, String country) {
 
         HashMap<String,String> hm=new HashMap<String,String>();
-        hm.put("productSubCategory",""+subcategory);
-        hm.put("lattitude",""+mSourceLat);
-        hm.put("longitude",""+mSourceLng);
+        hm.put(DigitalCareConstants.KEY_PRODUCT_SUBCATEGORY, subcategory);
+        hm.put(DigitalCareConstants.KEY_LATITUDE,""+mSourceLat);
+        hm.put(DigitalCareConstants.KEY_LONGITUDE,""+mSourceLng);
 
-        DigitalCareConfigManager.getInstance().getAPPInfraInstance().getServiceDiscovery().getServiceUrlWithCountryPreference("cc.atos", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+        DigitalCareConfigManager.getInstance().getAPPInfraInstance().getServiceDiscovery().getServiceUrlWithCountryPreference(DigitalCareConstants.SERVICE_ID_CC_ATOS, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onSuccess(URL url) {
-                Log.i("ServiceDiscoveryurl","Locate Philips fragment - url - "+url);
+                DigiCareLogger.v(TAG,"Response from Service Discovery : Service ID : 'cc.atos' - "+url);
                 DigitalCareConfigManager.getInstance().setAtosUrl(url.toString());
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-
+                DigiCareLogger.v(TAG,"Error Response from Service Discovery :"+s);
             }
         }, hm);
 

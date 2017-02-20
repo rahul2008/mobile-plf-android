@@ -1,7 +1,6 @@
 package com.philips.cdp.digitalcare;
 
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.productselection.launchertype.FragmentLauncher;
@@ -29,17 +28,17 @@ public class CcInterface implements UappInterface {
         CcSettings ccSettings = (CcSettings) uappSettings;
         CcDependencies ccDependencies = (CcDependencies) uappDependencies;
 
-
         ccDependencies.getAppInfra().getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {
                 DigitalCareConfigManager.getInstance().setCountry(s);
-                Log.i("sdlocale","inside ccInterface  "+s);
+                //Log.i("sdlocale","inside ccInterface - getHomeCountry : "+s);
+                DigiCareLogger.v(TAG,"Response from Service Discovery : getHomeCountry() - "+s);
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-
+                DigiCareLogger.v(TAG,"Error response from Service Discovery : getHomeCountry() - "+s);
             }
         });
 

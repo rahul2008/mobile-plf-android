@@ -63,6 +63,22 @@ public class DigitalCareConstants {
 
     public static final String DIGITALCARE_FRAGMENT_TAG = "digitalcare";
 
+    public static final String SERVICE_ID_CC_CDLS = "cc.cdls";
+    public static final String SERVICE_ID_CC_EMAILFROMURL = "cc.emailformurl";
+    public static final String SERVICE_ID_CC_PRX_CATEGORY = "cc.prx.category";
+    public static final String SERVICE_ID_CC_PRODUCTREVIEWURL = "cc.productreviewurl";
+    public static final String SERVICE_ID_CC_ATOS = "cc.atos";
+
+    public static final String KEY_PRODUCT_SECTOR = "productSector";
+    public static final String KEY_PRODUCT_CATALOG = "productCatalog";
+    public static final String KEY_PRODUCT_CATEGORY = "productCategory";
+    public static final String KEY_PRODUCT_SUBCATEGORY = "productSubCategory";
+    public static final String KEY_PRODUCT_SUBCATEGORY_PRX = "productSubcategory";
+    public static final String KEY_PRODUCT_REVIEWURL = "productReviewURL";
+    public static final String KEY_APPNAME = "appName";
+    public static final String KEY_LATITUDE = "lattitude";
+    public static final String KEY_LONGITUDE = "longitude";
+
 
 
     public static final String VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_PDF_DOWNLOAD = "Philips_Manual";

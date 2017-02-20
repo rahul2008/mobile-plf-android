@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.philips.cdp.digitalcare.CcDependencies;
 import com.philips.cdp.digitalcare.CcInterface;
@@ -40,6 +41,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.android.volley.Request.Method.HEAD;
+
 //import com.philips.platform.appinfra.AppInfraSingleton;
 
 /*
@@ -62,8 +65,8 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
     private SampleAdapter adapter = null;
 
 
-    private Spinner mLanguage_spinner, mCountry_spinner;
-    private String mLanguage[], mCountry[], mlanguageCode[], mcountryCode[];
+    private Spinner mCountry_spinner;
+    private String mCountry[], mcountryCode[];
     private CcSettings ccSettings;
     private CcLaunchInput ccLaunchInput;
     private AppInfraInterface mAppInfraInterface;
@@ -83,14 +86,6 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         // set listener
         mLaunchDigitalCare.setOnClickListener(this);
         mLaunchAsFragment.setOnClickListener(this);
-
-        // setting language spinner
-        mLanguage_spinner = (Spinner) findViewById(R.id.spinner1);
-        mLanguage = getResources().getStringArray(R.array.Language);
-        mlanguageCode = getResources().getStringArray(R.array.Language_code);
-        ArrayAdapter<String> mLanguage_adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, mLanguage);
-        mLanguage_spinner.setAdapter(mLanguage_adapter);
 
         // setting country spinner
         mCountry_spinner = (Spinner) findViewById(R.id.spinner2);
@@ -137,17 +132,19 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
     protected void onResume() {
         super.onResume();
 
-        mLanguage_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        final TextView tv = (TextView) findViewById(R.id.textViewCurrentCountry);
+        mAppInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                initializeDigitalCareLibrary();
+            public void onSuccess(String s, SOURCE source) {
+                tv.setText("Country from Service Discovery : " +s);
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onError(ERRORVALUES errorvalues, String s) {
 
             }
         });
+
 
         mCountry_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -181,7 +178,6 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         mRecyclerView.setLayoutManager(layoutManager);
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
                 layoutManager.getOrientation());
-//        mDividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.list_divider));
         mRecyclerView.addItemDecoration(mDividerItemDecoration);
         return adapter;
     }
@@ -218,16 +214,13 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         });
     }
 
-
     private void initializeDigitalCareLibrary() {
+/*
 
-       /* if (AppInfraSingleton.getInstance() == null)
-            AppInfraSingleton.setInstance(new AppInfra.Builder().build(this));*/
-//  localeManager.setInputLocale("ar", "SA");
-       // PILLocaleManager localeManager = new PILLocaleManager(this);
-        //localeManager.setInputLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()],
-          //      mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
-
+        if(!(mCountry_spinner.getSelectedItemId() == 0)){
+            mAppInfraInterface.getServiceDiscovery().setHomeCountry(mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
+        }
+*/
         if(mAppInfraInterface == null) {
             mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
         }
@@ -342,8 +335,6 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                         ccInterface.launch(activityLauncher, ccLaunchInput);
                     }
                 });
-              /*  } else
-                    Toast.makeText(this, "CTN list is null", Toast.LENGTH_SHORT).show();*/
                 break;
 
             case R.id.launchAsFragment:

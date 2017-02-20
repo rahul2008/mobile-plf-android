@@ -66,8 +66,10 @@ public class DigitalCareConfigManager {
     private String atosUrl = null;
     private String emailUrl = null;
     private String productReviewUrl = null;
+
     private String country = null;
 
+    private String localeFromSeviceDiscovery = null;
     /*
      * Initialize everything(resources, variables etc) required for DigitalCare.
      * Hosting app, which will integrate this DigitalCare, has to pass app
@@ -306,7 +308,7 @@ public class DigitalCareConfigManager {
         AppInfraInterface appInfraInstance = getAPPInfraInstance();
         if (appInfraInstance != null) {
             loggingInterface = appInfraInstance.getLogging().
-                    createInstanceForComponent("com.philips.cdp.digitalcare", "6.0.0");
+                    createInstanceForComponent("com.philips.cdp.digitalcare", "7.2.0");
         }
         return loggingInterface;
     }
@@ -462,6 +464,13 @@ public class DigitalCareConfigManager {
         this.productReviewUrl = productReviewUrl;
     }
 
+    public String getLocaleFromSeviceDiscovery() {
+        return localeFromSeviceDiscovery;
+    }
+
+    public void setLocaleFromSeviceDiscovery(String localeFromSeviceDiscovery) {
+        this.localeFromSeviceDiscovery = localeFromSeviceDiscovery;
+    }
 
     public String getCountry() {
         return country;
