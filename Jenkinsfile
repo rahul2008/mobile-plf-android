@@ -4,10 +4,11 @@
 
 
 BranchName = env.BRANCH_NAME
+JENKINS_ENV = env.JENKINS_ENV
 
 properties([
     [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy']]],
-    [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '50']]
+    [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']]
 ])
 
 def MailRecipient = 'DL_CDP2_Callisto@philips.com,DL_App_chassis@philips.com'
@@ -26,15 +27,19 @@ node ('android_pipeline &&' + node_ext) {
 		try {
 		if (BranchName =~ /master|develop|release.*/) {
 			stage ('build') {
-                sh 'chmod -R 755 . && cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew clean assembleDebug && ../../check_and_delete_artifact.sh "digitalCare" && ./gradlew lint cC assembleRelease zipDocuments artifactoryPublish'
+                sh 'chmod -R 755 . && cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} lint cC assembleRelease zipDocuments artifactoryPublish'
 			}
 			}
 			else
 			{
 			stage ('build') {
-				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew clean assembleDebug assembleRelease'
+				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug assembleRelease'
 			}
 			}
+			stage ('save dependencies list') {
+            	sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
+            }
+            archiveArtifacts '**/dependencies.lock'
             currentBuild.result = 'SUCCESS'
         }
 
