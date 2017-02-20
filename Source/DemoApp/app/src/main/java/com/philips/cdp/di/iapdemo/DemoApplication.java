@@ -2,14 +2,17 @@ package com.philips.cdp.di.iapdemo;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.os.LocaleList;
 import android.util.Log;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.HSDPInfo;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URSettings;
@@ -18,12 +21,9 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.squareup.leakcanary.LeakCanary;
 
-import java.util.ArrayList;
 import java.util.Locale;
 
 public class DemoApplication extends Application {
-    public static final String SERVICE_DISCOVERY_TAG = "ServiceDiscovery";
-    final String AI = "appinfra";
     final String UR = "UserRegistration";
     private AppInfra mAppInfra;
 
@@ -31,22 +31,22 @@ public class DemoApplication extends Application {
     public void onCreate() {
         super.onCreate();
         LeakCanary.install(this);
-        initAppInfra();
-       // setLocale();
-        initRegistration(Configuration.PRODUCTION);
+        SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
+        String restoredText = prefs.getString("reg_environment", null);
+        if (restoredText != null) {
+            String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
+            if (restoredHSDPText != null && restoredHSDPText.equals(restoredText)) {
+                initHSDP(RegUtility.getConfiguration(restoredHSDPText));
+            }
+            initRegistration(RegUtility.getConfiguration(restoredText));
+        } else {
+            initRegistration(Configuration.STAGING);
+        }
     }
 
     public void initAppInfra() {
         mAppInfra = new AppInfra.Builder().build(getApplicationContext());
         RegistrationHelper.getInstance().setAppInfraInstance(mAppInfra);
-    }
-
-    private void setLocale() {
-        String languageCode = Locale.getDefault().getLanguage();
-        String countryCode = Locale.getDefault().getCountry();
-
-        PILLocaleManager localeManager = new PILLocaleManager(this);
-        localeManager.setInputLocale(languageCode, countryCode);
     }
 
     public AppInfra getAppInfra() {
@@ -56,123 +56,48 @@ public class DemoApplication extends Application {
     public void initRegistration(Configuration configuration) {
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
-        getAppInfra().getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-                        "RegistrationClientID." + Configuration.DEVELOPMENT
-                , UR,
-                "8kaxdrpvkwyr7pnp987amu4aqb4wmnte",
-                configError);
-        getAppInfra().getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-                        "RegistrationClientID." + Configuration.TESTING
-                , UR,
-                "g52bfma28yjbd24hyjcswudwedcmqy7c",
-                configError);
-        getAppInfra().getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-                        "RegistrationClientID." + Configuration.EVALUATION
-                , UR,
-                "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
-                configError);
-        getAppInfra().getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-                        "RegistrationClientID." + Configuration.STAGING
-                , UR,
-                "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
-                configError);
-        getAppInfra().getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-                        "RegistrationClientID." + Configuration.PRODUCTION
-                , UR,
-                "9z23k3q8bhqyfwx78aru6bz8zksga54u",
-                configError);
-
-      /*  System.out.println("Test : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.DEVELOPMENT));
-        System.out.println("Test : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.TESTING));
-        System.out.println("Evaluation : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.EVALUATION));
-        System.out.println("Staging : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.STAGING));
-        System.out.println("prod : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.PRODUCTION));
-
-*/
-        getAppInfra().getConfigInterface().setPropertyForKey("PILConfiguration." +
-                        "MicrositeID",
-                UR,
-                "77000",
-                configError);
-        getAppInfra().getConfigInterface().setPropertyForKey("PILConfiguration." +
-                        "RegistrationEnvironment",
-                UR,
-                configuration.getValue(),
-                configError);
-       /* System.out.println("Microsite Id : " + RegistrationConfiguration.getInstance().getMicrositeId());
-        System.out.println("Environment : " + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
-*/
-        getAppInfra().
-                getConfigInterface().setPropertyForKey("Flow." +
-                        "EmailVerificationRequired",
-                UR,
-                "" + true,
-                configError);
-        getAppInfra().
-                getConfigInterface().setPropertyForKey("Flow." +
-                        "TermsAndConditionsAcceptanceRequired",
-                UR,
-                "" + true,
-                configError);
-       /* System.out.println("Email verification : " + RegistrationConfiguration.getInstance().isEmailVerificationRequired());
-        System.out.println("Terms : " + RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired());
-*/
-        String minAge = "{ \"NL\":12 ,\"GB\":0,\"default\": 16}";
-        getAppInfra().
-                getConfigInterface().setPropertyForKey("Flow." +
-                        "MinimumAgeLimit",
-                UR,
-                minAge,
-                configError);
-        ArrayList<String> providers = new ArrayList<>();
-        providers.add("facebook");
-        providers.add("googleplus");
-        getAppInfra().
-                getConfigInterface().setPropertyForKey("SigninProviders." +
-                        "NL",
-                UR,
-                providers,
-                configError);
-
-        getAppInfra().
-                getConfigInterface().setPropertyForKey("SigninProviders." +
-                        "US",
-                UR,
-                providers,
-                configError);
-
-        getAppInfra().
-                getConfigInterface().setPropertyForKey("SigninProviders." +
-                        "default",
-                UR,
-                providers,
-                configError);
-
-       /* System.out.println("sss NL providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("hh"));
-        System.out.println("GB providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("US"));
-        System.out.println("default providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("NL"));
-        System.out.println("unknown providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("unknown"));
-        System.out.println("unknown providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("default"));
-*/
-
-        initHSDP(configuration);
+        if (mAppInfra == null) {
+            mAppInfra = new AppInfra.Builder().build(this);
+        }
+        SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
+        editor.putString("reg_environment", configuration.getValue());
+        editor.commit();
 
 
-        String languageCode = Locale.getDefault().getLanguage();
-        String countryCode = Locale.getDefault().getCountry();
+        String languageCode;
+        String countryCode;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            languageCode = LocaleList.getDefault().get(0).getLanguage();
+            countryCode = LocaleList.getDefault().get(0).getCountry();
+        } else {
+            languageCode = Locale.getDefault().getLanguage();
+            countryCode = Locale.getDefault().getCountry();
+        }
 
         PILLocaleManager localeManager = new PILLocaleManager(this);
         localeManager.setInputLocale(languageCode, countryCode);
+        //localeManager.setInputLocale("zh", "CN");
 
         initAppIdentity(configuration);
-        URDependancies urDependancies = new URDependancies(getAppInfra());
+        URDependancies urDependancies = new URDependancies(mAppInfra);
         URSettings urSettings = new URSettings(this);
         URInterface urInterface = new URInterface();
         urInterface.init(urDependancies, urSettings);
 
+        RLog.enableLogging();
+
+
+        mAppInfra.getConfigInterface().setPropertyForKey("appidentity.micrositeId",
+                "appinfra",
+                "11400",
+                configError);
+
     }
 
     public void initHSDP(Configuration configuration) {
+        if (mAppInfra == null) {
+            mAppInfra = new AppInfra.Builder().build(this);
+        }
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
         //store hsdp last envoronment
@@ -180,64 +105,72 @@ public class DemoApplication extends Application {
         SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
         switch (configuration) {
             case EVALUATION:
-                getAppInfra().
+                mAppInfra.
                         getConfigInterface().setPropertyForKey(
-                        "HSDPConfiguration.ApplicationName",
-                        UR,
+                        URConfigurationConstants.
+                                HSDP_CONFIGURATION_APPLICATION_NAME,
+                        URConfigurationConstants.UR,
                         "uGrow",
                         configError);
 
-                getAppInfra().
+                mAppInfra.
                         getConfigInterface().setPropertyForKey(
-                        "HSDPConfiguration.Secret",
-                        UR,
+                        URConfigurationConstants.
+                                HSDP_CONFIGURATION_SECRET,
+                        URConfigurationConstants.UR,
                         "e33a4d97-6ada-491f-84e4-a2f7006625e2",
                         configError);
 
-                getAppInfra().
+                mAppInfra.
                         getConfigInterface().setPropertyForKey(
-                        "HSDPConfiguration.Shared",
-                        UR,
+                        URConfigurationConstants.
+                                HSDP_CONFIGURATION_SHARED,
+                        URConfigurationConstants.UR,
                         "e95f5e71-c3c0-4b52-8b12-ec297d8ae960",
                         configError);
 
-                getAppInfra().
+                mAppInfra.
                         getConfigInterface().setPropertyForKey(
-                        "HSDPConfiguration.BaseURL",
-                        UR,
-                        "https://user-registration-assembly-staging.eu-west.philips-healthsuite.com",
+                        URConfigurationConstants.
+                                HSDP_CONFIGURATION_BASE_URL,
+                        URConfigurationConstants.UR,
+                        "https://ugrow-ds-staging.eu-west.philips-healthsuite.com",
                         configError);
 
                 editor.putString("reg_hsdp_environment", configuration.getValue());
                 editor.commit();
                 break;
             case DEVELOPMENT:
-                getAppInfra().
+                mAppInfra.
                         getConfigInterface().setPropertyForKey(
-                        "HSDPConfiguration.ApplicationName",
-                        UR,
+                        URConfigurationConstants.
+                                HSDP_CONFIGURATION_APPLICATION_NAME,
+                        URConfigurationConstants.UR,
                         "uGrow",
                         configError);
 
-                getAppInfra().
+                mAppInfra.
                         getConfigInterface().setPropertyForKey(
-                        "HSDPConfiguration.Secret",
-                        UR,
+                        URConfigurationConstants.
+                                HSDP_CONFIGURATION_SECRET,
+                        URConfigurationConstants.UR,
                         "c623685e-f02c-11e5-9ce9-5e5517507c66",
                         configError);
 
-                getAppInfra().
+                mAppInfra.
                         getConfigInterface().setPropertyForKey(
-                        "HSDPConfiguration.Shared",
-                        UR,
+                        URConfigurationConstants.
+                                HSDP_CONFIGURATION_SHARED,
+                        URConfigurationConstants.UR,
                         "c62362a0-f02c-11e5-9ce9-5e5517507c66",
                         configError);
 
-                getAppInfra().
+                mAppInfra.
                         getConfigInterface().setPropertyForKey(
-                        "HSDPConfiguration.BaseURL",
-                        UR,
-                        "https://user-registration-assembly-staging.eu-west.philips-healthsuite.com",
+                        URConfigurationConstants.
+                                HSDP_CONFIGURATION_BASE_URL,
+                        URConfigurationConstants.UR,
+                        "https://ugrow-ds-development.cloud.pcftest.com",
                         configError);
                 editor.putString("reg_hsdp_environment", configuration.getValue());
                 editor.commit();
@@ -248,29 +181,33 @@ public class DemoApplication extends Application {
                 prefs.edit().remove("reg_hsdp_environment").commit();
                 break;
             case STAGING:
-                getAppInfra().
+                mAppInfra.
                         getConfigInterface().setPropertyForKey(
-                        "HSDPConfiguration.ApplicationName",
-                        UR,
+                        URConfigurationConstants.
+                                HSDP_CONFIGURATION_APPLICATION_NAME,
+                        URConfigurationConstants.UR,
                         "uGrow",
                         configError);
-                getAppInfra().
+                mAppInfra.
                         getConfigInterface().setPropertyForKey(
-                        "HSDPConfiguration.Secret",
-                        UR,
+                        URConfigurationConstants.
+                                HSDP_CONFIGURATION_SECRET,
+                        URConfigurationConstants.UR,
                         "e33a4d97-6ada-491f-84e4-a2f7006625e2",
                         configError);
-                getAppInfra().
+                mAppInfra.
                         getConfigInterface().setPropertyForKey(
-                        "HSDPConfiguration.Shared",
-                        UR,
+                        URConfigurationConstants.
+                                HSDP_CONFIGURATION_SHARED,
+                        URConfigurationConstants.UR,
                         "e95f5e71-c3c0-4b52-8b12-ec297d8ae960",
                         configError);
-                getAppInfra().
+                mAppInfra.
                         getConfigInterface().setPropertyForKey(
-                        "HSDPConfiguration.BaseURL",
-                        UR,
-                        "https://user-registration-assembly-staging.eu-west.philips-healthsuite.com",
+                        URConfigurationConstants.
+                                HSDP_CONFIGURATION_BASE_URL,
+                        URConfigurationConstants.UR,
+                        "https://ugrow-ds-staging.eu-west.philips-healthsuite.com",
                         configError);
                 editor.putString("reg_hsdp_environment", configuration.getValue());
                 editor.commit();
@@ -282,42 +219,40 @@ public class DemoApplication extends Application {
                 break;
         }
 
-        HSDPInfo hsdpInfo1 = RegistrationConfiguration.getInstance().getHSDPInfo();
-        if (hsdpInfo1 != null) {
-            System.out.println("HSDP: " + hsdpInfo1.getApplicationName());
-            System.out.println("HSDP: " + hsdpInfo1.getSecreteId());
-            System.out.println("HSDP: " + hsdpInfo1.getSharedId());
-            System.out.println("HSDP: " + hsdpInfo1.getBaseURL());
-        }
-
 
     }
 
+    public static final String SERVICE_DISCOVERY_TAG = "ServiceDiscovery";
+    final String AI = "appinfra";
+
     private void initAppIdentity(Configuration configuration) {
+        if (mAppInfra == null) {
+            mAppInfra = new AppInfra.Builder().build(this);
+        }
         AppIdentityInterface mAppIdentityInterface;
-        mAppIdentityInterface = getAppInfra().getAppIdentity();
-        AppConfigurationInterface appConfigurationInterface = getAppInfra().
+        mAppIdentityInterface = mAppInfra.getAppIdentity();
+        AppConfigurationInterface appConfigurationInterface = mAppInfra.
                 getConfigInterface();
 
         //Dynamically set the values to appInfar and app state
 
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
-        getAppInfra().
+       /* mAppInfraInterface.
                 getConfigInterface().setPropertyForKey(
                 "appidentity.micrositeId",
                 AI,
                 "77000",
-                configError);
+                configError);*/
 
-        getAppInfra().
+        mAppInfra.
                 getConfigInterface().setPropertyForKey(
                 "appidentity.sector",
                 AI,
                 "b2c",
                 configError);
 
-        getAppInfra().
+        mAppInfra.
                 getConfigInterface().setPropertyForKey(
                 "appidentity.serviceDiscoveryEnvironment",
                 AI,
@@ -327,7 +262,7 @@ public class DemoApplication extends Application {
 
         switch (configuration) {
             case EVALUATION:
-                getAppInfra().
+                mAppInfra.
                         getConfigInterface().setPropertyForKey(
                         "appidentity.appState",
                         AI,
@@ -335,7 +270,7 @@ public class DemoApplication extends Application {
                         configError);
                 break;
             case DEVELOPMENT:
-                getAppInfra().
+                mAppInfra.
                         getConfigInterface().setPropertyForKey(
                         "appidentity.appState",
                         AI,
@@ -344,7 +279,7 @@ public class DemoApplication extends Application {
 
                 break;
             case PRODUCTION:
-                getAppInfra().
+                mAppInfra.
                         getConfigInterface().setPropertyForKey(
                         "appidentity.appState",
                         AI,
@@ -352,7 +287,7 @@ public class DemoApplication extends Application {
                         configError);
                 break;
             case STAGING:
-                getAppInfra().
+                mAppInfra.
                         getConfigInterface().setPropertyForKey(
                         "appidentity.appState",
                         AI,
@@ -361,7 +296,7 @@ public class DemoApplication extends Application {
 
                 break;
             case TESTING:
-                getAppInfra().
+                mAppInfra.
                         getConfigInterface().setPropertyForKey(
                         "appidentity.appState",
                         AI,
@@ -378,7 +313,6 @@ public class DemoApplication extends Application {
         appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
         appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
         appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
-
 
         Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity AppLocalizedNAme : " + appIdentityInfo.getAppLocalizedNAme());
         Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity Sector : " + appIdentityInfo.getSector());

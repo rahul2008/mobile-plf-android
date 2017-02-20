@@ -74,6 +74,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     private IAPInterface mIapInterface;
     private IAPLaunchInput mIapLaunchInput;
     private IAPSettings mIAPSettings;
+    private User mUser;
 
 
     @Override
@@ -87,7 +88,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         addActionBar();
         setContentView(R.layout.demo_app_layout);
         showAppVersion();
-
         mEtCTN = (EditText) findViewById(R.id.et_add_ctn);
         mAddCTNLl = (LinearLayout) findViewById(R.id.ll_ctn);
 
@@ -122,7 +122,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mCategorizedProductList = new ArrayList<>();
 
         mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:");
-
+        mUser = new User(this);
+        mUser.registerUserRegistrationListener(this);
         //Integration interface
 
         mIAPSettings = new IAPSettings(this);
@@ -187,9 +188,9 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     }
 
     private void init() {
-        User user = new User(this);
+
         mCategorizedProductList.clear();
-        if (user.isUserSignIn()) {
+        if (mUser.isUserSignIn()) {
             displayViews();
             showProgressDialog();
             try {
@@ -200,7 +201,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             } catch (RuntimeException exception) {
                 dismissProgressDialog();
             }
-        }else{
+        } else {
             hideViews();
         }
     }
@@ -208,6 +209,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     @Override
     protected void onDestroy() {
         dismissProgressDialog();
+        mUser.unRegisterUserRegistrationListener(this);
         super.onDestroy();
     }
 
@@ -257,13 +259,13 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         } else if (view == mRegister) {
             RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
             URLaunchInput urLaunchInput = new URLaunchInput();
-            //urLaunchInput.setE(RegistrationLaunchMode.ACCOUNT_SETTINGS);
-            urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+            urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
             urLaunchInput.setUserRegistrationUIEventListener(this);
+            urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
+            urLaunchInput.setAccountSettings(false);
             URInterface urInterface = new URInterface();
-            urInterface.launch(new ActivityLauncher
-                    (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME), urLaunchInput);
-
+            urInterface.launch(new ActivityLauncher(ActivityLauncher.
+                    ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0), urLaunchInput);
         } else if (view == mLaunchFragment) {
             Intent intent = new Intent(this, LauncherFragmentActivity.class);
             this.startActivity(intent);
@@ -399,7 +401,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         if (count > 0) {
             mCountText.setText(String.valueOf(count));
             mCountText.setVisibility(View.VISIBLE);
-        } else if(count == 0){
+        } else if (count == 0) {
             mCountText.setVisibility(View.GONE);
         } else if (count == -1) {
             //Plan B
