@@ -111,7 +111,7 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
         final PortParameters portParameters = new PortParameters(portName, productId);
 
         if (!this.subscriptionsCache.containsKey(portParameters)) {
-            final PollingSubscription subscription = new PollingSubscription(this, this.requestExecutor, portParameters, subscriptionPollingInterval, subscriptionTtl * 1000, new ResponseHandler() {
+            final PollingSubscription subscription = new PollingSubscription(this, portParameters, subscriptionPollingInterval, subscriptionTtl * 1000, new ResponseHandler() {
                 @Override
                 public void onSuccess(String data) {
                     notifySubscriptionEventListeners(data);
@@ -120,13 +120,6 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
                 @Override
                 public void onError(Error error, String errorData) {
                     DICommLog.e(DICommLog.LOCAL_SUBSCRIPTION, String.format(Locale.US, "Subscription - onError, error [%s], message [%s]", error, errorData));
-                }
-            });
-
-            subscription.addCallback(new PollingSubscription.Callback() {
-                @Override
-                public void onCancel() {
-                    subscriptionsCache.remove(portParameters);
                 }
             });
             this.subscriptionsCache.put(portParameters, subscription);

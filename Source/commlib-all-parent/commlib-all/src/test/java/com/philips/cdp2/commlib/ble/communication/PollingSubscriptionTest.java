@@ -15,6 +15,7 @@ import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -23,6 +24,8 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -41,11 +44,14 @@ public class PollingSubscriptionTest {
     @Mock
     ScheduledFuture<?> future;
 
-    PortParameters portParameters = new PortParameters("testPort", 42);
+    @Mock
+    CountDownLatch countDownLatch;
 
-        final List<Long> currentTime = new ArrayList<Long>() {{
-            add(0L);
-        }};
+    private PortParameters portParameters = new PortParameters("testPort", 42);
+
+    private final List<Long> currentTime = new ArrayList<Long>() {{
+        add(0L);
+    }};
 
     private PollingSubscription subscription;
 
@@ -65,6 +71,11 @@ public class PollingSubscriptionTest {
             long currentTimeMillis() {
                 return currentTime.get(0);
             }
+
+            @Override
+            CountDownLatch createCountdownLatch() {
+                return countDownLatch;
+            }
         };
     }
 
@@ -77,7 +88,7 @@ public class PollingSubscriptionTest {
     public void testSubscriptionInvokesGetProperties() {
         subscription.run();
 
-        verify(strategy).getProperties("testPort", 42, responseHandler);
+        verify(strategy).getProperties(eq("testPort"), eq(42), isA(ResponseHandler.class));
     }
 
     @Test
@@ -88,5 +99,4 @@ public class PollingSubscriptionTest {
 
         verify(future).cancel(anyBoolean());
     }
-
 }
