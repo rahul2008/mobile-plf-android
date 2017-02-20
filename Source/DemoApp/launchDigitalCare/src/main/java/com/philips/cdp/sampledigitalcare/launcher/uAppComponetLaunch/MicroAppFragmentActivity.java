@@ -23,6 +23,7 @@ import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
+import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cl.di.dev.pa.R;
 //import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.AppInfra;
@@ -38,7 +39,7 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
  */
 
 
-public class MicroAppFragmentActivity extends FragmentActivity implements View.OnClickListener,
+public class MicroAppFragmentActivity extends UiKitActivity implements View.OnClickListener,
         CcListener {
     private static final String TAG = MicroAppFragmentActivity.class.getSimpleName();
     private ImageView mActionBarMenuIcon = null;
