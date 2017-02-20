@@ -27,8 +27,6 @@ import android.widget.TextView;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
-import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.rateandreview.fragments.ProductReviewFragment;
@@ -81,10 +79,10 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mRatePlayStoreText = (DigitalCareFontTextView) getActivity().findViewById(R.id.tellus_philips_submitreview_text);
-        mRatePlayStoreBtn = (DigitalCareFontButton) getActivity().findViewById(
+        mRatePlayStoreText = (TextView) getActivity().findViewById(R.id.tellus_philips_submitreview_text);
+        mRatePlayStoreBtn = (Button) getActivity().findViewById(
                 R.id.tellus_PlayStoreReviewButton);
-        mRatePhilipsBtn = (DigitalCareFontButton) getActivity().findViewById(
+        mRatePhilipsBtn = (Button) getActivity().findViewById(
                 R.id.tellus_PhilipsReviewButton);
         mLayoutParent = (LinearLayout) getActivity().findViewById(
                 R.id.parentLayout);

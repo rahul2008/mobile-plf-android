@@ -26,7 +26,6 @@ import android.widget.TextView;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
@@ -66,6 +65,7 @@ public class ChatFragment extends DigitalCareBaseFragment {
         try {
             mView = inflater.inflate(R.layout.consumercare_fragment_chat, container, false);
         } catch (InflateException e) {
+            DigiCareLogger.i(TAG, "inflate chart view exception");
         }
 
         return mView;
@@ -76,14 +76,13 @@ public class ChatFragment extends DigitalCareBaseFragment {
         super.onActivityCreated(savedInstanceState);
         // mChatNowParent = (LinearLayout) getActivity().findViewById(
         // R.id.chatNowParent);
-        mChatNow = (DigitalCareFontButton) getActivity().findViewById(
-                R.id.chatNow);
-        mChatNowLand = (DigitalCareFontButton) getActivity().findViewById(
+        mChatNow = (Button) getActivity().findViewById(R.id.chatNow);
+        mChatNowLand = (Button) getActivity().findViewById(
                 R.id.chatNowLand);
 
-        mChatNoThanks = (DigitalCareFontButton) getActivity().findViewById(
+        mChatNoThanks = (Button) getActivity().findViewById(
                 R.id.chatNoThanks);
-        mChatNoThanksLand = (DigitalCareFontButton) getActivity().findViewById(
+        mChatNoThanksLand = (Button) getActivity().findViewById(
                 R.id.chatNoThanksLand);
 
         mChatDescText = (TextView) getActivity().findViewById(R.id.chatDesc);

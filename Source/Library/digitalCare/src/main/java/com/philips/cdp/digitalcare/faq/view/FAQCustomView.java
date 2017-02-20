@@ -273,7 +273,7 @@ public class FAQCustomView implements Serializable {
         Typeface typeface = Typeface.createFromAsset(mContext.getAssets(), "digitalcarefonts/CentraleSans-Book.otf");
         questionTextView.setTypeface(typeface);
         questionTextView.setLineSpacing(3f, 1.2f);
-        questionTextView.setTextColor(ContextCompat.getColor(mContext, R.color.button_background));
+        //questionTextView.setTextColor(ContextCompat.getColor(mContext, R.color.button_background));
         int padding = 0;
         if (isTablet) {
             padding = (int) (mContext.getResources()
@@ -310,9 +310,9 @@ public class FAQCustomView implements Serializable {
         // questionTypeView.setBackgroundColor(Color.parseColor("#C8E7EE"));
         // questionTypeView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.faq_question_background));
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            questionTypeView.setBackgroundResource(R.drawable.faq_header_background_color);
+            questionTypeView.setBackgroundResource(R.drawable.consumercare_faq_header_bg);
         } else {
-            questionTypeView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.faq_header_background_color));
+            questionTypeView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.consumercare_faq_header_bg));
         }
 
         questionTypeParams.setMargins(0, topMarginOfQuestionType, 0, 0);
@@ -322,7 +322,7 @@ public class FAQCustomView implements Serializable {
         Typeface typeface = Typeface.createFromAsset(mContext.getAssets(), "digitalcarefonts/CentraleSans-Bold.otf");
         headerText.setTypeface(typeface);
         // headerText.setTextColor(mContext.getResources().getColor(R.color.button_background, null));
-        headerText.setTextColor(ContextCompat.getColor(mContext, R.color.button_background));
+        //headerText.setTextColor(ContextCompat.getColor(mContext, R.color.button_background));
         RelativeLayout.LayoutParams headerTextParams = new RelativeLayout.LayoutParams
                 (RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         headerTextParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
@@ -405,17 +405,19 @@ public class FAQCustomView implements Serializable {
                     Locale locale = DigitalCareConfigManager.getInstance().
                             getLocaleMatchResponseWithCountryFallBack();
                     String languageCode = locale.getLanguage();
+/*
 
                     if (languageCode.equalsIgnoreCase("en")) {
                         map.put(questionCategory, engFaqQuestionModelList);
                     } else {
+*/
 
                         if (nonEngfaqQuestionModelList.size() != 0) {
                             map.put(questionCategory, nonEngfaqQuestionModelList);
                         } else {
                             map.put(questionCategory, engFaqQuestionModelList);
                         }
-                    }
+                    //}
                 }
             }
             return map;

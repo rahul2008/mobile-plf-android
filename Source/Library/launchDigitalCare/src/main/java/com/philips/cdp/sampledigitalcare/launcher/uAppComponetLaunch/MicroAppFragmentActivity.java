@@ -3,7 +3,6 @@ package com.philips.cdp.sampledigitalcare.launcher.uAppComponetLaunch;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
@@ -22,11 +21,11 @@ import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
+import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 //import com.philips.platform.appinfra.AppInfraSingleton;
@@ -39,7 +38,7 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
  */
 
 
-public class MicroAppFragmentActivity extends FragmentActivity implements View.OnClickListener,
+public class MicroAppFragmentActivity extends UiKitActivity implements View.OnClickListener,
         CcListener {
     private static final String TAG = MicroAppFragmentActivity.class.getSimpleName();
     private ImageView mActionBarMenuIcon = null;
@@ -74,6 +73,9 @@ public class MicroAppFragmentActivity extends FragmentActivity implements View.O
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
+        //setTheme(R.style.Theme_Philips_DarkBlue_WhiteBackground);
+        setTheme(R.style.Theme_Philips_DarkOrange_WhiteBackground);
         DigiCareLogger.i(TAG, " onCreate ++ ");
         setContentView(R.layout.activity_sample);
 
@@ -95,7 +97,9 @@ public class MicroAppFragmentActivity extends FragmentActivity implements View.O
 
             DigitalCareConfigManager.getInstance().invokeDigitalCare(fragLauncher, productsSelection);*/
 
-            final FragmentLauncher launcher = new FragmentLauncher(this, R.id.sampleMainContainer, actionBarListener);
+            final com.philips.platform.uappframework.launcher.FragmentLauncher launcher =
+                    new com.philips.platform.uappframework.launcher.FragmentLauncher
+                            (this, R.id.sampleMainContainer, actionBarListener);
             launcher.setCustomAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
 
            /* CcInterface ccInterface = new CcInterface();
@@ -108,17 +112,16 @@ public class MicroAppFragmentActivity extends FragmentActivity implements View.O
             if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
             ccLaunchInput.setProductModelSelectionType(productsSelection);
             ccLaunchInput.setConsumerCareListener(this);
-            //ccLaunchInput.setLiveChatUrl("http://ph-china.livecom.cn/webapp/index.html?app_openid=ph_6idvd4fj&token=PhilipsTest");
+
             CcDependencies ccDependencies = new CcDependencies(mAppInfraInterface);
 
             ccInterface.init(ccDependencies, ccSettings);
-            ccInterface.launch(launcher, ccLaunchInput);
             mAppInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
                 @Override
                 public void onSuccess(String s, SOURCE source) {
                     if(s.equals("CN")) {
                         ccLaunchInput.setLiveChatUrl("http://ph-china.livecom.cn/webapp/index.html?app_openid=ph_6idvd4fj&token=PhilipsTest");
-                    }  else {
+                    } else {
                         ccLaunchInput.setLiveChatUrl(null);
                     }
                     ccInterface.launch(launcher, ccLaunchInput);
@@ -129,7 +132,6 @@ public class MicroAppFragmentActivity extends FragmentActivity implements View.O
                     ccInterface.launch(launcher, ccLaunchInput);
                 }
             });
-
 
             try {
                 initActionBar();

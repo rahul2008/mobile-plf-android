@@ -19,23 +19,24 @@
             android:text="@string/app_description"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="20sp"
+            android:textColor="?attr/uikit_baseColor"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/launchDigitalCare"
+            style="@style/fontButton"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_below="@+id/TextView1"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/blue_button"
             android:text="@string/launch_button_as_activity"
-            android:textColor="@color/white"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/launchAsFragment"
+            style="@style/fontButton"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_below="@+id/launchDigitalCare"
@@ -44,9 +45,7 @@
             android:visibility="gone"
             android:layout_marginRight="10dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/blue_button"
             android:text="@string/launch_button_as_fragment"
-            android:textColor="@color/white"
             android:textStyle="bold" />
 
         <TextView
@@ -61,9 +60,10 @@
             android:freezesText="true"
             android:marqueeRepeatLimit="marquee_forever"
             android:scrollHorizontally="true"
+            android:visibility="gone"
             android:singleLine="true"
             android:text="@string/app_not_description"
-            android:textColor="#000080" />
+            android:textColor="?attr/uikit_baseColor" />
 
         <TextView
             android:id="@+id/textView3"
@@ -72,15 +72,28 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/launchAsFragment"
             android:layout_marginTop="14dp"
+            android:visibility="gone"
             android:text="@string/app_note"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="?attr/uikit_baseColor"/>
+
+        <TextView
+            android:id="@+id/textViewCurrentCountry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/textView3"
+            android:layout_marginTop="14dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold"
+            android:textColor="?attr/uikit_baseColor"/>
 
         <GridLayout
             android:id="@+id/gridlayout1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/textView3"
+            android:layout_below="@+id/textViewCurrentCountry"
             android:layout_marginTop="10dp"
             android:columnCount="2"
             android:orientation="horizontal"
@@ -91,9 +104,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/lanuauge"
+                android:visibility="gone"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="?attr/uikit_baseColor"/>
 
             <TextView
                 android:id="@+id/textView5"
@@ -101,14 +116,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:text="@string/country"
+                android:visibility="gone"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="?attr/uikit_baseColor"/>
 
             <Spinner
                 android:id="@+id/spinner1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginTop="5dp" />
 
             <Spinner
@@ -119,16 +137,30 @@
         </GridLayout>
 
         <TextView
-            android:id="@+id/textview6"
+            android:id="@+id/textviewCountryPref"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/gridlayout1"
+            android:layout_marginTop="20dp"
+            android:text="Country Preference  :\n1.SIM card\n2.geo-IP\n3.User Selection"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="20sp"
+            android:textStyle="italic"
+            android:visibility="visible"
+            android:textColor="?attr/uikit_baseColor"/>
+
+        <TextView
+            android:id="@+id/textview6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textviewCountryPref"
             android:layout_marginTop="20dp"
             android:text="Add Ctn's"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:visibility="visible" />
+            android:visibility="visible"
+            android:textColor="?attr/uikit_baseColor"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -145,20 +177,18 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/add_product"
-                android:background="@color/button_material_light" />
+                android:listSelector="?attr/uikit_listSelectorBackground" />
 
-            <ImageButton
+            <com.philips.cdp.uikit.customviews.ActionButton
                 android:id="@+id/addimageButton"
+                style="@style/Philips.ActionButton.Circle.Float.Plus"
                 android:layout_width="@dimen/savedscreen_top_container_height"
                 android:layout_height="@dimen/savedscreen_top_container_height"
                 android:layout_alignBottom="@+id/recycler_view"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="5dp"
-                android:background="@drawable/button_plus_red"
                 android:scaleType="fitXY" />
-
-
         </RelativeLayout>
 
     </RelativeLayout>

@@ -23,17 +23,17 @@
                 android:layout_height="120dp"
                 android:visibility="gone" />
 
-            <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+            <TextView
                 android:id="@+id/name"
                 style="@style/viewProductDetails_Product_Header"
-                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" />
+                fontPath="digitalcarefonts/CentraleSans-Bold.otf" />
 
-            <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+            <TextView
                 android:id="@+id/variant"
                 style="@style/viewProductDetails_Product_Variant"
                 android:layout_below="@id/name"
                 android:layout_toRightOf="@id/productimage"
-                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+                fontPath="digitalcarefonts/CentraleSans-Book.otf" />
 
             <ImageView
                 android:id="@+id/productImageTablet"
@@ -63,7 +63,7 @@
 
         </LinearLayout>
 
-        <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+        <TextView
             android:id="@+id/productVideoText"
             style="@style/viewProductDetails_Product_Header"
             android:layout_marginBottom="0dp"

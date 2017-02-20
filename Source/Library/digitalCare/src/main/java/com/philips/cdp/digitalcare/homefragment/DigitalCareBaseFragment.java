@@ -31,11 +31,11 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.customview.NetworkAlertView;
 import com.philips.cdp.digitalcare.listeners.NetworkStateListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
@@ -124,8 +124,8 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
             Locale.setDefault(locale);
             Configuration config = new Configuration();
             config.locale = locale;
-            mFragmentActivityContext.getResources().updateConfiguration(config,
-                    mFragmentActivityContext.getResources().getDisplayMetrics());
+            getActivity().getResources().updateConfiguration(config,
+                    getActivity().getResources().getDisplayMetrics());
         }
     }
 
@@ -506,9 +506,9 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
      */
     private void setActionbarTitle() {
         if (mContainerId == 0) {
-            DigitalCareFontTextView actionBarTitle =
+            TextView actionBarTitle =
 
-                    ((DigitalCareFontTextView) getActivity().findViewById(
+                    ((TextView) getActivity().findViewById(
                             R.id.action_bar_title));
             actionBarTitle.setText(getActionbarTitle());
         } else {

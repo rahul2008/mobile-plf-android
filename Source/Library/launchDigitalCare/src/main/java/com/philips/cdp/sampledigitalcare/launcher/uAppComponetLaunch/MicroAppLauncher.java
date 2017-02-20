@@ -36,11 +36,12 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static com.android.volley.Request.Method.HEAD;
 
 //import com.philips.platform.appinfra.AppInfraSingleton;
 
@@ -93,7 +94,6 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         ArrayAdapter<String> mCountry_adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, mCountry);
         mCountry_spinner.setAdapter(mCountry_adapter);
-
         restoreCountryOption();
 
         // Ctn List Code Snippet
@@ -111,9 +111,6 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                 new SimpleItemTouchHelperCallback(adapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(mRecyclerView);
-        // Digital care initialization
-        //initializeDigitalCareLibrary();
-
     }
 
 
@@ -227,9 +224,8 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         if(mAppInfraInterface == null) {
             mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
         }
-
-       // if(!(mCountry_spinner.getSelectedItemId() == 0))
-            mAppInfraInterface.getServiceDiscovery().setHomeCountry(mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
+        
+        mAppInfraInterface.getServiceDiscovery().setHomeCountry(mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
     }
 
     @Override
@@ -303,8 +299,8 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                 uiLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
                 DigitalCareConfigManager.getInstance().invokeDigitalCare(uiLauncher, productsSelection);*/
 
-                final ActivityLauncher activityLauncher =
-                        new ActivityLauncher
+                final com.philips.platform.uappframework.launcher.ActivityLauncher activityLauncher =
+                        new com.philips.platform.uappframework.launcher.ActivityLauncher
                                 (com.philips.platform.uappframework.
                                         launcher.ActivityLauncher.
                                         ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,

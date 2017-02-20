@@ -25,6 +25,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -57,6 +58,7 @@ import com.philips.cdp.digitalcare.social.facebook.FacebookWebFragment;
 import com.philips.cdp.digitalcare.social.twitter.TwitterWebFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.Utils;
+import com.shamanland.fonticon.FontIconDrawable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -89,15 +91,15 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     private LinearLayout mContactUsParent = null;
     private LinearLayout mSocialProviderParent = null;
     private FrameLayout.LayoutParams mParams = null;
-    private DigitalCareFontButton mChat = null;
-    private DigitalCareFontButton mEmail = null;
-    private DigitalCareFontButton mCallPhilips = null;
-    private DigitalCareFontTextView mLeaveUsMsg = null;
+    private Button mChat = null;
+    private Button mEmail = null;
+    private Button mCallPhilips = null;
     private CdlsResponseModel mCdlsParsedResponse = null;
     private TextView mFirstRowText = null;
     private TextView mContactUsOpeningHours = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
+    private TextView mLeaveUsMsg = null;
     private String mCdlsResponseStr = null;
     private ProgressDialog mPostProgress = null;
     private final Runnable mTwitteroAuthRunnable = new Runnable() {
@@ -188,11 +190,11 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
         mContactUsParent = (LinearLayout) getActivity().findViewById(
                 R.id.contactUsParent);
-        mChat = (DigitalCareFontButton) getActivity().findViewById(
+        mChat = (Button) getActivity().findViewById(
                 R.id.contactUsChat);
-        mCallPhilips = (DigitalCareFontButton) getActivity().findViewById(
+        mCallPhilips = (Button) getActivity().findViewById(
                 R.id.contactUsCall);
-        mEmail = (DigitalCareFontButton) getActivity().findViewById(
+        mEmail = (Button) getActivity().findViewById(
                 R.id.contactUsEmail);
         mContactUsOpeningHours = (TextView) getActivity().findViewById(
                 R.id.contactUsOpeningHours);
@@ -200,7 +202,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 .findViewById(R.id.firstRowText);
         mSocialProviderParent = (LinearLayout) getActivity().findViewById(
                 R.id.contactUsSocialParent);
-        mLeaveUsMsg = (DigitalCareFontTextView) getActivity().findViewById(
+        mLeaveUsMsg = (TextView) getActivity().findViewById(
                 R.id.leaveMsgTitle);
 
                 // mFacebook.setOnClickListener(this);
@@ -847,7 +849,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         final int title = getResources().getIdentifier(
                 packageName + ":string/" + buttonTitle, null, null);
         final int drawable = getResources().getIdentifier(
-                packageName + ":drawable/" + buttonDrawable, null, null);
+                packageName + ":string/" + buttonDrawable, null, null);
         final float density = getResources().getDisplayMetrics().density;
 
         final RelativeLayout relativeLayout = createRelativeLayout(buttonTitle, density);
@@ -907,14 +909,25 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                         "digitalcarefonts/CentraleSans-Book.otf");
         button.setTypeface(buttonTypeface);
         if (mSdkVersion < Build.VERSION_CODES.JELLY_BEAN) {
-            button.setBackgroundResource(resId);
             button.setGravity(Gravity.CENTER);
         } else {
             button.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            button.setBackground(getDrawable(resId));
         }
+
+        button.setBackgroundResource(R.drawable.consumercare_selector_option_button_bg);
+        Drawable icon = getDrawable(getActivity(),32,resId);
+        button.setCompoundDrawables(icon, null, null, null);
         button.setText(title);
+        button.setPadding((int) (19 * density),0,0,0);
         return button;
+    }
+
+    private  Drawable getDrawable(Context context, int size, int resID) {
+        FontIconDrawable drawable = FontIconDrawable.inflate(getActivity(), com.philips.cdp.uikit.R.xml.uikit_fonticon_base);
+        drawable.setText(getActivity().getResources().getString(resID));
+        float textSize = TypedValue.applyDimension(1, (float)size, context.getResources().getDisplayMetrics());
+        drawable.setTextSize(textSize);
+        return drawable;
     }
 
     private void setButtonParams(Button button, float density) {

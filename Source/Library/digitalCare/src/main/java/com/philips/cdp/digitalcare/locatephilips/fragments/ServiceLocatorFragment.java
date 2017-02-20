@@ -34,7 +34,7 @@ public class ServiceLocatorFragment extends DigitalCareBaseFragment {
 
         DigiCareLogger.i(TAG, "Launching the Product Review Screen");
         if (mServiceLocatorView == null) {
-            mServiceLocatorView = inflater.inflate(R.layout.consumercare_common_webview, container, false);
+            mServiceLocatorView = inflater.inflate(R.layout.consumercare_webview_noscroll, container, false);
         }
         return mServiceLocatorView;
     }

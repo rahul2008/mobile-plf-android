@@ -62,6 +62,7 @@ import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.cdp.uikit.UikitSpringBoardLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -89,6 +90,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     // private static boolean isProductSelectionFirstTime;
     private SharedPreferences prefs = null;
     private LinearLayout mOptionParent = null;
+    private UikitSpringBoardLayout mOptionContainer = null;
     private FrameLayout.LayoutParams mParams = null;
     private int ButtonMarginTop = 0;
     private int RegisterButtonMarginTop = 0;
@@ -286,6 +288,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
 
         mOptionParent = (LinearLayout) getActivity().findViewById(
                 R.id.optionParent);
+        mOptionContainer = (UikitSpringBoardLayout) getActivity().findViewById(
+                R.id.optionContainer);
         mParams = (FrameLayout.LayoutParams) mOptionParent.getLayoutParams();
 
         if (getActivity() != null) {
@@ -369,7 +373,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         ImageView imageView = createImageView(density, drawable);
         relativeLayout.addView(imageView);
         setImageParams(imageView, density);
-        mOptionParent.addView(relativeLayout);
+        mOptionContainer.addView(relativeLayout, relativeLayout.getLayoutParams());
         setRelativeLayoutParams(relativeLayout, density, buttonTitle);
 
 		/*
@@ -392,17 +396,11 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                 getViewProductDetailsData();
 
         if (buttonTitle.equals(getStringKey(R.string.Change_Selected_Product))) {
-            relativeLayout
-                    .setBackgroundResource(R.drawable.
-                            consumercare_selector_option_prod_reg_button_bg);
             mProductChangeButton = relativeLayout;
             // if (isProductSelected() && !isSupportScreenLaunched)
             if (isProductSelected())
                 mProductChangeButton.setVisibility(View.GONE);
 
-        } else {
-            relativeLayout
-                    .setBackgroundResource(R.drawable.consumercare_selector_option_button_bg);
         }
 
         if ((DigitalCareConfigManager.getInstance().getProductModelSelectionType().
@@ -489,6 +487,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
             }
 
         } else {
+            mProductChangeButton.setBackgroundResource(R.drawable.
+                    consumercare_selector_option_prod_reg_button_bg);
+
             if (mPhilipsAccountButton != null) {
                 LinearLayout.LayoutParams layoutParam = (LinearLayout.LayoutParams)
                         mPhilipsAccountButton.getLayoutParams();
