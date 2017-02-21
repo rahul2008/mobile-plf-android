@@ -10,7 +10,7 @@ import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 
 import java.util.ArrayList;
 import java.util.List;

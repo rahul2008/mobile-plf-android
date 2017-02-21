@@ -159,11 +159,11 @@ dependencies {
 
 pitest {
     targetClasses = [
-            'com.philips.commlib.cloud.*',
-            'com.philips.commlib.core.*',
-            'com.philips.commlib.lan.communication.*',
-            'com.philips.commlib.lan.context.*',
-            'com.philips.commlib.lan.discovery.*',
+            'com.philips.cdp2.commlib.cloud.*',
+            'com.philips.cdp2.commlib.core.*',
+            'com.philips.cdp2.commlib.lan.communication.*',
+            'com.philips.cdp2.commlib.lan.context.*',
+            'com.philips.cdp2.commlib.lan.discovery.*',
     ]  /* specify target classes to be mutated */
     pitestVersion = "1.1.10"
     avoidCallsTo = ['com.philips.cdp.dicommclient.util.DICommLog']

@@ -12,8 +12,8 @@ import org.json.JSONObject;
 import com.philips.cdp.dicommclient.security.ByteUtil;
 import com.philips.cdp.dicommclient.security.EncryptionUtil;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.commlib.lan.communication.LanRequest;
-import com.philips.commlib.lan.communication.LanRequestType;
+import com.philips.cdp2.commlib.lan.communication.LanRequest;
+import com.philips.cdp2.commlib.lan.communication.LanRequestType;
 
 public class ExchangeKeyRequest extends LanRequest {
 
