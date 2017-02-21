@@ -12,7 +12,7 @@
         <ListView
             android:id="@+id/productListView"
             android:layout_width="wrap_content"
-            android:layout_height="700dp"
+            android:layout_height="1000dp"
             android:divider="?attr/uikit_listDividerColor"
             android:dividerHeight="1dp"
             android:listSelector="?attr/uikit_listSelectorBackground"
