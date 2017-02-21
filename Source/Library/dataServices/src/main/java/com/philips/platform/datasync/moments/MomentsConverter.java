@@ -189,6 +189,7 @@ public class MomentsConverter {
 
             final Collection<? extends MeasurementGroup> measurementGroups = moment.getMeasurementGroups();
             if (measurementGroups != null && measurementGroups.size() != 0) {
+                //Check it here. Parent is always sent as null
                 uCoreMoment = addToUCoreMeasurementGroupsRecursively(true, uCoreMoment, null, measurementGroups);
             }
 
@@ -199,6 +200,7 @@ public class MomentsConverter {
         return uCoreMoment;
     }
 
+    //Check conversion
     private UCoreMoment addToUCoreMeasurementGroupsRecursively(final boolean isRoot, UCoreMoment uCoreMoment, UCoreMeasurementGroups parent, Collection<? extends MeasurementGroup> measurementGroups) {
         ArrayList<MeasurementGroup> measurementGroupsArray = new ArrayList(measurementGroups);
         for (MeasurementGroup measurementGroup : measurementGroupsArray) {
