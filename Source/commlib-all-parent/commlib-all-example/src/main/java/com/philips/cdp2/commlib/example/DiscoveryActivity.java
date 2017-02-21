@@ -22,10 +22,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.philips.cdp2.commlib.example.appliance.BleReferenceAppliance;
-import com.philips.commlib.core.CommCentral;
-import com.philips.commlib.core.appliance.Appliance;
-import com.philips.commlib.core.appliance.ApplianceManager;
-import com.philips.commlib.core.exception.MissingPermissionException;
+import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
+import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 
 public class DiscoveryActivity extends AppCompatActivity {
 

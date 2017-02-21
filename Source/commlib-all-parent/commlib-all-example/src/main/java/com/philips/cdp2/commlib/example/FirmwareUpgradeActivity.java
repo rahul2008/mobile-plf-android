@@ -16,7 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp2.commlib.example.appliance.BleReferenceAppliance;
-import com.philips.commlib.core.port.firmware.FirmwarePortListener;
+import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortListener;
 
 import java.io.File;
 import java.io.FileInputStream;
