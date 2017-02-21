@@ -112,7 +112,7 @@ public class ShadowFrameLayout extends FrameLayout {
     }
 
     private void getDefaultDrawable(final Context context, final int primary) {
-        int drawableID = primary == 0 ? R.drawable.uid_navigation_shadow_primary : R.drawable.uid_navigation_shadow_secondary;
+        int drawableID = primary == 0 ? R.drawable.uid_navigation_dropshadow_primary : R.drawable.uid_navigation_dropshadow_secondary;
         shadowDrawable = ResourcesCompat.getDrawable(getResources(), drawableID, context.getTheme());
     }
 
