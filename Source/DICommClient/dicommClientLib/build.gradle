@@ -17,6 +17,7 @@ buildscript {
     }
 
     dependencies {
+        classpath(builddeps.buildinfoextractor)
         classpath(builddeps.cdpscm)
     }
 }
