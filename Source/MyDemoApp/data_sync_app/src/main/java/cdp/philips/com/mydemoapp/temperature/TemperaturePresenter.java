@@ -22,6 +22,7 @@ import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
@@ -110,8 +111,8 @@ public class TemperaturePresenter {
                 createMeasurementGroup(moment);
     }
 
-    void fetchData(DBRequestListener dbRequestListener) {
-        mDataServices.fetchMomentWithType(dbRequestListener, MomentType.TEMPERATURE);
+    void fetchData(DBFetchRequestListner dbFetchRequestListner) {
+        mDataServices.fetchMomentWithType(dbFetchRequestListner, MomentType.TEMPERATURE);
     }
 
     private void saveRequest(Moment moment) {

@@ -48,7 +48,8 @@ public class MomentsSegregator {
         if (synchronisationData != null) {
             momentInDatabase = (Moment) dbFetchingInterface.fetchMomentByGuid(synchronisationData.getGuid());
             if (momentInDatabase == null) {
-                momentInDatabase = (Moment) dbFetchingInterface.fetchMomentById(moment.getId(),dbRequestListener);
+                //TODO: Spoorti - Check what has to be passed listener
+                momentInDatabase = (Moment) dbFetchingInterface.fetchMomentById(moment.getId(),null);
             }
         }
         return momentInDatabase;

@@ -141,7 +141,7 @@ public class UpdatingMonitorTest {
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenReadDataFromBackendResponsePassed() throws Exception {
         updatingMonitor.onEventAsync(readDataFromBackendResponseMock);
-        verify(dbFetchingInterface).fetchMoments(readDataFromBackendResponseMock.getDbRequestListener());
+        verify(dbFetchingInterface).fetchMoments(readDataFromBackendResponseMock.getDbFetchRequestListner());
     }
 
     @Test

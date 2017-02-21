@@ -108,9 +108,9 @@ public class UpdatingMonitor extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(ReadDataFromBackendResponse response) {
         try {
-            dbFetchingInterface.fetchMoments(response.getDbRequestListener());
+            dbFetchingInterface.fetchMoments(response.getDbFetchRequestListner());
         } catch (SQLException e) {
-            dbUpdatingInterface.updateFailed(e, response.getDbRequestListener());
+            dbFetchingInterface.postError(e, response.getDbFetchRequestListner());
             e.printStackTrace();
         }
     }

@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.listeners.DBChangeListener;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 
@@ -24,11 +25,7 @@ import java.util.List;
 
 import cdp.philips.com.mydemoapp.R;
 
-/**
- * Created by sangamesh on 09/01/17.
- */
-
-public class SettingsFragment extends DialogFragment implements DBRequestListener<Settings>, DBChangeListener, View.OnClickListener {
+public class SettingsFragment extends DialogFragment implements DBFetchRequestListner<Settings>,DBRequestListener<Settings>, DBChangeListener, View.OnClickListener {
 
     private Button mBtnOk;
     private Button mBtnCancel;
@@ -76,9 +73,20 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
     }
 
     @Override
-    public void onSuccess(final List<? extends Settings> ormObjectList) {
+    public void onSuccess(final List<? extends Settings> data) {
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (data != null) {
+                        settings = data.get(0);
+                        updateUi(settings.getUnit(), settings.getLocale());
 
-
+                    }
+                    dismissProgressDialog();
+                }
+            });
+        }
     }
 
     private void updateUi(String unit, String locale) {
@@ -92,24 +100,6 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
     public void onAttach(Context context) {
         super.onAttach(context);
         this.mContext = context;
-    }
-
-    @Override
-    public void onSuccess(final Settings data) {
-
-        if (getActivity() != null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (data != null) {
-                        settings = (Settings) data;
-                        updateUi(settings.getUnit(), settings.getLocale());
-
-                    }
-                    dismissProgressDialog();
-                }
-            });
-        }
     }
 
     @Override
@@ -213,5 +203,36 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
                 Toast.makeText(getActivity(), "Exception :" + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    public void onFetchSuccess(final List<? extends Settings> data) {
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (data != null) {
+                        settings = data.get(0);
+                        updateUi(settings.getUnit(), settings.getLocale());
+
+                    }
+                    dismissProgressDialog();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onFetchFailure(final Exception exception) {
+        if (getActivity() != null) {
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    dismissProgressDialog();
+                    Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }

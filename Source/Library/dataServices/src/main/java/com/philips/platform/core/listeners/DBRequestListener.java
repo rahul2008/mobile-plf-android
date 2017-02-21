@@ -6,7 +6,5 @@ public interface DBRequestListener<T> {
 
     void onSuccess(List<? extends T> data);
 
-    void onSuccess(T data);
-
     void onFailure(Exception exception);
 }

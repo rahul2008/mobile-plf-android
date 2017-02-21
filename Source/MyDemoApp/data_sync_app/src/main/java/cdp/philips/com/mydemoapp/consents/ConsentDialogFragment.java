@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.listeners.DBChangeListener;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 
@@ -29,7 +30,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
  * Created by sangamesh on 08/11/16.
  */
 
-public class ConsentDialogFragment extends DialogFragment implements DBRequestListener<ConsentDetail>,DBChangeListener, View.OnClickListener {
+public class ConsentDialogFragment extends DialogFragment implements DBRequestListener<ConsentDetail>,DBFetchRequestListner<ConsentDetail>,DBChangeListener, View.OnClickListener {
 
     private RecyclerView mRecyclerView;
     private Button mBtnOk;
@@ -96,12 +97,6 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     public void onAttach(Context context) {
         super.onAttach(context);
         this.mContext=context;
-    }
-
-    @Override
-    public void onSuccess(ConsentDetail data) {
-
-
     }
 
     @Override
@@ -201,5 +196,37 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
                 Toast.makeText(getActivity(),"Exception :"+e.getMessage() ,Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    public void onFetchSuccess(List<? extends ConsentDetail> data) {
+        final ArrayList<OrmConsentDetail> ormConsents = (ArrayList<OrmConsentDetail>) data;
+
+        if (getActivity()!=null && ormConsents != null ) {
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    lConsentAdapter.setData(ormConsents);
+                    lConsentAdapter.notifyDataSetChanged();
+                    mBtnOk.setEnabled(true);
+                    dismissProgressDialog();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onFetchFailure(final Exception exception) {
+        if(getActivity()!=null) {
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    dismissProgressDialog();
+                    Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }

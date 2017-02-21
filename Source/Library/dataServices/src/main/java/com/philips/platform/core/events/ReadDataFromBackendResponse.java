@@ -1,21 +1,21 @@
 package com.philips.platform.core.events;
 
-import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
 public class ReadDataFromBackendResponse extends Event {
-    private final DBRequestListener dbRequestListener;
+    private final DBFetchRequestListner dbFetchRequestListner;
 
-    public DBRequestListener getDbRequestListener() {
-        return dbRequestListener;
+    public DBFetchRequestListner getDbFetchRequestListner() {
+        return dbFetchRequestListner;
     }
 
-    public ReadDataFromBackendResponse(int referenceId, DBRequestListener dbRequestListener) {
+    public ReadDataFromBackendResponse(int referenceId, DBFetchRequestListner dbRequestListener) {
         super(referenceId);
-        this.dbRequestListener = dbRequestListener;
+        this.dbFetchRequestListner = dbRequestListener;
 
     }
 }

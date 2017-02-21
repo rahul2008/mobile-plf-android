@@ -1,20 +1,20 @@
 package com.philips.platform.core.events;
 
-import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
 
 /**
  * Created by sangamesh on 13/01/17.
  */
 public class LoadSettingsRequest extends Event {
 
-    private final DBRequestListener dbRequestListener;
+    private final DBFetchRequestListner dbFetchRequestListner;
 
-    public DBRequestListener getDbRequestListener() {
-        return dbRequestListener;
+    public DBFetchRequestListner getDbFetchRequestListner() {
+        return dbFetchRequestListner;
     }
 
-    public LoadSettingsRequest(DBRequestListener dbRequestListener) {
+    public LoadSettingsRequest(DBFetchRequestListner dbRequestListener) {
 
-        this.dbRequestListener = dbRequestListener;
+        this.dbFetchRequestListner = dbRequestListener;
     }
 }
