@@ -36,7 +36,7 @@ public class ProductRegistrationApplication extends Application {
         initAppInfra();
         setLocale();
         initProductRegistration();
-        initRegistration(Configuration.STAGING);
+        initRegistration(Configuration.EVALUATION);
         RLog.enableLogging();
     }
 
