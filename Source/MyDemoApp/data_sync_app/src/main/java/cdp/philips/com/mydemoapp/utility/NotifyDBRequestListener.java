@@ -107,4 +107,10 @@ public class NotifyDBRequestListener {
             DSLog.i(DataServicesManager.TAG, msg);
         }
     }
+
+    public void notifyDBChange() {
+        if(DataServicesManager.getInstance().getDbChangeListener()!=null) {
+            DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess();
+        }
+    }
 }

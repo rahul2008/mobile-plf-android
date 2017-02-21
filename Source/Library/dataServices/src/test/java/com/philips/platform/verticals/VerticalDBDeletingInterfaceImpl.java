@@ -28,7 +28,7 @@ public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
-    public void deleteMoments(List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
+    public boolean deleteMoments(List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
 
     }
 

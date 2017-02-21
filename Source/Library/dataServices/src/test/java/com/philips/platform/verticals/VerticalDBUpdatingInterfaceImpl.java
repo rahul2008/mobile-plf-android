@@ -22,7 +22,7 @@ public class VerticalDBUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public void updateMoments(List<Moment> ormMoments, DBRequestListener dbRequestListener) throws SQLException {
+    public boolean updateMoments(List<Moment> ormMoments, DBRequestListener dbRequestListener) throws SQLException {
 
     }
 

@@ -59,13 +59,12 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     }
 
     @Override
-    public boolean saveMoments(final List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
-        boolean result = true;
-        for(Moment moment : moments){
-            result = saveMoment(moment,dbRequestListener);
-        }
-        return result;
+    public boolean saveMoments(final List<Moment> moments,final DBRequestListener dbRequestListener) throws SQLException {
+        boolean isSaved = saving.saveMoments(moments,dbRequestListener);
+        notifyDBRequestListener.notifyDBChange();
+        return isSaved;
     }
+
 
     @Override
     public boolean saveConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener dbRequestListener) throws SQLException {
