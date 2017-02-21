@@ -2,55 +2,94 @@
  * Copyright (c) Koninklijke Philips N.V., 2016, 2017
  * All rights reserved.
  */
-import com.philips.cdp.cdpSCM
-
 apply plugin: 'com.android.library'
 apply plugin: 'jacoco'
-apply plugin: 'com.jfrog.artifactory-upload'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'cdpSCM'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
 
 apply from: rootDir.absolutePath + '/../common/gradle/module-tasks.gradle'
 
 buildscript {
     repositories {
         maven { url repos.jcenter }
-        maven { url repos.release }
+        maven { url repos.plugin }
     }
 
     dependencies {
+        classpath(builddeps.buildinfoextractor)
         classpath(builddeps.cdpscm)
     }
 }
 
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment )
+archivesBaseName = rootProject.name
 version = objcdp.getVersion()
 
+repositories {
+    maven { url repos.jcenter }
+    maven { url objcdp.getArtifactoryUrl() }
+}
+
 artifactory {
-    contextUrl = repos.base
+    contextUrl = objcdp.getArtifactoryContextUrl()
     publish {
         repository {
-            repoKey = objcdp.getArtifactoryRepoKey('android')
+            repoKey = objcdp.getArtifactoryPublishRepoKey()
             username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
-        }
-        defaults {
-            publishPom = true
-            publishIvy = false
-            publishBuildInfo = true
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+                publishArtifacts = true
+                publications ('aar')
+            }
         }
     }
     resolve {
         repository {
-            repoKey = 'libs-release-local-android'
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
+    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
 artifacts {
     archives zipDoc
+}
+
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId group
+            version = version
+            artifactId archivesBaseName
+
+            artifact zipDocuments
+
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
+
+            pom.withXml{
+                def dependenciesNode = asNode().appendNode('dependencies')
+                configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.moduleGroup)
+                    dependencyNode.appendNode('artifactId', it.moduleName)
+                    dependencyNode.appendNode('version', it.moduleVersion)
+                }
+            }
+        }
+    }
 }
 
 android {
@@ -75,6 +114,10 @@ android {
             minifyEnabled false
             buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersion()}\""
         }
+    }
+
+    lintOptions {
+        abortOnError false
     }
 }
 
