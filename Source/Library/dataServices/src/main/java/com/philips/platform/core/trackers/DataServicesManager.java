@@ -48,6 +48,7 @@ import com.philips.platform.core.injection.ApplicationModule;
 import com.philips.platform.core.injection.BackendModule;
 import com.philips.platform.core.injection.DaggerAppComponent;
 import com.philips.platform.core.listeners.DBChangeListener;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.utils.DSLog;
@@ -144,22 +145,22 @@ public class DataServicesManager {
         mEventing.post(new MomentsSaveRequest(moments, dbRequestListener));
     }
 
-    public void fetchMomentWithType(DBRequestListener dbRequestListener, final @NonNull String... type) {
+    public void fetchMomentWithType(DBFetchRequestListner dbFetchRequestListner, final @NonNull String... type) {
         DSLog.i(DSLog.LOG, "pabitra DataServiceManger fetchMomentWithType");
-        mEventing.post(new LoadMomentsRequest(dbRequestListener, type));
+        mEventing.post(new LoadMomentsRequest(dbFetchRequestListner, type));
     }
 
-    public void fetchMomentForMomentID(final int momentID, DBRequestListener dbRequestListener) {
-        mEventing.post(new LoadMomentsRequest(momentID, dbRequestListener));
+    public void fetchMomentForMomentID(final int momentID, DBFetchRequestListner dbFetchRequestListner) {
+        mEventing.post(new LoadMomentsRequest(momentID, dbFetchRequestListner));
     }
 
-    public void fetchAllMoment(DBRequestListener dbRequestListener) {
-        mEventing.post(new LoadMomentsRequest(dbRequestListener));
+    public void fetchAllMoment(DBFetchRequestListner dbFetchRequestListner) {
+        mEventing.post(new LoadMomentsRequest(dbFetchRequestListner));
     }
 
     @NonNull
-    public void fetchConsentDetail(DBRequestListener dbRequestListener) {
-        mEventing.post(new LoadConsentsRequest(dbRequestListener));
+    public void fetchConsentDetail(DBFetchRequestListner dbFetchRequestListner) {
+        mEventing.post(new LoadConsentsRequest(dbFetchRequestListner));
     }
 
 
@@ -349,8 +350,8 @@ public class DataServicesManager {
     }
 
 
-    public void fetchUserCharacteristics(DBRequestListener dbRequestListener) {
-        mEventing.post(new LoadUserCharacteristicsRequest(dbRequestListener));
+    public void fetchUserCharacteristics(DBFetchRequestListner dbFetchRequestListner) {
+        mEventing.post(new LoadUserCharacteristicsRequest(dbFetchRequestListner));
     }
 
     public Characteristics createUserCharacteristics(@NonNull final String detailType, @NonNull final String detailValue, Characteristics characteristics) {
@@ -380,8 +381,8 @@ public class DataServicesManager {
         this.mSynchronisationCompleteListener = null;
     }
 
-    public void fetchUserSettings(DBRequestListener dbRequestListener) {
-      mEventing.post(new LoadSettingsRequest(dbRequestListener));
+    public void fetchUserSettings(DBFetchRequestListner dbFetchRequestListner) {
+      mEventing.post(new LoadSettingsRequest(dbFetchRequestListner));
     }
 
     public AppComponent getAppComponant(){

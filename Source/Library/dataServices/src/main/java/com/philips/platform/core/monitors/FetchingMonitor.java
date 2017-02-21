@@ -63,18 +63,18 @@ public class FetchingMonitor extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventAsync(LoadTimelineEntryRequest event) {
         try {
-            dbInterface.fetchMoments(event.getDbRequestListener());
+            dbInterface.fetchMoments(event.getDbFetchRequestListner());
         } catch (SQLException e) {
-            dbInterface.postError(e, event.getDbRequestListener());
+            dbInterface.postError(e, event.getDbFetchRequestListner());
         }
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventAsync(LoadLastMomentRequest event) {
         try {
-            dbInterface.fetchLastMoment(event.getType(), event.getDbRequestListener());
+            dbInterface.fetchLastMoment(event.getType(), event.getDbFetchRequestListner());
         } catch (SQLException e) {
-            dbInterface.postError(e, event.getDbRequestListener());
+            dbInterface.postError(e, event.getDbFetchRequestListner());
         }
     }
 
@@ -111,23 +111,23 @@ public class FetchingMonitor extends EventMonitor {
         try {
             if (event.hasType()) {
                 DSLog.i(DSLog.LOG, "pabitra LoadMomentsRequest monitor fetchMomentWithType");
-                dbInterface.fetchMoments(event.getDbRequestListener(), event.getTypes());
+                dbInterface.fetchMoments(event.getDbFetchRequestListener(), event.getTypes());
             } else if (event.hasID()) {
-                dbInterface.fetchMomentById(event.getMomentID(), event.getDbRequestListener());
+                dbInterface.fetchMomentById(event.getMomentID(), event.getDbFetchRequestListener());
             } else {
-                dbInterface.fetchMoments(event.getDbRequestListener());
+                dbInterface.fetchMoments(event.getDbFetchRequestListener());
             }
         } catch (SQLException e) {
-            dbInterface.postError(e, event.getDbRequestListener());
+            dbInterface.postError(e, event.getDbFetchRequestListener());
         }
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventAsync(LoadConsentsRequest event) {
         try {
-            dbInterface.fetchConsentDetails(event.getDbRequestListener());
+            dbInterface.fetchConsentDetails(event.getDbFetchRequestListner());
         } catch (SQLException e) {
-            dbInterface.postError(e, event.getDbRequestListener());
+            dbInterface.postError(e, event.getDbFetchRequestListner());
         }
     }
 
@@ -140,13 +140,13 @@ public class FetchingMonitor extends EventMonitor {
         try {
             ormMomentList = (List<? extends Moment>) dbInterface.fetchNonSynchronizedMoments();
         } catch (SQLException e) {
-            //dbInterface.postError(e, event.getDbRequestListener());
+            //dbInterface.postError(e, event.getDbFetchRequestListener());
         }
 
         try {
             consentDetails = (List<? extends ConsentDetail>) dbInterface.fetchConsentDetails();
         } catch (SQLException e) {
-            //dbInterface.postError(e, event.getDbRequestListener());
+            //dbInterface.postError(e, event.getDbFetchRequestListener());
         }
 
         eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList, consentDetails));
@@ -155,7 +155,7 @@ public class FetchingMonitor extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventAsync(LoadUserCharacteristicsRequest loadUserCharacteristicsRequest) {
         try {
-            dbInterface.fetchCharacteristics(loadUserCharacteristicsRequest.getDbRequestListener());
+            dbInterface.fetchCharacteristics(loadUserCharacteristicsRequest.getDbFetchRequestListner());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -165,9 +165,9 @@ public class FetchingMonitor extends EventMonitor {
     public void onEventAsync(LoadSettingsRequest loadSettingsRequest) {
 
         try {
-            dbInterface.fetchSettings(loadSettingsRequest.getDbRequestListener());
+            dbInterface.fetchSettings(loadSettingsRequest.getDbFetchRequestListner());
         } catch (SQLException e) {
-            dbInterface.postError(e, loadSettingsRequest.getDbRequestListener());
+            dbInterface.postError(e, loadSettingsRequest.getDbFetchRequestListner());
         }
     }
 }

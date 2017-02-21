@@ -8,7 +8,7 @@ package com.philips.platform.core.events;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
 
 
 /**
@@ -19,14 +19,14 @@ public class LoadLastMomentRequest extends Event {
     @NonNull
     private final String type;
 
-    public DBRequestListener getDbRequestListener() {
-        return dbRequestListener;
+    public DBFetchRequestListner getDbFetchRequestListner() {
+        return dbFetchRequestListner;
     }
 
-    private final DBRequestListener dbRequestListener;
-    public LoadLastMomentRequest(@NonNull String type, DBRequestListener dbRequestListener) {
+    private final DBFetchRequestListner dbFetchRequestListner;
+    public LoadLastMomentRequest(@NonNull String type, DBFetchRequestListner dbRequestListener) {
         this.type = type;
-        this.dbRequestListener = dbRequestListener;
+        this.dbFetchRequestListner = dbRequestListener;
     }
 
     @NonNull

@@ -8,7 +8,7 @@ package com.philips.platform.core.events;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
 
 
 /**
@@ -20,35 +20,35 @@ public class LoadMomentsRequest extends Event {
     private final String type;
     private final int momentID;
 
-    public DBRequestListener getDbRequestListener() {
-        return dbRequestListener;
+    public DBFetchRequestListner getDbFetchRequestListener() {
+        return dbFetchRequestListener;
     }
 
-    public void setDbRequestListener(DBRequestListener dbRequestListener) {
-        this.dbRequestListener = dbRequestListener;
+    public void setDbFetchRequestListener(DBFetchRequestListner dbFetchRequestListener) {
+        this.dbFetchRequestListener = dbFetchRequestListener;
     }
 
     private String[] types;
-    private DBRequestListener dbRequestListener;
+    private DBFetchRequestListner dbFetchRequestListener;
 
-    public LoadMomentsRequest(DBRequestListener dbRequestListener) {
-        this.dbRequestListener = dbRequestListener;
+    public LoadMomentsRequest(DBFetchRequestListner dbFetchRequestListner) {
+        this.dbFetchRequestListener = dbFetchRequestListner;
         types = null;
         type = null;
         momentID = -1;
     }
 
-    public LoadMomentsRequest(DBRequestListener dbRequestListener,final @NonNull String... type) {
+    public LoadMomentsRequest(DBFetchRequestListner dbFetchRequestListner,final @NonNull String... type) {
         this.type = type[0];
         this.types = type;
         momentID = -1;
-        this.dbRequestListener=dbRequestListener;
+        this.dbFetchRequestListener =dbFetchRequestListner;
     }
 
-    public LoadMomentsRequest(int momentID,DBRequestListener dbRequestListener) {
+    public LoadMomentsRequest(int momentID,DBFetchRequestListner dbFetchRequestListner) {
         this.momentID = momentID;
         this.type = null;
-        this.dbRequestListener=dbRequestListener;
+        this.dbFetchRequestListener =dbFetchRequestListner;
     }
 
     public int getMomentID() {

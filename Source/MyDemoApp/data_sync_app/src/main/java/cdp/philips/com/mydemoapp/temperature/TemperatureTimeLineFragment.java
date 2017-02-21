@@ -24,6 +24,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.listeners.DBChangeListener;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -49,7 +50,7 @@ import static android.content.Context.ALARM_SERVICE;
  * All rights reserved.
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener{
+public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBFetchRequestListner<Moment>,DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener{
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
@@ -231,35 +232,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void onSuccess(final List<? extends Moment> data) {
-
-        DSLog.i("***SPO***","On Sucess ArrayList TemperatureTimeLineFragment");
-        if (getActivity() == null) return;
-
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                DSLog.i("***SPO***", "http TEmperature TimeLine : UI updated");
-                mData = (ArrayList<? extends Moment>) data;
-                mAdapter.setData(mData);
-                mAdapter.notifyDataSetChanged();
-
-                if (mDataServicesManager.getSyncTypes()!=null && mDataServicesManager.getSyncTypes().size()<=0) {
-                    dismissProgressDialog();
-                    Toast.makeText(getContext(),"No Sync Types Configured",Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                if (mSharedPreferences.getBoolean("isSynced", false)) {
-                    dismissProgressDialog();
-                }
-            }
-        });
-
-    }
-
-    @Override
-    public void onSuccess(Moment data) {
-        DSLog.i("***SPO***", "on Success Object Temperature");
+        DSLog.i("***SPO***", "on Success Temperature");
         mTemperaturePresenter.fetchData(this);
     }
 
@@ -375,5 +348,36 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    public void onFetchSuccess(final List<? extends Moment> data) {
+        DSLog.i("***SPO***","On Sucess ArrayList TemperatureTimeLineFragment");
+        if (getActivity() == null) return;
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                DSLog.i("***SPO***", "http TEmperature TimeLine : UI updated");
+                mData = (ArrayList<? extends Moment>) data;
+                mAdapter.setData(mData);
+                mAdapter.notifyDataSetChanged();
+
+                if (mDataServicesManager.getSyncTypes()!=null && mDataServicesManager.getSyncTypes().size()<=0) {
+                    dismissProgressDialog();
+                    Toast.makeText(getContext(),"No Sync Types Configured",Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (mSharedPreferences.getBoolean("isSynced", false)) {
+                    dismissProgressDialog();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onFetchFailure(Exception exception) {
+        onFailureRefresh(exception);
     }
 }

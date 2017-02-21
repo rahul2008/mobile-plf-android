@@ -6,7 +6,7 @@
 
 package com.philips.platform.core.events;
 
-import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -15,16 +15,16 @@ import com.philips.platform.core.listeners.DBRequestListener;
 
 public class LoadTimelineEntryRequest extends Event {
 
-    DBRequestListener dbRequestListener;
-    public LoadTimelineEntryRequest(DBRequestListener dbRequestListener) {
-     this.dbRequestListener=dbRequestListener;
+    DBFetchRequestListner dbFetchRequestListner;
+    public LoadTimelineEntryRequest(DBFetchRequestListner dbRequestListener) {
+     this.dbFetchRequestListner =dbRequestListener;
     }
 
-    public DBRequestListener getDbRequestListener() {
-        return dbRequestListener;
+    public DBFetchRequestListner getDbFetchRequestListner() {
+        return dbFetchRequestListner;
     }
 
-    public void setDbRequestListener(DBRequestListener dbRequestListener) {
-        this.dbRequestListener = dbRequestListener;
+    public void setDbFetchRequestListner(DBFetchRequestListner dbFetchRequestListner) {
+        this.dbFetchRequestListner = dbFetchRequestListner;
     }
 }
