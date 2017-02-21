@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:textSize="18sp"
-        android:text="Last result: " />
+        android:text="@string/last_result" />
 
     <TextView
         android:id="@+id/txtPerformanceProgress"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:textSize="18sp"
-        android:text="Count: 0"/>
+        android:text="@string/count_0"/>
 
     <LinearLayout
         android:id="@+id/timeButtons"
@@ -78,6 +78,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btnFirmwareUpgrade"
-        android:text="Firmware upgrade"/>
-
+        android:text="@string/firmware_upgrade"/>
 </LinearLayout>

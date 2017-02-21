@@ -141,6 +141,7 @@ public class BleDiscoveryStrategyTestSteps {
         try {
             this.commCentral.startDiscovery();
         } catch (MissingPermissionException | TransportUnavailableException ignored) {
+            // These are normally thrown from BlueLib, which is mocked here.
         }
     }
 

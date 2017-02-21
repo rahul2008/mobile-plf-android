@@ -4,6 +4,8 @@
  */
 package com.philips.cdp2.commlib.ble.communication;
 
+import android.os.Handler;
+
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 
@@ -27,7 +29,7 @@ public class BleCommunicationStrategyTest {
     @Mock
     private ResponseHandler responseHandler;
     @Mock
-    private android.os.Handler callbackHandler;
+    private Handler callbackHandler;
 
     private BleCommunicationStrategy strategy;
 

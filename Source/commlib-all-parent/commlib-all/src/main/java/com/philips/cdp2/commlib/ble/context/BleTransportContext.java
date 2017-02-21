@@ -52,7 +52,7 @@ public class BleTransportContext implements TransportContext {
             SHNLogger.registerLogger(new SHNLogger.LogCatLogger());
             this.shnCentral = createBlueLib(context, showPopupIfBLEIsTurnedOff);
         } catch (SHNBluetoothHardwareUnavailableException e) {
-            throw new TransportUnavailableException("Bluetooth hardware unavailable.");
+            throw new TransportUnavailableException("Bluetooth hardware unavailable.", e);
         }
         this.shnCentral.registerDeviceDefinition(new ReferenceNodeDeviceDefinitionInfo());
         this.discoveryStrategy = new BleDiscoveryStrategy(context, deviceCache, shnCentral.getShnDeviceScanner(), BLE_DISCOVERY_TIMEOUT_MS);

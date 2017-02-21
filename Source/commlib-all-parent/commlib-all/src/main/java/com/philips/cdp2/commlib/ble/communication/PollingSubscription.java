@@ -26,10 +26,13 @@ class PollingSubscription implements Runnable {
 
     @NonNull
     private final CommunicationStrategy communicationStrategy;
+
     @NonNull
     private final PortParameters portParameters;
+
     @NonNull
     private final ResponseHandler responseHandler;
+
     @NonNull
     private ScheduledFuture<?> future;
 
@@ -57,7 +60,6 @@ class PollingSubscription implements Runnable {
         this.endTime = currentTimeMillis() + timeToLiveMillis;
         this.responseHandler = responseHandler;
         this.future = executor.scheduleWithFixedDelay(this, 0, intervalMillis, MILLISECONDS);
-        DICommLog.d("chuck", "scheduling poll");
     }
 
     @Override
@@ -81,7 +83,6 @@ class PollingSubscription implements Runnable {
         if (currentTimeMillis() > endTime) {
             cancel();
         } else {
-            DICommLog.d("chuck", "poll");
             communicationStrategy.getProperties(portParameters.portName, portParameters.productId, internalResponseHandler);
             try {
                 latch.await();
@@ -96,7 +97,6 @@ class PollingSubscription implements Runnable {
     }
 
     void cancel() {
-        DICommLog.d("chuck", "cancelling poll");
         future.cancel(false);
 
         if (this.callback != null) {

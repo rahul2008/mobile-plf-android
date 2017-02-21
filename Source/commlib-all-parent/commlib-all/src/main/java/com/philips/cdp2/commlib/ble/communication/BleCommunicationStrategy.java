@@ -108,7 +108,7 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     }
 
     @Override
-    public synchronized void subscribe(final String portName, final int productId, final int subscriptionTtl, final ResponseHandler responseHandler) {
+    public void subscribe(final String portName, final int productId, final int subscriptionTtl, final ResponseHandler responseHandler) {
         final PortParameters portParameters = new PortParameters(portName, productId);
 
         if (!this.subscriptionsCache.containsKey(portParameters)) {
@@ -136,7 +136,7 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     }
 
     @Override
-    public synchronized void unsubscribe(String portName, int productId, ResponseHandler responseHandler) {
+    public void unsubscribe(String portName, int productId, ResponseHandler responseHandler) {
         PortParameters portParameters = new PortParameters(portName, productId);
         PollingSubscription subscription = this.subscriptionsCache.get(portParameters);
 
@@ -158,7 +158,7 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
      * @param subscriptionEventListener
      */
     @Override
-    public synchronized void enableCommunication(SubscriptionEventListener subscriptionEventListener) {
+    public void enableCommunication(SubscriptionEventListener subscriptionEventListener) {
         if (isAvailable()) {
             SHNDevice device = deviceCache.getDeviceMap().get(cppId);
             device.connect();
@@ -169,11 +169,9 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     /**
      * Disables continuous connection to the appliance, after each request the connection will
      * be severed to preserve battery life.
-     * <p>
-     * Note that
      */
     @Override
-    public synchronized void disableCommunication() {
+    public void disableCommunication() {
         if (isAvailable() && requestExecutor.getQueue().isEmpty() && requestExecutor.getActiveCount() == 0) {
             SHNDevice device = deviceCache.getDeviceMap().get(cppId);
             device.disconnect();

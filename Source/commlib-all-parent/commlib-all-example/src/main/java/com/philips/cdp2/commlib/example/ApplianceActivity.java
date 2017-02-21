@@ -17,7 +17,6 @@ import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.commlib.example.appliance.BleReferenceAppliance;
 import com.philips.cdp2.commlib.example.appliance.TimePort;
-import com.philips.commlib.core.appliance.Appliance;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -25,7 +24,6 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import java.util.Random;
-import java.util.Set;
 
 import static java.lang.System.currentTimeMillis;
 
@@ -61,12 +59,7 @@ public final class ApplianceActivity extends AppCompatActivity {
         ((CompoundButton) findViewById(R.id.switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
         switchLoopGet.setOnCheckedChangeListener(loopGetCheckedChangeListener);
 
-        final Set<? extends Appliance> availableAppliances = ((App) getApplication()).getCommCentral().getApplianceManager().getAvailableAppliances();
-        for (Appliance appliance : availableAppliances) {
-            if (appliance.getNetworkNode().getCppId().equals(getIntent().getExtras().getString(CPPID))) {
-                bleReferenceAppliance = (BleReferenceAppliance) appliance;
-            }
-        }
+        bleReferenceAppliance = (BleReferenceAppliance) ((App) getApplication()).getCommCentral().getApplianceManager().findApplianceByCppId(getIntent().getExtras().getString(CPPID));
 
         if (bleReferenceAppliance == null) {
             finish();

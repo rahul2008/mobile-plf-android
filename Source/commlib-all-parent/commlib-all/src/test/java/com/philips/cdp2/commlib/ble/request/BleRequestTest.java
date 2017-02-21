@@ -118,7 +118,7 @@ public class BleRequestTest {
     }
 
     @Test
-    public void whenRequestIsCancelledAfterSuccessThenNoErrorIsReported() throws Exception {
+    public void whenRequestIsCancelledAfterSuccessThenNoErrorIsReported() {
         request.run();
 
         request.cancel("timeout");
@@ -127,7 +127,7 @@ public class BleRequestTest {
     }
 
     @Test
-    public void whenTimeoutOccursBeforeRequestIsExecutedThenErrorIsReported() throws Exception {
+    public void whenTimeoutOccursBeforeRequestIsExecutedThenErrorIsReported() {
 
         request.cancel("timeout");
 
@@ -135,7 +135,7 @@ public class BleRequestTest {
     }
 
     @Test
-    public void whenTimeoutOccursBeforeRequestIsExecutedThenRequestIsNeverExecuted() throws Exception {
+    public void whenTimeoutOccursBeforeRequestIsExecutedThenRequestIsNeverExecuted() {
         request.cancel("timeout");
 
         request.run();
@@ -189,7 +189,7 @@ public class BleRequestTest {
     }
 
     @Test
-    public void givenRequestIsExecutingWhenDeviceDisconnectsThenOnErrorIsReported() throws Exception {
+    public void givenRequestIsExecutingWhenDeviceDisconnectsThenOnErrorIsReported() throws InterruptedException {
         doAnswer(new Answer() {
             @Override
             public Void answer(final InvocationOnMock invocation) throws Throwable {
