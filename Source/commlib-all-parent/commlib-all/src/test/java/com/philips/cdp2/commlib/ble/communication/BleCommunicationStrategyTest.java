@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import static com.philips.cdp.dicommclient.util.DICommLog.disableLogging;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -33,6 +34,7 @@ public class BleCommunicationStrategyTest {
     @Before
     public void setUp() {
         initMocks(this);
+        disableLogging();
 
         strategy = new BleCommunicationStrategy("NCC-1701", deviceCache, callbackHandler);
     }
