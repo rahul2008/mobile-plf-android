@@ -34,7 +34,6 @@
         android:layout_below="@id/iap_online_store_name"
         android:layout_marginBottom="@dimen/iap_retailers_store_name_top_margin"
         android:layout_toEndOf="@id/iap_retailer_image"
-        android:includeFontPadding="false"
         android:textColor="?attr/uikit_baseColor"
         android:textSize="@dimen/iap_retailers_store_name_size" />
 
@@ -42,8 +41,8 @@
         android:id="@+id/retailer_arrow"
         style="@style/iap_right_arrow_product_catalog"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/iap_select_retailer_right_margin"
-        android:layout_marginRight="@dimen/iap_select_retailer_right_margin" />
+        android:layout_marginStart="@dimen/iap_select_retailer_right_margin"
+        android:layout_marginEnd="@dimen/iap_select_retailer_right_margin" />
 
     <View
         android:id="@+id/dividerbelow"
