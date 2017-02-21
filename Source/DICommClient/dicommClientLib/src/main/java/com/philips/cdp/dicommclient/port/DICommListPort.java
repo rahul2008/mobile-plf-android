@@ -63,7 +63,7 @@ abstract class DICommListPort<T extends DICommListEntryPort<?>> extends DICommPo
 
         // Loop over hashmap of new ports
         // if port in existing hashmap -> update port
-        // if port in new hashmap -> wait new port and call add listener
+        // if port in new hashmap -> create new port and call add listener
     }
 
     public void registerListPortChangedListener(DICommListPortChangedListener listener) {

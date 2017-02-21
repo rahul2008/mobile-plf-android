@@ -31,7 +31,7 @@ public class PairingPort extends DICommPort<Object> {
 
     @Override
     public void processResponse(String jsonResponse) {
-        DICommLog.e(DICommLog.PAIRINGPORT, "Pairing does not return responses.");
+        DICommLog.d(DICommLog.PAIRINGPORT, "Pairing does not return responses.");
     }
 
     @Override

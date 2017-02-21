@@ -1,8 +1,7 @@
-/**
- * (C) Koninklijke Philips N.V., 2016.
+/*
+ * (C) Koninklijke Philips N.V., 2016, 2017.
  * All rights reserved.
  */
-
 package com.philips.commlib.util;
 
 import java.util.concurrent.Executor;

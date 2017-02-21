@@ -27,7 +27,6 @@ import com.philips.commlib.core.port.firmware.util.FirmwarePortStateWaiter;
 import com.philips.commlib.core.port.firmware.util.FirmwareUploader;
 import com.philips.commlib.core.port.firmware.util.FirmwareUploader.UploadListener;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -122,7 +121,7 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
 
     @Override
     public void finish() {
-        this.firmwarePort.finishFirmwareUpdateOperation();
+        this.firmwarePort.finishFirmwareUpdate();
     }
 
     @Override

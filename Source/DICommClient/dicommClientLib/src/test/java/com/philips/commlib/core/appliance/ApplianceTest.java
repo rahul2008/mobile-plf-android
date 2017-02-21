@@ -53,7 +53,6 @@ public class ApplianceTest {
 
     @Test
     public void whenConstructedThenRegistersAsSubscriptionEventListener() throws Exception {
-
         verify(mockCommunicationStrategy).addSubscriptionEventListener(isA(SubscriptionEventListener.class));
     }
 

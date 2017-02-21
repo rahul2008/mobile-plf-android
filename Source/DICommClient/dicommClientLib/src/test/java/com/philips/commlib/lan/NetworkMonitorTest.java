@@ -1,8 +1,7 @@
-/**
- * (C) Koninklijke Philips N.V., 2016.
+/*
+ * (C) Koninklijke Philips N.V., 2016, 2017.
  * All rights reserved.
  */
-
 package com.philips.commlib.lan;
 
 import android.content.BroadcastReceiver;
@@ -113,7 +112,7 @@ public class NetworkMonitorTest {
     }
 
     @Test
-    public void unregisterReceiverWithError(){
+    public void unregisterReceiverWithError() {
         monitorUnderTest.startNetworkChangedReceiver();
         doThrow(new IllegalArgumentException()).when(mockContext).unregisterReceiver(any(BroadcastReceiver.class));
 

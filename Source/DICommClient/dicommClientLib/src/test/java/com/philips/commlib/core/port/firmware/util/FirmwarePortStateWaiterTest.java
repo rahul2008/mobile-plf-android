@@ -12,7 +12,6 @@ import com.philips.commlib.core.communication.CommunicationStrategy;
 import com.philips.commlib.core.port.firmware.FirmwarePort;
 import com.philips.commlib.core.port.firmware.FirmwarePortProperties;
 import com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState;
-import com.philips.commlib.core.port.firmware.state.FirmwareUpdateState;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,14 +34,12 @@ import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.Firm
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.IDLE;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.PROGRAMMING;
 import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -100,7 +97,6 @@ public class FirmwarePortStateWaiterTest {
         when(portMock.getPortProperties()).thenReturn(portPropertiesMock);
         when(portMock.getDICommPortName()).thenReturn(PORT_NAME);
         when(portMock.getDICommProductId()).thenReturn(PORT_PRODUCT_ID);
-
         when(portPropertiesMock.getState()).thenReturn(IDLE);
     }
 

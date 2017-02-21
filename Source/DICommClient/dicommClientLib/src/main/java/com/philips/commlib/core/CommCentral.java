@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Koninklijke Philips N.V.
+ * Copyright (c) 2016, 2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.commlib.core;

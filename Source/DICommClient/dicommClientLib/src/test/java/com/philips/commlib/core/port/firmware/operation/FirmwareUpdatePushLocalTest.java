@@ -15,8 +15,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
-import java.util.concurrent.ExecutorService;
-
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -41,13 +39,13 @@ public class FirmwareUpdatePushLocalTest {
 
     private byte[] firmwaredata = {0xC, 0x0, 0xF, 0xF, 0xE, 0xE};
 
-    private FirmwareUpdatePushLocal operationUnderTest;
+    private FirmwareUpdatePushLocal firmwareUpdateUnderTest;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
 
-        operationUnderTest = new FirmwareUpdatePushLocal(mockFirmwarePort, mockCommunicationStrategy, mockListener, firmwaredata);
+        firmwareUpdateUnderTest = new FirmwareUpdatePushLocal(mockFirmwarePort, mockCommunicationStrategy, mockListener, firmwaredata);
     }
 
     @Test
@@ -55,7 +53,7 @@ public class FirmwareUpdatePushLocalTest {
         when(mockFirmwarePort.getPortProperties()).thenReturn(mockPortProperties);
         when(mockPortProperties.getStatusMessage()).thenReturn("TestError");
 
-        operationUnderTest.onDownloadFailed();
+        firmwareUpdateUnderTest.onDownloadFailed();
 
         verify(mockListener).onDownloadFailed(exceptionArgumentCaptor.capture());
         assertEquals("TestError", exceptionArgumentCaptor.getValue().getMessage());

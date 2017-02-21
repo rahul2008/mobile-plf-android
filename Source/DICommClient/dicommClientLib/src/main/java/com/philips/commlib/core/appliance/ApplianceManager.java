@@ -112,6 +112,21 @@ public class ApplianceManager {
     }
 
     /**
+     * Find appliance by cpp id.
+     *
+     * @param cppId the cpp id
+     * @return the appliance
+     */
+    public Appliance findApplianceByCppId(final String cppId) {
+        for (Appliance appliance : availableAppliances) {
+            if (appliance.getNetworkNode().getCppId().equals(cppId)) {
+                return appliance;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Store an appliance.
      *
      * @param <A>       the appliance type parameter

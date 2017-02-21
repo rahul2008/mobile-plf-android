@@ -12,8 +12,8 @@ import com.philips.commlib.core.port.firmware.util.FirmwareUploader;
 
 public class FirmwareUpdateStateDownloading extends CancelableFirmwareUpdateState {
 
-    public FirmwareUpdateStateDownloading(@NonNull FirmwareUpdatePushLocal operation) {
-        super(operation);
+    public FirmwareUpdateStateDownloading(@NonNull FirmwareUpdatePushLocal firmwareUpdate) {
+        super(firmwareUpdate);
     }
 
     @VisibleForTesting

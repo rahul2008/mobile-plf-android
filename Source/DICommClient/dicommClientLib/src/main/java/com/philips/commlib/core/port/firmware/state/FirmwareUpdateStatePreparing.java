@@ -11,8 +11,8 @@ import com.philips.commlib.core.port.firmware.util.StateWaitException;
 
 public class FirmwareUpdateStatePreparing extends CancelableFirmwareUpdateState {
 
-    public FirmwareUpdateStatePreparing(@NonNull FirmwareUpdatePushLocal operation) {
-        super(operation);
+    public FirmwareUpdateStatePreparing(@NonNull FirmwareUpdatePushLocal firmwareUpdate) {
+        super(firmwareUpdate);
     }
 
     @Override

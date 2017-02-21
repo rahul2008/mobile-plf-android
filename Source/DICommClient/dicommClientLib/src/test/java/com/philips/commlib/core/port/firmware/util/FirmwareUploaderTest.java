@@ -4,15 +4,12 @@
  */
 package com.philips.commlib.core.port.firmware.util;
 
-import android.support.annotation.NonNull;
-
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.GsonProvider;
 import com.philips.commlib.core.communication.CommunicationStrategy;
 import com.philips.commlib.core.port.firmware.FirmwarePort;
 import com.philips.commlib.core.port.firmware.FirmwarePortProperties;
 import com.philips.commlib.core.port.firmware.FirmwareUpdate;
-import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePushLocal;
 
 import org.junit.Before;
 import org.junit.Test;

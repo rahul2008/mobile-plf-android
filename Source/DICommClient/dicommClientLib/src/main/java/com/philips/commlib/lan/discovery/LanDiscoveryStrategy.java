@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Koninklijke Philips N.V.
+ * Copyright (c) 2016, 2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.commlib.lan.discovery;
@@ -167,7 +167,7 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
             });
             return appliance;
         } else {
-            DICommLog.d(DICommLog.DISCOVERY, "Cannot wait appliance for network node: " + networkNode.toString());
+            DICommLog.d(DICommLog.DISCOVERY, "Cannot create appliance for network node: " + networkNode.toString());
             return null;
         }
     }

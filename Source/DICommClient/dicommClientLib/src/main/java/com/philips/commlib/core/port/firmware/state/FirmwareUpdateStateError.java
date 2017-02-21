@@ -12,8 +12,8 @@ import com.philips.commlib.core.port.firmware.util.StateWaitException;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.IDLE;
 
 public class FirmwareUpdateStateError extends FirmwareUpdateState {
-    public FirmwareUpdateStateError(@NonNull FirmwareUpdatePushLocal operation) {
-        super(operation);
+    public FirmwareUpdateStateError(@NonNull FirmwareUpdatePushLocal firmwareUpdate) {
+        super(firmwareUpdate);
     }
 
     @Override

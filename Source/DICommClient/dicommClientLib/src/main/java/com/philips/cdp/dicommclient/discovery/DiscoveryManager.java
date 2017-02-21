@@ -377,7 +377,7 @@ public class DiscoveryManager<T extends Appliance> {
      */
     private void addNewAppliance(NetworkNode networkNode) {
         if (!mApplianceFactory.canCreateApplianceForNode(networkNode)) {
-            DICommLog.d(DICommLog.DISCOVERY, "Cannot wait appliance for networknode: " + networkNode);
+            DICommLog.d(DICommLog.DISCOVERY, "Cannot create appliance for networknode: " + networkNode);
             return;
         }
         final T appliance = mApplianceFactory.createApplianceForNode(networkNode);
@@ -746,7 +746,7 @@ public class DiscoveryManager<T extends Appliance> {
 
         for (NetworkNode networkNode : networkNodes) {
             if (!mApplianceFactory.canCreateApplianceForNode(networkNode)) {
-                DICommLog.e(DICommLog.DISCOVERY, "Did not load appliance from database - factory cannot wait appliance");
+                DICommLog.e(DICommLog.DISCOVERY, "Did not load appliance from database - factory cannot create appliance");
                 continue;
             }
 

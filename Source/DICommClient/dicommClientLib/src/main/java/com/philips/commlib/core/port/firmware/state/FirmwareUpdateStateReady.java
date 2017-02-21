@@ -12,8 +12,8 @@ import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.Firm
 
 public class FirmwareUpdateStateReady extends CancelableFirmwareUpdateState {
 
-    public FirmwareUpdateStateReady(@NonNull FirmwareUpdatePushLocal operation) {
-        super(operation);
+    public FirmwareUpdateStateReady(@NonNull FirmwareUpdatePushLocal firmwareUpdate) {
+        super(firmwareUpdate);
     }
 
     @Override

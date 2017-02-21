@@ -1,8 +1,7 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2017.
  *   All rights reserved.
  */
-
 package com.philips.commlib.core.port.firmware;
 
 import android.support.annotation.NonNull;

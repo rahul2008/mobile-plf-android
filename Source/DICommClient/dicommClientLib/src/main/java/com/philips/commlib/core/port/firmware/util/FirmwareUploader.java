@@ -5,7 +5,6 @@
 package com.philips.commlib.core.port.firmware.util;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 
 import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.dicommclient.request.Error;
@@ -14,15 +13,11 @@ import com.philips.cdp.dicommclient.util.GsonProvider;
 import com.philips.commlib.core.communication.CommunicationStrategy;
 import com.philips.commlib.core.port.firmware.FirmwarePort;
 import com.philips.commlib.core.port.firmware.FirmwarePortProperties;
-import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePushLocal;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortKey.PROGRESS;
 import static com.philips.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortKey.STATE;

@@ -1,8 +1,7 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2017.
  *   All rights reserved.
  */
-
 package com.philips.cdp.dicommclient.testutil;
 
 import com.philips.commlib.core.appliance.Appliance;
@@ -11,12 +10,12 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 public class TestAppliance extends Appliance {
 
-	public TestAppliance(NetworkNode networkNode) {
-		super(networkNode, new NullCommunicationStrategy());
-	}
+    public TestAppliance(NetworkNode networkNode) {
+        super(networkNode, new NullCommunicationStrategy());
+    }
 
-	@Override
-	public String getDeviceType() {
-		return null;
-	}
+    @Override
+    public String getDeviceType() {
+        return null;
+    }
 }

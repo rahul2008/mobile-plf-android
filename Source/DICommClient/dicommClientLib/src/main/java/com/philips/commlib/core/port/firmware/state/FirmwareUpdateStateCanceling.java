@@ -10,8 +10,8 @@ import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePushLocal;
 
 public class FirmwareUpdateStateCanceling extends FirmwareUpdateState {
 
-    public FirmwareUpdateStateCanceling(@NonNull FirmwareUpdatePushLocal operation) {
-        super(operation);
+    public FirmwareUpdateStateCanceling(@NonNull FirmwareUpdatePushLocal firmwareUpdate) {
+        super(firmwareUpdate);
     }
 
     @Override

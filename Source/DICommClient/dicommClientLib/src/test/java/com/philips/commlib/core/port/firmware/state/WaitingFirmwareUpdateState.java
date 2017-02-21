@@ -4,15 +4,12 @@
  */
 package com.philips.commlib.core.port.firmware.state;
 
-import com.philips.commlib.core.port.firmware.FirmwareUpdate;
 import com.philips.commlib.core.port.firmware.operation.FirmwareUpdatePushLocal;
-import com.philips.commlib.core.port.firmware.util.StateWaitException;
 
 import org.junit.Test;
 import org.mockito.Mock;
 
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
 abstract public class WaitingFirmwareUpdateState {

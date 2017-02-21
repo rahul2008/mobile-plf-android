@@ -1,5 +1,5 @@
 /*
- * (C) Koninklijke Philips N.V., 2015, 2016.
+ * (C) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
 package com.philips.cdp.dicommclientsample;
@@ -25,7 +25,6 @@ import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.commlib.core.appliance.Appliance;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -70,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
 
         discoveryManager.addDiscoveryEventListener(discoveryEventListener);
         discoveryManager.start();
-
 
         applianceAdapter.clear();
         applianceAdapter.addAll(discoveryManager.getAllDiscoveredAppliances());

@@ -1,8 +1,7 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016.
+ * © Koninklijke Philips N.V., 2015, 2016, 2017.
  *   All rights reserved.
  */
-
 package com.philips.cdp.dicommclient.appliance;
 
 import com.philips.cdp.dicommclient.networknode.ConnectionState;

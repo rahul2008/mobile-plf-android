@@ -18,7 +18,6 @@ import com.philips.commlib.core.util.HandlerProvider;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
 
@@ -29,6 +28,7 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
     private FirmwarePortProperties previousFirmwarePortProperties = new FirmwarePortProperties();
     private final Set<FirmwarePortListener> firmwarePortListeners = new CopyOnWriteArraySet<>();
 
+    @NonNull
     private Handler callbackHandler;
 
     private final FirmwarePortListener listener = new FirmwarePortListener() {
@@ -134,15 +134,16 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
             firmwareUpdate = new FirmwareUpdatePushLocal(this, this.mCommunicationStrategy, this.listener, firmwareData);
             firmwareUpdate.start();
         } else {
-            throw new IllegalStateException("Operation already in progress.");
+            throw new IllegalStateException("Firmware update already in progress.");
         }
     }
 
     public void pullRemoteFirmware(String version) {
         if (firmwareUpdate == null) {
             firmwareUpdate = new FirmwareUpdatePullRemote();
+            firmwareUpdate.start();
         } else {
-            throw new IllegalStateException("Operation already in progress.");
+            throw new IllegalStateException("Firmware update already in progress.");
         }
     }
 
@@ -153,7 +154,7 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
         try {
             firmwareUpdate.cancel();
         } catch (FirmwareUpdateException e) {
-            DICommLog.e(DICommLog.FIRMWAREPORT, "Error while canceling firmwareUpdate: " + e.getMessage());
+            DICommLog.e(DICommLog.FIRMWAREPORT, "Error while canceling firmware update: " + e.getMessage());
         }
     }
 
@@ -166,14 +167,19 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
 
     public void deployFirmware() {
         if (firmwareUpdate == null) {
-            //todo: inform listener of error
+            final String message = "Firmware update not in progress.";
+            listener.onDeployFailed(new FirmwarePortListener.FirmwarePortException(message));
+            DICommLog.e(DICommLog.FIRMWAREPORT, message);
+
             return;
         }
         try {
             firmwareUpdate.deploy();
         } catch (FirmwareUpdateException e) {
-            //todo: inform listener of error
-            DICommLog.e(DICommLog.FIRMWAREPORT, "Error while canceling firmwareUpdate: " + e.getMessage());
+            final String message = "Error while canceling firmware update: " + e.getMessage();
+
+            listener.onDeployFailed(new FirmwarePortListener.FirmwarePortException(message));
+            DICommLog.e(DICommLog.FIRMWAREPORT, message);
         }
     }
 
@@ -229,7 +235,7 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
         return true;
     }
 
-    public void finishFirmwareUpdateOperation() {
+    public void finishFirmwareUpdate() {
         this.firmwareUpdate = null;
     }
 
