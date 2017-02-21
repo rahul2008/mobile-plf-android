@@ -130,4 +130,10 @@ public class NotifyDBRequestListener {
             DSLog.i(DataServicesManager.TAG,"CallBack not registered");
         }
     }
+
+    public void notifyDBChange() {
+        if(DataServicesManager.getInstance().getDbChangeListener()!=null) {
+            DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess();
+        }
+    }
 }

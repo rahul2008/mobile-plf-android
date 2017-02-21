@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
-import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
@@ -109,11 +108,13 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public void updateMoments(List<Moment> ormMoments, DBRequestListener dbRequestListener) throws SQLException {
-        for(Moment moment : ormMoments){
-            moment.setSynced(false);
-            updateMoment(moment,dbRequestListener);
+    public boolean updateMoments(List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
+
+        boolean isUpdated = updating.updateMoments(moments, dbRequestListener);
+        if (isUpdated) {
+            notifyDBRequestListener.notifySuccess(dbRequestListener);
         }
+        return isUpdated;
     }
 
     public OrmMoment getOrmMoment(final Moment moment, DBRequestListener dbRequestListener) {

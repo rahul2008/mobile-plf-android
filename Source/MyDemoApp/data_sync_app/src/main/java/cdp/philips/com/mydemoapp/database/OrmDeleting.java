@@ -11,10 +11,14 @@ import android.support.annotation.Nullable;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.Callable;
 
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
@@ -224,5 +228,29 @@ public class OrmDeleting {
 
         DeleteBuilder<OrmSettings, Integer> ormSettingsDeleteBuilder = settingsDao.deleteBuilder();
         ormSettingsDeleteBuilder.delete();
+    }
+
+    public boolean deleteMoments(final List<Moment> moments, DBRequestListener dbRequestListener) {
+
+        try {
+            momentDao.callBatchTasks(new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    for (Moment moment : moments) {
+                        //moment.setSynced(false);
+                        OrmMoment ormMoment = OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
+                        ormDeleteMoment(ormMoment);
+                        // momentDao.refresh(ormMoment);
+                    }
+
+                    return null;
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            dbRequestListener.onFailure(e);
+            return false;
+        }
+        return true;
     }
 }

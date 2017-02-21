@@ -11,10 +11,14 @@ import android.support.annotation.NonNull;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.Callable;
 
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmDCSync;
@@ -220,4 +224,28 @@ public class OrmUpdating {
             updateBuilder.update();
 
     }
+
+    public boolean updateMoments(final List<Moment> moments, DBRequestListener dbRequestListener) {
+        try {
+            momentDao.callBatchTasks(new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    for (Moment moment : moments) {
+                        moment.setSynced(false);
+                        OrmMoment ormMoment = OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
+                        updateMoment(ormMoment);
+                        refreshMoment(ormMoment);
+                    }
+
+                    return null;
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            dbRequestListener.onFailure(e);
+            return false;
+        }
+        return true;
+    }
+
 }

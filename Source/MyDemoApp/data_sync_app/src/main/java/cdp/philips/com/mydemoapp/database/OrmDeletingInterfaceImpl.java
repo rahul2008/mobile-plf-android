@@ -73,11 +73,15 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
-    public void deleteMoments(List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
-       for(Moment moment: moments){
-           deleteMoment(moment,dbRequestListener);
-       }
+    public boolean deleteMoments(List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
+
+        boolean isDeleted=ormDeleting.deleteMoments(moments,dbRequestListener);
+        if(isDeleted){
+            notifyDBRequestListener.notifySuccess(dbRequestListener);
+        }
+        return isDeleted;
     }
+
 
     @Override
     public void deleteMomentDetail(Moment moment,DBRequestListener dbRequestListener) throws SQLException {

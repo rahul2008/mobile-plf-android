@@ -16,7 +16,7 @@ import java.util.List;
 public interface DBUpdatingInterface {
     void updateMoment(final Moment ormMoment, DBRequestListener dbRequestListener) throws SQLException;
 
-    void updateMoments(final List<Moment> ormMoments, DBRequestListener dbRequestListener) throws SQLException;
+    boolean updateMoments(final List<Moment> ormMoments, DBRequestListener dbRequestListener) throws SQLException;
 
     boolean updateConsent(final List<? extends ConsentDetail> consentDetails, DBRequestListener dbRequestListener) throws SQLException;
 
