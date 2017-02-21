@@ -8,11 +8,13 @@ package com.philips.cdp.dicommclient.port;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.google.gson.Gson;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp.dicommclient.util.GsonProvider;
 import com.philips.cdp.dicommclient.util.WrappedHandler;
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.commlib.core.communication.CommunicationStrategy;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,10 +30,12 @@ public abstract class DICommPort<T> {
     public static final int SUBSCRIPTION_TTL = 300;
     public static final int SUBSCRIPTION_TTL_MS = SUBSCRIPTION_TTL * 1000;
 
+    protected final Gson gson = GsonProvider.get();
+
     protected CommunicationStrategy mCommunicationStrategy;
     private WrappedHandler mResubscriptionHandler;
 
-    private boolean mHasOutstandingRequest;
+    private boolean isRequestInProgress;
     private boolean mIsApplyingChanges;
     private boolean mGetPropertiesRequested;
     private boolean mSubscribeRequested;
@@ -142,9 +146,7 @@ public abstract class DICommPort<T> {
     }
 
     public void addPortListener(DICommPortListener listener) {
-        if (!mPortListeners.contains(listener)) {
-            mPortListeners.add(listener);
-        }
+        mPortListeners.add(listener);
     }
 
     public void removePortListener(DICommPortListener listener) {
@@ -164,12 +166,12 @@ public abstract class DICommPort<T> {
     }
 
     private void tryToPerformNextRequest() {
-        if (mHasOutstandingRequest) {
-            DICommLog.d(LOG_TAG, "Trying to perform next request - Request outstanding");
+        if (isRequestInProgress) {
+            DICommLog.d(LOG_TAG, "Trying to perform next request - Another request already in progress");
             return;
         }
         DICommLog.d(LOG_TAG, "Trying to perform next request - Performing next request");
-        mHasOutstandingRequest = true;
+        isRequestInProgress = true;
 
         if (isPutPropertiesRequested()) {
             performPutProperties();
@@ -180,7 +182,7 @@ public abstract class DICommPort<T> {
         } else if (isGetPropertiesRequested()) {
             performGetProperties();
         } else {
-            mHasOutstandingRequest = false;
+            isRequestInProgress = false;
         }
     }
 
@@ -210,7 +212,7 @@ public abstract class DICommPort<T> {
     }
 
     private void requestCompleted() {
-        mHasOutstandingRequest = false;
+        isRequestInProgress = false;
         tryToPerformNextRequest();
     }
 
@@ -224,7 +226,7 @@ public abstract class DICommPort<T> {
         final Map<String, Object> propertiesToSend = Collections.unmodifiableMap(new HashMap<>(mPutPropertiesMap));
         mPutPropertiesMap.clear();
 
-        DICommLog.i(LOG_TAG, "Start putProperties");
+        DICommLog.i(LOG_TAG, "putProperties");
         setIsApplyingChanges(true);
         mCommunicationStrategy.putProperties(propertiesToSend, getDICommPortName(), getDICommProductId(), new ResponseHandler() {
 
@@ -235,7 +237,7 @@ public abstract class DICommPort<T> {
                 }
                 handleResponse(data);
                 requestCompleted();
-                DICommLog.i(LOG_TAG, "End putProperties - success");
+                DICommLog.i(LOG_TAG, "putProperties - success");
             }
 
             public void onError(Error error, String errorData) {
@@ -244,20 +246,20 @@ public abstract class DICommPort<T> {
                 }
                 notifyPortListenersOnError(error, errorData);
                 requestCompleted();
-                DICommLog.e(LOG_TAG, "End putProperties - error");
+                DICommLog.e(LOG_TAG, "putProperties - error");
             }
         });
     }
 
     private void performGetProperties() {
-        DICommLog.i(LOG_TAG, "Start getProperties");
+        DICommLog.i(LOG_TAG, "getProperties");
         mCommunicationStrategy.getProperties(getDICommPortName(), getDICommProductId(), new ResponseHandler() {
 
             @Override
             public void onSuccess(String data) {
                 handleResponse(data);
                 requestCompleted();
-                DICommLog.i(LOG_TAG, "End getProperties - success");
+                DICommLog.i(LOG_TAG, "getProperties - success");
             }
 
             @Override
@@ -265,13 +267,13 @@ public abstract class DICommPort<T> {
                 mGetPropertiesRequested = false;
                 notifyPortListenersOnError(error, errorData);
                 requestCompleted();
-                DICommLog.e(LOG_TAG, "End getProperties - error");
+                DICommLog.e(LOG_TAG, "getProperties - error");
             }
         });
     }
 
     private void performSubscribe() {
-        DICommLog.i(LOG_TAG, "Start subscribe");
+        DICommLog.i(LOG_TAG, "perform subscribe");
         mCommunicationStrategy.subscribe(getDICommPortName(), getDICommProductId(), SUBSCRIPTION_TTL, new ResponseHandler() {
 
             @Override
@@ -279,7 +281,7 @@ public abstract class DICommPort<T> {
                 mSubscribeRequested = false;
                 handleResponse(data);
                 requestCompleted();
-                DICommLog.i(LOG_TAG, "End subscribe - success");
+                DICommLog.i(LOG_TAG, "subscribe - success");
             }
 
             @Override
@@ -287,13 +289,13 @@ public abstract class DICommPort<T> {
                 mSubscribeRequested = false;
                 notifyPortListenersOnError(error, errorData);
                 requestCompleted();
-                DICommLog.e(LOG_TAG, "End subscribe - error");
+                DICommLog.e(LOG_TAG, "subscribe - error");
             }
         });
     }
 
     private void performUnsubscribe() {
-        DICommLog.i(LOG_TAG, "Start unsubscribe");
+        DICommLog.i(LOG_TAG, "perform unsubscribe");
         mCommunicationStrategy.unsubscribe(getDICommPortName(), getDICommProductId(), new ResponseHandler() {
 
             @Override
@@ -301,7 +303,7 @@ public abstract class DICommPort<T> {
                 mUnsubscribeRequested = false;
                 handleResponse(data);
                 requestCompleted();
-                DICommLog.i(LOG_TAG, "End unsubscribe - success");
+                DICommLog.i(LOG_TAG, "unsubscribe - success");
             }
 
             @Override
@@ -309,7 +311,7 @@ public abstract class DICommPort<T> {
                 mUnsubscribeRequested = false;
                 notifyPortListenersOnError(error, errorData);
                 requestCompleted();
-                DICommLog.e(LOG_TAG, "End unsubscribe - success");
+                DICommLog.e(LOG_TAG, "unsubscribe - error");
             }
         });
     }

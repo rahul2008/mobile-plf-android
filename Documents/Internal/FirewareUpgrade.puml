@@ -18,7 +18,8 @@ class FirmwarePort {
 }
 
 interface FirmwarePortListener {
-    + onProgressUpdated(FirmwarePortProgressType type, int progress)
+    + onCheckingProgress(int progress)
+    + onDownloadProgress(int progress)
     + onDownloadFailed(FirmwarePortException exception)
     + onDownloadFinished()
     + onFirmwareAvailable(String version)

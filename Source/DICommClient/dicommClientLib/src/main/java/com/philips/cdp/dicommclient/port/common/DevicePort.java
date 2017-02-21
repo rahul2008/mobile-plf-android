@@ -5,13 +5,9 @@
 
 package com.philips.cdp.dicommclient.port.common;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.commlib.core.communication.CommunicationStrategy;
 
 public class DevicePort extends DICommPort<DevicePortProperties> {
 
@@ -58,21 +54,20 @@ public class DevicePort extends DICommPort<DevicePortProperties> {
         if (response == null || response.isEmpty()) {
             return null;
         }
-        Gson gson = new GsonBuilder().create();
+
         DevicePortProperties devicePortInfo = null;
         try {
             devicePortInfo = gson.fromJson(response, DevicePortProperties.class);
-        } catch (JsonSyntaxException e) {
-            DICommLog.e(DICommLog.DEVICEPORT, "JsonSyntaxException");
-        } catch (JsonIOException e) {
-            DICommLog.e(DICommLog.DEVICEPORT, "JsonIOException");
-        } catch (Exception e2) {
-            DICommLog.e(DICommLog.DEVICEPORT, "Exception");
+        } catch (Exception e) {
+            DICommLog.e(DICommLog.DEVICEPORT, e.getMessage());
         }
 
-        if (devicePortInfo != null && (
-                devicePortInfo.getName() == null || devicePortInfo.getType() == null
-                        || devicePortInfo.getModelid() == null || devicePortInfo.getSwversion() == null)) {
+        if (devicePortInfo != null &&
+                (devicePortInfo.getName() == null
+                        || devicePortInfo.getType() == null
+                        || devicePortInfo.getModelid() == null
+                        || devicePortInfo.getSwversion() == null)
+                ) {
             return null;
         } else {
             return devicePortInfo;

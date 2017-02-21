@@ -8,14 +8,14 @@ package com.philips.cdp.dicommclientsample;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
-import com.philips.cdp2.commlib.core.communication.CombinedCommunicationStrategy;
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.commlib.core.communication.CombinedCommunicationStrategy;
+import com.philips.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclientsample.airpurifier.AirPurifier;
 import com.philips.cdp.dicommclientsample.airpurifier.ComfortAirPurifier;
 import com.philips.cdp.dicommclientsample.airpurifier.JaguarAirPurifier;
-import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
-import com.philips.cdp2.commlib.lan.context.LanTransportContext;
+import com.philips.commlib.cloud.context.CloudTransportContext;
+import com.philips.commlib.lan.context.LanTransportContext;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -36,12 +36,12 @@ class SampleApplianceFactory implements DICommApplianceFactory<AirPurifier> {
 
     @Override
     public boolean canCreateApplianceForNode(NetworkNode networkNode) {
-        return AirPurifier.MODELNAME.equals(networkNode.getModelName());
+        return getSupportedModelNames().contains(networkNode.getModelName());
     }
 
     @Override
     public AirPurifier createApplianceForNode(NetworkNode networkNode) {
-        if (networkNode.getModelName().equals(AirPurifier.MODELNAME)) {
+        if (canCreateApplianceForNode(networkNode)) {
             final CommunicationStrategy communicationStrategy = new CombinedCommunicationStrategy(
                     lanTransportContext.createCommunicationStrategyFor(networkNode),
                     cloudTransportContext.createCommunicationStrategyFor(networkNode));

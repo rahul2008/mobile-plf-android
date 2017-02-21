@@ -5,9 +5,8 @@
 
 package com.philips.cdp.dicommclient.request;
 
-import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp2.commlib.lan.communication.LanRequest;
-import com.philips.cdp2.commlib.lan.communication.LanRequestType;
+import com.philips.commlib.lan.communication.LanRequest;
+import com.philips.commlib.lan.communication.LanRequestType;
 
 import org.json.JSONException;
 import org.json.JSONObject;

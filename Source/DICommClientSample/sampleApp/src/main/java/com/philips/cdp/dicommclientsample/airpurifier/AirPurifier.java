@@ -4,8 +4,8 @@
  */
 package com.philips.cdp.dicommclientsample.airpurifier;
 
-import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.commlib.core.appliance.Appliance;
+import com.philips.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 public abstract class AirPurifier extends Appliance {

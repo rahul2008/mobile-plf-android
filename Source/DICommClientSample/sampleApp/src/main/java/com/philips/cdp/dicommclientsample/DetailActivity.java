@@ -1,5 +1,5 @@
 /*
- * (C) Koninklijke Philips N.V., 2015, 2016.
+ * (C) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
 package com.philips.cdp.dicommclientsample;
@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
-import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.commlib.core.appliance.Appliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.port.DICommPort;

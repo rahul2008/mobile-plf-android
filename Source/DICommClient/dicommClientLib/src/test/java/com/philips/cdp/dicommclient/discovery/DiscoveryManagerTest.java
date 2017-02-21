@@ -1,8 +1,7 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016.
+ * © Koninklijke Philips N.V., 2015, 2016, 2017.
  *   All rights reserved.
  */
-
 package com.philips.cdp.dicommclient.discovery;
 
 import android.os.Handler;
@@ -15,9 +14,9 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.networknode.NetworkNode.PAIRED_STATUS;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 import com.philips.cdp.dicommclient.testutil.TestAppliance;
-import com.philips.cdp2.commlib.lan.NetworkMonitor;
-import com.philips.cdp2.commlib.lan.NetworkMonitor.NetworkChangedListener;
-import com.philips.cdp2.commlib.lan.NetworkMonitor.NetworkState;
+import com.philips.commlib.lan.NetworkMonitor;
+import com.philips.commlib.lan.NetworkMonitor.NetworkChangedListener;
+import com.philips.commlib.lan.NetworkMonitor.NetworkState;
 
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;

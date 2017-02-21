@@ -1,15 +1,14 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016.
+ * © Koninklijke Philips N.V., 2015, 2016, 2017.
  *   All rights reserved.
  */
-
 package com.philips.cdp.dicommclient.appliance;
 
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 import com.philips.cdp.dicommclient.testutil.TestAppliance;
-import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.commlib.core.appliance.Appliance;
 
 import org.junit.Test;
 import org.mockito.Mockito;
