@@ -326,7 +326,7 @@ dependencies {
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'commlib-all', version: '1.2.2' + objcdp.getVersionSuffix(), classifier: 'release', ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'commlib-all', version: '1.2.2' + objcdp.getVersionSuffix(), ext: 'aar'){
         exclude group: 'com.android.support'
         transitive = true
     }
