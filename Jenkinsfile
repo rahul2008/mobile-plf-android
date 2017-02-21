@@ -36,11 +36,18 @@ node('Android') {
         }
 
         stage('Tests') {
+            sh 'rm -rf android-shinelib/Source/ShineLib/shinelib/build/test-results'
+            sh 'rm -rf dicomm-android/Source/DICommClient/dicommClientLib/build/test-results'
             sh 'rm -rf android-commlib-all/Source/commlib-all-parent/commlib-all/build/test-results'
-            sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew -PenvCode=${JENKINS_ENV} testDebug'
+            sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew -PenvCode=${JENKINS_ENV} commlib-all:testDebug || true'
 
-            // step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/*/*.json'])
-            // step([$class: 'CucumberReportPublisher', jsonReportDirectory: 'build/cucumber-reports', fileIncludePattern: '*.json'])
+            step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/*/*.xml'])
+
+            if (fileExists('android-commlib-all/Source/commlib-all-parent/build/cucumber-reports/report.json')) {
+               step([$class: 'CucumberReportPublisher', jsonReportDirectory: 'android-commlib-all/Source/commlib-all-parent/build/cucumber-reports', fileIncludePattern: '*.json'])
+            } else {
+               echo 'No Cucumber result found, nothing to publish'
+            }
         }
 
         stage('Archive App') {

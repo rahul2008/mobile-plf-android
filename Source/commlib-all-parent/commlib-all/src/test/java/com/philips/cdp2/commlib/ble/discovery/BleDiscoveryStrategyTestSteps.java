@@ -13,9 +13,11 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
-import com.philips.cdp2.commlib.core.CommCentral;
-import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
+import com.philips.commlib.core.CommCentral;
+import com.philips.commlib.core.appliance.Appliance;
+import com.philips.commlib.core.exception.MissingPermissionException;
+import com.philips.commlib.core.exception.TransportUnavailableException;
+import com.philips.commlib.core.util.HandlerProvider;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
@@ -37,8 +39,8 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
-import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.atLeast;
@@ -71,6 +73,9 @@ public class BleDiscoveryStrategyTestSteps {
     @Before
     public void setup() throws SHNBluetoothHardwareUnavailableException {
         initMocks(this);
+
+        Handler mockMainThreadHandler = mock(Handler.class);
+        HandlerProvider.enableMockedHandler(mockMainThreadHandler);
 
         final Context mockContext = mock(Context.class);
 
@@ -135,8 +140,8 @@ public class BleDiscoveryStrategyTestSteps {
     public void startingDiscoveryForBLEAppliances() {
         try {
             this.commCentral.startDiscovery();
-        } catch (MissingPermissionException e) {
-            // Ignore
+        } catch (MissingPermissionException | TransportUnavailableException ignored) {
+            // These are normally thrown from BlueLib, which is mocked here.
         }
     }
 
