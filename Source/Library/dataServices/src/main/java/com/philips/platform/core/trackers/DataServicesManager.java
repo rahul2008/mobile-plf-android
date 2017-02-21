@@ -118,7 +118,8 @@ public class DataServicesManager {
     @Inject
     ErrorHandlingInterface errorHandlingInterface;
 
-    private ArrayList<DataFetcher> mCustomeFetchers;
+    private ArrayList<DataFetcher> mCustomFetchers;
+
     private ArrayList<DataSender> mCustomSenders;
 
     private Set<String> mSyncDataTypes;
@@ -256,7 +257,7 @@ public class DataServicesManager {
     @SuppressWarnings("rawtypes")
     public void initializeSyncMonitors(Context context, ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders, SynchronisationCompleteListener synchronisationCompleteListener) {
         DSLog.i("***SPO***", "In DataServicesManager.initializeSyncMonitors");
-        this.mCustomeFetchers = fetchers;
+        this.mCustomFetchers = fetchers;
         this.mCustomSenders = senders;
         this.mSynchronisationCompleteListener = synchronisationCompleteListener;
         prepareInjectionsGraph(context);
@@ -314,7 +315,7 @@ public class DataServicesManager {
     private void prepareInjectionsGraph(Context context) {
         BackendModule backendModule = new BackendModule(new EventingImpl(new EventBus(), new Handler()), mDataCreater, userRegistrationInterface,
                 mDeletingInterface, mFetchingInterface, mSavingInterface, mUpdatingInterface,
-                mCustomeFetchers, mCustomSenders, errorHandlingInterface);
+                mCustomFetchers, mCustomSenders, errorHandlingInterface);
         final ApplicationModule applicationModule = new ApplicationModule(context);
 
         mAppComponent = DaggerAppComponent.builder().backendModule(backendModule).applicationModule(applicationModule).build();
@@ -395,5 +396,13 @@ public class DataServicesManager {
 
     public Set<String> getSyncTypes() {
         return mSyncDataTypes;
+    }
+
+    public ArrayList<DataFetcher> getCustomFetchers() {
+        return mCustomFetchers;
+    }
+
+    public ArrayList<DataSender> getCustomSenders() {
+        return mCustomSenders;
     }
 }

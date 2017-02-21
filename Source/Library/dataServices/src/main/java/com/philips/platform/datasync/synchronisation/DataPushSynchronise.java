@@ -180,6 +180,14 @@ public class DataPushSynchronise extends EventMonitor {
 
         ArrayList<DataSender> dataSenders = new ArrayList<>();
 
+        ArrayList<DataSender> customSenders = mDataServicesManager.getCustomSenders();
+
+        if (customSenders != null && customSenders.size() != 0) {
+            for (DataSender customSender : customSenders) {
+                dataSenders.add(customSender);
+            }
+        }
+
         for (String sender : configurableSenders){
             switch (sender){
                 case "moment":

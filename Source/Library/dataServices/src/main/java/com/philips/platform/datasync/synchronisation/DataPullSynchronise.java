@@ -199,6 +199,13 @@ public class DataPullSynchronise {
         }
 
         ArrayList<DataFetcher> fetchList = new ArrayList<>();
+        ArrayList<DataFetcher> customFetchers = mDataServicesManager.getCustomFetchers();
+
+        if (customFetchers != null && customFetchers.size() != 0) {
+            for (DataFetcher customFetcher : customFetchers) {
+                fetchList.add(customFetcher);
+            }
+        }
 
         for (String fetcher : configurableFetchers){
             switch (fetcher){
