@@ -116,9 +116,12 @@ public class DataSyncApplication extends Application {
         mDataServicesManager.initializeDataServices(this, creator, userRegistrationInterface, errorHandlerInterface);
         injectDBInterfacesToCore();
         mDataServicesManager.initializeSyncMonitors(this, null, null,synchronisationCompleteListener);
-        Set fetchList = new HashSet();
-        fetchList.add(SyncType.MOMENT.getDescription());
-        mDataServicesManager.configureSyncDataType(fetchList);
+        Set syncSet = new HashSet();
+        syncSet.add(SyncType.MOMENT.getDescription());
+        //syncSet.add(SyncType.CONSENT.getDescription());
+        syncSet.add(SyncType.CHARACTERISTICS.getDescription());
+        //syncSet.add(SyncType.SETTINGS.getDescription());
+        mDataServicesManager.configureSyncDataType(syncSet);
     }
 
     void injectDBInterfacesToCore() {

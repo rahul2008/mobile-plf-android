@@ -64,12 +64,14 @@ public class CharacteristicsPresenter {
     private void saveUserCharacteristicsToLocalDBRecursively(List<Characteristics> parentCharacteristicsList, Characteristics parentCharacteristics, List<AppCharacteristics> appCharacteristicsList) {
         if (appCharacteristicsList != null && appCharacteristicsList.size() > 0) {
             for (int i = 0; i < appCharacteristicsList.size(); i++) {
-                String type = appCharacteristicsList.get(i).getType();
-                String value = appCharacteristicsList.get(i).getValue();
-                Characteristics childCharacteristics = mDataServicesManager.createUserCharacteristics(type, value, parentCharacteristics);
-                parentCharacteristicsList.add(childCharacteristics);
-                parentCharacteristics.setCharacteristicsDetail(childCharacteristics);
-                saveUserCharacteristicsToLocalDBRecursively(parentCharacteristicsList, childCharacteristics, appCharacteristicsList.get(i).getCharacteristics());
+                if (appCharacteristicsList.get(i) != null) {
+                    String type = appCharacteristicsList.get(i).getType();
+                    String value = appCharacteristicsList.get(i).getValue();
+                    Characteristics childCharacteristics = mDataServicesManager.createUserCharacteristics(type, value, parentCharacteristics);
+                    parentCharacteristicsList.add(childCharacteristics);
+                    parentCharacteristics.setCharacteristicsDetail(childCharacteristics);
+                    saveUserCharacteristicsToLocalDBRecursively(parentCharacteristicsList, childCharacteristics, appCharacteristicsList.get(i).getCharacteristics());
+                }
             }
         }
     }
