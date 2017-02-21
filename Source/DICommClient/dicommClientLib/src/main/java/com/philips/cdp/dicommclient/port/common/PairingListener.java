@@ -5,7 +5,7 @@
 
 package com.philips.cdp.dicommclient.port.common;
 
-import com.philips.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 
 
 public interface PairingListener<T extends Appliance> {

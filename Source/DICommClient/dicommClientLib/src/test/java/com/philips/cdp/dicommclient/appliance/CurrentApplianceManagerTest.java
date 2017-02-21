@@ -8,7 +8,7 @@ import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 import com.philips.cdp.dicommclient.testutil.TestAppliance;
-import com.philips.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 
 import org.junit.Test;
 import org.mockito.Mockito;

@@ -7,7 +7,7 @@ package com.philips.cdp.dicommclient.port.common;
 
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 public class DevicePort extends DICommPort<DevicePortProperties> {
 

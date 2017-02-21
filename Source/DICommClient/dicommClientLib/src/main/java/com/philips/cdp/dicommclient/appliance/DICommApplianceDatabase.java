@@ -5,7 +5,7 @@
 
 package com.philips.cdp.dicommclient.appliance;
 
-import com.philips.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 
 public interface DICommApplianceDatabase<T extends Appliance> {
 
