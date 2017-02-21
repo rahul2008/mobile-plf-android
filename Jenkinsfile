@@ -1,24 +1,31 @@
 node('Android') {
+    JENKINS_ENV = env.JENKINS_ENV
+
     stage 'Checkout'
     checkout scm
 
     stage 'Build'
-    sh 'cd ./Source/cloudcontroller && ./gradlew assembleDebug'
+    sh 'cd ./Source/cloudcontroller && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease'
 
     stage 'Unit test'
     sh 'rm -rf ./Source/cloudcontroller/build/test-results/debug'
-    sh 'cd ./Source/cloudcontroller && ./gradlew test || true'
+    sh 'cd ./Source/cloudcontroller && ./gradlew -PenvCode=${JENKINS_ENV} test || true'
     step([$class: 'JUnitResultArchiver', testResults: 'Source/cloudcontroller/build/test-results/*/*.xml'])
 
     stage 'Lint'
-    sh 'cd ./Source/cloudcontroller && ./gradlew lintDebug || true'
+    sh 'cd ./Source/cloudcontroller && ./gradlew -PenvCode=${JENKINS_ENV} lintDebug || true'
     step([$class: 'LintPublisher', healthy: '0', unHealthy: '20', unstableTotalAll: '20'])
 
     stage 'Archive Apps'
     step([$class: 'ArtifactArchiver', artifacts: 'Source/cloudcontroller/build/outputs/aar/*.aar', excludes: null, fingerprint: true, onlyIfSuccessful: true])
 
-    if(env.BRANCH_NAME == "develop" || env.BRANCH_NAME == "master"){
+    if(env.BRANCH_NAME == "develop" || env.BRANCH_NAME == "master" || env.BRANCH_NAME =~ "release"){
         stage 'Publish'
-        sh 'cd ./Source/cloudcontroller && ./gradlew zipDocuments artifactoryPublish'
+        sh 'cd ./Source/cloudcontroller && ./gradlew -PenvCode=${JENKINS_ENV} zipDocuments artifactoryPublish'
     }
+
+    stage ('save dependencies list') {
+        	sh 'cd ./Source/cloudcontroller && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
+    }
+    archiveArtifacts '**/dependencies.lock'
 }
