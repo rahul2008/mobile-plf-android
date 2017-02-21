@@ -22,6 +22,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import static com.philips.cdp.dicommclient.util.DICommLog.disableLogging;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Matchers.any;
@@ -70,6 +71,7 @@ public class PollingSubscriptionTest {
     @Before
     public void setUp() {
         initMocks(this);
+        disableLogging();
 
         when(mockExecutor.scheduleWithFixedDelay(any(Runnable.class), anyLong(), anyLong(), any(TimeUnit.class))).thenAnswer(new Answer<ScheduledFuture<?>>() {
             @Override
