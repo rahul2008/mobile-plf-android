@@ -39,7 +39,7 @@ android {
 }
 
 dependencies {
-    compile 'com.philips.cdp:cloudcontroller:5.1.2-SNAPSHOT'
+    compile 'com.philips.cdp:cloudcontroller:5.1.2-SNAPSHOT.+'
 
     if (findProject(':commlib') || findProject(':dicommClientLib')) {
         def commlib = findProject(':commlib') ? ':commlib' : ':dicommClientLib'
