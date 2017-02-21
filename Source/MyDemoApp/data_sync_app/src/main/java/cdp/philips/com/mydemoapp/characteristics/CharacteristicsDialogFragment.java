@@ -29,7 +29,7 @@ import java.util.List;
 import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 
-public class CharacteristicsDialogFragment extends DialogFragment implements View.OnClickListener, DBRequestListener,DBChangeListener {
+public class CharacteristicsDialogFragment extends DialogFragment implements View.OnClickListener, DBRequestListener<Characteristics>,DBChangeListener {
     Button mBtnOk,mBtnEdit;
     private Context mContext;
     private EditText mEtCharacteristics;
@@ -136,7 +136,7 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
     }
 
     @Override
-    public void onSuccess(List<? extends Object> data) {
+    public void onSuccess(List<? extends Characteristics> data) {
         //Display User characteristics from DB
         //Display User characteristics UI
         if (data == null) return;
@@ -217,7 +217,7 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
     }
 
     @Override
-    public void onSuccess(final Object data) {
+    public void onSuccess(final Characteristics data) {
 
     }
 

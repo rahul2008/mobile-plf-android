@@ -49,7 +49,7 @@ import static android.content.Context.ALARM_SERVICE;
  * All rights reserved.
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBRequestListener, DBChangeListener, SynchronisationCompleteListener{
+public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener{
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
@@ -230,7 +230,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     }
 
     @Override
-    public void onSuccess(final List<? extends Object> data) {
+    public void onSuccess(final List<? extends Moment> data) {
 
         DSLog.i("***SPO***","On Sucess ArrayList TemperatureTimeLineFragment");
         if (getActivity() == null) return;
@@ -258,7 +258,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     }
 
     @Override
-    public void onSuccess(final Object data) {
+    public void onSuccess(Moment data) {
         DSLog.i("***SPO***", "on Success Object Temperature");
         mTemperaturePresenter.fetchData(this);
     }

@@ -28,7 +28,7 @@ import cdp.philips.com.mydemoapp.R;
  * Created by sangamesh on 09/01/17.
  */
 
-public class SettingsFragment extends DialogFragment implements DBRequestListener, DBChangeListener, View.OnClickListener {
+public class SettingsFragment extends DialogFragment implements DBRequestListener<Settings>, DBChangeListener, View.OnClickListener {
 
     private Button mBtnOk;
     private Button mBtnCancel;
@@ -76,7 +76,7 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
     }
 
     @Override
-    public void onSuccess(final List<? extends Object> ormObjectList) {
+    public void onSuccess(final List<? extends Settings> ormObjectList) {
 
 
     }
@@ -95,7 +95,7 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
     }
 
     @Override
-    public void onSuccess(final Object data) {
+    public void onSuccess(final Settings data) {
 
         if (getActivity() != null) {
             getActivity().runOnUiThread(new Runnable() {

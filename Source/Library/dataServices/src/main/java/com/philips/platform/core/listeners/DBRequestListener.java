@@ -2,11 +2,11 @@ package com.philips.platform.core.listeners;
 
 import java.util.List;
 
-public interface DBRequestListener {
+public interface DBRequestListener<T> {
 
-    void onSuccess(List<? extends Object> data);
+    void onSuccess(List<? extends T> data);
 
-    void onSuccess(Object data);
+    void onSuccess(T data);
 
     void onFailure(Exception exception);
 }

@@ -29,7 +29,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
  * Created by sangamesh on 08/11/16.
  */
 
-public class ConsentDialogFragment extends DialogFragment implements DBRequestListener,DBChangeListener, View.OnClickListener {
+public class ConsentDialogFragment extends DialogFragment implements DBRequestListener<ConsentDetail>,DBChangeListener, View.OnClickListener {
 
     private RecyclerView mRecyclerView;
     private Button mBtnOk;
@@ -73,7 +73,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     }
 
     @Override
-    public void onSuccess(final List<? extends Object> data) {
+    public void onSuccess(final List<? extends ConsentDetail> data) {
 
         final ArrayList<OrmConsentDetail> ormConsents = (ArrayList<OrmConsentDetail>) data;
 
@@ -99,7 +99,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     }
 
     @Override
-    public void onSuccess(Object data) {
+    public void onSuccess(ConsentDetail data) {
 
 
     }

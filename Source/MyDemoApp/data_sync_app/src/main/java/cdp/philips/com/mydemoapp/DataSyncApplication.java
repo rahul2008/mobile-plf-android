@@ -20,7 +20,6 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
@@ -31,9 +30,7 @@ import com.squareup.leakcanary.LeakCanary;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Locale;
-import java.util.Set;
 
 import cdp.philips.com.mydemoapp.database.DatabaseHelper;
 import cdp.philips.com.mydemoapp.database.ORMSavingInterfaceImpl;
@@ -116,12 +113,12 @@ public class DataSyncApplication extends Application {
         mDataServicesManager.initializeDataServices(this, creator, userRegistrationInterface, errorHandlerInterface);
         injectDBInterfacesToCore();
         mDataServicesManager.initializeSyncMonitors(this, null, null,synchronisationCompleteListener);
-        Set syncSet = new HashSet();
+        /*Set syncSet = new HashSet();
         syncSet.add(SyncType.MOMENT.getDescription());
         //syncSet.add(SyncType.CONSENT.getDescription());
         syncSet.add(SyncType.CHARACTERISTICS.getDescription());
         //syncSet.add(SyncType.SETTINGS.getDescription());
-        mDataServicesManager.configureSyncDataType(syncSet);
+        mDataServicesManager.configureSyncDataType(syncSet);*/
     }
 
     void injectDBInterfacesToCore() {
