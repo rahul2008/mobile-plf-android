@@ -213,6 +213,8 @@ public class MomentsConverter {
 
             if (!isRoot) {
                 parent.addMeasurementGroups(parentUCore);
+            }else {
+                parent = parentUCore;
             }
             if (measurementGroup.getMeasurementGroups() != null && measurementGroup.getMeasurementGroups().size() > 0) {
                 return addToUCoreMeasurementGroupsRecursively(false, uCoreMoment, parentUCore, measurementGroup.getMeasurementGroups());
