@@ -5,38 +5,38 @@ properties([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$cl
 
 
 node('Android') {
-    stage 'Checkout' {
+    stage('Checkout') {
         checkout scm
     }
 
     Pipeline = load "Source/common/jenkins/Pipeline.groovy"
 
-    stage 'Build' {
+    stage('Build') {
         sh 'cd ./Source/ShineLib && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease'
     }
 
-    stage 'Unit test' {
+    stage('Unit test') {
         sh 'rm -rf ./Source/ShineLib/shinelib/build/test-results/debug ./Source/ShineLib/pluginreferenceboard/build/test-results/debug'
         sh 'cd ./Source/ShineLib && ./gradlew -PenvCode=${JENKINS_ENV} test || true'
         step([$class: 'JUnitResultArchiver', testResults: 'Source/ShineLib/*/build/test-results/*/*.xml'])
     }
 
-    stage 'Lint' {
+    stage('Lint') {
         sh 'cd ./Source/ShineLib && ./gradlew -PenvCode=${JENKINS_ENV} lintDebug || true'
         step([$class: 'LintPublisher', healthy: '0', unHealthy: '20', unstableTotalAll: '20'])
     }
 
-    stage 'Archive Apps' {
+    stage('Archive Apps') {
         step([$class: 'ArtifactArchiver', artifacts: 'Source/ShineLib/bluelibtestapp/build/outputs/apk/*.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
         step([$class: 'ArtifactArchiver', artifacts: 'Source/ShineLib/bluelibexampleapp/build/outputs/apk/*.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
     }
 
-    stage 'Reporting' {
+    stage('Reporting') {
         step([$class: 'JacocoPublisher', execPattern: '**/*.exec', classPattern: '**/classes', sourcePattern: '**/src/main/java', exclusionPattern: '**/R.class,**/R$*.class,**/BuildConfig.class,**/Manifest*.*,**/*Activity*.*,**/*Fragment*.*'])
     }
 
     if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME == "master") {
-        stage 'Publish' {
+        stage('Publish') {
             sh 'cd ./Source/ShineLib && ./gradlew -PenvCode=${JENKINS_ENV} zipDocuments artifactoryPublish'
         }
     }
