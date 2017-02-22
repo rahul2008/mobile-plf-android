@@ -77,20 +77,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     @Override
     public void onSuccess(final List<? extends ConsentDetail> data) {
 
-        final ArrayList<OrmConsentDetail> ormConsents = (ArrayList<OrmConsentDetail>) data;
-
-        if (getActivity()!=null && ormConsents != null ) {
-
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    lConsentAdapter.setData(ormConsents);
-                    lConsentAdapter.notifyDataSetChanged();
-                    mBtnOk.setEnabled(true);
-                    dismissProgressDialog();
-                }
-            });
-        }
+        refreshUi((ArrayList<OrmConsentDetail>) data);
 
     }
 
@@ -103,16 +90,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     @Override
     public void onFailure(final Exception exception) {
 
-        if(getActivity()!=null) {
-
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    dismissProgressDialog();
-                    Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
+        refreshOnFailure(exception);
 
     }
 
@@ -202,7 +180,11 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
 
     @Override
     public void onFetchSuccess(List<? extends ConsentDetail> data) {
-        final ArrayList<OrmConsentDetail> ormConsents = (ArrayList<OrmConsentDetail>) data;
+        refreshUi((ArrayList<OrmConsentDetail>) data);
+    }
+
+    private void refreshUi(ArrayList<OrmConsentDetail> data) {
+        final ArrayList<OrmConsentDetail> ormConsents = data;
 
         if (getActivity()!=null && ormConsents != null ) {
 
@@ -220,6 +202,10 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
 
     @Override
     public void onFetchFailure(final Exception exception) {
+        refreshOnFailure(exception);
+    }
+
+    private void refreshOnFailure(final Exception exception) {
         if(getActivity()!=null) {
 
             getActivity().runOnUiThread(new Runnable() {

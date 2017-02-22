@@ -75,6 +75,10 @@ public class SettingsFragment extends DialogFragment implements DBFetchRequestLi
 
     @Override
     public void onSuccess(final List<? extends Settings> data) {
+        refreshUi(data);
+    }
+
+    private void refreshUi(final List<? extends Settings> data) {
         if (getActivity() != null) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
@@ -106,6 +110,11 @@ public class SettingsFragment extends DialogFragment implements DBFetchRequestLi
     @Override
     public void onFailure(final Exception exception) {
 
+        refreshOnFailure(exception);
+
+    }
+
+    private void refreshOnFailure(final Exception exception) {
         if (getActivity() != null) {
 
             getActivity().runOnUiThread(new Runnable() {
@@ -116,7 +125,6 @@ public class SettingsFragment extends DialogFragment implements DBFetchRequestLi
                 }
             });
         }
-
     }
 
     @Override
@@ -209,32 +217,11 @@ public class SettingsFragment extends DialogFragment implements DBFetchRequestLi
 
     @Override
     public void onFetchSuccess(final List<? extends Settings> data) {
-        if (getActivity() != null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (data != null) {
-                        settings = data.get(0);
-                        updateUi(settings.getUnit(), settings.getLocale());
-
-                    }
-                    dismissProgressDialog();
-                }
-            });
-        }
+        refreshUi(data);
     }
 
     @Override
     public void onFetchFailure(final Exception exception) {
-        if (getActivity() != null) {
-
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    dismissProgressDialog();
-                    Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
+        refreshOnFailure(exception);
     }
 }

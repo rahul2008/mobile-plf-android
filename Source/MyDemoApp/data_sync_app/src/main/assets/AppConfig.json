@@ -53,7 +53,7 @@
     "appidentity.appState"  : "STAGING",
     "appidentity.serviceDiscoveryEnvironment"  : "Production",
     "abtest.precache": ["DOT-ReceiveMarketingOptIn"],
-    "servicediscovery.platformMicrositeId":"77000",
+    "servicediscovery.platformMicrositeId":"70000",
     "servicediscovery.platformEnvironment":"production"
   }
 }
