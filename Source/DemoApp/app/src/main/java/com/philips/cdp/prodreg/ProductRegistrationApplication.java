@@ -79,6 +79,7 @@ public class ProductRegistrationApplication extends Application {
     private void initAppInfra() {
         mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
         RegistrationHelper.getInstance().setAppInfraInstance(mAppInfraInterface);
+
     }
 
     private void initAppIdentity(Configuration configuration) {

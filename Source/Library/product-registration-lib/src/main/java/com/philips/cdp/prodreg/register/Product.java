@@ -221,7 +221,6 @@ public class Product implements Serializable {
      * @return ctn as string
      */
     public ProductMetadataRequest getProductMetadataRequest(String ctn) {
-        System.out.println("ctn--"+ctn);
         return new ProductMetadataRequest(ctn, ProdRegConstants.PRODUCTMETADATAREQUEST_SERVICE_ID,getSector(),getCatalog());
     }
 
