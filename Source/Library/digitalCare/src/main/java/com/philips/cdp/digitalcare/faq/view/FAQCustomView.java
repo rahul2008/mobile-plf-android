@@ -97,22 +97,22 @@ public class FAQCustomView implements Serializable {
                 if (text.equalsIgnoreCase(questionText)) {
                     if (child.getVisibility() == View.GONE) {
                         arrowImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.consumercare_uparrow));
-                        arrowImageView.setColorFilter(ContextCompat.getColor(mContext, R.color.button_background), PorterDuff.Mode.MULTIPLY);
+                        arrowImageView.setColorFilter(ContextCompat.getColor(mContext, R.color.black), PorterDuff.Mode.MULTIPLY);
                         child.setVisibility(View.VISIBLE);
                     } else {
                         arrowImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.consumercare_downarrow));
-                        arrowImageView.setColorFilter(ContextCompat.getColor(mContext, R.color.button_background), PorterDuff.Mode.MULTIPLY);
+                        arrowImageView.setColorFilter(ContextCompat.getColor(mContext, R.color.black), PorterDuff.Mode.MULTIPLY);
                         child.setVisibility(View.GONE);
                     }
                 } else {
                     arrowImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.consumercare_downarrow));
-                    arrowImageView.setColorFilter(ContextCompat.getColor(mContext, R.color.button_background), PorterDuff.Mode.MULTIPLY);
+                    arrowImageView.setColorFilter(ContextCompat.getColor(mContext, R.color.black), PorterDuff.Mode.MULTIPLY);
                     child.setVisibility(View.GONE);
                 }
             } else {
                 child.setVisibility(View.GONE);
                 arrowImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.consumercare_downarrow));
-                arrowImageView.setColorFilter(ContextCompat.getColor(mContext, R.color.button_background), PorterDuff.Mode.MULTIPLY);
+                arrowImageView.setColorFilter(ContextCompat.getColor(mContext, R.color.black), PorterDuff.Mode.MULTIPLY);
             }
 
 
@@ -341,7 +341,7 @@ public class FAQCustomView implements Serializable {
         modelObject.setArrowImage(arrowImage);
 
         arrowImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.consumercare_downarrow));
-        arrowImage.setColorFilter(ContextCompat.getColor(mContext, R.color.button_background), PorterDuff.Mode.MULTIPLY);
+        arrowImage.setColorFilter(ContextCompat.getColor(mContext, R.color.black), PorterDuff.Mode.MULTIPLY);
         RelativeLayout.LayoutParams arrowImageParams = new RelativeLayout.LayoutParams
                 (RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         arrowImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);

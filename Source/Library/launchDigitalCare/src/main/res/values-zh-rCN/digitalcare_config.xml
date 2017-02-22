@@ -9,9 +9,6 @@
     -->
     <drawable name="consumercare_background">@drawable/tuscany</drawable>
 
-    <!-- Actionbar related -->
-    <color name="actionbar_title_color">#FFFFFF</color>
-
     <!-- Action bar back arrow button -->
     <style name="actionbar_back_button">
         <item name="android:src">@drawable/consumercare_actionbar_back_arrow_white</item>
@@ -30,7 +27,7 @@
     <color name="text_bazzarvoice_edittext_color">#cccccc</color>
 
     <!-- Standard Button. Common buttons used through out the component -->
-    <color name="button_text_color">@color/actionbar_title_color</color>
+    <color name="button_text_color">@color/uikit_white</color>
     <color name="button_background">#003478</color>
     <color name="button_background_pressed">#005A8B</color>
 

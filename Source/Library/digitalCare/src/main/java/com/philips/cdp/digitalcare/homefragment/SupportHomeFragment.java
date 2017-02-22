@@ -993,7 +993,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         enableActionBarHamburgerIcon(mActionBarMenuIcon, mActionBarArrow);
         enableSupportButtonClickable();
         if (mProductViewProductButton != null) {
-            if (!mProductChangeButton.isClickable())
+            if (mProductChangeButton != null && !mProductChangeButton.isClickable())
                 mProductChangeButton.setClickable(true);
         }
     }

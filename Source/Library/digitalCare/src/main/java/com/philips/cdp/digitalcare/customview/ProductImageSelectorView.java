@@ -271,7 +271,7 @@ public class ProductImageSelectorView {
 		mBackground.setColor(mContext.getResources().getColor(
 				R.color.blue));
 		button.setBackgroundDrawable(mBackground);
-		button.setTextColor(mContext.getResources().getColor(R.color.button_background));
+		button.setTextColor(mContext.getResources().getColor(R.color.black));
 	}
 
 	/**

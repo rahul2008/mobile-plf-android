@@ -30,7 +30,7 @@
     <color name="text_bazzarvoice_edittext_color">#cccccc</color>
 
     <!-- Standard Button. Common buttons used through out the component -->
-    <color name="button_text_color">@color/actionbar_title_color</color>
+    <color name="button_text_color">@color/uikit_white</color>
     <color name="button_background">#003478</color>
     <color name="button_background_pressed">#005A8B</color>
 
