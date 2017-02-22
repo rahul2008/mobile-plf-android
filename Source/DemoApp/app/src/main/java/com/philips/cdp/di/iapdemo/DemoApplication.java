@@ -31,6 +31,7 @@ public class DemoApplication extends Application {
     public void onCreate() {
         super.onCreate();
         LeakCanary.install(this);
+        initAppInfra();
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         String restoredText = prefs.getString("reg_environment", null);
         if (restoredText != null) {
