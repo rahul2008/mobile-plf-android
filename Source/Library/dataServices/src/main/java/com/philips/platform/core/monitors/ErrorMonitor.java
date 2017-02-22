@@ -43,10 +43,13 @@ public class ErrorMonitor extends EventMonitor {
 
     private void postError(RetrofitError exception) {
         if (exception == null) {
-            mErrorHandlingInterface.syncError(UNKNOWN);
-            return;
+            unknownError();
         }
         Response response = exception.getResponse();
+        if(response == null){
+            unknownError();
+            return;
+        }
         int status = response.getStatus();
         if (response != null) {
             if (status == HttpURLConnection.HTTP_UNAUTHORIZED || status == HttpURLConnection.HTTP_BAD_REQUEST) {
@@ -57,6 +60,11 @@ public class ErrorMonitor extends EventMonitor {
         } else {
             mErrorHandlingInterface.syncError(UNKNOWN);
         }
+    }
+
+    private void unknownError() {
+        mErrorHandlingInterface.syncError(UNKNOWN);
+        return;
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
