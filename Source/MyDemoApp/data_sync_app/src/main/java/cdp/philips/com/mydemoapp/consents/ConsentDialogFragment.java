@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -183,7 +184,8 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     }
 
     @Override
-    public void dBChangeSuccess() {
+    public void dBChangeSuccess(SyncType type) {
+        if(type!=SyncType.CONSENT)return;
         DataServicesManager.getInstance().fetchConsentDetail(this);
     }
 

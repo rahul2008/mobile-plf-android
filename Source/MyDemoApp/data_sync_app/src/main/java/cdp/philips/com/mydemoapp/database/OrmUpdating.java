@@ -30,6 +30,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
+import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -242,7 +243,7 @@ public class OrmUpdating {
             });
         } catch (Exception e) {
             e.printStackTrace();
-            dbRequestListener.onFailure(e);
+            new NotifyDBRequestListener().notifyFailure(e,dbRequestListener);
             return false;
         }
         return true;

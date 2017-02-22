@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.philips.platform.core.datatypes.Settings;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -190,7 +191,8 @@ public class SettingsFragment extends DialogFragment implements DBFetchRequestLi
     }
 
     @Override
-    public void dBChangeSuccess() {
+    public void dBChangeSuccess(SyncType type) {
+        if(type!=SyncType.SETTINGS)return;
         DataServicesManager.getInstance().fetchUserSettings(this);
     }
 

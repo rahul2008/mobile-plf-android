@@ -12,6 +12,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
@@ -76,9 +77,9 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     @Override
-    public void fetchMoments(DBFetchRequestListner dbFetchRequestListner) throws SQLException {
+    public List<? extends Moment> fetchMoments(DBFetchRequestListner dbFetchRequestListner) throws SQLException {
         QueryBuilder<OrmMoment, Integer> queryBuilder = momentDao.queryBuilder();
-        getActiveMoments(momentDao.query(queryBuilder.prepare()), dbFetchRequestListner);
+        return getActiveMoments(momentDao.query(queryBuilder.prepare()), dbFetchRequestListner);
     }
 
     @Override
@@ -217,7 +218,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         return momentQueryBuilder.queryForFirst();
     }
 
-    public void getActiveMoments(final List<?> ormMoments, DBFetchRequestListner dbFetchRequestListner) {
+    public List<OrmMoment> getActiveMoments(final List<?> ormMoments, DBFetchRequestListner dbFetchRequestListner) {
         DSLog.i("***SPO***", "pabitra In getActiveMoments - OrmFetchingInterfaceImpl");
         List<OrmMoment> activeOrmMoments = new ArrayList<>();
         if (ormMoments != null) {
@@ -229,6 +230,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         }
         DSLog.i("***SPO***", "pabitra In getActiveMoments - OrmFetchingInterfaceImpl and ormMoments = " + ormMoments);
         notifyDBRequestListener.notifyMomentFetchSuccess(activeOrmMoments, dbFetchRequestListner);
+        return activeOrmMoments;
     }
 
     @Override

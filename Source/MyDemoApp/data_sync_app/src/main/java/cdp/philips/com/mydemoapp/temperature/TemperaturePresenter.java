@@ -119,7 +119,16 @@ public class TemperaturePresenter {
         if (moment.getCreatorId() == null || moment.getSubjectId() == null) {
             Toast.makeText(mContext, "Please Login again", Toast.LENGTH_SHORT).show();
         } else {
-            mDataServices.saveMoment(moment, dbRequestListener);
+
+            List<Moment> moments=new ArrayList<>();
+
+            moments.add(moment);
+            //moments.add(moment);
+            //moments.add(moment);
+            //moments.add(moment);
+            //moments.add(moment);
+
+            mDataServices.saveMoments(moments, dbRequestListener);
         }
     }
 
