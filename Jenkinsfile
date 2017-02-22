@@ -1,5 +1,4 @@
-/* following two lines are mandatory for the platform CI pipeline integration */
-JENKINS_ENV = env.JENKINS_ENV
+/* following line is mandatory for the platform CI pipeline integration */
 properties([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name: 'triggerBy']]]])
 
 node('Android') {
@@ -9,7 +8,7 @@ node('Android') {
 
     Pipeline = load "Source/common/jenkins/Pipeline.groovy"
     Slack = load "Source/common/jenkins/Slack.groovy"
-    def gradle = "cd ./Source/DICommClient && ./gradlew -PenvCode=${JENKINS_ENV}"
+    def gradle = 'cd ./Source/DICommClient && ./gradlew -PenvCode=${JENKINS_ENV}'
 
     Slack.notify('#conartists') {
 
