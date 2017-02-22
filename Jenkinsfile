@@ -1,8 +1,9 @@
 /* following line is mandatory for the platform CI pipeline integration */
 
 JENKINS_ENV = env.JENKINS_ENV
-
 properties([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name: 'triggerBy']]]])
+
+def Pipeline = load "Source/common/jenkins/Pipeline.groovy"
 
 node('Android') {
     stage 'Checkout'
@@ -32,23 +33,11 @@ node('Android') {
         sh 'cd ./Source/ShineLib && ./gradlew -PenvCode=${JENKINS_ENV} zipDocuments artifactoryPublish'
     }
 
-    stage('save dependencies list') {
+    stage('Dependencies list') {
         sh 'cd ./Source/ShineLib && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
+        archiveArtifacts '**/dependencies.lock'
     }
-    archiveArtifacts '**/dependencies.lock'
 }
 
 /* next if-then + stage is mandatory for the platform CI pipeline integration */
-if (env.triggerBy != "ppc" && (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME == "master")) {
-    def platform = "android"
-    def project = "BlueLib"
-    def project_tla = "bll"
-    def BranchName = env.BRANCH_NAME
-    if (BranchName =~ "/") {
-        BranchName = BranchName.replaceAll('/', '%2F')
-        echo "BranchName changed to ${BranchName}"
-    }
-    stage('Trigger Integration Pipeline') {
-        build job: "Platform-Infrastructure/ppc/ppc_${platform}/${BranchName}", wait: false, parameters: [[$class: 'StringParameterValue', name: 'componentName', value: project_tla], [$class: 'StringParameterValue', name: 'libraryName', value: project]]
-    }
-}
+Pipeline.trigger(env.triggerBy, env.BRANCH_NAME, "BlueLib", "bll")
