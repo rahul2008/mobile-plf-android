@@ -1,8 +1,5 @@
 /* following line is mandatory for the platform CI pipeline integration */
-
-JENKINS_ENV = env.JENKINS_ENV
 properties([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name: 'triggerBy']]]])
-
 
 node('Android') {
     stage('Checkout') {
