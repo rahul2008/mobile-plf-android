@@ -5,7 +5,7 @@ node('Android') {
     }
 
     Slack = load "android-commlib-all/Source/common/jenkins/Slack.groovy"
-    Pipeline = load "Source/common/jenkins/Pipeline.groovy"
+    Pipeline = load "android-commlib-all/Source/common/jenkins/Pipeline.groovy"
 
     Slack.notify('#conartists') {
         if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME == "master") {
