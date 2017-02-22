@@ -3,12 +3,13 @@
 JENKINS_ENV = env.JENKINS_ENV
 properties([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name: 'triggerBy']]]])
 
-def Pipeline = load "Source/common/jenkins/Pipeline.groovy"
 
 node('Android') {
     stage 'Checkout' {
         checkout scm
     }
+
+    Pipeline = load "Source/common/jenkins/Pipeline.groovy"
 
     stage 'Build' {
         sh 'cd ./Source/ShineLib && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease'
