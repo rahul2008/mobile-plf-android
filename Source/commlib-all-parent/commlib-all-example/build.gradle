@@ -4,6 +4,18 @@
  */
 apply plugin: 'com.android.application'
 
+buildscript {
+    repositories {
+        maven { url repos.jcenter }
+    }
+}
+
+repositories {
+    maven { url repos.jcenter }
+    maven { url repos.release }
+    maven { url repos.snapshot }
+}
+
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
@@ -26,7 +38,7 @@ android {
 
 dependencies {
     def commlib_ble = findProject(':commlib-ble') ? ':commlib-ble' : ':commlib-all'
-    
+
     debugCompile project(path: commlib_ble, configuration: 'debug')
     releaseCompile project(path: commlib_ble, configuration: 'release')
 

@@ -1,12 +1,11 @@
 node('Android') {
-    JENKINS_ENV = env.JENKINS_ENV
-
     stage('Checkout') {
         sh 'rm -rf *'
         checkout([$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'android-commlib-all'], [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false], [$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://git@bitbucket.atlas.philips.com:7999/com/android-commlib-all.git']]])
     }
 
-    def Slack = load "android-commlib-all/Source/common/jenkins/Slack.groovy"
+    Slack = load "android-commlib-all/Source/common/jenkins/Slack.groovy"
+    Pipeline = load "Source/common/jenkins/Pipeline.groovy"
 
     Slack.notify('#conartists') {
         if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME == "master") {
@@ -44,15 +43,15 @@ node('Android') {
             step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/*/*.xml'])
 
             if (fileExists('android-commlib-all/Source/commlib-all-parent/build/cucumber-reports/report.json')) {
-               step([$class: 'CucumberReportPublisher', jsonReportDirectory: 'android-commlib-all/Source/commlib-all-parent/build/cucumber-reports', fileIncludePattern: '*.json'])
+                step([$class: 'CucumberReportPublisher', jsonReportDirectory: 'android-commlib-all/Source/commlib-all-parent/build/cucumber-reports', fileIncludePattern: '*.json'])
             } else {
-               echo 'No Cucumber result found, nothing to publish'
+                echo 'No Cucumber result found, nothing to publish'
             }
         }
 
-        //stage('Archive App') {
-        //    step([$class: 'ArtifactArchiver', artifacts: 'android-commlib-all/Source/commlib-all-parent/commlib-all-example/build/outputs/apk/*.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
-        //}
+        stage('Archive App') {
+            step([$class: 'ArtifactArchiver', artifacts: 'android-commlib-all/Source/commlib-all-parent/commlib-all-example/build/outputs/apk/*.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
+        }
 
         if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME == "master") {
             stage('Publish') {
@@ -61,20 +60,11 @@ node('Android') {
             }
         }
 
-        stage ('save dependencies list') {
-        	sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
+        stage('Save Dependencies') {
+            sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
             archiveArtifacts '**/dependencies.lock'
         }
 
-        /* next if-then + stage is mandatory for the platform CI pipeline integration */
-        if (env.triggerBy != "ppc" && (env.BRANCH_NAME =~ /master|develop|release.*/)) {
-            def platform = "android"
-            def project = "CommLibBle"
-            def project_tla = "cml"
-            stage('Trigger Integration Pipeline') {
-                build job: "Platform-Infrastructure/ppc/ppc_${platform}/${env.BRANCH_NAME}", propagate: false, parameters: [[$class: 'StringParameterValue', name: 'componentName', value: project_tla], [$class: 'StringParameterValue', name: 'libraryName', value: project]]
-            }
-        }
-
+        Pipeline.trigger(env.triggerBy, env.BRANCH_NAME, "CommLibBle", "cml")
     }
 }
