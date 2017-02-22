@@ -155,6 +155,24 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         return map.get(domain);
     }
 
+    public String getResetPasswordClientId(String domain) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put(DEV_CAPTURE_DOMAIN, "rj95w5ghxqthxxy8jpug5a63wrbeykzk");
+        map.put(TEST_CAPTURE_DOMAIN, "suxgtg52ej3srf683t7u5gqzw4824avg");
+        map.put(EVAL_CAPTURE_DOMAIN, "h27n93rjva8xuvzgpeb7jf9jxq6dnnzr");
+        map.put(PROD_CAPTURE_DOMAIN, "h27n93rjva8xuvzgpeb7jf9jxq6dnnzr");
+        map.put(DEV_CAPTURE_DOMAIN_CHINA, "xhrue999syb8g2csggp9acs6x87q8q3d");
+        map.put(DEV_CAPTURE_DOMAIN_CHINA_EU, "4c5tqzbneykdw2md7mkp75uycp23x3qz");
+        map.put(TEST_CAPTURE_DOMAIN_CHINA, "v2s8qajf9ncfzsyy6ghjpqvsrju9xgvt");
+        map.put(TEST_CAPTURE_DOMAIN_CHINA_EU, "fh5mfvjqzwhn5t9gdwqqjnbcw9atd7mv");
+        map.put(EVAL_CAPTURE_DOMAIN_CHINA, "mfvjprjmgbrhfbtn6cq6q2yupzhxn977");
+        map.put(PROD_CAPTURE_DOMAIN_CHINA, "65dzkyh48ux4vcguhvwsgvtk4bzyh2va");
+        RLog.d(RLog.SERVICE_DISCOVERY, "Engagedi Domain : " + domain);
+        RLog.d(RLog.SERVICE_DISCOVERY, "Engagedi Domain Map :" + map.get(domain));
+        return map.get(domain);
+    }
+
+
     private void initializePRXLinks(String registrationEnv) {
         if (registrationEnv == null) {
             mProductRegisterUrl = EVAL_PRODUCT_REGISTER_URL;

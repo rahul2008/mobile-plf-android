@@ -29,10 +29,7 @@ public class ResetPasswordWebView extends Fragment {
     public static final String TEST_RESET_PASSWORD = "https://tst.philips.com.cn/c-w/user-registration/apps/login.html";
     public static final String STAGE_RESET_PASSWORD = "https://acc.philips.com.cn/c-w/user-registration/apps/login.html";
     public static final String PROD_RESET_PASSWORD = "https://www.philips.com.cn/c-w/user-registration/apps/login.html";
-
-
-    private String code ;
-    private String token;
+    private String redirectUri;
 
 
 
@@ -66,18 +63,16 @@ public class ResetPasswordWebView extends Fragment {
         mWebView.getSettings().setUseWideViewPort(true);
 
         Bundle bundle = getArguments();
-        System.out.print("bundle size "+bundle.size());
-        code = bundle.getString("code");
-        token = bundle.getString("token");
+        RLog.i("MobileVerifyCodeFragment" , "bundle size "+bundle.size());
+        redirectUri = bundle.getString("redirectUri");
 
         String url;
-        if(code!=null && code.length()>0){
-            url = initializeRestPasswordSMSLinks(RegistrationConfiguration.getInstance().getRegistrationEnvironment(),code,token);
+        if(redirectUri!=null && redirectUri.length()>0){
+            url = redirectUri;
         }else{
             url = initializeRestPasswordLinks(RegistrationConfiguration.getInstance().getRegistrationEnvironment());
         }
         RLog.i("MobileVerifyCodeFragment ", "response val 2 token url "+url);
-
 
         mWebView.loadUrl(url);
         //mWebView.loadUrl("https://acc.philips.co.in/myphilips/reset-password.html?cl=mob&loc=en_IN&code=q5sybj87nbsr4d");
@@ -138,21 +133,7 @@ public class ResetPasswordWebView extends Fragment {
     }
 
     private String initializeRestPasswordSMSLinks(String registrationEnv, String code, String token) {
-
-        String url;
-        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.PRODUCTION.getValue())) {
-            url = RegConstants.PROD_RESET_PASSWORD_SMS_REDIRECT_URI+"?code="+code+"&token="+token;
-            return url;
-        }
-        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.STAGING.getValue())) {
-            url = RegConstants.STAGE_RESET_PASSWORD_SMS_REDIRECT_URI+"?code="+code+"&token="+token;
-            return  url;
-        }
-        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.TESTING.getValue())) {
-            url = RegConstants.TEST_RESET_PASSWORD_SMS_REDIRECT_URI+"?code="+code+"&token="+token;
-            return  url;
-        }
-        return null;
+        return registrationEnv+"?code="+code+"&token="+token;
     }
 
 }

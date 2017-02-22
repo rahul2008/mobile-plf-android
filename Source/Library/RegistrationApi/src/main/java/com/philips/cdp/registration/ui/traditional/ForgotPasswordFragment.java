@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +23,11 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.janrain.android.Jump;
 import com.philips.cdp.registration.HttpClientService;
 import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.appconfig.AppConfig;
 import com.philips.cdp.registration.apptagging.AppTaggingErrors;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
@@ -45,7 +44,6 @@ import com.philips.cdp.registration.ui.customviews.XEmail;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.onUpdateListener;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileForgotPasswordVerifyCodeFragment;
-import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -54,8 +52,6 @@ import com.philips.cdp.registration.ui.utils.RegChinaUtil;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.RequestBody;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -415,6 +411,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     }
 
     String verification_Sms_Code_URL;
+    String reset_password_sms_RedirectUri;
 
     private void serviceDiscovery() {
         AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
@@ -422,7 +419,6 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
         RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
 
         //Temp: will be updated once actual URX received for reset sms
-
         serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.urx.verificationsmscode", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
             @Override
@@ -439,12 +435,18 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
             }
         });
 
-        int i = verification_Sms_Code_URL.lastIndexOf("/");
+        int i;
+        if(verification_Sms_Code_URL.contains(".cn")){
+            i = verification_Sms_Code_URL.lastIndexOf(".cn")+3;
+        } else{
+            i = verification_Sms_Code_URL.lastIndexOf(".com")+4;
+        }
         String[] a = {verification_Sms_Code_URL.substring(0, i), verification_Sms_Code_URL.substring(i)};
-        System.out.println("aaa " + a[0]);
-        verification_Sms_Code_URL = a[0] + "/requestPasswordResetSmsCode";
-        getActivity().startService(createResendSMSIntent(verification_Sms_Code_URL));
+        verification_Sms_Code_URL = a[0] + "/api/v1/user/requestPasswordResetSmsCode";
+        reset_password_sms_RedirectUri = a[0] + "/c-w/user-registration/apps/reset-password.html";
 
+        RLog.d(RLog.SERVICE_DISCOVERY, "base url"+ a[0]);
+        getActivity().startService(createResendSMSIntent(verification_Sms_Code_URL));
     }
 
     private void handleResendVerificationEmailSuccess() {
@@ -473,6 +475,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
                 Bundle bundle = new Bundle();
                 bundle.putString("mobileNumber", mEtEmail.getEmailId());
                 bundle.putString("token",token);
+                bundle.putString("redirectUri",getRedirectUri());
+                bundle.putString("verification_sms_code_url",verification_Sms_Code_URL);
                 mobileForgotPasswordVerifyCodeFragment.setArguments(bundle);
                 getRegistrationFragment().addFragment(mobileForgotPasswordVerifyCodeFragment);
             } else {
@@ -502,7 +506,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
         String bodyContent = "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(mEtEmail.getEmailId()) +
                 "&locale=zh_CN&clientId=" + getClientId() + "&code_type=short&" +
                 "redirectUri=" + getRedirectUri();
-        RLog.d("Configration : ", " envir :" + getClientId() + getRedirectUri());
+        RLog.d("Configration : ", " envirr :" + getClientId() + getRedirectUri());
 
         httpServiceIntent.putExtra("receiver", receiver);
         httpServiceIntent.putExtra("bodyContent", bodyContent);
@@ -512,12 +516,13 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
     private String getClientId() {
 
-        return AppConfig.getResetPasswordClientId();
+        RegistrationSettingsURL registrationSettingsURL = new RegistrationSettingsURL();
+        return registrationSettingsURL.getResetPasswordClientId("https://"+Jump.getCaptureDomain());
     }
 
     private String getRedirectUri() {
 
-        return AppConfig.getResetPasswordRedirectUri();
+        return reset_password_sms_RedirectUri;
     }
 
     @Override
