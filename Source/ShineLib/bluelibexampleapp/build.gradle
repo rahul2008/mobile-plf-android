@@ -4,6 +4,21 @@
  */
 apply plugin: 'com.android.application'
 
+buildscript {
+    repositories {
+        maven { url repos.jcenter }
+    }
+}
+
+repositories {
+    maven { url repos.jcenter }
+    maven { url repos.release }
+    maven { url repos.snapshot }
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
@@ -26,12 +41,6 @@ android {
 
     lintOptions {
         disable 'GoogleAppIndexingWarning'
-    }
-}
-
-repositories {
-    flatDir {
-        dirs 'libs'
     }
 }
 

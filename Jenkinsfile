@@ -20,10 +20,9 @@ node('Android') {
     sh 'cd ./Source/ShineLib && ./gradlew -PenvCode=${JENKINS_ENV} lintDebug || true'
     step([$class: 'LintPublisher', healthy: '0', unHealthy: '20', unstableTotalAll: '20'])
 
-// Disabling this after discussion with Joost, as app is not built anymore.
-//    stage 'Archive Apps'
-//    step([$class: 'ArtifactArchiver', artifacts: 'Source/ShineLib/bluelibtestapp/build/outputs/apk/*.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
-//    step([$class: 'ArtifactArchiver', artifacts: 'Source/ShineLib/bluelibexampleapp/build/outputs/apk/*.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
+    stage 'Archive Apps'
+    step([$class: 'ArtifactArchiver', artifacts: 'Source/ShineLib/bluelibtestapp/build/outputs/apk/*.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
+    step([$class: 'ArtifactArchiver', artifacts: 'Source/ShineLib/bluelibexampleapp/build/outputs/apk/*.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
 
     stage 'Reporting'
     step([$class: 'JacocoPublisher', execPattern: '**/*.exec', classPattern: '**/classes', sourcePattern: '**/src/main/java', exclusionPattern: '**/R.class,**/R$*.class,**/BuildConfig.class,**/Manifest*.*,**/*Activity*.*,**/*Fragment*.*'])
@@ -33,8 +32,8 @@ node('Android') {
         sh 'cd ./Source/ShineLib && ./gradlew -PenvCode=${JENKINS_ENV} zipDocuments artifactoryPublish'
     }
 
-    stage ('save dependencies list') {
-    	sh 'cd ./Source/ShineLib && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
+    stage('save dependencies list') {
+        sh 'cd ./Source/ShineLib && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
     }
     archiveArtifacts '**/dependencies.lock'
 }
@@ -46,7 +45,7 @@ if (env.triggerBy != "ppc" && (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =
     def project_tla = "bll"
     def BranchName = env.BRANCH_NAME
     if (BranchName =~ "/") {
-        BranchName = BranchName.replaceAll('/','%2F')
+        BranchName = BranchName.replaceAll('/', '%2F')
         echo "BranchName changed to ${BranchName}"
     }
     stage('Trigger Integration Pipeline') {
