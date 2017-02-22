@@ -49,6 +49,6 @@ if (env.triggerBy != "ppc" && (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =
         echo "BranchName changed to ${BranchName}"
     }
     stage('Trigger Integration Pipeline') {
-        build job: "Platform-Infrastructure/ppc/ppc_${platform}/${BranchName}", propagate: false, parameters: [[$class: 'StringParameterValue', name: 'componentName', value: project_tla], [$class: 'StringParameterValue', name: 'libraryName', value: project]]
+        build job: "Platform-Infrastructure/ppc/ppc_${platform}/${BranchName}", wait: false, parameters: [[$class: 'StringParameterValue', name: 'componentName', value: project_tla], [$class: 'StringParameterValue', name: 'libraryName', value: project]]
     }
 }
