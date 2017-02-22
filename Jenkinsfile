@@ -9,16 +9,17 @@ node('Android') {
 
     Pipeline = load "Source/common/jenkins/Pipeline.groovy"
     Slack = load "Source/common/jenkins/Slack.groovy"
+    def gradle = "cd ./Source/DICommClient && ./gradlew -PenvCode=${JENKINS_ENV}"
 
     Slack.notify('#conartists') {
 
         stage('Build') {
-            sh 'cd ./Source/DICommClient && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease'
+            sh "${gradle} --refresh-dependencies assembleRelease"
         }
 
-        stage('Unit test') {
-            sh 'rm -rf ./Source/DICommClient/dicommClientLib/build/test-results/debug'
-            sh 'cd ./Source/DICommClient && ./gradlew -PenvCode=${JENKINS_ENV} testDebugUnitTest || true'
+        stage('Unit Test') {
+            sh "rm -rf ./Source/DICommClient/dicommClientLib/build/test-results/debug"
+            sh "${gradle} testDebugUnitTest || true"
             step([$class: 'JUnitResultArchiver', testResults: 'Source/DICommClient/dicommClientLib/build/test-results/debug/*.xml'])
         }
 
@@ -29,12 +30,12 @@ node('Android') {
 
         if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME == "master") {
             stage('Publish') {
-                sh 'cd ./Source/DICommClient && ./gradlew -PenvCode=${JENKINS_ENV} zipDocuments artifactoryPublish'
+                sh "${gradle} zipDocuments artifactoryPublish"
             }
         }
 
-        stage('save dependencies list') {
-            sh 'cd ./Source/DICommClient && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
+        stage('Save Dependencies') {
+            sh "${gradle} saveResDep"
             archiveArtifacts '**/dependencies.lock'
         }
 
