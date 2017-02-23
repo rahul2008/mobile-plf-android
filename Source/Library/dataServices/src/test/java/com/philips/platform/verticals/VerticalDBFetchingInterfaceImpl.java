@@ -2,8 +2,10 @@ package com.philips.platform.verticals;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
@@ -17,22 +19,22 @@ import java.util.Map;
 public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
 
     @Override
-    public void fetchMoments(DBRequestListener dbRequestListener) throws SQLException {
+    public List<? extends Moment> fetchMoments(DBFetchRequestListner dbFetchRequestListner) throws SQLException {
+    return null;
+    }
+
+    @Override
+    public void fetchMoments(@NonNull String type, DBFetchRequestListner dbFetchRequestListner) throws SQLException {
 
     }
 
     @Override
-    public void fetchMoments(@NonNull String type, DBRequestListener dbRequestListener) throws SQLException {
+    public void fetchMoments(DBFetchRequestListner dbFetchRequestListner, @NonNull Object... types) throws SQLException {
 
     }
 
     @Override
-    public void fetchMoments(DBRequestListener dbRequestListener, @NonNull Object... types) throws SQLException {
-
-    }
-
-    @Override
-    public void fetchLastMoment(String type, DBRequestListener dbRequestListener) throws SQLException {
+    public void fetchLastMoment(String type, DBFetchRequestListner dbFetchRequestListner) throws SQLException {
 
     }
 
@@ -47,12 +49,12 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     @Override
-    public Object fetchMomentById(int id, DBRequestListener dbRequestListener) throws SQLException {
+    public Object fetchMomentById(int id, DBFetchRequestListner dbFetchRequestListner) throws SQLException {
         return null;
     }
 
     @Override
-    public void fetchConsentDetails(DBRequestListener dbRequestListener) throws SQLException {
+    public void fetchConsentDetails(DBFetchRequestListner dbFetchRequestListner) throws SQLException {
 
     }
 
@@ -64,18 +66,18 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
 
 
     @Override
-    public void postError(Exception e, DBRequestListener dbRequestListener) {
+    public void postError(Exception e,DBFetchRequestListner dbFetchRequestListner) {
 
     }
 
     @Override
-    public void fetchUserCharacteristics(DBRequestListener dbRequestListener) throws SQLException {
+    public void fetchUserCharacteristics(DBFetchRequestListner dbFetchRequestListner) throws SQLException {
 
     }
 
 
     @Override
-    public Settings fetchSettings(DBRequestListener dbRequestListener) throws SQLException {
+    public Settings fetchSettings(DBFetchRequestListner dbFetchRequestListner) throws SQLException {
         return null;
     }
 
@@ -105,7 +107,7 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     @Override
-    public void fetchCharacteristics(DBRequestListener dbRequestListener) throws SQLException {
+    public void fetchCharacteristics(DBFetchRequestListner dbFetchRequestListner) throws SQLException {
 
     }
 }

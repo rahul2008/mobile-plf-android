@@ -31,6 +31,7 @@ import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.injection.AppComponent;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -150,6 +151,9 @@ public class DataServicesManagerTest {
     DBRequestListener dbRequestListener;
 
     @Mock
+    DBFetchRequestListner dbFetchRequestListner;
+
+    @Mock
     private AppComponent appComponantMock;
 
     @Mock
@@ -196,7 +200,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostFetchEvent_WhenFetchIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.fetchMomentWithType(dbRequestListener , MomentType.TEMPERATURE);
+        tracker.fetchMomentWithType(dbFetchRequestListner , MomentType.TEMPERATURE);
 
         verify(eventingMock).post(any(LoadMomentsRequest.class));
     }
@@ -204,7 +208,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostFetchMomentByIdEvent_WhenFetchMomentByIdIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.fetchMomentForMomentID(1,dbRequestListener);
+        tracker.fetchMomentForMomentID(1,dbFetchRequestListner);
 
         verify(eventingMock).post(any(LoadMomentsRequest.class));
     }
@@ -220,7 +224,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostFetchConsentEvent_WhenFetchConsentIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.fetchConsentDetail(dbRequestListener);
+        tracker.fetchConsentDetail(dbFetchRequestListner);
 
         verify(eventingMock).post(any(LoadConsentsRequest.class));
     }
@@ -228,7 +232,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostFetchSettingsEvent_WhenFetchSettingsIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.fetchUserSettings(dbRequestListener);
+        tracker.fetchUserSettings(dbFetchRequestListner);
 
         verify(eventingMock).post(any(LoadSettingsRequest.class));
     }
@@ -283,7 +287,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void ShouldPostFetchCharacteristicsRequest_WhenFetchCharacteristicsIsCalled() throws Exception {
-        tracker.fetchUserCharacteristics(dbRequestListener);
+        tracker.fetchUserCharacteristics(dbFetchRequestListner);
     }
 
     @Test

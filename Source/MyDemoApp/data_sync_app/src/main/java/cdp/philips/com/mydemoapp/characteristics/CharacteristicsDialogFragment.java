@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -228,8 +229,9 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
     }
 
     @Override
-    public void dBChangeSuccess() {
+    public void dBChangeSuccess(SyncType type) {
         DSLog.i(DSLog.LOG, "Inder fetchData before editing");
+        if(type!=SyncType.CHARACTERISTICS)return;
         if (!isEditable) {
             DSLog.i(DSLog.LOG, "Inder fetchData editing");
             DataServicesManager.getInstance().fetchUserCharacteristics(this);

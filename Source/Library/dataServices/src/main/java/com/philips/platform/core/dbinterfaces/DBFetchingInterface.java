@@ -2,6 +2,7 @@ package com.philips.platform.core.dbinterfaces;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 
@@ -15,7 +16,7 @@ import java.util.Map;
  */
 @SuppressWarnings("rawtypes")
 public interface DBFetchingInterface {
-    void fetchMoments(DBFetchRequestListner dbFetchRequestListner) throws SQLException;
+    List<? extends Moment> fetchMoments(DBFetchRequestListner dbFetchRequestListner) throws SQLException;
 
     void fetchMoments(final @NonNull String type ,DBFetchRequestListner dbFetchRequestListner) throws SQLException;
 

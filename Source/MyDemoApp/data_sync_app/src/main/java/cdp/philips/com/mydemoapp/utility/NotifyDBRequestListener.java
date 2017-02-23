@@ -1,6 +1,7 @@
 package cdp.philips.com.mydemoapp.utility;
 
 import com.philips.platform.core.datatypes.Settings;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -21,71 +22,85 @@ import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 public class NotifyDBRequestListener {
 
 
-    public void notifySuccess(List<? extends Object> ormObjectList, DBRequestListener dbRequestListener) {
+    public void notifySuccess(List<? extends Object> ormObjectList, DBRequestListener dbRequestListener , SyncType type) {
         if(dbRequestListener!=null) {
             dbRequestListener.onSuccess((ArrayList<? extends Object>) ormObjectList);
         }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){
-            DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess();
+            DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess(type);
         }else {
             //CallBack not registered
             DSLog.i(DataServicesManager.TAG,"CallBack not registered");
         }
     }
 
-    public void notifySuccess(DBRequestListener dbRequestListener) {
+    public void notifySuccess(DBRequestListener dbRequestListener ,SyncType type) {
         if(dbRequestListener!=null) {
             dbRequestListener.onSuccess(null);
         }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){
-            DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess();
+            DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess(type);
         }else {
             //Callback not registered
             DSLog.i(DataServicesManager.TAG,"Callback not registered");
         }
     }
 
-    public void notifySuccess(DBRequestListener dbRequestListener,Settings settings) {
+    public void notifyAll(DBRequestListener dbRequestListener) {
+        if(dbRequestListener!=null) {
+            dbRequestListener.onSuccess(null);
+        }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){
+            DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess(SyncType.MOMENT);
+            DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess(SyncType.CONSENT);
+            DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess(SyncType.CHARACTERISTICS);
+            DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess(SyncType.SETTINGS);
+        }else {
+            //Callback not registered
+            DSLog.i(DataServicesManager.TAG,"Callback not registered");
+        }
+    }
+
+    public void notifySuccess(DBRequestListener dbRequestListener,Settings settings,SyncType type) {
         if(dbRequestListener!=null) {
             List list = new ArrayList();
             list.add(settings);
             dbRequestListener.onSuccess(list);
         }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){
-            DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess();
+            DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess(type);
         }else {
             //Callback not registered
             DSLog.i(DataServicesManager.TAG,"Callback not registered");
         }
     }
 
-    public void notifySuccess(DBRequestListener dbRequestListener, ArrayList<OrmConsentDetail> ormConsents) {
+    public void notifySuccess(DBRequestListener dbRequestListener, ArrayList<OrmConsentDetail> ormConsents ,SyncType type) {
         if(dbRequestListener!=null) {
             dbRequestListener.onSuccess(ormConsents);
         }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){
-            DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess();
+            DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess(type);
         }else {
             //Callback not registerd
             DSLog.i(DataServicesManager.TAG,"Callback Not registered");
         }
     }
 
-    public void notifySuccess(DBRequestListener dbRequestListener, OrmMoment ormMoment) {
+    public void notifySuccess(DBRequestListener dbRequestListener, OrmMoment ormMoment ,SyncType type) {
         if (dbRequestListener != null) {
             List list = new ArrayList();
             list.add(ormMoment);
             dbRequestListener.onSuccess(list);
         } else if (DataServicesManager.getInstance().getDbChangeListener() != null) {
-            DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess();
+            DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess(type);
         } else {
             //No Callback registered
             DSLog.i(DataServicesManager.TAG, "No callback registered");
         }
     }
 
-    public void notifySuccess(DBRequestListener dbRequestListener, List<OrmConsentDetail> ormConsents) {
+    public void notifySuccess(DBRequestListener dbRequestListener, List<OrmConsentDetail> ormConsents ,SyncType type) {
         if(dbRequestListener!=null) {
             dbRequestListener.onSuccess(ormConsents);
         }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){
             DBChangeListener dbChangeListener=DataServicesManager.getInstance().getDbChangeListener();
-            dbChangeListener.dBChangeSuccess();
+            dbChangeListener.dBChangeSuccess(type);
         }else {
             DSLog.i(DataServicesManager.TAG,"Callback not registered");
         }
@@ -131,9 +146,9 @@ public class NotifyDBRequestListener {
         }
     }
 
-    public void notifyDBChange() {
+    public void notifyDBChange(SyncType type) {
         if(DataServicesManager.getInstance().getDbChangeListener()!=null) {
-            DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess();
+            DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess(type);
         }
     }
 }

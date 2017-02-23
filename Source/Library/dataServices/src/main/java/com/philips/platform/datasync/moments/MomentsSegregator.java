@@ -11,6 +11,7 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,9 +36,9 @@ public class MomentsSegregator {
 
     public int processMomentsReceivedFromBackend(final List<? extends Moment> moments,DBRequestListener dbRequestListener) {
         int updatedCount = 0;
-        for (final Moment moment : moments) {
-                updatedCount = processMoment(updatedCount, moment ,dbRequestListener);
-        }
+      /* // for (final Moment moment : moments) {
+                updatedCount = processMoment(updatedCount, (List<Moment>) moments,dbRequestListener);
+        //}*/
         return updatedCount;
     }
 
@@ -87,6 +88,11 @@ public class MomentsSegregator {
         }
     }
 
+    private void deleteMomentsInDatabaseIfExists(final List<Moment> momentsInDatabase,DBRequestListener dbRequestListener)
+            throws SQLException {
+            dbDeletingInterface.deleteMoments(momentsInDatabase,dbRequestListener);
+    }
+
     protected boolean MomentDeletedLocallyDuringSync(final Moment momentInDatabase) {
         if (momentInDatabase != null) {
             final SynchronisationData synchronisationData = momentInDatabase.getSynchronisationData();
@@ -98,34 +104,49 @@ public class MomentsSegregator {
         return false;
     }
 
-    public int processMoment(int count, final Moment moment, DBRequestListener dbRequestListener) {
+    public void processMoment(final List<Moment> moments, DBRequestListener dbRequestListener) {
         try {
-            final Moment momentInDatabase = getOrmMomentFromDatabase(moment,dbRequestListener);
-            if (hasDifferentMomentVersion(moment, momentInDatabase)) {
-                if (!isActive(moment.getSynchronisationData())) {
-                    deleteMomentInDatabaseIfExists(momentInDatabase,dbRequestListener);
-                } else if (MomentDeletedLocallyDuringSync(momentInDatabase)) {
-                    moment.setSynced(false);
-                    moment.getSynchronisationData().setInactive(true);
 
-                    deleteAndSaveMoment(momentInDatabase, moment,dbRequestListener);
-                } else {
-                    if (!isMomentModifiedLocallyDuringSync(momentInDatabase, moment)) {
-                        moment.setSynced(true);
+            List<Moment> momentsToDelete=new ArrayList<>();
+            List<Moment> momentsToDeleteAndSave=new ArrayList<>();
+
+            for(Moment moment:moments) {
+
+                final Moment momentInDatabase = getOrmMomentFromDatabase(moment, dbRequestListener);
+                if (hasDifferentMomentVersion(moment, momentInDatabase)) {
+                    if (!isActive(moment.getSynchronisationData())) {
+                        momentsToDelete.add(momentInDatabase);
+                        //deleteMomentInDatabaseIfExists(momentInDatabase, dbRequestListener);
+                    } else if (MomentDeletedLocallyDuringSync(momentInDatabase)) {
+                        moment.setSynced(false);
+                        moment.getSynchronisationData().setInactive(true);
+
+                        if (momentInDatabase != null) {
+                            moment.setId(momentInDatabase.getId());
+                        }
+                        momentsToDeleteAndSave.add(moment);
+                       // deleteAndSaveMoment(momentInDatabase, moment, dbRequestListener);
+                    } else {
+                        if (!isMomentModifiedLocallyDuringSync(momentInDatabase, moment)) {
+                            moment.setSynced(true);
+                        }
+                        if (momentInDatabase != null) {
+                            moment.setId(momentInDatabase.getId());
+                        }
+                        //This is required for deleting duplicate
+                        // measurements, measurementDetails and momentDetails
+                        //deleteAndSaveMoment(momentInDatabase, moment, dbRequestListener);
+                        momentsToDeleteAndSave.add(moment);
                     }
-                    //This is required for deleting duplicate
-                    // measurements, measurementDetails and momentDetails
-                    deleteAndSaveMoment(momentInDatabase, moment,dbRequestListener);
                 }
-                count++;
-            } else {
-
             }
+            deleteMomentsInDatabaseIfExists(momentsToDelete,dbRequestListener);
+            deleteAndSaveMoments(momentsToDeleteAndSave,dbRequestListener);
+
         } catch (SQLException e) {
             updatingInterface.updateFailed(e,dbRequestListener);
         }
 
-        return count;
     }
 
     private boolean isMomentModifiedLocallyDuringSync(final Moment momentInDatabase,
@@ -143,11 +164,21 @@ public class MomentsSegregator {
 
     private void deleteAndSaveMoment(final Moment momentInDatabase,
                                      final Moment ormMoment,DBRequestListener dbRequestListener) throws SQLException {
+
         if (momentInDatabase != null) {
             ormMoment.setId(momentInDatabase.getId());
         }
         deleteMeasurementAndMomentDetailsAndSetId(momentInDatabase,ormMoment,dbRequestListener);
         dbSavingInterface.saveMoment(ormMoment,dbRequestListener);
+    }
+
+    private void deleteAndSaveMoments(final List<Moment> moments,DBRequestListener dbRequestListener) throws SQLException {
+
+        for(Moment moment:moments) {
+            final Moment momentInDatabase = getOrmMomentFromDatabase(moment, dbRequestListener);
+            deleteMeasurementAndMomentDetailsAndSetId(momentInDatabase,moment,dbRequestListener);
+        }
+        dbSavingInterface.saveMoments(moments,dbRequestListener);
     }
 
     public void processCreatedMoment(List<? extends Moment> moments,DBRequestListener dbRequestListener) {

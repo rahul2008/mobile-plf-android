@@ -23,6 +23,7 @@ import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -292,8 +293,9 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     }
 
     @Override
-    public void dBChangeSuccess() {
+    public void dBChangeSuccess(SyncType type) {
         DSLog.i("***SPO***", "pabitra DB OnSuccess");
+        if(type!=SyncType.MOMENT)return;
         if (getActivity() == null) return;
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -313,15 +315,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void onSyncComplete() {
-        if (getActivity() == null) return;
-        DSLog.i("***SPO***", "In TemperatureTimeLineFragment ONSYNCCOMPLETE");
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                mTemperaturePresenter.fetchData(TemperatureTimeLineFragment.this);
-            }
-        });
+        DSLog.i(TAG, "Sync completed");
     }
 
     @Override

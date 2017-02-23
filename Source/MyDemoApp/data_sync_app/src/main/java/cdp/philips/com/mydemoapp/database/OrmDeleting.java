@@ -30,6 +30,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
+import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -238,8 +239,8 @@ public class OrmDeleting {
                 public Void call() throws Exception {
                     for (Moment moment : moments) {
                         //moment.setSynced(false);
-                        OrmMoment ormMoment = OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
-                        ormDeleteMoment(ormMoment);
+                       // OrmMoment ormMoment = OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
+                        ormDeleteMoment((OrmMoment)moment);
                         // momentDao.refresh(ormMoment);
                     }
 
@@ -248,7 +249,8 @@ public class OrmDeleting {
             });
         } catch (Exception e) {
             e.printStackTrace();
-            dbRequestListener.onFailure(e);
+            //dbRequestListener.onFailure(e);
+            new NotifyDBRequestListener().notifyFailure(e,dbRequestListener);
             return false;
         }
         return true;

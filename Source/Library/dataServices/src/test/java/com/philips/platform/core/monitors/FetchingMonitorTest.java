@@ -3,6 +3,7 @@ package com.philips.platform.core.monitors;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.events.Event;
@@ -16,6 +17,7 @@ import com.philips.platform.core.events.LoadSettingsRequest;
 import com.philips.platform.core.events.LoadTimelineEntryRequest;
 import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
 import com.philips.platform.core.injection.AppComponent;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.consent.ConsentsSegregator;
@@ -99,6 +101,9 @@ public class FetchingMonitorTest {
     @Mock
     private DBRequestListener dbRequestListener;
 
+    @Mock
+    private DBFetchRequestListner dbFetchRequestListner;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -114,9 +119,9 @@ public class FetchingMonitorTest {
 
     @Test
     public void ShouldFetchMomentsInsightsAndBabyProfile_WhenLoadTimelineEntryRequestIsReceived() throws Exception {
-        fetchingMonitor.onEventAsync(new LoadTimelineEntryRequest(dbRequestListener));
+        fetchingMonitor.onEventAsync(new LoadTimelineEntryRequest(dbFetchRequestListner));
 
-        verify(fetching).fetchMoments(dbRequestListener);
+        verify(fetching).fetchMoments(dbFetchRequestListner);
 //        verify(fetching).fetchConsentDetails();
         //      verify(fetching).fetchConsentDetails();
         //    verify(fetching).fetchNonSynchronizedMoments();
@@ -124,46 +129,46 @@ public class FetchingMonitorTest {
 
     @Test
     public void ShouldThrowException_FetchingMoments() throws Exception {
-        fetchingMonitor.onEventAsync(new LoadTimelineEntryRequest(dbRequestListener));
-        verify(fetching).fetchMoments(dbRequestListener);
+        fetchingMonitor.onEventAsync(new LoadTimelineEntryRequest(dbFetchRequestListner));
+        verify(fetching).fetchMoments(dbFetchRequestListner);
     }
 
     @Test
     public void fetchingMomentsLoadLastMomentRequest() throws Exception {
-        fetchingMonitor.onEventAsync(new LoadLastMomentRequest("temperature", dbRequestListener));
-        verify(fetching).fetchLastMoment("temperature", dbRequestListener);
+        fetchingMonitor.onEventAsync(new LoadLastMomentRequest("temperature", dbFetchRequestListner));
+        verify(fetching).fetchLastMoment("temperature", dbFetchRequestListner);
     }
 
     @Test
     public void ShouldFetchMoments_WhenLoadMomentsRequestIsReceived() throws Exception {
 
-        fetchingMonitor.onEventAsync(new LoadMomentsRequest(dbRequestListener));
+        fetchingMonitor.onEventAsync(new LoadMomentsRequest(dbFetchRequestListner));
 
-        verify(fetching).fetchMoments(dbRequestListener);
+        verify(fetching).fetchMoments(dbFetchRequestListner);
     }
 
     @Test
     public void ShouldFetchConsents_WhenLoadConsentsRequest() throws Exception {
 
-        fetchingMonitor.onEventAsync(new LoadConsentsRequest(dbRequestListener));
+        fetchingMonitor.onEventAsync(new LoadConsentsRequest(dbFetchRequestListner));
 
-        verify(fetching).fetchConsentDetails(dbRequestListener);
+        verify(fetching).fetchConsentDetails(dbFetchRequestListner);
     }
 
     @Test
     public void ShouldFetchSettings_WhenLoadSettingsRequestIsCalled() throws Exception {
 
-        fetchingMonitor.onEventAsync(new LoadSettingsRequest(dbRequestListener));
+        fetchingMonitor.onEventAsync(new LoadSettingsRequest(dbFetchRequestListner));
 
-        verify(fetching).fetchSettings(dbRequestListener);
+        verify(fetching).fetchSettings(dbFetchRequestListner);
     }
 
     @Test
     public void ShouldFetchCharacteristics_WhenLoadCharacterSicsRequest() throws Exception {
 
-        fetchingMonitor.onEventAsync(new LoadUserCharacteristicsRequest(dbRequestListener));
+        fetchingMonitor.onEventAsync(new LoadUserCharacteristicsRequest(dbFetchRequestListner));
 
-        verify(fetching).fetchCharacteristics(dbRequestListener);
+        verify(fetching).fetchCharacteristics(dbFetchRequestListner);
     }
 
     @Test

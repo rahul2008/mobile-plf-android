@@ -49,7 +49,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             ormMoment = OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
             saving.saveMoment(ormMoment);
             updating.refreshMoment(ormMoment);
-            notifyDBRequestListener.notifySuccess(dbRequestListener, ormMoment);
+            notifyDBRequestListener.notifySuccess(dbRequestListener, ormMoment ,SyncType.MOMENT);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
@@ -61,7 +61,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     @Override
     public boolean saveMoments(final List<Moment> moments,final DBRequestListener dbRequestListener) throws SQLException {
         boolean isSaved = saving.saveMoments(moments,dbRequestListener);
-        notifyDBRequestListener.notifyDBChange();
+        notifyDBRequestListener.notifyDBChange(SyncType.MOMENT);
         return isSaved;
     }
 
@@ -81,7 +81,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
         }
         updating.updateDCSync(SyncType.CONSENT.getId(),true);
-        notifyDBRequestListener.notifySuccess(consentDetails, dbRequestListener);
+        notifyDBRequestListener.notifySuccess(consentDetails, dbRequestListener,SyncType.CONSENT);
         return true;
 
     }
@@ -111,7 +111,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             deleting.deleteSettings();
             OrmSettings ormSettings = OrmTypeChecking.checkOrmType(settings, OrmSettings.class);
             saving.saveSettings(ormSettings);
-            notifyDBRequestListener.notifySuccess(dbRequestListener);
+            notifyDBRequestListener.notifySuccess(dbRequestListener,SyncType.CONSENT);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             notifyDBRequestListener.notifyOrmTypeCheckingFailure(dbRequestListener, e, "OrmType check failed");
