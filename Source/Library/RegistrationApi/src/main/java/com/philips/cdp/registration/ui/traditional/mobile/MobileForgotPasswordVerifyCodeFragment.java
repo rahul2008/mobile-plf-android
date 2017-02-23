@@ -32,6 +32,7 @@ import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
+import com.philips.cdp.registration.settings.ClientIDConfiguration.ClientIDConfiguration;
 import com.philips.cdp.registration.settings.RegistrationSettingsURL;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XMobileHavingProblems;
@@ -333,9 +334,9 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
 
 
     private String getClientId() {
-
-        RegistrationSettingsURL registrationSettingsURL = new RegistrationSettingsURL();
-        return registrationSettingsURL.getResetPasswordClientId("https://"+ Jump.getCaptureDomain());
+        String uriPrefix ="https://";
+        ClientIDConfiguration clientIDConfiguration = new ClientIDConfiguration();
+        return clientIDConfiguration.getResetPasswordClientId(uriPrefix+Jump.getCaptureDomain());
     }
 
     private String getRedirectUri() {
