@@ -286,31 +286,37 @@ public class HsdpUser {
         }
     }
 
-
     /**
      * Get hsdp user record
-     *
      * @return HsdpUserRecord object
      * {@link HsdpUserRecord}
      */
     public HsdpUserRecord getHsdpUserRecord() {
-        if (null != HsdpUserInstance.getInstance().getHsdpUserRecord()) {
+        if ( null != HsdpUserInstance.getInstance().getHsdpUserRecord() ) {
             return HsdpUserInstance.getInstance().getHsdpUserRecord();
         }
 
         try {
+            //Read from file
+            //Migrate user data
             File file = mContext.getFileStreamPath(HSDP_RECORD_FILE);
-            if (file != null && file.exists()) {
-                final FileInputStream fis = mContext.openFileInput(HSDP_RECORD_FILE);
-                final ObjectInputStream ois = new ObjectInputStream(fis);
-                byte[] enctText = (byte[]) ois.readObject();
-                byte[] decrtext = SecureStorage.decrypt(enctText);
-                mContext.deleteFile(HSDP_RECORD_FILE);
-                Jump.getSecureStorageInterface().storeValueForKey(HSDP_RECORD_FILE,
-                        new String(decrtext), new SecureStorageInterface.SecureStorageError());
-                ois.close();
-                fis.close();
+            if(file != null && file.exists()) {
+            final FileInputStream fis = mContext.openFileInput(HSDP_RECORD_FILE);
+            final ObjectInputStream ois = new ObjectInputStream(fis);
+            final Object object = ois.readObject();
+            byte[] plainBytes = null;
+            if (object instanceof byte[]) {
+                plainBytes = (byte[]) object;
             }
+            mContext.deleteFile(HSDP_RECORD_FILE);
+            fis.close();
+            ois.close();
+
+            Jump.getSecureStorageInterface().storeValueForKey(HSDP_RECORD_FILE,
+                    new String(plainBytes), new SecureStorageInterface.SecureStorageError());
+            }
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -321,12 +327,13 @@ public class HsdpUser {
         if (hsdpRecord != null) {
             Object obj = SecureStorage.stringToObject(hsdpRecord);
             if (obj instanceof HsdpUserRecord) {
-                HsdpUserInstance.getInstance().setHsdpUserRecord((HsdpUserRecord) obj);
+
+                HsdpUserInstance.getInstance().setHsdpUserRecord ((HsdpUserRecord) obj);
             }
         }
         return HsdpUserInstance.getInstance().getHsdpUserRecord();
-    }
 
+    }
 
     /**
      * Delete From disk
