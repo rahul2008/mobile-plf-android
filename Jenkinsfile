@@ -31,32 +31,44 @@ node('Android && 25.0.0 && Ubuntu') {
 			checkout([$class: 'GitSCM', branches: [[name: '*/'+env.BRANCH_NAME]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CheckoutOption', timeout: 30], [$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'bbd4d9e8-2a6c-4970-b856-4e4cf901e857', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/uid-android']]])
 		}
 
-
     try {
-      sh 'chmod +x git_version.sh'
-      VERSION = sh(returnStdout: true, script: './git_version.sh snapshot').trim()
-      ANDROID_RELEASE_CANDIDATE = sh(returnStdout: true, script: "echo ${VERSION} | cut -d. -f4").trim()
-      ANDROID_RELEASE_CANDIDATE = ("000" + ANDROID_RELEASE_CANDIDATE).substring(ANDROID_RELEASE_CANDIDATE.length())
-      ANDROID_VERSION_CODE = sh(returnStdout: true, script: "echo ${VERSION} | cut -d- -f1 | sed 's/[^0-9]*//g'").trim()
-      ANDROID_VERSION_CODE = (ANDROID_VERSION_CODE + ANDROID_RELEASE_CANDIDATE).toInteger()
-
       stage('Build Catalog app') {
-        sh """#!/bin/bash -l
-          echo \"Building VERSION ${VERSION} for branch ${env.BRANCH_NAME} with CONFIG ${ARCHIVE_CONFIG}\"
+          // Make scripts executable
+          sh """#!/bin/bash -l
+              chmod +x git_version.sh
+              chmod +x set_version.sh
+              chmod +x Source/CatalogApp/gradlew
+          """
 
-          echo "---------------------- Printing Environment --------------------------"
-          env | sort
-          echo "----------------------- End of Environment ---------------------------"
+          // Determine version
+          if (env.BRANCH_NAME =~ /release\/.*/) {
+              VERSION = sh(returnStdout: true, script: './git_version.sh rc').trim()
+          } else {
+              VERSION = sh(returnStdout: true, script: './git_version.sh snapshot').trim()
+          }
+          currentBuild.description = VERSION
+          ANDROID_RELEASE_CANDIDATE = sh(returnStdout: true, script: "echo ${VERSION} | cut -d. -f4").trim()
+          ANDROID_RELEASE_CANDIDATE = ("0000" + ANDROID_RELEASE_CANDIDATE).substring(ANDROID_RELEASE_CANDIDATE.length())
+          ANDROID_VERSION_CODE = sh(returnStdout: true, script: "echo ${VERSION} | cut -d- -f1 | sed 's/[^0-9]*//g'").trim()
+          ANDROID_VERSION_CODE = (ANDROID_VERSION_CODE + ANDROID_RELEASE_CANDIDATE).toInteger()
 
-          echo "Android Release Candidate: ${ANDROID_RELEASE_CANDIDATE}"
-          echo "Android Version Code: ${ANDROID_VERSION_CODE}"
+          sh """#!/bin/bash -l
+              echo "---------------------- Printing Environment --------------------------"
+              env | sort
+              echo "----------------------- End of Environment ---------------------------"
 
-          chmod +x set_version.sh
-          ./set_version.sh ${VERSION} ${ANDROID_VERSION_CODE}
+              echo "Android Release Candidate: ${ANDROID_RELEASE_CANDIDATE}"
+              echo "Android Version Code: ${ANDROID_VERSION_CODE}"
 
-          cd Source/CatalogApp
-          ./gradlew clean assembleDebug
-        """
+              ./set_version.sh ${VERSION} ${ANDROID_VERSION_CODE}
+          """
+
+          // Execute build
+          sh """#!/bin/bash -l
+              echo \"Building VERSION ${VERSION} for with CONFIG ${ARCHIVE_CONFIG}\"
+              cd Source/CatalogApp
+              ./gradlew clean assemble${ARCHIVE_CONFIG}
+          """
       }
 
       stage('Archive Apps') {
