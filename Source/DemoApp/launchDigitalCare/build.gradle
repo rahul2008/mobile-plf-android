@@ -113,7 +113,7 @@ dependencies {
     compile 'com.android.support:support-v4:+'
     compile 'com.android.support:multidex:+'
 
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.3.4-SNAPSHOT', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.3.5-SNAPSHOT', ext: 'aar')
             {
                 transitive true
             }
