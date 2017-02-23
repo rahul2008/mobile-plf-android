@@ -52,6 +52,7 @@ node('Android && 25.0.0 && Ubuntu') {
           ANDROID_VERSION_CODE = sh(returnStdout: true, script: "echo ${VERSION} | cut -d- -f1 | sed 's/[^0-9]*//g'").trim()
           ANDROID_VERSION_CODE = (ANDROID_VERSION_CODE + ANDROID_RELEASE_CANDIDATE).toInteger()
 
+          // Print environment
           sh """#!/bin/bash -l
               echo "---------------------- Printing Environment --------------------------"
               env | sort
@@ -65,7 +66,7 @@ node('Android && 25.0.0 && Ubuntu') {
 
           // Execute build
           sh """#!/bin/bash -l
-              echo \"Building VERSION ${VERSION} for with CONFIG ${ARCHIVE_CONFIG}\"
+              echo \"Building VERSION ${VERSION} for branch ${env.BRANCH_NAME} with CONFIG ${ARCHIVE_CONFIG}\"
               cd Source/CatalogApp
               ./gradlew clean assemble${ARCHIVE_CONFIG}
           """
