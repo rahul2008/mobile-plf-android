@@ -435,17 +435,20 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
             }
         });
 
-        int i;
+        int subStringLength ;
         if(verification_Sms_Code_URL.contains(".cn")){
-            i = verification_Sms_Code_URL.lastIndexOf(".cn")+3;
+            subStringLength = verification_Sms_Code_URL.lastIndexOf(".cn")+3;
         } else{
-            i = verification_Sms_Code_URL.lastIndexOf(".com")+4;
+            subStringLength = verification_Sms_Code_URL.lastIndexOf(".com")+4;
         }
-        String[] a = {verification_Sms_Code_URL.substring(0, i), verification_Sms_Code_URL.substring(i)};
-        verification_Sms_Code_URL = a[0] + "/api/v1/user/requestPasswordResetSmsCode";
-        reset_password_sms_RedirectUri = a[0] + "/c-w/user-registration/apps/reset-password.html";
+        String[] uriSubString = {verification_Sms_Code_URL.substring(0, subStringLength), verification_Sms_Code_URL.substring(subStringLength)};
+        RLog.d(RLog.SERVICE_DISCOVERY, "base url"+ uriSubString[0]);
 
-        RLog.d(RLog.SERVICE_DISCOVERY, "base url"+ a[0]);
+        //Verification URI
+        verification_Sms_Code_URL = uriSubString[0] + "/api/v1/user/requestPasswordResetSmsCode";
+        //Redirect URI
+        reset_password_sms_RedirectUri = uriSubString[0] + "/c-w/user-registration/apps/reset-password.html";
+
         getActivity().startService(createResendSMSIntent(verification_Sms_Code_URL));
     }
 
