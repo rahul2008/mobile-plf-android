@@ -170,4 +170,6 @@ public class RegConstants {
 
     public static final String DOT_RECEIVE_MARKETING_OPT_IN = "DOT-ReceiveMarketingOptIn";
 
+    public static final String HTTPS_CONST ="https://";
+
 }

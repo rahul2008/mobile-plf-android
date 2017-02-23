@@ -32,8 +32,7 @@ import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
-import com.philips.cdp.registration.settings.ClientIDConfiguration.ClientIDConfiguration;
-import com.philips.cdp.registration.settings.RegistrationSettingsURL;
+import com.philips.cdp.registration.configuration.ClientIDConfiguration;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XMobileHavingProblems;
 import com.philips.cdp.registration.ui.customviews.XRegError;
@@ -79,7 +78,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
     private final long interval = 1 * 1000;
     private CountDownTimer countDownTimer;
     private boolean isResendRequested;
-    private String verification_Sms_Code_URL;
+    private String verificationSmsCodeURL;
     private String mobileNumber;
     private String responseToken;
     private String redirectUri;
@@ -100,7 +99,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
         mobileNumber = bundle.getString("mobileNumber");
         responseToken = bundle.getString("token");
         redirectUri = bundle.getString("redirectUri");
-        verification_Sms_Code_URL = bundle.getString("verification_sms_code_url");
+        verificationSmsCodeURL = bundle.getString("verificationSmsCodeURL");
         View view = inflater.inflate(R.layout.reg_mobile_forgot_password_verify_fragment, container, false);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
@@ -334,9 +333,8 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
 
 
     private String getClientId() {
-        String uriPrefix ="https://";
         ClientIDConfiguration clientIDConfiguration = new ClientIDConfiguration();
-        return clientIDConfiguration.getResetPasswordClientId(uriPrefix+Jump.getCaptureDomain());
+        return clientIDConfiguration.getResetPasswordClientId(RegConstants.HTTPS_CONST+Jump.getCaptureDomain());
     }
 
     private String getRedirectUri() {
@@ -350,7 +348,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
 
         RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER *** : " + mobileNumber);
         RLog.d("Configration : ", " envir :" + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
-        String url = verification_Sms_Code_URL;
+        String url = verificationSmsCodeURL;
 
         Intent httpServiceIntent = new Intent(mContext, HttpClientService.class);
         HttpClientServiceReceiver receiver = new HttpClientServiceReceiver(new Handler());

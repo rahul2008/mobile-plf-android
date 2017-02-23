@@ -1,12 +1,8 @@
-package com.philips.cdp.registration.settings.ClientIDConfiguration;
+package com.philips.cdp.registration.configuration;
 
 import com.philips.cdp.registration.ui.utils.RLog;
 
 import java.util.HashMap;
-
-/**
- * Created by 310243576 on 2/23/2017.
- */
 
 public class ClientIDConfiguration {
 

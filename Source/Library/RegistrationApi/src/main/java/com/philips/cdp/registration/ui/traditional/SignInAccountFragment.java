@@ -41,7 +41,7 @@ import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
-import com.philips.cdp.registration.settings.ClientIDConfiguration.ClientIDConfiguration;
+import com.philips.cdp.registration.configuration.ClientIDConfiguration;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.RegistrationSettingsURL;
 import com.philips.cdp.registration.ui.customviews.XEmail;
@@ -922,7 +922,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 bundle.putString("mobileNumber", mEtEmail.getEmailId());
                 bundle.putString("token",token);
                 bundle.putString("redirectUri",getRedirectUri());
-                bundle.putString("verification_sms_code_url", verificationSmsCodeURL);
+                bundle.putString("verificationSmsCodeURL", verificationSmsCodeURL);
                 mobileForgotPasswordVerifyCodeFragment.setArguments(bundle);
                 getRegistrationFragment().addFragment(mobileForgotPasswordVerifyCodeFragment);
             } else {
@@ -961,9 +961,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private String getClientId() {
-        String uriPrefix ="https://";
         ClientIDConfiguration clientIDConfiguration = new ClientIDConfiguration();
-        return clientIDConfiguration.getResetPasswordClientId(uriPrefix+Jump.getCaptureDomain());
+        return clientIDConfiguration.getResetPasswordClientId(RegConstants.HTTPS_CONST+Jump.getCaptureDomain());
     }
 
     private String getRedirectUri() {

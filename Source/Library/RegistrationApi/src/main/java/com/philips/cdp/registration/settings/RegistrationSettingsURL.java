@@ -7,7 +7,7 @@ import com.janrain.android.JumpConfig;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.EventHelper;
-import com.philips.cdp.registration.settings.ClientIDConfiguration.ClientIDConfiguration;
+import com.philips.cdp.registration.configuration.ClientIDConfiguration;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -15,7 +15,6 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 
