@@ -132,8 +132,5 @@ public class ResetPasswordWebView extends Fragment {
         return null;
     }
 
-    private String initializeRestPasswordSMSLinks(String registrationEnv, String code, String token) {
-        return registrationEnv+"?code="+code+"&token="+token;
-    }
 
 }
