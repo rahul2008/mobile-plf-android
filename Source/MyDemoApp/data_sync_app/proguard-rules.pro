@@ -171,6 +171,7 @@ public static <fields>;
 -keep class com.philips.platform.datasync.moments.UCoreMeasurementGroupDetail { *; }
 -keep class com.philips.platform.datasync.moments.UCoreMeasurementGroups { *; }
 -keep class com.philips.platform.datasync.consent.UCoreConsentDetail { *; }
+-keep class com.philips.platform.datasync.settings.UCoreSettings { *; }
 
 #HSDP Lib
 -keep  class com.philips.dhpclient.** {*;}
