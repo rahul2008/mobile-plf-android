@@ -3,6 +3,7 @@
  * All rights reserved.
  */
 apply plugin: 'com.android.library'
+apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
 
 android {
     compileSdkVersion versions.sdk

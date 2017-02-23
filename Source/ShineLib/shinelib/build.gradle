@@ -2,14 +2,9 @@
  * Copyright (c) Koninklijke Philips N.V., 2016, 2017
  * All rights reserved.
  */
-apply plugin: 'com.android.library'
-apply plugin: 'jacoco'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
-
-apply from: rootDir.absolutePath + '/../common/gradle/module-tasks.gradle'
-
-buildscript {
+buildscript { bs ->
+    apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
+    apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
     repositories {
         maven { url repos.jcenter }
         maven { url repos.plugin }
@@ -21,6 +16,13 @@ buildscript {
     }
 }
 
+apply plugin: 'com.android.library'
+apply plugin: 'jacoco'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
+
+apply from: rootDir.absolutePath + '/../common/gradle/module-tasks.gradle'
+
 def environment = 'production'
 if (project.hasProperty('envCode')) {
     environment = envCode
@@ -28,9 +30,10 @@ if (project.hasProperty('envCode')) {
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
+objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = rootProject.name
 version = objcdp.getVersion()
 
@@ -51,7 +54,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('aar')
+                publications('aar')
             }
         }
     }
@@ -79,7 +82,7 @@ publishing {
 
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
-            pom.withXml{
+            pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
                 configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')

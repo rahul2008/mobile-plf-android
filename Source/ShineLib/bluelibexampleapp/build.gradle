@@ -4,7 +4,9 @@
  */
 apply plugin: 'com.android.application'
 
-buildscript {
+buildscript { bs ->
+    apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
+    apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
     repositories {
         maven { url repos.jcenter }
     }
