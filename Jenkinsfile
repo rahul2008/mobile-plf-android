@@ -4,7 +4,7 @@ properties([
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']]
 ])
 
-def getArchiveConfig() {
+def getBuildConfig() {
   return ( env.BRANCH_NAME == 'master' ) ? 'Release' : 'Debug'
 }
  
@@ -22,7 +22,7 @@ stage('Espresso testing') {
 
 node('Android && 25.0.0 && Ubuntu') {
   timestamps {
-    def ARCHIVE_CONFIG = getArchiveConfig()
+    def CONFIG = getBuildConfig()
     def VERSION = ""
     def ANDROID_RELEASE_CANDIDATE = ""
     def ANDROID_VERSION_CODE = ""
@@ -32,7 +32,7 @@ node('Android && 25.0.0 && Ubuntu') {
 		}
 
     try {
-      stage('Build Catalog app') {
+      stage('Build') {
           // Make scripts executable
           sh """#!/bin/bash -l
               chmod +x git_version.sh
@@ -66,19 +66,22 @@ node('Android && 25.0.0 && Ubuntu') {
 
           // Execute build
           sh """#!/bin/bash -l
-              echo \"Building VERSION ${VERSION} for branch ${env.BRANCH_NAME} with CONFIG ${ARCHIVE_CONFIG}\"
+              echo \"Building VERSION ${VERSION} for branch ${env.BRANCH_NAME} with CONFIG ${CONFIG}\"
               cd Source/CatalogApp
-              ./gradlew clean assemble${ARCHIVE_CONFIG}
+              ./gradlew clean assemble${CONFIG}
           """
       }
 
-      stage('Archive Apps') {
+      stage('Archive Build') {
+        // Archive APK files
         step([$class: 'ArtifactArchiver', artifacts: 'Source/CatalogApp/app/build/outputs/apk/*debug.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
+
+        // Archive libraries
         step([$class: 'ArtifactArchiver', artifacts: 'Source/UIKit/uid/build/outputs/aar/uid-debug.aar', excludes: null, fingerprint: true, onlyIfSuccessful: true])
       }
 
       if(env.BRANCH_NAME == "develop") {
-        stage('Publish') {
+        stage('HockeyApp Upload') {
           sh '''#!/bin/bash -l
             cp ReleaseNotes.md Source/CatalogApp/app/build/outputs/apk
             cd Source/CatalogApp/app/build/outputs/apk
@@ -87,6 +90,7 @@ node('Android && 25.0.0 && Ubuntu') {
         }
       }
 
+      currentBuild.result = 'SUCCESS'
     } catch(err) {
       currentBuild.result = 'FAILED'
     }
