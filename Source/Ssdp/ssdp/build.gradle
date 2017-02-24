@@ -1,12 +1,25 @@
+/*
+ * (c) Koninklijke Philips N.V., 2017.
+ *     All rights reserved.
+ */
 apply plugin: 'com.android.library'
 
+buildscript { bs ->
+    apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
+    apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
+    repositories {
+        maven { url repos.jcenter }
+    }
+}
+
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion 9
-        targetSdkVersion 23
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
+
         versionCode 1
         versionName "1.0"
     }
@@ -20,6 +33,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile deps.support.appcompatv7
+
+    testCompile deps.junit
 }
