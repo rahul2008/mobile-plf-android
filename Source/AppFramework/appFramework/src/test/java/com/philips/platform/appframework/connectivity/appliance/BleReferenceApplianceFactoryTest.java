@@ -2,7 +2,9 @@ package com.philips.platform.appframework.connectivity.appliance;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -24,30 +26,42 @@ public class BleReferenceApplianceFactoryTest {
 
     @Mock
     NetworkNode networkNode;
-    @Test
-    public void checkCanCreateApplianceForNode_True(){
+
+    @Mock
+    NetworkNode networkNodeModelNameNull;
+
+    @Mock
+    CommunicationStrategy communicationStrategy;
+
+    BleReferenceApplianceFactory bleReferenceApplianceFactory;
+
+    @Before
+    public void setUp(){
+        bleReferenceApplianceFactory=new BleReferenceApplianceFactory(bleTransportContext);
         when(networkNode.getModelName())
                 .thenReturn(BleReferenceAppliance.MODELNAME);
-        assertTrue(new BleReferenceApplianceFactory(bleTransportContext).canCreateApplianceForNode(networkNode));
+        when(bleTransportContext.createCommunicationStrategyFor(networkNode)).thenReturn(communicationStrategy);
+    }
+    @Test
+    public void checkCanCreateApplianceForNode_True(){
+        assertTrue(bleReferenceApplianceFactory.canCreateApplianceForNode(networkNode));
 
     }
 
     @Test
     public void createApplianceForNode_For_Not_Null(){
-        when(networkNode.getModelName())
-                .thenReturn(BleReferenceAppliance.MODELNAME);
-        assertNotNull(new BleReferenceApplianceFactory(bleTransportContext).createApplianceForNode(networkNode));
+        assertNotNull(bleReferenceApplianceFactory.createApplianceForNode(networkNode));
     }
 
     @Test
     public void createApplianceForNode_For_Null(){
-        when(networkNode.getModelName())
+        when(networkNodeModelNameNull.getModelName())
                 .thenReturn("");
-        assertNull(new BleReferenceApplianceFactory(bleTransportContext).createApplianceForNode(networkNode));
+        assertNull(bleReferenceApplianceFactory.createApplianceForNode(networkNodeModelNameNull));
     }
 
     @Test
     public void getSupportedModelNames_Contains_Ble_Model_Name(){
-        assertTrue(new BleReferenceApplianceFactory(bleTransportContext).getSupportedModelNames().contains(BleReferenceAppliance.MODELNAME));
+        assertTrue(bleReferenceApplianceFactory.getSupportedModelNames().contains(BleReferenceAppliance.MODELNAME));
     }
 }
