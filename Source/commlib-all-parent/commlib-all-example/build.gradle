@@ -4,7 +4,9 @@
  */
 apply plugin: 'com.android.application'
 
-buildscript {
+buildscript { bs ->
+    apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
+    apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
     repositories {
         maven { url repos.jcenter }
     }
@@ -42,11 +44,13 @@ dependencies {
     debugCompile project(path: commlib_ble, configuration: 'debug')
     releaseCompile project(path: commlib_ble, configuration: 'release')
 
-    compile 'com.android.support:appcompat-v7:24.2.0'
+    compile deps.support.appcompatv7
+
     compile group: 'joda-time', name: 'joda-time', version: '2.9.7'
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    testCompile 'junit:junit:4.12'
+
+    testCompile deps.junit
 }
