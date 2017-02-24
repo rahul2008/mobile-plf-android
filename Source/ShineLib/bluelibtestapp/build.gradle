@@ -46,10 +46,10 @@ dependencies {
     compile project(path: ':pluginreferenceboard')
 
     compile deps.gson
-
-    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile deps.support.appcompatv7
+    
     compile 'com.philips.pins.shinelib:shinepluginmoonshinelib-release:+@aar'
     compile 'com.philips.pins.shinelib:packetcommunication-release:+@aar'
 
-    testCompile 'junit:junit:4.12'
+    testCompile deps.junit
 }

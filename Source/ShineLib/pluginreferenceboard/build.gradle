@@ -2,8 +2,15 @@
  * Copyright (c) Koninklijke Philips N.V., 2017
  * All rights reserved.
  */
+buildscript { bs ->
+    apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
+    apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
+    repositories {
+        maven { url repos.jcenter }
+    }
+}
+
 apply plugin: 'com.android.library'
-apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
 
 android {
     compileSdkVersion versions.sdk
@@ -32,10 +39,10 @@ android {
 dependencies {
     if (findProject(':bluelib')) {
         compile project(':bluelib')
-    }else {
+    } else {
         compile project(':shinelib')
     }
 
-    testCompile 'junit:junit:4.12'
+    testCompile deps.junit
     testCompile 'org.powermock:powermock-api-mockito:1.6.4'
 }

@@ -125,7 +125,7 @@ android {
 }
 
 dependencies {
-    compile deps.support_annotations
+    compile deps.support.annotations
     compile deps.gson
 
     testCompile deps.junit

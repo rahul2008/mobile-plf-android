@@ -53,9 +53,9 @@ dependencies {
     compile project(bluelib)
 
     compile deps.gson
-    compile deps.support_annotations
+    compile deps.support.annotations
+    compile deps.support.appcompatv7
 
-    compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.0'
     compile 'com.android.support:recyclerview-v7:24.2.0'
     compile 'com.android.support:support-compat:24.2.0'
@@ -64,8 +64,10 @@ dependencies {
     compile 'com.android.support:support-fragment:24.2.0'
     compile 'com.android.support:support-v4:24.2.0'
     compile 'com.android.support:support-vector-drawable:24.2.0'
+
     compile 'com.philips.pins.shinelib:packetcommunication-release:+@aar'
     compile 'com.philips.pins.shinelib:shinepluginmoonshinelib-release:+@aar'
-    testCompile 'junit:junit:4.12'
+
+    testCompile deps.junit
 }
 
