@@ -44,6 +44,7 @@ public class SavingMonitor extends EventMonitor {
         boolean saved = dbInterface.saveMoments(momentSaveRequest.getMoments(),momentSaveRequest.getDbRequestListener());
         if (saved) {
             //eventing.post(new MomentChangeEvent(momentSaveRequest.getReferenceId(), momentSaveRequest.getMoments()));
+
         } else {
             dbInterface.postError(new Exception("Failed to insert"),momentSaveRequest.getDbRequestListener());
         }

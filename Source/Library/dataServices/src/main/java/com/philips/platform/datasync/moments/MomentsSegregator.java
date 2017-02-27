@@ -104,8 +104,7 @@ public class MomentsSegregator {
         return false;
     }
 
-    public void processMoment(final List<Moment> moments, DBRequestListener dbRequestListener) {
-        try {
+    public void processMoment(final List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException{
 
             List<Moment> momentsToDelete=new ArrayList<>();
             List<Moment> momentsToDeleteAndSave=new ArrayList<>();
@@ -143,11 +142,8 @@ public class MomentsSegregator {
             deleteMomentsInDatabaseIfExists(momentsToDelete,dbRequestListener);
             deleteAndSaveMoments(momentsToDeleteAndSave,dbRequestListener);
 
-        } catch (SQLException e) {
-            updatingInterface.updateFailed(e,dbRequestListener);
         }
 
-    }
 
     private boolean isMomentModifiedLocallyDuringSync(final Moment momentInDatabase,
                                                       final Moment ormMoment) {
@@ -178,7 +174,7 @@ public class MomentsSegregator {
             final Moment momentInDatabase = getOrmMomentFromDatabase(moment, dbRequestListener);
             deleteMeasurementAndMomentDetailsAndSetId(momentInDatabase,moment,dbRequestListener);
         }
-        dbSavingInterface.saveMoments(moments,dbRequestListener);
+        dbSavingInterface.saveMoments(moments,null);
     }
 
     public void processCreatedMoment(List<? extends Moment> moments,DBRequestListener dbRequestListener) {

@@ -4,7 +4,6 @@
  */
 package com.philips.platform.core.monitors;
 
-import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
@@ -12,7 +11,6 @@ import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentsDeleteRequest;
 import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.core.trackers.DataServicesManager;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -58,9 +56,6 @@ public class DeletingMonitor extends EventMonitor {
         final DBRequestListener dbRequestListener = event.getDbRequestListener();
         try {
             dbInterface.markAsInActive(event.getMoment(), dbRequestListener);
-            if(DataServicesManager.getInstance().getDbChangeListener()!=null){
-                DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess(SyncType.MOMENT);
-            }
         } catch (SQLException e) {
             dbInterface.deleteFailed(e, dbRequestListener);
         }

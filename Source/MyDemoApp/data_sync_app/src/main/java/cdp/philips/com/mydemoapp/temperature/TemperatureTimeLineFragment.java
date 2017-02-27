@@ -294,7 +294,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void dBChangeSuccess(SyncType type) {
-        DSLog.i("***SPO***", "pabitra DB OnSuccess");
+        DSLog.i("***SPO***", "In Temperature TimeLine Fragment DB OnSuccess");
         if(type!=SyncType.MOMENT)return;
         if (getActivity() == null) return;
         getActivity().runOnUiThread(new Runnable() {

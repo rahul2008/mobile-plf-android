@@ -2,7 +2,6 @@ package cdp.philips.com.mydemoapp.database;
 
 import android.support.annotation.NonNull;
 
-import com.j256.ormlite.stmt.QueryBuilder;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
@@ -12,7 +11,6 @@ import com.philips.platform.core.utils.DSLog;
 import org.joda.time.DateTime;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -50,7 +48,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     @Override
     public void deleteAll(DBRequestListener dbRequestListener) throws SQLException {
         ormDeleting.deleteAll();
-        notifyDBRequestListener.notifyAll(dbRequestListener);
+        notifyDBRequestListener.notifyPrepareForDeletion(dbRequestListener);
     }
 
     @Override
@@ -63,7 +61,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
                             DateTime.now(), 0));
             saveMoment(moment, dbRequestListener);
         }
-
+        notifyDBRequestListener.notifyPrepareForDeletion(dbRequestListener);
     }
 
     @Override

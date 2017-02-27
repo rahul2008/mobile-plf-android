@@ -1,6 +1,7 @@
 package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SyncType;
@@ -20,6 +21,7 @@ import com.philips.platform.core.events.SettingsBackendSaveRequest;
 import com.philips.platform.core.events.SettingsBackendSaveResponse;
 import com.philips.platform.core.events.SyncBitUpdateRequest;
 import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
+import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
@@ -55,7 +57,6 @@ public class UpdatingMonitor extends EventMonitor {
 
     @Inject
     UserCharacteristicsSegregator mUserCharacteristicsSegregator;
-
 
     public UpdatingMonitor(DBUpdatingInterface dbUpdatingInterface, DBDeletingInterface dbDeletingInterface, DBFetchingInterface dbFetchingInterface) {
         this.dbUpdatingInterface = dbUpdatingInterface;
@@ -121,7 +122,26 @@ public class UpdatingMonitor extends EventMonitor {
         if (moments == null || moments.isEmpty()) {
             return;
         }
-        momentsSegregator.processMoment((List<Moment>)moments, null);
+        try {
+            momentsSegregator.processMoment((List<Moment>) moments, null);
+            DSLog.i("***SPO***","After Process Moment");
+            notifyDBChangeSuccess(SyncType.MOMENT);
+        }catch (SQLException e){
+            notifyDBFailure(e);
+        }
+    }
+
+    private void notifyDBChangeSuccess(SyncType moment) {
+        DSLog.i("***SPO***","inside notifyDBChange UpdatingMonitor");
+        DBChangeListener mDbChangeListener = DataServicesManager.getInstance().getDbChangeListener();
+        mDbChangeListener.dBChangeSuccess(moment);
+    }
+
+    private void notifyDBFailure(SQLException e) {
+        DBChangeListener mDbChangeListener = DataServicesManager.getInstance().getDbChangeListener();
+        if(mDbChangeListener !=null){
+            mDbChangeListener.dBChangeFailed(e);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
@@ -138,9 +158,10 @@ public class UpdatingMonitor extends EventMonitor {
         try {
             if(dbFetchingInterface.isSynced(SyncType.CONSENT.getId())) {
                 dbUpdatingInterface.updateConsent(consentBackendSaveResponse.getConsentDetailList(), null);
+                notifyDBChangeSuccess(SyncType.CONSENT);
             }
         }catch (SQLException e){
-            dbUpdatingInterface.updateFailed(e, null);
+            notifyDBFailure(e);
         }
     }
 
@@ -149,9 +170,10 @@ public class UpdatingMonitor extends EventMonitor {
         try {
             if (mUserCharacteristicsSegregator.isUCSynced()) {
                 dbUpdatingInterface.updateCharacteristics(userCharacteristicsSaveBackendRequest.getUserCharacteristics(), null);
+                notifyDBChangeSuccess(SyncType.CHARACTERISTICS);
             }
         } catch (SQLException e) {
-            dbUpdatingInterface.updateFailed(e, userCharacteristicsSaveBackendRequest.getDbRequestListener());
+            notifyDBFailure(e);
         }
     }
 
@@ -177,13 +199,17 @@ public class UpdatingMonitor extends EventMonitor {
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final SettingsBackendSaveResponse settingsBackendSaveResponse) throws SQLException{
+        Log.i("***SPO***","Settings updatingMonitor in SettingsBackendSaveResponse");
         try{
             if(dbFetchingInterface.isSynced(SyncType.SETTINGS.getId())){
+                Log.i("***SPO***","Settings updatingMonitor in SettingsBackendSaveResponse inside if block");
                 dbUpdatingInterface.updateSettings(settingsBackendSaveResponse.getSettings(),null);
+                Log.i("***SPO***","Settings Fetch complete in updatingMonitor");
+                notifyDBChangeSuccess(SyncType.SETTINGS);
             }
 
         }catch (SQLException e){
-            dbUpdatingInterface.updateFailed(e,null);
+           notifyDBFailure(e);
         }
     }
 }

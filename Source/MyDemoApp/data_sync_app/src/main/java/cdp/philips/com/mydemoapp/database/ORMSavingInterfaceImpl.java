@@ -61,7 +61,8 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     @Override
     public boolean saveMoments(final List<Moment> moments,final DBRequestListener dbRequestListener) throws SQLException {
         boolean isSaved = saving.saveMoments(moments,dbRequestListener);
-        notifyDBRequestListener.notifyDBChange(SyncType.MOMENT);
+        ///notifyDBRequestListener.notifyDBChange(SyncType.MOMENT);
+        notifyDBRequestListener.notifyMomentsSaveSuccess(moments,dbRequestListener);
         return isSaved;
     }
 

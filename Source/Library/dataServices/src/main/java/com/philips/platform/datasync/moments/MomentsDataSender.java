@@ -183,7 +183,7 @@ public class MomentsDataSender extends DataSender {
             }
             return false;
         } catch (RetrofitError error) {
-            if(error!=null && error.getResponse().getStatus()== HttpURLConnection.HTTP_CONFLICT){
+            if(error!=null && error.getResponse()!=null && error.getResponse().getStatus()== HttpURLConnection.HTTP_CONFLICT){
                 DSLog.i("***SPO***","Exception - 409");
                 //dont do anything
             }else {
