@@ -22,6 +22,7 @@ stage('Espresso testing') {
 
 node('Android && 25.0.0 && Ubuntu') {
   timestamps {
+    def APP_ROOT = "Source/CatalogApp"
     def CONFIG = getBuildConfig()
     def VERSION = ""
     def ANDROID_RELEASE_CANDIDATE = ""
@@ -37,7 +38,7 @@ node('Android && 25.0.0 && Ubuntu') {
           sh """#!/bin/bash -l
               chmod +x git_version.sh
               chmod +x set_version.sh
-              chmod +x Source/CatalogApp/gradlew
+              chmod +x ${APP_ROOT}/gradlew
           """
 
           // Determine version
@@ -67,14 +68,14 @@ node('Android && 25.0.0 && Ubuntu') {
           // Execute build
           sh """#!/bin/bash -l
               echo \"Building VERSION ${VERSION} for branch ${env.BRANCH_NAME} with CONFIG ${CONFIG}\"
-              cd Source/CatalogApp
+              cd ${APP_ROOT}
               ./gradlew clean assemble${CONFIG}
           """
       }
 
       stage('Archive Build') {
         // Archive APK files
-        step([$class: 'ArtifactArchiver', artifacts: 'Source/CatalogApp/app/build/outputs/apk/*debug.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
+        step([$class: 'ArtifactArchiver', artifacts: APP_ROOT + '/app/build/outputs/apk/*debug.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
 
         // Archive libraries
         step([$class: 'ArtifactArchiver', artifacts: 'Source/UIKit/uid/build/outputs/aar/uid-debug.aar', excludes: null, fingerprint: true, onlyIfSuccessful: true])
@@ -83,8 +84,8 @@ node('Android && 25.0.0 && Ubuntu') {
       if(env.BRANCH_NAME == "develop") {
         stage('HockeyApp Upload') {
           sh '''#!/bin/bash -l
-            cp ReleaseNotes.md Source/CatalogApp/app/build/outputs/apk
-            cd Source/CatalogApp/app/build/outputs/apk
+            cp ReleaseNotes.md ${APP_ROOT}/app/build/outputs/apk
+            cd ${APP_ROOT}/app/build/outputs/apk
             curl -F "status=2" -F "notify=1" -F "ipa=@app-debug.apk" -F "notes=<ReleaseNotes.md" -H "X-hockeyApptoken: b9d6e2f453894b4fbcb161b33a94f6c8" https://rink.hockeyapp.net/api/2/apps/ecacf68949f344a686bed78d47449973/app_versions/upload
           '''
         }
