@@ -1,12 +1,13 @@
 BlueLib(/ShineLib) for Android - Release Notes
 =======================================
 
-Version NEXT
+Version 2.3.2
 -------------
 ### New features
 * [COM-141] Exposed DiComm package for reuse
 * Added new capability type: DI_COMM and corresponding capability definition: CapabilityDiComm
 * [BL-147] Custom capabilities added. It is now possible to implement capabilities without modifying BlueLib.
+* [CON-96] Discovery of DiComm devices
 
 ### Known issues
 * [BG-234] Google backup might restore previously associated devices
