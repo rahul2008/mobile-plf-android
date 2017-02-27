@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -74,6 +75,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         TraditionalLoginHandler, ForgotPasswordHandler, onUpdateListener,
         EventListener, ResendVerificationEmailHandler,
         NetworStateListener, HttpClientServiceReceiver.Listener {
+
+    public static final String USER_REQUEST_PASSWORD_RESET_SMS_CODE = "/api/v1/user/requestPasswordResetSmsCode";
+    public static final String USER_REQUEST_RESET_PASSWORD_REDIRECT_URI_SMS = "/c-w/user-registration/apps/reset-password.html";
 
     private LinearLayout mLlCreateAccountFields;
 
@@ -807,7 +811,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private Intent createResendSMSIntent() {
         RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER * ** : " + mUser.getMobile());
-        System.out.println("Configration : " + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
         String url = verificationSmsCodeURL + "?provider=" +
                 "JANRAIN-CN&locale=zh_CN" + "&phonenumber=" + FieldsValidator.getMobileNumber(mUser.getMobile());
 
@@ -877,6 +880,18 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         });
 
 
+        String uriSubString = getBaseString();
+
+        //Verification URI
+        verificationSmsCodeURL = uriSubString + USER_REQUEST_PASSWORD_RESET_SMS_CODE;
+        //Redirect URI
+        resetPasswordSmsRedirectUri = uriSubString + USER_REQUEST_RESET_PASSWORD_REDIRECT_URI_SMS;
+
+        getRegistrationFragment().getActivity().startService(createResendSMSIntent(verificationSmsCodeURL));
+    }
+
+    @NonNull
+    private String getBaseString() {
         URL url = null;
 
         try {
@@ -884,14 +899,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        String uriSubString = (url.getProtocol() + "://" + url.getHost());
-
-        //Verification URI
-        verificationSmsCodeURL = uriSubString + "/api/v1/user/requestPasswordResetSmsCode";
-        //Redirect URI
-        resetPasswordSmsRedirectUri = uriSubString + "/c-w/user-registration/apps/reset-password.html";
-
-        getRegistrationFragment().getActivity().startService(createResendSMSIntent(verificationSmsCodeURL));
+        return (url.getProtocol() + "://" + url.getHost());
     }
 
     private void handleResendVerificationSMSSuccess() {

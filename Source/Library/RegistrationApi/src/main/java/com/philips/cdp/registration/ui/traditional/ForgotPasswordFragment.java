@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +67,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
         onUpdateListener, NetworStateListener, View.OnClickListener, ForgotPasswordHandler, HttpClientServiceReceiver.Listener {
 
     private static final int FAILURE_TO_CONNECT = -1;
+    public static final String USER_REQUEST_PASSWORD_RESET_SMS_CODE = "/api/v1/user/requestPasswordResetSmsCode";
+    public static final String USER_REQUEST_RESET_PASSWORD_REDIRECT_URI_SMS = "/c-w/user-registration/apps/reset-password.html";
 
     private LinearLayout mLlEmailField;
 
@@ -437,6 +440,18 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
             }
         });
 
+        String uriSubString = getBaseString();
+
+        //Verification URI
+        verificationSmsCodeURL = uriSubString + USER_REQUEST_PASSWORD_RESET_SMS_CODE;
+        //Redirect URI
+        resetPasswordSmsRedirectUri = uriSubString + USER_REQUEST_RESET_PASSWORD_REDIRECT_URI_SMS;
+
+        getRegistrationFragment().getActivity().startService(createResendSMSIntent(verificationSmsCodeURL));
+    }
+
+    @NonNull
+    private String getBaseString() {
         URL url = null;
         try {
             url = new URL(verificationSmsCodeURL);
@@ -444,14 +459,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
             e.printStackTrace();
         }
 
-        String uriSubString = (url.getProtocol() + "://" + url.getHost());
-
-        //Verification URI
-        verificationSmsCodeURL = uriSubString + "/api/v1/user/requestPasswordResetSmsCode";
-        //Redirect URI
-        resetPasswordSmsRedirectUri = uriSubString + "/c-w/user-registration/apps/reset-password.html";
-
-        getRegistrationFragment().getActivity().startService(createResendSMSIntent(verificationSmsCodeURL));
+        return (url.getProtocol() + "://" + url.getHost());
     }
 
     private void handleResendVerificationEmailSuccess() {
@@ -522,8 +530,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
         String bodyContent = "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(mEtEmail.getEmailId()) +
                 "&locale=zh_CN&clientId=" + getClientId() + "&code_type=short&" +
                 "redirectUri=" + getRedirectUri();
-        RLog.d("Configration : ", " envirr :" + getClientId() + getRedirectUri());
 
+        RLog.d("Configration : ", " envirr :" + getClientId() + getRedirectUri());
         httpServiceIntent.putExtra(receiverKey, receiver);
         httpServiceIntent.putExtra(bodyContentKey, bodyContent);
         httpServiceIntent.putExtra(urlKey, url);
