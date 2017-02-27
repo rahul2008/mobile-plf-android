@@ -1,5 +1,6 @@
 package com.philips.cdp.sampledigitalcare.launcher.uAppComponetLaunch;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,7 @@ import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
+import com.philips.cdp.sampledigitalcare.util.ThemeUtil;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.platform.appinfra.AppInfra;
@@ -75,8 +77,11 @@ public class MicroAppFragmentActivity extends UiKitActivity implements View.OnCl
         super.onCreate(savedInstanceState);
 
         getSupportActionBar().hide();
+        ThemeUtil mThemeUtil = new ThemeUtil(getApplicationContext().getSharedPreferences(
+                this.getString(R.string.app_name), Context.MODE_PRIVATE));
         //setTheme(R.style.Theme_Philips_DarkBlue_WhiteBackground);
-        setTheme(R.style.Theme_Philips_DarkOrange_WhiteBackground);
+        setTheme(mThemeUtil.getCurrentTheme());
+
         DigiCareLogger.i(TAG, " onCreate ++ ");
         setContentView(R.layout.activity_sample);
 

@@ -1,6 +1,8 @@
 package com.philips.cdp.sampledigitalcare.launcher.uAppComponetLaunch;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
@@ -31,6 +33,7 @@ import com.philips.cdp.sampledigitalcare.DummyScreen;
 import com.philips.cdp.sampledigitalcare.adapter.Listener;
 import com.philips.cdp.sampledigitalcare.adapter.SampleAdapter;
 import com.philips.cdp.sampledigitalcare.adapter.SimpleItemTouchHelperCallback;
+import com.philips.cdp.sampledigitalcare.util.ThemeUtil;
 import com.philips.cdp.sampledigitalcare.view.CustomDialog;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.platform.appinfra.AppInfra;
@@ -58,6 +61,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
     private static boolean mFragmentButtonSelected = true;
     private Button mLaunchDigitalCare = null;
     private Button mLaunchAsFragment = null;
+    private Button mChangeTheme = null;
     private ImageButton mAddButton = null;
     private RecyclerView mRecyclerView = null;
     private SampleAdapter adapter = null;
@@ -68,15 +72,17 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
     private CcSettings ccSettings;
     private CcLaunchInput ccLaunchInput;
     private AppInfraInterface mAppInfraInterface;
+    private ThemeUtil mThemeUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_digital_care);
+
 
         mLaunchDigitalCare = (Button) findViewById(R.id.launchDigitalCare);
         mLaunchAsFragment = (Button) findViewById(R.id.launchAsFragment);
+        mChangeTheme = (Button) findViewById(R.id.change_theme);
         mAddButton = (ImageButton) findViewById(R.id.addimageButton);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mAddButton.setOnClickListener(this);
@@ -84,6 +90,9 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         // set listener
         mLaunchDigitalCare.setOnClickListener(this);
         mLaunchAsFragment.setOnClickListener(this);
+        mChangeTheme.setOnClickListener(this);
+        mThemeUtil = new ThemeUtil(getApplicationContext().getSharedPreferences(
+                this.getString(R.string.app_name), Context.MODE_PRIVATE));
 
         // setting country spinner
         mCountry_spinner = (Spinner) findViewById(R.id.spinner2);
@@ -303,7 +312,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                                 (com.philips.platform.uappframework.
                                         launcher.ActivityLauncher.
                                         ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
-                                        R.style.Theme_Philips_DarkBlue_NoActionBar);
+                                        mThemeUtil.getCurrentTheme());
 
                 activityLauncher.setCustomAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
 
@@ -346,8 +355,33 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
 
                 startActivity(new Intent(this, MicroAppFragmentActivity.class));
                 break;
+            case R.id.change_theme:
+                Resources.Theme theme = super.getTheme();
+                theme.applyStyle(mThemeUtil.getNextTheme(), true);
+                relaunchActivity();
+                break;
 
         }
+    }
+
+    @Override
+    public Resources.Theme getTheme() {
+        Resources.Theme theme = super.getTheme();
+        if(mThemeUtil ==null){
+            mThemeUtil = new ThemeUtil(getApplicationContext().getSharedPreferences(
+                    this.getString(R.string.app_name), Context.MODE_PRIVATE));
+        }
+        theme.applyStyle(mThemeUtil.getCurrentTheme(), true);
+        return theme;
+    }
+
+    private void relaunchActivity() {
+        Intent intent;
+        int RESULT_CODE_THEME_UPDATED = 1;
+        setResult(RESULT_CODE_THEME_UPDATED);
+        intent = new Intent(this, MicroAppLauncher.class);
+        startActivity(intent);
+        finish();
     }
 
    /* private void setDigitalCareLocale(String language, String country) {

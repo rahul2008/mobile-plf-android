@@ -107,16 +107,16 @@ calabash {
 }
 
 dependencies {
-    //compile project(':digitalCare')
+    compile project(':digitalCare')
     compile 'com.android.support:recyclerview-v7:+'
     compile 'com.android.support:appcompat-v7:+'
     compile 'com.android.support:support-v4:+'
     compile 'com.android.support:multidex:+'
 
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.3.5-SNAPSHOT', ext: 'aar')
-            {
-                transitive true
-            }
+//    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.3.5-SNAPSHOT', ext: 'aar')
+//            {
+//                transitive true
+//            }
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

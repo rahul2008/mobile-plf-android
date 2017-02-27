@@ -48,6 +48,19 @@
             android:text="@string/launch_button_as_fragment"
             android:textStyle="bold" />
 
+        <Button
+            android:id="@+id/change_theme"
+            style="@style/fontButton"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/launchAsFragment"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/change_theme"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
@@ -70,7 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/launchAsFragment"
+            android:layout_below="@+id/change_theme"
             android:layout_marginTop="14dp"
             android:text="@string/app_note"
             android:visibility="gone"
