@@ -1,7 +1,8 @@
 Release notes for Android-CloudController-API
 
-Version NEXT
+Version 3.1.2
 -------------
+No functional changes.
 
 Version 3.0.0
 -------------
