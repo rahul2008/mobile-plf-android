@@ -64,6 +64,7 @@ import com.squareup.okhttp.RequestBody;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -852,9 +853,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     String verificationSmsCodeURL;
 
     private void serviceDiscovery() {
-        int subStringLength ;
-        final String CN = ".cn";
-        final String COM = ".com";
 
         AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
@@ -878,19 +876,20 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             }
         });
 
-        if(verificationSmsCodeURL.contains(".cn")){
-            subStringLength = verificationSmsCodeURL.lastIndexOf(CN)+CN.length();
-        } else{
-            subStringLength = verificationSmsCodeURL.lastIndexOf(COM)+COM.length();
-        }
-        String[] uriSubString = {verificationSmsCodeURL.substring(0, subStringLength), verificationSmsCodeURL.substring(subStringLength)};
 
-        RLog.d(RLog.SERVICE_DISCOVERY, "base url"+ uriSubString[0]);
+        URL url = null;
+
+        try {
+            url = new URL(verificationSmsCodeURL);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        String uriSubString = (url.getProtocol() + "://" + url.getHost());
 
         //Verification URI
-        verificationSmsCodeURL = uriSubString[0] + "/api/v1/user/requestPasswordResetSmsCode";
+        verificationSmsCodeURL = uriSubString + "/api/v1/user/requestPasswordResetSmsCode";
         //Redirect URI
-        resetPasswordSmsRedirectUri = uriSubString[0] + "/c-w/user-registration/apps/reset-password.html";
+        resetPasswordSmsRedirectUri = uriSubString + "/c-w/user-registration/apps/reset-password.html";
 
         getRegistrationFragment().getActivity().startService(createResendSMSIntent(verificationSmsCodeURL));
     }
