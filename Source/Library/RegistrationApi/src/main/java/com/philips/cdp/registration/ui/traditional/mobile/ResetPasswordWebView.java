@@ -16,7 +16,6 @@ import android.webkit.WebViewClient;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
 
 /**
  * Created by 310190722 on 6/21/2016.
@@ -46,6 +45,7 @@ public class ResetPasswordWebView extends Fragment {
     }
 
     private void initUI(View view) {
+        final String redirectUriKey = "redirectUri";
         mWebView = (WebView) view.findViewById(R.id.reg_wv_reset_password_webview);
 
         if (mProgressDialog == null) {
@@ -62,16 +62,7 @@ public class ResetPasswordWebView extends Fragment {
         mWebView.getSettings().setLoadWithOverviewMode(true);
         mWebView.getSettings().setUseWideViewPort(true);
 
-        Bundle bundle = getArguments();
-        RLog.i("MobileVerifyCodeFragment" , "bundle size "+bundle.size());
-        redirectUri = bundle.getString("redirectUri");
-
-        String url;
-        if(redirectUri!=null && redirectUri.length()>0){
-            url = redirectUri;
-        }else{
-            url = initializeRestPasswordLinks(RegistrationConfiguration.getInstance().getRegistrationEnvironment());
-        }
+        String url = getURL(redirectUriKey);
         RLog.i("MobileVerifyCodeFragment ", "response val 2 token url "+url);
 
         mWebView.loadUrl(url);
@@ -109,6 +100,22 @@ public class ResetPasswordWebView extends Fragment {
 
     }
 
+    private String getURL(String redirectUriKey) {
+        Bundle bundle = getArguments();
+        RLog.i("MobileVerifyCodeFragment" , "bundle size "+bundle.size());
+        redirectUri = bundle.getString(redirectUriKey);
+
+        String url;
+        if(redirectUri!=null && redirectUri.length()>0){
+            //Reset Password SMS URL
+            url = redirectUri;
+        }else{
+            //Reset Password EMAIL URL
+            url = initializeResetPasswordLinks(RegistrationConfiguration.getInstance().getRegistrationEnvironment());
+        }
+        return url;
+    }
+
     private void showWebViewSpinner() {
         if (!(getActivity().isFinishing()) && (mProgressDialog != null)) mProgressDialog.show();
     }
@@ -118,7 +125,7 @@ public class ResetPasswordWebView extends Fragment {
             mProgressDialog.cancel();
         }
     }
-    private String initializeRestPasswordLinks(String registrationEnv) {
+    private String initializeResetPasswordLinks(String registrationEnv) {
 
         if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.PRODUCTION.getValue())) {
             return PROD_RESET_PASSWORD;

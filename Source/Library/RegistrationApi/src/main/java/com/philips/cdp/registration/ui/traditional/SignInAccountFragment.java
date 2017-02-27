@@ -900,6 +900,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void handleResendSMSRespone(String response) {
+
+        final String  mobileNumberKey= "mobileNumber";
+        final String tokenKey= "token";
+        final String redirectUriKey= "redirectUri";
+        final String verificationSmsCodeURLKey="verificationSmsCodeURL";
+
         try {
             JSONObject jsonObject = new JSONObject(response);
             if (jsonObject.getString("errorCode").toString().equals("0")) {
@@ -918,10 +924,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 RLog.i("MobileVerifyCodeFragment ", " isAccountActivate is " + token + " -- " + response);
                 MobileForgotPasswordVerifyCodeFragment mobileForgotPasswordVerifyCodeFragment = new MobileForgotPasswordVerifyCodeFragment();
                 Bundle bundle = new Bundle();
-                bundle.putString("mobileNumber", mEtEmail.getEmailId());
-                bundle.putString("token",token);
-                bundle.putString("redirectUri",getRedirectUri());
-                bundle.putString("verificationSmsCodeURL", verificationSmsCodeURL);
+                bundle.putString(mobileNumberKey, mEtEmail.getEmailId());
+                bundle.putString(tokenKey,token);
+                bundle.putString(redirectUriKey,getRedirectUri());
+                bundle.putString(verificationSmsCodeURLKey, verificationSmsCodeURL);
                 mobileForgotPasswordVerifyCodeFragment.setArguments(bundle);
                 getRegistrationFragment().addFragment(mobileForgotPasswordVerifyCodeFragment);
             } else {
@@ -940,6 +946,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private Intent createResendSMSIntent(String url) {
+        final String receiverKey="receiver";
+        final String bodyContentKey= "bodyContent";
+        final String urlKey= "url";
 
         RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER *** : " + mEtEmail.getEmailId());
         RLog.d("Configration : ", " envir :" + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
@@ -953,9 +962,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 "redirectUri=" + getRedirectUri();
         RLog.d("Configration : ", " envir :" + getClientId() + getRedirectUri());
 
-        httpServiceIntent.putExtra("receiver", receiver);
-        httpServiceIntent.putExtra("bodyContent", bodyContent);
-        httpServiceIntent.putExtra("url", url);
+        httpServiceIntent.putExtra(receiverKey, receiver);
+        httpServiceIntent.putExtra(bodyContentKey, bodyContent);
+        httpServiceIntent.putExtra(urlKey, url);
         return httpServiceIntent;
     }
 

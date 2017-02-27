@@ -92,14 +92,20 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final String mobileNumberKey = "mobileNumber";
+        final String responseTokenKey = "token";
+        final String redirectUriKey = "redirectUri";
+        final String verificationSmsCodeURLKey = "verificationSmsCodeURL";
+
+
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileActivationFragment : onCreateView");
         trackActionStatus(AppTagingConstants.REGISTRATION_ACTIVATION_SMS, "", "");
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
         Bundle bundle = getArguments();
-        mobileNumber = bundle.getString("mobileNumber");
-        responseToken = bundle.getString("token");
-        redirectUri = bundle.getString("redirectUri");
-        verificationSmsCodeURL = bundle.getString("verificationSmsCodeURL");
+        mobileNumber = bundle.getString(mobileNumberKey);
+        responseToken = bundle.getString(responseTokenKey);
+        redirectUri = bundle.getString(redirectUriKey);
+        verificationSmsCodeURL = bundle.getString(verificationSmsCodeURLKey);
         View view = inflater.inflate(R.layout.reg_mobile_forgot_password_verify_fragment, container, false);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
@@ -219,9 +225,11 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
 
         RLog.i("MobileVerifyCodeFragment ", "response val 2 token " + mEtCodeNUmber.getNumber() + " " + responseToken);
 
+        redirectUri=redirectUri+"?code="+mEtCodeNUmber.getNumber()+"&token="+responseToken;
+        final String redirectUriKey = "redirectUri";
         ResetPasswordWebView resetPasswordWebView = new ResetPasswordWebView();
         Bundle bundle = new Bundle();
-        bundle.putString("redirectUri",redirectUri+"?code="+mEtCodeNUmber.getNumber()+"&token="+responseToken);
+        bundle.putString(redirectUriKey,redirectUri);
         resetPasswordWebView.setArguments(bundle);
         getRegistrationFragment().addFragment(resetPasswordWebView);
         return null;
@@ -346,6 +354,10 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
 
     private Intent createResendSMSIntent() {
 
+        final String receiverKey= "receiver";
+        final String bodyContentKey= "bodyContent";
+        final String urlKey= "url";
+
         RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER *** : " + mobileNumber);
         RLog.d("Configration : ", " envir :" + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
         String url = verificationSmsCodeURL;
@@ -359,9 +371,9 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
                 "redirectUri="+getRedirectUri();
         RLog.d("Configration : ", " envir :" + getClientId()+getRedirectUri());
 
-        httpServiceIntent.putExtra("receiver", receiver);
-        httpServiceIntent.putExtra("bodyContent", bodyContent);
-        httpServiceIntent.putExtra("url", url);
+        httpServiceIntent.putExtra(receiverKey, receiver);
+        httpServiceIntent.putExtra(bodyContentKey, bodyContent);
+        httpServiceIntent.putExtra(urlKey, url);
         return httpServiceIntent;
     }
 
