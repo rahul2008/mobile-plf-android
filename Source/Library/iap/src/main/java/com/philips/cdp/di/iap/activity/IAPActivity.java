@@ -39,7 +39,6 @@ import com.philips.cdp.di.iap.screens.ShoppingCartFragment;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -140,6 +139,8 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
     }
 
     private void updateConfigurationWithCurrentLocale() {
+        if (CartModelContainer.getInstance().getCountry() == null || CartModelContainer.getInstance().getLanguage() == null)
+            return;
         Locale locale = new Locale(CartModelContainer.getInstance().getLanguage(),
                 CartModelContainer.getInstance().getCountry());
         Locale.setDefault(locale);
