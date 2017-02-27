@@ -1,7 +1,7 @@
 CommLib-all for Android - Release Notes
 =======================================
 
-Version NEXT
+Version 1.2.2
 -------------
 ### New features
 * COM-141 BLE Strategy get/put props implemented.
