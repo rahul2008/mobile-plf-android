@@ -92,8 +92,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         ArrayAdapter<String> mCountry_adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, mCountry);
         mCountry_spinner.setAdapter(mCountry_adapter);
-
-        mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
+        restoreCountryOption();
 
         // Ctn List Code Snippet
 
@@ -110,8 +109,6 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                 new SimpleItemTouchHelperCallback(adapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(mRecyclerView);
-        //initializeDigitalCareLibrary();
-
     }
 
 
@@ -137,14 +134,15 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         mAppInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {
-
-                tv.setText("Country from Service discovery : " +s);
+                tv.setText("Country from Service Discovery : " +s);
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
+
             }
         });
+
 
         mCountry_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -194,11 +192,38 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         dialog.show();
     }
 
+    private void restoreCountryOption() {
+        if(mAppInfraInterface == null) {
+            mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
+        }
+        mAppInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+            @Override
+            public void onSuccess(String s, SOURCE source) {
+                for (int i=0; i < mcountryCode.length; i++) {
+                    if(s.equalsIgnoreCase(mcountryCode[i])) {
+                        mCountry_spinner.setSelection(i);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+            }
+        });
+    }
+
     private void initializeDigitalCareLibrary() {
+/*
 
         if(!(mCountry_spinner.getSelectedItemId() == 0)){
             mAppInfraInterface.getServiceDiscovery().setHomeCountry(mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
         }
+*/
+        if(mAppInfraInterface == null) {
+            mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
+        }
+        
+        mAppInfraInterface.getServiceDiscovery().setHomeCountry(mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
     }
 
     @Override
@@ -260,6 +285,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                 mLaunchAsFragment.setVisibility(View.INVISIBLE);
 
 
+
                 String[] ctnList = new String[mList.size()];
                 for (int i = 0; i < mList.size(); i++)
                     ctnList[i] = mList.get(i);
@@ -277,7 +303,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                                 (com.philips.platform.uappframework.
                                         launcher.ActivityLauncher.
                                         ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
-                                        R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground);
+                                        R.style.Theme_Philips_DarkBlue_NoActionBar);
 
                 activityLauncher.setCustomAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
 
@@ -288,6 +314,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                 if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
                 ccLaunchInput.setProductModelSelectionType(productsSelection);
 
+                //CcDependencies ccDependencies = new CcDependencies(AppInfraSingleton.getInstance());
                 CcDependencies ccDependencies = new CcDependencies(mAppInfraInterface);
 
                 ccInterface.init(ccDependencies, ccSettings);
@@ -322,5 +349,13 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
 
         }
     }
+
+   /* private void setDigitalCareLocale(String language, String country) {
+
+        DigitalCareConfigManager.getInstance().setLocale(language, country);
+
+
+    }*/
+
 
 }

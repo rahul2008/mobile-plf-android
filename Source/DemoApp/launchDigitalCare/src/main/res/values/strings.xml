@@ -106,7 +106,6 @@
 
     <!-- Country -->
     <string-array name="country">
-        <item>Set Country</item>
         <item>United Kingdom (GB)</item>
         <item>India (IN)</item>
         <item>United States (US)</item>
@@ -169,7 +168,6 @@
 
     <!-- country code -->
     <string-array name="country_code">
-        <item>Set Country</item>
         <item>GB</item>
         <item>IN</item>
         <item>US</item>

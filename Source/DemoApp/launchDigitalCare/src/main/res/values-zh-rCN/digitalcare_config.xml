@@ -10,8 +10,6 @@
     <drawable name="consumercare_background">@drawable/tuscany</drawable>
 
     <!-- Actionbar related -->
-    <color name="actionbar_background_start_color">#003478</color>
-    <color name="actionbar_background_end_color">#0066A1</color>
     <color name="actionbar_title_color">#FFFFFF</color>
 
     <!-- Action bar back arrow button -->
@@ -35,10 +33,6 @@
     <color name="button_text_color">@color/actionbar_title_color</color>
     <color name="button_background">#003478</color>
     <color name="button_background_pressed">#005A8B</color>
-
-    <!-- Register Button -->
-    <color name="button_register_background">#005AAB</color>
-    <color name="button_register_background_pressed">#005AAB</color>
 
     <!-- UiTheme End -->
 
@@ -82,8 +76,8 @@
 
     <!-- List of social service providers image names, please follow naming conventions -->
     <string-array name="social_service_provider_menu_resources" translatable="false">
-        <!--<item>@drawable/consumercare_dc_twitter</item>-->
-        <!--<item>@drawable/consumercare_dc_facebook</item>-->
+        <!--<item>@string/uikit_fonticon_twitter</item>-->
+        <!--<item>@string/uikit_fonticon_facebook</item>-->
     </string-array>
 
     <!-- Facebook product support page -->
@@ -101,6 +95,6 @@
     <!--<bool name="production_environment">false</bool>
     <bool name="productreview_required">false</bool>-->
 
-    <string name="service_locator_url">http://www.mylife.philips.com.cn/servicelocator/mobile/index.aspx</string>
+    <string name="service_locator_url">http://vip.crmclick.com/wxz/index.aspx</string>
 
 </resources>
