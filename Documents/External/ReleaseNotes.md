@@ -1,7 +1,7 @@
 CommLib for Android - Release Notes
 =======================================
 
-Version NEXT
+Version 3.1.2
 -------------
 
 ### API Changes
@@ -11,10 +11,15 @@ Version NEXT
 * COM-24 Updated to work with new CloudController API
 * COM-24 Improved user pairing
 * COM-141 Expanded Errors Enum to cover all errors in DiComm spec
+* COM-207 New API for discovery (using CommCentral)
+* COM-209 BLE discovery
+* COM-249 Https support
+* CON-119 Firmware update
  
 ### Bugs fixed
 
 ### Known issues
+* The new API for discovery is not working yet for lan communication. The old DiscoveryManager should be used.
 
 Version 2.0.0
 -------------
