@@ -20,7 +20,6 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
@@ -96,23 +95,12 @@ public class DataSyncApplication extends Application {
     }
 
     private void init() {
-        SynchronisationCompleteListener synchronisationCompleteListener = new SynchronisationCompleteListener() {
-            @Override
-            public void onSyncComplete() {
-
-            }
-
-            @Override
-            public void onSyncFailed(Exception exception) {
-
-            }
-        };
         OrmCreator creator = new OrmCreator(new UuidGenerator());
         UserRegistrationInterface userRegistrationInterface = new UserRegistrationInterfaceImpl(this, new User(this));
         ErrorHandlerInterfaceImpl errorHandlerInterface = new ErrorHandlerInterfaceImpl();
         mDataServicesManager.initializeDataServices(this, creator, userRegistrationInterface, errorHandlerInterface);
         injectDBInterfacesToCore();
-        mDataServicesManager.initializeSyncMonitors(this, null, null,synchronisationCompleteListener);
+        mDataServicesManager.initializeSyncMonitors(this, null, null);
     /*    Set syncSet = new HashSet();
         syncSet.add(SyncType.MOMENT.getDescription());
         mDataServicesManager.configureSyncDataType(syncSet);*/

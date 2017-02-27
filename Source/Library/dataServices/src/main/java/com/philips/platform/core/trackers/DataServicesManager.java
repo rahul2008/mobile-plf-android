@@ -254,8 +254,18 @@ public class DataServicesManager {
         sendPullDataEvent();
     }
 
+    @Deprecated
     @SuppressWarnings("rawtypes")
     public void initializeSyncMonitors(Context context, ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders, SynchronisationCompleteListener synchronisationCompleteListener) {
+        initSyncMonitors(context, fetchers, senders, synchronisationCompleteListener);
+    }
+
+    @SuppressWarnings("rawtypes")
+    public void initializeSyncMonitors(Context context, ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
+        initSyncMonitors(context, fetchers, senders, null);
+    }
+
+    private void initSyncMonitors(Context context, ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders, SynchronisationCompleteListener synchronisationCompleteListener) {
         DSLog.i("***SPO***", "In DataServicesManager.initializeSyncMonitors");
         this.mCustomFetchers = fetchers;
         this.mCustomSenders = senders;
