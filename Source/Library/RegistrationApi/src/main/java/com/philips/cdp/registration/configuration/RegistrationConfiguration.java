@@ -260,11 +260,7 @@ public class RegistrationConfiguration {
                 getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_SECRET
                         , UR, configError);
 
-        String baseUrl = (String) RegistrationHelper.
-                getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL
-                        , UR, configError);
+        String baseUrl = HSDPConfiguration.getBaseUrl();
 
         hsdpInfo.setApplicationName(appName);
         hsdpInfo.setSharedId(sharedId);
@@ -349,8 +345,8 @@ public class RegistrationConfiguration {
 
 
         return (null != hsdpInfo.getApplicationName() && null != hsdpInfo.getSharedId()
-                && null != hsdpInfo.getSecreteId()
-                && null != hsdpInfo.getBaseURL());
+                && null != hsdpInfo.getSecreteId());
+//                && null != hsdpInfo.getBaseURL());
     }
 
     private String buildException(HSDPInfo hsdpInfo) {
@@ -375,13 +371,13 @@ public class RegistrationConfiguration {
             }
         }
 
-        if (hsdpInfo.getBaseURL() == null) {
-            if (null != exception) {
-                exception += ",Base Url ";
-            } else {
-                exception += "Base Url ";
-            }
-        }
+//        if (hsdpInfo.getBaseURL() == null) {
+//            if (null != exception) {
+//                exception += ",Base Url ";
+//            } else {
+//                exception += "Base Url ";
+//            }
+//        }
         return exception;
     }
 

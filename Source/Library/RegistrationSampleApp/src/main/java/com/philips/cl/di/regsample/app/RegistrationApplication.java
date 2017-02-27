@@ -132,8 +132,7 @@ public class RegistrationApplication extends Application {
         mAppInfraInterface.
                 getConfigInterface().setPropertyForKey(
                 URConfigurationConstants.
-                        HSDP_CONFIGURATION_SHARED,
-                URConfigurationConstants.UR,
+                        HSDP_CONFIGURATION_SHARED, URConfigurationConstants.UR,
                 "fe53a854-f9b0-11e6-bc64-92361f002671",
                 configError);
 

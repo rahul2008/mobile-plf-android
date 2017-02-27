@@ -5,6 +5,7 @@ import android.util.Log;
 import com.janrain.android.Jump;
 import com.janrain.android.JumpConfig;
 import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.configuration.HSDPConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -200,9 +201,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         serviceIdList.add("userreg.janrain.cdn");//https://janrain-capture-static.cn.janrain.com/
         serviceIdList.add("userreg.janrain.engage");//https://philips-staging.login.cn.janrain.com/
         serviceIdList.add("userreg.smssupported");
-
-
-
+        serviceIdList.add("userreg.hsdp.userserv");
 
         serviceDiscoveryInterface.getServicesWithCountryPreference(serviceIdList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
@@ -305,13 +304,8 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
                 serviceDiscoveyService = resultMap.get("userreg.janrain.engage");
                 if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
-                    RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.engage :" +
-                            serviceDiscoveyService.getConfigUrls());
-
-
-
+                    RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.engage :" + serviceDiscoveyService.getConfigUrls());
                     jumpConfig.engageAppUrl = serviceDiscoveyService.getConfigUrls().substring(8);
-
 
                     mPreferredCountryCode = countryCode;
                     mPreferredLangCode = langCode;
@@ -322,6 +316,12 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                     jumpConfig.engageAppUrl = "https://philips-staging.login.cn.janrain.com".substring(8);
                     initialize();
                     return;
+                }
+
+                serviceDiscoveyService = resultMap.get("userreg.hsdp.userserv");
+                if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
+                    RLog.i("HSDP_NEW", "serviceDiscovery " + serviceDiscoveyService.getConfigUrls() + " map " + resultMap);
+                    HSDPConfiguration.setBaseUrlServiceDiscovery(serviceDiscoveyService.getConfigUrls());
                 }
             }
 
