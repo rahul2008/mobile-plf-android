@@ -11,9 +11,9 @@ import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.commlib.cloud.context.CloudTransportContext;
-import com.philips.commlib.core.CommCentral;
-import com.philips.commlib.lan.context.LanTransportContext;
+import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
+import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 
 public class App extends Application {
 
