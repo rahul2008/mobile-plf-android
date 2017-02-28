@@ -29,6 +29,7 @@ import java.util.List;
 
 public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
 
+    public static final String urlBaseSeparator = "://";
     private ImageView serialNumberImageView;
     private TextView serialNumberTextView;
 
@@ -78,19 +79,23 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             final ProductMetadataResponseData productMetadataResponseData = (ProductMetadataResponseData) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_METADATA);
-            getImageUrl(productMetadataResponseData, new PrxRequest.OnUrlReceived() {
-                @Override
-                public void onSuccess(String url) {
-                    setSerialNumberTextView(productMetadataResponseData);
-                    Log.d("imageUrl", "imageUrl " + url);
-                    final ImageLoader imageLoader = ImageRequestHandler.getInstance(getActivity().getApplicationContext()).getImageLoader();
-                    imageLoader.get(url, ImageLoader.getImageListener(serialNumberImageView, R.drawable.prodreg_placeholder, R.drawable.prodreg_placeholder));
-                }
-                @Override
-                public void onError(ERRORVALUES errorvalues, String s) {
-                }
-            });
+            setProductImage(productMetadataResponseData);
         }
+    }
+
+    private void setProductImage(final ProductMetadataResponseData productMetadataResponseData) {
+        getImageUrl(productMetadataResponseData, new PrxRequest.OnUrlReceived() {
+            @Override
+            public void onSuccess(String url) {
+                setSerialNumberTextView(productMetadataResponseData);
+                Log.d("imageUrl", "imageUrl " + url);
+                final ImageLoader imageLoader = ImageRequestHandler.getInstance(getActivity().getApplicationContext()).getImageLoader();
+                imageLoader.get(url, ImageLoader.getImageListener(serialNumberImageView, R.drawable.prodreg_placeholder, R.drawable.prodreg_placeholder));
+            }
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+            }
+        });
     }
 
     private void setSerialNumberTextView(final ProductMetadataResponseData productMetadataResponseData) {
@@ -117,9 +122,11 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
             final MetadataSerNumbSampleContent serialNumberSampleContent = productMetadataResponseData.getSerialNumberSampleContent();
             final String asset = serialNumberSampleContent.getAsset();
 
-            PRUiHelper.getInstance().getAppInfraInstance().getServiceDiscovery().getServiceUrlWithCountryPreference(ProdRegConstants.PRODUCTMETADATAREQUEST_SERVICE_ID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            PRUiHelper.getInstance().getAppInfraInstance().getServiceDiscovery().
+                    getServiceUrlWithCountryPreference(ProdRegConstants.PRODUCTMETADATAREQUEST_SERVICE_ID,
+                            new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
                 public void onSuccess(URL url) {
-                    String uriSubString = (url.getProtocol() + "://" + url.getHost()).concat(asset);
+                    String uriSubString = (url.getProtocol() + urlBaseSeparator + url.getHost()).concat(asset);
                     PrxLogger.i("Success values ***", uriSubString);
                     onUrlReceived.onSuccess(uriSubString);
                 }
