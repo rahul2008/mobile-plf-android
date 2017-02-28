@@ -11,6 +11,7 @@ package com.philips.cdp.registration.apptagging;
 
 
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 
 public class AppTaggingErrors {
 
@@ -19,6 +20,8 @@ public class AppTaggingErrors {
     private static final String FAILURE_USERCREATION = "failureUsercreation";
 
     private static final String EMAIL_ALREADY_IN_USE = "email already in use";
+
+    private static final String MOBILE_ALREADY_IN_USE = "mobile no already in use";
 
     private static final String INVALID_INPUT_FIELDS = "incorrect email or password";
 
@@ -107,7 +110,7 @@ public class AppTaggingErrors {
 
     }
 
-    public static void trackActionRegisterError(UserRegistrationFailureInfo userRegistrationFailureInfo,String flowType) {
+    public static void trackActionRegisterError(UserRegistrationFailureInfo userRegistrationFailureInfo, String flowType) {
 
         switch (userRegistrationFailureInfo.getErrorCode()) {
             case NETWORK_ERROR_CODE:
@@ -115,8 +118,13 @@ public class AppTaggingErrors {
                         AppTagingConstants.TECHNICAL_ERROR, WE_RE_HAVING_TROUBLE_REGISTRING_USER);
                 break;
             case EMAIL_ADDRESS_ALREADY_USE_CODE:
-                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
-                        AppTagingConstants.USER_ERROR, EMAIL_ALREADY_IN_USE);
+                if (RegistrationHelper.getInstance().isChinaFlow()){
+                    trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
+                            AppTagingConstants.USER_ERROR, MOBILE_ALREADY_IN_USE);
+                }else{
+                    trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
+                            AppTagingConstants.USER_ERROR, EMAIL_ALREADY_IN_USE);
+                }
                 break;
             default:
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ERROR, AppTagingConstants.USER_REGISTRATION+":"+AppTagingConstants.LOGIN_FAILED+":"

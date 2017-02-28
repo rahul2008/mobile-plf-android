@@ -82,7 +82,7 @@ public class AppTagingConstants {
 
 	public static final int NETWORK_ERROR_CODE = 111;
 
-	public static final int EMAIL_NOT_VERIFIED = 112;
+	public static final int EMAIL_NOT_VERIFIED_CODE = 112;
 
 	public static final String COUNTRY_KEY = "locale.country";
 
@@ -121,6 +121,10 @@ public class AppTagingConstants {
     public static final String REGISTRATION_ACTIVATION_SMS = "registration:accountactivationbysms";
 
     public static final String ACTIVATION_NOT_VERIFIEF = "sms is not verified";
+
+	public static final String EMAIL_NOT_VERIFIED  = "email is not verified";
+
+	public static final String MOBILE_NUMBER_NOT_VERIFIED  = "mobile is not verified";
 
     public static final String MOBILE_RESEND_EMAIL_VERFICATION = "successResendEmailVerification";
 

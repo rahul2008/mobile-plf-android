@@ -289,7 +289,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
                 handleResendVerificationEmailSuccess();
                 resetTimer();
             } else {
-                  trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.TECHNICAL_ERROR,AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
+                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.TECHNICAL_ERROR,AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
                 String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode").toString(), mContext);
                 mEtCodeNUmber.hideResendSpinner();
                 RLog.i("MobileVerifyCodeFragment ", " SMS Resend failure = " + response);
@@ -328,9 +328,9 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
                 } else {
                     hideSpinner();
                     RLog.i("MobileVerifyCodeFragment ", "SMS activation failure: " + response);
-                    trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ERROR,
-                            AppTagingConstants.ACTIVATION_NOT_VERIFIEF);
                     if (jsonObject.getString("code").toString().equals(String.valueOf(RegChinaConstants.URXInvalidVerificationCode))) {
+                        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ERROR,
+                                AppTagingConstants.ACTIVATION_NOT_VERIFIEF);
                         mEtCodeNUmber.setErrDescription(mContext.getResources().getString(R.string.reg_Mobile_Verification_Invalid_Code));
                     } else {
                         mEtCodeNUmber.setErrDescription(jsonObject.getString("error_description").toString());
