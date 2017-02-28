@@ -34,14 +34,6 @@ public class MomentsSegregator {
         DataServicesManager.getInstance().getAppComponant().injectMomentsSegregator(this);
     }
 
-    public int processMomentsReceivedFromBackend(final List<? extends Moment> moments,DBRequestListener dbRequestListener) {
-        int updatedCount = 0;
-      /* // for (final Moment moment : moments) {
-                updatedCount = processMoment(updatedCount, (List<Moment>) moments,dbRequestListener);
-        //}*/
-        return updatedCount;
-    }
-
     private Moment getOrmMomentFromDatabase(Moment moment,DBRequestListener dbRequestListener) throws SQLException {
         Moment momentInDatabase = null;
         final SynchronisationData synchronisationData = moment.getSynchronisationData();

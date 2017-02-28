@@ -44,6 +44,7 @@ public class ErrorMonitor extends EventMonitor {
     private void postError(RetrofitError exception) {
         if (exception == null) {
             unknownError();
+            return;
         }
         Response response = exception.getResponse();
         if(response == null){

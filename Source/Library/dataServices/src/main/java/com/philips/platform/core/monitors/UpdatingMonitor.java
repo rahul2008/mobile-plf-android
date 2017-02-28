@@ -133,7 +133,9 @@ public class UpdatingMonitor extends EventMonitor {
     private void notifyDBChangeSuccess(SyncType moment) {
         DSLog.i(DSLog.LOG,"inside notifyDBChange UpdatingMonitor");
         DBChangeListener mDbChangeListener = DataServicesManager.getInstance().getDbChangeListener();
-        mDbChangeListener.dBChangeSuccess(moment);
+        if(mDbChangeListener !=null) {
+            mDbChangeListener.dBChangeSuccess(moment);
+        }
     }
 
     private void notifyDBFailure(SQLException e) {

@@ -148,7 +148,7 @@ public class UpdatingMonitorTest {
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenBackendMomentListSaveRequestPassed() throws Exception {
         Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
         updatingMonitor.onEventAsync(new BackendMomentListSaveRequest(Arrays.asList(moment1), dbChangeListener));
-        verify(momentsSegregatorMock).processMomentsReceivedFromBackend(Arrays.asList(moment1),null);
+        verify(momentsSegregatorMock).processMoment(Arrays.asList(moment1),null);
     }
 
     @Test
