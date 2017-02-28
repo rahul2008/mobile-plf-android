@@ -210,8 +210,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
             public void onSuccess(Map<String, ServiceDiscoveryService> resultMap) {
                 ServiceDiscoveryService serviceDiscoveyService = resultMap.get("userreg.janrain.api");
                 if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
-                    String urlLocal = "https://philips-cn-dev.capture.cn.janrain.com";
-                  //  String urlLocal = serviceDiscoveyService.getConfigUrls();
+                    String urlLocal = serviceDiscoveyService.getConfigUrls();
                     String janrainURL = urlLocal.substring(8);//Please don't remove this line.\
 
                     if(janrainURL.equalsIgnoreCase("philips.capture.cn.janrain.com")){
@@ -274,10 +273,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                 if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
                     RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.cdn :" +
                             serviceDiscoveyService.getConfigUrls());
-
-                    jumpConfig.downloadFlowUrl = "https://janrain-capture-static.cn.janrain.com";
-
-                   // jumpConfig.downloadFlowUrl = serviceDiscoveyService.getConfigUrls();
+                    jumpConfig.downloadFlowUrl = serviceDiscoveyService.getConfigUrls();
                 } else {
                     RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.janrain.cdn : ");
                     EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
@@ -315,7 +311,6 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                     RLog.d(RLog.SERVICE_DISCOVERY, " ChinaFlow : " + isChinaFlow());
                 } else {
                     RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.janrain.engage : ");
-                    jumpConfig.engageAppUrl = "https://philips-staging.login.cn.janrain.com".substring(8);
                     initialize();
                     return;
                 }
