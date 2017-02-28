@@ -108,7 +108,7 @@ public class LoggingActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                     } else {
                         if (consoleLogEnabled.isChecked()) {
-                            AILoggingInterface.enableConsoleLog(false);
+                            AILoggingInterface.enableConsoleLog(true);
                         } else {
                             AILoggingInterface.enableConsoleLog(false);
                         }
