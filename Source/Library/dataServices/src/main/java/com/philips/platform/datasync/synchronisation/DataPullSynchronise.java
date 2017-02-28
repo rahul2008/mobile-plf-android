@@ -98,19 +98,19 @@ public class DataPullSynchronise {
     }
 
     public void startSynchronise(@Nullable final DateTime lastSyncDateTime, final int referenceId) {
-        DSLog.i("***SPO***","In startSynchronise - DataPullSynchronize");
+        DSLog.i(DSLog.LOG,"In startSynchronise - DataPullSynchronize");
         this.lastSyncDateTime = lastSyncDateTime;
         this.referenceId = referenceId;
         boolean isLoggedIn = accessProvider.isLoggedIn();
 
         if(!isLoggedIn){
-            DSLog.i("***SPO***","DataPullSynchronize isLogged-in is false");
+            DSLog.i(DSLog.LOG,"DataPullSynchronize isLogged-in is false");
             postError(referenceId, RetrofitError.unexpectedError("", new IllegalStateException("You're not logged in")));
             return;
         }
 
         if (!isSyncStarted()) {
-            DSLog.i("***SPO***","DataPullSynchronize isLogged-in is true");
+            DSLog.i(DSLog.LOG,"DataPullSynchronize isLogged-in is true");
             synchronized (this) {
                 fetchData(lastSyncDateTime, referenceId);
             }

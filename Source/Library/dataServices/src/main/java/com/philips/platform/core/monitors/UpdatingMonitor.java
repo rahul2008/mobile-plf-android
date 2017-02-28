@@ -1,7 +1,6 @@
 package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SyncType;
@@ -124,7 +123,7 @@ public class UpdatingMonitor extends EventMonitor {
         }
         try {
             momentsSegregator.processMoment((List<Moment>) moments, null);
-            DSLog.i("***SPO***","After Process Moment");
+            DSLog.i(DSLog.LOG,"After Process Moment");
             notifyDBChangeSuccess(SyncType.MOMENT);
         }catch (SQLException e){
             notifyDBFailure(e);
@@ -132,7 +131,7 @@ public class UpdatingMonitor extends EventMonitor {
     }
 
     private void notifyDBChangeSuccess(SyncType moment) {
-        DSLog.i("***SPO***","inside notifyDBChange UpdatingMonitor");
+        DSLog.i(DSLog.LOG,"inside notifyDBChange UpdatingMonitor");
         DBChangeListener mDbChangeListener = DataServicesManager.getInstance().getDbChangeListener();
         mDbChangeListener.dBChangeSuccess(moment);
     }
@@ -199,12 +198,12 @@ public class UpdatingMonitor extends EventMonitor {
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final SettingsBackendSaveResponse settingsBackendSaveResponse) throws SQLException{
-        Log.i("***SPO***","Settings updatingMonitor in SettingsBackendSaveResponse");
+        DSLog.i(DSLog.LOG,"Settings updatingMonitor in SettingsBackendSaveResponse");
         try{
             if(dbFetchingInterface.isSynced(SyncType.SETTINGS.getId())){
-                Log.i("***SPO***","Settings updatingMonitor in SettingsBackendSaveResponse inside if block");
+                DSLog.i(DSLog.LOG,"Settings updatingMonitor in SettingsBackendSaveResponse inside if block");
                 dbUpdatingInterface.updateSettings(settingsBackendSaveResponse.getSettings(),null);
-                Log.i("***SPO***","Settings Fetch complete in updatingMonitor");
+                DSLog.i(DSLog.LOG,"Settings Fetch complete in updatingMonitor");
                 notifyDBChangeSuccess(SyncType.SETTINGS);
             }
 

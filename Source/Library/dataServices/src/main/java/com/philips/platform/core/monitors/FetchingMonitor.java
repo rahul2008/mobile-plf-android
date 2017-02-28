@@ -80,17 +80,17 @@ public class FetchingMonitor extends EventMonitor {
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventAsync(GetNonSynchronizedDataRequest event) {
-        DSLog.i("***SPO***", "In Fetching Monitor GetNonSynchronizedDataRequest");
+        DSLog.i(DSLog.LOG, "In Fetching Monitor GetNonSynchronizedDataRequest");
 
         Map<Class, List<?>> dataToSync = new HashMap<>();
 
-        DSLog.i("***SPO***", "In Fetching Monitor before putMomentsForSync");
+        DSLog.i(DSLog.LOG, "In Fetching Monitor before putMomentsForSync");
         dataToSync = momentsSegregator.putMomentsForSync(dataToSync);
 
-        DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse");
+        DSLog.i(DSLog.LOG, "In Fetching Monitor before sending GetNonSynchronizedDataResponse");
         dataToSync = consentsSegregator.putConsentForSync(dataToSync);
 
-        DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse for UC");
+        DSLog.i(DSLog.LOG, "In Fetching Monitor before sending GetNonSynchronizedDataResponse for UC");
 
         try {
             dataToSync = dbInterface.putUserCharacteristicsForSync(dataToSync);
@@ -99,7 +99,7 @@ public class FetchingMonitor extends EventMonitor {
             dataToSync.put(Characteristics.class, null);
         }
 
-        DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse for UC");
+        DSLog.i(DSLog.LOG, "In Fetching Monitor before sending GetNonSynchronizedDataResponse for UC");
         dataToSync = settingsSegregator.putSettingsForSync(dataToSync);
 
         eventing.post(new GetNonSynchronizedDataResponse(event.getEventId(), dataToSync));
@@ -133,7 +133,7 @@ public class FetchingMonitor extends EventMonitor {
 
     @Subscribe(sticky = true, threadMode = ThreadMode.BACKGROUND)
     public void onEventAsync(GetNonSynchronizedMomentsRequest event) {
-        DSLog.i("**SPO**", "in Fetching Monitor GetNonSynchronizedMomentsRequest");
+        DSLog.i(DSLog.LOG, "in Fetching Monitor GetNonSynchronizedMomentsRequest");
 
         List<? extends Moment> ormMomentList = null;
         List<? extends ConsentDetail> consentDetails = null;

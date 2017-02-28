@@ -181,7 +181,7 @@ public class TemperaturePresenter {
             adapter.notifyDataSetChanged();
         } catch (ArrayIndexOutOfBoundsException e) {
             if (e.getMessage() != null) {
-                DSLog.i("***SPO***", "e = " + e.getMessage());
+                DSLog.i(DSLog.LOG, "e = " + e.getMessage());
             }
         }
     }

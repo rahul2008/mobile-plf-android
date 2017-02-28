@@ -111,7 +111,7 @@ public class ConsentDataSender extends DataSender {
     }
 
     private void postError(int referenceId, final RetrofitError error) {
-        DSLog.i("***SPO***", "Error In ConsentsMonitor - posterror");
+        DSLog.i(DSLog.LOG, "Error In ConsentsMonitor - posterror");
         eventing.post(new BackendResponse(referenceId, error));
     }
 

@@ -78,7 +78,7 @@ public class MomentsDataSender extends DataSender {
     public boolean sendDataToBackend(@NonNull final List dataToSend) {
 
         if(dataToSend==null && dataToSend.size()!=0) return false;
-        DSLog.i("***SPO***","sendDataToBackend MomentsDataSender sendDataToBackend data = " + dataToSend.toString());
+        DSLog.i(DSLog.LOG,"sendDataToBackend MomentsDataSender sendDataToBackend data = " + dataToSend.toString());
         if (!accessProvider.isLoggedIn()) {
             return false;
         }
@@ -95,7 +95,7 @@ public class MomentsDataSender extends DataSender {
     }
 
     private boolean sendMoments(List<? extends Moment> moments) {
-        DSLog.i("***SPO***","MomentsDataSender sendMoments and momets = " + moments.toString());
+        DSLog.i(DSLog.LOG,"MomentsDataSender sendMoments and momets = " + moments.toString());
         if(moments == null || moments.isEmpty()) {
             return true;
         }
@@ -119,7 +119,7 @@ public class MomentsDataSender extends DataSender {
     }
 
     private boolean sendMomentToBackend(MomentsClient client, final Moment moment) {
-        DSLog.i("***SPO***","MomentsDataSender sendMomentToBackend and moment = " + moment.toString());
+        DSLog.i(DSLog.LOG,"MomentsDataSender sendMomentToBackend and moment = " + moment.toString());
         if (shouldCreateMoment(moment)) {
             return createMoment(client, moment);
         } else if(shouldDeleteMoment(moment)) {
@@ -184,7 +184,7 @@ public class MomentsDataSender extends DataSender {
             return false;
         } catch (RetrofitError error) {
             if(error!=null && error.getResponse()!=null && error.getResponse().getStatus()== HttpURLConnection.HTTP_CONFLICT){
-                DSLog.i("***SPO***","Exception - 409");
+                DSLog.i(DSLog.LOG,"Exception - 409");
                 //dont do anything
             }else {
                 eventing.post(new BackendResponse(1, error));
@@ -221,7 +221,7 @@ public class MomentsDataSender extends DataSender {
 
     private boolean isConflict(final Response response){
         boolean isconflict = response!=null && response.getStatus() == HttpURLConnection.HTTP_CONFLICT;
-        DSLog.i("***SPO***","isConflict = " + isconflict);
+        DSLog.i(DSLog.LOG,"isConflict = " + isconflict);
         return isconflict;
     }
 

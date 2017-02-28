@@ -233,7 +233,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void onSuccess(final List<? extends Moment> data) {
-        DSLog.i("***SPO***", "on Success Temperature");
+        DSLog.i(DSLog.LOG, "on Success Temperature");
         mTemperaturePresenter.fetchData(this);
     }
 
@@ -294,7 +294,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void dBChangeSuccess(SyncType type) {
-        DSLog.i("***SPO***", "In Temperature TimeLine Fragment DB OnSuccess");
+        DSLog.i(DSLog.LOG, "In Temperature TimeLine Fragment DB OnSuccess");
         if(type!=SyncType.MOMENT)return;
         if (getActivity() == null) return;
         getActivity().runOnUiThread(new Runnable() {
@@ -346,13 +346,13 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void onFetchSuccess(final List<? extends Moment> data) {
-        DSLog.i("***SPO***","On Sucess ArrayList TemperatureTimeLineFragment");
+        DSLog.i(DSLog.LOG,"On Sucess ArrayList TemperatureTimeLineFragment");
         if (getActivity() == null) return;
 
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                DSLog.i("***SPO***", "http TEmperature TimeLine : UI updated");
+                DSLog.i(DSLog.LOG, "http TEmperature TimeLine : UI updated");
                 mData = (ArrayList<? extends Moment>) data;
                 mAdapter.setData(mData);
                 mAdapter.notifyDataSetChanged();

@@ -58,6 +58,7 @@ import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataSender;
 import com.philips.platform.datasync.synchronisation.SynchronisationManager;
 import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
+import com.philips.platform.datasync.userprofile.AppInfraInterface;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import org.greenrobot.eventbus.EventBus;
@@ -137,7 +138,7 @@ public class DataServicesManager {
 
     @NonNull
     public void saveMoment(@NonNull final Moment moment, DBRequestListener dbRequestListener) {
-        DSLog.i("***SPO***", "In DataServicesManager.saveMoment for " + moment.toString());
+        DSLog.i(DSLog.LOG, "In DataServicesManager.saveMoment for " + moment.toString());
         mEventing.post(new MomentSaveRequest(moment, dbRequestListener));
     }
 
@@ -266,7 +267,7 @@ public class DataServicesManager {
     }
 
     private void initSyncMonitors(Context context, ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders, SynchronisationCompleteListener synchronisationCompleteListener) {
-        DSLog.i("***SPO***", "In DataServicesManager.initializeSyncMonitors");
+        DSLog.i(DSLog.LOG, "In DataServicesManager.initializeSyncMonitors");
         this.mCustomFetchers = fetchers;
         this.mCustomSenders = senders;
         this.mSynchronisationCompleteListener = synchronisationCompleteListener;
@@ -276,7 +277,7 @@ public class DataServicesManager {
 
     private void sendPullDataEvent() {
         synchronized (this) {
-            DSLog.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
+            DSLog.i(DSLog.LOG, "In DataServicesManager.sendPullDataEvent");
             startMonitors();
             //mEventing.post(new ReadDataFromBackendRequest(null));
             mSynchronisationManager.startSync(mSynchronisationCompleteListener);
@@ -286,11 +287,11 @@ public class DataServicesManager {
     //TODO: discuss if its required
     private void startMonitors() {
         if (mCore != null) {
-            DSLog.i("***SPO***", "mCore not null, hence starting");
+            DSLog.i(DSLog.LOG, "mCore not null, hence starting");
             mCore.start();
         }
         if (mSynchronisationMonitor != null) {
-            DSLog.i("***SPO***", "In DataServicesManager.mSynchronisationMonitor.start");
+            DSLog.i(DSLog.LOG, "In DataServicesManager.mSynchronisationMonitor.start");
             mSynchronisationMonitor.start(mEventing);
         }
     }
@@ -334,7 +335,7 @@ public class DataServicesManager {
 
     public void stopCore() {
         synchronized (this) {
-            DSLog.i("***SPO***", "In DataServicesManager.stopCore");
+            DSLog.i(DSLog.LOG, "In DataServicesManager.stopCore");
             if (mCore != null)
                 mCore.stop();
             if (mSynchronisationMonitor != null)

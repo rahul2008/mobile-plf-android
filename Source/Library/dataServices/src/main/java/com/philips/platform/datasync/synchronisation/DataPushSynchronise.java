@@ -81,7 +81,7 @@ public class DataPushSynchronise extends EventMonitor {
     }
 
     public void startSynchronise(final int eventId) {
-        DSLog.i("***SPO***", "In startSynchronise - DataPushSynchronize");
+        DSLog.i(DSLog.LOG, "In startSynchronise - DataPushSynchronize");
 
         if (isSyncStarted()) {
             return;
@@ -90,11 +90,11 @@ public class DataPushSynchronise extends EventMonitor {
         boolean isLoggedIn = accessProvider.isLoggedIn();
 
         if (isLoggedIn) {
-            DSLog.i("***SPO***", "DataPushSynchronize isLogged-in is true");
+            DSLog.i(DSLog.LOG, "DataPushSynchronize isLogged-in is true");
             registerEvent();
             fetchNonSynchronizedData(eventId);
         } else {
-            DSLog.i("***SPO***", "DataPushSynchronize isLogged-in is false");
+            DSLog.i(DSLog.LOG, "DataPushSynchronize isLogged-in is false");
             eventing.post(new BackendResponse(eventId, RetrofitError.unexpectedError("", new IllegalStateException("You're not logged in"))));
         }
     }
@@ -112,13 +112,13 @@ public class DataPushSynchronise extends EventMonitor {
     }
 
     private void fetchNonSynchronizedData(int eventId) {
-        DSLog.i("***SPO***", "DataPushSynchronize fetchNonSynchronizedData before calling GetNonSynchronizedDataRequest");
+        DSLog.i(DSLog.LOG, "DataPushSynchronize fetchNonSynchronizedData before calling GetNonSynchronizedDataRequest");
         eventing.post(new GetNonSynchronizedDataRequest(eventId));
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(GetNonSynchronizedDataResponse response) {
-        DSLog.i("***SPO***", "DataPushSynchronize GetNonSynchronizedDataResponse");
+        DSLog.i(DSLog.LOG, "DataPushSynchronize GetNonSynchronizedDataResponse");
         synchronized (this) {
 
                 startAllSenders(response);
@@ -127,12 +127,12 @@ public class DataPushSynchronise extends EventMonitor {
     }
 
     private void startAllSenders(final GetNonSynchronizedDataResponse nonSynchronizedData) {
-        DSLog.i("***SPO***", "DataPushSynchronize startAllSenders");
+        DSLog.i(DSLog.LOG, "DataPushSynchronize startAllSenders");
 
         List<? extends DataSender> configurableSenders = getSenders();
 
         if(configurableSenders.size()<=0){
-            DSLog.i("**SPO**", "In Data Push synchronize Zero Senders configured");
+            DSLog.i(DSLog.LOG, "In Data Push synchronize Zero Senders configured");
             synchronisationManager.dataSyncComplete();
             return;
         }
@@ -157,7 +157,7 @@ public class DataPushSynchronise extends EventMonitor {
     }
 
     private void postPushComplete() {
-        DSLog.i("***SPO***","DataPushSynchronize set Push complete");
+        DSLog.i(DSLog.LOG,"DataPushSynchronize set Push complete");
         synchronisationManager.dataSyncComplete();
         synchronisationManager.shutdownAndAwaitTermination((ExecutorService)executor);
     }
@@ -167,7 +167,7 @@ public class DataPushSynchronise extends EventMonitor {
     }
 
     private void initPush(int size) {
-        DSLog.i("**SPO**","In Data Push synchronize initPush");
+        DSLog.i(DSLog.LOG,"In Data Push synchronize initPush");
         numberOfRunningSenders.set(size);
     }
 

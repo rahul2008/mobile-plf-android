@@ -145,7 +145,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
     @Override
     public void fetchMoments(@NonNull final String type, DBFetchRequestListner dbFetchRequestListner) throws SQLException {
-        DSLog.i("***SPO***", "In fetchMoments - OrmFetchingInterfaceImpl");
+        DSLog.i(DSLog.LOG, "In fetchMoments - OrmFetchingInterfaceImpl");
         final QueryBuilder<OrmMoment, Integer> queryBuilder = momentDao.queryBuilder();
         queryBuilder.orderBy("dateTime", true);
         getActiveMoments(momentDao.queryForEq("type_id", type), dbFetchRequestListner);
@@ -202,11 +202,11 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
     @Override
     public List<?> fetchNonSynchronizedMoments() throws SQLException {
-        DSLog.i("***SPO***", "In OrmFetchingInterfaceImpl fetchNonSynchronizedMoments");
+        DSLog.i(DSLog.LOG, "In OrmFetchingInterfaceImpl fetchNonSynchronizedMoments");
         QueryBuilder<OrmMoment, Integer> momentQueryBuilder = momentDao.queryBuilder();
-        DSLog.i("***SPO***", "In OrmFetchingInterfaceImpl after query builder");
+        DSLog.i(DSLog.LOG, "In OrmFetchingInterfaceImpl after query builder");
         momentQueryBuilder.where().eq(SYNCED_FIELD, false);
-        DSLog.i("***SPO***", "In OrmFetchingInterfaceImpl after where and before query");
+        DSLog.i(DSLog.LOG, "In OrmFetchingInterfaceImpl after where and before query");
         return momentQueryBuilder.query();
     }
 
@@ -219,7 +219,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     public List<OrmMoment> getActiveMoments(final List<?> ormMoments, DBFetchRequestListner dbFetchRequestListner) {
-        DSLog.i("***SPO***", "pabitra In getActiveMoments - OrmFetchingInterfaceImpl");
+        DSLog.i(DSLog.LOG, "pabitra In getActiveMoments - OrmFetchingInterfaceImpl");
         List<OrmMoment> activeOrmMoments = new ArrayList<>();
         if (ormMoments != null) {
             for (OrmMoment ormMoment : (List<OrmMoment>) ormMoments) {
@@ -228,7 +228,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
                 }
             }
         }
-        DSLog.i("***SPO***", "pabitra In getActiveMoments - OrmFetchingInterfaceImpl and ormMoments = " + ormMoments);
+        DSLog.i(DSLog.LOG, "pabitra In getActiveMoments - OrmFetchingInterfaceImpl and ormMoments = " + ormMoments);
         notifyDBRequestListener.notifyMomentFetchSuccess(activeOrmMoments, dbFetchRequestListner);
         return activeOrmMoments;
     }

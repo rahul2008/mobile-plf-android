@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
@@ -101,18 +100,18 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface{
     @NonNull
     @Override
     public String getHSDPAccessToken() {
-        Log.i(TAG,"Inside getHSDPAccessToken");
+        DSLog.i(DSLog.LOG,"Inside getHSDPAccessToken");
 
         if(accessToken!=null){
-            Log.i(TAG,"AccessToken is not null = " + accessToken);
+            DSLog.i(DSLog.LOG,"AccessToken is not null = " + accessToken);
         }
 
         if ((accessToken == null || accessToken.isEmpty()) && !accessTokenRefreshInProgress) {
-            Log.i(TAG,"get the token from Registration");
+            DSLog.i(DSLog.LOG,"get the token from Registration");
             accessToken = gethsdpaccesstoken();
-            Log.i(TAG,"get the token from Registration access token = " + accessToken);
+            DSLog.i(DSLog.LOG,"get the token from Registration access token = " + accessToken);
         }
-        Log.i(TAG,"get the token from Registration return - " + accessToken);
+        DSLog.i(DSLog.LOG,"get the token from Registration return - " + accessToken);
         return accessToken;
     }
 
@@ -132,11 +131,11 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface{
     // TODO: We may have to ask the common component to take care of this
     @Override
     public synchronized void refreshAccessTokenUsingWorkAround() {
-        Log.i(TAG,"Inside Refresh Access Token");
+        DSLog.i(DSLog.LOG,"Inside Refresh Access Token");
         if (accessTokenRefreshInProgress) {
             return;
         }
-        DSLog.d("***SPO***", "refreshAccessTokenUsingWorkAround()");
+        DSLog.d(DSLog.LOG, "refreshAccessTokenUsingWorkAround()");
         accessTokenRefreshInProgress = true;
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.post(refreshLoginSessionRunnable);

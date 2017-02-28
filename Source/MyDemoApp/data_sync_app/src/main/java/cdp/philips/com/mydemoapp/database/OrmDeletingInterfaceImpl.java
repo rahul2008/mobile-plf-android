@@ -124,7 +124,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         } catch (OrmTypeChecking.OrmTypeException e) {
             notifyDBRequestListener.notifyOrmTypeCheckingFailure(dbRequestListener, e,"type check failed!");
             if (e.getMessage() != null) {
-                DSLog.i("***SPO***", "Exception = " + e.getMessage());
+                DSLog.i(DSLog.LOG, "Exception = " + e.getMessage());
             }
         }
         return null;
