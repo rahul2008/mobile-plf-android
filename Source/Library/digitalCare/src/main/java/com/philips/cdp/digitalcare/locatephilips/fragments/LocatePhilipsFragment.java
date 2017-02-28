@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -26,6 +27,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.InflateException;
@@ -82,11 +84,13 @@ import com.philips.cdp.digitalcare.locatephilips.parser.AtosParsingCallback;
 import com.philips.cdp.digitalcare.locatephilips.parser.AtosResponseParser;
 import com.philips.cdp.digitalcare.request.RequestData;
 import com.philips.cdp.digitalcare.request.ResponseCallback;
+import com.philips.cdp.digitalcare.util.CustomFontIcon;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.Utils;
 import com.philips.cdp.productselection.utils.Constants;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.shamanland.fonticon.FontIconView;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -140,10 +144,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private RelativeLayout mLocateLayout = null;
     private RelativeLayout mLocateSearchLayout = null;
     private EditText mSearchBox = null;
-    private ImageView mSearchIcon = null;
-    private ImageView mArabicSearchIcon = null;
-    private ImageView mMarkerIcon = null;
-    private ImageView mArabicMarkerIcon = null;
+    private FontIconView mSearchIcon = null;
+    private FontIconView mArabicSearchIcon = null;
+    private FontIconView mMarkerIcon = null;
+    private FontIconView mArabicMarkerIcon = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     private Button mButtonCall = null;
@@ -522,10 +526,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         mLocateSearchLayout = (RelativeLayout) getActivity().findViewById(
                 R.id.locate_search_layout);
         mSearchBox = (EditText) getActivity().findViewById(R.id.search_box);
-        mSearchIcon = (ImageView) getActivity().findViewById(R.id.search_icon);
-        mArabicSearchIcon = (ImageView) getActivity().findViewById(R.id.arabic_search_icon);
-        mMarkerIcon = (ImageView) getActivity().findViewById(R.id.marker_icon);
-        mArabicMarkerIcon = (ImageView) getActivity().findViewById(R.id.arabic_marker_icon);
+        mSearchIcon = (FontIconView) getActivity().findViewById(R.id.search_icon);
+        mArabicSearchIcon = (FontIconView) getActivity().findViewById(R.id.arabic_search_icon);
+        mMarkerIcon = (FontIconView) getActivity().findViewById(R.id.marker_icon);
+        mArabicMarkerIcon = (FontIconView) getActivity().findViewById(R.id.arabic_marker_icon);
         mLocationDetailScroll = (ScrollView) getActivity().findViewById(
                 R.id.locationDetailScroll);
         mButtonCall = (Button) getActivity().findViewById(R.id.call);
@@ -592,9 +596,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     }
 
     private void createBitmap() {
-        mBitmapMarker = BitmapFactory.decodeResource(
-                getActivity().getResources(), R.drawable.consumercare_marker_shadow).copy(
-                Bitmap.Config.ARGB_8888, true);
+        int[] attribute = new int[] { R.attr.uikit_baseColor };
+        TypedArray array = getContext().getTheme().obtainStyledAttributes(attribute);
+        int color = array.getColor(0, Color.TRANSPARENT);
+        array.recycle();
+        mBitmapMarker = CustomFontIcon.getFontBitmap(getContext(),getResources().getString(R.string.icon_marker), color,32);
     }
 
     /**
