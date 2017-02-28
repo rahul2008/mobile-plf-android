@@ -64,7 +64,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
@@ -122,18 +123,23 @@ android {
         }
     }
 
-    android {
-        lintOptions {
-            abortOnError false
-        }
+    lintOptions {
+        abortOnError false
     }
+    publishNonDefault true
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
-    compile(group: 'com.philips.cdp', name: 'cloudcontroller-api', version: '3.1.2' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    testCompile(group: 'com.philips.cdp', name: 'cloudcontroller', version: '5.1.2' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    if (findProject(':cloudcontroller-api')) {
+        debugCompile project(path: ':cloudcontroller-api', configuration: 'debug')
+        releaseCompile project(path: ':cloudcontroller-api', configuration: 'release')
+        testCompile project(path: ':cloudcontroller', configuration: 'debug')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'cloudcontroller-api', version: '3.1.2' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+        testCompile(group: 'com.philips.cdp', name: 'cloudcontroller', version: '5.1.2' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    }
 
     provided deps.support.annotations
     compile deps.gson
