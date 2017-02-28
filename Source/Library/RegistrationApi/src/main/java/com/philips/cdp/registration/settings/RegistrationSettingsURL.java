@@ -347,8 +347,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         serviceDiscoveyService = resultMap.get(HSDP_BASE_URL_SERVICE_ID);
         if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
             RLog.i("HSDP_NEW", "serviceDiscovery " + serviceDiscoveyService.getConfigUrls() + " map " + resultMap);
-//            HSDPConfiguration.setBaseUrlServiceDiscovery(serviceDiscoveyService.getConfigUrls());
-            HSDPConfiguration.setBaseUrlServiceDiscovery("https://user-registration-assembly-hsdpchinadev.cn1.philips-healthsuite.com.cn");
+            HSDPConfiguration.setBaseUrlServiceDiscovery(serviceDiscoveyService.getConfigUrls());
         }
     }
 
