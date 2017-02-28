@@ -501,7 +501,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
                 if (FieldsValidator.isValidEmail(mUser.getEmail().toString())) {
                     launchAccountActivateFragment();
                 } else {
-                    getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
+                    launchMobileVerifyCodeFragment();
                 }
             } else {
                 launchWelcomeFragment();
@@ -515,7 +515,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
                 if (FieldsValidator.isValidEmail(mUser.getEmail().toString())) {
                     launchAccountActivateFragment();
                 } else {
-                    getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
+                    launchMobileVerifyCodeFragment();
                 }
             } else {
                 launchWelcomeFragment();
@@ -528,6 +528,12 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         }
         trackActionStatus(AppTagingConstants.SEND_DATA,AppTagingConstants.TOTAL_TIME_CREATE_ACCOUNT,String.valueOf(mTrackCreateAccountTime));
         mTrackCreateAccountTime =0;
+    }
+
+
+    private void launchMobileVerifyCodeFragment() {
+        getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
+        trackPage(AppTaggingPages.MOBILE_VERIFY_CODE);
     }
 
     private void launchAccountActivateFragment() {

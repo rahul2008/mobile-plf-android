@@ -138,7 +138,9 @@ public class AppTagingConstants {
 
 	public static final String USER_REGISTRATION = "UR";
 
-	public static final String LOGIN_FAILED = "Loginfailed";
+	public static final String LOGIN_FAILED = "failedLogin";
+
+	public static final String REGISTRATION_FAILED = "failureUserCreation";
 
 	public static final String JANRAIN = "Janrain";
 

@@ -19,6 +19,8 @@ public class AppTaggingPages {
 
 	public static final String ACCOUNT_ACTIVATION = "registration:accountactivation";
 
+	public static final String MOBILE_VERIFY_CODE = "registration:accountactivationbysms";
+
 	public static final String WELCOME = "registration:welcome";
 
 	public static final String ALMOST_DONE = "registration:almostdone";

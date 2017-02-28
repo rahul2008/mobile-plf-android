@@ -241,7 +241,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
             if (FieldsValidator.isValidEmail(mUser.getEmail().toString())){
                 launchAccountActivateFragment();
             }else {
-                getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
+                launchMobileVerifyCodeFragment();
             }
         } else if (RegistrationConfiguration.getInstance().isEmailVerificationRequired() && mUser.getEmailVerificationStatus()) {
             launchWelcomeFragment();
@@ -261,6 +261,11 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     private void launchAccountActivateFragment() {
         getRegistrationFragment().addFragment(new AccountActivationFragment());
         trackPage(AppTaggingPages.ACCOUNT_ACTIVATION);
+    }
+
+    private void launchMobileVerifyCodeFragment() {
+        getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
+        trackPage(AppTaggingPages.MOBILE_VERIFY_CODE);
     }
 
     private void launchWelcomeFragment() {
