@@ -240,11 +240,15 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     }
 
     private void updateUiStatus() {
-        if (NetworkUtility.isNetworkAvailable(mContext) && (mEtEmail.isValidEmail() || FieldsValidator.isValidMobileNumber(mEtEmail.getEmailId()))) {
+        if (mEtEmail.isValidEmail()  && NetworkUtility.isNetworkAvailable(mContext)) {
             mBtnContinue.setEnabled(true);
             mRegError.hideError();
-        } else {
-            mBtnContinue.setEnabled(false);
+        }  else {
+            if (mEtEmail.getEmailId().length() == 0) {
+                mBtnContinue.setEnabled(true);
+            } else {
+                mBtnContinue.setEnabled(false);
+            }
         }
     }
 
