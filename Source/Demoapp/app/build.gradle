@@ -37,7 +37,7 @@ dependencies {
 
     compile project(':uAppFwLib')
 
-    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.6.0-SNAPSHOT', ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.7.5-SNAPSHOT', ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
