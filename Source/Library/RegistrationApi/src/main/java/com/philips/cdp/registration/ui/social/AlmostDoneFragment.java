@@ -682,7 +682,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             }
         } else if (abStrings.equals(UIFlow.FLOW_B)) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-            getRegistrationFragment().addFragment(new MarketingAccountFragment());
+            launchMarketingAccountFragment();
         } else if (abStrings.equals(UIFlow.FLOW_C)) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type C");
             if (user.getEmailVerificationStatus()) {
@@ -692,6 +692,11 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             }
         }
         hideSpinner();
+    }
+
+    private void launchMarketingAccountFragment() {
+        getRegistrationFragment().addFragment(new MarketingAccountFragment());
+        trackPage(AppTaggingPages.MARKETING_OPT_IN);
     }
 
     private void launchAccountActivateFragment() {

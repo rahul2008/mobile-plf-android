@@ -508,7 +508,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
             }
         } else if (abStrings.equals(UIFlow.FLOW_B)) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-            getRegistrationFragment().addFragment(new MarketingAccountFragment());
+            launchMarketingAccountFragment();
         } else if (abStrings.equals(UIFlow.FLOW_C)) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type  C");
             if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
@@ -530,6 +530,10 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         mTrackCreateAccountTime =0;
     }
 
+    private void launchMarketingAccountFragment() {
+        getRegistrationFragment().addFragment(new MarketingAccountFragment());
+        trackPage(AppTaggingPages.MARKETING_OPT_IN);
+    }
 
     private void launchMobileVerifyCodeFragment() {
         getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
