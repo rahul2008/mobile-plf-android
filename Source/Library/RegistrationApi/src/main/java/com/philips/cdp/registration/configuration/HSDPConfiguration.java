@@ -5,11 +5,12 @@ import android.text.TextUtils;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
 
 public class HSDPConfiguration {
 
-    private static String baseUrl = setBaseUrl();
+    private static String baseUrlAppConfig = setBaseUrl();
 
     private static String setBaseUrl() {
         AppConfigurationInterface.AppConfigurationError configError = new
@@ -17,7 +18,7 @@ public class HSDPConfiguration {
         String baseUrl = (String) RegistrationHelper.
                 getInstance().getAppInfraInstance().
                 getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL
+                getPropertyForKey(HSDP_CONFIGURATION_BASE_URL
                         , UR, configError);
         return baseUrl;
     }
@@ -29,9 +30,9 @@ public class HSDPConfiguration {
     }
 
     public static String getBaseUrl() {
-        if(TextUtils.isEmpty(baseUrl)) {
+        if(TextUtils.isEmpty(baseUrlAppConfig)) {
             return baseUrlServiceDiscovery;
         }
-        return baseUrl;
+        return baseUrlAppConfig;
     }
 }

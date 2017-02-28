@@ -208,6 +208,9 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         serviceDiscoveryInterface.getServicesWithCountryPreference(serviceIdList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> resultMap) {
+
+                setHSDPBaseUrl(resultMap);
+
                 ServiceDiscoveryService serviceDiscoveyService = resultMap.get("userreg.janrain.api");
                 if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
                     String urlLocal = serviceDiscoveyService.getConfigUrls();
@@ -314,8 +317,6 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                     initialize();
                     return;
                 }
-
-                setHSDPBaseUrl(resultMap);
             }
 
             private void initialize() {
@@ -346,7 +347,8 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         serviceDiscoveyService = resultMap.get(HSDP_BASE_URL_SERVICE_ID);
         if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
             RLog.i("HSDP_NEW", "serviceDiscovery " + serviceDiscoveyService.getConfigUrls() + " map " + resultMap);
-            HSDPConfiguration.setBaseUrlServiceDiscovery(serviceDiscoveyService.getConfigUrls());
+//            HSDPConfiguration.setBaseUrlServiceDiscovery(serviceDiscoveyService.getConfigUrls());
+            HSDPConfiguration.setBaseUrlServiceDiscovery("https://user-registration-assembly-hsdpchinadev.cn1.philips-healthsuite.com.cn");
         }
     }
 

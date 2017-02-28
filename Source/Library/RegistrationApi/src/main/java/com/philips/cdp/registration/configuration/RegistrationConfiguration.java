@@ -316,22 +316,42 @@ public class RegistrationConfiguration {
         return prioritisedFunction;
     }
 
-
-    public boolean isHsdpFlow() {
-
+    private boolean isEnvironementSet() {
         String environment = getRegistrationEnvironment();
         if (environment == null) {
             return false;
         }
+        return true;
+    }
 
+    public boolean isHsdpFlowWithoutBaseUrl() {
+        if(!isEnvironementSet()) {
+            return false;
+        }
 
         HSDPInfo hsdpInfo = getHSDPInfo();
 
         if (hsdpInfo == null) {
-            RLog.i("HSDP_STATUS", "HSDP configuration is not configured for " + environment +
-                    " environment ");
             return false;
-            // throw new RuntimeException("HSDP configuration is not configured for " + environment + " environment ");
+        }
+        return isHsdpConfigurationExists(hsdpInfo);
+    }
+
+    private boolean isHsdpConfigurationExists(HSDPInfo hsdpInfo) {
+        return null != hsdpInfo.getApplicationName() && null != hsdpInfo.getSharedId()
+                && null != hsdpInfo.getSecreteId();
+    }
+
+    public boolean isHsdpFlow() {
+
+        if(!isEnvironementSet()) {
+            return false;
+        }
+
+        HSDPInfo hsdpInfo = getHSDPInfo();
+
+        if (hsdpInfo == null) {
+            return false;
         }
         if (null != hsdpInfo) {
 
@@ -343,10 +363,13 @@ public class RegistrationConfiguration {
             }
         }
 
+        return isHsdpConfigurationComplete(hsdpInfo);
+    }
 
-        return (null != hsdpInfo.getApplicationName() && null != hsdpInfo.getSharedId()
-                && null != hsdpInfo.getSecreteId());
-//                && null != hsdpInfo.getBaseURL());
+    private boolean isHsdpConfigurationComplete(HSDPInfo hsdpInfo) {
+        return null != hsdpInfo.getApplicationName() && null != hsdpInfo.getSharedId()
+                && null != hsdpInfo.getSecreteId()
+                && null != hsdpInfo.getBaseURL();
     }
 
     private String buildException(HSDPInfo hsdpInfo) {
@@ -371,13 +394,13 @@ public class RegistrationConfiguration {
             }
         }
 
-//        if (hsdpInfo.getBaseURL() == null) {
-//            if (null != exception) {
-//                exception += ",Base Url ";
-//            } else {
-//                exception += "Base Url ";
-//            }
-//        }
+        if (hsdpInfo.getBaseURL() == null) {
+            if (null != exception) {
+                exception += ",Base Url ";
+            } else {
+                exception += "Base Url ";
+            }
+        }
         return exception;
     }
 
