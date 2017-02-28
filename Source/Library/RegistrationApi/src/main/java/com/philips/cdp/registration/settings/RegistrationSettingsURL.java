@@ -41,6 +41,8 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
     private static final String PROD_CAPTURE_DOMAIN_CHINA = "https://philips-cn.capture.cn.janrain.com";
 
+    private static final String HSDP_BASE_URL_SERVICE_ID = "userreg.hsdp.userserv";
+
     private static String EVAL_PRODUCT_REGISTER_URL = "https://acc.philips.co.uk/prx/registration/";
 
     private static String EVAL_PRODUCT_REGISTER_LIST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
@@ -201,7 +203,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         serviceIdList.add("userreg.janrain.cdn");//https://janrain-capture-static.cn.janrain.com/
         serviceIdList.add("userreg.janrain.engage");//https://philips-staging.login.cn.janrain.com/
         serviceIdList.add("userreg.smssupported");
-        serviceIdList.add("userreg.hsdp.userserv");
+        serviceIdList.add(HSDP_BASE_URL_SERVICE_ID);
 
         serviceDiscoveryInterface.getServicesWithCountryPreference(serviceIdList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
@@ -318,11 +320,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                     return;
                 }
 
-                serviceDiscoveyService = resultMap.get("userreg.hsdp.userserv");
-                if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
-                    RLog.i("HSDP_NEW", "serviceDiscovery " + serviceDiscoveyService.getConfigUrls() + " map " + resultMap);
-                    HSDPConfiguration.setBaseUrlServiceDiscovery(serviceDiscoveyService.getConfigUrls());
-                }
+                setHSDPBaseUrl(resultMap);
             }
 
             private void initialize() {
@@ -346,6 +344,15 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         });
 
 
+    }
+
+    private void setHSDPBaseUrl(Map<String, ServiceDiscoveryService> resultMap) {
+        ServiceDiscoveryService serviceDiscoveyService;
+        serviceDiscoveyService = resultMap.get(HSDP_BASE_URL_SERVICE_ID);
+        if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
+            RLog.i("HSDP_NEW", "serviceDiscovery " + serviceDiscoveyService.getConfigUrls() + " map " + resultMap);
+            HSDPConfiguration.setBaseUrlServiceDiscovery(serviceDiscoveyService.getConfigUrls());
+        }
     }
 
     public boolean isChinaFlow() {
