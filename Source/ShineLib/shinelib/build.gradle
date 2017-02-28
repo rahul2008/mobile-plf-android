@@ -102,10 +102,8 @@ android {
     defaultConfig {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
-
         versionCode 3
         versionName version
-
         consumerProguardFiles 'proguard-rules.pro'
     }
 
@@ -122,6 +120,7 @@ android {
     lintOptions {
         abortOnError false
     }
+    publishNonDefault true
 }
 
 dependencies {

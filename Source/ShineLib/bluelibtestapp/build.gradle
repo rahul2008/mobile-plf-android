@@ -42,7 +42,9 @@ android {
 dependencies {
     def bluelib = findProject(':bluelib') ? ':bluelib' : ':shinelib'
 
-    compile project(bluelib)
+    debugCompile project(path: bluelib, configuration: 'debug')
+    releaseCompile project(path: bluelib, configuration: 'release')
+
     compile project(path: ':pluginreferenceboard')
 
     compile deps.gson

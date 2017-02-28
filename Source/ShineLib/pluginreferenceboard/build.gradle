@@ -37,12 +37,11 @@ android {
 }
 
 dependencies {
-    if (findProject(':bluelib')) {
-        compile project(':bluelib')
-    } else {
-        compile project(':shinelib')
-    }
+    def bluelib = findProject(':bluelib') ? ':bluelib' : ':shinelib'
+
+    debugCompile project(path: bluelib, configuration: 'debug')
+    releaseCompile project(path: bluelib, configuration: 'release')
 
     testCompile deps.junit
-    testCompile 'org.powermock:powermock-api-mockito:1.6.4'
+    testCompile deps.powermock_mockito
 }
