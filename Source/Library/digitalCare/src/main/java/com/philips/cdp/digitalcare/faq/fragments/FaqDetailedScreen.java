@@ -83,9 +83,11 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mWebView = null;
-        initView();
-        loadFaq();
+        // orientation change should not reload page.
+
+        //mWebView = null;
+        //initView();
+        //loadFaq();
     }
 
     @Override
