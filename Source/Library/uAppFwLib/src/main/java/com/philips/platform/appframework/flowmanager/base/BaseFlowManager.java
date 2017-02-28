@@ -52,6 +52,16 @@ public abstract class BaseFlowManager {
     public BaseFlowManager() {
     }
 
+    /**
+     * Should be called to initialize flow manager
+     * @param context - context
+     * @param jsonPath - Path of Flow manager JSON file
+     * @param flowManagerListener - call back listener on parse success
+     * @throws JsonFileNotFoundException
+     * @throws JsonStructureException
+     * @throws JsonAlreadyParsedException
+     */
+
     public void initialize(@NonNull final Context context, @NonNull final String jsonPath, @NonNull final FlowManagerListener flowManagerListener) throws JsonFileNotFoundException, JsonStructureException, JsonAlreadyParsedException {
         if (appFlowMap != null) {
             throw new JsonAlreadyParsedException();
@@ -136,6 +146,17 @@ public abstract class BaseFlowManager {
         return getNextState(eventId);
     }
 
+    /**
+     *  Method to get next state for passed event id
+     * @param eventId
+     * @return
+     * @throws NoEventFoundException
+     * @throws NoStateException
+     * @throws NoConditionFoundException
+     * @throws StateIdNotSetException
+     * @throws ConditionIdNotSetException
+     *
+     */
     @NonNull
     public BaseState getNextState(String eventId) throws NoEventFoundException, NoStateException, NoConditionFoundException, StateIdNotSetException, ConditionIdNotSetException {
         if (null == eventId)
@@ -184,10 +205,27 @@ public abstract class BaseFlowManager {
             return null;
     }
 
+    /**
+     *  Method to get State while navigating back
+     * @param currentState
+     * @return
+     * @throws NoStateException
+     * @throws NoConditionFoundException
+     * @throws StateIdNotSetException
+     * @throws ConditionIdNotSetException
+     */
     public BaseState getBackState(BaseState currentState) throws NoStateException, NoConditionFoundException, StateIdNotSetException, ConditionIdNotSetException {
         return getBackState();
     }
 
+    /**
+     *  Method to get State while navigating back
+     * @return
+     * @throws NoStateException
+     * @throws NoConditionFoundException
+     * @throws StateIdNotSetException
+     * @throws ConditionIdNotSetException
+     */
     public BaseState getBackState() throws NoStateException, NoConditionFoundException, StateIdNotSetException, ConditionIdNotSetException {
         if (currentState != null && flowManagerStack.contains(currentState)) {
             List<AppFlowEvent> appFlowEvents = getAppFlowEvents(currentState.getStateID());
