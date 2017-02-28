@@ -15,15 +15,9 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 
 public class AppTaggingErrors {
 
-    private static final String FAILEDLOGIN = "failedlogin";
-
-    private static final String FAILURE_USERCREATION = "failureUsercreation";
-
     private static final String EMAIL_ALREADY_IN_USE = "email already in use";
 
     private static final String MOBILE_ALREADY_IN_USE = "mobile no already in use";
-
-    private static final String INVALID_INPUT_FIELDS = "incorrect email or password";
 
     private static final String EMAIL_IS_NOT_VERIFIED = "email is not verified";
 
@@ -35,11 +29,7 @@ public class AppTaggingErrors {
 
     private static final String RESEND_VERIFICATION_NETWORK_ERROR = "resend verification network error";
 
-    private static final String FAILURE_FORGOT_PASSWORD = "failureForgotPassword";
-
     private static final String FAILURE_FORGOT_PASSWORD_ERROR = "forgot password network error";
-
-    private static final String FAILURE_RESEND_VERIFICATION = "failureResendEmailVerification";
 
     private final static int NETWORK_ERROR_CODE = 111;
 
@@ -65,7 +55,7 @@ public class AppTaggingErrors {
                 break;
 
             default:
-                AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ERROR, AppTagingConstants.USER_REGISTRATION+":"+AppTagingConstants.LOGIN_FAILED+":"
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ERROR, AppTagingConstants.USER_REGISTRATION+":"+AppTagingConstants.FAILURE_FORGOT_PASSWORD+":"
                         +flowType+":"+userRegistrationFailureInfo.getErrorCode()+":"+userRegistrationFailureInfo.getErrorDescription());
                 break;
         }
@@ -80,7 +70,7 @@ public class AppTaggingErrors {
                 break;
 
             default:
-                AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ERROR, AppTagingConstants.USER_REGISTRATION+":"+AppTagingConstants.LOGIN_FAILED+":"
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ERROR, AppTagingConstants.USER_REGISTRATION+":"+AppTagingConstants.FAILURE_RESEND_EMAIL+":"
                         +flowType+":"+userRegistrationFailureInfo.getErrorCode()+":"+userRegistrationFailureInfo.getErrorDescription());
                 break;
         }

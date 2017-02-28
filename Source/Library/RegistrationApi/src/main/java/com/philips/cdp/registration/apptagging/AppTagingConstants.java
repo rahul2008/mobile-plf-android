@@ -150,4 +150,15 @@ public class AppTagingConstants {
 
 	public static final String NETWORK_ERROR = "Network Error";
 
+	public static final String FAILURE_RESEND_EMAIL = "failureResendEmailVerification";
+
+	public static final String FAILURE_FORGOT_PASSWORD = "failureForgotPassword";
+
+
+
+
+
+
+
+
 }
