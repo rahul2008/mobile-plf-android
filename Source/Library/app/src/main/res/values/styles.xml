@@ -5,6 +5,17 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="fontButton">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/support_btn_height</item>
+        <item name="android:background">@drawable/consumercare_selector_option_button_bg</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/uikit_white</item>
+        <item name="android:textSize">@dimen/btn_text_size_large</item>
+        <item name="android:layout_marginTop">@dimen/marginTopButton</item>
+
+    </style>
+
     <style name="style_ctnbutton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -49,6 +60,7 @@
         <item name="android:clickable">true</item>
         <item name="android:visibility">gone</item>
         <item name="android:src">@drawable/actionbar_home_icon_white</item>
+        <item name="android:textColor">@color/uikit_white</item>
         <item name="android:paddingLeft">12dp</item>
     </style>
 
@@ -59,7 +71,7 @@
         <item name="android:layout_centerInParent">true</item>
         <item name="android:singleLine">true</item>
         <item name="android:text">@string/Select_Product_Title</item>
-        <item name="android:textColor">@color/actionbar_title_color</item>
+        <item name="android:textColor">@color/uikit_white</item>
         <item name="android:textSize">@dimen/actionbar_title_text_size</item>
         <item name="android:layout_toRightOf">@+id/sample_back_to_home_img</item>
     </style>
@@ -75,6 +87,4 @@
         <item name="android:src">@drawable/actionbar_back_arrow_white</item>
         <item name="android:paddingLeft">12dp</item>
     </style>
-
-
 </resources>

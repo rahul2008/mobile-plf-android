@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.philips.cdp.uikit.customviews.PuiEditText;
 import com.philips.hor_productselection_android.adapter.CtnListViewListener;
 import com.philips.hor_productselection_android.R;
 
@@ -18,9 +19,9 @@ import java.util.ArrayList;
 public class CustomDialog extends Dialog {
 
     private Context mContext = null;
-    private EditText mCtn = null;
-    private EditText mCategoty = null;
-    private EditText mCatalog = null;
+    private PuiEditText mCtn = null;
+    private PuiEditText mCategoty = null;
+    private PuiEditText mCatalog = null;
     private Button mButton = null;
     private ArrayList<String> mList = null;
     private CtnListViewListener mListner = null;
@@ -48,8 +49,8 @@ public class CustomDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 String product = null;
-                if (mCtn.getText() != null)
-                    product = mCtn.getText().toString().trim();
+                if (mCtn.getEditText().getText() != null)
+                    product = mCtn.getEditText().getText().toString().trim();
 
 
                 mList.add(product);
@@ -61,9 +62,9 @@ public class CustomDialog extends Dialog {
     }
 
     private void initUI() {
-        mCtn = (EditText) findViewById(R.id.ctn_editText);
-        mCategoty = (EditText) findViewById(R.id.category_editText);
-        mCatalog = (EditText) findViewById(R.id.catalog_editText);
+        mCtn = (PuiEditText) findViewById(R.id.ctn_editText);
+        mCategoty = (PuiEditText) findViewById(R.id.category_editText);
+        mCatalog = (PuiEditText) findViewById(R.id.catalog_editText);
         mButton = (Button) findViewById(R.id.dialog_submit);
     }
 }
