@@ -8,11 +8,12 @@ package com.philips.cdp.dicommclient.port.common;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.port.PortProperties;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class PairingPort extends DICommPort<Object> {
+public class PairingPort<P extends PortProperties> extends DICommPort<P> {
 
     private final String PAIRINGPORT_NAME = "pairing";
     private final int PAIRINGPORT_PRODUCTID = 0;

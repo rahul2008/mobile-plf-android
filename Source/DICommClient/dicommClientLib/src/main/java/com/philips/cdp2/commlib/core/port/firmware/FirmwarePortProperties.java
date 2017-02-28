@@ -6,12 +6,14 @@ package com.philips.cdp2.commlib.core.port.firmware;
 
 import android.support.annotation.NonNull;
 
+import com.philips.cdp2.commlib.core.port.PortProperties;
+
 import static android.text.TextUtils.isEmpty;
 import static java.lang.Math.floor;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
-public class FirmwarePortProperties {
+public class FirmwarePortProperties implements PortProperties {
 
     public static final int INVALID_INT_VALUE = Integer.MIN_VALUE;
     public static final double BASE64_FACTOR = .75;

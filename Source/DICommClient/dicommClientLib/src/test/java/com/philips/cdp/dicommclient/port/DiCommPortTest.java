@@ -10,6 +10,7 @@ import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 import com.philips.cdp.dicommclient.util.WrappedHandler;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.port.PortProperties;
 
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -637,7 +638,7 @@ public class DiCommPortTest extends RobolectricTest {
         return responseHandler;
     }
 
-    class TestPort extends DICommPort<Object> {
+    class TestPort<P extends PortProperties> extends DICommPort<P> {
 
         private WrappedHandler handler;
 

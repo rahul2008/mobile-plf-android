@@ -5,7 +5,9 @@
 
 package com.philips.cdp.dicommclient.port.common;
 
-public class DevicePortProperties {
+import com.philips.cdp2.commlib.core.port.PortProperties;
+
+public class DevicePortProperties implements PortProperties {
     private String name;
     private String type;
     private String modelid;

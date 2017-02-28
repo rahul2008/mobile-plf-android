@@ -5,24 +5,26 @@
 
 package com.philips.cdp.dicommclient.port.common;
 
-public class WifiUIPortProperties {
+import com.philips.cdp2.commlib.core.port.PortProperties;
 
-	private String setup;
+public class WifiUIPortProperties implements PortProperties {
+
+    private String setup;
     private String connection;
     private String pairing;
-	
+
     public String getSetup() {
         return setup;
     }
-    
+
     public void setSetup(String setup) {
         this.setup = setup;
     }
-    
+
     public String getConnection() {
         return connection;
     }
-    
+
     public void setConnection(String connection) {
         this.connection = connection;
     }
