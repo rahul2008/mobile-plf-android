@@ -68,7 +68,7 @@ public class AppTagging implements AppTaggingInterface {
 				if (sslValue) {
 					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "ssl value",
 							"true");
-					return true;
+					return sslValue;
 				} else {
 					if (!checkForProductionState())
 						throw new AssertionError("ssl value in ADBMobileConfig.json should be true");
@@ -97,7 +97,7 @@ public class AppTagging implements AppTaggingInterface {
 		try {
 			final InputStream mInputStream = mAppInfra.getAppInfraContext().getAssets().open("ADBMobileConfig.json");
 			final BufferedReader mBufferedReader = new BufferedReader(new InputStreamReader(mInputStream));
-			StringBuilder total = new StringBuilder();
+			final StringBuilder total = new StringBuilder();
 			String line;
 			while ((line = mBufferedReader.readLine()) != null) {
 				total.append(line).append('\n');
@@ -117,7 +117,7 @@ public class AppTagging implements AppTaggingInterface {
 	 **/
 
 	private Map<String, Object> addAnalyticsDataObject() {
-		Map<String, Object> contextData = new HashMap<>();
+		final Map<String, Object> contextData = new HashMap<>();
 
 		contextData.put(AppTaggingConstants.LANGUAGE_KEY, getLanguage());
 
@@ -145,13 +145,12 @@ public class AppTagging implements AppTaggingInterface {
 
 		AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
 				.AppConfigurationError();
-		if (getPrivacyConsentForSensitiveData()) {
-			if (mAppInfra.getConfigInterface() != null) {
+		if (getPrivacyConsentForSensitiveData() && mAppInfra.getConfigInterface() != null) {
 				try {
-					Object object = mAppInfra.getConfigInterface().getPropertyForKey
+					final Object object = mAppInfra.getConfigInterface().getPropertyForKey
 							("tagging.sensitiveData", "appinfra", configError);
 					if (object instanceof ArrayList<?>) {
-						ArrayList<?> taggingSensitiveData = (ArrayList<?>) object;
+						final ArrayList<?> taggingSensitiveData = (ArrayList<?>) object;
 						if (taggingSensitiveData.size() > 0) {
 							data.keySet().removeAll(taggingSensitiveData);
 						}
@@ -162,9 +161,7 @@ public class AppTagging implements AppTaggingInterface {
 				}
 			}
 			return data;
-		}
 
-		return data;
 	}
 
 	@Override
@@ -197,14 +194,12 @@ public class AppTagging implements AppTaggingInterface {
 
 	private String getUTCTimestamp() {
 		String mUTCTimestamp = null;
-		String UTCtime;
 
 		if (mAppInfra.getTime() != null) {
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
+			final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
 			df.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
 
-			UTCtime = df.format(mAppInfra.getTime().getUTCTime());
-			mUTCTimestamp = UTCtime;
+			mUTCTimestamp = df.format(mAppInfra.getTime().getUTCTime());
 			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
 					"Tagging", mUTCTimestamp);
 
@@ -215,9 +210,9 @@ public class AppTagging implements AppTaggingInterface {
 
 	private String getLocalTimestamp() {
 
-		String mLocalTimestamp;
-		Calendar c = Calendar.getInstance();
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
+		final String mLocalTimestamp;
+		final Calendar c = Calendar.getInstance();
+		final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
 		mLocalTimestamp = df.format(c.getTime());
 		return mLocalTimestamp;
 	}
@@ -232,7 +227,9 @@ public class AppTagging implements AppTaggingInterface {
 
 	@Override
 	public AppTaggingInterface createInstanceForComponent(String componentId, String componentVersion) {
-		return new AppTaggingWrapper(mAppInfra, componentId, componentVersion);
+		this.mComponentID = componentId;
+		this.mComponentVersion = componentVersion;
+		return this;
 	}
 
 
@@ -302,8 +299,7 @@ public class AppTagging implements AppTaggingInterface {
 	}
 
 	private void trackData(String pageName, Map<String, String> paramMap, boolean isTrackPage) {
-		Map contextData;
-		contextData = addAnalyticsDataObject();
+		Map contextData = addAnalyticsDataObject();
 		if (paramMap != null) {
 			paramMap.putAll(contextData);
 			contextData = removeSensitiveData((Map) paramMap);
@@ -361,9 +357,7 @@ public class AppTagging implements AppTaggingInterface {
 	@Override
 	public void trackPageWithInfo(String pageName, String key, String value) {
 
-		Map<String, String> trackMap = new HashMap<>();
-		trackMap.put(key, value);
-		track(pageName, trackMap, true);
+		trackWithInfo(pageName, key, value, true);
 	}
 
 	@Override
@@ -377,12 +371,14 @@ public class AppTagging implements AppTaggingInterface {
 	@Override
 	public void trackActionWithInfo(String pageName, String key, String value) {
 
-		Map<String, String> trackMap = new HashMap<>();
-		trackMap.put(key, value);
-		track(pageName, trackMap, false);
+		trackWithInfo(pageName, key, value, false);
 
 	}
-
+	private void trackWithInfo(String pageName, String key, String value, boolean isTrackPage) {
+		final Map<String, String> trackMap = new HashMap<>();
+		trackMap.put(key, value);
+		track(pageName, trackMap, isTrackPage);
+	}
 
 	@Override
 	public void trackActionWithInfo(String pageName, Map<String, String> paramMap) {
@@ -417,7 +413,7 @@ public class AppTagging implements AppTaggingInterface {
 
 	@Override
 	public void trackSocialSharing(SocialMedium medium, String sharedItem) {
-		Map<String, String> trackMap = new HashMap<>();
+		final Map<String, String> trackMap = new HashMap<>();
 		trackMap.put("socialItem", sharedItem);
 		trackMap.put("socialType", medium.toString());
 		trackActionWithInfo("socialShare", trackMap);
