@@ -639,9 +639,14 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 mFlowId = 0;
             }
         } else if (RegConstants.JANRAIN_INIT_FAILURE.equals(event)) {
-            makeProgressInvisible();
-            hideProgressDialog();
-            hideProviderProgress();
+            handleOnUIThread(new Runnable() {
+                @Override
+                public void run() {
+                    makeProgressInvisible();
+                    hideProgressDialog();
+                    hideProviderProgress();
+                }
+            });
             mFlowId = 0;
         } else if (RegConstants.WECHAT_AUTH.equals(event)) {
             if (mWeChatCode != null) {
@@ -1045,13 +1050,23 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                     break;
                 case BaseResp.ErrCode.ERR_USER_CANCEL:
                     RLog.d("WECHAT", "WeChat - User canceled the request");
-                    makeProgressInvisible();
-                    hideProviderProgress();
+                    handleOnUIThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            makeProgressInvisible();
+                            hideProviderProgress();
+                        }
+                    });
                     break;
                 case BaseResp.ErrCode.ERR_AUTH_DENIED:
                     RLog.d("WECHAT", "WeChat - User denied the request");
-                    makeProgressInvisible();
-                    hideProviderProgress();
+                    handleOnUIThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            makeProgressInvisible();
+                            hideProviderProgress();
+                        }
+                    });
                     break;
             }
         }
