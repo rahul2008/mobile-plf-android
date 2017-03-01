@@ -4,6 +4,9 @@ Version 3.1.2
 -------------
 No functional changes.
 
+### Bugs fixed:
+* [DE15085] ProGuard configuration for release builds
+
 Version 3.0.0
 -------------
 ### New features:
