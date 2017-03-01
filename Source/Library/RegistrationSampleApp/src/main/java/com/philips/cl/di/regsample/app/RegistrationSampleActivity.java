@@ -197,7 +197,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                     Toast.makeText(getApplicationContext(), "choice: Production",
                             Toast.LENGTH_SHORT).show();
                     restoredText = Configuration.PRODUCTION.getValue();
-                    RegistrationApplication.getInstance().initRegistration(Configuration.PRODUCTION);
+                    RegistrationSampleApplication.getInstance().initRegistration(Configuration.PRODUCTION);
                 } else if (checkedId == R.id.Stagging) {
                     Toast.makeText(getApplicationContext(), "choice: Stagging",
                             Toast.LENGTH_SHORT).show();
@@ -206,13 +206,13 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
                 if (restoredText != null) {
                     if (mCheckBox.isChecked()) {
-                        RegistrationApplication.getInstance().initHSDP(RegUtility.getConfiguration(restoredText));
+                        RegistrationSampleApplication.getInstance().initHSDP(RegUtility.getConfiguration(restoredText));
                     } else {
                         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
                         prefs.edit().remove("reg_hsdp_environment").commit();
                     }
 
-                    RegistrationApplication.getInstance().initRegistration(RegUtility.getConfiguration(restoredText));
+                    RegistrationSampleApplication.getInstance().initRegistration(RegUtility.getConfiguration(restoredText));
                 }
 
             }

@@ -239,28 +239,15 @@ public class RegistrationConfiguration {
      * @return HSDPInfo Object
      */
     public HSDPInfo getHSDPInfo() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
         HSDPInfo hsdpInfo = new HSDPInfo();
 
-        String appName = (String) RegistrationHelper.
-                getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_APPLICATION_NAME
-                        , UR, configError);
-        String sharedId = (String) RegistrationHelper.
-                getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_SHARED
-                        , UR, configError);
+        String appName = HSDPConfiguration.getHsdpAppName();
 
-        String secreteId = (String) RegistrationHelper.
-                getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_SECRET
-                        , UR, configError);
+        String sharedId = HSDPConfiguration.getHsdpSharedId();
 
-        String baseUrl = HSDPConfiguration.getBaseUrl();
+        String secreteId = HSDPConfiguration.getHsdpSecretId();
+
+        String baseUrl = HSDPConfiguration.getHsdpBaseUrl();
 
         hsdpInfo.setApplicationName(appName);
         hsdpInfo.setSharedId(sharedId);

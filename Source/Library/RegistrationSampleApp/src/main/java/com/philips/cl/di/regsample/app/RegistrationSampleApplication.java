@@ -22,19 +22,18 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.util.Locale;
 
-public class RegistrationApplication extends Application {
+public class RegistrationSampleApplication extends Application {
 
 
-    private static volatile RegistrationApplication mRegistrationHelper = null;
+    private static volatile RegistrationSampleApplication mRegistrationSampleApplication = null;
 
     private AppInfraInterface mAppInfraInterface;
 
     /**
      * @return instance of this class
      */
-    public synchronized static RegistrationApplication getInstance() {
-        return mRegistrationHelper;
-
+    public synchronized static RegistrationSampleApplication getInstance() {
+        return mRegistrationSampleApplication;
     }
 
     @Override
@@ -46,7 +45,7 @@ public class RegistrationApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        mRegistrationHelper = this;
+        mRegistrationSampleApplication = this;
         mAppInfraInterface = new AppInfra.Builder().build(this);
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         String restoredText = prefs.getString("reg_environment", null);
