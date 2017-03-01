@@ -15,12 +15,3 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
-
-# Gson rules
--keepattributes Signature, *Annotation*
--keep class sun.misc.Unsafe { *; }
-
-# For Gson POJOs, the field names are JSON key values and should not be obfuscated
--keepclassmembers class * implements com.philips.cdp2.commlib.core.port.PortProperties {
-    <fields>;
-}
