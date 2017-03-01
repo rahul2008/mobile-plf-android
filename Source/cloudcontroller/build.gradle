@@ -64,7 +64,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 publishing {
@@ -100,24 +101,29 @@ android {
         targetSdkVersion versions.sdk
         versionCode 1
         versionName "1.0"
-
     }
+
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'proguard-rules.pro'
         }
     }
 
     lintOptions {
         abortOnError false
     }
+    publishNonDefault true
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
-    compile(group: 'com.philips.cdp', name: 'cloudcontroller-api', version: '3.1.2' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    if (findProject(':cloudcontroller-api')) {
+        debugCompile project(path: ':cloudcontroller-api', configuration: 'debug')
+        releaseCompile project(path: ':cloudcontroller-api', configuration: 'release')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'cloudcontroller-api', version: '3.1.2' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    }
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
