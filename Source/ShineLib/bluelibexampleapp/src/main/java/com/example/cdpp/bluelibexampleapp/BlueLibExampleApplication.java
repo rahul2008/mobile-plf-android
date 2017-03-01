@@ -15,7 +15,6 @@ import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceDefinitionInfo;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.utility.SHNLogger;
-import com.philips.pins.shinepluginmoonshinelib.SHNMoonshineDeviceDefinitionInfo;
 
 public class BlueLibExampleApplication extends Application {
 
@@ -70,9 +69,6 @@ public class BlueLibExampleApplication extends Application {
     private void setupDeviceDefinitions() {
         SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = new DeviceDefinitionInfoReferenceBoard();
         mShnCentral.registerDeviceDefinition(shnDeviceDefinitionInfo);
-
-        SHNMoonshineDeviceDefinitionInfo shnMoonshineDeviceDefinitionInfo = new SHNMoonshineDeviceDefinitionInfo();
-        mShnCentral.registerDeviceDefinition(shnMoonshineDeviceDefinitionInfo);
     }
 
     public void setSelectedDevice(SHNDevice device) {
