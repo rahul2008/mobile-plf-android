@@ -913,6 +913,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         productDetailsModel.setCtnName(summaryData.getCtn());
         productDetailsModel.setProductImage(summaryData.getImageURL());
         productDetailsModel.setProductInfoLink(summaryData.getProductURL());
+        productDetailsModel.setDomain(summaryData.getDomain());
         DigitalCareConfigManager.getInstance().setViewProductDetailsData(productDetailsModel);
 
         SharedPreferences.Editor editor = prefs.edit();

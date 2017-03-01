@@ -23,6 +23,7 @@ public class ViewProductDetailsModel {
     private String mManualLink = null;
     private String mProductInfoLink = null;
     private List<String> mVideoLinks = null;
+    private String mDomain = null;
 
     public String getProductName() {
         return mProductName;
@@ -70,5 +71,13 @@ public class ViewProductDetailsModel {
 
     public void setmVideoLinks(List<String> videoLinks) {
         this.mVideoLinks = videoLinks;
+    }
+
+    public String getDomain() {
+        return mDomain;
+    }
+
+    public void setDomain(String mDomain) {
+        this.mDomain = mDomain;
     }
 }

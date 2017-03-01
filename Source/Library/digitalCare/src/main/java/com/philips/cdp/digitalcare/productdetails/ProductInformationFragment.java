@@ -22,7 +22,6 @@ import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
-import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 
@@ -90,15 +89,14 @@ public class ProductInformationFragment extends DigitalCareBaseFragment {
     }
 
     private String getPhilipsProductPageUrl() {
-        if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() == null)
-            return null;
-        String language = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
-                .getLanguage().toLowerCase();
+        String domainUrl = null;
 
-        String country = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
-                .getCountry().toUpperCase();
+        if(DigitalCareConfigManager.getInstance().getViewProductDetailsData().getDomain() == null)
+            domainUrl = "www.philips.com";
+        else
+            domainUrl = DigitalCareConfigManager.getInstance().getViewProductDetailsData().getDomain();
 
-        return String.format(PRODUCT_PAGE_URL, LocaleMatchHandler.getPRXUrl(language + "_" + country), DigitalCareConfigManager.getInstance().getViewProductDetailsData().getProductInfoLink());
+        return domainUrl + DigitalCareConfigManager.getInstance().getViewProductDetailsData().getProductInfoLink();
     }
 
     @Override

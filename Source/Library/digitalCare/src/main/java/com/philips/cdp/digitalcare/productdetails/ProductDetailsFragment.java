@@ -50,7 +50,6 @@ import com.android.volley.toolbox.Volley;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.listeners.PrxSummaryListener;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
@@ -87,6 +86,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private HorizontalScrollView mVideoScrollView = null;
     private String mManualPdf = null;
     private String mProductPage = null;
+    private String mDomain = null;
     private ViewProductDetailsModel mViewProductDetailsModel = null;
     private int mBiggerResolution = 0;
     private LinearLayout.LayoutParams mScrollerLayoutParams = null;
@@ -656,6 +656,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         mProductPage = viewProductDetailsModel.getProductInfoLink();
         if (mProductPage != null)
             viewProductDetailsModel.setProductInfoLink(mProductPage);
+        mDomain = viewProductDetailsModel.getDomain();
+        if(mDomain != null )
+            viewProductDetailsModel.setDomain(mDomain);
         DigiCareLogger.i(TAG, "Manual Link : " + mManualPdf);
         DigiCareLogger.i(TAG, "Philips Page Link : " + mProductPage);
         List<String> productVideos = viewProductDetailsModel.getVideoLinks();
