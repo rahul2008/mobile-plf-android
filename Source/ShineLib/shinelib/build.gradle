@@ -102,11 +102,8 @@ android {
     defaultConfig {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
-
         versionCode 3
         versionName version
-
-        consumerProguardFiles 'proguard-rules.pro'
     }
 
     buildTypes {
@@ -114,7 +111,7 @@ android {
             buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersionWithHash()}\""
         }
         release {
-            minifyEnabled false
+            consumerProguardFiles 'proguard-rules.pro'
             buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersion()}\""
         }
     }
@@ -122,6 +119,7 @@ android {
     lintOptions {
         abortOnError false
     }
+    publishNonDefault true
 }
 
 dependencies {
