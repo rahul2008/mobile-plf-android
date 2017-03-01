@@ -5,6 +5,9 @@ Version 5.1.2
 ### New features:
 * [COM-255] Updated ICPClient to v7.2.1_A.2
 
+* ### Bugs fixed:
+* [DE15085] ProGuard configuration for release builds
+
 Version 5.0.0
 -------------
 ### New features:
