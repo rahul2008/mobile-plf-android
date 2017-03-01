@@ -10,6 +10,7 @@ package com.philips.cdp.registration;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.janrain.android.Jump;
@@ -586,14 +587,14 @@ public class User {
     }
 
 
-    // For updating consumer interests
+    @Deprecated
     public void addConsumerInterest(AddConsumerInterestHandler addConsumerInterestHandler,
                                     ConsumerArray consumerArray) {
 
         AddConsumerInterest addConsumerInterest = new AddConsumerInterest(
                 addConsumerInterestHandler);
         CaptureRecord captured = Jump.getSignedInUser();
-        JSONObject originalUserInfo = Jump.getSignedInUser();
+        JSONObject originalUserInfo = getCurrentUserAsJsonObject();
         mConsumerInterestArray = new JSONArray();
         ConsumerArray consumer = consumerArray;
 
@@ -635,6 +636,17 @@ public class User {
             }
         }
 
+    }
+
+    @Nullable
+    private JSONObject getCurrentUserAsJsonObject() {
+        JSONObject userData = null;
+        try {
+            userData = new JSONObject(Jump.getSignedInUser().toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return userData;
     }
 
     /**

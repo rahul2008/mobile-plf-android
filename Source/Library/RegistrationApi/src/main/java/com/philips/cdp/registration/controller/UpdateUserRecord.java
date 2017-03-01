@@ -11,6 +11,7 @@ package com.philips.cdp.registration.controller;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.Nullable;
 
 import com.janrain.android.Jump;
 import com.janrain.android.capture.Capture;
@@ -100,7 +101,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                 public void onSuccess(String s, SOURCE source) {
                     RLog.d(RLog.SERVICE_DISCOVERY, " Country Sucess :" + s);
                     CaptureRecord updatedUser = Jump.getSignedInUser();
-                    JSONObject originalUserInfo = Jump.getSignedInUser();
+                    JSONObject originalUserInfo = getCurrentUserAsJsonObject();
                     SharedPreferences myPrefs = mContext.getSharedPreferences(
                             RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
                     String microSiteId = myPrefs.getString(RegistrationSettings.MICROSITE_ID, null);
@@ -179,7 +180,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
 
         if (Jump.getSignedInUser() != null) {
             CaptureRecord updatedUser = Jump.getSignedInUser();
-            JSONObject originalUserInfo = Jump.getSignedInUser();
+            JSONObject originalUserInfo = getCurrentUserAsJsonObject();
             SharedPreferences myPrefs = mContext.getSharedPreferences(
                     RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
             String microSiteId = myPrefs.getString(RegistrationSettings.MICROSITE_ID, null);
@@ -206,5 +207,16 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                 RLog.e(LOG_TAG, "On success, Caught JSON Exception");
             }
         }
+    }
+
+    @Nullable
+    private JSONObject getCurrentUserAsJsonObject() {
+        JSONObject userData = null;
+        try {
+            userData = new JSONObject(Jump.getSignedInUser().toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return userData;
     }
 }
