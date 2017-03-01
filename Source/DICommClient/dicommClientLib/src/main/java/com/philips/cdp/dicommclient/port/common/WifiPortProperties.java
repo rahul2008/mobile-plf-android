@@ -5,7 +5,9 @@
 
 package com.philips.cdp.dicommclient.port.common;
 
-public class WifiPortProperties {
+import com.philips.cdp2.commlib.core.port.PortProperties;
+
+public class WifiPortProperties implements PortProperties {
 
 	private String ssid;
 	private String password;

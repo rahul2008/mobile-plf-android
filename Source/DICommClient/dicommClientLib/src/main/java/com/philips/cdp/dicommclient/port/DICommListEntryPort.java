@@ -6,8 +6,9 @@
 package com.philips.cdp.dicommclient.port;
 
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.port.PortProperties;
 
-abstract class DICommListEntryPort<T> extends DICommPort<T> {
+abstract class DICommListEntryPort<T extends PortProperties> extends DICommPort<T> {
 
 	private String mParentPortName;
 	private int mParentPortProductId;

@@ -15,7 +15,3 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
--keep class com.philips.cl.di.common.ssdp.lib.SsdpService {
-    protected void ssdpCallback(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String);
-    native <methods>;
-}

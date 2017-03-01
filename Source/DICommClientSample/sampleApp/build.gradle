@@ -42,7 +42,8 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt')
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
 
@@ -52,13 +53,16 @@ android {
 }
 
 dependencies {
-    compile 'com.philips.cdp:cloudcontroller:5.1.2-SNAPSHOT.+'
+    def commlib = findProject(':commlib') ? ':commlib' : ':dicommClientLib'
 
-    if (findProject(':commlib') || findProject(':dicommClientLib')) {
-        def commlib = findProject(':commlib') ? ':commlib' : ':dicommClientLib'
-        compile project(commlib)
+    debugCompile project(path: commlib, configuration: 'debug')
+    releaseCompile project(path: commlib, configuration: 'release')
+
+    if (findProject(':cloudcontroller')) {
+        debugCompile project(path: ':cloudcontroller', configuration: 'debug')
+        releaseCompile project(path: ':cloudcontroller', configuration: 'release')
     } else {
-        compile 'com.philips.cdp:dicommClientLib:3.1.2-SNAPSHOT.+'
+        compile 'com.philips.cdp:cloudcontroller:5.1.2-SNAPSHOT.+'
     }
 
     compile deps.support.appcompatv7
