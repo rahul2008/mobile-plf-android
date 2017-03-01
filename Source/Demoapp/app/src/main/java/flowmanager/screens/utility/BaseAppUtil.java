@@ -14,7 +14,7 @@ public class BaseAppUtil {
 
     public boolean createDirIfNotExists() {
         boolean ret = false;
-        File file = new File(Environment.getExternalStorageDirectory(), "/ReferenceApp");
+        File file = new File(Environment.getExternalStorageDirectory(), "/uApp");
         jsonFile = new File(file.getPath(), "appflow.json");
         if (!file.exists()) {
             final boolean mkdirs = file.mkdir();
@@ -32,13 +32,13 @@ public class BaseAppUtil {
     }
 
     public File getJsonFilePath() {
-        File file = new File(Environment.getExternalStorageDirectory(), "/ReferenceApp");
+        File file = new File(Environment.getExternalStorageDirectory(), "/uApp");
         jsonFile = new File(file.getPath(), "appflow.json");
         return jsonFile;
     }
 
     public String readJsonFileFromSdCard() {
-        File file = new File(Environment.getExternalStorageDirectory(), "/ReferenceApp");
+        File file = new File(Environment.getExternalStorageDirectory(), "/uApp");
         StringBuilder text = new StringBuilder();
         File jsonFile = new File(file.getPath(), "appflow.json");
         try {

@@ -132,8 +132,6 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
         super.onResume();
         isVisible = true;
         modifyLayoutforMultiWindow();
-        startTimer();
-
     }
 
     private void modifyLayoutforMultiWindow() {
