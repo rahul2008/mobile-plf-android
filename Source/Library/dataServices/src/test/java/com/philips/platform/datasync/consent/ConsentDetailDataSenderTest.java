@@ -2,8 +2,6 @@ package com.philips.platform.datasync.consent;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.events.ConsentBackendListSaveResponse;
-import com.philips.platform.core.events.ConsentBackendSaveRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.events.SyncBitUpdateRequest;
 import com.philips.platform.core.injection.AppComponent;
@@ -21,7 +19,6 @@ import java.util.Collections;
 
 import retrofit.converter.GsonConverter;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -50,8 +47,8 @@ public class ConsentDetailDataSenderTest {
     @Mock
     private ConsentDetail consentDetailMock;
 
-    @Mock
-    private ConsentBackendListSaveResponse consentListSaveResponseMock;
+   /* @Mock
+    private ConsentBackendListSaveResponse consentListSaveResponseMock;*/
 
     @Captor
     private ArgumentCaptor<SyncBitUpdateRequest> consentListSaveRequestEventCaptor;

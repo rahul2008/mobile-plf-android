@@ -7,22 +7,17 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
-import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.Event;
-import com.philips.platform.core.events.MomentChangeEvent;
 import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.listeners.DBRequestListener;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.sql.SQLException;
-import java.util.List;
 
-import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -64,9 +59,9 @@ public class SavingMonitorTest {
 
     private SavingMonitor savingMonitor;
 
-
+/*
     @Captor
-    private ArgumentCaptor<MomentChangeEvent> changeEventArgumentCaptor;
+    private ArgumentCaptor<MomentChangeEvent> changeEventArgumentCaptor;*/
 
     @Mock
     DBRequestListener dbRequestListener;

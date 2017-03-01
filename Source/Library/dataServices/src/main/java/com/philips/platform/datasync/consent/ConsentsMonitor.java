@@ -2,7 +2,6 @@ package com.philips.platform.datasync.consent;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.core.events.ConsentBackendGetRequest;
 import com.philips.platform.core.events.ConsentBackendSaveRequest;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -43,10 +42,10 @@ public class ConsentsMonitor extends EventMonitor {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.ASYNC)
+    /*@Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(ConsentBackendGetRequest event) {
         consentsDataFetcher.getConsent(event.getConsentDetails());
-    }
+    }*/
 
 
 }
