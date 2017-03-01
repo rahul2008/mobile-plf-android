@@ -17,6 +17,7 @@ Version 3.1.2
 * CON-119 Firmware update
  
 ### Bugs fixed
+* [DE15085] ProGuard configuration for release builds
 
 ### Known issues
 * The new API for discovery is not working yet for lan communication. The old DiscoveryManager should be used.
