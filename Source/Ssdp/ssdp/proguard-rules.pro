@@ -16,13 +16,6 @@
 #   public *;
 #}
 -keep class com.philips.cl.di.common.ssdp.lib.SsdpService {
-    <fields>;
     protected void ssdpCallback(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String);
-    private native int openSocket();
-    private native void closeSocket();
-    private native int registerListener();
-    private native int sendBroadcastMX3();
-    private native int sendBroadcastMX5();
-    private native int startDiscovery();
-    private native void stopDiscovery();
+    native <methods>;
 }
