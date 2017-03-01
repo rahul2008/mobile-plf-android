@@ -196,7 +196,7 @@
         <attr name="uidSeparatorAlpha" format="float"/>
     </declare-styleable>
 
-    <declare-styleable name="UIDShadowFrameLayout">
+    <declare-styleable name="UIDNavigationContainer">
         <attr name="uidShadowDrawable" format="reference"/>
         <attr name="uidShadowOffset" format="dimension|integer"/>
         <attr name="uidShadowType" format="enum">

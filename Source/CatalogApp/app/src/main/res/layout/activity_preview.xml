@@ -9,7 +9,7 @@
             type="com.philips.platform.catalogapp.themesettings.PreviewActivity"/>
     </data>
 
-    <com.philips.platform.uid.view.widget.ShadowFrameLayout
+    <com.philips.platform.uid.view.widget.NavigationContainer
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -75,5 +75,5 @@
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
-    </com.philips.platform.uid.view.widget.ShadowFrameLayout>
+    </com.philips.platform.uid.view.widget.NavigationContainer>
 </layout>

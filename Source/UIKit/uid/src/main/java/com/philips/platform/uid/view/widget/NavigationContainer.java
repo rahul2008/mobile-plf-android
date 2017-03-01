@@ -49,28 +49,28 @@ import com.philips.platform.uid.R;
  * </table>
  *
  */
-public class ShadowFrameLayout extends FrameLayout {
+public class NavigationContainer extends FrameLayout {
     private Drawable shadowDrawable;
     private int shadowTopOffset;
     private int width;
 
-    public ShadowFrameLayout(Context context) {
+    public NavigationContainer(Context context) {
         this(context, null, 0);
     }
 
-    public ShadowFrameLayout(Context context, AttributeSet attrs) {
+    public NavigationContainer(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ShadowFrameLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public NavigationContainer(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         final TypedArray a = context.obtainStyledAttributes(attrs,
-                R.styleable.UIDShadowFrameLayout, 0, 0);
+                R.styleable.UIDNavigationContainer, 0, 0);
 
         setDefaultShadowDrawable(context, a);
 
         shadowDrawable.setCallback(this);
-        shadowTopOffset = a.getDimensionPixelSize(R.styleable.UIDShadowFrameLayout_uidShadowOffset, getActionBarSize());
+        shadowTopOffset = a.getDimensionPixelSize(R.styleable.UIDNavigationContainer_uidShadowOffset, getActionBarSize());
 
         setWillNotDraw(shadowDrawable == null);//Necessary to draw the shadow
         a.recycle();
@@ -102,10 +102,10 @@ public class ShadowFrameLayout extends FrameLayout {
     }
 
     private void setDefaultShadowDrawable(Context context, TypedArray array) {
-        shadowDrawable = array.getDrawable(R.styleable.UIDShadowFrameLayout_uidShadowDrawable);
+        shadowDrawable = array.getDrawable(R.styleable.UIDNavigationContainer_uidShadowDrawable);
 
         if (shadowDrawable == null) {
-            int primary = array.getInt(R.styleable.UIDShadowFrameLayout_uidShadowType, 0);
+            int primary = array.getInt(R.styleable.UIDNavigationContainer_uidShadowType, 0);
             getDefaultDrawable(context, primary);
             setShadowTopOffset(0);
         }
