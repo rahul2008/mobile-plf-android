@@ -9,6 +9,9 @@ Version 2.3.2
 * [BL-147] Custom capabilities added. It is now possible to implement capabilities without modifying BlueLib.
 * [CON-96] Discovery of DiComm devices
 
+### Bugs fixed
+* [DE15085] ProGuard configuration for release builds
+
 ### Known issues
 * [BL-234] Google backup might restore previously associated devices
 
