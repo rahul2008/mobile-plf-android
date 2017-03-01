@@ -4,7 +4,9 @@
  */
 package com.philips.cdp2.commlib.example.appliance;
 
-public class TimePortProperties {
+import com.philips.cdp2.commlib.core.port.PortProperties;
+
+public class TimePortProperties implements PortProperties {
 
 //
 //    /di/v1/products/0/time

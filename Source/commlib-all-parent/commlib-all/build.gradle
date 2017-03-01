@@ -69,7 +69,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 publishing {
@@ -105,17 +106,15 @@ android {
         targetSdkVersion versions.target
         versionCode 1
         versionName version
-
-        consumerProguardFiles 'proguard-rules.pro'
         buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersionWithHash()}\""
-        publishNonDefault true
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            consumerProguardFiles 'proguard-rules.pro'
         }
     }
+    publishNonDefault true
 }
 
 dependencies {
@@ -123,15 +122,15 @@ dependencies {
     provided deps.support.annotations
 
     if (findProject(':bluelib')) {
-        println("!!! taking local shinelib !!!")
-        compile project(':bluelib')
+        debugCompile project(path: ':bluelib', configuration: 'debug')
+        releaseCompile project(path: ':bluelib', configuration: 'release')
     } else {
         compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.3.2' + objcdp.getVersionSuffix())
     }
 
     if (findProject(':commlib')) {
-        println("!!! taking local commlib !!!")
-        compile project(':commlib')
+        debugCompile project(path: ':commlib', configuration: 'debug')
+        releaseCompile project(path: ':commlib', configuration: 'release')
     } else {
         compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '3.1.2' + objcdp.getVersionSuffix())
     }
