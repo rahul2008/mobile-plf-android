@@ -6,3 +6,6 @@ if (new File(commonDir).exists()) {
     include ':common'
     project(':common').projectDir = new File(commonDir)
 }
+
+include ':ssdp'
+project(':ssdp').projectDir = new File('../Ssdp/ssdp')
