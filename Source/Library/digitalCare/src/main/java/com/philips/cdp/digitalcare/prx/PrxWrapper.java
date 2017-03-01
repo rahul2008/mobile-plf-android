@@ -117,6 +117,7 @@ public class PrxWrapper {
                              mProductDetailsObject.setCtnName(data.getCtn());
                              mProductDetailsObject.setProductImage(data.getImageURL());
                              mProductDetailsObject.setProductInfoLink(data.getProductURL());
+                             mProductDetailsObject.setDomain(data.getDomain());
                              mConfigManager.setViewProductDetailsData(mProductDetailsObject);
 
                              try {
@@ -315,6 +316,7 @@ public class PrxWrapper {
                             mProductDetailsObject.setCtnName(data.getCtn());
                             mProductDetailsObject.setProductImage(data.getImageURL());
                             mProductDetailsObject.setProductInfoLink(data.getProductURL());
+                            mProductDetailsObject.setDomain(data.getDomain());
                             mConfigManager.setViewProductDetailsData(mProductDetailsObject);
                             if (mSummaryCallback != null)
                                 mSummaryCallback.onResponseReceived(mSummaryModel);
