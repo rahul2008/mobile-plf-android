@@ -24,3 +24,8 @@
 -keepclassmembers class * implements com.philips.cdp2.commlib.core.port.PortProperties {
     <fields>;
 }
+
+-keep class com.philips.cl.di.common.ssdp.lib.SsdpService {
+    protected void ssdpCallback(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String);
+    native <methods>;
+}

@@ -128,9 +128,6 @@ android {
 }
 
 dependencies {
-    debugCompile project(path: ':ssdp', configuration: 'debug')
-    releaseCompile project(path: ':ssdp', configuration: 'release')
-
     if (findProject(':cloudcontroller-api')) {
         debugCompile project(path: ':cloudcontroller-api', configuration: 'debug')
         releaseCompile project(path: ':cloudcontroller-api', configuration: 'release')
