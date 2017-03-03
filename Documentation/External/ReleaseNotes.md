@@ -1,7 +1,13 @@
 # Release Notes MobileUitoolkit Android
 
-SPRINT - MUITK.PI17.1.Sprint4
-EHUFA-1285 - Android-enable-unit-testing
+SPRINT - MUITK.PI17.1.Sprint5
+EHUFA-1285 - Android: Enable unit testing
+EHUFA-1311 - Android: Checkbox multiline support
+EHUFA-1324 - Android: Label usage in Gallery app
+EHUFA-1298 - Configuration Items Document non-DLS and DLS toolkit
+EHUFA-1305 - Android: GridView
+EHUFA-1309 - Android: Progress Indicator with label
+
 
 SPRINT - MUITK.PI17.1.Sprint4
 EHUFA-1222 - Android: Social Icons
@@ -12,7 +18,8 @@ EHUFA-1300 - [Android Test]][Text Box Password] Keypad doesn't launch when text 
 EHUFA-1303 - SPIKE-Android: NavigationBar: Shadow levels 1 and 2
 EHUFA-1294 - [Android] The base fill of determinate progress indicator is not correct
 EHUFA-1306 - Spike-Android: Gradients in GridView cells
-EHUFA-1308 - [Android Test]Selected fill color of Date is not as per the color mapping in Lolipop version
+EHUFA-1308 - [Android Test]Selected fill color of Date is not as per the color mapping in Lollipop version
+
 
 SPRINT - MUITK.PI17.1.Sprint3
 EHUFA-1215 - Migrating old jobs from old build server (mobteam one)
@@ -27,8 +34,9 @@ EHUFA-1289 - [Android Test] Text leading is not implemented in KITKAT devices.
 EHUFA-1291 - [Android Test][Navigation Bar] Bottom navigation bar is not themed in landscape mode
 EHUFA-1297 - Android SPIKE: Extend parser
 
+
 SPRINT - MUITK.PI17.1.Sprint2
-EHUFA-1249 - Memory problem in pager implementation causing crash in welcome screens on multiwindow mode (please see the log attached) 
+EHUFA-1249 - Memory problem in pager implementation causing crash in welcome screens on multiwindow mode (please see the log attached)
 EHUFA-1264 - Android: Button with progress indicator
 EHUFA-1290 - SPIKE: Icon Fonts
 EHUFA-1292 - [Android Test][TextBox Password] Cursor state is not retained
@@ -54,25 +62,28 @@ EHUFA-1251 - SPIKE Android: Data Validation
 EHUFA-1253 - SPIKE: Android ListView
 EHUFA-1255 - Android: Go to one naming convention
 
+
 SPRINT - MUITK.PI16.5.Sprint4
 EHUFA-1183 - Wrong implementation in the theme generator flow
-EHUFA-1207 - Android Linear Progress Indicators-Layout and Configuration 
-EHUFA-1209 - Android Progress Indicators-Colors 
-EHUFA-1211 - Android Circular Progress Indicators-Layout and Configuration- Determenite 
+EHUFA-1207 - Android Linear Progress Indicators-Layout and Configuration
+EHUFA-1209 - Android Progress Indicators-Colors
+EHUFA-1211 - Android Circular Progress Indicators-Layout and Configuration- Determinate
 EHUFA-1220 - Deleted branches are not removed from Jenkins
 EHUFA-1224 - Android: Label
-EHUFA-1240 - Android Circular Progress Indicators-Layout and Configuration- Indetermenite
+EHUFA-1240 - Android Circular Progress Indicators-Layout and Configuration- Indeterminate
 EHUFA-1248 - [Android Test][Linear Progress Indicator]A column of 1 pixel width is in different color in KitKat device, Only Tablet - Bug - Minor - Closed -
+
 
 SPRINT - MUITK.PI16.5.Sprint3
 EHUFA-1038 - Android: SPIKE-Integration of DLS toolkit in propositions
-EHUFA-1152 - Android: Toggle Switch: Layout and Configuration 
+EHUFA-1152 - Android: Toggle Switch: Layout and Configuration
 EHUFA-1154 - Android: ToggleSwitch-Colors
 EHUFA-1162 - Android: Alert- Layout and Configuration
 EHUFA-1164 - Android: Alert Colors
-EHUFA-1166 - Android: Quiet Button 
+EHUFA-1166 - Android: Quiet Button
 EHUFA-1183 - Wrong implementation in the theme generator flow- -
 EHUFA-1187 - [Android Test]Disabled filled text, text color is not as expected in L,B,VD - Bug - Minor - Closed - -
+
 
 SPRINT - MUITK.PI16.5.Sprint2
 EHUFA-991 - Android: DLS Theme Generator
@@ -87,9 +98,10 @@ EHUFA-1184 - Unstable behavior observed when "Content area color" is set to "Ver
 EHUFA-1185 - Incorrect color is displayed in "Content area UL tonal range"
 EHUFA-1186 - Theme generator sets the theme even without tapping "Set"
 EHUFA-1188 - "Set" icon disappears when the orientation is changed in theme generator page
-EHUFA-1189 - Tick mark/Text color in theme generator page is not as per the design 
+EHUFA-1189 - Tick mark/Text color in theme generator page is not as per the design
 EHUFA-1190 - Tick mark in themegenrator page should auto scale and size should be as per the design
-EHUFA-1192 - Application background color is applied instead content color, when content color is selected in theme generator 
+EHUFA-1192 - Application background color is applied instead content color, when content color is selected in theme generator
+
 
 SPRINT - MUITK.PI16.5.Sprint1
 EHUFA-986 - Android Textbox: Layout and basic functionality
@@ -116,14 +128,16 @@ EHUFA-983 - Android Button: Layout and basic functionality
 EHUFA-996 - Android Button: Colors
 EHUFA-1032 - Secondary Button : Text color of secondary button is not as expected for GB Theme UL tone
 
+
 SPRINT - PI16.4.Sprint3
 EHUFA-911 - SPIKE Android: Automatic generation from requirements to traceability matrix
 EHUFA-933 - As a Architect i would like to come up with the top 5 devices for Mobile UI toolkit for development and testing
 EHUFA-934 - Width of the toggle button is not as expected
 EHUFA-935 - Square border around the toggle button is visible when tapped on the toggle button
 EHUFA-936 - Corners of the toggle button are not sharp, blur observed - HDPI device
-EHUFA-942 - SPIKE Android: Investigate and document how a proposition can exlude UIKit assets from being part of the app binary
+EHUFA-942 - SPIKE Android: Investigate and document how a proposition can exclude UIKit assets from being part of the app binary
 EHUFA-944 - Replace background blur from modal alert with semi transparent uniform black background
+
 
 SPRINT - PI16.4.Sprint2
 EHUFA-887 - UIKIT Crash in ProductSelection Component (prio 2)

@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
@@ -183,24 +187,44 @@ public class ProgressBarWithLabel extends FrameLayout {
         });
     }
 
+    /**
+     * Sets the string value of the text to the selected label
+     * @param text value to set
+     */
     public void setText(String text) {
         label.setText(text);
     }
 
+    /**
+     * Sets the size of the text of the selected label
+     * @param size text size in sp
+     */
     public void setTextSize(int size) {
         label.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
     }
 
+    /**
+     * Sets the text color of the selected label
+     * @param textColor
+     */
     public void setTextColor(int textColor) {
         label.setTextColor(textColor);
     }
 
+    /**
+     * Sets the progress on the determinate progress bar
+     * @param progress
+     */
     public void setProgress(int progress) {
         if (!isIndeterminateProgressIndicator) {
             progressBar.setProgress(progress);
         }
     }
 
+    /**
+     * Sets the secondary progress on the determinate progress bar
+     * @param progress
+     */
     public void setSecondaryProgress(int progress) {
         if (!isIndeterminateProgressIndicator) {
             progressBar.setSecondaryProgress(progress);

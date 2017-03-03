@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
@@ -65,12 +69,18 @@ public class ProgressBarButton extends LinearLayout {
         super.setOnClickListener(listener);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onInterceptTouchEvent(@NonNull final MotionEvent event) {
         gestureDetector.onTouchEvent(event);
         return isProgressDisplaying || super.onInterceptTouchEvent(event);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
