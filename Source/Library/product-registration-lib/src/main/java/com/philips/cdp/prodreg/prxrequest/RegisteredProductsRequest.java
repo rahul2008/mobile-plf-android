@@ -71,7 +71,7 @@ public class RegisteredProductsRequest extends PrxRequest {
             }
             @Override
             public void onSuccess(URL url) {
-                if (url.toString().contains("philips.co.cn")){
+                if (url.toString().contains("philips.com.cn")){
                     headers.put("x-provider", "JANRAIN-CN");
                 }
             }
