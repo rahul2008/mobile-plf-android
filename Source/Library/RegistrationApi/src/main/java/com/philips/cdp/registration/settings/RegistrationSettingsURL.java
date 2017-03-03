@@ -163,6 +163,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                     String urlLocal = serviceDiscoveyService.getConfigUrls();
                     String janrainURL = urlLocal.substring(8);//Please don't remove this line.\
 
+                    ClientIDConfiguration clientIDConfiguration = new ClientIDConfiguration();
                     if(janrainURL.equalsIgnoreCase("philips.capture.cn.janrain.com")){
                         jumpConfig.captureDomain = "philips-cn.capture.cn.janrain.com";
                         jumpConfig.engageAppId = clientIDConfiguration.getEngageId(clientIDConfiguration.PROD_CAPTURE_DOMAIN_CHINA);
