@@ -9,7 +9,6 @@ import android.support.multidex.MultiDex;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.URDependancies;
@@ -18,13 +17,25 @@ import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_APPLICATION_NAME;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_SECRET;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_SHARED;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
 
 public class RegistrationSampleApplication extends Application {
 
 
+    private static final String CHINA_CODE = "CN";
+    private static final String DEFAULT = "default";
+    private static final String URL_ENCODING = "UTF-8";
     private static volatile RegistrationSampleApplication mRegistrationSampleApplication = null;
 
     private AppInfraInterface mAppInfraInterface;
@@ -106,33 +117,29 @@ public class RegistrationSampleApplication extends Application {
             case EVALUATION:
                 mAppInfraInterface.
                         getConfigInterface().setPropertyForKey(
-                        URConfigurationConstants.
-                                HSDP_CONFIGURATION_APPLICATION_NAME,
-                        URConfigurationConstants.UR,
+                        HSDP_CONFIGURATION_APPLICATION_NAME,
+                        UR,
                         "uGrow",
                         configError);
 
                 mAppInfraInterface.
                         getConfigInterface().setPropertyForKey(
-                        URConfigurationConstants.
-                                HSDP_CONFIGURATION_SECRET,
-                        URConfigurationConstants.UR,
+                        HSDP_CONFIGURATION_SECRET,
+                        UR,
                         "e33a4d97-6ada-491f-84e4-a2f7006625e2",
                         configError);
 
                 mAppInfraInterface.
                         getConfigInterface().setPropertyForKey(
-                        URConfigurationConstants.
-                                HSDP_CONFIGURATION_SHARED,
-                        URConfigurationConstants.UR,
+                        HSDP_CONFIGURATION_SHARED,
+                        UR,
                         "e95f5e71-c3c0-4b52-8b12-ec297d8ae960",
                         configError);
 
                 mAppInfraInterface.
                         getConfigInterface().setPropertyForKey(
-                        URConfigurationConstants.
-                                HSDP_CONFIGURATION_BASE_URL,
-                        URConfigurationConstants.UR,
+                        HSDP_CONFIGURATION_BASE_URL,
+                        UR,
                         "https://ugrow-ds-staging.eu-west.philips-healthsuite.com",
                         configError);
 
@@ -141,83 +148,39 @@ public class RegistrationSampleApplication extends Application {
                 break;
             case DEVELOPMENT:
 
-                mAppInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
-                    @Override
-                    public void onSuccess(String s, SOURCE source) {
-                        RLog.d(RLog.SERVICE_DISCOVERY, " Country Sucess :" + s);
-                        if(s.equalsIgnoreCase("CN")){
-                            mAppInfraInterface.
-                                    getConfigInterface().setPropertyForKey(
-                                    URConfigurationConstants.
-                                            HSDP_CONFIGURATION_APPLICATION_NAME,
-                                    URConfigurationConstants.UR,
-                                    "CDP",
-                                    configError);
+                AppConfigurationInterface anInterface = mAppInfraInterface.getConfigInterface();
 
-                            mAppInfraInterface.
-                                    getConfigInterface().setPropertyForKey(
-                                    URConfigurationConstants.
-                                            HSDP_CONFIGURATION_SECRET,
-                                    URConfigurationConstants.UR,
-                                    "057b97e0-f9b1-11e6-bc64-92361f002671",
-                                    configError);
+                Map<String, String> hsdpAppNames = new HashMap<>();
+                hsdpAppNames.put(CHINA_CODE, "CDP");
+                hsdpAppNames.put(DEFAULT, "uGrow");
 
-                            mAppInfraInterface.
-                                    getConfigInterface().setPropertyForKey(
-                                    URConfigurationConstants.
-                                            HSDP_CONFIGURATION_SHARED,
-                                    URConfigurationConstants.UR,
-                                    "fe53a854-f9b0-11e6-bc64-92361f002671",
-                                    configError);
+                anInterface.setPropertyForKey(HSDP_CONFIGURATION_APPLICATION_NAME,
+                        UR, hsdpAppNames, configError);
 
-                            mAppInfraInterface.
-                                    getConfigInterface().setPropertyForKey(
-                                    URConfigurationConstants.
-                                            HSDP_CONFIGURATION_BASE_URL,
-                                    URConfigurationConstants.UR,
-                                    "https://user-registration-assembly-hsdpchinadev.cn1.philips-healthsuite.com.cn",
-                                    configError);
-                        }else{
-                            mAppInfraInterface.
-                                    getConfigInterface().setPropertyForKey(
-                                    URConfigurationConstants.
-                                            HSDP_CONFIGURATION_APPLICATION_NAME,
-                                    URConfigurationConstants.UR,
-                                    "uGrow",
-                                    configError);
+                Map<String, String> hsdpSecrets = new HashMap<>();
+                hsdpSecrets.put(CHINA_CODE, "057b97e0-f9b1-11e6-bc64-92361f002671");
+                hsdpSecrets.put(DEFAULT, "c623685e-f02c-11e5-9ce9-5e5517507c66");
 
-                            mAppInfraInterface.
-                                    getConfigInterface().setPropertyForKey(
-                                    URConfigurationConstants.
-                                            HSDP_CONFIGURATION_SECRET,
-                                    URConfigurationConstants.UR,
-                                    "c623685e-f02c-11e5-9ce9-5e5517507c66",
-                                    configError);
+                anInterface.setPropertyForKey(HSDP_CONFIGURATION_SECRET,
+                        UR, hsdpSecrets, configError);
 
-                            mAppInfraInterface.
-                                    getConfigInterface().setPropertyForKey(
-                                    URConfigurationConstants.
-                                            HSDP_CONFIGURATION_SHARED,
-                                    URConfigurationConstants.UR,
-                                    "c62362a0-f02c-11e5-9ce9-5e5517507c66",
-                                    configError);
+                Map<String, String> hsdpSharedIds = new HashMap<>();
+                hsdpSharedIds.put(CHINA_CODE, "fe53a854-f9b0-11e6-bc64-92361f002671");
+                hsdpSharedIds.put(DEFAULT, "c62362a0-f02c-11e5-9ce9-5e5517507c66");
 
-                            mAppInfraInterface.
-                                    getConfigInterface().setPropertyForKey(
-                                    URConfigurationConstants.
-                                            HSDP_CONFIGURATION_BASE_URL,
-                                    URConfigurationConstants.UR,
-                                    "https://ugrow-ds-development.cloud.pcftest.com",
-                                    configError);
+                anInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
+                        UR, hsdpSharedIds, configError);
 
-                        }
-                    }
+                Map<String, String> hsdpBaseUrls = new HashMap<>();
+                try {
+                    hsdpBaseUrls.put(CHINA_CODE, URLEncoder.encode("https://user-registration-assembly-hsdpchinadev.cn1.philips-healthsuite.com.cn", URL_ENCODING));
+                    hsdpBaseUrls.put(DEFAULT, URLEncoder.encode("https://ugrow-ds-development.cloud.pcftest.com", URL_ENCODING));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
 
-                    @Override
-                    public void onError(ERRORVALUES errorvalues, String s) {
-                        RLog.d(RLog.SERVICE_DISCOVERY, " Country Error :" + s);
-                    }
-                });
+                anInterface.setPropertyForKey(HSDP_CONFIGURATION_BASE_URL,
+                        UR, hsdpBaseUrls, configError);
 
                 editor.putString("reg_hsdp_environment", configuration.getValue());
                 editor.commit();
@@ -230,30 +193,26 @@ public class RegistrationSampleApplication extends Application {
             case STAGING:
                 mAppInfraInterface.
                         getConfigInterface().setPropertyForKey(
-                        URConfigurationConstants.
-                                HSDP_CONFIGURATION_APPLICATION_NAME,
-                        URConfigurationConstants.UR,
+                        HSDP_CONFIGURATION_APPLICATION_NAME,
+                        UR,
                         "uGrow",
                         configError);
                 mAppInfraInterface.
                         getConfigInterface().setPropertyForKey(
-                        URConfigurationConstants.
-                                HSDP_CONFIGURATION_SECRET,
-                        URConfigurationConstants.UR,
+                        HSDP_CONFIGURATION_SECRET,
+                        UR,
                         "e33a4d97-6ada-491f-84e4-a2f7006625e2",
                         configError);
                 mAppInfraInterface.
                         getConfigInterface().setPropertyForKey(
-                        URConfigurationConstants.
-                                HSDP_CONFIGURATION_SHARED,
-                        URConfigurationConstants.UR,
+                        HSDP_CONFIGURATION_SHARED,
+                        UR,
                         "fe53a854-f9b0-11e6-bc64-92361f002671",
                         configError);
                 mAppInfraInterface.
                         getConfigInterface().setPropertyForKey(
-                        URConfigurationConstants.
-                                HSDP_CONFIGURATION_BASE_URL,
-                        URConfigurationConstants.UR,
+                        HSDP_CONFIGURATION_BASE_URL,
+                        UR,
                         "https://ugrow-ds-staging.eu-west.philips-healthsuite.com",
                         configError);
                 editor.putString("reg_hsdp_environment", configuration.getValue());
