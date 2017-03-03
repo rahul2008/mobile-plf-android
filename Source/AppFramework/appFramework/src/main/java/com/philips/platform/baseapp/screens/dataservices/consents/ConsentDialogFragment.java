@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +71,6 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     public void onSuccess(final ArrayList<? extends Object> data) {
 
         final ArrayList<OrmConsentDetail> ormConsents = (ArrayList<OrmConsentDetail>) data;
-
         if (getActivity()!=null && ormConsents != null ) {
 
             getActivity().runOnUiThread(new Runnable() {
@@ -95,6 +95,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     @Override
     public void onSuccess(Object data) {
 
+        Log.d("TAG","in onsuccess object");
 
     }
 

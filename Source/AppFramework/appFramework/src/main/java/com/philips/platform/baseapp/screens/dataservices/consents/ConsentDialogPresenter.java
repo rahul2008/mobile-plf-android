@@ -30,4 +30,5 @@ public class ConsentDialogPresenter {
     public void updateConsent(List<ConsentDetail> consentDetails) {
         DataServicesManager.getInstance().updateConsentDetails(consentDetails,dbRequestListener);
     }
+
 }

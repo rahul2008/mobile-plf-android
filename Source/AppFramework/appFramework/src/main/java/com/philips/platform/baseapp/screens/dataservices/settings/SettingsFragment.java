@@ -92,7 +92,6 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
 
     @Override
     public void onSuccess(final Object data) {
-
         if (getActivity() != null) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
