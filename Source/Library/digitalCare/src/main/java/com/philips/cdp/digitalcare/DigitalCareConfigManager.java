@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
+import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.homefragment.SupportHomeFragment;
 import com.philips.cdp.digitalcare.listeners.CcListener;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
@@ -297,7 +298,7 @@ public class DigitalCareConfigManager {
     public AppTaggingInterface getTaggingInterface() {
         AppTaggingInterface taggingInterface =
                 getAPPInfraInstance().getTagging().createInstanceForComponent
-                        ("com.philips.cdp.digitalcare", "7.2.0");
+                        (AnalyticsConstants.COMPONENT_NAME_CC, com.philips.cdp.digitalcare.BuildConfig.VERSION_NAME);
         //taggingInterface.setPreviousPage("vertical:digitalcare:home");
         return taggingInterface;
     }
@@ -308,7 +309,7 @@ public class DigitalCareConfigManager {
         AppInfraInterface appInfraInstance = getAPPInfraInstance();
         if (appInfraInstance != null) {
             loggingInterface = appInfraInstance.getLogging().
-                    createInstanceForComponent("com.philips.cdp.digitalcare", "7.2.0");
+                    createInstanceForComponent(AnalyticsConstants.COMPONENT_NAME_CC, com.philips.cdp.digitalcare.BuildConfig.VERSION_NAME);
         }
         return loggingInterface;
     }
