@@ -79,7 +79,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
 
     private void addLandingViews(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-            updateConfigurationWithCurrentLocale();
             int landingScreen = getIntent().getIntExtra(IAPConstant.IAP_LANDING_SCREEN, -1);
             ArrayList<String> CTNs = getIntent().getExtras().getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS);
             Bundle bundle = new Bundle();
@@ -136,18 +135,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
             themeIndex = DEFAULT_THEME;
         }
         setTheme(themeIndex);
-    }
-
-    private void updateConfigurationWithCurrentLocale() {
-        if (CartModelContainer.getInstance().getCountry() == null || CartModelContainer.getInstance().getLanguage() == null)
-            return;
-        Locale locale = new Locale(CartModelContainer.getInstance().getLanguage(),
-                CartModelContainer.getInstance().getCountry());
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.setLocale(locale);
-        getResources().updateConfiguration(config,
-                getResources().getDisplayMetrics());
     }
 
     @Override
