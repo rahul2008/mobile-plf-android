@@ -145,7 +145,7 @@ android {
             minifyEnabled false
             debuggable true
             testCoverageEnabled false
-            proguardFile 'proguard-rules.pro'
+//            proguardFile 'proguard-rules.pro'
         }
     }
 }

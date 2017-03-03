@@ -9,6 +9,7 @@
 package com.philips.cdp.registration.coppa.base;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 
 import com.janrain.android.Jump;
 import com.janrain.android.capture.Capture;
@@ -43,7 +44,7 @@ class CoppaConsentUpdater {
         //  if(Jump.getSignedInUser() != null){
         ServerTime.init(RegistrationHelper.getInstance().getAppInfraInstance().getTime());
         CaptureRecord updatedUser = Jump.getSignedInUser();
-        JSONObject originalUserInfo = Jump.getSignedInUser();
+        JSONObject originalUserInfo = getCurrentUserAsJsonObject();
         JSONObject consentsObject = new JSONObject();
 
         try {
@@ -116,7 +117,7 @@ class CoppaConsentUpdater {
             final CoppaConsentUpdateCallback coppaConsentUpdateCallback) {
         ServerTime.init(RegistrationHelper.getInstance().getAppInfraInstance().getTime());
         CaptureRecord updatedUser = Jump.getSignedInUser();
-        JSONObject originalUserInfo = Jump.getSignedInUser();
+        JSONObject originalUserInfo = getCurrentUserAsJsonObject();
         JSONObject consentsObject = new JSONObject();
 
         try {
@@ -144,6 +145,17 @@ class CoppaConsentUpdater {
         } catch (JSONException | Capture.InvalidApidChangeException e) {
             e.printStackTrace();
         }
+    }
+
+    @Nullable
+    private JSONObject getCurrentUserAsJsonObject() {
+        JSONObject userData = null;
+        try {
+            userData = new JSONObject(Jump.getSignedInUser().toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return userData;
     }
 
 }

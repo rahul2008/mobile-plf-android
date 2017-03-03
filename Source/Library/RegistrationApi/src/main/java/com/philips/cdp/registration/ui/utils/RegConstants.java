@@ -170,15 +170,6 @@ public class RegConstants {
 
     public static final String DOT_RECEIVE_MARKETING_OPT_IN = "DOT-ReceiveMarketingOptIn";
 
-
-    //Forgot password
-    public static final String RESET_PASSWORD_SMS_CLIENT_ID_STAG ="mfvjprjmgbrhfbtn6cq6q2yupzhxn977";
-    public static final String RESET_PASSWORD_SMS_CLIENT_ID_TEST ="v2s8qajf9ncfzsyy6ghjpqvsrju9xgvt";
-    public static final String RESET_PASSWORD_SMS_CLIENT_ID_PROD ="65dzkyh48ux4vcguhvwsgvtk4bzyh2va";
-
-    public static final String TEST_RESET_PASSWORD_SMS_REDIRECT_URI = "https://tst.philips.com/c-w/user-registration/apps/reset-password.html";
-    public static final String STAGE_RESET_PASSWORD_SMS_REDIRECT_URI = "https://acc.philips.com.cn/c-w/user-registration/apps/reset-password.html";
-    public static final String PROD_RESET_PASSWORD_SMS_REDIRECT_URI = "https://www.philips.com.cn/c-w/user-registration/apps/reset-password.html";
-
+    public static final String HTTPS_CONST ="https://";
 
 }

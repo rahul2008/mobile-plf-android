@@ -8,6 +8,7 @@ import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.HSDPConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.EventHelper;
+import com.philips.cdp.registration.configuration.ClientIDConfiguration;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -15,33 +16,10 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 
 public class RegistrationSettingsURL extends RegistrationSettings {
-
-    private static final String DEV_CAPTURE_DOMAIN = "https://philips.dev.janraincapture.com";
-
-    private static final String TEST_CAPTURE_DOMAIN = "https://philips-test.dev.janraincapture.com";
-
-    private static final String EVAL_CAPTURE_DOMAIN = "https://philips.eval.janraincapture.com";
-
-    private static final String PROD_CAPTURE_DOMAIN = "https://philips.janraincapture.com";
-
-    private static final String DEV_CAPTURE_DOMAIN_CHINA = "https://philips-cn-dev.capture.cn.janrain.com";
-
-    private static final String DEV_CAPTURE_DOMAIN_CHINA_EU = "https://philips-china-eu.eu-dev.janraincapture.com";
-
-    private static final String TEST_CAPTURE_DOMAIN_CHINA = "https://philips-cn-test.capture.cn.janrain.com";
-
-    private static final String TEST_CAPTURE_DOMAIN_CHINA_EU = "https://philips-china-test.eu-dev.janraincapture.com";
-
-    private static final String EVAL_CAPTURE_DOMAIN_CHINA = "https://philips-cn-staging.capture.cn.janrain.com";
-
-    private static final String PROD_CAPTURE_DOMAIN_CHINA = "https://philips-cn.capture.cn.janrain.com";
-
-    private static final String HSDP_BASE_URL_SERVICE_ID = "userreg.hsdp.userserv";
 
     private static String EVAL_PRODUCT_REGISTER_URL = "https://acc.philips.co.uk/prx/registration/";
 
@@ -66,6 +44,8 @@ public class RegistrationSettingsURL extends RegistrationSettings {
     private static String TEST_PRODUCT_REGISTER_LIST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
 
     private static String TEST_PRX_RESEND_CONSENT_URL = "https://tst.usa.philips.com/prx/registration/resendConsentMail";
+
+    private static final String HSDP_BASE_URL_SERVICE_ID = "userreg.hsdp.userserv";
 
     private String STAGE_PRODUCT_REGISTER_URL = "https://acc.philips.co.uk/prx/registration/";
 
@@ -123,40 +103,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         initServiceDiscovery(locale);
     }
 
-    private String getCaptureId(String domain) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put(DEV_CAPTURE_DOMAIN, "eupac7ugz25x8dwahvrbpmndf8");
-        map.put(TEST_CAPTURE_DOMAIN, "x7nftvwfz8e8vcutz49p8eknqp");
-        map.put(EVAL_CAPTURE_DOMAIN, "nt5dqhp6uck5mcu57snuy8uk6c");
-        map.put(PROD_CAPTURE_DOMAIN, "hffxcm638rna8wrxxggx2gykhc");
-        map.put(DEV_CAPTURE_DOMAIN_CHINA, "7629q5uxm2jyrbk7ehuwryj7a4");
-        map.put(DEV_CAPTURE_DOMAIN_CHINA_EU, "euwkgsf83m56hqknjxgnranezh");
-        map.put(TEST_CAPTURE_DOMAIN_CHINA, "hqmhwxu7jtdcye758vvxux4ryb");
-        map.put(TEST_CAPTURE_DOMAIN_CHINA_EU, "vdgkb3z57jpv93mxub34x73mqu");
-        map.put(EVAL_CAPTURE_DOMAIN_CHINA, "czwfzs7xh23ukmpf4fzhnksjmd");
-        map.put(PROD_CAPTURE_DOMAIN_CHINA, "zkr6yg4mdsnt7f8mvucx7qkja3");
-        RLog.d(RLog.SERVICE_DISCOVERY, "Capture Domain : " + domain);
-        RLog.d(RLog.SERVICE_DISCOVERY, "Capture Domain Map : " + map.get(domain));
-        return map.get(domain);
-    }
 
-    private String getEngageId(String domain) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put(DEV_CAPTURE_DOMAIN, "bdbppnbjfcibijknnfkk");
-        map.put(TEST_CAPTURE_DOMAIN, "fhbmobeahciagddgfidm");
-        map.put(EVAL_CAPTURE_DOMAIN, "jgehpoggnhbagolnihge");
-        map.put(PROD_CAPTURE_DOMAIN, "ddjbpmgpeifijdlibdio");
-        map.put(DEV_CAPTURE_DOMAIN_CHINA, "ruaheighoryuoxxdwyfs");
-        map.put(DEV_CAPTURE_DOMAIN_CHINA_EU, "bdbppnbjfcibijknnfkk");
-        map.put(TEST_CAPTURE_DOMAIN_CHINA, "jndphelwbhuevcmovqtn");
-        map.put(TEST_CAPTURE_DOMAIN_CHINA_EU, "fhbmobeahciagddgfidm");
-        map.put(EVAL_CAPTURE_DOMAIN_CHINA, "uyfpympodtnesxejzuic");
-        map.put(PROD_CAPTURE_DOMAIN_CHINA, "cfwaqwuwcwzlcozyyjpa");
-        RLog.d(RLog.SERVICE_DISCOVERY, "Engagedi Domain : " + domain);
-        RLog.d(RLog.SERVICE_DISCOVERY, "Engagedi Domain Map :" + map.get(domain));
-
-        return map.get(domain);
-    }
 
     private void initializePRXLinks(String registrationEnv) {
         if (registrationEnv == null) {
@@ -197,11 +144,11 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
 
         ArrayList<String> serviceIdList = new ArrayList<>();
-        serviceIdList.add("userreg.janrain.api");//https://philips-cn-dev.capture.cn.janrain.com/
+        serviceIdList.add("userreg.janrain.api");
         serviceIdList.add("userreg.landing.emailverif");
         serviceIdList.add("userreg.landing.resetpass");
-        serviceIdList.add("userreg.janrain.cdn");//https://janrain-capture-static.cn.janrain.com/
-        serviceIdList.add("userreg.janrain.engage");//https://philips-staging.login.cn.janrain.com/
+        serviceIdList.add("userreg.janrain.cdn");
+        serviceIdList.add("userreg.janrain.engage");
         serviceIdList.add("userreg.smssupported");
         serviceIdList.add(HSDP_BASE_URL_SERVICE_ID);
 
@@ -218,12 +165,12 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
                     if(janrainURL.equalsIgnoreCase("philips.capture.cn.janrain.com")){
                         jumpConfig.captureDomain = "philips-cn.capture.cn.janrain.com";
-                        jumpConfig.engageAppId = getEngageId(PROD_CAPTURE_DOMAIN_CHINA);
-                        jumpConfig.captureAppId = getCaptureId(PROD_CAPTURE_DOMAIN_CHINA);
+                        jumpConfig.engageAppId = clientIDConfiguration.getEngageId(clientIDConfiguration.PROD_CAPTURE_DOMAIN_CHINA);
+                        jumpConfig.captureAppId = clientIDConfiguration.getCaptureId(clientIDConfiguration.PROD_CAPTURE_DOMAIN_CHINA);
                     }else{
                         jumpConfig.captureDomain = janrainURL;
-                        jumpConfig.engageAppId = getEngageId(urlLocal);
-                        jumpConfig.captureAppId = getCaptureId(urlLocal);
+                        jumpConfig.engageAppId = clientIDConfiguration.getEngageId(urlLocal);
+                        jumpConfig.captureAppId = clientIDConfiguration.getCaptureId(urlLocal);
                     }
 
                     RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.api :" + urlLocal);
@@ -231,8 +178,8 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                     if (jumpConfig.engageAppId == null || jumpConfig.captureAppId == null)
                         throw new RuntimeException("Captureid or engageid is null");
 
-                    RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.engageid :" + getEngageId(urlLocal));
-                    RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.captureid :" + getCaptureId(urlLocal));
+                    RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.engageid :" + clientIDConfiguration.getEngageId(urlLocal));
+                    RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.captureid :" + clientIDConfiguration.getCaptureId(urlLocal));
 
                 } else {
                     RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.janrain.api");
