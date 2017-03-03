@@ -5,8 +5,11 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Map;
 
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_APPLICATION_NAME;
@@ -17,22 +20,27 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
 
 public class HSDPConfiguration {
 
-    private static final String appName = getAppNameFromHsdpConfig();
+    private static final String DEFAULT_PROPERTY_KEY = "default";
 
     public static String getHsdpAppName() {
-        return appName;
+        return getAppNameFromHsdpConfig();
     }
-
-    private static final String sharedId = getSharedIdFromHsdpConfig();
 
     public static String getHsdpSharedId() {
-        return sharedId;
+        return getSharedIdFromHsdpConfig();
     }
 
-    private static final String secretId = getSecredIdHsdpConfig();
-
     public static String getHsdpSecretId() {
-        return secretId;
+        return getSecredIdHsdpConfig();
+    }
+
+    public static String getHsdpBaseUrl() {
+        String baseUrlAppConfig = getBaseUrlFromHsdpConfig();
+        RLog.i("HSDP_APP", "baseUrlAppConfig " + baseUrlAppConfig);
+        if(TextUtils.isEmpty(baseUrlAppConfig)) {
+            return baseUrlServiceDiscovery;
+        }
+        return baseUrlAppConfig;
     }
 
     private static String getSecredIdHsdpConfig() {
@@ -44,18 +52,9 @@ public class HSDPConfiguration {
         return null;
     }
 
-
-    private static String baseUrlAppConfig = getBaseUrlFromHsdpConfig();
-
-    public static String getHsdpBaseUrl() {
-        if(TextUtils.isEmpty(baseUrlAppConfig)) {
-            return baseUrlServiceDiscovery;
-        }
-        return baseUrlAppConfig;
-    }
-
     private static String getBaseUrlFromHsdpConfig() {
-        String baseUrl = (String) getConfigPropertyForKey(HSDP_CONFIGURATION_BASE_URL);
+        Object baseUrlObject = getConfigPropertyForKey(HSDP_CONFIGURATION_BASE_URL);
+        String baseUrl = getDecodedBaseUrl(baseUrlObject);
         return baseUrl;
     }
 
@@ -63,6 +62,18 @@ public class HSDPConfiguration {
 
     public static void setBaseUrlServiceDiscovery(String url) {
         baseUrlServiceDiscovery = url;
+    }
+
+    private static String getDecodedBaseUrl(Object baseUrlObject) {
+        String baseUrl = getProperty(baseUrlObject);
+        if(baseUrl == null) return null;
+        String decodedBaseUrl = null;
+        try {
+            decodedBaseUrl = URLDecoder.decode(baseUrl, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return decodedBaseUrl;
     }
 
     private static String getAppNameFromHsdpConfig() {
@@ -89,13 +100,17 @@ public class HSDPConfiguration {
             return (String) property;
         }
         if (property instanceof Map) {
-            String appNameFromMap = (String) ((Map) property).get(RegistrationHelper.getInstance().getCountryCode());
-            if (TextUtils.isEmpty(appNameFromMap)) {
-                appNameFromMap = (String) ((Map) property).get("default");
-            }
-            return appNameFromMap;
+            return getPropertyValueFromMap((Map) property);
         }
         return null;
+    }
+
+    private static String getPropertyValueFromMap(Map property) {
+        String propertyValue = (String) property.get(RegistrationHelper.getInstance().getCountryCode());
+        if (TextUtils.isEmpty(propertyValue)) {
+            propertyValue = (String) property.get(DEFAULT_PROPERTY_KEY);
+        }
+        return propertyValue;
     }
 
     private static Object getConfigPropertyForKey(String key) {

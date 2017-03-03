@@ -249,6 +249,8 @@ public class RegistrationConfiguration {
 
         String baseUrl = HSDPConfiguration.getHsdpBaseUrl();
 
+        RLog.i("HSDP_TEST", "sharedId" + sharedId + "Secret " + secreteId + " baseUrl " + baseUrl);
+
         hsdpInfo.setApplicationName(appName);
         hsdpInfo.setSharedId(sharedId);
         hsdpInfo.setSecreteId(secreteId);
