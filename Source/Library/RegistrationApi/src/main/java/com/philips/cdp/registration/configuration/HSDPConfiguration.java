@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
 import java.io.UnsupportedEncodingException;
@@ -36,7 +35,6 @@ public class HSDPConfiguration {
 
     public static String getHsdpBaseUrl() {
         String baseUrlAppConfig = getBaseUrlFromHsdpConfig();
-        RLog.i("HSDP_APP", "baseUrlAppConfig " + baseUrlAppConfig);
         if(TextUtils.isEmpty(baseUrlAppConfig)) {
             return baseUrlServiceDiscovery;
         }
