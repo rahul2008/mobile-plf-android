@@ -16,6 +16,8 @@ import com.janrain.android.Jump;
 import com.janrain.android.capture.Capture.InvalidApidChangeException;
 import com.janrain.android.capture.CaptureRecord;
 import com.janrain.android.engage.session.JRSession;
+import com.philips.cdp.registration.apptagging.AppTagging;
+import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.controller.AddConsumerInterest;
 import com.philips.cdp.registration.controller.ForgotPassword;
@@ -647,6 +649,8 @@ public class User {
         if (RegistrationConfiguration.getInstance().isHsdpFlow() && null != hsdpUser.getHsdpUserRecord()) {
             logoutHsdp(logoutHandler);
         } else {
+            AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                    AppTagingConstants.LOGOUT_SUCCESS);
             clearData();
             if (logoutHandler != null) {
 
@@ -690,6 +694,8 @@ public class User {
             public void onLogoutSuccess() {
                 clearData();
                 if (logoutHandler != null) {
+                    AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                            AppTagingConstants.LOGOUT_SUCCESS);
                     logoutHandler.onLogoutSuccess();
                     RegistrationHelper.getInstance().getUserRegistrationListener()
                             .notifyOnUserLogoutSuccess();

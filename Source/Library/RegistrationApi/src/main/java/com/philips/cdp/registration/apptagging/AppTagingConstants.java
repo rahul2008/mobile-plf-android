@@ -88,6 +88,10 @@ public class AppTagingConstants {
 
 	public static final String SIGN_OUT = "signOut";
 
+	public static final String LOGOUT_BTN_SELECTED = "logoutButtonSelected";
+
+	public static final String LOGOUT_SUCCESS = "logoutSuccess";
+
 	public static final String SUCCESS_RESEND_EMAIL_VERIFICATION = "successResendEmailVerification";
 
 	public static final String RESEND_VERIFICATION_MAIL_LINK_SENT = "We have sent an email to your email address to reset your password";

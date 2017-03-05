@@ -271,6 +271,10 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         if (null != mBundle) {
             try {
 
+                if(mBundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR)!=null){
+                     trackAbtesting();
+                }
+
                 isForTermsAccepatance = mBundle.getBoolean(RegConstants.IS_FOR_TERMS_ACCEPATNACE, false);
 
                 JSONObject mPreRegJson = null;
@@ -313,6 +317,23 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             } catch (JSONException e) {
                 RLog.e(RLog.EXCEPTION, "AlmostDoneFragment Exception : " + e.getMessage());
             }
+        }
+    }
+
+    private void trackAbtesting() {
+        final UIFlow abStrings = RegUtility.getUiFlow();
+        if (abStrings.equals(UIFlow.FLOW_A)) {
+            RLog.d(RLog.AB_TESTING, "UI Flow Type A");
+            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                    AppTagingConstants.REGISTRATION_CONTROL);
+        } else if (abStrings.equals(UIFlow.FLOW_B)) {
+            RLog.d(RLog.AB_TESTING, "UI Flow Type B");
+            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                    AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
+        } else if (abStrings.equals(UIFlow.FLOW_C)) {
+            RLog.d(RLog.AB_TESTING, "UI Flow Type C");
+            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                    AppTagingConstants.REGISTRATION_SOCIAL_PROOF);
         }
     }
 
@@ -372,20 +393,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 viewLine.setVisibility(View.VISIBLE);
                 mEtEmail.setVisibility(View.VISIBLE);
             }
-        }
-        final UIFlow abStrings = RegUtility.getUiFlow();
-        if (abStrings.equals(UIFlow.FLOW_A)) {
-            RLog.d(RLog.AB_TESTING, "UI Flow Type A");
-            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                    AppTagingConstants.REGISTRATION_CONTROL);
-        } else if (abStrings.equals(UIFlow.FLOW_B)) {
-            RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                    AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
-        } else if (abStrings.equals(UIFlow.FLOW_C)) {
-            RLog.d(RLog.AB_TESTING, "UI Flow Type C");
-            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                    AppTagingConstants.REGISTRATION_SOCIAL_PROOF);
         }
         handleUiAcceptTerms(view);
     }
@@ -562,10 +569,14 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private void trackMultipleActions() {
         Map<String, Object> map = new HashMap<String, Object>();
-        if (mCbTerms.isChecked()) {
-            trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
-        } else {
-            trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
+
+        final UIFlow abStrings = RegUtility.getUiFlow();
+        if (!abStrings.equals(UIFlow.FLOW_B)) {
+            if (mCbTerms.isChecked()) {
+                trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
+            } else {
+                trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
+            }
         }
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             if (mCbAcceptTerms.isChecked()) {
