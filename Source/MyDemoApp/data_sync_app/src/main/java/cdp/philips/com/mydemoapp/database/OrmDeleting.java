@@ -109,15 +109,19 @@ public class OrmDeleting {
 
     private void insertDefaultUCSync() {
 
-        consentDetailDao.createOrUpdate(new OrmConsentDetail
-                (ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED.getDescription(),ConsentDetail.DEFAULT_DOCUMENT_VERSION,
-                        ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
+        try {
+            consentDetailDao.createOrUpdate(new OrmConsentDetail
+                    (ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED.getDescription(),ConsentDetail.DEFAULT_DOCUMENT_VERSION,
+                            ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
         consentDetailDao.createOrUpdate(new OrmConsentDetail
                 (ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED.getDescription(),ConsentDetail.DEFAULT_DOCUMENT_VERSION,
                         ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
         consentDetailDao.createOrUpdate(new OrmConsentDetail
                 (ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED.getDescription(),ConsentDetail.DEFAULT_DOCUMENT_VERSION,
                         ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void deleteAllMoments() throws SQLException {
