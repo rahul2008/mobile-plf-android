@@ -251,7 +251,6 @@ public class AppTagging implements AppTaggingInterface {
 
 	@Override
 	public PrivacyStatus getPrivacyConsent() {
-
 		MobilePrivacyStatus mMobilePrivacyStatus = Config.getPrivacyStatus();
 		PrivacyStatus mPrivacyStatus = null;
 		switch (mMobilePrivacyStatus) {
@@ -264,9 +263,7 @@ public class AppTagging implements AppTaggingInterface {
 			case MOBILE_PRIVACY_STATUS_UNKNOWN:
 				mPrivacyStatus = PrivacyStatus.UNKNOWN;
 				break;
-
 		}
-
 		return mPrivacyStatus;
 	}
 

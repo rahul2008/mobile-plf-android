@@ -2,7 +2,6 @@ package com.philips.platform.appinfra.tagging;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.ComponentCallbacks2;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.util.Log;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -300,7 +298,6 @@ public class AppTaggingTest extends MockitoTestCase {
 
     public void testTimedActionStart() {
         Method method = null;
-
         try {
             testConfig("Production");
             method = AppTagging.class.getDeclaredMethod("trackTimedActionStart", String.class);
@@ -310,8 +307,6 @@ public class AppTaggingTest extends MockitoTestCase {
             method = AppTagging.class.getDeclaredMethod("trackTimedActionEnd", String.class);
             method.setAccessible(true);
             method.invoke(mAppTagging, "TestData");
-
-
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -514,8 +509,6 @@ public class AppTaggingTest extends MockitoTestCase {
             method = AppTagging.class.getDeclaredMethod("trackTimedActionEnd", new Class[]{String.class});
             method.setAccessible(true);
             method.invoke(mAppTagging, new Object[]{"TestTrackAction"});
-
-
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -558,6 +551,9 @@ public class AppTaggingTest extends MockitoTestCase {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+    }
 
+    public void testgetTrackingIdentifier() {
+        assertNotNull(mAppTagging.getTrackingIdentifier());
     }
 }
