@@ -11,7 +11,6 @@ node('Android') {
     def gradle = 'cd ./Source/DICommClient && ./gradlew -PenvCode=${JENKINS_ENV}'
 
     Slack.notify('#conartists') {
-
         stage('Build') {
             sh "${gradle} --refresh-dependencies assembleRelease"
         }
@@ -22,10 +21,9 @@ node('Android') {
             step([$class: 'JUnitResultArchiver', testResults: 'Source/DICommClient/dicommClientLib/build/test-results/debug/*.xml'])
         }
 
-//  Disabled after checking with Joost. We do not build the app anymore.
-//        stage('Archive App') {
-//            step([$class: 'ArtifactArchiver', artifacts: 'Source/DICommClientSample/sampleApp/build/outputs/apk/*.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
-//        }
+        stage('Archive artifacts') {
+            step([$class: 'ArtifactArchiver', artifacts: 'Source/DICommClient/dicommClientLib/build/outputs/aar/*.aar', excludes: null, fingerprint: true, onlyIfSuccessful: true])
+        }
 
         if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME == "master") {
             stage('Publish') {
@@ -37,7 +35,6 @@ node('Android') {
             sh "${gradle} saveResDep"
             archiveArtifacts '**/dependencies.lock'
         }
-
-        Pipeline.trigger(env.triggerBy, env.BRANCH_NAME, "CommLib", "cml")
     }
+    Pipeline.trigger(env.triggerBy, env.BRANCH_NAME, "CommLib", "cml")
 }
