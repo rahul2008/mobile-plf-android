@@ -6,13 +6,14 @@
 package com.philips.cdp.dicommclient.port;
 
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.port.PortProperties;
 
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-abstract class DICommListPort<T extends DICommListEntryPort<?>> extends DICommPort<Object> {
+abstract class DICommListPort<P extends PortProperties, T extends DICommListEntryPort<P>> extends DICommPort<P> {
 
     private Map<String, T> mListEntryPorts = new ConcurrentHashMap<>();
     private Set<DICommListPortChangedListener> mListPortChangedListeners = new CopyOnWriteArraySet<>();

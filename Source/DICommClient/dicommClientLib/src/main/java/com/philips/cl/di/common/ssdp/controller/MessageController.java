@@ -64,7 +64,7 @@ public class MessageController implements MessageNotifier {
 	 * 
 	 * @param handler
 	 *            Handler
-	 * @see com.philips.cl.di.common.ssdp.controller.MessageNotifier#addMessageHandler(Handler)
+	 * @see MessageNotifier#addMessageHandler(Handler)
 	 */
 	@Override
 	public void addMessageHandler(final Handler handler) {
@@ -127,7 +127,7 @@ public class MessageController implements MessageNotifier {
 	 * 
 	 * @param handler
 	 *            Handler
-	 * @see com.philips.cl.di.common.ssdp.controller.MessageNotifier#removeMessageHandler(Handler)
+	 * @see MessageNotifier#removeMessageHandler(Handler)
 	 */
 	@Override
 	public void removeMessageHandler(final Handler handler) {

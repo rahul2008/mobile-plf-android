@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
-import com.philips.commlib.core.appliance.Appliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.port.DICommPort;
@@ -26,6 +25,7 @@ import com.philips.cdp.dicommclient.port.common.PairingListener;
 import com.philips.cdp.dicommclientsample.airpurifier.AirPort;
 import com.philips.cdp.dicommclientsample.airpurifier.AirPortProperties;
 import com.philips.cdp.dicommclientsample.airpurifier.AirPurifier;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 
 public class DetailActivity extends AppCompatActivity {
     private static final String TAG = "DetailActivity";

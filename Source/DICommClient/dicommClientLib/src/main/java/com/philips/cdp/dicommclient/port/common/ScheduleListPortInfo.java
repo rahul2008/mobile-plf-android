@@ -6,10 +6,11 @@
 package com.philips.cdp.dicommclient.port.common;
 
 import com.google.gson.annotations.SerializedName;
+import com.philips.cdp2.commlib.core.port.PortProperties;
 
 import java.util.Map;
 
-public class ScheduleListPortInfo implements Comparable<ScheduleListPortInfo> {
+public class ScheduleListPortInfo implements Comparable<ScheduleListPortInfo>, PortProperties {
 
     private String time;
     private String days;

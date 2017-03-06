@@ -2,11 +2,3 @@
  * (c) Koninklijke Philips N.V., 2017.
  *     All rights reserved.
  */
-
-buildscript { bs ->
-    apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
-}
-
-subprojects {
-    apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
-}

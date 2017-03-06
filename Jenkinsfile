@@ -1,7 +1,4 @@
 /* following line is mandatory for the platform CI pipeline integration */
-
-JENKINS_ENV = env.JENKINS_ENV
-
 properties([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name: 'triggerBy']]]])
 
 node('Android') {
@@ -9,17 +6,19 @@ node('Android') {
         checkout scm
     }
 
-    def Slack = load "Source/common/jenkins/Slack.groovy"
+    Pipeline = load "Source/common/jenkins/Pipeline.groovy"
+    Slack = load "Source/common/jenkins/Slack.groovy"
+    def gradle = 'cd ./Source/DICommClient && ./gradlew -PenvCode=${JENKINS_ENV}'
 
     Slack.notify('#conartists') {
 
         stage('Build') {
-            sh 'cd ./Source/DICommClient && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease'
+            sh "${gradle} --refresh-dependencies assembleRelease"
         }
 
-        stage('Unit test') {
-            sh 'rm -rf ./Source/DICommClient/dicommClientLib/build/test-results/debug'
-            sh 'cd ./Source/DICommClient && ./gradlew -PenvCode=${JENKINS_ENV} testDebugUnitTest || true'
+        stage('Unit Test') {
+            sh "rm -rf ./Source/DICommClient/dicommClientLib/build/test-results/debug"
+            sh "${gradle} testDebugUnitTest || true"
             step([$class: 'JUnitResultArchiver', testResults: 'Source/DICommClient/dicommClientLib/build/test-results/debug/*.xml'])
         }
 
@@ -30,29 +29,15 @@ node('Android') {
 
         if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME == "master") {
             stage('Publish') {
-                sh 'cd ./Source/DICommClient && ./gradlew -PenvCode=${JENKINS_ENV} zipDocuments artifactoryPublish'
+                sh "${gradle} zipDocuments artifactoryPublish"
             }
         }
 
-        stage ('save dependencies list') {
-        	sh 'cd ./Source/DICommClient && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
+        stage('Save Dependencies') {
+            sh "${gradle} saveResDep"
+            archiveArtifacts '**/dependencies.lock'
         }
-        archiveArtifacts '**/dependencies.lock'
-    }
 
-    /* next if-then + stage is mandatory for the platform CI pipeline integration */
-    if (env.triggerBy != "ppc" && (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME == "master")) {
-        def platform = "android"
-        def project = "CommLib"
-        def project_tla = "cml"
-        def BranchName = env.BRANCH_NAME
-        if (BranchName =~ "/") {
-            BranchName = BranchName.replaceAll('/','%2F')
-            echo "BranchName changed to ${BranchName}"
-        }
-        stage('Trigger Integration Pipeline') {
-            build job: "Platform-Infrastructure/ppc/ppc_${platform}/${BranchName}", propagate: false, parameters: [[$class: 'StringParameterValue', name: 'componentName', value: project_tla], [$class: 'StringParameterValue', name: 'libraryName', value: project]]
-        }
+        Pipeline.trigger(env.triggerBy, env.BRANCH_NAME, "CommLib", "cml")
     }
-
 }

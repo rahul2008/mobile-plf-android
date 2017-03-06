@@ -4,9 +4,12 @@
  */
 package com.philips.cdp.dicommclientsample.airpurifier;
 
-public interface AirPortProperties {
+import com.philips.cdp2.commlib.core.port.PortProperties;
+
+public interface AirPortProperties extends PortProperties {
     String KEY_LIGHT_STATE = "aqil"; // Air Quality Indicator Light
 
     boolean getLightOn();
+
     boolean lightIsSet();
 }
