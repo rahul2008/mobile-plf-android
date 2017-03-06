@@ -2,10 +2,26 @@
  * Copyright 2016 (c) Koninklijke Philips N.V.
  * All rights reserved.
  */
+buildscript { bs ->
+    apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
+    apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
+
+    repositories {
+        maven { url repos.jcenter }
+        maven { url repos.plugin }
+    }
+
+    dependencies {
+        classpath(builddeps.buildinfoextractor)
+        classpath(builddeps.cdpscm)
+    }
+}
 
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
+
+apply from: rootDir.absolutePath + '/../common/gradle/module-tasks.gradle'
 
 def environment = 'production'
 if (project.hasProperty('envCode')) {
@@ -14,45 +30,17 @@ if (project.hasProperty('envCode')) {
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
+objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = rootProject.name
 
-group = 'com.philips.cdp'
 version = objcdp.getVersion()
 
-buildscript {
-    repositories {
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
-        maven {
-            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "readonly"
-            }
-        }
-    }
-    dependencies {
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.0', changing: true
-        classpath 'com.android.tools.build:gradle:2.2.0'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-
-    }
-}
-
-allprojects {
-    apply plugin: 'jacoco'
-
-    jacoco {
-        toolVersion = '0.7.1.201405082137'
-    }
-
-    repositories {
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
-        maven { url objcdp.getArtifactoryUrl() }
-    }
+repositories {
+    maven { url repos.jcenter }
+    maven { url objcdp.getArtifactoryUrl() }
 }
 
 artifactory {
@@ -67,7 +55,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('aar')
+                publications('aar')
             }
         }
     }
@@ -76,7 +64,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 publishing {
@@ -90,7 +79,7 @@ publishing {
 
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
-            pom.withXml{
+            pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
                 configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
@@ -104,32 +93,37 @@ publishing {
 }
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion 9
-        targetSdkVersion 23
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.sdk
         versionCode 1
         versionName "1.0"
-
     }
+
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'proguard-rules.pro'
         }
     }
 
     lintOptions {
         abortOnError false
     }
+    publishNonDefault true
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
-    compile(group: 'com.philips.cdp', name: 'cloudcontroller-api', version: '3.1.2' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    if (findProject(':cloudcontroller-api')) {
+        debugCompile project(path: ':cloudcontroller-api', configuration: 'debug')
+        releaseCompile project(path: ':cloudcontroller-api', configuration: 'release')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'cloudcontroller-api', version: '3.1.2' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    }
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
@@ -147,17 +141,15 @@ dependencies {
     provided 'com.android.support:support-annotations:23.1.0'
 }
 
-//=======To zip and upload "Documents/External" ==STARTS=============
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = '0.7.1.201405082137'
+}
+
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
 artifacts {
     // archives zipDoc
     // archives sourceJar
 }
 
-task zipDocuments(type: Zip) {
-    from files(objcdp.getExternalDocPath()) {
-        baseName = project.name
-        classifier 'docs'
-    }
-}
-//=======To zip and upload "Documents/External" ==ENDS=============
