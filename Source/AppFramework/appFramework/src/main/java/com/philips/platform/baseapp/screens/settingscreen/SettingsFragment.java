@@ -130,7 +130,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
     }
 
     protected ArrayList<SettingListItem> filterSettingScreenItemList(ArrayList<SettingListItem> settingScreenItemList) {
-        userRegistrationState = new UserRegistrationSettingsState();
+        userRegistrationState    = new UserRegistrationSettingsState();
         if (getActivity() != null && userRegistrationState.getUserObject(getActivity()).isUserSignIn()) {
             return settingScreenItemList;
         }

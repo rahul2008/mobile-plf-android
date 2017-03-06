@@ -20,6 +20,7 @@ import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
 
 import java.util.ArrayList;
 
@@ -70,7 +71,6 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     public void onSuccess(final ArrayList<? extends Object> data) {
 
         final ArrayList<OrmConsentDetail> ormConsents = (ArrayList<OrmConsentDetail>) data;
-
         if (getActivity()!=null && ormConsents != null ) {
 
             getActivity().runOnUiThread(new Runnable() {
@@ -94,8 +94,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
 
     @Override
     public void onSuccess(Object data) {
-
-
+        DSLog.i(DSLog.LOG,"in onsuccess object");
     }
 
     @Override
