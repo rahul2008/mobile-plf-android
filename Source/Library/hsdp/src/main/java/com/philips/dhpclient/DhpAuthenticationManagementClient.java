@@ -189,6 +189,7 @@ public class DhpAuthenticationManagementClient extends DhpApiClient {
         Map<String, String> headers = new LinkedHashMap<String, String>();
         headers.put("accessToken",socialAccessToken);
         headers.put("refreshSecret",secret);
+        headers.put("Api-version","2");
         Map<String, String> body = new LinkedHashMap<String, String>();
         body.put("loginId",email);
         DhpResponse dhpResponse = sendSignedRequestForSocialLogin("POST", apiEndpoint, queryParams, headers, body);

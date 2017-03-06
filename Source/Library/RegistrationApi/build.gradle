@@ -160,10 +160,10 @@ android {
         }
 
         debug {
-            minifyEnabled true
+            minifyEnabled false
             debuggable true
-            testCoverageEnabled true
-            proguardFile 'proguard-rules.pro'
+            testCoverageEnabled false
+//            proguardFile 'proguard-rules.pro'
         }
     }
 }
