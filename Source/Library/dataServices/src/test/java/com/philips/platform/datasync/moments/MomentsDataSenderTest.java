@@ -380,4 +380,27 @@ public class MomentsDataSenderTest {
         final BackendResponse errorEvent = errorEventCaptor.getValue();
         assertThat(errorEvent.getCallException()).isEqualTo(retrofitErrorMock);
     }
+
+    /*@Test
+    public void ShouldPostNetworkErrorEvent_WhenRetrofitHttpErrorHappens() throws Exception {
+
+        String string = "not able to connect";
+        ArrayList<Header> headers = new ArrayList<>();
+        headers.add(new Header("test", "test"));
+
+        when((typedByteArrayMock).getBytes()).thenReturn(string.getBytes());
+        Response response = new Response("http://localhost", 403, string, headers, typedByteArrayMock);
+        when(retrofitErrorMock.getResponse()).thenReturn(response);
+
+        when(retrofitErrorMock.getKind()).thenReturn(RetrofitError.Kind.HTTP);
+        when(clientMock.saveMoment(anyString(), anyString(), any(UCoreMoment.class))).
+                thenThrow(retrofitErrorMock);
+
+        momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
+
+        verify(eventingMock).post(errorEventCaptor.capture());
+        final BackendResponse errorEvent = errorEventCaptor.getValue();
+        assertThat(errorEvent.getCallException()).isEqualTo(retrofitErrorMock);
+        verify(analyticsErrorHandlingMock).TrackError(string);
+    }*/
 }

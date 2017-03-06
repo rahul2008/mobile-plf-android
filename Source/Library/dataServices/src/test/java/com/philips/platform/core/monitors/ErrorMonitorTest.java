@@ -12,10 +12,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.util.ArrayList;
+
 import retrofit.RetrofitError;
+import retrofit.client.Header;
+import retrofit.client.Response;
+import retrofit.mime.TypedByteArray;
+import retrofit.mime.TypedInput;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class ErrorMonitorTest {
@@ -39,6 +46,9 @@ public class ErrorMonitorTest {
 
     @Mock
     SynchronisationManager synchronisationManager;
+
+    @Mock
+    TypedByteArray typedByteArrayMock;
 
     @Before
     public void setUp() throws Exception {
@@ -81,8 +91,14 @@ public class ErrorMonitorTest {
     }
 
     @Test
-    public void ShouldStart_WhenonEventBackgroundThreadBackendResponse_called_with_retrofit() throws Exception {
-        errorMonitor.onEventAsync(new BackendResponse(501,retrofitError));
-        verify(errorHandlingInterface).syncError(-1);
+    public void ShouldPostError_On_Error() throws Exception {
+        String string = "not able to connect";
+        ArrayList<Header> headers = new ArrayList<>();
+        headers.add(new Header("test", "test"));
+
+        when((typedByteArrayMock).getBytes()).thenReturn(string.getBytes());
+        Response response = new Response("http://localhost", 403, string, headers, typedByteArrayMock);
+        when(retrofitError.getResponse()).thenReturn(response);
+        errorMonitor.postError(retrofitError);
     }
 }

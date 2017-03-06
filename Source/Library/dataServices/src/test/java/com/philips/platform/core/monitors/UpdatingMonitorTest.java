@@ -1,6 +1,7 @@
 package com.philips.platform.core.monitors;
 
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
@@ -13,8 +14,10 @@ import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
+import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
+import com.philips.platform.core.events.MomentsUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.listeners.DBChangeListener;
@@ -29,8 +32,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -54,6 +61,9 @@ public class UpdatingMonitorTest {
     MomentUpdateRequest momentUpdateRequestmock;
 
     @Mock
+    MomentsUpdateRequest momentsUpdateRequestMock;
+
+    @Mock
     DBRequestListener dbRequestListener;
 
     @Mock
@@ -72,6 +82,9 @@ public class UpdatingMonitorTest {
     ConsentBackendSaveResponse consentBackendSaveResponseMock;
     @Mock
     Moment momentMock;
+
+    @Mock
+    ConsentDetail consentDetailMock;
 
     @Mock
     Settings settingsMock;
@@ -157,6 +170,48 @@ public class UpdatingMonitorTest {
         updatingMonitor.onEventAsync(new MomentDataSenderCreatedRequest(Arrays.asList(moment1), dbChangeListener));
       //  List<? extends Moment> moments = momentDataSenderCreatedRequestMock.getList();
          verify(momentsSegregatorMock).processCreatedMoment(Arrays.asList(moment1),null);
+    }
+
+    @Test
+    public void should_Catch_SqlException_whenMomentUpdateRequestIsCalled() throws Exception {
+        doThrow(SQLException.class).when(dbUpdatingInterface).updateMoment(momentMock,dbRequestListener);
+        updatingMonitor.onEventAsync(new MomentUpdateRequest(momentMock,dbRequestListener));
+        verify(dbUpdatingInterface).updateMoment(momentMock,dbRequestListener);
+    }
+
+    @Test
+    public void shouldDeleteUpdateAndPostMoment_whenMomentsUpdateRequestIsCalled() throws Exception {
+        List list = new ArrayList();
+        list.add(momentMock);
+        updatingMonitor.onEventAsync(new MomentsUpdateRequest(list,null));
+        verify(dbUpdatingInterface).updateMoments(list,null);
+    }
+
+    @Test
+    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_updateMoments() throws Exception {
+        List list = new ArrayList();
+        list.add(momentMock);
+        doThrow(SQLException.class).when(dbUpdatingInterface).updateMoments(list,dbRequestListener);
+        updatingMonitor.onEventAsync(new MomentsUpdateRequest(list,dbRequestListener));
+        verify(dbUpdatingInterface).updateMoments(list,dbRequestListener);
+    }
+
+    @Test
+    public void test_DatabaseConsentUpdateRequest() throws Exception {
+        List list = new ArrayList();
+        list.add(consentDetailMock);
+        when(dbUpdatingInterface.updateConsent(list,null)).thenReturn(true);
+        updatingMonitor.onEventAsync(new DatabaseConsentUpdateRequest(list,null));
+        verify(dbUpdatingInterface).updateConsent(list,null);
+    }
+
+    @Test
+    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_updateConsent() throws Exception {
+        List list = new ArrayList();
+        list.add(momentMock);
+        doThrow(SQLException.class).when(dbUpdatingInterface).updateConsent(list,dbRequestListener);
+        updatingMonitor.onEventAsync(new DatabaseConsentUpdateRequest(list,dbRequestListener));
+        verify(dbUpdatingInterface).updateConsent(list,dbRequestListener);
     }
 
 }

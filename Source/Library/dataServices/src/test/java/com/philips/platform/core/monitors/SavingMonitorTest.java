@@ -1,14 +1,20 @@
 package com.philips.platform.core.monitors;
 
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
+import com.philips.platform.core.events.DatabaseConsentSaveRequest;
+import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.Event;
 import com.philips.platform.core.events.MomentSaveRequest;
+import com.philips.platform.core.events.MomentsSaveRequest;
+import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.listeners.DBRequestListener;
 
 import org.junit.Before;
@@ -17,10 +23,13 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
@@ -52,7 +61,19 @@ public class SavingMonitorTest {
     private DBDeletingInterface deletingMock;
 
     @Mock
+    UserCharacteristicsSaveRequest userCharacteristicsSaveRequestMock;
+
+    @Mock
+    Characteristics characteristicsMock;
+
+    @Mock
+    Exception exceptionMock;
+
+    @Mock
     private Moment moment;
+
+    @Mock
+    Settings settingsMock;
 
     @Mock
     ConsentDetail consentDetailMock;
@@ -114,5 +135,37 @@ public class SavingMonitorTest {
         verify(eventingMock, times(wantedNumberOfInvocations)).post(captor.capture());
         return captor.getAllValues().get(wantedNumberOfInvocations - 1);
     }
+
+    @Test
+    public void Test_MomentsSaveRequest() throws Exception {
+        List list = new ArrayList();
+        list.add(moment);
+        savingMonitor.onEventAsync(new MomentsSaveRequest(list, dbRequestListener));
+        verify(savingMock).saveMoments(list,dbRequestListener);
+    }
+
+    @Test
+    public void Test_DatabaseConsentSaveRequest() throws Exception {
+        List list = new ArrayList();
+        list.add(moment);
+        savingMonitor.onEventAsync(new DatabaseConsentSaveRequest(list, dbRequestListener));
+        verify(savingMock).saveConsentDetails(list,dbRequestListener);
+    }
+
+    @Test
+    public void Test_DatabaseSettingsSaveRequest() throws Exception {
+        savingMonitor.onEventAsync(new DatabaseSettingsSaveRequest(settingsMock, dbRequestListener));
+        verify(savingMock).saveSettings(settingsMock,dbRequestListener);
+    }
+
+    @Test
+    public void Test_UserCharacteristicsSaveRequest() throws Exception {
+        List list = new ArrayList();
+        list.add(characteristicsMock);
+        savingMonitor.onEventAsync(new UserCharacteristicsSaveRequest(list, dbRequestListener));
+        verify(savingMock).saveUserCharacteristics(list,dbRequestListener);
+    }
+
+
 }
 
