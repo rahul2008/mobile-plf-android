@@ -78,8 +78,6 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
         mEtCharacteristics.setEnabled(false);
         isEditable = false;
         DataServicesManager.getInstance().fetchUserCharacteristics(this);
-
-        //mEtCharacteristics.setText(jsonString);
         return rootView;
     }
 

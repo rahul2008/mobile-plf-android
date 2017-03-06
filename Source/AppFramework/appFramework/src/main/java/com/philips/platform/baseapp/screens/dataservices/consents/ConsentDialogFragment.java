@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,7 @@ import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
 
 import java.util.ArrayList;
 
@@ -94,9 +94,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
 
     @Override
     public void onSuccess(Object data) {
-
-        Log.d("TAG","in onsuccess object");
-
+        DSLog.i(DSLog.LOG,"in onsuccess object");
     }
 
     @Override
