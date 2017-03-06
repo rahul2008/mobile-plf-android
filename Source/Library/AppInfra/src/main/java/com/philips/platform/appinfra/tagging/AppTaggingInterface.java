@@ -192,9 +192,7 @@ public interface AppTaggingInterface {
 	 *
 	 * @return returns appId
 	 */
-	String getAppsId();
-
-
+	String getTrackingIdentifier();
 }
 
 

@@ -85,7 +85,6 @@ public class AppTagging implements AppTaggingInterface {
 	private void init(Locale locale, Context context) {
 		mLocale = locale;
 		Config.setContext(context);
-
 	}
 
 
@@ -121,7 +120,7 @@ public class AppTagging implements AppTaggingInterface {
 
 		contextData.put(AppTaggingConstants.LANGUAGE_KEY, getLanguage());
 
-		contextData.put(AppTaggingConstants.APPSID_KEY, getAppsId());
+		contextData.put(AppTaggingConstants.APPSID_KEY, getTrackingIdentifier());
 		if (getComponentId() != null) {
 			contextData.put(AppTaggingConstants.COMPONENT_ID, getComponentId());
 		}
@@ -146,26 +145,26 @@ public class AppTagging implements AppTaggingInterface {
 		AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
 				.AppConfigurationError();
 		if (getPrivacyConsentForSensitiveData() && mAppInfra.getConfigInterface() != null) {
-				try {
-					final Object object = mAppInfra.getConfigInterface().getPropertyForKey
-							("tagging.sensitiveData", "appinfra", configError);
-					if (object instanceof ArrayList<?>) {
-						final ArrayList<?> taggingSensitiveData = (ArrayList<?>) object;
-						if (taggingSensitiveData.size() > 0) {
-							data.keySet().removeAll(taggingSensitiveData);
-						}
+			try {
+				final Object object = mAppInfra.getConfigInterface().getPropertyForKey
+						("tagging.sensitiveData", "appinfra", configError);
+				if (object instanceof ArrayList<?>) {
+					final ArrayList<?> taggingSensitiveData = (ArrayList<?>) object;
+					if (taggingSensitiveData.size() > 0) {
+						data.keySet().removeAll(taggingSensitiveData);
 					}
-				} catch (Exception e) {
-					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-							"Tagging", "" + e);
 				}
+			} catch (Exception e) {
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+						"Tagging", "" + e);
 			}
-			return data;
+		}
+		return data;
 
 	}
 
 	@Override
-	public String getAppsId() {
+	public String getTrackingIdentifier() {
 		return Analytics.getTrackingIdentifier();
 	}
 
@@ -209,11 +208,9 @@ public class AppTagging implements AppTaggingInterface {
 	}
 
 	private String getLocalTimestamp() {
-
-		final String mLocalTimestamp;
 		final Calendar c = Calendar.getInstance();
 		final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
-		mLocalTimestamp = df.format(c.getTime());
+		final String mLocalTimestamp = df.format(c.getTime());
 		return mLocalTimestamp;
 	}
 
@@ -227,9 +224,7 @@ public class AppTagging implements AppTaggingInterface {
 
 	@Override
 	public AppTaggingInterface createInstanceForComponent(String componentId, String componentVersion) {
-		this.mComponentID = componentId;
-		this.mComponentVersion = componentVersion;
-		return this;
+		return new AppTaggingWrapper(mAppInfra, componentId, componentVersion);
 	}
 
 
@@ -313,7 +308,6 @@ public class AppTagging implements AppTaggingInterface {
 		} else {
 			Analytics.trackAction(pageName, contextData);
 		}
-
 	}
 
 	@Override
@@ -329,8 +323,6 @@ public class AppTagging implements AppTaggingInterface {
 		if (checkForSslConnection() || checkForProductionState()) {
 			Analytics.trackTimedActionEnd(actionEnd, null);
 		}
-
-
 	}
 
 	// Sets the value of Privacy Consent For Sensitive Data and stores in preferences
@@ -341,39 +333,34 @@ public class AppTagging implements AppTaggingInterface {
 
 	@Override
 	public boolean getPrivacyConsentForSensitiveData() {
-		boolean consentValue;
 		final String consentValueString = mAppInfra.getSecureStorage().fetchValueForKey(AIL_PRIVACY_CONSENT, getSecureStorageErrorValue());
-		consentValue = consentValueString != null && consentValueString.equalsIgnoreCase("true");
-		Log.i("consentValue", "" + consentValue);
+		boolean consentValue = consentValueString != null && consentValueString.equalsIgnoreCase("true");
+		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
+				"Tagging-consentValue", "" + consentValue);
 		return consentValue;
 	}
 
 	private SecureStorage.SecureStorageError getSecureStorageErrorValue() {
-
 		return new SecureStorage.SecureStorageError();
 	}
 
 
 	@Override
 	public void trackPageWithInfo(String pageName, String key, String value) {
-
 		trackWithInfo(pageName, key, value, true);
 	}
 
 	@Override
 	public void trackPageWithInfo(String pageName, Map<String, String> paramMap) {
-
 		track(pageName, paramMap, true);
-
 	}
 
 
 	@Override
 	public void trackActionWithInfo(String pageName, String key, String value) {
-
 		trackWithInfo(pageName, key, value, false);
-
 	}
+
 	private void trackWithInfo(String pageName, String key, String value, boolean isTrackPage) {
 		final Map<String, String> trackMap = new HashMap<>();
 		trackMap.put(key, value);
@@ -382,7 +369,6 @@ public class AppTagging implements AppTaggingInterface {
 
 	@Override
 	public void trackActionWithInfo(String pageName, Map<String, String> paramMap) {
-
 		track(pageName, paramMap, false);
 	}
 
@@ -428,6 +414,5 @@ public class AppTagging implements AppTaggingInterface {
 	public void trackFileDownload(String filename) {
 		trackActionWithInfo("sendData", "fileName", filename);
 	}
-
 
 }
