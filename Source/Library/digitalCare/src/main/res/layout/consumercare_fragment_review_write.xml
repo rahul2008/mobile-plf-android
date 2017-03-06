@@ -232,7 +232,7 @@
                     android:layout_marginBottom="2dp"
                     android:layout_marginRight="2dp"
                     android:text="/50+"
-                    android:textColor="@color/text_bazzarvoice_edittext_color"
+                    android:textColor="@color/gray"
                     android:textSize="@dimen/title_text_size_small"
                     custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
@@ -542,7 +542,7 @@
                 android:background="@drawable/consumercare_selector_no_thanks_button_bg"
                 android:text="@string/cancel"
                 android:textAlignment="center"
-                android:textColor="@color/button_background"
+                android:textColor="?attr/uikit_baseColor"
                 custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
 

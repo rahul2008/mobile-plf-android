@@ -1,6 +1,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="actionbarIconHomeImageView" parent="actionbar_hamburger_menu">
+    <style name="actionbarIconHomeImageView">
+        <item name="android:src">@drawable/consumercare_actionbar_home_icon_white_1x</item>
         <item name="android:layout_width">@dimen/actionbar_icon_margin</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:clickable">true</item>
@@ -9,7 +10,8 @@
         <item name="android:visibility">gone</item>
     </style>
 
-    <style name="actionbarIconArrowImageView" parent="actionbar_back_button">
+    <style name="actionbarIconArrowImageView">
+        <item name="android:src">@drawable/uikit_right_arrow</item>
         <item name="android:layout_width">@dimen/actionbar_icon_margin</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:clickable">true</item>
@@ -26,7 +28,7 @@
         <item name="android:singleLine">true</item>
         <item name="android:paddingLeft">@dimen/actionbar_icon_margin</item>
         <item name="android:text">@string/actionbar_title_support</item>
-        <item name="android:textColor">@color/actionbar_title_color</item>
+        <item name="android:textColor">@color/uikit_white</item>
         <item name="android:textSize">@dimen/actionbar_title_text_size</item>
     </style>
 

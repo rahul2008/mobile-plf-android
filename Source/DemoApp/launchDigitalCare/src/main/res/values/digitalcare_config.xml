@@ -2,44 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
 
     <!-- UiTheme Start -->
-
-
-    <!-- Activity
-    <color name="activity_background_color">#FFFFFF</color>
-    -->
     <drawable name="consumercare_background">@drawable/tuscany</drawable>
-
-    <!-- Actionbar related -->
-    <color name="actionbar_background_start_color">#003478</color>
-    <color name="actionbar_background_end_color">#0066A1</color>
-    <color name="actionbar_title_color">#FFFFFF</color>
-
-    <!-- Action bar back arrow button -->
-    <style name="actionbar_back_button">
-        <item name="android:src">@drawable/consumercare_actionbar_back_arrow_white</item>
-    </style>
-
-    <!-- Action bar hamburger menu icon -->
-    <style name="actionbar_hamburger_menu">
-        <item name="android:src">@drawable/consumercare_actionbar_home_icon_white_1x</item>
-    </style>
-
-    <bool name="actionbar_title_required">true</bool>
-
-    <!-- Text color -->
-    <color name="text_header_color">@color/button_background</color>
-    <color name="text_sub_header_color">#5D5D5D</color>
-    <color name="text_bazzarvoice_edittext_color">#cccccc</color>
-
-    <!-- Standard Button. Common buttons used through out the component -->
-    <color name="button_text_color">@color/actionbar_title_color</color>
-    <color name="button_background">#003478</color>
-    <color name="button_background_pressed">#005A8B</color>
-
-    <!-- Register Button -->
-    <color name="button_register_background">#005AAB</color>
-    <color name="button_register_background_pressed">#005AAB</color>
-
     <!-- UiTheme End -->
 
     <!--
@@ -100,6 +63,5 @@
 
     <!--<bool name="production_environment">false</bool>
     <bool name="productreview_required">false</bool>-->
-    <string name="service_locator_url">http://www.mylife.philips.com.cn/servicelocator/mobile/index.aspx</string>
 
 </resources>

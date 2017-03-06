@@ -18,6 +18,7 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -706,7 +707,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
             mProgressDialog.show();
         }
 
-        FragmentLauncher fragmentLauncher = (FragmentLauncher) DigitalCareConfigManager.
+        final FragmentLauncher fragmentLauncher = (FragmentLauncher) DigitalCareConfigManager.
                 getInstance().getUiLauncher();
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         //mProductSelectionHelper.initialize(getActivity());
@@ -746,9 +747,16 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                         }
                     }
                 });
-        ProductModelSelectionHelper.getInstance().invokeProductSelection(fragmentLauncher,
-                DigitalCareConfigManager.getInstance()
-                        .getProductModelSelectionType());
+        // to resolve progress dialog now showing,
+        // run invoke product selection in another thread to avoid blocking UI thread,
+        new Thread(){
+            @Override
+            public void run() {
+                Looper.prepare();
+                ProductModelSelectionHelper.getInstance().invokeProductSelection(fragmentLauncher,
+                        DigitalCareConfigManager.getInstance().getProductModelSelectionType());
+            }
+        }.start();
        // ProductSelectionLogger.enableLogging();
     }
 
@@ -817,9 +825,17 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                     }
                 });
 
-        ProductModelSelectionHelper.getInstance().invokeProductSelection(uiLauncher,
-                DigitalCareConfigManager.getInstance()
-                        .getProductModelSelectionType());
+        // to resolve progress dialog now showing,
+        // run invoke product selection in another thread to avoid blocking UI thread,
+        final ActivityLauncher finalUiLauncher = uiLauncher;
+        new Thread(){
+            @Override
+            public void run() {
+                Looper.prepare();
+                ProductModelSelectionHelper.getInstance().invokeProductSelection(finalUiLauncher,
+                        DigitalCareConfigManager.getInstance().getProductModelSelectionType());
+            }
+        }.start();
     }
 
     private void disablePrxDependentButtons() {
@@ -993,7 +1009,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         enableActionBarHamburgerIcon(mActionBarMenuIcon, mActionBarArrow);
         enableSupportButtonClickable();
         if (mProductViewProductButton != null) {
-            if (!mProductChangeButton.isClickable())
+            if (mProductChangeButton != null && !mProductChangeButton.isClickable())
                 mProductChangeButton.setClickable(true);
         }
     }

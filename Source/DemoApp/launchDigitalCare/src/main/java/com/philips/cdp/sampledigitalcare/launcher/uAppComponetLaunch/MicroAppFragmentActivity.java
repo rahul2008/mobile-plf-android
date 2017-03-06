@@ -1,9 +1,9 @@
 package com.philips.cdp.sampledigitalcare.launcher.uAppComponetLaunch;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
@@ -16,20 +16,21 @@ import com.philips.cdp.digitalcare.CcDependencies;
 import com.philips.cdp.digitalcare.CcInterface;
 import com.philips.cdp.digitalcare.CcLaunchInput;
 import com.philips.cdp.digitalcare.CcSettings;
-import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.listeners.CcListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
+import com.philips.cdp.sampledigitalcare.util.ThemeUtil;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cl.di.dev.pa.R;
-//import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.uappframework.listener.ActionBarListener;
+
+//import com.philips.platform.appinfra.AppInfraSingleton;
 
 /**
  * SampleActivity is the main container class which can contain Digital Care fragments.
@@ -74,6 +75,13 @@ public class MicroAppFragmentActivity extends UiKitActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
+
+        getSupportActionBar().hide();
+        ThemeUtil mThemeUtil = new ThemeUtil(getApplicationContext().getSharedPreferences(
+                this.getString(R.string.app_name), Context.MODE_PRIVATE));
+        //setTheme(R.style.Theme_Philips_DarkBlue_WhiteBackground);
+        setTheme(mThemeUtil.getCurrentTheme());
+
         DigiCareLogger.i(TAG, " onCreate ++ ");
         setContentView(R.layout.activity_sample);
 
@@ -100,6 +108,9 @@ public class MicroAppFragmentActivity extends UiKitActivity implements View.OnCl
                             (this, R.id.sampleMainContainer, actionBarListener);
             launcher.setCustomAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
 
+           /* CcInterface ccInterface = new CcInterface();
+            ccInterface.init(this, null);
+            ccInterface.launch(launcher, productsSelection, this);*/
             mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
 
             final CcInterface ccInterface = new CcInterface();
@@ -107,6 +118,7 @@ public class MicroAppFragmentActivity extends UiKitActivity implements View.OnCl
             if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
             ccLaunchInput.setProductModelSelectionType(productsSelection);
             ccLaunchInput.setConsumerCareListener(this);
+
             CcDependencies ccDependencies = new CcDependencies(mAppInfraInterface);
 
             ccInterface.init(ccDependencies, ccSettings);
@@ -115,7 +127,7 @@ public class MicroAppFragmentActivity extends UiKitActivity implements View.OnCl
                 public void onSuccess(String s, SOURCE source) {
                     if(s.equals("CN")) {
                         ccLaunchInput.setLiveChatUrl("http://ph-china.livecom.cn/webapp/index.html?app_openid=ph_6idvd4fj&token=PhilipsTest");
-                    }  else {
+                    } else {
                         ccLaunchInput.setLiveChatUrl(null);
                     }
                     ccInterface.launch(launcher, ccLaunchInput);
@@ -127,7 +139,6 @@ public class MicroAppFragmentActivity extends UiKitActivity implements View.OnCl
                 }
             });
 
-
             try {
                 initActionBar();
             } catch (ClassCastException e) {
@@ -135,9 +146,15 @@ public class MicroAppFragmentActivity extends UiKitActivity implements View.OnCl
             }
             enableActionBarHome();
 
-            DigitalCareConfigManager.getInstance();
+           // DigitalCareConfigManager.getInstance();
             mFragmentManager = getSupportFragmentManager();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DigiCareLogger.e(TAG, "MicroAppFragmentActivity.class");
     }
 
     @Override
