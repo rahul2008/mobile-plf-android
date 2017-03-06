@@ -1,6 +1,4 @@
 node('Android') {
-    JENKINS_ENV = env.JENKINS_ENV
-
     stage 'Checkout'
     checkout scm
 
