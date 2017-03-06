@@ -56,7 +56,7 @@ public abstract class DICommPort<T extends PortProperties> {
 
     protected abstract void processResponse(String jsonResponse);
 
-    protected abstract String getDICommPortName();
+    public abstract String getDICommPortName();
 
     protected abstract int getDICommProductId();
 
