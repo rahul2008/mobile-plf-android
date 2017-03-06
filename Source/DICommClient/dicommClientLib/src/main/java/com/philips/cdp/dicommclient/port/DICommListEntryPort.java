@@ -24,7 +24,7 @@ abstract class DICommListEntryPort<T extends PortProperties> extends DICommPort<
 	}
 
 	@Override
-	public final String getDICommPortName(){
+	protected final String getDICommPortName(){
 		return String.format(BASE_ENTRY_PORT_NAME, mParentPortName, mIdentifier);
 	}
 
