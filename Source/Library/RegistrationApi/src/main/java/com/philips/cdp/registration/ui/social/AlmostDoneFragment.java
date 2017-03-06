@@ -516,6 +516,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
                     if (mCbAcceptTerms.isChecked()) {
                         storeEmailOrMobileInPreference();
+                        trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
                         launchWelcomeFragment();
                     } else {
                         mRegAccptTermsError.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
