@@ -8,6 +8,9 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
@@ -58,7 +61,6 @@ import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataSender;
 import com.philips.platform.datasync.synchronisation.SynchronisationManager;
 import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
-import com.philips.platform.datasync.userprofile.AppInfraInterface;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import org.greenrobot.eventbus.EventBus;
@@ -95,6 +97,12 @@ public class DataServicesManager {
     private DBFetchingInterface mFetchingInterface;
     private DBSavingInterface mSavingInterface;
     private DBUpdatingInterface mUpdatingInterface;
+
+    public LoggingInterface getLoggingInterface() {
+        return mLoggingInterface;
+    }
+
+    LoggingInterface mLoggingInterface;
 
     @Inject
     BaseAppDataCreator mDataCreater;
@@ -273,6 +281,7 @@ public class DataServicesManager {
         this.mSynchronisationCompleteListener = synchronisationCompleteListener;
         prepareInjectionsGraph(context);
         startMonitors();
+        initAppInfra(context);
     }
 
     private void sendPullDataEvent() {
@@ -411,6 +420,11 @@ public class DataServicesManager {
 
     public ArrayList<DataFetcher> getCustomFetchers() {
         return mCustomFetchers;
+    }
+
+    private void initAppInfra(Context context) {
+        AppInfra gAppInfra = new AppInfra.Builder().build(context);
+        mLoggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
     }
 
     public ArrayList<DataSender> getCustomSenders() {

@@ -2,15 +2,12 @@ package com.philips.platform.datasync.consent;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.events.ConsentBackendGetRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAdapter;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.util.Collections;
@@ -40,9 +37,9 @@ public class ConsentsDataFetcherTest {
 
     @Mock
     ConsentDetail consentDetailMock;
-
+/*
     @Captor
-    private ArgumentCaptor<ConsentBackendGetRequest> ConsentBackendGetRequestEventCaptor;
+    private ArgumentCaptor<ConsentBackendGetRequest> ConsentBackendGetRequestEventCaptor;*/
 
     @Mock
     private AppComponent appComponantMock;

@@ -18,6 +18,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
+import retrofit.RetrofitError;
 import retrofit.converter.GsonConverter;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -113,9 +114,9 @@ public class SettingsDataFetcherTest {
         when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
         final SettingsClient uSettingClientMock = mock(SettingsClient.class);
         when(uCoreAdapterMock.getAppFrameworkClient(SettingsClient.class, TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(uSettingClientMock);
-        settingsDataFetcher.fetchDataSince(null);
-
-        verify(eventingMock).post(isA(SettingsBackendSaveResponse.class));
+        RetrofitError retrofitError = settingsDataFetcher.fetchDataSince(null);
+        assertThat(retrofitError).isNull();
+       // verify(eventingMock).post(isA(SettingsBackendSaveResponse.class));
     }
 
 }

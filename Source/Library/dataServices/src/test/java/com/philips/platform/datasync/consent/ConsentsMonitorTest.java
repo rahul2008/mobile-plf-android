@@ -3,7 +3,6 @@ package com.philips.platform.datasync.consent;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.events.BackendResponse;
-import com.philips.platform.core.events.ConsentBackendGetRequest;
 import com.philips.platform.core.events.ConsentBackendSaveRequest;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.Event;
@@ -26,10 +25,8 @@ import java.util.List;
 
 import retrofit.converter.GsonConverter;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -70,8 +67,8 @@ public class ConsentsMonitorTest {
     @Mock
     private ConsentBackendSaveRequest consentSaveRequestMock;
 
-    @Mock
-    private ConsentBackendGetRequest consentBackendGetRequestMock;
+   /* @Mock
+    private ConsentBackendGetRequest consentBackendGetRequestMock;*/
 
     @Mock
     private ConsentDetail consentDetailMock;
@@ -129,7 +126,7 @@ public class ConsentsMonitorTest {
 //        verify(eventingMock).post(errorCaptor.capture());
 //        assertThat(errorCaptor.getValue().getReferenceId()).isEqualTo(REFERENCE_ID);
     }
-
+/*
     @Test
     public void ShouldPostError_WhenUserIsNotLoggedInDuringGetConsent() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
@@ -139,7 +136,7 @@ public class ConsentsMonitorTest {
 
 //        verify(eventingMock).post(errorCaptor.capture());
 //        assertThat(errorCaptor.getValue().getReferenceId()).isEqualTo(REFERENCE_ID);
-    }
+    }*/
 
     @Test
     public void ShouldPostError_WhenUserAccessTokenIsNull() throws Exception {
@@ -153,7 +150,7 @@ public class ConsentsMonitorTest {
 //        assertThat(errorCaptor.getValue().getReferenceId()).isEqualTo(REFERENCE_ID);
     }
 
-    @Test
+  /*  @Test
     public void ShouldPostError_WhenUserAccessTokenIsNullDuringGetConsent() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn(null);
@@ -163,7 +160,7 @@ public class ConsentsMonitorTest {
 
 //        verify(eventingMock).post(errorCaptor.capture());
 //        assertThat(errorCaptor.getValue().getReferenceId()).isEqualTo(REFERENCE_ID);
-    }
+    }*/
 
     @Test
     public void ShouldPostError_WhenUserAccessTokenIsEmpty() throws Exception {
@@ -177,7 +174,7 @@ public class ConsentsMonitorTest {
 //        assertThat(errorCaptor.getValue().getReferenceId()).isEqualTo(REFERENCE_ID);
     }
 
-    @Test
+   /* @Test
     public void ShouldPostError_WhenUserAccessTokenIsEmptyDuringGet() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn("");
@@ -188,7 +185,7 @@ public class ConsentsMonitorTest {
 //        verify(eventingMock).post(errorCaptor.capture());
 //        assertThat(errorCaptor.getValue().getReferenceId()).isEqualTo(REFERENCE_ID);
     }
-
+*/
   /*  @Test
     public void ShouldNotSaveConsent_WhenRequestTypeIsNotSave() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
@@ -232,7 +229,7 @@ public class ConsentsMonitorTest {
 //        assertThat(backendResponse.getCallException()).isEqualTo(retrofitError.getSuccessType());
     }
 */
-    @Test
+ /*   @Test
     public void ShouldPostError_WhenGetRequestIsFetchedWithOutUserLogin() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
 
@@ -240,7 +237,7 @@ public class ConsentsMonitorTest {
 
 //        verify(eventingMock).post(errorCaptor.capture());
 //        assertThat(errorCaptor.getValue().getReferenceId()).isEqualTo(REFERENCE_ID);
-    }
+    }*/
 
 //    @Test
 //    public void ShouldRetrieveConsentDetailsAndPostTheSuccessEvent_WhenUserIsLoggedIn() throws Exception {
@@ -308,7 +305,7 @@ public class ConsentsMonitorTest {
 //        assertThat(consentEvent.getConsent()).isNull();
 //    }
 
-    @Test
+   /* @Test
     public void ShouldReturn_WhenUCoreAccessProviderIsNull() throws Exception {
         consentsMonitor.uCoreAccessProvider = null;
         when(uCoreConsentDetailMock.isEmpty()).thenReturn(true);
@@ -328,7 +325,7 @@ public class ConsentsMonitorTest {
         when(consentBackendGetRequestMock.getConsentDetails()).thenReturn(null);
         consentsMonitor.onEventAsync(consentBackendGetRequestMock);
         verifyNoMoreInteractions(uCoreAdapterMock);
-    }
+    }*/
 
 //    @Test
 //    public void ShouldReturnEvent_WhenConcentDetailsIsNotNullAndUCoreConsentDetailIsEmpity() throws Exception {

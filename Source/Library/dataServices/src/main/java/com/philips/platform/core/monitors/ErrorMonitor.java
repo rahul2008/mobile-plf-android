@@ -41,25 +41,26 @@ public class ErrorMonitor extends EventMonitor {
         postError(exception);
     }
 
-    private void postError(RetrofitError exception) {
+    protected void postError(RetrofitError exception) {
         if (exception == null) {
             unknownError();
+            return;
         }
         Response response = exception.getResponse();
-        if(response == null){
+        if (response == null) {
             unknownError();
             return;
         }
         int status = response.getStatus();
-        if (response != null) {
-            if (status == HttpURLConnection.HTTP_UNAUTHORIZED || status == HttpURLConnection.HTTP_BAD_REQUEST) {
-                //No need to pass to vertical as Library will take care of doing it
-                return;
-            }
-            mErrorHandlingInterface.syncError(status);
-        } else {
-            mErrorHandlingInterface.syncError(UNKNOWN);
+        reportError(status);
+    }
+
+    protected void reportError(int status) {
+        if (status == HttpURLConnection.HTTP_UNAUTHORIZED || status == HttpURLConnection.HTTP_BAD_REQUEST) {
+            //No need to pass to vertical as Library will take care of doing it
+            return;
         }
+        mErrorHandlingInterface.syncError(status);
     }
 
     private void unknownError() {
