@@ -20,6 +20,7 @@ import com.philips.cdp.registration.events.UserRegistrationHelper;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.ntputils.ServerTime;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -84,7 +85,7 @@ public class RegistrationHelper {
     public AppTaggingInterface getAppTaggingInterface() {
         if (mAppTaggingInterface == null) {
             mAppTaggingInterface = getAppInfraInstance().getTagging().
-                    createInstanceForComponent("PhilipsRegistration", getRegistrationApiVersion());
+                    createInstanceForComponent(RegConstants.COMPONENT_TAGS_ID, getRegistrationApiVersion());
             mAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
         }
         return mAppTaggingInterface;

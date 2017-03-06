@@ -286,14 +286,18 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     @Override
     public void onUpdateSuccess() {
+        trackRemarketing();
         RLog.i("MarketingAccountFragment", "onUpdateSuccess ");
+        hideRefreshProgress();
+        handleRegistrationSuccess();
+    }
+
+    private void trackRemarketing() {
         if(mUser.getReceiveMarketingEmail()){
             trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
         }else{
             trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
         }
-        hideRefreshProgress();
-        handleRegistrationSuccess();
     }
 
     @Override

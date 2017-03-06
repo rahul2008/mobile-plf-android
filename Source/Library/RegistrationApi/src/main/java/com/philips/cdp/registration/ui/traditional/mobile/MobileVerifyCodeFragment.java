@@ -330,7 +330,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
                     RLog.i("MobileVerifyCodeFragment ", "SMS activation failure: " + response);
                     if (jsonObject.getString("code").toString().equals(String.valueOf(RegChinaConstants.URXInvalidVerificationCode))) {
                         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ERROR,
-                                AppTagingConstants.ACTIVATION_NOT_VERIFIEF);
+                                AppTagingConstants.ACTIVATION_NOT_VERIFIED);
                         mEtCodeNUmber.setErrDescription(mContext.getResources().getString(R.string.reg_Mobile_Verification_Invalid_Code));
                     } else {
                         mEtCodeNUmber.setErrDescription(jsonObject.getString("error_description").toString());

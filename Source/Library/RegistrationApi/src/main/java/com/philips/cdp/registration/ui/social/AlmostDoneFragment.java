@@ -79,7 +79,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private RelativeLayout mRlContinueBtnContainer;
 
-    private XCheckBox mCbTerms;
+    private XCheckBox mCbRemarketingOpt;
 
     private XRegError mRegError;
 
@@ -203,7 +203,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         mSavedBundle = outState;
         super.onSaveInstanceState(mSavedBundle);
         if (mCbAcceptTerms != null) {
-            if (mCbTerms.isChecked()) {
+            if (mCbRemarketingOpt.isChecked()) {
                 isSavedCBTermsChecked = true;
                 mSavedBundle.putBoolean("isSavedCBTermsChecked", isSavedCBTermsChecked);
                 mSavedBundle.putString("savedCBTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
@@ -230,7 +230,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null) {
             if (savedInstanceState.getBoolean("isSavedCBTermsChecked")) {
-                mCbTerms.setChecked(true);
+                mCbRemarketingOpt.setChecked(true);
             }
             if (savedInstanceState.getBoolean("isSavedCbAcceptTermsChecked")) {
                 mCbAcceptTerms.setChecked(true);
@@ -321,20 +321,41 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     }
 
     private void trackAbtesting() {
-        final UIFlow abStrings = RegUtility.getUiFlow();
-        if (abStrings.equals(UIFlow.FLOW_A)) {
+        final UIFlow abTestingFlow = RegUtility.getUiFlow();
+
+        switch (abTestingFlow){
+            case FLOW_A :
+                RLog.d(RLog.AB_TESTING, "UI Flow Type A");
+                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                        AppTagingConstants.REGISTRATION_CONTROL);
+                break;
+
+            case FLOW_B:
+                RLog.d(RLog.AB_TESTING, "UI Flow Type B");
+                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                        AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
+                break;
+            case FLOW_C:
+                RLog.d(RLog.AB_TESTING, "UI Flow Type C");
+                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                        AppTagingConstants.REGISTRATION_SOCIAL_PROOF);
+                break;
+            default:break;
+        }
+
+       /* if (abTestingFlow.equals(UIFlow.FLOW_A)) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type A");
             trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
                     AppTagingConstants.REGISTRATION_CONTROL);
-        } else if (abStrings.equals(UIFlow.FLOW_B)) {
+        } else if (abTestingFlow.equals(UIFlow.FLOW_B)) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type B");
             trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
                     AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
-        } else if (abStrings.equals(UIFlow.FLOW_C)) {
+        } else if (abTestingFlow.equals(UIFlow.FLOW_C)) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type C");
             trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
                     AppTagingConstants.REGISTRATION_SOCIAL_PROOF);
-        }
+        }*/
     }
 
     private void initUI(View view) {
@@ -354,8 +375,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         mRlContinueBtnContainer = (RelativeLayout) view
                 .findViewById(R.id.rl_reg_btn_continue_container);
 
-        mCbTerms = (XCheckBox) view.findViewById(R.id.cb_reg_receive_philips_news);
-        mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
+        mCbRemarketingOpt = (XCheckBox) view.findViewById(R.id.cb_reg_receive_philips_news);
+        mCbRemarketingOpt.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbRemarketingOpt.getPaddingTop(), mCbRemarketingOpt.getPaddingRight(), mCbRemarketingOpt.getPaddingBottom());
 
         TextView acceptTermsView = (TextView) view.findViewById(R.id.tv_reg_accept_terms);
         mCbAcceptTerms = (XCheckBox) view.findViewById(R.id.cb_reg_accept_terms);
@@ -559,11 +580,11 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             showSpinner();
             if (isEmailExist) {
                 user.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName, mEmail, true,
-                        mCbTerms.isChecked(), this, mRegistrationToken);
+                        mCbRemarketingOpt.isChecked(), this, mRegistrationToken);
             } else {
                 mEmail = FieldsValidator.getMobileNumber(mEtEmail.getEmailId().trim());
                 user.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName,
-                        mEmail, true, mCbTerms.isChecked(), this, mRegistrationToken);
+                        mEmail, true, mCbRemarketingOpt.isChecked(), this, mRegistrationToken);
             }
         }
     }
@@ -573,7 +594,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
         final UIFlow abStrings = RegUtility.getUiFlow();
         if (!abStrings.equals(UIFlow.FLOW_B)) {
-            if (mCbTerms.isChecked()) {
+            if (mCbRemarketingOpt.isChecked()) {
                 trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
             } else {
                 trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);

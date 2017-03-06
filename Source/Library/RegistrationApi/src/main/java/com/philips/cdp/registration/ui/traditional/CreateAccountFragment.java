@@ -413,20 +413,23 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     };
 
     private void trackCheckMarketing() {
+        trackRemarketing();
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
+            if(mCbAcceptTerms.isChecked()){
+                trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
+            }else{
+                trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_OUT);
+            }
+        }
+    }
 
+    private void trackRemarketing() {
         final UIFlow abStrings = RegUtility.getUiFlow();
         if (!abStrings.equals(UIFlow.FLOW_B)) {
             if (mCbTerms.isChecked()) {
                 trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
             } else {
                 trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
-            }
-        }
-        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
-            if(mCbAcceptTerms.isChecked()){
-                trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
-            }else{
-                trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_OUT);
             }
         }
     }

@@ -124,7 +124,7 @@ public class AppTagingConstants {
 
     public static final String REGISTRATION_ACTIVATION_SMS = "registration:accountactivationbysms";
 
-    public static final String ACTIVATION_NOT_VERIFIEF = "sms is not verified";
+    public static final String ACTIVATION_NOT_VERIFIED = "sms is not verified";
 
 	public static final String EMAIL_NOT_VERIFIED  = "email is not verified";
 
