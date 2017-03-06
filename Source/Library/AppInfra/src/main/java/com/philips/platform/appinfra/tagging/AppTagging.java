@@ -48,7 +48,6 @@ public class AppTagging implements AppTaggingInterface {
 	public AppTagging(AppInfra aAppInfra) {
 		mAppInfra = aAppInfra;
 		init(mAppInfra.getInternationalization().getUILocale(), mAppInfra.getAppInfraContext());
-
 		// Class shall not presume appInfra to be completely initialized at this point.
 		// At any call after the constructor, appInfra can be presumed to be complete.
 	}
@@ -208,9 +207,9 @@ public class AppTagging implements AppTaggingInterface {
 	}
 
 	private String getLocalTimestamp() {
-		final Calendar c = Calendar.getInstance();
-		final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
-		final String mLocalTimestamp = df.format(c.getTime());
+		final Calendar calendar = Calendar.getInstance();
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
+		final String mLocalTimestamp = dateFormat.format(calendar.getTime());
 		return mLocalTimestamp;
 	}
 
