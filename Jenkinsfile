@@ -49,9 +49,9 @@ node('Android') {
             }
         }
 
-        //stage('Archive App') {
-        //    step([$class: 'ArtifactArchiver', artifacts: 'android-commlib-all/Source/commlib-all-parent/commlib-all-example/build/outputs/apk/*.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
-        //}
+        stage('Archive artifacts') {
+            step([$class: 'ArtifactArchiver', artifacts: 'android-commlib-all/Source/commlib-all-parent/commlib-all-example/build/outputs/apk/*.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
+        }
 
         if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME == "master") {
             stage('Publish') {
@@ -64,7 +64,6 @@ node('Android') {
             sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
             archiveArtifacts '**/dependencies.lock'
         }
-
-        Pipeline.trigger(env.triggerBy, env.BRANCH_NAME, "CommLibBle", "cml")
     }
+    Pipeline.trigger(env.triggerBy, env.BRANCH_NAME, "CommLibBle", "cml")
 }
