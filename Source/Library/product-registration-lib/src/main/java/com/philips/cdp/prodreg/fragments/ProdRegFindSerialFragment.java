@@ -3,6 +3,7 @@ package com.philips.cdp.prodreg.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +14,22 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.imagehandler.ImageRequestHandler;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.model.metadata.MetadataSerNumbSampleContent;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.product_registration_lib.R;
+import com.philips.cdp.prxclient.Logger.PrxLogger;
+import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
+import java.net.URL;
 import java.util.List;
 
 public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
 
+    public static final String urlBaseSeparator = "://";
     private ImageView serialNumberImageView;
     private TextView serialNumberTextView;
 
@@ -72,11 +79,23 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             final ProductMetadataResponseData productMetadataResponseData = (ProductMetadataResponseData) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_METADATA);
-            final String imageUrl = getImageUrl(productMetadataResponseData);
-            setSerialNumberTextView(productMetadataResponseData);
-            final ImageLoader imageLoader = ImageRequestHandler.getInstance(getActivity().getApplicationContext()).getImageLoader();
-            imageLoader.get(imageUrl, ImageLoader.getImageListener(serialNumberImageView, R.drawable.prodreg_placeholder, R.drawable.prodreg_placeholder));
+            setProductImage(productMetadataResponseData);
         }
+    }
+
+    private void setProductImage(final ProductMetadataResponseData productMetadataResponseData) {
+        getImageUrl(productMetadataResponseData, new PrxRequest.OnUrlReceived() {
+            @Override
+            public void onSuccess(String url) {
+                setSerialNumberTextView(productMetadataResponseData);
+                Log.d("imageUrl", "imageUrl " + url);
+                final ImageLoader imageLoader = ImageRequestHandler.getInstance(getActivity().getApplicationContext()).getImageLoader();
+                imageLoader.get(url, ImageLoader.getImageListener(serialNumberImageView, R.drawable.prodreg_placeholder, R.drawable.prodreg_placeholder));
+            }
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+            }
+        });
     }
 
     private void setSerialNumberTextView(final ProductMetadataResponseData productMetadataResponseData) {
@@ -96,30 +115,29 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
         }
     }
 
-    private String getImageUrl(final ProductMetadataResponseData productMetadataResponseData) {
-        String url = "";
+
+    private String getImageUrl(final ProductMetadataResponseData productMetadataResponseData, final PrxRequest.OnUrlReceived onUrlReceived) {
+
         if (productMetadataResponseData != null) {
             final MetadataSerNumbSampleContent serialNumberSampleContent = productMetadataResponseData.getSerialNumberSampleContent();
             final String asset = serialNumberSampleContent.getAsset();
-            url = getServerInfo().concat(asset);
+
+            PRUiHelper.getInstance().getAppInfraInstance().getServiceDiscovery().
+                    getServiceUrlWithCountryPreference(ProdRegConstants.PRODUCTMETADATAREQUEST_SERVICE_ID,
+                            new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+                public void onSuccess(URL url) {
+                    String uriSubString = (url.getProtocol() + urlBaseSeparator + url.getHost()).concat(asset);
+                    PrxLogger.i("Success values ***", uriSubString);
+                    onUrlReceived.onSuccess(uriSubString);
+                }
+
+                public void onError(ERRORVALUES error, String message) {
+                    PrxLogger.i("ERRORVALUES ***", "" + message);
+                }
+            });
         }
-        return url;
+        return null;
     }
 
-    public String getServerInfo() {
-        String mConfiguration = RegistrationConfiguration.getInstance().getRegistrationEnvironment();
-        String mServerInfo = "";
-        if (mConfiguration.equalsIgnoreCase("Development")) {
-            mServerInfo = "https://10.128.41.113.philips.com/prx";
-        } else if (mConfiguration.equalsIgnoreCase("Testing")) {
-            mServerInfo = "https://tst.philips.com/prx";
-        } else if (mConfiguration.equalsIgnoreCase("Evaluation")) {
-            mServerInfo = "https://acc.philips.com/prx";
-        } else if (mConfiguration.equalsIgnoreCase("Staging")) {
-            mServerInfo = "https://dev.philips.com/prx";
-        } else if (mConfiguration.equalsIgnoreCase("Production")) {
-            mServerInfo = "https://www.philips.com/prx";
-        }
-        return mServerInfo;
-    }
+
 }

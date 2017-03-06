@@ -37,7 +37,6 @@ public class RegistrationRequest extends PrxRequest {
     private String ctn = null;
     private String accessToken;
     private String productSerialNumber;
-    private String mServerInfo = "https://acc.philips.com/prx/registration/";
     private String purchaseDate;
     private String registrationChannel;
     private String sendEmail;
@@ -58,51 +57,9 @@ public class RegistrationRequest extends PrxRequest {
         this.serviceID = serviceID;
     }
 
-    //public RegistrationRequest(String ctn, String serviceId) {
-      //  super(ctn, serviceId);
-   // }
-
-//    public RegistrationRequest(String ctn, final String serialNumber, String accessToken) {
-//        this.ctn = ctn;
-//        this.productSerialNumber = serialNumber;
-//        this.accessToken = accessToken;
-//    }
-
     public void setAccessToken(String accessToken){
         this.accessToken = accessToken;
     }
-
-//    public String getServerInfo() {
-////        String mConfiguration = RegistrationConfiguration.getInstance().getRegistrationEnvironment();
-////        if (mConfiguration.equalsIgnoreCase("Development")) {
-////            mServerInfo = "https://10.128.41.113.philips.com/prx/registration/";
-////        } else if (mConfiguration.equalsIgnoreCase("Testing")) {
-////            mServerInfo = "https://tst.philips.com/prx/registration/";
-////        } else if (mConfiguration.equalsIgnoreCase("Evaluation")) {
-////            mServerInfo = "https://acc.philips.com/prx/registration/";
-////        } else if (mConfiguration.equalsIgnoreCase("Staging")) {
-////            mServerInfo = "https://dev.philips.com/prx/registration/";
-////        } else if (mConfiguration.equalsIgnoreCase("Production")) {
-////            mServerInfo = "https://www.philips.com/prx/registration/";
-////        }
-//        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
-//        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
-//
-//        serviceDiscoveryInterface.getServiceUrlWithCountryPreference("prodreg.productregistrationrequest"
-//                , new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-//                    @Override
-//                    public void onError(ERRORVALUES errorvalues, String s) {
-//                        Log.d(TAG, " Response Error : " + s);
-//
-//                    }
-//
-//                    @Override
-//                    public void onSuccess(URL url) {
-//                        mServerInfo = url.toString();
-//                    }
-//                });
-//        return mServerInfo;
-//    }
 
     public String getProductSerialNumber() {
         return productSerialNumber;
@@ -213,52 +170,6 @@ public class RegistrationRequest extends PrxRequest {
         this.shouldSendEmailAfterRegistration = shouldSendEmailAfterRegistration;
     }
 
-
-    public String getRequestUrl(String serviceURL) {
-        Uri builtUri = Uri.parse(serviceURL)
-                .buildUpon()
-                .appendPath(getSector().name())
-                .appendPath(PRUiHelper.getInstance().getLocale())
-                .appendPath(getCatalog().name())
-                .appendPath("products")
-                .appendPath(ctn + ".register.type.product")
-                .build();
-        String url = builtUri.toString();
-        try {
-            url = java.net.URLDecoder.decode(url, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            ProdRegLogger.e(TAG, e.getMessage());
-        }
-        ProdRegLogger.d(getClass() + "", url);
-        return url;
-    }
-
-    public void getRequestUrlFromAppInfra(AppInfraInterface appInfra, final PrxRequest.OnUrlReceived listener) {
-        HashMap replaceUrl = new HashMap();
-        replaceUrl.put("ctn", ctn);
-        replaceUrl.put("sector", this.getSector().toString());
-        replaceUrl.put("catalog", this.getCatalog().toString());
-
-        appInfra.getServiceDiscovery().getServiceUrlWithCountryPreference(serviceID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-            public void onSuccess(URL url) {
-                PrxLogger.i("SUCCESS ***", "" + url);
-                String chinaURL = url.toString();
-                if(PRUiHelper.getInstance().getCountryCode().equalsIgnoreCase("CN")){
-                    chinaURL = "https://acc.philips.com.cn/prx/registration/";
-                }
-               // String url1 = "https://acc.philips.com.cn/prx/registration/B2C/zh_CN/CONSUMER/products/XZ5810/70.register.type.product";
-                listener.onSuccess(getRequestUrl(chinaURL));
-            }
-
-            public void onError(ERRORVALUES error, String message) {
-                PrxLogger.i("Registration Request","Registration Request :error :"+error.toString() + ":  message : "+message );
-                //PrxLogger.i("ERRORVALUES ***", "" + message);
-                listener.onError(error, message);
-            }
-        });
-    }
-
-
     @Override
     public int getRequestType() {
         return RequestType.POST.getValue();
@@ -269,9 +180,18 @@ public class RegistrationRequest extends PrxRequest {
         String ACCESS_TOKEN_TAG = "x-accessToken";
         final Map<String, String> headers = new HashMap<>();
         headers.put(ACCESS_TOKEN_TAG, getAccessToken());
-        if(PRUiHelper.getInstance().getCountryCode().equalsIgnoreCase("CN")){
-            headers.put("x-provider", "JANRAIN-CN");
-        }
+        PRUiHelper.getInstance().getAppInfraInstance().getServiceDiscovery().getServiceUrlWithCountryPreference(serviceID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+                PrxLogger.i("Registration Request","Registration Request :error :"+errorvalues.toString() + ":  message : "+s );
+            }
+            @Override
+            public void onSuccess(URL url) {
+                if (url.toString().contains("philips.com.cn")){
+                    headers.put("x-provider", "JANRAIN-CN");
+                }
+            }
+        });
         return headers;
     }
 

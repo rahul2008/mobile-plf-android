@@ -33,18 +33,12 @@ import static com.philips.cdp.prodreg.fragments.ProdRegRegistrationFragment.TAG;
 public class RegisteredProductsRequest extends PrxRequest {
 
     private String accessToken;
-    private String mServerInfo = "https://acc.philips.com/prx/registration.registeredProducts";
-    private String mServiceId ="";
+    private String mServiceId;
 
     public RegisteredProductsRequest(String ctn, String serviceID, Sector sector, Catalog catalog) {
         super(ctn, serviceID, sector, catalog);
         mServiceId = serviceID;
     }
-
-//    public RegisteredProductsRequest(String ctn, String serviceId) {
-//        super(ctn, serviceId);
-//    }
-
 
     public String getAccessToken() {
         return accessToken;
@@ -59,73 +53,7 @@ public class RegisteredProductsRequest extends PrxRequest {
         return new RegisteredResponse().parseJsonResponseData(jsonObject);
     }
 
-//    @Override
-//    public String getServerInfo() {
-////        String mConfiguration = getRegistrationEnvironment();
-////        if (mConfiguration.equalsIgnoreCase("Development")) {
-////            mServerInfo = "https://10.128.41.113.philips.com/prx/registration.registeredProducts";
-////        } else if (mConfiguration.equalsIgnoreCase("Testing")) {
-////            mServerInfo = "https://tst.philips.com/prx/registration.registeredProducts";
-////        } else if (mConfiguration.equalsIgnoreCase("Evaluation")) {
-////            mServerInfo = "https://acc.philips.com/prx/registration.registeredProducts";
-////        } else if (mConfiguration.equalsIgnoreCase("Staging")) {
-////            mServerInfo = "https://dev.philips.com/prx/registration.registeredProducts";
-////        } else if (mConfiguration.equalsIgnoreCase("Production")) {
-////            mServerInfo = "https://www.philips.com/prx/registration.registeredProducts";
-////        }
-//        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
-//        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
-//
-//        serviceDiscoveryInterface.getServiceUrlWithCountryPreference("prodreg.registeredProductsRequest",
-//                new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-//                    @Override
-//                    public void onError(ERRORVALUES errorvalues, String s) {
-//                        Log.d(TAG, " Response Error : " + s);
-//
-//                    }
-//
-//                    @Override
-//                    public void onSuccess(URL url) {
-//                        mServerInfo = url.toString();
-//                    }
-//                });
-//        return mServerInfo;
-//    }
 
-    protected String getRegistrationEnvironment() {
-        return RegistrationConfiguration.getInstance().getRegistrationEnvironment();
-    }
-
-//    @Override
-    public String getRequestUrl(String url) {
-        Uri builtUri = Uri.parse(url)
-                .buildUpon()
-                .build();
-        ProdRegLogger.d(getClass() + "", builtUri.toString());
-        return builtUri.toString();
-    }
-public void getRequestUrlFromAppInfra(AppInfraInterface appInfra, final PrxRequest.OnUrlReceived listener) {
-
-    appInfra.getServiceDiscovery().getServiceUrlWithCountryPreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-        public void onSuccess(URL url) {
-            PrxLogger.i("SUCCESS ***", "" + url);
-
-            String chinaURL = url.toString();
-            if(PRUiHelper.getInstance().getCountryCode().equalsIgnoreCase("CN")){
-                chinaURL = "https://acc.philips.com.cn/prx/product/";
-            }
-            PrxLogger.i("SUCCESS ***", "" + chinaURL);
-           // String url1 = "https://acc.philips.com.cn/prx/registration.registeredProducts";
-            listener.onSuccess(getRequestUrl(chinaURL));
-        }
-
-        public void onError(ERRORVALUES error, String message) {
-            PrxLogger.i("Registered Products Request","ProductRequest :error :"+error.toString() + ":  message : "+message );
-            //PrxLogger.i("******* ERRORVALUES ***", "" + message);
-            listener.onError(error, message);
-        }
-    });
-}
     @Override
     public int getRequestType() {
         return RequestType.GET.getValue();
@@ -136,9 +64,18 @@ public void getRequestUrlFromAppInfra(AppInfraInterface appInfra, final PrxReque
         String ACCESS_TOKEN_TAG = "x-accessToken";
         final Map<String, String> headers = new HashMap<>();
         headers.put(ACCESS_TOKEN_TAG, getAccessToken());
-        if(PRUiHelper.getInstance().getCountryCode().equalsIgnoreCase("CN")){
-            headers.put("x-provider", "JANRAIN-CN");
-        }
+        PRUiHelper.getInstance().getAppInfraInstance().getServiceDiscovery().getServiceUrlWithCountryPreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+                PrxLogger.i("Registration Request","Registration Request :error :"+errorvalues.toString() + ":  message : "+s );
+            }
+            @Override
+            public void onSuccess(URL url) {
+                if (url.toString().contains("philips.com.cn")){
+                    headers.put("x-provider", "JANRAIN-CN");
+                }
+            }
+        });
         return headers;
     }
 
