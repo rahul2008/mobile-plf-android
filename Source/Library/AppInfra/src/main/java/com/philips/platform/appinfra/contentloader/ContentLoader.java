@@ -79,6 +79,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
             this.downloadLimit = getDownloadLimitFromConfig();
         }
         mContentDatabaseHandler = ContentDatabaseHandler.getInstance(context);
+        updateContentLoaderState();
     }
 
 
@@ -353,6 +354,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         if (contentLoaderExpiryTime != 0) {
             if (contentLoaderExpiryTime < currentTime) { // if content loader is expired then refresh
                 mContentLoaderState=  STATE.CACHED_DATA_OUTDATED;
+                clearCache();
             } else {
                 mContentLoaderState = STATE.CACHED_DATA_AVAILABLE;
             }

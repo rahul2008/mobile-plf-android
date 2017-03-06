@@ -133,7 +133,9 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                 databaseContentItems = getContentItems(serviceID);
                 Log.v("DELETE", "DB SIZE AFTER DELETE= " + databaseContentItems.size());
             }
-
+            if (SQLitetransaction) {
+                updateContentLoaderStateTable(db, lastUpdatedTime, serviceID, expiryDate);
+            }
         } catch (Exception e) {
             SQLitetransaction = false;
             Log.w("insertQuery:", e);
@@ -275,7 +277,20 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
     }
 
 
+    private boolean updateContentLoaderStateTable(SQLiteDatabase db, long mLastUpdatedTime, String serviceID, long expiryDate) {
+        ContentValues values = new ContentValues();
+        values.put(KEY_SERVICE_ID, serviceID);
+        values.put(KEY_EXPIRE_TIMESTAMP, expiryDate);
+        values.put(KEY_LAST_UPDATED_TIME, mLastUpdatedTime);
 
+        long rowId = db.replace(CONTENT_LOADER_STATES, null, values);
+        if (rowId == -1) {
+            Log.e("INS FAIL", CONTENT_LOADER_STATES);
+        } else {
+            Log.i("INS SUC", "row id " + CONTENT_LOADER_STATES + " " + rowId);
+        }
+        return rowId == -1 ? false : true;
+    }
 
     protected long getContentLoaderServiceStateExpiry(String serviceID) {
         long expiryTime = 0l;
