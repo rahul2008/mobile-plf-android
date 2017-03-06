@@ -58,6 +58,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
@@ -71,11 +72,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 /**
  * {@code User} class represents information related to a logged in user of User Registration component.
  * Additionally, it exposes APIs to login, logout and refresh operations for traditional and social accounts.
  */
 public class User {
+
+    @Inject
+    NetworkUtility networkUtility;
 
     private boolean mEmailVerified;
 
@@ -127,6 +133,7 @@ public class User {
      * @param context
      */
     public User(Context context) {
+        URInterface.getComponent().inject(this);
         mContext = context;
         mUpdateUserRecordHandler = new UpdateUserRecord(mContext);
     }
@@ -687,7 +694,7 @@ public class User {
      * @param handler Callback mHandler
      */
     public void refreshUser(final RefreshUserHandler handler) {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
+        if (networkUtility.isNetworkAvailable()) {
             new RefreshandUpdateUserHandler(mUpdateUserRecordHandler, mContext).refreshAndUpdateUser(handler, this, ABCD.getInstance().getmP());
             //ABCD.getInstance().setmP(null);
         } else {

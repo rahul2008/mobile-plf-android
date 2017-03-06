@@ -20,11 +20,12 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.philips.cdp.registration.apptagging.AppTaggingPages;
+import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.base.CoppaStatus;
 import com.philips.cdp.registration.coppa.ui.controllers.ParentalApprovalFragmentController;
 import com.philips.cdp.registration.coppa.utils.AppTaggingCoppaPages;
+import com.philips.cdp.registration.coppa.utils.CoppaInterface;
 import com.philips.cdp.registration.coppa.utils.RegCoppaUtility;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -34,6 +35,8 @@ import com.philips.cdp.registration.ui.utils.RLog;
 
 public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment implements
         NetworStateListener {
+
+    private NetworkUtility networkUtility;
 
     private LinearLayout mLlConfirmApprovalParent;
     private TextView mTvConfirmApprovalDesc;
@@ -67,6 +70,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "ParentalApprovalFragment : onCreateView");
+        networkUtility = CoppaInterface.getComponent().getNetworkUtility();
         View view = null;
         if (getResources().getBoolean(R.bool.isTablet)) {
             view = inflater.inflate(R.layout.reg_fragment_coppa_parental_approval_tablet, null);
@@ -262,7 +266,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
         handleOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (NetworkUtility.isNetworkAvailable(mContext)) {
+                if (networkUtility.isNetworkAvailable()) {
                     if (mRegError != null)
                         mRegError.hideError();
                     if (mBtnAgree != null)

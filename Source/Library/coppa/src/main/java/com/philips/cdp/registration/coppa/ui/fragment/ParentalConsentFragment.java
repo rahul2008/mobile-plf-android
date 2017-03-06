@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.ui.controllers.ParentalConsentFragmentController;
+import com.philips.cdp.registration.coppa.utils.CoppaInterface;
 import com.philips.cdp.registration.coppa.utils.RegCoppaUtility;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -32,6 +33,8 @@ import com.philips.cdp.registration.ui.utils.RLog;
 
 public class ParentalConsentFragment extends RegistrationCoppaBaseFragment
         implements OnClickListener, NetworStateListener {
+
+    private NetworkUtility networkUtility;
 
     private Button mBtnConsentConfirm;
     private Button mBtnConsentChange;
@@ -60,7 +63,7 @@ public class ParentalConsentFragment extends RegistrationCoppaBaseFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserParentalAccessFragment : onCreateView");
-
+        networkUtility = CoppaInterface.getComponent().getNetworkUtility();
         View view = inflater.inflate(R.layout.reg_fragment_parental_consent, null);
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
 
@@ -210,7 +213,7 @@ public class ParentalConsentFragment extends RegistrationCoppaBaseFragment
         handleOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (NetworkUtility.isNetworkAvailable(mContext)) {
+                if (networkUtility.isNetworkAvailable()) {
                     if (mRegError != null)
                         mRegError.hideError();
                     if (mBtnConsentConfirm != null)

@@ -6,7 +6,7 @@
  * /
  */
 
-package com.philips.cdp.registration.apptagging;
+package com.philips.cdp.registration.app.tagging;
 
 public class AppTagingConstants {
 
