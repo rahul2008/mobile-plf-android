@@ -214,4 +214,71 @@ public class FetchingMonitorTest {
         fetchingMonitor.onEventAsync(new GetNonSynchronizedDataRequest(1));
        // final Map<Class, List<?>> classListMap = verify(fetching).putUserCharacteristicsForSync(null);
     }
+
+    @Test
+    public void LoadMomentsRequestTest() throws SQLException {
+        fetchingMonitor.onEventAsync(new LoadMomentsRequest(dbFetchRequestListner));
+        verify(fetching).fetchMoments(dbFetchRequestListner);
+    }
+
+    @Test
+    public void LoadMomentsRequestTest_hasType() throws SQLException {
+        fetchingMonitor.onEventAsync(new LoadMomentsRequest(dbFetchRequestListner,"Temperature"));
+        verify(fetching).fetchMoments(dbFetchRequestListner,"Temperature");
+    }
+
+    @Test
+    public void LoadMomentsRequestTest_hasID() throws SQLException {
+        fetchingMonitor.onEventAsync(new LoadMomentsRequest(1,dbFetchRequestListner));
+        verify(fetching).fetchMomentById(1,dbFetchRequestListner);
+    }
+
+    @Test
+    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchMomentsBYID() throws Exception {
+        doThrow(SQLException.class).when(fetching).fetchMoments(dbFetchRequestListner);
+        fetchingMonitor.onEventAsync(new LoadMomentsRequest(dbFetchRequestListner));
+        verify(fetching).fetchMoments(dbFetchRequestListner);
+    }
+
+    @Test
+    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchConsentDetails_1() throws Exception {
+        doThrow(SQLException.class).when(fetching).fetchConsentDetails(dbFetchRequestListner);
+        fetchingMonitor.onEventAsync(new LoadConsentsRequest(dbFetchRequestListner));
+        verify(fetching).fetchConsentDetails(dbFetchRequestListner);
+    }
+
+    @Test
+    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchNonSynchronizedMoments() throws Exception {
+        doThrow(SQLException.class).when(fetching).fetchNonSynchronizedMoments();
+        fetchingMonitor.onEventAsync(new GetNonSynchronizedMomentsRequest(dbRequestListener));
+        verify(fetching).fetchNonSynchronizedMoments();
+    }
+
+    @Test
+    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchConsentDetails() throws Exception {
+        doThrow(SQLException.class).when(fetching).fetchConsentDetails();
+        fetchingMonitor.onEventAsync(new GetNonSynchronizedMomentsRequest(dbRequestListener));
+        verify(fetching).fetchConsentDetails();
+    }
+
+    @Test
+    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchCharacteristics() throws Exception {
+        doThrow(SQLException.class).when(fetching).fetchCharacteristics(dbFetchRequestListner);
+        fetchingMonitor.onEventAsync(new LoadUserCharacteristicsRequest(dbFetchRequestListner));
+        verify(fetching).fetchCharacteristics(dbFetchRequestListner);
+    }
+
+    @Test
+    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchSettings() throws Exception {
+        doThrow(SQLException.class).when(fetching).fetchSettings(dbFetchRequestListner);
+        fetchingMonitor.onEventAsync(new LoadSettingsRequest(dbFetchRequestListner));
+        verify(fetching).fetchSettings(dbFetchRequestListner);
+    }
+
+    @Test
+    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchConsentDetails_2() throws Exception {
+        doThrow(SQLException.class).when(fetching).fetchConsentDetails(dbFetchRequestListner);
+        fetchingMonitor.onEventAsync(new LoadConsentsRequest(dbFetchRequestListner));
+        verify(fetching).fetchConsentDetails(dbFetchRequestListner);
+    }
 }

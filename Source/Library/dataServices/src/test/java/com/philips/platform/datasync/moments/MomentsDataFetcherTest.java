@@ -3,12 +3,15 @@ package com.philips.platform.datasync.moments;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.BaseAppData;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
 import com.philips.platform.core.events.ListEvent;
+import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
+import com.philips.platform.datasync.characteristics.UserCharacteristicsClient;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -18,6 +21,7 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -43,6 +48,11 @@ public class MomentsDataFetcherTest {
     public static final String DATE_TIME = "TEST_DATE_TIME";
     private static final String TEST_MOMENT_SYNC_URL = "TEST_MOMENT_SYNC_URL";
 
+
+    private String TEST_ACCESS_TOKEN = "TEST_ACCESS_TOKEN";
+
+    private String TEST_USER_ID = "TEST_USER_ID";
+
     private MomentsDataFetcher fetcher;
 
     private UCoreMomentsHistory momentsHistory = new UCoreMomentsHistory();
@@ -52,6 +62,9 @@ public class MomentsDataFetcherTest {
 
     @Mock
     private Eventing eventingMock;
+
+    @Mock
+    private RetrofitError retrofitErrorMock;
 
     @Mock
     private MomentsConverter converterMock;
@@ -205,4 +218,36 @@ public class MomentsDataFetcherTest {
         verify(converterMock, times(1)).convert(uCoreMomentList);
         verify(eventingMock).post(isA(BackendMomentListSaveRequest.class));
     }
+
+    /*@Test
+    public void ShouldPostExceptionEvent_WhenRetrofitError_For_getMomentsHistory() throws Exception {
+        when(momentsClientMock.getMomentsHistory(accessProviderMock.getUserId(),
+                accessProviderMock.getUserId(), "")).thenThrow(retrofitErrorMock);
+     *//*  momentsClientMock.getMomentsHistory(accessProviderMock.getUserId(),
+               accessProviderMock.getUserId(), "");*//*
+      //  when(momentsClientMock.getUserCharacteristics(TEST_USER_ID, TEST_USER_ID, 9)).thenThrow(retrofitErrorMock);
+        RetrofitError retrofitError = fetcher.fetchDataSince(null);
+
+        assertThat(retrofitError).isNotNull();
+    //    fetcher.fetchDataSince(null);
+
+    }*/
+
+  /*  @Test
+    public void ShouldThrowRetrofitError_WhenFetchDataFails() throws Exception {
+        when(accessProviderMock.isLoggedIn()).thenReturn(true);
+        when(accessProviderMock.getAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
+        when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
+      //  final UserCharacteristicsClient uCoreClientMock = mock(Mo.class);
+        when(coreAdapterMock.getAppFrameworkClient(MomentsClient.class,
+                TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(momentsClientMock);
+      *//*  final RetrofitError retrofitErrorMock = mock(RetrofitError.class);
+        when(retrofitErrorMock.getMessage()).thenReturn("ERROR");*//*
+        //when(momentsClientMock.getMomentsHistory(TEST_USER_ID, TEST_USER_ID, "")).thenThrow(retrofitErrorMock);
+        when(momentsClientMock.getMomentsHistory(accessProviderMock.getUserId(),
+                accessProviderMock.getUserId(), "")).thenThrow(retrofitErrorMock);
+        RetrofitError retrofitError = fetcher.fetchDataSince(null);
+
+        assertThat(retrofitError).isNotNull();
+    }*/
 }
