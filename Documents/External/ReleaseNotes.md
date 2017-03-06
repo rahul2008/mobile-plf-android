@@ -6,6 +6,7 @@ Version 3.1.2
 
 ### API Changes
 * Added type parameter to DICommPortListener to prevent unneeded inline casting.
+* Added PortProperties marker interface to type parameter of DICommPort in order to enforce ProGuard rules (prevent field name mangling for JSON deserialization).
 
 ### New features
 * COM-24 Updated to work with new CloudController API
