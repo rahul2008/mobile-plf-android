@@ -7,41 +7,43 @@ node('Android') {
     }
 
     Pipeline = load "Source/common/jenkins/Pipeline.groovy"
+    Slack = load "Source/common/jenkins/Slack.groovy"
 
-    stage('Build') {
-        sh 'cd ./Source/ShineLib && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease'
-    }
+    Slack.notify('#conartists') {
+        stage('Build') {
+            sh 'cd ./Source/ShineLib && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease'
+        }
 
-    stage('Unit test') {
-        sh 'rm -rf ./Source/ShineLib/shinelib/build/test-results/debug ./Source/ShineLib/pluginreferenceboard/build/test-results/debug'
-        sh 'cd ./Source/ShineLib && ./gradlew -PenvCode=${JENKINS_ENV} test || true'
-        step([$class: 'JUnitResultArchiver', testResults: 'Source/ShineLib/*/build/test-results/*/*.xml'])
-    }
+        stage('Unit test') {
+            sh 'rm -rf ./Source/ShineLib/shinelib/build/test-results/debug ./Source/ShineLib/pluginreferenceboard/build/test-results/debug'
+            sh 'cd ./Source/ShineLib && ./gradlew -PenvCode=${JENKINS_ENV} test || true'
+            step([$class: 'JUnitResultArchiver', testResults: 'Source/ShineLib/*/build/test-results/*/*.xml'])
+        }
 
-    stage('Lint') {
-        sh 'cd ./Source/ShineLib && ./gradlew -PenvCode=${JENKINS_ENV} lintDebug || true'
-        step([$class: 'LintPublisher', healthy: '0', unHealthy: '20', unstableTotalAll: '20'])
-    }
+        stage('Lint') {
+            sh 'cd ./Source/ShineLib && ./gradlew -PenvCode=${JENKINS_ENV} lintDebug || true'
+            step([$class: 'LintPublisher', healthy: '0', unHealthy: '20', unstableTotalAll: '20'])
+        }
 
-    stage('Archive Apps') {
-        step([$class: 'ArtifactArchiver', artifacts: 'Source/ShineLib/bluelibtestapp/build/outputs/apk/*.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
-        step([$class: 'ArtifactArchiver', artifacts: 'Source/ShineLib/bluelibexampleapp/build/outputs/apk/*.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
-    }
+        stage('Archive artifacts') {
+            step([$class: 'ArtifactArchiver', artifacts: 'Source/ShineLib/bluelibtestapp/build/outputs/apk/*.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
+            step([$class: 'ArtifactArchiver', artifacts: 'Source/ShineLib/bluelibexampleapp/build/outputs/apk/*.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
+        }
 
-    stage('Reporting') {
-        step([$class: 'JacocoPublisher', execPattern: '**/*.exec', classPattern: '**/classes', sourcePattern: '**/src/main/java', exclusionPattern: '**/R.class,**/R$*.class,**/BuildConfig.class,**/Manifest*.*,**/*Activity*.*,**/*Fragment*.*'])
-    }
+        stage('Reporting') {
+            step([$class: 'JacocoPublisher', execPattern: '**/*.exec', classPattern: '**/classes', sourcePattern: '**/src/main/java', exclusionPattern: '**/R.class,**/R$*.class,**/BuildConfig.class,**/Manifest*.*,**/*Activity*.*,**/*Fragment*.*'])
+        }
 
-    if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME == "master") {
-        stage('Publish') {
-            sh 'cd ./Source/ShineLib && ./gradlew -PenvCode=${JENKINS_ENV} zipDocuments artifactoryPublish'
+        if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME == "master") {
+            stage('Publish') {
+                sh 'cd ./Source/ShineLib && ./gradlew -PenvCode=${JENKINS_ENV} zipDocuments artifactoryPublish'
+            }
+        }
+
+        stage('Dependencies list') {
+            sh 'cd ./Source/ShineLib && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
+            archiveArtifacts '**/dependencies.lock'
         }
     }
-
-    stage('Dependencies list') {
-        sh 'cd ./Source/ShineLib && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
-        archiveArtifacts '**/dependencies.lock'
-    }
-
     Pipeline.trigger(env.triggerBy, env.BRANCH_NAME, "BlueLib", "bll")
 }
