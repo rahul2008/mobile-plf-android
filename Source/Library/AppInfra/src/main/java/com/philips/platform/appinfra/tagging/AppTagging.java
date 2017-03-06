@@ -95,12 +95,12 @@ public class AppTagging implements AppTaggingInterface {
 		try {
 			final InputStream mInputStream = mAppInfra.getAppInfraContext().getAssets().open("ADBMobileConfig.json");
 			final BufferedReader mBufferedReader = new BufferedReader(new InputStreamReader(mInputStream));
-			final StringBuilder total = new StringBuilder();
+			final StringBuilder mStringBuilder = new StringBuilder();
 			String line;
 			while ((line = mBufferedReader.readLine()) != null) {
-				total.append(line).append('\n');
+				mStringBuilder.append(line).append('\n');
 			}
-			result = new JSONObject(total.toString());
+			result = new JSONObject(mStringBuilder.toString());
 			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "Json",
 					result.toString());
 		} catch (Exception e) {
@@ -141,7 +141,7 @@ public class AppTagging implements AppTaggingInterface {
 
 	private Map<String, Object> removeSensitiveData(Map<String, Object> data) {
 
-		AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
+		final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
 				.AppConfigurationError();
 		if (getPrivacyConsentForSensitiveData() && mAppInfra.getConfigInterface() != null) {
 			try {
@@ -194,10 +194,10 @@ public class AppTagging implements AppTaggingInterface {
 		String mUTCTimestamp = null;
 
 		if (mAppInfra.getTime() != null) {
-			final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
-			df.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
+			final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
+			dateFormat.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
 
-			mUTCTimestamp = df.format(mAppInfra.getTime().getUTCTime());
+			mUTCTimestamp = dateFormat.format(mAppInfra.getTime().getUTCTime());
 			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
 					"Tagging", mUTCTimestamp);
 
@@ -251,7 +251,7 @@ public class AppTagging implements AppTaggingInterface {
 
 	@Override
 	public PrivacyStatus getPrivacyConsent() {
-		MobilePrivacyStatus mMobilePrivacyStatus = Config.getPrivacyStatus();
+		final MobilePrivacyStatus mMobilePrivacyStatus = Config.getPrivacyStatus();
 		PrivacyStatus mPrivacyStatus = null;
 		switch (mMobilePrivacyStatus) {
 			case MOBILE_PRIVACY_STATUS_OPT_IN:
@@ -330,7 +330,7 @@ public class AppTagging implements AppTaggingInterface {
 	@Override
 	public boolean getPrivacyConsentForSensitiveData() {
 		final String consentValueString = mAppInfra.getSecureStorage().fetchValueForKey(AIL_PRIVACY_CONSENT, getSecureStorageErrorValue());
-		boolean consentValue = consentValueString != null && consentValueString.equalsIgnoreCase("true");
+		final boolean consentValue = consentValueString != null && consentValueString.equalsIgnoreCase("true");
 		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
 				"Tagging-consentValue", "" + consentValue);
 		return consentValue;
