@@ -4,6 +4,20 @@
  */
 apply plugin: 'com.android.application'
 
+buildscript { bs ->
+    apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
+    apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
+    repositories {
+        maven { url repos.jcenter }
+    }
+}
+
+repositories {
+    maven { url repos.jcenter }
+    maven { url repos.release }
+    maven { url repos.snapshot }
+}
+
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
@@ -19,23 +33,26 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    lintOptions {
+        abortOnError false
     }
 }
 
 dependencies {
     def bluelib = findProject(':bluelib') ? ':bluelib' : ':shinelib'
 
-    compile project(bluelib)
-    compile project(path: ':pluginreferenceboard')
+    debugCompile project(path: bluelib, configuration: 'debug')
+    releaseCompile project(path: bluelib, configuration: 'release')
 
-    compile deps.gson
+    compile(project(':pluginreferenceboard')) {
+        exclude module: 'bluelib'
+    }
+    compile deps.support.appcompatv7
 
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.philips.pins.shinelib:shinepluginmoonshinelib-release:+@aar'
-    compile 'com.philips.pins.shinelib:packetcommunication-release:+@aar'
-
-    testCompile 'junit:junit:4.12'
+    testCompile deps.junit
 }

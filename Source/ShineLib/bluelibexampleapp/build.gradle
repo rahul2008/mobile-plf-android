@@ -4,6 +4,23 @@
  */
 apply plugin: 'com.android.application'
 
+buildscript { bs ->
+    apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
+    apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
+    repositories {
+        maven { url repos.jcenter }
+    }
+}
+
+repositories {
+    maven { url repos.jcenter }
+    maven { url repos.release }
+    maven { url repos.snapshot }
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
@@ -19,32 +36,29 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
     lintOptions {
-        disable 'GoogleAppIndexingWarning'
-    }
-}
-
-repositories {
-    flatDir {
-        dirs 'libs'
+        abortOnError false
     }
 }
 
 dependencies {
     def bluelib = findProject(':bluelib') ? ':bluelib' : ':shinelib'
 
-    compile project(':pluginreferenceboard')
-    compile project(bluelib)
+    debugCompile project(path: bluelib, configuration: 'debug')
+    releaseCompile project(path: bluelib, configuration: 'release')
 
-    compile deps.gson
-    compile deps.support_annotations
+    compile(project(':pluginreferenceboard')) {
+        exclude module: 'bluelib'
+    }
 
-    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile deps.support.annotations
+    compile deps.support.appcompatv7
+
     compile 'com.android.support:design:24.2.0'
     compile 'com.android.support:recyclerview-v7:24.2.0'
     compile 'com.android.support:support-compat:24.2.0'
@@ -53,8 +67,7 @@ dependencies {
     compile 'com.android.support:support-fragment:24.2.0'
     compile 'com.android.support:support-v4:24.2.0'
     compile 'com.android.support:support-vector-drawable:24.2.0'
-    compile 'com.philips.pins.shinelib:packetcommunication-release:+@aar'
-    compile 'com.philips.pins.shinelib:shinepluginmoonshinelib-release:+@aar'
-    testCompile 'junit:junit:4.12'
+
+    testCompile deps.junit
 }
 
