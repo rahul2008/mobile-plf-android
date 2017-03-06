@@ -1,7 +1,9 @@
 package com.philips.hor_productselection_android;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -167,7 +169,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
 
             case R.id.buttonFragment:
                 launchProductSelectionAsFragment();
-              //  ProductModelSelectionHelper.getInstance().initializeTagging(true, "ProductSelection", "101", "vertical:productSelection:home");
+                //  ProductModelSelectionHelper.getInstance().initializeTagging(true, "ProductSelection", "101", "vertical:productSelection:home");
                 break;
 
             case R.id.addimageButton:
@@ -175,29 +177,12 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
                 break;
 
             case R.id.change_theme:
-//                String preferences = null;
-//                int themeValue = (int) (Math.random() * (4 - 0)) + 0;
-//                switch (themeValue) {
-//                    case 0:
-//                        getUiKitThemeUtil().setThemePreferences(false);
-//                        break;
-//                    case 1:
-//                        preferences = "blue|false|solid|0";
-//                        getUiKitThemeUtil().setThemePreferences(preferences);
-//                        break;
-//                    case 2:
-//                        preferences = "orange|false|solid|0";
-//                        getUiKitThemeUtil().setThemePreferences(preferences);
-//                        break;
-//
-//                    case 3:
-//                        preferences = "aqua|false|solid|0";
-//                        getUiKitThemeUtil().setThemePreferences(preferences);
-//                        break;
-//                }
-//
-//                relaunchActivity();
-//                break;
+                Resources.Theme theme = super.getTheme();
+                ThemeUtil mThemeUtil = new ThemeUtil(getApplicationContext().getSharedPreferences(
+                        this.getString(R.string.app_name), Context.MODE_PRIVATE));
+                theme.applyStyle(mThemeUtil.getNextTheme(), true);
+                relaunchActivity();
+                break;
         }
     }
 
@@ -214,9 +199,10 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
 
 
         mProductSelectionHelper.setLocale("en", "GB");
-
+        ThemeUtil mThemeUtil = new ThemeUtil(getApplicationContext().getSharedPreferences(
+                this.getString(R.string.app_name), Context.MODE_PRIVATE));
         ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
-                R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground);
+                mThemeUtil.getCurrentTheme());
         uiLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);
        /* ProductModelSelectionHelper.getInstance().setSummaryDataListener(new SummaryDataListener() {
             @Override
@@ -241,12 +227,21 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
             }
         });
         ProductModelSelectionHelper.getInstance().invokeProductSelection(uiLauncher, productsSelection);
-      //  ProductSelectionLogger.enableLogging();
+        //  ProductSelectionLogger.enableLogging();
 
     }
 
 
     private void launchProductSelectionAsFragment() {
         startActivity(new Intent(this, SampleActivitySelection.class));
+    }
+
+    @Override
+    public Resources.Theme getTheme() {
+        Resources.Theme theme = super.getTheme();
+        ThemeUtil mThemeUtil = new ThemeUtil(getApplicationContext().getSharedPreferences(
+                this.getString(R.string.app_name), Context.MODE_PRIVATE));
+        theme.applyStyle(mThemeUtil.getCurrentTheme(), true);
+        return theme;
     }
 }

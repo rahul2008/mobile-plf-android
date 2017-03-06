@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/Select_Product_Title"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/uikit_white"
         android:textSize="20dp" />
 
 </RelativeLayout>
