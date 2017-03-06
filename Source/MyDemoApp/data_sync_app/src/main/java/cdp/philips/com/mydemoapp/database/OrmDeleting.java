@@ -102,12 +102,12 @@ public class OrmDeleting {
         measurementDetailDao.executeRawNoArgs("DELETE FROM `ormmeasurementdetail`");
         synchronisationDataDao.executeRawNoArgs("DELETE FROM `ormsynchronisationdata`");
         consentDetailDao.executeRawNoArgs("DELETE FROM `ormconsentdetail`");
-        insertDefaultUCSync();
+        insertDefaultConsentDetails();
         characteristicsDao.executeRawNoArgs("DELETE FROM `ormcharacteristics`");
         settingsDao.executeRawNoArgs("DELETE FROM `ormsettings`");
     }
 
-    private void insertDefaultUCSync() {
+    private void insertDefaultConsentDetails() {
 
         try {
             consentDetailDao.createOrUpdate(new OrmConsentDetail
