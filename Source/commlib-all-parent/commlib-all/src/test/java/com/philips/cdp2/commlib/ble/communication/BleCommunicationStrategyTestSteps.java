@@ -41,8 +41,10 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -128,8 +130,8 @@ public class BleCommunicationStrategyTestSteps {
         validateMockitoUsage();
     }
 
-    @Given("^the BleStrategy is initialized with id '(.*?)'$")
-    public void the_BleStrategy_is_initialized_with_id(String deviceId) {
+    @Given("^the BLE communication strategy is initialized with id '(.*?)'$")
+    public void theBLECommunicationStrategyIsInitializedWithId(String deviceId) {
         mStrategy = new BleCommunicationStrategy(deviceId, mDeviceCache, callbackHandlerMock) {
 
             @Override
@@ -140,18 +142,18 @@ public class BleCommunicationStrategyTestSteps {
         };
     }
 
-    @Then("^the BleStrategy is available$")
-    public void theBleStrategyIsAvailable() {
-        assertTrue(mStrategy.isAvailable());
+    @Then("^the BLE communication strategy is available$")
+    public void theBLECommunicationStrategyIsAvailable() {
+        assertTrue("BLE communication strategy was not available", mStrategy.isAvailable());
     }
 
-    @Then("^the BleStrategy is not available$")
-    public void theBleStrategyIsNotAvailable() {
-        assertFalse(mStrategy.isAvailable());
+    @Then("^the BLE communication strategy is not available$")
+    public void theBLECommunicationStrategyIsNotAvailable() {
+        assertFalse("BLE communication strategy was available", mStrategy.isAvailable());
     }
 
-    @Then("^the BleStrategy becomes unavailable$")
-    public void theBleStrategyBecomesUnavailable() {
+    @Then("^the BLE communication strategy becomes unavailable$")
+    public void theBLECommunicationStrategyBecomesUnavailable() {
         mDeviceCache.clear();
     }
 
@@ -331,7 +333,7 @@ public class BleCommunicationStrategyTestSteps {
     @Then("^write occurred to mock device with id '(.*?)' with pattern '(.*?)'$")
     public void writeOccurredToMockDeviceWithIdWithPattern(String deviceId, String pattern) {
         Matcher m = getMatcherForWrite(deviceId, pattern);
-        assertTrue(m.matches());
+        assertTrue("pattern '" + pattern + "' was not found", m.matches());
     }
 
     @Then("^write occurred to mock device with id '(.*?)' with packet '(.*?)' and payload equivalent to$")
@@ -340,9 +342,9 @@ public class BleCommunicationStrategyTestSteps {
     }
 
     @Then("^write occurred to mock device with id '(.*?)' with packet '(.*?)' and payload equivalent to '(.*?)'$")
-    public void writeOccurredToMockDeviceWithPacketAndPayloadEquivalentToInline(String deviceId, String message, String expectedPayload) {
-        Matcher m = getMatcherForWrite(deviceId, message);
-        assertTrue(m.matches());
+    public void writeOccurredToMockDeviceWithPacketAndPayloadEquivalentToInline(String deviceId, String packet, String expectedPayload) {
+        Matcher m = getMatcherForWrite(deviceId, packet);
+        assertTrue("packet '" + packet + "' was not found", m.matches());
 
         String payload = m.group(1);
         String payloadString = new String(DatatypeConverter.parseHexBinary(payload), Charset.forName("UTF-8"));
@@ -414,7 +416,7 @@ public class BleCommunicationStrategyTestSteps {
 
     @Then("^the json result contains the key '(.*?)'$")
     public void theJsonResultContainsTheKey(String key) {
-        assertTrue(getObjectMapFromLastSuccessfulResult().containsKey(key));
+        assertTrue("key '"+ key +"' not found in: " + getObjectMapFromLastSuccessfulResult(), getObjectMapFromLastSuccessfulResult().containsKey(key));
     }
 
     @Then("^the json value for key '(.*?)' has length '(\\d+)'$")
@@ -422,8 +424,56 @@ public class BleCommunicationStrategyTestSteps {
         Map<String, Object> objectMap = getObjectMapFromLastSuccessfulResult();
 
         Object object = objectMap.get(key);
-        assertTrue(object instanceof String);
+        assertTrue(object.getClass() + " is not an instance of String ", object instanceof String);
         assertEquals(expectedLength, ((String) object).length());
+    }
+
+    @Given("^there is an appliance$")
+    public void thereIsAnAppliance() throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
+
+    @And("^a port has been added with name '(.*?)' and productID '(\\d+)'$")
+    public void aPortHasBeenAddedWithNameXAndProductID(String port, int productId) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
+
+    @When("^application subscribes to port '(.*?)' with productID '(\\d+)'$")
+    public void applicationSubscribesToPortXWithProductID(String port, int productId) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
+
+    @Then("^subscription is successful$")
+    public void subscriptionIsSuccessful() throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
+
+    @When("^application unsubscribes from port '(.*?)' with productID '(\\d+)'$")
+    public void applicationUnsubscribesFromPortXWithProductID(String port, int productId) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
+
+    @Then("^cancelling subscription is successful$")
+    public void cancellingSubscriptionIsSuccessful() throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
+
+    @When("^port '(.*?)' with productID '(\\d+)' sends a notification$")
+    public void portXWithProductIDSendsANotification(String port, int productId) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
+
+    @Then("^application receives a notification from port '(.*?)' with productID '(\\d+)'$")
+    public void applicationReceivesANotificationFromPortXWithProductID(String port, int productId) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
     }
 
     @NonNull
