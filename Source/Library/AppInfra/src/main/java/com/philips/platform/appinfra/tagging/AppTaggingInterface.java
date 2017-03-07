@@ -185,16 +185,16 @@ public interface AppTaggingInterface {
 
 	/**
 	 * get Privacy Consent For SensitiveData.
+     *
+     * @return returns consent value true or false
 	 */
 	boolean getPrivacyConsentForSensitiveData();
 
 	/**
 	 *
-	 * @return returns appId
+	 * @return returns trackingIdentifier
 	 */
-	String getAppsId();
-
-
+	String getTrackingIdentifier();
 }
 
 

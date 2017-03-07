@@ -48,7 +48,6 @@ public class AppTagging implements AppTaggingInterface {
 	public AppTagging(AppInfra aAppInfra) {
 		mAppInfra = aAppInfra;
 		init(mAppInfra.getInternationalization().getUILocale(), mAppInfra.getAppInfraContext());
-
 		// Class shall not presume appInfra to be completely initialized at this point.
 		// At any call after the constructor, appInfra can be presumed to be complete.
 	}
@@ -68,7 +67,7 @@ public class AppTagging implements AppTaggingInterface {
 				if (sslValue) {
 					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "ssl value",
 							"true");
-					return true;
+					return sslValue;
 				} else {
 					if (!checkForProductionState())
 						throw new AssertionError("ssl value in ADBMobileConfig.json should be true");
@@ -85,7 +84,6 @@ public class AppTagging implements AppTaggingInterface {
 	private void init(Locale locale, Context context) {
 		mLocale = locale;
 		Config.setContext(context);
-
 	}
 
 
@@ -97,12 +95,12 @@ public class AppTagging implements AppTaggingInterface {
 		try {
 			final InputStream mInputStream = mAppInfra.getAppInfraContext().getAssets().open("ADBMobileConfig.json");
 			final BufferedReader mBufferedReader = new BufferedReader(new InputStreamReader(mInputStream));
-			StringBuilder total = new StringBuilder();
+			final StringBuilder mStringBuilder = new StringBuilder();
 			String line;
 			while ((line = mBufferedReader.readLine()) != null) {
-				total.append(line).append('\n');
+				mStringBuilder.append(line).append('\n');
 			}
-			result = new JSONObject(total.toString());
+			result = new JSONObject(mStringBuilder.toString());
 			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "Json",
 					result.toString());
 		} catch (Exception e) {
@@ -117,11 +115,11 @@ public class AppTagging implements AppTaggingInterface {
 	 **/
 
 	private Map<String, Object> addAnalyticsDataObject() {
-		Map<String, Object> contextData = new HashMap<>();
+		final Map<String, Object> contextData = new HashMap<>();
 
 		contextData.put(AppTaggingConstants.LANGUAGE_KEY, getLanguage());
 
-		contextData.put(AppTaggingConstants.APPSID_KEY, getAppsId());
+		contextData.put(AppTaggingConstants.APPSID_KEY, getTrackingIdentifier());
 		if (getComponentId() != null) {
 			contextData.put(AppTaggingConstants.COMPONENT_ID, getComponentId());
 		}
@@ -143,32 +141,29 @@ public class AppTagging implements AppTaggingInterface {
 
 	private Map<String, Object> removeSensitiveData(Map<String, Object> data) {
 
-		AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
+		final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
 				.AppConfigurationError();
-		if (getPrivacyConsentForSensitiveData()) {
-			if (mAppInfra.getConfigInterface() != null) {
-				try {
-					Object object = mAppInfra.getConfigInterface().getPropertyForKey
-							("tagging.sensitiveData", "appinfra", configError);
-					if (object instanceof ArrayList<?>) {
-						ArrayList<?> taggingSensitiveData = (ArrayList<?>) object;
-						if (taggingSensitiveData.size() > 0) {
-							data.keySet().removeAll(taggingSensitiveData);
-						}
+		if (getPrivacyConsentForSensitiveData() && mAppInfra.getConfigInterface() != null) {
+			try {
+				final Object object = mAppInfra.getConfigInterface().getPropertyForKey
+						("tagging.sensitiveData", "appinfra", configError);
+				if (object instanceof ArrayList<?>) {
+					final ArrayList<?> taggingSensitiveData = (ArrayList<?>) object;
+					if (taggingSensitiveData.size() > 0) {
+						data.keySet().removeAll(taggingSensitiveData);
 					}
-				} catch (Exception e) {
-					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-							"Tagging", "" + e);
 				}
+			} catch (Exception e) {
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+						"Tagging", "" + e);
 			}
-			return data;
 		}
-
 		return data;
+
 	}
 
 	@Override
-	public String getAppsId() {
+	public String getTrackingIdentifier() {
 		return Analytics.getTrackingIdentifier();
 	}
 
@@ -197,14 +192,12 @@ public class AppTagging implements AppTaggingInterface {
 
 	private String getUTCTimestamp() {
 		String mUTCTimestamp = null;
-		String UTCtime;
 
 		if (mAppInfra.getTime() != null) {
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
-			df.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
+			final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
+			dateFormat.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
 
-			UTCtime = df.format(mAppInfra.getTime().getUTCTime());
-			mUTCTimestamp = UTCtime;
+			mUTCTimestamp = dateFormat.format(mAppInfra.getTime().getUTCTime());
 			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
 					"Tagging", mUTCTimestamp);
 
@@ -214,11 +207,9 @@ public class AppTagging implements AppTaggingInterface {
 	}
 
 	private String getLocalTimestamp() {
-
-		String mLocalTimestamp;
-		Calendar c = Calendar.getInstance();
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
-		mLocalTimestamp = df.format(c.getTime());
+		final Calendar calendar = Calendar.getInstance();
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
+		final String mLocalTimestamp = dateFormat.format(calendar.getTime());
 		return mLocalTimestamp;
 	}
 
@@ -260,8 +251,7 @@ public class AppTagging implements AppTaggingInterface {
 
 	@Override
 	public PrivacyStatus getPrivacyConsent() {
-
-		MobilePrivacyStatus mMobilePrivacyStatus = Config.getPrivacyStatus();
+		final MobilePrivacyStatus mMobilePrivacyStatus = Config.getPrivacyStatus();
 		PrivacyStatus mPrivacyStatus = null;
 		switch (mMobilePrivacyStatus) {
 			case MOBILE_PRIVACY_STATUS_OPT_IN:
@@ -273,9 +263,7 @@ public class AppTagging implements AppTaggingInterface {
 			case MOBILE_PRIVACY_STATUS_UNKNOWN:
 				mPrivacyStatus = PrivacyStatus.UNKNOWN;
 				break;
-
 		}
-
 		return mPrivacyStatus;
 	}
 
@@ -302,8 +290,7 @@ public class AppTagging implements AppTaggingInterface {
 	}
 
 	private void trackData(String pageName, Map<String, String> paramMap, boolean isTrackPage) {
-		Map contextData;
-		contextData = addAnalyticsDataObject();
+		Map contextData = addAnalyticsDataObject();
 		if (paramMap != null) {
 			paramMap.putAll(contextData);
 			contextData = removeSensitiveData((Map) paramMap);
@@ -317,7 +304,6 @@ public class AppTagging implements AppTaggingInterface {
 		} else {
 			Analytics.trackAction(pageName, contextData);
 		}
-
 	}
 
 	@Override
@@ -333,8 +319,6 @@ public class AppTagging implements AppTaggingInterface {
 		if (checkForSslConnection() || checkForProductionState()) {
 			Analytics.trackTimedActionEnd(actionEnd, null);
 		}
-
-
 	}
 
 	// Sets the value of Privacy Consent For Sensitive Data and stores in preferences
@@ -345,48 +329,42 @@ public class AppTagging implements AppTaggingInterface {
 
 	@Override
 	public boolean getPrivacyConsentForSensitiveData() {
-		boolean consentValue;
 		final String consentValueString = mAppInfra.getSecureStorage().fetchValueForKey(AIL_PRIVACY_CONSENT, getSecureStorageErrorValue());
-		consentValue = consentValueString != null && consentValueString.equalsIgnoreCase("true");
-		Log.i("consentValue", "" + consentValue);
+		final boolean consentValue = consentValueString != null && consentValueString.equalsIgnoreCase("true");
+		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
+				"Tagging-consentValue", "" + consentValue);
 		return consentValue;
 	}
 
 	private SecureStorage.SecureStorageError getSecureStorageErrorValue() {
-
 		return new SecureStorage.SecureStorageError();
 	}
 
 
 	@Override
 	public void trackPageWithInfo(String pageName, String key, String value) {
-
-		Map<String, String> trackMap = new HashMap<>();
-		trackMap.put(key, value);
-		track(pageName, trackMap, true);
+		trackWithInfo(pageName, key, value, true);
 	}
 
 	@Override
 	public void trackPageWithInfo(String pageName, Map<String, String> paramMap) {
-
 		track(pageName, paramMap, true);
-
 	}
 
 
 	@Override
 	public void trackActionWithInfo(String pageName, String key, String value) {
-
-		Map<String, String> trackMap = new HashMap<>();
-		trackMap.put(key, value);
-		track(pageName, trackMap, false);
-
+		trackWithInfo(pageName, key, value, false);
 	}
 
+	private void trackWithInfo(String pageName, String key, String value, boolean isTrackPage) {
+		final Map<String, String> trackMap = new HashMap<>();
+		trackMap.put(key, value);
+		track(pageName, trackMap, isTrackPage);
+	}
 
 	@Override
 	public void trackActionWithInfo(String pageName, Map<String, String> paramMap) {
-
 		track(pageName, paramMap, false);
 	}
 
@@ -417,7 +395,7 @@ public class AppTagging implements AppTaggingInterface {
 
 	@Override
 	public void trackSocialSharing(SocialMedium medium, String sharedItem) {
-		Map<String, String> trackMap = new HashMap<>();
+		final Map<String, String> trackMap = new HashMap<>();
 		trackMap.put("socialItem", sharedItem);
 		trackMap.put("socialType", medium.toString());
 		trackActionWithInfo("socialShare", trackMap);
@@ -432,6 +410,5 @@ public class AppTagging implements AppTaggingInterface {
 	public void trackFileDownload(String filename) {
 		trackActionWithInfo("sendData", "fileName", filename);
 	}
-
 
 }

@@ -49,8 +49,5 @@ public class AppInfraApplication extends Application {
         ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler(mAppInfra);
         registerActivityLifecycleCallbacks(handler);
         registerComponentCallbacks(handler);
-
-
-
     }
 }
