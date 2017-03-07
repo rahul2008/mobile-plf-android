@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -139,6 +140,14 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
                 .getDimension(R.dimen.activity_margin_port);
         mLeftRightMarginLand = (int) mFragmentActivityContext.getResources()
                 .getDimension(R.dimen.activity_margin_land);
+
+        //Support multi window feature
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (getActivity().isInMultiWindowMode()){
+                mLeftRightMarginLand = (int) getActivity().getResources()
+                        .getDimension(R.dimen.activity_margin_port);
+            }
+        }
     }
 
     @Override
