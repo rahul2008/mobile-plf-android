@@ -56,4 +56,8 @@ public interface DBFetchingInterface {
     boolean isSynced(int tableID) throws SQLException;
 
     List<? extends Insight> fetchActiveInsights(DBFetchRequestListner dbFetchRequestListner) throws SQLException;
+
+    Insight fetchInsightByGuid(@NonNull final String guid) throws SQLException;
+
+    Insight fetchInsightById(final int id, DBFetchRequestListner dbFetchRequestListner) throws SQLException;
 }

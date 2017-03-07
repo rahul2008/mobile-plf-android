@@ -129,4 +129,5 @@ public interface AppComponent {
     void injectInsightsDataFetcher(InsightDataFetcher insightDataFetcher);
 
     void injectInsightMonitor(InsightMonitor insightMonitor);
+
 }

@@ -29,6 +29,7 @@ import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmDCSync;
+import cdp.philips.com.mydemoapp.database.table.OrmInsight;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
@@ -60,12 +61,14 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
     private final Dao<OrmDCSync, Integer> ormDCSyncDao;
 
+    private final Dao<OrmInsight, Integer> ormInsightDao;
+
 
     private TemperatureMomentHelper mTemperatureMomentHelper;
 
 
     public OrmFetchingInterfaceImpl(final @NonNull Dao<OrmMoment, Integer> momentDao,
-                                    final @NonNull Dao<OrmSynchronisationData, Integer> synchronisationDataDao, Dao<OrmConsentDetail, Integer> consentDetailsDao, Dao<OrmCharacteristics, Integer> characteristicsDao, Dao<OrmSettings, Integer> settingsDao, Dao<OrmDCSync, Integer> ormDCSyncDao) {
+                                    final @NonNull Dao<OrmSynchronisationData, Integer> synchronisationDataDao, Dao<OrmConsentDetail, Integer> consentDetailsDao, Dao<OrmCharacteristics, Integer> characteristicsDao, Dao<OrmSettings, Integer> settingsDao, Dao<OrmDCSync, Integer> ormDCSyncDao, Dao<OrmInsight, Integer> ormInsightDao) {
 
         this.momentDao = momentDao;
         this.synchronisationDataDao = synchronisationDataDao;
@@ -73,6 +76,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         this.consentDetailsDao = consentDetailsDao;
         this.settingsDao = settingsDao;
         this.ormDCSyncDao = ormDCSyncDao;
+        this.ormInsightDao = ormInsightDao;
 
         notifyDBRequestListener = new NotifyDBRequestListener();
     }
@@ -220,7 +224,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     public List<OrmMoment> getActiveMoments(final List<?> ormMoments, DBFetchRequestListner dbFetchRequestListner) {
-        DSLog.i(DSLog.LOG, "pabitra In getActiveMoments - OrmFetchingInterfaceImpl");
+        DSLog.i(DSLog.LOG, "In getActiveMoments - OrmFetchingInterfaceImpl");
         List<OrmMoment> activeOrmMoments = new ArrayList<>();
         if (ormMoments != null) {
             for (OrmMoment ormMoment : (List<OrmMoment>) ormMoments) {
@@ -229,7 +233,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
                 }
             }
         }
-        DSLog.i(DSLog.LOG, "pabitra In getActiveMoments - OrmFetchingInterfaceImpl and ormMoments = " + ormMoments);
+        DSLog.i(DSLog.LOG, "In getActiveMoments - OrmFetchingInterfaceImpl and ormMoments = " + ormMoments);
         notifyDBRequestListener.notifyMomentFetchSuccess(activeOrmMoments, dbFetchRequestListner);
         return activeOrmMoments;
     }
@@ -309,6 +313,22 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     @Override
     public List<? extends Insight> fetchActiveInsights(DBFetchRequestListner dbFetchRequestListner) throws SQLException {
         return null;
+    }
+
+    @Override
+    public Insight fetchInsightByGuid(@NonNull String guid) throws SQLException {
+        QueryBuilder<OrmInsight, Integer> insightQueryBuilder = ormInsightDao.queryBuilder();
+        insightQueryBuilder.where().eq("guid", guid);
+
+        return insightQueryBuilder.queryForFirst();
+    }
+
+    @Override
+    public Insight fetchInsightById(int id, DBFetchRequestListner dbFetchRequestListner) throws SQLException {
+        QueryBuilder<OrmInsight, Integer> insightQueryBuilder = ormInsightDao.queryBuilder();
+        insightQueryBuilder.where().eq("id", id);
+
+        return insightQueryBuilder.queryForFirst();
     }
 
 

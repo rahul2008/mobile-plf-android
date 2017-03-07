@@ -1,5 +1,7 @@
 package com.philips.platform.core.datatypes;
 
+import android.support.annotation.Nullable;
+
 import com.philips.platform.datasync.insights.UCoreMetaData;
 
 import java.io.Serializable;
@@ -8,6 +10,8 @@ import java.io.Serializable;
  * Created by sangamesh on 16/01/17.
  */
 public interface Insight extends BaseAppData, Serializable {
+
+    String MOMENT_NEVER_SYNCED_AND_DELETED_GUID = "-1";
 
     String GU_ID="guid";
     String LAST_MODIFIED="last_modified";
@@ -26,59 +30,70 @@ public interface Insight extends BaseAppData, Serializable {
     String METADATA_MIN="metadata_min";
 
 
-    public void setGU_ID(String GU_ID) ;
+     void setGU_ID(String GU_ID) ;
 
-    public void setLastModified(String lastModified) ;
+     void setLastModified(String lastModified) ;
 
-    public void setInactive(boolean inactive) ;
+     void setInactive(boolean inactive) ;
 
-    public void setVersion(int version) ;
+     void setVersion(int version) ;
 
-    public void setRuleId(String ruleId) ;
+     void setRuleId(String ruleId) ;
 
-    public void setSubjectId(String subjectId) ;
+     void setSubjectId(String subjectId) ;
 
-    public void setMomentId(String momentId);
+     void setMomentId(String momentId);
 
-    public void setType(String type);
+     void setType(String type);
 
-    public void setTimeStamp(String timeStamp);
+     void setTimeStamp(String timeStamp);
 
-    public void setTitle(String title);
+     void setTitle(String title);
 
-    public void setProgram_minVersion(int program_minversion) ;
+     void setProgram_minVersion(int program_minversion) ;
 
-    public void setProgram_maxVersion(int program_maxversion) ;
+     void setProgram_maxVersion(int program_maxversion) ;
 
-    public void setMetadataAvg(int metadataAvg);
-    public void setMetadataMin(int metadataMin);
-    public void setMetadataMax(int metadataMax);
+     void setMetadataAvg(int metadataAvg);
+     void setMetadataMin(int metadataMin);
+     void setMetadataMax(int metadataMax);
 
-    public String getGUId();
+     String getGUId();
 
-    public String getLastModified() ;
+     String getLastModified() ;
 
-    public boolean isInactive();
+     boolean isInactive();
 
-    public int getVersion();
+     int getVersion();
 
-    public String getRuleId();
+     String getRuleId();
 
-    public String getSubjectId();
+     String getSubjectId();
 
-    public String getMomentId();
+     String getMomentId();
 
-    public String getType();
+     String getType();
 
-    public String getTimeStamp();
-    public String getTitle();
+     String getTimeStamp();
+     String getTitle();
 
-    public int getProgram_minVersion();
+     int getProgram_minVersion();
 
-    public int getProgram_maxVersion();
+     int getProgram_maxVersion();
 
-    public int getMetadataAvg();
-    public int getMetadataMin();
-    public int getMetadataMax();
+     int getMetadataAvg();
+     int getMetadataMin();
+     int getMetadataMax();
+
+     @Nullable
+     com.philips.platform.core.datatypes.SynchronisationData getSynchronisationData();
+
+     void setSynchronisationData(com.philips.platform.core.datatypes.SynchronisationData synchronisationData);
+
+     void setSynced(boolean isSynced);
+     boolean getSynced();
+
+     void setId(int id);
+     int getId();
 
 }

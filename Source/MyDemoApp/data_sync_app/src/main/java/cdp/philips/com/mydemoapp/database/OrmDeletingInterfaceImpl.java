@@ -79,6 +79,12 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
+    public boolean deleteInsights(List<? extends Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
+        ormDeleting.deleteInsights((List<Insight>) insights,dbRequestListener);
+        return true;
+    }
+
+    @Override
     public void deleteMoment(Moment moment, DBRequestListener dbRequestListener) throws SQLException {
         ormDeleting.ormDeleteMoment((OrmMoment) moment);
         notifyDBRequestListener.notifySuccess(dbRequestListener,(OrmMoment) moment ,SyncType.MOMENT);

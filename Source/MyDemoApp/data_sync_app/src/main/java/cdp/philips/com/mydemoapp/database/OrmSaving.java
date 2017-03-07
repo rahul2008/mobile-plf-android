@@ -232,6 +232,7 @@ public class OrmSaving {
                 public Void call() throws Exception {
                     for (Insight insight : insights) {
                         OrmInsight ormInsight = OrmTypeChecking.checkOrmType(insight, OrmInsight.class);
+                        assureSynchronisationDataIsSaved(ormInsight.getSynchronisationData());
                         insightsDao.createOrUpdate(ormInsight);
                     }
 

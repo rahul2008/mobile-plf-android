@@ -1,9 +1,12 @@
 package cdp.philips.com.mydemoapp.database.table;
 
+import android.support.annotation.Nullable;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Settings;
+import com.philips.platform.core.datatypes.SynchronisationData;
 
 import java.io.Serializable;
 
@@ -65,6 +68,12 @@ public class OrmInsight implements Insight, Serializable {
 
     @DatabaseField(canBeNull = false)
     private int metadata_min;
+
+    @DatabaseField
+    private boolean synced;
+
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = true)
+    private OrmSynchronisationData synchronisationData;
 
     @DatabaseConstructor
     public OrmInsight(String guid, String last_modified, boolean inactive, int version, String rule_id, String subjectID, String moment_id, String type, String time_stamp, String title, int program_min_version, int program_max_version, int metadata_avg, int metadata_max, int metadata_min) {
@@ -244,6 +253,32 @@ public class OrmInsight implements Insight, Serializable {
     @Override
     public int getMetadataMax() {
         return metadata_max;
+    }
+
+    @Nullable
+    @Override
+    public OrmSynchronisationData getSynchronisationData() {
+        return synchronisationData;
+    }
+
+    @Override
+    public void setSynchronisationData(SynchronisationData synchronisationData) {
+        this.synchronisationData = (OrmSynchronisationData) synchronisationData;
+    }
+
+    @Override
+    public void setSynced(boolean isSynced) {
+        this.synced=isSynced;
+    }
+
+    @Override
+    public boolean getSynced() {
+        return synced;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id=id;
     }
 
     @Override

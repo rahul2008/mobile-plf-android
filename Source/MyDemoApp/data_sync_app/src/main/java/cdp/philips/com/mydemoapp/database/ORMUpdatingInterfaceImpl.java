@@ -79,7 +79,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
 
     @Override
     public boolean updateInsights(List<? extends Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
-        return false;
+       return saving.saveInsights((List<Insight>) insights,dbRequestListener);
     }
 
 

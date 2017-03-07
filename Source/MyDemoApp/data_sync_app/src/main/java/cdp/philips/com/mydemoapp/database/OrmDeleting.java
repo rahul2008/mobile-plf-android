@@ -13,6 +13,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
+import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.listeners.DBRequestListener;
 
@@ -281,4 +282,35 @@ public class OrmDeleting {
         }
         return true;
     }
+
+    public boolean deleteInsights(final List<Insight> insights, DBRequestListener dbRequestListener) {
+
+        try {
+            momentDao.callBatchTasks(new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    for (Insight insight : insights) {
+                        //moment.setSynced(false);
+                        // OrmMoment ormMoment = OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
+                        ormDeleteInsights((OrmInsight) insight);
+                        // momentDao.refresh(ormMoment);
+                    }
+
+                    return null;
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            //dbRequestListener.onFailure(e);
+            new NotifyDBRequestListener().notifyFailure(e, dbRequestListener);
+            return false;
+        }
+        return true;
+    }
+
+    public void ormDeleteInsights(@NonNull final OrmInsight ormInsight) throws SQLException {
+        deleteSynchronisationData(ormInsight.getSynchronisationData());
+        ormInsightDao.delete(ormInsight);
+    }
+
 }
