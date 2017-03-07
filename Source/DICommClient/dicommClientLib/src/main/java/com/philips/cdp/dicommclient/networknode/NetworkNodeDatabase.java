@@ -74,7 +74,7 @@ public class NetworkNodeDatabase {
                     networkNode.setLastPairedTime(lastPairedTime);
                     networkNode.setIpAddress(ipAddress);
                     networkNode.setModelName(modelName);
-                    networkNode.setModelType(modelType);
+                    networkNode.setModelId(modelType);
                     networkNode.setHttps(https);
 
                     result.add(networkNode);
@@ -122,7 +122,7 @@ public class NetworkNodeDatabase {
 
             values.put(KEY_IP_ADDRESS, networkNode.getIpAddress());
             values.put(KEY_MODEL_NAME, networkNode.getModelName());
-            values.put(KEY_MODEL_TYPE, networkNode.getModelType());
+            values.put(KEY_MODEL_TYPE, networkNode.getModelId());
             values.put(KEY_HTTPS, networkNode.getHttps());
 
             rowId = db.insertWithOnConflict(TABLE_NETWORK_NODE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
