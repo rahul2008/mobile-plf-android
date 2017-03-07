@@ -13,7 +13,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class InsightConverter {
-
     @Inject
     BaseAppDataCreator dataCreator;
 
@@ -24,16 +23,12 @@ public class InsightConverter {
 
     @NonNull
     public List<Insight> convertToAppInsights(@NonNull final UCoreInsightList uCoreInsights) {
-
         List<Insight> insights = new ArrayList<>();
-
-
         return insights;
     }
 
     @NonNull
-    public UCoreInsightList convertToUCoreInsights(@NonNull final Collection<? extends Insight> insights) {
+    public UCoreInsightList convertToUCoreInsights(@NonNull final Collection<? extends Insight> appInsightList) {
         return null;
     }
-
 }
