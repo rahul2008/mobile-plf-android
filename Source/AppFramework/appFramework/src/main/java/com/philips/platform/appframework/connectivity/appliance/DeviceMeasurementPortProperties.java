@@ -5,6 +5,8 @@
 */
 package com.philips.platform.appframework.connectivity.appliance;
 
-public class DeviceMeasurementPortProperties {
+import com.philips.cdp2.commlib.core.port.PortProperties;
+
+public class DeviceMeasurementPortProperties implements PortProperties {
     public int measurementvalue;
 }
