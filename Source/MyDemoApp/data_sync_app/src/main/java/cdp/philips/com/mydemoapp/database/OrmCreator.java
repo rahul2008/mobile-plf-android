@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
@@ -19,6 +20,7 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.utils.UuidGenerator;
+import com.philips.platform.datasync.insights.UCoreInsight;
 
 import org.joda.time.DateTime;
 
@@ -31,6 +33,7 @@ import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmInsight;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetailType;
@@ -132,6 +135,13 @@ public class OrmCreator implements BaseAppDataCreator {
     @Override
     public Characteristics createCharacteristics(@NonNull String type, @NonNull String value) {
         return new OrmCharacteristics(type,value);
+    }
+
+    // OrmInsight(String guid, String last_modified, boolean inactive, int version, String rule_id, String subjectID, String moment_id, String type, String time_stamp, String title, int program_min_version, int program_max_version, String metadata_avg, String metadata_max, String metadata_min)
+    @NonNull
+    @Override
+    public Insight createInsight(UCoreInsight uCoreInsight) {
+        return new OrmInsight(uCoreInsight.getGuid(),uCoreInsight.getLastModified(),uCoreInsight.isInactive(),uCoreInsight.getVersion(),uCoreInsight.getRuleId(),uCoreInsight.getSubjectId(),uCoreInsight.getMomentId(),uCoreInsight.getType(),uCoreInsight.getTimeStamp(),uCoreInsight.getTitle(),uCoreInsight.getProgram_minversion(),uCoreInsight.getProgram_maxversion(),uCoreInsight.getMetadata().getAvg(),uCoreInsight.getMetadata().getMax(),uCoreInsight.getMetadata().getMin());
     }
 
     @NonNull

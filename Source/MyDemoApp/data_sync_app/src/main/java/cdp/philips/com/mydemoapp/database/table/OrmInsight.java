@@ -58,17 +58,16 @@ public class OrmInsight implements Insight, Serializable {
     private int program_max_version;
 
     @DatabaseField(canBeNull = false)
-    private String metadata_avg;
+    private int metadata_avg;
 
     @DatabaseField(canBeNull = false)
-    private String metadata_max;
+    private int metadata_max;
 
     @DatabaseField(canBeNull = false)
-    private String metadata_min;
+    private int metadata_min;
 
     @DatabaseConstructor
-    public OrmInsight(int id, String guid, String last_modified, boolean inactive, int version, String rule_id, String subjectID, String moment_id, String type, String time_stamp, String title, int program_min_version, int program_max_version, String metadata_avg, String metadata_max, String metadata_min) {
-        this.id = id;
+    public OrmInsight(String guid, String last_modified, boolean inactive, int version, String rule_id, String subjectID, String moment_id, String type, String time_stamp, String title, int program_min_version, int program_max_version, int metadata_avg, int metadata_max, int metadata_min) {
         this.guid = guid;
         this.last_modified = last_modified;
         this.inactive = inactive;
@@ -158,17 +157,17 @@ public class OrmInsight implements Insight, Serializable {
     }
 
     @Override
-    public void setMetadataAvg(String metadataAvg) {
+    public void setMetadataAvg(int metadataAvg) {
         this.metadata_avg=metadataAvg;
     }
 
     @Override
-    public void setMetadataMin(String metadataMin) {
+    public void setMetadataMin(int metadataMin) {
        this.metadata_min=metadataMin;
     }
 
     @Override
-    public void setMetadataMax(String metadataMax) {
+    public void setMetadataMax(int metadataMax) {
         this.metadata_max=metadataMax;
     }
 
@@ -233,17 +232,17 @@ public class OrmInsight implements Insight, Serializable {
     }
 
     @Override
-    public String getMetadataAvg() {
+    public int getMetadataAvg() {
         return metadata_avg;
     }
 
     @Override
-    public String getMetadataMin() {
+    public int getMetadataMin() {
         return metadata_min;
     }
 
     @Override
-    public String getMetadataMax() {
+    public int getMetadataMax() {
         return metadata_max;
     }
 

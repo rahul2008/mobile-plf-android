@@ -50,9 +50,9 @@ public interface Insight extends BaseAppData, Serializable {
 
     public void setProgram_maxVersion(int program_maxversion) ;
 
-    public void setMetadataAvg(String metadataAvg);
-    public void setMetadataMin(String metadataMin);
-    public void setMetadataMax(String metadataMax);
+    public void setMetadataAvg(int metadataAvg);
+    public void setMetadataMin(int metadataMin);
+    public void setMetadataMax(int metadataMax);
 
     public String getGUId();
 
@@ -77,8 +77,8 @@ public interface Insight extends BaseAppData, Serializable {
 
     public int getProgram_maxVersion();
 
-    public String getMetadataAvg();
-    public String getMetadataMin();
-    public String getMetadataMax();
+    public int getMetadataAvg();
+    public int getMetadataMin();
+    public int getMetadataMax();
 
 }
