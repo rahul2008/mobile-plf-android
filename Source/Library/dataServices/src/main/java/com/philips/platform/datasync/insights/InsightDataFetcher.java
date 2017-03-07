@@ -96,9 +96,9 @@ public class InsightDataFetcher extends DataFetcher {
         InsightClient client = uCoreAdapter.getAppFrameworkClient(InsightClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
 
         try {
-            List<UCoreInsight> insightList = client.fetchInsights(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId(), UCoreAdapter.API_VERSION, uCoreAccessProvider.getInsightLastSyncTimestamp());
+            UCoreInsightList insightList = client.fetchInsights(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId(), UCoreAdapter.API_VERSION, uCoreAccessProvider.getInsightLastSyncTimestamp());
 
-            System.out.println("***InsightList****" + insightList.size());
+            System.out.println("***InsightList****" + insightList.getInsights().size());
 //            uCoreAccessProvider.saveLastSyncTimeStamp(insightList.getSyncurl(), UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY);
 //            Settings appSettings = insightConverter.convertUcoreToAppSettings(settings);
 //            if(appSettings==null)return;

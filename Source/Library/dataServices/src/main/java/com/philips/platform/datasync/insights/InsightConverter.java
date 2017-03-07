@@ -12,10 +12,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class InsightConverter {
 
     @Inject
@@ -27,19 +23,17 @@ public class InsightConverter {
     }
 
     @NonNull
-    public List<Insight> convertToAppInsights(@NonNull final List<UCoreInsight> uCoreInsights) {
+    public List<Insight> convertToAppInsights(@NonNull final UCoreInsightList uCoreInsights) {
 
-        List<Insight> insights =new ArrayList<>();
+        List<Insight> insights = new ArrayList<>();
 
 
         return insights;
     }
 
     @NonNull
-    public List<UCoreInsight> convertToUCoreInsights(@NonNull final Collection<? extends Insight> insights) {
-        List<UCoreInsight> uCoreInsights = new ArrayList<>();
-
-        return uCoreInsights;
+    public UCoreInsightList convertToUCoreInsights(@NonNull final Collection<? extends Insight> insights) {
+        return null;
     }
 
-   }
+}
