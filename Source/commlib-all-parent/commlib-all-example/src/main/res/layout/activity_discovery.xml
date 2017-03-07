@@ -49,6 +49,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/txtState"
         android:choiceMode="singleChoice"
-        android:listSelector="?android:attr/colorMultiSelectHighlight" />
+        android:listSelector="@color/colorAccent" />
 
 </RelativeLayout>

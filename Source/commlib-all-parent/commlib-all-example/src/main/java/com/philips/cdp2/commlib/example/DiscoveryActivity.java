@@ -74,7 +74,7 @@ public class DiscoveryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discovery);
 
-        commCentral = ((App)getApplication()).getCommCentral();
+        commCentral = ((App) getApplication()).getCommCentral();
         this.commCentral.getApplianceManager().addApplianceListener(this.applianceListener);
 
         findViewById(R.id.btnStartDiscovery).setOnClickListener(buttonClickListener);
@@ -82,13 +82,14 @@ public class DiscoveryActivity extends AppCompatActivity {
 
         txtState = (TextView) findViewById(R.id.txtState);
 
-        applianceAdapter = new ArrayAdapter<Appliance>(this, android.R.layout.simple_list_item_2, android.R.id.text1) {
+        applianceAdapter = new ArrayAdapter<Appliance>(this, R.layout.appliance, R.id.appliance_name) {
             public View getView(final int position, final View convertView, final ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 Appliance appliance = getItem(position);
 
-                ((TextView) view.findViewById(android.R.id.text1)).setText(appliance.getName());
-                ((TextView) view.findViewById(android.R.id.text2)).setText(String.format("%s - %s", appliance.getDeviceType(), appliance.getNetworkNode().getCppId()));
+                ((TextView) view.findViewById(R.id.appliance_name)).setText(String.format("%s (%s)", appliance.getName(), appliance.getDeviceType()));
+                ((TextView) view.findViewById(R.id.appliance_cpp_id)).setText(appliance.getNetworkNode().getCppId());
+                ((TextView) view.findViewById(R.id.appliance_model_id)).setText(appliance.getNetworkNode().getModelType());
 
                 return view;
             }
