@@ -232,6 +232,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mAdapter.notifyDataSetChanged();
         mAdapter.tagProducts();
 
+        mIapListener.onSuccess();
         dismissProgress();
 
         if (paginationEntity == null)
@@ -265,6 +266,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
                     NetworkUtility.getInstance().getErrorDescriptionMessageFromErrorCode(mContext, error));
         }
 
+        mIapListener.onFailure(error.getIAPErrorCode());
         dismissProgress();
     }
 

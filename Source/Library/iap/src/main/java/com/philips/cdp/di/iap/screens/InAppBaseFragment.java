@@ -118,16 +118,19 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
 
     public void addFragment(InAppBaseFragment newFragment,
                             String newFragmentTag) {
-        if (mActionbarUpdateListener == null || mIapListener == null) return;
-        newFragment.setActionBarListener(mActionbarUpdateListener, mIapListener);
-        if (getActivity() != null && !getActivity().isFinishing()) {
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(getId(), newFragment, newFragmentTag);
-            transaction.addToBackStack(newFragmentTag);
-            transaction.commitAllowingStateLoss();
+        if (mActionbarUpdateListener == null || mIapListener == null)
+            new RuntimeException("ActionBarListner and IAPListner cant be null");
+        else {
+            newFragment.setActionBarListener(mActionbarUpdateListener, mIapListener);
+            if (getActivity() != null && !getActivity().isFinishing()) {
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(getId(), newFragment, newFragmentTag);
+                transaction.addToBackStack(newFragmentTag);
+                transaction.commitAllowingStateLoss();
 
-            IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
-                    + newFragmentTag + ")");
+                IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
+                        + newFragmentTag + ")");
+            }
         }
     }
 
