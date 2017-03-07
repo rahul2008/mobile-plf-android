@@ -42,4 +42,5 @@
     <string name="last_result">Last result:</string>
     <string name="count_0">Count: 0</string>
     <string name="firmware_upgrade">Firmware upgrade</string>
+    <string name="lblFilterModelIdHint">Filter on comma separated model id(s)</string>
 </resources>
