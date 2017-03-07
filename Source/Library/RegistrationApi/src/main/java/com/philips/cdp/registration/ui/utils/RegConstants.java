@@ -172,4 +172,6 @@ public class RegConstants {
 
     public static final String HTTPS_CONST ="https://";
 
+    public static final String COMPONENT_TAGS_ID ="PhilipsRegistration";
+
 }

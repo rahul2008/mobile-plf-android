@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTaggingErrors;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
@@ -412,16 +413,23 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     };
 
     private void trackCheckMarketing() {
-        if (mCbTerms.isChecked()) {
-            trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
-        } else {
-            trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
-        }
+        trackRemarketing();
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             if(mCbAcceptTerms.isChecked()){
                 trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
             }else{
                 trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_OUT);
+            }
+        }
+    }
+
+    private void trackRemarketing() {
+        final UIFlow abStrings = RegUtility.getUiFlow();
+        if (!abStrings.equals(UIFlow.FLOW_B)) {
+            if (mCbTerms.isChecked()) {
+                trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
+            } else {
+                trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
             }
         }
     }
@@ -496,21 +504,21 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
                 if (FieldsValidator.isValidEmail(mUser.getEmail().toString())) {
                     launchAccountActivateFragment();
                 } else {
-                    getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
+                    launchMobileVerifyCodeFragment();
                 }
             } else {
                 launchWelcomeFragment();
             }
         } else if (abStrings.equals(UIFlow.FLOW_B)) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-            getRegistrationFragment().addFragment(new MarketingAccountFragment());
+            launchMarketingAccountFragment();
         } else if (abStrings.equals(UIFlow.FLOW_C)) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type  C");
             if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
                 if (FieldsValidator.isValidEmail(mUser.getEmail().toString())) {
                     launchAccountActivateFragment();
                 } else {
-                    getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
+                    launchMobileVerifyCodeFragment();
                 }
             } else {
                 launchWelcomeFragment();
@@ -523,6 +531,16 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         }
         trackActionStatus(AppTagingConstants.SEND_DATA,AppTagingConstants.TOTAL_TIME_CREATE_ACCOUNT,String.valueOf(mTrackCreateAccountTime));
         mTrackCreateAccountTime =0;
+    }
+
+    private void launchMarketingAccountFragment() {
+        getRegistrationFragment().addFragment(new MarketingAccountFragment());
+        trackPage(AppTaggingPages.MARKETING_OPT_IN);
+    }
+
+    private void launchMobileVerifyCodeFragment() {
+        getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
+        trackPage(AppTaggingPages.MOBILE_VERIFY_CODE);
     }
 
     private void launchAccountActivateFragment() {
