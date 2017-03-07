@@ -16,7 +16,7 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 
 public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 3;
 
     // NetworkNode table
     public static final String DB_NAME = "network_node.db";
@@ -31,7 +31,7 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_LAST_PAIRED = "last_paired";
     public static final String KEY_IP_ADDRESS = "ip_address";
     public static final String KEY_MODEL_NAME = "model_name";
-    public static final String KEY_MODEL_TYPE = "model_type";
+    public static final String KEY_MODEL_ID = "model_id";
     public static final String KEY_HTTPS = "https";
 
     public NetworkNodeDatabaseHelper(Context context) {
@@ -57,7 +57,7 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_LAST_PAIRED + " NUMERIC,"
                 + KEY_IP_ADDRESS + " TEXT,"
                 + KEY_MODEL_NAME + " TEXT,"
-                + KEY_MODEL_TYPE + " TEXT,"
+                + KEY_MODEL_ID + " TEXT,"
                 + KEY_HTTPS + " SMALLINT NOT NULL DEFAULT 0,"
                 + "PRIMARY KEY(" + KEY_ID + ")"
                 + ");";
@@ -71,13 +71,41 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        switch (oldVersion) {
-            case 1:
-                db.execSQL("ALTER TABLE " + TABLE_NETWORK_NODE + " ADD COLUMN " + KEY_HTTPS + " SMALLINT NOT NULL DEFAULT 0;");
-                break;
-            default:
-                DICommLog.e(DICommLog.DATABASE, "Table creation error");
-                break;
+
+        for (int currentVersion = oldVersion; currentVersion < newVersion; currentVersion++) {
+            switch (currentVersion + 1) {
+                case 2:
+                    upgradeToVersion2(db);
+                    break;
+                case 3:
+                    upgradeToVersion3(db);
+                    break;
+                default:
+                    DICommLog.e(DICommLog.DATABASE, "Table creation error");
+                    break;
+            }
         }
+    }
+
+    private void upgradeToVersion3(SQLiteDatabase db) {
+        db.execSQL("BEGIN TRANSACTION;");
+
+        db.execSQL("ALTER TABLE " + TABLE_NETWORK_NODE + " RENAME TO tmp_" + TABLE_NETWORK_NODE + ";");
+
+        onCreate(db); // This will recreate the original table
+
+        db.execSQL("INSERT INTO " + TABLE_NETWORK_NODE + "(" + KEY_ID + "," + KEY_CPP_ID + "," + KEY_BOOT_ID + "," + KEY_ENCRYPTION_KEY + "," +
+                KEY_DEVICE_NAME + "," + KEY_LASTKNOWN_NETWORK + "," + KEY_IS_PAIRED + "," + KEY_LAST_PAIRED + "," + KEY_IP_ADDRESS + "," + KEY_MODEL_NAME + "," + KEY_MODEL_ID + "," + KEY_HTTPS +")\n" +
+                   "SELECT " + KEY_ID + "," + KEY_CPP_ID + "," + KEY_BOOT_ID + "," + KEY_ENCRYPTION_KEY + "," +
+                KEY_DEVICE_NAME + "," + KEY_LASTKNOWN_NETWORK + "," + KEY_IS_PAIRED + "," + KEY_LAST_PAIRED + "," + KEY_IP_ADDRESS + "," + KEY_MODEL_NAME + ",model_type," + KEY_HTTPS +"\n" +
+                   "FROM tmp_" + TABLE_NETWORK_NODE + ";");
+
+        db.execSQL("DROP TABLE tmp_" + TABLE_NETWORK_NODE + ";");
+
+        db.execSQL("COMMIT;");
+    }
+
+    private void upgradeToVersion2(SQLiteDatabase db) {
+        db.execSQL("ALTER TABLE " + TABLE_NETWORK_NODE + " ADD COLUMN " + KEY_HTTPS + " SMALLINT NOT NULL DEFAULT 0;");
     }
 }

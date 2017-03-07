@@ -25,8 +25,8 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_IS_PAIRED;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_LASTKNOWN_NETWORK;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_LAST_PAIRED;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_MODEL_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_MODEL_NAME;
-import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_MODEL_TYPE;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.TABLE_NETWORK_NODE;
 
 public class NetworkNodeDatabase {
@@ -60,7 +60,7 @@ public class NetworkNodeDatabase {
                     long lastPairedTime = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_LAST_PAIRED));
                     String ipAddress = cursor.getString(cursor.getColumnIndex(KEY_IP_ADDRESS));
                     String modelName = cursor.getString(cursor.getColumnIndex(KEY_MODEL_NAME));
-                    String modelType = cursor.getString(cursor.getColumnIndex(KEY_MODEL_TYPE));
+                    String modelId = cursor.getString(cursor.getColumnIndex(KEY_MODEL_ID));
                     boolean https = cursor.getShort(cursor.getColumnIndex(KEY_HTTPS)) == 1;
 
                     NetworkNode networkNode = new NetworkNode();
@@ -74,7 +74,7 @@ public class NetworkNodeDatabase {
                     networkNode.setLastPairedTime(lastPairedTime);
                     networkNode.setIpAddress(ipAddress);
                     networkNode.setModelName(modelName);
-                    networkNode.setModelId(modelType);
+                    networkNode.setModelId(modelId);
                     networkNode.setHttps(https);
 
                     result.add(networkNode);
@@ -122,7 +122,7 @@ public class NetworkNodeDatabase {
 
             values.put(KEY_IP_ADDRESS, networkNode.getIpAddress());
             values.put(KEY_MODEL_NAME, networkNode.getModelName());
-            values.put(KEY_MODEL_TYPE, networkNode.getModelId());
+            values.put(KEY_MODEL_ID, networkNode.getModelId());
             values.put(KEY_HTTPS, networkNode.getHttps());
 
             rowId = db.insertWithOnConflict(TABLE_NETWORK_NODE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
