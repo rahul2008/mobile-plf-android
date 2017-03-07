@@ -570,7 +570,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 return;
             }
             mFlowId = 3;
-//            makeProgressVisible();
+            makeProgressVisible();
             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         }
     }
@@ -639,6 +639,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 if (mProvider.equalsIgnoreCase("wechat")) {
                     if (isWeChatAuthenticate()) {
 //                        makeProgressVisible();
+                        makeProgressInvisible();
+                        hideProgressDialog();
+                        hideProviderProgress();
                         startWeChatAuthentication();
                     }else{
                         hideProviderProgress();
@@ -660,8 +663,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             });
             mFlowId = 0;
         } else if (RegConstants.WECHAT_AUTH.equals(event)) {
-            //makeProgressVisible();
             if (mWeChatCode != null) {
+                makeProgressVisible();
                 handleWeChatCode(mWeChatCode);
             }
         }
