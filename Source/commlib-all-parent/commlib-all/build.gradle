@@ -2,15 +2,10 @@
  * Copyright (c) Koninklijke Philips N.V., 2016, 2017
  * All rights reserved.
  */
+buildscript { bs ->
+    apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
+    apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
 
-apply plugin: 'com.android.library'
-apply plugin: 'pl.droidsonroids.pitest'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
-
-apply from: rootDir.absolutePath + '/../common/gradle/module-tasks.gradle'
-
-buildscript {
     repositories {
         maven { url repos.jcenter }
         maven { url repos.plugin }
@@ -22,6 +17,13 @@ buildscript {
     }
 }
 
+apply plugin: 'com.android.library'
+apply plugin: 'pl.droidsonroids.pitest'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
+
+apply from: rootDir.absolutePath + '/../common/gradle/module-tasks.gradle'
+
 def environment = 'production'
 if (project.hasProperty('envCode')) {
     environment = envCode
@@ -29,9 +31,10 @@ if (project.hasProperty('envCode')) {
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
+objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = rootProject.name
 version = objcdp.getVersion()
 
@@ -57,7 +60,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('aar')
+                publications('aar')
             }
         }
     }
@@ -66,7 +69,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 publishing {
@@ -80,7 +84,7 @@ publishing {
 
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
-            pom.withXml{
+            pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
                 configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
@@ -102,33 +106,31 @@ android {
         targetSdkVersion versions.target
         versionCode 1
         versionName version
-
-        consumerProguardFiles 'proguard-rules.pro'
         buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersionWithHash()}\""
-        publishNonDefault true
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            consumerProguardFiles 'proguard-rules.pro'
         }
     }
+    publishNonDefault true
 }
 
 dependencies {
     compile 'com.android.support:support-v4:24.2.1'
-    provided deps.support_annotations
+    provided deps.support.annotations
 
     if (findProject(':bluelib')) {
-        println("!!! taking local shinelib !!!")
-        compile project(':bluelib')
+        debugCompile project(path: ':bluelib', configuration: 'debug')
+        releaseCompile project(path: ':bluelib', configuration: 'release')
     } else {
         compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.3.2' + objcdp.getVersionSuffix())
     }
 
     if (findProject(':commlib')) {
-        println("!!! taking local commlib !!!")
-        compile project(':commlib')
+        debugCompile project(path: ':commlib', configuration: 'debug')
+        releaseCompile project(path: ':commlib', configuration: 'release')
     } else {
         compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '3.1.2' + objcdp.getVersionSuffix())
     }
