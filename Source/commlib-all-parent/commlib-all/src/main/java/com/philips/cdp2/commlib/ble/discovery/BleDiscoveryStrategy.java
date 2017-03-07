@@ -90,7 +90,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         networkNode.setCppId(shnDevice.getAddress()); // TODO cloud identifier; hijacked MAC address for now
         networkNode.setName(shnDevice.getName()); // TODO Friendly name, e.g. 'Vacuum cleaner'
         networkNode.setModelName(shnDevice.getDeviceTypeName()); // TODO model name, e.g. 'Polaris'
-        networkNode.setModelType(null); // TODO model type, e.g. 'FC8932'
+        networkNode.setModelId(null); // TODO model id, e.g. 'FC8932'
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 
         return networkNode;
