@@ -46,7 +46,7 @@ class SampleApplianceFactory implements DICommApplianceFactory<AirPurifier> {
                     lanTransportContext.createCommunicationStrategyFor(networkNode),
                     cloudTransportContext.createCommunicationStrategyFor(networkNode));
 
-            if (ComfortAirPurifier.MODELNUMBER.equals(networkNode.getModelType())) {
+            if (ComfortAirPurifier.MODELNUMBER.equals(networkNode.getModelId())) {
                 return new ComfortAirPurifier(networkNode, communicationStrategy);
             }
             return new JaguarAirPurifier(networkNode, communicationStrategy);

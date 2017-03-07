@@ -23,7 +23,7 @@ public class NetworkNode extends Observable implements Parcelable {
 
     private String mName;
     private String mModelName;
-    private String mModelType;
+    private String mModelId;
     private String mHomeSsid;
     private long mBootId;
     private String mEncryptionKey;
@@ -98,12 +98,12 @@ public class NetworkNode extends Observable implements Parcelable {
      *
      * @return model type
      */
-    public synchronized String getModelType() {
-        return mModelType;
+    public synchronized String getModelId() {
+        return mModelId;
     }
 
-    public synchronized void setModelType(String modelType) {
-        this.mModelType = modelType;
+    public synchronized void setModelId(String modelId) {
+        this.mModelId = modelId;
     }
 
     public synchronized String getHomeSsid() {
@@ -174,7 +174,7 @@ public class NetworkNode extends Observable implements Parcelable {
         mConnectionState = ConnectionState.values()[in.readInt()];
         mName = in.readString();
         mModelName = in.readString();
-        mModelType = in.readString();
+        mModelId = in.readString();
         mHomeSsid = in.readString();
         mBootId = in.readLong();
         mEncryptionKey = in.readString();
@@ -194,7 +194,7 @@ public class NetworkNode extends Observable implements Parcelable {
         dest.writeInt(mConnectionState.ordinal());
         dest.writeString(mName);
         dest.writeString(mModelName);
-        dest.writeString(mModelType);
+        dest.writeString(mModelId);
         dest.writeString(mHomeSsid);
         dest.writeLong(mBootId);
         dest.writeString(mEncryptionKey);
@@ -225,7 +225,7 @@ public class NetworkNode extends Observable implements Parcelable {
         StringBuilder builder = new StringBuilder();
         builder.append("name: ").append(getName()).append("   ipAddress: ").append(getIpAddress())
                 .append("   cppId: ").append(getCppId()).append("   bootId: ").append(getBootId())
-                .append("   modelName: ").append(getModelName()).append("   modelType: ").append(getModelType())
+                .append("   modelName: ").append(getModelName()).append("   modelId: ").append(getModelId())
                 .append("   paired: ").append(getPairedState())
                 .append("   connectedState: ").append(getConnectionState()).append("   HomeSsid: ")
                 .append(getHomeSsid());

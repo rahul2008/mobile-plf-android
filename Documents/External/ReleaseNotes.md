@@ -1,6 +1,18 @@
 CommLib for Android - Release Notes
 =======================================
 
+Version NEXT NEXT
+-------------
+
+### API Changes
+* NetworkNode.getModelType() and NetworkNode.setModelType(String modelType) are renamed to NetworkNode.getModelId() and NetworkNode.setModelId(String modelId)
+
+### New features
+ 
+### Bugs fixed
+
+### Known issues
+
 Version NEXT
 -------------
 

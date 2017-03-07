@@ -254,7 +254,7 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         networkNode.setCppId(cppId);
         networkNode.setIpAddress(ipAddress);
         networkNode.setName(name);
-        networkNode.setModelType(modelNumber);
+        networkNode.setModelId(modelNumber);
         networkNode.setModelName(modelName);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
         networkNode.setHomeSsid(networkSsid);

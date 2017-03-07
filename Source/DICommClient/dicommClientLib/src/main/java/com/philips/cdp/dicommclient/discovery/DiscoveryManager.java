@@ -10,7 +10,6 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.cloudcontroller.CloudController;
-import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
@@ -18,6 +17,7 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.networknode.NetworkNode.EncryptionKeyUpdatedListener;
 import com.philips.cdp.dicommclient.networknode.NetworkNodeDatabase;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.lan.NetworkMonitor;
 import com.philips.cdp2.commlib.lan.NetworkMonitor.NetworkChangedListener;
 import com.philips.cdp2.commlib.lan.NetworkMonitor.NetworkState;
@@ -641,7 +641,7 @@ public class DiscoveryManager<T extends Appliance> {
         networkNode.setCppId(cppId);
         networkNode.setIpAddress(ipAddress);
         networkNode.setName(name);
-        networkNode.setModelType(modelNumber);
+        networkNode.setModelId(modelNumber);
         networkNode.setModelName(modelName);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
         networkNode.setHomeSsid(networkSsid);
