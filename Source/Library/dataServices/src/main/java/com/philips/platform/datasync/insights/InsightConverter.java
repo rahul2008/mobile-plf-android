@@ -3,10 +3,8 @@ package com.philips.platform.datasync.insights;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BaseAppDataCreator;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasync.consent.UCoreConsentDetail;
 
 import java.util.ArrayList;
 import java.util.Collection;
