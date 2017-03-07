@@ -5,6 +5,7 @@ package com.philips.platform.core.datatypes;
  */
 
 public enum SyncType {
+    INSIGHT(103,"insight"),
     MOMENT(103,"moment"),
     UNKNOWN(-1, "UNKNOWN"),
     SETTINGS(100, "Settings"),

@@ -38,6 +38,9 @@ import com.philips.platform.datasync.consent.ConsentDataSender;
 import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.consent.ConsentsMonitor;
 import com.philips.platform.datasync.consent.ConsentsSegregator;
+import com.philips.platform.datasync.insights.InsightDataFetcher;
+import com.philips.platform.datasync.insights.InsightDataSender;
+import com.philips.platform.datasync.insights.InsightMonitor;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.moments.MomentsSegregator;
@@ -138,8 +141,8 @@ public class BackendModule {
     Backend providesBackend(
             @NonNull final ConsentsMonitor consentsMonitor,
             @NonNull final UserCharacteristicsMonitor userCharacteristicsMonitor,
-            @NonNull final SettingsMonitor settingsMonitor) {
-        return new Backend(consentsMonitor, userCharacteristicsMonitor,settingsMonitor);
+            @NonNull final SettingsMonitor settingsMonitor ,@NonNull final InsightMonitor insightMonitor) {
+        return new Backend(consentsMonitor, userCharacteristicsMonitor,settingsMonitor,insightMonitor);
     }
 
     @Provides
@@ -148,8 +151,9 @@ public class BackendModule {
             @NonNull final MomentsDataFetcher momentsDataFetcher,
             @NonNull final ConsentsDataFetcher consentsDataFetcher,
             @NonNull final UserCharacteristicsFetcher userCharacteristicsFetcher,
-            @NonNull final SettingsDataFetcher settingsDataFetcher) {
-        List<DataFetcher> dataFetchers = Arrays.asList(momentsDataFetcher, consentsDataFetcher, userCharacteristicsFetcher,settingsDataFetcher);
+            @NonNull final SettingsDataFetcher settingsDataFetcher,
+            @NonNull final InsightDataFetcher insightDataFetcher) {
+        List<DataFetcher> dataFetchers = Arrays.asList(momentsDataFetcher, consentsDataFetcher, userCharacteristicsFetcher,settingsDataFetcher,insightDataFetcher);
         if (fetchers != null && fetchers.size() != 0) {
             for (DataFetcher fetcher : fetchers) {
                 dataFetchers.add(fetcher);
@@ -164,9 +168,10 @@ public class BackendModule {
             @NonNull final MomentsDataSender momentsDataSender,
             @NonNull final ConsentDataSender consentDataSender,
             @NonNull final UserCharacteristicsSender userCharacteristicsSender,
-            @NonNull final SettingsDataSender settingsDataSender) {
+            @NonNull final SettingsDataSender settingsDataSender,
+            @NonNull final InsightDataSender insightDataSender) {
 
-        List dataSenders = Arrays.asList(momentsDataSender, consentDataSender, userCharacteristicsSender,settingsDataSender);
+        List dataSenders = Arrays.asList(momentsDataSender, consentDataSender, userCharacteristicsSender,settingsDataSender,insightDataSender);
         if (senders != null && senders.size() != 0) {
             for (DataSender sender : senders) {
                 dataSenders.add(sender);
