@@ -80,7 +80,6 @@
             android:layout_below="@+id/bottom_ui_elements"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:onClick=""
             android:text="@string/RA_Connectivity_Get_Measure_Value"
             android:textColor="@color/uikit_philips_blue"
             android:textSize="14sp" />
