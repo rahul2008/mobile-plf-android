@@ -1,5 +1,6 @@
 package com.philips.platform.verticals;
 
+import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -56,5 +57,10 @@ public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface {
     @Override
     public void markMomentsAsInActive(List<Moment> moment, DBRequestListener dbRequestListener) throws SQLException {
 
+    }
+
+    @Override
+    public boolean markInsightsAsInActive(List<? extends Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
+        return false;
     }
 }

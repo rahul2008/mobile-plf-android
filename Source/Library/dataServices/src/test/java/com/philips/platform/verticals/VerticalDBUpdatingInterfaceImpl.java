@@ -2,6 +2,7 @@ package com.philips.platform.verticals;
 
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
@@ -49,6 +50,11 @@ public class VerticalDBUpdatingInterfaceImpl implements DBUpdatingInterface {
 
     @Override
     public boolean updateSyncBit(int tableID, boolean isSynced) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public boolean updateInsights(List<? extends Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
         return false;
     }
 

@@ -25,6 +25,7 @@ import java.util.concurrent.Callable;
 import cdp.philips.com.mydemoapp.consents.ConsentDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmInsight;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
@@ -72,6 +73,9 @@ public class OrmDeleting {
     @NonNull
     private final Dao<OrmSettings, Integer> settingsDao;
 
+    @NonNull
+    private final Dao<OrmInsight,Integer> ormInsightDao;
+
 
     public OrmDeleting(@NonNull final Dao<OrmMoment, Integer> momentDao,
                        @NonNull final Dao<OrmMomentDetail, Integer> momentDetailDao,
@@ -81,7 +85,7 @@ public class OrmDeleting {
                        @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetailDao,
                        @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroupsDao,
                        @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao,
-                       @NonNull Dao<OrmCharacteristics, Integer> characteristicsesDao, Dao<OrmSettings, Integer> settingsDao) {
+                       @NonNull Dao<OrmCharacteristics, Integer> characteristicsesDao, Dao<OrmSettings, Integer> settingsDao, @NonNull Dao<OrmInsight, Integer> ormInsightDao) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
@@ -93,6 +97,7 @@ public class OrmDeleting {
         this.consentDetailDao = constentDetailsDao;
         this.characteristicsDao = characteristicsesDao;
         this.settingsDao = settingsDao;
+        this.ormInsightDao = ormInsightDao;
     }
 
     public void deleteAll() throws SQLException {
@@ -105,6 +110,7 @@ public class OrmDeleting {
         insertDefaultUCSync();
         characteristicsDao.executeRawNoArgs("DELETE FROM `ormcharacteristics`");
         settingsDao.executeRawNoArgs("DELETE FROM `ormsettings`");
+
     }
 
     private void insertDefaultUCSync() {

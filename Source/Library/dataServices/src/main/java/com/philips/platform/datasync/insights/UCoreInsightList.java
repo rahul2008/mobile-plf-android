@@ -3,15 +3,15 @@ package com.philips.platform.datasync.insights;
 import java.util.List;
 
 public class UCoreInsightList {
-    private List<Insight> insights;
+    private List<UCoreInsight> UCoreInsights;
     private String syncurl;
 
-    public void setInsights(List<Insight> insights) {
-        this.insights = insights;
+    public void setUCoreInsights(List<UCoreInsight> UCoreInsights) {
+        this.UCoreInsights = UCoreInsights;
     }
 
-    public List<Insight> getInsights() {
-        return insights;
+    public List<UCoreInsight> getUCoreInsights() {
+        return UCoreInsights;
     }
 
     public String getSyncurl() {

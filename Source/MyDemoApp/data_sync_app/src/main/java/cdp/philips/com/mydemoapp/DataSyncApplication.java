@@ -125,13 +125,13 @@ public class DataSyncApplication extends Application {
 
 
             OrmSaving saving = new OrmSaving(momentDao, momentDetailDao, measurementDao, measurementDetailDao,
-                    synchronisationDataDao,consentDetailsDao, measurementGroup, measurementGroupDetails, characteristicsesDao, settingsDao);
+                    synchronisationDataDao,consentDetailsDao, measurementGroup, measurementGroupDetails, characteristicsesDao, settingsDao, insightsDao);
 
             Dao<OrmDCSync, Integer> dcSyncDao = databaseHelper.getDCSyncDao();
             OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao,settingsDao, consentDetailsDao, dcSyncDao, measurementGroup, synchronisationDataDao, measurementGroupDetails);
             OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao,consentDetailsDao, characteristicsesDao, settingsDao, dcSyncDao);
             OrmDeleting deleting = new OrmDeleting(momentDao, momentDetailDao, measurementDao,
-                    measurementDetailDao, synchronisationDataDao, measurementGroupDetails, measurementGroup, consentDetailsDao, characteristicsesDao, settingsDao);
+                    measurementDetailDao, synchronisationDataDao, measurementGroupDetails, measurementGroup, consentDetailsDao, characteristicsesDao, settingsDao, ormInsightDao);
 
 
             BaseAppDateTime uGrowDateTime = new BaseAppDateTime();

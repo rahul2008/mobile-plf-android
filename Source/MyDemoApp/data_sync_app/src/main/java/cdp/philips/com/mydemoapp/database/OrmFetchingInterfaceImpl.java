@@ -12,6 +12,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SyncType;
@@ -303,6 +304,11 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         OrmDCSync ormDCSync = lDCSyncQueryBuilder.queryForFirst();
         if (ormDCSync == null) return false;
         return ormDCSync.isSynced();
+    }
+
+    @Override
+    public List<? extends Insight> fetchActiveInsights(DBFetchRequestListner dbFetchRequestListner) throws SQLException {
+        return null;
     }
 
 

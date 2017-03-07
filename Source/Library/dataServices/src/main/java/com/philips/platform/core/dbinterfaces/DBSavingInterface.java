@@ -2,6 +2,7 @@ package com.philips.platform.core.dbinterfaces;
 
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -23,4 +24,5 @@ public interface DBSavingInterface {
     void postError(Exception e, DBRequestListener dbRequestListener);
     boolean saveUserCharacteristics(final List<Characteristics> userCharacteristics, DBRequestListener dbRequestListener) throws SQLException;
     boolean saveSettings(final Settings settings, DBRequestListener dbRequestListener) throws SQLException;
+    boolean saveInsights(final List<Insight> insights, DBRequestListener dbRequestListener) throws SQLException;
 }

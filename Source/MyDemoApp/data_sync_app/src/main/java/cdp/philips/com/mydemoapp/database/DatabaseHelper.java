@@ -34,6 +34,7 @@ import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmDCSync;
+import cdp.philips.com.mydemoapp.database.table.OrmInsight;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetailType;
@@ -76,6 +77,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<OrmCharacteristics, Integer> characteristicsDao;
 
     private Dao<OrmDCSync, Integer> ormDCSyncDao;
+
+    private Dao<OrmInsight, Integer> ormInsightDao;
 
     public DatabaseHelper(Context context, final UuidGenerator uuidGenerator) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -178,6 +181,17 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return ormDCSyncDao;
     }
 
+    public Dao<OrmInsight, Integer> getInsightDao() {
+        if (ormInsightDao == null) {
+            try {
+                ormInsightDao = getDao(OrmInsight.class);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return ormInsightDao;
+    }
+
 
     private void insertMeasurementTypes() throws SQLException {
         final Dao<OrmMeasurementType, Integer> measurementTypeDao = getMeasurementTypeDao();
@@ -240,6 +254,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.createTable(connectionSource, OrmCharacteristics.class);
         TableUtils.createTable(connectionSource, OrmSettings.class);
         TableUtils.createTable(connectionSource, OrmDCSync.class);
+        TableUtils.createTable(connectionSource, OrmInsight.class);
     }
 
     @Override
@@ -302,6 +317,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.dropTable(connectionSource, OrmSettings.class, true);
         TableUtils.dropTable(connectionSource, OrmCharacteristics.class, true);
         TableUtils.dropTable(connectionSource, OrmDCSync.class, true);
+        TableUtils.dropTable(connectionSource, OrmInsight.class, true);
     }
 
     public Dao<OrmMoment, Integer> getMomentDao() throws SQLException {

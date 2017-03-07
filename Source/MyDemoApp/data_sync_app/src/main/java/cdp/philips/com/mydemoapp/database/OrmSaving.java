@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.j256.ormlite.dao.Dao;
+import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.listeners.DBRequestListener;
 
@@ -21,6 +22,7 @@ import java.util.concurrent.Callable;
 
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmInsight;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
@@ -67,6 +69,9 @@ public class OrmSaving {
     @NonNull
     private final Dao<OrmSettings, Integer> settingsDao;
 
+    @NonNull
+    private final Dao<OrmInsight, Integer> insightsDao;
+
     public OrmSaving(@NonNull final Dao<OrmMoment, Integer> momentDao,
                      @NonNull final Dao<OrmMomentDetail, Integer> momentDetailDao,
                      @NonNull final Dao<OrmMeasurement, Integer> measurementDao,
@@ -76,7 +81,7 @@ public class OrmSaving {
                      @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroup,
                      @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails,
                      @NonNull final Dao<OrmCharacteristics, Integer> characteristicsesDao,
-                     @NonNull Dao<OrmSettings, Integer> settingsDao) {
+                     @NonNull Dao<OrmSettings, Integer> settingsDao, @NonNull Dao<OrmInsight, Integer> insightsDao) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
@@ -88,6 +93,7 @@ public class OrmSaving {
         this.measurementGroupDetailsDao = measurementGroupDetails;
         this.characteristicsesDao = characteristicsesDao;
         this.settingsDao = settingsDao;
+        this.insightsDao = insightsDao;
     }
 
     public void saveMoment(OrmMoment moment) throws SQLException {
@@ -205,6 +211,28 @@ public class OrmSaving {
                         OrmMoment ormMoment = OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
                         saveMoment(ormMoment);
                         // momentDao.refresh(ormMoment);
+                    }
+
+                    return null;
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            new NotifyDBRequestListener().notifyFailure(e,dbRequestListener);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean saveInsights(final List<Insight> insights,DBRequestListener dbRequestListener) {
+
+        try {
+            insightsDao.callBatchTasks(new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    for (Insight insight : insights) {
+                        OrmInsight ormInsight = OrmTypeChecking.checkOrmType(insight, OrmInsight.class);
+                        insightsDao.createOrUpdate(ormInsight);
                     }
 
                     return null;

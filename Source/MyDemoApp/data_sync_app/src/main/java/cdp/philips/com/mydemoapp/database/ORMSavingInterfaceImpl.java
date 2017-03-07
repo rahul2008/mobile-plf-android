@@ -7,6 +7,7 @@ package cdp.philips.com.mydemoapp.database;
 
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.datatypes.Settings;
 
@@ -119,6 +120,11 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             return false;
         }
 
+    }
+
+    @Override
+    public boolean saveInsights(List<Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
+        return saving.saveInsights(insights,dbRequestListener);
     }
 
     private void updateUCUI(List<Characteristics> characteristicsList, DBRequestListener dbRequestListener) {

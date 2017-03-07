@@ -2,6 +2,7 @@ package cdp.philips.com.mydemoapp.database;
 
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SyncType;
@@ -76,6 +77,10 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         return false;
     }
 
+    @Override
+    public boolean updateInsights(List<? extends Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
+        return false;
+    }
 
 
     @Override

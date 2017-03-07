@@ -2,6 +2,7 @@ package com.philips.platform.verticals;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
@@ -104,6 +105,11 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     @Override
     public boolean isSynced(int tableID) throws SQLException {
         return false;
+    }
+
+    @Override
+    public List<? extends Insight> fetchActiveInsights(DBFetchRequestListner dbFetchRequestListner) throws SQLException {
+        return null;
     }
 
     @Override

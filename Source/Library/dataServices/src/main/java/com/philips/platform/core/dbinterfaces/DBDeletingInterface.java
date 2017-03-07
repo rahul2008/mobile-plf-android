@@ -1,5 +1,6 @@
 package com.philips.platform.core.dbinterfaces;
 
+import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.listeners.DBRequestListener;
 
@@ -20,4 +21,5 @@ public interface DBDeletingInterface {
     void deleteFailed(Exception e,DBRequestListener dbRequestListener);
     void deleteAllMoments(DBRequestListener dbRequestListener) throws SQLException;
     public void markMomentsAsInActive(final List<Moment> moment, DBRequestListener dbRequestListener) throws SQLException;
+    public boolean markInsightsAsInActive(final List<? extends Insight> insights ,DBRequestListener dbRequestListener) throws SQLException;
 }

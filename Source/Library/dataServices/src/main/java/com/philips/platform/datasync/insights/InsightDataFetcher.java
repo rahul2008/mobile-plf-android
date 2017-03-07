@@ -8,33 +8,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
-import com.philips.platform.core.events.ConsentBackendSaveResponse;
-import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
-import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
-import com.philips.platform.core.events.SettingsBackendSaveResponse;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
-import com.philips.platform.datasync.consent.ConsentsClient;
-import com.philips.platform.datasync.consent.ConsentsConverter;
-import com.philips.platform.datasync.consent.UCoreConsentDetail;
-import com.philips.platform.datasync.settings.SettingsClient;
-import com.philips.platform.datasync.settings.UCoreSettings;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
-import com.philips.platform.datasync.synchronisation.DataSender;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTime;
 
-import java.net.HttpURLConnection;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Inject;
@@ -98,7 +80,7 @@ public class InsightDataFetcher extends DataFetcher {
         try {
             UCoreInsightList insightList = client.fetchInsights(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId(), UCoreAdapter.API_VERSION, uCoreAccessProvider.getInsightLastSyncTimestamp());
 
-            System.out.println("***InsightList****" + insightList.getInsights().size());
+            System.out.println("***InsightList****" + insightList.getUCoreInsights().size());
 //            uCoreAccessProvider.saveLastSyncTimeStamp(insightList.getSyncurl(), UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY);
 //            Settings appSettings = insightConverter.convertUcoreToAppSettings(settings);
 //            if(appSettings==null)return;

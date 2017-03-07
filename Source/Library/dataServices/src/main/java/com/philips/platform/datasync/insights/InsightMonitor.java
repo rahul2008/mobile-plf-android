@@ -38,7 +38,7 @@ public class InsightMonitor extends EventMonitor {
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(InsightBackendDeleteRequest event) {
-        insightDataSender.sendDataToBackend(event.getInsightList());
+        insightDataSender.sendDataToBackend(event.getUCoreInsightList());
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)

@@ -4,7 +4,7 @@ package com.philips.platform.datasync.insights;
  * Created by philips on 3/7/17.
  */
 
-public class MetaData {
+public class UCoreMetaData {
     private int avg;
     private int min;
     private int max;

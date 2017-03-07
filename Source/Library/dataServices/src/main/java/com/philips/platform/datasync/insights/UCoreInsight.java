@@ -4,7 +4,7 @@ package com.philips.platform.datasync.insights;
  * Created by philips on 3/7/17.
  */
 
-public class Insight {
+public class UCoreInsight {
     private String guid;
     private String lastModified;
     private boolean inactive;
@@ -18,7 +18,7 @@ public class Insight {
     private int program_minversion;
     private int program_maxversion;
 
-    private MetaData metadata;
+    private UCoreMetaData metadata;
 
     public void setGuid(String guid) {
         this.guid = guid;
@@ -68,7 +68,7 @@ public class Insight {
         this.program_maxversion = program_maxversion;
     }
 
-    public void setMetadata(MetaData metadata) {
+    public void setMetadata(UCoreMetaData metadata) {
         this.metadata = metadata;
     }
 
@@ -120,7 +120,7 @@ public class Insight {
         return program_maxversion;
     }
 
-    public MetaData getMetadata() {
+    public UCoreMetaData getMetadata() {
         return metadata;
     }
 }

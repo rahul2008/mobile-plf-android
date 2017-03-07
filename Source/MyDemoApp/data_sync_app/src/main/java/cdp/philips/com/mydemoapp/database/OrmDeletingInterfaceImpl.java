@@ -2,6 +2,7 @@ package cdp.philips.com.mydemoapp.database;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
@@ -70,6 +71,11 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
             markAsInActive(moment,dbRequestListener);
         }
         notifyDBRequestListener.notifySuccess(dbRequestListener ,SyncType.MOMENT);
+    }
+
+    @Override
+    public boolean markInsightsAsInActive(List<? extends Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
+        return false;
     }
 
     @Override
