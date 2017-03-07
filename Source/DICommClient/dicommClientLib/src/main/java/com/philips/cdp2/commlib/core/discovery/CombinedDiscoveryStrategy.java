@@ -4,10 +4,13 @@
  */
 package com.philips.cdp2.commlib.core.discovery;
 
+import android.support.annotation.NonNull;
+
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -28,11 +31,16 @@ public class CombinedDiscoveryStrategy extends ObservableDiscoveryStrategy imple
 
     @Override
     public void start() throws MissingPermissionException, TransportUnavailableException {
-        start(null);
+        start(new HashSet<String>());
     }
 
     @Override
-    public void start(Set<String> deviceTypes) throws MissingPermissionException, TransportUnavailableException {
+    public void start(@NonNull Set<String> deviceTypes) throws MissingPermissionException, TransportUnavailableException {
+        start(deviceTypes, new HashSet<String>());
+    }
+
+    @Override
+    public void start(@NonNull Set<String> deviceTypes, @NonNull Set<String> modelIds) throws MissingPermissionException, TransportUnavailableException {
         for (DiscoveryStrategy strategy : discoveryStrategies) {
             strategy.start(deviceTypes);
         }
