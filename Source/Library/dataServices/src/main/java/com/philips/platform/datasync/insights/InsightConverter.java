@@ -1,9 +1,12 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.platform.datasync.insights;
 
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BaseAppDataCreator;
-import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.InsightMetadata;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -35,11 +38,10 @@ public class InsightConverter {
             Insight appInsight = dataCreator.createInsight(uCoreInsight);
 
             Map<String, String> metadataMap = uCoreInsight.getMetadata();
-
-            for (Map.Entry<String,String> entry : metadataMap.entrySet()) {
+            for (Map.Entry<String, String> entry : metadataMap.entrySet()) {
                 String key = entry.getKey();
                 String value = entry.getValue();
-                InsightMetadata insightMetadata=dataCreator.createInsightMetaData(key,value,appInsight);
+                InsightMetadata insightMetadata = dataCreator.createInsightMetaData(key, value, appInsight);
                 appInsight.addInsightMetaData(insightMetadata);
             }
 
@@ -73,16 +75,10 @@ public class InsightConverter {
             uCoreInsight.setProgram_minversion(insight.getProgram_minVersion());
 
             Map<String, String> metaData = new HashMap<>();
-
             Collection<? extends InsightMetadata> insightMetaData = insight.getInsightMetaData();
-
-            for(InsightMetadata insightMetadata:insightMetaData){
-                metaData.put(insightMetadata.getKey(),insightMetadata.getValue());
+            for (InsightMetadata insightMetadata : insightMetaData) {
+                metaData.put(insightMetadata.getKey(), insightMetadata.getValue());
             }
-
-            /*metaData.setAvg(insight.getMetadataAvg());
-            metaData.setMax(insight.getMetadataMax());
-            metaData.setMin(insight.getMetadataMin());*/
 
             uCoreInsight.setMetadata(metaData);
             uCoreInsights.add(uCoreInsight);
@@ -94,7 +90,7 @@ public class InsightConverter {
 
     private List<Insight> convertFromCollectionToList(Collection<? extends Insight> insights) {
         List<Insight> insightList = new ArrayList<>();
-        for (Insight insight : insightList) {
+        for (Insight insight : insights) {
             insightList.add(insight);
         }
         return insightList;

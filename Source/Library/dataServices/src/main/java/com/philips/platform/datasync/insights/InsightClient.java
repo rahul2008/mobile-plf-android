@@ -17,9 +17,9 @@ public interface InsightClient {
 
     @GET("/api/users/{performer_id}/insights/_history")
     UCoreInsightList fetchInsights(@Path("performer_id") String performerId,
-                                     @Header("performerId") String userId,
-                                     @Header("api_version") int apiVersion,
-                                     @Query(value = "_since", encodeValue = false) String timestamp);
+                                   @Header("performerId") String userId,
+                                   @Header("api_version") int apiVersion,
+                                   @Query(value = "_since", encodeValue = false) String timestamp);
 
     @DELETE("/api/users/{performer_id}/insights/{insight_id}")
     void deleteInsight(@Path("performer_id") String performerId,
