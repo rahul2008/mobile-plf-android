@@ -13,19 +13,27 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.philips.cdp2.commlib.example.appliance.BleReferenceAppliance;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
+import com.philips.cdp2.commlib.example.appliance.BleReferenceAppliance;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DiscoveryActivity extends AppCompatActivity {
 
@@ -37,6 +45,8 @@ public class DiscoveryActivity extends AppCompatActivity {
     private ArrayAdapter<Appliance> applianceAdapter;
 
     private TextView txtState;
+    private EditText editFilterModelId;
+    private final Set<String> discoveryFilterModelIds = new HashSet<>();
 
     private Runnable permissionCallback;
 
@@ -74,21 +84,39 @@ public class DiscoveryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discovery);
 
-        commCentral = ((App)getApplication()).getCommCentral();
+        commCentral = ((App) getApplication()).getCommCentral();
         this.commCentral.getApplianceManager().addApplianceListener(this.applianceListener);
 
         findViewById(R.id.btnStartDiscovery).setOnClickListener(buttonClickListener);
         findViewById(R.id.btnStopDiscovery).setOnClickListener(buttonClickListener);
 
         txtState = (TextView) findViewById(R.id.txtState);
+        editFilterModelId = (EditText) findViewById(R.id.editFilterModelId);
+        editFilterModelId.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Do nothing
+            }
 
-        applianceAdapter = new ArrayAdapter<Appliance>(this, android.R.layout.simple_list_item_2, android.R.id.text1) {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                updateModelIds(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Do nothing
+            }
+        });
+
+        applianceAdapter = new ArrayAdapter<Appliance>(this, R.layout.appliance, R.id.appliance_name) {
             public View getView(final int position, final View convertView, final ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 Appliance appliance = getItem(position);
 
-                ((TextView) view.findViewById(android.R.id.text1)).setText(appliance.getName());
-                ((TextView) view.findViewById(android.R.id.text2)).setText(String.format("%s - %s", appliance.getDeviceType(), appliance.getNetworkNode().getCppId()));
+                ((TextView) view.findViewById(R.id.appliance_name)).setText(String.format("%s (%s)", appliance.getName(), appliance.getDeviceType()));
+                ((TextView) view.findViewById(R.id.appliance_cpp_id)).setText(appliance.getNetworkNode().getCppId());
+                ((TextView) view.findViewById(R.id.appliance_model_id)).setText(appliance.getNetworkNode().getModelId());
 
                 return view;
             }
@@ -110,6 +138,14 @@ public class DiscoveryActivity extends AppCompatActivity {
 
         // Init view
         updateState(getString(R.string.lblStateIdle));
+    }
+
+    private void updateModelIds(final String commaSeparatedModelIds) {
+        discoveryFilterModelIds.clear();
+
+        if (!TextUtils.isEmpty(commaSeparatedModelIds)) {
+            discoveryFilterModelIds.addAll(Arrays.asList((commaSeparatedModelIds).split(",")));
+        }
     }
 
     @Override
@@ -139,7 +175,7 @@ public class DiscoveryActivity extends AppCompatActivity {
         applianceAdapter.addAll(commCentral.getApplianceManager().getAvailableAppliances());
 
         try {
-            this.commCentral.startDiscovery();
+            this.commCentral.startDiscovery(discoveryFilterModelIds);
             updateState(getString(R.string.lblStateDiscovering));
         } catch (MissingPermissionException e) {
             updateState(getString(R.string.lblStatePermissionError));

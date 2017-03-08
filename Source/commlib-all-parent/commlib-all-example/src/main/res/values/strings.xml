@@ -13,6 +13,8 @@
     <string name="lblResultNotApplicable">N/A</string>
     <string name="lblResultPerformingGetProperties">Performing GetProperties call for \'%1$s\' port…</string>
     <string name="lblResultPortError">Port error: (%1$s)</string>
+    <string name="lblApplianceCppId">Cpp id:</string>
+    <string name="lblApplianceModelId">Model id:</string>
 
     <string name="btnGetTime">Get Time</string>
     <string name="btnSetTime">Set Time</string>
@@ -40,4 +42,5 @@
     <string name="last_result">Last result:</string>
     <string name="count_0">Count: 0</string>
     <string name="firmware_upgrade">Firmware upgrade</string>
+    <string name="lblFilterModelIdHint">Filter on comma separated model id(s)</string>
 </resources>

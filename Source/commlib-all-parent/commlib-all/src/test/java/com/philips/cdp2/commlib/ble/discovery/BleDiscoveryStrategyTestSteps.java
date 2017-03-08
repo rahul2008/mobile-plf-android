@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
@@ -22,6 +23,7 @@ import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
+import com.philips.pins.shinelib.utility.BleScanRecord;
 
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -39,7 +41,9 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+import static com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy.MANUFACTURER_PREAMBLE;
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
@@ -67,12 +71,17 @@ public class BleDiscoveryStrategyTestSteps {
     @Mock
     private Handler callbackHandlerMock;
 
+    @Mock
+    private BleScanRecord bleScanRecordMock;
+
     @Captor
     private ArgumentCaptor<Runnable> runnableCaptor;
 
     @Before
     public void setup() throws SHNBluetoothHardwareUnavailableException {
         initMocks(this);
+
+        DICommLog.disableLogging();
 
         Handler mockMainThreadHandler = mock(Handler.class);
         HandlerProvider.enableMockedHandler(mockMainThreadHandler);
@@ -145,6 +154,17 @@ public class BleDiscoveryStrategyTestSteps {
         }
     }
 
+    @When("^starting discovery for BLE appliances with model ids?:$")
+    public void startingDiscoveryForBLEAppliancesWithModelIds(final List<String> modelIds) {
+        try {
+            this.commCentral.startDiscovery(new HashSet<String>() {{
+                addAll(modelIds);
+            }});
+        } catch (MissingPermissionException | TransportUnavailableException ignored) {
+            // These are normally thrown from BlueLib, which is mocked here.
+        }
+    }
+
     @Then("^startScanning is called (\\d+) time on BlueLib$")
     public void startscanningIsCalledTimeOnBlueLib(int times) {
         verify(deviceScanner, times(times)).startScanning(any(SHNDeviceScanner.SHNDeviceScannerListener.class), any(SHNDeviceScanner.ScannerSettingDuplicates.class), anyLong());
@@ -184,6 +204,17 @@ public class BleDiscoveryStrategyTestSteps {
         assertTrue("Expected appliances " + appliances + " don't match created appliances " + availableApplianceNames, availableApplianceNames.containsAll(appliances));
     }
 
+    @Then("^the following appliances? (?:are|is) not created:$")
+    public void theFollowingAppliancesAreNotCreated(final List<String> appliances) {
+        final Set<? extends Appliance> availableAppliances = commCentral.getApplianceManager().getAvailableAppliances();
+
+        final Set<String> availableApplianceNames = new HashSet<>();
+        for (Appliance availableAppliance : availableAppliances) {
+            availableApplianceNames.add(availableAppliance.getName());
+        }
+        assertFalse("Expected appliances " + appliances + " must match created appliances " + availableApplianceNames, availableApplianceNames.containsAll(appliances));
+    }
+
     @Then("^no appliances are created$")
     public void noAppliancesAreCreated() {
         final Set<? extends Appliance> availableAppliances = commCentral.getApplianceManager().getAvailableAppliances();
@@ -191,7 +222,7 @@ public class BleDiscoveryStrategyTestSteps {
     }
 
     @When("^(.*?) is discovered (\\d+) times? by BlueLib$")
-    public void shaverIsDiscoveredMultipleTimesByBlueLib(String applianceName, int times) {
+    public void applianceIsDiscoveredMultipleTimesByBlueLib(String applianceName, int times) {
         SHNDevice shnDeviceMock = mock(SHNDevice.class);
         when(shnDeviceMock.getState()).thenReturn(SHNDevice.State.Connected);
         when(shnDeviceMock.getAddress()).thenReturn(createCppId());
@@ -200,6 +231,32 @@ public class BleDiscoveryStrategyTestSteps {
 
         SHNDeviceFoundInfo shnDeviceFoundInfoMock = mock(SHNDeviceFoundInfo.class);
         when(shnDeviceFoundInfoMock.getShnDevice()).thenReturn(shnDeviceMock);
+        when(shnDeviceFoundInfoMock.getBleScanRecord()).thenReturn(bleScanRecordMock);
+        when(bleScanRecordMock.getManufacturerSpecificData()).thenReturn(new byte[]{(byte) 0xDD, 0x01, 80, 70, 49, 51, 51, 55}); // Model id 'PF1337'
+
+        for (int i = 0; i < times; i++) {
+            bleDiscoveryStrategy.deviceFound(null, shnDeviceFoundInfoMock);
+        }
+    }
+
+    @When("^(.*?) is discovered (\\d+) times? by BlueLib, matching model id (.*?)$")
+    public void applianceIsDiscoveredMultipleTimesByBlueLibWithModelId(String applianceName, int times, String modelId) {
+        SHNDevice shnDeviceMock = mock(SHNDevice.class);
+        when(shnDeviceMock.getState()).thenReturn(SHNDevice.State.Connected);
+        when(shnDeviceMock.getAddress()).thenReturn(createCppId());
+        when(shnDeviceMock.getName()).thenReturn(applianceName);
+        when(shnDeviceMock.getDeviceTypeName()).thenReturn(getApplianceTypeByName(applianceName));
+
+        SHNDeviceFoundInfo shnDeviceFoundInfoMock = mock(SHNDeviceFoundInfo.class);
+        when(shnDeviceFoundInfoMock.getShnDevice()).thenReturn(shnDeviceMock);
+        when(shnDeviceFoundInfoMock.getBleScanRecord()).thenReturn(bleScanRecordMock);
+
+        byte[] modelIdArray = new byte[8];
+        System.arraycopy(MANUFACTURER_PREAMBLE, 0, modelIdArray, 0, MANUFACTURER_PREAMBLE.length);
+        byte[] modelIdBytes = modelId.getBytes();
+        System.arraycopy(modelIdBytes, 0, modelIdArray, MANUFACTURER_PREAMBLE.length, modelIdBytes.length);
+
+        when(bleScanRecordMock.getManufacturerSpecificData()).thenReturn(modelIdArray);
 
         for (int i = 0; i < times; i++) {
             bleDiscoveryStrategy.deviceFound(null, shnDeviceFoundInfoMock);
