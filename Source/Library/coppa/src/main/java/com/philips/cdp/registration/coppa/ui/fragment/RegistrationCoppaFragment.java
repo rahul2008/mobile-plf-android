@@ -22,13 +22,14 @@ import android.view.ViewGroup;
 import com.janrain.android.Jump;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.apptagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
 import com.philips.cdp.registration.coppa.base.CoppaStatus;
 import com.philips.cdp.registration.coppa.utils.AppTaggingCoppaPages;
 import com.philips.cdp.registration.coppa.utils.CoppaConstants;
+import com.philips.cdp.registration.coppa.utils.CoppaInterface;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
@@ -47,6 +48,8 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 
 public class RegistrationCoppaFragment extends Fragment implements NetworStateListener,
         OnClickListener, BackEventListener {
+
+    private NetworkUtility networkUtility;
 
     private static final String REGISTRATION_VERSION_TAG = "registrationVersion";
 
@@ -307,6 +310,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mActivity = getActivity();
+        networkUtility = CoppaInterface.getComponent().getNetworkUtility();
         final View view = inflater.inflate(R.layout.reg_fragment_registration, container, false);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaFragment : onCreateView");
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
@@ -338,14 +342,14 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             performReplaceWithPerentalAccess();
         }
 
-        NetworkUtility.registerNetworkListener(mActivity.getApplicationContext(),mNetworkReceiver);
+        networkUtility.registerNetworkListener(mNetworkReceiver);
     }
 
     @Override
     public void onPause() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaFragment : onPause");
         super.onPause();
-        NetworkUtility.unRegisterNetworkListener(mActivity.getApplicationContext(),mNetworkReceiver);
+        networkUtility.unRegisterNetworkListener(mNetworkReceiver);
     }
 
     @Override

@@ -23,13 +23,10 @@ import android.view.ViewTreeObserver;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ScrollView;
 
-import com.philips.cdp.registration.apptagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.coppa.R;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
-
-import java.util.Locale;
 
 public abstract class RegistrationCoppaBaseFragment extends Fragment {
 

@@ -16,6 +16,13 @@ public class HSDPInfo {
     private String baseURL;
     private String applicationName;
 
+    public HSDPInfo(String sharedId, String secretId, String baseURL, String applicationName) {
+        this.sharedId = sharedId;
+        this.secretId = secretId;
+        this.baseURL = baseURL;
+        this.applicationName = applicationName;
+    }
+
     /**
      * Get Shared Id
      *
@@ -23,15 +30,6 @@ public class HSDPInfo {
      */
     public String getSharedId() {
         return sharedId;
-    }
-
-    /**
-     * Set shared id
-     *
-     * @param sharedId String
-     */
-    public void setSharedId(String sharedId) {
-        this.sharedId = sharedId;
     }
 
     /**
@@ -44,15 +42,6 @@ public class HSDPInfo {
     }
 
     /**
-     * Set secrete id
-     *
-     * @param secreteId String
-     */
-    public void setSecreteId(String secreteId) {
-        this.secretId = secreteId;
-    }
-
-    /**
      * Get base URL
      *
      * @return String
@@ -62,30 +51,12 @@ public class HSDPInfo {
     }
 
     /**
-     * Set base URL
-     *
-     * @param baseURL
-     */
-    public void setBaseURL(String baseURL) {
-        this.baseURL = baseURL;
-    }
-
-    /**
      * Get Application name
      *
      * @return String Application
      */
     public String getApplicationName() {
         return applicationName;
-    }
-
-    /**
-     * Set application name
-     *
-     * @param applicationName
-     */
-    public void setApplicationName(String applicationName) {
-        this.applicationName = applicationName;
     }
 }
 

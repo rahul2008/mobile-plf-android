@@ -20,6 +20,10 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
 public class HSDPConfiguration {
 
     private static final String DEFAULT_PROPERTY_KEY = "default";
+    private static final String URL_ENCODING_FORMAT = "UTF-8";
+
+
+
 
     public static String getHsdpAppName() {
         return getAppNameFromHsdpConfig();
@@ -67,7 +71,7 @@ public class HSDPConfiguration {
         if(baseUrl == null) return null;
         String decodedBaseUrl = null;
         try {
-            decodedBaseUrl = URLDecoder.decode(baseUrl, "UTF-8");
+            decodedBaseUrl = URLDecoder.decode(baseUrl, URL_ENCODING_FORMAT);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

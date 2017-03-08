@@ -26,6 +26,7 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
 
 public class RegistrationConfiguration {
 
+    public static final String MICROSITE_ID_KEY = "appidentity.micrositeId";
     private RegistrationFunction prioritisedFunction = RegistrationFunction.Registration;
 
     private static volatile RegistrationConfiguration registrationConfiguration;
@@ -88,8 +89,6 @@ public class RegistrationConfiguration {
         try {
             new JSONObject(test);
         } catch (JSONException ex) {
-            // edited, to include @Arthur's comment
-            // e.g. in case JSONArray is valid as well...
             try {
                 new JSONArray(test);
             } catch (JSONException ex1) {
@@ -109,7 +108,7 @@ public class RegistrationConfiguration {
                 AppConfigurationInterface.AppConfigurationError();
         String micrositeId = (String) RegistrationHelper.getInstance().getAppInfraInstance().
                 getConfigInterface().
-                getPropertyForKey("appidentity.micrositeId",
+                getPropertyForKey(MICROSITE_ID_KEY,
                         "appinfra", configError);
         if (null == micrositeId) {
             RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
@@ -239,9 +238,6 @@ public class RegistrationConfiguration {
      * @return HSDPInfo Object
      */
     public HSDPInfo getHSDPInfo() {
-        HSDPInfo hsdpInfo = new HSDPInfo();
-
-        String appName = HSDPConfiguration.getHsdpAppName();
 
         String sharedId = HSDPConfiguration.getHsdpSharedId();
 
@@ -249,17 +245,14 @@ public class RegistrationConfiguration {
 
         String baseUrl = HSDPConfiguration.getHsdpBaseUrl();
 
-        RLog.i("HSDP_TEST", "sharedId" + sharedId + "Secret " + secreteId + " baseUrl " + baseUrl);
+        String appName = HSDPConfiguration.getHsdpAppName();
 
-        hsdpInfo.setApplicationName(appName);
-        hsdpInfo.setSharedId(sharedId);
-        hsdpInfo.setSecreteId(secreteId);
-        hsdpInfo.setBaseURL(baseUrl);
+        RLog.i("HSDP_TEST", "sharedId" + sharedId + "Secret " + secreteId + " baseUrl " + baseUrl);
 
         if (appName == null && sharedId == null && secreteId == null && baseUrl == null) {
             return null;
         }
-
+        HSDPInfo hsdpInfo = new HSDPInfo(sharedId, secreteId, baseUrl, appName);
         return hsdpInfo;
     }
 

@@ -7,7 +7,7 @@
  * /
  */
 
-package com.philips.cdp.registration.apptagging;
+package com.philips.cdp.registration.app.tagging;
 
 
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;

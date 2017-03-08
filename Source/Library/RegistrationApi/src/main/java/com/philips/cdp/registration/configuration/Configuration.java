@@ -14,7 +14,8 @@ import com.philips.cdp.registration.ui.utils.RLog;
 public enum Configuration {
 
     STAGING("Staging"),
-    EVALUATION("Evaluation"), DEVELOPMENT("Development"),
+    EVALUATION("Evaluation"),
+    DEVELOPMENT("Development"),
     TESTING("Testing"),
     PRODUCTION("Production");
 
