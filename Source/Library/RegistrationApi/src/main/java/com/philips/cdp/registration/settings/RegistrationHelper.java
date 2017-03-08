@@ -21,6 +21,7 @@ import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.ntputils.ServerTime;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -30,11 +31,16 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 /**
  * {@code RegistrationHelper} class represents the entry point for User Registration component.
  * It exposes APIs to be used when User Registration is intended to be integrated by any application.
  */
 public class RegistrationHelper {
+
+    @Inject
+    NetworkUtility networkUtility;
 
     private String countryCode;
 
@@ -55,6 +61,7 @@ public class RegistrationHelper {
     private UappSettings urSettings;
 
     private RegistrationHelper() {
+        URInterface.getComponent().inject(this);
     }
     /**
      * @return instance of this class
@@ -117,7 +124,7 @@ public class RegistrationHelper {
             @Override
             public void run() {
 
-                if (NetworkUtility.isNetworkAvailable(context)) {
+                if (networkUtility.isNetworkAvailable()) {
                     refreshNTPOffset();
                     UserRegistrationInitializer.getInstance().initializeEnvironment(
 

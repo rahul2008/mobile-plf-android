@@ -32,7 +32,7 @@ import com.janrain.android.Jump;
 import com.janrain.android.engage.session.JRSession;
 
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.apptagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
@@ -71,7 +71,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     private Context mContext;
     private ProgressDialog mProgressDialog;
 
-
+     String restoredText;
     //Configuartion
 
     private Button mBtnChangeConfiguaration;
@@ -132,7 +132,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         mLlConfiguration = (LinearLayout) findViewById(R.id.ll_configuartion);
         mRadioGroup = (RadioGroup) findViewById(R.id.myRadioGroup);
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
-        final String restoredText = prefs.getString("reg_environment", null);
+        restoredText = prefs.getString("reg_environment", null);
         final String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
         if (restoredText != null) {
 
@@ -175,40 +175,44 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 //Logout mUser
                 clearData();
 
+
+
+
                 int checkedId = mRadioGroup.getCheckedRadioButtonId();
                 // find which radio button is selected
 
                 if (checkedId == R.id.Evalution) {
                     Toast.makeText(getApplicationContext(), "choice: Evalution",
                             Toast.LENGTH_SHORT).show();
-                    RegistrationApplication.getInstance().initRegistration(Configuration.EVALUATION);
+                    restoredText = Configuration.EVALUATION.getValue();
                 } else if (checkedId == R.id.Testing) {
                     Toast.makeText(getApplicationContext(), "choice: Testing",
                             Toast.LENGTH_SHORT).show();
-                    RegistrationApplication.getInstance().initRegistration(Configuration.TESTING);
+                    restoredText = Configuration.TESTING.getValue();
                 } else if (checkedId == R.id.Development) {
                     Toast.makeText(getApplicationContext(), "choice: Development",
                             Toast.LENGTH_SHORT).show();
-                    RegistrationApplication.getInstance().initRegistration(Configuration.DEVELOPMENT);
+                    restoredText = Configuration.DEVELOPMENT.getValue();
                 } else if (checkedId == R.id.Production) {
                     Toast.makeText(getApplicationContext(), "choice: Production",
                             Toast.LENGTH_SHORT).show();
-                    RegistrationApplication.getInstance().initRegistration(Configuration.PRODUCTION);
+                    restoredText = Configuration.PRODUCTION.getValue();
+                    RegistrationSampleApplication.getInstance().initRegistration(Configuration.PRODUCTION);
                 } else if (checkedId == R.id.Stagging) {
                     Toast.makeText(getApplicationContext(), "choice: Stagging",
                             Toast.LENGTH_SHORT).show();
-                    RegistrationApplication.getInstance().initRegistration(Configuration.STAGING);
+                    restoredText = Configuration.STAGING.getValue();
                 }
 
-                if (mCheckBox.isChecked()) {
-                    if (restoredText != null) {
-                        RegistrationApplication.getInstance().initHSDP(RegUtility.getConfiguration(restoredText));
+                if (restoredText != null) {
+                    if (mCheckBox.isChecked()) {
+                        RegistrationSampleApplication.getInstance().initHSDP(RegUtility.getConfiguration(restoredText));
+                    } else {
+                        SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
+                        prefs.edit().remove("reg_hsdp_environment").commit();
                     }
 
-
-                } else {
-                    SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
-                    prefs.edit().remove("reg_hsdp_environment").commit();
+                    RegistrationSampleApplication.getInstance().initRegistration(RegUtility.getConfiguration(restoredText));
                 }
 
             }

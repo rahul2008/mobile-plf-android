@@ -26,6 +26,7 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
 
 public class RegistrationConfiguration {
 
+    public static final String MICROSITE_ID_KEY = "appidentity.micrositeId";
     private RegistrationFunction prioritisedFunction = RegistrationFunction.Registration;
 
     private static volatile RegistrationConfiguration registrationConfiguration;
@@ -88,8 +89,6 @@ public class RegistrationConfiguration {
         try {
             new JSONObject(test);
         } catch (JSONException ex) {
-            // edited, to include @Arthur's comment
-            // e.g. in case JSONArray is valid as well...
             try {
                 new JSONArray(test);
             } catch (JSONException ex1) {
@@ -109,7 +108,7 @@ public class RegistrationConfiguration {
                 AppConfigurationInterface.AppConfigurationError();
         String micrositeId = (String) RegistrationHelper.getInstance().getAppInfraInstance().
                 getConfigInterface().
-                getPropertyForKey("appidentity.micrositeId",
+                getPropertyForKey(MICROSITE_ID_KEY,
                         "appinfra", configError);
         if (null == micrositeId) {
             RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
@@ -239,42 +238,21 @@ public class RegistrationConfiguration {
      * @return HSDPInfo Object
      */
     public HSDPInfo getHSDPInfo() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        HSDPInfo hsdpInfo = new HSDPInfo();
 
-        String appName = (String) RegistrationHelper.
-                getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_APPLICATION_NAME
-                        , UR, configError);
-        String sharedId = (String) RegistrationHelper.
-                getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_SHARED
-                        , UR, configError);
+        String sharedId = HSDPConfiguration.getHsdpSharedId();
 
-        String secreteId = (String) RegistrationHelper.
-                getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_SECRET
-                        , UR, configError);
+        String secreteId = HSDPConfiguration.getHsdpSecretId();
 
-        String baseUrl = (String) RegistrationHelper.
-                getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL
-                        , UR, configError);
+        String baseUrl = HSDPConfiguration.getHsdpBaseUrl();
 
-        hsdpInfo.setApplicationName(appName);
-        hsdpInfo.setSharedId(sharedId);
-        hsdpInfo.setSecreteId(secreteId);
-        hsdpInfo.setBaseURL(baseUrl);
+        String appName = HSDPConfiguration.getHsdpAppName();
+
+        RLog.i("HSDP_TEST", "sharedId" + sharedId + "Secret " + secreteId + " baseUrl " + baseUrl);
 
         if (appName == null && sharedId == null && secreteId == null && baseUrl == null) {
             return null;
         }
-
+        HSDPInfo hsdpInfo = new HSDPInfo(sharedId, secreteId, baseUrl, appName);
         return hsdpInfo;
     }
 
@@ -320,22 +298,42 @@ public class RegistrationConfiguration {
         return prioritisedFunction;
     }
 
-
-    public boolean isHsdpFlow() {
-
+    private boolean isEnvironementSet() {
         String environment = getRegistrationEnvironment();
         if (environment == null) {
             return false;
         }
+        return true;
+    }
 
+    public boolean isHsdpFlowWithoutBaseUrl() {
+        if(!isEnvironementSet()) {
+            return false;
+        }
 
         HSDPInfo hsdpInfo = getHSDPInfo();
 
         if (hsdpInfo == null) {
-            RLog.i("HSDP_STATUS", "HSDP configuration is not configured for " + environment +
-                    " environment ");
             return false;
-            // throw new RuntimeException("HSDP configuration is not configured for " + environment + " environment ");
+        }
+        return isHsdpConfigurationExists(hsdpInfo);
+    }
+
+    private boolean isHsdpConfigurationExists(HSDPInfo hsdpInfo) {
+        return null != hsdpInfo.getApplicationName() && null != hsdpInfo.getSharedId()
+                && null != hsdpInfo.getSecreteId();
+    }
+
+    public boolean isHsdpFlow() {
+
+        if(!isEnvironementSet()) {
+            return false;
+        }
+
+        HSDPInfo hsdpInfo = getHSDPInfo();
+
+        if (hsdpInfo == null) {
+            return false;
         }
         if (null != hsdpInfo) {
 
@@ -347,10 +345,13 @@ public class RegistrationConfiguration {
             }
         }
 
+        return isHsdpConfigurationComplete(hsdpInfo);
+    }
 
-        return (null != hsdpInfo.getApplicationName() && null != hsdpInfo.getSharedId()
+    private boolean isHsdpConfigurationComplete(HSDPInfo hsdpInfo) {
+        return null != hsdpInfo.getApplicationName() && null != hsdpInfo.getSharedId()
                 && null != hsdpInfo.getSecreteId()
-                && null != hsdpInfo.getBaseURL());
+                && null != hsdpInfo.getBaseURL();
     }
 
     private String buildException(HSDPInfo hsdpInfo) {

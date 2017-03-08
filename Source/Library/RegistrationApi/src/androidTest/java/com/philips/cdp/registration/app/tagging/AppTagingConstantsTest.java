@@ -1,4 +1,4 @@
-package com.philips.cdp.registration.apptagging;
+package com.philips.cdp.registration.app.tagging;
 
 import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;

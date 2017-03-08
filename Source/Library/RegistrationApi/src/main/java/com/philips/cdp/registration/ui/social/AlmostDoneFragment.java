@@ -26,8 +26,8 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.apptagging.AppTaggingPages;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
+import com.philips.cdp.registration.app.tagging.AppTaggingPages;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
@@ -51,6 +51,7 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.UIFlow;
+import com.philips.cdp.registration.ui.utils.URInterface;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,8 +59,13 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 public class AlmostDoneFragment extends RegistrationBaseFragment implements EventListener,
         onUpdateListener, SocialProviderLoginHandler, NetworStateListener, OnClickListener, XCheckBox.OnCheckedChangeListener {
+
+    @Inject
+    NetworkUtility networkUtility;
 
     private static final int LOGIN_FAILURE = -1;
 
@@ -129,6 +135,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onCreateView");
+        URInterface.getComponent().inject(this);
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         EventHelper.getInstance()
                 .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
@@ -474,7 +481,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private void updateUiStatus(Boolean isNetwork) {
         if (isEmailExist) {
-            if (NetworkUtility.isNetworkAvailable(mContext)) {
+            if (networkUtility.isNetworkAvailable()) {
                 mBtnContinue.setEnabled(true);
                 mRegError.hideError();
             } else {
@@ -483,7 +490,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 scrollViewAutomatically(mRegError, mSvRootLayout);
             }
         } else {
-            if (NetworkUtility.isNetworkAvailable(mContext)) {
+            if (networkUtility.isNetworkAvailable()) {
 
                 if ((mEtEmail.isShown() && mEtEmail.isValidEmail()) ||
                         (mEtEmail.getVisibility() != View.VISIBLE)) {
@@ -574,7 +581,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         }
     }
     private void register() {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
+        if (networkUtility.isNetworkAvailable()) {
             mRegAccptTermsError.setVisibility(View.GONE);
             User user = new User(mContext);
             showSpinner();

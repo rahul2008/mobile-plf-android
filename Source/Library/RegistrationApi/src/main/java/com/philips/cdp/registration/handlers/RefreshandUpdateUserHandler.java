@@ -46,8 +46,6 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
         mContext = context;
     }
 
-
-
     public void refreshAndUpdateUser( final RefreshUserHandler handler, final User user, final String password){
         refreshUserHandler = handler;
         this.user = user;
@@ -151,6 +149,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
         diUserProfile = (DIUserProfile) SecureStorage.stringToObject(new String(Jump.getSecureStorageInterface().fetchValueForKey(RegConstants.DI_PROFILE_FILE,new SecureStorageInterface.SecureStorageError())));
         return diUserProfile;
     }
+
     @Override
     public void onFlowDownloadSuccess() {
         refreshAndUpdateUser(refreshUserHandler,user,password);
