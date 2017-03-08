@@ -38,34 +38,20 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        if(savedInstanceState!=null){
+            // if app killed by vm.
+            savedInstanceState =null;
+            finish();
+            super.onCreate(savedInstanceState);
+            return;
+        }
         super.onCreate(savedInstanceState);
 
-        int alwaysFinishActivity = 0;
-
-        if (savedInstanceState != null)
-            alwaysFinishActivity = getAnInt(savedInstanceState, "ALWAYS_FINISH_ACTIVITIES");
-
         setContentView(R.layout.consumercare_activity_digi_care);
-        try {
-            initActionBar();
-        } catch (ClassCastException e) {
-            DigiCareLogger.e(TAG, "Actionbar: " + e.getMessage());
-        }
-
-        if (alwaysFinishActivity == 0) {
-            animateThisScreen();
-            showFragment(new SupportHomeFragment());
-            enableActionBarHome();
-        }
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void onSaveInstanceState(Bundle bundle) {
-        super.onSaveInstanceState(bundle);
-       /* DigiCareLogger.i(DigiCareLogger.FRAGMENT, "--> BaseActivity protected onSaveInstanceState");*/
-        int alwaysFinishActivity = Settings.System.getInt(getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
-        bundle.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
+        initActionBar();
+        animateThisScreen();
+        showFragment(new SupportHomeFragment());
+        enableActionBarHome();
     }
 
     public void animateThisScreen() {

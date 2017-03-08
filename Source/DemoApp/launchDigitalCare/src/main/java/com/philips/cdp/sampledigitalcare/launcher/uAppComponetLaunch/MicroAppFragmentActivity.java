@@ -74,6 +74,14 @@ public class MicroAppFragmentActivity extends UiKitActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        if(savedInstanceState!=null){
+            // if app killed by vm.
+            savedInstanceState =null;
+            finish();
+            super.onCreate(savedInstanceState);
+            return;
+        }
         super.onCreate(savedInstanceState);
 
         getSupportActionBar().hide();
@@ -114,7 +122,7 @@ public class MicroAppFragmentActivity extends UiKitActivity implements View.OnCl
             mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
 
             final CcInterface ccInterface = new CcInterface();
-            if (ccSettings == null) ccSettings = new CcSettings(this);
+            if (ccSettings == null) ccSettings = new CcSettings(getApplicationContext());
             if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
             ccLaunchInput.setProductModelSelectionType(productsSelection);
             ccLaunchInput.setConsumerCareListener(this);

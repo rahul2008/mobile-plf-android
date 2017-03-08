@@ -29,6 +29,8 @@ import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
+import com.philips.cdp.productselection.launchertype.ActivityLauncher;
+import com.philips.cdp.productselection.launchertype.UiLauncher;
 import com.philips.cdp.uikit.UiKitActivity;
 
 
@@ -62,8 +64,11 @@ public abstract class DigitalCareBaseActivity extends UiKitActivity {
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-        setTheme(R.style.Theme_Philips_DarkBlue_WhiteBackground);
-     /*   DigiCareLogger.i(TAG, "onCreate");*/
+        UiLauncher uiLauncher = DigitalCareConfigManager.getInstance().getUiLauncher();
+        if (uiLauncher instanceof ActivityLauncher) {
+            ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
+            this.setTheme(activityLauncher.getmUiKitTheme());
+        }
         DigitalCareConfigManager.getInstance();
         fragmentManager = getSupportFragmentManager();
     }
