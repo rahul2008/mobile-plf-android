@@ -346,7 +346,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             public void onClick(View v) {
                 RLog.d(RLog.ONCLICK, "HomeFragment : " + providerName);
                 if(mRegError.isShown())mRegError.hideError();
-                if (NetworkUtility.isNetworkAvailable(mContext)) {
+                if (networkUtility.isNetworkAvailable()) {
                     if(!providerName.equalsIgnoreCase(WECHAT)) {
                         providerBtn.showProgressBar();
                     } else {
