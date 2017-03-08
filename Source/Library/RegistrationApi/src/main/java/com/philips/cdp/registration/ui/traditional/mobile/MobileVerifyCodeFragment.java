@@ -443,24 +443,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
             RegAlertDialog.dismissDialog();
         }
     };
-   /* private String initializePRXLinks(String registrationEnv) {
-        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.DEVELOPMENT.getValue())) {
-            return DEV_VERFICATION_CODE;
-        }
-        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.PRODUCTION.getValue())) {
-            return PROD_VERFICATION_CODE;
-        }
-        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.STAGING.getValue())) {
-            return STAGE_VERFICATION_CODE;
-        }
-        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.TESTING.getValue())) {
-            return TEST_VERFICATION_CODE;
-        }
-        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.EVALUATION.getValue())) {
-            return EVAL_VERFICATION_CODE;
-        }
-        return null;
-    }*/
+  
     private void trackMultipleActionsOnMobileSuccess() {
         Map<String, String> map = new HashMap<String, String>();
         map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.MOBILE_RESEND_EMAIL_VERFICATION);
