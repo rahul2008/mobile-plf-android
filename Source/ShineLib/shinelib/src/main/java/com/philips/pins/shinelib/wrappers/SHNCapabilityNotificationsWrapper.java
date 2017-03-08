@@ -6,6 +6,7 @@
 package com.philips.pins.shinelib.wrappers;
 
 import android.os.Handler;
+import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNResult;
@@ -78,4 +79,93 @@ public class SHNCapabilityNotificationsWrapper implements SHNCapabilityNotificat
             }
         });
     }
+
+
+    @Override
+    public void getNotificationCapabilities(final Type type, final ResultListener<TransferGetCapabilitiesWithResult> shnResultListener) {
+
+        Runnable command = new Runnable() {
+            @Override
+            public void run() {
+                wrappedShnCapabilityNotifications.getNotificationCapabilities(type, new ResultListener<TransferGetCapabilitiesWithResult>() {
+                    @Override
+                    public void onActionCompleted(TransferGetCapabilitiesWithResult value, @NonNull SHNResult result) {
+                        shnResultListener.onActionCompleted(value, result);
+                    }
+                });
+
+            }
+        };
+        internalHandler.post(command);
+    }
+
+    @Override
+    public void setAlarm(final TransferGetCapabilitiesWithResult transferGetCapabilitiesWithResult, final byte hours_u, final byte minutes_u,
+                         final boolean repeatNotification, final short lifeTimeSeconds_u,
+                         final ResultListener<GetNotificationResult> shnResultListener) {
+        Runnable command = new Runnable() {
+            @Override
+            public void run() {
+
+
+                wrappedShnCapabilityNotifications.setAlarm(transferGetCapabilitiesWithResult, hours_u, minutes_u, repeatNotification,
+                        lifeTimeSeconds_u, new ResultListener<GetNotificationResult>() {
+                            @Override
+                            public void onActionCompleted(GetNotificationResult value, @NonNull SHNResult result) {
+                                shnResultListener.onActionCompleted(value, result);
+                            }
+
+
+                        });
+
+            }
+        };
+        internalHandler.post(command);
+    }
+
+    @Override
+    public void removeAllNotification(final ResultListener<GetRemoveNotification> shnResultListener) {
+        Runnable command = new Runnable() {
+            @Override
+            public void run() {
+
+
+                wrappedShnCapabilityNotifications.removeAllNotification(new ResultListener<GetRemoveNotification>() {
+                    @Override
+                    public void onActionCompleted(GetRemoveNotification value, @NonNull SHNResult result) {
+                        shnResultListener.onActionCompleted(value, result.SHNOk);
+                    }
+                });
+
+            }
+        };
+        internalHandler.post(command);
+
+    }
+
+    @Override
+    public void removedAtIndex(final NotificationID notificationID, final NotificationType
+            notificationType, final ResultListener<GetNotificationResult> shnResultListener) {
+        Runnable command = new Runnable() {
+            @Override
+            public void run() {
+
+
+                wrappedShnCapabilityNotifications.removedAtIndex(notificationID, notificationType,
+                        new ResultListener<GetNotificationResult>() {
+                            @Override
+                            public void onActionCompleted(GetNotificationResult value,
+                                                          @NonNull SHNResult result) {
+                                shnResultListener.onActionCompleted(value, result.SHNOk);
+                            }
+                        }
+
+                );
+
+            }
+        };
+        internalHandler.post(command);
+
+    }
+
 }
