@@ -100,7 +100,7 @@ public class SHNCapabilityNotificationsWrapper implements SHNCapabilityNotificat
     }
 
     @Override
-    public void setAlarm(final TransferGetCapabilitiesWithResult transferGetCapabilitiesWithResult, final byte hours_u, final byte minutes_u,
+    public void setAlarm(final TransferGetCapabilitiesWithResult transferGetCapabilitiesWithResult, final int hours_u, final int minutes_u,
                          final boolean repeatNotification, final short lifeTimeSeconds_u,
                          final ResultListener<GetNotificationResult> shnResultListener) {
         Runnable command = new Runnable() {
