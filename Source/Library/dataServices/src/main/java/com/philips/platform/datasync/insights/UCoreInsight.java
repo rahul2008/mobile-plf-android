@@ -1,8 +1,6 @@
 package com.philips.platform.datasync.insights;
 
-/**
- * Created by philips on 3/7/17.
- */
+import java.util.Map;
 
 public class UCoreInsight {
     private String guid;
@@ -17,8 +15,7 @@ public class UCoreInsight {
     private String title;
     private int program_minversion;
     private int program_maxversion;
-
-    private UCoreMetaData metadata;
+    private Map<String, String> metadata;
 
     public void setGuid(String guid) {
         this.guid = guid;
@@ -66,10 +63,6 @@ public class UCoreInsight {
 
     public void setProgram_maxversion(int program_maxversion) {
         this.program_maxversion = program_maxversion;
-    }
-
-    public void setMetadata(UCoreMetaData metadata) {
-        this.metadata = metadata;
     }
 
     public String getGuid() {
@@ -120,7 +113,11 @@ public class UCoreInsight {
         return program_maxversion;
     }
 
-    public UCoreMetaData getMetadata() {
+    public Map<String, String> getMetadata() {
         return metadata;
+    }
+
+    public void setMetadata(Map<String, String> metadata) {
+        this.metadata = metadata;
     }
 }

@@ -2,98 +2,100 @@ package com.philips.platform.core.datatypes;
 
 import android.support.annotation.Nullable;
 
-import com.philips.platform.datasync.insights.UCoreMetaData;
 
 import java.io.Serializable;
 
-/**
- * Created by sangamesh on 16/01/17.
- */
 public interface Insight extends BaseAppData, Serializable {
 
     String MOMENT_NEVER_SYNCED_AND_DELETED_GUID = "-1";
 
-    String GU_ID="guid";
-    String LAST_MODIFIED="last_modified";
-    String INACTIVE="inactive";
-    String VERSION="VERSION";
-    String RULE_ID="rule_id";
-    String SUBJECT_ID="subjectID";
-    String MOMENT_ID="moment_id";
-    String TYPE="type";
-    String TIME_STAMP="time_stamp";
-    String TITLE="title";
-    String PROGRAM_MIN_VERSION="program_min_version";
-    String PROGRAM_MAX_VERSION="program_max_version";
-    String METADATA_AVG="metadata_avg";
-    String METADATA_MAX="metadata_max";
-    String METADATA_MIN="metadata_min";
+    String GU_ID = "guid";
+    String LAST_MODIFIED = "last_modified";
+    String INACTIVE = "inactive";
+    String VERSION = "VERSION";
+    String RULE_ID = "rule_id";
+    String SUBJECT_ID = "subjectID";
+    String MOMENT_ID = "moment_id";
+    String TYPE = "type";
+    String TIME_STAMP = "time_stamp";
+    String TITLE = "title";
+    String PROGRAM_MIN_VERSION = "program_min_version";
+    String PROGRAM_MAX_VERSION = "program_max_version";
+    String METADATA_AVG = "metadata_avg";
+    String METADATA_MAX = "metadata_max";
+    String METADATA_MIN = "metadata_min";
 
+    void setGU_ID(String GU_ID);
 
-     void setGU_ID(String GU_ID) ;
+    void setLastModified(String lastModified);
 
-     void setLastModified(String lastModified) ;
+    void setInactive(boolean inactive);
 
-     void setInactive(boolean inactive) ;
+    void setVersion(int version);
 
-     void setVersion(int version) ;
+    void setRuleId(String ruleId);
 
-     void setRuleId(String ruleId) ;
+    void setSubjectId(String subjectId);
 
-     void setSubjectId(String subjectId) ;
+    void setMomentId(String momentId);
 
-     void setMomentId(String momentId);
+    void setType(String type);
 
-     void setType(String type);
+    void setTimeStamp(String timeStamp);
 
-     void setTimeStamp(String timeStamp);
+    void setTitle(String title);
 
-     void setTitle(String title);
+    void setProgram_minVersion(int program_minversion);
 
-     void setProgram_minVersion(int program_minversion) ;
+    void setProgram_maxVersion(int program_maxversion);
 
-     void setProgram_maxVersion(int program_maxversion) ;
+    void setMetadataAvg(int metadataAvg);
 
-     void setMetadataAvg(int metadataAvg);
-     void setMetadataMin(int metadataMin);
-     void setMetadataMax(int metadataMax);
+    void setMetadataMin(int metadataMin);
 
-     String getGUId();
+    void setMetadataMax(int metadataMax);
 
-     String getLastModified() ;
+    String getGUId();
 
-     boolean isInactive();
+    String getLastModified();
 
-     int getVersion();
+    boolean isInactive();
 
-     String getRuleId();
+    int getVersion();
 
-     String getSubjectId();
+    String getRuleId();
 
-     String getMomentId();
+    String getSubjectId();
 
-     String getType();
+    String getMomentId();
 
-     String getTimeStamp();
-     String getTitle();
+    String getType();
 
-     int getProgram_minVersion();
+    String getTimeStamp();
 
-     int getProgram_maxVersion();
+    String getTitle();
 
-     int getMetadataAvg();
-     int getMetadataMin();
-     int getMetadataMax();
+    int getProgram_minVersion();
 
-     @Nullable
-     com.philips.platform.core.datatypes.SynchronisationData getSynchronisationData();
+    int getProgram_maxVersion();
 
-     void setSynchronisationData(com.philips.platform.core.datatypes.SynchronisationData synchronisationData);
+    int getMetadataAvg();
 
-     void setSynced(boolean isSynced);
-     boolean getSynced();
+    int getMetadataMin();
 
-     void setId(int id);
-     int getId();
+    int getMetadataMax();
+
+    @Nullable
+    com.philips.platform.core.datatypes.SynchronisationData getSynchronisationData();
+
+    void setSynchronisationData(com.philips.platform.core.datatypes.SynchronisationData synchronisationData);
+
+    void setSynced(boolean isSynced);
+
+    boolean getSynced();
+
+    void setId(int id);
+
+    int getId();
 
 }
