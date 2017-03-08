@@ -691,11 +691,17 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void handleResendVerificationEmailSuccess() {
-        trackActionStatus(AppTagingConstants.SEND_DATA,
-                AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
+        trackMultipleActionResendEmailStatus();
         RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.reg_Verification_email_Title),
                 mContext.getResources().getString(R.string.reg_Verification_email_Message), getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
         updateResendUIState();
+    }
+
+    private void trackMultipleActionResendEmailStatus(){
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
+        map.put(AppTagingConstants.STATUS_NOTIFICATION, AppTagingConstants.RESEND_VERIFICATION_MAIL_LINK_SENT);
+        trackMultipleActionsMap(AppTagingConstants.SEND_DATA,map);
     }
 
     @Override
@@ -728,8 +734,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private void handleLoginSuccess() {
         hideSignInSpinner();
-        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
-                AppTagingConstants.SUCCESS_LOGIN);
         mBtnForgot.setEnabled(true);
         mBtnResend.setEnabled(true);
         mRegError.hideError();
@@ -737,10 +741,14 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         if (mUser.getEmailVerificationStatus() || !RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
             if (RegPreferenceUtility.getStoredState(mContext, mEmail)) {
                 launchWelcomeFragment();
+                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                        AppTagingConstants.SUCCESS_LOGIN);
             } else {
                 if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
                     launchAlmostDoneScreenForTermsAcceptance();
                 } else {
+                    trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                            AppTagingConstants.SUCCESS_LOGIN);
                     launchWelcomeFragment();
                 }
             }
@@ -748,7 +756,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             if (FieldsValidator.isValidEmail(mEtEmail.getEmailId().toString())) {
                 mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_Janrain_Error_Need_Email_Verification));
                 mTvResendDetails.setText(mContext.getResources().getString(R.string.reg_VerifyEmail_ResendErrorMsg_lbltxt));
+                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ERROR, AppTagingConstants.EMAIL_NOT_VERIFIED);
             } else {
+                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ERROR, AppTagingConstants.MOBILE_NUMBER_NOT_VERIFIED);
                 mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_Janrain_Error_Need_Mobile_Verification));
                 mTvResendDetails.setText(mContext.getResources().getString(R.string.reg_Mobile_TraditionalSignIn_Instruction_lbltxt));
             }

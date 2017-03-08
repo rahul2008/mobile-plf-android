@@ -289,7 +289,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
                 handleResendVerificationEmailSuccess();
                 resetTimer();
             } else {
-                  trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.TECHNICAL_ERROR,AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
+                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.TECHNICAL_ERROR,AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
                 String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode").toString(), mContext);
                 mEtCodeNUmber.hideResendSpinner();
                 RLog.i("MobileVerifyCodeFragment ", " SMS Resend failure = " + response);
@@ -321,16 +321,16 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         if (response != null) {
             try {
                 JSONObject jsonObject = new JSONObject(response);
-                if (jsonObject.getString("stat").toString().equals("ok")) {
+                if (jsonObject.getString(RegConstants.SUCCESS_STATE_RESPONSE).toString().equals(RegConstants.SUCCESS_STATE_RESPONSE_OK)) {
                     trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                             AppTagingConstants.SUCCESS_USER_REGISTRATION);
                     mUser.refreshUser(this);
                 } else {
                     hideSpinner();
                     RLog.i("MobileVerifyCodeFragment ", "SMS activation failure: " + response);
-                    trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ERROR,
-                            AppTagingConstants.ACTIVATION_NOT_VERIFIEF);
                     if (jsonObject.getString("code").toString().equals(String.valueOf(RegChinaConstants.URXInvalidVerificationCode))) {
+                        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ERROR,
+                                AppTagingConstants.ACTIVATION_NOT_VERIFIED);
                         mEtCodeNUmber.setErrDescription(mContext.getResources().getString(R.string.reg_Mobile_Verification_Invalid_Code));
                     } else {
                         mEtCodeNUmber.setErrDescription(jsonObject.getString("error_description").toString());
@@ -443,24 +443,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
             RegAlertDialog.dismissDialog();
         }
     };
-   /* private String initializePRXLinks(String registrationEnv) {
-        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.DEVELOPMENT.getValue())) {
-            return DEV_VERFICATION_CODE;
-        }
-        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.PRODUCTION.getValue())) {
-            return PROD_VERFICATION_CODE;
-        }
-        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.STAGING.getValue())) {
-            return STAGE_VERFICATION_CODE;
-        }
-        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.TESTING.getValue())) {
-            return TEST_VERFICATION_CODE;
-        }
-        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.EVALUATION.getValue())) {
-            return EVAL_VERFICATION_CODE;
-        }
-        return null;
-    }*/
+  
     private void trackMultipleActionsOnMobileSuccess() {
         Map<String, String> map = new HashMap<String, String>();
         map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.MOBILE_RESEND_EMAIL_VERFICATION);

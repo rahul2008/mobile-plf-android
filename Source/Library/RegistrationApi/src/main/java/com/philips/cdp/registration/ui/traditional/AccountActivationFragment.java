@@ -304,12 +304,11 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         } else {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorDescription(AppTagingConstants.EMAIL_VERIFICATION);
-            userRegistrationFailureInfo.setErrorCode(AppTagingConstants.EMAIL_NOT_VERIFIED);
             mEMailVerifiedError.setVisibility(View.VISIBLE);
             mEMailVerifiedError.setError(mContext.getResources().getString(
                     R.string.reg_RegEmailNotVerified_AlertPopupErrorText));
             scrollViewAutomatically(mEMailVerifiedError, mSvRootLayout);
-            AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo,AppTagingConstants.JANRAIN);
+            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ERROR, AppTagingConstants.EMAIL_NOT_VERIFIED);
         }
     }
 

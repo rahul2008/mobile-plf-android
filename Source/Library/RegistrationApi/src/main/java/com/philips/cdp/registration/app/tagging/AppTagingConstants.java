@@ -82,11 +82,15 @@ public class AppTagingConstants {
 
 	public static final int NETWORK_ERROR_CODE = 111;
 
-	public static final int EMAIL_NOT_VERIFIED = 112;
+	public static final int EMAIL_NOT_VERIFIED_CODE = 112;
 
 	public static final String COUNTRY_KEY = "locale.country";
 
 	public static final String SIGN_OUT = "signOut";
+
+	public static final String LOGOUT_BTN_SELECTED = "logoutButtonSelected";
+
+	public static final String LOGOUT_SUCCESS = "logoutSuccess";
 
 	public static final String SUCCESS_RESEND_EMAIL_VERIFICATION = "successResendEmailVerification";
 
@@ -120,7 +124,11 @@ public class AppTagingConstants {
 
     public static final String REGISTRATION_ACTIVATION_SMS = "registration:accountactivationbysms";
 
-    public static final String ACTIVATION_NOT_VERIFIEF = "sms is not verified";
+    public static final String ACTIVATION_NOT_VERIFIED = "sms is not verified";
+
+	public static final String EMAIL_NOT_VERIFIED  = "email is not verified";
+
+	public static final String MOBILE_NUMBER_NOT_VERIFIED  = "mobile is not verified";
 
     public static final String MOBILE_RESEND_EMAIL_VERFICATION = "successResendEmailVerification";
 
@@ -134,7 +142,9 @@ public class AppTagingConstants {
 
 	public static final String USER_REGISTRATION = "UR";
 
-	public static final String LOGIN_FAILED = "Loginfailed";
+	public static final String LOGIN_FAILED = "failedLogin";
+
+	public static final String REGISTRATION_FAILED = "failureUserCreation";
 
 	public static final String JANRAIN = "Janrain";
 
@@ -143,5 +153,16 @@ public class AppTagingConstants {
 	public static final String EMAIL_VERIFICATION = "Please verify your email address through the activation link sent to your email account";
 
 	public static final String NETWORK_ERROR = "Network Error";
+
+	public static final String FAILURE_RESEND_EMAIL = "failureResendEmailVerification";
+
+	public static final String FAILURE_FORGOT_PASSWORD = "failureForgotPassword";
+
+
+
+
+
+
+
 
 }

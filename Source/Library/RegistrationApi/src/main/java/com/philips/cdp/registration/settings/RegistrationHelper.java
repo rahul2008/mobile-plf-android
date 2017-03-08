@@ -11,8 +11,8 @@ package com.philips.cdp.registration.settings;
 import android.content.Context;
 import android.os.LocaleList;
 
-import com.philips.cdp.localematch.BuildConfig;
 import com.philips.cdp.localematch.PILLocaleManager;
+import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.datamigration.DataMigration;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.events.NetworkStateHelper;
@@ -20,6 +20,7 @@ import com.philips.cdp.registration.events.UserRegistrationHelper;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.ntputils.ServerTime;
@@ -91,7 +92,7 @@ public class RegistrationHelper {
     public AppTaggingInterface getAppTaggingInterface() {
         if (mAppTaggingInterface == null) {
             mAppTaggingInterface = getAppInfraInstance().getTagging().
-                    createInstanceForComponent("Philips Registration", getRegistrationApiVersion());
+                    createInstanceForComponent(RegConstants.COMPONENT_TAGS_ID, getRegistrationApiVersion());
             mAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
         }
         return mAppTaggingInterface;

@@ -103,7 +103,7 @@ public class AppTagingConstantsTest extends InstrumentationTestCase {
     }
 
     public void testErrorTwo() throws Exception {
-        assertEquals(112, appTagingConstants.EMAIL_NOT_VERIFIED);
+        assertEquals(112, appTagingConstants.EMAIL_NOT_VERIFIED_CODE);
     }
 
     public void testSignOut() throws Exception {
