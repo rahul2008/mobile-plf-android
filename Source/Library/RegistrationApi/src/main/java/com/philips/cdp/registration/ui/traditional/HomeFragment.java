@@ -184,6 +184,13 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     public void onResume() {
         super.onResume();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onResume");
+        ViewGroup providerButtonGroup = mLlSocialProviderBtnContainer;
+        for(int i = 0; i < providerButtonGroup.getChildCount(); i++) {
+            View childView = providerButtonGroup.getChildAt(i);
+            if(childView instanceof XProviderButton) {
+                childView.setClickable(true);
+            }
+        }
     }
 
 
@@ -339,8 +346,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             public void onClick(View v) {
                 RLog.d(RLog.ONCLICK, "HomeFragment : " + providerName);
                 if(mRegError.isShown())mRegError.hideError();
-                if (networkUtility.isNetworkAvailable()) {
-                    providerBtn.showProgressBar();
+                if (NetworkUtility.isNetworkAvailable(mContext)) {
+                    if(!providerName.equalsIgnoreCase(WECHAT)) {
+                        providerBtn.showProgressBar();
+                    } else {
+                        providerBtn.setClickable(false);
+                    }
                     callSocialProvider(providerName);
                 } else {
                     scrollViewAutomatically(mRegError, mSvRootLayout);
@@ -553,7 +564,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
          if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 if (providerName.equalsIgnoreCase(WECHAT)) {
                     if (isWeChatAuthenticate()) {
-                        makeProgressVisible();
+//                        makeProgressVisible();
                         startWeChatAuthentication();
                     }else{
                         hideProviderProgress();
@@ -635,7 +646,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             if (mFlowId == 3) {
                 if (mProvider.equalsIgnoreCase("wechat")) {
                     if (isWeChatAuthenticate()) {
-                        makeProgressVisible();
+//                        makeProgressVisible();
+                        makeProgressInvisible();
+                        hideProgressDialog();
+                        hideProviderProgress();
                         startWeChatAuthentication();
                     }else{
                         hideProviderProgress();
@@ -658,6 +672,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             mFlowId = 0;
         } else if (RegConstants.WECHAT_AUTH.equals(event)) {
             if (mWeChatCode != null) {
+                makeProgressVisible();
                 handleWeChatCode(mWeChatCode);
             }
         }
