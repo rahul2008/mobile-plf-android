@@ -22,8 +22,8 @@ import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
@@ -66,12 +66,12 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
     @Override
     public void start() throws MissingPermissionException, TransportUnavailableException {
-        start(new HashSet<String>());
+        start(Collections.<String>emptySet());
     }
 
     @Override
     public void start(@NonNull Set<String> deviceTypes) throws MissingPermissionException, TransportUnavailableException {
-        start(deviceTypes, new HashSet<String>());
+        start(deviceTypes, Collections.<String>emptySet());
     }
 
     @Override

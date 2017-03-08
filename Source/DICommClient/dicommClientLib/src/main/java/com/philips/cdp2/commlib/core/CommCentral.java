@@ -14,7 +14,7 @@ import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -49,16 +49,16 @@ public final class CommCentral {
         this.applianceManager = new ApplianceManager(discoveryStrategies, applianceFactory);
     }
 
+    public void startDiscovery() throws MissingPermissionException, TransportUnavailableException {
+        startDiscovery(Collections.<String>emptySet());
+    }
+
     public void startDiscovery(@NonNull Set<String> modelIds) throws MissingPermissionException, TransportUnavailableException {
         DICommLog.d(TAG, "Starting discovery for model ids: " + modelIds.toString());
 
         for (DiscoveryStrategy strategy : this.discoveryStrategies) {
             strategy.start(applianceFactory.getSupportedModelNames(), modelIds);
         }
-    }
-
-    public void startDiscovery() throws MissingPermissionException, TransportUnavailableException {
-        startDiscovery(new HashSet<String>());
     }
 
     public void stopDiscovery() {
