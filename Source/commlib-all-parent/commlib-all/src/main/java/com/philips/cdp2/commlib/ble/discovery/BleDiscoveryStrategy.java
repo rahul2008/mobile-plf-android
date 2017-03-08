@@ -27,7 +27,7 @@ import java.util.Set;
 
 public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements SHNDeviceScanner.SHNDeviceScannerListener {
 
-    private static final byte[] MANUFACTURER_PREAMBLE = {(byte) 0xDD, 0x01};
+    public static final byte[] MANUFACTURER_PREAMBLE = {(byte) 0xDD, 0x01};
 
     private final Context context;
     private final BleDeviceCache bleDeviceCache;

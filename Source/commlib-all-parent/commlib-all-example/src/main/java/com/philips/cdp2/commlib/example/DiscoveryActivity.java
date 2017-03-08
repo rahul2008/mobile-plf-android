@@ -141,13 +141,11 @@ public class DiscoveryActivity extends AppCompatActivity {
     }
 
     private void updateModelIds(final String commaSeparatedModelIds) {
-        if (TextUtils.isEmpty(commaSeparatedModelIds)) {
-            return;
-        }
         discoveryFilterModelIds.clear();
-        discoveryFilterModelIds.addAll(Arrays.asList((commaSeparatedModelIds).split(",")));
 
-        Log.d(TAG, "model ids: " + discoveryFilterModelIds.toString());
+        if (!TextUtils.isEmpty(commaSeparatedModelIds)) {
+            discoveryFilterModelIds.addAll(Arrays.asList((commaSeparatedModelIds).split(",")));
+        }
     }
 
     @Override
