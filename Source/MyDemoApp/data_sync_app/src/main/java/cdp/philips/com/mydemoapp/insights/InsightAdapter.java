@@ -11,10 +11,10 @@ import cdp.philips.com.mydemoapp.R;
 
 public class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightHolder> {
 
-    private List<Insight> mInsightList;
+    private List<InsightDisplayModel> mInsightDisplayModelList;
 
-    public InsightAdapter(final List<Insight> insightList) {
-        mInsightList = insightList;
+    public InsightAdapter(final List<InsightDisplayModel> insightDisplayModelList) {
+        mInsightDisplayModelList = insightDisplayModelList;
     }
 
     @Override
@@ -25,16 +25,16 @@ public class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightH
 
     @Override
     public void onBindViewHolder(InsightHolder holder, int position) {
-        final Insight insight = mInsightList.get(position);
-        holder.mLastModified.setText(insight.getLastModified());
-        holder.mTimeStamp.setText(insight.getTimeStamp());
-        holder.mRuleID.setText(insight.getRuleID());
-        holder.mMomentType.setText(insight.getMomentType());
+        final InsightDisplayModel insightDisplayModel = mInsightDisplayModelList.get(position);
+        holder.mLastModified.setText(insightDisplayModel.getLastModified());
+        holder.mTimeStamp.setText(insightDisplayModel.getTimeStamp());
+        holder.mRuleID.setText(insightDisplayModel.getRuleID());
+        holder.mMomentType.setText(insightDisplayModel.getMomentType());
     }
 
     @Override
     public int getItemCount() {
-        return mInsightList.size();
+        return mInsightDisplayModelList.size();
     }
 
     public class InsightHolder extends RecyclerView.ViewHolder {

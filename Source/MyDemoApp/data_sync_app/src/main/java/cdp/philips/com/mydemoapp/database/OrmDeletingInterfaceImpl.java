@@ -12,6 +12,7 @@ import com.philips.platform.core.utils.DSLog;
 import org.joda.time.DateTime;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -65,6 +66,8 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         notifyDBRequestListener.notifyPrepareForDeletion(dbRequestListener);
     }
 
+
+
     @Override
     public void markMomentsAsInActive(final List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
         for(Moment moment : moments){
@@ -75,7 +78,23 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
 
     @Override
     public boolean markInsightsAsInActive(List<? extends Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
-        return false;
+
+        List<Insight> notSyncedBackEndInsights=new ArrayList<>();
+        for(Insight insight:insights) {
+            if (isInsightSyncedToBackend(insight)) {
+                prepareInsightForDeletion(insight, dbRequestListener);
+            } else {
+                insight.setSynchronisationData(
+                        new OrmSynchronisationData(Moment.MOMENT_NEVER_SYNCED_AND_DELETED_GUID, true,
+                                DateTime.now(), 0));
+
+                notSyncedBackEndInsights.add(insight);
+
+            }
+
+        }
+        ormSaving.saveInsights(notSyncedBackEndInsights,dbRequestListener);
+        return true;
     }
 
     @Override
@@ -126,6 +145,11 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         return moment.getSynchronisationData() != null;
     }
 
+    private boolean isInsightSyncedToBackend(final Insight insight) {
+        return insight.getSynchronisationData() != null;
+    }
+
+
     private void saveMoment(final Moment moment,DBRequestListener dbRequestListener) throws SQLException {
         ormSaving.saveMoment(getOrmMoment(moment,dbRequestListener));
     }
@@ -146,5 +170,13 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         moment.setSynced(false);
         moment.getSynchronisationData().setInactive(true);
         saveMoment(moment, dbRequestListener);
+    }
+
+    private void prepareInsightForDeletion(final Insight insight,DBRequestListener dbRequestListener){
+        insight.setSynced(false);
+        insight.getSynchronisationData().setInactive(true);
+        List<Insight> insights=new ArrayList<>();
+        insights.add(insight);
+        ormSaving.saveInsights(insights,dbRequestListener);
     }
 }

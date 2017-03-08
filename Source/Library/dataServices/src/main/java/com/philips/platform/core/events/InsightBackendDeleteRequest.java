@@ -1,17 +1,19 @@
 package com.philips.platform.core.events;
 
+import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.datasync.insights.UCoreInsight;
 
 import java.util.List;
 
 public class InsightBackendDeleteRequest extends Event {
-    private final List<UCoreInsight> UCoreInsightList;
+    private final List<? extends Insight> insights;
 
-    public List<UCoreInsight> getUCoreInsightList() {
-        return UCoreInsightList;
+
+    public InsightBackendDeleteRequest(List<? extends Insight> insights) {
+        this.insights = insights;
     }
 
-    public InsightBackendDeleteRequest(List<UCoreInsight> UCoreInsightList) {
-        this.UCoreInsightList = UCoreInsightList;
+    public List<? extends Insight> getInsights() {
+        return insights;
     }
 }

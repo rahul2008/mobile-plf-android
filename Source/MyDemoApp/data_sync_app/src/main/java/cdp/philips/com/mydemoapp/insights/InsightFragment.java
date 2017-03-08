@@ -16,7 +16,7 @@ import cdp.philips.com.mydemoapp.R;
 
 public class InsightFragment extends Fragment {
     InsightAdapter mInsightAdapter;
-    List<Insight> mInsightList;
+    List<InsightDisplayModel> mInsightDisplayModelList;
     RecyclerView mInsightsRecyclerView;
 
     @Nullable
@@ -24,19 +24,19 @@ public class InsightFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.insight_layout, container, false);
 
-        mInsightList = new ArrayList<>();
+        mInsightDisplayModelList = new ArrayList<>();
 
         //For testing UI
         for (int i = 0; i < 10; i++) {
-            Insight insight = new Insight();
-            insight.setLastModified("lastModified " + i);
-            insight.setTimeStamp("timeStamp " + i);
-            insight.setRuleID("ruleID " + i);
-            insight.setMomentType("momentType " + i);
-            mInsightList.add(insight);
+            InsightDisplayModel insightDisplayModel = new InsightDisplayModel();
+            insightDisplayModel.setLastModified("lastModified " + i);
+            insightDisplayModel.setTimeStamp("timeStamp " + i);
+            insightDisplayModel.setRuleID("ruleID " + i);
+            insightDisplayModel.setMomentType("momentType " + i);
+            mInsightDisplayModelList.add(insightDisplayModel);
         }
 
-        mInsightAdapter = new InsightAdapter(mInsightList);
+        mInsightAdapter = new InsightAdapter(mInsightDisplayModelList);
         mInsightsRecyclerView = (RecyclerView) view.findViewById(R.id.insight_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mInsightsRecyclerView.setLayoutManager(layoutManager);

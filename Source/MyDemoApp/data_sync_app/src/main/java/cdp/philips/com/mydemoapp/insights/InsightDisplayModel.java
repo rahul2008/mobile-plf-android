@@ -1,6 +1,6 @@
 package cdp.philips.com.mydemoapp.insights;
 
-public class Insight {
+public class InsightDisplayModel {
 
     private String lastModified;
     private String timeStamp;

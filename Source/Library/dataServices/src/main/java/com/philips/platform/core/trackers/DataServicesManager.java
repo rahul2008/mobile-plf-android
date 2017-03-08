@@ -18,6 +18,7 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
+import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
@@ -35,6 +36,7 @@ import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
+import com.philips.platform.core.events.InsightBackendDeleteRequest;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
@@ -429,5 +431,9 @@ public class DataServicesManager {
 
     public ArrayList<DataSender> getCustomSenders() {
         return mCustomSenders;
+    }
+
+    public void deleteInsights(List<? extends Insight> insights){
+        mEventing.post(new InsightBackendDeleteRequest(insights));
     }
 }
