@@ -9,7 +9,9 @@ import com.philips.platform.core.trackers.DataServicesManager;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -59,10 +61,11 @@ public class InsightConverter {
             uCoreInsight.setProgram_maxversion(insight.getProgram_maxVersion());
             uCoreInsight.setProgram_minversion(insight.getProgram_minVersion());
 
-            UCoreMetaData metaData = new UCoreMetaData();
-            metaData.setAvg(insight.getMetadataAvg());
+            Map<String, String> metaData = new HashMap<>();
+
+            /*metaData.setAvg(insight.getMetadataAvg());
             metaData.setMax(insight.getMetadataMax());
-            metaData.setMin(insight.getMetadataMin());
+            metaData.setMin(insight.getMetadataMin());*/
 
             uCoreInsight.setMetadata(metaData);
             uCoreInsights.add(uCoreInsight);

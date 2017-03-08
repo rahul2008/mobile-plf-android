@@ -1,9 +1,6 @@
 package com.philips.platform.core.datatypes;
 
 import android.support.annotation.Nullable;
-
-import com.philips.platform.datasync.insights.UCoreMetaData;
-
 import java.io.Serializable;
 
 /**
