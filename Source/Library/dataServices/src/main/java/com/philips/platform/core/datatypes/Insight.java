@@ -54,10 +54,6 @@ public interface Insight extends BaseAppData, Serializable {
 
      void setProgram_maxVersion(int program_maxversion) ;
 
-     void setMetadataAvg(int metadataAvg);
-     void setMetadataMin(int metadataMin);
-     void setMetadataMax(int metadataMax);
-
      String getGUId();
 
      String getLastModified() ;
@@ -81,9 +77,6 @@ public interface Insight extends BaseAppData, Serializable {
 
      int getProgram_maxVersion();
 
-     int getMetadataAvg();
-     int getMetadataMin();
-     int getMetadataMax();
 
      @Nullable
      com.philips.platform.core.datatypes.SynchronisationData getSynchronisationData();
@@ -95,5 +88,8 @@ public interface Insight extends BaseAppData, Serializable {
 
      void setId(int id);
      int getId();
+
+    void setMetaData(InsightMetadata insightMetadata);
+    InsightMetadata getMetaData();
 
 }

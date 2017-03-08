@@ -41,6 +41,7 @@ import com.philips.platform.datasync.consent.ConsentsSegregator;
 import com.philips.platform.datasync.insights.InsightDataFetcher;
 import com.philips.platform.datasync.insights.InsightDataSender;
 import com.philips.platform.datasync.insights.InsightMonitor;
+import com.philips.platform.datasync.insights.InsightSegregator;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.moments.MomentsSegregator;
@@ -261,6 +262,11 @@ public class BackendModule {
     @Provides
     public ConsentsSegregator providesConsentsSegregater() {
         return new ConsentsSegregator();
+    }
+
+    @Provides
+    public InsightSegregator providesInsightSegregater() {
+        return new InsightSegregator();
     }
 
     @Provides

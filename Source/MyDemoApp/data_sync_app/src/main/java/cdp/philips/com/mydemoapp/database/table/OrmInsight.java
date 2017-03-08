@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.philips.platform.core.datatypes.Insight;
+import com.philips.platform.core.datatypes.InsightMetadata;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SynchronisationData;
 
@@ -60,23 +61,17 @@ public class OrmInsight implements Insight, Serializable {
     @DatabaseField(canBeNull = false)
     private int program_max_version;
 
-    @DatabaseField(canBeNull = false)
-    private int metadata_avg;
-
-    @DatabaseField(canBeNull = false)
-    private int metadata_max;
-
-    @DatabaseField(canBeNull = false)
-    private int metadata_min;
-
     @DatabaseField
     private boolean synced;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = true)
     private OrmSynchronisationData synchronisationData;
 
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = true)
+    private OrmInsightMetaData insightMetaData;
+
     @DatabaseConstructor
-    public OrmInsight(String guid, String last_modified, boolean inactive, int version, String rule_id, String subjectID, String moment_id, String type, String time_stamp, String title, int program_min_version, int program_max_version, int metadata_avg, int metadata_max, int metadata_min) {
+    public OrmInsight(String guid, String last_modified, boolean inactive, int version, String rule_id, String subjectID, String moment_id, String type, String time_stamp, String title, int program_min_version, int program_max_version) {
         this.guid = guid;
         this.last_modified = last_modified;
         this.inactive = inactive;
@@ -89,9 +84,6 @@ public class OrmInsight implements Insight, Serializable {
         this.title = title;
         this.program_min_version = program_min_version;
         this.program_max_version = program_max_version;
-        this.metadata_avg = metadata_avg;
-        this.metadata_max = metadata_max;
-        this.metadata_min = metadata_min;
     }
 
 //    @DatabaseConstructor
@@ -166,21 +158,6 @@ public class OrmInsight implements Insight, Serializable {
     }
 
     @Override
-    public void setMetadataAvg(int metadataAvg) {
-        this.metadata_avg=metadataAvg;
-    }
-
-    @Override
-    public void setMetadataMin(int metadataMin) {
-       this.metadata_min=metadataMin;
-    }
-
-    @Override
-    public void setMetadataMax(int metadataMax) {
-        this.metadata_max=metadataMax;
-    }
-
-    @Override
     public String getGUId() {
         return guid;
     }
@@ -240,20 +217,6 @@ public class OrmInsight implements Insight, Serializable {
         return program_max_version;
     }
 
-    @Override
-    public int getMetadataAvg() {
-        return metadata_avg;
-    }
-
-    @Override
-    public int getMetadataMin() {
-        return metadata_min;
-    }
-
-    @Override
-    public int getMetadataMax() {
-        return metadata_max;
-    }
 
     @Nullable
     @Override
@@ -284,5 +247,15 @@ public class OrmInsight implements Insight, Serializable {
     @Override
     public int getId() {
         return id;
+    }
+
+    @Override
+    public void setMetaData(InsightMetadata insightMetadata) {
+        this.insightMetaData=(OrmInsightMetaData) insightMetadata;
+    }
+
+    @Override
+    public OrmInsightMetaData getMetaData() {
+        return insightMetaData;
     }
 }
