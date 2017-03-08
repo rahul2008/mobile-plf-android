@@ -22,6 +22,7 @@ import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -45,12 +46,12 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
 
     @Override
     public void start() throws MissingPermissionException, TransportUnavailableException {
-        start(new HashSet<String>());
+        start(Collections.<String>emptySet());
     }
 
     @Override
     public void start(@NonNull Set<String> deviceTypes) throws MissingPermissionException, TransportUnavailableException {
-        start(deviceTypes, new HashSet<String>());
+        start(deviceTypes, Collections.<String>emptySet());
     }
 
     @Override
