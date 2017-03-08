@@ -87,6 +87,10 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    private void upgradeToVersion2(SQLiteDatabase db) {
+        db.execSQL("ALTER TABLE " + TABLE_NETWORK_NODE + " ADD COLUMN " + KEY_HTTPS + " SMALLINT NOT NULL DEFAULT 0;");
+    }
+
     private void upgradeToVersion3(SQLiteDatabase db) {
         db.execSQL("BEGIN TRANSACTION;");
 
@@ -103,9 +107,5 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE tmp_" + TABLE_NETWORK_NODE + ";");
 
         db.execSQL("COMMIT;");
-    }
-
-    private void upgradeToVersion2(SQLiteDatabase db) {
-        db.execSQL("ALTER TABLE " + TABLE_NETWORK_NODE + " ADD COLUMN " + KEY_HTTPS + " SMALLINT NOT NULL DEFAULT 0;");
     }
 }
