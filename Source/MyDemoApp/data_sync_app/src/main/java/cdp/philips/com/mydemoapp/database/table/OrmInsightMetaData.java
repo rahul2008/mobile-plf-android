@@ -31,14 +31,18 @@ public class OrmInsightMetaData implements InsightMetadata, Serializable {
     @DatabaseField(canBeNull = true)
     private String meta_value;
 
+    @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = false)
+    private OrmInsight ormInsight;
+
 
     @DatabaseConstructor
     OrmInsightMetaData() {
     }
 
-    public OrmInsightMetaData(@NonNull final String meta_key, @NonNull final String meta_value) {
+    public OrmInsightMetaData(@NonNull final String meta_key, @NonNull final String meta_value ,OrmInsight ormInsight) {
         this.meta_key = meta_key;
         this.meta_value = meta_value;
+        this.ormInsight=ormInsight;
     }
 
 

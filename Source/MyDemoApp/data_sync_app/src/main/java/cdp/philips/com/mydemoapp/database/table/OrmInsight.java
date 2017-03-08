@@ -2,7 +2,9 @@ package cdp.philips.com.mydemoapp.database.table;
 
 import android.support.annotation.Nullable;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.InsightMetadata;
@@ -10,7 +12,9 @@ import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SynchronisationData;
 
 import java.io.Serializable;
+import java.util.Collection;
 
+import cdp.philips.com.mydemoapp.database.EmptyForeignCollection;
 import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
 
 /**
@@ -67,8 +71,10 @@ public class OrmInsight implements Insight, Serializable {
     @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = true)
     private OrmSynchronisationData synchronisationData;
 
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = true)
-    private OrmInsightMetaData insightMetaData;
+
+    @ForeignCollectionField(eager = true)
+    ForeignCollection<OrmInsightMetaData> ormInsightMetaDatas = new EmptyForeignCollection<>();
+
 
     @DatabaseConstructor
     public OrmInsight(String guid, String last_modified, boolean inactive, int version, String rule_id, String subjectID, String moment_id, String type, String time_stamp, String title, int program_min_version, int program_max_version) {
@@ -250,12 +256,13 @@ public class OrmInsight implements Insight, Serializable {
     }
 
     @Override
-    public void setMetaData(InsightMetadata insightMetadata) {
-        this.insightMetaData=(OrmInsightMetaData) insightMetadata;
+    public Collection<? extends InsightMetadata> getInsightMetaData() {
+        return ormInsightMetaDatas;
     }
 
     @Override
-    public OrmInsightMetaData getMetaData() {
-        return insightMetaData;
+    public void addInsightMetaData(InsightMetadata insightMetadata) {
+       ormInsightMetaDatas.add((OrmInsightMetaData)insightMetadata);
     }
+
 }

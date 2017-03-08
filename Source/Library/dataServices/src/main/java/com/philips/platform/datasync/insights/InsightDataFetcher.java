@@ -8,7 +8,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.Insight;
+import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
+import com.philips.platform.core.events.UpdateInsightsBackendResponse;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -17,6 +20,7 @@ import com.philips.platform.datasync.synchronisation.DataFetcher;
 
 import org.joda.time.DateTime;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Inject;
@@ -80,13 +84,12 @@ public class InsightDataFetcher extends DataFetcher {
         try {
             UCoreInsightList insightList = client.fetchInsights(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId(), UCoreAdapter.API_VERSION, uCoreAccessProvider.getInsightLastSyncTimestamp());
 
+            List<Insight> insights = insightConverter.convertToAppInsights(insightList);
+            eventing.post(new UpdateInsightsBackendResponse(insights));
             System.out.println("***InsightList****" + insightList.getUCoreInsights().size());
-//            uCoreAccessProvider.saveLastSyncTimeStamp(insightList.getSyncurl(), UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY);
-//            Settings appSettings = insightConverter.convertUcoreToAppSettings(settings);
-//            if(appSettings==null)return;
-//            eventing.post(new SettingsBackendSaveResponse(appSettings));
+
         } catch (RetrofitError retrofitError) {
-//            eventing.post(new BackendDataRequestFailed(retrofitError));
+          eventing.post(new BackendDataRequestFailed(retrofitError));
             System.out.println("***InsightList fetch error" + retrofitError.getMessage());
         }
     }

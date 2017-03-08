@@ -2,6 +2,7 @@ package com.philips.platform.core.datatypes;
 
 import android.support.annotation.Nullable;
 import java.io.Serializable;
+import java.util.Collection;
 
 /**
  * Created by sangamesh on 16/01/17.
@@ -86,7 +87,9 @@ public interface Insight extends BaseAppData, Serializable {
      void setId(int id);
      int getId();
 
-    void setMetaData(InsightMetadata insightMetadata);
-    InsightMetadata getMetaData();
+
+    Collection<? extends InsightMetadata> getInsightMetaData();
+
+    void addInsightMetaData(InsightMetadata insightMetadata);
 
 }

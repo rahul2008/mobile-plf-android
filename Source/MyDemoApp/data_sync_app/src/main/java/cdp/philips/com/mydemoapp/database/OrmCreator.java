@@ -12,6 +12,7 @@ import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Insight;
+import com.philips.platform.core.datatypes.InsightMetadata;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
@@ -24,6 +25,8 @@ import com.philips.platform.datasync.insights.UCoreInsight;
 
 import org.joda.time.DateTime;
 
+import java.util.Map;
+
 import javax.inject.Singleton;
 
 import cdp.philips.com.mydemoapp.database.datatypes.MeasurementDetailType;
@@ -34,6 +37,7 @@ import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmInsight;
+import cdp.philips.com.mydemoapp.database.table.OrmInsightMetaData;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetailType;
@@ -141,8 +145,15 @@ public class OrmCreator implements BaseAppDataCreator {
     @NonNull
     @Override
     public Insight createInsight(UCoreInsight uCoreInsight) {
-        return new OrmInsight(uCoreInsight.getGuid(),uCoreInsight.getLastModified(),uCoreInsight.isInactive(),uCoreInsight.getVersion(),uCoreInsight.getRuleId(),uCoreInsight.getSubjectId(),uCoreInsight.getMomentId(),uCoreInsight.getType(),uCoreInsight.getTimeStamp(),uCoreInsight.getTitle(),uCoreInsight.getProgram_minversion(),uCoreInsight.getProgram_maxversion(),uCoreInsight.getMetadata().getAvg(),uCoreInsight.getMetadata().getMax(),uCoreInsight.getMetadata().getMin());
+        return new OrmInsight(uCoreInsight.getGuid(),uCoreInsight.getLastModified(),uCoreInsight.isInactive(),uCoreInsight.getVersion(),uCoreInsight.getRuleId(),uCoreInsight.getSubjectId(),uCoreInsight.getMomentId(),uCoreInsight.getType(),uCoreInsight.getTimeStamp(),uCoreInsight.getTitle(),uCoreInsight.getProgram_minversion(),uCoreInsight.getProgram_maxversion());
     }
+
+    @NonNull
+    @Override
+    public InsightMetadata createInsightMetaData(String key, String value ,Insight insight) {
+        return new OrmInsightMetaData(key,value,(OrmInsight)insight);
+    }
+
 
     @NonNull
     @Override
