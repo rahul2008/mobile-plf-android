@@ -321,7 +321,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         if (response != null) {
             try {
                 JSONObject jsonObject = new JSONObject(response);
-                if (jsonObject.getString("stat").toString().equals("ok")) {
+                if (jsonObject.getString(RegConstants.SUCCESS_STATE_RESPONSE).toString().equals(RegConstants.SUCCESS_STATE_RESPONSE_OK)) {
                     trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                             AppTagingConstants.SUCCESS_USER_REGISTRATION);
                     mUser.refreshUser(this);

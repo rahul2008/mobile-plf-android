@@ -306,14 +306,14 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                         ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
                 urInterface = new URInterface();
                 urInterface.launch(activityLauncher, urLaunchInput);
-                final UIFlow abStrings=RegUtility.getUiFlow();
-                if (abStrings.equals(UIFlow.FLOW_A)){
+                final UIFlow abTestingUIFlow = RegUtility.getUiFlow();
+                if (abTestingUIFlow.equals(UIFlow.FLOW_A)){
                     Toast.makeText(mContext,"UI Flow Type A",Toast.LENGTH_LONG).show();
                     RLog.d(RLog.AB_TESTING,"UI Flow Type A");
-                }else  if (abStrings.equals(UIFlow.FLOW_B)){
+                }else  if (abTestingUIFlow.equals(UIFlow.FLOW_B)){
                     Toast.makeText(mContext,"UI Flow Type B",Toast.LENGTH_LONG).show();
                     RLog.d(RLog.AB_TESTING,"UI Flow Type B");
-                }else  if (abStrings.equals(UIFlow.FLOW_C)){
+                }else  if (abTestingUIFlow.equals(UIFlow.FLOW_C)){
                     Toast.makeText(mContext,"UI Flow Type C",Toast.LENGTH_LONG).show();
                     RLog.d(RLog.AB_TESTING,"UI Flow Type C");
                 }

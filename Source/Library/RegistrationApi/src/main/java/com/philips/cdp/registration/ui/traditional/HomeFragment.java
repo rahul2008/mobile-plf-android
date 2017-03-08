@@ -267,7 +267,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void handleSocialProviders(final String countryCode) {
         RLog.d("HomeFragment : ", "handleSocialProviders method country code : " + countryCode);
-        //TOdo
         if (null != RegistrationConfiguration.getInstance().getProvidersForCountry(countryCode)) {
             mLlSocialProviderBtnContainer.post(new Runnable() {
 
@@ -393,6 +392,11 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mUser = new User(mContext);
         linkifyTermAndPolicy(mTvWelcomeDesc);
         handleUiState(false);
+        initServiceDiscovery();
+        showCountrySelection();
+    }
+
+    private void initServiceDiscovery() {
         AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
         serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
@@ -410,8 +414,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 mCountryDisplayy.setText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
             }
         });
-        showCountrySelection();
     }
+
     private void showCountrySelection() {
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
