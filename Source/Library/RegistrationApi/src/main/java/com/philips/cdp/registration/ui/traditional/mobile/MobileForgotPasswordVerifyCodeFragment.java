@@ -28,11 +28,11 @@ import com.janrain.android.Jump;
 import com.philips.cdp.registration.HttpClientService;
 import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.apptagging.AppTagging;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
+import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.configuration.ClientIDConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
-import com.philips.cdp.registration.configuration.ClientIDConfiguration;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XMobileHavingProblems;
 import com.philips.cdp.registration.ui.customviews.XRegError;
@@ -45,6 +45,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegChinaUtil;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.URInterface;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,7 +53,12 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFragment implements RefreshUserHandler, HttpClientServiceReceiver.Listener {
+
+    @Inject
+    NetworkUtility networkUtility;
 
     private LinearLayout mLlCreateAccountFields;
 
@@ -92,6 +98,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        URInterface.getComponent().inject(this);
         final String mobileNumberKey = "mobileNumber";
         final String responseTokenKey = "token";
         final String redirectUriKey = "redirectUri";
@@ -290,7 +297,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
     }
 
     public void networkUiState() {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
+        if (networkUtility.isNetworkAvailable()) {
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
             } else {

@@ -239,9 +239,6 @@ public class RegistrationConfiguration {
      * @return HSDPInfo Object
      */
     public HSDPInfo getHSDPInfo() {
-        HSDPInfo hsdpInfo = new HSDPInfo();
-
-        String appName = HSDPConfiguration.getHsdpAppName();
 
         String sharedId = HSDPConfiguration.getHsdpSharedId();
 
@@ -249,17 +246,14 @@ public class RegistrationConfiguration {
 
         String baseUrl = HSDPConfiguration.getHsdpBaseUrl();
 
-        RLog.i("HSDP_TEST", "sharedId" + sharedId + "Secret " + secreteId + " baseUrl " + baseUrl);
+        String appName = HSDPConfiguration.getHsdpAppName();
 
-        hsdpInfo.setApplicationName(appName);
-        hsdpInfo.setSharedId(sharedId);
-        hsdpInfo.setSecreteId(secreteId);
-        hsdpInfo.setBaseURL(baseUrl);
+        RLog.i("HSDP_TEST", "sharedId" + sharedId + "Secret " + secreteId + " baseUrl " + baseUrl);
 
         if (appName == null && sharedId == null && secreteId == null && baseUrl == null) {
             return null;
         }
-
+        HSDPInfo hsdpInfo = new HSDPInfo(sharedId, secreteId, baseUrl, appName);
         return hsdpInfo;
     }
 

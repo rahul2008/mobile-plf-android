@@ -30,8 +30,8 @@ import com.philips.cdp.registration.HttpClientService;
 import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.apptagging.AppTagging;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
+import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -48,6 +48,7 @@ import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegChinaConstants;
 import com.philips.cdp.registration.ui.utils.RegChinaUtil;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.squareup.okhttp.RequestBody;
@@ -58,7 +59,12 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 public class MobileVerifyCodeFragment extends RegistrationBaseFragment implements RefreshUserHandler, HttpClientServiceReceiver.Listener {
+
+    @Inject
+    NetworkUtility networkUtility;
 
     private LinearLayout mLlCreateAccountFields;
 
@@ -89,13 +95,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     private boolean isAccountActivate;
     private String verification_Sms_Code_URL;
 
-  /*  public static final String DEV_VERFICATION_CODE = "http://10.128.30.23:8080/philips-api/api/v1/user/requestVerificationSmsCode";
-    public static final String EVAL_VERFICATION_CODE = "https://acc.philips.com.cn/api/v1/user/requestVerificationSmsCode";
-    public static final String PROD_VERFICATION_CODE = "https://www.philips.com.cn/api/v1/user/requestVerificationSmsCode";
-    public static final String STAGE_VERFICATION_CODE = "https://acc.philips.com.cn/api/v1/user/requestVerificationSmsCode";
-    public static final String TEST_VERFICATION_CODE = "https://tst.philips.com/api/v1/user/requestVerificationSmsCode";
-*/
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileActivationFragment : onCreate");
@@ -105,6 +104,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        URInterface.getComponent().inject(this);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileActivationFragment : onCreateView");
         trackActionStatus(AppTagingConstants.REGISTRATION_ACTIVATION_SMS,"","");
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
@@ -355,7 +355,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     }
 
     public void networkUiState() {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
+        if (networkUtility.isNetworkAvailable()) {
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
             } else {

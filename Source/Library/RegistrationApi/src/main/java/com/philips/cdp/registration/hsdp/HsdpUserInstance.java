@@ -1,7 +1,7 @@
 
 package com.philips.cdp.registration.hsdp;
 
- class HsdpUserInstance {
+class HsdpUserInstance {
 
     private static HsdpUserInstance hsdpUserInstance = new HsdpUserInstance( );
 

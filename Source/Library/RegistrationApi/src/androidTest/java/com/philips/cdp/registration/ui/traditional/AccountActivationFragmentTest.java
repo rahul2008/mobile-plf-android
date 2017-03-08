@@ -8,7 +8,6 @@ import android.widget.ProgressBar;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.appinfra.AppInfra;
@@ -65,7 +64,6 @@ public class AccountActivationFragmentTest extends InstrumentationTestCase {
             method =AccountActivationFragment.class.getDeclaredMethod("handleUiState");;
             method.setAccessible(true);
             method.invoke(accountActivationFragment);
-            assertNotNull(NetworkUtility.isNetworkAvailable(getInstrumentation().getContext()));
             assertNotNull(UserRegistrationInitializer.getInstance().isJanrainIntialized());
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
