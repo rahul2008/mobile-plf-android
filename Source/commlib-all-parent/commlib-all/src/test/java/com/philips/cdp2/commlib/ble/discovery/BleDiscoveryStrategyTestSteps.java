@@ -22,6 +22,7 @@ import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
+import com.philips.pins.shinelib.utility.BleScanRecord;
 
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -66,6 +67,9 @@ public class BleDiscoveryStrategyTestSteps {
 
     @Mock
     private Handler callbackHandlerMock;
+
+    @Mock
+    private BleScanRecord bleScanRecordMock;
 
     @Captor
     private ArgumentCaptor<Runnable> runnableCaptor;
@@ -200,6 +204,9 @@ public class BleDiscoveryStrategyTestSteps {
 
         SHNDeviceFoundInfo shnDeviceFoundInfoMock = mock(SHNDeviceFoundInfo.class);
         when(shnDeviceFoundInfoMock.getShnDevice()).thenReturn(shnDeviceMock);
+        when(shnDeviceFoundInfoMock.getBleScanRecord()).thenReturn(bleScanRecordMock);
+
+        when(bleScanRecordMock.getManufacturerSpecificData()).thenReturn(new byte[] {(byte) 0xDD, 0x01, 80, 70, 49, 51, 51, 55});
 
         for (int i = 0; i < times; i++) {
             bleDiscoveryStrategy.deviceFound(null, shnDeviceFoundInfoMock);
