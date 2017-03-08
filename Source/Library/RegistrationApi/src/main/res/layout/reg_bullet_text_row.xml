@@ -3,6 +3,7 @@
     xmlns:reglib="http://reg.lib/schema"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/reg_text_padding_bottom"
     android:orientation="horizontal">
 
     <com.philips.cdp.registration.ui.customviews.XTextView
