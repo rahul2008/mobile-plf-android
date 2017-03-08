@@ -307,15 +307,20 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 urInterface = new URInterface();
                 urInterface.launch(activityLauncher, urLaunchInput);
                 final UIFlow abTestingUIFlow = RegUtility.getUiFlow();
-                if (abTestingUIFlow.equals(UIFlow.FLOW_A)){
-                    Toast.makeText(mContext,"UI Flow Type A",Toast.LENGTH_LONG).show();
-                    RLog.d(RLog.AB_TESTING,"UI Flow Type A");
-                }else  if (abTestingUIFlow.equals(UIFlow.FLOW_B)){
-                    Toast.makeText(mContext,"UI Flow Type B",Toast.LENGTH_LONG).show();
-                    RLog.d(RLog.AB_TESTING,"UI Flow Type B");
-                }else  if (abTestingUIFlow.equals(UIFlow.FLOW_C)){
-                    Toast.makeText(mContext,"UI Flow Type C",Toast.LENGTH_LONG).show();
-                    RLog.d(RLog.AB_TESTING,"UI Flow Type C");
+                switch (abTestingUIFlow){
+                    case FLOW_A:
+                        Toast.makeText(mContext,"UI Flow Type A",Toast.LENGTH_LONG).show();
+                        RLog.d(RLog.AB_TESTING,"UI Flow Type A");
+                        break;
+                    case FLOW_B:
+                        Toast.makeText(mContext,"UI Flow Type B",Toast.LENGTH_LONG).show();
+                        RLog.d(RLog.AB_TESTING,"UI Flow Type B");
+                        break;
+                    case FLOW_C:
+                        Toast.makeText(mContext,"UI Flow Type C",Toast.LENGTH_LONG).show();
+                        RLog.d(RLog.AB_TESTING,"UI Flow Type C");
+                        break;
+                    default:break;
                 }
                 break;
 
@@ -332,19 +337,25 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
                 urInterface = new URInterface();
                 urInterface.launch(activityLauncher, urLaunchInput);
-                final UIFlow uiFlow=RegUtility.getUiFlow();
-                if (uiFlow.equals(UIFlow.FLOW_A)){
-                    Toast.makeText(mContext,"UI Flow Type A",Toast.LENGTH_LONG).show();
-                    RLog.d(RLog.AB_TESTING,"UI Flow Type A");
-                }else  if (uiFlow.equals(UIFlow.FLOW_B)){
-                    Toast.makeText(mContext,"UI Flow Type B",Toast.LENGTH_LONG).show();
-                    RLog.d(RLog.AB_TESTING,"UI Flow Type B");
-                }else  if (uiFlow.equals(UIFlow.FLOW_C)){
-                    Toast.makeText(mContext,"UI Flow Type C",Toast.LENGTH_LONG).show();
-                    RLog.d(RLog.AB_TESTING,"UI Flow Type C");
+                final UIFlow uiFlow = RegUtility.getUiFlow();
+
+                switch (uiFlow){
+
+                    case FLOW_A:
+                        Toast.makeText(mContext,"UI Flow Type A",Toast.LENGTH_LONG).show();
+                        RLog.d(RLog.AB_TESTING,"UI Flow Type A");
+                        break;
+                    case FLOW_B:
+                        Toast.makeText(mContext,"UI Flow Type B",Toast.LENGTH_LONG).show();
+                        RLog.d(RLog.AB_TESTING,"UI Flow Type B");
+                        break;
+                    case FLOW_C:
+                        Toast.makeText(mContext,"UI Flow Type C",Toast.LENGTH_LONG).show();
+                        RLog.d(RLog.AB_TESTING,"UI Flow Type C");
+                        break;
+                    default:break;
                 }
                 break;
-
 
             case R.id.btn_registration_without_account:
 
