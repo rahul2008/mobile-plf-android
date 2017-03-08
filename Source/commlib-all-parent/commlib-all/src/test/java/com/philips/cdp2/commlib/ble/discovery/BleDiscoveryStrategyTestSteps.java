@@ -232,7 +232,6 @@ public class BleDiscoveryStrategyTestSteps {
         SHNDeviceFoundInfo shnDeviceFoundInfoMock = mock(SHNDeviceFoundInfo.class);
         when(shnDeviceFoundInfoMock.getShnDevice()).thenReturn(shnDeviceMock);
         when(shnDeviceFoundInfoMock.getBleScanRecord()).thenReturn(bleScanRecordMock);
-
         when(bleScanRecordMock.getManufacturerSpecificData()).thenReturn(new byte[]{(byte) 0xDD, 0x01, 80, 70, 49, 51, 51, 55}); // Model id 'PF1337'
 
         for (int i = 0; i < times; i++) {
