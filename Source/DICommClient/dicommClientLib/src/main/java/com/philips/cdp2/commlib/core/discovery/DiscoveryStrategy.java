@@ -32,7 +32,9 @@ public interface DiscoveryStrategy {
 
     void start() throws MissingPermissionException, TransportUnavailableException;
 
-    void start(Set<String> deviceTypes) throws MissingPermissionException, TransportUnavailableException;
+    void start(@NonNull Set<String> deviceTypes) throws MissingPermissionException, TransportUnavailableException;
+
+    void start(@NonNull Set<String> deviceTypes, @NonNull Set<String> modelIds) throws MissingPermissionException, TransportUnavailableException;
 
     void stop();
 

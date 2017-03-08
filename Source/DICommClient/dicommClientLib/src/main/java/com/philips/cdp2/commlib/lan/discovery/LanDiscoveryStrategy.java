@@ -22,6 +22,7 @@ import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -65,11 +66,16 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
     @Override
     public void start() throws MissingPermissionException, TransportUnavailableException {
-        start(null);
+        start(Collections.<String>emptySet());
     }
 
     @Override
-    public void start(Set<String> deviceTypes) throws MissingPermissionException, TransportUnavailableException {
+    public void start(@NonNull Set<String> deviceTypes) throws MissingPermissionException, TransportUnavailableException {
+        start(deviceTypes, Collections.<String>emptySet());
+    }
+
+    @Override
+    public void start(@NonNull Set<String> deviceTypes, @NonNull Set<String> modelIds) throws MissingPermissionException, TransportUnavailableException {
         if (NetworkMonitor.NetworkState.WIFI_WITH_INTERNET.equals(networkMonitor.getLastKnownNetworkState())) {
             ssdpServiceHelper.startDiscoveryAsync();
             DICommLog.d(DICommLog.DISCOVERY, "Starting SSDP service - Start called (wifi_internet)");

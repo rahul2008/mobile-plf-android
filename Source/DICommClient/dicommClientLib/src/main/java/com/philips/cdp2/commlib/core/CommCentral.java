@@ -7,16 +7,20 @@ package com.philips.cdp2.commlib.core;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 
+import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 public final class CommCentral {
+    private static final String TAG = "CommCentral";
+
     private ApplianceManager applianceManager;
     private final DICommApplianceFactory<?> applianceFactory;
     private final Set<DiscoveryStrategy> discoveryStrategies = new CopyOnWriteArraySet<>();
@@ -46,8 +50,14 @@ public final class CommCentral {
     }
 
     public void startDiscovery() throws MissingPermissionException, TransportUnavailableException {
+        startDiscovery(Collections.<String>emptySet());
+    }
+
+    public void startDiscovery(@NonNull Set<String> modelIds) throws MissingPermissionException, TransportUnavailableException {
+        DICommLog.d(TAG, "Starting discovery for model ids: " + modelIds.toString());
+
         for (DiscoveryStrategy strategy : this.discoveryStrategies) {
-            strategy.start(applianceFactory.getSupportedModelNames());
+            strategy.start(applianceFactory.getSupportedModelNames(), modelIds);
         }
     }
 
