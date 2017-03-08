@@ -164,6 +164,10 @@ public class EditText extends AppCompatEditText {
         }
     }
 
+    /**
+     * Method to check is the password is visisble
+     * @return true if the password is visible
+     */
     public boolean isPasswordVisible() {
         return getTransformationMethod() == null;
     }
@@ -200,18 +204,27 @@ public class EditText extends AppCompatEditText {
                 || variation == (EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_VARIATION_PASSWORD);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setEnabled(final boolean enabled) {
         super.setEnabled(enabled);
         showIcon();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onTextChanged(@NonNull final CharSequence source, final int start, final int lengthBefore, final int lengthAfter) {
         super.onTextChanged(source, start, lengthBefore, lengthAfter);
         showIcon();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onFocusChanged(final boolean focused, final int direction, final Rect previouslyFocusedRect) {
         super.onFocusChanged(focused, direction, previouslyFocusedRect);
@@ -222,6 +235,9 @@ public class EditText extends AppCompatEditText {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onTouchEvent(@NonNull final MotionEvent event) {
         boolean shouldProcessTouch = false;

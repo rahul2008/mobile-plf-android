@@ -174,10 +174,10 @@ public class NavigationBarTest {
 
     @Test
     public void verifyOptionsMenuTextSize() throws Exception {
-
         setupActivity(NavigationColor.VERY_LIGHT.ordinal());
+
         int fontSize = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.navigation_menu_text_size);
-        //Added wait because test is failing could be it takes time to inflate menu
+
         getOptionsMenuText().check(matches(TextViewPropertiesMatchers.isSameFontSize(fontSize)));
     }
 

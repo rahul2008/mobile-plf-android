@@ -3,6 +3,7 @@
     <style name="Theme.Philips" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">?attr/uidContentPrimary</item>
         <item name="windowActionBar">false</item>
+        <item name="android:windowContentOverlay">@null</item>
         <item name="windowNoTitle">true</item>
         <item name="colorControlHighlight">@android:color/transparent</item>
 
@@ -40,6 +41,7 @@
         <item name="actionMenuTextColor">?attr/uidNavigationBarTextColor</item>
         <item name="android:actionMenuTextColor">?attr/uidNavigationBarTextColor</item>
 
+        <item name="actionBarStyle">@style/UIDActionBarStyle</item>
         <item name="progressBarStyle">@style/UIDProgressBarHorizontalDeterminate</item>
         <item name="checkboxStyle">@style/UIDCheckBox</item>
         <item name="buttonStyle">@style/UIDDefaultButton</item>
