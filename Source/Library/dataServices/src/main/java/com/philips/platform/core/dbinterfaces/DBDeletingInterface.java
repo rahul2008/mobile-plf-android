@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.platform.core.dbinterfaces;
 
 import com.philips.platform.core.datatypes.Insight;
@@ -7,10 +11,6 @@ import com.philips.platform.core.listeners.DBRequestListener;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public interface DBDeletingInterface {
     void deleteAll(DBRequestListener dbRequestListener) throws SQLException;
     void markAsInActive(Moment moment,DBRequestListener dbRequestListener) throws SQLException;
@@ -20,7 +20,7 @@ public interface DBDeletingInterface {
     void deleteMeasurementGroup(Moment moment,DBRequestListener dbRequestListener) throws SQLException;
     void deleteFailed(Exception e,DBRequestListener dbRequestListener);
     void deleteAllMoments(DBRequestListener dbRequestListener) throws SQLException;
-    public void markMomentsAsInActive(final List<Moment> moment, DBRequestListener dbRequestListener) throws SQLException;
-    public boolean markInsightsAsInActive(final List<? extends Insight> insights ,DBRequestListener dbRequestListener) throws SQLException;
-    public boolean deleteInsights(final List<? extends Insight> insights ,DBRequestListener dbRequestListener) throws SQLException;
+    void markMomentsAsInActive(final List<Moment> moment, DBRequestListener dbRequestListener) throws SQLException;
+    boolean markInsightsAsInActive(final List<Insight> insights ,DBRequestListener dbRequestListener) throws SQLException;
+    boolean deleteInsights(final List<Insight> insights ,DBRequestListener dbRequestListener) throws SQLException;
 }

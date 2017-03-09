@@ -22,6 +22,7 @@ import java.util.List;
 import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmInsight;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
@@ -50,7 +51,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             ormMoment = OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
             saving.saveMoment(ormMoment);
             updating.refreshMoment(ormMoment);
-            notifyDBRequestListener.notifySuccess(dbRequestListener, ormMoment ,SyncType.MOMENT);
+            notifyDBRequestListener.notifySuccess(dbRequestListener, ormMoment, SyncType.MOMENT);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
@@ -60,10 +61,10 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     }
 
     @Override
-    public boolean saveMoments(final List<Moment> moments,final DBRequestListener dbRequestListener) throws SQLException {
-        boolean isSaved = saving.saveMoments(moments,dbRequestListener);
+    public boolean saveMoments(final List<Moment> moments, final DBRequestListener dbRequestListener) throws SQLException {
+        boolean isSaved = saving.saveMoments(moments, dbRequestListener);
         ///notifyDBRequestListener.notifyDBChange(SyncType.MOMENT);
-        notifyDBRequestListener.notifyMomentsSaveSuccess(moments,dbRequestListener);
+        notifyDBRequestListener.notifyMomentsSaveSuccess(moments, dbRequestListener);
         return isSaved;
     }
 
@@ -82,8 +83,8 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             }
 
         }
-        updating.updateDCSync(SyncType.CONSENT.getId(),true);
-        notifyDBRequestListener.notifySuccess(consentDetails, dbRequestListener,SyncType.CONSENT);
+        updating.updateDCSync(SyncType.CONSENT.getId(), true);
+        notifyDBRequestListener.notifySuccess(consentDetails, dbRequestListener, SyncType.CONSENT);
         return true;
 
     }
@@ -113,7 +114,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             deleting.deleteSettings();
             OrmSettings ormSettings = OrmTypeChecking.checkOrmType(settings, OrmSettings.class);
             saving.saveSettings(ormSettings);
-            notifyDBRequestListener.notifySuccess(dbRequestListener,SyncType.CONSENT);
+            notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.CONSENT);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             notifyDBRequestListener.notifyOrmTypeCheckingFailure(dbRequestListener, e, "OrmType check failed");
@@ -124,7 +125,9 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
     @Override
     public boolean saveInsights(List<Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
-        return saving.saveInsights(insights,dbRequestListener);
+        boolean isSaved = saving.saveInsights(insights, dbRequestListener);
+        notifyDBRequestListener.notifyInsightSaveSuccess(insights, dbRequestListener);
+        return isSaved;
     }
 
     private void updateUCUI(List<Characteristics> characteristicsList, DBRequestListener dbRequestListener) {

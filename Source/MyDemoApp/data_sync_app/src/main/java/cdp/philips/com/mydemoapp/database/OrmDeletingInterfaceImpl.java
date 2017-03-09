@@ -146,7 +146,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
 
     //Insights
     @Override
-    public boolean markInsightsAsInActive(List<? extends Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
+    public boolean markInsightsAsInActive(List<Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
         List<Insight> notSyncedBackEndInsights = new ArrayList<>();
         for (Insight insight : insights) {
             if (isInsightSyncedToBackend(insight)) {
@@ -164,9 +164,13 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
-    public boolean deleteInsights(List<? extends Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
-        ormDeleting.deleteInsights((List<Insight>) insights, dbRequestListener);
-        return true;
+    public boolean deleteInsights(List<Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
+        boolean isDeleted = ormDeleting.deleteInsights(insights, dbRequestListener);
+        if (isDeleted) {
+            notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.INSIGHT);
+        }
+        return isDeleted;
+
     }
 
     private void prepareInsightForDeletion(final Insight insight, DBRequestListener dbRequestListener) {
