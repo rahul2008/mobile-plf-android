@@ -180,7 +180,7 @@ public interface SHNCapabilityNotifications extends SHNCapability {
 
     void getNotificationCapabilities(Type type, ResultListener<TransferGetCapabilitiesWithResult> resultListener);
 
-    void setAlarm(TransferGetCapabilitiesWithResult transferGetCapabilitiesWithResult, byte hours_u, byte minutes_u,
+    void setAlarm(TransferGetCapabilitiesWithResult transferGetCapabilitiesWithResult, int hours_u, int minutes_u,
                   boolean repeatNotification, short lifeTimeSeconds_u, ResultListener<GetNotificationResult> shnResultListener);
 
     void removeAllNotification(ResultListener<GetRemoveNotification> shnResultListener);
