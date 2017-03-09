@@ -14,6 +14,7 @@ Version NEXT
     by calling enableCommunication on an appliance. You can switch back
     to disconnecting between requests by calling disableCommunication.
 * CON-126 Request timeouts are now started when the request is executed, instead of when it's inserted into the request queue.
+* 9326 Discovery can now filter on model ids. This is also showcased in the commlib-all test app.
 
 
 ### Bugs fixed
