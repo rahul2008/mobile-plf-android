@@ -43,7 +43,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
                                     final OrmSaving ormSaving, OrmFetchingInterfaceImpl fetching) {
         this.ormDeleting = ormDeleting;
         this.ormSaving = ormSaving;
-        this.fetching=fetching;
+        this.fetching = fetching;
         notifyDBRequestListener = new NotifyDBRequestListener();
     }
 
@@ -67,53 +67,25 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
 
-
     @Override
     public void markMomentsAsInActive(final List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
-        for(Moment moment : moments){
-            markAsInActive(moment,dbRequestListener);
+        for (Moment moment : moments) {
+            markAsInActive(moment, dbRequestListener);
         }
-        notifyDBRequestListener.notifySuccess(dbRequestListener ,SyncType.MOMENT);
-    }
-
-    @Override
-    public boolean markInsightsAsInActive(List<? extends Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
-
-        List<Insight> notSyncedBackEndInsights=new ArrayList<>();
-        for(Insight insight:insights) {
-            if (isInsightSyncedToBackend(insight)) {
-                prepareInsightForDeletion(insight, dbRequestListener);
-            } else {
-                insight.setSynchronisationData(
-                        new OrmSynchronisationData(Moment.MOMENT_NEVER_SYNCED_AND_DELETED_GUID, true,
-                                DateTime.now(), 0));
-
-                notSyncedBackEndInsights.add(insight);
-
-            }
-
-        }
-        ormSaving.saveInsights(notSyncedBackEndInsights,dbRequestListener);
-        return true;
-    }
-
-    @Override
-    public boolean deleteInsights(List<? extends Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
-        ormDeleting.deleteInsights((List<Insight>) insights,dbRequestListener);
-        return true;
+        notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.MOMENT);
     }
 
     @Override
     public void deleteMoment(Moment moment, DBRequestListener dbRequestListener) throws SQLException {
         ormDeleting.ormDeleteMoment((OrmMoment) moment);
-        notifyDBRequestListener.notifySuccess(dbRequestListener,(OrmMoment) moment ,SyncType.MOMENT);
+        notifyDBRequestListener.notifySuccess(dbRequestListener, (OrmMoment) moment, SyncType.MOMENT);
     }
 
     @Override
     public boolean deleteMoments(List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
 
-        boolean isDeleted=ormDeleting.deleteMoments(moments,dbRequestListener);
-        if(isDeleted){
+        boolean isDeleted = ormDeleting.deleteMoments(moments, dbRequestListener);
+        if (isDeleted) {
             notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.MOMENT);
         }
         return isDeleted;
@@ -121,7 +93,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
 
 
     @Override
-    public void deleteMomentDetail(Moment moment,DBRequestListener dbRequestListener) throws SQLException {
+    public void deleteMomentDetail(Moment moment, DBRequestListener dbRequestListener) throws SQLException {
         ormDeleting.deleteMomentDetails(moment.getId());
     }
 
@@ -132,13 +104,13 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
 
     @Override
     public void deleteFailed(Exception e, DBRequestListener dbRequestListener) {
-        notifyDBRequestListener.notifyFailure(e,dbRequestListener);
+        notifyDBRequestListener.notifyFailure(e, dbRequestListener);
     }
 
     @Override
     public void deleteAllMoments(DBRequestListener dbRequestListener) throws SQLException {
         List<? extends Moment> moments = fetching.fetchMoments(null);
-        markMomentsAsInActive((List<Moment>) moments,dbRequestListener);
+        markMomentsAsInActive((List<Moment>) moments, dbRequestListener);
     }
 
     private boolean isMomentSyncedToBackend(final Moment moment) {
@@ -150,15 +122,15 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
 
-    private void saveMoment(final Moment moment,DBRequestListener dbRequestListener) throws SQLException {
-        ormSaving.saveMoment(getOrmMoment(moment,dbRequestListener));
+    private void saveMoment(final Moment moment, DBRequestListener dbRequestListener) throws SQLException {
+        ormSaving.saveMoment(getOrmMoment(moment, dbRequestListener));
     }
 
-    private OrmMoment getOrmMoment(final Moment moment,DBRequestListener dbRequestListener) {
+    private OrmMoment getOrmMoment(final Moment moment, DBRequestListener dbRequestListener) {
         try {
             return OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
         } catch (OrmTypeChecking.OrmTypeException e) {
-            notifyDBRequestListener.notifyOrmTypeCheckingFailure(dbRequestListener, e,"type check failed!");
+            notifyDBRequestListener.notifyOrmTypeCheckingFailure(dbRequestListener, e, "type check failed!");
             if (e.getMessage() != null) {
                 DSLog.i(DSLog.LOG, "Exception = " + e.getMessage());
             }
@@ -166,17 +138,42 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         return null;
     }
 
-    private void prepareMomentForDeletion(final Moment moment,DBRequestListener dbRequestListener) throws SQLException {
+    private void prepareMomentForDeletion(final Moment moment, DBRequestListener dbRequestListener) throws SQLException {
         moment.setSynced(false);
         moment.getSynchronisationData().setInactive(true);
         saveMoment(moment, dbRequestListener);
     }
 
-    private void prepareInsightForDeletion(final Insight insight,DBRequestListener dbRequestListener){
+    //Insights
+    @Override
+    public boolean markInsightsAsInActive(List<? extends Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
+        List<Insight> notSyncedBackEndInsights = new ArrayList<>();
+        for (Insight insight : insights) {
+            if (isInsightSyncedToBackend(insight)) {
+                prepareInsightForDeletion(insight, dbRequestListener);
+            } else {
+                insight.setSynchronisationData(
+                        new OrmSynchronisationData(Moment.MOMENT_NEVER_SYNCED_AND_DELETED_GUID, true,
+                                DateTime.now(), 0));
+
+                notSyncedBackEndInsights.add(insight);
+            }
+        }
+        ormSaving.saveInsights(notSyncedBackEndInsights, dbRequestListener);
+        return true;
+    }
+
+    @Override
+    public boolean deleteInsights(List<? extends Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
+        ormDeleting.deleteInsights((List<Insight>) insights, dbRequestListener);
+        return true;
+    }
+
+    private void prepareInsightForDeletion(final Insight insight, DBRequestListener dbRequestListener) {
         insight.setSynced(false);
         insight.getSynchronisationData().setInactive(true);
-        List<Insight> insights=new ArrayList<>();
+        List<Insight> insights = new ArrayList<>();
         insights.add(insight);
-        ormSaving.saveInsights(insights,dbRequestListener);
+        ormSaving.saveInsights(insights, dbRequestListener);
     }
 }

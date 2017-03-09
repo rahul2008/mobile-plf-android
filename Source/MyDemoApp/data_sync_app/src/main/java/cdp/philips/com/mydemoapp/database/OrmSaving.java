@@ -23,6 +23,7 @@ import java.util.concurrent.Callable;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmInsight;
+import cdp.philips.com.mydemoapp.database.table.OrmInsightMetaData;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
@@ -72,6 +73,9 @@ public class OrmSaving {
     @NonNull
     private final Dao<OrmInsight, Integer> insightsDao;
 
+    @NonNull
+    private final Dao<OrmInsightMetaData, Integer> insightMetadataDao;
+
     public OrmSaving(@NonNull final Dao<OrmMoment, Integer> momentDao,
                      @NonNull final Dao<OrmMomentDetail, Integer> momentDetailDao,
                      @NonNull final Dao<OrmMeasurement, Integer> measurementDao,
@@ -81,7 +85,9 @@ public class OrmSaving {
                      @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroup,
                      @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails,
                      @NonNull final Dao<OrmCharacteristics, Integer> characteristicsesDao,
-                     @NonNull Dao<OrmSettings, Integer> settingsDao, @NonNull Dao<OrmInsight, Integer> insightsDao) {
+                     @NonNull Dao<OrmSettings, Integer> settingsDao,
+                     @NonNull Dao<OrmInsight, Integer> insightsDao,
+                     @NonNull Dao<OrmInsightMetaData, Integer> insightMetadataDao) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
@@ -94,6 +100,7 @@ public class OrmSaving {
         this.characteristicsesDao = characteristicsesDao;
         this.settingsDao = settingsDao;
         this.insightsDao = insightsDao;
+        this.insightMetadataDao = insightMetadataDao;
     }
 
     public void saveMoment(OrmMoment moment) throws SQLException {
@@ -218,14 +225,13 @@ public class OrmSaving {
             });
         } catch (Exception e) {
             e.printStackTrace();
-            new NotifyDBRequestListener().notifyFailure(e,dbRequestListener);
+            new NotifyDBRequestListener().notifyFailure(e, dbRequestListener);
             return false;
         }
         return true;
     }
 
-    public boolean saveInsights(final List<Insight> insights,DBRequestListener dbRequestListener) {
-
+    public boolean saveInsights(final List<Insight> insights, DBRequestListener dbRequestListener) {
         try {
             insightsDao.callBatchTasks(new Callable<Void>() {
                 @Override
@@ -234,16 +240,26 @@ public class OrmSaving {
                         OrmInsight ormInsight = OrmTypeChecking.checkOrmType(insight, OrmInsight.class);
                         assureSynchronisationDataIsSaved(ormInsight.getSynchronisationData());
                         insightsDao.createOrUpdate(ormInsight);
+                        assureInsightMetaDataSaved(ormInsight.getInsightMetaData());
                     }
-
                     return null;
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            new NotifyDBRequestListener().notifyFailure(e,dbRequestListener);
+            new NotifyDBRequestListener().notifyFailure(e, dbRequestListener);
             return false;
         }
         return true;
+    }
+
+    private void assureInsightMetaDataSaved(final Collection<? extends OrmInsightMetaData> insightMetaDatas) throws SQLException {
+        for (OrmInsightMetaData insightMetaData : insightMetaDatas) {
+            saveInsightMetaData(insightMetaData);
+        }
+    }
+
+    public void saveInsightMetaData(OrmInsightMetaData insightMetaData) throws SQLException {
+        insightMetadataDao.createOrUpdate(insightMetaData);
     }
 }

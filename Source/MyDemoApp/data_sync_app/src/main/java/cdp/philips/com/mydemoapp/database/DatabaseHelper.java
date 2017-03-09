@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.query.In;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.philips.platform.core.datatypes.ConsentDetail;
@@ -35,6 +36,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmDCSync;
 import cdp.philips.com.mydemoapp.database.table.OrmInsight;
+import cdp.philips.com.mydemoapp.database.table.OrmInsightMetaData;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetailType;
@@ -73,12 +75,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
     private Dao<OrmConsentDetail, Integer> consentDetailDao;
     private Dao<OrmSettings, Integer> settingDao;
-
     private Dao<OrmCharacteristics, Integer> characteristicsDao;
-
     private Dao<OrmDCSync, Integer> ormDCSyncDao;
-
     private Dao<OrmInsight, Integer> ormInsightDao;
+    private Dao<OrmInsightMetaData, Integer> ormInsightMetaDataDao;
 
     public DatabaseHelper(Context context, final UuidGenerator uuidGenerator) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -107,28 +107,26 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         insertDefaultConsent();
     }
 
-    private void insertDefaultConsent() {
+    private void insertDefaultConsent() throws SQLException {
         DataServicesManager mDataServices = DataServicesManager.getInstance();
         List<ConsentDetail> consentDetails = new ArrayList<>();
 
         consentDetails.add(mDataServices.createConsentDetail
-                (ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED,ConsentDetail.DEFAULT_DOCUMENT_VERSION,
+                (ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED, ConsentDetail.DEFAULT_DOCUMENT_VERSION,
                         ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
 
         consentDetails.add(mDataServices.createConsentDetail
-                (ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED,ConsentDetail.DEFAULT_DOCUMENT_VERSION,
+                (ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED, ConsentDetail.DEFAULT_DOCUMENT_VERSION,
                         ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
         consentDetails.add(mDataServices.createConsentDetail
-                (ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED,ConsentDetail.DEFAULT_DOCUMENT_VERSION,
+                (ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED, ConsentDetail.DEFAULT_DOCUMENT_VERSION,
                         ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
         mDataServices.saveConsentDetails(consentDetails, null);
         insertDefaultDCSyncValues(SyncType.CONSENT);
     }
 
-    private void insertDefaultDCSyncValues() {
-
+    private void insertDefaultDCSyncValues() throws SQLException {
         for (SyncType tableType : SyncType.values()) {
-
             ormDCSyncDao = getDCSyncDao();
             try {
                 ormDCSyncDao.createOrUpdate(new OrmDCSync(tableType.getId(), tableType.getDescription(), true));
@@ -136,62 +134,27 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void insertDefaultDCSyncValues(SyncType type) throws SQLException {
+        ormDCSyncDao = getDCSyncDao();
+        try {
+            ormDCSyncDao.createOrUpdate(new OrmDCSync(type.getId(), type.getDescription(), true));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
-    private void insertDefaultDCSyncValues(SyncType type) {
-            ormDCSyncDao = getDCSyncDao();
-            try {
-                ormDCSyncDao.createOrUpdate(new OrmDCSync(type.getId(), type.getDescription(), true));
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-    }
-
-    private void insertDefaultSettings() {
-        Settings settings = DataServicesManager.getInstance().createUserSettings("en_US" ,"metric");
+    private void insertDefaultSettings() throws SQLException {
+        Settings settings = DataServicesManager.getInstance().createUserSettings("en_US", "metric");
         DataServicesManager.getInstance().saveUserSettings(settings, null);
         insertDefaultDCSyncValues(SyncType.SETTINGS);
     }
 
-    private void insertDefaultUCSync(){
+    private void insertDefaultUCSync() throws SQLException {
         insertDefaultDCSyncValues(SyncType.CHARACTERISTICS);
     }
-
-    public Dao<OrmSettings, Integer> getSettingsDao() {
-        if (settingDao == null) {
-            try {
-                settingDao = getDao(OrmSettings.class);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return settingDao;
-    }
-
-    public Dao<OrmDCSync, Integer> getDCSyncDao() {
-        if (ormDCSyncDao == null) {
-            try {
-                ormDCSyncDao = getDao(OrmDCSync.class);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return ormDCSyncDao;
-    }
-
-    public Dao<OrmInsight, Integer> getInsightDao() {
-        if (ormInsightDao == null) {
-            try {
-                ormInsightDao = getDao(OrmInsight.class);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return ormInsightDao;
-    }
-
 
     private void insertMeasurementTypes() throws SQLException {
         final Dao<OrmMeasurementType, Integer> measurementTypeDao = getMeasurementTypeDao();
@@ -236,7 +199,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
-
     private void createTables(final ConnectionSource connectionSource) throws SQLException {
         TableUtils.createTable(connectionSource, OrmMoment.class);
         TableUtils.createTable(connectionSource, OrmMomentType.class);
@@ -255,6 +217,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.createTable(connectionSource, OrmSettings.class);
         TableUtils.createTable(connectionSource, OrmDCSync.class);
         TableUtils.createTable(connectionSource, OrmInsight.class);
+        TableUtils.createTable(connectionSource, OrmInsightMetaData.class);
     }
 
     @Override
@@ -264,7 +227,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             //Alter your table here...
         }
     }
-
 
     private void addMeasurementTypes(MeasurementType... measurementTypes) throws SQLException {
         final Dao<OrmMeasurementType, Integer> measurementTypeDao = getMeasurementTypeDao();
@@ -280,7 +242,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                     MomentType.getDescriptionFromID(25)));
         }
     }
-
 
     private void addNewMomentDetailTypeAndAddedUUIDForTagging() throws SQLException {
         final Dao<OrmMomentDetailType, Integer> momentDetailTypeDao = getMomentDetailTypeDao();
@@ -302,7 +263,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
-
     public void dropTables(final ConnectionSource connectionSource) throws SQLException {
         TableUtils.dropTable(connectionSource, OrmMoment.class, true);
         TableUtils.dropTable(connectionSource, OrmMomentType.class, true);
@@ -318,6 +278,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.dropTable(connectionSource, OrmCharacteristics.class, true);
         TableUtils.dropTable(connectionSource, OrmDCSync.class, true);
         TableUtils.dropTable(connectionSource, OrmInsight.class, true);
+        TableUtils.dropTable(connectionSource, OrmInsightMetaData.class, true);
     }
 
     public Dao<OrmMoment, Integer> getMomentDao() throws SQLException {
@@ -419,5 +380,31 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return characteristicsDao;
     }
 
+    public Dao<OrmSettings, Integer> getSettingsDao() throws SQLException {
+        if (settingDao == null) {
+            settingDao = getDao(OrmSettings.class);
+        }
+        return settingDao;
+    }
 
+    public Dao<OrmDCSync, Integer> getDCSyncDao() throws SQLException {
+        if (ormDCSyncDao == null) {
+            ormDCSyncDao = getDao(OrmDCSync.class);
+        }
+        return ormDCSyncDao;
+    }
+
+    public Dao<OrmInsight, Integer> getInsightDao() throws SQLException {
+        if (ormInsightDao == null) {
+            ormInsightDao = getDao(OrmInsight.class);
+        }
+        return ormInsightDao;
+    }
+
+    public Dao<OrmInsightMetaData, Integer> getInsightMetaDataDao() throws SQLException {
+        if (ormInsightMetaDataDao == null) {
+            ormInsightMetaDataDao = getDao(OrmInsightMetaData.class);
+        }
+        return ormInsightMetaDataDao;
+    }
 }

@@ -132,33 +132,35 @@ public class OrmCreator implements BaseAppDataCreator {
     @NonNull
     @Override
     public Characteristics createCharacteristics(@NonNull String type, @NonNull String value, @NonNull Characteristics characteristics) {
-        return new OrmCharacteristics(type,value,(OrmCharacteristics) characteristics);
+        return new OrmCharacteristics(type, value, (OrmCharacteristics) characteristics);
     }
 
     @NonNull
     @Override
     public Characteristics createCharacteristics(@NonNull String type, @NonNull String value) {
-        return new OrmCharacteristics(type,value);
+        return new OrmCharacteristics(type, value);
     }
 
-    // OrmInsight(String guid, String last_modified, boolean inactive, int version, String rule_id, String subjectID, String moment_id, String type, String time_stamp, String title, int program_min_version, int program_max_version, String metadata_avg, String metadata_max, String metadata_min)
     @NonNull
     @Override
     public Insight createInsight(UCoreInsight uCoreInsight) {
-        return new OrmInsight(uCoreInsight.getGuid(),uCoreInsight.getLastModified(),uCoreInsight.isInactive(),uCoreInsight.getVersion(),uCoreInsight.getRuleId(),uCoreInsight.getSubjectId(),uCoreInsight.getMomentId(),uCoreInsight.getType(),uCoreInsight.getTimeStamp(),uCoreInsight.getTitle(),uCoreInsight.getProgram_minversion(),uCoreInsight.getProgram_maxversion());
+        return new OrmInsight(uCoreInsight.getGuid(), uCoreInsight.getLastModified(), uCoreInsight.isInactive(),
+                uCoreInsight.getVersion(), uCoreInsight.getRuleId(), uCoreInsight.getSubjectId(), uCoreInsight.getMomentId(),
+                uCoreInsight.getType(), uCoreInsight.getTimeStamp(), uCoreInsight.getTitle(), uCoreInsight.getProgram_minversion(),
+                uCoreInsight.getProgram_maxversion());
     }
 
     @NonNull
     @Override
-    public InsightMetadata createInsightMetaData(String key, String value ,Insight insight) {
-        return new OrmInsightMetaData(key,value,(OrmInsight)insight);
+    public InsightMetadata createInsightMetaData(String key, String value, Insight insight) {
+        return new OrmInsightMetaData(key, value, (OrmInsight) insight);
     }
 
 
     @NonNull
     @Override
     public Settings createSettings(String type, String value) {
-        return new OrmSettings(type,value);
+        return new OrmSettings(type, value);
     }
 
     @NonNull

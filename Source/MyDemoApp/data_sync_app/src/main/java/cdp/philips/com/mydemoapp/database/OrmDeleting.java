@@ -27,6 +27,7 @@ import cdp.philips.com.mydemoapp.consents.ConsentDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmInsight;
+import cdp.philips.com.mydemoapp.database.table.OrmInsightMetaData;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
@@ -75,7 +76,10 @@ public class OrmDeleting {
     private final Dao<OrmSettings, Integer> settingsDao;
 
     @NonNull
-    private final Dao<OrmInsight,Integer> ormInsightDao;
+    private final Dao<OrmInsight, Integer> ormInsightDao;
+
+    @NonNull
+    private final Dao<OrmInsightMetaData, Integer> ormInsightMetadataDao;
 
 
     public OrmDeleting(@NonNull final Dao<OrmMoment, Integer> momentDao,
@@ -86,7 +90,10 @@ public class OrmDeleting {
                        @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetailDao,
                        @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroupsDao,
                        @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao,
-                       @NonNull Dao<OrmCharacteristics, Integer> characteristicsesDao, Dao<OrmSettings, Integer> settingsDao, @NonNull Dao<OrmInsight, Integer> ormInsightDao) {
+                       @NonNull Dao<OrmCharacteristics, Integer> characteristicsesDao,
+                       Dao<OrmSettings, Integer> settingsDao,
+                       @NonNull Dao<OrmInsight, Integer> ormInsightDao,
+                       @NonNull Dao<OrmInsightMetaData, Integer> ormInsightMetadataDao) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
@@ -99,6 +106,7 @@ public class OrmDeleting {
         this.characteristicsDao = characteristicsesDao;
         this.settingsDao = settingsDao;
         this.ormInsightDao = ormInsightDao;
+        this.ormInsightMetadataDao = ormInsightMetadataDao;
     }
 
     public void deleteAll() throws SQLException {
@@ -111,11 +119,9 @@ public class OrmDeleting {
         insertDefaultUCSync();
         characteristicsDao.executeRawNoArgs("DELETE FROM `ormcharacteristics`");
         settingsDao.executeRawNoArgs("DELETE FROM `ormsettings`");
-
     }
 
     private void insertDefaultUCSync() {
-
         try {
             consentDetailDao.createOrUpdate(new OrmConsentDetail
                     (ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED.getDescription(), ConsentDetail.DEFAULT_DOCUMENT_VERSION,
@@ -290,18 +296,13 @@ public class OrmDeleting {
                 @Override
                 public Void call() throws Exception {
                     for (Insight insight : insights) {
-                        //moment.setSynced(false);
-                        // OrmMoment ormMoment = OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
                         ormDeleteInsights((OrmInsight) insight);
-                        // momentDao.refresh(ormMoment);
                     }
-
                     return null;
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            //dbRequestListener.onFailure(e);
             new NotifyDBRequestListener().notifyFailure(e, dbRequestListener);
             return false;
         }
@@ -309,8 +310,15 @@ public class OrmDeleting {
     }
 
     public void ormDeleteInsights(@NonNull final OrmInsight ormInsight) throws SQLException {
+        deleteInsightMetaData(ormInsight);
         deleteSynchronisationData(ormInsight.getSynchronisationData());
         ormInsightDao.delete(ormInsight);
+    }
+
+    public int deleteInsightMetaData(@NonNull final OrmInsight ormInsight) throws SQLException{
+        DeleteBuilder<OrmInsightMetaData, Integer> deleteBuilder = ormInsightMetadataDao.deleteBuilder();
+        deleteBuilder.where().eq("ormMoment_id", ormInsight.getGUId());
+        return deleteBuilder.delete();
     }
 
 }
