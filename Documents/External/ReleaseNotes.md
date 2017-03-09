@@ -1,15 +1,19 @@
 BlueLib(/ShineLib) for Android - Release Notes
 =======================================
 
-Version NEXT
+Version 2.3.2
 -------------
 ### New features
 * [COM-141] Exposed DiComm package for reuse
 * Added new capability type: DI_COMM and corresponding capability definition: CapabilityDiComm
 * [BL-147] Custom capabilities added. It is now possible to implement capabilities without modifying BlueLib.
+* [CON-96] Discovery of DiComm devices
+
+### Bugs fixed
+* [DE15085] ProGuard configuration for release builds
 
 ### Known issues
-* [BG-234] Google backup might restore previously associated devices
+* [BL-234] Google backup might restore previously associated devices
 
 
 Version 2.0.3
@@ -22,7 +26,7 @@ Version 2.0.3
 	- In state Disconnected onStateUpdated callback will be issued.
 
 ### Known issues
-* [BG-234] Google backup might restore previously associated devices
+* [BL-234] Google backup might restore previously associated devices
 
 
 Version 2.0.2
@@ -31,7 +35,7 @@ Version 2.0.2
 * Added data types: IR light, Lux value (For Moonlight/Circadian)
 
 ### Known issues
-* [BG-234] Google backup might restore previously associated devices
+* [BL-234] Google backup might restore previously associated devices
 
 
 Version 2.0.1
@@ -43,7 +47,7 @@ Version 2.0.1
 * [BL-385] NPE when disconnecting BtGatt
 
 ### Known issues
-* [BG-234] Google backup might restore previously associated devices
+* [BL-234] Google backup might restore previously associated devices
 
 
 Version 2.0.0
@@ -56,7 +60,7 @@ Version 2.0.0
 * Added a connect call on SHNDevice that allows to provide a timeout for establishing BLE connection
 
 ### Known issues
-* [BG-234] Google backup might restore previously associated devices
+* [BL-234] Google backup might restore previously associated devices
 
 
 Version 1.0.0
@@ -72,7 +76,7 @@ Version 1.0.0
 * Added new capability type: CapabilityBluetoothDirect
 
 ### Known issues
-* [BG-234] Google backup might restore previously associated devices
+* [BL-234] Google backup might restore previously associated devices
 
 
 Version 0.7.3
@@ -81,7 +85,7 @@ Version 0.7.3
 * [BL-295] Add version number to API
 
 ### Known issues
-* [BG-234] Google backup might restore previously associated devices
+* [BL-234] Google backup might restore previously associated devices
 
 
 Version 0.7.2
@@ -90,7 +94,7 @@ Version 0.7.2
 * [BG-262] Multiple scanStopped callbacks when scanning is restarted
 
 ### Known issues
-* [BG-234] Google backup might restore previously associated devices
+* [BL-234] Google backup might restore previously associated devices
 
 
 Version 0.7.1
@@ -99,7 +103,7 @@ Version 0.7.1
 * [BG-260] Sync problems after re-association
 
 ### Known issues
-* [BG-234] Google backup might restore previously associated devices
+* [BL-234] Google backup might restore previously associated devices
 
 
 Version 0.7.0
@@ -108,7 +112,7 @@ Version 0.7.0
 * [BG-150] Added new SHNDataType: ExtendedWeight 
 
 ### Known issues
-* [BG-234] Google backup might restore previously associated devices
+* [BL-234] Google backup might restore previously associated devices
 
 
 Version 0.6.0
@@ -117,5 +121,5 @@ Version 0.6.0
 * [BG-168] Added javadoc for app developers
 
 ### Known issues
-* [BG-234] Google backup might restore previously associated devices
+* [BL-234] Google backup might restore previously associated devices
 
