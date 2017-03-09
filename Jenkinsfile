@@ -24,10 +24,10 @@ node ('Ubuntu && 23.0.3 &&' + node_ext) {
 
         try {
             stage ('build') {
-                sh 'cd ./Source/AppFramework && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug assembleLeakCanary'
+                sh 'cd ./Source/AppFramework && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease assembleLeakCanary'
             }
             
-            sh 'cd ./Source/AppFramework && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleDebug assembleLeakCanary'
+            sh 'cd ./Source/AppFramework && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease assembleLeakCanary'
 
             if(env.BRANCH_NAME == 'master') {
                 stage ('Release') {
