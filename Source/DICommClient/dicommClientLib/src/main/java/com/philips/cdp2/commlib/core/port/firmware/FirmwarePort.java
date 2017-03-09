@@ -126,12 +126,13 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
     /**
      * Initiate upload of firmwareData
      *
-     * @param firmwareData The data to upload
+     * @param firmwareData  The data to upload
+     * @param timeoutMillis the timeout in milliseconds to wait for the device to complete
      * @throws IllegalStateException When firmware upload process is already running
      */
-    public void pushLocalFirmware(final byte[] firmwareData) throws IllegalStateException {
+    public void pushLocalFirmware(final byte[] firmwareData, final int timeoutMillis) throws IllegalStateException {
         if (firmwareUpdate == null) {
-            firmwareUpdate = new FirmwareUpdatePushLocal(this, this.mCommunicationStrategy, this.listener, firmwareData);
+            firmwareUpdate = new FirmwareUpdatePushLocal(this, this.mCommunicationStrategy, this.listener, firmwareData, timeoutMillis);
             firmwareUpdate.start();
         } else {
             throw new IllegalStateException("Firmware update already in progress.");

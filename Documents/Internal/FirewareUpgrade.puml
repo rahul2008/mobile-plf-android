@@ -8,7 +8,7 @@ class Appliance {
 }
 
 class FirmwarePort {
-    + pushLocalFirmware(final byte[] firmwareData)
+    + pushLocalFirmware(final byte[] firmwareData, int timeoutMillis)
     + pullRemoteFirmware(String version)
     + cancel()
     + checkForNewerFirmware()
