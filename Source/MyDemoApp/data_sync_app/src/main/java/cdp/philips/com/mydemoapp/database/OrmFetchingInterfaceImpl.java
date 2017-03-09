@@ -68,7 +68,9 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
 
     public OrmFetchingInterfaceImpl(final @NonNull Dao<OrmMoment, Integer> momentDao,
-                                    final @NonNull Dao<OrmSynchronisationData, Integer> synchronisationDataDao, Dao<OrmConsentDetail, Integer> consentDetailsDao, Dao<OrmCharacteristics, Integer> characteristicsDao, Dao<OrmSettings, Integer> settingsDao, Dao<OrmDCSync, Integer> ormDCSyncDao, Dao<OrmInsight, Integer> ormInsightDao) {
+                                    final @NonNull Dao<OrmSynchronisationData, Integer> synchronisationDataDao,
+                                    Dao<OrmConsentDetail, Integer> consentDetailsDao, Dao<OrmCharacteristics, Integer> characteristicsDao,
+                                    Dao<OrmSettings, Integer> settingsDao, Dao<OrmDCSync, Integer> ormDCSyncDao, Dao<OrmInsight, Integer> ormInsightDao) {
 
         this.momentDao = momentDao;
         this.synchronisationDataDao = synchronisationDataDao;
@@ -116,7 +118,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         return ormConsents;
     }
 
-//TODO: Spoorti - this can be removed if not used. Check the list part
+    //TODO: Spoorti - this can be removed if not used. Check the list part
     @Override
     public void fetchUserCharacteristics(DBFetchRequestListner dbFetchRequestListner) throws SQLException {
         QueryBuilder<OrmCharacteristics, Integer> queryBuilder = characteristicsDao.queryBuilder();
@@ -163,7 +165,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         for (Object object : types) {
             if (object instanceof Integer) {
                 ids.add((Integer) object);
-            }else if(object instanceof String){
+            } else if (object instanceof String) {
                 int idFromDescription = MomentType.getIDFromDescription((String) object);
                 ids.add(idFromDescription);
             }
@@ -310,9 +312,25 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         return ormDCSync.isSynced();
     }
 
+    //Insights
+
     @Override
     public List<? extends Insight> fetchActiveInsights(DBFetchRequestListner dbFetchRequestListner) throws SQLException {
-        return null;
+        QueryBuilder<OrmInsight, Integer> queryBuilder = ormInsightDao.queryBuilder();
+        return getActiveInsights(ormInsightDao.query(queryBuilder.prepare()), dbFetchRequestListner);
+    }
+
+    public List<OrmInsight> getActiveInsights(final List<?> ormInsights, DBFetchRequestListner dbFetchRequestListner) {
+        List<OrmInsight> activeOrmInsights = new ArrayList<>();
+        if (ormInsights != null) {
+            for (OrmInsight ormInsight : (List<OrmInsight>) ormInsights) {
+                if (ormInsight.getSynchronisationData() == null || !ormInsight.getSynchronisationData().isInactive()) {
+                    activeOrmInsights.add(ormInsight);
+                }
+            }
+        }
+        notifyDBRequestListener.notifyInsightFetchSuccess(activeOrmInsights, dbFetchRequestListner);
+        return activeOrmInsights;
     }
 
     @Override
@@ -330,6 +348,4 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
         return insightQueryBuilder.queryForFirst();
     }
-
-
 }

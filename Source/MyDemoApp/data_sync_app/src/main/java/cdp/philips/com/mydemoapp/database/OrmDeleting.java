@@ -317,7 +317,7 @@ public class OrmDeleting {
 
     public int deleteInsightMetaData(@NonNull final OrmInsight ormInsight) throws SQLException{
         DeleteBuilder<OrmInsightMetaData, Integer> deleteBuilder = ormInsightMetadataDao.deleteBuilder();
-        deleteBuilder.where().eq("ormMoment_id", ormInsight.getGUId());
+        deleteBuilder.where().eq("ormInsight_id", ormInsight.getGUId());
         return deleteBuilder.delete();
     }
 

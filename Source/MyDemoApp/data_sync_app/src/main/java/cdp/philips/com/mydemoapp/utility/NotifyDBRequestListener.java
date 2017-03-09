@@ -13,6 +13,7 @@ import java.util.List;
 
 import cdp.philips.com.mydemoapp.database.OrmTypeChecking;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmInsight;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 
 /**
@@ -133,6 +134,15 @@ public class NotifyDBRequestListener {
     public void notifyMomentsSaveSuccess(List<Moment> moments, DBRequestListener dbRequestListener) {
         if(dbRequestListener!=null){
             dbRequestListener.onSuccess(moments);
+        }
+    }
+
+    public void notifyInsightFetchSuccess(List<OrmInsight> ormInsights, DBFetchRequestListner dbFetchRequestListner) {
+        if(dbFetchRequestListner!=null){
+            dbFetchRequestListner.onFetchSuccess(ormInsights);
+        }else {
+            //CallBack not registered
+            DSLog.i(DataServicesManager.TAG,"CallBack not registered");
         }
     }
 }
