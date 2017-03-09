@@ -8,6 +8,7 @@ Version NEXT NEXT
 * NetworkNode.getModelType() and NetworkNode.setModelType(String modelType) are renamed to NetworkNode.getModelId() and NetworkNode.setModelId(String modelId)
 
 ### New features
+* DiscoveryStrategy interface is extended with start(Set<String> deviceTypes, Set<String> modelIds) method to allow filtering on model ids.
  
 ### Bugs fixed
 
