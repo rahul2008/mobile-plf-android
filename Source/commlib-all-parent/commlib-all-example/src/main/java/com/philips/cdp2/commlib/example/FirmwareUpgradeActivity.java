@@ -15,8 +15,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp2.commlib.example.appliance.BleReferenceAppliance;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortListener;
+import com.philips.cdp2.commlib.example.appliance.BleReferenceAppliance;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,6 +28,8 @@ import static com.philips.cdp2.commlib.example.ApplianceActivity.CPPID;
 
 public class FirmwareUpgradeActivity extends AppCompatActivity {
     private static final String TAG = "FirmwareUpgradeActivity";
+
+    private static final int TIMEOUT_MILLIS = 30000;
 
     private BleReferenceAppliance bleReferenceAppliance;
     private ProgressBar firmwareUploadProgressBar;
@@ -174,7 +176,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
             File firmwareFile = fwImageAdapter.getItem(selectedItemPosition);
             final byte[] firmwareBytes = fileToBytes(firmwareFile);
 
-            bleReferenceAppliance.getFirmwarePort().pushLocalFirmware(firmwareBytes);
+            bleReferenceAppliance.getFirmwarePort().pushLocalFirmware(firmwareBytes, TIMEOUT_MILLIS);
         }
     }
 
