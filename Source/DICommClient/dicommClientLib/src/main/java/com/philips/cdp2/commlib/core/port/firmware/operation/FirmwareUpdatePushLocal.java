@@ -54,18 +54,22 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
         }
     }
 
-    private static final long TIMEOUT_MILLIS = 30000L;
+    @NonNull
+    private final StateMap stateMap;
 
     @NonNull
     private final FirmwarePort firmwarePort;
-    @NonNull
-    private final byte[] firmwareData;
-    @NonNull
-    private final StateMap stateMap;
+
     @NonNull
     private final CommunicationStrategy communicationStrategy;
+
     @NonNull
     private final FirmwarePortListener firmwarePortListener;
+
+    @NonNull
+    private final byte[] firmwareData;
+
+    private final int timeoutMillis;
 
     private FirmwarePortStateWaiter firmwarePortStateWaiter;
 
@@ -74,10 +78,15 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
     public FirmwareUpdatePushLocal(@NonNull final FirmwarePort firmwarePort,
                                    @NonNull final CommunicationStrategy communicationStrategy,
                                    @NonNull final FirmwarePortListener firmwarePortListener,
-                                   @NonNull byte[] firmwareData) {
+                                   @NonNull byte[] firmwareData, int timeoutMillis) {
         this.firmwarePort = firmwarePort;
         this.communicationStrategy = communicationStrategy;
         this.firmwarePortListener = firmwarePortListener;
+
+        if (timeoutMillis <= 0) {
+            throw new IllegalArgumentException("Timeout value is invalid, must be a non-zero positive integer.");
+        }
+        this.timeoutMillis = timeoutMillis;
 
         if (firmwareData.length == 0) {
             throw new IllegalArgumentException("Firmware data has zero length.");
@@ -191,7 +200,7 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
 
     @VisibleForTesting
     FirmwarePortStateWaiter createFirmwarePortStateWaiter(FirmwarePortState portState) {
-        return new FirmwarePortStateWaiter(this.firmwarePort, this.communicationStrategy, portState, TIMEOUT_MILLIS, new FirmwarePortStateWaiter.WaiterListener() {
+        return new FirmwarePortStateWaiter(this.firmwarePort, this.communicationStrategy, portState, this.timeoutMillis, new FirmwarePortStateWaiter.WaiterListener() {
 
             @Override
             public void onNewState(final FirmwarePortState newState) {

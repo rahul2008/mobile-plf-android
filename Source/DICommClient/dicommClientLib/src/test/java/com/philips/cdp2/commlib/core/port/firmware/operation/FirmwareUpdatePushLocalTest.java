@@ -45,7 +45,9 @@ public class FirmwareUpdatePushLocalTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        firmwareUpdateUnderTest = new FirmwareUpdatePushLocal(mockFirmwarePort, mockCommunicationStrategy, mockListener, firmwaredata);
+        final int timeoutMillis = 100;
+
+        firmwareUpdateUnderTest = new FirmwareUpdatePushLocal(mockFirmwarePort, mockCommunicationStrategy, mockListener, firmwaredata, timeoutMillis);
     }
 
     @Test
