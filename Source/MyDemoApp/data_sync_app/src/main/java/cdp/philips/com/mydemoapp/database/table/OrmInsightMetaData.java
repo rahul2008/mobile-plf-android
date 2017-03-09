@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package cdp.philips.com.mydemoapp.database.table;
 
 import android.support.annotation.NonNull;
@@ -13,10 +17,6 @@ import java.io.Serializable;
 
 import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 @DatabaseTable
 public class OrmInsightMetaData implements InsightMetadata, Serializable {
 
@@ -34,17 +34,15 @@ public class OrmInsightMetaData implements InsightMetadata, Serializable {
     @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = false)
     private OrmInsight ormInsight;
 
-
     @DatabaseConstructor
     OrmInsightMetaData() {
     }
 
-    public OrmInsightMetaData(@NonNull final String meta_key, @NonNull final String meta_value ,OrmInsight ormInsight) {
+    public OrmInsightMetaData(@NonNull final String meta_key, @NonNull final String meta_value, OrmInsight ormInsight) {
         this.meta_key = meta_key;
         this.meta_value = meta_value;
-        this.ormInsight=ormInsight;
+        this.ormInsight = ormInsight;
     }
-
 
     @Override
     public String getKey() {

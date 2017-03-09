@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package cdp.philips.com.mydemoapp.database.table;
 
 import android.support.annotation.Nullable;
@@ -17,10 +21,7 @@ import java.util.Collection;
 import cdp.philips.com.mydemoapp.database.EmptyForeignCollection;
 import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+
 @DatabaseTable
 public class OrmInsight implements Insight, Serializable {
 
@@ -30,7 +31,7 @@ public class OrmInsight implements Insight, Serializable {
     private int id;
 
     @DatabaseField(canBeNull = false)
-    private String guid ;
+    private String guid;
 
     @DatabaseField(canBeNull = false)
     private String last_modified;
@@ -71,13 +72,13 @@ public class OrmInsight implements Insight, Serializable {
     @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = true)
     private OrmSynchronisationData synchronisationData;
 
-
     @ForeignCollectionField(eager = true)
     ForeignCollection<OrmInsightMetaData> ormInsightMetaDatas = new EmptyForeignCollection<>();
 
-
     @DatabaseConstructor
-    public OrmInsight(String guid, String last_modified, boolean inactive, int version, String rule_id, String subjectID, String moment_id, String type, String time_stamp, String title, int program_min_version, int program_max_version) {
+    public OrmInsight(String guid, String last_modified, boolean inactive, int version, String rule_id,
+                      String subjectID, String moment_id, String type, String time_stamp, String title,
+                      int program_min_version, int program_max_version) {
         this.guid = guid;
         this.last_modified = last_modified;
         this.inactive = inactive;
@@ -92,75 +93,69 @@ public class OrmInsight implements Insight, Serializable {
         this.program_max_version = program_max_version;
     }
 
-//    @DatabaseConstructor
-//    OrmInsight() {
-//    }
-//
-
-
     @Override
     public String toString() {
-        return  guid+ " " + moment_id + " " +title ;
+        return "[OrmInsight, InsightID = " + guid + ", MomentID = " + moment_id + ", Title = " + title;
     }
 
     @Override
     public void setGU_ID(String GU_ID) {
-        this.guid=GU_ID;
+        this.guid = GU_ID;
     }
 
     @Override
     public void setLastModified(String lastModified) {
-        this.last_modified=lastModified;
+        this.last_modified = lastModified;
     }
 
     @Override
     public void setInactive(boolean inactive) {
-    this.inactive=inactive;
+        this.inactive = inactive;
     }
 
     @Override
     public void setVersion(int version) {
-    this.version=version;
+        this.version = version;
     }
 
     @Override
     public void setRuleId(String ruleId) {
-    this.rule_id=ruleId;
+        this.rule_id = ruleId;
     }
 
     @Override
     public void setSubjectId(String subjectId) {
-    this.subjectID=subjectId;
+        this.subjectID = subjectId;
     }
 
     @Override
     public void setMomentId(String momentId) {
-    this.moment_id=momentId;
+        this.moment_id = momentId;
     }
 
     @Override
     public void setType(String type) {
-    this.type=type;
+        this.type = type;
     }
 
     @Override
     public void setTimeStamp(String timeStamp) {
-    this.time_stamp=timeStamp;
+        this.time_stamp = timeStamp;
     }
 
     @Override
     public void setTitle(String title) {
-    this.title=title;
+        this.title = title;
     }
 
     @Override
     public void setProgram_minVersion(int program_minVersion) {
-     this.program_min_version=program_minVersion;
+        this.program_min_version = program_minVersion;
     }
 
     @Override
     public void setProgram_maxVersion(int program_maxversion) {
-    this.program_max_version=program_maxversion;
+        this.program_max_version = program_maxversion;
     }
 
     @Override
@@ -237,7 +232,7 @@ public class OrmInsight implements Insight, Serializable {
 
     @Override
     public void setSynced(boolean isSynced) {
-        this.synced=isSynced;
+        this.synced = isSynced;
     }
 
     @Override
@@ -247,7 +242,7 @@ public class OrmInsight implements Insight, Serializable {
 
     @Override
     public void setId(int id) {
-        this.id=id;
+        this.id = id;
     }
 
     @Override
@@ -256,13 +251,13 @@ public class OrmInsight implements Insight, Serializable {
     }
 
     @Override
-    public Collection<? extends InsightMetadata> getInsightMetaData() {
+    public Collection<? extends OrmInsightMetaData> getInsightMetaData() {
         return ormInsightMetaDatas;
     }
 
     @Override
     public void addInsightMetaData(InsightMetadata insightMetadata) {
-       ormInsightMetaDatas.add((OrmInsightMetaData)insightMetadata);
+        ormInsightMetaDatas.add((OrmInsightMetaData) insightMetadata);
     }
 
 }
