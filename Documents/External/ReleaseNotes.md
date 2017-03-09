@@ -1,7 +1,7 @@
 CommLib for Android - Release Notes
 =======================================
 
-Version NEXT NEXT
+Version NEXT
 -------------
 
 ### API Changes
@@ -14,20 +14,27 @@ Version NEXT NEXT
 
 ### Known issues
 
-Version NEXT
+Version 3.1.2
 -------------
 
 ### API Changes
 * Added type parameter to DICommPortListener to prevent unneeded inline casting.
+* Added PortProperties marker interface to type parameter of DICommPort in order to enforce ProGuard rules (prevent field name mangling for JSON deserialization).
 
 ### New features
 * COM-24 Updated to work with new CloudController API
 * COM-24 Improved user pairing
 * COM-141 Expanded Errors Enum to cover all errors in DiComm spec
+* COM-207 New API for discovery (using CommCentral)
+* COM-209 BLE discovery
+* COM-249 Https support
+* CON-119 Firmware update
  
 ### Bugs fixed
+* [DE15085] ProGuard configuration for release builds
 
 ### Known issues
+* The new API for discovery is not working yet for lan communication. The old DiscoveryManager should be used.
 
 Version 2.0.0
 -------------
