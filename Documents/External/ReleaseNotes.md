@@ -3,6 +3,21 @@ CommLib-all for Android - Release Notes
 
 Version NEXT
 -------------
+
+### New features
+* 9326 Discovery can now filter on model ids. This is also showcased in the commlib-all test app.
+
+### Bugs fixed
+
+### API Changes
+* See new features.
+
+### Known issues
+* Notifications not implemented on BLE Strategy.
+
+Version 1.2.2
+-------------
+
 ### New features
 * COM-141 BLE Strategy get/put props implemented.
     - BLE Device cache introduced to contain discovered devices.
@@ -14,11 +29,9 @@ Version NEXT
     by calling enableCommunication on an appliance. You can switch back
     to disconnecting between requests by calling disableCommunication.
 * CON-126 Request timeouts are now started when the request is executed, instead of when it's inserted into the request queue.
-* 9326 Discovery can now filter on model ids. This is also showcased in the commlib-all test app.
-
 
 ### Bugs fixed
-* None.
+* DE15085 ProGuard configuration for release builds
 
 ### API Changes
 * See new features.
