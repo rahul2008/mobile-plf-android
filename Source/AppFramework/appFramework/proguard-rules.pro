@@ -231,6 +231,8 @@ public static <fields>;
 -keep class com.philips.platform.core.** {*;}
 -keep interface com.philips.platform.core.** {*;}
 
+-dontwarn com.philips.platform.core.injection.**
+
 ##----------------- Gson -------------------
 -keep class com.philips.platform.datasync.moments.UCoreMoment { *; }
 -keep class com.philips.platform.datasync.moments.UCoreDetail { *; }
