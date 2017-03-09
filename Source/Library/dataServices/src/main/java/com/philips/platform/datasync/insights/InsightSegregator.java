@@ -32,11 +32,9 @@ public class InsightSegregator {
     @Inject
     DBSavingInterface dbSavingInterface;
 
-
     public InsightSegregator() {
         DataServicesManager.getInstance().getAppComponant().injectInsightSegregator(this);
     }
-
 
     private int getVersionInDatabase(final Insight insightInDataBase) {
         if (insightInDataBase != null && insightInDataBase.getSynchronisationData() != null) {
@@ -75,19 +73,17 @@ public class InsightSegregator {
     }
 
 
-    public void processInsights(final List<? extends Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
+    public void processInsights(final List<Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
 
         List<Insight> insightsToDelete = new ArrayList<>();
         List<Insight> insightsToDeleteAndSave = new ArrayList<>();
 
         for (Insight insight : insights) {
-
             final Insight insightInDatabase = getOrmInsightFromDatabase(insight, dbRequestListener);
 
             if (hasDifferentInsightVersion(insight, insightInDatabase)) {
                 if (!isInsightActive(insight.getSynchronisationData())) {
                     insightsToDelete.add(insightInDatabase);
-                    //deleteMomentInDatabaseIfExists(momentInDatabase, dbRequestListener);
                 } else if (InsightDeletedLocallyDuringSync(insightInDatabase)) {
                     insight.setSynced(false);
                     insight.getSynchronisationData().setInactive(true);
@@ -96,7 +92,6 @@ public class InsightSegregator {
                         insight.setId(insightInDatabase.getId());
                     }
                     insightsToDeleteAndSave.add(insight);
-                    // deleteAndSaveMoment(momentInDatabase, moment, dbRequestListener);
                 } else {
                     if (!isInsightModifiedLocallyDuringSync(insightInDatabase, insight)) {
                         insight.setSynced(true);
@@ -104,20 +99,15 @@ public class InsightSegregator {
                     if (insightInDatabase != null) {
                         insight.setId(insightInDatabase.getId());
                     }
-                    //This is required for deleting duplicate
-                    // measurements, measurementDetails and momentDetails
-                    //deleteAndSaveMoment(momentInDatabase, moment, dbRequestListener);
                     insightsToDeleteAndSave.add(insight);
                 }
             }
         }
         deleteInsightsInDatabaseIfExists(insightsToDelete, dbRequestListener);
         deleteAndSaveInsights(insightsToDeleteAndSave, dbRequestListener);
-
     }
 
     private void deleteAndSaveInsights(List<Insight> insights, DBRequestListener dbRequestListener) {
-
         List<Insight> insightToDeleteList = new ArrayList<>();
         try {
             for (Insight insight : insights) {
@@ -138,7 +128,6 @@ public class InsightSegregator {
         dbDeletingInterface.deleteInsights(insightsToDelete, dbRequestListener);
     }
 
-
     private Insight getOrmInsightFromDatabase(Insight insight, DBRequestListener dbRequestListener) throws SQLException {
         Insight insightInDatabase = null;
         final SynchronisationData synchronisationData = insight.getSynchronisationData();
@@ -146,7 +135,6 @@ public class InsightSegregator {
         if (synchronisationData != null) {
             insightInDatabase = (Insight) dbFetchingInterface.fetchInsightByGuid(synchronisationData.getGuid());
             if (insightInDatabase == null) {
-                //TODO: Spoorti - Check what has to be passed listener
                 insightInDatabase = (Insight) dbFetchingInterface.fetchInsightById(insight.getId(), null);
             }
         }
@@ -158,6 +146,5 @@ public class InsightSegregator {
         return insightInDatabase != null &&
                 !insight.getTimeStamp().equals(insightInDatabase.getTimeStamp());
     }
-
 
 }

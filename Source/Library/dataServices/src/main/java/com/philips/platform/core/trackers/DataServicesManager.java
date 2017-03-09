@@ -433,6 +433,10 @@ public class DataServicesManager {
         return mCustomSenders;
     }
 
+    //Insight
+    public void fetchInsights(DBFetchRequestListner dbFetchRequestListner){
+    }
+
     public void deleteInsights(List<? extends Insight> insights){
         mEventing.post(new InsightBackendDeleteRequest(insights));
     }

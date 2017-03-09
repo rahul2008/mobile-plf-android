@@ -44,6 +44,8 @@ import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmDCSync;
+import cdp.philips.com.mydemoapp.database.table.OrmInsight;
+import cdp.philips.com.mydemoapp.database.table.OrmInsightMetaData;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
@@ -122,23 +124,30 @@ public class DataSyncApplication extends Application {
             //  Dao<OrmCharacteristics, Integer> characteristicsDetailsDao = databaseHelper.getCharacteristicsDetailsDao();
 
             Dao<OrmSettings, Integer> settingsDao = databaseHelper.getSettingsDao();
+            Dao<OrmInsight, Integer> insightsDao = databaseHelper.getInsightDao();
+            Dao<OrmInsightMetaData, Integer> insightMetaDataDao = databaseHelper.getInsightMetaDataDao();
 
 
             OrmSaving saving = new OrmSaving(momentDao, momentDetailDao, measurementDao, measurementDetailDao,
-                    synchronisationDataDao,consentDetailsDao, measurementGroup, measurementGroupDetails, characteristicsesDao, settingsDao, insightsDao);
+                    synchronisationDataDao,consentDetailsDao, measurementGroup, measurementGroupDetails,
+                    characteristicsesDao, settingsDao, insightsDao, insightMetaDataDao);
 
             Dao<OrmDCSync, Integer> dcSyncDao = databaseHelper.getDCSyncDao();
-            OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao,settingsDao, consentDetailsDao, dcSyncDao, measurementGroup, synchronisationDataDao, measurementGroupDetails);
-            OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao,consentDetailsDao, characteristicsesDao, settingsDao, dcSyncDao, ormInsightDao);
+            OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao, settingsDao,
+                     consentDetailsDao, dcSyncDao, measurementGroup, synchronisationDataDao, measurementGroupDetails);
+            OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao,consentDetailsDao, characteristicsesDao,
+                    settingsDao, dcSyncDao, insightsDao);
             OrmDeleting deleting = new OrmDeleting(momentDao, momentDetailDao, measurementDao,
-                    measurementDetailDao, synchronisationDataDao, measurementGroupDetails, measurementGroup, consentDetailsDao, characteristicsesDao, settingsDao, ormInsightDao);
+                    measurementDetailDao, synchronisationDataDao, measurementGroupDetails,
+                    measurementGroup, consentDetailsDao, characteristicsesDao, settingsDao, insightsDao, insightMetaDataDao);
 
 
             BaseAppDateTime uGrowDateTime = new BaseAppDateTime();
             ORMSavingInterfaceImpl ORMSavingInterfaceImpl = new ORMSavingInterfaceImpl(saving, updating, fetching, deleting, uGrowDateTime);
             OrmDeletingInterfaceImpl ORMDeletingInterfaceImpl = new OrmDeletingInterfaceImpl(deleting, saving, fetching);
             ORMUpdatingInterfaceImpl dbInterfaceOrmUpdatingInterface = new ORMUpdatingInterfaceImpl(saving, updating, fetching, deleting);
-            OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao,consentDetailsDao, characteristicsesDao, settingsDao, dcSyncDao, ormInsightDao);
+            OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao,consentDetailsDao,
+                    characteristicsesDao, settingsDao, dcSyncDao, insightsDao);
 
             mDataServicesManager.initializeDatabaseMonitor(this, ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
         } catch (SQLException exception) {

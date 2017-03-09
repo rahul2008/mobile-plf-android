@@ -82,10 +82,11 @@ public class InsightDataFetcher extends DataFetcher {
         InsightClient client = uCoreAdapter.getAppFrameworkClient(InsightClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
 
         try {
-            UCoreInsightList insightList = client.fetchInsights(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId(), UCoreAdapter.API_VERSION, uCoreAccessProvider.getInsightLastSyncTimestamp());
+            UCoreInsightList insightList = client.fetchInsights(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId(),
+                    UCoreAdapter.API_VERSION, uCoreAccessProvider.getInsightLastSyncTimestamp());
 
             List<Insight> insights = insightConverter.convertToAppInsights(insightList);
-            eventing.post(new UpdateInsightsBackendResponse(insights));
+            eventing.post(new UpdateInsightsBackendResponse(insights, null));
             System.out.println("***InsightList****" + insightList.getUCoreInsights().size());
 
         } catch (RetrofitError retrofitError) {
