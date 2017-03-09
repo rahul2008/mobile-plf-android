@@ -22,9 +22,13 @@ import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import java.util.Arrays;
+
 public class StrokeDrawableWrapper extends Drawable implements Drawable.Callback {
     private GradientDrawable delegateDrawable;
     private ColorStateList tintList;
+    private int[][] borderStateWidthArray;
+    private int[] currentState;
     private int tintColor = Integer.MIN_VALUE;
     private int strokeWidth;
 
@@ -80,6 +84,7 @@ public class StrokeDrawableWrapper extends Drawable implements Drawable.Callback
     @Override
     public boolean setState(final int[] stateSet) {
         delegateDrawable.setState(stateSet);
+        currentState = stateSet;
         int newColor = tintList.getColorForState(stateSet, Color.MAGENTA);
         if (tintColor != newColor) {
             tintColor = newColor;
@@ -189,5 +194,14 @@ public class StrokeDrawableWrapper extends Drawable implements Drawable.Callback
             return tintList.getColorForState(new int[]{attr}, Color.MAGENTA);
         }
         return Color.MAGENTA;
+    }
+
+    public void setBorderStateWidthArray(int[][] stateWidthArray) {
+        borderStateWidthArray = stateWidthArray;
+    }
+
+    private void updateStrokeWidthAsPerSpec(int[] spec) {
+        if(!Arrays.equals(currentState, spec)) {
+        }
     }
 }
