@@ -1,18 +1,21 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.platform.core.datatypes;
 
-/**
- * Created by sangamesh on 08/03/17.
- */
+import java.io.Serializable;
 
-public interface InsightMetadata {
-
-    String key="key";
-    String value="value";
+public interface InsightMetadata extends Serializable{
 
     String getKey();
+
     void setKey(String key);
 
     String getValue();
+
     void setValue(String value);
+
+    Insight getInsight();
 
 }

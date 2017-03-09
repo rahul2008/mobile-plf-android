@@ -153,7 +153,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
                 prepareInsightForDeletion(insight, dbRequestListener);
             } else {
                 insight.setSynchronisationData(
-                        new OrmSynchronisationData(Moment.MOMENT_NEVER_SYNCED_AND_DELETED_GUID, true,
+                        new OrmSynchronisationData(Insight.INSIGHT_NEVER_SYNCED_AND_DELETED_GUID, true,
                                 DateTime.now(), 0));
 
                 notSyncedBackEndInsights.add(insight);

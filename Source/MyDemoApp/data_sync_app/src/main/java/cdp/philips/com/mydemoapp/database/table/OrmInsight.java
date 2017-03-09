@@ -99,7 +99,7 @@ public class OrmInsight implements Insight, Serializable {
     }
 
     @Override
-    public void setGU_ID(String GU_ID) {
+    public void setGUId(String GU_ID) {
         this.guid = GU_ID;
     }
 

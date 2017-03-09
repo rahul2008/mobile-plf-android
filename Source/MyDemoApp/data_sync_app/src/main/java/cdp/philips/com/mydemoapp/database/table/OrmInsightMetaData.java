@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.philips.platform.core.datatypes.DCSync;
+import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.InsightMetadata;
 
 import org.joda.time.DateTime;
@@ -62,5 +63,10 @@ public class OrmInsightMetaData implements InsightMetadata, Serializable {
     @Override
     public void setValue(String value) {
         this.meta_value = value;
+    }
+
+    @Override
+    public Insight getInsight() {
+        return ormInsight;
     }
 }

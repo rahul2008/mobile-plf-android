@@ -1,95 +1,80 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.platform.core.datatypes;
 
 import android.support.annotation.Nullable;
+
 import java.io.Serializable;
 import java.util.Collection;
 
-/**
- * Created by sangamesh on 16/01/17.
- */
 public interface Insight extends BaseAppData, Serializable {
 
-    String MOMENT_NEVER_SYNCED_AND_DELETED_GUID = "-1";
+    String INSIGHT_NEVER_SYNCED_AND_DELETED_GUID = "-1";
 
-    String GU_ID="guid";
-    String LAST_MODIFIED="last_modified";
-    String INACTIVE="inactive";
-    String VERSION="VERSION";
-    String RULE_ID="rule_id";
-    String SUBJECT_ID="subjectID";
-    String MOMENT_ID="moment_id";
-    String TYPE="type";
-    String TIME_STAMP="time_stamp";
-    String TITLE="title";
-    String PROGRAM_MIN_VERSION="program_min_version";
-    String PROGRAM_MAX_VERSION="program_max_version";
-    String METADATA_AVG="metadata_avg";
-    String METADATA_MAX="metadata_max";
-    String METADATA_MIN="metadata_min";
+    void setGUId(String GUId);
 
+    void setLastModified(String lastModified);
 
-     void setGU_ID(String GU_ID) ;
+    void setInactive(boolean inactive);
 
-     void setLastModified(String lastModified) ;
+    void setVersion(int version);
 
-     void setInactive(boolean inactive) ;
+    void setRuleId(String ruleId);
 
-     void setVersion(int version) ;
+    void setSubjectId(String subjectId);
 
-     void setRuleId(String ruleId) ;
+    void setMomentId(String momentId);
 
-     void setSubjectId(String subjectId) ;
+    void setType(String type);
 
-     void setMomentId(String momentId);
+    void setTimeStamp(String timeStamp);
 
-     void setType(String type);
+    void setTitle(String title);
 
-     void setTimeStamp(String timeStamp);
+    void setProgram_minVersion(int program_minversion);
 
-     void setTitle(String title);
+    void setProgram_maxVersion(int program_maxversion);
 
-     void setProgram_minVersion(int program_minversion) ;
+    String getGUId();
 
-     void setProgram_maxVersion(int program_maxversion) ;
+    String getLastModified();
 
-     String getGUId();
+    boolean isInactive();
 
-     String getLastModified() ;
+    int getVersion();
 
-     boolean isInactive();
+    String getRuleId();
 
-     int getVersion();
+    String getSubjectId();
 
-     String getRuleId();
+    String getMomentId();
 
-     String getSubjectId();
+    String getType();
 
-     String getMomentId();
+    String getTimeStamp();
 
-     String getType();
+    String getTitle();
 
-     String getTimeStamp();
-     String getTitle();
+    int getProgram_minVersion();
 
-     int getProgram_minVersion();
+    int getProgram_maxVersion();
 
-     int getProgram_maxVersion();
+    @Nullable
+    com.philips.platform.core.datatypes.SynchronisationData getSynchronisationData();
 
+    void setSynchronisationData(com.philips.platform.core.datatypes.SynchronisationData synchronisationData);
 
-     @Nullable
-     com.philips.platform.core.datatypes.SynchronisationData getSynchronisationData();
+    void setSynced(boolean isSynced);
 
-     void setSynchronisationData(com.philips.platform.core.datatypes.SynchronisationData synchronisationData);
+    boolean getSynced();
 
-     void setSynced(boolean isSynced);
-     boolean getSynced();
+    void setId(int id);
 
-     void setId(int id);
-     int getId();
-
+    int getId();
 
     Collection<? extends InsightMetadata> getInsightMetaData();
 
     void addInsightMetaData(InsightMetadata insightMetadata);
-
 }
