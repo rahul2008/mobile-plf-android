@@ -39,17 +39,5 @@ public class RLogTest extends InstrumentationTestCase{
         RLog.init();
 
     }
-    public void testRLog(){
-        RLog.isLoggingEnabled();
-        RLog.enableLogging();
-        assertTrue(RLog.isLoggingEnabled());
-        RLog.d("tag","message");
-        RLog.e("tag","message");
-        RLog.i("tag","message");
-        RLog.v("tag","message");
-        try{RLog.init();}
-        catch(Exception e){}
-        RLog.disableLogging();
-        assertTrue(true);
-    }
+
 }

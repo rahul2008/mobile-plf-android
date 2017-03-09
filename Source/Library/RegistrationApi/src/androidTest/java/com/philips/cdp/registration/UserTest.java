@@ -14,12 +14,10 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
-import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 
 import org.json.JSONObject;
-import org.junit.Test;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -658,28 +656,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
         }
 
 
-        @Test
-        public void testUserRegisttationListener(){
-                User   user = new User(getInstrumentation().getContext());
-               UserRegistrationListener userRegistrationListener =  new UserRegistrationListener() {
-                        @Override
-                        public void onUserLogoutSuccess() {
 
-                        }
-
-                        @Override
-                        public void onUserLogoutFailure() {
-
-                        }
-
-                        @Override
-                        public void onUserLogoutSuccessWithInvalidAccessToken() {
-
-                        }
-                };
-                user.registerUserRegistrationListener(userRegistrationListener);
-                user.unRegisterUserRegistrationListener(userRegistrationListener);
-        }
 
 
 

@@ -18,32 +18,28 @@ public class HSDPInfoTest extends InstrumentationTestCase {
         MultiDex.install(getInstrumentation().getTargetContext());
         System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
         super.setUp();
-        hsdpInfo = new HSDPInfo();
+        hsdpInfo = new HSDPInfo("sharedId", "secretId", "baseURL", "applicationName");
     }
 
     @Test
     public void testSetSharedId() throws Exception {
-        hsdpInfo.setSharedId("sharedid");
-        assertEquals("sharedid",hsdpInfo.getSharedId());
+        assertEquals("sharedId",hsdpInfo.getSharedId());
     }
 
     @Test
     public void testSetSecreteId() throws Exception {
-        hsdpInfo.setSecreteId("sharedid");
-        assertEquals("sharedid",hsdpInfo.getSecreteId());
+        assertEquals("secretId",hsdpInfo.getSecreteId());
 
     }
 
     @Test
     public void testSetBaseURL() throws Exception {
-        hsdpInfo.setBaseURL("sharedid");
-        assertEquals("sharedid",hsdpInfo.getBaseURL());
+        assertEquals("baseURL",hsdpInfo.getBaseURL());
 
     }
 
     @Test
     public void testSetApplicationName() throws Exception {
-        hsdpInfo.setApplicationName("sharedid");
-        assertEquals("sharedid",hsdpInfo.getApplicationName());
+        assertEquals("applicationName",hsdpInfo.getApplicationName());
     }
 }

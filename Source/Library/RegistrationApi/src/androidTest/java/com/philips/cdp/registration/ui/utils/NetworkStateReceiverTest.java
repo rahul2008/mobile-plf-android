@@ -4,7 +4,6 @@ import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import org.junit.Before;
-import org.junit.Test;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -20,14 +19,8 @@ public class NetworkStateReceiverTest extends InstrumentationTestCase {
         networkStateReceiver = new NetworkStateReceiver();
     }
 
-    @Test
-    public void testAssert() {
-        assertNotNull(networkStateReceiver);
-    }
 
-    @Test
-    public void testOnRecive(){
-        //TODO : Add tests
-    }
+
+
 
 }
