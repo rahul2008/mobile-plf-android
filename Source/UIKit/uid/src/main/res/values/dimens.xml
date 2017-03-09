@@ -191,4 +191,10 @@
     <dimen name="uid_gridview_margin_left_right">16dp</dimen>
     <dimen name="uid_gridview_header_height">48dp</dimen>
     <dimen name="uid_gridview_header_text_size">14sp</dimen>
+
+    <!--Inline Vaidation-->
+    <dimen name="uid_inline_validation_icon_size">16dp</dimen>
+    <dimen name="uid_inline_validation_message_padding_top">8dp</dimen>
+    <dimen name="uid_inline_validation_label_padding_start">8dp</dimen>
+    <dimen name="uid_inline_label_text_size">12sp</dimen>
 </resources>

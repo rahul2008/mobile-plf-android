@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.philips.platform.uid.view.widget.ValidationEditText
+        android:id="@id/uid_inline_validation_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@id/uid_inline_validation_message_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/uid_inline_validation_message_padding_top"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@id/uid_inline_validation_icon"
+            android:layout_width="@dimen/uid_inline_validation_icon_size"
+            android:layout_height="@dimen/uid_inline_validation_icon_size" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@id/uid_inline_validation_text"
+            style="@style/UIDLabelInlineValidation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/uid_inline_validation_label_padding_start" />
+    </LinearLayout>
+</merge>
