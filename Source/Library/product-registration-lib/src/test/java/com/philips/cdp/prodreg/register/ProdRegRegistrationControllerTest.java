@@ -12,6 +12,7 @@ import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
 import com.philips.cdp.registration.BuildConfig;
+import com.philips.cdp.registration.User;
 
 import junit.framework.TestCase;
 
@@ -30,6 +31,7 @@ import static org.mockito.Mockito.when;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+@RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
 public class ProdRegRegistrationControllerTest extends TestCase {
 
@@ -56,7 +58,8 @@ public class ProdRegRegistrationControllerTest extends TestCase {
         bundle = mock(Bundle.class);
         productMetadataResponseData = mock(ProductMetadataResponseData.class);
         summaryDataMock = mock(Data.class);
-        prodRegRegistrationController = new ProdRegRegistrationController(registerControllerCallBacksMock, fragmentActivity) {
+        User user = mock(User.class);
+        prodRegRegistrationController = new ProdRegRegistrationController(registerControllerCallBacksMock,fragmentActivity,user) {
             @Override
             public RegisteredProduct getRegisteredProduct() {
                 return registeredProductMock;
@@ -89,78 +92,78 @@ public class ProdRegRegistrationControllerTest extends TestCase {
         when(bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_SUMMARY)).thenReturn(summaryDataMock);
     }
 
-//    @Test
-//    public void testHandleState() {
-//        when(registeredProductMock.isProductAlreadyRegistered(localRegisteredProductsMock)).thenReturn(true);
-//        prodRegRegistrationController.handleState();
-//        verify(registeredProductMock).getRegisteredProductIfExists(localRegisteredProductsMock);
-//        verify(registerControllerCallBacksMock).showAlreadyRegisteredDialog(registeredProductMock);
-//    }
-//
-//    @Test
-//    public void testInit() {
-//        prodRegRegistrationController.init(null);
-//        verify(registerControllerCallBacksMock).exitProductRegistration();
-//        when(registeredProductMock.getSerialNumber()).thenReturn("1-2-3");
-//        prodRegRegistrationController.init(bundle);
-//        verify(registerControllerCallBacksMock).requireFields(true, false);
-//        verify(registerControllerCallBacksMock).setSummaryView(summaryDataMock);
-//        verify(registerControllerCallBacksMock).setProductView(registeredProductMock);
-//    }
-//
-//    @Test
-//    public void testIsValidSerialNumber() {
-//        prodRegRegistrationController.init(bundle);
-//        assertFalse(prodRegRegistrationController.isValidSerialNumber("1234"));
-////        verify(registerControllerCallBacksMock).isValidSerialNumber(false, "[0-9]-[0-9]-[0-9]", null);
-//    }
-//
-//    @Test
-//    public void testIsValidDate() {
-//        assertTrue(prodRegRegistrationController.isValidDate("2016-01-22"));
-//        verify(registerControllerCallBacksMock).isValidDate(true);
-//    }
-//
-//    @Test
-//    @SuppressWarnings("deprecation")
-//    public void testRegisterEvent() {
-//        when(prodRegCacheMock.getIntData(AnalyticsConstants.Product_REGISTRATION_START_COUNT)).thenReturn(0);
-//        UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
-//        when(prodRegHelperMock.getSignedInUserWithProducts(fragmentActivity)).thenReturn(userWithProductsMock);
-//        prodRegRegistrationController.init(bundle);
-//        prodRegRegistrationController.registerProduct("2016-04-28", "1-2-3");
-//        verify(registerControllerCallBacksMock).tagEvents("RegistrationEvent", "specialEvents", "extendWarrantyOption");
-//        verify(registerControllerCallBacksMock).showLoadingDialog();
-//        verify(registerControllerCallBacksMock).logEvents(ProdRegRegistrationController.TAG, "Registering product with product details as CTN::" + registeredProductMock.getCtn());
-//        verify(userWithProductsMock).registerProduct(registeredProductMock);
-//    }
-//
-//    @Test
-//    @SuppressWarnings("deprecation")
-//    public void testGetProdRegListener() {
-//        when(prodRegCacheMock.getIntData(AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT)).thenReturn(0);
-//        ProdRegListener prodRegListener = prodRegRegistrationController.getProdRegListener();
-//        UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
-//        prodRegListener.onProdRegSuccess(registeredProductMock, userWithProductsMock);
-//        verify(registerControllerCallBacksMock).logEvents(ProdRegRegistrationController.TAG, "Product registered successfully");
-//        verify(registerControllerCallBacksMock).dismissLoadingDialog();
-//        verify(registerControllerCallBacksMock).showSuccessLayout();
-//
-//        when(registeredProductMock.getProdRegError()).thenReturn(ProdRegError.PRODUCT_ALREADY_REGISTERED);
-//        prodRegListener.onProdRegFailed(registeredProductMock, userWithProductsMock);
-//        verify(registerControllerCallBacksMock).logEvents(ProdRegRegistrationController.TAG, "Product registration failed");
-//        verify(registerControllerCallBacksMock, atLeastOnce()).showAlreadyRegisteredDialog(registeredProductMock);
-//
-//        when(registeredProductMock.getProdRegError()).thenReturn(ProdRegError.INVALID_CTN);
-//        prodRegListener.onProdRegFailed(registeredProductMock, userWithProductsMock);
-//        verify(registerControllerCallBacksMock).showAlertOnError(registeredProductMock.getProdRegError().getCode());
-//    }
-//
-//    @Test
-//    public void testGetMethods() {
-//        assertTrue(prodRegRegistrationController.getLocalRegisteredProducts() != null);
-//        assertTrue(prodRegRegistrationController.getProdRegCache() != null);
-//        assertTrue(prodRegRegistrationController.getProdRegHelper() != null);
-//        assertTrue(prodRegRegistrationController.getRegisteredProduct() != null);
-//    }
+    @Test
+    public void testHandleState() {
+        when(registeredProductMock.isProductAlreadyRegistered(localRegisteredProductsMock)).thenReturn(true);
+        prodRegRegistrationController.handleState();
+        verify(registeredProductMock).getRegisteredProductIfExists(localRegisteredProductsMock);
+        verify(registerControllerCallBacksMock).showAlreadyRegisteredDialog(registeredProductMock);
+    }
+
+    @Test
+    public void testInit() {
+        prodRegRegistrationController.init(null);
+        verify(registerControllerCallBacksMock).exitProductRegistration();
+        when(registeredProductMock.getSerialNumber()).thenReturn("1-2-3");
+        prodRegRegistrationController.init(bundle);
+        verify(registerControllerCallBacksMock).requireFields(true, false);
+        verify(registerControllerCallBacksMock).setSummaryView(summaryDataMock);
+        verify(registerControllerCallBacksMock).setProductView(registeredProductMock);
+    }
+
+    @Test
+    public void testIsValidSerialNumber() {
+        prodRegRegistrationController.init(bundle);
+        assertFalse(prodRegRegistrationController.isValidSerialNumber("1234"));
+//        verify(registerControllerCallBacksMock).isValidSerialNumber(false, "[0-9]-[0-9]-[0-9]", null);
+    }
+
+    @Test
+    public void testIsValidDate() {
+        assertTrue(prodRegRegistrationController.isValidDate("2016-01-22"));
+        verify(registerControllerCallBacksMock).isValidDate(true);
+    }
+
+    @Test
+    @SuppressWarnings("deprecation")
+    public void testRegisterEvent() {
+        when(prodRegCacheMock.getIntData(AnalyticsConstants.Product_REGISTRATION_START_COUNT)).thenReturn(0);
+        UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
+        when(prodRegHelperMock.getSignedInUserWithProducts(fragmentActivity)).thenReturn(userWithProductsMock);
+        prodRegRegistrationController.init(bundle);
+        prodRegRegistrationController.registerProduct("2016-04-28", "1-2-3");
+        verify(registerControllerCallBacksMock).tagEvents("RegistrationEvent", "specialEvents", "extendWarrantyOption");
+        verify(registerControllerCallBacksMock).showLoadingDialog();
+        verify(registerControllerCallBacksMock).logEvents(ProdRegRegistrationController.TAG, "Registering product with product details as CTN::" + registeredProductMock.getCtn());
+        verify(userWithProductsMock).registerProduct(registeredProductMock);
+    }
+
+    @Test
+    @SuppressWarnings("deprecation")
+    public void testGetProdRegListener() {
+        when(prodRegCacheMock.getIntData(AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT)).thenReturn(0);
+        ProdRegListener prodRegListener = prodRegRegistrationController.getProdRegListener();
+        UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
+        prodRegListener.onProdRegSuccess(registeredProductMock, userWithProductsMock);
+        verify(registerControllerCallBacksMock).logEvents(ProdRegRegistrationController.TAG, "Product registered successfully");
+        verify(registerControllerCallBacksMock).dismissLoadingDialog();
+        verify(registerControllerCallBacksMock).showSuccessLayout();
+
+        when(registeredProductMock.getProdRegError()).thenReturn(ProdRegError.PRODUCT_ALREADY_REGISTERED);
+        prodRegListener.onProdRegFailed(registeredProductMock, userWithProductsMock);
+        verify(registerControllerCallBacksMock).logEvents(ProdRegRegistrationController.TAG, "Product registration failed");
+        verify(registerControllerCallBacksMock, atLeastOnce()).showAlreadyRegisteredDialog(registeredProductMock);
+
+        when(registeredProductMock.getProdRegError()).thenReturn(ProdRegError.INVALID_CTN);
+        prodRegListener.onProdRegFailed(registeredProductMock, userWithProductsMock);
+        verify(registerControllerCallBacksMock).showAlertOnError(registeredProductMock.getProdRegError().getCode());
+    }
+
+    @Test
+    public void testGetMethods() {
+        assertTrue(prodRegRegistrationController.getLocalRegisteredProducts() != null);
+        assertTrue(prodRegRegistrationController.getProdRegCache() != null);
+        assertTrue(prodRegRegistrationController.getProdRegHelper() != null);
+        assertTrue(prodRegRegistrationController.getRegisteredProduct() != null);
+    }
 }

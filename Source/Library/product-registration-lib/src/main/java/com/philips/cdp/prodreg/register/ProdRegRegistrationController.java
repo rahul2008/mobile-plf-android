@@ -64,6 +64,12 @@ public class ProdRegRegistrationController {
         this.user = new User(fragmentActivity);
     }
 
+    public ProdRegRegistrationController(final RegisterControllerCallBacks registerControllerCallBacks,final FragmentActivity fragmentActivity,User user) {
+        this.registerControllerCallBacks = registerControllerCallBacks;
+        this.user = user;
+        this.fragmentActivity = fragmentActivity;
+    }
+
     public boolean isApiCallingProgress() {
         return isApiCallingProgress;
     }
