@@ -341,20 +341,18 @@ dependencies {
 //    compile group: 'org.robolectric', name: 'android-all', version: '7.0.0_r1-robolectric-0'
 //    testCompile ('org.robolectric:robolectric:3.2.2')
     testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
-//    testCompile 'junit:junit:4.12'
-//    compile 'com.android.support:multidex:1.0.1'
-
-    testCompile ('org.robolectric:robolectric:3.2.2') /*{
-        exclude group: 'commons-logging', module: 'commons-logging'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-    }*/
-    testCompile "org.mockito:mockito-all:1.10.17"
-
+    //    testCompile 'junit:junit:4.12'
+    //    compile 'com.android.support:multidex:1.0.1'
+    testCompile 'org.robolectric:robolectric:3.2.2'
+    /*{
+                        exclude group: 'commons-logging', module: 'commons-logging'
+                        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+                    }*/
+    testCompile 'org.mockito:mockito-all:1.10.17'
     testCompile "com.squareup.assertj:assertj-android:${androidAssertJVer}"
-
-
+    compile 'com.google.android.gms:play-services-gcm:10.2.0'
 }
-
+apply plugin: 'com.google.gms.google-services'
 task copyToLib(type: Copy) {
     into "$buildDir/outputs/lib"
     from configurations.compile
