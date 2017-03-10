@@ -33,7 +33,7 @@ import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 /**
  * Created by 310238114 on 5/5/2016.
  */
-public class AppInfra implements AppInfraInterface {
+public class AppInfra implements AppInfraInterface ,ComponentVersionInfo{
 
 
     private SecureStorageInterface secureStorage;
@@ -47,12 +47,15 @@ public class AppInfra implements AppInfraInterface {
     private AppConfigurationInterface configInterface;
     private RestInterface mRestInterface;
     private ABTestClientInterface mAbtesting;
+    private final String AppInfraComponentID ="ail";
 
 
     /**
      * The App infra context. This MUST be Application context
      */
     private Context appInfraContext;
+
+
 
     /**
      * The type Builder.
@@ -317,8 +320,8 @@ public class AppInfra implements AppInfraInterface {
 
     private void setLogging(LoggingInterface log) {
         logger = log;
-        appInfraLogger = logger.createInstanceForComponent(this.getClass().getSimpleName(),
-                BuildConfig.VERSION_NAME);
+        appInfraLogger = logger.createInstanceForComponent(getComponentId(),
+                getVersion());
     }
 
     private void setTagging(AppTaggingInterface tagg) {
@@ -365,5 +368,14 @@ public class AppInfra implements AppInfraInterface {
         this.configInterface = configInterface;
     }
 
+    @Override
+    public String getComponentId() {
+        return AppInfraComponentID;
+    }
+
+    @Override
+    public String getVersion() {
+        return BuildConfig.VERSION_NAME;
+    }
 
 }
