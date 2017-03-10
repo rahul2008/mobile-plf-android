@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "523768399463",
+    "firebase_url": "https://testfirebase-6bafb.firebaseio.com",
+    "project_id": "testfirebase-6bafb",
+    "storage_bucket": "testfirebase-6bafb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:523768399463:android:a2d23725f1fd704c",
+        "android_client_info": {
+          "package_name": "com.philips.platform.referenceapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "523768399463-5a1chrg4jbqujt9sh893pvo82vlj5kf9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.philips.platform.referenceapp",
+            "certificate_hash": "8ea0fff88af0c16f1b81f2336a3a5177bac8c38e"
+          }
+        },
+        {
+          "client_id": "523768399463-8ej8r8oho59pfofii7h2i5hn9ipldoe8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzwsmfWL7uxcNDVGYZ3YJ22zA0AWxUz_A"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "523768399463-8ej8r8oho59pfofii7h2i5hn9ipldoe8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
