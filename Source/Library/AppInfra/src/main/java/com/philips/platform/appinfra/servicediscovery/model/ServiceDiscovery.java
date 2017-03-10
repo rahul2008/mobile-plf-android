@@ -244,53 +244,6 @@ public class ServiceDiscovery {
 	protected URL getServiceURLWithServiceID(String serviceId, AISDResponse.AISDPreference preference
 			, Map<String, String> replacement) {
 		URL url = null;
-		try {
-			if (serviceId != null) {
-				if (preference.equals(AISDCountryPreference)) {
-					if (getMatchByCountry() != null && getMatchByCountry().getConfigs() != null) {
-						if (getMatchByCountry().getLocale() == null) {
-							setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
-									"ServiceDiscovery cannot find the locale");
-						} else {
-							String serviceID = getMatchByCountry().getConfigs().get(0).getUrls().get(serviceId);
-							if (serviceID != null) {
-								url = new URL(getMatchByCountry().getConfigs().get(0).getUrls().get(serviceId));
-							}
-						}
-					}
-				} else if (preference.equals(AISDLanguagePreference)) {
-					if (getMatchByLanguage() != null && getMatchByLanguage().getConfigs() != null) {
-						if (getMatchByLanguage().getLocale() == null) {
-							setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
-									"ServiceDiscovery cannot find the locale");
-						} else {
-							String serviceID = getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceId);
-							if (serviceID != null) {
-								url = new URL(getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceId));
-							}
-						}
-					}
-				}
-				if (url != null) {
-					url = formatUrl(url, replacement);
-				}
-			} else {
-				setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.INVALID_RESPONSE,
-						"NO VALUE FOR KEY");
-			}
-
-		} catch (MalformedURLException Exception) {
-			setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.INVALID_RESPONSE,
-					"NO VALUE FOR KEY");
-		}
-
-		return url;
-	}
-
-
-	protected URL getServiceURLWithServiceID1(String serviceId, AISDResponse.AISDPreference preference
-			, Map<String, String> replacement) {
-		URL url = null;
 		if (serviceId != null) {
 			if (preference.equals(AISDCountryPreference)) {
 				if (getMatchByCountry() != null && getMatchByCountry().getConfigs() != null) {
@@ -447,27 +400,6 @@ public class ServiceDiscovery {
 
 		}
 		return responseMap;
-	}
-
-
-	private URL formatUrl(URL url, Map<String, String> replacement) {
-		mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra);
-		try {
-			if (url.toString().contains("%22")) {
-				url = new URL(url.toString().replace("%22", "\""));
-			}
-			if (replacement != null && replacement.size() > 0) {
-				return mServiceDiscoveryManager.applyURLParameters(url, replacement);
-			} else {
-				return url;
-			}
-
-		} catch (MalformedURLException exception) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
-					exception.toString());
-			setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
-		}
-		return url;
 	}
 
 	protected String getLocaleWithPreference(AISDResponse.AISDPreference preference) {
