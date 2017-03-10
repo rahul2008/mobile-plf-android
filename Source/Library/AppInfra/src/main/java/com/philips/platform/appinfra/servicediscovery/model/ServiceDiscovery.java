@@ -243,7 +243,6 @@ public class ServiceDiscovery {
 
 	protected URL getServiceURLWithServiceID(String serviceId, AISDResponse.AISDPreference preference
 			, Map<String, String> replacement) {
-		URL url = null;
 		if (serviceId != null) {
 			if (preference.equals(AISDCountryPreference)) {
 				if (getMatchByCountry() != null && getMatchByCountry().getConfigs() != null) {
@@ -272,15 +271,12 @@ public class ServiceDiscovery {
 					"NO VALUE FOR KEY");
 		}
 
-		return url;
+		return null;
 	}
 
 	private URL formatUrl(int configSize, AISDResponse.AISDPreference preference,
 	                      String serviceId, Map<String, String> replacement) {
 		Map<String, String> urls = null;
-		mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra);
-		URL url = null;
-
 		for (int config = 0; config < configSize; config++) {
 			if (preference.equals(AISDCountryPreference)) {
 				urls = getMatchByCountry().getConfigs().get(config).getUrls();
@@ -292,24 +288,41 @@ public class ServiceDiscovery {
 				if (urls.get(serviceId) != null) {
 					String serviceUrl = urls.get(serviceId);
 					try {
-						if (serviceUrl.toString().contains("%22")) {
-							url = new URL(serviceUrl.toString().replace("%22", "\""));
-						}
-						if (replacement != null && replacement.size() > 0) {
-							return mServiceDiscoveryManager.applyURLParameters(url, replacement);
-						}
-					} catch (MalformedURLException exception) {
-						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
-								exception.toString());
+						URL url = new URL(serviceUrl);
+						return urlDecodeForServiceDiscovery(url,replacement);
+
+					} catch (MalformedURLException e) {
 						setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
 					}
 				}
 			}
 		}
 
-		return url;
+		return null;
 	}
 
+
+	private URL urlDecodeForServiceDiscovery(URL url ,Map<String, String> replacement ) {
+
+		mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra);
+		try {
+			if (url.toString().contains("%22")) {
+				url = new URL(url.toString().replace("%22", "\""));
+			}
+			if (replacement != null && replacement.size() > 0) {
+				return mServiceDiscoveryManager.applyURLParameters(url, replacement);
+			} else {
+				return url;
+			}
+
+		} catch (MalformedURLException exception) {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
+					exception.toString());
+			setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+		}
+		return url;
+
+	}
 
 	protected HashMap<String, ServiceDiscoveryService> getServicesWithServiceID(ArrayList<String> serviceIds,
 	                                                                            AISDResponse.AISDPreference preference,
@@ -358,46 +371,46 @@ public class ServiceDiscovery {
 				urls = getMatchByLanguage().getConfigs().get(config).getUrls();
 			}
 			for (int i = 0; i < serviceIds.size(); i++) {
-				ServiceDiscoveryService sdService = new ServiceDiscoveryService();
-				if (urls != null) {
-					if (urls.get(serviceIds.get(i)) != null) {
-						String serviceUrlval = urls.get(serviceIds.get(i));
-						if (serviceUrlval.contains("%22")) {
-							serviceUrlval = serviceUrlval.replace("%22", "\"");
-						}
-						if (replacement != null && replacement.size() > 0) {
-							URL replacedUrl;
-							try {
-								replacedUrl = mServiceDiscoveryManager.applyURLParameters(new URL(serviceUrlval), replacement);
-								if (replacedUrl != null)
-									sdService.init(modelLocale, replacedUrl.toString());
+				ServiceDiscoveryService sdService = responseMap.get(serviceIds.get(i));
+				if (sdService == null || sdService.getmError() != null) {
+					sdService = new ServiceDiscoveryService();
+					if (urls != null) {
+						if (urls.get(serviceIds.get(i)) != null) {
+							String serviceUrlval = urls.get(serviceIds.get(i));
+							if (serviceUrlval.contains("%22")) {
+								serviceUrlval = serviceUrlval.replace("%22", "\"");
+							}
+							if (replacement != null && replacement.size() > 0) {
+								URL replacedUrl;
+								try {
+									replacedUrl = mServiceDiscoveryManager.applyURLParameters(new URL(serviceUrlval), replacement);
+									if (replacedUrl != null)
+										sdService.init(modelLocale, replacedUrl.toString());
+									responseMap.put(serviceIds.get(i), sdService);
+								} catch (MalformedURLException e) {
+									mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+											"ServiceDiscovery URL error",
+											"Malformed URL");
+									setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.INVALID_RESPONSE,
+											"MalformedURLException");
+								}
+							} else {
+								sdService.init(modelLocale, serviceUrlval);
 								responseMap.put(serviceIds.get(i), sdService);
-							} catch (MalformedURLException e) {
-								mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-										"ServiceDiscovery URL error",
-										"Malformed URL");
-								setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.INVALID_RESPONSE,
-										"MalformedURLException");
 							}
 						} else {
-							sdService.init(modelLocale, serviceUrlval);
+							sdService.init(modelLocale, null);
+							sdService.setmError("ServiceDiscovery cannot find the URL for serviceId" + " " + serviceIds.get(i));
 							responseMap.put(serviceIds.get(i), sdService);
 						}
-					} else {
-						sdService.init(modelLocale, null);
-						sdService.setmError("ServiceDiscovery cannot find the URL for serviceId" + " " + serviceIds.get(i));
-						responseMap.put(serviceIds.get(i), sdService);
-
 					}
 				}
+
 			}
 			if (responseMap.isEmpty()) {
 				setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
 						"ServiceDiscovery cannot find the locale");
-			} else {
-				return responseMap;
 			}
-
 		}
 		return responseMap;
 	}
