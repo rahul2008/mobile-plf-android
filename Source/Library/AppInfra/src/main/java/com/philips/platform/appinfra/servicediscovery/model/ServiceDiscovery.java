@@ -288,6 +288,76 @@ public class ServiceDiscovery {
 	}
 
 
+	protected URL getServiceURLWithServiceID1(String serviceId, AISDResponse.AISDPreference preference
+			, Map<String, String> replacement) {
+		URL url = null;
+		if (serviceId != null) {
+			if (preference.equals(AISDCountryPreference)) {
+				if (getMatchByCountry() != null && getMatchByCountry().getConfigs() != null) {
+					if (getMatchByCountry().getLocale() == null) {
+						setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
+								"ServiceDiscovery cannot find the locale");
+					} else {
+						final int configSize = getMatchByCountry().getConfigs().size();
+						return formatUrl(configSize, AISDCountryPreference, serviceId, replacement);
+					}
+				}
+			} else if (preference.equals(AISDLanguagePreference)) {
+				if (getMatchByLanguage() != null && getMatchByLanguage().getConfigs() != null) {
+					if (getMatchByLanguage().getLocale() == null) {
+						setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
+								"ServiceDiscovery cannot find the locale");
+					} else {
+						final int configSize = getMatchByLanguage().getConfigs().size();
+						return formatUrl(configSize, AISDLanguagePreference, serviceId, replacement);
+
+					}
+				}
+			}
+		} else {
+			setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.INVALID_RESPONSE,
+					"NO VALUE FOR KEY");
+		}
+
+		return url;
+	}
+
+	private URL formatUrl(int configSize, AISDResponse.AISDPreference preference,
+	                      String serviceId, Map<String, String> replacement) {
+		Map<String, String> urls = null;
+		mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra);
+		URL url = null;
+
+		for (int config = 0; config < configSize; config++) {
+			if (preference.equals(AISDCountryPreference)) {
+				urls = getMatchByCountry().getConfigs().get(config).getUrls();
+			} else if (preference.equals(AISDLanguagePreference)) {
+				urls = getMatchByLanguage().getConfigs().get(config).getUrls();
+			}
+
+			if (urls != null && urls.size() > 0) {
+				if (urls.get(serviceId) != null) {
+					String serviceUrl = urls.get(serviceId);
+					try {
+						if (serviceUrl.toString().contains("%22")) {
+							url = new URL(serviceUrl.toString().replace("%22", "\""));
+						}
+						if (replacement != null && replacement.size() > 0) {
+							return mServiceDiscoveryManager.applyURLParameters(url, replacement);
+						}
+					} catch (MalformedURLException exception) {
+						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
+								exception.toString());
+						setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+					}
+				}
+			}
+		}
+
+		return url;
+	}
+
+
 	protected HashMap<String, ServiceDiscoveryService> getServicesWithServiceID(ArrayList<String> serviceIds,
 	                                                                            AISDResponse.AISDPreference preference,
 	                                                                            Map<String, String> replacement) {
