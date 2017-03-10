@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
 import org.json.JSONArray;
@@ -21,17 +22,25 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.DEFAULT;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
 
 public class RegistrationConfiguration {
 
-    public static final String MICROSITE_ID_KEY = "appidentity.micrositeId";
+    @Inject
+    HSDPConfiguration hsdpConfiguration;
+
+    @Inject
+    AppConfiguration appConfiguration;
+
     private RegistrationFunction prioritisedFunction = RegistrationFunction.Registration;
 
     private static volatile RegistrationConfiguration registrationConfiguration;
 
     private RegistrationConfiguration() {
+        URInterface.getComponent().inject(this);
     }
 
     public static synchronized RegistrationConfiguration getInstance() {
@@ -46,18 +55,8 @@ public class RegistrationConfiguration {
     }
 
     public String getRegistrationClientId(@NonNull Configuration environment) {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-
-        Object obj = RegistrationHelper.getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey("JanRainConfiguration." +
-                        "RegistrationClientID." +
-                        environment.getValue(), UR, configError);
-        String registrationClient = null;
-        if (obj != null) {
-            if(obj instanceof String){
-                registrationClient = (String) obj;
+        String registrationClient = appConfiguration.getClientId(environment.getValue());
+        if (registrationClient != null) {
                 if(isJSONValid(registrationClient)){
                     try {
                         JSONObject jsonObject = new JSONObject(registrationClient);
@@ -75,11 +74,8 @@ public class RegistrationConfiguration {
                         e.printStackTrace();
                     }
                 }
-            }
-
         } else {
-            RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
-                    "Error Message : " + configError.toString());
+            RLog.e("RegistrationConfiguration", "Registration client is null");
         }
 
         return registrationClient;
@@ -104,15 +100,9 @@ public class RegistrationConfiguration {
      * @return String
      */
     public String getMicrositeId() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        String micrositeId = (String) RegistrationHelper.getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey(MICROSITE_ID_KEY,
-                        "appinfra", configError);
+        String micrositeId = appConfiguration.getMicrositeId();
         if (null == micrositeId) {
-            RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
-                    "Error Message : " + configError.toString());
+            RLog.e("RegistrationConfiguration", "Microsite ID is null");
         }
         return micrositeId;
     }
@@ -143,15 +133,9 @@ public class RegistrationConfiguration {
      * @return String
      */
     public String getRegistrationEnvironment() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        String registrationEnvironment = (String) RegistrationHelper.getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey("appidentity.appState"
-                        , "appinfra", configError);
+        String registrationEnvironment = appConfiguration.getRegistrationEnvironment();
         if (null == registrationEnvironment) {
-            RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
-                    "Error Message : " + configError.toString());
+            RLog.e("RegistrationConfiguration", "Registration environment is null");
         }
         if (registrationEnvironment.equalsIgnoreCase("TEST"))
             return Configuration.TESTING.getValue();
@@ -239,13 +223,13 @@ public class RegistrationConfiguration {
      */
     public HSDPInfo getHSDPInfo() {
 
-        String sharedId = HSDPConfiguration.getHsdpSharedId();
+        String sharedId = hsdpConfiguration.getHsdpSharedId();
 
-        String secreteId = HSDPConfiguration.getHsdpSecretId();
+        String secreteId = hsdpConfiguration.getHsdpSecretId();
 
-        String baseUrl = HSDPConfiguration.getHsdpBaseUrl();
+        String baseUrl = hsdpConfiguration.getHsdpBaseUrl();
 
-        String appName = HSDPConfiguration.getHsdpAppName();
+        String appName = hsdpConfiguration.getHsdpAppName();
 
         RLog.i("HSDP_TEST", "sharedId" + sharedId + "Secret " + secreteId + " baseUrl " + baseUrl);
 

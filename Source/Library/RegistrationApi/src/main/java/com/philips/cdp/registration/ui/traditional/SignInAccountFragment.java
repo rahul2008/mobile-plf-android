@@ -59,7 +59,6 @@ import com.philips.cdp.registration.ui.utils.RegChinaUtil;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.URInterface;
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.squareup.okhttp.RequestBody;
 
@@ -81,6 +80,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Inject
     NetworkUtility networkUtility;
+
+    @Inject
+    ServiceDiscoveryInterface serviceDiscoveryInterface;
 
     public static final String USER_REQUEST_PASSWORD_RESET_SMS_CODE = "/api/v1/user/requestPasswordResetSmsCode";
     public static final String USER_REQUEST_RESET_PASSWORD_REDIRECT_URI_SMS = "/c-w/user-registration/apps/reset-password.html";
@@ -873,9 +875,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     String verificationSmsCodeURL;
 
     private void serviceDiscovery() {
-
-        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
-        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
         RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
 
         //Temp: will be updated once actual URX received for reset sms

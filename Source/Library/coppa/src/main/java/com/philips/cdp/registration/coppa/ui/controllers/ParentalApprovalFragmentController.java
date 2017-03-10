@@ -25,6 +25,7 @@ import com.philips.cdp.registration.coppa.ui.fragment.ParentalCaringSharingFragm
 import com.philips.cdp.registration.coppa.ui.fragment.ParentalConsentFragment;
 import com.philips.cdp.registration.coppa.ui.fragment.RegistrationCoppaFragment;
 import com.philips.cdp.registration.coppa.utils.AppCoppaTaggingConstants;
+import com.philips.cdp.registration.coppa.utils.CoppaInterface;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -32,7 +33,6 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.ntputils.ServerTime;
 import com.philips.ntputils.constants.ServerTimeConstants;
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.text.ParseException;
@@ -43,7 +43,10 @@ import java.util.TimeZone;
 
 public class ParentalApprovalFragmentController implements RefreshUserHandler,
         View.OnClickListener {
-   private boolean isParentalConsent = false;
+
+    private final ServiceDiscoveryInterface serviceDiscoveryInterface;
+
+    private boolean isParentalConsent = false;
     private ParentalApprovalFragment mParentalApprovalFragment;
     private CoppaExtension mCoppaExtension;
     private FragmentManager mFragmentManager;
@@ -59,6 +62,7 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
     };
 
     public ParentalApprovalFragmentController(ParentalApprovalFragment fragment) {
+        serviceDiscoveryInterface = CoppaInterface.getComponent().getServiceDiscoveryInterface();
         mParentalApprovalFragment = fragment;
         mParentalApprovalFragment.getRegistrationFragment();
         if (fragment.getRegistrationFragment().getParentActivity() != null) {
@@ -275,8 +279,6 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
         }
     }
     private void handleAgree() {
-        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
-        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
         serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {
@@ -289,8 +291,6 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
         });
     }
     private void handleDisAgree() {
-        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
-        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
         serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {

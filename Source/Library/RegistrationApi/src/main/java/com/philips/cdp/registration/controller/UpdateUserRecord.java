@@ -22,9 +22,9 @@ import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.RegistrationSettings;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.ntputils.ServerTime;
 import com.philips.ntputils.constants.ServerTimeConstants;
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import org.json.JSONArray;
@@ -33,7 +33,12 @@ import org.json.JSONObject;
 
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 public class UpdateUserRecord implements UpdateUserRecordHandler {
+
+    @Inject
+    ServiceDiscoveryInterface serviceDiscoveryInterface;
 
     private String CONSUMER_TIMESTAMP = "timestamp";
 
@@ -86,6 +91,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
     private String LOG_TAG = "RegisterSocial";
 
     public UpdateUserRecord(Context context) {
+        URInterface.getComponent().inject(this);
         mContext = context;
     }
 
@@ -93,9 +99,6 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
     public void updateUserRecordRegister() {
 
         if (Jump.getSignedInUser() != null) {
-
-            AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
-            final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
             serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
                 @Override
                 public void onSuccess(String s, SOURCE source) {

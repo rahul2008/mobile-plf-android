@@ -13,10 +13,12 @@ public class AppInfraWrapper {
 
     private final AppInfraInterface appInfra;
     private final AppConfigurationError error;
+    private final AppConfigurationInterface appConfigurationInterface;
 
 
     public AppInfraWrapper(AppInfraInterface appInfra) {
         this.appInfra = appInfra;
+        appConfigurationInterface = appInfra.getConfigInterface();
         error = new AppConfigurationError();
     }
 
@@ -29,9 +31,7 @@ public class AppInfraWrapper {
     }
 
     private Object getProperty(String key, String group) {
-        AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
         Object property = appConfigurationInterface.getPropertyForKey(key, group, error);
         return property;
     }
-
 }
