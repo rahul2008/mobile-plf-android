@@ -117,6 +117,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private boolean downloadInProgress;
     private ArrayDeque<DownloadItemListener> downloadAwaiters;
     private ReentrantLock downloadLock;
+    private String mCountry;
+    private String mCountryCode;
 
     /**
      * Instantiates a new Service discovery manager.
@@ -775,8 +777,10 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         SecureStorageInterface ssi = mAppInfra.getSecureStorage();
         SecureStorage.SecureStorageError mSecureStorage = new SecureStorage.SecureStorageError();
         if (countryCode.equals(COUNTRY)) {
+            this.mCountry = country;
             ssi.storeValueForKey(COUNTRY, country, mSecureStorage);
         } else if (countryCode.equals(COUNTRY_SOURCE)) {
+            this.mCountryCode = country;
             ssi.storeValueForKey(COUNTRY_SOURCE, country, mSecureStorage);
         }
     }
@@ -786,9 +790,17 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         String value = null;
         if (countrySource.equals(COUNTRY)) {
-            value = ssi.fetchValueForKey(COUNTRY, sse);
+            if(mCountry != null) {
+                value = mCountry;
+            } else {
+                value = ssi.fetchValueForKey(COUNTRY, sse);
+            }
         } else if (countrySource.equals(COUNTRY_SOURCE)) {
-            value = ssi.fetchValueForKey(COUNTRY_SOURCE, sse);
+            if(mCountryCode != null) {
+                value = mCountryCode;
+            } else {
+                value = ssi.fetchValueForKey(COUNTRY_SOURCE, sse);
+            }
         }
         return value;
     }
