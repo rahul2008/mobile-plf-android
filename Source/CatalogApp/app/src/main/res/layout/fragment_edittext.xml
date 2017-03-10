@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
-        <import type="android.view.View"/>
-        <variable name="texteditBoxfragment"
-                  type="com.philips.platform.catalogapp.fragments.EditTextFragment"></variable>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="texteditBoxfragment"
+            type="com.philips.platform.catalogapp.fragments.EditTextFragment"></variable>
     </data>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="never">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,7 +31,7 @@
                     android:layout_marginRight="@dimen/layout_margin_left_right"
                     android:layout_weight="1"
                     android:gravity="center_vertical|start"
-                    android:text="@string/disabled"/>
+                    android:text="@string/disabled" />
 
                 <com.philips.platform.uid.view.widget.Switch
                     android:id="@+id/toggledisabled"
@@ -36,10 +41,10 @@
                     android:layout_marginRight="@dimen/layout_margin_left_right"
                     android:layout_weight="1"
                     android:gravity="center_vertical|end"
-                    android:onCheckedChanged="@{(v, isChecked) -> texteditBoxfragment.disabledEditboxes(isChecked)}"/>
+                    android:onCheckedChanged="@{(v, isChecked) -> texteditBoxfragment.disabledEditboxes(isChecked)}" />
             </LinearLayout>
 
-            <include layout="@layout/divider_layout"/>
+            <include layout="@layout/divider_layout" />
 
             <!--Extra layout-->
             <LinearLayout
@@ -52,7 +57,7 @@
                     android:layout_marginRight="@dimen/layout_margin_left_right"
                     android:layout_weight="1"
                     android:gravity="center_vertical|start"
-                    android:text="@string/with_label"/>
+                    android:text="@string/with_label" />
 
                 <com.philips.platform.uid.view.widget.Switch
                     android:id="@+id/toggleWithLabel"
@@ -63,15 +68,48 @@
                     android:layout_weight="1"
                     android:checked="true"
                     android:gravity="center_vertical|end"
-                    android:onCheckedChanged="@{(v, isChecked) -> texteditBoxfragment.showWithLabel(isChecked)}"/>
+                    android:onCheckedChanged="@{(v, isChecked) -> texteditBoxfragment.showWithLabel(isChecked)}" />
             </LinearLayout>
 
-            <include layout="@layout/divider_layout"/>
+            <include layout="@layout/divider_layout" />
 
+            <!--Data Validation layout-->
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.MarginTop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/layout_margin_left_right"
+                android:layout_marginTop="@dimen/layout_margin_top_bottom"
+                android:text="@string/data_validation" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupTemplates"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/layout_margin_top_bottom"
+                android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/inline"
+                    style="@style/RecyclerViewRadioButton"
+                    android:checked="@{texteditBoxfragment.isInlineValidation}"
+                    android:text="@string/inline_validation"
+                    android:onClick="@{() -> texteditBoxfragment.changeValidation()}"
+                    />
+
+                <RadioButton
+                    android:id="@+id/tooltip"
+                    style="@style/RecyclerViewRadioButton"
+                    android:checked="@{!texteditBoxfragment.isInlineValidation}"
+                    android:text="@string/tooltip_validation"
+                    android:onClick="@{() -> texteditBoxfragment.changeValidation()}"
+                    />
+            </RadioGroup>
 
             <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
-                android:text="@string/label_textboxes"/>
+                android:text="@string/label_textboxes" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -90,16 +128,14 @@
                     android:layout_gravity="start"
                     android:layout_marginTop="@dimen/component_bottom_spacing"
                     android:text="@string/label_input_field"
-                    android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}"/>
+                    android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}" />
 
-                <com.philips.platform.uid.view.widget.EditText
+                <com.philips.platform.uid.view.widget.TextInputLayout
                     android:id="@+id/textbox_input_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/component_bottom_spacing"
-                    android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}"
-                    android:hint="@string/hint_text"
-                    android:inputType="text"/>
+                    android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}" />
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/label_input_password"
@@ -108,18 +144,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/component_bottom_spacing"
                     android:text="@string/label_password"
-                    android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}"/>
+                    android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}" />
 
                 <com.philips.platform.uid.view.widget.EditText
                     android:id="@+id/textbox_input_password"
-                    android:imeOptions="flagNoExtractUi"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/component_bottom_spacing"
                     android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}"
                     android:hint="@string/password_hint_text"
+                    android:imeOptions="flagNoExtractUi"
                     android:inputType="textPassword"
-                    android:maxLines="1"/>
+                    android:maxLines="1" />
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/label_number"
@@ -129,7 +165,7 @@
                     android:layout_gravity="start"
                     android:layout_marginTop="@dimen/component_bottom_spacing"
                     android:text="@string/label_number"
-                    android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}"/>
+                    android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}" />
 
                 <com.philips.platform.uid.view.widget.EditText
                     android:id="@+id/textbox_input_number"
@@ -140,7 +176,7 @@
                     android:freezesText="true"
                     android:hint="@string/hint_text_number"
                     android:inputType="number"
-                    android:maxLines="1"/>
+                    android:maxLines="1" />
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/label_email"
@@ -150,7 +186,7 @@
                     android:layout_gravity="start"
                     android:layout_marginTop="@dimen/component_bottom_spacing"
                     android:text="@string/label_email"
-                    android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}"/>
+                    android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}" />
 
                 <com.philips.platform.uid.view.widget.EditText
                     android:id="@+id/textbox_input_email"
@@ -161,7 +197,7 @@
                     android:hint="@string/hint_email"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    app:uidInputTextWithClearButton="true"/>
+                    app:uidInputTextWithClearButton="true" />
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/label_multiline_input"
@@ -171,7 +207,7 @@
                     android:layout_gravity="start"
                     android:layout_marginTop="@dimen/component_bottom_spacing"
                     android:text="@string/label_multiline_input_field"
-                    android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}"/>
+                    android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}" />
 
                 <com.philips.platform.uid.view.widget.EditText
                     android:id="@+id/textbox_input_multiline"
@@ -180,7 +216,7 @@
                     android:layout_marginTop="@dimen/component_bottom_spacing"
                     android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}"
                     android:gravity="top"
-                    android:hint="@string/dialog_screen_short_content_text"/>
+                    android:hint="@string/dialog_screen_short_content_text" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

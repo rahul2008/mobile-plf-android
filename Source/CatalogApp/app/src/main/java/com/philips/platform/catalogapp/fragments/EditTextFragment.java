@@ -19,14 +19,18 @@ import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentEdittextBinding;
 
 public class EditTextFragment extends BaseFragment {
+
+    FragmentEdittextBinding texteditboxBinding;
     public ObservableBoolean disableEditBoxes = new ObservableBoolean(Boolean.FALSE);
     public ObservableBoolean isWithLabel = new ObservableBoolean(Boolean.TRUE);
+    public ObservableBoolean isInlineValidation = new ObservableBoolean(Boolean.FALSE);
 
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        final FragmentEdittextBinding texteditboxBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_edittext, container, false);
+        texteditboxBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_edittext, container, false);
         texteditboxBinding.setTexteditBoxfragment(this);
+        texteditboxBinding.textboxInputField.getValidationEditText().setHint(R.string.hint_text);
         return texteditboxBinding.getRoot();
     }
 
@@ -66,9 +70,19 @@ public class EditTextFragment extends BaseFragment {
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         }
+        texteditboxBinding.textboxInputField.getValidationEditText().setEnabled(!toggle);
     }
 
     public void showWithLabel(boolean isChecked) {
         isWithLabel.set(isChecked);
+    }
+
+    public void changeValidation(){
+        int checkedRadioButtonId = texteditboxBinding.radioGroupTemplates.getCheckedRadioButtonId();
+        if (checkedRadioButtonId == R.id.inline) {
+            texteditboxBinding.textboxInputField.showError(getResources().getString(R.string.inline_error_message),R.drawable.ic_alarm);
+        } else if (checkedRadioButtonId == R.id.tooltip) {
+            texteditboxBinding.textboxInputField.clearError();
+        }
     }
 }
