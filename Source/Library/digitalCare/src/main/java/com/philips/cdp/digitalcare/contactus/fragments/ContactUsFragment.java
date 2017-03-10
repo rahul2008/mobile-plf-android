@@ -48,8 +48,6 @@ import com.philips.cdp.digitalcare.contactus.models.CdlsPhoneModel;
 import com.philips.cdp.digitalcare.contactus.models.CdlsResponseModel;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsParsingCallback;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsResponseParser;
-import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
-import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandlerObserver;
 import com.philips.cdp.digitalcare.request.RequestData;
@@ -277,8 +275,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 
     protected boolean isEmailButtonEnabled() {
-        ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager.getInstance().getConsumerProductInfo();
-        if (consumerProductInfo.getCategory() == null) {
+        if (DigitalCareConfigManager.getInstance().getEmailUrl() == null) {
             mEmail.setVisibility(View.GONE);
 
         } else {
