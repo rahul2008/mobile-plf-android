@@ -14,18 +14,17 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.URInterface;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.DEFAULT;
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
 
 public class RegistrationConfiguration {
 
@@ -114,15 +113,9 @@ public class RegistrationConfiguration {
      * @return String
      */
     public String getCampaignId() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        String campaignId = (String) RegistrationHelper.getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.PIL_CONFIGURATION_CAMPAIGN_ID, UR,
-                        configError);
+        String campaignId = appConfiguration.getCampaignId();
         if (null == campaignId) {
-            RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
-                    "Error Message : " + configError.toString());
+            RLog.e("RegistrationConfiguration", "Campaign ID is null");
         }
         return campaignId;
     }
@@ -152,13 +145,7 @@ public class RegistrationConfiguration {
      * @return boolean
      */
     public boolean isEmailVerificationRequired() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        Object obj = RegistrationHelper.
-                getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.FLOW_EMAIL_VERIFICATION_REQUIRED
-                        , UR, configError);
+        Object obj = appConfiguration.getEmailVerificationRequired();
         if (obj != null) {
             return Boolean.parseBoolean((String) obj);
         }
@@ -172,14 +159,7 @@ public class RegistrationConfiguration {
      * @return boolean
      */
     public boolean isTermsAndConditionsAcceptanceRequired() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-
-        Object obj = RegistrationHelper.
-                getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.
-                        FLOW_TERMS_AND_CONDITIONS_ACCEPTANCE_REQUIRED, UR, configError);
+        Object obj = appConfiguration.getTermsAndConditionsAcceptanceRequired();
         if (obj != null) {
             return Boolean.parseBoolean((String) obj);
         }
@@ -194,13 +174,7 @@ public class RegistrationConfiguration {
      */
     public int getMinAgeLimitByCountry(String countryCode) {
         try {
-            AppConfigurationInterface.AppConfigurationError configError = new
-                    AppConfigurationInterface.AppConfigurationError();
-            Object obj = RegistrationHelper.
-                    getInstance().getAppInfraInstance().
-                    getConfigInterface().
-                    getPropertyForKey(URConfigurationConstants.FLOW_MINIMUM_AGE_LIMIT
-                            , UR, configError);
+            Object obj = appConfiguration.getMinimunAgeObject();
             if (obj != null) {
                 JSONObject jsonObject = new JSONObject((String)obj);
                 if(!jsonObject.isNull(countryCode)){
@@ -247,30 +221,8 @@ public class RegistrationConfiguration {
      * @return List of providers
      */
     public ArrayList<String> getProvidersForCountry(String countryCode) {
-
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-
-
-        Object obj = RegistrationHelper.
-                getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.SIGNIN_PROVIDERS +
-                        countryCode, UR, configError);
-
-        if (obj != null) {
-            return (ArrayList<String>) obj;
-        }
-
-        obj = RegistrationHelper.
-                getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.SIGNIN_PROVIDERS +
-                        DEFAULT, UR, configError);
-        if (obj != null) {
-            return (ArrayList<String>) obj;
-        }
-        return null;
+        List<String> providers = appConfiguration.getProvidersForCountry(countryCode);
+        return (ArrayList<String>) providers;
     }
 
 

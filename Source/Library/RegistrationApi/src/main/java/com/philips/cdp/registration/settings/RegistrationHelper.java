@@ -24,7 +24,6 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.ntputils.ServerTime;
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
@@ -48,6 +47,9 @@ public class RegistrationHelper {
 
     @Inject
     ABTestClientInterface abTestClientInterface;
+
+    @Inject
+    AppTaggingInterface appTaggingInterface;
 
     private String countryCode;
 
@@ -83,19 +85,6 @@ public class RegistrationHelper {
         }
         return mRegistrationHelper;
     }
-
-    private AppInfraInterface appInfra;
-
-    public void setAppInfraInstance(AppInfraInterface appInfra) {
-        this.appInfra = appInfra;
-    }
-
-    public AppInfraInterface getAppInfraInstance() {
-        return appInfra;
-    }
-
-    @Inject
-    AppTaggingInterface appTaggingInterface;
 
     public AppTaggingInterface getAppTaggingInterface() {
         if (appTaggingInterface == null) {

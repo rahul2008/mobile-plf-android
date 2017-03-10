@@ -26,6 +26,7 @@ import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.ntputils.ServerTime;
 import com.philips.ntputils.constants.ServerTimeConstants;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.timesync.TimeInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +40,9 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
 
     @Inject
     ServiceDiscoveryInterface serviceDiscoveryInterface;
+
+    @Inject
+    TimeInterface timeInterface;
 
     private String CONSUMER_TIMESTAMP = "timestamp";
 
@@ -113,7 +117,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                     // visitedMicroSites
                     try {
 
-                        ServerTime.init(RegistrationHelper.getInstance().getAppInfraInstance().getTime());
+                        ServerTime.init(timeInterface);
                         String currentDate = ServerTime.getCurrentUTCTimeWithFormat(DATE_FORMAT);
                         JSONObject visitedMicroSitesObject = new JSONObject();
                         visitedMicroSitesObject.put(RegistrationSettings.MICROSITE_ID, microSiteId);
@@ -188,7 +192,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                     RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
             String microSiteId = myPrefs.getString(RegistrationSettings.MICROSITE_ID, null);
             try {
-                ServerTime.init(RegistrationHelper.getInstance().getAppInfraInstance().getTime());
+                ServerTime.init(timeInterface);
                 String currentDate = ServerTime.getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP);
 
                 JSONObject visitedMicroSitesObject = new JSONObject();

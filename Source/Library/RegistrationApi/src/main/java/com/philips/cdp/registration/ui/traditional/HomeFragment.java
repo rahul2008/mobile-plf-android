@@ -440,12 +440,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void showCountrySelection() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        mShowCountrySelection = (String) RegistrationHelper.getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.SHOW_COUNTRY_SELECTION, UR,
-                        configError);
+        mShowCountrySelection = appConfiguration.getShowCountrySelection();
         RLog.d(RLog.SERVICE_DISCOVERY, " Country Show Country Selection :" + mShowCountrySelection);
         if (mShowCountrySelection!=null)
         {

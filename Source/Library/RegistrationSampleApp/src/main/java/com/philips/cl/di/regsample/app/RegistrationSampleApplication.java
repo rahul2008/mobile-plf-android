@@ -295,5 +295,9 @@ public class RegistrationSampleApplication extends Application {
                 break;
         }
     }
+
+    public AppInfraInterface getAppInfra() {
+        return mAppInfraInterface;
+    }
 }
 

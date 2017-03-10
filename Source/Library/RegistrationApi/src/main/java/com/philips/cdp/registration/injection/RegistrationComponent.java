@@ -26,6 +26,7 @@ import com.philips.cdp.registration.ui.traditional.mobile.MobileForgotPasswordVe
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
 import com.philips.cdp.registration.ui.utils.NetworkStateReceiver;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
+import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
@@ -45,6 +46,8 @@ public interface RegistrationComponent {
     LoggingInterface getLoggingInterface();
 
     ServiceDiscoveryInterface getServiceDiscoveryInterface();
+
+    ABTestClientInterface getAbTestClientInterface();
 
     void inject(User user);
 
