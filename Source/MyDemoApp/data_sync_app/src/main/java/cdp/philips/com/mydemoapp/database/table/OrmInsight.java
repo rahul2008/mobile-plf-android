@@ -76,6 +76,10 @@ public class OrmInsight implements Insight, Serializable {
     ForeignCollection<OrmInsightMetaData> ormInsightMetaDatas = new EmptyForeignCollection<>();
 
     @DatabaseConstructor
+    public OrmInsight() {
+    }
+
+    @DatabaseConstructor
     public OrmInsight(String guid, String last_modified, boolean inactive, int version, String rule_id,
                       String subjectID, String moment_id, String type, String time_stamp, String title,
                       int program_min_version, int program_max_version) {

@@ -158,6 +158,12 @@ public class BaseAppCore implements BaseAppDataCreator {
 
     @NonNull
     @Override
+    public Insight createInsight() {
+        return database.createInsight();
+    }
+
+    @NonNull
+    @Override
     public InsightMetadata createInsightMetaData(String key, String value ,Insight insight) {
         return database.createInsightMetaData(key,value,insight);
     }

@@ -348,4 +348,14 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
         return insightQueryBuilder.queryForFirst();
     }
+
+    @Override
+    public List<?> fetchNonSynchronizedInsights() throws SQLException {
+        DSLog.i(DSLog.LOG, "In OrmFetchingInterfaceImpl fetchNonSynchronizedMoments");
+        QueryBuilder<OrmInsight, Integer> insightQueryBuilder = ormInsightDao.queryBuilder();
+        DSLog.i(DSLog.LOG, "In OrmFetchingInterfaceImpl after query builder");
+        insightQueryBuilder.where().eq(SYNCED_FIELD, false);
+        DSLog.i(DSLog.LOG, "In OrmFetchingInterfaceImpl after where and before query");
+        return insightQueryBuilder.query();
+    }
 }

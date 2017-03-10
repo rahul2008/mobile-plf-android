@@ -60,4 +60,6 @@ public interface DBFetchingInterface {
     Insight fetchInsightByGuid(@NonNull final String guid) throws SQLException;
 
     Insight fetchInsightById(final int id, DBFetchRequestListner dbFetchRequestListner) throws SQLException;
+
+    List<?> fetchNonSynchronizedInsights() throws SQLException;
 }

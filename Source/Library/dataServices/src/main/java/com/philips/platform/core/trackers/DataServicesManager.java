@@ -37,7 +37,9 @@ import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
 import com.philips.platform.core.events.InsightBackendDeleteRequest;
+import com.philips.platform.core.events.InsightDeleteDBRequest;
 import com.philips.platform.core.events.LoadConsentsRequest;
+import com.philips.platform.core.events.LoadInsightsRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
 import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
@@ -435,9 +437,10 @@ public class DataServicesManager {
 
     //Insight
     public void fetchInsights(DBFetchRequestListner dbFetchRequestListner){
+        mEventing.post(new LoadInsightsRequest(dbFetchRequestListner));
     }
 
-    public void deleteInsights(List<? extends Insight> insights){
-        mEventing.post(new InsightBackendDeleteRequest(insights));
+    public void deleteInsights(List<? extends Insight> insights,DBRequestListener dbRequestListener){
+        mEventing.post(new InsightDeleteDBRequest((List<Insight>) insights,dbRequestListener));
     }
 }

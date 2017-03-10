@@ -72,5 +72,8 @@ public interface BaseAppDataCreator {
     Insight createInsight(UCoreInsight uCoreInsight);
 
     @NonNull
+    Insight createInsight();
+
+    @NonNull
     InsightMetadata createInsightMetaData(String key, String value, Insight insight);
 }

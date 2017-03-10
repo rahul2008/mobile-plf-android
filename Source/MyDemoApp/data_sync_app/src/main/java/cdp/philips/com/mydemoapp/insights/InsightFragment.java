@@ -9,12 +9,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.Insight;
+import com.philips.platform.core.datatypes.SyncType;
+import com.philips.platform.core.listeners.DBChangeListener;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
+import com.philips.platform.core.listeners.DBRequestListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import cdp.philips.com.mydemoapp.R;
 
-public class InsightFragment extends Fragment {
+public class InsightFragment extends Fragment implements DBRequestListener<Insight>,DBFetchRequestListner<Insight>,DBChangeListener {
     InsightAdapter mInsightAdapter;
     List<InsightDisplayModel> mInsightDisplayModelList;
     RecyclerView mInsightsRecyclerView;
@@ -47,6 +54,37 @@ public class InsightFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void dBChangeSuccess(SyncType type) {
+
+    }
+
+    @Override
+    public void dBChangeFailed(Exception e) {
+
+    }
+
+    @Override
+    public void onFetchSuccess(List<? extends Insight> data) {
+        mInsightAdapter.notifyDataSetChanged();
+        mInsightsRecyclerView.setAdapter(mInsightAdapter);
+    }
+
+    @Override
+    public void onFetchFailure(Exception exception) {
+
+    }
+
+    @Override
+    public void onSuccess(List<? extends Insight> data) {
+
+    }
+
+    @Override
+    public void onFailure(Exception exception) {
+
     }
 }
 

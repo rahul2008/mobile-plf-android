@@ -152,6 +152,12 @@ public class OrmCreator implements BaseAppDataCreator {
 
     @NonNull
     @Override
+    public Insight createInsight() {
+        return new OrmInsight();
+    }
+
+    @NonNull
+    @Override
     public InsightMetadata createInsightMetaData(String key, String value, Insight insight) {
         return new OrmInsightMetaData(key, value, (OrmInsight) insight);
     }

@@ -4,6 +4,7 @@
  */
 package com.philips.platform.datasync.insights;
 
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SynchronisationData;
@@ -17,6 +18,7 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -145,6 +147,17 @@ public class InsightSegregator {
                                                        final Insight insight) {
         return insightInDatabase != null &&
                 !insight.getTimeStamp().equals(insightInDatabase.getTimeStamp());
+    }
+
+    public Map<Class, List<?>> putInsightForSync(Map<Class, List<?>> dataToSync) {
+        List<? extends Insight> insights = null;
+        try {
+            insights = (List<? extends Insight>) dbFetchingInterface.fetchNonSynchronizedInsights();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        dataToSync.put(Insight.class, insights);
+        return dataToSync;
     }
 
 }
