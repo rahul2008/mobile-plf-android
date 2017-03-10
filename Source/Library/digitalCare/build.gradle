@@ -197,7 +197,7 @@ dependencies {
     {
            transitive = true
     }
-    compile 'com.google.android.gms:play-services-maps:7.5.0'
+    compile 'com.google.android.gms:play-services-maps:10.2.0'
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

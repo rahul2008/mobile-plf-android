@@ -349,7 +349,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
      */
     @SuppressWarnings("static-access")
     protected String getAppName() {
-        String appName = getActivity().getString(R.string.app_name);
+        String appName = getActivity().getResources().getString(R.string.app_name);
         try {
             int metaData = PackageManager.GET_META_DATA;
             ApplicationInfo appInfo = getActivity().getPackageManager().getApplicationInfo

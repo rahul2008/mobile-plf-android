@@ -27,6 +27,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
@@ -54,6 +55,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -104,8 +106,8 @@ import java.util.Map;
  */
 @SuppressLint({"SetJavaScriptEnabled", "DefaultLocale"})
 public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
-        OnItemClickListener, onMapReadyListener, OnMarkerClickListener,
-        ResponseCallback, OnMapClickListener {
+        OnItemClickListener, OnMarkerClickListener,
+        ResponseCallback, OnMapClickListener, OnMapReadyCallback {
 
     private static final String TAG = LocatePhilipsFragment.class
             .getSimpleName();
@@ -305,21 +307,21 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     protected String getAtosUrl(String ctn, String subcategory, String country) {
 
-        HashMap<String,String> hm=new HashMap<String,String>();
+        HashMap<String, String> hm = new HashMap<String, String>();
         hm.put(DigitalCareConstants.KEY_PRODUCT_SUBCATEGORY, subcategory);
-        hm.put(DigitalCareConstants.KEY_LATITUDE,""+mSourceLat);
-        hm.put(DigitalCareConstants.KEY_LONGITUDE,""+mSourceLng);
+        hm.put(DigitalCareConstants.KEY_LATITUDE, "" + mSourceLat);
+        hm.put(DigitalCareConstants.KEY_LONGITUDE, "" + mSourceLng);
 
         DigitalCareConfigManager.getInstance().getAPPInfraInstance().getServiceDiscovery().getServiceUrlWithCountryPreference(DigitalCareConstants.SERVICE_ID_CC_ATOS, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onSuccess(URL url) {
-                DigiCareLogger.v(TAG,"Response from Service Discovery : Service ID : 'cc.atos' - "+url);
+                DigiCareLogger.v(TAG, "Response from Service Discovery : Service ID : 'cc.atos' - " + url);
                 DigitalCareConfigManager.getInstance().setAtosUrl(url.toString());
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-                DigiCareLogger.v(TAG,"Error Response from Service Discovery :"+s);
+                DigiCareLogger.v(TAG, "Error Response from Service Discovery :" + s);
             }
         }, hm);
 
@@ -447,12 +449,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
         try {
             DigiCareLogger.v(TAG, "Initializing Google Map");
-            mMap = ((SupportMapFragment) this.getFragmentManager()
-                    .findFragmentById(R.id.map)).getMap();
-            if (mMap != null) {
-                initView();
-
-            }
+            ((SupportMapFragment) this.getFragmentManager()
+                    .findFragmentById(R.id.map)).getMapAsync(this);
         } catch (NullPointerException e) {
             DigiCareLogger
                     .v(TAG,
@@ -461,8 +459,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             mMapFragment = GoogleMapFragment.newInstance();
             getChildFragmentManager().beginTransaction()
                     .replace(R.id.map, mMapFragment).commit();
-            mMap = mMapFragment.getMap();
-
+            mMapFragment.getMapAsync(this);
         }
 
     }
@@ -495,10 +492,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             if (hasPermission != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                         REQUEST_CODE_ASK_PERMISSIONS);
+            } else {
+                getCurrentLocation();
             }
-			else {
-				getCurrentLocation();
-			}
         } else {
             getCurrentLocation();
         }
@@ -596,11 +592,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     }
 
     private void createBitmap() {
-        int[] attribute = new int[] { R.attr.uikit_baseColor };
+        int[] attribute = new int[]{R.attr.uikit_baseColor};
         TypedArray array = getContext().getTheme().obtainStyledAttributes(attribute);
         int color = array.getColor(0, Color.TRANSPARENT);
         array.recycle();
-        mBitmapMarker = CustomFontIcon.getFontBitmap(getContext(),getResources().getString(R.string.icon_marker), color,32);
+        mBitmapMarker = CustomFontIcon.getFontBitmap(getContext(), getResources().getString(R.string.icon_marker), color, 32);
     }
 
     /**
@@ -661,13 +657,15 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     }
 
     private void locateCurrentPosition() {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+           return;
+        }
         Location location = mLocationManager.getLastKnownLocation(provider);
         updateWithNewLocation(location);
         //mLocationManager.addGpsStatusListener(this);
         long minTime = 5000;// ms
         float minDist = 5.0f;// meter
-        mLocationManager.requestLocationUpdates(provider, minTime, minDist,
-                locationListener);
+        mLocationManager.requestLocationUpdates(provider, minTime, minDist,locationListener);
     }
 
     private void setMapType(double lat, double lng) {
@@ -1105,11 +1103,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     }
 
     @Override
-    public void onMapReady() {
-        mMap = mMapFragment.getMap();
-        if (mMap != null) {
-            initView();
-        }
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        initView();
         DigiCareLogger.v(TAG, "onMAP Ready Callback : " + mMap);
     }
 
