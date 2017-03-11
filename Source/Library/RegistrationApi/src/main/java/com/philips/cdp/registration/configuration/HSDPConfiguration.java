@@ -1,7 +1,5 @@
 package com.philips.cdp.registration.configuration;
 
-import android.text.TextUtils;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
@@ -15,30 +13,30 @@ public class HSDPConfiguration extends BaseConfiguration {
     private static final String URL_ENCODING_FORMAT = "UTF-8";
 
     public String getHsdpAppName() {
-        Object appNameObject = getConfigObject(HSDP_CONFIGURATION_APPLICATION_NAME);
+        Object appNameObject = appInfraWrapper.getURProperty(HSDP_CONFIGURATION_APPLICATION_NAME);
         return getConfigPropertyValue(appNameObject);
     }
 
     public String getHsdpSharedId() {
-        Object sharedIdObject = getConfigObject(HSDP_CONFIGURATION_SHARED);
+        Object sharedIdObject = appInfraWrapper.getURProperty(HSDP_CONFIGURATION_SHARED);
         return getConfigPropertyValue(sharedIdObject);
     }
 
     public String getHsdpSecretId() {
-        Object secretIdObject = getConfigObject(HSDP_CONFIGURATION_SECRET);
+        Object secretIdObject = appInfraWrapper.getURProperty(HSDP_CONFIGURATION_SECRET);
         return getConfigPropertyValue(secretIdObject);
     }
 
     public String getHsdpBaseUrl() {
         String baseUrlAppConfig = getBaseUrlFromHsdpConfig();
-        if (TextUtils.isEmpty(baseUrlAppConfig)) {
+        if (baseUrlAppConfig == null || baseUrlAppConfig.isEmpty()) {
             return baseUrlServiceDiscovery;
         }
         return baseUrlAppConfig;
     }
 
     private String getBaseUrlFromHsdpConfig() {
-        Object baseUrlObject = getConfigObject(HSDP_CONFIGURATION_BASE_URL);
+        Object baseUrlObject = appInfraWrapper.getURProperty(HSDP_CONFIGURATION_BASE_URL);
         String baseUrl = getDecodedBaseUrl(baseUrlObject);
         return baseUrl;
     }

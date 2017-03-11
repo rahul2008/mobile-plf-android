@@ -9,7 +9,7 @@
 package com.philips.cdp.registration.configuration;
 
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.registration.app.infra.AppInfraWrapper;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -30,10 +30,6 @@ public class BaseConfiguration {
         URInterface.getComponent().inject(this);
     }
 
-    protected Object getConfigObject(String key) {
-        return appInfraWrapper.getURProperty(key);
-    }
-
     @Nullable
     protected String getConfigPropertyValue(Object property) {
         if(property == null) {
@@ -50,9 +46,15 @@ public class BaseConfiguration {
 
     private String getPropertyValueFromMap(Map property) {
         String propertyValue = (String) property.get(RegistrationHelper.getInstance().getCountryCode());
-        if (TextUtils.isEmpty(propertyValue)) {
+        if (propertyValue == null || propertyValue.isEmpty()) {
             propertyValue = (String) property.get(DEFAULT_PROPERTY_KEY);
         }
         return propertyValue;
+    }
+
+    @Deprecated
+    @VisibleForTesting
+    protected void setAppInfraWrapper(AppInfraWrapper appInfraWrapper) {
+        this.appInfraWrapper = appInfraWrapper;
     }
 }
