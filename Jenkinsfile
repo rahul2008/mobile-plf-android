@@ -3,7 +3,7 @@
 // check if the job was started by a timer
 @NonCPS
 def isJobStartedByTimer() {
-    def startedByTimer = false
+    def startedByTimer = "FALSE"
     try {
         def buildCauses = currentBuild.rawBuild.getCauses()
         for ( buildCause in buildCauses ) {
@@ -11,7 +11,7 @@ def isJobStartedByTimer() {
                 def causeDescription = buildCause.getShortDescription()
                 echo "shortDescription: ${causeDescription}"
                 if (causeDescription.contains("Started by timer")) {
-                    startedByTimer = true
+                    startedByTimer = "TRUE"
                 }
             }
         }
@@ -124,9 +124,8 @@ node('Android && 25.0.0 && Ubuntu') {
 
     stage('Send Notifications') {
       step([$class: 'StashNotifier'])
-      // step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: emailextrecipients([[$class: 'CulpritsRecipientProvider'], [$class: 'RequesterRecipientProvider']])])
-      if (STARTED_BY_TIMER == "true")
-      {
+      if(STARTED_BY_TIMER == "TRUE") {
+            step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: emailextrecipients([[$class: 'CulpritsRecipientProvider'], [$class: 'RequesterRecipientProvider']])])
             step([$class: 'Mailer', notifyEveryUnstableBuild: false, recipients: 'arjen.van.der.weijden@philips.com', sendToIndividuals: true])
       }
     }
