@@ -1,5 +1,27 @@
 #!/usr/bin/env groovy
 
+// check if the job was started by a timer
+@NonCPS
+def isJobStartedByTimer() {
+    def startedByTimer = false
+    try {
+        def buildCauses = currentBuild.rawBuild.getCauses()
+        for ( buildCause in buildCauses ) {
+            if (buildCause != null) {
+                def causeDescription = buildCause.getShortDescription()
+                echo "shortDescription: ${causeDescription}"
+                if (causeDescription.contains("Started by timer")) {
+                    startedByTimer = true
+                }
+            }
+        }
+    } catch(theError) {
+        echo "Error getting build cause"
+    }
+ 
+    return startedByTimer
+}
+
 properties([
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']],
     pipelineTriggers([cron('H/5 * * * *')]),
@@ -28,12 +50,7 @@ node('Android && 25.0.0 && Ubuntu') {
     def VERSION = ""
     def ANDROID_RELEASE_CANDIDATE = ""
     def ANDROID_VERSION_CODE = ""
-
-    def causes = currentBuild.rawBuild.getCauses()
-
-    for ( cause in causes) {
-        echo "Cause: " + cause.getShortDescription()
-    }
+    def STARTED_BY_TIMER = isJobStartedByTimer()
 
     stage('Checkout') {
 			checkout([$class: 'GitSCM', branches: [[name: '*/'+env.BRANCH_NAME]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CheckoutOption', timeout: 30], [$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'bbd4d9e8-2a6c-4970-b856-4e4cf901e857', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/uid-android']]])
@@ -66,7 +83,7 @@ node('Android && 25.0.0 && Ubuntu') {
               env | sort
               echo "----------------------- End of Environment ---------------------------"
 
-              echo "Build Cause: ${BUILD_CAUSE}"
+              echo "Started by timer: ${STARTED_BY_TIMER}"
 
               echo "Android Release Candidate: ${ANDROID_RELEASE_CANDIDATE}"
               echo "Android Version Code: ${ANDROID_VERSION_CODE}"
