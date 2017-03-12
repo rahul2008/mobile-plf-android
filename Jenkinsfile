@@ -1,30 +1,29 @@
 #!/usr/bin/env groovy
 
-// check if the job was started by a timer
+def buildCauses = []
+def causeDescription = ""
+def startedByTimer = false
+def triggers = []
+
 @NonCPS
 def isJobStartedByTimer() {
-    def startedByTimer = false
     try {
-        def buildCauses = currentBuild.rawBuild.getCauses()
-        for ( buildCause in buildCauses ) {
-            if (buildCause != null) {
-                def causeDescription = buildCause.getShortDescription()
-                echo "shortDescription: ${causeDescription}"
-                if (causeDescription.contains("Started by timer")) {
+        buildCauses = currentBuild.rawBuild.getCauses()
+        for(buildCause in buildCauses) {
+            if(buildCause != null) {
+                causeDescription = buildCause.getShortDescription()
+                if(causeDescription.contains("Started by timer")) {
                     startedByTimer = true
                 }
             }
         }
-    } catch(theError) {
-        echo "Error getting build cause"
+    } catch(err) {
+        echo "Error determining build cause"
     }
- 
     return startedByTimer
 }
 
-def triggers = []
-
-if (env.BRANCH_NAME == "feature_powersleep_develop") {
+if (env.BRANCH_NAME == "feature/upload_artifacts") {
     triggers << cron('H H(18-20) * * *')
 }
 
