@@ -124,7 +124,7 @@ node('Android && 25.0.0 && Ubuntu') {
 
     stage('Send Notifications') {
       step([$class: 'StashNotifier'])
-      if(startedByTimer) {
+      if(STARTED_BY_TIMER) {
             step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: emailextrecipients([[$class: 'CulpritsRecipientProvider'], [$class: 'RequesterRecipientProvider']])])
             step([$class: 'Mailer', notifyEveryUnstableBuild: false, recipients: 'arjen.van.der.weijden@philips.com', sendToIndividuals: true])
       }
