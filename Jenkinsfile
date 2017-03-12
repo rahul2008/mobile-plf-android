@@ -125,6 +125,10 @@ node('Android && 25.0.0 && Ubuntu') {
     stage('Send Notifications') {
       step([$class: 'StashNotifier'])
       step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: emailextrecipients([[$class: 'CulpritsRecipientProvider'], [$class: 'RequesterRecipientProvider']])])
+      if (STARTED_BY_TIMER == "true")
+      {
+            step([$class: 'Mailer', notifyEveryUnstableBuild: false, recipients: 'arjen.van.der.weijden@philips.com', sendToIndividuals: true])
+      }
     }
   }
 }
