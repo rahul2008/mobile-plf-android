@@ -1,17 +1,15 @@
 #!/usr/bin/env groovy
 
-def buildCauses = []
-def causeDescription = ""
-def startedByTimer = false
 def triggers = []
 
 @NonCPS
 def isJobStartedByTimer() {
+    def startedByTimer = false
     try {
-        buildCauses = currentBuild.rawBuild.getCauses()
+        def buildCauses = currentBuild.rawBuild.getCauses()
         for(buildCause in buildCauses) {
             if(buildCause != null) {
-                causeDescription = buildCause.getShortDescription()
+                def causeDescription = buildCause.getShortDescription()
                 if(causeDescription.contains("Started by timer")) {
                     startedByTimer = true
                 }
@@ -24,7 +22,8 @@ def isJobStartedByTimer() {
 }
 
 if (env.BRANCH_NAME == "feature/upload_artifacts") {
-    triggers << cron('H H(18-20) * * *')
+    triggers << cron('H/5 * * * *')
+    // triggers << cron('H H(18-20) * * *')
 }
 
 properties([
