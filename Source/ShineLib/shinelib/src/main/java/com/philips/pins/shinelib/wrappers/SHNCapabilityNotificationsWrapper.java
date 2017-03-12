@@ -13,6 +13,8 @@ import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityNotifications;
 
+import java.util.List;
+
 public class SHNCapabilityNotificationsWrapper implements SHNCapabilityNotifications {
 
     private final Handler internalHandler;
@@ -80,16 +82,15 @@ public class SHNCapabilityNotificationsWrapper implements SHNCapabilityNotificat
         });
     }
 
-
     @Override
-    public void getNotificationCapabilities(final Type type, final ResultListener<TransferGetCapabilitiesWithResult> shnResultListener) {
+    public void getNotificationCapabilities(final ResultListener<List<TransferGetCapabilitiesWithResult>> shnResultListener) {
 
         Runnable command = new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapabilityNotifications.getNotificationCapabilities(type, new ResultListener<TransferGetCapabilitiesWithResult>() {
+                wrappedShnCapabilityNotifications.getNotificationCapabilities(new ResultListener<List<TransferGetCapabilitiesWithResult>>() {
                     @Override
-                    public void onActionCompleted(TransferGetCapabilitiesWithResult value, @NonNull SHNResult result) {
+                    public void onActionCompleted(List<TransferGetCapabilitiesWithResult> value, @NonNull SHNResult result) {
                         shnResultListener.onActionCompleted(value, result);
                     }
                 });
@@ -99,23 +100,37 @@ public class SHNCapabilityNotificationsWrapper implements SHNCapabilityNotificat
         internalHandler.post(command);
     }
 
+
     @Override
-    public void setAlarm(final TransferGetCapabilitiesWithResult transferGetCapabilitiesWithResult, final int hours_u, final int minutes_u,
-                         final boolean repeatNotification, final short lifeTimeSeconds_u,
-                         final ResultListener<GetNotificationResult> shnResultListener) {
+    public void getNotifications(final NotificationID notificationID, final ResultListener<AlarmConfig> resultListener) {
         Runnable command = new Runnable() {
             @Override
             public void run() {
+                wrappedShnCapabilityNotifications.getNotifications(notificationID, new ResultListener<AlarmConfig>() {
+                    @Override
+                    public void onActionCompleted(AlarmConfig value, @NonNull SHNResult result) {
+                        resultListener.onActionCompleted(value, result);
+                    }
+                });
 
 
-                wrappedShnCapabilityNotifications.setAlarm(transferGetCapabilitiesWithResult, hours_u, minutes_u, repeatNotification,
-                        lifeTimeSeconds_u, new ResultListener<GetNotificationResult>() {
+            }
+        };
+        internalHandler.post(command);
+
+    }
+
+    @Override
+    public void setAlarmFinal(final AlarmConfig alarmConfig, final SHNResultListener resultListener) {
+        Runnable command = new Runnable() {
+            @Override
+            public void run() {
+                wrappedShnCapabilityNotifications.setAlarmFinal(alarmConfig,
+                        new SHNResultListener() {
                             @Override
-                            public void onActionCompleted(GetNotificationResult value, @NonNull SHNResult result) {
-                                shnResultListener.onActionCompleted(value, result);
+                            public void onActionCompleted(SHNResult result) {
+                                resultListener.onActionCompleted(result);
                             }
-
-
                         });
 
             }
@@ -124,17 +139,16 @@ public class SHNCapabilityNotificationsWrapper implements SHNCapabilityNotificat
     }
 
     @Override
-    public void removeAllNotification(final ResultListener<GetRemoveNotification> shnResultListener) {
+    public void removeAllNotification(final SHNResultListener shnResultListener) {
         Runnable command = new Runnable() {
             @Override
             public void run() {
-
-
-                wrappedShnCapabilityNotifications.removeAllNotification(new ResultListener<GetRemoveNotification>() {
+                wrappedShnCapabilityNotifications.removeAllNotification(new SHNResultListener() {
                     @Override
-                    public void onActionCompleted(GetRemoveNotification value, @NonNull SHNResult result) {
-                        shnResultListener.onActionCompleted(value, result.SHNOk);
+                    public void onActionCompleted(SHNResult result) {
+                        shnResultListener.onActionCompleted(result.SHNOk);
                     }
+
                 });
 
             }
@@ -149,8 +163,6 @@ public class SHNCapabilityNotificationsWrapper implements SHNCapabilityNotificat
         Runnable command = new Runnable() {
             @Override
             public void run() {
-
-
                 wrappedShnCapabilityNotifications.removedAtIndex(notificationID, notificationType,
                         new ResultListener<GetNotificationResult>() {
                             @Override
