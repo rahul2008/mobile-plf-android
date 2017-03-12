@@ -1,7 +1,8 @@
 #!/usr/bin/env groovy
 
 properties([
-    [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']]
+    [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']],
+    pipelineTriggers([cron('H/5 * * * *')]),
 ])
 
 def getBuildConfig() {
