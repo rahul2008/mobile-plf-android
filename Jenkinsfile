@@ -24,6 +24,7 @@ stage('Espresso testing') {
 node('Android && 25.0.0 && Ubuntu') {
   timestamps {
     def APP_ROOT = "Source/CatalogApp"
+    def BUILD_CAUSE = env.BUILD_CAUSE
     def CONFIG = getBuildConfig()
     def VERSION = ""
     def ANDROID_RELEASE_CANDIDATE = ""
@@ -59,6 +60,8 @@ node('Android && 25.0.0 && Ubuntu') {
               echo "---------------------- Printing Environment --------------------------"
               env | sort
               echo "----------------------- End of Environment ---------------------------"
+
+              echo "Build Cause: ${BUILD_CAUSE}"
 
               echo "Android Release Candidate: ${ANDROID_RELEASE_CANDIDATE}"
               echo "Android Version Code: ${ANDROID_VERSION_CODE}"
