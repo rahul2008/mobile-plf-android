@@ -22,8 +22,7 @@ def isJobStartedByTimer() {
 }
 
 if (env.BRANCH_NAME == "feature/upload_artifacts") {
-    triggers << cron('H/5 * * * *')
-    // triggers << cron('H H(18-20) * * *')
+    triggers << cron('H H(18-20) * * *')
 }
 
 properties([
