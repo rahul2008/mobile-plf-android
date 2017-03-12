@@ -22,26 +22,32 @@ def isJobStartedByTimer() {
     return startedByTimer
 }
 
+def triggers = []
+
+if (env.BRANCH_NAME == "feature_powersleep_develop") {
+    triggers << cron('H H(18-20) * * *')
+}
+
 properties([
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']],
-    pipelineTriggers([cron('H/5 * * * *')]),
+    pipelineTriggers(triggers),
 ])
 
 def getBuildConfig() {
   return ( env.BRANCH_NAME == 'master' ) ? 'Release' : 'Debug'
 }
 
-// stage('Espresso testing') {
-//     timestamps {
-//         node('android && espresso && mobile') {
-//             checkout([$class: 'GitSCM', branches: [[name: '*/'+env.BRANCH_NAME]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CheckoutOption', timeout: 30], [$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'bbd4d9e8-2a6c-4970-b856-4e4cf901e857', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/uid-android']]])
-//             bat "espresso.cmd"
-//             publishHTML(target: [reportDir:'Source/UIKit/uid/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'Unit Tests'])
-//             publishHTML(target: [reportDir:'Source/UIKit/uid/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'Code Coverage'])
-//            step([$class: 'ArtifactArchiver', artifacts: 'Source/UIKit/uid/build/reports/coverage/debug/report.xml', excludes: null, fingerprint: true, onlyIfSuccessful: true])
-//         }
-//     }
-// }
+stage('Espresso testing') {
+    timestamps {
+        node('android && espresso && mobile') {
+            checkout([$class: 'GitSCM', branches: [[name: '*/'+env.BRANCH_NAME]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CheckoutOption', timeout: 30], [$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'bbd4d9e8-2a6c-4970-b856-4e4cf901e857', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/uid-android']]])
+            bat "espresso.cmd"
+            publishHTML(target: [reportDir:'Source/UIKit/uid/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'Unit Tests'])
+            publishHTML(target: [reportDir:'Source/UIKit/uid/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'Code Coverage'])
+           step([$class: 'ArtifactArchiver', artifacts: 'Source/UIKit/uid/build/reports/coverage/debug/report.xml', excludes: null, fingerprint: true, onlyIfSuccessful: true])
+        }
+    }
+}
 
 node('Android && 25.0.0 && Ubuntu') {
   timestamps {
