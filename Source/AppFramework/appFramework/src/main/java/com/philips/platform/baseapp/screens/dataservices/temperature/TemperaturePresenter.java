@@ -30,6 +30,7 @@ import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
@@ -110,15 +111,24 @@ public class TemperaturePresenter {
                 createMeasurementGroup(moment);
     }
 
-    void fetchData(DBRequestListener dbRequestListener) {
-        mDataServices.fetchMomentWithType(dbRequestListener, MomentType.TEMPERATURE);
+    void fetchData(DBFetchRequestListner dbFetchRequestListner) {
+        mDataServices.fetchMomentWithType(dbFetchRequestListner, MomentType.TEMPERATURE);
     }
 
     private void saveRequest(Moment moment) {
         if (moment.getCreatorId() == null || moment.getSubjectId() == null) {
             Toast.makeText(mContext, "Please Login again", Toast.LENGTH_SHORT).show();
         } else {
-            mDataServices.saveMoment(moment, dbRequestListener);
+
+            List<Moment> moments=new ArrayList<>();
+
+            moments.add(moment);
+            //moments.add(moment);
+            //moments.add(moment);
+            //moments.add(moment);
+            //moments.add(moment);
+
+            mDataServices.saveMoments(moments, dbRequestListener);
         }
     }
 
@@ -171,7 +181,7 @@ public class TemperaturePresenter {
             adapter.notifyDataSetChanged();
         } catch (ArrayIndexOutOfBoundsException e) {
             if (e.getMessage() != null) {
-                DSLog.i("***SPO***", "e = " + e.getMessage());
+                DSLog.i(DSLog.LOG, "e = " + e.getMessage());
             }
         }
     }
@@ -242,14 +252,15 @@ public class TemperaturePresenter {
 
                 switch (addOrUpdate) {
                     case ADD:
-                        createAndSaveMoment();
                         dialog.dismiss();
+                        createAndSaveMoment();
                         break;
                     case UPDATE:
-                        updateMoment((OrmMoment) moment);
                         dialog.dismiss();
+                        updateMoment((OrmMoment) moment);
                         break;
                 }
+
             }
         });
 

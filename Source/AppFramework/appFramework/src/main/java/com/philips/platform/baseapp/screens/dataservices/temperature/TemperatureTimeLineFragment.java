@@ -38,7 +38,9 @@ import com.philips.platform.baseapp.screens.dataservices.registration.UserRegist
 import com.philips.platform.baseapp.screens.dataservices.settings.SettingsFragment;
 import com.philips.platform.baseapp.screens.dataservices.utility.Utility;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -46,6 +48,7 @@ import com.philips.platform.core.utils.DSLog;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.Context.ALARM_SERVICE;
 
@@ -54,7 +57,7 @@ import static android.content.Context.ALARM_SERVICE;
  * All rights reserved.
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implements View.OnClickListener, DBRequestListener, DBChangeListener, SynchronisationCompleteListener {
+public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implements View.OnClickListener, DBFetchRequestListner<Moment>,DBRequestListener<Moment>,DBChangeListener, SynchronisationCompleteListener {
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
@@ -201,16 +204,12 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     }
 
     private void deleteUserDataIfNewUserLoggedIn() {
-        Log.i(DataServicesState.TAG, "TemperatureTimeLieFragment - deleteUserDataIfNewUserLoggedIn");
         if (getLastStoredEmail() == null) {
-            Log.i(DataServicesState.TAG, "TemperatureTimeLieFragment - getLastStoredEmail()==null");
             storeLastEmail();
             return;
         }
 
-        Log.i(DataServicesState.TAG, "TemperatureTimeLieFragment - before email same check");
         if (!isSameEmail()) {
-            Log.i(DataServicesState.TAG, "TemperatureTimeLieFragment - !isSameEmail() clear data called");
             userRegistrationInterface.clearUserData(this);
         }
         storeLastEmail();
@@ -310,28 +309,8 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     }
 
     @Override
-    public void onSuccess(final ArrayList<? extends Object> data) {
-        if (getActivity() == null) return;
-
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                DSLog.i(TAG, "http : UI updated");
-                mData = (ArrayList<? extends Moment>) data;
-                mAdapter.setData(mData);
-                mAdapter.notifyDataSetChanged();
-
-                if (mSharedPreferences.getBoolean("isSynced", false)) {
-                    dismissProgressDialog();
-                }
-                setProgressBarVisibility(false);
-            }
-        });
-
-    }
-
-    @Override
-    public void onSuccess(final Object data) {
+    public void onSuccess(final List<? extends Moment> data) {
+        DSLog.i(DSLog.LOG, "on Success Temperature");
         mTemperaturePresenter.fetchData(this);
     }
 
@@ -391,8 +370,9 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     }
 
     @Override
-    public void dBChangeSuccess() {
-        DSLog.i(DSLog.LOG, "DB OnSuccess");
+    public void dBChangeSuccess(SyncType type) {
+        DSLog.i(DSLog.LOG, "In Temperature TimeLine Fragment DB OnSuccess");
+        if(type!=SyncType.MOMENT)return;
         if (getActivity() == null) return;
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -407,27 +387,12 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
 
     @Override
     public void dBChangeFailed(final Exception e) {
-        if (getActivity() == null) return;
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                Toast.makeText(getActivity(), "Exception :" + e.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
+        showToastOnUiThread("Exception :" + e.getMessage());
     }
 
     @Override
     public void onSyncComplete() {
-        if (getActivity() == null) return;
-        DSLog.i("***SPO***", "In TemperatureTimeLineFragment ONSYNCCOMPLETE");
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                mTemperaturePresenter.fetchData(TemperatureTimeLineFragment.this);
-            }
-        });
+        DSLog.i(TAG, "Sync completed");
     }
 
     @Override
@@ -442,5 +407,47 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
                 //Toast.makeText(getActivity(), "Exception :" + exception.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void showToastOnUiThread(final String msg){
+
+        if(getActivity() == null) return;
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @Override
+    public void onFetchSuccess(final List<? extends Moment> data) {
+        DSLog.i(DSLog.LOG,"On Sucess ArrayList TemperatureTimeLineFragment");
+        if (getActivity() == null) return;
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                DSLog.i(DSLog.LOG, "http TEmperature TimeLine : UI updated");
+                mData = (ArrayList<? extends Moment>) data;
+                mAdapter.setData(mData);
+                mAdapter.notifyDataSetChanged();
+
+                if (mDataServicesManager.getSyncTypes()!=null && mDataServicesManager.getSyncTypes().size()<=0) {
+                    dismissProgressDialog();
+                    Toast.makeText(getContext(),"No Sync Types Configured",Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (mSharedPreferences.getBoolean("isSynced", false)) {
+                    dismissProgressDialog();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onFetchFailure(Exception exception) {
+        onFailureRefresh(exception);
     }
 }

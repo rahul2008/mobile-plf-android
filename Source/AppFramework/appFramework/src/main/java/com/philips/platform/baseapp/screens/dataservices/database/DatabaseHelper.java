@@ -20,7 +20,6 @@ import com.philips.platform.baseapp.screens.dataservices.database.datatypes.Meas
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentDetailType;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentType;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
-import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristicsDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmDCSync;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurement;
@@ -38,8 +37,8 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSetti
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynchronisationData;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
-import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.datatypes.Settings;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
@@ -100,7 +99,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         insertMeasurementDetailTypes();
         insertMeasurementGroupDetailType();
         insertDefaultSettings();
-        insertDefaultDCSyncValues();
+        insertDefaultUCSync();
         insertDefaultConsent();
     }
 
@@ -119,11 +118,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                 (ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED,ConsentDetail.DEFAULT_DOCUMENT_VERSION,
                         ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
         mDataServices.saveConsentDetails(consentDetails, null);
+        insertDefaultDCSyncValues(SyncType.CONSENT);
     }
 
     private void insertDefaultDCSyncValues() {
 
-        for (OrmTableType tableType : OrmTableType.values()) {
+        for (SyncType tableType : SyncType.values()) {
 
             ormDCSyncDao = getDCSyncDao();
             try {
@@ -135,9 +135,24 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     }
 
+    private void insertDefaultDCSyncValues(SyncType type) {
+            ormDCSyncDao = getDCSyncDao();
+            try {
+                ormDCSyncDao.createOrUpdate(new OrmDCSync(type.getId(), type.getDescription(), true));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+    }
+
     private void insertDefaultSettings() {
         Settings settings = DataServicesManager.getInstance().createUserSettings("en_US" ,"metric");
         DataServicesManager.getInstance().saveUserSettings(settings, null);
+        insertDefaultDCSyncValues(SyncType.SETTINGS);
+    }
+
+    private void insertDefaultUCSync(){
+        insertDefaultDCSyncValues(SyncType.CHARACTERISTICS);
     }
 
     public Dao<OrmSettings, Integer> getSettingsDao() {

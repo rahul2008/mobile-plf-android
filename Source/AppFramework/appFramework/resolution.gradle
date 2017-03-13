@@ -19,7 +19,7 @@ configurations.all {
 
 
         //
-        force 'com.philips.cdp:product-registration-lib:1.2.0-SNAPSHOT'
+        force 'com.philips.cdp:product-registration-lib:8.4.5-SNAPSHOT.20170306182215'
         force 'com.philips.cdp:productselection:1.6.0-SNAPSHOT'
         force 'com.philips.cdp:digitalCare:6.2.0-SNAPSHOT'
         force 'com.philips.cdp:iap:4.2.0-SNAPSHOT'

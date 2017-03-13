@@ -41,7 +41,7 @@ public class BaseAppBroadcastReceiver extends BroadcastReceiver {
         }
         //TODO: review changing connection
         if (mUtility.isOnline(context) && (action.equals(ACTION_USER_DATA_FETCH) || action.equals(ConnectivityManager.CONNECTIVITY_ACTION))) {
-            DSLog.i("***SPO***", "START SYNC FROM REC");
+            DSLog.i(DSLog.LOG,"START SYNC FROM REC");
             mDataServices.synchronize();
         }
     }
