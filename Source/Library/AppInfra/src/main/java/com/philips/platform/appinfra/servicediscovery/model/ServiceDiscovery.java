@@ -245,7 +245,7 @@ public class ServiceDiscovery {
 			, Map<String, String> replacement) {
 
 		ArrayList<MatchByCountryOrLanguage.Config> configArrayList = null;
-		Map<String, String> urls ;
+		Map<String, String> urls;
 
 		if (serviceId != null) {
 			if (preference.equals(AISDCountryPreference)) {
@@ -267,7 +267,7 @@ public class ServiceDiscovery {
 					}
 				}
 			}
-			if(configArrayList != null && configArrayList.size() > 0) {
+			if (configArrayList != null && configArrayList.size() > 0) {
 				for (int config = 0; config < configArrayList.size(); config++) {
 
 					urls = configArrayList.get(config).getUrls();

@@ -21,6 +21,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -1235,16 +1236,38 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 	public void testGetServicesMultipleConfigs() {
 
 		JSONObject jsonObject = null;
+		JSONObject sdPlatformObj = null;
+
 		try {
 			jsonObject = new JSONObject(ConfigValues.getMultipleConfigJson());
+			sdPlatformObj = new JSONObject(ConfigValues.getsdUrlPlatformjson());
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 		serviceDiscovery.parseResponse(context, mAppInfra, jsonObject);
+		serviceDiscovery.parseResponse(context ,mAppInfra ,sdPlatformObj);
 		mServiceDiscoveryInterface.getServiceUrlWithCountryPreference("appinfra.appconfigdownload", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 			@Override
 			public void onSuccess(URL url) {
 
+				assertEquals("https://test.prod.appinfra.testing.service/en_SG/B2C/77001","https://test.prod.appinfra.testing.service/en_SG/B2C/77001");
+
+			}
+
+			@Override
+			public void onError(ERRORVALUES error, String message) {
+				assertNotNull(error);
+
+			}
+		});
+		String[] serviceIds = {"appinfra.appconfigdownload", "appinfra.testing.service"};
+		ArrayList<String> serviceId = new ArrayList<>(Arrays.asList(serviceIds));
+
+		mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+			@Override
+			public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+				assertNotNull(urlMap);
+				assertTrue(urlMap.size() > 0);
 			}
 
 			@Override
@@ -1252,7 +1275,6 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 
 			}
 		});
-
 	}
 
 
