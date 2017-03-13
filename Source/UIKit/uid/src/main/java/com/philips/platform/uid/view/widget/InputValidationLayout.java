@@ -19,15 +19,16 @@ public class InputValidationLayout extends LinearLayout {
     private ValidationEditText validationEditText;
     private boolean isShowingError;
 
-    private Drawable errorDrawable;
-    private String errorMessage;
+    private int errorDrawableID;
+    private int errorMessageID;
+
     public InputValidationLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         setOrientation(LinearLayout.VERTICAL);
 
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, new int[]{R.attr.uidTextBoxValidationText, R.attr.uidTextBoxValidationErrorDrawable});
-        errorMessage = typedArray.getString(0);
-        errorDrawable = typedArray.getDrawable(1);
+        errorMessageID = typedArray.getResourceId(0, -1);
+        errorDrawableID = typedArray.getResourceId(1, -1);
     }
 
     @Override
@@ -70,10 +71,14 @@ public class InputValidationLayout extends LinearLayout {
         if (errorLayout == null) {
             errorLayout = (ViewGroup) View.inflate(getContext(), R.layout.uid_inline_validation_input, null);
             errorLabel = (Label) errorLayout.findViewById(R.id.uid_inline_validation_text);
-            errorLabel.setText(errorMessage);
+            if(errorMessageID != -1) {
+                errorLabel.setText(errorMessageID);
+            }
 
             errorIcon = (ImageView) errorLayout.findViewById(R.id.uid_inline_validation_icon);
-            errorIcon.setImageDrawable(errorDrawable);
+            if (errorDrawableID != -1) {
+                errorIcon.setImageResource(errorDrawableID);
+            }
 
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
