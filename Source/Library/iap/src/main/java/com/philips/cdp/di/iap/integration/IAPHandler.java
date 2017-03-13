@@ -30,7 +30,6 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
@@ -62,7 +61,8 @@ class IAPHandler {
     }
 
     protected void initServiceDiscovery() {
-        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
+
+        AppInfraInterface appInfra = CartModelContainer.getInstance().getAppInfraInstance();
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
 
         fetchBaseUrl(serviceDiscoveryInterface);
@@ -112,7 +112,7 @@ class IAPHandler {
 
     private String loadConfigParams() {
         String propositionId;
-        AppConfigurationInterface mConfigInterface = RegistrationHelper.getInstance().getAppInfraInstance().getConfigInterface();
+        AppConfigurationInterface mConfigInterface = CartModelContainer.getInstance().getAppInfraInstance().getConfigInterface();
         AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
 
         propositionId = (String) mConfigInterface.getPropertyForKey("propositionid", "IAP", configError);

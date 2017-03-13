@@ -59,7 +59,7 @@ public class LauncherFragmentActivity extends UiKitActivity
 
         if (savedInstanceState == null)
             launchInAppAsFragment();
-        else{
+        else {
             onRestoreInstanceState(savedInstanceState);
         }
     }

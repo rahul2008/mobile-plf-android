@@ -20,8 +20,6 @@ import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.platform.appinfra.AppInfraInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;

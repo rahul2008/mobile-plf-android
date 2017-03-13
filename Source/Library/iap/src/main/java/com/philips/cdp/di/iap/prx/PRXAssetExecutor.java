@@ -11,7 +11,6 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.TimeoutError;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.localematch.enums.Catalog;
@@ -27,7 +26,6 @@ import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.request.ProductAssetRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -146,7 +144,7 @@ public class PRXAssetExecutor {
     }
 
     private ProductAssetRequest prepareAssetBuilder(final String code) {
-      //  String locale = HybrisDelegate.getInstance(mContext).getStore().getLocale();//Check
+        //  String locale = HybrisDelegate.getInstance(mContext).getStore().getLocale();//Check
 
         ProductAssetRequest productAssetBuilder = new ProductAssetRequest(code, null);
         productAssetBuilder.setSector(Sector.B2C);
