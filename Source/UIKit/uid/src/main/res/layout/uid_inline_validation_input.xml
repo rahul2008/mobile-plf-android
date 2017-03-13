@@ -3,12 +3,13 @@
     android:id="@id/uid_inline_validation_message_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
+    android:gravity="center_vertical"
     android:orientation="horizontal"
     android:visibility="gone">
 
     <ImageView
         android:id="@id/uid_inline_validation_icon"
+        android:tint="?attr/uidTextBoxValidationError"
         android:layout_marginTop="@dimen/uid_inline_validation_message_padding_top"
         android:layout_width="@dimen/uid_inline_validation_icon_size"
         android:layout_height="@dimen/uid_inline_validation_icon_size" />

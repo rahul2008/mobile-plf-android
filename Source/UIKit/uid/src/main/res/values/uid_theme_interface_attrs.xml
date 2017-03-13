@@ -214,4 +214,12 @@
         <attr name="gradientStartColor" format="reference|color"/>
         <attr name="gradientEndColor" format="reference|color"/>
     </declare-styleable>
+    
+    <declare-styleable name="UIDInputValidation">
+        <attr name="uidTextBoxValidationBackground" format="reference|color"/>
+        <attr name="uidTextBoxValidationBackgroundAlpha" format="reference|float"/>
+        <attr name="uidTextBoxValidationBorder" format="reference|color"/>
+        <attr name="uidTextBoxValidationText" format="reference|color"/>
+        <attr name="uidTextBoxValidationError" format="reference|color"/>
+    </declare-styleable>
 </resources>
