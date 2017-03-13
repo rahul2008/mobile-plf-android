@@ -29,6 +29,7 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 
 import javax.inject.Singleton;
@@ -48,6 +49,8 @@ public interface RegistrationComponent {
     ServiceDiscoveryInterface getServiceDiscoveryInterface();
 
     ABTestClientInterface getAbTestClientInterface();
+
+    AppTaggingInterface getAppTaggingInterface();
 
     void inject(User user);
 

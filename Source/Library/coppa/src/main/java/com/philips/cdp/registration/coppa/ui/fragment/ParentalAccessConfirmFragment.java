@@ -40,6 +40,8 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
 
     private TimeInterface timeInterface;
 
+    private AppTaggingInterface appTaggingInterface;
+
     private static final int MAX_AGE_VAL = 116;
     private static final int MIN_AGE_VAL = 0;
     private int MAX_YEAR_VAL;
@@ -59,6 +61,7 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
         MAX_YEAR_VAL = Calendar.getInstance().get(Calendar.YEAR);
         MIN_YEAR_VAL = MAX_YEAR_VAL - MAX_AGE_VAL + 1;
         timeInterface = CoppaInterface.getComponent().getTimeInterface();
+        appTaggingInterface = CoppaInterface.getComponent().getAppTaggingInterface();
 
     }
 
@@ -225,9 +228,7 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
 
         if (howMuchOld == caluculateAge || howMuchOld == caluculateAge - 1) {
 
-            AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.
-                    getInstance().getAppTaggingInterface();
-            aiAppTaggingInterface.setPreviousPage("coppa:ageverification");
+            appTaggingInterface.setPreviousPage("coppa:ageverification");
             getRegistrationFragment().launchRegistrationFragment();
             mBtnContinue.setEnabled(true);
             return;
