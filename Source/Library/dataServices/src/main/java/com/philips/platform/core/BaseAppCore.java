@@ -152,12 +152,6 @@ public class BaseAppCore implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public Insight createInsight(UCoreInsight uCoreInsight) {
-        return database.createInsight(uCoreInsight);
-    }
-
-    @NonNull
-    @Override
     public Insight createInsight() {
         return database.createInsight();
     }

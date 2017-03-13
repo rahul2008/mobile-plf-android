@@ -69,9 +69,6 @@ public interface BaseAppDataCreator {
     Characteristics createCharacteristics(@NonNull final String type, @NonNull final String value);
 
     @NonNull
-    Insight createInsight(UCoreInsight uCoreInsight);
-
-    @NonNull
     Insight createInsight();
 
     @NonNull

@@ -2,80 +2,55 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package cdp.philips.com.mydemoapp.database.table;
+package com.philips.testing.verticals.table;
 
 import android.support.annotation.Nullable;
 
-import com.j256.ormlite.dao.ForeignCollection;
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
-import com.j256.ormlite.table.DatabaseTable;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.InsightMetadata;
-import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SynchronisationData;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
-import cdp.philips.com.mydemoapp.database.EmptyForeignCollection;
-import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
-
-
-@DatabaseTable
 public class OrmInsight implements Insight, Serializable {
 
     public static final long serialVersionUID = 11L;
 
-    @DatabaseField(generatedId = true)
     private int id;
 
-    @DatabaseField(canBeNull = false)
     private String guid;
 
-    @DatabaseField(canBeNull = false)
     private String last_modified;
 
-    @DatabaseField(canBeNull = false)
     private boolean inactive;
 
-    @DatabaseField(canBeNull = false)
     private int version;
 
-    @DatabaseField(canBeNull = false)
     private String rule_id;
 
-    @DatabaseField(canBeNull = false)
     private String subjectID;
 
-    @DatabaseField(canBeNull = false)
     private String moment_id;
 
-    @DatabaseField(canBeNull = false)
     private String type;
 
-    @DatabaseField(canBeNull = false)
     private String time_stamp;
 
-    @DatabaseField(canBeNull = false)
     private String title;
 
-    @DatabaseField(canBeNull = false)
     private int program_min_version;
 
-    @DatabaseField(canBeNull = false)
     private int program_max_version;
 
-    @DatabaseField
     private boolean synced;
 
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = true)
     private OrmSynchronisationData synchronisationData;
 
-    @ForeignCollectionField(eager = true)
-    ForeignCollection<OrmInsightMetaData> ormInsightMetaDatas = new EmptyForeignCollection<>();
+    List<OrmInsightMetaData> ormInsightMetaDatas = new ArrayList<>();
 
-    @DatabaseConstructor
     public OrmInsight() {
     }
 
@@ -245,5 +220,4 @@ public class OrmInsight implements Insight, Serializable {
     public void addInsightMetaData(InsightMetadata insightMetadata) {
         ormInsightMetaDatas.add((OrmInsightMetaData) insightMetadata);
     }
-
 }

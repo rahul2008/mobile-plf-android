@@ -8,10 +8,6 @@ import com.philips.platform.core.listeners.DBRequestListener;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- * Created by 310218660 on 1/2/2017.
- */
-
 public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface {
     @Override
     public void deleteAll(DBRequestListener dbRequestListener) {
@@ -60,7 +56,13 @@ public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
-    public boolean markInsightsAsInActive(List<? extends Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
+    public boolean markInsightsAsInActive(List<Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
         return false;
     }
+
+    @Override
+    public boolean deleteInsights(List<Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
+        return false;
+    }
+
 }

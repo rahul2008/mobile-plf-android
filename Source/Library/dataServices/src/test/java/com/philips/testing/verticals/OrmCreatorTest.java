@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.Insight;
+import com.philips.platform.core.datatypes.InsightMetadata;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
@@ -12,7 +14,6 @@ import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
-import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.verticals.OrmCharacteristics;
@@ -22,6 +23,7 @@ import com.philips.testing.verticals.datatyes.MeasurementType;
 import com.philips.testing.verticals.datatyes.MomentDetailType;
 import com.philips.testing.verticals.datatyes.MomentType;
 import com.philips.testing.verticals.table.OrmConsentDetail;
+import com.philips.testing.verticals.table.OrmInsightMetaData;
 import com.philips.testing.verticals.table.OrmMeasurement;
 import com.philips.testing.verticals.table.OrmMeasurementDetail;
 import com.philips.testing.verticals.table.OrmMeasurementDetailType;
@@ -35,14 +37,12 @@ import com.philips.testing.verticals.table.OrmMomentDetailType;
 import com.philips.testing.verticals.table.OrmMomentType;
 import com.philips.testing.verticals.table.OrmSettings;
 import com.philips.testing.verticals.table.OrmSynchronisationData;
+import com.philips.testing.verticals.table.OrmInsight;
 
 import org.joda.time.DateTime;
 
 import javax.inject.Singleton;
 
-/**
- * Created by indrajitkumar on 10/12/16.
- */
 public class OrmCreatorTest implements BaseAppDataCreator {
 
     private final UuidGenerator uuidGenerator;
@@ -59,14 +59,6 @@ public class OrmCreatorTest implements BaseAppDataCreator {
 
         return new OrmMoment(creatorId, subjectId, ormMomentType);
     }
-
-    /*@NonNull
-    @Override
-    public Moment createMomentWithoutUUID(@NonNull String creatorId, @NonNull String subjectId, @NonNull String type) {
-        final OrmMomentType ormMomentType = new OrmMomentType(MomentType.getIDFromDescription(type), type);
-
-        return new OrmMoment(creatorId, subjectId, ormMomentType);
-    }*/
 
     @NonNull
     @Override
@@ -112,7 +104,7 @@ public class OrmCreatorTest implements BaseAppDataCreator {
     @NonNull
     @Override
     public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber) {
-        return new OrmConsentDetail(type,status,version,deviceIdentificationNumber);
+        return new OrmConsentDetail(type, status, version, deviceIdentificationNumber);
     }
 
 
@@ -173,5 +165,18 @@ public class OrmCreatorTest implements BaseAppDataCreator {
                                                                   @NonNull final OrmMeasurementGroup measurementGroup) {
         OrmMeasurementGroupDetailType ormMeasurementGroupDetailType = new OrmMeasurementGroupDetailType(MeasurementGroupDetailType.getIDFromDescription(type), type);
         return new OrmMeasurementGroupDetail(ormMeasurementGroupDetailType, measurementGroup);
+    }
+
+    //Insight
+    @NonNull
+    @Override
+    public Insight createInsight() {
+        return new OrmInsight();
+    }
+
+    @NonNull
+    @Override
+    public InsightMetadata createInsightMetaData(String key, String value, Insight insight) {
+        return new OrmInsightMetaData(key, value, (OrmInsight) insight);
     }
 }

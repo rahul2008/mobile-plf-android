@@ -143,28 +143,6 @@ public class OrmCreator implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public Insight createInsight(UCoreInsight uCoreInsight) {
-        return new OrmInsight(uCoreInsight.getGuid(), uCoreInsight.getLastModified(), uCoreInsight.isInactive(),
-                uCoreInsight.getVersion(), uCoreInsight.getRuleId(), uCoreInsight.getSubjectId(), uCoreInsight.getMomentId(),
-                uCoreInsight.getType(), uCoreInsight.getTimeStamp(), uCoreInsight.getTitle(), uCoreInsight.getProgram_minversion(),
-                uCoreInsight.getProgram_maxversion());
-    }
-
-    @NonNull
-    @Override
-    public Insight createInsight() {
-        return new OrmInsight();
-    }
-
-    @NonNull
-    @Override
-    public InsightMetadata createInsightMetaData(String key, String value, Insight insight) {
-        return new OrmInsightMetaData(key, value, (OrmInsight) insight);
-    }
-
-
-    @NonNull
-    @Override
     public Settings createSettings(String type, String value) {
         return new OrmSettings(type, value);
     }
@@ -209,4 +187,18 @@ public class OrmCreator implements BaseAppDataCreator {
         OrmMeasurementGroupDetailType ormMeasurementGroupDetailType = new OrmMeasurementGroupDetailType(MeasurementGroupDetailType.getIDFromDescription(type), type);
         return new OrmMeasurementGroupDetail(ormMeasurementGroupDetailType, measurementGroup);
     }
+
+    //Insight
+    @NonNull
+    @Override
+    public Insight createInsight() {
+        return new OrmInsight();
+    }
+
+    @NonNull
+    @Override
+    public InsightMetadata createInsightMetaData(String key, String value, Insight insight) {
+        return new OrmInsightMetaData(key, value, (OrmInsight) insight);
+    }
+
 }

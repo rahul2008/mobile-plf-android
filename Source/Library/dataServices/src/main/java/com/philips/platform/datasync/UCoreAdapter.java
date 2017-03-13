@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.datasync.insights.InsightClient;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -71,8 +72,11 @@ public class UCoreAdapter {
 
     public <T> T getAppFrameworkClient(Class<T> clientClass, @NonNull final String accessToken, GsonConverter gsonConverter) {
         String baseUrl = null;
-        if(userRegistrationImpl!=null) {
-            baseUrl = userRegistrationImpl.getHSDPUrl();
+        if (userRegistrationImpl != null) {
+            if (clientClass == InsightClient.class)
+                baseUrl = "https://ugrow-cs-staging.eu-west.philips-healthsuite.com/";
+            else
+                baseUrl = userRegistrationImpl.getHSDPUrl();
         }
         if (baseUrl == null || baseUrl.isEmpty()) {
             return null;
@@ -81,8 +85,8 @@ public class UCoreAdapter {
         return getClient(clientClass, baseUrl, accessToken, gsonConverter);
     }
 
-    public  <T> T getClient(final Class<T> clientClass, @NonNull final String baseUrl,
-                            @NonNull final String accessToken, @NonNull GsonConverter gsonConverter) {
+    public <T> T getClient(final Class<T> clientClass, @NonNull final String baseUrl,
+                           @NonNull final String accessToken, @NonNull GsonConverter gsonConverter) {
         OkClient okClient = okClientFactory.create(okHttpClient);
 
         RestAdapter restAdapter = restAdapterBuilder

@@ -84,11 +84,9 @@ public class InsightDataFetcher extends DataFetcher {
         try {
             UCoreInsightList insightList = client.fetchInsights(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId(),
                     UCoreAdapter.API_VERSION, uCoreAccessProvider.getInsightLastSyncTimestamp());
-
+            System.out.println("***InsightList****" + insightList.getSyncurl());
             List<Insight> insights = insightConverter.convertToAppInsights(insightList);
             eventing.post(new UpdateInsightsBackendResponse(insights, null));
-            System.out.println("***InsightList****" + insightList.getUCoreInsights().size());
-
         } catch (RetrofitError retrofitError) {
           eventing.post(new BackendDataRequestFailed(retrofitError));
             System.out.println("***InsightList fetch error" + retrofitError.getMessage());

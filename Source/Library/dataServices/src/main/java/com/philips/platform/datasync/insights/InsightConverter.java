@@ -34,12 +34,10 @@ public class InsightConverter {
         List<UCoreInsight> uCoreInsightList = uCoreInsights.getUCoreInsights();
         List<Insight> appInsightList = new ArrayList<>();
 
+
         for (UCoreInsight uCoreInsight : uCoreInsightList) {
-            //Insight appInsight = dataCreator.createInsight(uCoreInsight);
 
             Insight appInsight = dataCreator.createInsight();
-
-
             appInsight.setGUId(uCoreInsight.getGuid());
             appInsight.setLastModified(uCoreInsight.getLastModified());
             appInsight.setInactive(uCoreInsight.isInactive());
@@ -50,19 +48,9 @@ public class InsightConverter {
             appInsight.setType(uCoreInsight.getType());
             appInsight.setTimeStamp(uCoreInsight.getTimeStamp());
             appInsight.setTitle(uCoreInsight.getTitle());
-
-            //uCoreInsight.getMetadata().
             appInsight.setProgram_maxVersion(uCoreInsight.getProgram_maxversion());
             appInsight.setProgram_minVersion(uCoreInsight.getProgram_minversion());
 
-           // Map<String, String> metaData = new HashMap<>();
-
-            /*Collection<? extends InsightMetadata> insightMetaDatas = appInsight.getInsightMetaData();
-            for (InsightMetadata insightMetadata : insightMetaDatas) {
-                metaData.put(insightMetadata.getKey(), insightMetadata.getValue());
-            }*/
-
-            //uCoreInsight.setMetadata(metaData);
             Map<String, String> metadataMap = uCoreInsight.getMetadata();
             for (Map.Entry<String, String> entry : metadataMap.entrySet()) {
                 String key = entry.getKey();
