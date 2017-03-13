@@ -24,7 +24,9 @@ import com.philips.pins.shinelib.SHNDeviceScanner;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements SHNDeviceScanner.SHNDeviceScannerListener {
 
@@ -35,6 +37,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
     private final long timeoutMillis;
     private final SHNDeviceScanner deviceScanner;
     private Set<String> modelIds;
+    private List<NetworkNode> networkNodes;
 
     public BleDiscoveryStrategy(@NonNull Context context, @NonNull BleDeviceCache bleDeviceCache, @NonNull SHNDeviceScanner deviceScanner, long timeoutMillis) {
         this.context = context;
@@ -42,6 +45,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         this.timeoutMillis = timeoutMillis;
         this.deviceScanner = deviceScanner;
         this.modelIds = new HashSet<>();
+        this.networkNodes = new CopyOnWriteArrayList<>();
     }
 
     @Override
@@ -88,6 +92,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
 
         if (modelIds.isEmpty() || modelIds.contains(networkNode.getModelId())) {
             bleDeviceCache.addDevice(shnDeviceFoundInfo.getShnDevice());
+            networkNodes.add(networkNode);
             notifyNetworkNodeDiscovered(networkNode);
         }
     }

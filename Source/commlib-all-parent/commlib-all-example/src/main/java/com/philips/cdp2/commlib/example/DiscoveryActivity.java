@@ -63,6 +63,14 @@ public class DiscoveryActivity extends AppCompatActivity {
         public void onApplianceUpdated(@NonNull BleReferenceAppliance bleReferenceAppliance) {
             // NOOP
         }
+
+        @Override
+        public void onApplianceLost(@NonNull BleReferenceAppliance lostAppliance) {
+            Log.d(TAG, "Lost appliance: " + lostAppliance.getNetworkNode().getCppId());
+
+            applianceAdapter.clear();
+            applianceAdapter.addAll(commCentral.getApplianceManager().getAvailableAppliances());
+        }
     };
 
     private final View.OnClickListener buttonClickListener = new View.OnClickListener() {
