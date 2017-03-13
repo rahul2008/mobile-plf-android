@@ -23,35 +23,23 @@ public class ProductSelectionActivity extends ProductSelectionBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(savedInstanceState!=null){
+            // if app killed by vm.
+            savedInstanceState =null;
+            finish();
+            super.onCreate(savedInstanceState);
+            return;
+        }
         super.onCreate(savedInstanceState);
-
-        int alwaysFinishActivity = 0;
-
-        if (savedInstanceState != null)
-            alwaysFinishActivity = savedInstanceState.getInt("ALWAYS_FINISH_ACTIVITIES");
-
         setContentView(R.layout.activity_productselection_layout);
-
-        if (alwaysFinishActivity == 0) {
-            animateThisScreen();
-
-            Configuration configuration = getResources().getConfiguration();
-            if (getCtnFromPreference()) {
-                showFragment(new WelcomeScreenFragmentSelection());
+        animateThisScreen();
+        if (getCtnFromPreference()) {
+            showFragment(new WelcomeScreenFragmentSelection());
                 // isFirstTimeWelcomeScreenlaunch = false;
-            } else {
-                showFragment(new ProductSelectionListingFragment());
-            }
+        } else {
+            showFragment(new ProductSelectionListingFragment());
         }
     }
-
-    @Override
-    protected void onSaveInstanceState(Bundle bundle) {
-        super.onSaveInstanceState(bundle);
-        int alwaysFinishActivity = Settings.System.getInt(getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
-        bundle.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
-    }
-
 
     protected boolean getCtnFromPreference() {
         String ctn = null;
