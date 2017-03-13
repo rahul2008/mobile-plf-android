@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 
 import com.philips.platform.uid.R;
 
-public class TextInputLayout extends LinearLayout {
+public class InputValidationLayout extends LinearLayout {
 
     private Label errorText;
     private ImageView errorIcon;
@@ -20,23 +20,23 @@ public class TextInputLayout extends LinearLayout {
     private ValidationEditText validationEditText;
     private boolean isShowingError;
 
-    public TextInputLayout(Context context) {
+    public InputValidationLayout(Context context) {
         super(context);
         setOrientation(LinearLayout.VERTICAL);
     }
 
-    public TextInputLayout(Context context, AttributeSet attrs) {
+    public InputValidationLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         setOrientation(LinearLayout.VERTICAL);
     }
 
-    public TextInputLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public InputValidationLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setOrientation(LinearLayout.VERTICAL);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public TextInputLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public InputValidationLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 

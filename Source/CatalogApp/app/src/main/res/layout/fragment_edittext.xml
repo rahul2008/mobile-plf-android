@@ -128,7 +128,7 @@
                     android:text="@string/label_input_field"
                     android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}" />
 
-                <com.philips.platform.uid.view.widget.TextInputLayout
+                <com.philips.platform.uid.view.widget.InputValidationLayout
                     android:id="@+id/textbox_input_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -139,7 +139,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_text"
                         android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}"/>
-                </com.philips.platform.uid.view.widget.TextInputLayout>
+                </com.philips.platform.uid.view.widget.InputValidationLayout>
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/label_input_password"
