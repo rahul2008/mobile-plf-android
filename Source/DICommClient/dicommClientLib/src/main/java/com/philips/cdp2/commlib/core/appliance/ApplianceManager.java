@@ -29,6 +29,8 @@ public class ApplianceManager {
         void onApplianceFound(@NonNull A foundAppliance);
 
         void onApplianceUpdated(@NonNull A updatedAppliance);
+
+        void onApplianceLost(@NonNull A lostAppliance);
     }
 
     private final DICommApplianceFactory applianceFactory;
@@ -55,12 +57,10 @@ public class ApplianceManager {
 
         @Override
         public void onNetworkNodeLost(NetworkNode networkNode) {
-            // TODO find Appliance and remove from availableAppliances, notify
-
             final Appliance appliance = createAppliance(networkNode);
             availableAppliances.remove(appliance);
 
-            // FIXME Remove appliance from availableAppliances using the NetworkNode's cppId.
+            notifyApplianceLost(appliance);
         }
 
         @Override
@@ -170,6 +170,18 @@ public class ApplianceManager {
     private <A extends Appliance> void notifyApplianceFound(@NonNull A appliance) {
         for (ApplianceListener listener : applianceListeners) {
             listener.onApplianceFound(appliance);
+        }
+    }
+
+    private <A extends Appliance> void notifyApplianceUpdated(@NonNull A appliance) {
+        for (ApplianceListener listener : applianceListeners) {
+            listener.onApplianceUpdated(appliance);
+        }
+    }
+
+    private <A extends Appliance> void notifyApplianceLost(@NonNull A appliance) {
+        for (ApplianceListener listener : applianceListeners) {
+            listener.onApplianceLost(appliance);
         }
     }
 }
