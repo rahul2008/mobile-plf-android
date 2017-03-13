@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
-import com.facebook.stetho.Stetho;
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
@@ -20,7 +19,6 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
@@ -31,9 +29,7 @@ import com.squareup.leakcanary.LeakCanary;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Locale;
-import java.util.Set;
 
 import cdp.philips.com.mydemoapp.database.DatabaseHelper;
 import cdp.philips.com.mydemoapp.database.ORMSavingInterfaceImpl;
@@ -81,7 +77,7 @@ public class DataSyncApplication extends Application {
     public void onCreate() {
         super.onCreate();
         LeakCanary.install(this);
-        Stetho.initializeWithDefaults(this);
+      //  Stetho.initializeWithDefaults(this);
         mDataServicesManager = DataServicesManager.getInstance();
         initAppInfra();
         setLocale();
@@ -116,9 +112,9 @@ public class DataSyncApplication extends Application {
         mDataServicesManager.initializeDataServices(this, creator, userRegistrationInterface, errorHandlerInterface);
         injectDBInterfacesToCore();
         mDataServicesManager.initializeSyncMonitors(this, null, null,synchronisationCompleteListener);
-        Set fetchList = new HashSet();
+    /*    Set fetchList = new HashSet();
         fetchList.add(OrmTableType.MOMENT.getDescription());
-        mDataServicesManager.configureSyncDataType(fetchList);
+        mDataServicesManager.configureSyncDataType(fetchList);*/
     }
 
     void injectDBInterfacesToCore() {

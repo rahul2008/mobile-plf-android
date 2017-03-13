@@ -11,11 +11,18 @@ import android.support.annotation.Nullable;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.ConsentDetailStatusType;
+import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.Callable;
 
+import cdp.philips.com.mydemoapp.consents.ConsentDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
@@ -26,6 +33,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
+import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -94,8 +102,26 @@ public class OrmDeleting {
         measurementDetailDao.executeRawNoArgs("DELETE FROM `ormmeasurementdetail`");
         synchronisationDataDao.executeRawNoArgs("DELETE FROM `ormsynchronisationdata`");
         consentDetailDao.executeRawNoArgs("DELETE FROM `ormconsentdetail`");
+        insertDefaultConsentDetails();
         characteristicsDao.executeRawNoArgs("DELETE FROM `ormcharacteristics`");
         settingsDao.executeRawNoArgs("DELETE FROM `ormsettings`");
+    }
+
+    private void insertDefaultConsentDetails() {
+
+        try {
+            consentDetailDao.createOrUpdate(new OrmConsentDetail
+                    (ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED.getDescription(),ConsentDetail.DEFAULT_DOCUMENT_VERSION,
+                            ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
+        consentDetailDao.createOrUpdate(new OrmConsentDetail
+                (ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED.getDescription(),ConsentDetail.DEFAULT_DOCUMENT_VERSION,
+                        ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
+        consentDetailDao.createOrUpdate(new OrmConsentDetail
+                (ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED.getDescription(),ConsentDetail.DEFAULT_DOCUMENT_VERSION,
+                        ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void deleteAllMoments() throws SQLException {
@@ -224,5 +250,30 @@ public class OrmDeleting {
 
         DeleteBuilder<OrmSettings, Integer> ormSettingsDeleteBuilder = settingsDao.deleteBuilder();
         ormSettingsDeleteBuilder.delete();
+    }
+
+    public boolean deleteMoments(final List<Moment> moments, DBRequestListener dbRequestListener) {
+
+        try {
+            momentDao.callBatchTasks(new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    for (Moment moment : moments) {
+                        //moment.setSynced(false);
+                       // OrmMoment ormMoment = OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
+                        ormDeleteMoment((OrmMoment)moment);
+                        // momentDao.refresh(ormMoment);
+                    }
+
+                    return null;
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            //dbRequestListener.onFailure(e);
+            new NotifyDBRequestListener().notifyFailure(e,dbRequestListener);
+            return false;
+        }
+        return true;
     }
 }

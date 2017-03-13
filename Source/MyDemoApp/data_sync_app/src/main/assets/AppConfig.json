@@ -44,7 +44,7 @@
     "propositionid": "Tuscany2016"
   },
   "dataservices": {
-    "appname": "uGrow",
+    "appname": "OneBackend",
     "dataCoreUrl": "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com"
   },
   "appinfra": {
