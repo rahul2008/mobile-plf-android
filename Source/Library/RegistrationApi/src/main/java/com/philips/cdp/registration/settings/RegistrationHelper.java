@@ -124,9 +124,7 @@ public class RegistrationHelper {
 
                 if (networkUtility.isNetworkAvailable()) {
 
-                    UserRegistrationInitializer.getInstance().initializeEnvironment(
-
-                            context, mLocale);
+                    UserRegistrationInitializer.getInstance().initializeEnvironment(context, mLocale);
                     //AB Testing initialization
                     abTestClientInterface.updateCache(new ABTestClientInterface.
                             OnRefreshListener() {

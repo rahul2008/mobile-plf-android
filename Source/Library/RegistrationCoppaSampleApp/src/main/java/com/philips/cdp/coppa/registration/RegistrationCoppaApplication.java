@@ -11,6 +11,7 @@ import android.util.Log;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.coppa.utils.CoppaInterface;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -87,7 +88,7 @@ public class RegistrationCoppaApplication extends Application {
         initAppIdentity(configuration);
         URDependancies urDependancies = new URDependancies(mAppInfraInterface);
         URSettings urSettings = new URSettings(this);
-        URInterface urInterface = new URInterface();
+        URInterface urInterface = new CoppaInterface();
         urInterface.init(urDependancies, urSettings);
 
 
@@ -197,5 +198,9 @@ public class RegistrationCoppaApplication extends Application {
         Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity AppState : " + appIdentityInfo.getAppState().toString());
         Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity AppVersion : " + appIdentityInfo.getAppVersion());
         Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity ServiceDiscoveryEnvironment : " + appIdentityInfo.getServiceDiscoveryEnvironment());
+    }
+
+    public AppInfraInterface getAppInfra() {
+        return mAppInfraInterface;
     }
 }

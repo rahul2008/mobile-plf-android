@@ -129,7 +129,6 @@ public class URInterface implements UappInterface {
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         component = initDaggerComponents(uappDependencies, uappSettings);
-//        RegistrationHelper.getInstance().setAppInfraInstance(uappDependencies.getAppInfra());
         RegistrationHelper.getInstance().setUrSettings(uappSettings);
         RegistrationHelper.getInstance().initializeUserRegistration(uappSettings.getContext());
         Jump.init(uappSettings.getContext(), uappDependencies.getAppInfra().getSecureStorage());
