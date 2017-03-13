@@ -9,15 +9,13 @@
 
     <ImageView
         android:id="@id/uid_inline_validation_icon"
-        android:tint="?attr/uidTextBoxValidationError"
-        android:layout_marginTop="@dimen/uid_inline_validation_message_padding_top"
         android:layout_width="@dimen/uid_inline_validation_icon_size"
-        android:layout_height="@dimen/uid_inline_validation_icon_size" />
+        android:layout_height="@dimen/uid_inline_validation_icon_size"
+        android:tint="?attr/uidTextBoxValidationError" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@id/uid_inline_validation_text"
         style="@style/UIDLabelInlineValidation"
-        android:layout_marginTop="@dimen/uid_inline_validation_message_padding_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/uid_inline_validation_label_padding_start" />

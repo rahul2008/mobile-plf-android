@@ -70,7 +70,6 @@ public class InputValidationLayout extends LinearLayout {
     }
 
     public void showError() {
-        ensureErrorLayout();
         isShowingError = true;
         validationEditText.showError(isShowingError);
         errorLayout.setVisibility(VISIBLE);
@@ -82,7 +81,13 @@ public class InputValidationLayout extends LinearLayout {
             errorLayout = (ViewGroup) View.inflate(getContext(), R.layout.uid_inline_validation_input, null);
             errorText = (Label) errorLayout.findViewById(R.id.uid_inline_validation_text);
             errorIcon = (ImageView) errorLayout.findViewById(R.id.uid_inline_validation_icon);
-            addView(errorLayout);
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            int topMargin = getContext().getResources().getDimensionPixelSize(R.dimen.uid_inline_validation_message_padding_top);
+            layoutParams.setMargins(0, topMargin, 0, 0);
+
+            addView(errorLayout, layoutParams);
         }
     }
 
