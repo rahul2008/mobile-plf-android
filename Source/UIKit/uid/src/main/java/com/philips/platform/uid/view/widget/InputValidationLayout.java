@@ -26,9 +26,9 @@ public class InputValidationLayout extends LinearLayout {
         super(context, attrs);
         setOrientation(LinearLayout.VERTICAL);
 
-        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, new int[]{R.attr.uidTextBoxValidationErrorText, R.attr.uidTextBoxValidationErrorDrawable});
-        errorMessageID = typedArray.getResourceId(0, -1);
-        errorDrawableID = typedArray.getResourceId(1, -1);
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, new int[]{R.attr.uidTextBoxValidationErrorDrawable, R.attr.uidTextBoxValidationErrorText});
+        errorDrawableID = typedArray.getResourceId(0, -1);
+        errorMessageID = typedArray.getResourceId(1, -1);
     }
 
     @Override
@@ -43,21 +43,25 @@ public class InputValidationLayout extends LinearLayout {
     public void setErrorMessage(int resID) {
         if (errorLabel != null) {
             errorLabel.setText(resID);
+            errorLabel.setVisibility(VISIBLE);
         }
     }
 
     public void setErrorMessage(CharSequence errorMsg) {
         if (errorLabel != null) {
             errorLabel.setText(errorMsg);
+            errorLabel.setVisibility(VISIBLE);
         }
     }
 
     public void setErrorDrawable(Drawable drawable) {
         errorIcon.setImageDrawable(drawable);
+        errorIcon.setVisibility(VISIBLE);
     }
 
     public void setErrorDrawable(int resID) {
         errorIcon.setImageResource(resID);
+        errorIcon.setVisibility(VISIBLE);
     }
 
     public void showError() {
@@ -71,13 +75,15 @@ public class InputValidationLayout extends LinearLayout {
         if (errorLayout == null) {
             errorLayout = (ViewGroup) View.inflate(getContext(), R.layout.uid_inline_validation_input, null);
             errorLabel = (Label) errorLayout.findViewById(R.id.uid_inline_validation_text);
-            if(errorMessageID != -1) {
+            if (errorMessageID != -1) {
                 errorLabel.setText(errorMessageID);
+                errorLabel.setVisibility(VISIBLE);
             }
 
             errorIcon = (ImageView) errorLayout.findViewById(R.id.uid_inline_validation_icon);
             if (errorDrawableID != -1) {
                 errorIcon.setImageResource(errorDrawableID);
+                errorIcon.setVisibility(VISIBLE);
             }
 
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
