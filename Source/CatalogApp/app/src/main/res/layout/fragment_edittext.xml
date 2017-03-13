@@ -94,17 +94,15 @@
                     android:id="@+id/inline"
                     style="@style/RecyclerViewRadioButton"
                     android:checked="@{texteditBoxfragment.isInlineValidation}"
-                    android:text="@string/inline_validation"
                     android:onClick="@{() -> texteditBoxfragment.changeValidation()}"
-                    />
+                    android:text="@string/inline_validation" />
 
                 <RadioButton
                     android:id="@+id/tooltip"
                     style="@style/RecyclerViewRadioButton"
                     android:checked="@{!texteditBoxfragment.isInlineValidation}"
-                    android:text="@string/tooltip_validation"
                     android:onClick="@{() -> texteditBoxfragment.changeValidation()}"
-                    />
+                    android:text="@string/tooltip_validation" />
             </RadioGroup>
 
             <com.philips.platform.uid.view.widget.Label
@@ -135,7 +133,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/component_bottom_spacing"
-                    android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}" />
+                    android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}">
+
+                    <com.philips.platform.uid.view.widget.ValidationEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_text"/>
+                </com.philips.platform.uid.view.widget.TextInputLayout>
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/label_input_password"

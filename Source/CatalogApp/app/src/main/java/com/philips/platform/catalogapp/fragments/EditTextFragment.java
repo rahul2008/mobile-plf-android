@@ -30,7 +30,7 @@ public class EditTextFragment extends BaseFragment {
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         texteditboxBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_edittext, container, false);
         texteditboxBinding.setTexteditBoxfragment(this);
-        texteditboxBinding.textboxInputField.getValidationEditText().setHint(R.string.hint_text);
+//        texteditboxBinding.textboxInputField.getValidationEditText().setHint(R.string.hint_text);
         return texteditboxBinding.getRoot();
     }
 
@@ -70,7 +70,7 @@ public class EditTextFragment extends BaseFragment {
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         }
-        texteditboxBinding.textboxInputField.getValidationEditText().setEnabled(!toggle);
+//        texteditboxBinding.textboxInputField.getValidationEditText().setEnabled(!toggle);
     }
 
     public void showWithLabel(boolean isChecked) {
@@ -80,9 +80,11 @@ public class EditTextFragment extends BaseFragment {
     public void changeValidation(){
         int checkedRadioButtonId = texteditboxBinding.radioGroupTemplates.getCheckedRadioButtonId();
         if (checkedRadioButtonId == R.id.inline) {
-            texteditboxBinding.textboxInputField.showError(getResources().getString(R.string.inline_error_message),R.drawable.ic_alarm);
+            texteditboxBinding.textboxInputField.setErrorDrawable(R.drawable.ic_alarm);
+            texteditboxBinding.textboxInputField.setErrorMessage(R.string.inline_error_message);
+            texteditboxBinding.textboxInputField.showError();
         } else if (checkedRadioButtonId == R.id.tooltip) {
-            texteditboxBinding.textboxInputField.clearError();
+            texteditboxBinding.textboxInputField.hideError();
         }
     }
 }

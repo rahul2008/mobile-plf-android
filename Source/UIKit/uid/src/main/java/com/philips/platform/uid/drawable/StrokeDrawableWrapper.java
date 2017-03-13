@@ -200,8 +200,12 @@ public class StrokeDrawableWrapper extends Drawable implements Drawable.Callback
         borderStateWidthArray = stateWidthArray;
     }
 
-    private void updateStrokeWidthAsPerSpec(int[] spec) {
-        if(!Arrays.equals(currentState, spec)) {
+    private void updateStrokeWidthAsPerSpec(int[] newState) {
+        if(!Arrays.equals(currentState, newState)) {
         }
+    }
+
+    private void getWidthAsPerState(int []newState) {
+
     }
 }

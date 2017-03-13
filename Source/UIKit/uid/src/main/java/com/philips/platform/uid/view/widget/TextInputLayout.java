@@ -1,11 +1,14 @@
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -17,6 +20,7 @@ public class TextInputLayout extends LinearLayout {
     private ImageView validationIcon;
     private LinearLayout linearLayout;
     private ValidationEditText validationEditText;
+    private boolean isShowingError;
 
     public TextInputLayout(Context context) {
         super(context);
@@ -39,9 +43,18 @@ public class TextInputLayout extends LinearLayout {
         initialize(context);
     }
 
-    public ValidationEditText getValidationEditText() {
-        return validationEditText;
+
+    @Override
+    public void addView(View child, int index, ViewGroup.LayoutParams params) {
+        super.addView(child, index, params);
+        if (child instanceof ValidationEditText) {
+            validationEditText = (ValidationEditText) child;
+        }
     }
+
+    /*    public ValidationEditText getValidationEditText() {
+        return validationEditText;
+    }*/
 
     private void initialize(Context context) {
         setOrientation(LinearLayout.VERTICAL);
@@ -57,14 +70,40 @@ public class TextInputLayout extends LinearLayout {
         validationEditText = (ValidationEditText) findViewById(R.id.uid_inline_validation_edittext);
     }
 
-    public void showError(String message, int drawable){
-        validationText.setText(message);
-        validationIcon.setImageResource(drawable);
-        linearLayout.setVisibility(VISIBLE);
+    public void setErrorMessage(int resID) {
+        if (validationEditText != null) {
+            validationEditText.setText(resID);
+        }
     }
 
-    public void clearError(){
+    public void setErrorMessage(CharSequence errorMsg) {
+        if (validationEditText != null) {
+            validationEditText.setText(errorMsg);
+        }
+    }
+
+    public void setErrorDrawable(Drawable drawable) {
+        validationIcon.setImageDrawable(drawable);
+    }
+
+    public void setErrorDrawable(int resID) {
+        validationIcon.setImageResource(resID);
+    }
+
+    public void showError() {
+        isShowingError = true;
+        validationEditText.showError(isShowingError);
+        linearLayout.setVisibility(VISIBLE);
+
+    }
+
+    public void hideError() {
+        isShowingError = false;
+        validationEditText.showError(isShowingError);
         linearLayout.setVisibility(GONE);
     }
 
+    public boolean isShowingError() {
+        return isShowingError;
+    }
 }
