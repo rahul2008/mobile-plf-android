@@ -64,26 +64,17 @@ public class SettingsDataFetcher extends DataFetcher {
     @Nullable
     @Override
     public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
-        try {
+
             if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
                 getSettings();
             }
             return null;
-        } catch (RetrofitError exception) {
-            eventing.post(new BackendDataRequestFailed(exception));
-            onError(exception);
-            return exception;
-        }
     }
 
-    public void getSettings() {
+    public void     getSettings() {
 
         if (isUserInvalid()) {
             postError(1, getNonLoggedInError());
-            return;
-        }
-
-        if (uCoreAccessProvider == null) {
             return;
         }
 
@@ -98,10 +89,6 @@ public class SettingsDataFetcher extends DataFetcher {
             eventing.post(new BackendDataRequestFailed(retrofitError));
         }
 
-    }
-    private boolean isResponseSuccess(final Response response) {
-        return response != null && (response.getStatus() == HttpURLConnection.HTTP_OK || response.getStatus() == HttpURLConnection.HTTP_CREATED
-                || response.getStatus() == HttpURLConnection.HTTP_NO_CONTENT);
     }
 
     private void postError(int referenceId, final RetrofitError error) {

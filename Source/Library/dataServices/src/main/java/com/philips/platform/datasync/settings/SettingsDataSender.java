@@ -60,9 +60,9 @@ public class SettingsDataSender extends DataSender {
     @Override
     public boolean sendDataToBackend(@NonNull List dataToSend) {
 
-        if (dataToSend!=null && !dataToSend.isEmpty() && synchronizationState.get() != State.BUSY.getCode()) {
-            for(Object settings:dataToSend){
-                sendSettingsToBackend((Settings)settings);
+        if (dataToSend != null && !dataToSend.isEmpty() && synchronizationState.get() != State.BUSY.getCode()) {
+            for (Object settings : dataToSend) {
+                sendSettingsToBackend((Settings) settings);
             }
 
         }
@@ -75,17 +75,17 @@ public class SettingsDataSender extends DataSender {
         return Settings.class;
     }
 
-    public void sendSettingsToBackend(Settings settings) {
+    void sendSettingsToBackend(Settings settings) {
 
-        if(settings==null) return;
+        if (settings == null) return;
 
         if (isUserInvalid()) {
             postError(1, getNonLoggedInError());
             return;
         }
-        if (uCoreAccessProvider == null) {
-            return;
-        }
+//        if (uCoreAccessProvider == null) {
+//            return;
+//        }
 
         try {
             UCoreSettings uCoreSettings = settingsConverter.convertAppToUcoreSettings(settings);
@@ -119,6 +119,7 @@ public class SettingsDataSender extends DataSender {
     private void postError(int referenceId, final RetrofitError error) {
         eventing.post(new BackendResponse(referenceId, error));
     }
+
     private RetrofitError getNonLoggedInError() {
         return RetrofitError.unexpectedError("", new IllegalStateException("you're not logged in"));
     }
