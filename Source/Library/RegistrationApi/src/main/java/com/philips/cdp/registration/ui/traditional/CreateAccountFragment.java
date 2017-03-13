@@ -348,8 +348,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         TextView receivePhilipsNewsView = (TextView) view.findViewById(R.id.tv_reg_philips_news);
         RegUtility.linkifyPhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
 
-        String sourceString = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now) + " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
-        String updateJoinNowText = mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers);
+        String sourceString = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now) ;
+        String updateJoinNowText =  " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
         sourceString = String.format(sourceString, updateJoinNowText);
         mJoinnow.setText(Html.fromHtml(sourceString));
 
