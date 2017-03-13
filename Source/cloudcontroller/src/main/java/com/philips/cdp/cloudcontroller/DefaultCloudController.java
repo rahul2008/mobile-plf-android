@@ -50,6 +50,7 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 public class DefaultCloudController implements CloudController, ICPClientToAppInterface, ICPEventListener {
@@ -72,9 +73,9 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     private Context mContext;
     private KpsConfigurationInfo mKpsConfigurationInfo;
 
-    private final CopyOnWriteArraySet<SignonListener> mSignOnListeners;
-    private final CopyOnWriteArraySet<PublishEventListener> mPublishEventListeners;
-    private final CopyOnWriteArraySet<DcsResponseListener> mDcsResponseListeners;
+    private final Set<SignonListener> mSignOnListeners;
+    private final Set<PublishEventListener> mPublishEventListeners;
+    private final Set<DcsResponseListener> mDcsResponseListeners;
 
     private HashMap<String, DcsEventListener> mDcsEventListenersMap = new HashMap<>();
     private SignOn mSignOn;
