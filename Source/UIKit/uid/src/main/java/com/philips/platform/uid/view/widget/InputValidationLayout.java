@@ -1,9 +1,8 @@
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,30 +13,21 @@ import com.philips.platform.uid.R;
 
 public class InputValidationLayout extends LinearLayout {
 
-    private Label errorText;
+    private Label errorLabel;
     private ImageView errorIcon;
     private ViewGroup errorLayout;
     private ValidationEditText validationEditText;
     private boolean isShowingError;
 
-    public InputValidationLayout(Context context) {
-        super(context);
-        setOrientation(LinearLayout.VERTICAL);
-    }
-
+    private Drawable errorDrawable;
+    private String errorMessage;
     public InputValidationLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         setOrientation(LinearLayout.VERTICAL);
-    }
 
-    public InputValidationLayout(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        setOrientation(LinearLayout.VERTICAL);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public InputValidationLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, new int[]{R.attr.uidTextBoxValidationText, R.attr.uidTextBoxValidationErrorDrawable});
+        errorMessage = typedArray.getString(0);
+        errorDrawable = typedArray.getDrawable(1);
     }
 
     @Override
@@ -50,8 +40,8 @@ public class InputValidationLayout extends LinearLayout {
     }
 
     public void setErrorMessage(int resID) {
-        if (errorText != null) {
-            errorText.setText(resID);
+        if (errorLabel != null) {
+            errorLabel.setText(resID);
         }
     }
 
@@ -79,8 +69,11 @@ public class InputValidationLayout extends LinearLayout {
     private void ensureErrorLayout() {
         if (errorLayout == null) {
             errorLayout = (ViewGroup) View.inflate(getContext(), R.layout.uid_inline_validation_input, null);
-            errorText = (Label) errorLayout.findViewById(R.id.uid_inline_validation_text);
+            errorLabel = (Label) errorLayout.findViewById(R.id.uid_inline_validation_text);
+            errorLabel.setText(errorMessage);
+
             errorIcon = (ImageView) errorLayout.findViewById(R.id.uid_inline_validation_icon);
+            errorIcon.setImageDrawable(errorDrawable);
 
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);

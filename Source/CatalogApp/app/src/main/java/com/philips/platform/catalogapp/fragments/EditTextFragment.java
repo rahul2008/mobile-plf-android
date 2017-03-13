@@ -80,8 +80,8 @@ public class EditTextFragment extends BaseFragment {
     public void changeValidation(){
         int checkedRadioButtonId = texteditboxBinding.radioGroupTemplates.getCheckedRadioButtonId();
         if (checkedRadioButtonId == R.id.inline) {
-            texteditboxBinding.textboxInputField.setErrorDrawable(R.drawable.ic_alarm);
-            texteditboxBinding.textboxInputField.setErrorMessage(R.string.inline_error_message);
+         /*   texteditboxBinding.textboxInputField.setErrorDrawable(R.drawable.ic_alarm);
+            texteditboxBinding.textboxInputField.setErrorMessage(R.string.inline_error_message);*/
             texteditboxBinding.textboxInputField.showError();
         } else if (checkedRadioButtonId == R.id.tooltip) {
             texteditboxBinding.textboxInputField.hideError();
