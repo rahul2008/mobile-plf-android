@@ -26,7 +26,7 @@ public class InputValidationLayout extends LinearLayout {
         super(context, attrs);
         setOrientation(LinearLayout.VERTICAL);
 
-        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, new int[]{R.attr.uidTextBoxValidationText, R.attr.uidTextBoxValidationErrorDrawable});
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, new int[]{R.attr.uidTextBoxValidationErrorText, R.attr.uidTextBoxValidationErrorDrawable});
         errorMessageID = typedArray.getResourceId(0, -1);
         errorDrawableID = typedArray.getResourceId(1, -1);
     }
@@ -47,8 +47,8 @@ public class InputValidationLayout extends LinearLayout {
     }
 
     public void setErrorMessage(CharSequence errorMsg) {
-        if (validationEditText != null) {
-            validationEditText.setText(errorMsg);
+        if (errorLabel != null) {
+            errorLabel.setText(errorMsg);
         }
     }
 

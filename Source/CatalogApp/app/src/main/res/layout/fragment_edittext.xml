@@ -132,6 +132,8 @@
                     android:id="@+id/textbox_input_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:uidTextBoxValidationErrorText="@string/inline_error_message"
+                    app:uidTextBoxValidationErrorDrawable="@drawable/ic_lock"
                     android:layout_marginTop="@dimen/component_bottom_spacing">
 
                     <com.philips.platform.uid.view.widget.ValidationEditText
