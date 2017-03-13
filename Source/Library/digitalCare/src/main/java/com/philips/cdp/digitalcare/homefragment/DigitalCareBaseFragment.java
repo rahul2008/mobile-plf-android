@@ -144,6 +144,12 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
                 .getDimension(R.dimen.activity_margin_port);
         mLeftRightMarginLand = (int) getActivity().getResources()
                 .getDimension(R.dimen.activity_margin_land);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (getActivity().isInMultiWindowMode()){
+                mLeftRightMarginLand = (int) getActivity().getResources()
+                        .getDimension(R.dimen.activity_margin_port);
+            }
+        }
     }
 
     @Override

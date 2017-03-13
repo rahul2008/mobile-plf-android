@@ -353,7 +353,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                 mLaunchDigitalCare.setVisibility(View.INVISIBLE);
 
 
-                startActivity(new Intent(this, MicroAppFragmentActivity.class));
+                startActivity(new Intent(getApplicationContext(), MicroAppFragmentActivity.class));
                 break;
             case R.id.change_theme:
                 Resources.Theme theme = super.getTheme();
