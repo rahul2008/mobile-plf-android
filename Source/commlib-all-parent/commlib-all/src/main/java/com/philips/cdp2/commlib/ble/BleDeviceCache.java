@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * that were scanned (or associated) earlier available for CommLib without having an active
  * connection to them.
  */
-public final class BleDeviceCache {
+public class BleDeviceCache {
 
     private final class CacheData {
         private final SHNDevice device;
