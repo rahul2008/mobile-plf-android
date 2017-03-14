@@ -5,7 +5,6 @@
 package com.philips.cdp2.commlib.ble.communication;
 
 import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
@@ -19,6 +18,7 @@ import com.philips.cdp2.commlib.ble.request.BleGetRequest;
 import com.philips.cdp2.commlib.ble.request.BlePutRequest;
 import com.philips.cdp2.commlib.ble.request.BleRequest;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.util.HandlerProvider;
 import com.philips.cdp2.commlib.core.util.VerboseRunnable;
 import com.philips.pins.shinelib.SHNDevice;
 
@@ -58,7 +58,7 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
      * @param deviceCache the device cache
      */
     public BleCommunicationStrategy(@NonNull String cppId, @NonNull BleDeviceCache deviceCache) {
-        this(cppId, deviceCache, new Handler(Looper.getMainLooper()));
+        this(cppId, deviceCache, HandlerProvider.createHandler());
     }
 
     /**
