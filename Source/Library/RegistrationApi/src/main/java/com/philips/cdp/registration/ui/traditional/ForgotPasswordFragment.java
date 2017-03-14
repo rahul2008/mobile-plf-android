@@ -52,7 +52,6 @@ import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegChinaUtil;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.URInterface;
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import org.json.JSONException;
@@ -71,6 +70,9 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
     @Inject
     NetworkUtility networkUtility;
+
+    @Inject
+    ServiceDiscoveryInterface serviceDiscoveryInterface;
 
     private static final int FAILURE_TO_CONNECT = -1;
     public static final String USER_REQUEST_PASSWORD_RESET_SMS_CODE = "/api/v1/user/requestPasswordResetSmsCode";
@@ -429,11 +431,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     String resetPasswordSmsRedirectUri;
 
     private void serviceDiscovery()  {
-
-        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
-        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
         RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
-
         //Temp: will be updated once actual URX received for reset sms
         serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.urx.verificationsmscode", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 

@@ -42,6 +42,7 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.configuration.AppConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
@@ -67,7 +68,6 @@ import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.wechat.WeChatAuthenticationListener;
 import com.philips.cdp.registration.wechat.WeChatAuthenticator;
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.tencent.mm.sdk.modelbase.BaseResp;
@@ -91,6 +91,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     @Inject
     NetworkUtility networkUtility;
+
+    @Inject
+    AppConfiguration appConfiguration;
+
+    @Inject
+    ServiceDiscoveryInterface serviceDiscoveryInterface;
 
     public static final String WECHAT = "wechat";
     private static final int AUTHENTICATION_FAILED = -30;
@@ -416,8 +422,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void initServiceDiscovery() {
-        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
-        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
         serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {
@@ -436,12 +440,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void showCountrySelection() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        mShowCountrySelection = (String) RegistrationHelper.getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.SHOW_COUNTRY_SELECTION, UR,
-                        configError);
+        mShowCountrySelection = appConfiguration.getShowCountrySelection();
         RLog.d(RLog.SERVICE_DISCOVERY, " Country Show Country Selection :" + mShowCountrySelection);
         if (mShowCountrySelection!=null)
         {
@@ -487,8 +486,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void changeCountry(String countryCode) {
         if (networkUtility.isNetworkAvailable()) {
-            AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
-            final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
             serviceDiscoveryInterface.setHomeCountry(countryCode);
             RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + countryCode.length());
             showProgressDialog();
@@ -1105,16 +1102,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     };
 
     private void registerWeChatApp() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        mWeChatAppId = (String) RegistrationHelper.getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey("weChatAppId", UR,
-                        configError);
-        mWeChatAppSecret = (String) RegistrationHelper.getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey("weChatAppSecret", UR,
-                        configError);
+        mWeChatAppId = appConfiguration.getWeChatAppId();
+        mWeChatAppSecret = appConfiguration.getWeChatAppSecret();
         RLog.d("WECHAT", "weChatId " + mWeChatAppId + " WechatSecrete " + mWeChatAppSecret);
 
         if (mWeChatAppId != null && mWeChatAppSecret != null) {

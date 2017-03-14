@@ -10,18 +10,19 @@ package com.philips.cdp.registration.app.tagging;
 
 import android.app.Activity;
 
-import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class AppTagging {
 
+    private static AppTaggingInterface appTaggingInterface = URInterface.getComponent().getAppTaggingInterface();
 
     public static void trackPage(String currPage) {
         final Map<String, String> commonGoalsMap = getCommonGoalsMap();
-        RegistrationHelper.getInstance().getAppTaggingInterface().
-                trackPageWithInfo(currPage, commonGoalsMap);
+        appTaggingInterface.trackPageWithInfo(currPage, commonGoalsMap);
     }
 
     public static void trackFirstPage(String currPage) {
@@ -31,14 +32,13 @@ public class AppTagging {
     public static void trackAction(String state, String key, String value) {
         final Map<String, String> commonGoalsMap = getCommonGoalsMap();
         commonGoalsMap.put(key, value);
-        RegistrationHelper.getInstance().getAppTaggingInterface().
-                trackActionWithInfo(state, commonGoalsMap);
+        appTaggingInterface.trackActionWithInfo(state, commonGoalsMap);
     }
 
     public static void trackMultipleActions(String state, Map<String, String> map) {
         final Map<String, String> commonGoalsMap = getCommonGoalsMap();
         commonGoalsMap.putAll(map);
-        RegistrationHelper.getInstance().getAppTaggingInterface().trackActionWithInfo(state, map);
+        appTaggingInterface.trackActionWithInfo(state, map);
     }
 
     public static Map<String, String> getCommonGoalsMap() {
@@ -46,11 +46,11 @@ public class AppTagging {
     }
 
     public static void pauseCollectingLifecycleData() {
-        RegistrationHelper.getInstance().getAppTaggingInterface().pauseLifecycleInfo();
+        appTaggingInterface.pauseLifecycleInfo();
     }
 
     public static void collectLifecycleData(Activity activity) {
-        RegistrationHelper.getInstance().getAppTaggingInterface().collectLifecycleInfo(activity);
+        appTaggingInterface.collectLifecycleInfo(activity);
     }
 
 }

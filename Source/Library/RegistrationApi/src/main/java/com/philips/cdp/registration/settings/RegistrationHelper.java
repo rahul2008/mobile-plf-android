@@ -20,13 +20,11 @@ import com.philips.cdp.registration.events.UserRegistrationHelper;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.ntputils.ServerTime;
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
-import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.Locale;
@@ -37,10 +35,17 @@ import javax.inject.Inject;
  * {@code RegistrationHelper} class represents the entry point for User Registration component.
  * It exposes APIs to be used when User Registration is intended to be integrated by any application.
  */
+@Deprecated
 public class RegistrationHelper {
 
     @Inject
     NetworkUtility networkUtility;
+
+    @Inject
+    TimeInterface timeInterface;
+
+    @Inject
+    ABTestClientInterface abTestClientInterface;
 
     private String countryCode;
 
@@ -77,26 +82,6 @@ public class RegistrationHelper {
         return mRegistrationHelper;
     }
 
-    private AppInfraInterface appInfra;
-
-    public void setAppInfraInstance(AppInfraInterface appInfra) {
-        this.appInfra = appInfra;
-    }
-
-    public AppInfraInterface getAppInfraInstance() {
-        return appInfra;
-    }
-
-    private AppTaggingInterface mAppTaggingInterface;
-
-    public AppTaggingInterface getAppTaggingInterface() {
-        if (mAppTaggingInterface == null) {
-            mAppTaggingInterface = getAppInfraInstance().getTagging().
-                    createInstanceForComponent(RegConstants.COMPONENT_TAGS_ID, getRegistrationApiVersion());
-            mAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
-        }
-        return mAppTaggingInterface;
-    }
     /*
      * Initialize Janrain
      * {code @initializeUserRegistration} method represents endpoint for integrating
@@ -119,18 +104,17 @@ public class RegistrationHelper {
         UserRegistrationInitializer.getInstance().resetInitializationState();
         UserRegistrationInitializer.getInstance().setJanrainIntialized(false);
         generateKeyAndMigrateData(context);
+        refreshNTPOffset();
         final Runnable runnable = new Runnable() {
 
             @Override
             public void run() {
 
                 if (networkUtility.isNetworkAvailable()) {
-                    refreshNTPOffset();
-                    UserRegistrationInitializer.getInstance().initializeEnvironment(
 
-                            context, mLocale);
+                    UserRegistrationInitializer.getInstance().initializeEnvironment(context, mLocale);
                     //AB Testing initialization
-                    getAppInfraInstance().getAbTesting().updateCache(new ABTestClientInterface.
+                    abTestClientInterface.updateCache(new ABTestClientInterface.
                             OnRefreshListener() {
                         @Override
                         public void onSuccess() {
@@ -166,7 +150,7 @@ public class RegistrationHelper {
     }
 
     private void refreshNTPOffset() {
-        ServerTime.init(getAppInfraInstance().getTime());
+        ServerTime.init(timeInterface);
         ServerTime.refreshOffset();
     }
 

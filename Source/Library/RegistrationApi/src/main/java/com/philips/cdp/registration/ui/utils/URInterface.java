@@ -4,6 +4,7 @@ package com.philips.cdp.registration.ui.utils;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
@@ -128,7 +129,6 @@ public class URInterface implements UappInterface {
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         component = initDaggerComponents(uappDependencies, uappSettings);
-        RegistrationHelper.getInstance().setAppInfraInstance(uappDependencies.getAppInfra());
         RegistrationHelper.getInstance().setUrSettings(uappSettings);
         RegistrationHelper.getInstance().initializeUserRegistration(uappSettings.getContext());
         Jump.init(uappSettings.getContext(), uappDependencies.getAppInfra().getSecureStorage());
@@ -144,5 +144,11 @@ public class URInterface implements UappInterface {
                     .networkModule(new NetworkModule(uappSettings.getContext()))
                     .appInfraModule(new AppInfraModule(uappDependencies.getAppInfra()))
                     .build();
+    }
+
+    @Deprecated
+    @VisibleForTesting
+    public static void setComponent(RegistrationComponent componentMock) {
+        component = componentMock;
     }
 }

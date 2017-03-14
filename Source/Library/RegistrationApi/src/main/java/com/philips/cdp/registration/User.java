@@ -482,7 +482,6 @@ public class User {
      * @return boolean
      */
     public boolean isUserSignIn() {
-        long start  = System.nanoTime();
         CaptureRecord capturedRecord = Jump.getSignedInUser();
         if (capturedRecord == null) {
             capturedRecord = CaptureRecord.loadFromDisk(mContext);
@@ -534,19 +533,6 @@ public class User {
         }
         return signedIn;
     }
-
-
-
-
-
-
-//    private boolean isJanrainUserRecord() {
-//        CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
-//        if (captured != null) {
-//            return true;
-//        }
-//        return false;
-//    }
 
     // check merge flow error for capture
     public boolean handleMergeFlowError(String existingProvider) {
