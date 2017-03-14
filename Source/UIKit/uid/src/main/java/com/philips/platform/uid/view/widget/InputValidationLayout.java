@@ -114,4 +114,6 @@ public class InputValidationLayout extends LinearLayout {
     public ImageView getErrorIconView() {
         return errorIcon;
     }
+
+    public ViewGroup getErrorLayout(){ return errorLayout;}
 }

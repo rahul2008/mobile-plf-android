@@ -62,6 +62,12 @@ public class EditTextFragment extends BaseFragment {
         disableEditBoxes.set(toggle);
         //View is null in case of rotation
         final View view = getView();
+        if(toggle){
+            texteditboxBinding.textboxInputField.getErrorLayout().setVisibility(View.GONE);
+        }else {
+            texteditboxBinding.textboxInputField.getErrorLayout().setVisibility(View.VISIBLE);
+        }
+
         if (disableEditBoxes.get() && view != null) {
             view.clearFocus();
             if (view != null) {
@@ -75,12 +81,5 @@ public class EditTextFragment extends BaseFragment {
         isWithLabel.set(isChecked);
     }
 
-    public void changeValidation(){
-        int checkedRadioButtonId = texteditboxBinding.radioGroupTemplates.getCheckedRadioButtonId();
-        if (checkedRadioButtonId == R.id.inline) {
-            texteditboxBinding.textboxInputField.showError();
-        } else if (checkedRadioButtonId == R.id.tooltip) {
-            texteditboxBinding.textboxInputField.hideError();
-        }
-    }
+
 }

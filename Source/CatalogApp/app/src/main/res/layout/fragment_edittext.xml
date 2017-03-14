@@ -73,38 +73,6 @@
 
             <include layout="@layout/divider_layout" />
 
-            <!--Data Validation layout-->
-            <com.philips.platform.uid.view.widget.Label
-                style="@style/UIDLabel.MarginTop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/layout_margin_left_right"
-                android:layout_marginTop="@dimen/layout_margin_top_bottom"
-                android:text="@string/data_validation" />
-
-            <RadioGroup
-                android:id="@+id/radioGroupTemplates"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/layout_margin_top_bottom"
-                android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
-                android:orientation="vertical">
-
-                <RadioButton
-                    android:id="@+id/inline"
-                    style="@style/RecyclerViewRadioButton"
-                    android:checked="@{texteditBoxfragment.isInlineValidation}"
-                    android:onClick="@{() -> texteditBoxfragment.changeValidation()}"
-                    android:text="@string/inline_validation" />
-
-                <RadioButton
-                    android:id="@+id/tooltip"
-                    style="@style/RecyclerViewRadioButton"
-                    android:checked="@{!texteditBoxfragment.isInlineValidation}"
-                    android:onClick="@{() -> texteditBoxfragment.changeValidation()}"
-                    android:text="@string/tooltip_validation" />
-            </RadioGroup>
-
             <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
                 android:text="@string/label_textboxes" />
@@ -128,20 +96,16 @@
                     android:text="@string/label_input_field"
                     android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}" />
 
-                <com.philips.platform.uid.view.widget.InputValidationLayout
-                    android:id="@+id/textbox_input_field"
+                <com.philips.platform.uid.view.widget.EditText
+                    android:id="@+id/textbox_input_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:uidTextBoxValidationErrorText="@string/inline_error_message"
-                    app:uidTextBoxValidationErrorDrawable="@drawable/ic_lock"
-                    android:layout_marginTop="@dimen/component_bottom_spacing">
-
-                    <com.philips.platform.uid.view.widget.ValidationEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/hint_text"
-                        android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}"/>
-                </com.philips.platform.uid.view.widget.InputValidationLayout>
+                    android:layout_marginTop="@dimen/component_bottom_spacing"
+                    android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}"
+                    android:hint="@string/hint_text"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    app:uidInputTextWithClearButton="true" />
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/label_input_password"
@@ -194,16 +158,26 @@
                     android:text="@string/label_email"
                     android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}" />
 
-                <com.philips.platform.uid.view.widget.EditText
-                    android:id="@+id/textbox_input_email"
+                <com.philips.platform.uid.view.widget.InputValidationLayout
+                    android:id="@+id/textbox_input_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/component_bottom_spacing"
-                    android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}"
-                    android:hint="@string/hint_email"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    app:uidInputTextWithClearButton="true" />
+                    app:uidTextBoxValidationErrorDrawable="@drawable/ic_lock"
+                    app:uidTextBoxValidationErrorText="@string/inline_error_message">
+
+                    <com.philips.platform.uid.view.widget.ValidationEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/component_bottom_spacing"
+                        android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}"
+                        android:hint="@string/hint_email"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        app:uidInputTextWithClearButton="true" />
+
+
+                </com.philips.platform.uid.view.widget.InputValidationLayout>
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/label_multiline_input"
