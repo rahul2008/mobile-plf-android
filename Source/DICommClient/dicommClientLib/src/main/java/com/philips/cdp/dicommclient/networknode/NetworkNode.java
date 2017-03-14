@@ -19,6 +19,7 @@ public class NetworkNode extends Observable implements Parcelable {
 
     private String mIpAddress;
     private String mCppId;
+    @Deprecated
     private ConnectionState mConnectionState;
 
     private String mName;
@@ -55,10 +56,12 @@ public class NetworkNode extends Observable implements Parcelable {
         this.mCppId = cppId;
     }
 
+    @Deprecated
     public synchronized ConnectionState getConnectionState() {
         return mConnectionState;
     }
 
+    @Deprecated
     public void setConnectionState(ConnectionState connectionState) {
         synchronized (this) { // notifyObservers called from same Thread
             if (connectionState.equals(mConnectionState)) return;
