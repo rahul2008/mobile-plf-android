@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
@@ -48,9 +49,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public class DefaultCloudController implements CloudController, ICPClientToAppInterface, ICPEventListener {
 
@@ -72,9 +73,9 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     private Context mContext;
     private KpsConfigurationInfo mKpsConfigurationInfo;
 
-    private final List<SignonListener> mSignOnListeners;
-    private final List<PublishEventListener> mPublishEventListeners;
-    private final List<DcsResponseListener> mDcsResponseListeners;
+    private final Set<SignonListener> mSignOnListeners;
+    private final Set<PublishEventListener> mPublishEventListeners;
+    private final Set<DcsResponseListener> mDcsResponseListeners;
 
     private HashMap<String, DcsEventListener> mDcsEventListenersMap = new HashMap<>();
     private SignOn mSignOn;
@@ -114,9 +115,9 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
         mICPCallbackHandler = new ICPCallbackHandler(this);
         mPairingController = new DefaultPairingController(this);
 
-        mSignOnListeners = new ArrayList<>();
-        mPublishEventListeners = new ArrayList<>();
-        mDcsResponseListeners = new ArrayList<>();
+        mSignOnListeners = new CopyOnWriteArraySet<>();
+        mPublishEventListeners = new CopyOnWriteArraySet<>();
+        mDcsResponseListeners = new CopyOnWriteArraySet<>();
 
         if (mSignOn == null) {
             mSignOn = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration);
@@ -136,7 +137,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     @VisibleForTesting
     DefaultCloudController() {
         mSignOn = null;
-        mSignOnListeners = new ArrayList<>();
+        mSignOnListeners = new CopyOnWriteArraySet<>();
         mDcsResponseListeners = null;
         mPublishEventListeners = null;
     }
@@ -241,22 +242,16 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     }
 
     @Override
-    public void addSignOnListener(SignonListener signOnListener) {
-        synchronized (mSignOnListeners) {
-            if (!mSignOnListeners.contains(signOnListener)) {
-                mSignOnListeners.add(signOnListener);
-                Log.v(LogConstants.CLOUD_CONTROLLER, "Added signOn listener - " + signOnListener.hashCode());
-            }
+    public void addSignOnListener(@NonNull SignonListener signOnListener) {
+        if (mSignOnListeners.add(signOnListener)) {
+            Log.v(LogConstants.CLOUD_CONTROLLER, "Added signOn listener - " + signOnListener.hashCode());
         }
     }
 
     @Override
-    public void removeSignOnListener(SignonListener signOnListener) {
-        synchronized (mSignOnListeners) {
-            if (mSignOnListeners.contains(signOnListener)) {
-                mSignOnListeners.remove(signOnListener);
-                Log.v(LogConstants.CLOUD_CONTROLLER, "Removed signOn listener - " + signOnListener.hashCode());
-            }
+    public void removeSignOnListener(@NonNull SignonListener signOnListener) {
+        if (mSignOnListeners.remove(signOnListener)) {
+            Log.v(LogConstants.CLOUD_CONTROLLER, "Removed signOn listener - " + signOnListener.hashCode());
         }
     }
 
@@ -303,39 +298,23 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     }
 
     @Override
-    public void addDCSResponseListener(DcsResponseListener dcsResponseListener) {
-        synchronized (mDcsResponseListeners) {
-            if (!mDcsResponseListeners.contains(dcsResponseListener)) {
-                mDcsResponseListeners.add(dcsResponseListener);
-            }
-        }
+    public void addDCSResponseListener(@NonNull DcsResponseListener dcsResponseListener) {
+        mDcsResponseListeners.add(dcsResponseListener);
     }
 
     @Override
-    public void removeDCSResponseListener(DcsResponseListener dcsResponseListener) {
-        synchronized (mDcsResponseListeners) {
-            if (mDcsResponseListeners.contains(dcsResponseListener)) {
-                mDcsResponseListeners.remove(dcsResponseListener);
-            }
-        }
+    public void removeDCSResponseListener(@NonNull DcsResponseListener dcsResponseListener) {
+        mDcsResponseListeners.remove(dcsResponseListener);
     }
 
     @Override
-    public void addPublishEventListener(PublishEventListener publishEventListener) {
-        synchronized (mPublishEventListeners) {
-            if (!mPublishEventListeners.contains(publishEventListener)) {
-                this.mPublishEventListeners.add(publishEventListener);
-            }
-        }
+    public void addPublishEventListener(@NonNull PublishEventListener publishEventListener) {
+        this.mPublishEventListeners.add(publishEventListener);
     }
 
     @Override
-    public void removePublishEventListener(PublishEventListener publishEventListener) {
-        synchronized (mPublishEventListeners) {
-            if (mPublishEventListeners.contains(publishEventListener)) {
-                mPublishEventListeners.remove(publishEventListener);
-            }
-        }
+    public void removePublishEventListener(@NonNull PublishEventListener publishEventListener) {
+        mPublishEventListeners.remove(publishEventListener);
     }
 
     /**
@@ -391,10 +370,8 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     }
 
     private void notifySignOnListeners(boolean signOnStatus) {
-        synchronized (mSignOnListeners) {
-            for (SignonListener listener : mSignOnListeners) {
-                listener.signonStatus(signOnStatus);
-            }
+        for (SignonListener listener : mSignOnListeners) {
+            listener.signonStatus(signOnStatus);
         }
     }
 
@@ -411,10 +388,8 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     public void notifyDCSListener(String data, String fromEui64, String action, String conversationId) {
         if (action == null) return;
         if (action.equalsIgnoreCase("RESPONSE")) {
-            synchronized (mDcsResponseListeners) {
-                for (DcsResponseListener listener : mDcsResponseListeners) {
-                    listener.onDCSResponseReceived(data, conversationId);
-                }
+            for (DcsResponseListener listener : mDcsResponseListeners) {
+                listener.onDCSResponseReceived(data, conversationId);
             }
         }
         if (data == null) return;
