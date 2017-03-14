@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -88,8 +89,9 @@ public class InputValidationLayout extends LinearLayout {
 
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            int topMargin = getContext().getResources().getDimensionPixelSize(R.dimen.uid_inline_validation_message_padding_top);
+            int topMargin = getContext().getResources().getDimensionPixelSize(R.dimen.uid_inline_validation_message_margin_top);
             layoutParams.setMargins(0, topMargin, 0, 0);
+            layoutParams.gravity = Gravity.CENTER_VERTICAL;
 
             addView(errorLayout, layoutParams);
         }
@@ -103,5 +105,13 @@ public class InputValidationLayout extends LinearLayout {
 
     public boolean isShowingError() {
         return isShowingError;
+    }
+
+    public Label getErrorView() {
+        return errorLabel;
+    }
+
+    public ImageView getErrorIconView() {
+        return errorIcon;
     }
 }
