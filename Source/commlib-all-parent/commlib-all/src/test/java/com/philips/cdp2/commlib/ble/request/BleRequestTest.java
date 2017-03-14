@@ -23,8 +23,6 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -47,8 +45,6 @@ public class BleRequestTest {
     private static final int PRODUCT_ID = 1337;
 
     private BleRequest request;
-
-    private Map<String, SHNDevice> deviceMap = new HashMap<>();
 
     @Mock
     private BleDeviceCache deviceCacheMock;
@@ -80,11 +76,10 @@ public class BleRequestTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        deviceMap.put(CPP_ID, mockDevice);
         when(mockDevice.getCapabilityForType(SHNCapabilityType.DI_COMM)).thenReturn(mockCapability);
         when(mockDevice.getState()).thenReturn(Connected);
 
-        when(deviceCacheMock.getDeviceMap()).thenReturn(deviceMap);
+        when(deviceCacheMock.getDevice(anyString())).thenReturn(mockDevice);
 
         doAnswer(new Answer() {
             @Override

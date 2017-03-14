@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
@@ -92,6 +93,9 @@ public class BleCommunicationStrategyTestSteps {
     private Map<String, Integer> writtenBytes;
 
     private Map<String, SHNDevice.SHNDeviceListener> deviceListenerMap;
+
+    @Mock
+    private NetworkNode mockNetworkNode;
 
     @Mock
     CapabilityDiComm capability;
@@ -202,7 +206,9 @@ public class BleCommunicationStrategyTestSteps {
             }
         }).when(device).disconnect();
 
-        mDeviceCache.addDevice(device);
+        when(mockNetworkNode.getCppId()).thenReturn(deviceId);
+
+        mDeviceCache.addDevice(device, mockNetworkNode);
     }
 
     private void resetCapability(final String deviceId) {

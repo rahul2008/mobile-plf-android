@@ -149,7 +149,7 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
 
     @Override
     public boolean isAvailable() {
-        return deviceCache.getDeviceMap().containsKey(cppId);
+        return deviceCache.contains(cppId);
     }
 
     /**
@@ -160,7 +160,7 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     @Override
     public void enableCommunication(SubscriptionEventListener subscriptionEventListener) {
         if (isAvailable()) {
-            SHNDevice device = deviceCache.getDeviceMap().get(cppId);
+            SHNDevice device = deviceCache.getDevice(cppId);
             device.connect();
         }
         disconnectAfterRequest.set(false);
@@ -173,7 +173,7 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     @Override
     public void disableCommunication() {
         if (isAvailable() && requestExecutor.getQueue().isEmpty() && requestExecutor.getActiveCount() == 0) {
-            SHNDevice device = deviceCache.getDeviceMap().get(cppId);
+            SHNDevice device = deviceCache.getDevice(cppId);
             device.disconnect();
         }
         disconnectAfterRequest.set(true);

@@ -91,7 +91,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         }
 
         if (modelIds.isEmpty() || modelIds.contains(networkNode.getModelId())) {
-            bleDeviceCache.addDevice(shnDeviceFoundInfo.getShnDevice());
+            bleDeviceCache.addDevice(shnDeviceFoundInfo.getShnDevice(), networkNode);
             networkNodes.add(networkNode);
             notifyNetworkNodeDiscovered(networkNode);
         }

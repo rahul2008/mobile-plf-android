@@ -38,9 +38,9 @@ import static com.philips.cdp.dicommclient.request.Error.PROTOCOL_VIOLATION;
 import static com.philips.cdp.dicommclient.request.Error.UNKNOWN;
 import static com.philips.cdp2.commlib.ble.error.BleErrorMap.getErrorByStatusCode;
 import static com.philips.cdp2.commlib.ble.request.BleRequest.State.COMPLETED;
-import static com.philips.cdp2.commlib.ble.request.BleRequest.State.STARTED;
-import static com.philips.cdp2.commlib.ble.request.BleRequest.State.FINALIZED;
 import static com.philips.cdp2.commlib.ble.request.BleRequest.State.CREATED;
+import static com.philips.cdp2.commlib.ble.request.BleRequest.State.FINALIZED;
+import static com.philips.cdp2.commlib.ble.request.BleRequest.State.STARTED;
 import static com.philips.pins.shinelib.SHNDevice.State.Connected;
 import static com.philips.pins.shinelib.SHNDevice.State.Disconnected;
 import static com.philips.pins.shinelib.SHNResult.SHNOk;
@@ -196,7 +196,7 @@ public abstract class BleRequest implements Runnable {
             return;
         }
 
-        bleDevice = deviceCache.getDeviceMap().get(cppId);
+        bleDevice = deviceCache.getDevice(cppId);
 
         if (bleDevice == null) {
             onError(Error.NOT_AVAILABLE, "Communication is not available");

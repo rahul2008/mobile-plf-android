@@ -6,9 +6,9 @@ package com.philips.cdp2.commlib.ble;
 
 import android.support.annotation.NonNull;
 
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.pins.shinelib.SHNDevice;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -20,36 +20,39 @@ import java.util.concurrent.ConcurrentHashMap;
  * connection to them.
  */
 public class BleDeviceCache {
-    private final Map<String, SHNDevice> deviceMap = new ConcurrentHashMap<>();
 
-    /**
-     * Gets the unique identifier for a device.
-     *
-     * @param device the device
-     * @return the unique device identifier
-     */
-    private static final String getUniqueDeviceIdentifier(SHNDevice device) {
-        return device.getAddress();
+    private final class CacheData {
+        private final SHNDevice device;
+        private final NetworkNode networkNode;
+
+        // TODO timer
+        // TODO callback
+
+        private CacheData(final @NonNull SHNDevice device, final @NonNull NetworkNode networkNode) {
+            this.device = device;
+            this.networkNode = networkNode;
+        }
+
+        public NetworkNode getNetworkNode() {
+            return networkNode;
+        }
+
+        public SHNDevice getDevice() {
+            return device;
+        }
     }
 
-    /**
-     * Get device map.
-     *
-     * @return the map
-     */
-    @NonNull
-    public Map<String, SHNDevice> getDeviceMap() {
-        return Collections.unmodifiableMap(deviceMap);
-    }
+    private final Map<String, CacheData> deviceMap = new ConcurrentHashMap<>();
 
     /**
      * Add device.
      *
-     * @param device the device
+     * @param device      the device
+     * @param networkNode the network node
      * @return true, if the device didn't exist in the cache yet and was therefore added
      */
-    public boolean addDevice(@NonNull SHNDevice device) {
-        return deviceMap.put(getUniqueDeviceIdentifier(device), device) == null;
+    public boolean addDevice(@NonNull SHNDevice device, @NonNull NetworkNode networkNode) {
+        return deviceMap.put(networkNode.getCppId(), new CacheData(device, networkNode)) == null;
     }
 
     /**
@@ -57,5 +60,17 @@ public class BleDeviceCache {
      */
     public void clear() {
         deviceMap.clear();
+    }
+
+    public SHNDevice getDevice(final @NonNull String cppId) {
+        return deviceMap.get(cppId).getDevice();
+    }
+
+    public NetworkNode getNetworkNode(final @NonNull String cppId) {
+        return deviceMap.get(cppId).getNetworkNode();
+    }
+
+    public boolean contains(final @NonNull String cppId) {
+        return deviceMap.containsKey(cppId);
     }
 }
