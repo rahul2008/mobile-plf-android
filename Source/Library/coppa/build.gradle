@@ -122,8 +122,7 @@ android {
         }
         debug {
             debuggable true
-
-            testCoverageEnabled true
+            testCoverageEnabled false
         }
     }
 

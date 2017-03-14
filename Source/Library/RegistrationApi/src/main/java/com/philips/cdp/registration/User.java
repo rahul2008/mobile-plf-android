@@ -486,7 +486,7 @@ public class User {
 
         boolean isEmailVerificationRequired  = RegistrationConfiguration.getInstance().
                 isEmailVerificationRequired();
-        boolean isHsdpFlow = RegistrationConfiguration.getInstance().isHsdpFlow();
+        boolean isHsdpFlow = RegistrationConfiguration.getInstance().isHsdpFlowWithoutBaseUrl();
         boolean isAcceptTerms = RegistrationConfiguration.getInstance().
                 isTermsAndConditionsAcceptanceRequired();
 

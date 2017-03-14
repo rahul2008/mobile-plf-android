@@ -385,8 +385,13 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         TextView receivePhilipsNewsView = (TextView) view.findViewById(R.id.tv_reg_philips_news);
         RegUtility.linkifyPhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
         mJoinNow = (TextView) view.findViewById(R.id.tv_join_now);
-        String sourceString = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now) + " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
+
+        String sourceString = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now) ;
+        String updateJoinNowText =  " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
+        sourceString = String.format(sourceString, updateJoinNowText);
         mJoinNow.setText(Html.fromHtml(sourceString));
+        
+
         mCbAcceptTerms.setOnCheckedChangeListener(this);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
@@ -760,6 +765,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
 
     }
+
 
     private void handleContinueSocialProviderFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onContinueSocialProviderLoginFailure");
