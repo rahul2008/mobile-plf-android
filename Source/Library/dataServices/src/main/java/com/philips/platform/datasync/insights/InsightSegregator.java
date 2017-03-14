@@ -118,7 +118,7 @@ public class InsightSegregator {
                 insightToDeleteList.add(insightInDatabase);
             }
             deleteInsightsInDatabaseIfExists(insightToDeleteList, dbRequestListener);
-            dbSavingInterface.saveInsights(insights, null);
+            dbSavingInterface.saveInsights(insights, dbRequestListener);
         } catch (SQLException e) {
             e.printStackTrace();
         }
