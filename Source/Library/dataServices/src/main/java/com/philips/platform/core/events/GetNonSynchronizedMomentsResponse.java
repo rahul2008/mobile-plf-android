@@ -10,10 +10,10 @@ import java.util.List;
  */
 public class GetNonSynchronizedMomentsResponse extends Event {
 
-    private List<? extends Moment> nonSynchronizedMoments;
-    private List<? extends ConsentDetail> consentDetails;
+    private List<Moment> nonSynchronizedMoments;
+    private List<ConsentDetail> consentDetails;
 
-    public GetNonSynchronizedMomentsResponse(List<? extends Moment> nonSynchronizedMoments,List<? extends ConsentDetail> consentDetails) {
+    public GetNonSynchronizedMomentsResponse(List<Moment> nonSynchronizedMoments,List<ConsentDetail> consentDetails) {
         this.nonSynchronizedMoments = nonSynchronizedMoments;
         this.consentDetails=consentDetails;
     }

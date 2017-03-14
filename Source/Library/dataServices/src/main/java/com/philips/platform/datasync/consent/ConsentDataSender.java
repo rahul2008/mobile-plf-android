@@ -48,6 +48,8 @@ public class ConsentDataSender extends DataSender {
     @NonNull
     private final ConsentsConverter consentsConverter;
 
+    ConsentsClient client;
+
 
     @Inject
     public ConsentDataSender(@NonNull UCoreAdapter uCoreAdapter,
@@ -86,7 +88,7 @@ public class ConsentDataSender extends DataSender {
         if (uCoreAccessProvider == null) {
             return;
         }
-        ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
+        client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
         try {
             List<UCoreConsentDetail> consentDetailList = consentsConverter.convertToUCoreConsentDetails(consentDetails);
 
@@ -110,12 +112,12 @@ public class ConsentDataSender extends DataSender {
         return false;
     }
 
-    private void postError(int referenceId, final RetrofitError error) {
+    void postError(int referenceId, final RetrofitError error) {
         DSLog.i(DSLog.LOG, "Error In ConsentsMonitor - posterror");
         eventing.post(new BackendResponse(referenceId, error));
     }
 
-    private RetrofitError getNonLoggedInError() {
+    RetrofitError getNonLoggedInError() {
         return RetrofitError.unexpectedError("", new IllegalStateException("you're not logged in"));
     }
 
