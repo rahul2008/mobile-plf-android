@@ -9,6 +9,7 @@ import android.app.Application;
 import android.support.multidex.MultiDex;
 
 import com.philips.cdp.localematch.PILLocaleManager;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
@@ -76,6 +77,7 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
         iapState.init(this);
         dataSyncScreenState = new DataServicesState();
         dataSyncScreenState.init(this);
+        RLog.enableLogging();
     }
 
     public LoggingInterface getLoggingInterface() {
