@@ -263,7 +263,7 @@ public class ServiceDiscovery {
 						setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
 								"ServiceDiscovery cannot find the locale");
 					} else {
-						configArrayList = getMatchByCountry().getConfigs();
+						configArrayList = getMatchByLanguage().getConfigs();
 					}
 				}
 			}
