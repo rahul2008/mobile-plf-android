@@ -208,7 +208,12 @@ public class BleCommunicationStrategyTestSteps {
 
         when(mockNetworkNode.getCppId()).thenReturn(deviceId);
 
-        mDeviceCache.addDevice(device, mockNetworkNode);
+        mDeviceCache.addDevice(device, mockNetworkNode, new BleDeviceCache.ExpirationCallback() {
+            @Override
+            public void onCacheExpired(NetworkNode networkNode) {
+                // Ignored
+            }
+        });
     }
 
     private void resetCapability(final String deviceId) {
@@ -422,7 +427,7 @@ public class BleCommunicationStrategyTestSteps {
 
     @Then("^the json result contains the key '(.*?)'$")
     public void theJsonResultContainsTheKey(String key) {
-        assertTrue("key '"+ key +"' not found in: " + getObjectMapFromLastSuccessfulResult(), getObjectMapFromLastSuccessfulResult().containsKey(key));
+        assertTrue("key '" + key + "' not found in: " + getObjectMapFromLastSuccessfulResult(), getObjectMapFromLastSuccessfulResult().containsKey(key));
     }
 
     @Then("^the json value for key '(.*?)' has length '(\\d+)'$")

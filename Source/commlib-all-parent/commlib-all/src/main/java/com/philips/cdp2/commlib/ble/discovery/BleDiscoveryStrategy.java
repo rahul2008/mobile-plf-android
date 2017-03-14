@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
+import com.philips.cdp2.commlib.ble.BleDeviceCache.ExpirationCallback;
 import com.philips.cdp2.commlib.core.discovery.ObservableDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
@@ -24,28 +25,66 @@ import com.philips.pins.shinelib.SHNDeviceScanner;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
-public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements SHNDeviceScanner.SHNDeviceScannerListener {
+public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy {
+
+    /**
+     * Chosen at 60 seconds to have a sufficiently long window during which a discovery/advertisement
+     * collision is expected to occur.
+     * <p>
+     * See also: <a href="https://www.beaconzone.co.uk/ibeaconadvertisinginterval">iBeacon Advertising Interval</a>
+     */
+    public static final long SCAN_WINDOW_MILLIS = 60000L;
 
     public static final byte[] MANUFACTURER_PREAMBLE = {(byte) 0xDD, 0x01};
 
     private final Context context;
     private final BleDeviceCache bleDeviceCache;
-    private final long timeoutMillis;
     private final SHNDeviceScanner deviceScanner;
     private Set<String> modelIds;
-    private List<NetworkNode> networkNodes;
+    private ScheduledExecutorService executor;
+    private ScheduledFuture discoveryStoppedFuture;
 
-    public BleDiscoveryStrategy(@NonNull Context context, @NonNull BleDeviceCache bleDeviceCache, @NonNull SHNDeviceScanner deviceScanner, long timeoutMillis) {
+    private final SHNDeviceScanner.SHNDeviceScannerListener deviceScannerListener = new SHNDeviceScanner.SHNDeviceScannerListener() {
+
+        @Override
+        public void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull SHNDeviceFoundInfo shnDeviceFoundInfo) {
+            final NetworkNode networkNode = createNetworkNode(shnDeviceFoundInfo);
+            if (networkNode == null) {
+                return;
+            }
+
+            if (modelIds.isEmpty() || modelIds.contains(networkNode.getModelId())) {
+                bleDeviceCache.addDevice(shnDeviceFoundInfo.getShnDevice(), networkNode, expirationCallback);
+                notifyNetworkNodeDiscovered(networkNode);
+            }
+        }
+
+        @Override
+        public void scanStopped(SHNDeviceScanner shnDeviceScanner) {
+            notifyDiscoveryStopped();
+        }
+    };
+
+    private ExpirationCallback expirationCallback = new ExpirationCallback() {
+        @Override
+        public void onCacheExpired(NetworkNode networkNode) {
+            // TODO check if currently connected
+            notifyNetworkNodeLost(networkNode);
+        }
+    };
+
+    public BleDiscoveryStrategy(@NonNull Context context, @NonNull BleDeviceCache bleDeviceCache, @NonNull SHNDeviceScanner deviceScanner) {
         this.context = context;
         this.bleDeviceCache = bleDeviceCache;
-        this.timeoutMillis = timeoutMillis;
         this.deviceScanner = deviceScanner;
         this.modelIds = new HashSet<>();
-        this.networkNodes = new CopyOnWriteArrayList<>();
+        this.executor = Executors.newSingleThreadScheduledExecutor();
     }
 
     @Override
@@ -66,11 +105,15 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
             throw new MissingPermissionException("Discovery via BLE is missing permission: " + Manifest.permission.ACCESS_COARSE_LOCATION);
         }
 
-        if (deviceScanner.startScanning(this, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, timeoutMillis)) {
-            notifyDiscoveryStarted();
-        } else {
-            throw new TransportUnavailableException("Error starting scanning via BLE.");
-        }
+        discoveryStoppedFuture = executor.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                if (!deviceScanner.startScanning(deviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, SCAN_WINDOW_MILLIS)) {
+                    throw new TransportUnavailableException("Error starting scanning via BLE.");
+                }
+                notifyDiscoveryStarted();
+            }
+        }, 0L, 30, TimeUnit.SECONDS);
     }
 
     @VisibleForTesting
@@ -81,25 +124,10 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
     @Override
     public void stop() {
         deviceScanner.stopScanning();
-    }
 
-    @Override
-    public void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull SHNDeviceFoundInfo shnDeviceFoundInfo) {
-        final NetworkNode networkNode = createNetworkNode(shnDeviceFoundInfo);
-        if (networkNode == null) {
-            return;
+        if (discoveryStoppedFuture != null) {
+            discoveryStoppedFuture.cancel(true);
         }
-
-        if (modelIds.isEmpty() || modelIds.contains(networkNode.getModelId())) {
-            bleDeviceCache.addDevice(shnDeviceFoundInfo.getShnDevice(), networkNode);
-            networkNodes.add(networkNode);
-            notifyNetworkNodeDiscovered(networkNode);
-        }
-    }
-
-    @Override
-    public void scanStopped(SHNDeviceScanner shnDeviceScanner) {
-        notifyDiscoveryStopped();
     }
 
     private NetworkNode createNetworkNode(final SHNDeviceFoundInfo shnDeviceFoundInfo) {

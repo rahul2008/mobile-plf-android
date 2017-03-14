@@ -21,7 +21,6 @@ import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableExcep
 import com.philips.pins.shinelib.utility.SHNLogger;
 
 public class BleTransportContext implements TransportContext {
-    private static final long BLE_DISCOVERY_TIMEOUT_MS = 20000L;
 
     private final BleDeviceCache deviceCache;
     private final SHNCentral shnCentral;
@@ -55,7 +54,7 @@ public class BleTransportContext implements TransportContext {
             throw new TransportUnavailableException("Bluetooth hardware unavailable.", e);
         }
         this.shnCentral.registerDeviceDefinition(new ReferenceNodeDeviceDefinitionInfo());
-        this.discoveryStrategy = new BleDiscoveryStrategy(context, deviceCache, shnCentral.getShnDeviceScanner(), BLE_DISCOVERY_TIMEOUT_MS);
+        this.discoveryStrategy = new BleDiscoveryStrategy(context, deviceCache, shnCentral.getShnDeviceScanner());
     }
 
     @Override

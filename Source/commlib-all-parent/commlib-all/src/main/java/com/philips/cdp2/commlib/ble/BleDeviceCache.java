@@ -10,7 +10,11 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.pins.shinelib.SHNDevice;
 
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy.SCAN_WINDOW_MILLIS;
 
 /**
  * The type BleDeviceCache.
@@ -21,16 +25,26 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class BleDeviceCache {
 
+    public interface ExpirationCallback {
+        void onCacheExpired(NetworkNode networkNode);
+    }
+
     private final class CacheData {
+
         private final SHNDevice device;
         private final NetworkNode networkNode;
+        @NonNull
+        private final ExpirationCallback expirationCallback;
+        private Timer expirationTimer;
+        private TimerTask expirationTask;
 
-        // TODO timer
-        // TODO callback
-
-        private CacheData(final @NonNull SHNDevice device, final @NonNull NetworkNode networkNode) {
+        private CacheData(final @NonNull SHNDevice device, final @NonNull NetworkNode networkNode, final @NonNull ExpirationCallback expirationCallback) {
             this.device = device;
             this.networkNode = networkNode;
+            this.expirationCallback = expirationCallback;
+            this.expirationTimer = new Timer();
+
+            resetTimer();
         }
 
         public NetworkNode getNetworkNode() {
@@ -40,6 +54,20 @@ public class BleDeviceCache {
         public SHNDevice getDevice() {
             return device;
         }
+
+        public void resetTimer() {
+            if (expirationTask != null) {
+                expirationTask.cancel();
+            }
+
+            expirationTask = new TimerTask() {
+                @Override
+                public void run() {
+                    expirationCallback.onCacheExpired(networkNode);
+                }
+            };
+            expirationTimer.schedule(expirationTask, SCAN_WINDOW_MILLIS);
+        }
     }
 
     private final Map<String, CacheData> deviceMap = new ConcurrentHashMap<>();
@@ -47,12 +75,16 @@ public class BleDeviceCache {
     /**
      * Add device.
      *
-     * @param device      the device
-     * @param networkNode the network node
-     * @return true, if the device didn't exist in the cache yet and was therefore added
+     * @param device          the device
+     * @param networkNode     the network node
+     * @param expirationCallback the callback that is invoked when the expiration for the cached data was reached
      */
-    public boolean addDevice(@NonNull SHNDevice device, @NonNull NetworkNode networkNode) {
-        return deviceMap.put(networkNode.getCppId(), new CacheData(device, networkNode)) == null;
+    public void addDevice(@NonNull SHNDevice device, @NonNull NetworkNode networkNode, @NonNull ExpirationCallback expirationCallback) {
+        if (deviceMap.containsKey(networkNode.getCppId())) {
+            deviceMap.get(networkNode.getCppId()).resetTimer();
+        } else {
+            deviceMap.put(networkNode.getCppId(), new CacheData(device, networkNode, expirationCallback));
+        }
     }
 
     /**
