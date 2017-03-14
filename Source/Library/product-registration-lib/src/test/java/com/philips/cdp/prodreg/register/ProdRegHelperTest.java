@@ -5,7 +5,6 @@ import android.content.Context;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.product_registration_lib.BuildConfig;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 
 import junit.framework.TestCase;
 
@@ -23,7 +22,6 @@ public class ProdRegHelperTest extends TestCase {
     private ProdRegHelper prodRegHelper;
     private Context context;
     private ProdRegListener prodRegListener;
-    private RegistrationHelper registrationHelper;
     private UserRegistrationListener userRegistrationListener;
 
     @Before
@@ -43,14 +41,6 @@ public class ProdRegHelperTest extends TestCase {
             }
         };
     }
-
-   /* public void testProdRegHelper() {
-        prodRegHelper.init(context);
-        prodRegHelper.addProductRegistrationListener(prodRegListener);
-        registrationHelper = mock(RegistrationHelper.class);
-        RegistrationHelper.getInstance().unRegisterUserRegistrationListener(userRegistrationListener);
-        assertTrue(prodRegHelper.getSignedInUserWithProducts() instanceof UserWithProducts);
-    }*/
 
     public void testBuildVersion() {
         assertEquals(prodRegHelper.getLibVersion(), BuildConfig.VERSION_NAME);

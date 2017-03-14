@@ -1,8 +1,5 @@
 package com.philips.cdp.prodreg.launcher;
 
-import com.philips.cdp.prodreg.register.ProdRegHelper;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;

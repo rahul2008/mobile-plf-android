@@ -205,15 +205,20 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
             @Override
             public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
+                ValidateSerialNumber();
             }
 
             @Override
             public void afterTextChanged(final Editable s) {
-                if (textWatcherCalled)
-                    prodRegRegistrationController.isValidSerialNumber(serial_number_editText.getText().toString());
-                textWatcherCalled = true;
+                ValidateSerialNumber();
             }
         };
+    }
+
+    private void ValidateSerialNumber() {
+        if (textWatcherCalled)
+            prodRegRegistrationController.isValidSerialNumber(serial_number_editText.getText().toString());
+        textWatcherCalled = true;
     }
 
     private void handleSerialNumberEditTextOnError() {

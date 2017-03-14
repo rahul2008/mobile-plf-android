@@ -5,143 +5,58 @@
 */
 package com.philips.cdp.prodreg.prxrequest;
 
-import android.net.Uri;
-import android.util.Log;
-
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.prodreg.launcher.PRUiHelper;
-import com.philips.cdp.prodreg.logging.ProdRegLogger;
+import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.request.RequestType;
 import com.philips.cdp.prxclient.response.ResponseData;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
-
-import static com.philips.cdp.prodreg.launcher.PRUiHelper.getInstance;
 
 public class ProductMetadataRequest extends PrxRequest {
     private static final String TAG = ProductMetadataRequest.class.getSimpleName();
-    private String mCtn = null;
-    private String mServerInfo = "https://acc.philips.com/prx/registration/";
-    private String mServiceId="";
+    private String mServiceId;
+    private String mCtn;
 
     public ProductMetadataRequest(String ctn, String serviceID, Sector sector, Catalog catalog) {
         super(ctn, serviceID, sector, catalog);
-        this.mServiceId=serviceID;
+        this.mServiceId = serviceID;
         this.mCtn = ctn;
     }
-
-//    public ProductMetadataRequest(String ctn, String serviceId) {
-//        super(ctn, serviceId);
-//        this.mServiceId=serviceId;
-//        this.mCtn = ctn;
-//    }
-
-    //  public ProductMetadataRequest(String ctn) {
-    //     this.mCtn = ctn;
-    //}
 
     @Override
     public ResponseData getResponseData(JSONObject jsonObject) {
         return new ProductMetadataResponse().parseJsonResponseData(jsonObject);
     }
 
-//    @Override
-//    public String getServerInfo() {
-//        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
-//        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
-//
-//        serviceDiscoveryInterface.getServiceUrlWithCountryPreference("prodreg.productmetadatarequest"
-//                , new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-//                    @Override
-//                    public void onError(ERRORVALUES errorvalues, String s) {
-//                        Log.d(TAG, " Response Error : " + s);
-//
-//                    }
-//
-//                    @Override
-//                    public void onSuccess(URL url) {
-//                        mServerInfo = url.toString();
-//                    }
-//                });
-////        String mConfiguration = getRegistrationEnvironment();
-////        if (mConfiguration.equalsIgnoreCase("Development")) {
-////            mServerInfo = "https://10.128.41.113.philips.com/prx/registration/";
-////        } else if (mConfiguration.equalsIgnoreCase("Testing")) {
-////            mServerInfo = "https://tst.philips.com/prx/registration/";
-////        } else if (mConfiguration.equalsIgnoreCase("Evaluation")) {
-////            mServerInfo = "https://acc.philips.com/prx/registration/";
-////        } else if (mConfiguration.equalsIgnoreCase("Staging")) {
-////            mServerInfo = "https://dev.philips.com/prx/registration/";
-////        } else if (mConfiguration.equalsIgnoreCase("Production")) {
-////            mServerInfo = "https://www.philips.com/prx/registration/";
-////        }
-//        return mServerInfo;
-//    }
-
-    protected String getRegistrationEnvironment() {
-        return RegistrationConfiguration.getInstance().getRegistrationEnvironment();
-    }
-
-
-
-    public String getRequestUrl(String url) {
-        Uri builtUri = Uri.parse(url)
-                .buildUpon()
-                .appendPath(this.getSector().toString())
-                .appendPath(PRUiHelper.getInstance().getLocale())
-                .appendPath(this.getCatalog().toString())
-                .appendPath("products")
-                .appendPath(mCtn + ".metadata")
-                .build();
-        String retunUrl = builtUri.toString();
-        try {
-            retunUrl = java.net.URLDecoder.decode(retunUrl, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            ProdRegLogger.e(TAG, e.getMessage());
-        }
-        ProdRegLogger.d(getClass() + "URl :", retunUrl);
-        return retunUrl;
-    }
-
+    @Override
     public void getRequestUrlFromAppInfra(AppInfraInterface appInfra, final PrxRequest.OnUrlReceived listener) {
         HashMap replaceUrl = new HashMap();
         replaceUrl.put("ctn", this.mCtn);
         replaceUrl.put("sector", this.getSector().toString());
         replaceUrl.put("catalog", this.getCatalog().toString());
-
         appInfra.getServiceDiscovery().getServiceUrlWithCountryPreference(this.mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-            public void onSuccess(final URL url) {
+            public void onSuccess(URL url) {
                 PrxLogger.i("SUCCESS ***", "" + url);
-                String chinaURL = url.toString();
-                if(PRUiHelper.getInstance().getCountryCode().equalsIgnoreCase("CN")){
-                     chinaURL = "https://acc.philips.com.cn/prx/registration/";
-                }
-               // String url1 = "https://acc.philips.com.cn/prx/registration/B2C/zh_CN/CONSUMER/products/XZ5810/70.metadata";
-                listener.onSuccess(getRequestUrl(chinaURL));
+                String updateUrl = url.toString().replace(ProdRegConstants.PATH_PARAM_PRODUCT,ProdRegConstants.PATH_PARAM_REGISTRATION);
+                listener.onSuccess(updateUrl);
             }
 
             public void onError(ERRORVALUES error, String message) {
-                PrxLogger.i("Product Meta","Product Meta data :error :"+error.toString() + ":  message : "+message );
-                //PrxLogger.i("ERRORVALUES ***", "" + message);
+                PrxLogger.i("ERRORVALUES ***", "" + message);
                 listener.onError(error, message);
             }
-        });
+        }, replaceUrl);
     }
-
 
     @Override
     public int getRequestType() {
@@ -156,10 +71,6 @@ public class ProductMetadataRequest extends PrxRequest {
     @Override
     public Map<String, String> getParams() {
         return null;
-    }
-
-    public void setCtn(final String mCtn) {
-        this.mCtn = mCtn;
     }
 
     @Override

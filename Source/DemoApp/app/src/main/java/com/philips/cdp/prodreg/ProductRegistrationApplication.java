@@ -3,14 +3,15 @@ package com.philips.cdp.prodreg;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.support.multidex.MultiDex;
+import android.support.v4.print.PrintHelper;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.prodreg.launcher.PRDependencies;
 import com.philips.cdp.prodreg.launcher.PRInterface;
 import com.philips.cdp.prodreg.launcher.PRSettings;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -36,7 +37,7 @@ public class ProductRegistrationApplication extends Application {
         initAppInfra();
         setLocale();
         initProductRegistration();
-        initRegistration(Configuration.STAGING);
+        initRegistration(Configuration.EVALUATION);
         RLog.enableLogging();
     }
 
@@ -78,6 +79,7 @@ public class ProductRegistrationApplication extends Application {
     @SuppressWarnings("deprecation")
     private void initAppInfra() {
         mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
+        PRUiHelper.getInstance().setAppInfraInstance(mAppInfraInterface);
     }
 
     private void initAppIdentity(Configuration configuration) {

@@ -57,8 +57,9 @@ public class ProductSummaryResponse extends ResponseData {
 
     @Override
     public ResponseData parseJsonResponseData(final JSONObject response) {
-        ProductSummaryResponse productSummaryResponse;
-        productSummaryResponse = new Gson().fromJson(response.toString(), ProductSummaryResponse.class);
+        ProductSummaryResponse productSummaryResponse = null;
+        if(response!=null)
+         productSummaryResponse = new Gson().fromJson(response.toString(), ProductSummaryResponse.class);
         return productSummaryResponse;
     }
 }

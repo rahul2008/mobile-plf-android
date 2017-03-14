@@ -31,8 +31,15 @@ public class ProdRegConstants {
     public static final int START_DATE_MONTH = 0;
     public static final int START_DATE_DAY = 01;
     public static String PRODUCT_REGISTRATION_KEY = "prod_reg";
-    public static String PRODUCTMETADATAREQUEST_SERVICE_ID = "prodreg.productmetadatarequest";
-    public static String PRODUCTSUMMERYREQUEST_SERVICE_ID = "prodreg.productSummaryRequest";
-    public static String REGISTEREDPRODUCTSREQUEST_SERVICE_ID="prodreg.registeredProductsRequest";
-    public static String REGISTRATIONREQUEST_SERVICE_ID="prodreg.productregistrationrequest";
+    public static String PRODUCTMETADATAREQUEST_SERVICE_ID = "prxclient.productmetadatarequest";
+    public static String PRODUCTSUMMERYREQUEST_SERVICE_ID = "prxclient.summary";
+    public static String REGISTEREDPRODUCTSREQUEST_SERVICE_ID="prxclient.registeredProductsRequest";
+    public static String REGISTRATIONREQUEST_SERVICE_ID="prxclient.productregistrationrequest";
+
+    public static final String PATH_PARAM_PRODUCT = "/prx/product";
+    public static final String PATH_PARAM_REGISTRATION = "/prx/registration";
+    public static final String ACCESS_TOKEN_KEY = "x-accessToken";
+    public static final String CHINA_DOMAIN = "philips.com.cn";
+    public static final String CHINA_PROVIDER_KEY = "x-provider";
+    public static final String CHINA_PROVIDER_VAL = "JANRAIN-CN";
 }
