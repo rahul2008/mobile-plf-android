@@ -11,10 +11,19 @@ package com.philips.platform.appinfra;
 
 public interface ComponentVersionInfo {
 
-    //returns component three letter acronym as defined at developer portal
+    /**
+     * Gets component ID.
+     *
+     * @return component three letter acronym as defined at developer portal
+     */
    String getComponentId();
 
-    //returns component version, which may include snapshot indication
+    
+    /**
+     * Gets component version.
+     *
+     * @return component version, which may include snapshot indication
+     */
    String getVersion();
 
 
