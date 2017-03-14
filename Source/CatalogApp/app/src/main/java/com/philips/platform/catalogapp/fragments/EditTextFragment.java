@@ -25,7 +25,6 @@ public class EditTextFragment extends BaseFragment {
     FragmentEdittextBinding texteditboxBinding;
     public ObservableBoolean disableEditBoxes = new ObservableBoolean(Boolean.FALSE);
     public ObservableBoolean isWithLabel = new ObservableBoolean(Boolean.TRUE);
-    public ObservableBoolean isInlineValidation = new ObservableBoolean(Boolean.FALSE);
 
     @Nullable
     @Override
@@ -51,6 +50,13 @@ public class EditTextFragment extends BaseFragment {
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+    }
+
+    @Override
     public void onViewStateRestored(@Nullable final Bundle savedInstanceState) {
         restoreStates(savedInstanceState);
         super.onViewStateRestored(savedInstanceState);
@@ -65,12 +71,6 @@ public class EditTextFragment extends BaseFragment {
         disableEditBoxes.set(toggle);
         //View is null in case of rotation
         final View view = getView();
-        if(toggle){
-            texteditboxBinding.textboxInputField.getErrorLayout().setVisibility(View.GONE);
-        }else {
-            texteditboxBinding.textboxInputField.getErrorLayout().setVisibility(View.VISIBLE);
-        }
-
         if (disableEditBoxes.get() && view != null) {
             view.clearFocus();
             if (view != null) {
@@ -78,6 +78,12 @@ public class EditTextFragment extends BaseFragment {
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         }
+        if (texteditboxBinding.textboxInputField.isShowingError() && disableEditBoxes.get()){
+            texteditboxBinding.textboxInputField.getErrorLayout().setVisibility(View.GONE);
+        }else if(texteditboxBinding.textboxInputField.isShowingError() && !disableEditBoxes.get()){
+            texteditboxBinding.textboxInputField.getErrorLayout().setVisibility(View.VISIBLE);
+        }
+
     }
 
     public void showWithLabel(boolean isChecked) {

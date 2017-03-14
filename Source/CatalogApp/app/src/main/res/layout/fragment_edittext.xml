@@ -83,7 +83,7 @@
                 android:layout_marginBottom="@dimen/layout_margin_left_right"
                 android:layout_marginEnd="@dimen/layout_margin_left_right"
                 android:layout_marginStart="@dimen/layout_margin_left_right"
-                android:layout_marginTop="@dimen/layout_margin_top"
+                android:layout_marginTop="@dimen/layout_margin_top_bottom"
                 android:orientation="vertical">
 
                 <com.philips.platform.uid.view.widget.Label
@@ -162,8 +162,7 @@
                     android:id="@+id/textbox_input_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/component_bottom_spacing"
-                    app:uidTextBoxValidationErrorDrawable="@drawable/ic_lock"
+                    app:uidTextBoxValidationErrorDrawable="@drawable/ic_data_validation_icon"
                     app:uidTextBoxValidationErrorText="@string/inline_error_message">
 
                     <com.philips.platform.uid.view.widget.ValidationEditText
