@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.pins.shinelib.SHNDevice;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -20,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * that were scanned (or associated) earlier available for CommLib without having an active
  * connection to them.
  */
-public final class BleDeviceCache {
+public class BleDeviceCache {
 
     private final class CacheData {
         private final SHNDevice device;
@@ -64,11 +63,13 @@ public final class BleDeviceCache {
     }
 
     public SHNDevice getDevice(final @NonNull String cppId) {
-        return Collections.unmodifiableMap(deviceMap).get(cppId).getDevice();
+        final CacheData cacheData = deviceMap.get(cppId);
+        return cacheData == null ? null : cacheData.getDevice();
     }
 
     public NetworkNode getNetworkNode(final @NonNull String cppId) {
-        return Collections.unmodifiableMap(deviceMap).get(cppId).getNetworkNode();
+        final CacheData cacheData = deviceMap.get(cppId);
+        return cacheData == null ? null : cacheData.getNetworkNode();
     }
 
     public boolean contains(final @NonNull String cppId) {

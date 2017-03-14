@@ -19,6 +19,7 @@ import com.philips.cdp2.commlib.ble.request.BleGetRequest;
 import com.philips.cdp2.commlib.ble.request.BlePutRequest;
 import com.philips.cdp2.commlib.ble.request.BleRequest;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.util.VerboseRunnable;
 import com.philips.pins.shinelib.SHNDevice;
 
 import java.util.Locale;
@@ -181,6 +182,6 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
 
     @VisibleForTesting
     protected void dispatchRequest(final BleRequest request) {
-        requestExecutor.execute(request);
+        requestExecutor.execute(new VerboseRunnable(request));
     }
 }
