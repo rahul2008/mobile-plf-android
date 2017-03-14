@@ -4,6 +4,8 @@
  */
 package com.philips.cdp2.commlib.core.appliance;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
@@ -24,6 +26,8 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * It's also possible to just obtain the set of available appliances using {@link #getAvailableAppliances()}
  */
 public class ApplianceManager {
+
+    private Handler handler;
 
     public interface ApplianceListener<A extends Appliance> {
         void onApplianceFound(@NonNull A foundAppliance);
@@ -81,12 +85,23 @@ public class ApplianceManager {
     };
 
     /**
-     * Instantiates a new ApplianceManager.
+     * Instantiates a new ApplianceManager using a default Handler running on the main thread.
      *
      * @param discoveryStrategies the discovery strategies
      * @param applianceFactory    the appliance factory
      */
     public ApplianceManager(@NonNull Set<DiscoveryStrategy> discoveryStrategies, @NonNull DICommApplianceFactory applianceFactory) {
+        this(discoveryStrategies, applianceFactory, new Handler(Looper.getMainLooper()));
+    }
+
+    /**
+     * Instantiates a new ApplianceManager.
+     *
+     * @param discoveryStrategies the discovery strategies
+     * @param applianceFactory    the appliance factory
+     * @param callbackHandler     the callback handler
+     */
+    public ApplianceManager(@NonNull Set<DiscoveryStrategy> discoveryStrategies, @NonNull DICommApplianceFactory applianceFactory, @NonNull Handler callbackHandler) {
         if (discoveryStrategies.isEmpty()) {
             throw new IllegalArgumentException("This class needs to be constructed with at least one discovery strategy.");
         }
@@ -98,6 +113,7 @@ public class ApplianceManager {
             throw new IllegalArgumentException("This class needs to be constructed with a non-null appliance factory.");
         }
         this.applianceFactory = applianceFactory;
+        this.handler = new Handler(Looper.getMainLooper());
 
         loadAppliancesFromPersistentStorage();
     }
@@ -152,7 +168,7 @@ public class ApplianceManager {
      * @param applianceListener the listener
      * @return true, if the listener was present and therefore removed
      */
-    public boolean removeApplianceListener(@NonNull ApplianceListener applianceListener) {
+    public boolean removeApplianceListener(@NonNull ApplianceListener<Appliance> applianceListener) {
         return applianceListeners.remove(applianceListener);
     }
 
@@ -167,21 +183,36 @@ public class ApplianceManager {
         return null;
     }
 
-    private <A extends Appliance> void notifyApplianceFound(@NonNull A appliance) {
-        for (ApplianceListener listener : applianceListeners) {
-            listener.onApplianceFound(appliance);
+    private <A extends Appliance> void notifyApplianceFound(final @NonNull A appliance) {
+        for (final ApplianceListener listener : applianceListeners) {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onApplianceFound(appliance);
+                }
+            });
         }
     }
 
-    private <A extends Appliance> void notifyApplianceUpdated(@NonNull A appliance) {
-        for (ApplianceListener listener : applianceListeners) {
-            listener.onApplianceUpdated(appliance);
+    private <A extends Appliance> void notifyApplianceUpdated(final @NonNull A appliance) {
+        for (final ApplianceListener listener : applianceListeners) {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onApplianceUpdated(appliance);
+                }
+            });
         }
     }
 
-    private <A extends Appliance> void notifyApplianceLost(@NonNull A appliance) {
-        for (ApplianceListener listener : applianceListeners) {
-            listener.onApplianceLost(appliance);
+    private <A extends Appliance> void notifyApplianceLost(final @NonNull A appliance) {
+        for (final ApplianceListener listener : applianceListeners) {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onApplianceLost(appliance);
+                }
+            });
         }
     }
 }
