@@ -31,7 +31,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy {
+public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements SHNDeviceScanner.SHNDeviceScannerListener {
 
     /**
      * Chosen at 60 seconds to have a sufficiently long window during which a discovery/advertisement
@@ -49,27 +49,6 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy {
     private Set<String> modelIds;
     private ScheduledExecutorService executor;
     private ScheduledFuture discoveryStoppedFuture;
-
-    private final SHNDeviceScanner.SHNDeviceScannerListener deviceScannerListener = new SHNDeviceScanner.SHNDeviceScannerListener() {
-
-        @Override
-        public void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull SHNDeviceFoundInfo shnDeviceFoundInfo) {
-            final NetworkNode networkNode = createNetworkNode(shnDeviceFoundInfo);
-            if (networkNode == null) {
-                return;
-            }
-
-            if (modelIds.isEmpty() || modelIds.contains(networkNode.getModelId())) {
-                bleDeviceCache.addDevice(shnDeviceFoundInfo.getShnDevice(), networkNode, expirationCallback);
-                notifyNetworkNodeDiscovered(networkNode);
-            }
-        }
-
-        @Override
-        public void scanStopped(SHNDeviceScanner shnDeviceScanner) {
-            notifyDiscoveryStopped();
-        }
-    };
 
     private ExpirationCallback expirationCallback = new ExpirationCallback() {
         @Override
@@ -108,7 +87,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy {
         discoveryStoppedFuture = executor.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                if (!deviceScanner.startScanning(deviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, SCAN_WINDOW_MILLIS)) {
+                if (!deviceScanner.startScanning(BleDiscoveryStrategy.this, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, SCAN_WINDOW_MILLIS)) {
                     throw new TransportUnavailableException("Error starting scanning via BLE.");
                 }
                 notifyDiscoveryStarted();
@@ -147,5 +126,23 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy {
             networkNode.setModelId(modelId);
         }
         return networkNode;
+    }
+
+    @Override
+    public void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull SHNDeviceFoundInfo shnDeviceFoundInfo) {
+        final NetworkNode networkNode = createNetworkNode(shnDeviceFoundInfo);
+        if (networkNode == null) {
+            return;
+        }
+
+        if (modelIds.isEmpty() || modelIds.contains(networkNode.getModelId())) {
+            bleDeviceCache.addDevice(shnDeviceFoundInfo.getShnDevice(), networkNode, expirationCallback);
+            notifyNetworkNodeDiscovered(networkNode);
+        }
+    }
+
+    @Override
+    public void scanStopped(SHNDeviceScanner shnDeviceScanner) {
+        notifyDiscoveryStopped();
     }
 }

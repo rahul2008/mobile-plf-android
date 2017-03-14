@@ -90,7 +90,7 @@ public class BleDiscoveryStrategyTestSteps {
 
         bleDeviceCache = new BleDeviceCache();
 
-        bleDiscoveryStrategy = new BleDiscoveryStrategy(mockContext, bleDeviceCache, deviceScanner, 30000L) {
+        bleDiscoveryStrategy = new BleDiscoveryStrategy(mockContext, bleDeviceCache, deviceScanner) {
             @Override
             int checkAndroidPermission(Context context, String permission) {
                 return PERMISSION_GRANTED;
