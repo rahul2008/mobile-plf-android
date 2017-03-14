@@ -376,7 +376,7 @@ public class FAQCustomView implements Serializable {
                 List<FaqQuestionModel> nonEngfaqQuestionModelList = new ArrayList<FaqQuestionModel>();
 
                 String supportType = faq.getType();
-                if (supportType.equalsIgnoreCase("FAQ")) {
+                if (supportType.equalsIgnoreCase("FAQ") || supportType.equalsIgnoreCase("TUT") || supportType.equalsIgnoreCase("FEF")) {
                     Chapter chapter = faq.getChapter();
                     questionCategory = chapter.getName();
                     if (questionCategory != null) {
