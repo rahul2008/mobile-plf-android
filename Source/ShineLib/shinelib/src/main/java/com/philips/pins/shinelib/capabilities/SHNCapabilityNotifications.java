@@ -10,6 +10,7 @@ import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNResultListener;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public interface SHNCapabilityNotifications extends SHNCapability {
@@ -47,7 +48,7 @@ public interface SHNCapabilityNotifications extends SHNCapability {
         private int value;
         private static Map map = new HashMap<>();
 
-         NotificationID(int value) {
+        NotificationID(int value) {
             this.value = value;
         }
 
@@ -81,20 +82,63 @@ public interface SHNCapabilityNotifications extends SHNCapability {
         FunctionalityNotSupported
     }
 
+
+    class AlarmConfig{
+        private NotificationType notificationType;
+        private  int hours_u;
+        private  int minutes_u;
+        boolean repeatNotification;
+        short lifeTimeSeconds_u;
+
+        public Vibration getVibratation() {
+            return vibratation;
+        }
+
+        private Vibration  vibratation;
+
+        public NotificationID getNotificationID() {
+            return notificationID;
+        }
+
+        private NotificationID notificationID;
+
+        public int getHours_u() {
+            return hours_u;
+        }
+
+        public NotificationType getNotificationType() {
+            return notificationType;
+        }
+
+        public int getMinutes_u() {
+            return minutes_u;
+        }
+
+        public boolean isRepeatNotification() {
+            return repeatNotification;
+        }
+
+        public short getLifeTimeSeconds_u() {
+            return lifeTimeSeconds_u;
+        }
+
+
+        public AlarmConfig( NotificationID notificationID,NotificationType notificationType,
+                           int hours_u, int minutes_u,
+                           boolean repeatNotification,
+                           short lifeTimeSeconds_u,Vibration vibration) {
+            this.notificationID=notificationID;
+            this.notificationType = notificationType;
+            this.hours_u = hours_u;
+            this.minutes_u = minutes_u;
+            this.repeatNotification = repeatNotification;
+            this.lifeTimeSeconds_u = lifeTimeSeconds_u;
+            this.vibratation=vibration;
+        }
+    }
     class TransferGetCapabilitiesWithResult {
         private NotificationID notificationID;
         private NotificationType notificationType;
-        private boolean allocated;
-        private boolean isLast;
-
-
-        public TransferGetCapabilitiesWithResult(NotificationID notificationID, NotificationType notificationType,
-                                                 boolean allocated, boolean isLast) {
-            this.notificationID = notificationID;
-            this.notificationType = notificationType;
-            this.allocated = allocated;
-            this.isLast = isLast;
-        }
 
         public TransferGetCapabilitiesWithResult(NotificationID notificationID, NotificationType notificationType
         ) {
@@ -111,13 +155,6 @@ public interface SHNCapabilityNotifications extends SHNCapability {
             return notificationType;
         }
 
-        public boolean isAllocated() {
-            return allocated;
-        }
-
-        public boolean isLast() {
-            return isLast;
-        }
 
     }
 
@@ -178,12 +215,13 @@ public interface SHNCapabilityNotifications extends SHNCapability {
 
     void getMaxImageSizeForType(Type type, ResultListener<ImageSize> resultListener);
 
-    void getNotificationCapabilities(Type type, ResultListener<TransferGetCapabilitiesWithResult> resultListener);
+    void getNotificationCapabilities(ResultListener<List<TransferGetCapabilitiesWithResult>> resultListener);
 
-    void setAlarm(TransferGetCapabilitiesWithResult transferGetCapabilitiesWithResult, int hours_u, int minutes_u,
-                  boolean repeatNotification, short lifeTimeSeconds_u, ResultListener<GetNotificationResult> shnResultListener);
+    void getNotifications(NotificationID notificationID,ResultListener<AlarmConfig> resultListener);
 
-    void removeAllNotification(ResultListener<GetRemoveNotification> shnResultListener);
+    void setAlarmFinal(AlarmConfig alarmConfig,final SHNResultListener resultListener);
+
+    void removeAllNotification(SHNResultListener shnResultListener);
 
     void removedAtIndex(NotificationID notificationID, NotificationType notificationType, ResultListener<GetNotificationResult> shnResultListener);
 
