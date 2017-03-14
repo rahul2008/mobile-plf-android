@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.platform.appframework.BuildConfig;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragment;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -96,5 +98,17 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
                 }
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppFrameworkTagging.getInstance().collectLifecycleData(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AppFrameworkTagging.getInstance().pauseCollectingLifecycleData();
     }
 }
