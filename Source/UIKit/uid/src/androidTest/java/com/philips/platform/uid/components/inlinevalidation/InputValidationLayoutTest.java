@@ -9,8 +9,8 @@ import android.support.test.rule.ActivityTestRule;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
-import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
-import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
+import com.philips.platform.uid.matcher.InputValidationMatcher;
+import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -19,7 +19,6 @@ import org.junit.Test;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.philips.platform.uid.utils.UIDTestUtils.waitFor;
 
 public class InputValidationLayoutTest {
 
@@ -33,7 +32,7 @@ public class InputValidationLayoutTest {
     public void setUp() throws Exception {
         final Intent launchIntent = getLaunchIntent(1, 0);
         activity = testRule.launchActivity(launchIntent);
-        activity.switchTo(R.layout.uid_inline_validation_input);
+        activity.switchTo(com.philips.platform.uid.test.R.layout.layout_validation_text);
         testResources = activity.getResources();
     }
 
@@ -47,36 +46,25 @@ public class InputValidationLayoutTest {
         return intent;
     }
 
-    private ViewInteraction getIcon() {
-        return onView(withId(R.id.uid_inline_validation_icon));
-    }
-
-    private ViewInteraction getErrorText() {
-        return onView(withId(com.philips.platform.uid.test.R.id.uid_gridview_title));
+    @Test
+    public void verifyErrorTextColor() {
+        int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidTextBoxValidationErrorColor);
+        getValidationLayout().check(matches(InputValidationMatcher.isSameErrorColor(color)));
     }
 
     @Test
-    public void verifyIconHeight() {
-        int expectedHeight = testResources.getDimensionPixelSize(R.dimen.uid_inline_validation_icon_size);
-        getIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
-    }
-
-    @Test
-    public void verifyIconWidth() {
-        int expectedWidth = testResources.getDimensionPixelSize(R.dimen.uid_inline_validation_icon_size);
-        getIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedWidth)));
-    }
-
-    @Test
-    public void verifyIconMargin(){
-        waitFor(testResources, 750);
-        int expectedEndMargin = testResources.getDimensionPixelSize(R.dimen.uid_inline_validation_label_padding_start);
-        getIcon().check(matches(ViewPropertiesMatchers.isSameEndMargin(expectedEndMargin)));
+    public void verifyIconMargin() {
+        int expectedEndMargin = testResources.getDimensionPixelSize(R.dimen.uid_inline_validation_icon_margin_end);
+        getValidationLayout().check(matches(InputValidationMatcher.isSameIconMargin(expectedEndMargin)));
     }
 
     @Test
     public void verifyErrorTextFontSize() {
         float expectedFontSize = testResources.getDimensionPixelSize(R.dimen.uid_inline_label_text_size);
-        getErrorText().check(matches(TextViewPropertiesMatchers.isSameFontSize((int) expectedFontSize)));
+        getValidationLayout().check(matches(InputValidationMatcher.isSameErrorFontSize((int) expectedFontSize)));
+    }
+
+    private ViewInteraction getValidationLayout() {
+        return onView(withId(com.philips.platform.uid.test.R.id.validation_layout));
     }
 }
