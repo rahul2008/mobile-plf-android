@@ -3,6 +3,8 @@ package com.philips.platform.uid.view.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -22,6 +24,43 @@ public class InputValidationLayout extends LinearLayout {
 
     private int errorDrawableID;
     private int errorMessageID;
+    private Validator validator;
+
+    public interface Validator {
+        boolean validate(CharSequence msg);
+    }
+
+
+    private OnFocusChangeListener focusChangeListener = new OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean focussed) {
+            if (!focussed && validator != null)  {
+                boolean result = validator.validate(validationEditText.getText());
+                if(!result) {
+                    showError();
+                }
+            }
+        }
+    };
+
+    private TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            if (validator != null && isShowingError && validator.validate(charSequence)) {
+                hideError();
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
 
     public InputValidationLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -37,6 +76,8 @@ public class InputValidationLayout extends LinearLayout {
         super.addView(child, index, params);
         if (child instanceof ValidationEditText) {
             validationEditText = (ValidationEditText) child;
+            validationEditText.setOnFocusChangeListener(focusChangeListener);
+            validationEditText.addTextChangedListener(textWatcher);
             ensureErrorLayout();
         }
     }
@@ -115,5 +156,8 @@ public class InputValidationLayout extends LinearLayout {
         return errorIcon;
     }
 
-    public ViewGroup getErrorLayout(){ return errorLayout;}
+    public ViewGroup getErrorLayout() {
+        return errorLayout;
+    }
+
 }
