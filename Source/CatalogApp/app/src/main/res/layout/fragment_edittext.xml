@@ -167,6 +167,7 @@
                     app:uidTextBoxValidationErrorText="@string/inline_error_message">
 
                     <com.philips.platform.uid.view.widget.ValidationEditText
+                        android:id="@+id/field_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/component_bottom_spacing"

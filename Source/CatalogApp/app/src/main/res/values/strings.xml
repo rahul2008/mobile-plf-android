@@ -151,7 +151,7 @@
     <string name="label_right_top">Label right top</string>
     <string name="label_left_bottom">Label left bottom</string>
     <string name="label_right_bottom">Label right bottom</string>
-    <string name="inline_error_message">Please enter name</string>
+    <string name="inline_error_message">The e-mail address you entered is incorrect</string>
 
     <!--GridView-->
     <string name="page_title_gridView">GridView</string>

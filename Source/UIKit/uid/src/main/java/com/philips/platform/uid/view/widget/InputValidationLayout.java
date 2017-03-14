@@ -34,9 +34,9 @@ public class InputValidationLayout extends LinearLayout {
     private OnFocusChangeListener focusChangeListener = new OnFocusChangeListener() {
         @Override
         public void onFocusChange(View view, boolean focussed) {
-            if (!focussed && validator != null)  {
+            if (!focussed && validator != null) {
                 boolean result = validator.validate(validationEditText.getText());
-                if(!result) {
+                if (!result) {
                     showError();
                 }
             }
@@ -80,6 +80,10 @@ public class InputValidationLayout extends LinearLayout {
             validationEditText.addTextChangedListener(textWatcher);
             ensureErrorLayout();
         }
+    }
+
+    public void setValidator(Validator validator) {
+        this.validator = validator;
     }
 
     public void setErrorMessage(int resID) {

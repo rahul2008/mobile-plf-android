@@ -16,7 +16,9 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import com.philips.platform.catalogapp.R;
+import com.philips.platform.catalogapp.dataUtils.EmailValidator;
 import com.philips.platform.catalogapp.databinding.FragmentEdittextBinding;
+import com.philips.platform.uid.view.widget.InputValidationLayout;
 
 public class EditTextFragment extends BaseFragment {
 
@@ -30,6 +32,7 @@ public class EditTextFragment extends BaseFragment {
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         texteditboxBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_edittext, container, false);
         texteditboxBinding.setTexteditBoxfragment(this);
+        texteditboxBinding.textboxInputField.setValidator(new EmailValidator());
         return texteditboxBinding.getRoot();
     }
 
@@ -80,6 +83,5 @@ public class EditTextFragment extends BaseFragment {
     public void showWithLabel(boolean isChecked) {
         isWithLabel.set(isChecked);
     }
-
 
 }
