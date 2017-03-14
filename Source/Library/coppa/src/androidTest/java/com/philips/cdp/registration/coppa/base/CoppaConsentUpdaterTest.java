@@ -4,8 +4,12 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
+import com.philips.cdp.registration.injection.RegistrationComponent;
+import com.philips.cdp.registration.ui.utils.URInterface;
+
 import org.json.JSONObject;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -17,17 +21,18 @@ public class CoppaConsentUpdaterTest extends InstrumentationTestCase {
     CoppaConsentUpdater mCoppaConsentUpdater;
     Context mContext;
 
+    RegistrationComponent component = Mockito.mock(RegistrationComponent.class);
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         MultiDex.install(getInstrumentation().getTargetContext());
         System.setProperty("dexmaker.dexcache", getInstrumentation()
                 .getTargetContext().getCacheDir().getPath());
-
+        URInterface.setComponent(component);
         mCoppaConsentUpdater = new CoppaConsentUpdater(mContext);
         assertNotNull(mCoppaConsentUpdater);
         mContext = getInstrumentation().getTargetContext();
-
     }
 
     @Test
