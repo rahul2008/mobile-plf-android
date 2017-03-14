@@ -6,11 +6,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.platform.appinfra.AppInfra;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -182,8 +180,6 @@ public class AccountActivationFragmentTest extends InstrumentationTestCase {
             synchronized(this){//synchronized block
 
                 try{
-                    RegistrationHelper.getInstance().
-                            setAppInfraInstance(new AppInfra.Builder().build(getInstrumentation().getContext()));
                     RLog.init();
                 }catch(Exception e){System.out.println(e);}
             }
@@ -207,8 +203,6 @@ public class AccountActivationFragmentTest extends InstrumentationTestCase {
             synchronized(this){//synchronized block
 
                 try{
-                    RegistrationHelper.getInstance().
-                            setAppInfraInstance(new AppInfra.Builder().build(getInstrumentation().getContext()));
                     RLog.init();
                 }catch(Exception e){System.out.println(e);}
             }
@@ -248,8 +242,6 @@ public class AccountActivationFragmentTest extends InstrumentationTestCase {
             synchronized(this){//synchronized block
 
                 try{
-                    RegistrationHelper.getInstance().
-                            setAppInfraInstance(new AppInfra.Builder().build(getInstrumentation().getContext()));
                     RLog.init();
                 }catch(Exception e){System.out.println(e);}
             }
