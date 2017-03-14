@@ -35,6 +35,7 @@ import javax.inject.Inject;
  * {@code RegistrationHelper} class represents the entry point for User Registration component.
  * It exposes APIs to be used when User Registration is intended to be integrated by any application.
  */
+@Deprecated
 public class RegistrationHelper {
 
     @Inject
