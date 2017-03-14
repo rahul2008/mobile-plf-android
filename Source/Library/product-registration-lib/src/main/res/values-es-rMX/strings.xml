@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">Ingrese una fecha entre el año 2000 y la fecha de hoy</string>
 <string name="PPR_Already_Registered_title">Producto registrado</string>
 <string name="PPR_Already_Registered_ErrMsg">Producto registrado</string>
-    <string name="PPR_Continue">Continuar </string>
-    <string name="PPR_Missing_Ctn_Title">CTN faltante </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">Ingrese el CTN </string>
-    <string name="PPR_Register_Next">Registrar siguiente </string>
-    <string name="PPR_Back_To_List">Volver a la lista </string>
-    <string name="PPR_OK">OK </string>
+<string name="PPR_Continue">Continuar </string>
+<string name="PPR_Missing_Ctn_Title">CTN faltante </string>
+<string name="PPR_Missing_Ctn_ErrMsg">Ingrese el CTN </string>
+<string name="PPR_Register_Next">Registrar siguiente </string>
+<string name="PPR_Back_To_List">Volver a la lista </string>
+<string name="PPR_OK">OK </string>
+<string name="PPR_Find_Serial_Number">¿Dónde puedo encontrar mi número de serie?</string>
+<string name="PPR_find_serial_number_help_message">Impreso en el reverso del producto, en el compartimento debajo de la cubierta plástica, debajo del recortador o debajo del cabezal de afeitado</string>
+<string name="PPR_ok_i_found_it">Lo encontré</string>
+<string name="PPR_registered">Registrado</string>
+<string name="PPR_registered_on">Registrado en</string>
+<string name="PPR_warranty_until">Garantía válida hasta</string>
+<string name="PPR_registered_serial">Ya registró un número de serie</string>
+<string name="PPR_before">antes de</string>
+<string name="PPR_serial_number_consists">El número de serie consta de</string>
+<string name="PPR_number_starting">números, que empiezan con</string>
+<string name="PPR_eg">p. ej.,</string>
 </resources>

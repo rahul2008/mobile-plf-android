@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">הזן תאריך בין שנת 2000 לתאריך הנוכחי</string>
 <string name="PPR_Already_Registered_title">המוצר נרשם</string>
 <string name="PPR_Already_Registered_ErrMsg">המוצר כבר רשום</string>
-    <string name="PPR_Continue">המשך </string>
-    <string name="PPR_Missing_Ctn_Title">CTN חסר </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">הזן CTN </string>
-    <string name="PPR_Register_Next">רשום את הבא </string>
-    <string name="PPR_Back_To_List">חזרה לרשימה </string>
-    <string name="PPR_OK">אישור </string>
+<string name="PPR_Continue">המשך </string>
+<string name="PPR_Missing_Ctn_Title">CTN חסר </string>
+<string name="PPR_Missing_Ctn_ErrMsg">הזן CTN </string>
+<string name="PPR_Register_Next">רשום את הבא </string>
+<string name="PPR_Back_To_List">חזרה לרשימה </string>
+<string name="PPR_OK">אישור </string>
+<string name="PPR_Find_Serial_Number">היכן אוכל למצוא את המספר הסידורי שלי?</string>
+<string name="PPR_find_serial_number_help_message">המספר חרוט בגב המוצר, בתא שמתחת לכיסוי הפלסטיק,  מתחת לקוצץ או לראש הגילוח.</string>
+<string name="PPR_ok_i_found_it">בסדר, מצאתי את זה</string>
+<string name="PPR_registered">נרשם</string>
+<string name="PPR_registered_on">נרשם בתאריך</string>
+<string name="PPR_warranty_until">אחריות עד</string>
+<string name="PPR_registered_serial">רשמת מספר סידורי</string>
+<string name="PPR_before">לפני</string>
+<string name="PPR_serial_number_consists">המספר הסידורי מורכב</string>
+<string name="PPR_number_starting">ממספרים שמתחילים ב-</string>
+<string name="PPR_eg">לדוגמה</string>
 </resources>

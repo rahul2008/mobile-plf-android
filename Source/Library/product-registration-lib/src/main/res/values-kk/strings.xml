@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">2000 жыл мен бүгінгі күн аралығындағы күнді енгізіңіз</string>
 <string name="PPR_Already_Registered_title">Өнім тіркелді</string>
 <string name="PPR_Already_Registered_ErrMsg">Өнім тіркелді</string>
-    <string name="PPR_Continue">Жалғаст-у </string>
-    <string name="PPR_Missing_Ctn_Title">CTN жоқ </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">CTN енгізіңіз </string>
-    <string name="PPR_Register_Next">Келесіні тіркеу </string>
-    <string name="PPR_Back_To_List">Бетке қайта оралу </string>
-    <string name="PPR_OK">OK </string>
+<string name="PPR_Continue">Жалғаст-у </string>
+<string name="PPR_Missing_Ctn_Title">CTN жоқ </string>
+<string name="PPR_Missing_Ctn_ErrMsg">CTN енгізіңіз </string>
+<string name="PPR_Register_Next">Келесіні тіркеу </string>
+<string name="PPR_Back_To_List">Бетке қайта оралу </string>
+<string name="PPR_OK">OK </string>
+<string name="PPR_Find_Serial_Number">Менің сериялық нөмірім қайда орналасқан?</string>
+<string name="PPR_find_serial_number_help_message">Өнім арты, пластик қақпақ астындағы бөлімде, кескіш асты немесе қыру ұшы астында белгіленген.</string>
+<string name="PPR_ok_i_found_it">Жарайды, таптым</string>
+<string name="PPR_registered">Тіркелді</string>
+<string name="PPR_registered_on">Тіркелген күн</string>
+<string name="PPR_warranty_until">Кепілдік мерзімі</string>
+<string name="PPR_registered_serial">Сіз сериялық нөмірді бұрын</string>
+<string name="PPR_before">тіркегенсіз</string>
+<string name="PPR_serial_number_consists">Сериялық нөмір ішінде</string>
+<string name="PPR_number_starting">сандар бар, келесіден басталады</string>
+<string name="PPR_eg">Мыс.</string>
 </resources>

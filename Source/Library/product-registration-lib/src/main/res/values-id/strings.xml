@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">Harap masukkan tanggal antara tahun 2000 hingga tanggal hari ini</string>
 <string name="PPR_Already_Registered_title">Produk terdaftar</string>
 <string name="PPR_Already_Registered_ErrMsg">Produk yang sudah didaftarkan</string>
-    <string name="PPR_Continue">Lanjutkan </string>
-    <string name="PPR_Missing_Ctn_Title">CTN Tidak Ditemukan </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">Silakan masukkan CTN </string>
-    <string name="PPR_Register_Next">Daftarkan produk berikutnya </string>
-    <string name="PPR_Back_To_List">Kembali ke daftar </string>
-    <string name="PPR_OK">OK </string>
+<string name="PPR_Continue">Lanjutkan </string>
+<string name="PPR_Missing_Ctn_Title">CTN Tidak Ditemukan </string>
+<string name="PPR_Missing_Ctn_ErrMsg">Silakan masukkan CTN </string>
+<string name="PPR_Register_Next">Daftarkan produk berikutnya </string>
+<string name="PPR_Back_To_List">Kembali ke daftar </string>
+<string name="PPR_OK">OK </string>
+<string name="PPR_Find_Serial_Number">Di mana saya bisa melihat nomor seri?</string>
+<string name="PPR_find_serial_number_help_message">Nomor seri terukir di bagian belakang produk, di kompartemen di bawah penutup plastik, di bawah pemangkas, atau di bawah kepala pencukur</string>
+<string name="PPR_ok_i_found_it">Oke, saya menemukannya</string>
+<string name="PPR_registered">Terdaftar</string>
+<string name="PPR_registered_on">Didaftarkan pada</string>
+<string name="PPR_warranty_until">Garansi hingga</string>
+<string name="PPR_registered_serial">Anda memiliki nomor seri yang terdaftar</string>
+<string name="PPR_before">mengisi</string>
+<string name="PPR_serial_number_consists">Nomor seri terdiri dari</string>
+<string name="PPR_number_starting">angka, dimulai dengan</string>
+<string name="PPR_eg">Misalnya</string>
 </resources>

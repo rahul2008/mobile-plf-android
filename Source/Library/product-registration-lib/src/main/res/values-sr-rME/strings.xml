@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">Molimo vas da unesete neki datum od 2000. godine do danas</string>
 <string name="PPR_Already_Registered_title">Proizvod je registrovan</string>
 <string name="PPR_Already_Registered_ErrMsg">Proizvod je već registrovan</string>
-    <string name="PPR_Continue">Dalje </string>
-    <string name="PPR_Missing_Ctn_Title">Nedostaje CTN </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">Molimo vas da unesete CTN </string>
-    <string name="PPR_Register_Next">Registrujte naredni </string>
-    <string name="PPR_Back_To_List">Nazad na spisak </string>
-    <string name="PPR_OK">U redu </string>
+<string name="PPR_Continue">Dalje </string>
+<string name="PPR_Missing_Ctn_Title">Nedostaje CTN </string>
+<string name="PPR_Missing_Ctn_ErrMsg">Molimo vas da unesete CTN </string>
+<string name="PPR_Register_Next">Registrujte naredni </string>
+<string name="PPR_Back_To_List">Nazad na spisak </string>
+<string name="PPR_OK">U redu </string>
+<string name="PPR_Find_Serial_Number">Gdje Gdje mogu da nađem moj serijski broj?</string>
+<string name="PPR_find_serial_number_help_message">Ugraviran na poleđini proizvoda, u odjeljku ispod plastičnog poklopca, ispod trimera ili ispod glave za brijanje</string>
+<string name="PPR_ok_i_found_it">U redu, našao sam ga</string>
+<string name="PPR_registered">Registrovan</string>
+<string name="PPR_registered_on">Registrovan dana</string>
+<string name="PPR_warranty_until">Garancija važi do</string>
+<string name="PPR_registered_serial">Već ste registrovali ovaj serijski</string>
+<string name="PPR_before">broja</string>
+<string name="PPR_serial_number_consists">Ovaj serijski broj se sastoji od</string>
+<string name="PPR_number_starting">Brojeva koji počinju sa</string>
+<string name="PPR_eg">npr.</string>
 </resources>

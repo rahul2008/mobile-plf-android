@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">Введите дату, начиная с 2000 года и по сегодняшний день</string>
 <string name="PPR_Already_Registered_title">Продукт зарегистрирован</string>
 <string name="PPR_Already_Registered_ErrMsg">Продукт уже зарегистрирован</string>
-    <string name="PPR_Continue">Продолжить </string>
-    <string name="PPR_Missing_Ctn_Title">Код CTN не указан </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">Введите код CTN </string>
-    <string name="PPR_Register_Next">Зарегистрировать другой продукт </string>
-    <string name="PPR_Back_To_List">Вернуться к списку </string>
-    <string name="PPR_OK">Oк </string>
+<string name="PPR_Continue">Продолжить </string>
+<string name="PPR_Missing_Ctn_Title">Код CTN не указан </string>
+<string name="PPR_Missing_Ctn_ErrMsg">Введите код CTN </string>
+<string name="PPR_Register_Next">Зарегистрировать другой продукт </string>
+<string name="PPR_Back_To_List">Вернуться к списку </string>
+<string name="PPR_OK">Oк </string>
+<string name="PPR_Find_Serial_Number">Как найти серийный номер изделия?</string>
+<string name="PPR_find_serial_number_help_message">Выгравирован на задней панели изделия, в отсеке под пластиковой крышкой, под триммером или под бритвенной головкой</string>
+<string name="PPR_ok_i_found_it">Удалось найти</string>
+<string name="PPR_registered">Регистрация выполнена</string>
+<string name="PPR_registered_on">Регистрация выполнена:</string>
+<string name="PPR_warranty_until">Гарантия действует до</string>
+<string name="PPR_registered_serial">Вы зарегистрировали серийный номер</string>
+<string name="PPR_before">перед</string>
+<string name="PPR_serial_number_consists">Серийный номер состоит из</string>
+<string name="PPR_number_starting">цифр (-ы), начиная с</string>
+<string name="PPR_eg">.Например:</string>
 </resources>

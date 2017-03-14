@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">Wprowadź datę w przedziale od 2000 roku do dziś</string>
 <string name="PPR_Already_Registered_title">Zarejestrowano produkt</string>
 <string name="PPR_Already_Registered_ErrMsg">Produkt już zarejestrowany</string>
-    <string name="PPR_Continue">Kontynuuj </string>
-    <string name="PPR_Missing_Ctn_Title">Brakuje kodu CTN </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">Wprowadź kod CTN </string>
-    <string name="PPR_Register_Next">Zarejestruj następny </string>
-    <string name="PPR_Back_To_List">Powrót do listy </string>
-    <string name="PPR_OK">OK </string>
+<string name="PPR_Continue">Kontynuuj </string>
+<string name="PPR_Missing_Ctn_Title">Brakuje kodu CTN </string>
+<string name="PPR_Missing_Ctn_ErrMsg">Wprowadź kod CTN </string>
+<string name="PPR_Register_Next">Zarejestruj następny </string>
+<string name="PPR_Back_To_List">Powrót do listy </string>
+<string name="PPR_OK">OK </string>
+<string name="PPR_Find_Serial_Number">Gdzie mogę znaleźć numer seryjny?</string>
+<string name="PPR_find_serial_number_help_message">Numer seryjny jest wygrawerowany z tyłu produktu, w komorze pod plastikową osłoną, pod trymerem lub pod głowicą golącą</string>
+<string name="PPR_ok_i_found_it">OK, mam</string>
+<string name="PPR_registered">Zarejestrowano</string>
+<string name="PPR_registered_on">Zarejestrowano w dniu</string>
+<string name="PPR_warranty_until">Gwarancja do</string>
+<string name="PPR_registered_serial">Zarejestrowano numer seryjny</string>
+<string name="PPR_before">przed</string>
+<string name="PPR_serial_number_consists">Numer seryjny składa się z</string>
+<string name="PPR_number_starting">cyfr i zaczyna się od</string>
+<string name="PPR_eg">Na przykład</string>
 </resources>

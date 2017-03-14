@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">Введіть дату між 2000 роком і нинішньою датою</string>
 <string name="PPR_Already_Registered_title">Виріб зареєстровано</string>
 <string name="PPR_Already_Registered_ErrMsg">Виріб уже зареєстровано</string>
-    <string name="PPR_Continue">Продовжити </string>
-    <string name="PPR_Missing_Ctn_Title">Немає CTN </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">Введіть CTN </string>
-    <string name="PPR_Register_Next">Зареєструвати наступний </string>
-    <string name="PPR_Back_To_List">Назад до списку </string>
-    <string name="PPR_OK">OK </string>
+<string name="PPR_Continue">Продовжити </string>
+<string name="PPR_Missing_Ctn_Title">Немає CTN </string>
+<string name="PPR_Missing_Ctn_ErrMsg">Введіть CTN </string>
+<string name="PPR_Register_Next">Зареєструвати наступний </string>
+<string name="PPR_Back_To_List">Назад до списку </string>
+<string name="PPR_OK">OK </string>
+<string name="PPR_Find_Serial_Number">Де можна знайти серійний номер?</string>
+<string name="PPR_find_serial_number_help_message">Його викарбувано на задній панелі виробу у відділенні під пластиковою кришкою, що під тримером і бритвеною головкою</string>
+<string name="PPR_ok_i_found_it">Гаразд, знайшов</string>
+<string name="PPR_registered">Зареєстровано</string>
+<string name="PPR_registered_on">Зареєстровано на</string>
+<string name="PPR_warranty_until">Гарантія до</string>
+<string name="PPR_registered_serial">Ви зареєстрували серійний</string>
+<string name="PPR_before">перед</string>
+<string name="PPR_serial_number_consists">Серійний номер складається з</string>
+<string name="PPR_number_starting">чисел, що починаються з</string>
+<string name="PPR_eg">Наприклад,</string>
 </resources>

@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">Vui lòng nhập ngày từ năm 2000 đến ngày hôm nay</string>
 <string name="PPR_Already_Registered_title">Sản phẩm đã được đăng ký</string>
 <string name="PPR_Already_Registered_ErrMsg">Sản phẩm vừa được đăng ký</string>
-    <string name="PPR_Continue">Tiếp tục </string>
-    <string name="PPR_Missing_Ctn_Title">CTN bị thiếu </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">Vui lòng nhập CTN </string>
-    <string name="PPR_Register_Next">Đăng ký tiếp </string>
-    <string name="PPR_Back_To_List">Quay lại phần danh sách </string>
-    <string name="PPR_OK">OK </string>
+<string name="PPR_Continue">Tiếp tục </string>
+<string name="PPR_Missing_Ctn_Title">CTN bị thiếu </string>
+<string name="PPR_Missing_Ctn_ErrMsg">Vui lòng nhập CTN </string>
+<string name="PPR_Register_Next">Đăng ký tiếp </string>
+<string name="PPR_Back_To_List">Quay lại phần danh sách </string>
+<string name="PPR_OK">OK </string>
+<string name="PPR_Find_Serial_Number">Tôi có thể tìm số sê-ri của mình ở đâu?</string>
+<string name="PPR_find_serial_number_help_message">Khắc ở mặt sau của sản phẩm, trong ngăn dưới vỏ bọc nhựa, dưới máy tỉa hoặc dưới đầu cạo</string>
+<string name="PPR_ok_i_found_it">OK, tôi tìm được rồi</string>
+<string name="PPR_registered">Đã đăng ký</string>
+<string name="PPR_registered_on">Đã đăng ký trên</string>
+<string name="PPR_warranty_until">Bảo hành đến</string>
+<string name="PPR_registered_serial">Bạn đã đăng ký số sê-ri</string>
+<string name="PPR_before">trước</string>
+<string name="PPR_serial_number_consists">Số sê-ri gồm</string>
+<string name="PPR_number_starting">chữ số, bắt đầu bằng</string>
+<string name="PPR_eg">.Ví dụ</string>
 </resources>

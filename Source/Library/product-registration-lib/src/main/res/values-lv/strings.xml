@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">Lūdzu, ievadiet datumu no 2000. gada līdz šodienas datumam</string>
 <string name="PPR_Already_Registered_title">Produkts reģistrēts</string>
 <string name="PPR_Already_Registered_ErrMsg">Produkts jau ir reģistrēts</string>
-    <string name="PPR_Continue">Turpināt </string>
-    <string name="PPR_Missing_Ctn_Title">Trūkst CTN </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">Lūdzu, ievadiet CTN </string>
-    <string name="PPR_Register_Next">Reģistrēt nākamo </string>
-    <string name="PPR_Back_To_List">Atpakaļ uz sarakstu </string>
-    <string name="PPR_OK">Labi </string>
+<string name="PPR_Continue">Turpināt </string>
+<string name="PPR_Missing_Ctn_Title">Trūkst CTN </string>
+<string name="PPR_Missing_Ctn_ErrMsg">Lūdzu, ievadiet CTN </string>
+<string name="PPR_Register_Next">Reģistrēt nākamo </string>
+<string name="PPR_Back_To_List">Atpakaļ uz sarakstu </string>
+<string name="PPR_OK">Labi </string>
+<string name="PPR_Find_Serial_Number">Kur var atrast sērijas numuru?</string>
+<string name="PPR_find_serial_number_help_message">Tas ir iegravēts izstrādājuma aizmugurē nodalījumā zem plastmasas vāciņa, zem trimmera vai zem skūšanas galviņas</string>
+<string name="PPR_ok_i_found_it">Labi, es to atradu</string>
+<string name="PPR_registered">Reģistrēts</string>
+<string name="PPR_registered_on">Reģistrēts:</string>
+<string name="PPR_warranty_until">Garantija līdz</string>
+<string name="PPR_registered_serial">Jūs esat reģistrējis sērijas</string>
+<string name="PPR_before">pirms</string>
+<string name="PPR_serial_number_consists">Sērijas numurs sastāv no</string>
+<string name="PPR_number_starting">cipariem, kas sākas ar</string>
+<string name="PPR_eg">Piem.</string>
 </resources>

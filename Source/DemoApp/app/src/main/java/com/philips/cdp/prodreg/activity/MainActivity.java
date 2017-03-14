@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 import com.philips.cdp.prodreg.R;
 import com.philips.cdp.prodreg.fragment.LaunchFragment;
-import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 public class MainActivity extends UiKitActivity {

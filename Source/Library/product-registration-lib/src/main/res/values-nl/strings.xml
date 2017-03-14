@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">Voer een datum tussen het jaar 2000 en vandaag in</string>
 <string name="PPR_Already_Registered_title">Product geregistreerd</string>
 <string name="PPR_Already_Registered_ErrMsg">Product al geregistreerd</string>
-    <string name="PPR_Continue">Doorgaan </string>
-    <string name="PPR_Missing_Ctn_Title">CTN ontbreekt </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">Geef een CTN op </string>
-    <string name="PPR_Register_Next">Volgende registreren </string>
-    <string name="PPR_Back_To_List">Terug naar lijst </string>
-    <string name="PPR_OK">OK </string>
+<string name="PPR_Continue">Doorgaan </string>
+<string name="PPR_Missing_Ctn_Title">CTN ontbreekt </string>
+<string name="PPR_Missing_Ctn_ErrMsg">Geef een CTN op </string>
+<string name="PPR_Register_Next">Volgende registreren </string>
+<string name="PPR_Back_To_List">Terug naar lijst </string>
+<string name="PPR_OK">OK </string>
+<string name="PPR_Find_Serial_Number">Waar kan ik het serienummer vinden?</string>
+<string name="PPR_find_serial_number_help_message">Gegraveerd op de achterzijde van het product, in het vak onder het plastic deksel, onder de tondeuse of onder het scheerhoofd.</string>
+<string name="PPR_ok_i_found_it">Ik heb het gevonden</string>
+<string name="PPR_registered">Geregistreerd</string>
+<string name="PPR_registered_on">Geregistreerd op</string>
+<string name="PPR_warranty_until">Garantie tot</string>
+<string name="PPR_registered_serial">U hebt serienummer</string>
+<string name="PPR_before">al eens geregistreerd</string>
+<string name="PPR_serial_number_consists">Het serienummer bestaat uit</string>
+<string name="PPR_number_starting">cijfers die beginnen met</string>
+<string name="PPR_eg">Bijv.</string>
 </resources>

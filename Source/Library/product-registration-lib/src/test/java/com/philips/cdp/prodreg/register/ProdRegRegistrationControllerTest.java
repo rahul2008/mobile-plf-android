@@ -12,6 +12,7 @@ import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
 import com.philips.cdp.registration.BuildConfig;
+import com.philips.cdp.registration.User;
 
 import junit.framework.TestCase;
 
@@ -57,7 +58,8 @@ public class ProdRegRegistrationControllerTest extends TestCase {
         bundle = mock(Bundle.class);
         productMetadataResponseData = mock(ProductMetadataResponseData.class);
         summaryDataMock = mock(Data.class);
-        prodRegRegistrationController = new ProdRegRegistrationController(registerControllerCallBacksMock, fragmentActivity) {
+        User user = mock(User.class);
+        prodRegRegistrationController = new ProdRegRegistrationController(registerControllerCallBacksMock,fragmentActivity,user) {
             @Override
             public RegisteredProduct getRegisteredProduct() {
                 return registeredProductMock;

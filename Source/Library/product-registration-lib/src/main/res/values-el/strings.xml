@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">Επιλέξτε μια ημερομηνία από το 2000 έως σήμερα.</string>
 <string name="PPR_Already_Registered_title">Το προϊόν δηλώθηκε.</string>
 <string name="PPR_Already_Registered_ErrMsg">Το προϊόν έχει ήδη δηλωθεί.</string>
-    <string name="PPR_Continue">Συνέχεια </string>
-    <string name="PPR_Missing_Ctn_Title">Ελλιπές CTN </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">Εισαγάγετε CTN </string>
-    <string name="PPR_Register_Next">Εγγραφή επόμενου </string>
-    <string name="PPR_Back_To_List">Πίσω στη λίστα </string>
-    <string name="PPR_OK">ΟΚ </string>
+<string name="PPR_Continue">Συνέχεια </string>
+<string name="PPR_Missing_Ctn_Title">Ελλιπές CTN </string>
+<string name="PPR_Missing_Ctn_ErrMsg">Εισαγάγετε CTN </string>
+<string name="PPR_Register_Next">Εγγραφή επόμενου </string>
+<string name="PPR_Back_To_List">Πίσω στη λίστα </string>
+<string name="PPR_OK">ΟΚ </string>
+<string name="PPR_Find_Serial_Number">Πού μπορώ να βρω το σειριακό αριθμό;</string>
+<string name="PPR_find_serial_number_help_message">Είναι χαραγμένος στην πίσω πλευρά του προϊόντος, στο χώρο κάτω από το πλαστικό κάλυμμα, κάτω από το τρίμερ ή κάτω από την κεφαλή ξυρίσματος</string>
+<string name="PPR_ok_i_found_it">Εντάξει, τον βρήκα</string>
+<string name="PPR_registered">Δηλώθηκε</string>
+<string name="PPR_registered_on">Δηλώθηκε στις</string>
+<string name="PPR_warranty_until">Εγγύηση έως</string>
+<string name="PPR_registered_serial">Δηλώσατε τον σειριακό αριθμό</string>
+<string name="PPR_before">πριν</string>
+<string name="PPR_serial_number_consists">Ο σειριακός αριθμός αποτελείται από</string>
+<string name="PPR_number_starting">αριθμούς, και ξεκινάει από</string>
+<string name="PPR_eg">Π.χ.</string>
 </resources>
