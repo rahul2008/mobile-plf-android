@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">Vnesite datum med letom 2000 in današnjim datumom</string>
 <string name="PPR_Already_Registered_title">Izdelek je registriran</string>
 <string name="PPR_Already_Registered_ErrMsg">Izdelek je že registriran</string>
-    <string name="PPR_Continue">Naprej </string>
-    <string name="PPR_Missing_Ctn_Title">Manjka CTN </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">Vnesite CTN </string>
-    <string name="PPR_Register_Next">Druga registracija </string>
-    <string name="PPR_Back_To_List">Nazaj na seznam </string>
-    <string name="PPR_OK">V redu </string>
+<string name="PPR_Continue">Naprej </string>
+<string name="PPR_Missing_Ctn_Title">Manjka CTN </string>
+<string name="PPR_Missing_Ctn_ErrMsg">Vnesite CTN </string>
+<string name="PPR_Register_Next">Druga registracija </string>
+<string name="PPR_Back_To_List">Nazaj na seznam </string>
+<string name="PPR_OK">V redu </string>
+<string name="PPR_Find_Serial_Number">Kje lahko najdem serijsko številko?</string>
+<string name="PPR_find_serial_number_help_message">Vgravirana je na hrbtni strani izdelka, v prostorčku pod plastičnim pokrovom, pod prirezovalnikom ali pod brivno glavo</string>
+<string name="PPR_ok_i_found_it">Sem našel</string>
+<string name="PPR_registered">Registrirano</string>
+<string name="PPR_registered_on">Registrirano na</string>
+<string name="PPR_warranty_until">Veljavnost garancije do</string>
+<string name="PPR_registered_serial">Serijsko številko ste že registrirali</string>
+<string name="PPR_before">pred</string>
+<string name="PPR_serial_number_consists">Serijska številka je sestavljena iz</string>
+<string name="PPR_number_starting">številk, ki se začnejo z:</string>
+<string name="PPR_eg">npr.</string>
 </resources>

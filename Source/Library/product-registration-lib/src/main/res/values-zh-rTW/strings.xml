@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">請輸入介於西元 2000 年至今日的日期</string>
 <string name="PPR_Already_Registered_title">已註冊產品</string>
 <string name="PPR_Already_Registered_ErrMsg">產品已註冊</string>
-    <string name="PPR_Continue">繼續 </string>
-    <string name="PPR_Missing_Ctn_Title">遺失 CTN </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">請輸入 CTN </string>
-    <string name="PPR_Register_Next">註冊下一個 </string>
-    <string name="PPR_Back_To_List">回到清單 </string>
-    <string name="PPR_OK">OK </string>
+<string name="PPR_Continue">繼續 </string>
+<string name="PPR_Missing_Ctn_Title">遺失 CTN </string>
+<string name="PPR_Missing_Ctn_ErrMsg">請輸入 CTN </string>
+<string name="PPR_Register_Next">註冊下一個 </string>
+<string name="PPR_Back_To_List">回到清單 </string>
+<string name="PPR_OK">OK </string>
+<string name="PPR_Find_Serial_Number">何處可以找到我的序號？</string>
+<string name="PPR_find_serial_number_help_message">刻印在產品背面，在鬢角刀或刀頭底下，塑膠蓋下方的插槽內</string>
+<string name="PPR_ok_i_found_it">好，找到了</string>
+<string name="PPR_registered">已註冊</string>
+<string name="PPR_registered_on">註冊於：</string>
+<string name="PPR_warranty_until">保固期限：</string>
+<string name="PPR_registered_serial">您已註冊序號</string>
+<string name="PPR_before">前</string>
+<string name="PPR_serial_number_consists">序號包含</string>
+<string name="PPR_number_starting">數字，開頭為</string>
+<string name="PPR_eg">例如</string>
 </resources>

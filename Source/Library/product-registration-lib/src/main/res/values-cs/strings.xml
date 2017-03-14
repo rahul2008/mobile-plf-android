@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">Zadejte prosím datum mezi rokem 2000 a dnešním datem</string>
 <string name="PPR_Already_Registered_title">Produkt zaregistrován.</string>
 <string name="PPR_Already_Registered_ErrMsg">Produkt již byl registrován</string>
-    <string name="PPR_Continue">Pokračovat </string>
-    <string name="PPR_Missing_Ctn_Title">Chybí kód CTN </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">Zadejte kód CTN. </string>
-    <string name="PPR_Register_Next">Zaregistrovat další </string>
-    <string name="PPR_Back_To_List">Zpět na seznam </string>
-    <string name="PPR_OK">OK </string>
+<string name="PPR_Continue">Pokračovat </string>
+<string name="PPR_Missing_Ctn_Title">Chybí kód CTN </string>
+<string name="PPR_Missing_Ctn_ErrMsg">Zadejte kód CTN. </string>
+<string name="PPR_Register_Next">Zaregistrovat další </string>
+<string name="PPR_Back_To_List">Zpět na seznam </string>
+<string name="PPR_OK">OK </string>
+<string name="PPR_Find_Serial_Number">Kde najdu sériové číslo?</string>
+<string name="PPR_find_serial_number_help_message">Vyražené na zadní straně výrobku, v prostoru pod plastovým krytem, pod zastřihovačem nebo pod holicí hlavou</string>
+<string name="PPR_ok_i_found_it">OK, našel jsem ho</string>
+<string name="PPR_registered">Registrováno</string>
+<string name="PPR_registered_on">Registrováno dne</string>
+<string name="PPR_warranty_until">Záruka platí do</string>
+<string name="PPR_registered_serial">Vaše sériové číslo bylo zaregistrováno</string>
+<string name="PPR_before">před</string>
+<string name="PPR_serial_number_consists">Sériové číslo se skládá z</string>
+<string name="PPR_number_starting">čísel, začínajících</string>
+<string name="PPR_eg">Např.</string>
 </resources>

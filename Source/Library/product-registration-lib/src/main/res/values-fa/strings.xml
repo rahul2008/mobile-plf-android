@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">لطفا تاریخی از سال 2000 تا تاریخ امروز وارد کنید</string>
 <string name="PPR_Already_Registered_title">محصول ثبت نام شد</string>
 <string name="PPR_Already_Registered_ErrMsg">محصول قبلا ثبت نام شده است</string>
-    <string name="PPR_Continue">ادامه </string>
-    <string name="PPR_Missing_Ctn_Title">CTN وجود ندارد </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">لطفاً CTN را وارد کنید </string>
-    <string name="PPR_Register_Next">ثبت بعدی </string>
-    <string name="PPR_Back_To_List">برگشت به لیست </string>
-    <string name="PPR_OK">تایید </string>
+<string name="PPR_Continue">ادامه </string>
+<string name="PPR_Missing_Ctn_Title">CTN وجود ندارد </string>
+<string name="PPR_Missing_Ctn_ErrMsg">لطفاً CTN را وارد کنید </string>
+<string name="PPR_Register_Next">ثبت بعدی </string>
+<string name="PPR_Back_To_List">برگشت به لیست </string>
+<string name="PPR_OK">تایید </string>
+<string name="PPR_Find_Serial_Number">کجا می توانم شماره سریال خود را پیدا کنم؟</string>
+<string name="PPR_find_serial_number_help_message">شماره سریال پشت محصول، در محفظه زیر روکش پلاستیکی، در زیر دستگاه یا زیر سر ریش‌تراش حک شده است</string>
+<string name="PPR_ok_i_found_it">پیدا کردم</string>
+<string name="PPR_registered">ثبت شده</string>
+<string name="PPR_registered_on">ثبت شده در</string>
+<string name="PPR_warranty_until">ضمانت تا</string>
+<string name="PPR_registered_serial">شما سریال ثبت شده دارید</string>
+<string name="PPR_before">قبل</string>
+<string name="PPR_serial_number_consists">شماره سریال متشکل از اعداد است</string>
+<string name="PPR_number_starting">که به صورت زیر شروع می‌شوند</string>
+<string name="PPR_eg">برای مثال</string>
 </resources>

@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">Palun sisestage kuupäev vahemikus aastast 2000 kuni tänase päevani.</string>
 <string name="PPR_Already_Registered_title">Toode on registreeritud.</string>
 <string name="PPR_Already_Registered_ErrMsg">Toode on juba registreeritud.</string>
-    <string name="PPR_Continue">Jätka </string>
-    <string name="PPR_Missing_Ctn_Title">CTN puudub </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">Palun sisestage CTN </string>
-    <string name="PPR_Register_Next">Registreerige järgmine </string>
-    <string name="PPR_Back_To_List">Tagasi loendisse </string>
-    <string name="PPR_OK">OK </string>
+<string name="PPR_Continue">Jätka </string>
+<string name="PPR_Missing_Ctn_Title">CTN puudub </string>
+<string name="PPR_Missing_Ctn_ErrMsg">Palun sisestage CTN </string>
+<string name="PPR_Register_Next">Registreerige järgmine </string>
+<string name="PPR_Back_To_List">Tagasi loendisse </string>
+<string name="PPR_OK">OK </string>
+<string name="PPR_Find_Serial_Number">Kust ma leian oma toote seerianumbri?</string>
+<string name="PPR_find_serial_number_help_message">Graveeritud toote tagaküljele, plastkatte all olevale korpusele, piirli alla või raseerimispea alla</string>
+<string name="PPR_ok_i_found_it">OK, leidsin selle</string>
+<string name="PPR_registered">Registreeritud</string>
+<string name="PPR_registered_on">Registreeritud kuupäeval:</string>
+<string name="PPR_warranty_until">Garantii kehtib kuni</string>
+<string name="PPR_registered_serial">Olete registreerinud seerianumbri</string>
+<string name="PPR_before">enne</string>
+<string name="PPR_serial_number_consists">Seerianumber sisaldab</string>
+<string name="PPR_number_starting">numbrit ja selle alguses on</string>
+<string name="PPR_eg">nt</string>
 </resources>

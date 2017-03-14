@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">Insira uma data entre 2000 e a data de hoje</string>
 <string name="PPR_Already_Registered_title">Produto registrado</string>
 <string name="PPR_Already_Registered_ErrMsg">Produto já registrado</string>
-    <string name="PPR_Continue">Continuar </string>
-    <string name="PPR_Missing_Ctn_Title">Sem CTN </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">Insira CTN </string>
-    <string name="PPR_Register_Next">Registre o próximo produto </string>
-    <string name="PPR_Back_To_List">Voltar à lista </string>
-    <string name="PPR_OK">OK </string>
+<string name="PPR_Continue">Continuar </string>
+<string name="PPR_Missing_Ctn_Title">Sem CTN </string>
+<string name="PPR_Missing_Ctn_ErrMsg">Insira CTN </string>
+<string name="PPR_Register_Next">Registre o próximo produto </string>
+<string name="PPR_Back_To_List">Voltar à lista </string>
+<string name="PPR_OK">OK </string>
+<string name="PPR_Find_Serial_Number">Onde posso encontrar meu número de série?</string>
+<string name="PPR_find_serial_number_help_message">Na parte de trás do produto, no compartimento debaixo da capa de plástico, na parte de baixo do aparador ou da cabeça de corte</string>
+<string name="PPR_ok_i_found_it">Ok, encontrei</string>
+<string name="PPR_registered">Registrado</string>
+<string name="PPR_registered_on">Registrado em</string>
+<string name="PPR_warranty_until">Garantia até</string>
+<string name="PPR_registered_serial">Você registrou o número de série</string>
+<string name="PPR_before">antes de</string>
+<string name="PPR_serial_number_consists">O número de série contém</string>
+<string name="PPR_number_starting">números, começando com</string>
+<string name="PPR_eg">Por exemplo</string>
 </resources>

@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">कृपया वर्ष 2000 से आज की दिनांक के बीच की दिनांक दर्ज करें</string>
 <string name="PPR_Already_Registered_title">उत्पाद पंजीकृत किया गया</string>
 <string name="PPR_Already_Registered_ErrMsg">उत्पाद पहले से ही पंजीकृत किया गया है</string>
-    <string name="PPR_Continue">जारी रखें </string>
-    <string name="PPR_Missing_Ctn_Title">गुम CTN </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">कृपया CTN दर्ज करें </string>
-    <string name="PPR_Register_Next">अगला उत्पाद पंजीकृत करें </string>
-    <string name="PPR_Back_To_List">सूची पर वापस जाएँ </string>
-    <string name="PPR_OK">ठीक </string>
+<string name="PPR_Continue">जारी रखें </string>
+<string name="PPR_Missing_Ctn_Title">गुम CTN </string>
+<string name="PPR_Missing_Ctn_ErrMsg">कृपया CTN दर्ज करें </string>
+<string name="PPR_Register_Next">अगला उत्पाद पंजीकृत करें </string>
+<string name="PPR_Back_To_List">सूची पर वापस जाएँ </string>
+<string name="PPR_OK">ठीक </string>
+<string name="PPR_Find_Serial_Number">मैं अपनी क्रमांक संख्या कहाँ ढूँढ सकता हूँ?</string>
+<string name="PPR_find_serial_number_help_message">उत्पाद के पिछले भाग पर, प्लास्टिक कवर के अंतर्गत कंपार्टमेंट में, ट्रिमर के नीचे या शेविंग हेड के नीचे उत्कीर्ण किया गया है</string>
+<string name="PPR_ok_i_found_it">ठीक है, मुझे मिल गया</string>
+<string name="PPR_registered">पंजीकृत किया गया</string>
+<string name="PPR_registered_on">इस दिन पंजीकृत किया गया</string>
+<string name="PPR_warranty_until">इस दिन तक वारंटी</string>
+<string name="PPR_registered_serial">आपके पास पंजीकृत क्रमांक है</string>
+<string name="PPR_before">पहले</string>
+<string name="PPR_serial_number_consists">क्रमांक संख्या में निम्न शामिल होना चाहिए</string>
+<string name="PPR_number_starting">संख्याएँ, इससे प्रारंभ होने वाली</string>
+<string name="PPR_eg">जैसे कि</string>
 </resources>

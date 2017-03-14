@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">Въведете дата между 2000 година и днес</string>
 <string name="PPR_Already_Registered_title">Продуктът е регистриран</string>
 <string name="PPR_Already_Registered_ErrMsg">Продуктът вече е регистриран</string>
-    <string name="PPR_Continue">Продължи </string>
-    <string name="PPR_Missing_Ctn_Title">Липсва CTN </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">Въведете CTN </string>
-    <string name="PPR_Register_Next">Регистриране на следващ </string>
-    <string name="PPR_Back_To_List">Обратно в списъка </string>
-    <string name="PPR_OK">OK </string>
+<string name="PPR_Continue">Продължи </string>
+<string name="PPR_Missing_Ctn_Title">Липсва CTN </string>
+<string name="PPR_Missing_Ctn_ErrMsg">Въведете CTN </string>
+<string name="PPR_Register_Next">Регистриране на следващ </string>
+<string name="PPR_Back_To_List">Обратно в списъка </string>
+<string name="PPR_OK">OK </string>
+<string name="PPR_Find_Serial_Number">Къде да намеря серийния номер?</string>
+<string name="PPR_find_serial_number_help_message">Гравиран е на гърба на продукта, в отделението под пластмасовия капак, под тримера или под бръснещата глава</string>
+<string name="PPR_ok_i_found_it">Добре, намерих го</string>
+<string name="PPR_registered">Регистриран</string>
+<string name="PPR_registered_on">Регистриран на</string>
+<string name="PPR_warranty_until">С гаранция до</string>
+<string name="PPR_registered_serial">Регистриран сериен номер</string>
+<string name="PPR_before">преди</string>
+<string name="PPR_serial_number_consists">Серийният номер се състои от</string>
+<string name="PPR_number_starting">цифри, започващи с</string>
+<string name="PPR_eg">например</string>
 </resources>

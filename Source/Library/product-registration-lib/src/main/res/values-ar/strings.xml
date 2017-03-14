@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">يرجى إدخال تاريخ بين العام 2000 والتاريخ الحالي</string>
 <string name="PPR_Already_Registered_title">تم تسجيل المنتج</string>
 <string name="PPR_Already_Registered_ErrMsg">سبق أن تم تسجيل المنتج</string>
-    <string name="PPR_Continue">متابعة </string>
-    <string name="PPR_Missing_Ctn_Title">CTN مفقود </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">يرجى إدخال CTN </string>
-    <string name="PPR_Register_Next">تسجيل التالي </string>
-    <string name="PPR_Back_To_List">عودة إلى القائمة </string>
-    <string name="PPR_OK">موافق </string>
+<string name="PPR_Continue">متابعة </string>
+<string name="PPR_Missing_Ctn_Title">CTN مفقود </string>
+<string name="PPR_Missing_Ctn_ErrMsg">يرجى إدخال CTN </string>
+<string name="PPR_Register_Next">تسجيل التالي </string>
+<string name="PPR_Back_To_List">عودة إلى القائمة </string>
+<string name="PPR_OK">موافق </string>
+<string name="PPR_Find_Serial_Number">أين يمكنني العثور على الرقم التسلسلي؟</string>
+<string name="PPR_find_serial_number_help_message">يكون محفورًا على الجهة الخلفية من المنتج، في الحجرة تحت الغطاء البلاستيكي، تحت أداة التشذيب أو رأس الحلاقة</string>
+<string name="PPR_ok_i_found_it">حسنًا، وجدته</string>
+<string name="PPR_registered">تم التسجيل</string>
+<string name="PPR_registered_on">تم التسجيل في</string>
+<string name="PPR_warranty_until">ضمان حتى</string>
+<string name="PPR_registered_serial">تم تسجيل الرقم التسلسلي</string>
+<string name="PPR_before">قبل</string>
+<string name="PPR_serial_number_consists">يتألف الرقم التسلسلي من</string>
+<string name="PPR_number_starting">أرقام، ويبدأ بـ</string>
+<string name="PPR_eg">على سبيل المثال</string>
 </resources>

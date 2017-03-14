@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">Veuillez entrer une date entre l\'an 2000 et aujourd\'hui</string>
 <string name="PPR_Already_Registered_title">Produit enregistré</string>
 <string name="PPR_Already_Registered_ErrMsg">Produit déjà enregistré</string>
-    <string name="PPR_Continue">Continuer </string>
-    <string name="PPR_Missing_Ctn_Title">CTN manquant </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">Veuillez entrer un CTN </string>
-    <string name="PPR_Register_Next">Enregistrer le suivant </string>
-    <string name="PPR_Back_To_List">Retour à la liste </string>
-    <string name="PPR_OK">OK </string>
+<string name="PPR_Continue">Continuer </string>
+<string name="PPR_Missing_Ctn_Title">CTN manquant </string>
+<string name="PPR_Missing_Ctn_ErrMsg">Veuillez entrer un CTN </string>
+<string name="PPR_Register_Next">Enregistrer le suivant </string>
+<string name="PPR_Back_To_List">Retour à la liste </string>
+<string name="PPR_OK">OK </string>
+<string name="PPR_Find_Serial_Number">Où puis-je trouver le numéro de série?</string>
+<string name="PPR_find_serial_number_help_message">Il est gravé à l\'arrière du produit, dans le compartiment sous la coque de plastique, sous la tête de tondeuse ou de rasoir</string>
+<string name="PPR_ok_i_found_it">Je l\'ai trouvé</string>
+<string name="PPR_registered">Enregistré</string>
+<string name="PPR_registered_on">Date d\'enregistrement</string>
+<string name="PPR_warranty_until">Garantie jusqu\'à</string>
+<string name="PPR_registered_serial">Vous avez enregistré le numéro de série</string>
+<string name="PPR_before">avant</string>
+<string name="PPR_serial_number_consists">Le numéro de série se compose de</string>
+<string name="PPR_number_starting">chiffres, commençant par</string>
+<string name="PPR_eg">P. ex.</string>
 </resources>

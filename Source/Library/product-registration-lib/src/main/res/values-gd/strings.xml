@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">Cuir isteach dáta idir an bhliain 2000 agus dáta an lae inniu</string>
 <string name="PPR_Already_Registered_title">Táirge cláraithe</string>
 <string name="PPR_Already_Registered_ErrMsg">Táirge cláraithe cheana féin</string>
-    <string name="PPR_Continue">Ar aghaidh </string>
-    <string name="PPR_Missing_Ctn_Title">CTN ar iarraidh </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">Cuir isteach an CTN </string>
-    <string name="PPR_Register_Next">Cláraigh an chéad táirge eile </string>
-    <string name="PPR_Back_To_List">Siar ag an liosta </string>
-    <string name="PPR_OK">OK </string>
+<string name="PPR_Continue">Ar aghaidh </string>
+<string name="PPR_Missing_Ctn_Title">CTN ar iarraidh </string>
+<string name="PPR_Missing_Ctn_ErrMsg">Cuir isteach an CTN </string>
+<string name="PPR_Register_Next">Cláraigh an chéad táirge eile </string>
+<string name="PPR_Back_To_List">Siar ag an liosta </string>
+<string name="PPR_OK">OK </string>
+<string name="PPR_Find_Serial_Number">Cá bhfaighinn mo shraithuimhir?</string>
+<string name="PPR_find_serial_number_help_message">Tá sí greanta ar chúl an táirge, sa raca faoin gclúdach plaisteach, faoin mbearrthóir nó faoin gcloigeann bearrtha.</string>
+<string name="PPR_ok_i_found_it">Tá sí aimsithe agam</string>
+<string name="PPR_registered">Cláraithe</string>
+<string name="PPR_registered_on">Cláraithe ar</string>
+<string name="PPR_warranty_until">Baránta go dtí</string>
+<string name="PPR_registered_serial">Tá sraith cláraithe agat</string>
+<string name="PPR_before">cheana féin</string>
+<string name="PPR_serial_number_consists">Uimhreacha atá sa tsraithuimhir</string>
+<string name="PPR_number_starting">a thosaíonn le</string>
+<string name="PPR_eg">.e.g.</string>
 </resources>

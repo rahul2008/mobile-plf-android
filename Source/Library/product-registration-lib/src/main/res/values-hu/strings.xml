@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">Adja meg a dátumot a 2000-es év és a jelenlegi dátum között</string>
 <string name="PPR_Already_Registered_title">A termék regisztrálva</string>
 <string name="PPR_Already_Registered_ErrMsg">A termék már regisztrálva van</string>
-    <string name="PPR_Continue">Folytatás </string>
-    <string name="PPR_Missing_Ctn_Title">Hiányzó CTN </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">Adja meg a CTN értéket </string>
-    <string name="PPR_Register_Next">A következő regisztrálása </string>
-    <string name="PPR_Back_To_List">Vissza a listához </string>
-    <string name="PPR_OK">OK </string>
+<string name="PPR_Continue">Folytatás </string>
+<string name="PPR_Missing_Ctn_Title">Hiányzó CTN </string>
+<string name="PPR_Missing_Ctn_ErrMsg">Adja meg a CTN értéket </string>
+<string name="PPR_Register_Next">A következő regisztrálása </string>
+<string name="PPR_Back_To_List">Vissza a listához </string>
+<string name="PPR_OK">OK </string>
+<string name="PPR_Find_Serial_Number">Hol találom a sorozatszámot?</string>
+<string name="PPR_find_serial_number_help_message">A termék hátlapjára gravírozva, a műanyag borító alatt található tartóban, a vágó- vagy a borotvafej alatt</string>
+<string name="PPR_ok_i_found_it">Rendben, megtaláltam</string>
+<string name="PPR_registered">Regisztrálva</string>
+<string name="PPR_registered_on">Regisztrálás dátuma</string>
+<string name="PPR_warranty_until">A garancia a következő időpontig érvényes:</string>
+<string name="PPR_registered_serial">A sorozatszám regisztrálása</string>
+<string name="PPR_before">a következő dátum előtt történt:</string>
+<string name="PPR_serial_number_consists">A sorozatszám</string>
+<string name="PPR_number_starting">számokból áll, az első eleme</string>
+<string name="PPR_eg">.pl.</string>
 </resources>

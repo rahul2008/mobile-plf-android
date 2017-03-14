@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">Introdu o dată între anul 2000 şi data curentă</string>
 <string name="PPR_Already_Registered_title">Produs înregistrat</string>
 <string name="PPR_Already_Registered_ErrMsg">Produs înregistrat deja</string>
-    <string name="PPR_Continue">Continuă </string>
-    <string name="PPR_Missing_Ctn_Title">CTN lipsă </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">Introdu CTN </string>
-    <string name="PPR_Register_Next">Înregistrează următorul </string>
-    <string name="PPR_Back_To_List">Înapoi la listă </string>
-    <string name="PPR_OK">OK </string>
+<string name="PPR_Continue">Continuă </string>
+<string name="PPR_Missing_Ctn_Title">CTN lipsă </string>
+<string name="PPR_Missing_Ctn_ErrMsg">Introdu CTN </string>
+<string name="PPR_Register_Next">Înregistrează următorul </string>
+<string name="PPR_Back_To_List">Înapoi la listă </string>
+<string name="PPR_OK">OK </string>
+<string name="PPR_Find_Serial_Number">Unde îmi pot găsi numărul de serie?</string>
+<string name="PPR_find_serial_number_help_message">Gravat pe partea din spate a produsului, în compartimentul de sub capacul din plastic, sub accesoriul de tuns sau sub capul de ras</string>
+<string name="PPR_ok_i_found_it">OK, l-am găsit</string>
+<string name="PPR_registered">Înregistrat</string>
+<string name="PPR_registered_on">Înregistrat pe</string>
+<string name="PPR_warranty_until">Garanţie până pe</string>
+<string name="PPR_registered_serial">Ai mai înregistrat acest număr de serie şi</string>
+<string name="PPR_before">înainte</string>
+<string name="PPR_serial_number_consists">Numărul de serie constă din</string>
+<string name="PPR_number_starting">cifre, începând cu</string>
+<string name="PPR_eg">De ex.</string>
 </resources>

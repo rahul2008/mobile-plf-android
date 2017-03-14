@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">Lütfen 2000 ile bugünün tarihi arasında bir tarih girin</string>
 <string name="PPR_Already_Registered_title">Ürün kaydedildi</string>
 <string name="PPR_Already_Registered_ErrMsg">Ürün zaten kayıtlı</string>
-    <string name="PPR_Continue">Devam et </string>
-    <string name="PPR_Missing_Ctn_Title">Eksik CTN </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">Lütfen CTN\'yi girin </string>
-    <string name="PPR_Register_Next">Bir sonraki ürünü kaydet </string>
-    <string name="PPR_Back_To_List">Listeye geri dön </string>
-    <string name="PPR_OK">OK </string>
+<string name="PPR_Continue">Devam et </string>
+<string name="PPR_Missing_Ctn_Title">Eksik CTN </string>
+<string name="PPR_Missing_Ctn_ErrMsg">Lütfen CTN\'yi girin </string>
+<string name="PPR_Register_Next">Bir sonraki ürünü kaydet </string>
+<string name="PPR_Back_To_List">Listeye geri dön </string>
+<string name="PPR_OK">OK </string>
+<string name="PPR_Find_Serial_Number">Seri numaramı nerede bulabilirim?</string>
+<string name="PPR_find_serial_number_help_message">Ürünün arka kısmında basılı, plastik kaplamanın altındaki bölmede, düzelticinin altında veya tıraş başlığının altında</string>
+<string name="PPR_ok_i_found_it">Tamam, buldum</string>
+<string name="PPR_registered">Kayıtlı</string>
+<string name="PPR_registered_on">Kaydedildiği tarih:</string>
+<string name="PPR_warranty_until">Garanti şu tarihe kadar geçerlidir:</string>
+<string name="PPR_registered_serial">Kayıtlı seri numarasınız bulunmaktadır</string>
+<string name="PPR_before">önce</string>
+<string name="PPR_serial_number_consists">Seri numarası sayılardan oluşur ve</string>
+<string name="PPR_number_starting">şu şekilde başlar:</string>
+<string name="PPR_eg">Ör.</string>
 </resources>

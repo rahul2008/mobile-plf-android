@@ -43,10 +43,21 @@
 <string name="PPR_Invalid_Date_ErrMsg">Įveskite datą nuo 2000 m. iki šios dienos</string>
 <string name="PPR_Already_Registered_title">Gaminys užregistruotas</string>
 <string name="PPR_Already_Registered_ErrMsg">Gaminys jau užregistruotas</string>
-    <string name="PPR_Continue">Tęsti </string>
-    <string name="PPR_Missing_Ctn_Title">Nėra CTN </string>
-    <string name="PPR_Missing_Ctn_ErrMsg">Įveskite CTN </string>
-    <string name="PPR_Register_Next">Registruoti kitą </string>
-    <string name="PPR_Back_To_List">Atgal į sąrašą </string>
-    <string name="PPR_OK">Gerai </string>
+<string name="PPR_Continue">Tęsti </string>
+<string name="PPR_Missing_Ctn_Title">Nėra CTN </string>
+<string name="PPR_Missing_Ctn_ErrMsg">Įveskite CTN </string>
+<string name="PPR_Register_Next">Registruoti kitą </string>
+<string name="PPR_Back_To_List">Atgal į sąrašą </string>
+<string name="PPR_OK">Gerai </string>
+<string name="PPR_Find_Serial_Number">Kur galiu rasti serijos numerį?</string>
+<string name="PPR_find_serial_number_help_message">Išgraviruotas kitoje produkto pusėje, po plastikiniu dangteliu, po kirptuvu arba po skutimo galvute</string>
+<string name="PPR_ok_i_found_it">Gerai, radau</string>
+<string name="PPR_registered">Užregistruotas</string>
+<string name="PPR_registered_on">Registravimo data</string>
+<string name="PPR_warranty_until">Garantija galioja iki</string>
+<string name="PPR_registered_serial">Užregistravote serijos nr.</string>
+<string name="PPR_before">prieš</string>
+<string name="PPR_serial_number_consists">Serijos numerį sudaro</string>
+<string name="PPR_number_starting">skaičiai, prasidedantys</string>
+<string name="PPR_eg">.Pvz.</string>
 </resources>
