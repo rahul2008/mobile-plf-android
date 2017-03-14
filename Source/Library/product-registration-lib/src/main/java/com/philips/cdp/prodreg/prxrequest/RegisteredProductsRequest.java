@@ -7,6 +7,7 @@ package com.philips.cdp.prodreg.prxrequest;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponse;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
@@ -52,9 +53,8 @@ public class RegisteredProductsRequest extends PrxRequest {
 
     @Override
     public Map<String, String> getHeaders() {
-        String ACCESS_TOKEN_TAG = "x-accessToken";
         final Map<String, String> headers = new HashMap<>();
-        headers.put(ACCESS_TOKEN_TAG, getAccessToken());
+        headers.put(ProdRegConstants.ACCESS_TOKEN_KEY, getAccessToken());
         PRUiHelper.getInstance().getAppInfraInstance().getServiceDiscovery().getServiceUrlWithCountryPreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
@@ -62,8 +62,8 @@ public class RegisteredProductsRequest extends PrxRequest {
             }
             @Override
             public void onSuccess(URL url) {
-                if (url.toString().contains("philips.com.cn")){
-                    headers.put("x-provider", "JANRAIN-CN");
+                if (url.toString().contains(ProdRegConstants.CHINA_DOMAIN)){
+                    headers.put(ProdRegConstants.CHINA_PROVIDER_KEY, ProdRegConstants.CHINA_PROVIDER_VAL);
                 }
             }
         });

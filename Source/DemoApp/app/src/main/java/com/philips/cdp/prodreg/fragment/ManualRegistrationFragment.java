@@ -206,7 +206,6 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             @Override
             public void onSuccess(String locale) {
                 PRUiHelper.getInstance().setLocale(locale);
-                System.out.println("STRING S : " + locale);
                 String localeArr[] = locale.split("_");
                 PRUiHelper.getInstance().setCountryCode(localeArr[1].trim().toUpperCase());
             }

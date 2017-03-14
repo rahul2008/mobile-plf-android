@@ -38,5 +38,8 @@ public class ProdRegConstants {
 
     public static final String PATH_PARAM_PRODUCT = "/prx/product";
     public static final String PATH_PARAM_REGISTRATION = "/prx/registration";
-
+    public static final String ACCESS_TOKEN_KEY = "x-accessToken";
+    public static final String CHINA_DOMAIN = "philips.com.cn";
+    public static final String CHINA_PROVIDER_KEY = "x-provider";
+    public static final String CHINA_PROVIDER_VAL = "JANRAIN-CN";
 }
