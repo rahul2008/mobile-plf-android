@@ -39,6 +39,7 @@ import com.philips.platform.baseapp.screens.dataservices.registration.UserRegist
 import com.philips.platform.baseapp.screens.dataservices.temperature.TemperatureTimeLineFragment;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -88,6 +89,7 @@ public class DataServicesState extends BaseState {
         DataServicesManager.getInstance().initializeDataServices(context, creator, userRegistrationInterface, errorHandlerInterface);
         injectDBInterfacesToCore(context);
         DataServicesManager.getInstance().initializeSyncMonitors(context, null, null, synchronisationCompleteListener);
+        DSLog.enableLogging(true);
     }
 
     void injectDBInterfacesToCore(Context context) {

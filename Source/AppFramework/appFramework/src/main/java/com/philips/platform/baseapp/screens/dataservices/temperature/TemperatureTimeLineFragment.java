@@ -442,6 +442,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
                 if (mSharedPreferences.getBoolean("isSynced", false)) {
                     dismissProgressDialog();
                 }
+                setProgressBarVisibility(false);
             }
         });
     }
