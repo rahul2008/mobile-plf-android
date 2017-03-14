@@ -18,11 +18,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.philips.platform.appinfra.AppInfra;
+
 import java.util.ArrayList;
 
 public class AppInfraMainActivity extends AppCompatActivity {
 
-
+    AppInfra mAppInfra;
     ListView listView;
     String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging","AppIdentity",
             "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client" , " A/B Testing", "Content Loader","WhiteBox API","Internet Check"};
@@ -31,7 +33,11 @@ public class AppInfraMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_infra_main);
-
+        mAppInfra = new AppInfra.Builder().build(getApplicationContext());
+        final TextView componentIDTextView = (TextView) findViewById(R.id.appInfraComponentID);
+        componentIDTextView.setText(mAppInfra.getComponentId());
+        final TextView versionTextView = (TextView) findViewById(R.id.appInfraVersion);
+        versionTextView.setText(mAppInfra.getVersion());
         listView = (ListView) findViewById(R.id.listViewAppInfraComponents);
         listView.setAdapter(new AppInfraListAdapter());
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
