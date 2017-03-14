@@ -12,8 +12,6 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 
@@ -615,49 +613,4 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
 //                assertTrue(user.getEmailVerificationStatus());
 //
 //        }
-
-        public void test_LoginUsingSocialProvider(){
-               // ClassPool objClassPool = ClassPool.getDefault();
-
-                        SocialProviderLoginHandler socialProviderLoginHandler = new SocialProviderLoginHandler() {
-                                @Override
-                                public void onLoginSuccess() {
-                                        System.out.println("SocialProviderLoginHandler success");
-                                }
-
-                                @Override
-                                public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
-                                }
-
-                                @Override
-                                public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
-
-                                }
-
-                                @Override
-                                public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
-
-                                }
-
-                                @Override
-                                public void onContinueSocialProviderLoginSuccess() {
-
-                                }
-
-                                @Override
-                                public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
-                                }
-                        };
-
-
-
-        }
-
-
-
-
-
-
 }

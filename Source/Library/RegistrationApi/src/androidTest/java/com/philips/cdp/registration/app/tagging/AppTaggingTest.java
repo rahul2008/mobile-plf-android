@@ -20,8 +20,4 @@ public class AppTaggingTest extends InstrumentationTestCase{
         super.setUp();
         mContext = getInstrumentation().getTargetContext();
     }
-
-    public void testAppTagging(){
-        assertNotNull(AppTagging.getCommonGoalsMap());
-    }
 }
