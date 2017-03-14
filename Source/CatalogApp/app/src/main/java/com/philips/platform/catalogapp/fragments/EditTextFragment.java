@@ -37,6 +37,9 @@ public class EditTextFragment extends BaseFragment {
 
     private void restoreStates(Bundle savedInstance) {
         if (savedInstance != null) {
+            if(savedInstance.getBoolean("isShowingError")){
+                texteditboxBinding.textboxInputField.showError();
+            }
             disabledEditboxes(savedInstance.getBoolean("disableEditBoxes"));
             showWithLabel(savedInstance.getBoolean("isWithLabel"));
         }
@@ -46,6 +49,7 @@ public class EditTextFragment extends BaseFragment {
     public void onSaveInstanceState(final Bundle outState) {
         outState.putBoolean("disableEditBoxes", disableEditBoxes.get());
         outState.putBoolean("isWithLabel", isWithLabel.get());
+        outState.putBoolean("isShowingError", texteditboxBinding.textboxInputField.isShowingError());
         super.onSaveInstanceState(outState);
     }
 
