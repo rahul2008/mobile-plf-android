@@ -3,9 +3,7 @@ package com.philips.cdp.registration.configuration;
 import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.platform.appinfra.AppInfra;
 
 import org.junit.Before;
 
@@ -20,17 +18,6 @@ public class RegistrationConfigurationTest extends InstrumentationTestCase {
         MultiDex.install(getInstrumentation().getTargetContext());
         System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
         super.setUp();
-        if( RegistrationHelper.getInstance().getAppInfraInstance()==null){
-            RegistrationHelper.getInstance().setAppInfraInstance(new AppInfra.Builder().
-                    build(getInstrumentation().getContext()));
-        }
-        registrationConfiguration = RegistrationConfiguration.getInstance();
-
         RLog.init();
     }
-
-
-
-
-
 }

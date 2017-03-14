@@ -4,9 +4,7 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
-import com.philips.platform.appinfra.AppInfra;
 
 /**
  * Created by 310243576 on 8/11/2016.
@@ -40,26 +38,6 @@ public class AppTaggingErrorsTest extends ActivityInstrumentationTestCase2<Regis
         synchronized(this){//synchronized block
 
             try {
-                RegistrationHelper.getInstance().setAppInfraInstance( new AppInfra.Builder().build(mContext));
-//                appTaggingErrors.trackActionRegisterError(111);
-//                appTaggingErrors.trackActionRegisterError(390);
-//                appTaggingErrors.trackActionRegisterError(210);
-//                appTaggingErrors.trackActionRegisterError(112);
-//
-//                appTaggingErrors.trackActionLoginError(111);
-//                appTaggingErrors.trackActionLoginError(112);
-//                appTaggingErrors.trackActionLoginError(210);
-//                appTaggingErrors.trackActionLoginError(211);
-//
-//                appTaggingErrors.trackActionForgotPasswordFailure(111);
-//                appTaggingErrors.trackActionForgotPasswordFailure(212);
-//                appTaggingErrors.trackActionForgotPasswordFailure(211);
-//
-//
-//                appTaggingErrors.trackActionResendNetworkFailure(111);
-//                appTaggingErrors.trackActionResendNetworkFailure(112);
-
-                assertNotNull(appTaggingErrors);
 
 
         }catch(Exception e){System.out.println(e);}
