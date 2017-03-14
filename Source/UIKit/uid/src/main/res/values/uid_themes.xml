@@ -107,6 +107,8 @@
         <item name="uidColorLevel15">@color/uid_orange_level_15</item>
         <item name="uidColorLevel10">@color/uid_orange_level_10</item>
         <item name="uidColorLevel05">@color/uid_orange_level_05</item>
+
+
     </style>
 
     <!--Pink-->
@@ -151,7 +153,7 @@
         <item name="uidColorLevel15">@color/uid_purple_level_15</item>
         <item name="uidColorLevel10">@color/uid_purple_level_10</item>
         <item name="uidColorLevel05">@color/uid_purple_level_05</item>
-        <item name="uidTextBoxValidationError">@color/uid_signal_orange_level_30</item>
+        <item name="uidTextBoxValidationErrorColor">@color/uid_signal_orange_level_30</item>
     </style>
 
     <!--Black-->

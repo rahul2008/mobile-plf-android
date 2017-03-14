@@ -179,7 +179,7 @@
     <color name="uid_signal_yellow_level_60">#F2BE00</color>
     <color name="uid_signal_yellow_level_75">#FFB640</color>
 
-    <!--signal yellow-->
+    <!--signal red-->
     <color name="uid_signal_red_level_15">#FFBABA</color>
     <color name="uid_signal_red_level_30">#FF8080</color>
     <color name="uid_signal_red_level_45">#FF5454</color>

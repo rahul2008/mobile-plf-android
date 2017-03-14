@@ -3,7 +3,7 @@
     <style name="UIDLabelInlineValidation">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="uidLabelTextSize">@dimen/uid_inline_label_text_size</item>
-        <item name="uidLabelTextColor">?attr/uidTextBoxValidationError</item>
+        <item name="uidLabelTextColor">?attr/uidTextBoxValidationErrorColor</item>
         <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_100</item>
     </style>
 </resources>

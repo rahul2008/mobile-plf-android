@@ -69,7 +69,7 @@ public class LinearProgressIndicators {
     @Test
     public void verifyRightMarginOfProgressBar() {
         int expectedRightMargin = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.linearprogressbar_leftmargin);
-        getProgressBar().check(matches(ViewPropertiesMatchers.isSameRightMargin(expectedRightMargin)));
+        getProgressBar().check(matches(ViewPropertiesMatchers.isSameEndMargin(expectedRightMargin)));
     }
 
     //*********************************Theming Scenarios**************************//

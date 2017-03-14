@@ -75,7 +75,7 @@ public class NavigationBarTest {
         int titleMargin = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.navigation_title_margin);
 
         getTitle().check(matches(ViewPropertiesMatchers.isSameLeftMargin(titleMargin)));
-        getTitle().check(matches(ViewPropertiesMatchers.isSameRightMargin(titleMargin)));
+        getTitle().check(matches(ViewPropertiesMatchers.isSameEndMargin(titleMargin)));
     }
 
     private int getNavigationTextExpectedFromThemeColor() {

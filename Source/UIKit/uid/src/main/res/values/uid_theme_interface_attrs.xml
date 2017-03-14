@@ -220,7 +220,7 @@
         <attr name="uidTextBoxValidationBackgroundAlpha" format="reference|float"/>
         <attr name="uidTextBoxValidationBorder" format="reference|color"/>
         <attr name="uidTextBoxValidationText" format="reference|color"/>
-        <attr name="uidTextBoxValidationError" format="reference|color"/>
+        <attr name="uidTextBoxValidationErrorColor" format="reference|color"/>
         <attr name="uidTextBoxValidationErrorDrawable" format="reference"/>
         <attr name="uidTextBoxValidationErrorText" format="reference|string"/>
     </declare-styleable>
