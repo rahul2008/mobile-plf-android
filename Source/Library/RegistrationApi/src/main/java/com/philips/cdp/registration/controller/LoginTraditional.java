@@ -233,6 +233,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 
                 @Override
                 public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+                    AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo,AppTagingConstants.HSDP);
                     mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
                 }
             });

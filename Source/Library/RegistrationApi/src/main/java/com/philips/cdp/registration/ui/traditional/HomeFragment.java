@@ -851,9 +851,14 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             if (FieldsValidator.isValidEmail(mUser.getEmail())) {
                 launchAccountActivationFragment();
             } else {
-                getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
+                launchMobileVerifyCodeFragment();
             }
         }
+    }
+
+    private void launchMobileVerifyCodeFragment() {
+        getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
+        trackPage(AppTaggingPages.MOBILE_VERIFY_CODE);
     }
 
     private void launchAccountActivationFragment() {

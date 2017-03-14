@@ -231,7 +231,10 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
         } else if (fragment instanceof AlmostDoneFragment) {
             return AppTaggingPages.ALMOST_DONE;
-        } else {
+
+        }else if (fragment instanceof MarketingAccountFragment) {
+            return AppTaggingPages.MARKETING_OPT_IN;
+        }else {
             return AppTaggingPages.MERGE_ACCOUNT;
         }
     }

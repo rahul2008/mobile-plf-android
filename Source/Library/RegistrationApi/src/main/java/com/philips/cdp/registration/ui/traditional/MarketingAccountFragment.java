@@ -237,13 +237,11 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     private void handleRegistrationSuccess() {
         RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
         hideRefreshProgress();
-        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
-                AppTagingConstants.SUCCESS_USER_CREATION);
         if (RegistrationConfiguration.getInstance().isEmailVerificationRequired() && !mUser.getEmailVerificationStatus()) {
             if (FieldsValidator.isValidEmail(mUser.getEmail().toString())){
                 launchAccountActivateFragment();
             }else {
-                getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
+                launchMobileVerifyCodeFragment();
             }
         } else if (RegistrationConfiguration.getInstance().isEmailVerificationRequired() && mUser.getEmailVerificationStatus()) {
             launchWelcomeFragment();
@@ -256,14 +254,18 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         } else {
             mTrackCreateAccountTime = (System.currentTimeMillis() - mTrackCreateAccountTime) / 1000;
         }
-        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.
-                TOTAL_TIME_CREATE_ACCOUNT, String.valueOf(mTrackCreateAccountTime));
+
         mTrackCreateAccountTime = 0;
     }
 
     private void launchAccountActivateFragment() {
         getRegistrationFragment().addFragment(new AccountActivationFragment());
         trackPage(AppTaggingPages.ACCOUNT_ACTIVATION);
+    }
+
+    private void launchMobileVerifyCodeFragment() {
+        getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
+        trackPage(AppTaggingPages.MOBILE_VERIFY_CODE);
     }
 
     private void launchWelcomeFragment() {
@@ -284,9 +286,18 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     @Override
     public void onUpdateSuccess() {
+        trackRemarketing();
         RLog.i("MarketingAccountFragment", "onUpdateSuccess ");
         hideRefreshProgress();
         handleRegistrationSuccess();
+    }
+
+    private void trackRemarketing() {
+        if(mUser.getReceiveMarketingEmail()){
+            trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
+        }else{
+            trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
+        }
     }
 
     @Override

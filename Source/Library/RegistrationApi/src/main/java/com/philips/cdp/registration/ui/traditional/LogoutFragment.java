@@ -235,7 +235,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
 
     private void handleLogout() {
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
-                AppTagingConstants.SIGN_OUT);
+                AppTagingConstants.LOGOUT_BTN_SELECTED);
         mUser.logout(this);
     }
 
