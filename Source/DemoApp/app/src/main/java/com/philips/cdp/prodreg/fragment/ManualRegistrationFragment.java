@@ -33,7 +33,6 @@ import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -199,7 +198,7 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
     }
 
     private void initServiceDiscoveryLocale() {
-        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
+        AppInfraInterface appInfra = PRUiHelper.getInstance().getAppInfraInstance();
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
 
         //serviceDiscoveryInterface.getServiceLocaleWithCountryPreference();

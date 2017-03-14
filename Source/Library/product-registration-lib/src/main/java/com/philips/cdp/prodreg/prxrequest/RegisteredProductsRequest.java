@@ -5,21 +5,14 @@
 */
 package com.philips.cdp.prodreg.prxrequest;
 
-import android.net.Uri;
-import android.util.Log;
-
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
-import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponse;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.request.RequestType;
 import com.philips.cdp.prxclient.response.ResponseData;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import org.json.JSONObject;
@@ -27,8 +20,6 @@ import org.json.JSONObject;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.philips.cdp.prodreg.fragments.ProdRegRegistrationFragment.TAG;
 
 public class RegisteredProductsRequest extends PrxRequest {
 
