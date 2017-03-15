@@ -16,6 +16,48 @@ import android.widget.LinearLayout;
 
 import com.philips.platform.uid.R;
 
+/**
+ * Layout which wraps {@link com.philips.platform.uid.view.widget.ValidationEditText} for showing error messages.
+ * It uses {@link com.philips.platform.uid.view.widget.InputValidationLayout.Validator} for auto hide/show error messages.
+ * Current implementation follows below <br>
+ *     1. On focus change, if validate() returns false, error message is displayed.<br>
+ *     2. On text change, if validate() return true, error message is removed.
+ *
+ * <br>
+ *      <p>The attributes mapping follows below table.</p>
+ * <table border="2" width="85%" align="center" cellpadding="5">
+ * <thead>
+ * <tr><th>ResourceID</th> <th>Configuration</th></tr>
+ * </thead>
+ * <p>
+ * <tbody>
+ * <tr>
+ * <td rowspan="1">uidTextBoxValidationErrorDrawable</td>
+ * <td rowspan="1">Sets error drawable</td>
+ * </tr>
+ * <tr>
+ * <td rowspan="1">uidTextBoxValidationErrorText</td>
+ * <td rowspan="1">Error message</td>
+ * </tr>
+ * </tbody>
+ * <p>
+ * </table>
+ *
+ * <p>
+ *     Sample use can be as follows <br>
+ *         <pre>
+ *              &lt;android:id="@+id/textbox_input_field"
+ *                    android:layout_width="match_parent"
+ *                    android:layout_height="wrap_content"
+ *                    app:uidTextBoxValidationErrorDrawable="@drawable/ic_data_validation_icon"
+ *                    app:uidTextBoxValidationErrorText="@string/inline_error_message"/&gt;
+ *
+ *                           &lt;com.philips.platform.uid.view.widget.ValidationEditText
+ *                               android:layout_width="match_parent"
+ *                               android:layout_height="wrap_content" /&gt;
+ *         </pre>
+ * </p>
+ */
 public class InputValidationLayout extends LinearLayout {
 
     private Label errorLabel;
@@ -28,6 +70,9 @@ public class InputValidationLayout extends LinearLayout {
     private int errorMessageID;
     private Validator validator;
 
+    /**
+     * Provides call back with current {@link EditText#getText()} which can be used to validate the input.
+     */
     public interface Validator {
         boolean validate(CharSequence msg);
     }
@@ -73,6 +118,9 @@ public class InputValidationLayout extends LinearLayout {
         errorMessageID = typedArray.getResourceId(1, -1);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addView(View child, int index, ViewGroup.LayoutParams params) {
         super.addView(child, index, params);
@@ -111,10 +159,19 @@ public class InputValidationLayout extends LinearLayout {
         }
     }
 
+    /**
+     * Use this to set a validator. Depending upon the return value, the error message is shown.
+     *
+     * @param validator
+     */
     public void setValidator(Validator validator) {
         this.validator = validator;
     }
 
+    /**
+     * Sets error message based on resourceID.
+     * @param resID
+     */
     public void setErrorMessage(int resID) {
         if (errorLabel != null) {
             errorLabel.setText(resID);
@@ -122,6 +179,10 @@ public class InputValidationLayout extends LinearLayout {
         }
     }
 
+    /**
+     * Sets the error message.
+     * @param errorMsg
+     */
     public void setErrorMessage(CharSequence errorMsg) {
         if (errorLabel != null) {
             errorLabel.setText(errorMsg);
@@ -129,19 +190,30 @@ public class InputValidationLayout extends LinearLayout {
         }
     }
 
+    /**
+     * Sets error drawable.
+     * @param drawable
+     */
     public void setErrorDrawable(Drawable drawable) {
         errorIcon.setImageDrawable(drawable);
         errorIcon.setVisibility(VISIBLE);
     }
 
+    /**
+     * Sets error drawable from the resourceID
+     * @param resID
+     */
     public void setErrorDrawable(int resID) {
         errorIcon.setImageResource(resID);
         errorIcon.setVisibility(VISIBLE);
     }
 
+    /**
+     * Call this to display the error. Error text and drawable must be set before calling this api.
+     */
     public void showError() {
         isShowingError = true;
-        validationEditText.showError(isShowingError);
+        validationEditText.setError(isShowingError);
         errorLayout.setVisibility(VISIBLE);
 
     }
@@ -171,20 +243,35 @@ public class InputValidationLayout extends LinearLayout {
         }
     }
 
+    /**
+     * Call to hideError message and error layout.
+     */
     public void hideError() {
         isShowingError = false;
-        validationEditText.showError(isShowingError);
+        validationEditText.setError(isShowingError);
         errorLayout.setVisibility(GONE);
     }
 
+    /**
+     * Returns current error state.
+     * @return true if the error was displaying
+     */
     public boolean isShowingError() {
         return isShowingError;
     }
 
-    public Label getErrorView() {
+    /**
+     * Returns error text view.
+     * @return errortextView
+     */
+    public Label getErrorLabelView() {
         return errorLabel;
     }
 
+    /**
+     * Returns error icon view.
+     * @return
+     */
     public ImageView getErrorIconView() {
         return errorIcon;
     }
@@ -194,7 +281,7 @@ public class InputValidationLayout extends LinearLayout {
     }
 
 
-    static class SavedState extends BaseSavedState {
+    private static class SavedState extends BaseSavedState {
 
         private String errorMsg;
         private boolean isShowingError;

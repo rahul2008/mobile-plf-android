@@ -10,7 +10,7 @@ import com.philips.platform.uid.R;
 public class ValidationEditText extends EditText {
 
     private static final int[] ERROR_STATE_SET = {R.attr.state_error};
-    private boolean showingError;
+    private boolean isInErrorState;
 
     public ValidationEditText(@NonNull Context context) {
         super(context);
@@ -27,15 +27,19 @@ public class ValidationEditText extends EditText {
     @Override
     protected int[] onCreateDrawableState(int extraSpace) {
         final int[] drawableState = super.onCreateDrawableState(extraSpace + 1);
-        if(showingError) {
+        if(isInErrorState) {
             mergeDrawableStates(drawableState, ERROR_STATE_SET);
         }
         return drawableState;
     }
 
-    public void showError(boolean showingError) {
-        if(this.showingError != showingError) {
-            this.showingError = showingError;
+    /**
+     * Set/remove error state in {@link EditText}
+     * @param isError
+     */
+    public void setError(boolean isError) {
+        if(this.isInErrorState != isError) {
+            this.isInErrorState = isError;
             refreshDrawableState();
         }
     }
