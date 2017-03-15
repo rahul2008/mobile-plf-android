@@ -15,10 +15,6 @@ public class StrokeDrawableWrapperStateColors extends KitKatStateColors {
         strokeDrawable = (StrokeDrawableWrapper) d;
     }
 
-    @Override
-    public int getStateColor(final int attr) {
-        return strokeDrawable.getstateColor(attr);
-    }
 /*
     @Override
     public float[] getCornerRadius() {

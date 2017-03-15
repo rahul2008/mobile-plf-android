@@ -141,6 +141,10 @@ public class FunctionDrawableMatchers {
     }
 
     public static Matcher<View> isSameColor(final String funcName, final int state, final int expectedValue, final int drawableID, final boolean isDefaultColor) {
+        return isSameColor(funcName, new int[]{state}, expectedValue, drawableID, isDefaultColor);
+    }
+
+    public static Matcher<View> isSameColor(final String funcName, final int[] state, final int expectedValue, final int drawableID, final boolean isDefaultColor) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
@@ -153,7 +157,8 @@ public class FunctionDrawableMatchers {
         };
     }
 
-    public static Matcher<View> isSameStrokeColor(final String funcName, final int []states, final int expectedValue, final int drawableID) {
+
+    public static Matcher<View> isSameStrokeColor(final String funcName, final int[] states, final int expectedValue, final int drawableID) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
@@ -194,11 +199,15 @@ public class FunctionDrawableMatchers {
      * @return
      */
     public static Matcher<View> isSameColorFromColorList(final String funcName, final int state, final int expectedValue) {
+        return isSameColorFromColorList(funcName, new int[]{state}, expectedValue);
+    }
+
+    public static Matcher<View> isSameColorFromColorList(final String funcName, final int[] states, final int expectedValue) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
                 ColorStateList colorStateList = UIDTestUtils.getColorStateListWithReflection(view, funcName);
-                final int actual = colorStateList.getColorForState(new int[]{state}, Color.MAGENTA);
+                final int actual = colorStateList.getColorForState(states, Color.MAGENTA);
 
                 setValues(actual, expectedValue);
                 return areEqual();
