@@ -5,13 +5,11 @@
 */
 package com.philips.platform.baseapp.screens.dataservices;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
-import android.os.SystemClock;
+import android.os.Handler;
 import android.widget.Toast;
 
+import com.facebook.stetho.Stetho;
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.flowmanager.AppStates;
@@ -39,10 +37,9 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMomen
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSettings;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynchronisationData;
 import com.philips.platform.baseapp.screens.dataservices.error.ErrorHandlerInterfaceImpl;
-import com.philips.platform.baseapp.screens.dataservices.reciever.BaseAppBroadcastReceiver;
+import com.philips.platform.baseapp.screens.dataservices.reciever.ScheduleSyncReceiver;
 import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationInterfaceImpl;
 import com.philips.platform.baseapp.screens.dataservices.temperature.TemperatureTimeLineFragment;
-import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
@@ -52,15 +49,13 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.sql.SQLException;
 
-import static android.content.Context.ALARM_SERVICE;
-
 /**
  * This class has UI extended from UIKIT about screen , It shows the current version of the app
  */
 public class DataServicesState extends BaseState {
     public static final String TAG = DataServicesState.class.getSimpleName();
     FragmentLauncher fragmentLauncher;
-    AlarmManager alarmManager;
+    ScheduleSyncReceiver mScheduleSyncReceiver;
 
     public DataServicesState() {
         super(AppStates.DATA_SYNC);
@@ -80,7 +75,7 @@ public class DataServicesState extends BaseState {
 
     @Override
     public void init(Context context) {
-        alarmManager = (AlarmManager) context.getApplicationContext().getSystemService(ALARM_SERVICE);
+        mScheduleSyncReceiver = new ScheduleSyncReceiver();
         OrmCreator creator = new OrmCreator(new UuidGenerator());
         UserRegistrationInterface userRegistrationInterface = new UserRegistrationInterfaceImpl(context, new User(context));
         ErrorHandlerInterfaceImpl errorHandlerInterface = new ErrorHandlerInterfaceImpl();
@@ -88,30 +83,28 @@ public class DataServicesState extends BaseState {
         injectDBInterfacesToCore(context);
         DataServicesManager.getInstance().initializeSyncMonitors(context, null, null);
         DSLog.enableLogging(true);
-        DSLog.i(DSLog.LOG,"Before Setting up Synchronization Loop");
-        setUpBackendSynchronizationLoop(context);
+        DSLog.i(DSLog.LOG, "Before Setting up Synchronization Loop");
+        scheduleSync(context);
+        Stetho.initializeWithDefaults(context);
     }
 
-    private PendingIntent getPendingIntent(Context context) {
-        Intent intent = new Intent(context, BaseAppBroadcastReceiver.class);
-        intent.setAction(BaseAppBroadcastReceiver.ACTION_USER_DATA_FETCH);
-        return PendingIntent.getBroadcast(context, 0, intent, 0);
-    }
+    void scheduleSync(final Context context) {
+        final Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
 
-    public void cancelPendingIntent(Context context) {
-        PendingIntent dataSyncIntent = getPendingIntent(context);
-        dataSyncIntent.cancel();
-        alarmManager.cancel(dataSyncIntent);
-    }
-
-    private void setUpBackendSynchronizationLoop(Context context) {
-        PendingIntent dataSyncIntent = getPendingIntent(context);
-
-        // Start the first time after 5 seconds
-        long firstTime = SystemClock.elapsedRealtime();
-        firstTime += 0;
-
-        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, firstTime, BaseAppBroadcastReceiver.DATA_FETCH_FREQUENCY, dataSyncIntent);
+            @Override
+            public void run() {
+                try {
+                    mScheduleSyncReceiver.onReceive(context);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    //also call the same runnable to call it at regular interval
+                    handler.postDelayed(this, ScheduleSyncReceiver.DATA_FETCH_FREQUENCY);
+                }
+            }
+        };
+        runnable.run();
     }
 
     void injectDBInterfacesToCore(Context context) {

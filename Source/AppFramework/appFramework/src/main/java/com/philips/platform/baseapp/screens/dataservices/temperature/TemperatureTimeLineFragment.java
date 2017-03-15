@@ -1,15 +1,11 @@
 package com.philips.platform.baseapp.screens.dataservices.temperature;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,7 +29,6 @@ import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.dataservices.characteristics.CharacteristicsDialogFragment;
 import com.philips.platform.baseapp.screens.dataservices.consents.ConsentDialogFragment;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentType;
-import com.philips.platform.baseapp.screens.dataservices.reciever.BaseAppBroadcastReceiver;
 import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationInterfaceImpl;
 import com.philips.platform.baseapp.screens.dataservices.settings.SettingsFragment;
 import com.philips.platform.baseapp.screens.dataservices.utility.Utility;
@@ -49,8 +44,6 @@ import com.philips.platform.core.utils.DSLog;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.content.Context.ALARM_SERVICE;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -347,9 +340,11 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
 
     @Override
     public void dBChangeSuccess(SyncType type) {
-        DSLog.i(DSLog.LOG, "In Temperature TimeLine Fragment DB OnSuccess");
+        DSLog.i(DSLog.LOG,"TemperatureTimeLineFragment onDBSuccess");
         if(type!=SyncType.MOMENT)return;
-        if (getActivity() == null) return;
+        DSLog.i(DSLog.LOG,"TemperatureTimeLineFragment onDBSuccess - MOMENTS");
+        mTemperaturePresenter.fetchData(TemperatureTimeLineFragment.this);
+        /*if (getActivity() == null) return;
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -357,7 +352,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
                 mTemperaturePresenter.fetchData(TemperatureTimeLineFragment.this);
             }
         });
-
+*/
 
     }
 
