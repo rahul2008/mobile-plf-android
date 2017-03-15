@@ -10,6 +10,7 @@ import android.support.test.rule.ActivityTestRule;
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.matcher.InputValidationMatcher;
+import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.junit.Before;
@@ -59,6 +60,12 @@ public class InputValidationLayoutTest {
     }
 
     @Test
+    public void verifyErrorLayoutTopMargin() {
+        int expectedEndMargin = testResources.getDimensionPixelSize(R.dimen.uid_inline_validation_message_margin_top);
+        getErrorLayout().check(matches(ViewPropertiesMatchers.isSameTopMargin(expectedEndMargin)));
+    }
+
+    @Test
     public void verifyErrorTextFontSize() {
         float expectedFontSize = testResources.getDimensionPixelSize(R.dimen.uid_inline_label_text_size);
         getValidationLayout().check(matches(InputValidationMatcher.isSameErrorFontSize((int) expectedFontSize)));
@@ -66,5 +73,9 @@ public class InputValidationLayoutTest {
 
     private ViewInteraction getValidationLayout() {
         return onView(withId(com.philips.platform.uid.test.R.id.validation_layout));
+    }
+
+    private ViewInteraction getErrorLayout() {
+        return onView(withId(com.philips.platform.uid.test.R.id.uid_inline_validation_message_layout));
     }
 }
