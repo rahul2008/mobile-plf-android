@@ -3,6 +3,8 @@ package com.philips.platform.uid.view.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -79,6 +81,33 @@ public class InputValidationLayout extends LinearLayout {
             validationEditText.setOnFocusChangeListener(focusChangeListener);
             validationEditText.addTextChangedListener(textWatcher);
             ensureErrorLayout();
+        }
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+
+        SavedState savedState = new SavedState(superState);
+        savedState.isShowingError = isShowingError;
+        savedState.errorMsg = (String) errorLabel.getText();
+        return savedState;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        if (!(state instanceof SavedState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+        SavedState savedState = (SavedState) state;
+        super.onRestoreInstanceState(savedState.getSuperState());
+
+        isShowingError = savedState.isShowingError;
+        String errorMsg = savedState.errorMsg;
+        errorLabel.setText(errorMsg);
+        if (isShowingError) {
+            showError();
         }
     }
 
@@ -164,4 +193,38 @@ public class InputValidationLayout extends LinearLayout {
         return errorLayout;
     }
 
+
+    static class SavedState extends BaseSavedState {
+
+        private String errorMsg;
+        private boolean isShowingError;
+
+        public static final Parcelable.Creator<SavedState> CREATOR = new Creator<SavedState>() {
+
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            public InputValidationLayout.SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
+
+        SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        private SavedState(Parcel in) {
+            super(in);
+            errorMsg = in.readString();
+            isShowingError = in.readByte() != 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeString(errorMsg);
+            out.writeByte((byte) (this.isShowingError ? 1 : 0));
+        }
+    }
 }
