@@ -14,7 +14,6 @@ import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
-import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.MomentsUpdateRequest;
@@ -161,7 +160,7 @@ public class UpdatingMonitorTest {
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenBackendMomentListSaveRequestPassed() throws Exception {
         Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
         updatingMonitor.onEventAsync(new BackendMomentListSaveRequest(Arrays.asList(moment1), dbChangeListener));
-        verify(momentsSegregatorMock).processMoment(Arrays.asList(moment1),null);
+        verify(momentsSegregatorMock).processMomentsReceivedFromBackend(Arrays.asList(moment1),null);
     }
 
     @Test
