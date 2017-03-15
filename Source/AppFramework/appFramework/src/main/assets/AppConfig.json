@@ -12,8 +12,8 @@
     "SigninProviders.default": ["facebook","googleplus"],
     "SigninProviders.NL": ["facebook","googleplus"],
     "SigninProviders.CN": ["wechat"],
-    "weChatAppId" : "wxbdf2ab8822f6022f",
-    "weChatAppSecret":"df749e21c43c65a042df6f3f4ebe18f1",
+    "weChatAppId" : "wx5b3bfa4e2970475e",
+    "weChatAppSecret":"b2f6437ea42bacca704493bce8226125",
     "ShowCountrySelection":"true"
   },
   "IAP": {
