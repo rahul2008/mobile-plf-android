@@ -62,7 +62,6 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
     private TemperatureTimeLineFragmentcAdapter mAdapter;
-    AlarmManager alarmManager;
     DataServicesManager mDataServicesManager;
     ImageButton mAddButton;
     TemperaturePresenter mTemperaturePresenter;
@@ -104,7 +103,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         mUser = new User(mContext);
         userRegistrationInterface = new UserRegistrationInterfaceImpl(mContext, mUser);
         mTemperatureMomentHelper = new TemperatureMomentHelper();
-        alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
+
         //EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
         mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE, this);
         mUtility = new Utility();
@@ -160,8 +159,6 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
                 //Reseting the sync Flags
         /*mDataServicesManager.setPullComplete(true);
         mDataServicesManager.setPushComplete(true);*/
-
-                setUpBackendSynchronizationLoop();
 
                 if (getActivity() == null) return;
                 if (!mUtility.isOnline(getActivity())) {
@@ -226,7 +223,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         super.onStop();
         DataServicesManager.getInstance().unRegisterDBChangeListener();
         mDataServicesManager.unRegisterSynchronisationCosmpleteListener();
-        cancelPendingIntent();
+        //cancelPendingIntent();
         //mDataServicesManager.stopCore();
         dismissProgressDialog();
     }
@@ -253,27 +250,6 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         return view;
     }
 
-    private void setUpBackendSynchronizationLoop() {
-        PendingIntent dataSyncIntent = getPendingIntent();
-
-        // Start the first time after 5 seconds
-        long firstTime = SystemClock.elapsedRealtime();
-        firstTime += 5 * 1000;
-
-        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, firstTime, BaseAppBroadcastReceiver.DATA_FETCH_FREQUENCY, dataSyncIntent);
-    }
-
-    private PendingIntent getPendingIntent() {
-        Intent intent = new Intent(mContext, BaseAppBroadcastReceiver.class);
-        intent.setAction(BaseAppBroadcastReceiver.ACTION_USER_DATA_FETCH);
-        return PendingIntent.getBroadcast(mContext, 0, intent, 0);
-    }
-
-    public void cancelPendingIntent() {
-        PendingIntent dataSyncIntent = getPendingIntent();
-        dataSyncIntent.cancel();
-        alarmManager.cancel(dataSyncIntent);
-    }
 
     @Override
     public void onDestroy() {

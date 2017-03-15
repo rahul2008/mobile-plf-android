@@ -5,7 +5,11 @@
 */
 package com.philips.platform.baseapp.screens.dataservices;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.os.SystemClock;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
@@ -35,6 +39,7 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMomen
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSettings;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynchronisationData;
 import com.philips.platform.baseapp.screens.dataservices.error.ErrorHandlerInterfaceImpl;
+import com.philips.platform.baseapp.screens.dataservices.reciever.BaseAppBroadcastReceiver;
 import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationInterfaceImpl;
 import com.philips.platform.baseapp.screens.dataservices.temperature.TemperatureTimeLineFragment;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
@@ -47,12 +52,15 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.sql.SQLException;
 
+import static android.content.Context.ALARM_SERVICE;
+
 /**
  * This class has UI extended from UIKIT about screen , It shows the current version of the app
  */
 public class DataServicesState extends BaseState {
     public static final String TAG = DataServicesState.class.getSimpleName();
     FragmentLauncher fragmentLauncher;
+    AlarmManager alarmManager;
 
     public DataServicesState() {
         super(AppStates.DATA_SYNC);
@@ -72,24 +80,38 @@ public class DataServicesState extends BaseState {
 
     @Override
     public void init(Context context) {
-        SynchronisationCompleteListener synchronisationCompleteListener = new SynchronisationCompleteListener() {
-            @Override
-            public void onSyncComplete() {
-
-            }
-
-            @Override
-            public void onSyncFailed(Exception exception) {
-
-            }
-        };
+        alarmManager = (AlarmManager) context.getApplicationContext().getSystemService(ALARM_SERVICE);
         OrmCreator creator = new OrmCreator(new UuidGenerator());
         UserRegistrationInterface userRegistrationInterface = new UserRegistrationInterfaceImpl(context, new User(context));
         ErrorHandlerInterfaceImpl errorHandlerInterface = new ErrorHandlerInterfaceImpl();
         DataServicesManager.getInstance().initializeDataServices(context, creator, userRegistrationInterface, errorHandlerInterface);
         injectDBInterfacesToCore(context);
-        DataServicesManager.getInstance().initializeSyncMonitors(context, null, null, synchronisationCompleteListener);
+        DataServicesManager.getInstance().initializeSyncMonitors(context, null, null);
         DSLog.enableLogging(true);
+        DSLog.i(DSLog.LOG,"Before Setting up Synchronization Loop");
+        setUpBackendSynchronizationLoop(context);
+    }
+
+    private PendingIntent getPendingIntent(Context context) {
+        Intent intent = new Intent(context, BaseAppBroadcastReceiver.class);
+        intent.setAction(BaseAppBroadcastReceiver.ACTION_USER_DATA_FETCH);
+        return PendingIntent.getBroadcast(context, 0, intent, 0);
+    }
+
+    public void cancelPendingIntent(Context context) {
+        PendingIntent dataSyncIntent = getPendingIntent(context);
+        dataSyncIntent.cancel();
+        alarmManager.cancel(dataSyncIntent);
+    }
+
+    private void setUpBackendSynchronizationLoop(Context context) {
+        PendingIntent dataSyncIntent = getPendingIntent(context);
+
+        // Start the first time after 5 seconds
+        long firstTime = SystemClock.elapsedRealtime();
+        firstTime += 0;
+
+        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, firstTime, BaseAppBroadcastReceiver.DATA_FETCH_FREQUENCY, dataSyncIntent);
     }
 
     void injectDBInterfacesToCore(Context context) {

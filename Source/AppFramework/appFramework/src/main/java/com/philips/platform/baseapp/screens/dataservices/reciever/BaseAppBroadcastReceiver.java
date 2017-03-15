@@ -34,11 +34,21 @@ public class BaseAppBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
+        DSLog.i(DSLog.LOG,"On Receive Sync Request");
         mDataServices = DataServicesManager.getInstance();
         String action = intent.getAction();
         if (action == null) {
+            DSLog.i(DSLog.LOG,"action is null");
             return;
         }
+        if(mUtility.isOnline(context)){
+            DSLog.i(DSLog.LOG,"User online");
+        }
+
+        if(action.equals(ACTION_USER_DATA_FETCH) || action.equals(ConnectivityManager.CONNECTIVITY_ACTION)){
+            DSLog.i(DSLog.LOG,"ACTION is connectivity or fetch");
+        }
+
         //TODO: review changing connection
         if (mUtility.isOnline(context) && (action.equals(ACTION_USER_DATA_FETCH) || action.equals(ConnectivityManager.CONNECTIVITY_ACTION))) {
             DSLog.i(DSLog.LOG,"START SYNC FROM REC");
