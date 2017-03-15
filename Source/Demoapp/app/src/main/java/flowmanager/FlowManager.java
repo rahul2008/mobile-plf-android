@@ -18,6 +18,7 @@ import flowmanager.condition.ConditionIsDonePressed;
 import philips.app.aboutscreen.AboutScreenState;
 import philips.app.homefragment.HomeFragmentState;
 import philips.app.introscreen.welcomefragment.WelcomeState;
+import philips.app.sample.SampleState;
 import philips.app.splash.SplashState;
 import philips.app.stateimpl.HamburgerActivityState;
 
@@ -36,6 +37,7 @@ public class FlowManager extends BaseFlowManager {
         uiStateMap.put(AppStates.ABOUT, new AboutScreenState());
         uiStateMap.put(AppStates.SPLASH, new SplashState());
         uiStateMap.put(AppStates.HAMBURGER_HOME,new HamburgerActivityState());
+        uiStateMap.put(AppStates.SAMPLE, new SampleState());
 
     }
 

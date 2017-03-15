@@ -65,6 +65,15 @@
                 "nextState": "about"
               }
             ]
+          },
+          {
+            "eventId": "sample",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "sample"
+              }
+            ]
           }
            ]
       }
