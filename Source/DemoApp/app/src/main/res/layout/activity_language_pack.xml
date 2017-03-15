@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_language_pack"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   android:layout_margin="10dp"
+    tools:context="com.philips.platform.appinfra.demo.LanguagePackActivity">
+
+    <TextView
+        android:text="Language Pack Overview File"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginEnd="31dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/LPoverviewFileTitle" />
+    <Button
+        android:text="overview file Refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/LPoverviewFileTitle"
+        android:layout_centerHorizontal="true"
+       android:gravity="center"
+        android:id="@+id/OverviewfileRefresh" />
+
+    <TextView
+        android:text="Status:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/OverviewfileRefresh"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="13dp"
+
+        android:id="@+id/overviewfileStatusTitle" />
+
+    <TextView
+
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/overviewfileStatusTitle"
+        android:layout_toRightOf="@+id/overviewfileStatusTitle"
+        android:id="@+id/overviewfileStatus" />
+    <LinearLayout
+        android:layout_below="@+id/overviewfileStatus"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryDark"
+        >
+        </LinearLayout>
+</RelativeLayout>

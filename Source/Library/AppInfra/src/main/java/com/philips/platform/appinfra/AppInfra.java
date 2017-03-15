@@ -17,6 +17,8 @@ import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityManager;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationManager;
+import com.philips.platform.appinfra.languagepack.LanguagePackManager;
+import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -47,6 +49,7 @@ public class AppInfra implements AppInfraInterface {
     private AppConfigurationInterface configInterface;
     private RestInterface mRestInterface;
     private ABTestClientInterface mAbtesting;
+    private LanguagePackInterface mLanguagePackInterface;
 
 
     /**
@@ -72,6 +75,7 @@ public class AppInfra implements AppInfraInterface {
 
         private AppConfigurationInterface configInterface;
         private RestInterface mRestInterface;
+        private LanguagePackInterface LanguagePack;
 
         /**
          * Instantiates a new Builder.
@@ -88,6 +92,7 @@ public class AppInfra implements AppInfraInterface {
             mTimeSyncInterfaceBuilder = null;
             configInterface = null;
             mRestInterface = null;
+            LanguagePack =null;
         }
 
 
@@ -174,7 +179,16 @@ public class AppInfra implements AppInfraInterface {
             return this;
         }
 
-
+        /**
+         * Sets language pack.
+         *
+         * @param languagePack the language pack
+         * @return the config
+         */
+        public Builder setLanguagePack(LanguagePackInterface languagePack) {
+            LanguagePack = languagePack;
+            return this;
+        }
         /**
          * Actual AppInfra object is created here.
          * Once build is called AppInfra is created in memory and cannot be modified during runtime.
@@ -248,6 +262,8 @@ public class AppInfra implements AppInfraInterface {
 
                 }
             });
+
+            ai.setLanguagePackInterface(LanguagePack == null? new LanguagePackManager(ai) : LanguagePack);
             return ai;
         }
     }
@@ -301,6 +317,12 @@ public class AppInfra implements AppInfraInterface {
     @Override
     public ABTestClientInterface getAbTesting() {
         return mAbtesting;
+    }
+
+
+    @Override
+    public LanguagePackInterface getLanguagePack() {
+        return mLanguagePackInterface;
     }
 
     private AppInfra(Context pContext) {
@@ -365,5 +387,8 @@ public class AppInfra implements AppInfraInterface {
         this.configInterface = configInterface;
     }
 
+    public void setLanguagePackInterface(LanguagePackInterface languagePackInterface) {
+        this.mLanguagePackInterface = languagePackInterface;
+    }
 
 }

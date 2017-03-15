@@ -25,7 +25,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
 
     ListView listView;
     String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging","AppIdentity",
-            "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client" , " A/B Testing", "Content Loader","WhiteBox API","Internet Check"};
+            "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client" , " A/B Testing", "Content Loader","WhiteBox API","Internet Check","Language Pack"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,6 +211,12 @@ public class AppInfraMainActivity extends AppCompatActivity {
                 Intent secureDbIntent = new Intent(AppInfraMainActivity.this,
                         InternetCheckActivity.class);
                 startActivity(secureDbIntent);
+                break;
+
+            case 13:
+                Intent languagePackIntent = new Intent(AppInfraMainActivity.this,
+                        LanguagePackActivity.class);
+                startActivity(languagePackIntent);
                 break;
         }
 

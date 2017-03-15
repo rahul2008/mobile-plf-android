@@ -38,7 +38,9 @@ public class ConfigValues {
                 "    \"CONTENTLOADER.LIMITSIZE\":100,\n" +
                 "    \"SERVICEDISCOVERY.PLATFORMMICROSITEID\":\"77000\",\n" +
                 "    \"SERVICEDISCOVERY.PLATFORMENVIRONMENT\":\"production\",\n" +
-                "    \"APPCONFIG.CLOUDSERVICEID\":\" appinfra.appconfigdownload\"\n" +
+                "    \"APPCONFIG.CLOUDSERVICEID\":\" appinfra.appconfigdownload\",\n" +
+                "    \"LANGUAGEPACK.SERVICEID\":\"appinfra.languagePack\"\n" +
+
                 "  }\n" +
                 "}\n";
 

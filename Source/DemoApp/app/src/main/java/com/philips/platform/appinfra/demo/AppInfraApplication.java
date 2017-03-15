@@ -7,6 +7,7 @@ package com.philips.platform.appinfra.demo;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.os.StrictMode;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
@@ -38,6 +39,22 @@ public class AppInfraApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        //https://developer.android.com/reference/android/os/StrictMode.html
+        // to monitor penaltyLog() log output in logcat for ANR or any other performance issue
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .detectDiskReads()
+                .detectDiskWrites()
+                .detectNetwork()   // or .detectAll() for all detectable problems
+                .penaltyLog()
+                .build());
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                .detectLeakedSqlLiteObjects()
+                .detectLeakedClosableObjects()
+                .penaltyLog()
+                .penaltyDeath()
+                .build());
+
 
         LeakCanary.install(this);
 
