@@ -1,0 +1,7 @@
+<resources>
+    <dimen name="fab_margin">10dp</dimen>
+    <dimen name="marginleft">30dp</dimen>
+    <dimen name="fontsize">14sp</dimen>
+    <dimen name="Buttonfontsize">18sp</dimen>
+    <dimen name="paddingleft">4dp</dimen>
+</resources>
