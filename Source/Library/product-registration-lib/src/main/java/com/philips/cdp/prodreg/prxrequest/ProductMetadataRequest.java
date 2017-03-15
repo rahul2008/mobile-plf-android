@@ -39,26 +39,6 @@ public class ProductMetadataRequest extends PrxRequest {
     }
 
     @Override
-    public void getRequestUrlFromAppInfra(AppInfraInterface appInfra, final PrxRequest.OnUrlReceived listener) {
-        HashMap replaceUrl = new HashMap();
-        replaceUrl.put("ctn", this.mCtn);
-        replaceUrl.put("sector", this.getSector().toString());
-        replaceUrl.put("catalog", this.getCatalog().toString());
-        appInfra.getServiceDiscovery().getServiceUrlWithCountryPreference(this.mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-            public void onSuccess(URL url) {
-                PrxLogger.i("SUCCESS ***", "" + url);
-                String updateUrl = url.toString().replace(ProdRegConstants.PATH_PARAM_PRODUCT,ProdRegConstants.PATH_PARAM_REGISTRATION);
-                listener.onSuccess(updateUrl);
-            }
-
-            public void onError(ERRORVALUES error, String message) {
-                PrxLogger.i("ERRORVALUES ***", "" + message);
-                listener.onError(error, message);
-            }
-        }, replaceUrl);
-    }
-
-    @Override
     public int getRequestType() {
         return RequestType.GET.getValue();
     }

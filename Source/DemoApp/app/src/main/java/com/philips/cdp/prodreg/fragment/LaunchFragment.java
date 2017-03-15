@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.cdp.prodreg.R;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -84,7 +85,7 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
         ActivityLauncher activityLauncher;
         URInterface urInterface;
 
-        ProdRegTagging.getInstance().trackPage("demoapp:home", "trackPage", "demoapp:home");
+        PRUiHelper.getInstance().getAppInfraInstance().getTagging().setPreviousPage("demoapp:home");
         urLaunchInput = new URLaunchInput();
         urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
