@@ -8,7 +8,11 @@
  */
 package com.philips.cdp.digitalcare.faq.view;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
@@ -24,6 +28,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
+import com.philips.cdp.digitalcare.customview.NetworkAlertView;
 import com.philips.cdp.digitalcare.faq.fragments.FaqFragment;
 import com.philips.cdp.digitalcare.faq.listeners.FaqCallback;
 import com.philips.cdp.digitalcare.faq.model.FaqQuestionModel;
@@ -57,7 +62,7 @@ public class FAQCustomView implements Serializable {
     private final int EXPAND_FIRST = 2;
     // private ArrayList<View> mSubQuestionViewList = null;
     private ArrayList<QuestionsGroupModel> mQuestionsGroupModelList = null;
-    private Context mContext = null;
+    private Activity mContext = null;
     private SupportModel mSupportModel = null;
     private FaqFragment mFaqFragment = null;
     private FaqCallback mCallback = null;
@@ -65,7 +70,7 @@ public class FAQCustomView implements Serializable {
     private float mDensity;
     private boolean isTablet = false;
 
-    public FAQCustomView(Context context, SupportModel supportModel, FaqCallback callback) {
+    public FAQCustomView(Activity context, SupportModel supportModel, FaqCallback callback) {
         this.mContext = context;
         this.mSupportModel = supportModel;
         this.mCallback = callback;
@@ -368,6 +373,21 @@ public class FAQCustomView implements Serializable {
             Data supportData = mSupportModel.getData();
             RichTexts richTexts = supportData.getRichTexts();
             List<RichText> richText = richTexts.getRichText();
+            if(richText!=null && richText.size() ==0){
+                new AlertDialog.Builder(mContext, R.style.alertDialogStyle)
+                        .setTitle(null)
+                        .setMessage(mContext.getResources().getString(R.string.NO_SUPPORT_KEY))
+                        .setPositiveButton(android.R.string.yes,
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int which) {
+                                        dialog.dismiss();
+                                        mContext.onBackPressed();
+                                    }
+                                }).show();
+                return null;
+            }
+
             LinkedHashMap map = new LinkedHashMap();
 
             for (RichText faq : richText) {
