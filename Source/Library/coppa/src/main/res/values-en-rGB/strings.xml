@@ -22,7 +22,7 @@
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">I agree</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Disagree</string>
 <string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Thank you for your parental consent </string>
-<string name="reg_Coppa_US_Parental_Access_Content_Txt">You will receive a confirmatory consent request when you enter the parental section again after a minimum period of 24 hours from now.</string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">You will receive a confirmatory consent request when you enter the parental section again after a minimum period of 24 hours from your initial request.</string>
 <string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Thank you for caring and sharing!</string>
 <string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">You have given your consent to Philips to collect information about brushing time, period and frequency collected from the brush handle and the App. \n \n Philips takes your privacy and personal data very seriously. We will never use this data for any other purposes than improving the Sonicare For Kids experience.</string>
 <string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Your parental consent has already been given to Philips to collect and use certain information from the Philips Sonicare For Kids App.\n\nPhilips takes the utmost care to protect your privacy. To make sure it was really you, please reconfirm.\n\n</string>
