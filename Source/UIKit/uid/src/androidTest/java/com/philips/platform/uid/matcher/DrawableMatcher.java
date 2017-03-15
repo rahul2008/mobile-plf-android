@@ -95,7 +95,7 @@ public class DrawableMatcher {
         };
     }
 
-    public static Matcher<Drawable> isSameStrokeColor(final int state, final int expectedValue) {
+    public static Matcher<Drawable> isSameStrokeColor(final int[] state, final int expectedValue) {
         return new BaseTypeSafteyMatcher<Drawable>() {
 
             @Override

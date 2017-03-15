@@ -38,4 +38,9 @@ public class KitKatStateColors extends BaseStateColorsImpl {
     public int getStrokeSolidStateColor(int attr) {
         return getStrokeSolidColor();
     }
+
+    @Override
+    public int getStrokeSolidStateColor(int[] attr) {
+        return getStrokeSolidStateColor(attr[0]);
+    }
 }

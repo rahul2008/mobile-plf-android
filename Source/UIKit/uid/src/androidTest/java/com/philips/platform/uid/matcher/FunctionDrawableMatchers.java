@@ -153,17 +153,21 @@ public class FunctionDrawableMatchers {
         };
     }
 
-    public static Matcher<View> isSameStrokeColor(final String funcName, final int state, final int expectedValue, final int drawableID) {
+    public static Matcher<View> isSameStrokeColor(final String funcName, final int []states, final int expectedValue, final int drawableID) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
                 Drawable drawable = getDrawable(view, funcName, drawableID);
-                BaseTypeSafteyMatcher<Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameStrokeColor(state, expectedValue);
+                BaseTypeSafteyMatcher<Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameStrokeColor(states, expectedValue);
                 boolean matches = colorMatcher.matches(drawable);
-                setValues(colorMatcher.actual, colorMatcher.expected);
+                setValues(Integer.toHexString((Integer) colorMatcher.actual), Integer.toHexString((Integer) colorMatcher.expected));
                 return matches;
             }
         };
+    }
+
+    public static Matcher<View> isSameStrokeColor(final String funcName, final int state, final int expectedValue, final int drawableID) {
+        return isSameStrokeColor(funcName, new int[]{state}, expectedValue, drawableID);
     }
 
     private static Drawable getDrawable(final View view, final String funcName, final int drawableID) {

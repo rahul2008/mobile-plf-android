@@ -28,19 +28,18 @@ public class LollipopStateColors extends KitKatStateColors {
     @Override
     public int getGradientSolidColor() {
         ColorStateList solidColors = (ColorStateList) GradientDrawableUtils.getField(constantState, getSolidColorStateListFiledName());
-        return getColorBasedOnAttribute(solidColors, android.R.attr.state_enabled);
+        return getColorBasedOnAttribute(solidColors, new int[]{android.R.attr.state_enabled});
     }
 
     @Override
     public int getStrokeSolidColor() {
         ColorStateList solidColors = (ColorStateList) GradientDrawableUtils.getField(constantState, getStrokeSolidColorStateListFiledName());
-        return getColorBasedOnAttribute(solidColors, android.R.attr.state_enabled);
+        return getColorBasedOnAttribute(solidColors, new int[] {android.R.attr.state_enabled});
     }
 
     @Override
     public int getStrokeSolidStateColor(int attr) {
-        ColorStateList solidColors = (ColorStateList) GradientDrawableUtils.getField(constantState, getStrokeSolidColorStateListFiledName());
-        return getColorBasedOnAttribute(solidColors, attr);
+        return getStrokeSolidStateColor(new int[attr]);
     }
 
     @Override
@@ -50,7 +49,13 @@ public class LollipopStateColors extends KitKatStateColors {
 
     @Override
     public int getRippleColor(final int attr) {
-        return getColorBasedOnAttribute(UIDTestUtils.getRippleColor(constantState), attr);
+        return getColorBasedOnAttribute(UIDTestUtils.getRippleColor(constantState), new int[]{attr});
+    }
+
+    @Override
+    public int getStrokeSolidStateColor(int[] attr) {
+        ColorStateList solidColors = (ColorStateList) GradientDrawableUtils.getField(constantState, getStrokeSolidColorStateListFiledName());
+        return getColorBasedOnAttribute(solidColors, attr);
     }
 
     protected String getSolidColorStateListFiledName() {
@@ -61,7 +66,7 @@ public class LollipopStateColors extends KitKatStateColors {
         return STROKE_COLOR_STATE_LIST;
     }
 
-    private int getColorBasedOnAttribute(ColorStateList colorList, int attr) {
-        return colorList.getColorForState(new int[]{attr}, Color.WHITE);
+    private int getColorBasedOnAttribute(ColorStateList colorList, int []attrs) {
+        return colorList.getColorForState(attrs, Color.WHITE);
     }
 }

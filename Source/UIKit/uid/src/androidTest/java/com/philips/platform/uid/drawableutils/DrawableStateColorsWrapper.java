@@ -48,6 +48,11 @@ public class DrawableStateColorsWrapper extends BaseStateColorsImpl {
     }
 
     @Override
+    public int getStrokeSolidStateColor(int[] attr) {
+        throw new RuntimeException("Not supported. We should never reach here");
+    }
+
+    @Override
     protected Drawable.ConstantState getConstantStateForRadius() {
         return gradientConstantState;
     }
