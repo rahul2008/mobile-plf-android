@@ -135,16 +135,16 @@ public class FetchingMonitor extends EventMonitor {
     public void onEventAsync(GetNonSynchronizedMomentsRequest event) {
         DSLog.i(DSLog.LOG, "in Fetching Monitor GetNonSynchronizedMomentsRequest");
 
-        List<? extends Moment> ormMomentList = null;
-        List<? extends ConsentDetail> consentDetails = null;
+        List<Moment> ormMomentList = null;
+        List<ConsentDetail> consentDetails = null;
         try {
-            ormMomentList = (List<? extends Moment>) dbInterface.fetchNonSynchronizedMoments();
+            ormMomentList = (List<Moment>) dbInterface.fetchNonSynchronizedMoments();
         } catch (SQLException e) {
             //dbInterface.postError(e, event.getDbFetchRequestListener());
         }
 
         try {
-            consentDetails = (List<? extends ConsentDetail>) dbInterface.fetchConsentDetails();
+            consentDetails = (List<ConsentDetail>) dbInterface.fetchConsentDetails();
         } catch (SQLException e) {
             //dbInterface.postError(e, event.getDbFetchRequestListener());
         }

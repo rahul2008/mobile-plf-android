@@ -22,6 +22,7 @@ import javax.inject.Singleton;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+@Singleton
 public class SynchronisationMonitor extends EventMonitor {
 
     @Inject
@@ -30,7 +31,7 @@ public class SynchronisationMonitor extends EventMonitor {
     @Inject
     DataPushSynchronise pushSynchronise;
 
-    @Singleton
+
     @Inject
     public SynchronisationMonitor() {
         DataServicesManager.getInstance().getAppComponant().injectSynchronizationMonitor(this);
