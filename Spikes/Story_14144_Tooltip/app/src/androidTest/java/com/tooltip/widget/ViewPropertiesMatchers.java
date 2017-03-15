@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.tooltip;
+package com.tooltip.widget;
 
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.AppCompatTextView;

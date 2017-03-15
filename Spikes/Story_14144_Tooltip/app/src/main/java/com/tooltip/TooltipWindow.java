@@ -35,22 +35,24 @@ public class TooltipWindow {
 
         inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (tooltip.equalsIgnoreCase("BOTTOM")) {
-            contentView = inflater.inflate(com.tooltip.R.layout.tooltip_bottom_layout, null);
-            linearLayout = (LinearLayout) contentView.findViewById(com.tooltip.R.id.linearLayout);
+            contentView = inflater.inflate(R.layout.tooltip_bottom_layout, null);
+            linearLayout = (LinearLayout) contentView.findViewById(R.id.linearLayout);
 
         } else {
-            contentView = inflater.inflate(com.tooltip.R.layout.tooltip_top_layout, null);
-            linearLayouts = (LinearLayout) contentView.findViewById(com.tooltip.R.id.linearLayouts);
+            contentView = inflater.inflate(R.layout.tooltip_top_layout, null);
+            linearLayouts = (LinearLayout) contentView.findViewById(R.id.linearLayouts);
         }
-        Drawable drawable = DrawableCompat.wrap(ContextCompat.getDrawable(ctx, com.tooltip.R.drawable.tooltip_test));
+        Drawable drawable = DrawableCompat.wrap(ContextCompat.getDrawable(ctx, R.drawable.tooltip_test));
         if (tooltip.equalsIgnoreCase("BOTTOM")) {
 
              drawable = DrawableCompat.wrap(linearLayout.getBackground());
         }
-        ColorStateList myList = ContextCompat.getColorStateList(ctx, com.tooltip.R.color.colorPrimaryDark);
+        ColorStateList myList = ContextCompat.getColorStateList(ctx, R.color.colorPrimaryDark);
 
         DrawableCompat.setTintList(drawable, myList);
         DrawableCompat.setTintMode(drawable, PorterDuff.Mode.MULTIPLY);
+
+
 
 
     }
