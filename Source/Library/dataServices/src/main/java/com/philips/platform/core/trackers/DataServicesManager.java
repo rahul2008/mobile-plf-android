@@ -8,8 +8,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
@@ -281,7 +279,7 @@ public class DataServicesManager {
         this.mSynchronisationCompleteListener = synchronisationCompleteListener;
         prepareInjectionsGraph(context);
         startMonitors();
-        initAppInfra(context);
+       // initAppInfra(context);
     }
 
     private void sendPullDataEvent() {
@@ -422,10 +420,10 @@ public class DataServicesManager {
         return mCustomFetchers;
     }
 
-    private void initAppInfra(Context context) {
+   /* private void initAppInfra(Context context) {
         AppInfra gAppInfra = new AppInfra.Builder().build(context);
         mLoggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
-    }
+    }*/
 
     public ArrayList<DataSender> getCustomSenders() {
         return mCustomSenders;

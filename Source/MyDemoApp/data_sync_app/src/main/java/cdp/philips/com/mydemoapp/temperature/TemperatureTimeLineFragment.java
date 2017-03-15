@@ -1,13 +1,10 @@
 package cdp.philips.com.mydemoapp.temperature;
 
 import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -39,7 +36,6 @@ import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.characteristics.CharacteristicsDialogFragment;
 import cdp.philips.com.mydemoapp.consents.ConsentDialogFragment;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
-import cdp.philips.com.mydemoapp.reciever.BaseAppBroadcastReceiver;
 import cdp.philips.com.mydemoapp.registration.UserRegistrationInterfaceImpl;
 import cdp.philips.com.mydemoapp.settings.SettingsFragment;
 import cdp.philips.com.mydemoapp.utility.Utility;
@@ -115,7 +111,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         /*mDataServicesManager.setPullComplete(true);
         mDataServicesManager.setPushComplete(true);*/
 
-        setUpBackendSynchronizationLoop();
+        //setUpBackendSynchronizationLoop();
 
         if (!mUtility.isOnline(getContext())) {
             showToastOnUiThread("Please check your connection");
@@ -150,7 +146,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         super.onStop();
         DataServicesManager.getInstance().unRegisterDBChangeListener();
         mDataServicesManager.unRegisterSynchronisationCosmpleteListener();
-        cancelPendingIntent();
+        //cancelPendingIntent();
         //mDataServicesManager.stopCore();
         dismissProgressDialog();
     }
@@ -174,28 +170,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mTvCharacteristics.setOnClickListener(this);
         mTvSettings.setOnClickListener(this);
         return view;
-    }
-
-    private void setUpBackendSynchronizationLoop() {
-        PendingIntent dataSyncIntent = getPendingIntent();
-
-        // Start the first time after 5 seconds
-        long firstTime = SystemClock.elapsedRealtime();
-        firstTime += 5 * 1000;
-
-        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, firstTime, BaseAppBroadcastReceiver.DATA_FETCH_FREQUENCY, dataSyncIntent);
-    }
-
-    private PendingIntent getPendingIntent() {
-        Intent intent = new Intent(mContext, BaseAppBroadcastReceiver.class);
-        intent.setAction(BaseAppBroadcastReceiver.ACTION_USER_DATA_FETCH);
-        return PendingIntent.getBroadcast(mContext, 0, intent, 0);
-    }
-
-    public void cancelPendingIntent() {
-        PendingIntent dataSyncIntent = getPendingIntent();
-        dataSyncIntent.cancel();
-        alarmManager.cancel(dataSyncIntent);
     }
 
     @Override

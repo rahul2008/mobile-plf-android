@@ -2,6 +2,7 @@ package cdp.philips.com.mydemoapp;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.widget.Toast;
 
 import com.facebook.stetho.Stetho;
@@ -53,6 +54,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.error.ErrorHandlerInterfaceImpl;
+import cdp.philips.com.mydemoapp.reciever.ScheduleSyncReceiver;
 import cdp.philips.com.mydemoapp.registration.UserRegistrationInterfaceImpl;
 
 /**
@@ -72,6 +74,7 @@ public class DataSyncApplication extends Application {
     private final String APP_NAME = "appname";
     private final String DATACORE_FALLBACK_URL = "dataCoreUrl";
     private final String DATASERVICES_KEY = "dataservices";
+    ScheduleSyncReceiver mScheduleSyncReceiver;
 
     @Override
     public void onCreate() {
@@ -84,6 +87,8 @@ public class DataSyncApplication extends Application {
         initializeUserRegistrationLibrary(Configuration.STAGING);
         init();
         fetchDataServicesUrl();
+        mScheduleSyncReceiver = new ScheduleSyncReceiver();
+        scheduleSync();
     }
 
     private void initAppInfra() {
@@ -416,5 +421,24 @@ public class DataSyncApplication extends Application {
             DSLog.e(DSLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.getErrorCode().toString());
         }
         return appname;
+    }
+
+    void scheduleSync() {
+        final Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    mScheduleSyncReceiver.onReceive(getApplicationContext());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    //also call the same runnable to call it at regular interval
+                    handler.postDelayed(this, ScheduleSyncReceiver.DATA_FETCH_FREQUENCY);
+                }
+            }
+        };
+        runnable.run();
     }
 }
