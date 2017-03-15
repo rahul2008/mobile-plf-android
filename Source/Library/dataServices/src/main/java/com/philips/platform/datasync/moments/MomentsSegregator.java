@@ -33,6 +33,14 @@ public class MomentsSegregator {
         DataServicesManager.getInstance().getAppComponant().injectMomentsSegregator(this);
     }
 
+    public int processMomentsReceivedFromBackend(final List<? extends Moment> moments,DBRequestListener dbRequestListener) throws SQLException {
+        int updatedCount = 0;
+        for (final Moment moment : moments) {
+                updatedCount = processMoment(updatedCount, moment ,dbRequestListener);
+        }
+        return updatedCount;
+    }
+
     private Moment getOrmMomentFromDatabase(Moment moment,DBRequestListener dbRequestListener) throws SQLException {
         Moment momentInDatabase = null;
         final SynchronisationData synchronisationData = moment.getSynchronisationData();
@@ -95,46 +103,35 @@ public class MomentsSegregator {
         return false;
     }
 
-    public void processMoment(final List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException{
+    public int processMoment(int count, final Moment moment, DBRequestListener dbRequestListener) throws SQLException {
+        //try {
+            final Moment momentInDatabase = getOrmMomentFromDatabase(moment,dbRequestListener);
+            if (hasDifferentMomentVersion(moment, momentInDatabase)) {
+                if (!isActive(moment.getSynchronisationData())) {
+                    deleteMomentInDatabaseIfExists(momentInDatabase,dbRequestListener);
+                } else if (MomentDeletedLocallyDuringSync(momentInDatabase)) {
+                    moment.setSynced(false);
+                    moment.getSynchronisationData().setInactive(true);
 
-            //List<Moment> momentsToDelete=new ArrayList<>();
-            //List<Moment> momentsToDeleteAndSave=new ArrayList<>();
-
-            for(Moment moment:moments) {
-
-                final Moment momentInDatabase = getOrmMomentFromDatabase(moment, dbRequestListener);
-                if (hasDifferentMomentVersion(moment, momentInDatabase)) {
-                    if (!isActive(moment.getSynchronisationData())) {
-              //          momentsToDelete.add(momentInDatabase);
-                        deleteMomentInDatabaseIfExists(momentInDatabase, dbRequestListener);
-                    } else if (MomentDeletedLocallyDuringSync(momentInDatabase)) {
-                        moment.setSynced(false);
-                        moment.getSynchronisationData().setInactive(true);
-
-                        if (momentInDatabase != null) {
-                            moment.setId(momentInDatabase.getId());
-                        }
-                        //momentsToDeleteAndSave.add(moment);
-                        deleteAndSaveMoment(momentInDatabase, moment, dbRequestListener);
-                    } else {
-                        if (!isMomentModifiedLocallyDuringSync(momentInDatabase, moment)) {
-                            moment.setSynced(true);
-                        }
-                        if (momentInDatabase != null) {
-                            moment.setId(momentInDatabase.getId());
-                        }
-                        //This is required for deleting duplicate
-                        // measurements, measurementDetails and momentDetails
-                        deleteAndSaveMoment(momentInDatabase, moment, dbRequestListener);
-                        //momentsToDeleteAndSave.add(moment);
+                    deleteAndSaveMoment(momentInDatabase, moment,dbRequestListener);
+                } else {
+                    if (!isMomentModifiedLocallyDuringSync(momentInDatabase, moment)) {
+                        moment.setSynced(true);
                     }
+                    //This is required for deleting duplicate
+                    // measurements, measurementDetails and momentDetails
+                    deleteAndSaveMoment(momentInDatabase, moment,dbRequestListener);
                 }
+                count++;
+            } else {
+
             }
-            //deleteMomentsInDatabaseIfExists(momentsToDelete,dbRequestListener);
-            //deleteAndSaveMoments(momentsToDeleteAndSave,dbRequestListener);
+        /*} catch (SQLException e) {
+            updatingInterface.updateFailed(e,dbRequestListener);
+        }*/
 
-        }
-
+        return count;
+    }
 
     private boolean isMomentModifiedLocallyDuringSync(final Moment momentInDatabase,
                                                       final Moment ormMoment) {

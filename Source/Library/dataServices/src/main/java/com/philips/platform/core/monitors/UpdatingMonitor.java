@@ -122,7 +122,7 @@ public class UpdatingMonitor extends EventMonitor {
             return;
         }
         try {
-            momentsSegregator.processMoment((List<Moment>) moments, null);
+            momentsSegregator.processMomentsReceivedFromBackend(moments, null);
             DSLog.i(DSLog.LOG,"After Process Moment");
             notifyDBChangeSuccess(SyncType.MOMENT);
         }catch (SQLException e){
