@@ -161,7 +161,7 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     @Override
     public void enableCommunication(SubscriptionEventListener subscriptionEventListener) {
         if (isAvailable()) {
-            SHNDevice device = deviceCache.getDevice(cppId);
+            SHNDevice device = deviceCache.getCacheData(cppId).getDevice();
             device.connect();
         }
         disconnectAfterRequest.set(false);
@@ -174,7 +174,7 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     @Override
     public void disableCommunication() {
         if (isAvailable() && requestExecutor.getQueue().isEmpty() && requestExecutor.getActiveCount() == 0) {
-            SHNDevice device = deviceCache.getDevice(cppId);
+            SHNDevice device = deviceCache.getCacheData(cppId).getDevice();
             device.disconnect();
         }
         disconnectAfterRequest.set(true);

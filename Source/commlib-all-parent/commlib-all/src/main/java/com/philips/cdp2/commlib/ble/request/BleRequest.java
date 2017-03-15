@@ -196,7 +196,7 @@ public abstract class BleRequest implements Runnable {
             return;
         }
 
-        bleDevice = deviceCache.getDevice(cppId);
+        bleDevice = deviceCache.getCacheData(cppId).getDevice();
 
         if (bleDevice == null) {
             onError(Error.NOT_AVAILABLE, "Communication is not available");

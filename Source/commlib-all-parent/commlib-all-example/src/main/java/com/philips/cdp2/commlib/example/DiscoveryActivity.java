@@ -78,9 +78,15 @@ public class DiscoveryActivity extends AppCompatActivity {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btnStartDiscovery:
+                    findViewById(R.id.btnStartDiscovery).setEnabled(false);
+                    findViewById(R.id.btnStopDiscovery).setEnabled(true);
+
                     startDiscovery();
                     break;
                 case R.id.btnStopDiscovery:
+                    findViewById(R.id.btnStartDiscovery).setEnabled(true);
+                    findViewById(R.id.btnStopDiscovery).setEnabled(false);
+
                     stopDiscovery();
                     break;
             }
@@ -135,8 +141,6 @@ public class DiscoveryActivity extends AppCompatActivity {
         listViewAppliances.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                stopDiscovery();
-
                 Intent applianceActivityIntent = new Intent(DiscoveryActivity.this, ApplianceActivity.class);
                 applianceActivityIntent.putExtra(ApplianceActivity.CPPID, applianceAdapter.getItem(position).getNetworkNode().getCppId());
 

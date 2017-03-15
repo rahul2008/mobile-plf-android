@@ -29,7 +29,7 @@ public class BleDeviceCache {
         void onCacheExpired(NetworkNode networkNode);
     }
 
-    private final class CacheData {
+    public static final class CacheData {
 
         private final SHNDevice device;
         private final NetworkNode networkNode;
@@ -75,8 +75,8 @@ public class BleDeviceCache {
     /**
      * Add device.
      *
-     * @param device          the device
-     * @param networkNode     the network node
+     * @param device             the device
+     * @param networkNode        the network node
      * @param expirationCallback the callback that is invoked when the expiration for the cached data was reached
      */
     public void addDevice(@NonNull SHNDevice device, @NonNull NetworkNode networkNode, @NonNull ExpirationCallback expirationCallback) {
@@ -94,14 +94,8 @@ public class BleDeviceCache {
         deviceMap.clear();
     }
 
-    public SHNDevice getDevice(final @NonNull String cppId) {
-        final CacheData cacheData = deviceMap.get(cppId);
-        return cacheData == null ? null : cacheData.getDevice();
-    }
-
-    public NetworkNode getNetworkNode(final @NonNull String cppId) {
-        final CacheData cacheData = deviceMap.get(cppId);
-        return cacheData == null ? null : cacheData.getNetworkNode();
+    public CacheData getCacheData(final @NonNull String cppId) {
+        return deviceMap.get(cppId);
     }
 
     public boolean contains(final @NonNull String cppId) {

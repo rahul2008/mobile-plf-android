@@ -79,7 +79,7 @@ public class BleRequestTest {
         when(mockDevice.getCapabilityForType(SHNCapabilityType.DI_COMM)).thenReturn(mockCapability);
         when(mockDevice.getState()).thenReturn(Connected);
 
-        when(deviceCacheMock.getDevice(anyString())).thenReturn(mockDevice);
+        when(deviceCacheMock.getCacheData(anyString()).getDevice()).thenReturn(mockDevice);
 
         doAnswer(new Answer() {
             @Override

@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
+import com.philips.cdp2.commlib.ble.BleDeviceCache.CacheData;
 import com.philips.cdp2.commlib.ble.BleDeviceCache.ExpirationCallback;
 import com.philips.cdp2.commlib.core.discovery.ObservableDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
@@ -30,6 +31,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+
+import static com.philips.pins.shinelib.SHNDevice.State.Disconnected;
 
 public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements SHNDeviceScanner.SHNDeviceScannerListener {
 
@@ -53,8 +56,16 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
     private ExpirationCallback expirationCallback = new ExpirationCallback() {
         @Override
         public void onCacheExpired(NetworkNode networkNode) {
-            // TODO check if currently connected
-            notifyNetworkNodeLost(networkNode);
+            final CacheData cacheData = bleDeviceCache.getCacheData(networkNode.getCppId());
+            if (cacheData == null) {
+                return;
+            }
+
+            if (cacheData.getDevice().getState() == Disconnected) {
+                notifyNetworkNodeLost(networkNode);
+            } else {
+                cacheData.resetTimer();
+            }
         }
     };
 
