@@ -170,26 +170,17 @@ public class ServiceDiscovery {
 	}
 
 	private void parseMatchByCountryJSON(JSONObject jsonObject) {
-		try {
-			matchByCountry = new MatchByCountryOrLanguage();
-			this.matchByCountry.setAvailable(jsonObject.optBoolean("available"));
-			JSONArray resultsJSONArray = jsonObject.optJSONArray("results");
-			if (null == resultsJSONArray) {
-				resultsJSONArray = new JSONArray();
-				resultsJSONArray.put(jsonObject.optJSONObject("results"));
-			}
-			JSONArray configCountryJSONArray = getActualResultsForLocaleList(matchByCountry, resultsJSONArray);
+		matchByCountry = new MatchByCountryOrLanguage();
+		this.matchByCountry.setAvailable(jsonObject.optBoolean("available"));
+		JSONArray resultsJSONArray = jsonObject.optJSONArray("results");
+		if (null == resultsJSONArray) {
+			resultsJSONArray = new JSONArray();
+			resultsJSONArray.put(jsonObject.optJSONObject("results"));
+		}
+		JSONArray configCountryJSONArray = getActualResultsForLocaleList(matchByCountry, resultsJSONArray);
 
-			if (configCountryJSONArray == null) {
-				if (resultsJSONArray.length() > 0) {
-					matchByCountry.setLocale(resultsJSONArray.getJSONObject(0).optString("locale")); // return first locale if nothing matches
-					configCountryJSONArray = resultsJSONArray.getJSONObject(0).optJSONArray("configs");
-				} else {
-					setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
-							"ServiceDiscovery cannot find the locale");
-				}
-			}
 
+		if (configCountryJSONArray != null) {
 			for (int configCount = 0; configCount < configCountryJSONArray.length(); configCount++) {
 				MatchByCountryOrLanguage.Config config = new MatchByCountryOrLanguage.Config();
 				config.parseConfigArray(configCountryJSONArray.optJSONObject(configCount));
@@ -198,9 +189,9 @@ public class ServiceDiscovery {
 			matchByCountry.setConfigs(matchByCountry.configs);
 			setMatchByCountry(matchByCountry);
 
-
-		} catch (JSONException e) {
-			setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.UNKNOWN_ERROR, "Parse Error");
+		} else {
+			setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
+					"ServiceDiscovery cannot find the locale");
 		}
 	}
 
@@ -224,6 +215,11 @@ public class ServiceDiscovery {
 						}
 					}
 				}
+				matchByCountry.setLocale(resultsJSONArray.getJSONObject(0).optString("locale")); // return first locale if nothing matches
+				return resultsJSONArray.getJSONObject(0).optJSONArray("configs");
+			} else {
+				setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
+						"ServiceDiscovery cannot find the locale");
 			}
 		} catch (JSONException e) {
 			setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.UNKNOWN_ERROR, "Parse Error");
