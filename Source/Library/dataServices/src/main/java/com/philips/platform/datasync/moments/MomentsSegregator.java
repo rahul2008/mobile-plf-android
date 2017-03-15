@@ -11,7 +11,6 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -98,16 +97,16 @@ public class MomentsSegregator {
 
     public void processMoment(final List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException{
 
-            List<Moment> momentsToDelete=new ArrayList<>();
-            List<Moment> momentsToDeleteAndSave=new ArrayList<>();
+            //List<Moment> momentsToDelete=new ArrayList<>();
+            //List<Moment> momentsToDeleteAndSave=new ArrayList<>();
 
             for(Moment moment:moments) {
 
                 final Moment momentInDatabase = getOrmMomentFromDatabase(moment, dbRequestListener);
                 if (hasDifferentMomentVersion(moment, momentInDatabase)) {
                     if (!isActive(moment.getSynchronisationData())) {
-                        momentsToDelete.add(momentInDatabase);
-                        //deleteMomentInDatabaseIfExists(momentInDatabase, dbRequestListener);
+              //          momentsToDelete.add(momentInDatabase);
+                        deleteMomentInDatabaseIfExists(momentInDatabase, dbRequestListener);
                     } else if (MomentDeletedLocallyDuringSync(momentInDatabase)) {
                         moment.setSynced(false);
                         moment.getSynchronisationData().setInactive(true);
@@ -115,8 +114,8 @@ public class MomentsSegregator {
                         if (momentInDatabase != null) {
                             moment.setId(momentInDatabase.getId());
                         }
-                        momentsToDeleteAndSave.add(moment);
-                       // deleteAndSaveMoment(momentInDatabase, moment, dbRequestListener);
+                        //momentsToDeleteAndSave.add(moment);
+                        deleteAndSaveMoment(momentInDatabase, moment, dbRequestListener);
                     } else {
                         if (!isMomentModifiedLocallyDuringSync(momentInDatabase, moment)) {
                             moment.setSynced(true);
@@ -126,13 +125,13 @@ public class MomentsSegregator {
                         }
                         //This is required for deleting duplicate
                         // measurements, measurementDetails and momentDetails
-                        //deleteAndSaveMoment(momentInDatabase, moment, dbRequestListener);
-                        momentsToDeleteAndSave.add(moment);
+                        deleteAndSaveMoment(momentInDatabase, moment, dbRequestListener);
+                        //momentsToDeleteAndSave.add(moment);
                     }
                 }
             }
-            deleteMomentsInDatabaseIfExists(momentsToDelete,dbRequestListener);
-            deleteAndSaveMoments(momentsToDeleteAndSave,dbRequestListener);
+            //deleteMomentsInDatabaseIfExists(momentsToDelete,dbRequestListener);
+            //deleteAndSaveMoments(momentsToDeleteAndSave,dbRequestListener);
 
         }
 
