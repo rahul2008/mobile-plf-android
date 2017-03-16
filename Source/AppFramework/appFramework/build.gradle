@@ -41,7 +41,6 @@ allprojects {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
         maven { url objcdp.getArtifactoryUrl() }
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
     }
@@ -106,7 +105,7 @@ publishing {
             version = version
             artifactId archivesBaseName
 
-            artifact zipDoc
+            artifact zipDocuments
 
             /* if (new File("$buildDir/outputs/apk/${archivesBaseName}-release.apk").exists()) {
                 artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
