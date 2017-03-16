@@ -32,6 +32,8 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
     public static final String urlBaseSeparator = "://";
     private ImageView serialNumberImageView;
     private TextView serialNumberTextView;
+    private TextView serialNumberForamtTextView;
+
 
     @Override
     public int getActionbarTitleResId() {
@@ -64,6 +66,8 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
         serialNumberImageView = (ImageView) view.findViewById(R.id.device_image);
         Button okFoundButton = (Button) view.findViewById(R.id.ok_found_button);
         serialNumberTextView = (TextView) view.findViewById(R.id.serial_number_guide_text);
+        serialNumberForamtTextView = (TextView) view.findViewById(R.id.serial_number_guide_format_text);
+
         okFoundButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -101,14 +105,18 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
     private void setSerialNumberTextView(final ProductMetadataResponseData productMetadataResponseData) {
         if (productMetadataResponseData != null) {
             final MetadataSerNumbSampleContent serialNumberSampleContent = productMetadataResponseData.getSerialNumberSampleContent();
-            final String snExample = serialNumberSampleContent.getSnExample();
             try {
-                final String serialNumberExampleData = snExample.substring(snExample.indexOf(" "), snExample.length());
+                final String snExample = serialNumberSampleContent.getSnExample();
+                final String snFormat = serialNumberSampleContent.getSnFormat();
+                String stringSplit = ":";
+                String emptyString = " ";
+                final String serialNumberExampleData = snExample.substring(snExample.indexOf(stringSplit), snExample.length());
                 final int exampleLength = serialNumberExampleData.length() - 1;
-                String serialErrorText = getString(R.string.PPR_serial_number_consists).concat(" ") + exampleLength + " "
-                        + getString(R.string.PPR_number_starting).concat(" ")
-                        + serialNumberExampleData.charAt(1) + " " + getString(R.string.PPR_eg) + serialNumberExampleData;
+                String serialErrorText = getString(R.string.PPR_serial_number_consists).concat(emptyString) + exampleLength + emptyString
+                        + getString(R.string.PPR_number_starting).concat(emptyString)
+                        + serialNumberExampleData.charAt(1) + emptyString + getString(R.string.PPR_eg) + serialNumberExampleData;
                 serialNumberTextView.setText(serialErrorText);
+                serialNumberForamtTextView.setText(snFormat);
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
