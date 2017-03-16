@@ -17,6 +17,7 @@ import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
+import com.philips.platform.datasync.synchronisation.DataSender;
 
 import org.joda.time.DateTime;
 
@@ -30,8 +31,6 @@ import retrofit.converter.GsonConverter;
 
 public class InsightDataFetcher extends DataFetcher {
     public static final String TAG = "InsightDataFetcher";
-    @NonNull
-    protected final AtomicInteger synchronizationState = new AtomicInteger(0);
 
     @Inject
     Eventing eventing;
@@ -49,6 +48,9 @@ public class InsightDataFetcher extends DataFetcher {
     @NonNull
     private final InsightConverter insightConverter;
 
+    @NonNull
+    protected final AtomicInteger synchronizationState = new AtomicInteger(0);
+
 
     @Inject
     public InsightDataFetcher(@NonNull UCoreAdapter uCoreAdapter, @NonNull GsonConverter gsonConverter, @NonNull InsightConverter insightConverter) {
@@ -62,7 +64,10 @@ public class InsightDataFetcher extends DataFetcher {
     @Nullable
     @Override
     public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
-        getInsights();
+
+        if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
+            getInsights();
+        }
         return null;
     }
 
@@ -75,7 +80,8 @@ public class InsightDataFetcher extends DataFetcher {
 
     public void getInsights() {
 
-        if (uCoreAccessProvider == null) {
+        if (isUserInvalid()) {
+            postError(1, getNonLoggedInError());
             return;
         }
 
@@ -84,7 +90,6 @@ public class InsightDataFetcher extends DataFetcher {
         try {
             UCoreInsightList insightList = client.fetchInsights(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId(),
                     UCoreAdapter.API_VERSION, uCoreAccessProvider.getInsightLastSyncTimestamp());
-            System.out.println("***InsightList****" + insightList.getSyncurl());
             List<Insight> insights = insightConverter.convertToAppInsights(insightList);
             eventing.post(new UpdateInsightsBackendResponse(insights, null));
         } catch (RetrofitError retrofitError) {
@@ -110,11 +115,6 @@ public class InsightDataFetcher extends DataFetcher {
         return RetrofitError.unexpectedError("", new IllegalStateException("you're not logged in"));
     }
 
-    public void registerEvent() {
-        if (!eventing.isRegistered(this)) {
-            eventing.register(this);
-        }
-    }
 
 }
 

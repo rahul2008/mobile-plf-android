@@ -50,23 +50,25 @@ public class InsightDataSender extends DataSender {
     private final GsonConverter gsonConverter;
 
     @NonNull
-    private final ConsentsConverter consentsConverter;
+    private final InsightConverter insightConverter;
 
 
     @Inject
     public InsightDataSender(@NonNull UCoreAdapter uCoreAdapter,
                              @NonNull GsonConverter gsonConverter,
-                             @NonNull ConsentsConverter consentsConverter) {
+                             @NonNull InsightConverter insightConverter) {
         this.uCoreAdapter = uCoreAdapter;
         this.gsonConverter = gsonConverter;
-        this.consentsConverter = consentsConverter;
+        this.insightConverter = insightConverter;
         DataServicesManager.getInstance().getAppComponant().injectInsightDataSender(this);
     }
 
     @Override
     public boolean sendDataToBackend(@NonNull final List dataToSend) {
-          if (dataToSend!=null && !dataToSend.isEmpty()) {
-              sendToBackend(new ArrayList<>(dataToSend));
+        if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
+            if (dataToSend != null && !dataToSend.isEmpty()) {
+                sendToBackend(new ArrayList<>(dataToSend));
+            }
         }
 
         return false;
