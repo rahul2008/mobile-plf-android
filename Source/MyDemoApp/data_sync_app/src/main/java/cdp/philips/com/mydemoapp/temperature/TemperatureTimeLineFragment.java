@@ -270,14 +270,18 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     public void dBChangeSuccess(SyncType type) {
         DSLog.i(DSLog.LOG, "In Temperature TimeLine Fragment DB OnSuccess");
         if(type!=SyncType.MOMENT)return;
-        if (getActivity() == null) return;
+
+        DSLog.i(DSLog.LOG, "In Temperature TimeLine Fragment DB OnSuccess Moment request");
+        mTemperaturePresenter.fetchData(TemperatureTimeLineFragment.this);
+
+        /*if (getActivity() == null) return;
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
 
                 mTemperaturePresenter.fetchData(TemperatureTimeLineFragment.this);
             }
-        });
+        });*/
 
 
     }
