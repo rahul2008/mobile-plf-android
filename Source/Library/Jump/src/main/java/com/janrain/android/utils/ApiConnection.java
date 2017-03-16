@@ -82,7 +82,7 @@ public class ApiConnection {
         String json = null;
         try {
             json = new String(payload, "UTF-8");
-            if (headers.getContentType().toLowerCase().startsWith("application/json") || headers.getContentType().toLowerCase().startsWith("text/plain")) {
+            if (headers.getContentType().toLowerCase().startsWith("application/json")) {
                 return new JSONTokener(json).nextValue();
             }
             LogUtils.logd("unrecognized content type: " + headers.getContentType());

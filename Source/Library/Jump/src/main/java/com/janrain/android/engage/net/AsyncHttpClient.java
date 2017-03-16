@@ -50,7 +50,6 @@
 package com.janrain.android.engage.net;
 
 import android.os.Handler;
-
 import com.janrain.android.engage.net.async.HttpResponseHeaders;
 import com.janrain.android.utils.IoUtils;
 import com.janrain.android.utils.LogUtils;

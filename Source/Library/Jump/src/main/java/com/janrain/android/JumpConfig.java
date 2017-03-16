@@ -117,15 +117,6 @@ public final class JumpConfig {
      */
     public Jump.TraditionalSignInType traditionalSignInType;
 
-
-//    /**
-//     * Flow cdn added by Philips
-//     */
-//    public String flowCDN;
-//
-//    public String flowEngage;
-
-
     /**
      * Set this to "true" if you want the Janrain SDK to silently fail, then attempt WebView authentication
      * when the Google+ SDK is integrated but Google Play Services is unavailable.
@@ -139,7 +130,7 @@ public final class JumpConfig {
      *
      * This defaults to true.
      */
-    public Boolean tryWebViewAuthenticationWhenGooglePlayIsUnavailable = true;
+     public Boolean tryWebViewAuthenticationWhenGooglePlayIsUnavailable = true;
 
     /**
      * A list of custom identity providers. See `Engage_Custom_Provider_Guide.md` for details on
@@ -210,12 +201,15 @@ public final class JumpConfig {
 
     public String captureRecoverUri;
 
-    /**
-     * WeChat China settings...
+      /**
+     * Used for non-rpx.now Engage app url's
      */
     public String engageAppUrl;
     public String weChatAppId;
     public String weChatAppSecret;
+  /**
+     * Used for custom Flow endpoints (i.e. China)
+     */
     public String downloadFlowUrl;
 
 

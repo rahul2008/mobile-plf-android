@@ -86,8 +86,7 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
 public class HomeFragment extends RegistrationBaseFragment implements OnClickListener,
         NetworStateListener, SocialProviderLoginHandler, EventListener {
     public static final String WECHAT = "wechat";
-    private static final int AUTHENTICATION_FAILED = -30;
-    private static final int LOGIN_FAILURE = -1;
+    public static final int AUTHENTICATION_DENIED = 203;
     private Button mBtnCreateAccount;
     private XProviderButton mBtnMyPhilips;
     private TextView mTvWelcome;
@@ -922,7 +921,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         hideProviderProgress();
         enableControls(true);
            //Temp fix need to be changed
-        if(userRegistrationFailureInfo.getErrorCode() == AUTHENTICATION_FAILED){
+        if(userRegistrationFailureInfo.getErrorCode() == AUTHENTICATION_DENIED){
             mRegError.setError(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
             scrollViewAutomatically(mRegError,mSvRootLayout);
         }

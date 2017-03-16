@@ -88,7 +88,6 @@ public class ColorButton extends Button {
             if (attr == R.styleable.ColorButton_jr_color) {
                 mColor = a.getColor(attr, 0);
                 colorify();
-            
             }
         }
         a.recycle();
