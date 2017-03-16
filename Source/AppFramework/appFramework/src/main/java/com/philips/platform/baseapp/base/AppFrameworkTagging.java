@@ -1,9 +1,9 @@
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
- *  * in whole or in part is prohibited without the prior written
- *  * consent of the copyright holder.
- * /
+ *  in whole or in part is prohibited without the prior written
+ *  consent of the copyright holder.
+ *
  */
 
 package com.philips.platform.baseapp.base;
@@ -27,7 +27,6 @@ import java.util.Map;
 public class AppFrameworkTagging {
     private static AppFrameworkTagging appFrameworkTagging;
     private AppTaggingInterface appTaggingInterface;
-//    private Context context;
 
     private AppFrameworkTagging() {
     }
@@ -39,44 +38,24 @@ public class AppFrameworkTagging {
         return appFrameworkTagging;
     }
 
-    protected void initAppTaggingInterface(Context ctx) {
+    public void initAppTaggingInterface(Context ctx) {
         if (appTaggingInterface == null) {
-//            context=ctx;
-            appTaggingInterface = ((AppFrameworkApplication)ctx).getAppInfra().getTagging().
-                    createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
+            appTaggingInterface = ((AppFrameworkApplication)ctx).getAppInfra().getTagging();
         }
     }
 
     public void trackPage(String currPage) {
-        final Map<String, String> commonContextData = getCommonContextData();
-        appTaggingInterface.trackPageWithInfo(currPage, commonContextData);
-    }
-
-    public void trackPage(String currPage, Map<String, String> commonContextInfo) {
-        final Map<String, String> commonContextData = getCommonContextData();
-        commonContextData.putAll(commonContextInfo);
-        appTaggingInterface.trackPageWithInfo(currPage, commonContextData);
+        appTaggingInterface.trackPageWithInfo(currPage, null);
     }
 
     public void trackAction(String state) {
-        final Map<String, String> commonContextData = getCommonContextData();
-        appTaggingInterface.trackActionWithInfo(state, commonContextData);
+        appTaggingInterface.trackActionWithInfo(state, null);
     }
 
     public void trackAction(String state, String key, String value) {
-        final Map<String, String> commonContextData = getCommonContextData();
-        commonContextData.put(key, value);
-        appTaggingInterface.trackActionWithInfo(state, commonContextData);
-    }
-
-    public void trackMultipleActions(String state, Map<String, String> map) {
-        final Map<String, String> commonContextData = getCommonContextData();
-        commonContextData.putAll(map);
-        appTaggingInterface.trackActionWithInfo(state, map);
-    }
-
-    public Map<String, String> getCommonContextData() {
-        return new HashMap<>();
+        Map<String, String> contextData = new HashMap<>();
+        contextData.put(key, value);
+        appTaggingInterface.trackActionWithInfo(state, contextData);
     }
 
     public void pauseCollectingLifecycleData() {

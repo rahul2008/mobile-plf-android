@@ -29,6 +29,7 @@ import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
+import com.philips.platform.baseapp.screens.utility.TaggingConstants;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
@@ -202,12 +203,11 @@ public class SettingsAdapter extends BaseAdapter {
                         userRegistrationState.getUserObject(activityContext).updateReceiveMarketingEmail(new UpdateUserDetailsHandler() {
                             @Override
                             public void onUpdateSuccess() {
-                                String MARKETING_OPT_IN = "remarketingOptIn";
                                 isMarketingEnabled=true;
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, true);
                                 progress.cancel();
                                 Toast.makeText(activityContext, activityContext.getResources().getString(R.string.RA_Settings_Update_Success), Toast.LENGTH_LONG).show();
-                                AppFrameworkTagging.getInstance().trackAction(MARKETING_OPT_IN);
+                                AppFrameworkTagging.getInstance().trackAction(TaggingConstants.MARKETING_OPT_IN);
                             }
 
                             @Override
@@ -221,12 +221,11 @@ public class SettingsAdapter extends BaseAdapter {
                         userRegistrationState.getUserObject(activityContext).updateReceiveMarketingEmail(new UpdateUserDetailsHandler() {
                             @Override
                             public void onUpdateSuccess() {
-                                String MARKETING_OPT_OUT = "remarketingOptOut";
                                 isMarketingEnabled=false;
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, false);
                                 progress.cancel();
                                 Toast.makeText(activityContext, activityContext.getResources().getString(R.string.RA_Settings_Update_Success), Toast.LENGTH_LONG).show();
-                                AppFrameworkTagging.getInstance().trackAction(MARKETING_OPT_OUT);
+                                AppFrameworkTagging.getInstance().trackAction(TaggingConstants.MARKETING_OPT_OUT);
                             }
 
                             @Override
