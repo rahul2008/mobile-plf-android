@@ -45,7 +45,6 @@ import cucumber.api.java.en.When;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy.MANUFACTURER_PREAMBLE;
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
@@ -195,32 +194,31 @@ public class BleDiscoveryStrategyTestSteps {
         verify(deviceScanner, times(0)).stopScanning();
     }
 
-    @Then("^the following appliances? (?:are|is) created:$")
+    @Then("^the following appliances? (?:are|is) in the list of available appliances:$")
     public void theFollowingAppliancesAreCreated(final List<String> appliances) {
+        final Set<String> applianceNames = new HashSet<>(appliances);
         final Set<? extends Appliance> availableAppliances = commCentral.getApplianceManager().getAvailableAppliances();
 
         final Set<String> availableApplianceNames = new HashSet<>();
         for (Appliance availableAppliance : availableAppliances) {
             availableApplianceNames.add(availableAppliance.getName());
         }
-        assertTrue("Expected appliances " + appliances + " don't match created appliances " + availableApplianceNames, availableApplianceNames.containsAll(appliances));
+        assertTrue("Expected appliances " + applianceNames + " must appear in available appliances " + availableApplianceNames, availableApplianceNames.containsAll(applianceNames));
     }
 
-    @Then("^the following appliances? (?:are|is) not created:$")
+    @Then("^the following appliances? (?:are|is) not in the list of available appliances:$")
     public void theFollowingAppliancesAreNotCreated(final List<String> appliances) {
+        final Set<String> applianceNames = new HashSet<>(appliances);
         final Set<? extends Appliance> availableAppliances = commCentral.getApplianceManager().getAvailableAppliances();
 
         final Set<String> availableApplianceNames = new HashSet<>();
         for (Appliance availableAppliance : availableAppliances) {
             availableApplianceNames.add(availableAppliance.getName());
         }
-        assertFalse("Expected appliances " + appliances + " must match created appliances " + availableApplianceNames, availableApplianceNames.containsAll(appliances));
-    }
 
-    @Then("^no appliances are created$")
-    public void noAppliancesAreCreated() {
-        final Set<? extends Appliance> availableAppliances = commCentral.getApplianceManager().getAvailableAppliances();
-        assertTrue("Available appliances set was not empty: " + availableAppliances, availableAppliances.isEmpty());
+        // Take the intersection of both collections, should be empty
+        availableApplianceNames.retainAll(applianceNames);
+        assertTrue("Expected appliances " + applianceNames + " must not appear in available appliances " + availableApplianceNames, availableApplianceNames.isEmpty());
     }
 
     @When("^(.*?) is discovered (\\d+) times? by BlueLib$")
@@ -276,24 +274,21 @@ public class BleDiscoveryStrategyTestSteps {
                     if (cacheData == null) {
                         continue;
                     }
+
+                    when(cacheData.getDevice().getState()).thenReturn(SHNDevice.State.Disconnected);
                     cacheData.getExpirationCallback().onCacheExpired(appliance.getNetworkNode());
                 }
             }
         }
     }
 
-    private String getApplianceTypeByName(final @NonNull String applianceName) {
-        return applianceName.substring(0, applianceName.length() - 1);
-    }
-
-    @Then("^the number of created appliances is (\\d+)$")
+    @Then("^the length of the list of available appliances is (\\d+)$")
     public void theNumberOfCreatedAppliancesIs(int numberOfAppliances) {
         final Set<? extends Appliance> availableAppliances = commCentral.getApplianceManager().getAvailableAppliances();
         assertEquals("Number of created appliances doesn't match expected number.", numberOfAppliances, availableAppliances.size());
     }
 
-    @Then("^the following appliances? (?:are|is) lost:$")
-    public void afterTheCachedDataExpiresTheFollowingApplianceAreLost(final List<String> appliances) {
-
+    private String getApplianceTypeByName(final @NonNull String applianceName) {
+        return applianceName.substring(0, applianceName.length() - 1);
     }
 }
