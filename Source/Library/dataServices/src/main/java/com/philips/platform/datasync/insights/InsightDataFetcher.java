@@ -51,7 +51,6 @@ public class InsightDataFetcher extends DataFetcher {
     @NonNull
     protected final AtomicInteger synchronizationState = new AtomicInteger(0);
 
-
     @Inject
     public InsightDataFetcher(@NonNull UCoreAdapter uCoreAdapter, @NonNull GsonConverter gsonConverter, @NonNull InsightConverter insightConverter) {
         super(uCoreAdapter);
@@ -64,7 +63,9 @@ public class InsightDataFetcher extends DataFetcher {
     @Nullable
     @Override
     public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
-        if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
+        if (isUserInvalid()) {
+            return null;
+        } else {
             getInsights();
         }
         return null;
@@ -72,10 +73,8 @@ public class InsightDataFetcher extends DataFetcher {
 
     @Override
     public RetrofitError fetchAllData() {
-
         return super.fetchAllData();
     }
-
 
     public void getInsights() {
         if (isUserInvalid())
@@ -90,6 +89,9 @@ public class InsightDataFetcher extends DataFetcher {
         try {
             UCoreInsightList insightList = client.fetchInsights(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId(),
                     UCoreAdapter.API_VERSION, uCoreAccessProvider.getInsightLastSyncTimestamp());
+
+            uCoreAccessProvider.saveLastSyncTimeStamp(insightList.getSyncurl(), UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY);
+
             List<Insight> insights = insightConverter.convertToAppInsights(insightList);
             eventing.post(new UpdateInsightsBackendResponse(insights, null));
         } catch (RetrofitError retrofitError) {
