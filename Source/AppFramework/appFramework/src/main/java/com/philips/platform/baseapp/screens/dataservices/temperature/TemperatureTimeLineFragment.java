@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.uikit.customviews.CircularProgressbar;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.flowmanager.exceptions.NullEventException;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
@@ -194,15 +195,19 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     }
 
     private void deleteUserDataIfNewUserLoggedIn() {
-        if (getLastStoredEmail() == null) {
-            storeLastEmail();
-            return;
-        }
+        try {
+            if (getLastStoredEmail() == null) {
+                storeLastEmail();
+                return;
+            }
 
-        if (!isSameEmail()) {
-            userRegistrationInterface.clearUserData(this);
+            if (!isSameEmail()) {
+                userRegistrationInterface.clearUserData(this);
+            }
+            storeLastEmail();
+        }catch (NullPointerException e){
+            e.printStackTrace();
         }
-        storeLastEmail();
     }
 
     private boolean isSameEmail() {

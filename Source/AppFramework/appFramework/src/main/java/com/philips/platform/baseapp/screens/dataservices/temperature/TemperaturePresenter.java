@@ -120,15 +120,15 @@ public class TemperaturePresenter {
             Toast.makeText(mContext, "Please Login again", Toast.LENGTH_SHORT).show();
         } else {
 
-            List<Moment> moments=new ArrayList<>();
+       /*     List<Moment> moments=new ArrayList<>();
 
             moments.add(moment);
             //moments.add(moment);
             //moments.add(moment);
             //moments.add(moment);
-            //moments.add(moment);
+            //moments.add(moment);*/
 
-            mDataServices.saveMoments(moments, dbRequestListener);
+            mDataServices.saveMoment(moment, dbRequestListener);
         }
     }
 
