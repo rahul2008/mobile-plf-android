@@ -12,9 +12,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
-
 import com.janrain.android.Jump;
-
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -253,18 +251,14 @@ public class HsdpUser {
      */
     private DhpApiClientConfiguration getDhpApiClientConfiguration() {
         DhpApiClientConfiguration dhpApiClientConfiguration = null;
-        String environment = RegistrationConfiguration.getInstance().getRegistrationEnvironment();
         HSDPInfo hsdpInfo = RegistrationConfiguration.getInstance().getHSDPInfo();
         if (null != hsdpInfo && null != hsdpInfo.getBaseURL() && null !=
                 hsdpInfo.getSecreteId() && null != hsdpInfo.getSharedId()
                 && null != hsdpInfo.getApplicationName()) {
-            if (null != hsdpInfo && null != hsdpInfo.getBaseURL() && null !=
-                    hsdpInfo.getSecreteId() && null != hsdpInfo.getSharedId()
-                    && null != hsdpInfo.getApplicationName()) {
-                RLog.i(RLog.HSDP, "Base URL " + hsdpInfo.getBaseURL());
-                dhpApiClientConfiguration = new DhpApiClientConfiguration(hsdpInfo.getBaseURL(),
-                        hsdpInfo.getApplicationName(), hsdpInfo.getSharedId(), hsdpInfo.getSecreteId());
-            }
+
+            RLog.i(RLog.HSDP, "Base URL " + hsdpInfo.getBaseURL());
+            dhpApiClientConfiguration = new DhpApiClientConfiguration(hsdpInfo.getBaseURL(),
+                    hsdpInfo.getApplicationName(), hsdpInfo.getSharedId(), hsdpInfo.getSecreteId());
         }
         return dhpApiClientConfiguration;
     }

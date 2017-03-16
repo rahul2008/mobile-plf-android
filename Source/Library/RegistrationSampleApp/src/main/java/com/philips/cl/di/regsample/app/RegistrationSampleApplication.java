@@ -158,8 +158,10 @@ public class RegistrationSampleApplication extends Application {
                         UR, hsdpAppNames, configError);
 
                 Map<String, String> hsdpSecrets = new HashMap<>();
+                //Plain text secret
                 hsdpSecrets.put(CHINA_CODE, "057b97e0-f9b1-11e6-bc64-92361f002671");
-                hsdpSecrets.put(DEFAULT, "c623685e-f02c-11e5-9ce9-5e5517507c66");
+                //Encrypted secret
+                hsdpSecrets.put(DEFAULT, "5FF6028F670A1F3B933C837B348381B983929C7D8942598027F0F7C6398E6ADD073F4BB5AACBEEBA8E778B1124B0422E21456C0401C4F49420223C4A6CEA7B70");
 
                 anInterface.setPropertyForKey(HSDP_CONFIGURATION_SECRET,
                         UR, hsdpSecrets, configError);
@@ -174,7 +176,7 @@ public class RegistrationSampleApplication extends Application {
                 Map<String, String> hsdpBaseUrls = new HashMap<>();
                 try {
                     hsdpBaseUrls.put(CHINA_CODE, URLEncoder.encode("https://user-registration-assembly-hsdpchinadev.cn1.philips-healthsuite.com.cn", URL_ENCODING));
-                    hsdpBaseUrls.put(DEFAULT, URLEncoder.encode("https://ugrow-ds-development.cloud.pcftest.com", URL_ENCODING));
+                    hsdpBaseUrls.put(DEFAULT, URLEncoder.encode("https://user-registration-assembly-testing.us-east.philips-healthsuite.com", URL_ENCODING));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -296,4 +298,3 @@ public class RegistrationSampleApplication extends Application {
         }
     }
 }
-
