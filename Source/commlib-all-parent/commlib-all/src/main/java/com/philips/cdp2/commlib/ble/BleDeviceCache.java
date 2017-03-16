@@ -96,7 +96,7 @@ public class BleDeviceCache {
      */
     public void addDevice(@NonNull SHNDevice device, @NonNull NetworkNode networkNode, @NonNull ExpirationCallback expirationCallback, long expirationPeriodMillis) {
         if (expirationPeriodMillis <= 0L) {
-            throw new IllegalArgumentException("Expiration period must be positive non-zero value.");
+            throw new IllegalArgumentException("Expiration period must be a positive non-zero value.");
         }
 
         if (deviceMap.containsKey(networkNode.getCppId())) {
