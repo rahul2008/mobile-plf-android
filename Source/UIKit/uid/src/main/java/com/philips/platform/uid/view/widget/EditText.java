@@ -178,12 +178,12 @@ public class EditText extends AppCompatEditText {
         } else if (isPasswordInputType()) {
             editTextIconHandler = new PasswordEditTextIconHandler(this);
         }
-        showIcon();
+        updateActionIcon();
     }
 
-    private void showIcon() {
+    private void updateActionIcon() {
         if (hasIconClickHandler()) {
-            if (isEnabled() && getText() != null && getText().length() > 0) {
+            if (hasFocus() && isEnabled() && getText() != null && getText().length() > 0) {
                 editTextIconHandler.show();
             } else {
                 editTextIconHandler.setIconDisplayed(false);
@@ -210,7 +210,7 @@ public class EditText extends AppCompatEditText {
     @Override
     public void setEnabled(final boolean enabled) {
         super.setEnabled(enabled);
-        showIcon();
+        updateActionIcon();
     }
 
     /**
@@ -219,7 +219,7 @@ public class EditText extends AppCompatEditText {
     @Override
     protected void onTextChanged(@NonNull final CharSequence source, final int start, final int lengthBefore, final int lengthAfter) {
         super.onTextChanged(source, start, lengthBefore, lengthAfter);
-        showIcon();
+        updateActionIcon();
     }
 
     /**
@@ -233,6 +233,7 @@ public class EditText extends AppCompatEditText {
                 editTextIconHandler.processIconTouch();
             }
         }
+        updateActionIcon();
     }
 
     /**
