@@ -10,6 +10,7 @@ public class InsightBackendDeleteResponse extends Event {
 
     public InsightBackendDeleteResponse(Insight insight, DBRequestListener dbRequestListener) {
         this.insight = insight;
+        this.mDBRequestListener = dbRequestListener;
     }
 
     public Insight getInsight() {
