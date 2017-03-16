@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 import microapp.com.samplemicroapp.R;
@@ -19,6 +20,8 @@ public class SampleFragment extends Fragment implements BackEventListener{
 
 
     public static String TAG = SampleFragment.class.getSimpleName();
+    private FragmentLauncher fragmentLauncher;
+
 
     @Nullable
     @Override
@@ -28,8 +31,16 @@ public class SampleFragment extends Fragment implements BackEventListener{
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        fragmentLauncher.getActionbarListener().updateActionBar("Sample", true);    }
+
+    @Override
     public boolean handleBackEvent() {
         return false;
     }
 
+    public void setFragmentLauncher(FragmentLauncher fragmentLauncher) {
+        this.fragmentLauncher = fragmentLauncher;
+    }
 }

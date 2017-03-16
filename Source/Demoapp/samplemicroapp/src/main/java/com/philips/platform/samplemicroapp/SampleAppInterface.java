@@ -21,8 +21,7 @@ public class SampleAppInterface implements UappInterface {
      */
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
-        SampleAppDependencies sampleAppDependencies = (SampleAppDependencies) uappDependencies;
-        this.context = sampleAppDependencies.getContext();
+        this.context = uappSettings.getContext();
     }
 
     /**
@@ -38,6 +37,7 @@ public class SampleAppInterface implements UappInterface {
             final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
             FragmentTransaction fragmentTransaction = (fragmentLauncher.getFragmentActivity()).getSupportFragmentManager().beginTransaction();
             SampleFragment sampleFragment = new SampleFragment();
+            sampleFragment.setFragmentLauncher(fragmentLauncher);
             fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), sampleFragment, SampleFragment.TAG);
             fragmentTransaction.addToBackStack(SampleFragment.TAG);
             fragmentTransaction.commitAllowingStateLoss();
