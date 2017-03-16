@@ -99,13 +99,21 @@ public class DataSyncApplication extends Application {
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
     }
 
+    public UserRegistrationInterfaceImpl getUserRegImple() {
+        return userRegImple;
+    }
+
+    UserRegistrationInterfaceImpl userRegImple;
     private void init() {
         OrmCreator creator = new OrmCreator(new UuidGenerator());
-        UserRegistrationInterface userRegistrationInterface = new UserRegistrationInterfaceImpl(this, new User(this));
+        userRegImple = new UserRegistrationInterfaceImpl(this, new User(this));
+        UserRegistrationInterface userRegistrationInterface = userRegImple;
         ErrorHandlerInterfaceImpl errorHandlerInterface = new ErrorHandlerInterfaceImpl();
         mDataServicesManager.initializeDataServices(this, creator, userRegistrationInterface, errorHandlerInterface);
         injectDBInterfacesToCore();
         mDataServicesManager.initializeSyncMonitors(this, null, null);
+
+
     /*    Set syncSet = new HashSet();
         syncSet.add(SyncType.MOMENT.getDescription());
         mDataServicesManager.configureSyncDataType(syncSet);*/

@@ -10,6 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -41,6 +44,7 @@ import cdp.philips.com.mydemoapp.settings.SettingsFragment;
 import cdp.philips.com.mydemoapp.utility.Utility;
 
 import static android.content.Context.ALARM_SERVICE;
+import static com.janrain.android.engage.JREngage.getApplicationContext;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -64,12 +68,13 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     User mUser;
     Utility mUtility;
 
-    TextView mTvConsents, mTvCharacteristics , mTvSettings;
+    TextView mTvConsents, mTvCharacteristics , mTvSettings ,mTvLogout;
 
 
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         mDataServicesManager = DataServicesManager.getInstance();
         mUser = new User(mContext);
         userRegistrationInterface = new UserRegistrationInterfaceImpl(mContext, mUser);
@@ -165,10 +170,12 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mTvConsents = (TextView) view.findViewById(R.id.tv_set_consents);
         mTvCharacteristics = (TextView) view.findViewById(R.id.tv_set_characteristics);
         mTvSettings= (TextView) view.findViewById(R.id.tv_settings);
+        mTvLogout= (TextView) view.findViewById(R.id.tv_logout);
 
         mTvConsents.setOnClickListener(this);
         mTvCharacteristics.setOnClickListener(this);
         mTvSettings.setOnClickListener(this);
+        mTvLogout.setOnClickListener(this);
         return view;
     }
 
@@ -200,6 +207,13 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
                 CharacteristicsDialogFragment characteristicsDialogFragment = new CharacteristicsDialogFragment();
                 characteristicsDialogFragment.show(getFragmentManager(), "Character");
+
+                break;
+
+            case R.id.tv_logout:
+
+                boolean isLogout= ((DataSyncApplication) getContext().getApplicationContext()).getUserRegImple().logout();
+                if(isLogout)getActivity().finish();
 
                 break;
         }
@@ -351,5 +365,29 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onFetchFailure(Exception exception) {
         onFailureRefresh(exception);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+      //  menu.clear();
+        //inflater.inflate(R.menu.menu_main, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.menu_consent:
+                Toast.makeText(getApplicationContext(), "speaking....", Toast.LENGTH_LONG).show();
+                return false;
+
+            default:
+
+
+                break;
+        }
+
+        return false;
     }
 }

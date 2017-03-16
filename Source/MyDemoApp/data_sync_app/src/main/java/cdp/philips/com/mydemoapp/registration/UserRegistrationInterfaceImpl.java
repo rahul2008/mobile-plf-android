@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
+import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.core.datatypes.UserProfile;
@@ -205,5 +206,22 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface{
                 AppConfigurationInterface.AppConfigurationError();
         Object propertyForKey = gAppInfra.getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL, URConfigurationConstants.UR, configError);
         return propertyForKey.toString();
+    }
+
+    boolean isLogoutSuccess=false;
+    public boolean logout(){
+
+        user.logout(new LogoutHandler() {
+            @Override
+            public void onLogoutSuccess() {
+                isLogoutSuccess=true;
+            }
+
+            @Override
+            public void onLogoutFailure(int i, String s) {
+                isLogoutSuccess=false;
+            }
+        });
+        return isLogoutSuccess;
     }
 }
