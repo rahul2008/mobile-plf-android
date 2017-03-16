@@ -176,9 +176,9 @@ public class TemperaturePresenter {
                               final List<? extends Moment> data, int adapterPosition) {
         try {
             mDataServices.deleteMoment(data.get(adapterPosition), dbRequestListener);
-            data.remove(adapterPosition);
+            /*data.remove(adapterPosition);
             adapter.notifyItemRemoved(adapterPosition);
-            adapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();*/
         } catch (ArrayIndexOutOfBoundsException e) {
             if (e.getMessage() != null) {
                 DSLog.i(DSLog.LOG, "e = " + e.getMessage());
