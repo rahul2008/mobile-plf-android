@@ -23,4 +23,5 @@ public interface DBDeletingInterface {
     void markMomentsAsInActive(final List<Moment> moment, DBRequestListener dbRequestListener) throws SQLException;
     boolean markInsightsAsInActive(final List<Insight> insights ,DBRequestListener dbRequestListener) throws SQLException;
     boolean deleteInsights(final List<Insight> insights ,DBRequestListener dbRequestListener) throws SQLException;
+    void deleteInsight(Insight insight, DBRequestListener dbRequestListener) throws SQLException;
 }

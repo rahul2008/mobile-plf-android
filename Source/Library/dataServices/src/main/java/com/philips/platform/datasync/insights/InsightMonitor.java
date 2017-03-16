@@ -10,6 +10,7 @@ import com.philips.platform.datasync.UCoreAccessProvider;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.joda.time.DateTime;
 
 import javax.inject.Inject;
 
@@ -43,6 +44,6 @@ public class InsightMonitor extends EventMonitor {
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(InsightBackendGetRequest event) {
-       insightDataFetcher.fetchDataSince(null);
+       insightDataFetcher.fetchDataSince(new DateTime());
     }
 }

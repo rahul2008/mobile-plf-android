@@ -6,6 +6,7 @@ package com.philips.platform.datasync.insights;
 
 import java.util.List;
 
+import retrofit.client.Response;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
 import retrofit.http.Header;
@@ -22,7 +23,7 @@ public interface InsightClient {
                                    @Query(value = "_since", encodeValue = false) String timestamp);
 
     @DELETE("/api/users/{performer_id}/insights/{insight_id}")
-    void deleteInsight(@Path("performer_id") String performerId,
+    Response deleteInsight(@Path("performer_id") String performerId,
                        @Path("insight_id") String insightID,
                        @Header("performerId") String userID);
 }

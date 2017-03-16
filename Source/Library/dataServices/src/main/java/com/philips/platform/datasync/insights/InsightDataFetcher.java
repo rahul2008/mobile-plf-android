@@ -64,7 +64,6 @@ public class InsightDataFetcher extends DataFetcher {
     @Nullable
     @Override
     public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
-
         if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
             getInsights();
         }
@@ -79,9 +78,10 @@ public class InsightDataFetcher extends DataFetcher {
 
 
     public void getInsights() {
-
-        if (isUserInvalid()) {
+        if (isUserInvalid())
             postError(1, getNonLoggedInError());
+
+        if (uCoreAccessProvider == null) {
             return;
         }
 
@@ -93,7 +93,7 @@ public class InsightDataFetcher extends DataFetcher {
             List<Insight> insights = insightConverter.convertToAppInsights(insightList);
             eventing.post(new UpdateInsightsBackendResponse(insights, null));
         } catch (RetrofitError retrofitError) {
-          eventing.post(new BackendDataRequestFailed(retrofitError));
+            eventing.post(new BackendDataRequestFailed(retrofitError));
             System.out.println("***InsightList fetch error" + retrofitError.getMessage());
         }
     }
@@ -107,14 +107,11 @@ public class InsightDataFetcher extends DataFetcher {
     }
 
     private void postError(int referenceId, final RetrofitError error) {
-        DSLog.i(DSLog.LOG, "Error In ConsentsMonitor - posterror");
         eventing.post(new BackendResponse(referenceId, error));
     }
 
     private RetrofitError getNonLoggedInError() {
         return RetrofitError.unexpectedError("", new IllegalStateException("you're not logged in"));
     }
-
-
 }
 

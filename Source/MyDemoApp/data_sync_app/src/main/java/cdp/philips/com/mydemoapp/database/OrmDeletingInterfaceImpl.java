@@ -17,6 +17,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import cdp.philips.com.mydemoapp.database.table.OrmInsight;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
@@ -171,6 +172,12 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         }
         return isDeleted;
 
+    }
+
+    @Override
+    public void deleteInsight(Insight insight, DBRequestListener dbRequestListener) throws SQLException {
+        ormDeleting.deleteInsight((OrmInsight) insight);
+        notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.INSIGHT);
     }
 
     private void prepareInsightForDeletion(final Insight insight, DBRequestListener dbRequestListener) {

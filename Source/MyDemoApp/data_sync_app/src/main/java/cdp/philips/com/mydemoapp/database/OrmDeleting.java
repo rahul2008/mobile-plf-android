@@ -296,7 +296,7 @@ public class OrmDeleting {
                 @Override
                 public Void call() throws Exception {
                     for (Insight insight : insights) {
-                        ormDeleteInsights((OrmInsight) insight);
+                        deleteInsight((OrmInsight) insight);
                     }
                     return null;
                 }
@@ -309,16 +309,15 @@ public class OrmDeleting {
         return true;
     }
 
-    public void ormDeleteInsights(@NonNull final OrmInsight ormInsight) throws SQLException {
-        deleteInsightMetaData(ormInsight);
-        deleteSynchronisationData(ormInsight.getSynchronisationData());
-        ormInsightDao.delete(ormInsight);
-    }
-
     public int deleteInsightMetaData(@NonNull final OrmInsight ormInsight) throws SQLException{
         DeleteBuilder<OrmInsightMetaData, Integer> deleteBuilder = ormInsightMetadataDao.deleteBuilder();
         deleteBuilder.where().eq("ormInsight_id", ormInsight.getGUId());
         return deleteBuilder.delete();
     }
 
+    public void deleteInsight(@NonNull final OrmInsight insight) throws SQLException {
+        deleteInsightMetaData(insight);
+        deleteSynchronisationData(insight.getSynchronisationData());
+        ormInsightDao.delete(insight);
+    }
 }

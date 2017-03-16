@@ -1,57 +1,51 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.platform.datasync.insights;
 
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Insight;
-import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.events.BackendResponse;
-import com.philips.platform.core.events.SyncBitUpdateRequest;
+import com.philips.platform.core.events.InsightBackendDeleteResponse;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
-import com.philips.platform.datasync.consent.ConsentsClient;
-import com.philips.platform.datasync.consent.ConsentsConverter;
-import com.philips.platform.datasync.consent.UCoreConsentDetail;
 import com.philips.platform.datasync.synchronisation.DataSender;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Inject;
 
 import retrofit.RetrofitError;
+import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class InsightDataSender extends DataSender {
 
     @Inject
+    UCoreAccessProvider uCoreAccessProvider;
+    @Inject
     Eventing eventing;
 
     @NonNull
-    final AtomicInteger synchronizationState = new AtomicInteger(0);
-
-    @NonNull
     private final UCoreAdapter uCoreAdapter;
-
-    @Inject
-    UCoreAccessProvider uCoreAccessProvider;
-
-
     @NonNull
     private final GsonConverter gsonConverter;
-
     @NonNull
     private final InsightConverter insightConverter;
+    @NonNull
+    protected final AtomicInteger synchronizationState = new AtomicInteger(0);
 
+    protected final Set<Integer> insightIds = new HashSet<>();
 
     @Inject
     public InsightDataSender(@NonNull UCoreAdapter uCoreAdapter,
@@ -66,55 +60,67 @@ public class InsightDataSender extends DataSender {
     @Override
     public boolean sendDataToBackend(@NonNull final List dataToSend) {
         if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
+            if (!uCoreAccessProvider.isLoggedIn()) {
+                return false;
+            }
+
             if (dataToSend != null && !dataToSend.isEmpty()) {
-                sendToBackend(new ArrayList<>(dataToSend));
+                List<Insight> insightsToSync = new ArrayList<>();
+                synchronized (insightIds) {
+                    for (Insight insight : (List<Insight>) dataToSend) {
+                        if (insightIds.add(insight.getId())) {
+                            insightsToSync.add(insight);
+                        }
+                    }
+                }
+                return sendInsightsToBackend(insightsToSync);
             }
         }
-
         return false;
     }
 
+    private boolean sendInsightsToBackend(final List<Insight> insightsToSync) {
+        InsightClient client = uCoreAdapter.getAppFrameworkClient(InsightClient.class,
+                uCoreAccessProvider.getAccessToken(), gsonConverter);
 
-    @Override
-    public Class<Insight> getClassForSyncData() {
-        return Insight.class;
+        boolean isFailed = false;
+
+        for (Insight insight : insightsToSync) {
+            isFailed = isFailed || deleteInsight(client, insight);
+
+            synchronized (insightIds) {
+                insightIds.remove(insight.getId());
+            }
+        }
+        return isFailed;
     }
 
-
-    private void sendToBackend(List<Insight> insights) {
-
-
-        if (isUserInvalid()) {
-            postError(1, getNonLoggedInError());
-            return;
-        }
-        if (uCoreAccessProvider == null) {
-            return;
-        }
+    private boolean deleteInsight(final InsightClient client, final Insight insight) {
         try {
-         //Write ur code here
+            Response response = client.deleteInsight(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId(),
+                    insight.getSynchronisationData().getGuid());
 
+            if (isResponseSuccess(response)) {
+                postDeletedOk(insight);
+            }
         } catch (RetrofitError error) {
             onError(error);
-            postError(1, error);
-        }
-    }
-
-    public boolean isUserInvalid() {
-        if (uCoreAccessProvider != null) {
-            String accessToken = uCoreAccessProvider.getAccessToken();
-            return !uCoreAccessProvider.isLoggedIn() || accessToken == null || accessToken.isEmpty();
+            eventing.post(new BackendResponse(1, error));
         }
         return false;
     }
 
-    private void postError(int referenceId, final RetrofitError error) {
-        DSLog.i(DSLog.LOG, "Error In ConsentsMonitor - posterror");
-        eventing.post(new BackendResponse(referenceId, error));
+    private void postDeletedOk(final Insight insight) {
+        eventing.post(new InsightBackendDeleteResponse(insight, null));
     }
 
-    private RetrofitError getNonLoggedInError() {
-        return RetrofitError.unexpectedError("", new IllegalStateException("you're not logged in"));
+    private boolean isResponseSuccess(final Response response) {
+        return response != null && (response.getStatus() == HttpURLConnection.HTTP_OK || response.getStatus() == HttpURLConnection.HTTP_CREATED
+                || response.getStatus() == HttpURLConnection.HTTP_NO_CONTENT);
     }
 
+    @Override
+    public Class<? extends Insight> getClassForSyncData() {
+        return Insight.class;
+    }
 }
