@@ -22,4 +22,5 @@ public interface UserRegistrationInterface {
 
     void refreshAccessTokenUsingWorkAround();
 
+
 }
