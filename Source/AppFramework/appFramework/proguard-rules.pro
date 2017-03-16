@@ -135,6 +135,15 @@ public static <fields>;
 -dontwarn com.google.android.gms.**
 -dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
 
+# -------------WeChat---------------------------------------------------
+
+-keep class com.tencent.mm.sdk.openapi.WXMediaMessage {*;}
+
+-keep class com.tencent.mm.sdk.openapi.** implements com.tencent.mm.sdk.openapi.WXMediaMessage$IMediaObject {*;}
+
+-keep class com.janrainphilips.philipsregistration.wxapi.** {*;}
+
+-keep class com.philips.platform.baseapp.base.wxapi.** {*;}
 
 #-------------------------Consumer Care Starts -------------------------
 

@@ -110,39 +110,39 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     }
 
     public void initHSDP() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        ((AppFrameworkApplication)applicationContext).getAppInfra().
-                getConfigInterface().setPropertyForKey(
-                "HSDPConfiguration.ApplicationName",
-                UR,
-               // "Datacore",
-                //"uGrow",
-                "HealthySleepSolutions",
-                configError);
-
-        ((AppFrameworkApplication)applicationContext).getAppInfra().
-                getConfigInterface().setPropertyForKey(
-                "HSDPConfiguration.Secret",
-                UR,
-                "ad3d0618-be4d-4958-adc9-f6bcd01fde16",
-                configError);
-
-        ((AppFrameworkApplication)applicationContext).getAppInfra().
-                getConfigInterface().setPropertyForKey(
-                "HSDPConfiguration.Shared",
-                UR,
-                "ba404af2-ee41-4e7c-9157-fd20663f2a6c",
-                configError);
-
-        ((AppFrameworkApplication)applicationContext).getAppInfra().
-                getConfigInterface().setPropertyForKey(
-                "HSDPConfiguration.BaseURL",
-                UR,
-                //"https://referenceplatform-ds-platforminfradev.cloud.pcftest.com",
-               // "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com",
-                "https://healthysleep-ds-staging.eu-west.philips-healthsuite.com",
-                configError);
+//        AppConfigurationInterface.AppConfigurationError configError = new
+//                AppConfigurationInterface.AppConfigurationError();
+//        ((AppFrameworkApplication)applicationContext).getAppInfra().
+//                getConfigInterface().setPropertyForKey(
+//                "HSDPConfiguration.ApplicationName",
+//                UR,
+//               // "Datacore",
+//                //"uGrow",
+//                "HealthySleepSolutions",
+//                configError);
+//
+//        ((AppFrameworkApplication)applicationContext).getAppInfra().
+//                getConfigInterface().setPropertyForKey(
+//                "HSDPConfiguration.Secret",
+//                UR,
+//                "ad3d0618-be4d-4958-adc9-f6bcd01fde16",
+//                configError);
+//
+//        ((AppFrameworkApplication)applicationContext).getAppInfra().
+//                getConfigInterface().setPropertyForKey(
+//                "HSDPConfiguration.Shared",
+//                UR,
+//                "ba404af2-ee41-4e7c-9157-fd20663f2a6c",
+//                configError);
+//
+//        ((AppFrameworkApplication)applicationContext).getAppInfra().
+//                getConfigInterface().setPropertyForKey(
+//                "HSDPConfiguration.BaseURL",
+//                UR,
+//                //"https://referenceplatform-ds-platforminfradev.cloud.pcftest.com",
+//               // "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com",
+//                "https://healthysleep-ds-staging.eu-west.philips-healthsuite.com",
+//                configError);
     }
 
 
