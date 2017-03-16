@@ -39,6 +39,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,6 +51,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
+import static com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy.SCAN_WINDOW_MILLIS;
 import static com.philips.pins.shinelib.SHNCapabilityType.DI_COMM;
 import static com.philips.pins.shinelib.SHNDevice.State.Connected;
 import static com.philips.pins.shinelib.SHNDevice.State.Disconnected;
@@ -115,7 +117,7 @@ public class BleCommunicationStrategyTestSteps {
 
         mRawDataListeners = new ConcurrentHashMap<>();
         writtenBytes = new ConcurrentHashMap<>();
-        mDeviceCache = new BleDeviceCache();
+        mDeviceCache = new BleDeviceCache(Executors.newSingleThreadScheduledExecutor());
         mRequestQueue = new ArrayDeque<>();
         mGson = new GsonBuilder().serializeNulls().create();
         deviceListenerMap = new ConcurrentHashMap<>();
@@ -213,7 +215,7 @@ public class BleCommunicationStrategyTestSteps {
             public void onCacheExpired(NetworkNode networkNode) {
                 // Ignored
             }
-        });
+        }, SCAN_WINDOW_MILLIS);
     }
 
     private void resetCapability(final String deviceId) {

@@ -20,6 +20,8 @@ import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
+import java.util.concurrent.Executors;
+
 public class BleTransportContext implements TransportContext {
 
     private final BleDeviceCache deviceCache;
@@ -46,7 +48,7 @@ public class BleTransportContext implements TransportContext {
      * @throws TransportUnavailableException the transport unavailable exception
      */
     public BleTransportContext(@NonNull final Context context, boolean showPopupIfBLEIsTurnedOff) {
-        this.deviceCache = new BleDeviceCache();
+        this.deviceCache = new BleDeviceCache(Executors.newSingleThreadScheduledExecutor());
         try {
             SHNLogger.registerLogger(new SHNLogger.LogCatLogger());
             this.shnCentral = createBlueLib(context, showPopupIfBLEIsTurnedOff);

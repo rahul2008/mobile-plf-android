@@ -47,7 +47,10 @@ public class BleRequestTest {
     private BleRequest request;
 
     @Mock
-    private BleDeviceCache deviceCacheMock;
+    private BleDeviceCache mockDeviceCache;
+
+    @Mock
+    private BleDeviceCache.CacheData mockCacheData;
 
     @Mock
     private ResponseHandler responseHandlerMock;
@@ -79,7 +82,8 @@ public class BleRequestTest {
         when(mockDevice.getCapabilityForType(SHNCapabilityType.DI_COMM)).thenReturn(mockCapability);
         when(mockDevice.getState()).thenReturn(Connected);
 
-        when(deviceCacheMock.getCacheData(anyString()).getDevice()).thenReturn(mockDevice);
+        when(mockDeviceCache.getCacheData(anyString())).thenReturn(mockCacheData);
+        when(mockCacheData.getDevice()).thenReturn(mockDevice);
 
         doAnswer(new Answer() {
             @Override
@@ -100,7 +104,7 @@ public class BleRequestTest {
         when(mockDicommResponse.getStatus()).thenReturn(NoError);
         when(mockDicommResponse.getPropertiesAsString()).thenReturn("{}");
 
-        request = new BleGetRequest(deviceCacheMock, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock, handlerMock, new AtomicBoolean(true));
+        request = new BleGetRequest(mockDeviceCache, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock, handlerMock, new AtomicBoolean(true));
         request.inProgressLatch = mockInProgressLatch;
 
         when(handlerMock.post(runnableCaptor.capture())).thenAnswer(new Answer<Void>() {
@@ -148,7 +152,7 @@ public class BleRequestTest {
 
     @Test
     public void doesntCallDisconnectWhenStayingConnected() {
-        request = new BleGetRequest(deviceCacheMock, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock, handlerMock, new AtomicBoolean(false));
+        request = new BleGetRequest(mockDeviceCache, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock, handlerMock, new AtomicBoolean(false));
         request.inProgressLatch = mockInProgressLatch;
 
         request.run();

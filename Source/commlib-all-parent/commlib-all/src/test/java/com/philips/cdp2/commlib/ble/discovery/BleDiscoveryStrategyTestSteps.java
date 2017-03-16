@@ -12,6 +12,7 @@ import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
+import com.philips.cdp2.commlib.ble.BleDeviceCache.CacheData;
 import com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
@@ -34,6 +35,7 @@ import org.mockito.stubbing.Answer;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Executors;
 
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
@@ -88,7 +90,7 @@ public class BleDiscoveryStrategyTestSteps {
 
         final Context mockContext = mock(Context.class);
 
-        bleDeviceCache = new BleDeviceCache();
+        bleDeviceCache = new BleDeviceCache(Executors.newSingleThreadScheduledExecutor());
 
         bleDiscoveryStrategy = new BleDiscoveryStrategy(mockContext, bleDeviceCache, deviceScanner) {
             @Override
@@ -263,6 +265,23 @@ public class BleDiscoveryStrategyTestSteps {
         }
     }
 
+    @When("^the cached data expires for the following appliances?:$")
+    public void theCachedDataExpiresForTheFollowingAppliance(final List<String> appliances) {
+        final Set<? extends Appliance> availableAppliances = commCentral.getApplianceManager().getAvailableAppliances();
+
+        for (String applianceName : appliances) {
+            for (Appliance appliance : availableAppliances) {
+                if (applianceName.equals(appliance.getName())) {
+                    final CacheData cacheData = bleDeviceCache.getCacheData(appliance.getNetworkNode().getCppId());
+                    if (cacheData == null) {
+                        continue;
+                    }
+                    cacheData.getExpirationCallback().onCacheExpired(appliance.getNetworkNode());
+                }
+            }
+        }
+    }
+
     private String getApplianceTypeByName(final @NonNull String applianceName) {
         return applianceName.substring(0, applianceName.length() - 1);
     }
@@ -271,5 +290,10 @@ public class BleDiscoveryStrategyTestSteps {
     public void theNumberOfCreatedAppliancesIs(int numberOfAppliances) {
         final Set<? extends Appliance> availableAppliances = commCentral.getApplianceManager().getAvailableAppliances();
         assertEquals("Number of created appliances doesn't match expected number.", numberOfAppliances, availableAppliances.size());
+    }
+
+    @Then("^the following appliances? (?:are|is) lost:$")
+    public void afterTheCachedDataExpiresTheFollowingApplianceAreLost(final List<String> appliances) {
+
     }
 }

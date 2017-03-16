@@ -10,11 +10,11 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.pins.shinelib.SHNDevice;
 
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy.SCAN_WINDOW_MILLIS;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The type BleDeviceCache.
@@ -25,24 +25,29 @@ import static com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy.SCAN_W
  */
 public class BleDeviceCache {
 
+    @NonNull
+    private final ScheduledExecutorService executor;
+
     public interface ExpirationCallback {
         void onCacheExpired(NetworkNode networkNode);
     }
 
-    public static final class CacheData {
-
+    public class CacheData {
         private final SHNDevice device;
         private final NetworkNode networkNode;
+
         @NonNull
         private final ExpirationCallback expirationCallback;
-        private Timer expirationTimer;
-        private TimerTask expirationTask;
+        private final long expirationPeriodMillis;
 
-        private CacheData(final @NonNull SHNDevice device, final @NonNull NetworkNode networkNode, final @NonNull ExpirationCallback expirationCallback) {
+        private Callable callable;
+        private ScheduledFuture future;
+
+        private CacheData(final @NonNull SHNDevice device, final @NonNull NetworkNode networkNode, final @NonNull ExpirationCallback expirationCallback, long expirationPeriodMillis) {
             this.device = device;
             this.networkNode = networkNode;
             this.expirationCallback = expirationCallback;
-            this.expirationTimer = new Timer();
+            this.expirationPeriodMillis = expirationPeriodMillis;
 
             resetTimer();
         }
@@ -56,34 +61,48 @@ public class BleDeviceCache {
         }
 
         public void resetTimer() {
-            if (expirationTask != null) {
-                expirationTask.cancel();
+            if (future != null) {
+                future.cancel(true);
             }
 
-            expirationTask = new TimerTask() {
+            callable = new Callable<Void>() {
                 @Override
-                public void run() {
+                public Void call() throws Exception {
                     expirationCallback.onCacheExpired(networkNode);
+                    return null;
                 }
             };
-            expirationTimer.schedule(expirationTask, SCAN_WINDOW_MILLIS);
+            future = executor.schedule(callable, this.expirationPeriodMillis, TimeUnit.MILLISECONDS);
+        }
+
+        public ExpirationCallback getExpirationCallback() {
+            return this.expirationCallback;
         }
     }
 
     private final Map<String, CacheData> deviceMap = new ConcurrentHashMap<>();
 
+    public BleDeviceCache(final @NonNull ScheduledExecutorService executor) {
+        this.executor = executor;
+    }
+
     /**
      * Add device.
      *
-     * @param device             the device
-     * @param networkNode        the network node
-     * @param expirationCallback the callback that is invoked when the expiration for the cached data was reached
+     * @param device                 the device
+     * @param networkNode            the network node
+     * @param expirationCallback     the callback that is invoked when the expiration for the cached data was reached
+     * @param expirationPeriodMillis the expiration period in milliseconds
      */
-    public void addDevice(@NonNull SHNDevice device, @NonNull NetworkNode networkNode, @NonNull ExpirationCallback expirationCallback) {
+    public void addDevice(@NonNull SHNDevice device, @NonNull NetworkNode networkNode, @NonNull ExpirationCallback expirationCallback, long expirationPeriodMillis) {
+        if (expirationPeriodMillis <= 0L) {
+            throw new IllegalArgumentException("Expiration period must be positive non-zero value.");
+        }
+
         if (deviceMap.containsKey(networkNode.getCppId())) {
             deviceMap.get(networkNode.getCppId()).resetTimer();
         } else {
-            deviceMap.put(networkNode.getCppId(), new CacheData(device, networkNode, expirationCallback));
+            deviceMap.put(networkNode.getCppId(), new CacheData(device, networkNode, expirationCallback, expirationPeriodMillis));
         }
     }
 
