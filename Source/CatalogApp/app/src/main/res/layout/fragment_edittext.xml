@@ -87,11 +87,7 @@
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/label_email"
-                    style="@style/UIDLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_marginTop="@dimen/component_bottom_spacing"
+                    style="@style/ItemLabel"
                     android:text="@string/label_email"
                     android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}" />
 
@@ -99,7 +95,6 @@
                     android:id="@+id/textbox_input_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/component_bottom_spacing"
                     app:uidTextBoxValidationErrorDrawable="@drawable/ic_data_validation_icon"
                     app:uidTextBoxValidationErrorText="@string/inline_error_message">
 
@@ -117,11 +112,7 @@
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/label_number"
-                    style="@style/UIDLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_marginTop="@dimen/component_bottom_spacing"
+                    style="@style/ItemLabel"
                     android:text="@string/label_number"
                     android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}" />
 
@@ -129,7 +120,6 @@
                     android:id="@+id/textbox_input_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/component_bottom_spacing"
                     android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}"
                     android:freezesText="true"
                     android:hint="@string/hint_text_number"
@@ -138,10 +128,7 @@
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/label_input_password"
-                    style="@style/UIDLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/component_bottom_spacing"
+                    style="@style/ItemLabel"
                     android:text="@string/label_password"
                     android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}" />
 
@@ -149,7 +136,6 @@
                     android:id="@+id/textbox_input_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/component_bottom_spacing"
                     android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}"
                     android:hint="@string/password_hint_text"
                     android:imeOptions="flagNoExtractUi"
@@ -158,11 +144,7 @@
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/label_multiline_input"
-                    style="@style/UIDLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_marginTop="@dimen/component_bottom_spacing"
+                    style="@style/ItemLabel"
                     android:text="@string/label_multiline_input_field"
                     android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}" />
 
@@ -170,7 +152,6 @@
                     android:id="@+id/textbox_input_multiline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/component_bottom_spacing"
                     android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}"
                     android:gravity="top"
                     android:hint="@string/dialog_screen_short_content_text" />
