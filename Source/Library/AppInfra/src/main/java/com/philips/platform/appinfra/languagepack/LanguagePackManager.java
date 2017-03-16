@@ -27,6 +27,7 @@ public class LanguagePackManager implements LanguagePackInterface {
     private Context mContext;
     RestInterface mRestInterface;
     private static final String LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY = "LANGUAGEPACK.SERVICEID";
+    JSONObject languagePackOverviewFile;
 
 
     public LanguagePackManager(AppInfra appInfra) {
@@ -60,6 +61,7 @@ public class LanguagePackManager implements LanguagePackInterface {
                     public void onResponse(JSONObject response) {
                         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", response.toString());
                         if(null!=response){
+                        languagePackOverviewFile = response;
                             aILPRefreshResult.onSuccess(OnRefreshListener.AILPRefreshResult.RefreshedFromServer);
                         }
                     }
@@ -93,6 +95,7 @@ public class LanguagePackManager implements LanguagePackInterface {
             public void onResponse(JSONObject response) {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", "Overview Json: "+response.toString());
                 if(null!=response){
+                    languagePackOverviewFile = response;
                     aILPRefreshResult.onSuccess(OnRefreshListener.AILPRefreshResult.RefreshedFromServer);
                 }
             }
