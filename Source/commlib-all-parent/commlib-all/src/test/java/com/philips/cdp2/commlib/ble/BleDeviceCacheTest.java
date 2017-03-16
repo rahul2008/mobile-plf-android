@@ -15,6 +15,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotSame;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.isA;
@@ -81,5 +82,16 @@ public class BleDeviceCacheTest {
         scheduledCallable.call();
 
         verify(expirationCallbackMock).onCacheExpired(isA(NetworkNode.class));
+    }
+
+    @Test
+    public void whenAddingADeviceTwice_ThenTheTimerShouldReset() throws Exception {
+        bleDeviceCache.addDevice(deviceMock, networkNodeMock, expirationCallbackMock, DEVICE_EXPIRATION_MILLIS);
+        Callable firstScheduledCallable = scheduledCallable;
+        bleDeviceCache.addDevice(deviceMock, networkNodeMock, expirationCallbackMock, DEVICE_EXPIRATION_MILLIS);
+        Callable secondScheduledCallable = scheduledCallable;
+
+        verify(scheduledFutureMock).cancel(true);
+        assertNotSame(firstScheduledCallable, secondScheduledCallable);
     }
 }
