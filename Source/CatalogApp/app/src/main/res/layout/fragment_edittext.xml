@@ -20,32 +20,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <!--With Icon layout-->
-            <LinearLayout
-                style="@style/BaseLayoutMargins.Dimens"
-                android:orientation="horizontal">
-
-                <TextView
-                    style="@style/TestButtonTexts"
-                    android:layout_marginLeft="@dimen/layout_margin_left_right"
-                    android:layout_marginRight="@dimen/layout_margin_left_right"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical|start"
-                    android:text="@string/disabled" />
-
-                <com.philips.platform.uid.view.widget.Switch
-                    android:id="@+id/toggledisabled"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/layout_margin_left_right"
-                    android:layout_marginRight="@dimen/layout_margin_left_right"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical|end"
-                    android:onCheckedChanged="@{(v, isChecked) -> texteditBoxfragment.disabledEditboxes(isChecked)}" />
-            </LinearLayout>
-
-            <include layout="@layout/divider_layout" />
-
             <!--Extra layout-->
             <LinearLayout
                 style="@style/BaseLayoutMargins.Dimens"
@@ -73,6 +47,32 @@
 
             <include layout="@layout/divider_layout" />
 
+            <!--With Icon layout-->
+            <LinearLayout
+                style="@style/BaseLayoutMargins.Dimens"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TestButtonTexts"
+                    android:layout_marginLeft="@dimen/layout_margin_left_right"
+                    android:layout_marginRight="@dimen/layout_margin_left_right"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:text="@string/disabled" />
+
+                <com.philips.platform.uid.view.widget.Switch
+                    android:id="@+id/toggledisabled"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/layout_margin_left_right"
+                    android:layout_marginRight="@dimen/layout_margin_left_right"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|end"
+                    android:onCheckedChanged="@{(v, isChecked) -> texteditBoxfragment.disabledEditboxes(isChecked)}" />
+            </LinearLayout>
+
+            <include layout="@layout/divider_layout" />
+
             <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
                 android:text="@string/label_textboxes" />
@@ -83,49 +83,37 @@
                 android:layout_marginBottom="@dimen/layout_margin_left_right"
                 android:layout_marginEnd="@dimen/layout_margin_left_right"
                 android:layout_marginStart="@dimen/layout_margin_left_right"
-                android:layout_marginTop="@dimen/layout_margin_top_bottom"
                 android:orientation="vertical">
 
                 <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/label_input_field"
+                    android:id="@+id/label_email"
                     style="@style/UIDLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_marginTop="@dimen/component_bottom_spacing"
-                    android:text="@string/label_input_field"
+                    android:text="@string/label_email"
                     android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}" />
 
-                <com.philips.platform.uid.view.widget.EditText
-                    android:id="@+id/textbox_input_name"
+                <com.philips.platform.uid.view.widget.InputValidationLayout
+                    android:id="@+id/textbox_input_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/component_bottom_spacing"
-                    android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}"
-                    android:hint="@string/hint_text"
-                    android:inputType="textPersonName"
-                    android:maxLines="1"
-                    app:uidInputTextWithClearButton="true" />
+                    app:uidTextBoxValidationErrorDrawable="@drawable/ic_data_validation_icon"
+                    app:uidTextBoxValidationErrorText="@string/inline_error_message">
 
-                <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/label_input_password"
-                    style="@style/UIDLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/component_bottom_spacing"
-                    android:text="@string/label_password"
-                    android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}" />
+                    <com.philips.platform.uid.view.widget.ValidationEditText
+                        android:id="@+id/field_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
 
-                <com.philips.platform.uid.view.widget.EditText
-                    android:id="@+id/textbox_input_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/component_bottom_spacing"
-                    android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}"
-                    android:hint="@string/password_hint_text"
-                    android:imeOptions="flagNoExtractUi"
-                    android:inputType="textPassword"
-                    android:maxLines="1" />
+                        android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}"
+                        android:hint="@string/hint_email"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        app:uidInputTextWithClearButton="true" />
+                </com.philips.platform.uid.view.widget.InputValidationLayout>
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/label_number"
@@ -149,35 +137,24 @@
                     android:maxLines="1" />
 
                 <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/label_email"
+                    android:id="@+id/label_input_password"
                     style="@style/UIDLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start"
                     android:layout_marginTop="@dimen/component_bottom_spacing"
-                    android:text="@string/label_email"
+                    android:text="@string/label_password"
                     android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}" />
 
-                <com.philips.platform.uid.view.widget.InputValidationLayout
-                    android:id="@+id/textbox_input_field"
+                <com.philips.platform.uid.view.widget.EditText
+                    android:id="@+id/textbox_input_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:uidTextBoxValidationErrorDrawable="@drawable/ic_data_validation_icon"
-                    app:uidTextBoxValidationErrorText="@string/inline_error_message">
-
-                    <com.philips.platform.uid.view.widget.ValidationEditText
-                        android:id="@+id/field_email"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/component_bottom_spacing"
-                        android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}"
-                        android:hint="@string/hint_email"
-                        android:inputType="textEmailAddress"
-                        android:maxLines="1"
-                        app:uidInputTextWithClearButton="true" />
-
-
-                </com.philips.platform.uid.view.widget.InputValidationLayout>
+                    android:layout_marginTop="@dimen/component_bottom_spacing"
+                    android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}"
+                    android:hint="@string/password_hint_text"
+                    android:imeOptions="flagNoExtractUi"
+                    android:inputType="textPassword"
+                    android:maxLines="1" />
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/label_multiline_input"

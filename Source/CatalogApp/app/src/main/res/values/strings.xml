@@ -90,10 +90,10 @@
     <string name="label_password">Password</string>
     <string name="password_hint_text">#16!(.Nac</string>
     <string name="hint_text_number">+310334343434</string>
-    <string name="label_number">Number</string>
+    <string name="label_number">Phone number</string>
     <string name="label_email">E-mail</string>
-    <string name="label_multiline_input_field">Multiline input field</string>
-    <string name="hint_email">example@philips.com</string>
+    <string name="label_multiline_input_field">Multiline input</string>
+    <string name="hint_email">name@philips.com</string>
     <string name="with_label">With label</string>
     <string name="label_textboxes">Textboxes</string>
 
