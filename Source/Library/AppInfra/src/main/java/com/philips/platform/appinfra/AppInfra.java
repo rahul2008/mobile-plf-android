@@ -17,8 +17,6 @@ import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityManager;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationManager;
-import com.philips.platform.appinfra.languagepack.LanguagePackManager;
-import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -35,7 +33,7 @@ import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 /**
  * Created by 310238114 on 5/5/2016.
  */
-public class AppInfra implements AppInfraInterface {
+public class AppInfra implements AppInfraInterface ,ComponentVersionInfo{
 
 
     private SecureStorageInterface secureStorage;
@@ -49,13 +47,15 @@ public class AppInfra implements AppInfraInterface {
     private AppConfigurationInterface configInterface;
     private RestInterface mRestInterface;
     private ABTestClientInterface mAbtesting;
-    private LanguagePackInterface mLanguagePackInterface;
+    private final String AppInfraComponentID ="ail";
 
 
     /**
      * The App infra context. This MUST be Application context
      */
     private Context appInfraContext;
+
+
 
     /**
      * The type Builder.
@@ -75,7 +75,6 @@ public class AppInfra implements AppInfraInterface {
 
         private AppConfigurationInterface configInterface;
         private RestInterface mRestInterface;
-        private LanguagePackInterface LanguagePack;
 
         /**
          * Instantiates a new Builder.
@@ -92,7 +91,6 @@ public class AppInfra implements AppInfraInterface {
             mTimeSyncInterfaceBuilder = null;
             configInterface = null;
             mRestInterface = null;
-            LanguagePack =null;
         }
 
 
@@ -179,16 +177,7 @@ public class AppInfra implements AppInfraInterface {
             return this;
         }
 
-        /**
-         * Sets language pack.
-         *
-         * @param languagePack the language pack
-         * @return the config
-         */
-        public Builder setLanguagePack(LanguagePackInterface languagePack) {
-            LanguagePack = languagePack;
-            return this;
-        }
+
         /**
          * Actual AppInfra object is created here.
          * Once build is called AppInfra is created in memory and cannot be modified during runtime.
@@ -262,8 +251,6 @@ public class AppInfra implements AppInfraInterface {
 
                 }
             });
-
-            ai.setLanguagePackInterface(LanguagePack == null? new LanguagePackManager(ai) : LanguagePack);
             return ai;
         }
     }
@@ -319,12 +306,6 @@ public class AppInfra implements AppInfraInterface {
         return mAbtesting;
     }
 
-
-    @Override
-    public LanguagePackInterface getLanguagePack() {
-        return mLanguagePackInterface;
-    }
-
     private AppInfra(Context pContext) {
         appInfraContext = pContext;
     }
@@ -339,8 +320,8 @@ public class AppInfra implements AppInfraInterface {
 
     private void setLogging(LoggingInterface log) {
         logger = log;
-        appInfraLogger = logger.createInstanceForComponent(this.getClass().getSimpleName(),
-                BuildConfig.VERSION_NAME);
+        appInfraLogger = logger.createInstanceForComponent(getComponentId(),
+                getVersion());
     }
 
     private void setTagging(AppTaggingInterface tagg) {
@@ -387,8 +368,14 @@ public class AppInfra implements AppInfraInterface {
         this.configInterface = configInterface;
     }
 
-    public void setLanguagePackInterface(LanguagePackInterface languagePackInterface) {
-        this.mLanguagePackInterface = languagePackInterface;
+    @Override
+    public String getComponentId() {
+        return AppInfraComponentID;
+    }
+
+    @Override
+    public String getVersion() {
+        return BuildConfig.VERSION_NAME;
     }
 
 }
