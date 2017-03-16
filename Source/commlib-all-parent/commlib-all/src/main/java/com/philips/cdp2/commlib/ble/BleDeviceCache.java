@@ -40,10 +40,9 @@ public class BleDeviceCache {
         private final ExpirationCallback expirationCallback;
         private final long expirationPeriodMillis;
 
-        private Callable callable;
         private ScheduledFuture future;
 
-        private CacheData(final @NonNull SHNDevice device, final @NonNull NetworkNode networkNode, final @NonNull ExpirationCallback expirationCallback, long expirationPeriodMillis) {
+        private CacheData(@NonNull final SHNDevice device, @NonNull final NetworkNode networkNode, @NonNull final ExpirationCallback expirationCallback, long expirationPeriodMillis) {
             this.device = device;
             this.networkNode = networkNode;
             this.expirationCallback = expirationCallback;
@@ -65,7 +64,7 @@ public class BleDeviceCache {
                 future.cancel(true);
             }
 
-            callable = new Callable<Void>() {
+            Callable callable = new Callable<Void>() {
                 @Override
                 public Void call() throws Exception {
                     expirationCallback.onCacheExpired(networkNode);
@@ -75,6 +74,7 @@ public class BleDeviceCache {
             future = executor.schedule(callable, this.expirationPeriodMillis, TimeUnit.MILLISECONDS);
         }
 
+        @NonNull
         public ExpirationCallback getExpirationCallback() {
             return this.expirationCallback;
         }
@@ -82,7 +82,7 @@ public class BleDeviceCache {
 
     private final Map<String, CacheData> deviceMap = new ConcurrentHashMap<>();
 
-    public BleDeviceCache(final @NonNull ScheduledExecutorService executor) {
+    public BleDeviceCache(@NonNull final ScheduledExecutorService executor) {
         this.executor = executor;
     }
 
@@ -113,11 +113,11 @@ public class BleDeviceCache {
         deviceMap.clear();
     }
 
-    public CacheData getCacheData(final @NonNull String cppId) {
+    public CacheData getCacheData(@NonNull final String cppId) {
         return deviceMap.get(cppId);
     }
 
-    public boolean contains(final @NonNull String cppId) {
+    public boolean contains(@NonNull final String cppId) {
         return deviceMap.containsKey(cppId);
     }
 }
