@@ -1,5 +1,7 @@
 package com.philips.platform.datasync.moments;
 
+import android.util.Log;
+
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
@@ -105,31 +107,47 @@ public class MomentsSegregator {
 
     public int processMoment(int count, final Moment moment, DBRequestListener dbRequestListener) throws SQLException {
         //try {
+        DSLog.i(DSLog.LOG,"1");
             final Moment momentInDatabase = getOrmMomentFromDatabase(moment,dbRequestListener);
+        DSLog.i(DSLog.LOG,"2");
             if (hasDifferentMomentVersion(moment, momentInDatabase)) {
+                DSLog.i(DSLog.LOG,"3");
                 if (!isActive(moment.getSynchronisationData())) {
+                    DSLog.i(DSLog.LOG,"4");
                     deleteMomentInDatabaseIfExists(momentInDatabase,dbRequestListener);
+                    DSLog.i(DSLog.LOG,"5");
                 } else if (MomentDeletedLocallyDuringSync(momentInDatabase)) {
+                    DSLog.i(DSLog.LOG,"6");
                     moment.setSynced(false);
+                    DSLog.i(DSLog.LOG,"7");
                     moment.getSynchronisationData().setInactive(true);
+                    DSLog.i(DSLog.LOG,"8");
 
                     deleteAndSaveMoment(momentInDatabase, moment,dbRequestListener);
+                    DSLog.i(DSLog.LOG,"9");
                 } else {
+                    DSLog.i(DSLog.LOG,"10");
                     if (!isMomentModifiedLocallyDuringSync(momentInDatabase, moment)) {
+                        DSLog.i(DSLog.LOG,"11");
                         moment.setSynced(true);
+                        DSLog.i(DSLog.LOG,"12");
                     }
                     //This is required for deleting duplicate
                     // measurements, measurementDetails and momentDetails
+                    DSLog.i(DSLog.LOG,"13");
                     deleteAndSaveMoment(momentInDatabase, moment,dbRequestListener);
+                    DSLog.i(DSLog.LOG,"14");
                 }
+                DSLog.i(DSLog.LOG,"15");
                 count++;
+                DSLog.i(DSLog.LOG,"16");
             } else {
-
+                DSLog.i(DSLog.LOG,"17");
             }
         /*} catch (SQLException e) {
             updatingInterface.updateFailed(e,dbRequestListener);
         }*/
-
+        DSLog.i(DSLog.LOG,"18");
         return count;
     }
 
@@ -150,9 +168,11 @@ public class MomentsSegregator {
                                      final Moment ormMoment,DBRequestListener dbRequestListener) throws SQLException {
 
         if (momentInDatabase != null) {
-            ormMoment.setId(momentInDatabase.getId());
+            //ormMoment.setId(momentInDatabase.getId());
+            updatingInterface.updateMoment(ormMoment,null);
+            return;
         }
-        deleteMeasurementAndMomentDetailsAndSetId(momentInDatabase,ormMoment,dbRequestListener);
+      //  deleteMeasurementAndMomentDetailsAndSetId(momentInDatabase,ormMoment,dbRequestListener);
         dbSavingInterface.saveMoment(ormMoment,dbRequestListener);
     }
 
@@ -169,7 +189,7 @@ public class MomentsSegregator {
         for (final Moment moment : moments) {
                 moment.setSynced(true);
             try {
-                dbSavingInterface.saveMoment(moment,dbRequestListener);
+                updatingInterface.updateMoment(moment,dbRequestListener);
             } catch (SQLException e) {
                 updatingInterface.updateFailed(e,dbRequestListener);
                 e.printStackTrace();

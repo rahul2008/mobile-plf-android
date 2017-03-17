@@ -378,9 +378,9 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
-            case R.id.menu_consent:
+            /*case R.id.menu_consent:
                 Toast.makeText(getApplicationContext(), "speaking....", Toast.LENGTH_LONG).show();
-                return false;
+                return false;*/
 
             default:
 

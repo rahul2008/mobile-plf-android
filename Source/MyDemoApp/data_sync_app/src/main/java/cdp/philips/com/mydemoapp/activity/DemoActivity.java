@@ -167,10 +167,10 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
         //DataServicesManager.getInstance().releaseDataServicesInstances();
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_dataservices, menu);
         return true;
-    }
+    }*/
 }
