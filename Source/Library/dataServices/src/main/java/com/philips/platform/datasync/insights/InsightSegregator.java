@@ -4,6 +4,7 @@
  */
 package com.philips.platform.datasync.insights;
 
+import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
@@ -14,6 +15,8 @@ import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
+
+import org.joda.time.DateTime;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -33,6 +36,9 @@ public class InsightSegregator {
     DBDeletingInterface dbDeletingInterface;
     @Inject
     DBSavingInterface dbSavingInterface;
+
+    @Inject
+    BaseAppDataCreator baseAppDataCreater;
 
     public InsightSegregator() {
         DataServicesManager.getInstance().getAppComponant().injectInsightSegregator(this);
@@ -80,10 +86,21 @@ public class InsightSegregator {
         List<Insight> insightsToDelete = new ArrayList<>();
         List<Insight> insightsToDeleteAndSave = new ArrayList<>();
 
+        List<Insight> insightsToCreate= new ArrayList<>();
+
         for (Insight insight : insights) {
             final Insight insightInDatabase = getOrmInsightFromDatabase(insight, dbRequestListener);
 
-            if (hasDifferentInsightVersion(insight, insightInDatabase)) {
+            if(insightInDatabase==null){
+
+                SynchronisationData synchronisationData =
+                        baseAppDataCreater.createSynchronisationData(insight.getGUId(), false,
+                                new DateTime(insight.getTimeStamp()),1);
+                insight.setSynchronisationData(synchronisationData);
+                insight.setSynced(true);
+                insightsToCreate.add(insight);
+            }
+            else if (hasDifferentInsightVersion(insight, insightInDatabase)) {
                 if (!isInsightActive(insight.getSynchronisationData())) {
                     insightsToDelete.add(insightInDatabase);
                 } else if (InsightDeletedLocallyDuringSync(insightInDatabase)) {
@@ -105,6 +122,7 @@ public class InsightSegregator {
                 }
             }
         }
+        dbSavingInterface.saveInsights(insightsToCreate,dbRequestListener);
         deleteInsightsInDatabaseIfExists(insightsToDelete, dbRequestListener);
         deleteAndSaveInsights(insightsToDeleteAndSave, dbRequestListener);
     }
@@ -135,9 +153,9 @@ public class InsightSegregator {
         final SynchronisationData synchronisationData = insight.getSynchronisationData();
 
         if (synchronisationData != null) {
-            insightInDatabase = (Insight) dbFetchingInterface.fetchInsightByGuid(synchronisationData.getGuid());
+            insightInDatabase = dbFetchingInterface.fetchInsightByGuid(synchronisationData.getGuid());
             if (insightInDatabase == null) {
-                insightInDatabase = (Insight) dbFetchingInterface.fetchInsightById(insight.getId(), null);
+                insightInDatabase = dbFetchingInterface.fetchInsightById(insight.getId(), null);
             }
         }
         return insightInDatabase;

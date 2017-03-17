@@ -9,7 +9,12 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.InsightMetadata;
+import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.datasync.moments.UCoreMoment;
+
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -63,6 +68,7 @@ public class InsightConverter {
                     }
                 }
 
+                addSynchronisationData(appInsight,uCoreInsight);
                 appInsightList.add(appInsight);
             }
         }
@@ -100,6 +106,7 @@ public class InsightConverter {
             }
 
             uCoreInsight.setMetadata(metaData);
+
             uCoreInsights.add(uCoreInsight);
         }
 
@@ -113,5 +120,10 @@ public class InsightConverter {
             insightList.add(insight);
         }
         return insightList;
+    }
+
+    private void addSynchronisationData(@NonNull final Insight insight, @NonNull final UCoreInsight uCoreInsight) {
+        SynchronisationData synchronisationData = dataCreator.createSynchronisationData(insight.getGUId(), uCoreInsight.isInactive(), new DateTime(uCoreInsight.getLastModified()), uCoreInsight.getVersion());
+        insight.setSynchronisationData(synchronisationData);
     }
 }

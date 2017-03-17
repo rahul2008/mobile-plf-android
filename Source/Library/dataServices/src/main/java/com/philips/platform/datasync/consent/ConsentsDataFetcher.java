@@ -137,8 +137,6 @@ public class ConsentsDataFetcher extends DataFetcher {
                 if(appConsentDetails == null) return;
 
                 eventing.post(new ConsentBackendSaveResponse(appConsentDetails, HttpURLConnection.HTTP_OK, null));
-            } else {
-                eventing.post(new ConsentBackendSaveResponse(null, HttpURLConnection.HTTP_OK, null));
             }
         } catch (RetrofitError ex) {
             onError(ex);
