@@ -124,10 +124,13 @@ public class MomentsDataSender extends DataSender {
     private boolean sendMomentToBackend(MomentsClient client, final Moment moment) {
         DSLog.i(DSLog.LOG,"MomentsDataSender sendMomentToBackend and moment = " + moment.toString());
         if (shouldCreateMoment(moment)) {
+            DSLog.i(DSLog.LOG,"MomentsDataSender CREATE MOMENT ");
             return createMoment(client, moment);
         } else if(shouldDeleteMoment(moment)) {
+            DSLog.i(DSLog.LOG,"MomentsDataSender DELETE MOMENT ");
             return deleteMoment(client, moment);
         } else {
+            DSLog.i(DSLog.LOG,"MomentsDataSender UPDATE MOMENT ");
             return updateMoment(client, moment);
         }
     }
