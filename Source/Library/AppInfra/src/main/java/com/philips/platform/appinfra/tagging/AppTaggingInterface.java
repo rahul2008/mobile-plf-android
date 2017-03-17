@@ -190,9 +190,11 @@ public interface AppTaggingInterface {
 	 */
 	boolean getPrivacyConsentForSensitiveData();
 
+
 	/**
-	 *
-	 * @return returns trackingIdentifier
+	 *	@brief Retrieves the analytics tracking identifier
+	 *	@return an NSString value containing the tracking identifier
+	 *	@note This method can cause a blocking network call and should not be used from a UI thread.
 	 */
 	String getTrackingIdentifier();
 }
