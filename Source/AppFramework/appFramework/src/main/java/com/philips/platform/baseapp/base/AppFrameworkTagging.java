@@ -52,12 +52,6 @@ public class AppFrameworkTagging {
         appTaggingInterface.trackActionWithInfo(state, null);
     }
 
-    public void trackAction(String state, String key, String value) {
-        Map<String, String> contextData = new HashMap<>();
-        contextData.put(key, value);
-        appTaggingInterface.trackActionWithInfo(state, contextData);
-    }
-
     public void pauseCollectingLifecycleData() {
         appTaggingInterface.pauseLifecycleInfo();
     }
