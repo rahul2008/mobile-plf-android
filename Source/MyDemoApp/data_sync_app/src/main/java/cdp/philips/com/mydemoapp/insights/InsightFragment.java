@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +56,10 @@ public class InsightFragment extends DialogFragment implements DBRequestListener
 
     @Override
     public void dBChangeSuccess(SyncType type) {
-        DataServicesManager.getInstance().fetchInsights(this);
+        if(type == SyncType.INSIGHT) {
+            DataServicesManager.getInstance().fetchInsights(this);
+            Log.d(this.getClass().getName(),"Insight is changed");
+        }
     }
 
     @Override

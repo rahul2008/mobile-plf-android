@@ -168,7 +168,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     public boolean deleteInsights(List<Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
         boolean isDeleted = ormDeleting.deleteInsights(insights, dbRequestListener);
         if (isDeleted) {
-            notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.INSIGHT);
+            notifyDBRequestListener.notifyDBChange(SyncType.INSIGHT);
         }
         return isDeleted;
 
