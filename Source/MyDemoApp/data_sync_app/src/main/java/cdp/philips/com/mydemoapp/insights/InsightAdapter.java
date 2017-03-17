@@ -44,10 +44,10 @@ public class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightH
     public void setInsightList(final ArrayList<? extends Insight> insightList) {
         for(Insight insight : insightList){
             InsightDisplayModel insightDisplayModel = new InsightDisplayModel();
-            insightDisplayModel.setLastModified("lastModified " + insight.getLastModified());
-            insightDisplayModel.setTimeStamp("timeStamp " + insight.getTimeStamp());
-            insightDisplayModel.setRuleID("ruleID " + insight.getRuleId());
-            insightDisplayModel.setMomentType("momentType " + insight.getType());
+            insightDisplayModel.setLastModified(insight.getLastModified());
+            insightDisplayModel.setTimeStamp(insight.getTimeStamp());
+            insightDisplayModel.setRuleID(insight.getRuleId());
+            insightDisplayModel.setMomentType(insight.getType());
             mInsightDisplayModelList.add(insightDisplayModel);
         }
     }
