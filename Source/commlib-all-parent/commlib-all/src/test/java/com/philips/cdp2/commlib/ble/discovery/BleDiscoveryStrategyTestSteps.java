@@ -50,13 +50,14 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class BleDiscoveryStrategyTestSteps {
-
+    private static final int TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS = 100;
     private CommCentral commCentral;
 
     @Mock
@@ -166,9 +167,10 @@ public class BleDiscoveryStrategyTestSteps {
         }
     }
 
+    //TODO: Check with Peter F. whether there is a better method iso timeout(), to improve stability
     @Then("^startScanning is called (\\d+) time on BlueLib$")
     public void startscanningIsCalledTimeOnBlueLib(int times) {
-        verify(deviceScanner, times(times)).startScanning(any(SHNDeviceScanner.SHNDeviceScannerListener.class), any(SHNDeviceScanner.ScannerSettingDuplicates.class), anyLong());
+        verify(deviceScanner, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS).times(times)).startScanning(any(SHNDeviceScanner.SHNDeviceScannerListener.class), any(SHNDeviceScanner.ScannerSettingDuplicates.class), anyLong());
     }
 
     @When("^starting discovery for BLE appliances (\\d+) times$")
