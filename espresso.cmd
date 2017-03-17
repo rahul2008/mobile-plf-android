@@ -8,7 +8,7 @@ set error=%errorlevel%
 echo Killing ADB
 adb kill-server
 subst Z: /d
-if %error% eq 0 goto no_errors
+if %error% equ 0 goto no_errors
 echo Gradle error code: %error%
 exit /b %error%
 :no_errors
