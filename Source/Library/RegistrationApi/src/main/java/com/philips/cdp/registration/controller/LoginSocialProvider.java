@@ -97,7 +97,7 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
             String emailId = null;
             if (null != error.auth_info) {
                 JRDictionary profile = error.auth_info.getAsDictionary("profile");
-                emailId = profile.getAsString("email");
+               // emailId = profile.getAsString("email");
             }
             mMergeToken = error.captureApiError.getMergeToken();
             final String existingProvider = error.captureApiError
