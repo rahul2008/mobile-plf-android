@@ -8,9 +8,10 @@ package philips.app.sample;
 import android.content.Context;
 
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.samplemicroapp.SampleAppDependencies;
-import com.philips.platform.samplemicroapp.SampleAppInterface;
-import com.philips.platform.samplemicroapp.SampleAppSettings;
+import com.philips.platform.samplemicroapp.SampleMicroAppDependencies;
+import com.philips.platform.samplemicroapp.SampleMicroAppInterface;
+import com.philips.platform.samplemicroapp.SampleMicroAppLaunchInput;
+import com.philips.platform.samplemicroapp.SampleMicroAppSettings;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
@@ -31,10 +32,10 @@ public class SampleState extends BaseState {
     public void navigate(UiLauncher uiLauncher) {
         FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
         AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) fragmentLauncher.getFragmentActivity().getApplicationContext();
-        SampleAppDependencies sampleAppDependencies = new SampleAppDependencies(appFrameworkApplication.getAppInfra());
-        SampleAppInterface sampleAppInterface = new SampleAppInterface();
-        sampleAppInterface.init(sampleAppDependencies, new SampleAppSettings(fragmentLauncher.getFragmentActivity()));
-        sampleAppInterface.launch(uiLauncher, null);
+        SampleMicroAppDependencies sampleMicroAppDependencies = new SampleMicroAppDependencies(appFrameworkApplication.getAppInfra());
+        SampleMicroAppInterface sampleMicroAppInterface = new SampleMicroAppInterface();
+        sampleMicroAppInterface.init(sampleMicroAppDependencies, new SampleMicroAppSettings(fragmentLauncher.getFragmentActivity()));
+        sampleMicroAppInterface.launch(uiLauncher, new SampleMicroAppLaunchInput("Welcome to Sample micro app"));
     }
 
     @Override

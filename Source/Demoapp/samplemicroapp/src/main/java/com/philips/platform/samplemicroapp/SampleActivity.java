@@ -18,6 +18,8 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 
 import microapp.com.samplemicroapp.R;
 
+import static com.philips.platform.samplemicroapp.SampleMicroAppInterface.WELCOME_MESSAGE;
+
 
 public class SampleActivity extends AppCompatActivity {
 
@@ -33,13 +35,18 @@ public class SampleActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
             SampleFragment sampleFragment = new SampleFragment();
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                String message = extras.getString(WELCOME_MESSAGE);
+                Bundle bundle = new Bundle();
+                bundle.putString(WELCOME_MESSAGE, message);
+                sampleFragment.setArguments(bundle);
+            }
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.parent_layout, sampleFragment);
             fragmentTransaction.commitAllowingStateLoss();
         }
     }
-
-
 
     private void initCustomActionBar() {
         ActionBar mActionBar = this.getSupportActionBar();
