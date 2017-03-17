@@ -5,6 +5,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.philips.platform.core.datatypes.Insight;
+import com.philips.platform.core.datatypes.Moment;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import cdp.philips.com.mydemoapp.R;
@@ -36,6 +40,18 @@ public class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightH
     public int getItemCount() {
         return mInsightDisplayModelList.size();
     }
+
+    public void setInsightList(final ArrayList<? extends Insight> insightList) {
+        for(Insight insight : insightList){
+            InsightDisplayModel insightDisplayModel = new InsightDisplayModel();
+            insightDisplayModel.setLastModified("lastModified " + insight.getLastModified());
+            insightDisplayModel.setTimeStamp("timeStamp " + insight.getTimeStamp());
+            insightDisplayModel.setRuleID("ruleID " + insight.getRuleId());
+            insightDisplayModel.setMomentType("momentType " + insight.getType());
+            mInsightDisplayModelList.add(insightDisplayModel);
+        }
+    }
+
 
     public class InsightHolder extends RecyclerView.ViewHolder {
         TextView mLastModified;

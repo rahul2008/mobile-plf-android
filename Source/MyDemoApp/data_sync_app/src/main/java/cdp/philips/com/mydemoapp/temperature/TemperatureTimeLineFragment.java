@@ -39,6 +39,7 @@ import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.characteristics.CharacteristicsDialogFragment;
 import cdp.philips.com.mydemoapp.consents.ConsentDialogFragment;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
+import cdp.philips.com.mydemoapp.insights.InsightFragment;
 import cdp.philips.com.mydemoapp.reciever.BaseAppBroadcastReceiver;
 import cdp.philips.com.mydemoapp.registration.UserRegistrationInterfaceImpl;
 import cdp.philips.com.mydemoapp.settings.SettingsFragment;
@@ -51,7 +52,7 @@ import static android.content.Context.ALARM_SERVICE;
  * All rights reserved.
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBFetchRequestListner<Moment>,DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener{
+public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener {
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
@@ -68,7 +69,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     User mUser;
     Utility mUtility;
 
-    TextView mTvConsents, mTvCharacteristics , mTvSettings;
+    TextView mTvConsents, mTvCharacteristics, mTvSettings, mTvInsights;
 
 
     @Override
@@ -168,11 +169,13 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mAddButton.setOnClickListener(this);
         mTvConsents = (TextView) view.findViewById(R.id.tv_set_consents);
         mTvCharacteristics = (TextView) view.findViewById(R.id.tv_set_characteristics);
-        mTvSettings= (TextView) view.findViewById(R.id.tv_settings);
+        mTvSettings = (TextView) view.findViewById(R.id.tv_settings);
+        mTvInsights = (TextView)view.findViewById(R.id.tv_insights);
 
         mTvConsents.setOnClickListener(this);
         mTvCharacteristics.setOnClickListener(this);
         mTvSettings.setOnClickListener(this);
+        mTvInsights.setOnClickListener(this);
         return view;
     }
 
@@ -228,6 +231,9 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 characteristicsDialogFragment.show(getFragmentManager(), "Character");
 
                 break;
+            case R.id.tv_insights:
+                InsightFragment insightFragment = new InsightFragment();
+                insightFragment.show(getFragmentManager(), "Insight");
         }
     }
 
@@ -259,7 +265,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 if (mSharedPreferences.getBoolean("isSynced", false)) {
                     dismissProgressDialog();
                 }
-               // dismissProgressDialog();
+                // dismissProgressDialog();
             }
         });
     }
@@ -295,7 +301,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void dBChangeSuccess(SyncType type) {
         DSLog.i(DSLog.LOG, "In Temperature TimeLine Fragment DB OnSuccess");
-        if(type!=SyncType.MOMENT)return;
+        if (type != SyncType.MOMENT) return;
         if (getActivity() == null) return;
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -328,14 +334,14 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                     dismissProgressDialog();
                 }
                 //dismissProgressDialog();
-               // Toast.makeText(getActivity(), "Exception :" + exception.getMessage(), Toast.LENGTH_LONG).show();
+                // Toast.makeText(getActivity(), "Exception :" + exception.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    private void showToastOnUiThread(final String msg){
+    private void showToastOnUiThread(final String msg) {
 
-        if(getActivity() == null) return;
+        if (getActivity() == null) return;
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -346,7 +352,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void onFetchSuccess(final List<? extends Moment> data) {
-        DSLog.i(DSLog.LOG,"On Sucess ArrayList TemperatureTimeLineFragment");
+        DSLog.i(DSLog.LOG, "On Sucess ArrayList TemperatureTimeLineFragment");
         if (getActivity() == null) return;
 
         getActivity().runOnUiThread(new Runnable() {
@@ -357,9 +363,9 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 mAdapter.setData(mData);
                 mAdapter.notifyDataSetChanged();
 
-                if (mDataServicesManager.getSyncTypes()!=null && mDataServicesManager.getSyncTypes().size()<=0) {
+                if (mDataServicesManager.getSyncTypes() != null && mDataServicesManager.getSyncTypes().size() <= 0) {
                     dismissProgressDialog();
-                    Toast.makeText(getContext(),"No Sync Types Configured",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "No Sync Types Configured", Toast.LENGTH_LONG).show();
                     return;
                 }
 
