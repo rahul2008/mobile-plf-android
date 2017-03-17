@@ -21,7 +21,7 @@ def isJobStartedByTimer() {
     return startedByTimer
 }
 
-if (env.BRANCH_NAME == "feature/upload_artifacts") {
+if (env.BRANCH_NAME == "develop") {
     triggers << cron('H H(18-20) * * *')
 }
 

@@ -1,3 +1,1 @@
-//include ':uikitLib'
-rootProject.setName 'uid-android'
-include ':uid'
+include ':uikitLib'
