@@ -31,35 +31,40 @@ public class InsightConverter {
     @NonNull
     public List<Insight> convertToAppInsights(@NonNull final UCoreInsightList uCoreInsights) {
 
-        List<UCoreInsight> uCoreInsightList = uCoreInsights.getUCoreInsights();
+        List<UCoreInsight> uCoreInsightList = uCoreInsights.getInsights();
         List<Insight> appInsightList = new ArrayList<>();
 
+        if (uCoreInsightList != null && uCoreInsightList.size() > 0) {
 
-        for (UCoreInsight uCoreInsight : uCoreInsightList) {
+            for (UCoreInsight uCoreInsight : uCoreInsightList) {
 
-            Insight appInsight = dataCreator.createInsight();
-            appInsight.setGUId(uCoreInsight.getGuid());
-            appInsight.setLastModified(uCoreInsight.getLastModified());
-            appInsight.setInactive(uCoreInsight.isInactive());
-            appInsight.setVersion(uCoreInsight.getVersion());
-            appInsight.setRuleId(uCoreInsight.getRuleId());
-            appInsight.setSubjectId(uCoreInsight.getSubjectId());
-            appInsight.setMomentId(uCoreInsight.getMomentId());
-            appInsight.setType(uCoreInsight.getType());
-            appInsight.setTimeStamp(uCoreInsight.getTimeStamp());
-            appInsight.setTitle(uCoreInsight.getTitle());
-            appInsight.setProgram_maxVersion(uCoreInsight.getProgram_maxversion());
-            appInsight.setProgram_minVersion(uCoreInsight.getProgram_minversion());
+                Insight appInsight = dataCreator.createInsight();
+                appInsight.setGUId(uCoreInsight.getGuid());
+                appInsight.setLastModified(uCoreInsight.getLastModified());
+                appInsight.setInactive(uCoreInsight.isInactive());
+                appInsight.setVersion(uCoreInsight.getVersion());
+                appInsight.setRuleId(uCoreInsight.getRuleId());
+                appInsight.setSubjectId(uCoreInsight.getSubjectId());
+                appInsight.setMomentId(uCoreInsight.getMomentId());
+                appInsight.setType(uCoreInsight.getType());
+                appInsight.setTimeStamp(uCoreInsight.getTimeStamp());
+                appInsight.setTitle(uCoreInsight.getTitle());
+                appInsight.setProgram_maxVersion(uCoreInsight.getProgram_maxversion());
+                appInsight.setProgram_minVersion(uCoreInsight.getProgram_minversion());
 
-            Map<String, String> metadataMap = uCoreInsight.getMetadata();
-            for (Map.Entry<String, String> entry : metadataMap.entrySet()) {
-                String key = entry.getKey();
-                String value = entry.getValue();
-                InsightMetadata insightMetadata = dataCreator.createInsightMetaData(key, value, appInsight);
-                appInsight.addInsightMetaData(insightMetadata);
+                Map<String, String> metadataMap = uCoreInsight.getMetadata();
+
+                if (metadataMap != null && metadataMap.size() > 0) {
+                    for (Map.Entry<String, String> entry : metadataMap.entrySet()) {
+                        String key = entry.getKey();
+                        String value = entry.getValue();
+                        InsightMetadata insightMetadata = dataCreator.createInsightMetaData(key, value, appInsight);
+                        appInsight.addInsightMetaData(insightMetadata);
+                    }
+                }
+
+                appInsightList.add(appInsight);
             }
-
-            appInsightList.add(appInsight);
         }
 
         return appInsightList;
@@ -98,7 +103,7 @@ public class InsightConverter {
             uCoreInsights.add(uCoreInsight);
         }
 
-        uCoreInsightList.setUCoreInsights(uCoreInsights);
+        uCoreInsightList.setInsights(uCoreInsights);
         return uCoreInsightList;
     }
 

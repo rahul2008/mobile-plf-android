@@ -74,7 +74,7 @@ public class UCoreAdapter {
         String baseUrl = null;
         if (userRegistrationImpl != null) {
             if (clientClass == InsightClient.class)
-                baseUrl = "https://ugrow-cs-staging.eu-west.philips-healthsuite.com/";
+                baseUrl = "https://platforminfra-cs-platforminfrastaging.cloud.pcftest.com/";
             else
                 baseUrl = userRegistrationImpl.getHSDPUrl();
         }
