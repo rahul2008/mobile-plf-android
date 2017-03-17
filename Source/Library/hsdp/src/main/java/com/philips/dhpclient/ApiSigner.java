@@ -5,4 +5,13 @@ import java.util.Map;
 public interface ApiSigner {
 
     String createHeader(String httpMethod, String queryParams, Map<String, String> headers, String url, String body);
+
+    class Get {
+        public static ApiSigner signer(String signingKey, String signingSecret) {
+            if(signingSecret.length() == 128) {
+                return new HSDPApiSigner(signingKey, signingSecret);
+            }
+            return new DhpApiSigner(signingKey, signingSecret);
+        }
+    }
 }

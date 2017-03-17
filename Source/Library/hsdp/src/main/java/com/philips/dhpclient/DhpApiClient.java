@@ -58,7 +58,7 @@ public class DhpApiClient {
 
         apiBaseUrl = dhpApiClientConfiguration.getApiBaseUrl();
         dhpApplicationName = dhpApiClientConfiguration.getDhpApplicationName();
-        apiSigner = getApiSigner(dhpApiClientConfiguration.getSigningKey(), dhpApiClientConfiguration.getSigningSecret());
+        apiSigner = ApiSigner.Get.signer(dhpApiClientConfiguration.getSigningKey(), dhpApiClientConfiguration.getSigningSecret());
     }
 
     protected DhpResponse sendSignedRequest(String httpMethod, String apiEndpoint, String queryParams, Map<String, String> headers, Object body) {
@@ -206,12 +206,5 @@ public class DhpApiClient {
 
     public void setResponseVerifier(DhpResponseVerifier responseVerifier) {
         this.responseVerifier = responseVerifier;
-    }
-
-    private ApiSigner getApiSigner(String signingKey, String signingSecret) {
-        if(signingSecret.length() == 128) {
-            return new HSDPApiSigner(signingKey, signingSecret);
-        }
-        return new DhpApiSigner(signingKey, signingSecret);
     }
 }
