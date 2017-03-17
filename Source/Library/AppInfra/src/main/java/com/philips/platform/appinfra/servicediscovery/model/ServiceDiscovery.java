@@ -209,7 +209,7 @@ public class ServiceDiscovery {
 						if (deviceLocale.equals(resLocale)) {
 							matchByCountry.setLocale(resLocale);
 							return resultsJSONArray.getJSONObject(j).optJSONArray("configs");
-						} else if (deviceLocale.substring(0, 2).equals(resLocale.substring(0, 2))) { // comparing the language part of the locale
+						} else if (deviceLocale.substring(0, 2).intern().equals(resLocale.substring(0, 2).intern())) { // comparing the language part of the locale
 							matchByCountry.setLocale(resLocale);
 							return resultsJSONArray.getJSONObject(j).optJSONArray("configs");
 						}

@@ -337,7 +337,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 				break;
 		}
 		if (sector != null && micrositeid != null &&
-				localManager.getUILocale() != null && appState != null) {
+				locale != null && appState != null) {
 
 			url = "https://" + environment + "/api/v1/discovery/" + sector
 					+ "/" + micrositeid + "?locale=" +
