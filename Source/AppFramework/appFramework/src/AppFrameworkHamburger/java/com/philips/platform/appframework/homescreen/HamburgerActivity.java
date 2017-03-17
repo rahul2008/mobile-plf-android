@@ -58,7 +58,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
     private NavigationView navigationView;
     private Toolbar toolbar;
     private ImageView footerView;
-    private HamburgerAdapter adapter;
+    public HamburgerAdapter adapter;
     private ImageView hamburgerIcon;
     private FrameLayout hamburgerClick = null;//shoppingCartLayout;
     private UserRegistrationState userRegistrationState;

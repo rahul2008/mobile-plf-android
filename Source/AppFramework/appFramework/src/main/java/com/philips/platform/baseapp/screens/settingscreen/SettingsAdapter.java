@@ -24,6 +24,7 @@ import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.cdp.uikit.customviews.UIKitButton;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -298,7 +299,9 @@ public class SettingsAdapter extends BaseAdapter {
                                     public void onLogoutSuccess() {
                                         //    ((AppFrameworkBaseActivity)activityContext).setCartItemCount(0);
                                         progressDialog.cancel();
+                                        ((HamburgerActivity)activityContext).adapter.setSelectedIndex(0);
                                         fragmentPresenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
+
                                     }
 
                                     @Override
