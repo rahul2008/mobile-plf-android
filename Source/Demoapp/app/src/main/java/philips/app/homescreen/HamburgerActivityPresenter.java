@@ -36,6 +36,7 @@ public class HamburgerActivityPresenter extends UIBasePresenter {
     private FragmentView fragmentView;
     private FragmentLauncher fragmentLauncher;
     private BaseState baseState;
+    private final int SAMPLE = 2;
 
     public HamburgerActivityPresenter(final FragmentView fragmentView) {
         super(fragmentView);
@@ -87,6 +88,8 @@ public class HamburgerActivityPresenter extends UIBasePresenter {
                 return HOME_FRAGMENT;
             case MENU_OPTION_ABOUT:
                 return HOME_ABOUT;
+            case SAMPLE:
+                return "sample";
             // Commented as part of Plan A removal.
            /* case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
                 return SHOPPING_CART;*/

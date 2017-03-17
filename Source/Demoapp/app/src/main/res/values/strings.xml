@@ -52,6 +52,7 @@
     <string-array name="hamburger_drawer_items">
         <item>Home</item>
         <item>About</item>
+        <item>Sample</item>
     </string-array>
 
     <!--<array name="hamburger_drawer_icons">-->

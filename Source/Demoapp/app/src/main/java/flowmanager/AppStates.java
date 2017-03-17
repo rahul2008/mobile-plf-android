@@ -16,5 +16,5 @@ public class AppStates {
     public static final String HAMBURGER_HOME = "home";
 
 
-
+    public static String SAMPLE = "sample";
 }
