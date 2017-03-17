@@ -250,7 +250,7 @@ public class Capture {
         c.addAllToParams("client_id", getCaptureClientId(),
                 "locale", Jump.getCaptureLocale(),
                 "response_type", Jump.getResponseType(),
-                "redirect_uri", Jump.getRedirectUri(),
+                "redirect_uri", Jump.getRecoverUri(),
                 CaptureFlowUtils.getUserIdFieldName(Jump.getCaptureForgotPasswordFormName(),
                         Jump.getCaptureFlow()),  emailAddress
 
