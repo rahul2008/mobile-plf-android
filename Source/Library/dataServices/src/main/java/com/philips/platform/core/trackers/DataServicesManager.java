@@ -62,7 +62,6 @@ import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import org.greenrobot.eventbus.EventBus;
-import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -221,7 +220,7 @@ public class DataServicesManager {
     public Measurement createMeasurement(@NonNull final String type, String value, String unit, @NonNull final MeasurementGroup measurementGroup) {
         Measurement measurement = mDataCreater.createMeasurement(type, measurementGroup);
         measurement.setValue(value);
-        measurement.setDateTime(DateTime.now());
+      //  measurement.setDateTime(DateTime.now());
         measurement.setUnit(unit);
         measurementGroup.addMeasurement(measurement);
         return measurement;

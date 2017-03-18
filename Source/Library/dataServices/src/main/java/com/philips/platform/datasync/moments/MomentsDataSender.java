@@ -11,8 +11,6 @@ import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SynchronisationData;
-import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
-import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
@@ -25,7 +23,6 @@ import com.philips.platform.datasync.synchronisation.DataSender;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import java.net.HttpURLConnection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -122,12 +119,15 @@ public class MomentsDataSender extends DataSender {
     }
 
     private boolean sendMomentToBackend(MomentsClient client, final Moment moment) {
-        DSLog.i(DSLog.LOG,"MomentsDataSender sendMomentToBackend and moment = " + moment.toString());
+        DSLog.i(DSLog.LOG,"MomentsDataSender sendDataToBackend");
         if (shouldCreateMoment(moment)) {
+            DSLog.i(DSLog.LOG,"MomentsDataSender CREATE");
             return createMoment(client, moment);
         } else if(shouldDeleteMoment(moment)) {
+            DSLog.i(DSLog.LOG,"MomentsDataSender DELETE");
             return deleteMoment(client, moment);
         } else {
+            DSLog.i(DSLog.LOG,"MomentsDataSender UPDATE");
             return updateMoment(client, moment);
         }
     }

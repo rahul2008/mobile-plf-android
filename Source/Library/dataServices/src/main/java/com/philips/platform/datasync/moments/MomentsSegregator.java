@@ -1,7 +1,5 @@
 package com.philips.platform.datasync.moments;
 
-import android.util.Log;
-
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
@@ -168,11 +166,11 @@ public class MomentsSegregator {
                                      final Moment ormMoment,DBRequestListener dbRequestListener) throws SQLException {
 
         if (momentInDatabase != null) {
-            //ormMoment.setId(momentInDatabase.getId());
-            updatingInterface.updateMoment(ormMoment,null);
-            return;
+            ormMoment.setId(momentInDatabase.getId());
+            //updatingInterface.updateMoment(ormMoment,null);
+            //return;
         }
-      //  deleteMeasurementAndMomentDetailsAndSetId(momentInDatabase,ormMoment,dbRequestListener);
+        deleteMeasurementAndMomentDetailsAndSetId(momentInDatabase,ormMoment,dbRequestListener);
         dbSavingInterface.saveMoment(ormMoment,dbRequestListener);
     }
 
@@ -189,7 +187,7 @@ public class MomentsSegregator {
         for (final Moment moment : moments) {
                 moment.setSynced(true);
             try {
-                updatingInterface.updateMoment(moment,dbRequestListener);
+                dbSavingInterface.saveMoment(moment,dbRequestListener);
             } catch (SQLException e) {
                 updatingInterface.updateFailed(e,dbRequestListener);
                 e.printStackTrace();
