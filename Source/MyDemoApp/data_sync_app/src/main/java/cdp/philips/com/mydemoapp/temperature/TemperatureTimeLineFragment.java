@@ -395,10 +395,19 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void setProgressBarVisibility(final boolean isVisible) {
-        if (isVisible) {
-            fetchUpdateFromDbProgressBar.setVisibility(View.VISIBLE);
-        } else {
-            fetchUpdateFromDbProgressBar.setVisibility(View.GONE);
-        }
+
+        if(getActivity()==null)
+            return;
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (isVisible) {
+                    fetchUpdateFromDbProgressBar.setVisibility(View.VISIBLE);
+                } else {
+                    fetchUpdateFromDbProgressBar.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 }
