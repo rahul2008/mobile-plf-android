@@ -137,15 +137,11 @@ public class ConsentsDataFetcher extends DataFetcher {
 
                 if(appConsentDetails!=null) {
                     eventing.post(new ConsentBackendSaveResponse(appConsentDetails, HttpURLConnection.HTTP_OK, null));
-                }else {
-                    eventing.post(new ConsentBackendSaveResponse(null, HttpURLConnection.HTTP_OK, null));
                 }
-            } else {
-                eventing.post(new ConsentBackendSaveResponse(null, HttpURLConnection.HTTP_OK, null));
             }
         } catch (RetrofitError ex) {
-            onError(ex);
             eventing.post(new BackendDataRequestFailed(ex));
+            onError(ex);
 
         }
     }
@@ -158,12 +154,12 @@ public class ConsentsDataFetcher extends DataFetcher {
         return false;
     }
 
-    private void postError(int referenceId, final RetrofitError error) {
+    void postError(int referenceId, final RetrofitError error) {
         DSLog.i("***SPO***", "Error In ConsentsMonitor - posterror");
         eventing.post(new BackendResponse(referenceId, error));
     }
 
-    private RetrofitError getNonLoggedInError() {
+    RetrofitError getNonLoggedInError() {
         return RetrofitError.unexpectedError("", new IllegalStateException("you're not logged in"));
     }
 

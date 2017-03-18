@@ -26,6 +26,8 @@ import org.mockito.Mock;
 import org.robolectric.RuntimeEnvironment;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.Executor;
 
 import static org.mockito.Mockito.atLeastOnce;
@@ -95,6 +97,14 @@ public class DataPushSynchroniseTest {
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
         errorHandlerImpl = new ErrorHandlerImplTest();
         DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        Set set=new HashSet();
+        set.add("moment");
+        set.add("Settings");
+        set.add("characteristics");
+        set.add("consent");
+
+        DataServicesManager.getInstance().configureSyncDataType(set);
+
         dataPushSynchronise = new DataPushSynchronise(Arrays.asList(firstDataSenderMock, secondDataSenderMock));
         dataPushSynchronise.accessProvider = accessProviderMock;
         dataPushSynchronise.eventing = eventingMock;

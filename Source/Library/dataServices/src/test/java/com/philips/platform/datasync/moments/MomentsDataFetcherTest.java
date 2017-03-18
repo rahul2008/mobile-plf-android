@@ -43,6 +43,11 @@ public class MomentsDataFetcherTest {
     public static final String DATE_TIME = "TEST_DATE_TIME";
     private static final String TEST_MOMENT_SYNC_URL = "TEST_MOMENT_SYNC_URL";
 
+
+    private String TEST_ACCESS_TOKEN = "TEST_ACCESS_TOKEN";
+
+    private String TEST_USER_ID = "TEST_USER_ID";
+
     private MomentsDataFetcher fetcher;
 
     private UCoreMomentsHistory momentsHistory = new UCoreMomentsHistory();
@@ -52,6 +57,9 @@ public class MomentsDataFetcherTest {
 
     @Mock
     private Eventing eventingMock;
+
+    @Mock
+    private RetrofitError retrofitErrorMock;
 
     @Mock
     private MomentsConverter converterMock;

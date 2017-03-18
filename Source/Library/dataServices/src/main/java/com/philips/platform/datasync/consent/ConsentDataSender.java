@@ -47,6 +47,7 @@ public class ConsentDataSender extends DataSender {
 
     @NonNull
     private final ConsentsConverter consentsConverter;
+    ConsentsClient client;
 
 
     @Inject
@@ -77,9 +78,6 @@ public class ConsentDataSender extends DataSender {
 
     private void sendToBackend(List<ConsentDetail> consentDetails) {
 
-        if(consentDetails == null || consentDetails.isEmpty()){
-            return;
-        }
         if (isUserInvalid()) {
             postError(1, getNonLoggedInError());
             return;
@@ -87,7 +85,7 @@ public class ConsentDataSender extends DataSender {
         if (uCoreAccessProvider == null) {
             return;
         }
-        ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
+        client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
         try {
             List<UCoreConsentDetail> consentDetailList = consentsConverter.convertToUCoreConsentDetails(consentDetails);
 
@@ -111,12 +109,12 @@ public class ConsentDataSender extends DataSender {
         return false;
     }
 
-    private void postError(int referenceId, final RetrofitError error) {
+    void postError(int referenceId, final RetrofitError error) {
         DSLog.i("***SPO***", "Error In ConsentsMonitor - posterror");
         eventing.post(new BackendResponse(referenceId, error));
     }
 
-    private RetrofitError getNonLoggedInError() {
+    RetrofitError getNonLoggedInError() {
         return RetrofitError.unexpectedError("", new IllegalStateException("you're not logged in"));
     }
 

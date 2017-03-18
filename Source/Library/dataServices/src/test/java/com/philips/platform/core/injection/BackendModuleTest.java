@@ -8,6 +8,7 @@ import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
+import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.monitors.DBMonitors;
@@ -20,6 +21,7 @@ import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsFetcher;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsMonitor;
+import com.philips.platform.datasync.characteristics.UserCharacteristicsSegregator;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSender;
 import com.philips.platform.datasync.consent.ConsentDataSender;
 import com.philips.platform.datasync.consent.ConsentsDataFetcher;
@@ -32,10 +34,12 @@ import com.philips.platform.datasync.moments.MomentsSegregator;
 import com.philips.platform.datasync.settings.SettingsDataFetcher;
 import com.philips.platform.datasync.settings.SettingsDataSender;
 import com.philips.platform.datasync.settings.SettingsMonitor;
+import com.philips.platform.datasync.settings.SettingsSegregator;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
 import com.philips.platform.datasync.synchronisation.DataSender;
+import com.philips.platform.datasync.synchronisation.SynchronisationManager;
 import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.philips.platform.verticals.VerticalCreater;
@@ -310,9 +314,37 @@ public class BackendModuleTest {
     }
 
     @Test
+    public void ShouldReturnEventing_WhenProvidesSettingsSegregaterIsCalled() throws Exception {
+        SettingsSegregator settingsSegregator = backendModule.providesSettingsSegregater();
+        assertThat(settingsSegregator).isNotNull();
+        assertThat(settingsSegregator).isInstanceOf(SettingsSegregator.class);
+    }
+
+    @Test
+    public void ShouldReturnEventing_WhenProvidesUserCharacteristicsSegregatorIsCalled() throws Exception {
+        UserCharacteristicsSegregator userCharacteristicsSegregator = backendModule.providesUserCharacteristicsSegregator();
+        assertThat(userCharacteristicsSegregator).isNotNull();
+        assertThat(userCharacteristicsSegregator).isInstanceOf(UserCharacteristicsSegregator.class);
+    }
+
+    @Test
     public void ShouldReturnEventing_WhenProvidesConsentsSegregaterIsCalled() throws Exception {
         ConsentsSegregator consentsSegregator = backendModule.providesConsentsSegregater();
         assertThat(consentsSegregator).isNotNull();
         assertThat(consentsSegregator).isInstanceOf(ConsentsSegregator.class);
+    }
+
+    @Test
+    public void ShouldReturnEventing_WhenProvidesSavingImplementationIsCalled() throws Exception {
+        DBSavingInterface dbSavingInterface = backendModule.providesSavingImplementation();
+        assertThat(dbSavingInterface).isNotNull();
+        assertThat(dbSavingInterface).isInstanceOf(DBSavingInterface.class);
+    }
+
+    @Test
+    public void ShouldReturnEventing_WhenProvidesSynchronisationManagerIsCalled() throws Exception {
+        SynchronisationManager synchronisationManager = backendModule.providesSynchronisationManager();
+        assertThat(synchronisationManager).isNotNull();
+        assertThat(synchronisationManager).isInstanceOf(SynchronisationManager.class);
     }
 }
