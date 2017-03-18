@@ -16,10 +16,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
+import com.philips.cdp.uikit.customviews.CircularProgressbar;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.core.datatypes.Moment;
@@ -44,14 +46,13 @@ import cdp.philips.com.mydemoapp.settings.SettingsFragment;
 import cdp.philips.com.mydemoapp.utility.Utility;
 
 import static android.content.Context.ALARM_SERVICE;
-import static com.janrain.android.engage.JREngage.getApplicationContext;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBFetchRequestListner<Moment>,DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener{
+public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBFetchRequestListner<Moment>,DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener, FetchUpdateListener{
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
@@ -69,6 +70,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     Utility mUtility;
 
     TextView mTvConsents, mTvCharacteristics , mTvSettings ,mTvLogout;
+    private ProgressBar fetchUpdateFromDbProgressBar;
 
 
     @Override
@@ -81,7 +83,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mTemperatureMomentHelper = new TemperatureMomentHelper();
         alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
         //EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
-        mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE, this);
+        mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE, this,this);
         mUtility = new Utility();
         mSharedPreferences = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
         mProgressBar = new ProgressDialog(getContext());
@@ -171,7 +173,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mTvCharacteristics = (TextView) view.findViewById(R.id.tv_set_characteristics);
         mTvSettings= (TextView) view.findViewById(R.id.tv_settings);
         mTvLogout= (TextView) view.findViewById(R.id.tv_logout);
-
+        fetchUpdateFromDbProgressBar = (CircularProgressbar) view.findViewById(R.id.settings_progress_bar);
         mTvConsents.setOnClickListener(this);
         mTvCharacteristics.setOnClickListener(this);
         mTvSettings.setOnClickListener(this);
@@ -389,5 +391,14 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         }
 
         return false;
+    }
+
+    @Override
+    public void setProgressBarVisibility(final boolean isVisible) {
+        if (isVisible) {
+            fetchUpdateFromDbProgressBar.setVisibility(View.VISIBLE);
+        } else {
+            fetchUpdateFromDbProgressBar.setVisibility(View.GONE);
+        }
     }
 }

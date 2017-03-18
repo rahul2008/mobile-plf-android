@@ -214,8 +214,13 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     public Object fetchMomentById(final int id, DBFetchRequestListner dbFetchRequestListner) throws SQLException {
         QueryBuilder<OrmMoment, Integer> momentQueryBuilder = momentDao.queryBuilder();
         momentQueryBuilder.where().eq("id", id);
+        Object object = momentQueryBuilder.queryForFirst();
+        List list = new ArrayList();
+        list.add(object);
 
-        return momentQueryBuilder.queryForFirst();
+        if (dbFetchRequestListner != null)
+            dbFetchRequestListner.onFetchSuccess(list);
+        return object;
     }
 
     public List<OrmMoment> getActiveMoments(final List<?> ormMoments, DBFetchRequestListner dbFetchRequestListner) {

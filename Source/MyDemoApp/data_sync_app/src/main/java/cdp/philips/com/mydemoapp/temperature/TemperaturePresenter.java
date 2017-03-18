@@ -59,12 +59,14 @@ public class TemperaturePresenter {
     private EditText mLocation;
     private EditText mPhase;
     private Button mDialogButton;
+    private FetchUpdateListener fetchUpdateListener;
 
-    TemperaturePresenter(Context context, String momentType, DBRequestListener dbRequestListener) {
+    TemperaturePresenter(Context context, String momentType, DBRequestListener dbRequestListener, FetchUpdateListener fetchUpdateListener) {
         mDataServices = DataServicesManager.getInstance();
         mMomentType = momentType;
         mContext = context;
         this.dbRequestListener = dbRequestListener;
+        this.fetchUpdateListener = fetchUpdateListener;
     }
 
     private Moment createMoment(String momemtDetail, String measurement, String measurementDetail) {
@@ -257,6 +259,13 @@ public class TemperaturePresenter {
                         break;
                     case UPDATE:
                         dialog.dismiss();
+
+                        if(moment.getSynchronisationData()==null){
+                            fetchUpdateListener.setProgressBarVisibility(true);
+                            getOrmMomentFromDB((OrmMoment)moment);
+                            return;
+                        }
+
                         updateMoment((OrmMoment) moment);
                         break;
                 }
@@ -269,6 +278,25 @@ public class TemperaturePresenter {
         textChageListener(mLocation);
 
         dialog.show();
+    }
+
+    private void getOrmMomentFromDB(final OrmMoment moment) {
+        DSLog.i(DSLog.LOG,"TemperaturePresenter - In getOrmMomentFromDB and the moment ID = " + moment.getId());
+        DataServicesManager.getInstance().fetchMomentForMomentID(moment.getId(), new DBFetchRequestListner() {
+            @Override
+            public void onFetchSuccess(final List data) {
+                DSLog.i(DSLog.LOG,"TemperaturePresenter - Fetch Success");
+                fetchUpdateListener.setProgressBarVisibility(false);
+                OrmMoment moment1 = (OrmMoment) data.get(0);
+                updateMoment(moment1);
+            }
+
+            @Override
+            public void onFetchFailure(final Exception exception) {
+                DSLog.i(DSLog.LOG,"TemperaturePresenter - Fetch Failed");
+                fetchUpdateListener.setProgressBarVisibility(false);
+            }
+        });
     }
 
     private void textChageListener(EditText editText) {
