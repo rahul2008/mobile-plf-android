@@ -247,8 +247,8 @@ dependencies {
     // DEBUG
     debugCompile 'com.facebook.stetho:stetho:1.2.0'
 
-    compile "com.j256.ormlite:ormlite-core:4.48"
-    compile "com.j256.ormlite:ormlite-android:4.48"
+    compile "com.j256.ormlite:ormlite-core:5.0"
+    compile "com.j256.ormlite:ormlite-android:5.0"
     compile "com.philips.cdp:registrationApi:8.4.5-SNAPSHOT.+"
     compile "com.philips.cdp:uikitLib:3.7.5-SNAPSHOT.+"
     //compile 'com.github.chrisbanes.actionbarpulltorefresh:library:+'
