@@ -177,10 +177,19 @@ public class TemperaturePresenter {
     private void removeMoment(TemperatureTimeLineFragmentcAdapter adapter,
                               final List<? extends Moment> data, int adapterPosition) {
         try {
-            mDataServices.deleteMoment(data.get(adapterPosition), dbRequestListener);
-            data.remove(adapterPosition);
+
+            Moment moment = data.get(adapterPosition);
+
+            if(moment.getSynchronisationData()==null){
+                fetchUpdateListener.setProgressBarVisibility(true);
+                getOrmMomentFromDB((OrmMoment)moment, DELETE);
+                return;
+            }
+
+            mDataServices.deleteMoment(moment, dbRequestListener);
+            /*data.remove(adapterPosition);
             adapter.notifyItemRemoved(adapterPosition);
-            adapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();*/
         } catch (ArrayIndexOutOfBoundsException e) {
             if (e.getMessage() != null) {
                 DSLog.i(DSLog.LOG, "e = " + e.getMessage());
@@ -262,7 +271,7 @@ public class TemperaturePresenter {
 
                         if(moment.getSynchronisationData()==null){
                             fetchUpdateListener.setProgressBarVisibility(true);
-                            getOrmMomentFromDB((OrmMoment)moment);
+                            getOrmMomentFromDB((OrmMoment)moment,UPDATE);
                             return;
                         }
 
@@ -280,7 +289,7 @@ public class TemperaturePresenter {
         dialog.show();
     }
 
-    private void getOrmMomentFromDB(final OrmMoment moment) {
+    private void getOrmMomentFromDB(final OrmMoment moment, final int deleteOrUpdate) {
         DSLog.i(DSLog.LOG,"TemperaturePresenter - In getOrmMomentFromDB and the moment ID = " + moment.getId());
         DataServicesManager.getInstance().fetchMomentForMomentID(moment.getId(), new DBFetchRequestListner() {
             @Override
@@ -288,7 +297,12 @@ public class TemperaturePresenter {
                 DSLog.i(DSLog.LOG,"TemperaturePresenter - Fetch Success");
                 fetchUpdateListener.setProgressBarVisibility(false);
                 OrmMoment moment1 = (OrmMoment) data.get(0);
-                updateMoment(moment1);
+
+                if(deleteOrUpdate == DELETE){
+                    mDataServices.deleteMoment(moment1, dbRequestListener);
+                }else {
+                    updateMoment(moment1);
+                }
             }
 
             @Override

@@ -3,7 +3,6 @@ package com.philips.platform.core.monitors;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
-import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.events.Event;
@@ -14,14 +13,11 @@ import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
-import com.philips.platform.core.events.LoadTimelineEntryRequest;
 import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
-import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.consent.ConsentsSegregator;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 import com.philips.platform.datasync.settings.SettingsSegregator;
@@ -34,7 +30,6 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -121,7 +116,7 @@ public class FetchingMonitorTest {
         fetchingMonitor.start(eventingMock);
     }
 
-    @Test
+/*    @Test
     public void ShouldFetchMomentsInsightsAndBabyProfile_WhenLoadTimelineEntryRequestIsReceived() throws Exception {
         fetchingMonitor.onEventAsync(new LoadTimelineEntryRequest(dbFetchRequestListner));
 
@@ -129,13 +124,13 @@ public class FetchingMonitorTest {
 //        verify(fetching).fetchConsentDetails();
         //      verify(fetching).fetchConsentDetails();
         //    verify(fetching).fetchNonSynchronizedMoments();
-    }
+    }*/
 
-    @Test
+   /* @Test
     public void ShouldThrowException_FetchingMoments() throws Exception {
         fetchingMonitor.onEventAsync(new LoadTimelineEntryRequest(dbFetchRequestListner));
         verify(fetching).fetchMoments(dbFetchRequestListner);
-    }
+    }*/
 
     @Test
     public void fetchingMomentsLoadLastMomentRequest() throws Exception {
@@ -193,12 +188,12 @@ public class FetchingMonitorTest {
         eventingMock.post(new GetNonSynchronizedDataResponse(1, dataToSync));
     }
 
-    @Test
+/*    @Test
     public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchMoments() throws Exception {
         doThrow(SQLException.class).when(fetching).fetchMoments(dbFetchRequestListner);
         fetchingMonitor.onEventAsync(new LoadTimelineEntryRequest(dbFetchRequestListner));
         verify(fetching).fetchMoments(dbFetchRequestListner);
-    }
+    }*/
 
     @Test
     public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchLastMoment() throws Exception {
