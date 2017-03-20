@@ -138,8 +138,6 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
     private void clearData() {
         HsdpUser hsdpUser = new HsdpUser(mContext);
         hsdpUser.deleteFromDisk();
-        mContext.deleteFile(RegConstants.DI_PROFILE_FILE);
-        Jump.getSecureStorageInterface().removeValueForKey(RegConstants.DI_PROFILE_FILE);
         if (JRSession.getInstance() != null) {
             JRSession.getInstance().signOutAllAuthenticatedUsers();
         }

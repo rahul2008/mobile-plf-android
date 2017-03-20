@@ -237,8 +237,6 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     private void clearData() {
         HsdpUser hsdpUser = new HsdpUser(mContext);
         hsdpUser.deleteFromDisk();
-        mContext.deleteFile(RegConstants.DI_PROFILE_FILE);
-        Jump.getSecureStorageInterface().removeValueForKey(RegConstants.DI_PROFILE_FILE);
         if (JRSession.getInstance() != null) {
             JRSession.getInstance().signOutAllAuthenticatedUsers();
         }
@@ -505,7 +503,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
             user.refreshLoginSession(new RefreshLoginSessionHandler() {
                 @Override
                 public void onRefreshLoginSessionSuccess() {
-                    showToast("Success to refresh access token"+user.getHsdpAccessToken());
+                    showToast("Success to refresh access token"+user.getAccessToken());
                 }
 
                 @Override
