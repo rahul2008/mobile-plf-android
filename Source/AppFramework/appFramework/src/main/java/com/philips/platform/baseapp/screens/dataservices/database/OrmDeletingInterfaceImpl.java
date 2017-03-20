@@ -68,7 +68,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         for(Moment moment : moments){
             markAsInActive(moment,dbRequestListener);
         }
-        notifyDBRequestListener.notifySuccess(dbRequestListener , SyncType.MOMENT);
+        notifyDBRequestListener.notifySuccess(dbRequestListener ,SyncType.MOMENT);
     }
 
     @Override

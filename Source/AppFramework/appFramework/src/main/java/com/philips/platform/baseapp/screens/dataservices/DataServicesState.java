@@ -108,7 +108,7 @@ public class DataServicesState extends BaseState {
     }
 
     void injectDBInterfacesToCore(Context context) {
-        final DatabaseHelper databaseHelper = new DatabaseHelper(context, new UuidGenerator());
+        final DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
         try {
             Dao<OrmMoment, Integer> momentDao = databaseHelper.getMomentDao();
             Dao<OrmMomentDetail, Integer> momentDetailDao = databaseHelper.getMomentDetailDao();

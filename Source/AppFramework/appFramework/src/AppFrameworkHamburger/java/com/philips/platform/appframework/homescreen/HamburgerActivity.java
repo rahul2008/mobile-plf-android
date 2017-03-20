@@ -278,7 +278,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
     protected void onResume() {
         super.onResume();
         userRegistrationState = new UserRegistrationSettingsState();
-        if(userRegistrationState.getUserObject(this).isUserSignIn()){
+       if(userRegistrationState.getUserObject(this).isUserSignIn()){
            // addIapCartCount();
         }
 

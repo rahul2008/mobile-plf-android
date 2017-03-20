@@ -15,9 +15,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.utils.RowItem;
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
+import com.philips.platform.baseapp.screens.dataservices.database.DatabaseHelper;
 import com.philips.platform.baseapp.screens.dataservices.database.EmptyForeignCollection;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MeasurementDetailType;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MeasurementGroupDetailType;
@@ -25,6 +28,7 @@ import com.philips.platform.baseapp.screens.dataservices.database.datatypes.Meas
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentDetailType;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentType;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMoment;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynchronisationData;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
@@ -37,6 +41,7 @@ import com.philips.platform.core.utils.DSLog;
 
 import org.joda.time.DateTime;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -120,15 +125,15 @@ public class TemperaturePresenter {
             Toast.makeText(mContext, "Please Login again", Toast.LENGTH_SHORT).show();
         } else {
 
-       /*     List<Moment> moments=new ArrayList<>();
+            List<Moment> moments = new ArrayList<>();
 
             moments.add(moment);
             //moments.add(moment);
             //moments.add(moment);
             //moments.add(moment);
-            //moments.add(moment);*/
+            //moments.add(moment);
 
-            mDataServices.saveMoment(moment, dbRequestListener);
+            mDataServices.saveMoments(moments, dbRequestListener);
         }
     }
 
@@ -175,14 +180,21 @@ public class TemperaturePresenter {
     private void removeMoment(TemperatureTimeLineFragmentcAdapter adapter,
                               final List<? extends Moment> data, int adapterPosition) {
         try {
-            mDataServices.deleteMoment(data.get(adapterPosition), dbRequestListener);
-            /*data.remove(adapterPosition);
-            adapter.notifyItemRemoved(adapterPosition);
-            adapter.notifyDataSetChanged();*/
+            Moment moment = data.get(adapterPosition);
+            Dao<OrmSynchronisationData, Integer> ormSynchronisationDataDao = DatabaseHelper.getInstance(mContext).getSynchronisationDataDao();
+            ormSynchronisationDataDao.refresh((OrmSynchronisationData) moment.getSynchronisationData());
+
+            Dao<OrmMoment, Integer> momentDao = DatabaseHelper.getInstance(mContext).getMomentDao();
+            momentDao.refresh((OrmMoment) moment);
+
+            mDataServices.deleteMoment(moment, dbRequestListener);
+
         } catch (ArrayIndexOutOfBoundsException e) {
             if (e.getMessage() != null) {
                 DSLog.i(DSLog.LOG, "e = " + e.getMessage());
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -257,10 +269,18 @@ public class TemperaturePresenter {
                         break;
                     case UPDATE:
                         dialog.dismiss();
+
+                        try {
+                            Dao<OrmSynchronisationData, Integer> ormSynchronisationDataDao = DatabaseHelper.getInstance(mContext).getSynchronisationDataDao();
+                            ormSynchronisationDataDao.refresh((OrmSynchronisationData) moment.getSynchronisationData());
+                            Dao<OrmMoment, Integer> momentDao = DatabaseHelper.getInstance(mContext).getMomentDao();
+                            momentDao.refresh((OrmMoment) moment);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
                         updateMoment((OrmMoment) moment);
                         break;
                 }
-
             }
         });
 
@@ -310,6 +330,4 @@ public class TemperaturePresenter {
             return false;
         }
     }
-
-
 }
