@@ -20,7 +20,7 @@ import com.philips.platform.core.events.SettingsBackendSaveRequest;
 import com.philips.platform.core.events.SettingsBackendSaveResponse;
 import com.philips.platform.core.events.SyncBitUpdateRequest;
 import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
-import com.philips.platform.core.events.UpdateInsightsBackendResponse;
+import com.philips.platform.core.events.FetchInsightsResponse;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -219,7 +219,7 @@ public class UpdatingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void onEventAsync(final UpdateInsightsBackendResponse updateInsightsBackendResponse) throws SQLException {
+    public void onEventAsync(final FetchInsightsResponse updateInsightsBackendResponse) throws SQLException {
         try {
             insightSegregator.processInsights(updateInsightsBackendResponse.getInsights(), updateInsightsBackendResponse.getDbRequestListener());
             notifyDBChangeSuccess(SyncType.INSIGHT);

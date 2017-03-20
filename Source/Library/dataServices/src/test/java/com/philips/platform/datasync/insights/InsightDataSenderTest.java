@@ -5,8 +5,7 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.BaseAppData;
 import com.philips.platform.core.datatypes.Insight;
-import com.philips.platform.core.events.InsightBackendDeleteRequest;
-import com.philips.platform.core.events.InsightBackendGetRequest;
+import com.philips.platform.core.events.DeleteInsightRequest;
 import com.philips.platform.core.events.ListEvent;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -14,7 +13,6 @@ import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataSender;
 
-import org.joda.time.DateTime;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -28,7 +26,6 @@ import javax.inject.Inject;
 import retrofit.RetrofitError;
 import retrofit.converter.GsonConverter;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -78,7 +75,7 @@ public class InsightDataSenderTest {
 
 
     @Captor
-    private ArgumentCaptor<InsightBackendDeleteRequest> insightBackendDeleteRequestArgumentCaptor;
+    private ArgumentCaptor<DeleteInsightRequest> insightBackendDeleteRequestArgumentCaptor;
 
     @Mock
     private AppComponent appComponantMock;

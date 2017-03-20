@@ -11,13 +11,11 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
-import com.philips.platform.core.events.UpdateInsightsBackendResponse;
+import com.philips.platform.core.events.FetchInsightsResponse;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
-import com.philips.platform.datasync.synchronisation.DataSender;
 
 import org.joda.time.DateTime;
 
@@ -93,7 +91,7 @@ public class InsightDataFetcher extends DataFetcher {
             uCoreAccessProvider.saveLastSyncTimeStamp(insightList.getSyncurl(), UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY);
 
             List<Insight> insights = insightConverter.convertToAppInsights(insightList);
-            eventing.post(new UpdateInsightsBackendResponse(insights, null));
+            eventing.post(new FetchInsightsResponse(insights, null));
         } catch (RetrofitError retrofitError) {
             eventing.post(new BackendDataRequestFailed(retrofitError));
             System.out.println("***InsightList fetch error" + retrofitError.getMessage());

@@ -2,8 +2,8 @@ package com.philips.platform.datasync.insights;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.core.events.InsightBackendGetRequest;
-import com.philips.platform.core.events.InsightBackendDeleteRequest;
+import com.philips.platform.core.events.FetchInsightRequest;
+import com.philips.platform.core.events.DeleteInsightRequest;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -38,12 +38,12 @@ public class InsightMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void onEventAsync(InsightBackendDeleteRequest event) {
+    public void onEventAsync(DeleteInsightRequest event) {
         insightDataSender.sendDataToBackend(event.getInsights());
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void onEventAsync(InsightBackendGetRequest event) {
+    public void onEventAsync(FetchInsightRequest event) {
        insightDataFetcher.fetchDataSince(new DateTime());
     }
 }

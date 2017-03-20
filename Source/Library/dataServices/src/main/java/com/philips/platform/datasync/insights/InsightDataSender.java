@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.events.BackendResponse;
-import com.philips.platform.core.events.InsightBackendDeleteResponse;
+import com.philips.platform.core.events.DeleteInsightResponse;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
@@ -111,7 +111,7 @@ public class InsightDataSender extends DataSender {
     }
 
     private void postDeletedOk(final Insight insight) {
-        eventing.post(new InsightBackendDeleteResponse(insight, null));
+        eventing.post(new DeleteInsightResponse(insight, null));
     }
 
     private boolean isResponseSuccess(final Response response) {

@@ -7,8 +7,8 @@ package com.philips.platform.core.monitors;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
-import com.philips.platform.core.events.InsightBackendDeleteResponse;
-import com.philips.platform.core.events.InsightDeleteDBRequest;
+import com.philips.platform.core.events.DeleteInsightResponse;
+import com.philips.platform.core.events.DeleteInsightFromDB;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentsDeleteRequest;
@@ -89,7 +89,7 @@ public class DeletingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventAsync(InsightDeleteDBRequest insightDeleteDBRequest) {
+    public void onEventAsync(DeleteInsightFromDB insightDeleteDBRequest) {
         final DBRequestListener dbRequestListener = insightDeleteDBRequest.getDbRequestListener();
         try {
             dbInterface.markInsightsAsInActive(insightDeleteDBRequest.getInsights(), dbRequestListener);
@@ -99,7 +99,7 @@ public class DeletingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventAsync(InsightBackendDeleteResponse insightBackendDeleteResponse) {
+    public void onEventAsync(DeleteInsightResponse insightBackendDeleteResponse) {
         final DBRequestListener dbRequestListener = insightBackendDeleteResponse.getDBRequestListener();
         try {
             dbInterface.deleteInsight(insightBackendDeleteResponse.getInsight(),

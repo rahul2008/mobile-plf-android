@@ -1,8 +1,8 @@
 package com.philips.platform.datasync.insights;
 
 import com.philips.platform.core.datatypes.Insight;
-import com.philips.platform.core.events.InsightBackendDeleteRequest;
-import com.philips.platform.core.events.InsightBackendGetRequest;
+import com.philips.platform.core.events.DeleteInsightRequest;
+import com.philips.platform.core.events.FetchInsightRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -37,9 +37,9 @@ public class InsightMonitorTest {
     @Mock
     private Insight mInsight;
     @Mock
-    private InsightBackendDeleteRequest mInsightBackendDeleteRequest;
+    private DeleteInsightRequest mInsightBackendDeleteRequest;
     @Mock
-    private InsightBackendGetRequest mInsightBackendGetRequest;
+    private FetchInsightRequest mInsightBackendGetRequest;
     @Mock
     private AppComponent mAppComponent;
     @Mock

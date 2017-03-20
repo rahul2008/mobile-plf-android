@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
@@ -36,10 +35,9 @@ import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
-import com.philips.platform.core.events.InsightBackendDeleteRequest;
-import com.philips.platform.core.events.InsightDeleteDBRequest;
+import com.philips.platform.core.events.DeleteInsightFromDB;
 import com.philips.platform.core.events.LoadConsentsRequest;
-import com.philips.platform.core.events.LoadInsightsRequest;
+import com.philips.platform.core.events.FetchInsightsFromDB;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
 import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
@@ -437,10 +435,10 @@ public class DataServicesManager {
 
     //Insight
     public void fetchInsights(DBFetchRequestListner dbFetchRequestListner){
-        mEventing.post(new LoadInsightsRequest(dbFetchRequestListner));
+        mEventing.post(new FetchInsightsFromDB(dbFetchRequestListner));
     }
 
     public void deleteInsights(List<? extends Insight> insights,DBRequestListener dbRequestListener){
-        mEventing.post(new InsightDeleteDBRequest((List<Insight>) insights,dbRequestListener));
+        mEventing.post(new DeleteInsightFromDB((List<Insight>) insights,dbRequestListener));
     }
 }

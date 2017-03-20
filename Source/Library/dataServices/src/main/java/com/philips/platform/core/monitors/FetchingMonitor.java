@@ -15,7 +15,7 @@ import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
 import com.philips.platform.core.events.LoadConsentsRequest;
-import com.philips.platform.core.events.LoadInsightsRequest;
+import com.philips.platform.core.events.FetchInsightsFromDB;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
@@ -179,7 +179,7 @@ public class FetchingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventAsync(LoadInsightsRequest loadInsightsRequest) {
+    public void onEventAsync(FetchInsightsFromDB loadInsightsRequest) {
 
         try {
             dbInterface.fetchActiveInsights(loadInsightsRequest.getDbFetchRequestListner());

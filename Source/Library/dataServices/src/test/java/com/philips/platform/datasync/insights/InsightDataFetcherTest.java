@@ -3,15 +3,12 @@ package com.philips.platform.datasync.insights;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.BaseAppData;
 import com.philips.platform.core.datatypes.Insight;
-import com.philips.platform.core.events.InsightBackendGetRequest;
+import com.philips.platform.core.events.FetchInsightRequest;
 import com.philips.platform.core.events.ListEvent;
-import com.philips.platform.core.events.SettingsBackendGetRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
-import com.philips.platform.datasync.settings.SettingsClient;
-import com.philips.platform.datasync.settings.SettingsDataFetcher;
 import com.philips.platform.datasync.synchronisation.DataSender;
 
 import org.joda.time.DateTime;
@@ -78,7 +75,7 @@ public class InsightDataFetcherTest {
     InsightDataFetcher insightDataFetcher;
 
     @Captor
-    private ArgumentCaptor<InsightBackendGetRequest> insightBackendGetRequestArgumentCaptor;
+    private ArgumentCaptor<FetchInsightRequest> insightBackendGetRequestArgumentCaptor;
 
     @Mock
     private AppComponent appComponantMock;
