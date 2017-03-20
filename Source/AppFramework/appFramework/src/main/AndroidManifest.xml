@@ -13,7 +13,6 @@
 
     <application
         android:name="com.philips.platform.baseapp.base.AppFrameworkApplication"
-        android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/app_icon"
         android:label="@string/af_app_name"
