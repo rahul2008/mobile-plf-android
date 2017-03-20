@@ -27,10 +27,14 @@ import java.util.Map;
 public class AppFrameworkTagging {
     private static AppFrameworkTagging appFrameworkTagging;
     private AppTaggingInterface appTaggingInterface;
+    private AppFrameworkApplication context;
 
     private AppFrameworkTagging() {
     }
 
+    /*
+     * Single instance of Tagging is required.
+     */
     public static AppFrameworkTagging getInstance() {
         if(appFrameworkTagging == null) {
             appFrameworkTagging = new AppFrameworkTagging();
@@ -38,25 +42,40 @@ public class AppFrameworkTagging {
         return appFrameworkTagging;
     }
 
-    public void initAppTaggingInterface(Context ctx) {
-        if (appTaggingInterface == null) {
-            appTaggingInterface = ((AppFrameworkApplication)ctx).getAppInfra().getTagging();
-        }
+    /*
+     * Initialize this method with context. Recommended from application level.
+     */
+    public void initAppTaggingInterface(AppFrameworkApplication ctx) {
+        context = ctx;
+//        appTaggingInterface = getTaggingInterface(context);
+    }
+
+    protected AppTaggingInterface getTaggingInterface(AppFrameworkApplication ctx) {
+        return ctx.getAppInfra().getTagging();
     }
 
     public void trackPage(String currPage) {
-        appTaggingInterface.trackPageWithInfo(currPage, null);
+        if(currPage == null) {
+            return;
+        }
+        getTaggingInterface(context).trackPageWithInfo(currPage, null);
     }
 
-    public void trackAction(String state) {
-        appTaggingInterface.trackActionWithInfo(state, null);
+    public void trackAction(String currPage) {
+        if(currPage == null) {
+            return;
+        }
+        getTaggingInterface(context).trackActionWithInfo(currPage, null);
     }
 
     public void pauseCollectingLifecycleData() {
-        appTaggingInterface.pauseLifecycleInfo();
+        getTaggingInterface(context).pauseLifecycleInfo();
     }
 
     public void collectLifecycleData(Activity activity) {
-        appTaggingInterface.collectLifecycleInfo(activity);
+        if(activity == null) {
+            return;
+        }
+        getTaggingInterface(context).collectLifecycleInfo(activity);
     }
 }
