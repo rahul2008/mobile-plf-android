@@ -72,7 +72,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -81,6 +80,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
+
 import com.janrain.android.Jump;
 import com.janrain.android.engage.net.async.HttpResponseHeaders;
 import com.janrain.android.engage.session.JRProvider;
@@ -92,7 +92,6 @@ import com.janrain.android.engage.ui.JRCustomInterface;
 import com.janrain.android.engage.ui.JRFragmentHostActivity;
 import com.janrain.android.engage.ui.JRPublishFragment;
 import com.janrain.android.engage.ui.JRUiFragment;
-import com.janrain.android.utils.AndroidUtils;
 import com.janrain.android.utils.ApiConnection;
 import com.janrain.android.utils.LogUtils;
 import com.janrain.android.utils.ThreadUtils;
@@ -143,7 +142,7 @@ public class JREngage {
      * If not set library logging is automatically controlled via the "debuggable" flag for the application
      * which is normally automatically set by the build system
      */
-    public static Boolean sLoggingEnabled = Boolean.FALSE;
+    public static Boolean isLoggingEnabled = Boolean.FALSE;
 
     public static String JR_FAILED_TO_UPDATE_ENGAGE_APP_ID
             = "com.janrain.android.Jump.FAILED_TO_UPDATE_ENGAGE_APP_ID";
@@ -261,7 +260,7 @@ public class JREngage {
             throw new IllegalArgumentException("context parameter cannot be null.");
         }
 
-       // if (sLoggingEnabled == null) sLoggingEnabled = AndroidUtils.isApplicationDebuggable(context);
+       // if (isLoggingEnabled == null) isLoggingEnabled = AndroidUtils.isApplicationDebuggable(context);
 
         if (TextUtils.isEmpty(appId)) {
             throwDebugException(new IllegalArgumentException("appId parameter cannot be null."));
