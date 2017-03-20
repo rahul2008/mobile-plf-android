@@ -11,6 +11,7 @@ package com.philips.cdp.registration.settings;
 import android.content.Context;
 import android.os.LocaleList;
 
+import com.janrain.android.Jump;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.datamigration.DataMigration;
@@ -20,6 +21,7 @@ import com.philips.cdp.registration.events.UserRegistrationHelper;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.ntputils.ServerTime;
@@ -90,6 +92,7 @@ public class RegistrationHelper {
      */
     public synchronized void initializeUserRegistration(final Context context) {
         RLog.init();
+
         PILLocaleManager localeManager = new PILLocaleManager(context);
         if (localeManager.getLanguageCode() != null && localeManager.getCountryCode() != null) {
             mLocale = new Locale(localeManager.getLanguageCode(), localeManager.getCountryCode());
@@ -108,7 +111,7 @@ public class RegistrationHelper {
 
             @Override
             public void run() {
-
+                deleteLegacyDIProfileFile(context);
                 if (networkUtility.isNetworkAvailable()) {
 
                     UserRegistrationInitializer.getInstance().initializeEnvironment(context, mLocale);
@@ -142,6 +145,11 @@ public class RegistrationHelper {
             }
         });
         thread.start();
+    }
+
+    private void deleteLegacyDIProfileFile(Context context) {
+        context.deleteFile(RegConstants.DI_PROFILE_FILE);
+        Jump.getSecureStorageInterface().removeValueForKey(RegConstants.DI_PROFILE_FILE);
     }
     private void generateKeyAndMigrateData(final Context context) {
         SecureStorage.generateSecretKey();
