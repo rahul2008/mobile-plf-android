@@ -222,8 +222,10 @@ public class UpdatingMonitor extends EventMonitor {
     public void onEventAsync(final UpdateInsightsBackendResponse updateInsightsBackendResponse) throws SQLException {
         try {
             insightSegregator.processInsights(updateInsightsBackendResponse.getInsights(), updateInsightsBackendResponse.getDbRequestListener());
+            notifyDBChangeSuccess(SyncType.INSIGHT);
         } catch (SQLException e) {
             dbUpdatingInterface.updateFailed(e, null);
+            notifyDBFailure(e);
         }
     }
 }

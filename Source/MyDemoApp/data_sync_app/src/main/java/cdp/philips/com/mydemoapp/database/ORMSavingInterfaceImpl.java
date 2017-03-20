@@ -142,6 +142,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     @Override
     public boolean saveInsights(List<Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
         boolean isSaved = saving.saveInsights(insights, dbRequestListener);
+        notifyDBRequestListener.notifyDBChange(SyncType.INSIGHT);
         notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.INSIGHT);
         return isSaved;
     }
