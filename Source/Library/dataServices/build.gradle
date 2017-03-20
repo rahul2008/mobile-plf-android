@@ -204,7 +204,6 @@ dependencies {
     compile 'javax.inject:javax.inject:1'
     compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile 'com.android.support:support-annotations:24.2.1'
-    compile "com.philips.cdp:AppInfra:1.5.5-SNAPSHOT.+"
 
     // DAGGER
     compile "com.google.dagger:dagger:2.9"

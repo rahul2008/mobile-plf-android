@@ -19,12 +19,6 @@ public class BackendResponse extends Event {
     @Nullable
     private final RetrofitError throwable;
 
- /*
-    public BackendResponse(final int referenceId) {
-        super(referenceId);
-        throwable = null;
-    }*/
-
     public BackendResponse(final int referenceId, @NonNull final RetrofitError throwable) {
         super(referenceId);
         this.throwable = throwable;

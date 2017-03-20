@@ -7,8 +7,6 @@ package com.philips.platform.core.trackers;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-
-import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
@@ -94,8 +92,6 @@ public class DataServicesManager {
     private DBFetchingInterface mFetchingInterface;
     private DBSavingInterface mSavingInterface;
     private DBUpdatingInterface mUpdatingInterface;
-
-    LoggingInterface mLoggingInterface;
 
     @Inject
     BaseAppDataCreator mDataCreater;
