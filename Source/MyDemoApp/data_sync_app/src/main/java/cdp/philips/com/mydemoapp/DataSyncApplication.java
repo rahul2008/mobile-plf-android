@@ -64,7 +64,7 @@ import cdp.philips.com.mydemoapp.registration.UserRegistrationInterfaceImpl;
 
 
 public class DataSyncApplication extends Application {
-
+    public final DatabaseHelper databaseHelper = new DatabaseHelper(this, new UuidGenerator());
     public static AppInfraInterface gAppInfra;
     ServiceDiscoveryInterface serviceDiscoveryInterface;
     public static LoggingInterface loggingInterface;
@@ -120,7 +120,6 @@ public class DataSyncApplication extends Application {
     }
 
     void injectDBInterfacesToCore() {
-        final DatabaseHelper databaseHelper = new DatabaseHelper(this, new UuidGenerator());
         try {
             Dao<OrmMoment, Integer> momentDao = databaseHelper.getMomentDao();
             Dao<OrmMomentDetail, Integer> momentDetailDao = databaseHelper.getMomentDetailDao();

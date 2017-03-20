@@ -111,7 +111,6 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         return ormConsents;
     }
 
-//TODO: Spoorti - this can be removed if not used. Check the list part
     @Override
     public void fetchUserCharacteristics(DBFetchRequestListner dbFetchRequestListner) throws SQLException {
         QueryBuilder<OrmCharacteristics, Integer> queryBuilder = characteristicsDao.queryBuilder();

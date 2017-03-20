@@ -290,7 +290,6 @@ public class DataServicesManager {
         }
     }
 
-    //TODO: discuss if its required
     private void startMonitors() {
         if (mCore != null) {
             DSLog.i(DSLog.LOG, "mCore not null, hence starting");

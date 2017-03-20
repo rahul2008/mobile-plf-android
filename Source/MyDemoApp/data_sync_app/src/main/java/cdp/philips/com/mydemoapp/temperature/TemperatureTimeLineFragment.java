@@ -52,7 +52,7 @@ import static android.content.Context.ALARM_SERVICE;
  * All rights reserved.
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBFetchRequestListner<Moment>,DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener, FetchUpdateListener{
+public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBFetchRequestListner<Moment>,DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener{
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
@@ -83,7 +83,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mTemperatureMomentHelper = new TemperatureMomentHelper();
         alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
         //EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
-        mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE, this,this);
+        mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE, this);
         mUtility = new Utility();
         mSharedPreferences = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
         mProgressBar = new ProgressDialog(getContext());
@@ -391,23 +391,5 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         }
 
         return false;
-    }
-
-    @Override
-    public void setProgressBarVisibility(final boolean isVisible) {
-
-        if(getActivity()==null)
-            return;
-
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (isVisible) {
-                    fetchUpdateFromDbProgressBar.setVisibility(View.VISIBLE);
-                } else {
-                    fetchUpdateFromDbProgressBar.setVisibility(View.GONE);
-                }
-            }
-        });
     }
 }

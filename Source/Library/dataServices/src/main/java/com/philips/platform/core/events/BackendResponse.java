@@ -19,20 +19,15 @@ public class BackendResponse extends Event {
     @Nullable
     private final RetrofitError throwable;
 
-    //TODO: Spoorti: Can this constructor be removed - Action item on Spoorti
+ /*
     public BackendResponse(final int referenceId) {
         super(referenceId);
         throwable = null;
-    }
+    }*/
 
     public BackendResponse(final int referenceId, @NonNull final RetrofitError throwable) {
         super(referenceId);
         this.throwable = throwable;
-    }
-
-    //TODO: Spoorti: can succed be removed - Action on Spoorti
-    public boolean succeed() {
-        return throwable == null;
     }
 
     @Nullable

@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.utils.RowItem;
 import com.philips.platform.core.datatypes.Measurement;
@@ -29,10 +30,12 @@ import com.philips.platform.core.utils.DSLog;
 
 import org.joda.time.DateTime;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import cdp.philips.com.mydemoapp.DataSyncApplication;
 import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.database.EmptyForeignCollection;
 import cdp.philips.com.mydemoapp.database.datatypes.MeasurementDetailType;
@@ -41,6 +44,7 @@ import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
+import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 
 public class TemperaturePresenter {
     private final DBRequestListener dbRequestListener;
@@ -59,14 +63,12 @@ public class TemperaturePresenter {
     private EditText mLocation;
     private EditText mPhase;
     private Button mDialogButton;
-    private FetchUpdateListener fetchUpdateListener;
 
-    TemperaturePresenter(Context context, String momentType, DBRequestListener dbRequestListener, FetchUpdateListener fetchUpdateListener) {
+    TemperaturePresenter(Context context, String momentType, DBRequestListener dbRequestListener) {
         mDataServices = DataServicesManager.getInstance();
         mMomentType = momentType;
         mContext = context;
         this.dbRequestListener = dbRequestListener;
-        this.fetchUpdateListener = fetchUpdateListener;
     }
 
     private Moment createMoment(String momemtDetail, String measurement, String measurementDetail) {
@@ -122,7 +124,7 @@ public class TemperaturePresenter {
             Toast.makeText(mContext, "Please Login again", Toast.LENGTH_SHORT).show();
         } else {
 
-            List<Moment> moments=new ArrayList<>();
+            List<Moment> moments = new ArrayList<>();
 
             moments.add(moment);
             //moments.add(moment);
@@ -177,23 +179,21 @@ public class TemperaturePresenter {
     private void removeMoment(TemperatureTimeLineFragmentcAdapter adapter,
                               final List<? extends Moment> data, int adapterPosition) {
         try {
-
             Moment moment = data.get(adapterPosition);
+            Dao<OrmSynchronisationData, Integer> ormSynchronisationDataDao = ((DataSyncApplication) (mContext.getApplicationContext())).databaseHelper.getSynchronisationDataDao();
+            ormSynchronisationDataDao.refresh((OrmSynchronisationData) moment.getSynchronisationData());
 
-            if(moment.getSynchronisationData()==null){
-                fetchUpdateListener.setProgressBarVisibility(true);
-                getOrmMomentFromDB((OrmMoment)moment, DELETE);
-                return;
-            }
+            Dao<OrmMoment, Integer> momentDao = ((DataSyncApplication) (mContext.getApplicationContext())).databaseHelper.getMomentDao();
+            momentDao.refresh((OrmMoment) moment);
 
             mDataServices.deleteMoment(moment, dbRequestListener);
-            /*data.remove(adapterPosition);
-            adapter.notifyItemRemoved(adapterPosition);
-            adapter.notifyDataSetChanged();*/
+
         } catch (ArrayIndexOutOfBoundsException e) {
             if (e.getMessage() != null) {
                 DSLog.i(DSLog.LOG, "e = " + e.getMessage());
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -269,16 +269,17 @@ public class TemperaturePresenter {
                     case UPDATE:
                         dialog.dismiss();
 
-                        if(moment.getSynchronisationData()==null){
-                            fetchUpdateListener.setProgressBarVisibility(true);
-                            getOrmMomentFromDB((OrmMoment)moment,UPDATE);
-                            return;
+                        try {
+                            Dao<OrmSynchronisationData, Integer> ormSynchronisationDataDao = ((DataSyncApplication) (mContext.getApplicationContext())).databaseHelper.getSynchronisationDataDao();
+                            ormSynchronisationDataDao.refresh((OrmSynchronisationData) moment.getSynchronisationData());
+                            Dao<OrmMoment, Integer> momentDao = ((DataSyncApplication) (mContext.getApplicationContext())).databaseHelper.getMomentDao();
+                            momentDao.refresh((OrmMoment) moment);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
                         }
-
                         updateMoment((OrmMoment) moment);
                         break;
                 }
-
             }
         });
 
@@ -287,30 +288,6 @@ public class TemperaturePresenter {
         textChageListener(mLocation);
 
         dialog.show();
-    }
-
-    private void getOrmMomentFromDB(final OrmMoment moment, final int deleteOrUpdate) {
-        DSLog.i(DSLog.LOG,"TemperaturePresenter - In getOrmMomentFromDB and the moment ID = " + moment.getId());
-        DataServicesManager.getInstance().fetchMomentForMomentID(moment.getId(), new DBFetchRequestListner() {
-            @Override
-            public void onFetchSuccess(final List data) {
-                DSLog.i(DSLog.LOG,"TemperaturePresenter - Fetch Success");
-                fetchUpdateListener.setProgressBarVisibility(false);
-                OrmMoment moment1 = (OrmMoment) data.get(0);
-
-                if(deleteOrUpdate == DELETE){
-                    mDataServices.deleteMoment(moment1, dbRequestListener);
-                }else {
-                    updateMoment(moment1);
-                }
-            }
-
-            @Override
-            public void onFetchFailure(final Exception exception) {
-                DSLog.i(DSLog.LOG,"TemperaturePresenter - Fetch Failed");
-                fetchUpdateListener.setProgressBarVisibility(false);
-            }
-        });
     }
 
     private void textChageListener(EditText editText) {
@@ -352,6 +329,4 @@ public class TemperaturePresenter {
             return false;
         }
     }
-
-
 }
