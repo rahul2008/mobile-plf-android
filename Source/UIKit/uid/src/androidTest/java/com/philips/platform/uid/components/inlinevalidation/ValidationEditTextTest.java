@@ -8,6 +8,7 @@ import android.support.test.rule.ActivityTestRule;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
+import com.philips.platform.uid.components.BaseTest;
 import com.philips.platform.uid.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.utils.UIDTestUtils;
@@ -19,7 +20,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
-public class ValidationEditTextTest {
+public class ValidationEditTextTest extends BaseTest{
 
     Resources testResources;
 
@@ -33,16 +34,6 @@ public class ValidationEditTextTest {
         activity = testRule.launchActivity(launchIntent);
         activity.switchTo(com.philips.platform.uid.test.R.layout.layout_validation_text);
         testResources = activity.getResources();
-    }
-
-    @NonNull
-    private Intent getLaunchIntent(final int navigationColor, final int contentColor) {
-        final Bundle bundleExtra = new Bundle();
-        bundleExtra.putInt(BaseTestActivity.NAVIGATION_COLOR_KEY, navigationColor);
-        bundleExtra.putInt(BaseTestActivity.CONTENT_COLOR_KEY, contentColor);
-        final Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.putExtras(bundleExtra);
-        return intent;
     }
 
     @Test

@@ -9,6 +9,7 @@ import android.support.test.rule.ActivityTestRule;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
+import com.philips.platform.uid.components.BaseTest;
 import com.philips.platform.uid.matcher.InputValidationMatcher;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.utils.UIDTestUtils;
@@ -21,7 +22,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-public class InputValidationLayoutTest {
+public class InputValidationLayoutTest extends BaseTest {
 
     Resources testResources;
 
@@ -35,16 +36,6 @@ public class InputValidationLayoutTest {
         activity = testRule.launchActivity(launchIntent);
         activity.switchTo(com.philips.platform.uid.test.R.layout.layout_validation_text);
         testResources = activity.getResources();
-    }
-
-    @NonNull
-    private Intent getLaunchIntent(final int navigationColor, final int contentColor) {
-        final Bundle bundleExtra = new Bundle();
-        bundleExtra.putInt(BaseTestActivity.NAVIGATION_COLOR_KEY, navigationColor);
-        bundleExtra.putInt(BaseTestActivity.CONTENT_COLOR_KEY, contentColor);
-        final Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.putExtras(bundleExtra);
-        return intent;
     }
 
     @Test
