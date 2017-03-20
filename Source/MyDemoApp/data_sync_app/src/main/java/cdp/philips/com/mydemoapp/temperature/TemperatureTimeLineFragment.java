@@ -16,12 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
-import com.philips.cdp.uikit.customviews.CircularProgressbar;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.core.datatypes.Moment;
@@ -70,7 +68,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     Utility mUtility;
 
     TextView mTvConsents, mTvCharacteristics , mTvSettings ,mTvLogout;
-    private ProgressBar fetchUpdateFromDbProgressBar;
 
 
     @Override
@@ -173,7 +170,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mTvCharacteristics = (TextView) view.findViewById(R.id.tv_set_characteristics);
         mTvSettings= (TextView) view.findViewById(R.id.tv_settings);
         mTvLogout= (TextView) view.findViewById(R.id.tv_logout);
-        fetchUpdateFromDbProgressBar = (CircularProgressbar) view.findViewById(R.id.settings_progress_bar);
         mTvConsents.setOnClickListener(this);
         mTvCharacteristics.setOnClickListener(this);
         mTvSettings.setOnClickListener(this);
@@ -289,17 +285,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
         DSLog.i(DSLog.LOG, "In Temperature TimeLine Fragment DB OnSuccess Moment request");
         mTemperaturePresenter.fetchData(TemperatureTimeLineFragment.this);
-
-        /*if (getActivity() == null) return;
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                mTemperaturePresenter.fetchData(TemperatureTimeLineFragment.this);
-            }
-        });*/
-
-
     }
 
     @Override

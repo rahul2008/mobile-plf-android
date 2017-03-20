@@ -95,10 +95,6 @@ public class DataServicesManager {
     private DBSavingInterface mSavingInterface;
     private DBUpdatingInterface mUpdatingInterface;
 
-    public LoggingInterface getLoggingInterface() {
-        return mLoggingInterface;
-    }
-
     LoggingInterface mLoggingInterface;
 
     @Inject
@@ -278,7 +274,6 @@ public class DataServicesManager {
         this.mSynchronisationCompleteListener = synchronisationCompleteListener;
         prepareInjectionsGraph(context);
         startMonitors();
-       // initAppInfra(context);
     }
 
     private void sendPullDataEvent() {
@@ -417,11 +412,6 @@ public class DataServicesManager {
     public ArrayList<DataFetcher> getCustomFetchers() {
         return mCustomFetchers;
     }
-
-   /* private void initAppInfra(Context context) {
-        AppInfra gAppInfra = new AppInfra.Builder().build(context);
-        mLoggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
-    }*/
 
     public ArrayList<DataSender> getCustomSenders() {
         return mCustomSenders;

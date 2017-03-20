@@ -227,11 +227,6 @@ public class MomentsDataSender extends DataSender {
         return isconflict;
     }
 
-   /* private boolean isConflict(final RetrofitError retrofitError) {
-        Response response = retrofitError.getResponse();
-        return response != null && response.getStatus() == HttpURLConnection.HTTP_CONFLICT;
-    }*/
-
     private boolean shouldMomentContainCreatorIdAndSubjectId(final Moment moment) {
         return isNotNullOrEmpty(moment.getCreatorId()) &&
                 isNotNullOrEmpty(moment.getSubjectId());

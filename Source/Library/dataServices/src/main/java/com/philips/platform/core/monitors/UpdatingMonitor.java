@@ -104,16 +104,6 @@ public class UpdatingMonitor extends EventMonitor {
         }
     }
 
-/*    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackGround(ReadDataFromBackendResponse response) {
-        try {
-            dbFetchingInterface.fetchMoments(response.getDbFetchRequestListner());
-        } catch (SQLException e) {
-            dbFetchingInterface.postError(e, response.getDbFetchRequestListner());
-            e.printStackTrace();
-        }
-    }*/
-
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final BackendMomentListSaveRequest momentSaveRequest) {
         List<? extends Moment> moments = momentSaveRequest.getList();
