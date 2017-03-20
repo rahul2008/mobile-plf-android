@@ -6,7 +6,6 @@
 package com.philips.platform.baseapp.base;
 
 import android.app.Activity;
-import android.util.Log;
 
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
