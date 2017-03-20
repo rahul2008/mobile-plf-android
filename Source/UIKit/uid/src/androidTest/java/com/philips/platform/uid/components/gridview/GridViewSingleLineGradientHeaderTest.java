@@ -108,6 +108,6 @@ public class GridViewSingleLineGradientHeaderTest {
     public void verifyTitleTextMargin(){
         waitFor(testResources, 750);
         int expectedEndMargin = testResources.getDimensionPixelSize(R.dimen.uid_grid_icon_holder_width);
-        getTitleText().check(matches(ViewPropertiesMatchers.isSameRightMargin(expectedEndMargin)));
+        getTitleText().check(matches(ViewPropertiesMatchers.isSameEndMargin(expectedEndMargin)));
     }
 }

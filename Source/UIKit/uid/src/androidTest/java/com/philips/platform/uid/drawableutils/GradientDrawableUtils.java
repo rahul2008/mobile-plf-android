@@ -19,12 +19,13 @@ public class GradientDrawableUtils {
 
     public interface StateColors {
         int getDefaultColor();
-        int getStateColor(int attr);
+        int getStateColor(int[] attr);
         float[] getCornerRadius();
         int getStrokeWidth();
         int getGradientSolidColor();
         int getStrokeSolidColor();
         int getStrokeSolidStateColor(int attr);
+        int getStrokeSolidStateColor(int[] attr);
         int getRippleRadius();
         int getRippleColor(int attr);
 

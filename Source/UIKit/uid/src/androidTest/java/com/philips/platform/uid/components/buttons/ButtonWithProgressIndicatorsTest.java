@@ -98,10 +98,10 @@ public class ButtonWithProgressIndicatorsTest {
         simulateSetProgressText("Hello ");
 
         //To check progress text is displayed
-        getProgressText().check(matches(ViewPropertiesMatchers.isSameRightMargin(progressIndicatorLeftRightMargin)))
+        getProgressText().check(matches(ViewPropertiesMatchers.isSameEndMargin(progressIndicatorLeftRightMargin)))
                 .check(matches(ViewPropertiesMatchers.isSameLeftMargin(progressIndicatorTextPadding)))
                 .check(matches(ViewMatchers.isDisplayed()));
-        getProgressBar().check(matches(ViewPropertiesMatchers.isSameRightMargin(0)))
+        getProgressBar().check(matches(ViewPropertiesMatchers.isSameEndMargin(0)))
                 .check(matches(ViewPropertiesMatchers.isSameLeftMargin(progressIndicatorLeftRightMargin)))
                 .check(matches(ViewMatchers.isDisplayed()));
     }
@@ -115,7 +115,7 @@ public class ButtonWithProgressIndicatorsTest {
 
         //To check progress text is not displayed
         getProgressText().check(matches(new IsNot(isDisplayed())));
-        getProgressBar().check(matches(ViewPropertiesMatchers.isSameRightMargin(progressIndicatorLeftRightMargin)))
+        getProgressBar().check(matches(ViewPropertiesMatchers.isSameEndMargin(progressIndicatorLeftRightMargin)))
                 .check(matches(ViewPropertiesMatchers.isSameLeftMargin(progressIndicatorLeftRightMargin)))
                 .check(matches(ViewMatchers.isDisplayed()));
     }
@@ -142,10 +142,10 @@ public class ButtonWithProgressIndicatorsTest {
         simulateSetProgressText("Hello ");
 
         //To check progress text is displayed
-        getProgressText().check(matches(ViewPropertiesMatchers.isSameRightMargin(progressIndicatorLeftRightMargin)))
+        getProgressText().check(matches(ViewPropertiesMatchers.isSameEndMargin(progressIndicatorLeftRightMargin)))
                 .check(matches(ViewPropertiesMatchers.isSameLeftMargin(progressIndicatorTextPadding)))
                 .check(matches(ViewMatchers.isDisplayed()));
-        getProgressBar().check(matches(ViewPropertiesMatchers.isSameRightMargin(0)))
+        getProgressBar().check(matches(ViewPropertiesMatchers.isSameEndMargin(0)))
                 .check(matches(ViewPropertiesMatchers.isSameLeftMargin(progressIndicatorLeftRightMargin)))
                 .check(matches(ViewMatchers.isDisplayed()));
 
@@ -153,7 +153,7 @@ public class ButtonWithProgressIndicatorsTest {
 
         //To check progress text is not displayed
         getProgressText().check(matches(new IsNot(isDisplayed())));
-        getProgressBar().check(matches(ViewPropertiesMatchers.isSameRightMargin(progressIndicatorLeftRightMargin)))
+        getProgressBar().check(matches(ViewPropertiesMatchers.isSameEndMargin(progressIndicatorLeftRightMargin)))
                 .check(matches(ViewPropertiesMatchers.isSameLeftMargin(progressIndicatorLeftRightMargin)))
                 .check(matches(ViewMatchers.isDisplayed()));
     }

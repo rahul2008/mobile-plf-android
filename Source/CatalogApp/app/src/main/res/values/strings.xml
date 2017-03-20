@@ -18,6 +18,9 @@
     <string name="with_icon">With icon</string>
     <string name="extra_wide">Extra wide</string>
     <string name="disabled">Disabled</string>
+    <string name="inline_validation">Inline</string>
+    <string name="tooltip_validation">Tooltip</string>
+    <string name="data_validation">Data Validation</string>
     <string name="buttons">Buttons</string>
     <string name="buttons_icon_only">Icon only buttons</string>
     <string name="buttons_text_left_aligned_category">Text left-aligned button</string>
@@ -76,7 +79,7 @@
 
     <!--Labels-->
     <string name="page_title_label">Labels</string>
-    <string name="label_input_field">Input field</string>
+    <string name="label_input_field">Name</string>
     <string name="label_text">Label text</string>
     <string name="label_description">Description label</string>
     <string name="label_item_text">Item text</string>
@@ -87,10 +90,10 @@
     <string name="label_password">Password</string>
     <string name="password_hint_text">#16!(.Nac</string>
     <string name="hint_text_number">+310334343434</string>
-    <string name="label_number">Number</string>
+    <string name="label_number">Phone number</string>
     <string name="label_email">E-mail</string>
-    <string name="label_multiline_input_field">Multiline input field</string>
-    <string name="hint_email">example@philips.com</string>
+    <string name="label_multiline_input_field">Multiline input</string>
+    <string name="hint_email">name@philips.com</string>
     <string name="with_label">With label</string>
     <string name="label_textboxes">Textboxes</string>
 
@@ -148,6 +151,7 @@
     <string name="label_right_top">Label right top</string>
     <string name="label_left_bottom">Label left bottom</string>
     <string name="label_right_bottom">Label right bottom</string>
+    <string name="inline_error_message">The e-mail address you entered is incorrect</string>
 
     <!--GridView-->
     <string name="page_title_gridView">GridView</string>

@@ -163,4 +163,26 @@
     <color name="uidColorWhite">#FFFFFF</color>
     <color name="uidColorBlack">#000000</color>
     <color name="uidTransparent">#0000</color>
+
+
+    <!--signal orange-->
+    <color name="uid_signal_orange_level_15">#FFD780</color>
+    <color name="uid_signal_orange_level_30">#FFB640</color>
+    <color name="uid_signal_orange_level_45">#FF9514</color>
+    <color name="uid_signal_orange_level_60">#F07C00</color>
+    <color name="uid_signal_orange_level_75">#E06900</color>
+
+    <!--signal yellow-->
+    <color name="uid_signal_yellow_level_15">#FFB640</color>
+    <color name="uid_signal_yellow_level_30">#F2BE00</color>
+    <color name="uid_signal_yellow_level_45">#FFDB1F</color>
+    <color name="uid_signal_yellow_level_60">#F2BE00</color>
+    <color name="uid_signal_yellow_level_75">#FFB640</color>
+
+    <!--signal red-->
+    <color name="uid_signal_red_level_15">#FFBABA</color>
+    <color name="uid_signal_red_level_30">#FF8080</color>
+    <color name="uid_signal_red_level_45">#FF5454</color>
+    <color name="uid_signal_red_level_60">#E63535</color>
+    <color name="uid_signal_red_level_75">#CC2323</color>
 </resources>

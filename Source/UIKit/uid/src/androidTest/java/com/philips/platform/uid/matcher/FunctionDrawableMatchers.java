@@ -141,6 +141,10 @@ public class FunctionDrawableMatchers {
     }
 
     public static Matcher<View> isSameColor(final String funcName, final int state, final int expectedValue, final int drawableID, final boolean isDefaultColor) {
+        return isSameColor(funcName, new int[]{state}, expectedValue, drawableID, isDefaultColor);
+    }
+
+    public static Matcher<View> isSameColor(final String funcName, final int[] state, final int expectedValue, final int drawableID, final boolean isDefaultColor) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
@@ -153,17 +157,22 @@ public class FunctionDrawableMatchers {
         };
     }
 
-    public static Matcher<View> isSameStrokeColor(final String funcName, final int state, final int expectedValue, final int drawableID) {
+
+    public static Matcher<View> isSameStrokeColor(final String funcName, final int[] states, final int expectedValue, final int drawableID) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
                 Drawable drawable = getDrawable(view, funcName, drawableID);
-                BaseTypeSafteyMatcher<Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameStrokeColor(state, expectedValue);
+                BaseTypeSafteyMatcher<Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameStrokeColor(states, expectedValue);
                 boolean matches = colorMatcher.matches(drawable);
-                setValues(colorMatcher.actual, colorMatcher.expected);
+                setValues(Integer.toHexString((Integer) colorMatcher.actual), Integer.toHexString((Integer) colorMatcher.expected));
                 return matches;
             }
         };
+    }
+
+    public static Matcher<View> isSameStrokeColor(final String funcName, final int state, final int expectedValue, final int drawableID) {
+        return isSameStrokeColor(funcName, new int[]{state}, expectedValue, drawableID);
     }
 
     private static Drawable getDrawable(final View view, final String funcName, final int drawableID) {
@@ -190,11 +199,15 @@ public class FunctionDrawableMatchers {
      * @return
      */
     public static Matcher<View> isSameColorFromColorList(final String funcName, final int state, final int expectedValue) {
+        return isSameColorFromColorList(funcName, new int[]{state}, expectedValue);
+    }
+
+    public static Matcher<View> isSameColorFromColorList(final String funcName, final int[] states, final int expectedValue) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
                 ColorStateList colorStateList = UIDTestUtils.getColorStateListWithReflection(view, funcName);
-                final int actual = colorStateList.getColorForState(new int[]{state}, Color.MAGENTA);
+                final int actual = colorStateList.getColorForState(states, Color.MAGENTA);
 
                 setValues(actual, expectedValue);
                 return areEqual();

@@ -105,7 +105,7 @@ public class ViewPropertiesMatchers {
         };
     }
 
-    public static Matcher<View> isSameRightMargin(final int expectedValue) {
+    public static Matcher<View> isSameEndMargin(final int expectedValue) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {

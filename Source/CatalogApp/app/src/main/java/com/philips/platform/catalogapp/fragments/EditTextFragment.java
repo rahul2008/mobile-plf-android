@@ -16,17 +16,22 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import com.philips.platform.catalogapp.R;
+import com.philips.platform.catalogapp.dataUtils.EmailValidator;
 import com.philips.platform.catalogapp.databinding.FragmentEdittextBinding;
+import com.philips.platform.uid.view.widget.InputValidationLayout;
 
 public class EditTextFragment extends BaseFragment {
+
+    FragmentEdittextBinding texteditboxBinding;
     public ObservableBoolean disableEditBoxes = new ObservableBoolean(Boolean.FALSE);
     public ObservableBoolean isWithLabel = new ObservableBoolean(Boolean.TRUE);
 
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        final FragmentEdittextBinding texteditboxBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_edittext, container, false);
+        texteditboxBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_edittext, container, false);
         texteditboxBinding.setTexteditBoxfragment(this);
+        texteditboxBinding.textboxInputField.setValidator(new EmailValidator());
         return texteditboxBinding.getRoot();
     }
 
@@ -42,6 +47,13 @@ public class EditTextFragment extends BaseFragment {
         outState.putBoolean("disableEditBoxes", disableEditBoxes.get());
         outState.putBoolean("isWithLabel", isWithLabel.get());
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
     }
 
     @Override
@@ -66,9 +78,16 @@ public class EditTextFragment extends BaseFragment {
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         }
+        if (texteditboxBinding.textboxInputField.isShowingError() && disableEditBoxes.get()){
+            texteditboxBinding.textboxInputField.getErrorLayout().setVisibility(View.GONE);
+        }else if(texteditboxBinding.textboxInputField.isShowingError() && !disableEditBoxes.get()){
+            texteditboxBinding.textboxInputField.getErrorLayout().setVisibility(View.VISIBLE);
+        }
+
     }
 
     public void showWithLabel(boolean isChecked) {
         isWithLabel.set(isChecked);
     }
+
 }

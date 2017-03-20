@@ -20,7 +20,7 @@ public class KitKatStateColors extends BaseStateColorsImpl {
     }
 
     @Override
-    public int getStateColor(int attr) {
+    public int getStateColor(int[] attr) {
         return getGradientSolidColor();
     }
 
@@ -37,5 +37,10 @@ public class KitKatStateColors extends BaseStateColorsImpl {
     @Override
     public int getStrokeSolidStateColor(int attr) {
         return getStrokeSolidColor();
+    }
+
+    @Override
+    public int getStrokeSolidStateColor(int[] attr) {
+        return getStrokeSolidStateColor(attr[0]);
     }
 }

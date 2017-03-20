@@ -28,8 +28,8 @@ public class DrawableStateColorsWrapper extends BaseStateColorsImpl {
     }
 
     @Override
-    public int getStateColor(int attr) {
-        return getColorStateList().getColorForState(new int[]{attr}, Color.WHITE);
+    public int getStateColor(int[] attr) {
+        return getColorStateList().getColorForState(attr, Color.WHITE);
     }
 
     @Override
@@ -44,6 +44,11 @@ public class DrawableStateColorsWrapper extends BaseStateColorsImpl {
 
     @Override
     public int getStrokeSolidStateColor(int attr) {
+        throw new RuntimeException("Not supported. We should never reach here");
+    }
+
+    @Override
+    public int getStrokeSolidStateColor(int[] attr) {
         throw new RuntimeException("Not supported. We should never reach here");
     }
 

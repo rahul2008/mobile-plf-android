@@ -1,5 +1,8 @@
 # Release Notes MobileUitoolkit Android
 
+SPRINT - MUITK.PI17.2.1
+Story-14057 - Inline Data Validation
+
 SPRINT - MUITK.PI17.1.Sprint5
 EHUFA-1285 - Android: Enable unit testing
 EHUFA-1311 - Android: Checkbox multiline support

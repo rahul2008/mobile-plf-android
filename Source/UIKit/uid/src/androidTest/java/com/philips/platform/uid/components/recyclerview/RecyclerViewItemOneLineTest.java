@@ -76,7 +76,7 @@ public class RecyclerViewItemOneLineTest {
     @Test
     public void verifyRightMargin() {
         int expectedRightMargin = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.recyclerview_one_line_item_margin_left_right));
-        getOneLineItem().check(matches(ViewPropertiesMatchers.isSameRightMargin(expectedRightMargin)));
+        getOneLineItem().check(matches(ViewPropertiesMatchers.isSameEndMargin(expectedRightMargin)));
     }
 
     private ViewInteraction getOneLineItem() {

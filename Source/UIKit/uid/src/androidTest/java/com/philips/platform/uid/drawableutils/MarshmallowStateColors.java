@@ -24,9 +24,9 @@ public class MarshmallowStateColors extends LollipopStateColors {
     }
 
     @Override
-    public int getStateColor(int attr) {
+    public int getStateColor(int []attr) {
         ColorStateList mSolidColorStateList = (ColorStateList) GradientDrawableUtils.getField(constantState, COLOR_STATE_LIST);
-        return mSolidColorStateList.getColorForState(new int[]{attr}, Color.WHITE);
+        return mSolidColorStateList.getColorForState(attr, Color.WHITE);
     }
 
     @Override

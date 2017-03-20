@@ -119,6 +119,14 @@
         <item name="uidDatePickerWeekDayTextColor">?attr/uidGrayTextTertiary</item>
         <item name="uidDatePickerText">@color/uid_gray_level_75</item>
         <item name="uidDatePickerDayOfWeekTextColor">?attr/uidNavigationTextColor</item>
+
+        <item name="uidTextBoxValidationBackground">@color/uid_signal_orange_level_15</item>
+        <item name="uidTextBoxValidationBackgroundAlpha">@dimen/uid_alpha_per_50</item>
+        <item name="uidTextBoxValidationBorder">@android:color/transparent</item>
+        <item name="uidTextBoxValidationText">@color/uid_signal_orange_level_75</item>
+        <item name="uidTextBoxValidationErrorColor">@color/uid_signal_orange_level_15</item>
+
+
     </style>
 
     <style name="UltraLight">
@@ -185,6 +193,9 @@
 
         <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_25</item>
         <item name="uidControlTrackOff">?attr/uidColorLevel45</item>
+
+        <item name="uidTextBoxValidationBorder">@color/uid_signal_orange_level_60</item>
+        <item name="uidTextBoxValidationErrorColor">@color/uid_signal_orange_level_75</item>
     </style>
 
     <style name="VeryLight">

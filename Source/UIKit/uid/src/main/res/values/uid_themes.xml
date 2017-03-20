@@ -107,6 +107,8 @@
         <item name="uidColorLevel15">@color/uid_orange_level_15</item>
         <item name="uidColorLevel10">@color/uid_orange_level_10</item>
         <item name="uidColorLevel05">@color/uid_orange_level_05</item>
+
+
     </style>
 
     <!--Pink-->

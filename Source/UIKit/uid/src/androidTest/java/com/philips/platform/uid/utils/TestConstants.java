@@ -14,6 +14,7 @@ public class TestConstants {
     public final static String FUNCTION_GET_PROGRESS_DRAWABLE = "getProgressDrawable";
     public final static String FUNCTION_GET_UID_ALERT = "getAlert";
     public final static String FUNCTION_GET_INDETERMINATE_DRAWABALE = "getIndeterminateDrawable";
+    public final static String FUNCTION_GET_TEXT_COLORS = "getTextColors";
 
     //Circular progress bar ratios
     public final static float CIRCULAR_SMALL_INNER_RADIUS_RATIO = 2.4f;
