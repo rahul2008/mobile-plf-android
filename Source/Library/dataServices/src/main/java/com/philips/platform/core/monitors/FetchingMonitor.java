@@ -18,7 +18,6 @@ import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
-import com.philips.platform.core.events.LoadTimelineEntryRequest;
 import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
@@ -58,15 +57,6 @@ public class FetchingMonitor extends EventMonitor {
     public FetchingMonitor(DBFetchingInterface dbInterface) {
         this.dbInterface = dbInterface;
         DataServicesManager.getInstance().getAppComponant().injectFetchingMonitor(this);
-    }
-
-    @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void onEventAsync(LoadTimelineEntryRequest event) {
-        try {
-            dbInterface.fetchMoments(event.getDbFetchRequestListner());
-        } catch (SQLException e) {
-            dbInterface.postError(e, event.getDbFetchRequestListner());
-        }
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)

@@ -15,7 +15,6 @@ import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.MomentsUpdateRequest;
-import com.philips.platform.core.events.ReadDataFromBackendResponse;
 import com.philips.platform.core.events.SettingsBackendSaveRequest;
 import com.philips.platform.core.events.SettingsBackendSaveResponse;
 import com.philips.platform.core.events.SyncBitUpdateRequest;
@@ -105,7 +104,7 @@ public class UpdatingMonitor extends EventMonitor {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+/*    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(ReadDataFromBackendResponse response) {
         try {
             dbFetchingInterface.fetchMoments(response.getDbFetchRequestListner());
@@ -113,7 +112,7 @@ public class UpdatingMonitor extends EventMonitor {
             dbFetchingInterface.postError(e, response.getDbFetchRequestListner());
             e.printStackTrace();
         }
-    }
+    }*/
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final BackendMomentListSaveRequest momentSaveRequest) {

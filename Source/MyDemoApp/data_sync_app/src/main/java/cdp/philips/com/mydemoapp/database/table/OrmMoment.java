@@ -13,7 +13,6 @@ import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
@@ -65,7 +64,7 @@ public class OrmMoment implements Moment, Serializable {
     @ForeignCollectionField(eager = true)
     ForeignCollection<OrmMeasurementGroup> ormMeasurementGroups = new EmptyForeignCollection<>();
 
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = true, unique = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = true,unique = true)
     private OrmSynchronisationData synchronisationData;
 
     @DatabaseConstructor
