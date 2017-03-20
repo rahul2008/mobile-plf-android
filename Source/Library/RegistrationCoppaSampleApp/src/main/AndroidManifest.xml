@@ -30,21 +30,21 @@
         </activity>
 
         <!--
-      This activity declaration is merged with the version from the library manifest.
-      It demonstrates how an https redirect can be captured, in addition to or instead of
-      a custom scheme.
+          This activity declaration is merged with the version from the library manifest.
+          It demonstrates how an https redirect can be captured, in addition to or instead of
+          a custom scheme.
 
-      Generally, this should be done in conjunction with an app link declaration for Android M
-      and above, for additional security and an improved user experience. See:
+          Generally, this should be done in conjunction with an app link declaration for Android M
+          and above, for additional security and an improved user experience. See:
 
-      https://developer.android.com/training/app-links/index.html
+          https://developer.android.com/training/app-links/index.html
 
-      The declaration from the library can be completely replaced by adding
+          The declaration from the library can be completely replaced by adding
 
-      tools:node="replace"
+          tools:node="replace"
 
-      To the list of attributes on the activity element.
-      -->
+          To the list of attributes on the activity element.
+          -->
         <activity
             android:name="net.openid.appauth.RedirectUriReceiverActivity" >
             <intent-filter>
@@ -64,6 +64,12 @@
             android:windowSoftInputMode="stateHidden">
         </activity>
 
+        <activity
+            android:name="com.janrain.android.engage.OpenIDAppAuthCancelledActivity"
+            android:label="SimpleDemoApplication"
+            android:theme="@style/Theme.Janrain.Dialog.Light"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
     </application>
 
 </manifest>
