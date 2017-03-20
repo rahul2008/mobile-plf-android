@@ -14,13 +14,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
@@ -29,7 +31,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
  * Created by sangamesh on 08/11/16.
  */
 
-public class ConsentDialogFragment extends DialogFragment implements DBRequestListener,DBChangeListener, View.OnClickListener {
+public class ConsentDialogFragment extends DialogFragment implements DBRequestListener<ConsentDetail>,DBFetchRequestListner<ConsentDetail>,DBChangeListener, View.OnClickListener {
 
     private RecyclerView mRecyclerView;
     private Button mBtnOk;
@@ -73,22 +75,9 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     }
 
     @Override
-    public void onSuccess(final ArrayList<? extends Object> data) {
+    public void onSuccess(final List<? extends ConsentDetail> data) {
 
-        final ArrayList<OrmConsentDetail> ormConsents = (ArrayList<OrmConsentDetail>) data;
-
-        if (getActivity()!=null && ormConsents != null ) {
-
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    lConsentAdapter.setData(ormConsents);
-                    lConsentAdapter.notifyDataSetChanged();
-                    mBtnOk.setEnabled(true);
-                    dismissProgressDialog();
-                }
-            });
-        }
+        refreshUi((ArrayList<OrmConsentDetail>) data);
 
     }
 
@@ -99,24 +88,9 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     }
 
     @Override
-    public void onSuccess(Object data) {
-
-
-    }
-
-    @Override
     public void onFailure(final Exception exception) {
 
-        if(getActivity()!=null) {
-
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    dismissProgressDialog();
-                    Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
+        refreshOnFailure(exception);
 
     }
 
@@ -188,7 +162,8 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     }
 
     @Override
-    public void dBChangeSuccess() {
+    public void dBChangeSuccess(SyncType type) {
+        if(type!=SyncType.CONSENT)return;
         DataServicesManager.getInstance().fetchConsentDetail(this);
     }
 
@@ -201,5 +176,45 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
                 Toast.makeText(getActivity(),"Exception :"+e.getMessage() ,Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    public void onFetchSuccess(List<? extends ConsentDetail> data) {
+        refreshUi((ArrayList<OrmConsentDetail>) data);
+    }
+
+    private void refreshUi(ArrayList<OrmConsentDetail> data) {
+        final ArrayList<OrmConsentDetail> ormConsents = data;
+
+        if (getActivity()!=null && ormConsents != null ) {
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    lConsentAdapter.setData(ormConsents);
+                    lConsentAdapter.notifyDataSetChanged();
+                    mBtnOk.setEnabled(true);
+                    dismissProgressDialog();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onFetchFailure(final Exception exception) {
+        refreshOnFailure(exception);
+    }
+
+    private void refreshOnFailure(final Exception exception) {
+        if(getActivity()!=null) {
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    dismissProgressDialog();
+                    Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }

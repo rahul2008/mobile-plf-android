@@ -30,7 +30,7 @@ public class DeletingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventAsync(DataClearRequest event) {
+    public void onEventBackGround(DataClearRequest event) {
         final DBRequestListener dbRequestListener = event.getDbRequestListener();
         try {
             dbInterface.deleteAll(dbRequestListener);
@@ -41,18 +41,18 @@ public class DeletingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventAsync(DeleteAllMomentsRequest event) {
+    public void onEventBackGround(DeleteAllMomentsRequest event) {
         final DBRequestListener dbRequestListener = event.getDbRequestListener();
         try {
-            dbInterface.deleteAll(dbRequestListener);
+            dbInterface.deleteAllMoments(dbRequestListener);
         } catch (SQLException e) {
             dbInterface.deleteFailed(e, dbRequestListener);
         }
         //eventing.post(new DataClearResponse(event.getEventId()));
     }
 
-    @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void onEventAsync(MomentDeleteRequest event) {
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventBackGround(MomentDeleteRequest event) {
         final DBRequestListener dbRequestListener = event.getDbRequestListener();
         try {
             dbInterface.markAsInActive(event.getMoment(), dbRequestListener);
@@ -63,8 +63,8 @@ public class DeletingMonitor extends EventMonitor {
 
     }
 
-    @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void onEventAsync(MomentsDeleteRequest event) {
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventBackGround(MomentsDeleteRequest event) {
         final DBRequestListener dbRequestListener = event.getDbRequestListener();
         try {
             dbInterface.markMomentsAsInActive(event.getMoments(), dbRequestListener);
@@ -76,7 +76,7 @@ public class DeletingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventAsync(MomentBackendDeleteResponse backendDeleteResponse) {
+    public void onEventBackGround(MomentBackendDeleteResponse backendDeleteResponse) {
         final DBRequestListener dbRequestListener = backendDeleteResponse.getDbRequestListener();
         try {
             dbInterface.deleteMoment(backendDeleteResponse.getMoment(),

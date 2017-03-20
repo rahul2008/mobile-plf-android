@@ -10,6 +10,7 @@ import com.philips.platform.core.events.DeleteAllMomentsRequest;
 import com.philips.platform.core.events.Event;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.events.MomentDeleteRequest;
+import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.MomentsDeleteRequest;
 import com.philips.platform.core.listeners.DBRequestListener;
 
@@ -81,7 +82,7 @@ public class DeletingMonitorTest {
     @Test
     public void DeleteAllMomentsRequest_WhenEventReceived() throws Exception {
         monitor.onEventAsync(new DeleteAllMomentsRequest(dbRequestListener));
-        verify(deletingMock).deleteAll(dbRequestListener);
+        verify(deletingMock).deleteAllMoments(dbRequestListener);
     }
 
     @Test
@@ -241,7 +242,7 @@ public class DeletingMonitorTest {
     public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_deleteAllMoments() throws Exception {
         doThrow(SQLException.class).when(deletingMock).deleteAllMoments(dbRequestListener);
         monitor.onEventAsync(new DeleteAllMomentsRequest(dbRequestListener));
-        verify(deletingMock).deleteAll(dbRequestListener);
+        verify(deletingMock).deleteAllMoments(dbRequestListener);
     }
 
     @Test

@@ -40,7 +40,6 @@ import com.philips.platform.datasync.consent.ConsentsMonitor;
 import com.philips.platform.datasync.consent.ConsentsSegregator;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataSender;
-import com.philips.platform.datasync.moments.MomentsMonitor;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 import com.philips.platform.datasync.settings.SettingsDataFetcher;
 import com.philips.platform.datasync.settings.SettingsDataSender;
@@ -137,11 +136,10 @@ public class BackendModule {
     @Provides
     @Singleton
     Backend providesBackend(
-            @NonNull final MomentsMonitor momentsMonitor,
             @NonNull final ConsentsMonitor consentsMonitor,
             @NonNull final UserCharacteristicsMonitor userCharacteristicsMonitor,
             @NonNull final SettingsMonitor settingsMonitor) {
-        return new Backend(momentsMonitor, consentsMonitor, userCharacteristicsMonitor,settingsMonitor);
+        return new Backend(consentsMonitor, userCharacteristicsMonitor,settingsMonitor);
     }
 
     @Provides

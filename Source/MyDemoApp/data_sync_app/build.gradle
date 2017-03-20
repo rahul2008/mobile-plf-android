@@ -124,8 +124,8 @@ android {
         applicationId "cdp.philips.com.mydemoapp"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 5
-        versionName "0.1.8"
+        versionCode 6
+        versionName "3.0.5"
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
@@ -247,10 +247,10 @@ dependencies {
     // DEBUG
     debugCompile 'com.facebook.stetho:stetho:1.2.0'
 
-    compile "com.j256.ormlite:ormlite-core:4.48"
-    compile "com.j256.ormlite:ormlite-android:4.48"
+    compile "com.j256.ormlite:ormlite-core:5.0"
+    compile "com.j256.ormlite:ormlite-android:5.0"
     compile "com.philips.cdp:registrationApi:9.0.0-rc.+"
-    compile "com.philips.cdp:uikitLib:3.7.5-rc.+"
+    compile "com.philips.cdp:uikitLib:3.7.5-SNAPSHOT.+"
     //compile 'com.github.chrisbanes.actionbarpulltorefresh:library:+'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'

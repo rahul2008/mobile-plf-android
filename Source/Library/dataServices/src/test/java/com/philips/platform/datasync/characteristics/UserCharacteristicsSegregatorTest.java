@@ -1,6 +1,5 @@
 package com.philips.platform.datasync.characteristics;
 
-import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.injection.AppComponent;

@@ -15,8 +15,8 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
-import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.datatypes.Settings;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
@@ -123,7 +123,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private void insertDefaultDCSyncValues() {
 
-        for (OrmTableType tableType : OrmTableType.values()) {
+        for (SyncType tableType : SyncType
+                .values()) {
 
             ormDCSyncDao = getDCSyncDao();
             try {

@@ -29,7 +29,6 @@ import com.philips.platform.datasync.consent.ConsentsMonitor;
 import com.philips.platform.datasync.consent.ConsentsSegregator;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataSender;
-import com.philips.platform.datasync.moments.MomentsMonitor;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 import com.philips.platform.datasync.settings.SettingsDataFetcher;
 import com.philips.platform.datasync.settings.SettingsDataSender;
@@ -77,8 +76,8 @@ public class BackendModuleTest {
 
     @Mock
     Eventing eventingMock;
-    @Mock
-    MomentsMonitor momentsMonitor;
+   /* @Mock
+    MomentsMonitor momentsMonitor;*/
     @Mock
     ConsentsMonitor consentsMonitor;
     @Mock
@@ -194,7 +193,7 @@ public class BackendModuleTest {
 
     @Test
     public void ShouldReturnBackend_WhenProvidesBackendIsCalled() throws Exception {
-        final Backend backend = backendModule.providesBackend(momentsMonitor, consentsMonitor, userCharacteristicsMonitor,settingsMonitor);
+        final Backend backend = backendModule.providesBackend(consentsMonitor, userCharacteristicsMonitor,settingsMonitor);
         assertThat(backend).isNotNull();
         assertThat(backend).isInstanceOf(Backend.class);
     }

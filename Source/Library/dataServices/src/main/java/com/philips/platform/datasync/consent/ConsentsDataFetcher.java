@@ -99,11 +99,7 @@ public class ConsentsDataFetcher extends DataFetcher {
     public void onEventAsync(GetNonSynchronizedMomentsResponse response) {
         List<? extends ConsentDetail> nonSynchronizedConsent = response.getConsentDetails();
         if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
-
-            if (nonSynchronizedConsent != null || nonSynchronizedConsent.size() != 0){
-                getConsent(new ArrayList<>(nonSynchronizedConsent));
-            }
-
+            getConsent(new ArrayList<>(nonSynchronizedConsent));
         }
     }
 
@@ -125,6 +121,9 @@ public class ConsentsDataFetcher extends DataFetcher {
             ArrayList<String> documentVersionList = new ArrayList<>();
 
             for (ConsentDetail consentDetail : consentDetails) {
+
+                if(consentDetail==null)return;
+
                 consentTypes.add(consentDetail.getType());
                 deviceIdentificationList.add(consentDetail.getDeviceIdentificationNumber());
                 documentVersionList.add(consentDetail.getVersion());
@@ -135,13 +134,13 @@ public class ConsentsDataFetcher extends DataFetcher {
             if (consentDetailList != null && !consentDetailList.isEmpty()) {
                 List<ConsentDetail> appConsentDetails = consentsConverter.convertToAppConsentDetails(consentDetailList);
 
-                if(appConsentDetails!=null) {
-                    eventing.post(new ConsentBackendSaveResponse(appConsentDetails, HttpURLConnection.HTTP_OK, null));
-                }
+                if(appConsentDetails == null) return;
+
+                eventing.post(new ConsentBackendSaveResponse(appConsentDetails, HttpURLConnection.HTTP_OK, null));
             }
         } catch (RetrofitError ex) {
-            eventing.post(new BackendDataRequestFailed(ex));
             onError(ex);
+            eventing.post(new BackendDataRequestFailed(ex));
 
         }
     }
@@ -155,7 +154,7 @@ public class ConsentsDataFetcher extends DataFetcher {
     }
 
     void postError(int referenceId, final RetrofitError error) {
-        DSLog.i("***SPO***", "Error In ConsentsMonitor - posterror");
+        DSLog.i(DSLog.LOG, "Error In ConsentsMonitor - posterror");
         eventing.post(new BackendResponse(referenceId, error));
     }
 
@@ -168,6 +167,8 @@ public class ConsentsDataFetcher extends DataFetcher {
             eventing.register(this);
         }
     }
+
+
 
 }
 

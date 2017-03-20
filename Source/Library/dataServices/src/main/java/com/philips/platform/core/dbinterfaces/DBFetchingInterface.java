@@ -2,8 +2,9 @@ package com.philips.platform.core.dbinterfaces;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -15,13 +16,13 @@ import java.util.Map;
  */
 @SuppressWarnings("rawtypes")
 public interface DBFetchingInterface {
-    void fetchMoments(DBRequestListener dbRequestListener) throws SQLException;
+    List<? extends Moment> fetchMoments(DBFetchRequestListner dbFetchRequestListner) throws SQLException;
 
-    void fetchMoments(final @NonNull String type ,DBRequestListener dbRequestListener) throws SQLException;
+    void fetchMoments(final @NonNull String type ,DBFetchRequestListner dbFetchRequestListner) throws SQLException;
 
-    void fetchMoments(DBRequestListener dbRequestListener,final @NonNull Object... types) throws SQLException;
+    void fetchMoments(DBFetchRequestListner dbFetchRequestListner,final @NonNull Object... types) throws SQLException;
 
-    void fetchLastMoment(final String type,DBRequestListener dbRequestListener) throws SQLException;
+    void fetchLastMoment(final String type,DBFetchRequestListner dbFetchRequestListner) throws SQLException;
 
     Object fetchMomentByGuid(@NonNull final String guid) throws SQLException;
 
@@ -29,9 +30,9 @@ public interface DBFetchingInterface {
 
     //TODO: Can the fetchNonSynchronized data types be called once for all the datatypes.
 
-    Object fetchMomentById(final int id, DBRequestListener dbRequestListener) throws SQLException;
+    Object fetchMomentById(final int id, DBFetchRequestListner dbFetchRequestListner) throws SQLException;
 
-    void fetchConsentDetails(DBRequestListener dbRequestListener) throws SQLException;
+    void fetchConsentDetails(DBFetchRequestListner dbFetchRequestListner) throws SQLException;
 
     Map<Class, List<?>> putUserCharacteristicsForSync(Map<Class, List<?>> dataToSync) throws SQLException;
 
@@ -39,13 +40,13 @@ public interface DBFetchingInterface {
 
     List<?> fetchConsentDetails() throws SQLException;
 
-    void postError(Exception e, DBRequestListener dbRequestListener);
+    void postError(Exception e, DBFetchRequestListner dbFetchRequestListner);
 
-    void fetchUserCharacteristics(DBRequestListener dbRequestListener) throws SQLException;
+    void fetchUserCharacteristics(DBFetchRequestListner dbFetchRequestListner) throws SQLException;
 
-    void fetchCharacteristics(DBRequestListener dbRequestListener) throws SQLException;
+    void fetchCharacteristics(DBFetchRequestListner dbFetchRequestListner) throws SQLException;
 
-    Settings fetchSettings(DBRequestListener dbRequestListener) throws SQLException;
+    Settings fetchSettings(DBFetchRequestListner dbFetchRequestListner) throws SQLException;
 
     Settings fetchSettings() throws SQLException;
 

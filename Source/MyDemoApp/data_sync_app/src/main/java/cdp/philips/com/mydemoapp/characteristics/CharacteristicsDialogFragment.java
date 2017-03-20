@@ -15,7 +15,9 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
@@ -29,7 +31,7 @@ import java.util.List;
 import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 
-public class CharacteristicsDialogFragment extends DialogFragment implements View.OnClickListener, DBRequestListener,DBChangeListener {
+public class CharacteristicsDialogFragment extends DialogFragment implements View.OnClickListener, DBFetchRequestListner<Characteristics>,DBRequestListener<Characteristics>,DBChangeListener {
     Button mBtnOk,mBtnEdit;
     private Context mContext;
     private EditText mEtCharacteristics;
@@ -136,8 +138,46 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
     }
 
     @Override
-    public void onSuccess(ArrayList<? extends Object> data) {
+    public void onSuccess(List<? extends Characteristics> data) {
+        refreshUi(data);
+
+    }
+
+    private void refreshUi(List<? extends Characteristics> data) {
         //Display User characteristics from DB
+        //Display User characteristics UI
+        if (data == null) return;
+        if (getActivity() == null) return;
+
+        final ArrayList<OrmCharacteristics> ormCharacteristicsList = (ArrayList<OrmCharacteristics>) data;
+
+        final List<Characteristics> parentList = new ArrayList<>();
+        for (Characteristics characteristics : ormCharacteristicsList) {
+            if (ormCharacteristicsList.size() > 0) {
+                parentList.add(characteristics);
+            }
+        }
+
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UCoreUserCharacteristics uCoreCharacteristics = convertToUCoreUserCharacteristics(parentList);
+
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                    String jsonObj = gson.toJson(uCoreCharacteristics);
+
+                    DSLog.i(DSLog.LOG, "Inder AppUserCharacteristics onSuccess= " + jsonObj);
+                    mEtCharacteristics.setText(jsonObj);
+                } catch (Exception e) {
+                    DSLog.i(DSLog.LOG, "Inder Exception onSuccess= " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+
+
+        });
     }
 
 
@@ -184,56 +224,14 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
     }
 
     @Override
-    public void onSuccess(final Object data) {
-        //Display User characteristics UI
-        if (data == null) return;
-        if (getActivity() == null) return;
-
-        final ArrayList<OrmCharacteristics> ormCharacteristicsList = (ArrayList<OrmCharacteristics>) data;
-
-        final List<Characteristics> parentList = new ArrayList<>();
-        for (Characteristics characteristics : ormCharacteristicsList) {
-            if (ormCharacteristicsList.size() > 0) {
-                parentList.add(characteristics);
-            }
-        }
-
-
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    UCoreUserCharacteristics uCoreCharacteristics = convertToUCoreUserCharacteristics(parentList);
-
-                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                    String jsonObj = gson.toJson(uCoreCharacteristics);
-
-                    DSLog.i(DSLog.LOG, "Inder AppUserCharacteristics onSuccess= " + jsonObj);
-                    mEtCharacteristics.setText(jsonObj);
-                } catch (Exception e) {
-                    DSLog.i(DSLog.LOG, "Inder Exception onSuccess= " + e.getMessage());
-                    e.printStackTrace();
-                }
-            }
-
-
-        });
-    }
-
-    @Override
     public void onFailure(final Exception exception) {
-        if (getActivity() == null) return;
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        refreshOnFailure(exception);
     }
 
     @Override
-    public void dBChangeSuccess() {
+    public void dBChangeSuccess(SyncType type) {
         DSLog.i(DSLog.LOG, "Inder fetchData before editing");
+        if(type!=SyncType.CHARACTERISTICS)return;
         if (!isEditable) {
             DSLog.i(DSLog.LOG, "Inder fetchData editing");
             DataServicesManager.getInstance().fetchUserCharacteristics(this);
@@ -243,5 +241,27 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
     @Override
     public void dBChangeFailed(Exception e) {
 
+    }
+
+    @Override
+    public void onFetchSuccess(List<? extends Characteristics> data) {
+        //Display User characteristics from DB
+        //Display User characteristics UI
+        refreshUi(data);
+    }
+
+    @Override
+    public void onFetchFailure(final Exception exception) {
+        refreshOnFailure(exception);
+    }
+
+    private void refreshOnFailure(final Exception exception) {
+        if (getActivity() == null) return;
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

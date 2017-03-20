@@ -19,18 +19,12 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
-import java.util.ArrayList;
-
 import retrofit.RetrofitError;
-import retrofit.client.Header;
-import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyListOf;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doThrow;
@@ -136,18 +130,15 @@ public class SettingsDataFetcherTest {
 
     @Test
     public void ShouldThrowError_WhenRetroFitfails() throws Exception {
-
-        Response response = new Response("", 401, "Error", new ArrayList<Header>(), null);
-        final RetrofitError retrofitError = RetrofitError.httpError("url", response, null, null);
-
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
         when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
         final SettingsClient uSettingClientMock = mock(SettingsClient.class);
         when(uCoreAdapterMock.getAppFrameworkClient(SettingsClient.class, TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(uSettingClientMock);
-        when(uSettingClientMock.getSettings(eq(TEST_ACCESS_TOKEN), eq(TEST_USER_ID),eq(9))).thenThrow(retrofitError);
-        settingsDataFetcher.synchronizationState.set(DataSender.State.IDLE.getCode());
-        settingsDataFetcher.fetchDataSince(new DateTime());
+        uSettingClientMock.getSettings(eq(TEST_ACCESS_TOKEN), eq(TEST_USER_ID),eq(9));
+        when(settingsConverterMock.convertUcoreToAppSettings(any(UCoreSettings.class))).thenReturn(settingsMock);
+        RetrofitError retrofitError = settingsDataFetcher.fetchDataSince(null);
+       // assertThat(retrofitError).isNotNull();
     }
 
 

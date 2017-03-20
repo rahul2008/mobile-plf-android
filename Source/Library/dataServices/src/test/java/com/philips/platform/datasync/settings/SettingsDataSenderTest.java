@@ -1,6 +1,7 @@
 package com.philips.platform.datasync.settings;
 
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;

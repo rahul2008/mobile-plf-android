@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.OrmTableType;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.SyncBitUpdateRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -82,7 +82,7 @@ public class UserCharacteristicsSender extends DataSender {
                     API_VERSION);
 
             if (isResponseSuccess(response)) {
-                mEventing.post(new SyncBitUpdateRequest(OrmTableType.CHARACTERISTICS, true));
+                mEventing.post(new SyncBitUpdateRequest(SyncType.CHARACTERISTICS, true));
                 return true;
             }
         } catch (RetrofitError retrofitError) {

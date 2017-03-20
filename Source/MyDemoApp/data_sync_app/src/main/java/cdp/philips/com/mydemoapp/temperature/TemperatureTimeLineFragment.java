@@ -1,18 +1,18 @@
 package cdp.philips.com.mydemoapp.temperature;
 
 import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -23,20 +23,22 @@ import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cdp.philips.com.mydemoapp.DataSyncApplication;
 import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.characteristics.CharacteristicsDialogFragment;
 import cdp.philips.com.mydemoapp.consents.ConsentDialogFragment;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
-import cdp.philips.com.mydemoapp.reciever.BaseAppBroadcastReceiver;
 import cdp.philips.com.mydemoapp.registration.UserRegistrationInterfaceImpl;
 import cdp.philips.com.mydemoapp.settings.SettingsFragment;
 import cdp.philips.com.mydemoapp.utility.Utility;
@@ -48,7 +50,7 @@ import static android.content.Context.ALARM_SERVICE;
  * All rights reserved.
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBRequestListener, DBChangeListener, SynchronisationCompleteListener{
+public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBFetchRequestListner<Moment>,DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener{
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
@@ -65,12 +67,13 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     User mUser;
     Utility mUtility;
 
-    TextView mTvConsents, mTvCharacteristics , mTvSettings;
+    TextView mTvConsents, mTvCharacteristics , mTvSettings ,mTvLogout;
 
 
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         mDataServicesManager = DataServicesManager.getInstance();
         mUser = new User(mContext);
         userRegistrationInterface = new UserRegistrationInterfaceImpl(mContext, mUser);
@@ -112,7 +115,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         /*mDataServicesManager.setPullComplete(true);
         mDataServicesManager.setPushComplete(true);*/
 
-        setUpBackendSynchronizationLoop();
+        //setUpBackendSynchronizationLoop();
 
         if (!mUtility.isOnline(getContext())) {
             showToastOnUiThread("Please check your connection");
@@ -147,7 +150,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         super.onStop();
         DataServicesManager.getInstance().unRegisterDBChangeListener();
         mDataServicesManager.unRegisterSynchronisationCosmpleteListener();
-        cancelPendingIntent();
+        //cancelPendingIntent();
         //mDataServicesManager.stopCore();
         dismissProgressDialog();
     }
@@ -166,33 +169,12 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mTvConsents = (TextView) view.findViewById(R.id.tv_set_consents);
         mTvCharacteristics = (TextView) view.findViewById(R.id.tv_set_characteristics);
         mTvSettings= (TextView) view.findViewById(R.id.tv_settings);
-
+        mTvLogout= (TextView) view.findViewById(R.id.tv_logout);
         mTvConsents.setOnClickListener(this);
         mTvCharacteristics.setOnClickListener(this);
         mTvSettings.setOnClickListener(this);
+        mTvLogout.setOnClickListener(this);
         return view;
-    }
-
-    private void setUpBackendSynchronizationLoop() {
-        PendingIntent dataSyncIntent = getPendingIntent();
-
-        // Start the first time after 5 seconds
-        long firstTime = SystemClock.elapsedRealtime();
-        firstTime += 5 * 1000;
-
-        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, firstTime, BaseAppBroadcastReceiver.DATA_FETCH_FREQUENCY, dataSyncIntent);
-    }
-
-    private PendingIntent getPendingIntent() {
-        Intent intent = new Intent(mContext, BaseAppBroadcastReceiver.class);
-        intent.setAction(BaseAppBroadcastReceiver.ACTION_USER_DATA_FETCH);
-        return PendingIntent.getBroadcast(mContext, 0, intent, 0);
-    }
-
-    public void cancelPendingIntent() {
-        PendingIntent dataSyncIntent = getPendingIntent();
-        dataSyncIntent.cancel();
-        alarmManager.cancel(dataSyncIntent);
     }
 
     @Override
@@ -225,40 +207,19 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 characteristicsDialogFragment.show(getFragmentManager(), "Character");
 
                 break;
+
+            case R.id.tv_logout:
+
+                boolean isLogout= ((DataSyncApplication) getContext().getApplicationContext()).getUserRegImple().logout();
+                if(isLogout)getActivity().finish();
+
+                break;
         }
     }
 
     @Override
-    public void onSuccess(final ArrayList<? extends Object> data) {
-
-        DSLog.i("***SPO***","On Sucess ArrayList TemperatureTimeLineFragment");
-        if (getActivity() == null) return;
-
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                DSLog.i("***SPO***", "http TEmperature TimeLine : UI updated");
-                mData = (ArrayList<? extends Moment>) data;
-                mAdapter.setData(mData);
-                mAdapter.notifyDataSetChanged();
-
-                if (mDataServicesManager.getSyncTypes()!=null && mDataServicesManager.getSyncTypes().size()<=0) {
-                    dismissProgressDialog();
-                    Toast.makeText(getContext(),"No Sync Types Configured",Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                if (mSharedPreferences.getBoolean("isSynced", false)) {
-                    dismissProgressDialog();
-                }
-            }
-        });
-
-    }
-
-    @Override
-    public void onSuccess(final Object data) {
-        DSLog.i("***SPO***", "on Success Object Temperature");
+    public void onSuccess(final List<? extends Moment> data) {
+        DSLog.i(DSLog.LOG, "on Success Temperature");
         mTemperaturePresenter.fetchData(this);
     }
 
@@ -318,18 +279,12 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     }
 
     @Override
-    public void dBChangeSuccess() {
-        DSLog.i("***SPO***", "pabitra DB OnSuccess");
-        if (getActivity() == null) return;
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
+    public void dBChangeSuccess(SyncType type) {
+        DSLog.i(DSLog.LOG, "In Temperature TimeLine Fragment DB OnSuccess");
+        if(type!=SyncType.MOMENT)return;
 
-                mTemperaturePresenter.fetchData(TemperatureTimeLineFragment.this);
-            }
-        });
-
-
+        DSLog.i(DSLog.LOG, "In Temperature TimeLine Fragment DB OnSuccess Moment request");
+        mTemperaturePresenter.fetchData(TemperatureTimeLineFragment.this);
     }
 
     @Override
@@ -339,15 +294,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void onSyncComplete() {
-        if (getActivity() == null) return;
-        DSLog.i("***SPO***", "In TemperatureTimeLineFragment ONSYNCCOMPLETE");
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                mTemperaturePresenter.fetchData(TemperatureTimeLineFragment.this);
-            }
-        });
+        DSLog.i(TAG, "Sync completed");
     }
 
     @Override
@@ -374,5 +321,60 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    public void onFetchSuccess(final List<? extends Moment> data) {
+        DSLog.i(DSLog.LOG,"On Sucess ArrayList TemperatureTimeLineFragment");
+        if (getActivity() == null) return;
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                DSLog.i(DSLog.LOG, "http TEmperature TimeLine : UI updated");
+                mData = (ArrayList<? extends Moment>) data;
+                mAdapter.setData(mData);
+                mAdapter.notifyDataSetChanged();
+
+                if (mDataServicesManager.getSyncTypes()!=null && mDataServicesManager.getSyncTypes().size()<=0) {
+                    dismissProgressDialog();
+                    Toast.makeText(getContext(),"No Sync Types Configured",Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (mSharedPreferences.getBoolean("isSynced", false)) {
+                    dismissProgressDialog();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onFetchFailure(Exception exception) {
+        onFailureRefresh(exception);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+      //  menu.clear();
+        //inflater.inflate(R.menu.menu_main, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            /*case R.id.menu_consent:
+                Toast.makeText(getApplicationContext(), "speaking....", Toast.LENGTH_LONG).show();
+                return false;*/
+
+            default:
+
+
+                break;
+        }
+
+        return false;
     }
 }
