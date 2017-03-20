@@ -123,13 +123,6 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
     }
 
-    @Override
-    public boolean saveInsights(List<Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
-        boolean isSaved = saving.saveInsights(insights, dbRequestListener);
-        notifyDBRequestListener.notifyDBChange(SyncType.INSIGHT);
-        return isSaved;
-    }
-
     private void updateUCUI(List<Characteristics> characteristicsList, DBRequestListener dbRequestListener) {
         if (dbRequestListener == null) {
             return;
@@ -144,5 +137,12 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     @Override
     public void postError(Exception e, DBRequestListener dbRequestListener) {
         notifyDBRequestListener.notifyFailure(e, dbRequestListener);
+    }
+
+    @Override
+    public boolean saveInsights(List<Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
+        boolean isSaved = saving.saveInsights(insights, dbRequestListener);
+        notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.INSIGHT);
+        return isSaved;
     }
 }

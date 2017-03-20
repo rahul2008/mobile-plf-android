@@ -51,10 +51,10 @@ public class InsightSegregatorTest {
         initMocks(this);
         DataServicesManager.getInstance().setAppComponant(mAppComponent);
         mInsightSegregator = new InsightSegregator();
-        mInsightSegregator.updatingInterface = mDBUpdatingInterface;
-        mInsightSegregator.dbFetchingInterface = mDBFetchingInterface;
-        mInsightSegregator.dbDeletingInterface = mDBDeletingInterface;
-        mInsightSegregator.dbSavingInterface = mDBSavingInterface;
+        mInsightSegregator.mDBUpdatingInterface = mDBUpdatingInterface;
+        mInsightSegregator.mDBFetchingInterface = mDBFetchingInterface;
+        mInsightSegregator.mDBDeletingInterface = mDBDeletingInterface;
+        mInsightSegregator.mDBSavingInterface = mDBSavingInterface;
     }
 
     @Test

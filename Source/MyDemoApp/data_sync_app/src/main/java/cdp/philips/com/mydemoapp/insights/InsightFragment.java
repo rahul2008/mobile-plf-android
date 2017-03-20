@@ -5,10 +5,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.test.suitebuilder.TestMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.SyncType;
@@ -22,14 +24,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cdp.philips.com.mydemoapp.R;
-import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
-
 public class InsightFragment extends DialogFragment implements DBRequestListener<Insight>, DBFetchRequestListner<Insight>, DBChangeListener {
     InsightAdapter mInsightAdapter;
     List<InsightDisplayModel> mInsightDisplayModelList = new ArrayList<>();
     RecyclerView mInsightsRecyclerView;
     ArrayList<? extends Insight> mInsightlist = new ArrayList();
     DataServicesManager mDataServicesManager;
+    private TextView mNoInsights;
 
     @Nullable
     @Override
@@ -40,6 +41,8 @@ public class InsightFragment extends DialogFragment implements DBRequestListener
         mDataServicesManager = DataServicesManager.getInstance();
 
         mInsightAdapter = new InsightAdapter(mInsightDisplayModelList);
+
+        mNoInsights = (TextView) view.findViewById(R.id.tv_no_insights);
         mInsightsRecyclerView = (RecyclerView) view.findViewById(R.id.insight_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mInsightsRecyclerView.setLayoutManager(layoutManager);
@@ -56,9 +59,9 @@ public class InsightFragment extends DialogFragment implements DBRequestListener
 
     @Override
     public void dBChangeSuccess(SyncType type) {
-        if(type == SyncType.INSIGHT) {
+        if (type == SyncType.INSIGHT) {
             DataServicesManager.getInstance().fetchInsights(this);
-            Log.d(this.getClass().getName(),"Insight is changed");
+            Log.d(this.getClass().getName(), "Insight is changed");
         }
     }
 
@@ -73,7 +76,6 @@ public class InsightFragment extends DialogFragment implements DBRequestListener
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                DSLog.i(DSLog.LOG, "http TEmperature TimeLine : UI updated");
                 updateUI(data);
             }
         });
@@ -95,16 +97,47 @@ public class InsightFragment extends DialogFragment implements DBRequestListener
     }
 
     private void updateUI(final List<? extends Insight> insights) {
-        if (getActivity()!=null && insights != null ) {
+        if (getActivity() != null && insights != null) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     mInsightlist = (ArrayList<? extends Insight>) insights;
-                    mInsightAdapter.setInsightList(mInsightlist);
-                    mInsightAdapter.notifyDataSetChanged();
+
+                    if(mInsightlist.size() > 0) {
+                        mInsightsRecyclerView.setVisibility(View.VISIBLE);
+                        mNoInsights.setVisibility(View.GONE);
+
+                        mInsightAdapter.setInsightList(mInsightlist);
+                        mInsightAdapter.notifyDataSetChanged();
+                    }else{
+                        mInsightsRecyclerView.setVisibility(View.GONE);
+                        mNoInsights.setVisibility(View.VISIBLE);
+                    }
                 }
             });
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        DataServicesManager.getInstance().unRegisterDBChangeListener();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mDataServicesManager.registerDBChangeListener(this);
     }
 }
 

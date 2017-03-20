@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.philips.platform.core.datatypes.Insight;
-import com.philips.platform.core.datatypes.Moment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +41,7 @@ public class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightH
     }
 
     public void setInsightList(final ArrayList<? extends Insight> insightList) {
+        mInsightDisplayModelList.clear();
         for(Insight insight : insightList){
             InsightDisplayModel insightDisplayModel = new InsightDisplayModel();
             insightDisplayModel.setLastModified(insight.getLastModified());

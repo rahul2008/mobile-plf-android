@@ -50,15 +50,15 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             Settings existingSettings = fetching.fetchSettings();
             OrmSettings ormExistingSettings = OrmTypeChecking.checkOrmType(existingSettings, OrmSettings.class);
 
-            if(ormExistingSettings==null){
+            if (ormExistingSettings == null) {
                 saving.saveSettings(ormSettings);
-                notifyDBRequestListener.notifySuccess(dbRequestListener,SyncType.SETTINGS);
+                notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.SETTINGS);
                 return;
             }
 
             ormSettings.setID(ormExistingSettings.getId());
             updating.updateSettings(ormSettings);
-            notifyDBRequestListener.notifySuccess(dbRequestListener,SyncType.SETTINGS);
+            notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.SETTINGS);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -68,9 +68,9 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public boolean updateSyncBit(int tableID,boolean isSynced) {
+    public boolean updateSyncBit(int tableID, boolean isSynced) {
         try {
-            updating.updateDCSync(tableID,isSynced);
+            updating.updateDCSync(tableID, isSynced);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -78,25 +78,19 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public boolean updateInsights(List<? extends Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
-       return saving.saveInsights((List<Insight>) insights,dbRequestListener);
-    }
-
-
-    @Override
     public boolean updateConsent(final List<? extends ConsentDetail> consents, DBRequestListener dbRequestListener) throws SQLException {
 
-        for(ConsentDetail consentDetail :consents){
+        for (ConsentDetail consentDetail : consents) {
             try {
                 updating.updateConsentDetails(consentDetail);
             } catch (SQLException e) {
                 e.printStackTrace();
-                notifyDBRequestListener.notifyFailure(e,dbRequestListener);
+                notifyDBRequestListener.notifyFailure(e, dbRequestListener);
                 return false;
             }
 
         }
-        notifyDBRequestListener.notifySuccess(consents,dbRequestListener,SyncType.CONSENT);
+        notifyDBRequestListener.notifySuccess(consents, dbRequestListener, SyncType.CONSENT);
         return true;
     }
 
@@ -110,7 +104,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         updating.updateMoment(ormMoment);
         updating.refreshMoment(ormMoment);
 
-        notifyDBRequestListener.notifySuccess(dbRequestListener, ormMoment ,SyncType.MOMENT);
+        notifyDBRequestListener.notifySuccess(dbRequestListener, ormMoment, SyncType.MOMENT);
     }
 
     @Override
@@ -141,16 +135,26 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
 
             deleting.deleteCharacteristics();
 
-            for(Characteristics characteristics:characteristicsList) {
+            for (Characteristics characteristics : characteristicsList) {
                 OrmCharacteristics ormCharacteristics = OrmTypeChecking.checkOrmType(characteristics, OrmCharacteristics.class);
                 saving.saveCharacteristics(ormCharacteristics);
             }
-            notifyDBRequestListener.notifySuccess(dbRequestListener,SyncType.CHARACTERISTICS);
+            notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.CHARACTERISTICS);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             e.printStackTrace();
             return false;
         }
 
+    }
+
+    @Override
+    public boolean updateInsights(List<? extends Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
+        boolean isSaved = saving.saveInsights((List<Insight>) insights, dbRequestListener);
+        if (isSaved)
+            notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.INSIGHT);
+        else
+            notifyDBRequestListener.notifyFailure(new Exception("Update failed"), dbRequestListener);
+        return isSaved;
     }
 }

@@ -313,7 +313,6 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     //Insights
-
     @Override
     public List<? extends Insight> fetchActiveInsights(DBFetchRequestListner dbFetchRequestListner) throws SQLException {
         QueryBuilder<OrmInsight, Integer> queryBuilder = ormInsightDao.queryBuilder();
@@ -337,7 +336,6 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     public Insight fetchInsightByGuid(@NonNull String guid) throws SQLException {
         QueryBuilder<OrmInsight, Integer> insightQueryBuilder = ormInsightDao.queryBuilder();
         insightQueryBuilder.where().eq("guid", guid);
-
         return insightQueryBuilder.queryForFirst();
     }
 
@@ -345,17 +343,13 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     public Insight fetchInsightById(int id, DBFetchRequestListner dbFetchRequestListner) throws SQLException {
         QueryBuilder<OrmInsight, Integer> insightQueryBuilder = ormInsightDao.queryBuilder();
         insightQueryBuilder.where().eq("id", id);
-
         return insightQueryBuilder.queryForFirst();
     }
 
     @Override
     public List<?> fetchNonSynchronizedInsights() throws SQLException {
-        DSLog.i(DSLog.LOG, "In OrmFetchingInterfaceImpl fetchNonSynchronizedMoments");
         QueryBuilder<OrmInsight, Integer> insightQueryBuilder = ormInsightDao.queryBuilder();
-        DSLog.i(DSLog.LOG, "In OrmFetchingInterfaceImpl after query builder");
         insightQueryBuilder.where().eq(SYNCED_FIELD, false);
-        DSLog.i(DSLog.LOG, "In OrmFetchingInterfaceImpl after where and before query");
         return insightQueryBuilder.query();
     }
 }

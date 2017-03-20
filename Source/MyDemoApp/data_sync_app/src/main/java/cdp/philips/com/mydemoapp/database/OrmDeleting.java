@@ -289,6 +289,7 @@ public class OrmDeleting {
         return true;
     }
 
+    //Insights
     public boolean deleteInsights(final List<Insight> insights, DBRequestListener dbRequestListener) {
 
         try {
@@ -309,14 +310,15 @@ public class OrmDeleting {
         return true;
     }
 
-    public int deleteInsightMetaData(@NonNull final OrmInsight ormInsight) throws SQLException{
+    public int deleteInsightMetaData(@NonNull final OrmInsight ormInsight) throws SQLException {
         DeleteBuilder<OrmInsightMetaData, Integer> deleteBuilder = ormInsightMetadataDao.deleteBuilder();
-        deleteBuilder.where().eq("ormInsight_id", ormInsight.getGUId());
+        deleteBuilder.where().eq("ormInsight_id", ormInsight.getId());
         return deleteBuilder.delete();
     }
 
     public void deleteInsight(@NonNull final OrmInsight insight) throws SQLException {
-        deleteInsightMetaData(insight);
+        if (insight.getInsightMetaData() != null && insight.getInsightMetaData().size() > 0)
+            deleteInsightMetaData(insight);
         deleteSynchronisationData(insight.getSynchronisationData());
         ormInsightDao.delete(insight);
     }

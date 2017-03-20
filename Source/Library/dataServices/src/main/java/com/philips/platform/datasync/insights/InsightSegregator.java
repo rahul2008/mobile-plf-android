@@ -5,9 +5,7 @@
 package com.philips.platform.datasync.insights;
 
 import com.philips.platform.core.BaseAppDataCreator;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Insight;
-import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
@@ -29,153 +27,112 @@ import javax.inject.Inject;
 public class InsightSegregator {
 
     @Inject
-    DBUpdatingInterface updatingInterface;
+    DBUpdatingInterface mDBUpdatingInterface;
     @Inject
-    DBFetchingInterface dbFetchingInterface;
+    DBFetchingInterface mDBFetchingInterface;
     @Inject
-    DBDeletingInterface dbDeletingInterface;
+    DBDeletingInterface mDBDeletingInterface;
     @Inject
-    DBSavingInterface dbSavingInterface;
-
+    DBSavingInterface mDBSavingInterface;
     @Inject
-    BaseAppDataCreator baseAppDataCreater;
+    BaseAppDataCreator mBaseAppDataCreator;
 
     public InsightSegregator() {
         DataServicesManager.getInstance().getAppComponant().injectInsightSegregator(this);
     }
 
-    private int getVersionInDatabase(final Insight insightInDataBase) {
-        if (insightInDataBase != null && insightInDataBase.getSynchronisationData() != null) {
-            return insightInDataBase.getSynchronisationData().getVersion();
-        }
-        return -1;
-    }
-
-    private boolean hasDifferentInsightVersion(final Insight insight,
-                                               final Insight insightInDatabase) throws SQLException {
-        boolean isVersionDifferent = true;
-        final SynchronisationData synchronisationData = insight.getSynchronisationData();
-
-        if (synchronisationData != null) {
-            final int versionInDatabase = getVersionInDatabase(insightInDatabase);
-            if (versionInDatabase != -1) {
-                isVersionDifferent = versionInDatabase != synchronisationData.getVersion();
-            }
-        }
-        return isVersionDifferent;
-    }
-
-    private boolean isInsightActive(final SynchronisationData synchronisationData) {
-        return synchronisationData == null || !synchronisationData.isInactive();
-    }
-
-    protected boolean InsightDeletedLocallyDuringSync(final Insight insightInDatabase) {
-        if (insightInDatabase != null) {
-            final SynchronisationData synchronisationData = insightInDatabase.getSynchronisationData();
-            if (synchronisationData != null) {
-                return synchronisationData.getGuid().
-                        equals(Moment.MOMENT_NEVER_SYNCED_AND_DELETED_GUID);
-            }
-        }
-        return false;
-    }
-
-
-    public void processInsights(final List<Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
-
-        List<Insight> insightsToDelete = new ArrayList<>();
-        List<Insight> insightsToDeleteAndSave = new ArrayList<>();
-
-        List<Insight> insightsToCreate= new ArrayList<>();
-
-        for (Insight insight : insights) {
-            final Insight insightInDatabase = getOrmInsightFromDatabase(insight, dbRequestListener);
-
-            if(insightInDatabase==null){
-
-                SynchronisationData synchronisationData =
-                        baseAppDataCreater.createSynchronisationData(insight.getGUId(), false,
-                                new DateTime(insight.getTimeStamp()),1);
-                insight.setSynchronisationData(synchronisationData);
-                insight.setSynced(true);
-                insightsToCreate.add(insight);
-            }
-            else if (hasDifferentInsightVersion(insight, insightInDatabase)) {
-                if (!isInsightActive(insight.getSynchronisationData())) {
-                    insightsToDelete.add(insightInDatabase);
-                } else if (InsightDeletedLocallyDuringSync(insightInDatabase)) {
-                    insight.setSynced(false);
-                    insight.getSynchronisationData().setInactive(true);
-
-                    if (insightInDatabase != null) {
-                        insight.setId(insightInDatabase.getId());
-                    }
-                    insightsToDeleteAndSave.add(insight);
-                } else {
-                    if (!isInsightModifiedLocallyDuringSync(insightInDatabase, insight)) {
-                        insight.setSynced(true);
-                    }
-                    if (insightInDatabase != null) {
-                        insight.setId(insightInDatabase.getId());
-                    }
-                    insightsToDeleteAndSave.add(insight);
-                }
-            }
-        }
-        dbSavingInterface.saveInsights(insightsToCreate,dbRequestListener);
-        deleteInsightsInDatabaseIfExists(insightsToDelete, dbRequestListener);
-        deleteAndSaveInsights(insightsToDeleteAndSave, dbRequestListener);
-    }
-
-    private void deleteAndSaveInsights(List<Insight> insights, DBRequestListener dbRequestListener) {
-        List<Insight> insightToDeleteList = new ArrayList<>();
-        try {
-            for (Insight insight : insights) {
-                final Insight insightInDatabase;
-                insightInDatabase = getOrmInsightFromDatabase(insight, dbRequestListener);
-                insightToDeleteList.add(insightInDatabase);
-            }
-            deleteInsightsInDatabaseIfExists(insightToDeleteList, dbRequestListener);
-            dbSavingInterface.saveInsights(insights, dbRequestListener);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    private void deleteInsightsInDatabaseIfExists(final List<Insight> insightsToDelete, DBRequestListener dbRequestListener)
-            throws SQLException {
-        dbDeletingInterface.deleteInsights(insightsToDelete, dbRequestListener);
-    }
-
-    private Insight getOrmInsightFromDatabase(Insight insight, DBRequestListener dbRequestListener) throws SQLException {
+    private Insight getOrmInsightFromDatabase(Insight insight) throws SQLException {
         Insight insightInDatabase = null;
         final SynchronisationData synchronisationData = insight.getSynchronisationData();
 
         if (synchronisationData != null) {
-            insightInDatabase = dbFetchingInterface.fetchInsightByGuid(synchronisationData.getGuid());
+            insightInDatabase = mDBFetchingInterface.fetchInsightByGuid(synchronisationData.getGuid());
             if (insightInDatabase == null) {
-                insightInDatabase = dbFetchingInterface.fetchInsightById(insight.getId(), null);
+                insightInDatabase = mDBFetchingInterface.fetchInsightById(insight.getId(), null);
             }
         }
         return insightInDatabase;
     }
 
-    private boolean isInsightModifiedLocallyDuringSync(final Insight insightInDatabase,
-                                                       final Insight insight) {
-        return insightInDatabase != null &&
-                !insight.getTimeStamp().equals(insightInDatabase.getTimeStamp());
+    private boolean hasDifferentInsightVersion(final Insight insight, final Insight insightInDatabase) throws SQLException {
+        return insight.getSynchronisationData().getVersion() != insightInDatabase.getSynchronisationData().getVersion();
+    }
+
+    private boolean isInsightDeletedFromBackend(final SynchronisationData synchronisationData) {
+        return synchronisationData == null || synchronisationData.isInactive();
+    }
+
+    protected boolean isInsightDeletedFromApplicationDB(final Insight insightInDatabase) {
+        final SynchronisationData synchronisationData = insightInDatabase.getSynchronisationData();
+        return synchronisationData != null && synchronisationData.getGuid().equals(Insight.INSIGHT_NEVER_SYNCED_AND_DELETED_GUID);
+    }
+
+    private boolean isInsightUpdatedFromBackend(final Insight insight, final Insight insightInDatabase) {
+        return insightInDatabase != null && !insight.getTimeStamp().equals(insightInDatabase.getTimeStamp());
+    }
+
+    public void processInsights(final List<Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
+        List<Insight> insightsToCreate = new ArrayList<>();
+        List<Insight> insightsToUpdate = new ArrayList<>();
+        List<Insight> insightsToDelete = new ArrayList<>();
+
+        for (Insight insight : insights) {
+            final Insight insightInDatabase = getOrmInsightFromDatabase(insight);
+            if (insightInDatabase == null) {
+                if (!insight.isInactive()) {
+                    SynchronisationData synchronisationData =
+                            mBaseAppDataCreator.createSynchronisationData(insight.getGUId(), insight.isInactive(),
+                                    new DateTime(insight.getTimeStamp()), insight.getVersion());
+                    insight.setSynchronisationData(synchronisationData);
+                    insight.setSynced(true);
+                    insightsToCreate.add(insight);
+                }
+            } else if (hasDifferentInsightVersion(insight, insightInDatabase)) {
+                if (isInsightDeletedFromBackend(insight.getSynchronisationData())) {
+                    insightsToDelete.add(insightInDatabase);
+                } else if (isInsightDeletedFromApplicationDB(insightInDatabase)) {
+                    insight.setSynced(false);
+                    insight.getSynchronisationData().setInactive(true);
+                    insight.setId(insightInDatabase.getId());
+                    insightsToUpdate.add(insight);
+                } else if (!isInsightUpdatedFromBackend(insight, insightInDatabase)) {
+                    insight.setSynced(true);
+                    insight.setId(insightInDatabase.getId());
+                    insightsToUpdate.add(insight);
+                }
+            }
+        }
+        if (insightsToCreate.size() > 0)
+            mDBSavingInterface.saveInsights(insightsToCreate, dbRequestListener);
+        if (insightsToDelete.size() > 0)
+            mDBDeletingInterface.deleteInsights(insightsToDelete, dbRequestListener);
+        if (insightsToUpdate.size() > 0)
+            deleteAndSaveInsights(insightsToUpdate, dbRequestListener);
+    }
+
+    private void deleteAndSaveInsights(List<Insight> insights, DBRequestListener dbRequestListener) {
+        List<Insight> insightsToDelete = new ArrayList<>();
+        try {
+            for (Insight insight : insights) {
+                final Insight insightInDatabase;
+                insightInDatabase = getOrmInsightFromDatabase(insight);
+                insightsToDelete.add(insightInDatabase);
+            }
+            mDBDeletingInterface.deleteInsights(insightsToDelete, dbRequestListener);
+            mDBSavingInterface.saveInsights(insights, dbRequestListener);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public Map<Class, List<?>> putInsightForSync(Map<Class, List<?>> dataToSync) {
         List<? extends Insight> insights = null;
         try {
-            insights = (List<? extends Insight>) dbFetchingInterface.fetchNonSynchronizedInsights();
+            insights = (List<? extends Insight>) mDBFetchingInterface.fetchNonSynchronizedInsights();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         dataToSync.put(Insight.class, insights);
         return dataToSync;
     }
-
 }
