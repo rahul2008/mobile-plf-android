@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!--This 'transparent' is required, bcz consumer care is using this keywork-->
+    <color name="transparent">#ffffff</color>
+    <!-- Activity -->
+    <color name="activity_background_color">#ffffff</color>
+
+    <!--
+    <drawable name="consumercare_background">#000000</drawable>-->
+
+    <!-- Faq BackGround Image-->
+    <drawable name="faq_header_background_color">#e4f3f7</drawable>
+
+
+    <!-- Actionbar related -->
+    <color name="actionbar_background_start_color">#003478</color>
+    <color name="actionbar_background_end_color">#0066A1</color>
+    <color name="actionbar_title_color">#FFFFFF</color>
+
+    <!-- Action bar handleBack arrow button -->
+
+
+    <bool name="actionbar_title_required">true</bool>
+
+    <!-- Text color -->
+    <color name="text_header_color">@color/button_background</color>
+    <color name="text_sub_header_color">#5D5D5D</color>
+    <color name="text_bazzarvoice_edittext_color">#cccccc</color>
+    <color name="white">#ffffff</color>
+    <!-- Standard Button. Common buttons used through out the component -->
+    <color name="button_text_color">@color/actionbar_title_color</color>
+    <color name="button_background">#003478</color>
+    <color name="button_background_pressed">#005A8B</color>
+
+    <!-- Register Button -->
+    <color name="button_register_background">#005AAB</color>
+    <color name="button_register_background_pressed">#005AAB</color>
+
+</resources>

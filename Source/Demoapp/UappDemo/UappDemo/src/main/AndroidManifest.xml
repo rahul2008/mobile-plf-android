@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.philips.platform.uappdemolibrary">
+
+    <application android:allowBackup="true">
+        <activity android:name="com.philips.platform.screens.introscreen.LaunchActivity" />
+    </application>
+
+</manifest>
