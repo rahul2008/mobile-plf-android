@@ -1,21 +1,47 @@
 #!/usr/bin/env groovy
 
+def triggers = []
+
+@NonCPS
+def isJobStartedByTimer() {
+    def startedByTimer = false
+    try {
+        def buildCauses = currentBuild.rawBuild.getCauses()
+        for(buildCause in buildCauses) {
+            if(buildCause != null) {
+                def causeDescription = buildCause.getShortDescription()
+                if(causeDescription.contains("Started by timer")) {
+                    startedByTimer = true
+                }
+            }
+        }
+    } catch(err) {
+        echo "Error determining build cause"
+    }
+    return startedByTimer
+}
+
+if (env.BRANCH_NAME == "develop") {
+    triggers << cron('H H(18-20) * * *')
+}
+
 properties([
-    [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']]
+    [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']],
+    pipelineTriggers(triggers),
 ])
 
 def getBuildConfig() {
   return ( env.BRANCH_NAME == 'master' ) ? 'Release' : 'Debug'
 }
- 
+
 stage('Espresso testing') {
     timestamps {
         node('android && espresso && mobile') {
             checkout([$class: 'GitSCM', branches: [[name: '*/'+env.BRANCH_NAME]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CheckoutOption', timeout: 30], [$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'bbd4d9e8-2a6c-4970-b856-4e4cf901e857', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/uid-android']]])
             bat "espresso.cmd"
-            publishHTML(target: [reportDir:'Source/UIKit/uid/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'Unit Tests'])
-            publishHTML(target: [reportDir:'Source/UIKit/uid/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'Code Coverage'])
-            step([$class: 'ArtifactArchiver', artifacts: 'Source/UIKit/uid/build/reports/coverage/debug/report.xml', excludes: null, fingerprint: true, onlyIfSuccessful: true])
+           publishHTML(target: [reportDir:'Source/UIKit/uid/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'Unit Tests'])
+           publishHTML(target: [reportDir:'Source/UIKit/uid/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'Code Coverage'])
+           step([$class: 'ArtifactArchiver', artifacts: 'Source/UIKit/uid/build/reports/coverage/debug/report.xml', excludes: null, fingerprint: true, onlyIfSuccessful: true])
         }
     }
 }
@@ -27,6 +53,7 @@ node('Android && 25.0.0 && Ubuntu') {
     def VERSION = ""
     def ANDROID_RELEASE_CANDIDATE = ""
     def ANDROID_VERSION_CODE = ""
+    def STARTED_BY_TIMER = isJobStartedByTimer()
 
     stage('Checkout') {
 			checkout([$class: 'GitSCM', branches: [[name: '*/'+env.BRANCH_NAME]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CheckoutOption', timeout: 30], [$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'bbd4d9e8-2a6c-4970-b856-4e4cf901e857', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/uid-android']]])
@@ -58,6 +85,8 @@ node('Android && 25.0.0 && Ubuntu') {
               echo "---------------------- Printing Environment --------------------------"
               env | sort
               echo "----------------------- End of Environment ---------------------------"
+
+              echo "Started by timer: ${STARTED_BY_TIMER}"
 
               echo "Android Release Candidate: ${ANDROID_RELEASE_CANDIDATE}"
               echo "Android Version Code: ${ANDROID_VERSION_CODE}"
@@ -98,7 +127,10 @@ node('Android && 25.0.0 && Ubuntu') {
 
     stage('Send Notifications') {
       step([$class: 'StashNotifier'])
-      step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: emailextrecipients([[$class: 'CulpritsRecipientProvider'], [$class: 'RequesterRecipientProvider']])])
+      if(STARTED_BY_TIMER) {
+            echo "Started by timer!"
+            step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: emailextrecipients([[$class: 'CulpritsRecipientProvider'], [$class: 'RequesterRecipientProvider']])])
+      }
     }
   }
 }
