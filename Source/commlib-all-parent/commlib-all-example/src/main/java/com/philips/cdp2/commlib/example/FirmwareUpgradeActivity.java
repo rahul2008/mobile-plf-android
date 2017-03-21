@@ -195,10 +195,10 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
     }
 
     private void deployFirmware() {
-        bleReferenceAppliance.getFirmwarePort().deployFirmware();
+        bleReferenceAppliance.getFirmwarePort().deployFirmware(1337); // FIXME
     }
 
     private void cancelFirmware() {
-        bleReferenceAppliance.getFirmwarePort().cancel();
+        bleReferenceAppliance.getFirmwarePort().cancel(1337); // FIXME
     }
 }
