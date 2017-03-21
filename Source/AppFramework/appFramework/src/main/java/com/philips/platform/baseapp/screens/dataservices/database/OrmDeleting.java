@@ -106,9 +106,12 @@ public class OrmDeleting {
         measurementDetailDao.executeRawNoArgs("DELETE FROM `ormmeasurementdetail`");
         synchronisationDataDao.executeRawNoArgs("DELETE FROM `ormsynchronisationdata`");
         consentDetailDao.executeRawNoArgs("DELETE FROM `ormconsentdetail`");
-        insertDefaultConsentAndSyncBit();
         characteristicsDao.executeRawNoArgs("DELETE FROM `ormcharacteristics`");
         settingsDao.executeRawNoArgs("DELETE FROM `ormsettings`");
+
+        insertDefaultConsentAndSyncBit();
+        insertDefaultSettingsAndSyncBit();
+        insertDefaultUCSyncBit();
     }
 
     private void insertDefaultConsentAndSyncBit() {
