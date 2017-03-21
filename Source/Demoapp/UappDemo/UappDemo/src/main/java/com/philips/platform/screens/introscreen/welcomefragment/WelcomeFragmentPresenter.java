@@ -11,7 +11,6 @@ import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.flowmanager.utility.Constants;
 import com.philips.platform.flowmanager.utility.SharedPreferenceUtility;
-import com.philips.platform.screens.base.AppFrameworkApplication;
 import com.philips.platform.screens.base.UIBasePresenter;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -37,17 +36,13 @@ public class WelcomeFragmentPresenter extends UIBasePresenter {
             sharedPreferenceUtility = new SharedPreferenceUtility(welcomeFragmentView.getFragmentActivity());
             sharedPreferenceUtility.writePreferenceBoolean(Constants.DONE_PRESSED, true);
         }
-        BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
+        BaseFlowManager targetFlowManager = welcomeFragmentView.getTargetFlowManager();
         baseState = targetFlowManager.getNextState(eventState);
 
         if (baseState != null) {
             welcomeFragmentView.showActionBar();
             baseState.navigate(getFragmentLauncher());
         }
-    }
-
-    protected AppFrameworkApplication getApplicationContext() {
-        return (AppFrameworkApplication) welcomeFragmentView.getFragmentActivity().getApplicationContext();
     }
 
     @NonNull

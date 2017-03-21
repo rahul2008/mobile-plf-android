@@ -23,6 +23,7 @@ public class UappDemouAppInterface implements UappInterface {
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         this.context = uappSettings.getContext();
+        getInstance().init(uappDependencies, uappSettings);
     }
 
     /**
@@ -30,10 +31,15 @@ public class UappDemouAppInterface implements UappInterface {
      */
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
+
         if (uiLauncher instanceof ActivityLauncher) {
             Intent intent = new Intent(context, LaunchActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         }
+    }
+
+    protected UappUiHelper getInstance(){
+        return UappUiHelper.getInstance();
     }
 }

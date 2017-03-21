@@ -18,11 +18,11 @@ import android.widget.TextView;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.screens.base.AppFrameworkApplication;
 import com.philips.platform.screens.base.OnboardingBaseFragment;
 import com.philips.platform.screens.base.UIBasePresenter;
 import com.philips.platform.screens.introscreen.LaunchActivity;
 import com.philips.platform.screens.introscreen.pager.WelcomePagerAdapter;
+import com.philips.platform.uappdemo.UappUiHelper;
 import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.shamanland.fonticon.FontIconView;
@@ -51,8 +51,7 @@ public class WelcomeFragment extends OnboardingBaseFragment implements View.OnCl
 
     public void onBackPressed() {
         if (pager.getCurrentItem() == 0) {
-            AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) getFragmentActivity().getApplication();
-            BaseFlowManager targetFlowManager = appFrameworkApplication.getTargetFlowManager();
+            BaseFlowManager targetFlowManager = getTargetFlowManager();
             targetFlowManager.getBackState(targetFlowManager.getCurrentState());
             targetFlowManager.clearStates();
             getActivity().finishAffinity();
@@ -70,7 +69,7 @@ public class WelcomeFragment extends OnboardingBaseFragment implements View.OnCl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        ((AppFrameworkApplication)getFragmentActivity().getApplicationContext()).getLoggingInterface().log(LoggingInterface.LogLevel.INFO, TAG,
+        UappUiHelper.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.INFO, TAG,
                 " IntroductionScreen Activity Created ");
         View view = inflater.inflate(R.layout.af_welcome_fragment, container, false);
 
@@ -144,5 +143,10 @@ public class WelcomeFragment extends OnboardingBaseFragment implements View.OnCl
     public boolean handleBackEvent() {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public BaseFlowManager getTargetFlowManager() {
+        return UappUiHelper.getInstance().getFlowManager();
     }
 }

@@ -23,9 +23,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.drawable.VectorDrawable;
+import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.flowmanager.utility.Constants;
 import com.philips.platform.screens.base.AppFrameworkBaseActivity;
 import com.philips.platform.screens.splash.SplashFragment;
+import com.philips.platform.uappdemo.UappUiHelper;
 import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -171,6 +173,11 @@ public class LaunchActivity extends AppFrameworkBaseActivity implements LaunchVi
     @Override
     public int getContainerId() {
         return R.id.welcome_frame_container;
+    }
+
+    @Override
+    public BaseFlowManager getTargetFlowManager() {
+        return UappUiHelper.getInstance().getFlowManager();
     }
 
     @Override

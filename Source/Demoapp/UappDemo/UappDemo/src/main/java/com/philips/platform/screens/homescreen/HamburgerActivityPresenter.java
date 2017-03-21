@@ -17,7 +17,6 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundExce
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.flowmanager.AppStates;
-import com.philips.platform.screens.base.AppFrameworkApplication;
 import com.philips.platform.screens.base.FragmentView;
 import com.philips.platform.screens.base.UIBasePresenter;
 import com.philips.platform.uappdemolibrary.R;
@@ -52,7 +51,7 @@ public class HamburgerActivityPresenter extends UIBasePresenter {
     public void onEvent(int componentID) {
         String eventState = getEventState(componentID);
         try {
-            BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
+            BaseFlowManager targetFlowManager = fragmentView.getTargetFlowManager();
             baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.HAMBURGER_HOME), eventState);
             if (null != baseState) {
                 baseState.setUiStateData(setStateData(baseState.getStateID()));
@@ -64,10 +63,6 @@ public class HamburgerActivityPresenter extends UIBasePresenter {
             Log.d(getClass() + "", e.getMessage());
             Toast.makeText(fragmentView.getFragmentActivity(), fragmentView.getFragmentActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
         }
-    }
-
-    protected AppFrameworkApplication getApplicationContext() {
-        return (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
     }
 
     @NonNull

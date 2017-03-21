@@ -5,6 +5,7 @@
 */
 package com.philips.platform.screens.base;
 
+import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 public interface FragmentView extends UIView {
@@ -12,4 +13,6 @@ public interface FragmentView extends UIView {
     ActionBarListener getActionBarListener();
 
     int getContainerId();
+
+    BaseFlowManager getTargetFlowManager();
 }

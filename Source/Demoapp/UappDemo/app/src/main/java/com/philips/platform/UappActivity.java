@@ -4,15 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
 import com.philips.platform.uappdemo.R;
 import com.philips.platform.uappdemo.UappDemouAppDependencies;
 import com.philips.platform.uappdemo.UappDemouAppInterface;
 import com.philips.platform.uappdemo.UappDemouAppSettings;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
-/**
- * Created by Yogesh on 3/21/17.
- */
 
 public class UappActivity extends AppCompatActivity {
 
@@ -20,9 +18,13 @@ public class UappActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.demoactivity);
-
         UappDemouAppInterface uAppInterface = new UappDemouAppInterface();
-        uAppInterface.init(new UappDemouAppDependencies(null), new UappDemouAppSettings(this));// pass App-infra instance instead of null
+        AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication)getApplicationContext();
+        UappDemouAppDependencies uappDependencies = new UappDemouAppDependencies(appFrameworkApplication.getAppInfra());
+        uAppInterface.init(uappDependencies, new UappDemouAppSettings(this));// pass App-infra instance instead of null
         uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);// pass launch input if required
+
+
+
     }
 }

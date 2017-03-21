@@ -12,7 +12,6 @@ import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.flowmanager.base.UIStateListener;
 import com.philips.platform.flowmanager.utility.Constants;
-import com.philips.platform.screens.base.AppFrameworkApplication;
 import com.philips.platform.screens.base.UIBasePresenter;
 import com.philips.platform.screens.splash.SplashState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -45,7 +44,7 @@ public class LaunchActivityPresenter extends UIBasePresenter implements UIStateL
         showActionBar();
         String event = getEvent(componentID);
         fragmentLauncher = getFragmentLauncher();
-        BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
+        BaseFlowManager targetFlowManager = launchView.getTargetFlowManager();
         BaseState baseState = null;
         if (event.equals(APP_LAUNCH))
             baseState = getSplashState();
@@ -87,10 +86,6 @@ public class LaunchActivityPresenter extends UIBasePresenter implements UIStateL
         UIStateData homeStateData = new UIStateData();
         homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
         return homeStateData;
-    }
-
-    protected AppFrameworkApplication getApplicationContext() {
-        return (AppFrameworkApplication) launchView.getFragmentActivity().getApplicationContext();
     }
 
     @Override

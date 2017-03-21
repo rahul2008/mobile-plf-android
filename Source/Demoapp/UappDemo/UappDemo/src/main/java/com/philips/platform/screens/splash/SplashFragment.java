@@ -23,11 +23,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
-import com.philips.platform.screens.base.AppFrameworkApplication;
 import com.philips.platform.screens.base.OnboardingBaseFragment;
 import com.philips.platform.screens.base.UIBasePresenter;
 import com.philips.platform.screens.introscreen.LaunchActivity;
+import com.philips.platform.uappdemo.UappUiHelper;
 import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
@@ -98,7 +99,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     }
 
     private void setFlowManager() {
-       getApplicationContext().setTargetFlowManager(this,getActivity());
+       UappUiHelper.getInstance().setTargetFlowManager(this,getActivity());
     }
 
     //Requesting permission
@@ -215,13 +216,15 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
 
     }
 
-    public AppFrameworkApplication getApplicationContext() {
-        return (AppFrameworkApplication) getFragmentActivity().getApplicationContext();
-    }
 
     public void permissionGranted() {
          setFlowManager();
         if (!isMultiwindowEnabled)
             startTimer();
+    }
+
+    @Override
+    public BaseFlowManager getTargetFlowManager() {
+        return UappUiHelper.getInstance().getFlowManager();
     }
 }
