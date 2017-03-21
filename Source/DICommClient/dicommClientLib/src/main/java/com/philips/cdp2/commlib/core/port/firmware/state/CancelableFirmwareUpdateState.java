@@ -17,7 +17,7 @@ abstract class CancelableFirmwareUpdateState extends FirmwareUpdateState {
     }
 
     @Override
-    public void cancel() {
+    public void cancel(int stateTransitionTimeout) {
         firmwareUpdate.requestState(CANCELING);
         firmwareUpdate.waitForNextState();
     }

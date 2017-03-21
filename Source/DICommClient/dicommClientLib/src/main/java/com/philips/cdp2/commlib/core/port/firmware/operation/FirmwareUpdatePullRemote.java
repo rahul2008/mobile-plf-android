@@ -8,18 +8,27 @@ import com.philips.cdp2.commlib.core.port.firmware.FirmwareUpdate;
 
 public class FirmwareUpdatePullRemote implements FirmwareUpdate {
 
+    private final int stateTransitionTimeout;
+
+    public FirmwareUpdatePullRemote(int stateTransitionTimeout) {
+        if (stateTransitionTimeout <= 0) {
+            throw new IllegalArgumentException("Timeout value is invalid, must be a non-zero positive integer.");
+        }
+        this.stateTransitionTimeout = stateTransitionTimeout;
+    }
+
     @Override
     public void start() {
         throw new UnsupportedOperationException("Not implemented yet.");
     }
 
     @Override
-    public void deploy() throws FirmwareUpdateException {
+    public void deploy(int stateTransitionTimeout) throws FirmwareUpdateException {
         throw new UnsupportedOperationException("Not implemented yet.");
     }
 
     @Override
-    public void cancel() throws FirmwareUpdateException {
+    public void cancel(int stateTransitionTimeout) throws FirmwareUpdateException {
         throw new UnsupportedOperationException("Not implemented yet.");
     }
 

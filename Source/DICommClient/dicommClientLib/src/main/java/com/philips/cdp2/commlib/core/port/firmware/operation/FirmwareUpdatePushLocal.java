@@ -69,7 +69,7 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
     @NonNull
     private final byte[] firmwareData;
 
-    private final int timeoutMillis;
+    private final int stateTransitionTimeout;
 
     private FirmwarePortStateWaiter firmwarePortStateWaiter;
 
@@ -78,15 +78,15 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
     public FirmwareUpdatePushLocal(@NonNull final FirmwarePort firmwarePort,
                                    @NonNull final CommunicationStrategy communicationStrategy,
                                    @NonNull final FirmwarePortListener firmwarePortListener,
-                                   @NonNull byte[] firmwareData, int timeoutMillis) {
+                                   @NonNull byte[] firmwareData, int stateTransitionTimeout) {
         this.firmwarePort = firmwarePort;
         this.communicationStrategy = communicationStrategy;
         this.firmwarePortListener = firmwarePortListener;
 
-        if (timeoutMillis <= 0) {
+        if (stateTransitionTimeout <= 0) {
             throw new IllegalArgumentException("Timeout value is invalid, must be a non-zero positive integer.");
         }
-        this.timeoutMillis = timeoutMillis;
+        this.stateTransitionTimeout = stateTransitionTimeout;
 
         if (firmwareData.length == 0) {
             throw new IllegalArgumentException("Firmware data has zero length.");
@@ -119,13 +119,13 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
     }
 
     @Override
-    public void deploy() throws FirmwareUpdateException {
-        currentState.deploy();
+    public void deploy(int stateTransitionTimeout) throws FirmwareUpdateException {
+        currentState.deploy(stateTransitionTimeout);
     }
 
     @Override
-    public void cancel() throws FirmwareUpdateException {
-        currentState.cancel();
+    public void cancel(int stateTransitionTimeout) throws FirmwareUpdateException {
+        currentState.cancel(stateTransitionTimeout);
     }
 
     @Override
@@ -200,7 +200,7 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
 
     @VisibleForTesting
     FirmwarePortStateWaiter createFirmwarePortStateWaiter(FirmwarePortState portState) {
-        return new FirmwarePortStateWaiter(this.firmwarePort, this.communicationStrategy, portState, this.timeoutMillis, new FirmwarePortStateWaiter.WaiterListener() {
+        return new FirmwarePortStateWaiter(this.firmwarePort, this.communicationStrategy, portState, this.stateTransitionTimeout, new FirmwarePortStateWaiter.WaiterListener() {
 
             @Override
             public void onNewState(final FirmwarePortState newState) {

@@ -31,12 +31,12 @@ public abstract class FirmwareUpdateState implements FirmwareUpdate {
     }
 
     @Override
-    public void cancel() throws FirmwareUpdateException {
+    public void cancel(int stateTransitionTimeout) throws FirmwareUpdateException {
         throw new FirmwareUpdateException("Cancel not allowed in state [" + TAG + "]");
     }
 
     @Override
-    public void deploy() throws FirmwareUpdateException {
+    public void deploy(int stateTransitionTimeout) throws FirmwareUpdateException {
         throw new FirmwareUpdateException("Deploying not allowed in state [" + TAG + "]");
     }
 

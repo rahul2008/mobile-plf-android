@@ -22,7 +22,7 @@ public class FirmwareUpdateStateReady extends CancelableFirmwareUpdateState {
     }
 
     @Override
-    public void deploy() {
+    public void deploy(int stateTransitionTimeout) {
         firmwareUpdate.requestState(PROGRAMMING);
         firmwareUpdate.waitForNextState();
     }

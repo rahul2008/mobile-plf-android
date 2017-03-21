@@ -124,36 +124,47 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
     }
 
     /**
-     * Initiate upload of firmwareData
+     * Push local firmware.
      *
-     * @param firmwareData  The data to upload
-     * @param timeoutMillis the timeout in milliseconds to wait for the device to complete
-     * @throws IllegalStateException When firmware upload process is already running
+     * @param firmwareData           The firmware data to upload
+     * @param stateTransitionTimeout the timeout in milliseconds to wait for the device to transition to a next state
+     * @throws IllegalStateException when firmware upload process is already running
      */
-    public void pushLocalFirmware(final byte[] firmwareData, final int timeoutMillis) throws IllegalStateException {
+    public void pushLocalFirmware(final byte[] firmwareData, final int stateTransitionTimeout) throws IllegalStateException {
         if (firmwareUpdate == null) {
-            firmwareUpdate = new FirmwareUpdatePushLocal(this, this.mCommunicationStrategy, this.listener, firmwareData, timeoutMillis);
+            firmwareUpdate = new FirmwareUpdatePushLocal(this, this.mCommunicationStrategy, this.listener, firmwareData, stateTransitionTimeout);
             firmwareUpdate.start();
         } else {
             throw new IllegalStateException("Firmware update already in progress.");
         }
     }
 
-    public void pullRemoteFirmware(String version) {
+    /**
+     * Pull remote firmware.
+     *
+     * @param version                the firmware version string
+     * @param stateTransitionTimeout the timeout in milliseconds to wait for the device to transition to a next state
+     */
+    public void pullRemoteFirmware(String version, final int stateTransitionTimeout) {
         if (firmwareUpdate == null) {
-            firmwareUpdate = new FirmwareUpdatePullRemote();
+            firmwareUpdate = new FirmwareUpdatePullRemote(stateTransitionTimeout);
             firmwareUpdate.start();
         } else {
             throw new IllegalStateException("Firmware update already in progress.");
         }
     }
 
-    public void cancel() {
+    /**
+     * Cancel firmware update.
+     *
+     * @param stateTransitionTimeout the state transition timeout
+     */
+    public void cancel(final int stateTransitionTimeout) {
         if (firmwareUpdate == null) {
             return;
         }
         try {
-            firmwareUpdate.cancel();
+            firmwareUpdate.cancel(stateTransitionTimeout);
         } catch (FirmwareUpdateException e) {
             DICommLog.e(DICommLog.FIRMWAREPORT, "Error while canceling firmware update: " + e.getMessage());
         }
@@ -166,7 +177,12 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
         throw new UnsupportedOperationException();
     }
 
-    public void deployFirmware() {
+    /**
+     * Deploy firmware.
+     *
+     * @param stateTransitionTimeout the state transition timeout
+     */
+    public void deployFirmware(final int stateTransitionTimeout) {
         if (firmwareUpdate == null) {
             final String message = "Firmware update not in progress.";
             listener.onDeployFailed(new FirmwarePortListener.FirmwarePortException(message));
@@ -175,7 +191,7 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
             return;
         }
         try {
-            firmwareUpdate.deploy();
+            firmwareUpdate.deploy(stateTransitionTimeout);
         } catch (FirmwareUpdateException e) {
             final String message = "Error while canceling firmware update: " + e.getMessage();
 

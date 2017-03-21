@@ -13,9 +13,9 @@ public interface FirmwareUpdate {
 
     void start();
 
-    void deploy() throws FirmwareUpdateException;
+    void deploy(int stateTransitionTimeout) throws FirmwareUpdateException;
 
-    void cancel() throws FirmwareUpdateException;
+    void cancel(int stateTransitionTimeout) throws FirmwareUpdateException;
 
     void finish();
 
