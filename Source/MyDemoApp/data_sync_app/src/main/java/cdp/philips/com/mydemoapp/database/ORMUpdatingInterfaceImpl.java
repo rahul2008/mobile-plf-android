@@ -4,6 +4,7 @@ import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.utils.DSLog;
@@ -12,7 +13,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
-import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
@@ -51,13 +51,13 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
 
             if(ormExistingSettings==null){
                 saving.saveSettings(ormSettings);
-                notifyDBRequestListener.notifySuccess(dbRequestListener);
+                notifyDBRequestListener.notifySuccess(dbRequestListener,SyncType.SETTINGS);
                 return;
             }
 
             ormSettings.setID(ormExistingSettings.getId());
             updating.updateSettings(ormSettings);
-            notifyDBRequestListener.notifySuccess(dbRequestListener);
+            notifyDBRequestListener.notifySuccess(dbRequestListener,SyncType.SETTINGS);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -91,7 +91,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             }
 
         }
-        notifyDBRequestListener.notifySuccess(consents,dbRequestListener);
+        notifyDBRequestListener.notifySuccess(consents,dbRequestListener,SyncType.CONSENT);
         return true;
     }
 
@@ -105,15 +105,17 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         updating.updateMoment(ormMoment);
         updating.refreshMoment(ormMoment);
 
-        notifyDBRequestListener.notifySuccess(dbRequestListener, ormMoment);
+        notifyDBRequestListener.notifySuccess(dbRequestListener, ormMoment ,SyncType.MOMENT);
     }
 
     @Override
-    public void updateMoments(List<Moment> ormMoments, DBRequestListener dbRequestListener) throws SQLException {
-        for(Moment moment : ormMoments){
-            moment.setSynced(false);
-            updateMoment(moment,dbRequestListener);
+    public boolean updateMoments(List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
+
+        boolean isUpdated = updating.updateMoments(moments, dbRequestListener);
+        if (isUpdated) {
+            notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.MOMENT);
         }
+        return isUpdated;
     }
 
     public OrmMoment getOrmMoment(final Moment moment, DBRequestListener dbRequestListener) {
@@ -138,7 +140,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
                 OrmCharacteristics ormCharacteristics = OrmTypeChecking.checkOrmType(characteristics, OrmCharacteristics.class);
                 saving.saveCharacteristics(ormCharacteristics);
             }
-            notifyDBRequestListener.notifySuccess(null);
+            notifyDBRequestListener.notifySuccess(dbRequestListener,SyncType.CHARACTERISTICS);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             e.printStackTrace();

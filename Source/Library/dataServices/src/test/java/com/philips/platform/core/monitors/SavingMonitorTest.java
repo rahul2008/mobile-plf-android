@@ -96,7 +96,7 @@ public class SavingMonitorTest {
     @Test
     public void ShouldSaveMoment_WhenSaveMomentRequestIsReceived() throws Exception {
 
-        savingMonitor.onEventAsync(new MomentSaveRequest(moment, dbRequestListener));
+        savingMonitor.onEventBackGround(new MomentSaveRequest(moment, dbRequestListener));
 
         verify(savingMock).saveMoment(moment, dbRequestListener);
         //verify(eventingMock).post(changeEventArgumentCaptor.capture());
@@ -107,7 +107,7 @@ public class SavingMonitorTest {
     public void ShouldPostExceptionEvent_WhenSQLInsertionFails() throws Exception {
 
         //doThrow(SQLException.class).when(savingMock).saveMoment(moment);
-        savingMonitor.onEventAsync(new MomentSaveRequest(moment, dbRequestListener));
+        savingMonitor.onEventBackGround(new MomentSaveRequest(moment, dbRequestListener));
         doThrow(SQLException.class).when(savingMock).saveMoment(moment, dbRequestListener);
         verify(savingMock).saveMoment(moment, dbRequestListener);
 
@@ -139,7 +139,7 @@ public class SavingMonitorTest {
     public void Test_MomentsSaveRequest() throws Exception {
         List list = new ArrayList();
         list.add(moment);
-        savingMonitor.onEventAsync(new MomentsSaveRequest(list, dbRequestListener));
+        savingMonitor.onEventBackGround(new MomentsSaveRequest(list, dbRequestListener));
         verify(savingMock).saveMoments(list,dbRequestListener);
     }
 
@@ -147,13 +147,13 @@ public class SavingMonitorTest {
     public void Test_DatabaseConsentSaveRequest() throws Exception {
         List list = new ArrayList();
         list.add(moment);
-        savingMonitor.onEventAsync(new DatabaseConsentSaveRequest(list, dbRequestListener));
+        savingMonitor.onEventBackGround(new DatabaseConsentSaveRequest(list, dbRequestListener));
         verify(savingMock).saveConsentDetails(list,dbRequestListener);
     }
 
     @Test
     public void Test_DatabaseSettingsSaveRequest() throws Exception {
-        savingMonitor.onEventAsync(new DatabaseSettingsSaveRequest(settingsMock, dbRequestListener));
+        savingMonitor.onEventBackGround(new DatabaseSettingsSaveRequest(settingsMock, dbRequestListener));
         verify(savingMock).saveSettings(settingsMock,dbRequestListener);
     }
 
@@ -161,7 +161,7 @@ public class SavingMonitorTest {
     public void Test_UserCharacteristicsSaveRequest() throws Exception {
         List list = new ArrayList();
         list.add(characteristicsMock);
-        savingMonitor.onEventAsync(new UserCharacteristicsSaveRequest(list, dbRequestListener));
+        savingMonitor.onEventBackGround(new UserCharacteristicsSaveRequest(list, dbRequestListener));
         verify(savingMock).saveUserCharacteristics(list,dbRequestListener);
     }
 

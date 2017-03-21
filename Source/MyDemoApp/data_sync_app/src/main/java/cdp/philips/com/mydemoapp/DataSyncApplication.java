@@ -2,6 +2,7 @@ package cdp.philips.com.mydemoapp;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
@@ -19,7 +20,6 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
@@ -53,6 +53,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.error.ErrorHandlerInterfaceImpl;
+import cdp.philips.com.mydemoapp.reciever.ScheduleSyncReceiver;
 import cdp.philips.com.mydemoapp.registration.UserRegistrationInterfaceImpl;
 
 /**
@@ -62,7 +63,7 @@ import cdp.philips.com.mydemoapp.registration.UserRegistrationInterfaceImpl;
 
 
 public class DataSyncApplication extends Application {
-
+    public final DatabaseHelper databaseHelper = new DatabaseHelper(this, new UuidGenerator());
     public static AppInfraInterface gAppInfra;
     ServiceDiscoveryInterface serviceDiscoveryInterface;
     public static LoggingInterface loggingInterface;
@@ -72,18 +73,21 @@ public class DataSyncApplication extends Application {
     private final String APP_NAME = "appname";
     private final String DATACORE_FALLBACK_URL = "dataCoreUrl";
     private final String DATASERVICES_KEY = "dataservices";
+    ScheduleSyncReceiver mScheduleSyncReceiver;
 
     @Override
     public void onCreate() {
         super.onCreate();
         LeakCanary.install(this);
-      //  Stetho.initializeWithDefaults(this);
+        //Stetho.initializeWithDefaults(this);
         mDataServicesManager = DataServicesManager.getInstance();
         initAppInfra();
         setLocale();
         initializeUserRegistrationLibrary(Configuration.STAGING);
         init();
         fetchDataServicesUrl();
+        mScheduleSyncReceiver = new ScheduleSyncReceiver();
+        scheduleSync();
     }
 
     private void initAppInfra() {
@@ -94,31 +98,27 @@ public class DataSyncApplication extends Application {
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
     }
 
+    public UserRegistrationInterfaceImpl getUserRegImple() {
+        return userRegImple;
+    }
+
+    UserRegistrationInterfaceImpl userRegImple;
     private void init() {
-        SynchronisationCompleteListener synchronisationCompleteListener = new SynchronisationCompleteListener() {
-            @Override
-            public void onSyncComplete() {
-
-            }
-
-            @Override
-            public void onSyncFailed(Exception exception) {
-
-            }
-        };
         OrmCreator creator = new OrmCreator(new UuidGenerator());
-        UserRegistrationInterface userRegistrationInterface = new UserRegistrationInterfaceImpl(this, new User(this));
+        userRegImple = new UserRegistrationInterfaceImpl(this, new User(this));
+        UserRegistrationInterface userRegistrationInterface = userRegImple;
         ErrorHandlerInterfaceImpl errorHandlerInterface = new ErrorHandlerInterfaceImpl();
         mDataServicesManager.initializeDataServices(this, creator, userRegistrationInterface, errorHandlerInterface);
         injectDBInterfacesToCore();
-        mDataServicesManager.initializeSyncMonitors(this, null, null,synchronisationCompleteListener);
-    /*    Set fetchList = new HashSet();
-        fetchList.add(OrmTableType.MOMENT.getDescription());
-        mDataServicesManager.configureSyncDataType(fetchList);*/
+        mDataServicesManager.initializeSyncMonitors(this, null, null);
+
+
+    /*    Set syncSet = new HashSet();
+        syncSet.add(SyncType.MOMENT.getDescription());
+        mDataServicesManager.configureSyncDataType(syncSet);*/
     }
 
     void injectDBInterfacesToCore() {
-        final DatabaseHelper databaseHelper = new DatabaseHelper(this, new UuidGenerator());
         try {
             Dao<OrmMoment, Integer> momentDao = databaseHelper.getMomentDao();
             Dao<OrmMomentDetail, Integer> momentDetailDao = databaseHelper.getMomentDetailDao();
@@ -142,12 +142,12 @@ public class DataSyncApplication extends Application {
             OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao,settingsDao, consentDetailsDao, dcSyncDao, measurementGroup, synchronisationDataDao, measurementGroupDetails);
             OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao,consentDetailsDao, characteristicsesDao, settingsDao, dcSyncDao);
             OrmDeleting deleting = new OrmDeleting(momentDao, momentDetailDao, measurementDao,
-                    measurementDetailDao, synchronisationDataDao, measurementGroupDetails, measurementGroup, consentDetailsDao, characteristicsesDao, settingsDao);
+                    measurementDetailDao, synchronisationDataDao, measurementGroupDetails, measurementGroup, consentDetailsDao, characteristicsesDao, settingsDao, dcSyncDao);
 
 
             BaseAppDateTime uGrowDateTime = new BaseAppDateTime();
             ORMSavingInterfaceImpl ORMSavingInterfaceImpl = new ORMSavingInterfaceImpl(saving, updating, fetching, deleting, uGrowDateTime);
-            OrmDeletingInterfaceImpl ORMDeletingInterfaceImpl = new OrmDeletingInterfaceImpl(deleting, saving);
+            OrmDeletingInterfaceImpl ORMDeletingInterfaceImpl = new OrmDeletingInterfaceImpl(deleting, saving, fetching);
             ORMUpdatingInterfaceImpl dbInterfaceOrmUpdatingInterface = new ORMUpdatingInterfaceImpl(saving, updating, fetching, deleting);
             OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao,consentDetailsDao, characteristicsesDao, settingsDao, dcSyncDao);
 
@@ -427,5 +427,24 @@ public class DataSyncApplication extends Application {
             DSLog.e(DSLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.getErrorCode().toString());
         }
         return appname;
+    }
+
+    void scheduleSync() {
+        final Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    mScheduleSyncReceiver.onReceive(getApplicationContext());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    //also call the same runnable to call it at regular interval
+                    handler.postDelayed(this, ScheduleSyncReceiver.DATA_FETCH_FREQUENCY);
+                }
+            }
+        };
+        runnable.run();
     }
 }

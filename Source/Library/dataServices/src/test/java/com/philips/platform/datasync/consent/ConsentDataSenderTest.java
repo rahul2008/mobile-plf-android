@@ -5,7 +5,6 @@ import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
-import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
 import com.philips.platform.core.events.SettingsBackendSaveRequest;
 import com.philips.platform.core.events.SettingsBackendSaveResponse;
 import com.philips.platform.core.injection.AppComponent;
@@ -26,13 +25,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import retrofit.RetrofitError;
-import retrofit.client.Header;
 import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Matchers.anyString;
@@ -124,42 +120,6 @@ public class ConsentDataSenderTest {
     }
 
     @Test
-    public void ShouldThrowRetrofitError_saveFails() throws Exception {
-
-        Response response = new Response("", 401, "Error", new ArrayList<Header>(), null);
-        final RetrofitError retrofitError = RetrofitError.httpError("url", response, null, null);
-
-        when(consentDataSender.uCoreAccessProvider.isLoggedIn()).thenReturn(true);
-        when(consentDataSender.uCoreAccessProvider.getAccessToken()).thenReturn(ACCESS_TOKEN);
-        when(uCoreAdapterMock.getAppFrameworkClient(ConsentsClient.class, ACCESS_TOKEN, gsonConverterMock)).thenReturn(consentsClientMock);
-        when(consentsConverterMock.convertToUCoreConsentDetails(anyListOf(ConsentDetail.class))).thenReturn(uCoreConsentDetailsMock);
-        when(uCoreConsentDetailsMock.get(0)).thenReturn(new UCoreConsentDetail("dfs", "dfs", "dsfs", "dfs"));
-        when(consentsClientMock.saveConsent(anyString(), anyListOf(UCoreConsentDetail.class))).thenThrow(retrofitError);
-        List<ConsentDetail> consentDetails=new ArrayList<>();
-        consentDetails.add(mock((ConsentDetail.class)));
-        consentDataSender.sendDataToBackend(consentDetails);
-
-    }
-
-
-    /*public void ShouldPostError_WhenBackendSaveFails() throws Exception {
-        Response response = new Response("", 401, "Error", new ArrayList<Header>(), null);
-        final RetrofitError retrofitError = RetrofitError.httpError("url", response, null, null);
-
-        doReturn(Collections.singletonList(uCoreConsentDetailMock)).when(consentsConverterMock).convertToUCoreConsentDetails(anyListOf(ConsentDetail.class));
-        when(accessProviderMock.isLoggedIn()).thenReturn(true);
-        when(consentSaveRequestMock.getRequestType()).thenReturn(ConsentBackendSaveRequest.RequestType.SAVE);
-        when(consentSaveRequestMock.getConsent()).thenReturn(consentDetailMock);
-        when(consentsClientMock.saveConsent(anyString(), anyListOf(UCoreConsentDetail.class))).thenThrow(retrofitError);
-
-        consentsMonitor.onEventAsync(consentSaveRequestMock);
-
-        verify(eventingMock).post(errorCaptor.capture());
-        final BackendResponse backendResponse = errorCaptor.getValue();
-        assertThat(backendResponse.getReferenceId()).isEqualTo(REFERENCE_ID);
-        assertThat(backendResponse.succeed()).isFalse();
-    }*/
-    @Test
     public void shouldPostError_WhenUserIsInvalid() throws Exception {
 
         consentDataSender.uCoreAccessProvider=null;
@@ -168,17 +128,4 @@ public class ConsentDataSenderTest {
         verify(eventingMock).post(isA(BackendResponse.class));
     }
 
-    @Test
-    public void returnConsentDetailClass_WhenGetClassForSyncDataIsCalled() throws Exception {
-        consentDataSender.getClassForSyncData();
-    }
-
-    @Test
-    public void ShouldNotSaveConsent_WhenUserIsInvalid() throws Exception {
-        when(consentDataSender.uCoreAccessProvider.isLoggedIn()).thenReturn(false);
-
-        List<ConsentDetail> consentDetails=new ArrayList<>();
-        consentDetails.add(mock((ConsentDetail.class)));
-        consentDataSender.sendDataToBackend(consentDetails);
-    }
 }

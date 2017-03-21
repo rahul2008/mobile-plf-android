@@ -3,7 +3,7 @@ package com.philips.platform.datasync.settings;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.OrmTableType;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.SyncBitUpdateRequest;
@@ -60,9 +60,9 @@ public class SettingsDataSender extends DataSender {
     @Override
     public boolean sendDataToBackend(@NonNull List dataToSend) {
 
-        if (dataToSend!=null && !dataToSend.isEmpty() && synchronizationState.get() != State.BUSY.getCode()) {
-            for(Object settings:dataToSend){
-                sendSettingsToBackend((Settings)settings);
+        if (dataToSend != null && !dataToSend.isEmpty() && synchronizationState.get() != State.BUSY.getCode()) {
+            for (Object settings : dataToSend) {
+                sendSettingsToBackend((Settings) settings);
             }
 
         }
@@ -75,14 +75,17 @@ public class SettingsDataSender extends DataSender {
         return Settings.class;
     }
 
-    public void sendSettingsToBackend(Settings settings) {
+    void sendSettingsToBackend(Settings settings) {
+
+        if (settings == null) return;
+
         if (isUserInvalid()) {
             postError(1, getNonLoggedInError());
             return;
         }
-        if (uCoreAccessProvider == null) {
-            return;
-        }
+//        if (uCoreAccessProvider == null) {
+//            return;
+//        }
 
         try {
             UCoreSettings uCoreSettings = settingsConverter.convertAppToUcoreSettings(settings);
@@ -90,7 +93,7 @@ public class SettingsDataSender extends DataSender {
             Response response = appFrameworkClient.updateSettings(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId(), uCoreSettings);
 
             if (isResponseSuccess(response)) {
-                eventing.post(new SyncBitUpdateRequest(OrmTableType.SETTINGS, true));
+                eventing.post(new SyncBitUpdateRequest(SyncType.SETTINGS, true));
             }
 
         } catch (RetrofitError retrofitError) {
@@ -116,6 +119,7 @@ public class SettingsDataSender extends DataSender {
     private void postError(int referenceId, final RetrofitError error) {
         eventing.post(new BackendResponse(referenceId, error));
     }
+
     private RetrofitError getNonLoggedInError() {
         return RetrofitError.unexpectedError("", new IllegalStateException("you're not logged in"));
     }

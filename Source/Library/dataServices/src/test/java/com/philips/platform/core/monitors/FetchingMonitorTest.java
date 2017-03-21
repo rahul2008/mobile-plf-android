@@ -13,9 +13,9 @@ import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
-import com.philips.platform.core.events.LoadTimelineEntryRequest;
 import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
 import com.philips.platform.core.injection.AppComponent;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.consent.ConsentsSegregator;
@@ -100,6 +100,9 @@ public class FetchingMonitorTest {
     @Mock
     private DBRequestListener dbRequestListener;
 
+    @Mock
+    private DBFetchRequestListner dbFetchRequestListner;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -113,58 +116,58 @@ public class FetchingMonitorTest {
         fetchingMonitor.start(eventingMock);
     }
 
-    @Test
+/*    @Test
     public void ShouldFetchMomentsInsightsAndBabyProfile_WhenLoadTimelineEntryRequestIsReceived() throws Exception {
-        fetchingMonitor.onEventAsync(new LoadTimelineEntryRequest(dbRequestListener));
+        fetchingMonitor.onEventAsync(new LoadTimelineEntryRequest(dbFetchRequestListner));
 
-        verify(fetching).fetchMoments(dbRequestListener);
+        verify(fetching).fetchMoments(dbFetchRequestListner);
 //        verify(fetching).fetchConsentDetails();
         //      verify(fetching).fetchConsentDetails();
         //    verify(fetching).fetchNonSynchronizedMoments();
-    }
+    }*/
 
-    @Test
+   /* @Test
     public void ShouldThrowException_FetchingMoments() throws Exception {
-        fetchingMonitor.onEventAsync(new LoadTimelineEntryRequest(dbRequestListener));
-        verify(fetching).fetchMoments(dbRequestListener);
-    }
+        fetchingMonitor.onEventAsync(new LoadTimelineEntryRequest(dbFetchRequestListner));
+        verify(fetching).fetchMoments(dbFetchRequestListner);
+    }*/
 
     @Test
     public void fetchingMomentsLoadLastMomentRequest() throws Exception {
-        fetchingMonitor.onEventAsync(new LoadLastMomentRequest("temperature", dbRequestListener));
-        verify(fetching).fetchLastMoment("temperature", dbRequestListener);
+        fetchingMonitor.onEventAsync(new LoadLastMomentRequest("temperature", dbFetchRequestListner));
+        verify(fetching).fetchLastMoment("temperature", dbFetchRequestListner);
     }
 
     @Test
     public void ShouldFetchMoments_WhenLoadMomentsRequestIsReceived() throws Exception {
 
-        fetchingMonitor.onEventAsync(new LoadMomentsRequest(dbRequestListener));
+        fetchingMonitor.onEventAsync(new LoadMomentsRequest(dbFetchRequestListner));
 
-        verify(fetching).fetchMoments(dbRequestListener);
+        verify(fetching).fetchMoments(dbFetchRequestListner);
     }
 
     @Test
     public void ShouldFetchConsents_WhenLoadConsentsRequest() throws Exception {
 
-        fetchingMonitor.onEventAsync(new LoadConsentsRequest(dbRequestListener));
+        fetchingMonitor.onEventAsync(new LoadConsentsRequest(dbFetchRequestListner));
 
-        verify(fetching).fetchConsentDetails(dbRequestListener);
+        verify(fetching).fetchConsentDetails(dbFetchRequestListner);
     }
 
     @Test
     public void ShouldFetchSettings_WhenLoadSettingsRequestIsCalled() throws Exception {
 
-        fetchingMonitor.onEventAsync(new LoadSettingsRequest(dbRequestListener));
+        fetchingMonitor.onEventAsync(new LoadSettingsRequest(dbFetchRequestListner));
 
-        verify(fetching).fetchSettings(dbRequestListener);
+        verify(fetching).fetchSettings(dbFetchRequestListner);
     }
 
     @Test
     public void ShouldFetchCharacteristics_WhenLoadCharacterSicsRequest() throws Exception {
 
-        fetchingMonitor.onEventAsync(new LoadUserCharacteristicsRequest(dbRequestListener));
+        fetchingMonitor.onEventAsync(new LoadUserCharacteristicsRequest(dbFetchRequestListner));
 
-        verify(fetching).fetchCharacteristics(dbRequestListener);
+        verify(fetching).fetchCharacteristics(dbFetchRequestListner);
     }
 
     @Test
@@ -185,18 +188,18 @@ public class FetchingMonitorTest {
         eventingMock.post(new GetNonSynchronizedDataResponse(1, dataToSync));
     }
 
-    @Test
+/*    @Test
     public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchMoments() throws Exception {
-        doThrow(SQLException.class).when(fetching).fetchMoments(dbRequestListener);
-        fetchingMonitor.onEventAsync(new LoadTimelineEntryRequest(dbRequestListener));
-        verify(fetching).fetchMoments(dbRequestListener);
-    }
+        doThrow(SQLException.class).when(fetching).fetchMoments(dbFetchRequestListner);
+        fetchingMonitor.onEventAsync(new LoadTimelineEntryRequest(dbFetchRequestListner));
+        verify(fetching).fetchMoments(dbFetchRequestListner);
+    }*/
 
     @Test
     public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchLastMoment() throws Exception {
-        doThrow(SQLException.class).when(fetching).fetchLastMoment("Temperature",dbRequestListener);
-        fetchingMonitor.onEventAsync(new LoadLastMomentRequest("Temperature",dbRequestListener));
-        verify(fetching).fetchLastMoment("Temperature",dbRequestListener);
+        doThrow(SQLException.class).when(fetching).fetchLastMoment("Temperature",dbFetchRequestListner);
+        fetchingMonitor.onEventAsync(new LoadLastMomentRequest("Temperature",dbFetchRequestListner));
+        verify(fetching).fetchLastMoment("Temperature",dbFetchRequestListner);
     }
 
     @Test
@@ -209,34 +212,34 @@ public class FetchingMonitorTest {
 
     @Test
     public void LoadMomentsRequestTest() throws SQLException {
-        fetchingMonitor.onEventAsync(new LoadMomentsRequest(dbRequestListener));
-        verify(fetching).fetchMoments(dbRequestListener);
+        fetchingMonitor.onEventAsync(new LoadMomentsRequest(dbFetchRequestListner));
+        verify(fetching).fetchMoments(dbFetchRequestListner);
     }
 
     @Test
     public void LoadMomentsRequestTest_hasType() throws SQLException {
-        fetchingMonitor.onEventAsync(new LoadMomentsRequest(dbRequestListener,"Temperature"));
-        verify(fetching).fetchMoments(dbRequestListener,"Temperature");
+        fetchingMonitor.onEventAsync(new LoadMomentsRequest(dbFetchRequestListner,"Temperature"));
+        verify(fetching).fetchMoments(dbFetchRequestListner,"Temperature");
     }
 
     @Test
     public void LoadMomentsRequestTest_hasID() throws SQLException {
-        fetchingMonitor.onEventAsync(new LoadMomentsRequest(1,dbRequestListener));
-        verify(fetching).fetchMomentById(1,dbRequestListener);
+        fetchingMonitor.onEventAsync(new LoadMomentsRequest(1,dbFetchRequestListner));
+        verify(fetching).fetchMomentById(1,dbFetchRequestListner);
     }
 
     @Test
     public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchMomentsBYID() throws Exception {
-        doThrow(SQLException.class).when(fetching).fetchMoments(dbRequestListener);
-        fetchingMonitor.onEventAsync(new LoadMomentsRequest(dbRequestListener));
-        verify(fetching).fetchMoments(dbRequestListener);
+        doThrow(SQLException.class).when(fetching).fetchMoments(dbFetchRequestListner);
+        fetchingMonitor.onEventAsync(new LoadMomentsRequest(dbFetchRequestListner));
+        verify(fetching).fetchMoments(dbFetchRequestListner);
     }
 
     @Test
     public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchConsentDetails_1() throws Exception {
-        doThrow(SQLException.class).when(fetching).fetchConsentDetails(dbRequestListener);
-        fetchingMonitor.onEventAsync(new LoadConsentsRequest(dbRequestListener));
-        verify(fetching).fetchConsentDetails(dbRequestListener);
+        doThrow(SQLException.class).when(fetching).fetchConsentDetails(dbFetchRequestListner);
+        fetchingMonitor.onEventAsync(new LoadConsentsRequest(dbFetchRequestListner));
+        verify(fetching).fetchConsentDetails(dbFetchRequestListner);
     }
 
     @Test
@@ -255,22 +258,22 @@ public class FetchingMonitorTest {
 
     @Test
     public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchCharacteristics() throws Exception {
-        doThrow(SQLException.class).when(fetching).fetchCharacteristics(dbRequestListener);
-        fetchingMonitor.onEventAsync(new LoadUserCharacteristicsRequest(dbRequestListener));
-        verify(fetching).fetchCharacteristics(dbRequestListener);
+        doThrow(SQLException.class).when(fetching).fetchCharacteristics(dbFetchRequestListner);
+        fetchingMonitor.onEventAsync(new LoadUserCharacteristicsRequest(dbFetchRequestListner));
+        verify(fetching).fetchCharacteristics(dbFetchRequestListner);
     }
 
     @Test
     public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchSettings() throws Exception {
-        doThrow(SQLException.class).when(fetching).fetchSettings(dbRequestListener);
-        fetchingMonitor.onEventAsync(new LoadSettingsRequest(dbRequestListener));
-        verify(fetching).fetchSettings(dbRequestListener);
+        doThrow(SQLException.class).when(fetching).fetchSettings(dbFetchRequestListner);
+        fetchingMonitor.onEventAsync(new LoadSettingsRequest(dbFetchRequestListner));
+        verify(fetching).fetchSettings(dbFetchRequestListner);
     }
 
     @Test
     public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchConsentDetails_2() throws Exception {
-        doThrow(SQLException.class).when(fetching).fetchConsentDetails(dbRequestListener);
-        fetchingMonitor.onEventAsync(new LoadConsentsRequest(dbRequestListener));
-        verify(fetching).fetchConsentDetails(dbRequestListener);
+        doThrow(SQLException.class).when(fetching).fetchConsentDetails(dbFetchRequestListner);
+        fetchingMonitor.onEventAsync(new LoadConsentsRequest(dbFetchRequestListner));
+        verify(fetching).fetchConsentDetails(dbFetchRequestListner);
     }
 }

@@ -71,14 +71,10 @@ public class SettingsDataFetcher extends DataFetcher {
             return null;
     }
 
-    public void getSettings() {
+    public void     getSettings() {
 
         if (isUserInvalid()) {
             postError(1, getNonLoggedInError());
-            return;
-        }
-
-        if (uCoreAccessProvider == null) {
             return;
         }
 

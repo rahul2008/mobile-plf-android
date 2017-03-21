@@ -6,7 +6,6 @@ package com.philips.platform.datasync.characteristics;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
-import com.philips.platform.core.events.CharacteristicsBackendGetRequest;
 import com.philips.platform.core.events.CharacteristicsBackendSaveRequest;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -47,13 +46,6 @@ public class UserCharacteristicsMonitor extends EventMonitor {
         sendToBackend(characteristicsBackendSaveRequest);
     }
 
-    //Fetch Request
-    @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void onEventAsync(CharacteristicsBackendGetRequest characteristicsBackendGetRequest) {
-        DSLog.d(DSLog.LOG, "Inder = UserCharacteristicsMonitors Fetch Request");
-        mUserCharacteristicsFetcher.fetchDataSince(null);
-    }
-
     private void sendToBackend(CharacteristicsBackendSaveRequest characteristicsBackendSaveRequest) {
         if (isUserInvalid()) {
             postError(characteristicsBackendSaveRequest.getEventId(), getNonLoggedInError());
@@ -75,7 +67,7 @@ public class UserCharacteristicsMonitor extends EventMonitor {
     }
 
     private void postError(int referenceId, final RetrofitError error) {
-        DSLog.i("***SPO***", "Error In ConsentsMonitor - posterror");
+        DSLog.i(DSLog.LOG, "Error In ConsentsMonitor - posterror");
         mEventing.post(new BackendResponse(referenceId, error));
     }
 

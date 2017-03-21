@@ -18,7 +18,6 @@ import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
-import com.philips.platform.core.events.LoadTimelineEntryRequest;
 import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
@@ -60,108 +59,105 @@ public class FetchingMonitor extends EventMonitor {
         DataServicesManager.getInstance().getAppComponant().injectFetchingMonitor(this);
     }
 
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventAsync(LoadTimelineEntryRequest event) {
-        try {
-            dbInterface.fetchMoments(event.getDbRequestListener());
-        } catch (SQLException e) {
-            dbInterface.postError(e, event.getDbRequestListener());
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(LoadLastMomentRequest event) {
         try {
-            dbInterface.fetchLastMoment(event.getType(), event.getDbRequestListener());
+            dbInterface.fetchLastMoment(event.getType(), event.getDbFetchRequestListner());
         } catch (SQLException e) {
-            dbInterface.postError(e, event.getDbRequestListener());
+            dbInterface.postError(e, event.getDbFetchRequestListner());
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(GetNonSynchronizedDataRequest event) {
-        DSLog.i("***SPO***", "In Fetching Monitor GetNonSynchronizedDataRequest");
+        DSLog.i(DSLog.LOG, "In Fetching Monitor GetNonSynchronizedDataRequest");
 
         Map<Class, List<?>> dataToSync = new HashMap<>();
 
-        DSLog.i("***SPO***", "In Fetching Monitor before putMomentsForSync");
+        DSLog.i(DSLog.LOG, "In Fetching Monitor before putMomentsForSync");
         dataToSync = momentsSegregator.putMomentsForSync(dataToSync);
 
-        DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse");
+        DSLog.i(DSLog.LOG, "In Fetching Monitor before sending GetNonSynchronizedDataResponse");
         dataToSync = consentsSegregator.putConsentForSync(dataToSync);
 
-        DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse for UC");
+        DSLog.i(DSLog.LOG, "In Fetching Monitor before sending GetNonSynchronizedDataResponse for UC");
+
         try {
-            dataToSync.put(Characteristics.class, null); // This piece is a hack code ,this should be moved to segregator and should be handled like others .
             dataToSync = dbInterface.putUserCharacteristicsForSync(dataToSync);
         } catch (SQLException e) {
             e.printStackTrace();
             dataToSync.put(Characteristics.class, null);
         }
 
-        DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse for UC");
+        DSLog.i(DSLog.LOG, "In Fetching Monitor before sending GetNonSynchronizedDataResponse for UC");
         dataToSync = settingsSegregator.putSettingsForSync(dataToSync);
 
         eventing.post(new GetNonSynchronizedDataResponse(event.getEventId(), dataToSync));
 
     }
 
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(LoadMomentsRequest event) {
         try {
             if (event.hasType()) {
                 DSLog.i(DSLog.LOG, "pabitra LoadMomentsRequest monitor fetchMomentWithType");
-                dbInterface.fetchMoments(event.getDbRequestListener(), event.getTypes());
+                dbInterface.fetchMoments(event.getDbFetchRequestListener(), event.getTypes());
             } else if (event.hasID()) {
-                dbInterface.fetchMomentById(event.getMomentID(), event.getDbRequestListener());
+                dbInterface.fetchMomentById(event.getMomentID(), event.getDbFetchRequestListener());
             } else {
-                dbInterface.fetchMoments(event.getDbRequestListener());
+                dbInterface.fetchMoments(event.getDbFetchRequestListener());
             }
         } catch (SQLException e) {
-            dbInterface.postError(e, event.getDbRequestListener());
+            dbInterface.postError(e, event.getDbFetchRequestListener());
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(LoadConsentsRequest event) {
         try {
-            dbInterface.fetchConsentDetails(event.getDbRequestListener());
+            dbInterface.fetchConsentDetails(event.getDbFetchRequestListner());
         } catch (SQLException e) {
-            dbInterface.postError(e, event.getDbRequestListener());
+            dbInterface.postError(e, event.getDbFetchRequestListner());
         }
     }
 
-    @Subscribe(sticky = true, threadMode = ThreadMode.BACKGROUND)
+    @Subscribe(sticky = true, threadMode = ThreadMode.ASYNC)
     public void onEventAsync(GetNonSynchronizedMomentsRequest event) {
-        DSLog.i("**SPO**", "in Fetching Monitor GetNonSynchronizedMomentsRequest");
+        DSLog.i(DSLog.LOG, "in Fetching Monitor GetNonSynchronizedMomentsRequest");
+
+        List<Moment> ormMomentList = null;
+        List<ConsentDetail> consentDetails = null;
         try {
-            List<? extends Moment> ormMomentList = (List<? extends Moment>) dbInterface.fetchNonSynchronizedMoments();
-            List<? extends ConsentDetail> consentDetails = (List<? extends ConsentDetail>) dbInterface.fetchConsentDetails();
-
-            eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList, consentDetails));
-
-
+            ormMomentList = (List<Moment>) dbInterface.fetchNonSynchronizedMoments();
         } catch (SQLException e) {
-            dbInterface.postError(e, event.getDbRequestListener());
+            //dbInterface.postError(e, event.getDbFetchRequestListener());
         }
+
+        try {
+            consentDetails = (List<ConsentDetail>) dbInterface.fetchConsentDetails();
+        } catch (SQLException e) {
+            //dbInterface.postError(e, event.getDbFetchRequestListener());
+        }
+
+        eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList, consentDetails));
     }
 
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(LoadUserCharacteristicsRequest loadUserCharacteristicsRequest) {
         try {
-            dbInterface.fetchCharacteristics(loadUserCharacteristicsRequest.getDbRequestListener());
+            dbInterface.fetchCharacteristics(loadUserCharacteristicsRequest.getDbFetchRequestListner());
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(LoadSettingsRequest loadSettingsRequest) {
 
         try {
-            dbInterface.fetchSettings(loadSettingsRequest.getDbRequestListener());
+            dbInterface.fetchSettings(loadSettingsRequest.getDbFetchRequestListner());
         } catch (SQLException e) {
-            dbInterface.postError(e, loadSettingsRequest.getDbRequestListener());
+            dbInterface.postError(e, loadSettingsRequest.getDbFetchRequestListner());
         }
     }
 }

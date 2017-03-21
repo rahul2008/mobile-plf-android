@@ -2,7 +2,6 @@ package com.philips.platform.datasync.consent;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ConsentBackendSaveRequest;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
@@ -14,8 +13,6 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
-import com.philips.platform.datasync.synchronisation.SynchronisationManager;
-import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.philips.testing.verticals.ErrorHandlerImplTest;
 import com.philips.testing.verticals.OrmCreatorTest;
 
@@ -31,17 +28,13 @@ import java.util.Collections;
 import java.util.List;
 
 import retrofit.RetrofitError;
-import retrofit.client.Header;
-import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -64,13 +57,7 @@ public class ConsentsDataFetcherTest {
     private UCoreAccessProvider uCoreAccessProviderMock;
 
     @Mock
-    UserRegistrationInterface userRegistrationInterfaceMock;
-
-    @Mock
     private UCoreAdapter uCoreAdapterMock;
-
-    @Mock
-    public SynchronisationManager synchronisationManagerMock;
 
     @Mock
     private ConsentDataSender consentDataSenderMock;
@@ -140,9 +127,24 @@ public class ConsentsDataFetcherTest {
         consentDataFetcher=new ConsentsDataFetcher(uCoreAdapterMock,gsonConverterMock,consentsConverterMock);
         consentDataFetcher.uCoreAccessProvider = uCoreAccessProviderMock;
         consentDataFetcher.eventing=eventingMock;
-        consentDataFetcher.synchronisationManager=synchronisationManagerMock;
+
     }
 
+   /* @Test
+    public void shouldNotFetchDataSince_WhenDataSenderIsBusy() throws Exception {
+
+        consentDataFetcher.synchronizationState.set(DataSender.State.BUSY.getCode());
+        consentDataFetcher.fetchDataSince(new DateTime());
+        verify(eventingMock, never()).post(ConsentBackendGetRequestEventCaptor.capture());
+    }*/
+
+   /* @Test
+    public void shouldFetchDataSince_WhenDataSenderIsNotBusy() throws Exception {
+
+        consentDataFetcher.synchronizationState.set(DataSender.State.IDLE.getCode());
+        consentDataFetcher.fetchDataSince(new DateTime());
+        verify(eventingMock).post(ConsentBackendGetRequestEventCaptor.capture());
+    }*/
 
     @Test
     public void shouldReturnConsentDetails_WhenGetConsentDetailsIsCalled() throws Exception {
@@ -347,19 +349,6 @@ public class ConsentsDataFetcherTest {
     }
 
     @Test
-    public void ShouldNotGetConsent_WhenUserIsInvalid() throws Exception {
-        when(consentDataFetcher.uCoreAccessProvider.isLoggedIn()).thenReturn(false);
-
-        List<ConsentDetail> consentDetails=new ArrayList<>();
-        consentDetails.add(mock((ConsentDetail.class)));
-        getNonSynchronizedMomentsResponseMock=new GetNonSynchronizedMomentsResponse(null,consentDetails);
-
-        consentDataFetcher.onEventAsync(getNonSynchronizedMomentsResponseMock);
-    }
-
-
-
-    @Test
     public void ShouldReturn_WhenConsentDetailsIsNull() throws Exception {
         when(consentDataFetcher.uCoreAccessProvider.isLoggedIn()).thenReturn(true);
         when(consentDataFetcher.uCoreAccessProvider.getAccessToken()).thenReturn(ACCESS_TOKEN);
@@ -383,49 +372,4 @@ public class ConsentsDataFetcherTest {
         consentDataFetcher.postError(1,consentDataFetcher.getNonLoggedInError());
         verify(eventingMock).post(isA(BackendResponse.class));
     }
-
-
-  /*  public void ShouldPostError_WhenBackendSaveFails() throws Exception {
-        Response response = new Response("", 401, "Error", new ArrayList<Header>(), null);
-        final RetrofitError retrofitError = RetrofitError.httpError("url", response, null, null);
-
-        doReturn(Collections.singletonList(uCoreConsentDetailMock)).when(consentsConverterMock).convertToUCoreConsentDetails(anyListOf(ConsentDetail.class));
-        when(accessProviderMock.isLoggedIn()).thenReturn(true);
-        when(consentSaveRequestMock.getRequestType()).thenReturn(ConsentBackendSaveRequest.RequestType.SAVE);
-        when(consentSaveRequestMock.getConsent()).thenReturn(consentDetailMock);
-        when(consentsClientMock.saveConsent(anyString(), anyListOf(UCoreConsentDetail.class))).thenThrow(retrofitError);
-
-        consentsMonitor.onEventAsync(consentSaveRequestMock);
-
-        verify(eventingMock).post(errorCaptor.capture());
-        final BackendResponse backendResponse = errorCaptor.getValue();
-        assertThat(backendResponse.getReferenceId()).isEqualTo(REFERENCE_ID);
-        assertThat(backendResponse.succeed()).isFalse();
-    }*/
-
-    @Test(expected = NullPointerException.class)
-    public void ShouldThrowRetrofitError_WhenGetConsentReturnsRetrofitError() throws Exception {
-
-        Response response = new Response("", 401, "Error", new ArrayList<Header>(), null);
-        final RetrofitError retrofitError = RetrofitError.httpError("url", response, null, null);
-
-        when(consentDataFetcher.uCoreAccessProvider.isLoggedIn()).thenReturn(true);
-        when(consentDataFetcher.uCoreAccessProvider.getAccessToken()).thenReturn(ACCESS_TOKEN);
-        when(uCoreAdapterMock.getAppFrameworkClient(ConsentsClient.class, ACCESS_TOKEN, gsonConverterMock)).thenReturn(consentsClientMock);
-        when(consentsClientMock.getConsent(anyString(), anyListOf(String.class), anyListOf(String.class), anyListOf(String.class))).thenThrow(retrofitError);
-        when(uCoreConsentDetailMock.get(0)).thenReturn(new UCoreConsentDetail("dfs", "dfs", "dsfs", "dfs"));
-        List<ConsentDetail> consentDetails=new ArrayList<>();
-        consentDetails.add(mock((ConsentDetail.class)));
-        getNonSynchronizedMomentsResponseMock=new GetNonSynchronizedMomentsResponse(null,consentDetails);
-
-        // when(getNonSynchronizedMomentsResponseMock.getConsentDetails()).thenReturn(consentDetails);
-
-        consentDataFetcher.onEventAsync(getNonSynchronizedMomentsResponseMock);
-
-        //verify(eventingMock).post(isA(ConsentBackendSaveResponse.class));
-        verify(eventingMock).post(new BackendDataRequestFailed(retrofitError));
-    }
-
-
-
 }

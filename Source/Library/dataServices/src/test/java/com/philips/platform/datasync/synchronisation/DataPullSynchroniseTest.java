@@ -1,15 +1,12 @@
 package com.philips.platform.datasync.synchronisation;
 
 import android.app.Application;
-import android.support.annotation.NonNull;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.Event;
-import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
-import com.philips.platform.core.events.ReadDataFromBackendResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
@@ -22,23 +19,16 @@ import com.philips.testing.verticals.OrmCreatorTest;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
-import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.Executor;
-import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
@@ -81,9 +71,6 @@ public class DataPullSynchroniseTest {
     private Eventing eventingMock;
 
     @Captor
-    private ArgumentCaptor<ReadDataFromBackendResponse> successCaptor;
-
-    @Captor
     private ArgumentCaptor<Runnable> runnableCaptor;
 
     @Mock
@@ -102,11 +89,7 @@ public class DataPullSynchroniseTest {
     private ErrorHandlerImplTest errorHandlerImpl;
 
     @Mock
-    SynchronisationManager synchronisationManagerMock;
-
-    @Mock
     private AppComponent appComponantMock;
-
 
     @Before
     public void setUp() {
@@ -117,49 +100,33 @@ public class DataPullSynchroniseTest {
 
         DataServicesManager.getInstance().setAppComponant(appComponantMock);
 
-        Set set=new HashSet();
-        set.add("moment");
-        set.add("Settings");
-        set.add("characteristics");
-        set.add("consent");
-
-        DataServicesManager.getInstance().configureSyncDataType(set);
-
         //  when(accessProviderMock.isLoggedIn()).thenReturn(true);
         synchronise = new DataPullSynchronise(
                 Arrays.asList(firstFetcherMock, secondFetcherMock)
         );
         synchronise.accessProvider = accessProviderMock;
         synchronise.eventing = eventingMock;
-        synchronise.synchronisationManager=synchronisationManagerMock;
     }
 
-    @Test
+    /*@Test
     public void ShouldReturnError_WhenUserIsNotLoggedIn() {
-         when(accessProviderMock.isLoggedIn()).thenReturn(false);
+        //   when(accessProviderMock.isLoggedIn()).thenReturn(false);
 
         synchronise.startSynchronise(DATE_TIME, EVENT_ID);
 
-        verify(eventingMock).post(errorEventCaptor.capture());
-        assertThat(errorEventCaptor.getValue().getReferenceId()).isEqualTo(EVENT_ID);
-    }
+       // verify(eventingMock).post(errorEventCaptor.capture());
+       // assertThat(errorEventCaptor.getValue().getReferenceId()).isEqualTo(EVENT_ID);
+    }*/
 
-    @Test
-    public void ShouldPostError_WhenUserIsNotLoggedIn() {
-        when(accessProviderMock.isLoggedIn()).thenReturn(false);
+    /*@Test
+    public void ShouldRunSyncInDifferentThreads() throws Exception {
+
+        synchronise.onEventAsync(new GetNonSynchronizedMomentsResponse(Collections.singletonList(momentMock), Collections.singletonList(consentDetailMock)));
+
         synchronise.startSynchronise(DATE_TIME, EVENT_ID);
 
-    }
-
-
-    @Test
-    public void ShouldFetchData_WhenUserIsNotLoggedIn() {
-        when(accessProviderMock.isLoggedIn()).thenReturn(true);
-        synchronise.startSynchronise(DATE_TIME, EVENT_ID);
-    }
-
-
-
+      //  verify(executorMock, times(2)).execute(any(Runnable.class));
+    }*/
 
     /*@Test
     public void ShouldPostSuccess_WhenSyncSucceed() throws Exception {

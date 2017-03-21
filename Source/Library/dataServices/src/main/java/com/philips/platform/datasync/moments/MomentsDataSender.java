@@ -76,9 +76,10 @@ public class MomentsDataSender extends DataSender {
 
     @Override
     public boolean sendDataToBackend(@NonNull final List dataToSend) {
-        DSLog.i("***SPO***","sendDataToBackend MomentsDataSender sendDataToBackend data = " + dataToSend.toString());
 
-        if (dataToSend==null || dataToSend.isEmpty() || !accessProvider.isLoggedIn()) {
+        if(dataToSend==null && dataToSend.size()!=0) return false;
+        DSLog.i(DSLog.LOG,"sendDataToBackend MomentsDataSender sendDataToBackend data = " + dataToSend.toString());
+        if (!accessProvider.isLoggedIn()) {
             return false;
         }
 
@@ -94,7 +95,7 @@ public class MomentsDataSender extends DataSender {
     }
 
     private boolean sendMoments(List<? extends Moment> moments) {
-        DSLog.i("***SPO***","MomentsDataSender sendMoments and momets = " + moments.toString());
+        DSLog.i(DSLog.LOG,"MomentsDataSender sendMoments and momets = " + moments.toString());
         if(moments == null || moments.isEmpty()) {
             return true;
         }
@@ -118,12 +119,15 @@ public class MomentsDataSender extends DataSender {
     }
 
     private boolean sendMomentToBackend(MomentsClient client, final Moment moment) {
-        DSLog.i("***SPO***","MomentsDataSender sendMomentToBackend and moment = " + moment.toString());
+        DSLog.i(DSLog.LOG,"MomentsDataSender sendDataToBackend");
         if (shouldCreateMoment(moment)) {
+            DSLog.i(DSLog.LOG,"MomentsDataSender CREATE");
             return createMoment(client, moment);
         } else if(shouldDeleteMoment(moment)) {
+            DSLog.i(DSLog.LOG,"MomentsDataSender DELETE");
             return deleteMoment(client, moment);
         } else {
+            DSLog.i(DSLog.LOG,"MomentsDataSender UPDATE");
             return updateMoment(client, moment);
         }
     }
@@ -154,7 +158,7 @@ public class MomentsDataSender extends DataSender {
                     momentsConverter.convertToUCoreMoment(moment));
             if (response != null) {
                 addSynchronizationData(moment, response);
-                postCreatedOk(Collections.singletonList(moment));
+                postUpdatedOk(Collections.singletonList(moment));
             }
         } catch (RetrofitError error) {
             onError(error);
@@ -178,19 +182,18 @@ public class MomentsDataSender extends DataSender {
                 }
                 postUpdatedOk(Collections.singletonList(moment));
             }else if(isConflict(response)){
-                //dont do anything
+                DSLog.i(DSLog.LOG,"Exception - 409");
             }
             return false;
         } catch (RetrofitError error) {
-            if(error!=null && error.getResponse().getStatus()== HttpURLConnection.HTTP_CONFLICT){
-                DSLog.i("***SPO***","Exception - 409");
-                //dont do anything
+            if(error!=null || isConflict(error.getResponse())){
+                DSLog.i(DSLog.LOG,"Exception - 409");
             }else {
                 eventing.post(new BackendResponse(1, error));
                 onError(error);
             }
 
-            return isConflict(error);
+            return isConflict(error.getResponse());
         }
     }
 
@@ -220,13 +223,8 @@ public class MomentsDataSender extends DataSender {
 
     private boolean isConflict(final Response response){
         boolean isconflict = response!=null && response.getStatus() == HttpURLConnection.HTTP_CONFLICT;
-        DSLog.i("***SPO***","isConflict = " + isconflict);
+        DSLog.i(DSLog.LOG,"isConflict = " + isconflict);
         return isconflict;
-    }
-
-    private boolean isConflict(final RetrofitError retrofitError) {
-        Response response = retrofitError.getResponse();
-        return response != null && response.getStatus() == HttpURLConnection.HTTP_CONFLICT;
     }
 
     private boolean shouldMomentContainCreatorIdAndSubjectId(final Moment moment) {
@@ -243,10 +241,6 @@ public class MomentsDataSender extends DataSender {
                 baseAppDataCreater.createSynchronisationData(uCoreMomentSaveResponse.getMomentId(), false,
                         moment.getDateTime(), 1);
         moment.setSynchronisationData(synchronisationData);
-    }
-
-    private void postCreatedOk(final List<Moment> momentList) {
-        eventing.post(new MomentDataSenderCreatedRequest(momentList, null));
     }
 
     private void postUpdatedOk(final List<Moment> momentList) {

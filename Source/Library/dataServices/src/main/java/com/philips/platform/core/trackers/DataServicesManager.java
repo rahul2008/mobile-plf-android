@@ -7,7 +7,6 @@ package com.philips.platform.core.trackers;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
@@ -48,6 +47,7 @@ import com.philips.platform.core.injection.ApplicationModule;
 import com.philips.platform.core.injection.BackendModule;
 import com.philips.platform.core.injection.DaggerAppComponent;
 import com.philips.platform.core.listeners.DBChangeListener;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.utils.DSLog;
@@ -60,7 +60,6 @@ import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import org.greenrobot.eventbus.EventBus;
-import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,7 +116,8 @@ public class DataServicesManager {
     @Inject
     ErrorHandlingInterface errorHandlingInterface;
 
-    private ArrayList<DataFetcher> mCustomeFetchers;
+    private ArrayList<DataFetcher> mCustomFetchers;
+
     private ArrayList<DataSender> mCustomSenders;
 
     private Set<String> mSyncDataTypes;
@@ -135,7 +135,7 @@ public class DataServicesManager {
 
     @NonNull
     public void saveMoment(@NonNull final Moment moment, DBRequestListener dbRequestListener) {
-        DSLog.i("***SPO***", "In DataServicesManager.saveMoment for " + moment.toString());
+        DSLog.i(DSLog.LOG, "In DataServicesManager.saveMoment for " + moment.toString());
         mEventing.post(new MomentSaveRequest(moment, dbRequestListener));
     }
 
@@ -144,22 +144,22 @@ public class DataServicesManager {
         mEventing.post(new MomentsSaveRequest(moments, dbRequestListener));
     }
 
-    public void fetchMomentWithType(DBRequestListener dbRequestListener, final @NonNull String... type) {
+    public void fetchMomentWithType(DBFetchRequestListner dbFetchRequestListner, final @NonNull String... type) {
         DSLog.i(DSLog.LOG, "pabitra DataServiceManger fetchMomentWithType");
-        mEventing.post(new LoadMomentsRequest(dbRequestListener, type));
+        mEventing.post(new LoadMomentsRequest(dbFetchRequestListner, type));
     }
 
-    public void fetchMomentForMomentID(final int momentID, DBRequestListener dbRequestListener) {
-        mEventing.post(new LoadMomentsRequest(momentID, dbRequestListener));
+    public void fetchMomentForMomentID(final int momentID, DBFetchRequestListner dbFetchRequestListner) {
+        mEventing.post(new LoadMomentsRequest(momentID, dbFetchRequestListner));
     }
 
-    public void fetchAllMoment(DBRequestListener dbRequestListener) {
-        mEventing.post(new LoadMomentsRequest(dbRequestListener));
+    public void fetchAllMoment(DBFetchRequestListner dbFetchRequestListner) {
+        mEventing.post(new LoadMomentsRequest(dbFetchRequestListner));
     }
 
     @NonNull
-    public void fetchConsentDetail(DBRequestListener dbRequestListener) {
-        mEventing.post(new LoadConsentsRequest(dbRequestListener));
+    public void fetchConsentDetail(DBFetchRequestListner dbFetchRequestListner) {
+        mEventing.post(new LoadConsentsRequest(dbFetchRequestListner));
     }
 
 
@@ -212,7 +212,7 @@ public class DataServicesManager {
     public Measurement createMeasurement(@NonNull final String type, String value, String unit, @NonNull final MeasurementGroup measurementGroup) {
         Measurement measurement = mDataCreater.createMeasurement(type, measurementGroup);
         measurement.setValue(value);
-        measurement.setDateTime(DateTime.now());
+      //  measurement.setDateTime(DateTime.now());
         measurement.setUnit(unit);
         measurementGroup.addMeasurement(measurement);
         return measurement;
@@ -252,10 +252,20 @@ public class DataServicesManager {
         sendPullDataEvent();
     }
 
+    @Deprecated
     @SuppressWarnings("rawtypes")
     public void initializeSyncMonitors(Context context, ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders, SynchronisationCompleteListener synchronisationCompleteListener) {
-        DSLog.i("***SPO***", "In DataServicesManager.initializeSyncMonitors");
-        this.mCustomeFetchers = fetchers;
+        initSyncMonitors(context, fetchers, senders, synchronisationCompleteListener);
+    }
+
+    @SuppressWarnings("rawtypes")
+    public void initializeSyncMonitors(Context context, ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
+        initSyncMonitors(context, fetchers, senders, null);
+    }
+
+    private void initSyncMonitors(Context context, ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders, SynchronisationCompleteListener synchronisationCompleteListener) {
+        DSLog.i(DSLog.LOG, "In DataServicesManager.initializeSyncMonitors");
+        this.mCustomFetchers = fetchers;
         this.mCustomSenders = senders;
         this.mSynchronisationCompleteListener = synchronisationCompleteListener;
         prepareInjectionsGraph(context);
@@ -264,21 +274,20 @@ public class DataServicesManager {
 
     private void sendPullDataEvent() {
         synchronized (this) {
-            DSLog.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
+            DSLog.i(DSLog.LOG, "In DataServicesManager.sendPullDataEvent");
             startMonitors();
             //mEventing.post(new ReadDataFromBackendRequest(null));
             mSynchronisationManager.startSync(mSynchronisationCompleteListener);
         }
     }
 
-    //TODO: discuss if its required
     private void startMonitors() {
         if (mCore != null) {
-            DSLog.i("***SPO***", "mCore not null, hence starting");
+            DSLog.i(DSLog.LOG, "mCore not null, hence starting");
             mCore.start();
         }
         if (mSynchronisationMonitor != null) {
-            DSLog.i("***SPO***", "In DataServicesManager.mSynchronisationMonitor.start");
+            DSLog.i(DSLog.LOG, "In DataServicesManager.mSynchronisationMonitor.start");
             mSynchronisationMonitor.start(mEventing);
         }
     }
@@ -313,7 +322,7 @@ public class DataServicesManager {
     private void prepareInjectionsGraph(Context context) {
         BackendModule backendModule = new BackendModule(new EventingImpl(new EventBus(), new Handler()), mDataCreater, userRegistrationInterface,
                 mDeletingInterface, mFetchingInterface, mSavingInterface, mUpdatingInterface,
-                mCustomeFetchers, mCustomSenders, errorHandlingInterface);
+                mCustomFetchers, mCustomSenders, errorHandlingInterface);
         final ApplicationModule applicationModule = new ApplicationModule(context);
 
         mAppComponent = DaggerAppComponent.builder().backendModule(backendModule).applicationModule(applicationModule).build();
@@ -322,7 +331,7 @@ public class DataServicesManager {
 
     public void stopCore() {
         synchronized (this) {
-            DSLog.i("***SPO***", "In DataServicesManager.stopCore");
+            DSLog.i(DSLog.LOG, "In DataServicesManager.stopCore");
             if (mCore != null)
                 mCore.stop();
             if (mSynchronisationMonitor != null)
@@ -349,8 +358,8 @@ public class DataServicesManager {
     }
 
 
-    public void fetchUserCharacteristics(DBRequestListener dbRequestListener) {
-        mEventing.post(new LoadUserCharacteristicsRequest(dbRequestListener));
+    public void fetchUserCharacteristics(DBFetchRequestListner dbFetchRequestListner) {
+        mEventing.post(new LoadUserCharacteristicsRequest(dbFetchRequestListner));
     }
 
     public Characteristics createUserCharacteristics(@NonNull final String detailType, @NonNull final String detailValue, Characteristics characteristics) {
@@ -380,8 +389,8 @@ public class DataServicesManager {
         this.mSynchronisationCompleteListener = null;
     }
 
-    public void fetchUserSettings(DBRequestListener dbRequestListener) {
-      mEventing.post(new LoadSettingsRequest(dbRequestListener));
+    public void fetchUserSettings(DBFetchRequestListner dbFetchRequestListner) {
+      mEventing.post(new LoadSettingsRequest(dbFetchRequestListner));
     }
 
     public AppComponent getAppComponant(){
@@ -394,5 +403,13 @@ public class DataServicesManager {
 
     public Set<String> getSyncTypes() {
         return mSyncDataTypes;
+    }
+
+    public ArrayList<DataFetcher> getCustomFetchers() {
+        return mCustomFetchers;
+    }
+
+    public ArrayList<DataSender> getCustomSenders() {
+        return mCustomSenders;
     }
 }

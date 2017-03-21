@@ -31,6 +31,7 @@ public class SynchronisationMonitor extends EventMonitor {
     @Inject
     DataPushSynchronise pushSynchronise;
 
+
     @Inject
     public SynchronisationMonitor() {
         DataServicesManager.getInstance().getAppComponant().injectSynchronizationMonitor(this);
@@ -41,7 +42,7 @@ public class SynchronisationMonitor extends EventMonitor {
         synchronized (this) {
   //          if (DataServicesManager.getInstance().isPushComplete() && DataServicesManager.getInstance().isPullComplete()) {
     //            DataServicesManager.getInstance().setPullComplete(false);
-                DSLog.i("***SPO***","In Synchronization Monitor onEventAsync - ReadDataFromBackenedRequest");
+                DSLog.i(DSLog.LOG,"In Synchronization Monitor onEventAsync - ReadDataFromBackenedRequest");
                 pullSynchronise.startSynchronise(event.getLastSynchronizationTimestamp(), event.getEventId());
 //            }
         }
@@ -52,7 +53,7 @@ public class SynchronisationMonitor extends EventMonitor {
         synchronized (this) {
             //if (DataServicesManager.getInstance().isPullComplete() && DataServicesManager.getInstance().isPushComplete()) {
               //  DataServicesManager.getInstance().setPushComplete(false);
-                DSLog.i("***SPO***", "In Synchronization Monitor onEventAsync - WriteDataToBackendRequest");
+                DSLog.i(DSLog.LOG, "In Synchronization Monitor onEventAsync - WriteDataToBackendRequest");
                 pushSynchronise.startSynchronise(event.getEventId());
          //   }
         }

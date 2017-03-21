@@ -1,6 +1,6 @@
 package com.philips.platform.datasync.characteristics;
 
-import com.philips.platform.core.datatypes.OrmTableType;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.injection.AppComponent;
@@ -45,6 +45,6 @@ public class UserCharacteristicsSegregatorTest {
     @Test
     public void shouldReturnDataToSyn_WhenIsUserCharacteristicsSyncedIsCalled() throws Exception {
         userCharacteristicsSegregator.isUCSynced();
-        verify(mockDBDbFetchingInterface).isSynced(OrmTableType.CHARACTERISTICS.getId());
+        verify(mockDBDbFetchingInterface).isSynced(SyncType.CHARACTERISTICS.getId());
     }
 }

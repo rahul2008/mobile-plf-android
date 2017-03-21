@@ -69,7 +69,7 @@ public class MomentsDataFetcher extends DataFetcher {
                     accessProvider.getAccessToken(), gsonConverter);
 
             if (client != null) {
-                DSLog.i("***SPO***", "Moments DataFetching started");
+                DSLog.i(DSLog.LOG, "Moments DataFetching started");
                 momentsHistory = client.getMomentsHistory(accessProvider.getUserId(),
                         accessProvider.getUserId(), momentsLastSyncUrl);
 
@@ -77,17 +77,17 @@ public class MomentsDataFetcher extends DataFetcher {
 
                 List<UCoreMoment> uCoreMoments = momentsHistory.getUCoreMoments();
                 if (uCoreMoments != null && uCoreMoments.size() <= 0) {
-                    DSLog.i("***SPO***", "DataPullSynchronize Moments fetch Success No change");
+                    DSLog.i(DSLog.LOG, "DataPullSynchronize Moments fetch Success No change");
                     return null;
                 }
-                DSLog.i("***SPO***", "DataPullSynchronize Moments fetch Success before convert");
+                DSLog.i(DSLog.LOG, "DataPullSynchronize Moments fetch Success before convert");
                 List<Moment> moments = converter.convert(uCoreMoments);
-                DSLog.i("***SPO***", "DataPullSynchronize Moments fetch Success after converting");
+                DSLog.i(DSLog.LOG, "DataPullSynchronize Moments fetch Success after converting");
                 if(moments!=null) {
                     eventing.post(new BackendMomentListSaveRequest(moments, null));
                 }
             }
-            DSLog.e("***SPO***", "DataPullSynchronize fetchMomentWithType send null");
+            DSLog.e(DSLog.LOG, "DataPullSynchronize fetchMomentWithType send null");
             return null;
         } catch (RetrofitError ex) {
             //TODO: - Veritcals should be forced to call this

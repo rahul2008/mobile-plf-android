@@ -1,12 +1,9 @@
 package cdp.philips.com.mydemoapp.reciever;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.util.Log;
 
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
 
 import org.joda.time.DateTimeConstants;
 
@@ -18,7 +15,7 @@ import cdp.philips.com.mydemoapp.utility.Utility;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class BaseAppBroadcastReceiver extends BroadcastReceiver{
+public class ScheduleSyncReceiver {
 
     public static final long DATA_FETCH_FREQUENCY = 30 * DateTimeConstants.MILLIS_PER_SECOND;
 
@@ -29,20 +26,16 @@ public class BaseAppBroadcastReceiver extends BroadcastReceiver{
     Utility mUtility;
 
     @Inject
-    public BaseAppBroadcastReceiver() {
+    public ScheduleSyncReceiver() {
         mUtility = new Utility();
     }
 
-    @Override
-    public void onReceive(final Context context, final Intent intent) {
+    public void onReceive(final Context context) {
         mDataServices = DataServicesManager.getInstance();
-        String action = intent.getAction();
-        if (action == null) {
-            return;
-        }
+
         //TODO: review changing connection
-        if (mUtility.isOnline(context) && (action.equals(ACTION_USER_DATA_FETCH) || action.equals(ConnectivityManager.CONNECTIVITY_ACTION))) {
-            Log.i("***SPO***","START SYNC FROM REC");
+        if (mUtility.isOnline(context)) {
+            DSLog.i(DSLog.LOG,"START SYNC FROM REC");
             mDataServices.synchronize();
         }
     }
