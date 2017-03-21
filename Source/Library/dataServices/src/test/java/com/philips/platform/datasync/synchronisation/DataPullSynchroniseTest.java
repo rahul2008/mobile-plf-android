@@ -71,9 +71,6 @@ public class DataPullSynchroniseTest {
     private Eventing eventingMock;
 
     @Captor
-    private ArgumentCaptor<ReadDataFromBackendResponse> successCaptor;
-
-    @Captor
     private ArgumentCaptor<Runnable> runnableCaptor;
 
     @Mock
