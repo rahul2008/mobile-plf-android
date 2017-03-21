@@ -72,7 +72,6 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
 
             @Override
             public void onSuccess(JSONObject response) {
-                deleteLegacyDIProfileFile();
                 Jump.saveToDisk(mContext);
                 if (!RegistrationConfiguration.getInstance().isHsdpFlow()) {
                     handler.onRefreshUserSuccess();
@@ -132,11 +131,6 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
                 handler.onRefreshUserFailed(0);
             }
         });
-    }
-
-    private void deleteLegacyDIProfileFile() {
-        mContext.deleteFile(RegConstants.DI_PROFILE_FILE);
-        Jump.getSecureStorageInterface().removeValueForKey(RegConstants.DI_PROFILE_FILE);
     }
 
     @Override
