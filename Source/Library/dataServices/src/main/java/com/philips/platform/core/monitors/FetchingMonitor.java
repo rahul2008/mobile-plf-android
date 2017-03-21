@@ -179,12 +179,11 @@ public class FetchingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventAsync(FetchInsightsFromDB loadInsightsRequest) {
-
+    public void onEventAsync(FetchInsightsFromDB fetchInsightsFromDB) {
         try {
-            dbInterface.fetchActiveInsights(loadInsightsRequest.getDbFetchRequestListner());
+            dbInterface.fetchActiveInsights(fetchInsightsFromDB.getDbFetchRequestListner());
         } catch (SQLException e) {
-            dbInterface.postError(e, loadInsightsRequest.getDbFetchRequestListner());
+            dbInterface.postError(e, fetchInsightsFromDB.getDbFetchRequestListner());
         }
     }
 

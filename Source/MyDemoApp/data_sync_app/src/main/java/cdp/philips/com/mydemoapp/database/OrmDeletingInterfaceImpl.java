@@ -118,11 +118,6 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         return moment.getSynchronisationData() != null;
     }
 
-    private boolean isInsightSyncedToBackend(final Insight insight) {
-        return insight.getSynchronisationData() != null;
-    }
-
-
     private void saveMoment(final Moment moment, DBRequestListener dbRequestListener) throws SQLException {
         ormSaving.saveMoment(getOrmMoment(moment, dbRequestListener));
     }
@@ -148,19 +143,16 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     //Insights
     @Override
     public boolean markInsightsAsInActive(List<Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
-        List<Insight> notSyncedBackEndInsights = new ArrayList<>();
+        List<Insight> insightsToDelete = new ArrayList<>();
         for (Insight insight : insights) {
-            if (isInsightSyncedToBackend(insight)) {
-                prepareInsightForDeletion(insight, dbRequestListener);
-            } else {
-                insight.setSynchronisationData(
-                        new OrmSynchronisationData(Insight.INSIGHT_NEVER_SYNCED_AND_DELETED_GUID, true,
-                                DateTime.now(), 0));
-
-                notSyncedBackEndInsights.add(insight);
-            }
+            if (insight.getSynchronisationData() == null)
+                insight.setSynchronisationData(new OrmSynchronisationData(Insight.INSIGHT_NEVER_SYNCED_AND_DELETED_GUID, true,
+                        DateTime.now(), 0));
+            insight.setSynced(false);
+            insight.getSynchronisationData().setInactive(true);
+            insightsToDelete.add(insight);
         }
-        ormSaving.saveInsights(notSyncedBackEndInsights, dbRequestListener);
+        ormSaving.saveInsights(insightsToDelete, dbRequestListener);
         return true;
     }
 
@@ -171,20 +163,11 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
             notifyDBRequestListener.notifyDBChange(SyncType.INSIGHT);
         }
         return isDeleted;
-
     }
 
     @Override
     public void deleteInsight(Insight insight, DBRequestListener dbRequestListener) throws SQLException {
         ormDeleting.deleteInsight((OrmInsight) insight);
-        notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.INSIGHT);
-    }
-
-    private void prepareInsightForDeletion(final Insight insight, DBRequestListener dbRequestListener) {
-        insight.setSynced(false);
-        insight.getSynchronisationData().setInactive(true);
-        List<Insight> insights = new ArrayList<>();
-        insights.add(insight);
-        ormSaving.saveInsights(insights, dbRequestListener);
+        notifyDBRequestListener.notifyDBChange(SyncType.INSIGHT);
     }
 }

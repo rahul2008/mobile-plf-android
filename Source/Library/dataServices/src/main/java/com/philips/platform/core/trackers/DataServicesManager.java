@@ -438,7 +438,7 @@ public class DataServicesManager {
         mEventing.post(new FetchInsightsFromDB(dbFetchRequestListner));
     }
 
-    public void deleteInsights(List<? extends Insight> insights,DBRequestListener dbRequestListener){
+    public void deleteInsights(List<? extends Insight> insights, DBRequestListener dbRequestListener){
         mEventing.post(new DeleteInsightFromDB((List<Insight>) insights,dbRequestListener));
     }
 }

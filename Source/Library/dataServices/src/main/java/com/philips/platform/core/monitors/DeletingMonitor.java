@@ -7,6 +7,7 @@ package com.philips.platform.core.monitors;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
+import com.philips.platform.core.events.DeleteInsightRequest;
 import com.philips.platform.core.events.DeleteInsightResponse;
 import com.philips.platform.core.events.DeleteInsightFromDB;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
@@ -88,21 +89,23 @@ public class DeletingMonitor extends EventMonitor {
         }
     }
 
+    //Insights
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventAsync(DeleteInsightFromDB insightDeleteDBRequest) {
-        final DBRequestListener dbRequestListener = insightDeleteDBRequest.getDbRequestListener();
+    public void onEventAsync(DeleteInsightFromDB deleteInsightFromDB) {
+        final DBRequestListener dbRequestListener = deleteInsightFromDB.getDbRequestListener();
         try {
-            dbInterface.markInsightsAsInActive(insightDeleteDBRequest.getInsights(), dbRequestListener);
+            dbInterface.markInsightsAsInActive(deleteInsightFromDB.getInsights(), dbRequestListener);
+            eventing.post(new DeleteInsightRequest(deleteInsightFromDB.getInsights())); //is it good to have here?
         } catch (SQLException e) {
             dbInterface.deleteFailed(e, dbRequestListener);
         }
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventAsync(DeleteInsightResponse insightBackendDeleteResponse) {
-        final DBRequestListener dbRequestListener = insightBackendDeleteResponse.getDBRequestListener();
+    public void onEventAsync(DeleteInsightResponse deleteInsightResponse) {
+        final DBRequestListener dbRequestListener = deleteInsightResponse.getDBRequestListener();
         try {
-            dbInterface.deleteInsight(insightBackendDeleteResponse.getInsight(),
+            dbInterface.deleteInsight(deleteInsightResponse.getInsight(),
                     dbRequestListener);
         } catch (SQLException e) {
             dbInterface.deleteFailed(e, dbRequestListener);

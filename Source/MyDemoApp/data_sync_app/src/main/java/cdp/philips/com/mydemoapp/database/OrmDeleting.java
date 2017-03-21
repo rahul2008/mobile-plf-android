@@ -291,7 +291,6 @@ public class OrmDeleting {
 
     //Insights
     public boolean deleteInsights(final List<Insight> insights, DBRequestListener dbRequestListener) {
-
         try {
             momentDao.callBatchTasks(new Callable<Void>() {
                 @Override
