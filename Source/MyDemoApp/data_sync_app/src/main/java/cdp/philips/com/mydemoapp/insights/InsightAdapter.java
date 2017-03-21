@@ -22,15 +22,13 @@ import cdp.philips.com.mydemoapp.R;
 public class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightHolder> {
 
     private List<InsightDisplayModel> mInsightDisplayModelList;
-
-    List<? extends Insight> insightList;
-
+    private List<? extends Insight> mInsightList;
     private final DBRequestListener dbRequestListener;
 
     public InsightAdapter(final List<InsightDisplayModel> insightDisplayModelList, ArrayList<? extends Insight> insightList, DBRequestListener dbRequestListener) {
         mInsightDisplayModelList = insightDisplayModelList;
         this.dbRequestListener = dbRequestListener;
-        this.insightList = insightList;
+        this.mInsightList = insightList;
     }
 
     @Override
@@ -50,9 +48,9 @@ public class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightH
             @Override
             public void onClick(View view) {
                 List<Insight> insightsToDelete = new ArrayList();
-                insightsToDelete.add(insightList.get(position));
+                insightsToDelete.add(mInsightList.get(position));
                 DataServicesManager.getInstance().deleteInsights(insightsToDelete, dbRequestListener);
-                insightList.remove(position);
+                mInsightList.remove(position);
                 notifyItemRemoved(position);
                 notifyDataSetChanged();
             }
@@ -65,9 +63,9 @@ public class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightH
     }
 
     public void setInsightList(final ArrayList<? extends Insight> insightList) {
-        this.insightList = insightList;
+        mInsightList = insightList;
         mInsightDisplayModelList.clear();
-        for (Insight insight : insightList) {
+        for (Insight insight : mInsightList) {
             InsightDisplayModel insightDisplayModel = new InsightDisplayModel();
             insightDisplayModel.setInsightID(insight.getGUId());
             insightDisplayModel.setMomentID(insight.getMomentId());
