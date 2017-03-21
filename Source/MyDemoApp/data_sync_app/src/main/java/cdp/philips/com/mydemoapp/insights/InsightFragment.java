@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package cdp.philips.com.mydemoapp.insights;
 
 import android.os.Bundle;
@@ -5,8 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.test.suitebuilder.TestMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,17 +20,17 @@ import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cdp.philips.com.mydemoapp.R;
+
 public class InsightFragment extends DialogFragment implements DBRequestListener<Insight>, DBFetchRequestListner<Insight>, DBChangeListener {
     InsightAdapter mInsightAdapter;
     List<InsightDisplayModel> mInsightDisplayModelList = new ArrayList<>();
     RecyclerView mInsightsRecyclerView;
-    ArrayList<? extends Insight> mInsightlist = new ArrayList();
+    ArrayList<? extends Insight> mInsightList = new ArrayList();
     DataServicesManager mDataServicesManager;
     private TextView mNoInsights;
 
@@ -40,7 +42,7 @@ public class InsightFragment extends DialogFragment implements DBRequestListener
         mInsightDisplayModelList = new ArrayList<>();
         mDataServicesManager = DataServicesManager.getInstance();
 
-        mInsightAdapter = new InsightAdapter(mInsightDisplayModelList);
+        mInsightAdapter = new InsightAdapter(mInsightDisplayModelList, mInsightList, this);
 
         mNoInsights = (TextView) view.findViewById(R.id.tv_no_insights);
         mInsightsRecyclerView = (RecyclerView) view.findViewById(R.id.insight_recycler_view);
@@ -61,7 +63,6 @@ public class InsightFragment extends DialogFragment implements DBRequestListener
     public void dBChangeSuccess(SyncType type) {
         if (type == SyncType.INSIGHT) {
             DataServicesManager.getInstance().fetchInsights(this);
-            Log.d(this.getClass().getName(), "Insight is changed");
         }
     }
 
@@ -101,21 +102,32 @@ public class InsightFragment extends DialogFragment implements DBRequestListener
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mInsightlist = (ArrayList<? extends Insight>) insights;
+                    mInsightList = (ArrayList<? extends Insight>) insights;
 
-                    if(mInsightlist.size() > 0) {
+                    if (mInsightList.size() > 0) {
                         mInsightsRecyclerView.setVisibility(View.VISIBLE);
                         mNoInsights.setVisibility(View.GONE);
 
-                        mInsightAdapter.setInsightList(mInsightlist);
+                        mInsightAdapter.setInsightList(mInsightList);
                         mInsightAdapter.notifyDataSetChanged();
-                    }else{
+                    } else {
                         mInsightsRecyclerView.setVisibility(View.GONE);
                         mNoInsights.setVisibility(View.VISIBLE);
                     }
                 }
             });
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mDataServicesManager.registerDBChangeListener(this);
     }
 
     @Override
@@ -129,16 +141,6 @@ public class InsightFragment extends DialogFragment implements DBRequestListener
         super.onDestroy();
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mDataServicesManager.registerDBChangeListener(this);
-    }
 }
 
 

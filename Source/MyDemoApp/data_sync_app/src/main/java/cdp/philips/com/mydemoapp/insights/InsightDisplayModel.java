@@ -2,10 +2,10 @@ package cdp.philips.com.mydemoapp.insights;
 
 public class InsightDisplayModel {
 
+    private String insightID;
+    private String momentID;
     private String lastModified;
-    private String timeStamp;
     private String ruleID;
-    private String momentType;
 
     public String getLastModified() {
         return lastModified;
@@ -15,12 +15,20 @@ public class InsightDisplayModel {
         this.lastModified = lastModified;
     }
 
-    public String getTimeStamp() {
-        return timeStamp;
+    public String getInsightID() {
+        return insightID;
     }
 
-    public void setTimeStamp(String timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setInsightID(String insightID) {
+        this.insightID = insightID;
+    }
+
+    public String getMomentID() {
+        return momentID;
+    }
+
+    public void setMomentID(String momentID) {
+        this.momentID = momentID;
     }
 
     public String getRuleID() {
@@ -29,13 +37,5 @@ public class InsightDisplayModel {
 
     public void setRuleID(String ruleID) {
         this.ruleID = ruleID;
-    }
-
-    public String getMomentType() {
-        return momentType;
-    }
-
-    public void setMomentType(String momentType) {
-        this.momentType = momentType;
     }
 }

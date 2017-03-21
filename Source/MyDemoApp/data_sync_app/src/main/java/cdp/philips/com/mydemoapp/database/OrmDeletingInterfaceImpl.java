@@ -149,6 +149,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
                 insight.setSynchronisationData(new OrmSynchronisationData(Insight.INSIGHT_NEVER_SYNCED_AND_DELETED_GUID, true,
                         DateTime.now(), 0));
             insight.setSynced(false);
+            insight.setInactive(true);
             insight.getSynchronisationData().setInactive(true);
             insightsToDelete.add(insight);
         }

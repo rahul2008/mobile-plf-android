@@ -1,11 +1,19 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package cdp.philips.com.mydemoapp.insights;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.philips.platform.core.datatypes.Insight;
+import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.trackers.DataServicesManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +24,14 @@ public class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightH
 
     private List<InsightDisplayModel> mInsightDisplayModelList;
 
-    public InsightAdapter(final List<InsightDisplayModel> insightDisplayModelList) {
+    List<? extends Insight> insightList;
+
+    private final DBRequestListener dbRequestListener;
+
+    public InsightAdapter(final List<InsightDisplayModel> insightDisplayModelList, ArrayList<? extends Insight> insightList, DBRequestListener dbRequestListener) {
         mInsightDisplayModelList = insightDisplayModelList;
+        this.dbRequestListener = dbRequestListener;
+        this.insightList = insightList;
     }
 
     @Override
@@ -27,12 +41,22 @@ public class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightH
     }
 
     @Override
-    public void onBindViewHolder(InsightHolder holder, int position) {
+    public void onBindViewHolder(InsightHolder holder, final int position) {
         final InsightDisplayModel insightDisplayModel = mInsightDisplayModelList.get(position);
+        holder.mInsightID.setText(insightDisplayModel.getInsightID());
+        holder.mMomentID.setText(insightDisplayModel.getMomentID());
         holder.mLastModified.setText(insightDisplayModel.getLastModified());
-        holder.mTimeStamp.setText(insightDisplayModel.getTimeStamp());
         holder.mRuleID.setText(insightDisplayModel.getRuleID());
-        holder.mMomentType.setText(insightDisplayModel.getMomentType());
+        holder.mDeleteInsight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                List<Insight> insightsToDelete = new ArrayList();
+                insightsToDelete.add(insightList.get(position));
+                DataServicesManager.getInstance().deleteInsights(insightsToDelete, dbRequestListener);
+                notifyItemRemoved(position);
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -41,30 +65,32 @@ public class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightH
     }
 
     public void setInsightList(final ArrayList<? extends Insight> insightList) {
+        this.insightList = insightList;
         mInsightDisplayModelList.clear();
-        for(Insight insight : insightList){
+        for (Insight insight : insightList) {
             InsightDisplayModel insightDisplayModel = new InsightDisplayModel();
+            insightDisplayModel.setInsightID(insight.getGUId());
+            insightDisplayModel.setMomentID(insight.getMomentId());
             insightDisplayModel.setLastModified(insight.getLastModified());
-            insightDisplayModel.setTimeStamp(insight.getTimeStamp());
             insightDisplayModel.setRuleID(insight.getRuleId());
-            insightDisplayModel.setMomentType(insight.getType());
             mInsightDisplayModelList.add(insightDisplayModel);
         }
     }
 
-
     public class InsightHolder extends RecyclerView.ViewHolder {
+        TextView mInsightID;
+        TextView mMomentID;
         TextView mLastModified;
-        TextView mTimeStamp;
         TextView mRuleID;
-        TextView mMomentType;
+        Button mDeleteInsight;
 
         public InsightHolder(final View view) {
             super(view);
+            mInsightID = (TextView) view.findViewById(R.id.insight_id);
+            mMomentID = (TextView) view.findViewById(R.id.moment_id);
             mLastModified = (TextView) view.findViewById(R.id.last_modified);
-            mTimeStamp = (TextView) view.findViewById(R.id.timestamp);
             mRuleID = (TextView) view.findViewById(R.id.rule_id);
-            mMomentType = (TextView) view.findViewById(R.id.moment_type);
+            mDeleteInsight = (Button) view.findViewById(R.id.btn_delete_insight);
         }
     }
 }
