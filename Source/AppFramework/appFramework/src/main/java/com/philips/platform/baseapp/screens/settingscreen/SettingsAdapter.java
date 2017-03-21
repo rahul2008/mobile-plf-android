@@ -24,10 +24,12 @@ import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.cdp.uikit.customviews.UIKitButton;
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
+import com.philips.platform.baseapp.screens.utility.TaggingConstants;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
@@ -205,6 +207,7 @@ public class SettingsAdapter extends BaseAdapter {
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, true);
                                 progress.cancel();
                                 Toast.makeText(activityContext, activityContext.getResources().getString(R.string.RA_Settings_Update_Success), Toast.LENGTH_LONG).show();
+                                AppFrameworkTagging.getInstance().trackAction(TaggingConstants.MARKETING_OPT_IN);
                             }
 
                             @Override
@@ -222,6 +225,7 @@ public class SettingsAdapter extends BaseAdapter {
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, false);
                                 progress.cancel();
                                 Toast.makeText(activityContext, activityContext.getResources().getString(R.string.RA_Settings_Update_Success), Toast.LENGTH_LONG).show();
+                                AppFrameworkTagging.getInstance().trackAction(TaggingConstants.MARKETING_OPT_OUT);
                             }
 
                             @Override

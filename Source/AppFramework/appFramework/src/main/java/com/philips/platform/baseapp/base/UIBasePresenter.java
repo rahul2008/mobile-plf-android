@@ -20,8 +20,9 @@ abstract public class UIBasePresenter {
     protected final int MENU_OPTION_SUPPORT = 3;
     protected final int MENU_OPTION_ABOUT = 4;
     protected final int MENU_OPTION_DATA_SYNC = 5;
-    protected final int MENU_OPTION_PR = 7;
+    protected final int MENU_OPTION_PR = 8;
     protected final int MENU_OPTION_CONNECTIVITY = 6;
+    protected final int MENU_OPTION_TEST = 7;
 
     /* event to state map */
     protected final String HOME_SETTINGS = "settings";
@@ -33,6 +34,7 @@ abstract public class UIBasePresenter {
     protected final String HOME_DATA_SYNC = "data_sync";
     protected final String SUPPORT_PR = "pr";
     protected final String CONNECTIVITY = "connectivity";
+    protected final String TESTMICROAPP = "testmicroapp";
 
     private UIView uiView;
 
