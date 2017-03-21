@@ -37,7 +37,7 @@ android {
         minSdkVersion <#if minApi?matches("^\\d+$")>${minApi}<#else>'${minApi}'</#if>
         targetSdkVersion <#if targetApiString?matches("^\\d+$")>${targetApiString}<#else>'${targetApiString}'</#if>
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -69,7 +69,10 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'com.android.support:design:25.1.1'
-    compile "com.philips.cdp:uAppFwLib:1.4.4-SNAPSHOT@aar"
-    compile "com.philips.cdp:AppInfra:1.5.4-SNAPSHOT@aar"   
+    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.4.6-SNAPSHOT', ext: 'aar')
+
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.5.5-SNAPSHOT', ext: 'aar')
+
+   
 
 }
