@@ -9,7 +9,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.widget.Toast;
 
-import com.facebook.stetho.Stetho;
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.flowmanager.AppStates;
@@ -85,7 +84,7 @@ public class DataServicesState extends BaseState {
         DSLog.enableLogging(true);
         DSLog.i(DSLog.LOG, "Before Setting up Synchronization Loop");
         scheduleSync(context);
-        Stetho.initializeWithDefaults(context);
+        //Stetho.initializeWithDefaults(context);
     }
 
     void scheduleSync(final Context context) {
