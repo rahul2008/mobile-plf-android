@@ -76,6 +76,12 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
         iapState.init(this);
         dataSyncScreenState = new DataServicesState();
         dataSyncScreenState.init(this);
+
+        /*
+         * Initializing tagging class and its interface. Interface initialization needs
+         * context to gets started.
+         */
+        AppFrameworkTagging.getInstance().initAppTaggingInterface(this);
     }
 
     public LoggingInterface getLoggingInterface() {

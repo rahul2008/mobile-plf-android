@@ -22,6 +22,7 @@ import com.philips.cdp.uikit.customviews.CircularProgressbar;
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
+import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -95,6 +96,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
             }
         });
 */
+        AppFrameworkTagging.getInstance().trackPage(TAG);
         return view;
     }
 
