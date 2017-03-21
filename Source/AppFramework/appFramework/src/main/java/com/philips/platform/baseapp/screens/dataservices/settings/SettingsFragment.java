@@ -16,18 +16,20 @@ import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.core.datatypes.Settings;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by sangamesh on 09/01/17.
  */
 
-public class SettingsFragment extends DialogFragment implements DBRequestListener, DBChangeListener, View.OnClickListener {
+public class SettingsFragment extends DialogFragment implements DBFetchRequestListner<Settings>,DBRequestListener<Settings>, DBChangeListener, View.OnClickListener {
 
     private Button mBtnOk;
     private Button mBtnCancel;
@@ -52,8 +54,6 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
         mBtnCancel.setOnClickListener(this);
         settingsFragmentPresenter = new SettingsFragmentPresenter(getActivity(), this);
         mProgressDialog = new ProgressDialog(getActivity());
-
-
         mSpinner_Unit = (Spinner) rootView.findViewById(R.id.spinner_metrics);
         mSpinner_Local = (Spinner) rootView.findViewById(R.id.spinner_locale);
         ArrayAdapter<CharSequence> adapterMetrics = ArrayAdapter.createFromResource(getActivity(),
@@ -72,9 +72,29 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
     }
 
     @Override
-    public void onSuccess(final ArrayList<? extends Object> ormObjectList) {
+    public void onResume() {
+        super.onResume();
+    }
 
+    @Override
+    public void onSuccess(final List<? extends Settings> data) {
+        refreshUi(data);
+    }
 
+    private void refreshUi(final List<? extends Settings> data) {
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (data != null) {
+                        settings = data.get(0);
+                        updateUi(settings.getUnit(), settings.getLocale());
+
+                    }
+                    dismissProgressDialog();
+                }
+            });
+        }
     }
 
     private void updateUi(String unit, String locale) {
@@ -91,25 +111,13 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
     }
 
     @Override
-    public void onSuccess(final Object data) {
-        if (getActivity() != null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (data != null) {
-                        settings = (Settings) data;
-                        updateUi(settings.getUnit(), settings.getLocale());
-
-                    }
-                    dismissProgressDialog();
-                }
-            });
-        }
-    }
-
-    @Override
     public void onFailure(final Exception exception) {
 
+        refreshOnFailure(exception);
+
+    }
+
+    private void refreshOnFailure(final Exception exception) {
         if (getActivity() != null) {
 
             getActivity().runOnUiThread(new Runnable() {
@@ -120,7 +128,6 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
                 }
             });
         }
-
     }
 
     @Override
@@ -195,7 +202,8 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
     }
 
     @Override
-    public void dBChangeSuccess() {
+    public void dBChangeSuccess(SyncType type) {
+        if(type!=SyncType.SETTINGS)return;
         DataServicesManager.getInstance().fetchUserSettings(this);
     }
 
@@ -208,5 +216,15 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
                 Toast.makeText(getActivity(), "Exception :" + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    public void onFetchSuccess(final List<? extends Settings> data) {
+        refreshUi(data);
+    }
+
+    @Override
+    public void onFetchFailure(final Exception exception) {
+        refreshOnFailure(exception);
     }
 }

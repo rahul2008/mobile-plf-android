@@ -17,7 +17,7 @@ import java.util.Collection;
 public class OrmMeasurementGroup implements MeasurementGroup, Serializable {
     private static final long serialVersionUID = 11L;
 
-    @DatabaseField(generatedId = true, unique = true, canBeNull = false)
+    @DatabaseField(generatedId = true, unique = true,canBeNull = false)
     private int id;
 
     @ForeignCollectionField(eager = true)

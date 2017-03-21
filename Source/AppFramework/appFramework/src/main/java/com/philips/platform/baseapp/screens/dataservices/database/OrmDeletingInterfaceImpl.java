@@ -6,6 +6,7 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMomen
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynchronisationData;
 import com.philips.platform.baseapp.screens.dataservices.utility.NotifyDBRequestListener;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.utils.DSLog;
@@ -29,20 +30,24 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     @NonNull
     private final OrmSaving ormSaving;
 
-    private NotifyDBRequestListener notifyDBRequestListener;
+    @NonNull
+    private final OrmFetchingInterfaceImpl fetching;
+
+    NotifyDBRequestListener notifyDBRequestListener;
 
     @Inject
     public OrmDeletingInterfaceImpl(@NonNull final OrmDeleting ormDeleting,
-                                    final OrmSaving ormSaving) {
+                                    final OrmSaving ormSaving, OrmFetchingInterfaceImpl fetching) {
         this.ormDeleting = ormDeleting;
         this.ormSaving = ormSaving;
+        this.fetching=fetching;
         notifyDBRequestListener = new NotifyDBRequestListener();
     }
 
     @Override
     public void deleteAll(DBRequestListener dbRequestListener) throws SQLException {
         ormDeleting.deleteAll();
-        notifyDBRequestListener.notifySuccess(dbRequestListener);
+        notifyDBRequestListener.notifyPrepareForDeletion(dbRequestListener);
     }
 
     @Override
@@ -55,7 +60,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
                             DateTime.now(), 0));
             saveMoment(moment, dbRequestListener);
         }
-        notifyDBRequestListener.notifySuccess(dbRequestListener,(OrmMoment) moment);
+        notifyDBRequestListener.notifyPrepareForDeletion(dbRequestListener);
     }
 
     @Override
@@ -63,20 +68,25 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         for(Moment moment : moments){
             markAsInActive(moment,dbRequestListener);
         }
+        notifyDBRequestListener.notifySuccess(dbRequestListener ,SyncType.MOMENT);
     }
 
     @Override
     public void deleteMoment(Moment moment, DBRequestListener dbRequestListener) throws SQLException {
         ormDeleting.ormDeleteMoment((OrmMoment) moment);
-        notifyDBRequestListener.notifySuccess(dbRequestListener,(OrmMoment) moment);
+        notifyDBRequestListener.notifySuccess(dbRequestListener,(OrmMoment) moment ,SyncType.MOMENT);
     }
 
     @Override
-    public void deleteMoments(List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
-       for(Moment moment: moments){
-           deleteMoment(moment,dbRequestListener);
-       }
+    public boolean deleteMoments(List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
+
+        boolean isDeleted=ormDeleting.deleteMoments(moments,dbRequestListener);
+        if(isDeleted){
+            notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.MOMENT);
+        }
+        return isDeleted;
     }
+
 
     @Override
     public void deleteMomentDetail(Moment moment,DBRequestListener dbRequestListener) throws SQLException {
@@ -95,8 +105,8 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
 
     @Override
     public void deleteAllMoments(DBRequestListener dbRequestListener) throws SQLException {
-        ormDeleting.deleteAllMoments();
-        notifyDBRequestListener.notifySuccess(dbRequestListener);
+        List<? extends Moment> moments = fetching.fetchMoments(null);
+        markMomentsAsInActive((List<Moment>) moments,dbRequestListener);
     }
 
     private boolean isMomentSyncedToBackend(final Moment moment) {
@@ -113,7 +123,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         } catch (OrmTypeChecking.OrmTypeException e) {
             notifyDBRequestListener.notifyOrmTypeCheckingFailure(dbRequestListener, e,"type check failed!");
             if (e.getMessage() != null) {
-                DSLog.i("***SPO***", "Exception = " + e.getMessage());
+                DSLog.i(DSLog.LOG, "Exception = " + e.getMessage());
             }
         }
         return null;
