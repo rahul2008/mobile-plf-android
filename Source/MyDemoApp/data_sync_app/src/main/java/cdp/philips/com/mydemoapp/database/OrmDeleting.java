@@ -112,6 +112,7 @@ public class OrmDeleting {
         insertDefaultConsentAndSyncBit();
         insertDefaultSettingsAndSyncBit();
         insertDefaultUCSyncBit();
+        
     }
 
     private void insertDefaultConsentAndSyncBit() {
