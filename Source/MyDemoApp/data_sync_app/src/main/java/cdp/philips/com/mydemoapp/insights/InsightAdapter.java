@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.philips.platform.core.datatypes.Insight;
@@ -53,6 +52,7 @@ public class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightH
                 List<Insight> insightsToDelete = new ArrayList();
                 insightsToDelete.add(insightList.get(position));
                 DataServicesManager.getInstance().deleteInsights(insightsToDelete, dbRequestListener);
+                insightList.remove(position);
                 notifyItemRemoved(position);
                 notifyDataSetChanged();
             }
