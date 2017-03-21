@@ -30,7 +30,6 @@ import com.squareup.leakcanary.LeakCanary;
 import java.io.File;
 import java.util.Locale;
 
-
 /**
  * Application class is used for initialization
  */
@@ -76,7 +75,6 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
         iapState.init(this);
         dataSyncScreenState = new DataServicesState();
         dataSyncScreenState.init(this);
-
         /*
          * Initializing tagging class and its interface. Interface initialization needs
          * context to gets started.

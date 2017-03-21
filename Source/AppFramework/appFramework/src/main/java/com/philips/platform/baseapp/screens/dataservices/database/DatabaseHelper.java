@@ -20,7 +20,6 @@ import com.philips.platform.baseapp.screens.dataservices.database.datatypes.Meas
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentDetailType;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentType;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
-import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristicsDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmDCSync;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurement;
@@ -38,8 +37,8 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSetti
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynchronisationData;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
-import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.datatypes.Settings;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
@@ -55,9 +54,10 @@ import java.util.List;
  */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final String TAG = DatabaseHelper.class.getSimpleName();
+    private static DatabaseHelper databaseHelper;
     private static final String DATABASE_NAME = "DataService.db";
     private static final int DATABASE_VERSION = 1;
-    private final UuidGenerator uuidGenerator;
+   // private final UuidGenerator uuidGenerator;
     private Dao<OrmMoment, Integer> momentDao;
     private Dao<OrmMomentType, Integer> momentTypeDao;
     private Dao<OrmMomentDetail, Integer> momentDetailDao;
@@ -77,9 +77,20 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private Dao<OrmDCSync, Integer> ormDCSyncDao;
 
-    public DatabaseHelper(Context context, final UuidGenerator uuidGenerator) {
+    public static synchronized DatabaseHelper getInstance(Context context) {
+
+        // Use the application context, which will ensure that you
+        // don't accidentally leak an Activity's context.
+        // See this article for more information: http://bit.ly/6LRzfx
+        if (databaseHelper == null) {
+            databaseHelper = new DatabaseHelper(context.getApplicationContext());
+        }
+        return databaseHelper;
+    }
+
+    private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.uuidGenerator = uuidGenerator;
+        //this.uuidGenerator = uuidGenerator;
     }
 
     @Override
@@ -100,7 +111,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         insertMeasurementDetailTypes();
         insertMeasurementGroupDetailType();
         insertDefaultSettings();
-        insertDefaultDCSyncValues();
+        insertDefaultUCSync();
         insertDefaultConsent();
     }
 
@@ -119,11 +130,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                 (ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED,ConsentDetail.DEFAULT_DOCUMENT_VERSION,
                         ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
         mDataServices.saveConsentDetails(consentDetails, null);
+        insertDefaultDCSyncValues(SyncType.CONSENT);
     }
 
     private void insertDefaultDCSyncValues() {
 
-        for (OrmTableType tableType : OrmTableType.values()) {
+        for (SyncType tableType : SyncType.values()) {
 
             ormDCSyncDao = getDCSyncDao();
             try {
@@ -135,9 +147,24 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     }
 
+    private void insertDefaultDCSyncValues(SyncType type) {
+            ormDCSyncDao = getDCSyncDao();
+            try {
+                ormDCSyncDao.createOrUpdate(new OrmDCSync(type.getId(), type.getDescription(), true));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+    }
+
     private void insertDefaultSettings() {
         Settings settings = DataServicesManager.getInstance().createUserSettings("en_US" ,"metric");
         DataServicesManager.getInstance().saveUserSettings(settings, null);
+        insertDefaultDCSyncValues(SyncType.SETTINGS);
+    }
+
+    private void insertDefaultUCSync(){
+        insertDefaultDCSyncValues(SyncType.CHARACTERISTICS);
     }
 
     public Dao<OrmSettings, Integer> getSettingsDao() {
@@ -251,7 +278,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
 
-    private void addNewMomentDetailTypeAndAddedUUIDForTagging() throws SQLException {
+    /*private void addNewMomentDetailTypeAndAddedUUIDForTagging() throws SQLException {
         final Dao<OrmMomentDetailType, Integer> momentDetailTypeDao = getMomentDetailTypeDao();
         momentDetailTypeDao.createOrUpdate(new OrmMomentDetailType(MomentDetailType.getIDFromDescription("TAGGING_ID"),
                 MomentDetailType.getDescriptionFromID(54)));
@@ -269,7 +296,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                 ormMomentDao.update(moment);
             }
         }
-    }
+    }*/
 
 
     public void dropTables(final ConnectionSource connectionSource) throws SQLException {

@@ -14,7 +14,6 @@ import com.philips.platform.baseapp.screens.dataservices.database.datatypes.Meas
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentDetailType;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentType;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
-import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristicsDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurement;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementDetail;
