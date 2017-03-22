@@ -16,20 +16,11 @@ import static junit.framework.Assert.assertTrue;
 @RunWith(GradleRunner.class)
 @Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 24)
 public class TestAppFrameworkApplication extends AppFrameworkApplication {
-//    private static AppFrameworkApplication testAppFrameworkApplication = null;
 
     @Test
     public void shouldPass() {
         assertTrue(true);
     }
-
-//    @Override
-//    public AppFrameworkApplication getApplicationContext() {
-//        if(testAppFrameworkApplication == null) {
-//            return testAppFrameworkApplication = new TestAppFrameworkApplication();
-//        }
-//        return testAppFrameworkApplication;
-//    }
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -43,6 +34,5 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
 
     @Override
     public void onCreate() {
-//        super.onCreate();
     }
 }
