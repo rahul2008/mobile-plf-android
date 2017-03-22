@@ -11,10 +11,10 @@ import android.widget.TextView;
 
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.platform.GradleRunner;
+import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
-import com.philips.platform.appframework.homescreen.TestAppFrameworkApplication;
 
 import org.junit.Before;
 import org.junit.Test;

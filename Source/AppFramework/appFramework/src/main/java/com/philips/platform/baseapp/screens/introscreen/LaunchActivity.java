@@ -44,7 +44,6 @@ public class LaunchActivity extends AppFrameworkBaseActivity implements LaunchVi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.Theme_Philips_DarkBlue_Gradient_NoActionBar);
         super.onCreate(savedInstanceState);
         presenter = new LaunchActivityPresenter(this);
         initCustomActionBar();
