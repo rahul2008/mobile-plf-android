@@ -24,8 +24,6 @@ import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.cdp.uikit.customviews.UIKitButton;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.homescreen.HamburgerActivity;
-import com.philips.platform.appframework.homescreen.HamburgerSelectionListener;
 import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
@@ -48,7 +46,6 @@ public class SettingsAdapter extends BaseAdapter {
     private ArrayList<SettingListItem> settingsItemList = null;
     private UIBasePresenter fragmentPresenter;
     private SharedPreferenceUtility sharedPreferenceUtility;
-    public HamburgerSelectionListener hamburgerSelectionListener;
     private ProgressDialog progress, progressDialog;
     private int LOGIN_VIEW = 0;
     private int VERTICAL_SETTING_VIEW = 1;
@@ -68,10 +65,8 @@ public class SettingsAdapter extends BaseAdapter {
         this.isMarketingEnabled=isMarketingEnabled;
         this.userRegistrationState=userRegistrationState;
         sharedPreferenceUtility = new SharedPreferenceUtility(context);
-        if(context instanceof HamburgerActivity) {
-            hamburgerSelectionListener = ((HamburgerActivity) context);
-        }
-    }
+
+}
 
     @Override
     public int getCount() {
@@ -307,7 +302,7 @@ public class SettingsAdapter extends BaseAdapter {
                                     public void onLogoutSuccess() {
                                         //    ((AppFrameworkBaseActivity)activityContext).setCartItemCount(0);
                                         progressDialog.cancel();
-                                         hamburgerSelectionListener.setHamburgerSelectionIndex(0);
+                                        ((IndexSelectionListener)activityContext).setHamburgerSelectionIndex(0);
                                         fragmentPresenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
 
                                     }
