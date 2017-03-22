@@ -82,7 +82,6 @@ public class RegistrationSampleApplication extends Application {
         editor.putString("reg_environment", configuration.getValue());
         editor.commit();
 
-
         String languageCode;
         String countryCode;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
@@ -225,8 +224,6 @@ public class RegistrationSampleApplication extends Application {
                 break;
         }
 
-
-
     }
 
     final String AI = "appinfra";
@@ -248,7 +245,6 @@ public class RegistrationSampleApplication extends Application {
                 AI,
                 "Production",
                 configError);
-
 
         switch (configuration) {
             case EVALUATION:
