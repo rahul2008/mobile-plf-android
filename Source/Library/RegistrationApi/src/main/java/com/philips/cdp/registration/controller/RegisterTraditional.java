@@ -55,7 +55,6 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
     @Override
     public void onSuccess() {
         Jump.saveToDisk(mContext);
-        saveDIUserProfileToDisk(mProfile);
         mUpdateUserRecordHandler.updateUserRecordRegister();
         mTraditionalRegisterHandler.onRegisterSuccess();
     }
@@ -215,7 +214,6 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
     @Override
     public void onRegisterSuccess() {
-        saveDIUserProfileToDisk(mProfile);
         mTraditionalRegisterHandler.onRegisterSuccess();
     }
 
@@ -223,20 +221,4 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
     public void onRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo);
     }
-
-
-    //Added to avoid direct access
-    private void saveDIUserProfileToDisk(DIUserProfile diUserProfile) {
-        diUserProfile.setPassword(null);
-        String objectPlainString = SecureStorage.objectToString(diUserProfile);
-        Jump.getSecureStorageInterface().storeValueForKey(RegConstants.DI_PROFILE_FILE,objectPlainString,new SecureStorageInterface.SecureStorageError());
-
-        try {
-             mContext.deleteFile(RegConstants.DI_PROFILE_FILE);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
 }

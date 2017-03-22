@@ -163,7 +163,6 @@ public class User {
                                 DIUserProfile diUserProfile = getUserInstance();
                                 if (diUserProfile != null && traditionalLoginHandler != null) {
                                     diUserProfile.setPassword(password);
-                                    saveDIUserProfileToDisk(diUserProfile);
                                     traditionalLoginHandler.onLoginSuccess();
                                 } else {
                                     if (traditionalLoginHandler != null) {
@@ -402,7 +401,7 @@ public class User {
 
 
     // For getting values from Captured and Saved Json object
-    private DIUserProfile getUserInstance() {
+    public DIUserProfile getUserInstance() {
         CaptureRecord captureRecord = Jump.getSignedInUser();
 
         if (captureRecord == null) {
@@ -919,25 +918,9 @@ public class User {
         return diUserProfile.getCountryCode();
     }
 
-
-    private void saveDIUserProfileToDisk(DIUserProfile diUserProfile) {
-        diUserProfile.setPassword(null);
-        String objectPlainString = SecureStorage.objectToString(diUserProfile);
-        try {
-            mContext.deleteFile(RegConstants.DI_PROFILE_FILE);
-            Jump.getSecureStorageInterface().storeValueForKey(RegConstants.DI_PROFILE_FILE,
-                    new String(objectPlainString) ,new SecureStorageInterface.SecureStorageError());
-        } catch (Exception e) {
-            RLog.d("Exception :", e.getMessage());
-        }
-    }
-
-
     private void clearData() {
         HsdpUser hsdpUser = new HsdpUser(mContext);
         hsdpUser.deleteFromDisk();
-        mContext.deleteFile(RegConstants.DI_PROFILE_FILE);
-        Jump.getSecureStorageInterface().removeValueForKey(RegConstants.DI_PROFILE_FILE);
         if (JRSession.getInstance() != null) {
             JRSession.getInstance().signOutAllAuthenticatedUsers();
         }
