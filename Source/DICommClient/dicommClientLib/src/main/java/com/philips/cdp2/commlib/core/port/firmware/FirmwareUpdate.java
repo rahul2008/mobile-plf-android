@@ -4,18 +4,18 @@
  */
 package com.philips.cdp2.commlib.core.port.firmware;
 
+import android.support.annotation.Nullable;
+
+import com.philips.cdp2.commlib.core.port.firmware.state.FirmwareUpdateState;
+import com.philips.cdp2.commlib.core.port.firmware.util.FirmwareUpdateException;
+
 public interface FirmwareUpdate {
-    class FirmwareUpdateException extends Exception {
-        public FirmwareUpdateException(String reason) {
-            super(reason);
-        }
-    }
 
-    void start();
+    void start(@Nullable FirmwareUpdateState previousState);
 
-    void deploy(int stateTransitionTimeout) throws FirmwareUpdateException;
+    void deploy() throws FirmwareUpdateException;
 
-    void cancel(int stateTransitionTimeout) throws FirmwareUpdateException;
+    void cancel() throws FirmwareUpdateException;
 
     void finish();
 

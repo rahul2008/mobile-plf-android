@@ -20,12 +20,12 @@ public class FirmwareUpdateStateDownloading extends CancelableFirmwareUpdateStat
     FirmwareUploader.UploadListener firmwareUploadListener = new FirmwareUploader.UploadListener() {
         @Override
         public void onSuccess() {
-            firmwareUpdate.waitForNextState();
+            firmwareUpdateOperation.waitForNextState();
         }
 
         @Override
         public void onProgress(final int progress) {
-            firmwareUpdate.onDownloadProgress(progress);
+            firmwareUpdateOperation.onDownloadProgress(progress);
         }
 
         @Override
@@ -36,7 +36,7 @@ public class FirmwareUpdateStateDownloading extends CancelableFirmwareUpdateStat
 
     @Override
     public void onStart(FirmwareUpdateState previousState) {
-        firmwareUpdate.uploadFirmware(firmwareUploadListener);
+        firmwareUpdateOperation.uploadFirmware(firmwareUploadListener);
     }
 
     @Override
@@ -46,6 +46,6 @@ public class FirmwareUpdateStateDownloading extends CancelableFirmwareUpdateStat
 
     @Override
     protected void onFinish() {
-        firmwareUpdate.onDownloadProgress(100);
+        firmwareUpdateOperation.onDownloadProgress(100);
     }
 }

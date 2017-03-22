@@ -20,20 +20,20 @@ public class FirmwareUpdateStateError extends FirmwareUpdateState {
         if (previousState instanceof FirmwareUpdateStatePreparing ||
                 previousState instanceof FirmwareUpdateStateDownloading ||
                 previousState instanceof FirmwareUpdateStateChecking) {
-            firmwareUpdate.onDownloadFailed();
+            firmwareUpdateOperation.onDownloadFailed();
         }
 
         if (previousState instanceof FirmwareUpdateStateReady ||
                 previousState instanceof FirmwareUpdateStateProgramming) {
-            firmwareUpdate.onDeployFailed();
+            firmwareUpdateOperation.onDeployFailed();
         }
 
-        firmwareUpdate.requestState(IDLE);
-        firmwareUpdate.waitForNextState();
+        firmwareUpdateOperation.requestState(IDLE);
+        firmwareUpdateOperation.waitForNextState();
     }
 
     @Override
     public void onError(final String message) {
-        firmwareUpdate.finish();
+        firmwareUpdateOperation.finish();
     }
 }

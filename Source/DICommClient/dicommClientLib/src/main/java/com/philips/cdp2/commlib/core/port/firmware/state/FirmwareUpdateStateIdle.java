@@ -17,19 +17,19 @@ public class FirmwareUpdateStateIdle extends FirmwareUpdateState {
     @Override
     public void onStart(FirmwareUpdateState previousState) {
         if (previousState == null) {
-            firmwareUpdate.requestStateDownloading();
-            firmwareUpdate.waitForNextState();
+            firmwareUpdateOperation.requestStateDownloading();
+            firmwareUpdateOperation.waitForNextState();
         } else {
             if (!(previousState instanceof FirmwareUpdateStateError)) {
-                firmwareUpdate.onDeployFinished();
+                firmwareUpdateOperation.onDeployFinished();
             }
-            firmwareUpdate.finish();
+            firmwareUpdateOperation.finish();
         }
     }
 
     @Override
     public void onError(final String message) {
-        firmwareUpdate.onDownloadFailed("Could not start uploading.");
-        firmwareUpdate.finish();
+        firmwareUpdateOperation.onDownloadFailed("Could not start uploading.");
+        firmwareUpdateOperation.finish();
     }
 }

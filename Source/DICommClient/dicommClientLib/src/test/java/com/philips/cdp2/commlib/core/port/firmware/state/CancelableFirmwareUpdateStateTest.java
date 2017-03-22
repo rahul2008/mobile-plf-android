@@ -23,7 +23,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class CancelableFirmwareUpdateStateTest {
 
-    private static final int TIMEOUT = 0;
     @Mock
     private FirmwareUpdatePushLocal mockFirmwareUpdate;
 
@@ -44,7 +43,7 @@ public class CancelableFirmwareUpdateStateTest {
 
     @Test
     public void onCancel_requestStateCancel() {
-        stateUnderTest.cancel(TIMEOUT);
+        stateUnderTest.cancel();
 
         verify(mockFirmwareUpdate).requestState(CANCELING);
     }
@@ -59,7 +58,7 @@ public class CancelableFirmwareUpdateStateTest {
             }
         }).when(mockFirmwareUpdate).waitForNextState();
 
-        stateUnderTest.cancel(TIMEOUT);
+        stateUnderTest.cancel();
 
         verify(mockFirmwareUpdate).onDownloadFailed(anyString());
     }

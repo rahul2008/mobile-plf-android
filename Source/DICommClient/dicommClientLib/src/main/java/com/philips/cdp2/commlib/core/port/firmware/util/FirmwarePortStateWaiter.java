@@ -29,9 +29,6 @@ public class FirmwarePortStateWaiter {
     private final FirmwarePort firmwarePort;
 
     @NonNull
-    private final long timeoutMillis;
-
-    @NonNull
     private final WaiterListener listener;
 
     @NonNull
@@ -86,15 +83,17 @@ public class FirmwarePortStateWaiter {
         }
     };
 
-    public FirmwarePortStateWaiter(@NonNull FirmwarePort firmwarePort, @NonNull CommunicationStrategy communicationStrategy, @NonNull FirmwarePortState initialState, @NonNull long timeoutMillis, @NonNull WaiterListener listener) {
+    public FirmwarePortStateWaiter(@NonNull FirmwarePort firmwarePort, @NonNull CommunicationStrategy communicationStrategy, @NonNull FirmwarePortState initialState, @NonNull WaiterListener listener) {
         this.firmwarePort = firmwarePort;
         this.communicationStrategy = communicationStrategy;
         this.initialState = initialState;
-        this.timeoutMillis = timeoutMillis;
         this.listener = listener;
     }
 
-    public void waitForNextState() {
+    public void waitForNextState(long stateTransitionTimeoutMillis) {
+        if (stateTransitionTimeoutMillis <= 0) {
+            throw new IllegalArgumentException("Timeout value is invalid, must be a non-zero positive integer.");
+        }
         FirmwarePortProperties firmwarePortProperties;
         firmwarePortProperties = this.firmwarePort.getPortProperties();
 
@@ -127,11 +126,11 @@ public class FirmwarePortStateWaiter {
                 listener.onError("Timeout while waiting for next state.");
             }
         };
-        scheduleTask(timeoutTask);
+        scheduleTask(timeoutTask, stateTransitionTimeoutMillis);
     }
 
     @VisibleForTesting
-    void scheduleTask(final TimerTask timeoutTask) {
+    void scheduleTask(final TimerTask timeoutTask, long timeoutMillis) {
         new Timer().schedule(timeoutTask, timeoutMillis);
     }
 }

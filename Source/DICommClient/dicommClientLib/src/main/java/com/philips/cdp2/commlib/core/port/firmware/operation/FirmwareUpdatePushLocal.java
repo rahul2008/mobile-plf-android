@@ -13,7 +13,6 @@ import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortListener;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortListener.FirmwarePortException;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState;
-import com.philips.cdp2.commlib.core.port.firmware.FirmwareUpdate;
 import com.philips.cdp2.commlib.core.port.firmware.state.FirmwareUpdateState;
 import com.philips.cdp2.commlib.core.port.firmware.state.FirmwareUpdateStateCanceling;
 import com.philips.cdp2.commlib.core.port.firmware.state.FirmwareUpdateStateChecking;
@@ -24,6 +23,7 @@ import com.philips.cdp2.commlib.core.port.firmware.state.FirmwareUpdateStatePrep
 import com.philips.cdp2.commlib.core.port.firmware.state.FirmwareUpdateStateProgramming;
 import com.philips.cdp2.commlib.core.port.firmware.state.FirmwareUpdateStateReady;
 import com.philips.cdp2.commlib.core.port.firmware.util.FirmwarePortStateWaiter;
+import com.philips.cdp2.commlib.core.port.firmware.util.FirmwareUpdateException;
 import com.philips.cdp2.commlib.core.port.firmware.util.FirmwareUploader;
 import com.philips.cdp2.commlib.core.port.firmware.util.FirmwareUploader.UploadListener;
 
@@ -41,7 +41,9 @@ import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.PROGRAMMING;
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.READY;
 
-public class FirmwareUpdatePushLocal implements FirmwareUpdate {
+public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
+
+    private long stateTransitionTimeoutMillis;
 
     private static final class StateMap extends HashMap<FirmwarePortState, FirmwareUpdateState> {
         FirmwarePortState findByState(@NonNull FirmwareUpdateState state) {
@@ -69,8 +71,6 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
     @NonNull
     private final byte[] firmwareData;
 
-    private final int stateTransitionTimeout;
-
     private FirmwarePortStateWaiter firmwarePortStateWaiter;
 
     private FirmwareUpdateState currentState;
@@ -78,15 +78,10 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
     public FirmwareUpdatePushLocal(@NonNull final FirmwarePort firmwarePort,
                                    @NonNull final CommunicationStrategy communicationStrategy,
                                    @NonNull final FirmwarePortListener firmwarePortListener,
-                                   @NonNull byte[] firmwareData, int stateTransitionTimeout) {
+                                   @NonNull byte[] firmwareData) {
         this.firmwarePort = firmwarePort;
         this.communicationStrategy = communicationStrategy;
         this.firmwarePortListener = firmwarePortListener;
-
-        if (stateTransitionTimeout <= 0) {
-            throw new IllegalArgumentException("Timeout value is invalid, must be a non-zero positive integer.");
-        }
-        this.stateTransitionTimeout = stateTransitionTimeout;
 
         if (firmwareData.length == 0) {
             throw new IllegalArgumentException("Firmware data has zero length.");
@@ -114,28 +109,26 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
     }
 
     @Override
-    public void start() {
+    public void start(long stateTransitionTimeoutMillis) {
+        this.stateTransitionTimeoutMillis = stateTransitionTimeoutMillis;
         currentState.start(null);
     }
 
     @Override
-    public void deploy(int stateTransitionTimeout) throws FirmwareUpdateException {
-        currentState.deploy(stateTransitionTimeout);
+    public void deploy(long stateTransitionTimeoutMillis) throws FirmwareUpdateException {
+        this.stateTransitionTimeoutMillis = stateTransitionTimeoutMillis;
+        currentState.deploy();
     }
 
     @Override
-    public void cancel(int stateTransitionTimeout) throws FirmwareUpdateException {
-        currentState.cancel(stateTransitionTimeout);
+    public void cancel(long stateTransitionTimeoutMillis) throws FirmwareUpdateException {
+        this.stateTransitionTimeoutMillis = stateTransitionTimeoutMillis;
+        currentState.cancel();
     }
 
     @Override
     public void finish() {
         this.firmwarePort.finishFirmwareUpdate();
-    }
-
-    @Override
-    public void onError(final String message) {
-        currentState.onError(message);
     }
 
     public void uploadFirmware(UploadListener firmwareUploadListener) {
@@ -189,7 +182,7 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
         FirmwarePortState currentPortState = stateMap.findByState(currentState);
 
         this.firmwarePortStateWaiter = createFirmwarePortStateWaiter(currentPortState);
-        this.firmwarePortStateWaiter.waitForNextState();
+        this.firmwarePortStateWaiter.waitForNextState(this.stateTransitionTimeoutMillis);
     }
 
     private String getStatusMessage() {
@@ -200,14 +193,14 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
 
     @VisibleForTesting
     FirmwarePortStateWaiter createFirmwarePortStateWaiter(FirmwarePortState portState) {
-        return new FirmwarePortStateWaiter(this.firmwarePort, this.communicationStrategy, portState, this.stateTransitionTimeout, new FirmwarePortStateWaiter.WaiterListener() {
+        return new FirmwarePortStateWaiter(this.firmwarePort, this.communicationStrategy, portState, new FirmwarePortStateWaiter.WaiterListener() {
 
             @Override
             public void onNewState(final FirmwarePortState newState) {
-                FirmwareUpdateState previousState = FirmwareUpdatePushLocal.this.currentState;
-                FirmwareUpdatePushLocal.this.currentState.finish();
-                FirmwareUpdatePushLocal.this.currentState = stateMap.get(newState);
-                FirmwareUpdatePushLocal.this.currentState.start(previousState);
+                final FirmwareUpdateState previousState = currentState;
+                currentState.finish();
+                currentState = stateMap.get(newState);
+                currentState.start(previousState);
             }
 
             @Override
