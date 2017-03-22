@@ -7,7 +7,6 @@ import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.Event;
-import com.philips.platform.core.events.ReadDataFromBackendResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
@@ -70,9 +69,6 @@ public class DataPullSynchroniseTest {
 
     @Mock
     private Eventing eventingMock;
-
-    @Captor
-    private ArgumentCaptor<ReadDataFromBackendResponse> successCaptor;
 
     @Captor
     private ArgumentCaptor<Runnable> runnableCaptor;

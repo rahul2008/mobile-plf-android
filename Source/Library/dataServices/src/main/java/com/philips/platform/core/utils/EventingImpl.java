@@ -22,6 +22,7 @@ import javax.inject.Singleton;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+@Singleton
 public class EventingImpl implements Eventing {
 
     @NonNull
@@ -31,7 +32,6 @@ public class EventingImpl implements Eventing {
     private Handler handler;
 
     @Inject
-    @Singleton
     public EventingImpl(@NonNull final EventBus eventBus, @NonNull final Handler handler) {
         this.eventBus = eventBus;
         this.handler = handler;

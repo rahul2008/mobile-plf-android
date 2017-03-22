@@ -4,6 +4,8 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ReadDataFromBackendRequest;
 import com.philips.platform.core.events.WriteDataToBackendRequest;
+import com.philips.platform.core.injection.AppComponent;
+import com.philips.platform.core.trackers.DataServicesManager;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -24,7 +26,7 @@ public class SynchronisationMonitorTest {
     private SynchronisationMonitor monitor;
 
     @Mock
-    private DataPullSynchronise synchroniseMock;
+    private DataPullSynchronise dataSynchronisePullMock;
 
     @Mock
     private DataPushSynchronise dataPushSynchroniseMock;
@@ -35,33 +37,35 @@ public class SynchronisationMonitorTest {
     @Captor
     private ArgumentCaptor<BackendResponse> errorCaptor;
 
+    @Mock
+    private AppComponent appComponantMock;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        monitor = new SynchronisationMonitor();
 
-        monitor = new SynchronisationMonitor(
+       monitor.pullSynchronise=dataSynchronisePullMock;
+        monitor.pushSynchronise=dataPushSynchroniseMock;
 
-        );
-        monitor.start(eventingMock);
     }
 
-    //TODO: Due to eventing being moved to Constructor
-    /*@Test
+    @Test
     public void ShouldCallSynchronise_WhenSyncAsked() throws Exception {
         DateTime dateTime = DateTime.now().minusDays(4);
         ReadDataFromBackendRequest event = new ReadDataFromBackendRequest(dateTime);
         monitor.onEventAsync(event);
 
-        verify(synchroniseMock).startSynchronise(dateTime, event.getEventId());
-    }*/
+        verify(dataSynchronisePullMock).startSynchronise(dateTime, event.getEventId());
+    }
 
-    //TODO: Due to eventing being moved to Constructor
-    /*@Test
+    @Test
     public void ShouldCallDataPushSynchronise_WhenSyncAsked() throws Exception {
         WriteDataToBackendRequest event = new WriteDataToBackendRequest();
         monitor.onEventAsync(event);
 
         verify(dataPushSynchroniseMock).startSynchronise(event.getEventId());
-    }*/
+    }
 
 }

@@ -19,7 +19,6 @@ import com.philips.platform.core.events.FetchInsightsFromDB;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
-import com.philips.platform.core.events.LoadTimelineEntryRequest;
 import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
@@ -65,16 +64,7 @@ public class FetchingMonitor extends EventMonitor {
         DataServicesManager.getInstance().getAppComponant().injectFetchingMonitor(this);
     }
 
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventAsync(LoadTimelineEntryRequest event) {
-        try {
-            dbInterface.fetchMoments(event.getDbFetchRequestListner());
-        } catch (SQLException e) {
-            dbInterface.postError(e, event.getDbFetchRequestListner());
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(LoadLastMomentRequest event) {
         try {
             dbInterface.fetchLastMoment(event.getType(), event.getDbFetchRequestListner());
@@ -83,7 +73,7 @@ public class FetchingMonitor extends EventMonitor {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(GetNonSynchronizedDataRequest event) {
         DSLog.i(DSLog.LOG, "In Fetching Monitor GetNonSynchronizedDataRequest");
 
@@ -113,7 +103,7 @@ public class FetchingMonitor extends EventMonitor {
 
     }
 
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(LoadMomentsRequest event) {
         try {
             if (event.hasType()) {
@@ -129,7 +119,7 @@ public class FetchingMonitor extends EventMonitor {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(LoadConsentsRequest event) {
         try {
             dbInterface.fetchConsentDetails(event.getDbFetchRequestListner());
@@ -138,20 +128,20 @@ public class FetchingMonitor extends EventMonitor {
         }
     }
 
-    @Subscribe(sticky = true, threadMode = ThreadMode.BACKGROUND)
+    @Subscribe(sticky = true, threadMode = ThreadMode.ASYNC)
     public void onEventAsync(GetNonSynchronizedMomentsRequest event) {
         DSLog.i(DSLog.LOG, "in Fetching Monitor GetNonSynchronizedMomentsRequest");
 
-        List<? extends Moment> ormMomentList = null;
-        List<? extends ConsentDetail> consentDetails = null;
+        List<Moment> ormMomentList = null;
+        List<ConsentDetail> consentDetails = null;
         try {
-            ormMomentList = (List<? extends Moment>) dbInterface.fetchNonSynchronizedMoments();
+            ormMomentList = (List<Moment>) dbInterface.fetchNonSynchronizedMoments();
         } catch (SQLException e) {
             //dbInterface.postError(e, event.getDbFetchRequestListener());
         }
 
         try {
-            consentDetails = (List<? extends ConsentDetail>) dbInterface.fetchConsentDetails();
+            consentDetails = (List<ConsentDetail>) dbInterface.fetchConsentDetails();
         } catch (SQLException e) {
             //dbInterface.postError(e, event.getDbFetchRequestListener());
         }
@@ -159,7 +149,7 @@ public class FetchingMonitor extends EventMonitor {
         eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList, consentDetails));
     }
 
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(LoadUserCharacteristicsRequest loadUserCharacteristicsRequest) {
         try {
             dbInterface.fetchCharacteristics(loadUserCharacteristicsRequest.getDbFetchRequestListner());
@@ -168,7 +158,7 @@ public class FetchingMonitor extends EventMonitor {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(LoadSettingsRequest loadSettingsRequest) {
 
         try {

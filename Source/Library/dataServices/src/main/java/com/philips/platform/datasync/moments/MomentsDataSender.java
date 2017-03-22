@@ -119,12 +119,15 @@ public class MomentsDataSender extends DataSender {
     }
 
     private boolean sendMomentToBackend(MomentsClient client, final Moment moment) {
-        DSLog.i(DSLog.LOG,"MomentsDataSender sendMomentToBackend and moment = " + moment.toString());
+        DSLog.i(DSLog.LOG,"MomentsDataSender sendDataToBackend");
         if (shouldCreateMoment(moment)) {
+            DSLog.i(DSLog.LOG,"MomentsDataSender CREATE");
             return createMoment(client, moment);
         } else if(shouldDeleteMoment(moment)) {
+            DSLog.i(DSLog.LOG,"MomentsDataSender DELETE");
             return deleteMoment(client, moment);
         } else {
+            DSLog.i(DSLog.LOG,"MomentsDataSender UPDATE");
             return updateMoment(client, moment);
         }
     }
@@ -155,7 +158,7 @@ public class MomentsDataSender extends DataSender {
                     momentsConverter.convertToUCoreMoment(moment));
             if (response != null) {
                 addSynchronizationData(moment, response);
-                postCreatedOk(Collections.singletonList(moment));
+                postUpdatedOk(Collections.singletonList(moment));
             }
         } catch (RetrofitError error) {
             onError(error);
@@ -179,19 +182,18 @@ public class MomentsDataSender extends DataSender {
                 }
                 postUpdatedOk(Collections.singletonList(moment));
             }else if(isConflict(response)){
-                //dont do anything
+                DSLog.i(DSLog.LOG,"Exception - 409");
             }
             return false;
         } catch (RetrofitError error) {
-            if(error!=null && error.getResponse()!=null && error.getResponse().getStatus()== HttpURLConnection.HTTP_CONFLICT){
+            if(error!=null || isConflict(error.getResponse())){
                 DSLog.i(DSLog.LOG,"Exception - 409");
-                //dont do anything
             }else {
                 eventing.post(new BackendResponse(1, error));
                 onError(error);
             }
 
-            return isConflict(error);
+            return isConflict(error.getResponse());
         }
     }
 
@@ -225,11 +227,6 @@ public class MomentsDataSender extends DataSender {
         return isconflict;
     }
 
-    private boolean isConflict(final RetrofitError retrofitError) {
-        Response response = retrofitError.getResponse();
-        return response != null && response.getStatus() == HttpURLConnection.HTTP_CONFLICT;
-    }
-
     private boolean shouldMomentContainCreatorIdAndSubjectId(final Moment moment) {
         return isNotNullOrEmpty(moment.getCreatorId()) &&
                 isNotNullOrEmpty(moment.getSubjectId());
@@ -244,10 +241,6 @@ public class MomentsDataSender extends DataSender {
                 baseAppDataCreater.createSynchronisationData(uCoreMomentSaveResponse.getMomentId(), false,
                         moment.getDateTime(), 1);
         moment.setSynchronisationData(synchronisationData);
-    }
-
-    private void postCreatedOk(final List<Moment> momentList) {
-        eventing.post(new MomentDataSenderCreatedRequest(momentList, null));
     }
 
     private void postUpdatedOk(final List<Moment> momentList) {

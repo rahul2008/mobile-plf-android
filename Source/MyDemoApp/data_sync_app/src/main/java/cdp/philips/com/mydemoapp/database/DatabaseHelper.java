@@ -16,8 +16,8 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
-import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.datatypes.Settings;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
@@ -103,31 +103,37 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         insertMeasurementDetailTypes();
         insertMeasurementGroupDetailType();
         insertDefaultSettings();
-        insertDefaultUCSync();
+        insertDefaultDCSyncValues();
         insertDefaultConsent();
     }
 
-    private void insertDefaultConsent() throws SQLException {
+    private void insertDefaultConsent() {
         DataServicesManager mDataServices = DataServicesManager.getInstance();
         List<ConsentDetail> consentDetails = new ArrayList<>();
 
         consentDetails.add(mDataServices.createConsentDetail
-                (ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED, ConsentDetail.DEFAULT_DOCUMENT_VERSION,
+                (ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED,ConsentDetail.DEFAULT_DOCUMENT_VERSION,
                         ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
 
         consentDetails.add(mDataServices.createConsentDetail
-                (ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED, ConsentDetail.DEFAULT_DOCUMENT_VERSION,
+                (ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED,ConsentDetail.DEFAULT_DOCUMENT_VERSION,
                         ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
         consentDetails.add(mDataServices.createConsentDetail
-                (ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED, ConsentDetail.DEFAULT_DOCUMENT_VERSION,
+                (ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED,ConsentDetail.DEFAULT_DOCUMENT_VERSION,
                         ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
         mDataServices.saveConsentDetails(consentDetails, null);
-        insertDefaultDCSyncValues(SyncType.CONSENT);
     }
 
-    private void insertDefaultDCSyncValues() throws SQLException {
-        for (SyncType tableType : SyncType.values()) {
-            ormDCSyncDao = getDCSyncDao();
+    private void insertDefaultDCSyncValues() {
+
+        for (SyncType tableType : SyncType
+                .values()) {
+
+            try {
+                ormDCSyncDao = getDCSyncDao();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             try {
                 ormDCSyncDao.createOrUpdate(new OrmDCSync(tableType.getId(), tableType.getDescription(), true));
             } catch (SQLException e) {
@@ -136,25 +142,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    private void insertDefaultDCSyncValues(SyncType type) throws SQLException {
-        ormDCSyncDao = getDCSyncDao();
-        try {
-            ormDCSyncDao.createOrUpdate(new OrmDCSync(type.getId(), type.getDescription(), true));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void insertDefaultSettings() throws SQLException {
-        Settings settings = DataServicesManager.getInstance().createUserSettings("en_US", "metric");
+    private void insertDefaultSettings() {
+        Settings settings = DataServicesManager.getInstance().createUserSettings("en_US" ,"metric");
         DataServicesManager.getInstance().saveUserSettings(settings, null);
-        insertDefaultDCSyncValues(SyncType.SETTINGS);
     }
 
-    private void insertDefaultUCSync() throws SQLException {
-        insertDefaultDCSyncValues(SyncType.CHARACTERISTICS);
-    }
+
 
     private void insertMeasurementTypes() throws SQLException {
         final Dao<OrmMeasurementType, Integer> measurementTypeDao = getMeasurementTypeDao();
@@ -198,6 +191,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             measurementGroupDetailTypes.createOrUpdate(new OrmMeasurementGroupDetailType(MeasurementGroupDetailType.getIDFromDescription(value), value));
         }
     }
+
 
     private void createTables(final ConnectionSource connectionSource) throws SQLException {
         TableUtils.createTable(connectionSource, OrmMoment.class);
@@ -243,6 +237,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
+
     private void addNewMomentDetailTypeAndAddedUUIDForTagging() throws SQLException {
         final Dao<OrmMomentDetailType, Integer> momentDetailTypeDao = getMomentDetailTypeDao();
         momentDetailTypeDao.createOrUpdate(new OrmMomentDetailType(MomentDetailType.getIDFromDescription("TAGGING_ID"),
@@ -262,6 +257,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             }
         }
     }
+
 
     public void dropTables(final ConnectionSource connectionSource) throws SQLException {
         TableUtils.dropTable(connectionSource, OrmMoment.class, true);

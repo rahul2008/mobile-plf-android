@@ -2,9 +2,9 @@ package cdp.philips.com.mydemoapp;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.widget.Toast;
 
-import com.facebook.stetho.Stetho;
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
@@ -55,6 +55,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.error.ErrorHandlerInterfaceImpl;
+import cdp.philips.com.mydemoapp.reciever.ScheduleSyncReceiver;
 import cdp.philips.com.mydemoapp.registration.UserRegistrationInterfaceImpl;
 
 /**
@@ -64,7 +65,7 @@ import cdp.philips.com.mydemoapp.registration.UserRegistrationInterfaceImpl;
 
 
 public class DataSyncApplication extends Application {
-
+    public final DatabaseHelper databaseHelper = new DatabaseHelper(this, new UuidGenerator());
     public static AppInfraInterface gAppInfra;
     ServiceDiscoveryInterface serviceDiscoveryInterface;
     public static LoggingInterface loggingInterface;
@@ -74,18 +75,21 @@ public class DataSyncApplication extends Application {
     private final String APP_NAME = "appname";
     private final String DATACORE_FALLBACK_URL = "dataCoreUrl";
     private final String DATASERVICES_KEY = "dataservices";
+    ScheduleSyncReceiver mScheduleSyncReceiver;
 
     @Override
     public void onCreate() {
         super.onCreate();
         LeakCanary.install(this);
-        Stetho.initializeWithDefaults(this);
+        //Stetho.initializeWithDefaults(this);
         mDataServicesManager = DataServicesManager.getInstance();
         initAppInfra();
         setLocale();
         initializeUserRegistrationLibrary(Configuration.STAGING);
         init();
         fetchDataServicesUrl();
+        mScheduleSyncReceiver = new ScheduleSyncReceiver();
+        scheduleSync();
     }
 
     private void initAppInfra() {
@@ -96,20 +100,27 @@ public class DataSyncApplication extends Application {
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
     }
 
+    public UserRegistrationInterfaceImpl getUserRegImple() {
+        return userRegImple;
+    }
+
+    UserRegistrationInterfaceImpl userRegImple;
     private void init() {
         OrmCreator creator = new OrmCreator(new UuidGenerator());
-        UserRegistrationInterface userRegistrationInterface = new UserRegistrationInterfaceImpl(this, new User(this));
+        userRegImple = new UserRegistrationInterfaceImpl(this, new User(this));
+        UserRegistrationInterface userRegistrationInterface = userRegImple;
         ErrorHandlerInterfaceImpl errorHandlerInterface = new ErrorHandlerInterfaceImpl();
         mDataServicesManager.initializeDataServices(this, creator, userRegistrationInterface, errorHandlerInterface);
         injectDBInterfacesToCore();
         mDataServicesManager.initializeSyncMonitors(this, null, null);
+
+
     /*    Set syncSet = new HashSet();
         syncSet.add(SyncType.MOMENT.getDescription());
         mDataServicesManager.configureSyncDataType(syncSet);*/
     }
 
     void injectDBInterfacesToCore() {
-        final DatabaseHelper databaseHelper = new DatabaseHelper(this, new UuidGenerator());
         try {
             Dao<OrmMoment, Integer> momentDao = databaseHelper.getMomentDao();
             Dao<OrmMomentDetail, Integer> momentDetailDao = databaseHelper.getMomentDetailDao();
@@ -138,8 +149,8 @@ public class DataSyncApplication extends Application {
             OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao,consentDetailsDao, characteristicsesDao,
                     settingsDao, dcSyncDao, insightsDao);
             OrmDeleting deleting = new OrmDeleting(momentDao, momentDetailDao, measurementDao,
-                    measurementDetailDao, synchronisationDataDao, measurementGroupDetails,
-                    measurementGroup, consentDetailsDao, characteristicsesDao, settingsDao, insightsDao, insightMetaDataDao);
+                    measurementDetailDao, synchronisationDataDao, measurementGroupDetails, measurementGroup, consentDetailsDao, characteristicsesDao, settingsDao, dcSyncDao ,insightsDao, insightMetaDataDao);
+
 
 
             BaseAppDateTime uGrowDateTime = new BaseAppDateTime();
@@ -425,5 +436,24 @@ public class DataSyncApplication extends Application {
             DSLog.e(DSLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.getErrorCode().toString());
         }
         return appname;
+    }
+
+    void scheduleSync() {
+        final Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    mScheduleSyncReceiver.onReceive(getApplicationContext());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    //also call the same runnable to call it at regular interval
+                    handler.postDelayed(this, ScheduleSyncReceiver.DATA_FETCH_FREQUENCY);
+                }
+            }
+        };
+        runnable.run();
     }
 }

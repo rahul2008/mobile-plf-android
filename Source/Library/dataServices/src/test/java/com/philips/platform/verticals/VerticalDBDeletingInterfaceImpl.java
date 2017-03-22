@@ -65,4 +65,9 @@ public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface {
         return false;
     }
 
+    @Override
+    public void deleteInsight(Insight insight, DBRequestListener dbRequestListener) throws SQLException {
+
+    }
+
 }

@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".reciever.BaseAppBroadcastReceiver">
+        <!--<receiver android:name=".reciever.ScheduleSyncReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
@@ -34,7 +34,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.LOCALE_CHANGED"/>
             </intent-filter>
-        </receiver>
+        </receiver>-->
 
     </application>
 

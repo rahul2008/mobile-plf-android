@@ -35,7 +35,7 @@ public class ErrorMonitor extends EventMonitor {
         mErrorHandlingInterface = errorHandlingInterface;
     }
 
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final BackendDataRequestFailed momentSaveRequestFailed) {
         RetrofitError exception = momentSaveRequestFailed.getException();
         postError(exception);
@@ -68,7 +68,7 @@ public class ErrorMonitor extends EventMonitor {
         return;
     }
 
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final BackendResponse error) {
         RetrofitError exception = error.getCallException();
         postError(exception);

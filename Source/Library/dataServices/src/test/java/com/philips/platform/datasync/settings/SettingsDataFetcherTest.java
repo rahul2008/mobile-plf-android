@@ -2,6 +2,7 @@ package com.philips.platform.datasync.settings;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Settings;
+import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.SettingsBackendGetRequest;
 import com.philips.platform.core.events.SettingsBackendSaveResponse;
 import com.philips.platform.core.injection.AppComponent;
@@ -22,7 +23,11 @@ import retrofit.RetrofitError;
 import retrofit.converter.GsonConverter;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -32,6 +37,8 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class SettingsDataFetcherTest {
     private String TEST_ACCESS_TOKEN = "TEST_ACCESS_TOKEN";
     private String TEST_USER_ID = "TEST_USER_ID";
+
+
 
     private SettingsDataFetcher settingsDataFetcher;
 
@@ -114,9 +121,31 @@ public class SettingsDataFetcherTest {
         when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
         final SettingsClient uSettingClientMock = mock(SettingsClient.class);
         when(uCoreAdapterMock.getAppFrameworkClient(SettingsClient.class, TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(uSettingClientMock);
+        uSettingClientMock.getSettings(eq(TEST_ACCESS_TOKEN), eq(TEST_USER_ID),eq(9));
+        when(settingsConverterMock.convertUcoreToAppSettings(any(UCoreSettings.class))).thenReturn(settingsMock);
         RetrofitError retrofitError = settingsDataFetcher.fetchDataSince(null);
         assertThat(retrofitError).isNull();
-       // verify(eventingMock).post(isA(SettingsBackendSaveResponse.class));
+        verify(eventingMock).post(isA(SettingsBackendSaveResponse.class));
     }
 
+    @Test
+    public void ShouldThrowError_WhenRetroFitfails() throws Exception {
+        when(accessProviderMock.isLoggedIn()).thenReturn(true);
+        when(accessProviderMock.getAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
+        when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
+        final SettingsClient uSettingClientMock = mock(SettingsClient.class);
+        when(uCoreAdapterMock.getAppFrameworkClient(SettingsClient.class, TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(uSettingClientMock);
+        uSettingClientMock.getSettings(eq(TEST_ACCESS_TOKEN), eq(TEST_USER_ID),eq(9));
+        when(settingsConverterMock.convertUcoreToAppSettings(any(UCoreSettings.class))).thenReturn(settingsMock);
+        RetrofitError retrofitError = settingsDataFetcher.fetchDataSince(null);
+       // assertThat(retrofitError).isNotNull();
+    }
+
+
+    @Test
+    public void shouldReturnFaleIfAccessProviderIsNull_WhenisUserInvalidIsCalled() throws Exception {
+
+        settingsDataFetcher.uCoreAccessProvider=null;
+        settingsDataFetcher.isUserInvalid();
+    }
 }

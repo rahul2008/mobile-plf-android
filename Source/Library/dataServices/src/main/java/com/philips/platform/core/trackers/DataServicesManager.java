@@ -8,8 +8,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
@@ -66,7 +64,6 @@ import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import org.greenrobot.eventbus.EventBus;
-import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,12 +96,6 @@ public class DataServicesManager {
     private DBFetchingInterface mFetchingInterface;
     private DBSavingInterface mSavingInterface;
     private DBUpdatingInterface mUpdatingInterface;
-
-    public LoggingInterface getLoggingInterface() {
-        return mLoggingInterface;
-    }
-
-    LoggingInterface mLoggingInterface;
 
     @Inject
     BaseAppDataCreator mDataCreater;
@@ -225,7 +216,7 @@ public class DataServicesManager {
     public Measurement createMeasurement(@NonNull final String type, String value, String unit, @NonNull final MeasurementGroup measurementGroup) {
         Measurement measurement = mDataCreater.createMeasurement(type, measurementGroup);
         measurement.setValue(value);
-        measurement.setDateTime(DateTime.now());
+      //  measurement.setDateTime(DateTime.now());
         measurement.setUnit(unit);
         measurementGroup.addMeasurement(measurement);
         return measurement;
@@ -283,7 +274,6 @@ public class DataServicesManager {
         this.mSynchronisationCompleteListener = synchronisationCompleteListener;
         prepareInjectionsGraph(context);
         startMonitors();
-        initAppInfra(context);
     }
 
     private void sendPullDataEvent() {
@@ -295,7 +285,6 @@ public class DataServicesManager {
         }
     }
 
-    //TODO: discuss if its required
     private void startMonitors() {
         if (mCore != null) {
             DSLog.i(DSLog.LOG, "mCore not null, hence starting");
@@ -422,11 +411,6 @@ public class DataServicesManager {
 
     public ArrayList<DataFetcher> getCustomFetchers() {
         return mCustomFetchers;
-    }
-
-    private void initAppInfra(Context context) {
-        AppInfra gAppInfra = new AppInfra.Builder().build(context);
-        mLoggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
     }
 
     public ArrayList<DataSender> getCustomSenders() {

@@ -72,7 +72,7 @@ public class InsightConverterTest {
         data.put("min", "100");
         uCoreInsight.setMetadata(data);
         uCoreInsights.add(uCoreInsight);
-        uCoreInsightList.setUCoreInsights(uCoreInsights);
+        uCoreInsightList.setInsights(uCoreInsights);
 
         List<Insight> appInsightList = mInsightConverter.convertToAppInsights(uCoreInsightList);
         assertThat(appInsightList).isNotNull();

@@ -50,6 +50,7 @@ public class MomentsConverter {
         try {
             for (UCoreMoment uCoreMoment : uCoreMoments) {
                 Moment moment = createMoment(uCoreMoment);
+                if(moment==null)return null;
                 momentList.add(moment);
             }
         } catch (Exception e) {
@@ -62,6 +63,10 @@ public class MomentsConverter {
     private Moment createMoment(@NonNull final UCoreMoment uCoreMoment) {
         Moment moment = baseAppDataCreater.createMoment(uCoreMoment.getCreatorId(), uCoreMoment.getSubjectId(),
                 uCoreMoment.getType());
+
+        if(moment==null){
+            return null;
+        }
 
         moment.setDateTime(new DateTime(uCoreMoment.getTimestamp()));
 
@@ -189,7 +194,6 @@ public class MomentsConverter {
 
             final Collection<? extends MeasurementGroup> measurementGroups = moment.getMeasurementGroups();
             if (measurementGroups != null && measurementGroups.size() != 0) {
-                //Check it here. Parent is always sent as null
                 uCoreMoment = addToUCoreMeasurementGroupsRecursively(true, uCoreMoment, null, measurementGroups);
             }
 
@@ -200,7 +204,6 @@ public class MomentsConverter {
         return uCoreMoment;
     }
 
-    //Check conversion
     private UCoreMoment addToUCoreMeasurementGroupsRecursively(final boolean isRoot, UCoreMoment uCoreMoment, UCoreMeasurementGroups parent, Collection<? extends MeasurementGroup> measurementGroups) {
         ArrayList<MeasurementGroup> measurementGroupsArray = new ArrayList(measurementGroups);
         for (MeasurementGroup measurementGroup : measurementGroupsArray) {
