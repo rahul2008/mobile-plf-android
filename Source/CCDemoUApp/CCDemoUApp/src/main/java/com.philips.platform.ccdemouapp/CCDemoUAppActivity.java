@@ -28,7 +28,6 @@ import com.philips.cdp.digitalcare.listeners.CcListener;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.ccdemouapp.adapter.Listener;
@@ -61,8 +60,10 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
     private String mCountry[], mcountryCode[];
     private CcSettings ccSettings;
     private CcLaunchInput ccLaunchInput;
-    private AppInfraInterface mAppInfraInterface;
+    //private AppInfraInterface mAppInfraInterface;
     private ThemeUtil mThemeUtil;
+
+    private AppInfraInterface appInfraInterface = CCDemoUAppuAppInterface.mAppInfraInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +131,7 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
         super.onResume();
 
         final TextView tv = (TextView) findViewById(R.id.textViewCurrentCountry);
-        mAppInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+        appInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {
                 tv.setText("Country from Service Discovery : " +s);
@@ -192,10 +193,10 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
     }
 
     private void restoreCountryOption() {
-        if(mAppInfraInterface == null) {
-            mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
+        if(appInfraInterface == null) {
+            appInfraInterface = CCDemoUAppuAppInterface.mAppInfraInterface;
         }
-        mAppInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+        appInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {
                 for (int i=0; i < mcountryCode.length; i++) {
@@ -218,11 +219,11 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
             mAppInfraInterface.getServiceDiscovery().setHomeCountry(mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
         }
 */
-        if(mAppInfraInterface == null) {
-            mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
-        }
+        /*if(appInfraInterface == null) {
+            appInfraInterface = new AppInfra.Builder().build(getApplicationContext());
+        }*/
 
-        mAppInfraInterface.getServiceDiscovery().setHomeCountry(mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
+        appInfraInterface.getServiceDiscovery().setHomeCountry(mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
     }
 
     @Override
@@ -311,10 +312,10 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
             ccLaunchInput.setProductModelSelectionType(productsSelection);
 
             //CcDependencies ccDependencies = new CcDependencies(AppInfraSingleton.getInstance());
-            CcDependencies ccDependencies = new CcDependencies(mAppInfraInterface);
+            CcDependencies ccDependencies = new CcDependencies(appInfraInterface);
             ccInterface.init(ccDependencies, ccSettings);
             //ccInterface.launch(activityLauncher, ccLaunchInput);
-            mAppInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+            appInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
                 @Override
                 public void onSuccess(String s, SOURCE source) {
                     if (s.equals("CN")) {
