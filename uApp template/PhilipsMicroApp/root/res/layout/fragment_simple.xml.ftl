@@ -15,10 +15,11 @@
     tools:context="${relativePackage}.${fragmentClass}">
 
 <#if isNewProject>
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text=“Launch Micro App“
+	android:onClick="onClick" />
 </#if>
 
 </RelativeLayout>
