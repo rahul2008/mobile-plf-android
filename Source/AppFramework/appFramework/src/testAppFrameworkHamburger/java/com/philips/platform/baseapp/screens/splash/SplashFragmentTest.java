@@ -27,8 +27,11 @@ public class SplashFragmentTest {
 
     @Before
     public void setUp(){
+        launchActivity = Robolectric.buildActivity(LaunchActivity.class).create().start().resume().get();
         splashFragment =  new SplashFragment();
-        SupportFragmentTestUtil.startVisibleFragment(splashFragment);
+        launchActivity.getSupportFragmentManager().beginTransaction().add(splashFragment,null).commit();
+
+       // SupportFragmentTestUtil.startVisibleFragment(splashFragment);
     }
 
     @Test
