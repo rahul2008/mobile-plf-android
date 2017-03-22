@@ -11,6 +11,7 @@ package com.philips.cdp.registration.settings;
 import android.content.Context;
 import android.os.LocaleList;
 
+import com.janrain.android.Jump;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.datamigration.DataMigration;
@@ -116,7 +117,7 @@ public class RegistrationHelper {
 
             @Override
             public void run() {
-
+                deleteLegacyDIProfileFile(context);
                 if (NetworkUtility.isNetworkAvailable(context)) {
                     refreshNTPOffset();
                     UserRegistrationInitializer.getInstance().initializeEnvironment(
@@ -153,6 +154,12 @@ public class RegistrationHelper {
         });
         thread.start();
     }
+
+    private void deleteLegacyDIProfileFile(Context context) {
+        context.deleteFile(RegConstants.DI_PROFILE_FILE);
+        Jump.getSecureStorageInterface().removeValueForKey(RegConstants.DI_PROFILE_FILE);
+    }
+
     private void generateKeyAndMigrateData(final Context context) {
         SecureStorage.generateSecretKey();
         new DataMigration(context).checkFileEncryptionStatus();

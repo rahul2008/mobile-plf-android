@@ -86,8 +86,7 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
 public class HomeFragment extends RegistrationBaseFragment implements OnClickListener,
         NetworStateListener, SocialProviderLoginHandler, EventListener {
     public static final String WECHAT = "wechat";
-    private static final int AUTHENTICATION_FAILED = -30;
-    private static final int LOGIN_FAILURE = -1;
+    public static final int AUTHENTICATION_DENIED = 203;
     private Button mBtnCreateAccount;
     private XProviderButton mBtnMyPhilips;
     private TextView mTvWelcome;
@@ -176,6 +175,13 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     public void onResume() {
         super.onResume();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onResume");
+        ViewGroup providerButtonGroup = mLlSocialProviderBtnContainer;
+        for(int i = 0; i < providerButtonGroup.getChildCount(); i++) {
+            View childView = providerButtonGroup.getChildAt(i);
+            if(childView instanceof XProviderButton) {
+                childView.setClickable(true);
+            }
+        }
     }
 
 
@@ -332,7 +338,11 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 RLog.d(RLog.ONCLICK, "HomeFragment : " + providerName);
                 if(mRegError.isShown())mRegError.hideError();
                 if (NetworkUtility.isNetworkAvailable(mContext)) {
-                    providerBtn.showProgressBar();
+                    if(!providerName.equalsIgnoreCase(WECHAT)) {
+                        providerBtn.showProgressBar();
+                    } else {
+                        providerBtn.setClickable(false);
+                    }
                     callSocialProvider(providerName);
                 } else {
                     scrollViewAutomatically(mRegError, mSvRootLayout);
@@ -545,7 +555,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
          if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 if (providerName.equalsIgnoreCase(WECHAT)) {
                     if (isWeChatAuthenticate()) {
-                        makeProgressVisible();
+//                        makeProgressVisible();
                         startWeChatAuthentication();
                     }else{
                         hideProviderProgress();
@@ -627,7 +637,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             if (mFlowId == 3) {
                 if (mProvider.equalsIgnoreCase("wechat")) {
                     if (isWeChatAuthenticate()) {
-                        makeProgressVisible();
+                        makeProgressInvisible();
+                        hideProgressDialog();
+                        hideProviderProgress();
                         startWeChatAuthentication();
                     }else{
                         hideProviderProgress();
@@ -650,6 +662,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             mFlowId = 0;
         } else if (RegConstants.WECHAT_AUTH.equals(event)) {
             if (mWeChatCode != null) {
+                makeProgressVisible();
                 handleWeChatCode(mWeChatCode);
             }
         }
@@ -908,7 +921,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         hideProviderProgress();
         enableControls(true);
            //Temp fix need to be changed
-        if(userRegistrationFailureInfo.getErrorCode() == AUTHENTICATION_FAILED){
+        if(userRegistrationFailureInfo.getErrorCode() == AUTHENTICATION_DENIED){
             mRegError.setError(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
             scrollViewAutomatically(mRegError,mSvRootLayout);
         }

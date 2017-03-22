@@ -73,7 +73,11 @@ public class CaptureFlowUtils {
                 continue;
             }
 
-
+            if(!((Map) fieldEntry.getValue()).containsKey("schemaId")){
+                throwDebugException(new RuntimeException("field defn is missing schemaId: " +
+                        fieldEntry.getValue() + " - field skipped"));
+                continue;
+            }
             Object schemaId = ((Map) fieldEntry.getValue()).get("schemaId");
 
             String key = (String) fieldEntry.getKey();
@@ -118,12 +122,21 @@ public class CaptureFlowUtils {
         }
 
         final Map fields = (Map) captureFlow.get("fields");
-         Map form = (Map) fields.get(formName);
-        // Temp : Fix for since there no staging for china flow yet . hard coding user form name
-        if(form==null){
-              form = (Map) fields.get("userInformationForm");
-
+		
+		
+        Map form;
+        if(fields.containsKey(formName)) {
+            form = (Map) fields.get(formName);
+            // Temp : Fix for since there no staging for china flow yet . hard coding user form name
+            if(form == null){
+                form = (Map)fields.get("userInformationForm");
+            }
+        }else{
+            throwDebugException(new RuntimeException("captureTraditionalSignInFormName not found in flow"));
+            return null;
         }
+        
+     
         final List fieldNames = (List) form.get("fields");
 
         if (fieldNames.size() != 2) {

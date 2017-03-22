@@ -133,6 +133,9 @@ android {
         testApplicationId "com.philips.cdp.registration.test"
         multiDexEnabled true
         testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
+        ]
     }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
@@ -160,10 +163,10 @@ android {
         }
 
         debug {
-            minifyEnabled true
+            minifyEnabled false
             debuggable true
-            testCoverageEnabled true
-            proguardFile 'proguard-rules.pro'
+            testCoverageEnabled false
+//            proguardFile 'proguard-rules.pro'
         }
     }
 }

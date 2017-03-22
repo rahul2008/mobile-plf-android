@@ -5,6 +5,7 @@ import android.util.Log;
 import com.janrain.android.Jump;
 import com.janrain.android.JumpConfig;
 import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.configuration.HSDPConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.configuration.ClientIDConfiguration;
@@ -43,6 +44,8 @@ public class RegistrationSettingsURL extends RegistrationSettings {
     private static String TEST_PRODUCT_REGISTER_LIST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
 
     private static String TEST_PRX_RESEND_CONSENT_URL = "https://tst.usa.philips.com/prx/registration/resendConsentMail";
+
+    private static final String HSDP_BASE_URL_SERVICE_ID = "userreg.hsdp.userserv";
 
     private String STAGE_PRODUCT_REGISTER_URL = "https://acc.philips.co.uk/prx/registration/";
 
@@ -147,11 +150,14 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         serviceIdList.add("userreg.janrain.cdn");
         serviceIdList.add("userreg.janrain.engage");
         serviceIdList.add("userreg.smssupported");
-
+        serviceIdList.add(HSDP_BASE_URL_SERVICE_ID);
 
         serviceDiscoveryInterface.getServicesWithCountryPreference(serviceIdList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> resultMap) {
+
+                setHSDPBaseUrl(resultMap);
+
                 ServiceDiscoveryService serviceDiscoveyService = resultMap.get("userreg.janrain.api");
                 if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
                     String urlLocal = serviceDiscoveyService.getConfigUrls();
@@ -247,9 +253,9 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
                 serviceDiscoveyService = resultMap.get("userreg.janrain.engage");
                 if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
-                    RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.engage :" +
-                            serviceDiscoveyService.getConfigUrls());
+                    RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.engage :" + serviceDiscoveyService.getConfigUrls());
                     jumpConfig.engageAppUrl = serviceDiscoveyService.getConfigUrls().substring(8);
+
                     mPreferredCountryCode = countryCode;
                     mPreferredLangCode = langCode;
                     initialize();
@@ -282,6 +288,15 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         });
 
 
+    }
+
+    private void setHSDPBaseUrl(Map<String, ServiceDiscoveryService> resultMap) {
+        ServiceDiscoveryService serviceDiscoveyService;
+        serviceDiscoveyService = resultMap.get(HSDP_BASE_URL_SERVICE_ID);
+        if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
+            RLog.i("HSDP_NEW", "serviceDiscovery " + serviceDiscoveyService.getConfigUrls() + " map " + resultMap);
+            HSDPConfiguration.setBaseUrlServiceDiscovery(serviceDiscoveyService.getConfigUrls());
+        }
     }
 
     public boolean isChinaFlow() {

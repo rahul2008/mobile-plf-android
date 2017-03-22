@@ -46,8 +46,6 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
         mContext = context;
     }
 
-
-
     public void refreshAndUpdateUser( final RefreshUserHandler handler, final User user, final String password){
         refreshUserHandler = handler;
         this.user = user;
@@ -81,7 +79,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
                 }
 
                 if (user.getEmailVerificationStatus()) {
-                    DIUserProfile userProfile = getDIUserProfileFromDisk();
+                    DIUserProfile userProfile = user.getUserInstance();
                     HsdpUser hsdpUser = new HsdpUser(mContext);
                     HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
                     if (userProfile != null && null != userProfile.getEmail() && null != password && hsdpUserRecord == null) {
@@ -135,22 +133,6 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
         });
     }
 
-    private DIUserProfile getDIUserProfileFromDisk() {
-        DIUserProfile diUserProfile = null;
-        try {
-            FileInputStream fis = mContext.openFileInput(RegConstants.DI_PROFILE_FILE);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            byte[] enctText = (byte[]) ois.readObject();
-            byte[] decrtext = SecureStorage.decrypt(enctText);
-            mContext.deleteFile(RegConstants.DI_PROFILE_FILE);
-            Jump.getSecureStorageInterface().storeValueForKey(RegConstants.DI_PROFILE_FILE, new String(decrtext) ,new SecureStorageInterface.SecureStorageError());
-            fis.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        diUserProfile = (DIUserProfile) SecureStorage.stringToObject(new String(Jump.getSecureStorageInterface().fetchValueForKey(RegConstants.DI_PROFILE_FILE,new SecureStorageInterface.SecureStorageError())));
-        return diUserProfile;
-    }
     @Override
     public void onFlowDownloadSuccess() {
         refreshAndUpdateUser(refreshUserHandler,user,password);

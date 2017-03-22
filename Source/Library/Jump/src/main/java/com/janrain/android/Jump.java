@@ -60,6 +60,7 @@ import com.janrain.android.utils.ThreadUtils;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import net.openid.appauth.AuthorizationService;
 
 import org.json.JSONObject;
 
@@ -125,14 +126,9 @@ public class Jump {
 
         /*package*/ String accessToken;
         
-        //Added
         String captureRedirectUri;
         String captureRecoverUri;
-
-//        String flowCDN;
-//        String flowEngage;
-
-        //WeChat China
+		
         /*package*/ String engageAppUrl;
         /*package*/ String downloadFlowUrl;
 
@@ -209,8 +205,7 @@ public class Jump {
         state.initCalled = true;
 
         state.context = context;
-        //WeChat China
-
+    
         state.captureSocialRegistrationFormName = jumpConfig.captureSocialRegistrationFormName;
         state.captureTraditionalRegistrationFormName = jumpConfig.captureTraditionalRegistrationFormName;
         state.captureEditUserProfileFormName = jumpConfig.captureEditUserProfileFormName;
@@ -239,7 +234,7 @@ public class Jump {
         state.captureRecoverUri = jumpConfig.captureRecoverUri;
         state.refreshSecret = mSecureStorageInterface.fetchValueForKey(Capture.JR_REFRESH_SECRET,new SecureStorageInterface.SecureStorageError());
 
-        //WeChat China
+    
         state.engageAppUrl = jumpConfig.engageAppUrl;
         state.downloadFlowUrl = jumpConfig.downloadFlowUrl;
 
@@ -397,6 +392,9 @@ public class Jump {
         } catch (PackageManager.NameNotFoundException e) {
             throwDebugException(new RuntimeException("User agent create failed : ", e));
         }
+        if (state.userAgent == null){
+            state.userAgent = "";
+        }
         return state.userAgent;
     }
 
@@ -496,7 +494,9 @@ public class Jump {
                 Jump.fireHandlerOnFailure(err);
             }
         });
-
+        AuthorizationService authorizationService = new AuthorizationService(fromActivity);
+        state.jrEngage.setAuthorizationService(authorizationService);
+        state.jrEngage.setAuthorizationActivity(fromActivity);
         if (providerName != null) {
             state.jrEngage.showAuthenticationDialog(fromActivity, providerName);
         } else {
@@ -979,22 +979,11 @@ public class Jump {
 
     private static void downloadFlow() {
         String flowVersion = state.captureFlowVersion != null ? state.captureFlowVersion : "HEAD";
-        // below commented  code need to confirm with Vinayak
-    //After
-//        if (state.flowCDN == null)
-//        {
-//            state.flowCDN = String.format("https://%s.cloudfront.net",state.flowUsesTestingCdn ? "dlzjvycct5xka" : "d1lqe9temigv1p");
-//        }
-//        String flowUrlString =
-//                String.format("%s/widget_data/flows/%s/%s/%s/%s.json",
-//                        state.flowCDN,
-//                        state.captureAppId, state.captureFlowName, flowVersion,
-//                        state.captureLocale);
-//        System.out.println("FLOW CD : "+flowUrlString);
+      
 
         String flowUrlString = "";
 
-        if(!state.downloadFlowUrl.isEmpty()){
+        if(state.downloadFlowUrl != null && !state.downloadFlowUrl.isEmpty()){
             flowUrlString = String.format("%s/widget_data/flows/%s/%s/%s/%s.json",
                     state.downloadFlowUrl,
                     state.captureAppId, state.captureFlowName, flowVersion,
@@ -1007,12 +996,6 @@ public class Jump {
         }
 
 
-        //Before
-       /* String flowUrlString =
-                String.format("https://%s.cloudfront.net/widget_data/flows/%s/%s/%s/%s.json",
-                        state.flowUsesTestingCdn ? "dlzjvycct5xka" : "d1lqe9temigv1p",
-                        state.captureAppId, state.captureFlowName, flowVersion,
-                        state.captureLocale);*/
 
         ApiConnection c = new ApiConnection(flowUrlString);
         c.method = ApiConnection.Method.GET;
