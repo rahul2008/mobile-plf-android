@@ -1,4 +1,4 @@
-package com.philips.platform.baseapp.base.wxapi;
+package com.philips.platform.referenceapp.wxapi;
 
 import android.app.Activity;
 import android.content.Intent;
