@@ -8,7 +8,7 @@ package com.philips.platform.screens.splash;
 import android.content.Context;
 
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.flowmanager.AppStates;
+import com.philips.platform.flowmanager.UappStates;
 import com.philips.platform.screens.base.AppFrameworkBaseActivity;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -17,7 +17,7 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 public class SplashState extends BaseState {
 
     public SplashState() {
-        super(AppStates.SPLASH);
+        super(UappStates.SPLASH);
     }
 
     @Override

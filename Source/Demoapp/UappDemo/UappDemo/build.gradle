@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
 
-        minSdkVersion 23
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
         versionName "1.0.0"
@@ -21,11 +21,9 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
     compile 'com.android.support:support-annotations:22.2.0'
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
-    compile 'com.android.support:design:24.0.0'
     compile 'com.shamanland:fonticon:0.1.8'
     compile 'com.android.support:cardview-v7:+'
     compile 'com.android.support:recyclerview-v7:+'
@@ -42,6 +40,6 @@ dependencies {
         exclude group: 'com.android.support'
         transitive = true
     }
-
+    compile 'com.google.code.gson:gson:2.2.4'
 
 }

@@ -6,6 +6,7 @@
 package com.philips.platform;
 
 import android.app.Application;
+import android.support.multidex.MultiDex;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -19,8 +20,10 @@ public class AppFrameworkApplication extends Application {
     @SuppressWarnings("deprecation")
     @Override
     public void onCreate() {
+        MultiDex.install(this);
         super.onCreate();
         appInfra = new AppInfra.Builder().build(getApplicationContext());
+
     }
 
     public AppInfraInterface getAppInfra() {

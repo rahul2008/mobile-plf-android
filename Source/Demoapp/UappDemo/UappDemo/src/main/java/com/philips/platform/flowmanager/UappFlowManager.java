@@ -10,8 +10,8 @@ import android.content.Context;
 import com.philips.platform.appframework.flowmanager.base.BaseCondition;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.flowmanager.condition.ConditionAppLaunch;
-import com.philips.platform.flowmanager.condition.ConditionIsDonePressed;
+import com.philips.platform.flowmanager.condition.UappConditionAppLaunch;
+import com.philips.platform.flowmanager.condition.UappConditionIsDonePressed;
 import com.philips.platform.screens.aboutscreen.AboutScreenState;
 import com.philips.platform.screens.homefragment.HomeFragmentState;
 import com.philips.platform.screens.introscreen.welcomefragment.WelcomeState;
@@ -21,29 +21,29 @@ import com.philips.platform.screens.stateimpl.HamburgerActivityState;
 
 import java.util.Map;
 
-public class FlowManager extends BaseFlowManager {
+public class UappFlowManager extends BaseFlowManager {
 
-    public FlowManager(Context applicationContext, String path) {
+    public UappFlowManager(Context applicationContext, String path) {
         super(applicationContext,path);
     }
 
-    public FlowManager(){}
+    public UappFlowManager(){}
 
     @Override
     public void populateStateMap(final Map<String, BaseState> uiStateMap) {
-        uiStateMap.put(AppStates.WELCOME, new WelcomeState());
-        uiStateMap.put(AppStates.HOME_FRAGMENT, new HomeFragmentState());
-        uiStateMap.put(AppStates.ABOUT, new AboutScreenState());
-        uiStateMap.put(AppStates.SPLASH, new SplashState());
-        uiStateMap.put(AppStates.HAMBURGER_HOME,new HamburgerActivityState());
-        uiStateMap.put(AppStates.SAMPLE, new SampleState());
+        uiStateMap.put(UappStates.WELCOME, new WelcomeState());
+        uiStateMap.put(UappStates.HOME_FRAGMENT, new HomeFragmentState());
+        uiStateMap.put(UappStates.ABOUT, new AboutScreenState());
+        uiStateMap.put(UappStates.SPLASH, new SplashState());
+        uiStateMap.put(UappStates.HAMBURGER_HOME,new HamburgerActivityState());
+        uiStateMap.put(UappStates.SAMPLE, new SampleState());
 
     }
 
     @Override
     public void populateConditionMap(final Map<String, BaseCondition> baseConditionMap) {
-        baseConditionMap.put(AppConditions.CONDITION_APP_LAUNCH, new ConditionAppLaunch());
-        baseConditionMap.put(AppConditions.IS_DONE_PRESSED, new ConditionIsDonePressed());
+        baseConditionMap.put(UappConditions.CONDITION_APP_LAUNCH, new UappConditionAppLaunch());
+        baseConditionMap.put(UappConditions.IS_DONE_PRESSED, new UappConditionIsDonePressed());
 
     }
 }

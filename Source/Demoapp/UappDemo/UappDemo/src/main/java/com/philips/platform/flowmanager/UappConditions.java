@@ -5,7 +5,7 @@
 */
 package com.philips.platform.flowmanager;
 
-public class AppConditions {
+public class UappConditions {
     /**
      * Each condition has a string value defined.
      */

@@ -8,7 +8,7 @@ package com.philips.platform.screens.splash;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.flowmanager.base.UIStateListener;
-import com.philips.platform.flowmanager.AppStates;
+import com.philips.platform.flowmanager.UappStates;
 import com.philips.platform.screens.base.UIBasePresenter;
 import com.philips.platform.screens.introscreen.LaunchView;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -25,7 +25,7 @@ public class SplashPresenter extends UIBasePresenter implements UIStateListener 
     public SplashPresenter(LaunchView uiView) {
         super(uiView);
         this.uiView = uiView;
-        setState(AppStates.SPLASH);
+        setState(UappStates.SPLASH);
     }
 
     /**
@@ -36,7 +36,7 @@ public class SplashPresenter extends UIBasePresenter implements UIStateListener 
     @Override
     public void onEvent(int componentID) {
         BaseFlowManager targetFlowManager = uiView.getTargetFlowManager();
-        final BaseState splashState = targetFlowManager.getState(AppStates.SPLASH);
+        final BaseState splashState = targetFlowManager.getState(UappStates.SPLASH);
         BaseState baseState = targetFlowManager.getNextState(splashState, APP_START);
         if (null != baseState) {
             baseState.setStateListener(this);

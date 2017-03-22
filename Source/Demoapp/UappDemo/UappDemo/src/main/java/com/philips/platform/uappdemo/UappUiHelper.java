@@ -6,13 +6,11 @@ import android.support.v4.app.FragmentActivity;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.exceptions.JsonFileNotFoundException;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.flowmanager.FlowManager;
+import com.philips.platform.flowmanager.UappFlowManager;
 import com.philips.platform.flowmanager.utility.BaseAppUtil;
 import com.philips.platform.screens.base.FileUtility;
-import com.philips.platform.screens.splash.SplashFragment;
 import com.philips.platform.uappdemolibrary.BuildConfig;
 import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
@@ -75,11 +73,11 @@ public class UappUiHelper {
 
     public void setTargetFlowManager(FlowManagerListener flowManagerListener, FragmentActivity activity) {
         try {
-            this.flowManager = new FlowManager();
+            this.flowManager = new UappFlowManager();
             this.flowManager.initialize(context, new BaseAppUtil().getJsonFilePath().getPath(), flowManagerListener);
         } catch (JsonFileNotFoundException e) {
             if (tempFile != null) {
-                this.flowManager = new FlowManager();
+                this.flowManager = new UappFlowManager();
                 this.flowManager.initialize(context, tempFile.getPath(), flowManagerListener);
             }
         }

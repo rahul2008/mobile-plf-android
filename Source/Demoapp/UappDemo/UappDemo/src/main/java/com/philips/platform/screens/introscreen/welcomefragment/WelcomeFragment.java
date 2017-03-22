@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.screens.base.OnboardingBaseFragment;
 import com.philips.platform.screens.base.UIBasePresenter;
 import com.philips.platform.screens.introscreen.LaunchActivity;
@@ -69,8 +68,8 @@ public class WelcomeFragment extends OnboardingBaseFragment implements View.OnCl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        UappUiHelper.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.INFO, TAG,
-                " IntroductionScreen Activity Created ");
+//        UappUiHelper.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.INFO, TAG,
+//                " IntroductionScreen Activity Created ");
         View view = inflater.inflate(R.layout.af_welcome_fragment, container, false);
 
         pager = (ViewPager) view.findViewById(R.id.welcome_pager);

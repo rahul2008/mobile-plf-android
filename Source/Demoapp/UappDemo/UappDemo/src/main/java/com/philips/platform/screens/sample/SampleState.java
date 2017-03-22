@@ -8,7 +8,7 @@ package com.philips.platform.screens.sample;
 import android.content.Context;
 
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.flowmanager.AppStates;
+import com.philips.platform.flowmanager.UappStates;
 import com.philips.platform.samplemicroapp.SampleMicroAppDependencies;
 import com.philips.platform.samplemicroapp.SampleMicroAppInterface;
 import com.philips.platform.samplemicroapp.SampleMicroAppLaunchInput;
@@ -21,7 +21,7 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 public class SampleState extends BaseState {
 
     public SampleState() {
-        super(AppStates.SAMPLE);
+        super(UappStates.SAMPLE);
     }
 
     /**

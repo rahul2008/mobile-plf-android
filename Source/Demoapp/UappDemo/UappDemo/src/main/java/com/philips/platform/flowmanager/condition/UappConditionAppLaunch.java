@@ -8,13 +8,13 @@ package com.philips.platform.flowmanager.condition;
 import android.content.Context;
 
 import com.philips.platform.appframework.flowmanager.base.BaseCondition;
-import com.philips.platform.flowmanager.AppConditions;
+import com.philips.platform.flowmanager.UappConditions;
 
 
-public class ConditionAppLaunch extends BaseCondition {
+public class UappConditionAppLaunch extends BaseCondition {
 
-    public ConditionAppLaunch() {
-        super(AppConditions.CONDITION_APP_LAUNCH);
+    public UappConditionAppLaunch() {
+        super(UappConditions.CONDITION_APP_LAUNCH);
     }
 
     @Override

@@ -12,6 +12,7 @@ import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.flowmanager.utility.Constants;
 import com.philips.platform.flowmanager.utility.SharedPreferenceUtility;
 import com.philips.platform.screens.base.UIBasePresenter;
+import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 public class WelcomeFragmentPresenter extends UIBasePresenter {
@@ -52,14 +53,14 @@ public class WelcomeFragmentPresenter extends UIBasePresenter {
 
     // TODO: Deepthi, revisit this switch - (As discussed we need to have this to convert from int ID to string for json)
     protected String getEventState(final int componentID) {
-       /* switch (componentID) {
-            case R.id.welcome_skip_button:
-                return WELCOME_SKIP;
-            case R.id.welcome_start_registration_button:
-                return WELCOME_DONE;
-            case MENU_OPTION_HOME:
-                return WELCOME_HOME;
-        }*/
+
+        if (componentID == R.id.welcome_skip_button) {
+            return WELCOME_SKIP;
+        } else if (componentID == R.id.welcome_start_registration_button) {
+            return WELCOME_DONE;
+        } else if (componentID == MENU_OPTION_HOME) {
+            return WELCOME_HOME;
+        }
         return WELCOME_HOME;
     }
 

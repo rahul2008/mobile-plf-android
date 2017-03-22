@@ -5,7 +5,7 @@
 */
 package com.philips.platform.flowmanager;
 
-public class AppStates {
+public class UappStates {
     /**
      * Each state has a string value defined.
      */

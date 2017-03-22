@@ -8,7 +8,7 @@ package com.philips.platform.screens.homefragment;
 import android.content.Context;
 
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.flowmanager.AppStates;
+import com.philips.platform.flowmanager.UappStates;
 import com.philips.platform.screens.base.AppFrameworkBaseActivity;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -16,7 +16,7 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 public class HomeFragmentState extends BaseState {
 
     public HomeFragmentState() {
-        super(AppStates.HOME_FRAGMENT);
+        super(UappStates.HOME_FRAGMENT);
     }
 
     /**

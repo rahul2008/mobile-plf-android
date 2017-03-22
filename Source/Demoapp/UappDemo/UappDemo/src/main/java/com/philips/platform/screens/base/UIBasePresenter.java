@@ -6,7 +6,7 @@
 package com.philips.platform.screens.base;
 
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
-import com.philips.platform.flowmanager.AppStates;
+import com.philips.platform.flowmanager.UappStates;
 import com.philips.platform.flowmanager.utility.Constants;
 
 /**
@@ -57,12 +57,12 @@ abstract public class UIBasePresenter {
 
     protected UIStateData setStateData(final String componentID) {
         switch (componentID) {
-            case AppStates.HOME_FRAGMENT:
+            case UappStates.HOME_FRAGMENT:
                 UIStateData homeStateData = new UIStateData();
                 homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
                 return homeStateData;
 
-            case AppStates.ABOUT:
+            case UappStates.ABOUT:
                 UIStateData aboutStateData = new UIStateData();
                 aboutStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return aboutStateData;
@@ -72,14 +72,14 @@ abstract public class UIBasePresenter {
                 uiStateDataModel.setIapFlow(IAPState.IAP_SHOPPING_CART_VIEW);
                 uiStateDataModel.setCtnList(getCtnList());
                 return uiStateDataModel;*/
-            /*case AppStates.PR:
+            /*case UappStates.PR:
                 UIStateData prStateDataModel = new UIStateData();
                 return prStateDataModel;
-            case AppStates.DATA_SYNC:
+            case UappStates.DATA_SYNC:
                 UIStateData syncStateData = new UIStateData();
                 syncStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return syncStateData;
-            case AppStates.CONNECTIVITY:
+            case UappStates.CONNECTIVITY:
                 UIStateData connectivityStateData = new UIStateData();
                 connectivityStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return connectivityStateData;*/
