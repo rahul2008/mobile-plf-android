@@ -250,6 +250,6 @@ public class TabbedActivity extends AppFrameworkBaseActivity implements Fragment
 
     }
     @Override
-    public void setHamburgerSelectionIndex(int position) {
+    public void updateSelectionIndex(int position) {
     }
 }

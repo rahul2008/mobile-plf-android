@@ -437,7 +437,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
 
 
     @Override
-    public void setHamburgerSelectionIndex(int position) {
+    public void updateSelectionIndex(int position) {
         adapter.setSelectedIndex(0);
     }
 }

@@ -5,5 +5,5 @@ package com.philips.platform.baseapp.screens.settingscreen;
  */
 
 public interface IndexSelectionListener {
-     void setHamburgerSelectionIndex(int position);
+     void updateSelectionIndex(int position);
 }

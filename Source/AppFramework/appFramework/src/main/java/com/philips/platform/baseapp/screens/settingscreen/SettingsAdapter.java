@@ -302,7 +302,7 @@ public class SettingsAdapter extends BaseAdapter {
                                     public void onLogoutSuccess() {
                                         //    ((AppFrameworkBaseActivity)activityContext).setCartItemCount(0);
                                         progressDialog.cancel();
-                                        ((IndexSelectionListener)activityContext).setHamburgerSelectionIndex(0);
+                                        ((IndexSelectionListener)activityContext).updateSelectionIndex(0);
                                         fragmentPresenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
 
                                     }
