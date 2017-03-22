@@ -3,6 +3,7 @@
     <string name="left_arrow">&lt;</string>
     <string name="right_arrow">&gt;</string>
 <string name="af_app_name">Demoapp</string>
+<string name="af_json_path">json/uAppflow.json</string>
     <!-- Introduction/Welcome screen strings -->
 
     <string name="skip_introduction_button_text">Skip</string>

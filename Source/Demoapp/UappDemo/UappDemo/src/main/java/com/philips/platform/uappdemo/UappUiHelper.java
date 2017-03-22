@@ -85,7 +85,7 @@ public class UappUiHelper {
 
     private void initFile() {
         isSdCardFileCreated = new BaseAppUtil().createDirIfNotExists();
-        final int resId = R.string.com_philips_app_fmwk_app_flow_url;
+        final int resId = R.string.af_json_path;
         FileUtility fileUtility = new FileUtility(context);
         tempFile = fileUtility.createFileFromInputStream(resId, isSdCardFileCreated);
     }
