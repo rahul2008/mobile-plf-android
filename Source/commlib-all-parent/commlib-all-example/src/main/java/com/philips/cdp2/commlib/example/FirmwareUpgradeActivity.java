@@ -7,6 +7,7 @@ package com.philips.cdp2.commlib.example;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -207,14 +208,13 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
         bleReferenceAppliance.getFirmwarePort().cancel(getTimeoutFromUi());
     }
 
-    private int getTimeoutFromUi() {
-        int timeout = DEFAULT_TIMEOUT_MILLIS;
+    private long getTimeoutFromUi() {
+        long timeout = DEFAULT_TIMEOUT_MILLIS;
 
         String timeoutText = timeoutEditText.getText().toString();
-        if (timeoutText.length() > 0) {
-            timeout = Integer.parseInt(timeoutText) * 1000;
+        if (!TextUtils.isEmpty(timeoutText)) {
+            timeout = Long.parseLong(timeoutText) * 1000;
         }
-
         return timeout;
     }
 }
