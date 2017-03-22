@@ -17,7 +17,7 @@
     "ShowCountrySelection":"true"
   },
   "IAP": {
-    "hostport": "acc.occ.shop.philips.com",
+    "hostport": "dev.occ.shop.philips.com",
     "propositionid": "Tuscany2016"
   },
   "appinfra": {
@@ -25,12 +25,10 @@
     "appidentity.sector"  : "b2c",
     "appidentity.appState"  : "STAGING",
     "appidentity.serviceDiscoveryEnvironment"  : "PRODUCTION",
-    "tagging.sensitiveData": ["bundleId, language"] ,
-    "abtest.precache":["philipsmobileappabtest1content","philipsmobileappabtest1success"] ,
+    "abtest.precache": ["DOT-ReceiveMarketingOptIn"],
     "contentLoader.limitSize":100,
     "servicediscovery.platformMicrositeId":"70000",
     "servicediscovery.platformEnvironment":"production",
     "appconfig.cloudServiceId":" appinfra.appconfigdownload"
   }
 }
-
