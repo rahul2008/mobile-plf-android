@@ -38,4 +38,9 @@
     <item name="uid_inline_validation_text" type="id"/>
     <item name="uid_inline_validation_edittext" type="id"/>
     <item name="uid_inline_validation_message_layout" type="id"/>
+    <item name="uid_notification_title" type="id"/>
+    <item name="uid_notification_icon" type="id"/>
+    <item name="uid_notification_content" type="id"/>
+    <item name="uid_notification_btn_1" type="id"/>
+    <item name="uid_notification_btn_2" type="id"/>
 </resources>
