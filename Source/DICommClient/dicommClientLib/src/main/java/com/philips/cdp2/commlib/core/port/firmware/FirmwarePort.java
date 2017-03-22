@@ -160,7 +160,7 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
      *
      * @param stateTransitionTimeout the state transition timeout
      */
-    public void cancel(final int stateTransitionTimeout) {
+    public void cancel(final long stateTransitionTimeout) {
         if (firmwareUpdateOperation == null) {
             return;
         }
@@ -183,7 +183,7 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
      *
      * @param stateTransitionTimeout the state transition timeout
      */
-    public void deployFirmware(final int stateTransitionTimeout) {
+    public void deployFirmware(final long stateTransitionTimeout) {
         if (firmwareUpdateOperation == null) {
             final String message = "Firmware update not in progress.";
             listener.onDeployFailed(new FirmwarePortListener.FirmwarePortException(message));
