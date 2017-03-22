@@ -23,9 +23,11 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.janrain.android.Jump;
@@ -35,6 +37,7 @@ import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
+import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
@@ -49,6 +52,7 @@ import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
 import net.hockeyapp.android.CrashManager;
@@ -84,6 +88,9 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     private RadioGroup mRadioGroup;
     private CheckBox mCheckBox;
     private User mUser;
+    private Switch mCountrySelectionSwitch;
+    private boolean isCountrySelection;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +133,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         mRadioGender = (RadioGroup) findViewById(R.id.genderRadio);
         mRadioGender.check(R.id.Male);
 
-
+        mCountrySelectionSwitch = (Switch) findViewById(R.id.county_selection_switch);
         mLlConfiguration = (LinearLayout) findViewById(R.id.ll_configuartion);
         mRadioGroup = (RadioGroup) findViewById(R.id.myRadioGroup);
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
@@ -162,6 +169,15 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 mLlConfiguration.setVisibility(View.VISIBLE);
             }
         });
+
+        mCountrySelectionSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isCountrySelection = isChecked;
+            }
+        });
+
         mBtnApply = (Button) findViewById(R.id.Apply);
         mBtnApply.setOnClickListener(new OnClickListener() {
             @Override
@@ -172,9 +188,6 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 UserRegistrationInitializer.getInstance().resetInitializationState();
                 //Logout mUser
                 clearData();
-
-
-
 
                 int checkedId = mRadioGroup.getCheckedRadioButtonId();
                 // find which radio button is selected
@@ -295,6 +308,8 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         URLaunchInput urLaunchInput;
         ActivityLauncher activityLauncher;
         URInterface urInterface;
+        initCountrySelection();
+
         switch (v.getId()) {
             case R.id.btn_registration_with_account:
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
@@ -506,6 +521,18 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         datePickerDialog.show();
 
     }
+
+    private void initCountrySelection() {
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        String countrySelection = isCountrySelection?"true":"false";
+        RegistrationSampleApplication.getInstance().getAppInfra().getConfigInterface().setPropertyForKey(
+                URConfigurationConstants.SHOW_COUNTRY_SELECTION,
+                URConfigurationConstants.UR,
+                countrySelection,
+                configError);
+    }
+
 
     private void handleRefreshAccessToken() {
 
