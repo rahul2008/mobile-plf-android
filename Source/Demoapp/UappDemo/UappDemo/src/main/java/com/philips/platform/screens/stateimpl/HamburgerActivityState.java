@@ -10,7 +10,7 @@ import android.content.Intent;
 
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.flowmanager.UappStates;
-import com.philips.platform.screens.homescreen.HamburgerActivity;
+import com.philips.platform.screens.homescreen.UappHamburgerActivity;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
@@ -22,13 +22,13 @@ public class HamburgerActivityState extends BaseState {
     }
 
     /**
-     * Navigate to HamburgerActivity
+     * Navigate to UappHamburgerActivity
      * @param uiLauncher requires UiLauncher
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
         final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
-        fragmentLauncher.getFragmentActivity().startActivity(new Intent(fragmentLauncher.getFragmentActivity(), HamburgerActivity.class));
+        fragmentLauncher.getFragmentActivity().startActivity(new Intent(fragmentLauncher.getFragmentActivity(), UappHamburgerActivity.class));
     }
 
     @Override

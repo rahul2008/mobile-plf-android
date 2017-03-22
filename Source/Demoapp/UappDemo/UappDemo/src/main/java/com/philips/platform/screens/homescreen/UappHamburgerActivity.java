@@ -47,8 +47,8 @@ import java.util.List;
  * This activity is the container of all the other fragment for the app
  * ActionbarListener is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
  */
-public class HamburgerActivity extends AppFrameworkBaseActivity implements FragmentManager.OnBackStackChangedListener, FragmentView {
-    private static String TAG = HamburgerActivity.class.getSimpleName();
+public class UappHamburgerActivity extends AppFrameworkBaseActivity implements FragmentManager.OnBackStackChangedListener, FragmentView {
+    private static String TAG = UappHamburgerActivity.class.getSimpleName();
     protected TextView actionBarTitle;
     private HamburgerUtil hamburgerUtil;
     private String[] hamburgerMenuTitles;
@@ -220,7 +220,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements Fragm
     }
 
     private void loadSlideMenuItems() {
-        hamburgerMenuTitles = getResources().getStringArray(R.array.hamburger_drawer_items);
+        hamburgerMenuTitles = getResources().getStringArray(R.array.uapp_hamburger_drawer_items);
         hamburgerItems = new ArrayList<>();
     }
 
@@ -315,7 +315,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements Fragm
                 }
             });
         } else {
-            hamburgerIcon.setImageDrawable(VectorDrawable.create(HamburgerActivity.this, R.drawable.uikit_hamburger_icon));
+            hamburgerIcon.setImageDrawable(VectorDrawable.create(UappHamburgerActivity.this, R.drawable.uikit_hamburger_icon));
             hamburgerClick.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

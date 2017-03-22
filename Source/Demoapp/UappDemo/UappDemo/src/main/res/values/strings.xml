@@ -50,7 +50,7 @@
 
     <!--Settings Screen ends-->
 
-    <string-array name="hamburger_drawer_items">
+    <string-array name="uapp_hamburger_drawer_items">
         <item>Home</item>
         <item>About</item>
         <item>Sample</item>

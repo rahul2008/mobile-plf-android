@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:largeHeap="true">
         <activity android:name="com.philips.platform.screens.introscreen.LaunchActivity" />
-        <activity android:name="com.philips.platform.screens.homescreen.HamburgerActivity" />
+        <activity android:name="com.philips.platform.screens.homescreen.UappHamburgerActivity" />
     </application>
 
 </manifest>
