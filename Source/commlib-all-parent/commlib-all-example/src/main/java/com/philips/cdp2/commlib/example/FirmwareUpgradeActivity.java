@@ -164,6 +164,8 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
+        cancelFirmware();
+
         bleReferenceAppliance.getFirmwarePort().removeFirmwarePortListener(firmwarePortListener);
         bleReferenceAppliance.disableCommunication();
     }
@@ -195,10 +197,10 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
     }
 
     private void deployFirmware() {
-        bleReferenceAppliance.getFirmwarePort().deployFirmware(1337); // FIXME
+        bleReferenceAppliance.getFirmwarePort().deployFirmware(TIMEOUT_MILLIS);
     }
 
     private void cancelFirmware() {
-        bleReferenceAppliance.getFirmwarePort().cancel(1337); // FIXME
+        bleReferenceAppliance.getFirmwarePort().cancel(TIMEOUT_MILLIS);
     }
 }
