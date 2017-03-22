@@ -39,6 +39,7 @@ public class WelcomeFragmentTest {
 
     @Before
     public void setUp(){
+
         launchActivity = Robolectric.buildActivity(SplashFragmentTest.LaunchActivityMockTest.class).create().start().get();
         welcomeFragment =  new WelcomeFragmentTestMock();
         launchActivity.getSupportFragmentManager().beginTransaction().add(welcomeFragment,null).commit();
