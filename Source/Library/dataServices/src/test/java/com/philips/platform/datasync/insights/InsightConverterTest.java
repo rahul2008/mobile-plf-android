@@ -53,15 +53,15 @@ public class InsightConverterTest {
         UCoreInsightList uCoreInsightList = new UCoreInsightList();
         List<UCoreInsight> uCoreInsights = new ArrayList<>();
         UCoreInsight uCoreInsight = new UCoreInsight();
-        uCoreInsight.setGuid("893r980");
-        uCoreInsight.setLastModified("0980-0");
+        uCoreInsight.setGuid("aefe5623-a7ac-4b4a-b789-bdeaf23add9f");
+        uCoreInsight.setLastModified("2017-03-21T10:19:51.706Z");
         uCoreInsight.setInactive(false);
         uCoreInsight.setVersion(2);
         uCoreInsight.setRuleId("ruleID");
         uCoreInsight.setSubjectId("subjectID");
         uCoreInsight.setMomentId("momentID");
         uCoreInsight.setType("type");
-        uCoreInsight.setTimeStamp("timeStamp");
+        uCoreInsight.setTimeStamp("2018-01-01T07:07:14.000Z");
         uCoreInsight.setTitle("title");
         uCoreInsight.setProgram_maxversion(2);
         uCoreInsight.setProgram_minversion(1);
@@ -82,15 +82,15 @@ public class InsightConverterTest {
     @Test
     public void shouldReturnUCoreInsight() {
         Insight appInsight = mInsightConverter.dataCreator.createInsight();
-        appInsight.setGUId("893r980");
-        appInsight.setLastModified("0980-0");
+        appInsight.setGUId("aefe5623-a7ac-4b4a-b789-bdeaf23add9f");
+        appInsight.setLastModified("2017-03-21T10:19:51.706Z");
         appInsight.setInactive(false);
         appInsight.setVersion(2);
         appInsight.setRuleId("ruleID");
         appInsight.setSubjectId("subjectID");
         appInsight.setMomentId("momentID");
         appInsight.setType("type");
-        appInsight.setTimeStamp("timeStamp");
+        appInsight.setTimeStamp("2018-01-01T07:07:14.000Z");
         appInsight.setTitle("title");
         appInsight.setProgram_maxVersion(2);
         appInsight.setProgram_minVersion(1);

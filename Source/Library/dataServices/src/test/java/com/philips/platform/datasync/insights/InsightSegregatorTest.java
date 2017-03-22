@@ -64,15 +64,15 @@ public class InsightSegregatorTest {
         SynchronisationData synchronisationData = new OrmSynchronisationData("insight", false, new DateTime(), 1);
         appInsight.setSynchronisationData(synchronisationData);
 
-        appInsight.setGUId("893r980");
-        appInsight.setLastModified("0980-0");
+        appInsight.setGUId("aefe5623-a7ac-4b4a-b789-bdeaf23add9f");
+        appInsight.setLastModified("2017-03-21T10:19:51.706Z");
         appInsight.setInactive(false);
         appInsight.setVersion(1);
         appInsight.setRuleId("ruleID");
         appInsight.setSubjectId("subjectID");
         appInsight.setMomentId("momentID");
         appInsight.setType("type");
-        appInsight.setTimeStamp("timeStamp");
+        appInsight.setTimeStamp("2018-01-01T07:07:14.000Z");
         appInsight.setTitle("title");
         appInsight.setProgram_maxVersion(2);
         appInsight.setProgram_minVersion(1);
@@ -91,15 +91,15 @@ public class InsightSegregatorTest {
     public void putInsightForSYncTest() throws SQLException {
         List<Insight> insightList = new ArrayList<>();
         OrmInsight insight = new OrmInsight();
-        insight.setGUId("893r980");
-        insight.setLastModified("0980880");
+        insight.setGUId("aefe5623-a7ac-4b4a-b789-bdeaf23add9f");
+        insight.setLastModified("2017-03-21T10:19:51.706Z");
         insight.setInactive(false);
         insight.setVersion(2);
         insight.setRuleId("ruleID");
         insight.setSubjectId("subjectID");
         insight.setMomentId("momentID");
         insight.setType("type");
-        insight.setTimeStamp("timeStamp");
+        insight.setTimeStamp("2018-01-01T07:07:14.000Z");
         insight.setTitle("title");
         insight.setProgram_maxVersion(2);
         insight.setProgram_minVersion(1);

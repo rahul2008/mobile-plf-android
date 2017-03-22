@@ -28,7 +28,6 @@ import cdp.philips.com.mydemoapp.R;
 
 public class InsightFragment extends DialogFragment implements DBRequestListener<Insight>, DBFetchRequestListner<Insight>, DBChangeListener {
     InsightAdapter mInsightAdapter;
-    List<InsightDisplayModel> mInsightDisplayModelList = new ArrayList<>();
     RecyclerView mInsightsRecyclerView;
     ArrayList<? extends Insight> mInsightList = new ArrayList();
     DataServicesManager mDataServicesManager;
@@ -39,10 +38,9 @@ public class InsightFragment extends DialogFragment implements DBRequestListener
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.insight_layout, container, false);
 
-        mInsightDisplayModelList = new ArrayList<>();
         mDataServicesManager = DataServicesManager.getInstance();
 
-        mInsightAdapter = new InsightAdapter(mInsightDisplayModelList, mInsightList, this);
+        mInsightAdapter = new InsightAdapter(mInsightList, this);
 
         mNoInsights = (TextView) view.findViewById(R.id.tv_no_insights);
         mInsightsRecyclerView = (RecyclerView) view.findViewById(R.id.insight_recycler_view);
@@ -51,6 +49,13 @@ public class InsightFragment extends DialogFragment implements DBRequestListener
         mInsightsRecyclerView.setAdapter(mInsightAdapter);
 
         mDataServicesManager.fetchInsights(this);
+
+        mInsightAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeChanged(int positionStart, int itemCount) {
+                super.onItemRangeChanged(positionStart, itemCount);
+            }
+        });
         return view;
     }
 
@@ -97,7 +102,7 @@ public class InsightFragment extends DialogFragment implements DBRequestListener
 
     }
 
-    private void updateUI(final List<? extends Insight> insights) {
+    public void updateUI(final List<? extends Insight> insights) {
         if (getActivity() != null && insights != null) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
@@ -140,6 +145,8 @@ public class InsightFragment extends DialogFragment implements DBRequestListener
     public void onDestroy() {
         super.onDestroy();
     }
+
+
 
 }
 

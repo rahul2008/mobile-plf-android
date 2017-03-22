@@ -25,6 +25,7 @@ import retrofit.RetrofitError;
 import retrofit.converter.GsonConverter;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -105,6 +106,7 @@ public class InsightDataFetcherTest {
         when(accessProviderMock.getAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
         when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
         when(uCoreAdapterMock.getAppFrameworkClient(InsightClient.class, TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(mInsightClient);
+        when(mInsightClient.fetchInsights("","",9,"2017-03-21T10:19:51.706Z")).thenReturn(mock(UCoreInsightList.class));
         RetrofitError retrofitError = insightDataFetcher.fetchDataSince(null);
         assertThat(retrofitError).isNull();
         insightDataFetcher.fetchDataSince(new DateTime());

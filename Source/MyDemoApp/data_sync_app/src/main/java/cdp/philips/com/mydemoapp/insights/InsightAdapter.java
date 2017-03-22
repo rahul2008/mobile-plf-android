@@ -21,12 +21,10 @@ import cdp.philips.com.mydemoapp.R;
 
 public class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightHolder> {
 
-    private List<InsightDisplayModel> mInsightDisplayModelList;
     private List<? extends Insight> mInsightList;
     private final DBRequestListener dbRequestListener;
 
-    public InsightAdapter(final List<InsightDisplayModel> insightDisplayModelList, ArrayList<? extends Insight> insightList, DBRequestListener dbRequestListener) {
-        mInsightDisplayModelList = insightDisplayModelList;
+    public InsightAdapter(ArrayList<? extends Insight> insightList, DBRequestListener dbRequestListener) {
         this.dbRequestListener = dbRequestListener;
         this.mInsightList = insightList;
     }
@@ -39,19 +37,21 @@ public class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightH
 
     @Override
     public void onBindViewHolder(InsightHolder holder, final int position) {
-        final InsightDisplayModel insightDisplayModel = mInsightDisplayModelList.get(position);
-        holder.mInsightID.setText(insightDisplayModel.getInsightID());
-        holder.mMomentID.setText(insightDisplayModel.getMomentID());
-        holder.mLastModified.setText(insightDisplayModel.getLastModified());
-        holder.mRuleID.setText(insightDisplayModel.getRuleID());
+        final Insight insight = mInsightList.get(position);
+        holder.mInsightID.setText(insight.getGUId());
+        holder.mMomentID.setText(insight.getMomentId());
+        holder.mLastModified.setText(insight.getLastModified());
+        holder.mRuleID.setText(insight.getRuleId());
         holder.mDeleteInsight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 List<Insight> insightsToDelete = new ArrayList();
-                insightsToDelete.add(mInsightList.get(position));
+                insightsToDelete.add(insight);
                 DataServicesManager.getInstance().deleteInsights(insightsToDelete, dbRequestListener);
                 mInsightList.remove(position);
-                notifyItemRemoved(position);
+                if (mInsightList.size() <= 0)
+
+                    notifyItemRemoved(position);
                 notifyDataSetChanged();
             }
         });
@@ -59,20 +59,11 @@ public class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightH
 
     @Override
     public int getItemCount() {
-        return mInsightDisplayModelList.size();
+        return mInsightList.size();
     }
 
     public void setInsightList(final ArrayList<? extends Insight> insightList) {
         mInsightList = insightList;
-        mInsightDisplayModelList.clear();
-        for (Insight insight : mInsightList) {
-            InsightDisplayModel insightDisplayModel = new InsightDisplayModel();
-            insightDisplayModel.setInsightID(insight.getGUId());
-            insightDisplayModel.setMomentID(insight.getMomentId());
-            insightDisplayModel.setLastModified(insight.getLastModified());
-            insightDisplayModel.setRuleID(insight.getRuleId());
-            mInsightDisplayModelList.add(insightDisplayModel);
-        }
     }
 
     public class InsightHolder extends RecyclerView.ViewHolder {
