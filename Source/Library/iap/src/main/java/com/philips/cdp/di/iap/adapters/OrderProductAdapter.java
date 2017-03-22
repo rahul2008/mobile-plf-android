@@ -27,6 +27,7 @@ import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.AddressController.AddressListener;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
+import com.philips.cdp.di.iap.screens.OrderSummaryFragment;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -52,6 +53,16 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
     private Drawable mEditDrawable;
+
+    public void setOrderSummaryUpdateListner(OrderSummaryUpdateListner orderSummaryUpdateListner) {
+        this.orderSummaryUpdateListner = orderSummaryUpdateListner;
+    }
+
+    private OrderSummaryUpdateListner orderSummaryUpdateListner;
+
+    public interface OrderSummaryUpdateListner {
+        void onGetCartUpdate();
+    }
 
     public OrderProductAdapter(Context pContext, AddressListener listener, ArrayList<ShoppingCartData> pShoppingCartDataList,
                                PaymentMethod pPaymentMethod) {
@@ -193,6 +204,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onLoadFinished(final ArrayList<ShoppingCartData> data) {
         mShoppingCartDataList = data;
         notifyDataSetChanged();
+        orderSummaryUpdateListner.onGetCartUpdate();
     }
 
     @Override
@@ -275,4 +287,6 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mEditIcon = (ImageView) itemView.findViewById(R.id.edit_icon);
         }
     }
+
+
 }

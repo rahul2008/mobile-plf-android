@@ -45,7 +45,7 @@ import java.util.List;
 
 public class OrderSummaryFragment extends InAppBaseFragment implements
         View.OnClickListener, PaymentController.MakePaymentListener, AddressController.AddressListener,
-        EventListener, DeliveryModeDialog.DialogListener {
+        EventListener, DeliveryModeDialog.DialogListener, OrderProductAdapter.OrderSummaryUpdateListner {
     private OrderProductAdapter mAdapter;
     private PaymentMethod mPaymentMethod;
     private Button mBtnPayNow;
@@ -56,12 +56,6 @@ public class OrderSummaryFragment extends InAppBaseFragment implements
     public static final String TAG = OrderSummaryFragment.class.getName();
     Bundle bundle;
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_SUMMARY_PAGE_NAME);
-        setTitleAndBackButtonVisibility(R.string.iap_order_summary, true);
-    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -86,6 +80,7 @@ public class OrderSummaryFragment extends InAppBaseFragment implements
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mOrderListView.setLayoutManager(layoutManager);
         mAdapter = new OrderProductAdapter(mContext, this, new ArrayList<ShoppingCartData>(), mPaymentMethod);
+        mAdapter.setOrderSummaryUpdateListner(this);
         updateCartOnResume();
         mOrderListView.setAdapter(mAdapter);
         return rootView;
@@ -96,6 +91,14 @@ public class OrderSummaryFragment extends InAppBaseFragment implements
         super.onAttach(context);
         mContext = context;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_SUMMARY_PAGE_NAME);
+        setTitleAndBackButtonVisibility(R.string.iap_order_summary, true);
+    }
+
 
     private void updateCartOnResume() {
         ShoppingCartAPI presenter = ControllerFactory.getInstance()
@@ -314,5 +317,10 @@ public class OrderSummaryFragment extends InAppBaseFragment implements
         if (!isProgressDialogShowing())
             showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
         mAddressController.setDeliveryMode(deliveryModes.get(position).getCode());
+    }
+
+    @Override
+    public void onGetCartUpdate() {
+        dismissProgressDialog();
     }
 }
