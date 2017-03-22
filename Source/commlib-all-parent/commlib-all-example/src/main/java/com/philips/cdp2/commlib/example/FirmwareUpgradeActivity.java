@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -29,7 +30,7 @@ import static com.philips.cdp2.commlib.example.ApplianceActivity.CPPID;
 public class FirmwareUpgradeActivity extends AppCompatActivity {
     private static final String TAG = "FirmwareUpgradeActivity";
 
-    private static final int TIMEOUT_MILLIS = 30000;
+    private static final int DEFAULT_TIMEOUT_MILLIS = 30000;
 
     private BleReferenceAppliance bleReferenceAppliance;
     private ProgressBar firmwareUploadProgressBar;
@@ -37,6 +38,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
     private TextView firmwareSearchLocationTextView;
     private TextView statusTextView;
     private ArrayAdapter<File> fwImageAdapter;
+    private EditText timeoutEditText;
 
     private FilenameFilter upgradeFilesFilter = new FilenameFilter() {
         @Override
@@ -126,6 +128,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
 
         firmwareSearchLocationTextView = (TextView) findViewById(R.id.tvFirmwareSearchLocation);
         statusTextView = (TextView) findViewById(R.id.tvStatus);
+        timeoutEditText = (EditText) findViewById(R.id.timeoutEditText);
 
         if (bleReferenceAppliance == null) {
             finish();
@@ -178,7 +181,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
             File firmwareFile = fwImageAdapter.getItem(selectedItemPosition);
             final byte[] firmwareBytes = fileToBytes(firmwareFile);
 
-            bleReferenceAppliance.getFirmwarePort().pushLocalFirmware(firmwareBytes, TIMEOUT_MILLIS);
+            bleReferenceAppliance.getFirmwarePort().pushLocalFirmware(firmwareBytes, getTimeoutFromUi());
         }
     }
 
@@ -197,10 +200,21 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
     }
 
     private void deployFirmware() {
-        bleReferenceAppliance.getFirmwarePort().deployFirmware(TIMEOUT_MILLIS);
+        bleReferenceAppliance.getFirmwarePort().deployFirmware(getTimeoutFromUi());
     }
 
     private void cancelFirmware() {
-        bleReferenceAppliance.getFirmwarePort().cancel(TIMEOUT_MILLIS);
+        bleReferenceAppliance.getFirmwarePort().cancel(getTimeoutFromUi());
+    }
+
+    private int getTimeoutFromUi() {
+        int timeout = DEFAULT_TIMEOUT_MILLIS;
+
+        String timeoutText = timeoutEditText.getText().toString();
+        if (timeoutText.length() > 0) {
+            timeout = Integer.parseInt(timeoutText) * 1000;
+        }
+
+        return timeout;
     }
 }
