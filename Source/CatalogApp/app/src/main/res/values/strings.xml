@@ -169,4 +169,12 @@
     <string name="double_line_footer">Double-line Filled Footer</string>
     <string name="single_line_header">Single-line Gradient Header</string>
     <string name="gridview_header">Title</string>
+
+    <!--Notification Bar-->
+    <string name="page_title_notification_bar">NotificationBar</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
 </resources>
