@@ -309,7 +309,6 @@ public class ABTestClientManager implements ABTestClientInterface {
                 listener.onError(OnRefreshListener.ERRORVALUES.EXPERIENCES_PARTIALLY_DOWNLOADED,
                         "Partially Updated");
         } else {
-
             new Thread(new Runnable() {
                 @Override
                 public void run() {
