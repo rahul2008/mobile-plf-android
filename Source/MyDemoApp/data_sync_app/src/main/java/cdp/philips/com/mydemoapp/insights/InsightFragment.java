@@ -54,6 +54,10 @@ public class InsightFragment extends DialogFragment implements DBRequestListener
             @Override
             public void onItemRangeChanged(int positionStart, int itemCount) {
                 super.onItemRangeChanged(positionStart, itemCount);
+
+                if(itemCount==0){
+                    mNoInsights.setVisibility(View.VISIBLE);
+                }
             }
         });
         return view;

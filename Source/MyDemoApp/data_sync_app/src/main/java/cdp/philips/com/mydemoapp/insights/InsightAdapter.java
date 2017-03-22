@@ -49,9 +49,8 @@ public class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightH
                 insightsToDelete.add(insight);
                 DataServicesManager.getInstance().deleteInsights(insightsToDelete, dbRequestListener);
                 mInsightList.remove(position);
-                if (mInsightList.size() <= 0)
-
-                    notifyItemRemoved(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position,getItemCount());
                 notifyDataSetChanged();
             }
         });
