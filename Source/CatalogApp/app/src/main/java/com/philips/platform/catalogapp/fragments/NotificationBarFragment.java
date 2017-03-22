@@ -1,26 +1,60 @@
 package com.philips.platform.catalogapp.fragments;
 
 
+import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.philips.platform.catalogapp.R;
+import com.philips.platform.catalogapp.databinding.FragmentNotificationBarBinding;
 
 public class NotificationBarFragment extends BaseFragment {
 
+    private PopupWindow popupWindow;
+    private Button showHideNotification;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return View.inflate(getActivity(), R.layout.uid_notification_bg_white, null);
+        FragmentNotificationBarBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_notification_bar, container, false);
+        binding.setFragment(this);
+        showHideNotification = binding.showHideNotification;
+        createPopUPWindow(getActivity());
+        return binding.getRoot();
     }
 
     @Override
     public int getPageTitle() {
         return R.string.page_title_notification_bar;
+    }
+
+    private void createPopUPWindow(Context context) {
+        View view = getNotificationContentView(context);
+        popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
+
+    private View getNotificationContentView(Context context) {
+        View view = View.inflate(context, R.layout.uid_notification_bg_white, null);
+        ((TextView) view.findViewById(R.id.uid_notification_title)).setText(R.string.notification_bar_title);
+        ((TextView) view.findViewById(R.id.uid_notification_content)).setText(R.string.notification_bar_content);
+        ((TextView) view.findViewById(R.id.uid_notification_btn_1)).setText(R.string.notification_bar_action_1);
+        ((TextView) view.findViewById(R.id.uid_notification_btn_2)).setText(R.string.notification_bar_action_2);
+        return view;
+    }
+
+    public void showDismissAlert() {
+        if (popupWindow.isShowing()) {
+            popupWindow.dismiss();
+            showHideNotification.setText(R.string.notification_bar_notification_show);
+        } else {
+            popupWindow.showAsDropDown(getActivity().findViewById(R.id.uid_toolbar));
+            showHideNotification.setText(R.string.notification_bar_notification_hide);
+        }
     }
 }
