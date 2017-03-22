@@ -152,7 +152,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     public boolean updateInsights(List<? extends Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
         boolean isSaved = saving.saveInsights((List<Insight>) insights, dbRequestListener);
         if (isSaved)
-            notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.INSIGHT);
+            notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.INSIGHT); //Should notify DB change?
         else
             notifyDBRequestListener.notifyFailure(new Exception("Update failed"), dbRequestListener);
         return isSaved;

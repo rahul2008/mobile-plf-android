@@ -1,14 +1,9 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 package cdp.philips.com.mydemoapp.database.table;
 
 import android.support.annotation.NonNull;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.philips.platform.core.datatypes.DCSync;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.InsightMetadata;
 
@@ -36,7 +31,7 @@ public class OrmInsightMetaData implements InsightMetadata, Serializable {
     private OrmInsight ormInsight;
 
     @DatabaseConstructor
-    OrmInsightMetaData() {
+    public OrmInsightMetaData() {
     }
 
     public OrmInsightMetaData(@NonNull final String meta_key, @NonNull final String meta_value, OrmInsight ormInsight) {

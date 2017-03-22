@@ -98,7 +98,7 @@ public class InsightDataSender extends DataSender {
     private boolean deleteInsight(final InsightClient client, final Insight insight) {
         try {
             Response response = client.deleteInsight(uCoreAccessProvider.getUserId(),
-                    insight.getSynchronisationData().getGuid(),uCoreAccessProvider.getUserId());
+                    insight.getSynchronisationData().getGuid(), uCoreAccessProvider.getUserId());
 
             if (isResponseSuccess(response)) {
                 postDeletedOk(insight);

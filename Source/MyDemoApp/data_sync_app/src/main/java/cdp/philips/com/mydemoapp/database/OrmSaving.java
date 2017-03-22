@@ -231,6 +231,7 @@ public class OrmSaving {
         return true;
     }
 
+    //Insights
     public boolean saveInsights(final List<Insight> insights, DBRequestListener dbRequestListener) {
         try {
             insightsDao.callBatchTasks(new Callable<Void>() {

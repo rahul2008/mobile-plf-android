@@ -1,7 +1,3 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 package cdp.philips.com.mydemoapp.database.table;
 
 import android.support.annotation.Nullable;
@@ -12,7 +8,6 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.InsightMetadata;
-import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SynchronisationData;
 
 import java.io.Serializable;
@@ -20,7 +15,6 @@ import java.util.Collection;
 
 import cdp.philips.com.mydemoapp.database.EmptyForeignCollection;
 import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
-
 
 @DatabaseTable
 public class OrmInsight implements Insight, Serializable {
@@ -73,15 +67,10 @@ public class OrmInsight implements Insight, Serializable {
     private OrmSynchronisationData synchronisationData;
 
     @ForeignCollectionField(eager = true)
-    ForeignCollection<OrmInsightMetaData> ormInsightMetaDatas = new EmptyForeignCollection<>();
+    private ForeignCollection<OrmInsightMetaData> ormInsightMetaDatas = new EmptyForeignCollection<>();
 
     @DatabaseConstructor
     public OrmInsight() {
-    }
-
-    @Override
-    public String toString() {
-        return "[OrmInsight, InsightID = " + guid + ", MomentID = " + moment_id + ", Title = " + title;
     }
 
     @Override
@@ -204,7 +193,6 @@ public class OrmInsight implements Insight, Serializable {
         return program_max_version;
     }
 
-
     @Nullable
     @Override
     public OrmSynchronisationData getSynchronisationData() {
@@ -246,4 +234,8 @@ public class OrmInsight implements Insight, Serializable {
         ormInsightMetaDatas.add((OrmInsightMetaData) insightMetadata);
     }
 
+    @Override
+    public String toString() {
+        return "[OrmInsight, InsightID = " + guid + ", MomentID = " + moment_id + ", Title = " + title;
+    }
 }
