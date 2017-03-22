@@ -121,6 +121,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
             mBtnHsdpRefreshAccessToken.setVisibility(View.GONE);
         }
 
+        mCountrySelectionSwitch = (Switch) findViewById(R.id.county_selection_switch);
         mUser = new User(mContext);
         mUser.registerUserRegistrationListener(this);
         mBtnRefresh = (Button) findViewById(R.id.btn_refresh_user);

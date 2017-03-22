@@ -35,7 +35,6 @@ public class RegistrationCoppaApplication extends Application {
      */
     public synchronized static RegistrationCoppaApplication getInstance() {
         return mRegistrationHelper;
-
     }
 
     @Override
@@ -58,14 +57,12 @@ public class RegistrationCoppaApplication extends Application {
         }
     }
 
-
     public void initRegistration(Configuration configuration) {
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
         if(mAppInfraInterface == null){
             mAppInfraInterface = new AppInfra.Builder().build(this);
         }
-
 
         SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
         editor.putString("reg_environment", configuration.getValue());
@@ -91,14 +88,12 @@ public class RegistrationCoppaApplication extends Application {
         URInterface urInterface = new CoppaInterface();
         urInterface.init(urDependancies, urSettings);
 
-
         mAppInfraInterface.getConfigInterface().setPropertyForKey("appidentity.micrositeId",
                 "appinfra",
                 "77000",
                 configError);
 
     }
-
 
     public static final String SERVICE_DISCOVERY_TAG = "ServiceDiscovery";
     final String AI = "appinfra";
