@@ -8,11 +8,11 @@ class Appliance {
 }
 
 class FirmwarePort {
-    + pushLocalFirmware(final byte[] firmwareData, int timeoutMillis)
-    + pullRemoteFirmware(String version)
-    + cancel()
+    + pushLocalFirmware(final byte[] firmwareData, long stateTransitionTimeout)
+    + pullRemoteFirmware(String version, long stateTransitionTimeout)
+    + cancel(long stateTransitionTimeout)
     + checkForNewerFirmware()
-    + deployFirmware()
+    + deployFirmware(long stateTransitionTimeout)
     + addFirmwarePortListener(FirmwarePortListener listener)
     + removeFirmwarePortListener(FirmwarePortListener listener)
 }
