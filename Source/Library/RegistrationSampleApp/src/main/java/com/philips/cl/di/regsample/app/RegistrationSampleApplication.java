@@ -36,7 +36,7 @@ public class RegistrationSampleApplication extends Application {
     private static final String CHINA_CODE = "CN";
     private static final String DEFAULT = "default";
     private static final String URL_ENCODING = "UTF-8";
-    private static volatile RegistrationSampleApplication mRegistrationSampleApplication = null;
+    private static RegistrationSampleApplication mRegistrationSampleApplication = null;
 
     private AppInfraInterface mAppInfraInterface;
 
@@ -71,7 +71,6 @@ public class RegistrationSampleApplication extends Application {
         }
     }
 
-
     public void initRegistration(Configuration configuration) {
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
@@ -104,6 +103,7 @@ public class RegistrationSampleApplication extends Application {
 
         RLog.enableLogging();
     }
+
     public void initHSDP(Configuration configuration) {
         if(mAppInfraInterface == null){
             mAppInfraInterface = new AppInfra.Builder().build(this);
@@ -224,9 +224,6 @@ public class RegistrationSampleApplication extends Application {
                 prefs.edit().remove("reg_hsdp_environment").commit();
                 break;
         }
-
-
-
     }
 
     final String AI = "appinfra";

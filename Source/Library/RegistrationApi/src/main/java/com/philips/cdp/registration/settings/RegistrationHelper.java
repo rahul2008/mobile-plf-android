@@ -88,7 +88,7 @@ public class RegistrationHelper {
       * to initialize User Registration component and use its features.
      *
      */
-    public synchronized void initializeUserRegistration(final Context context) {
+    public void initializeUserRegistration(final Context context) {
         RLog.init();
         PILLocaleManager localeManager = new PILLocaleManager(context);
         if (localeManager.getLanguageCode() != null && localeManager.getCountryCode() != null) {
@@ -117,7 +117,7 @@ public class RegistrationHelper {
                             OnRefreshListener() {
                         @Override
                         public void onSuccess() {
-                            RLog.d(RLog.AB_TESTING, "SUCESS ");
+                            RLog.d(RLog.AB_TESTING, "SUCCESS ");
                         }
 
                         @Override
