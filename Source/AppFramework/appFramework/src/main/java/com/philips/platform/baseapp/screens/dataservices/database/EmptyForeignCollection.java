@@ -50,7 +50,7 @@ public class EmptyForeignCollection<T> extends ArrayList<T> implements ForeignCo
     }
 
     @Override
-    public void closeLastIterator() throws SQLException {
+    public void closeLastIterator() {
 
     }
 

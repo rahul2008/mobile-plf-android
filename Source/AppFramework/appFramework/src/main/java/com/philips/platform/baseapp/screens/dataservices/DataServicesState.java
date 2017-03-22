@@ -6,6 +6,7 @@
 package com.philips.platform.baseapp.screens.dataservices;
 
 import android.content.Context;
+import android.os.Handler;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
@@ -35,10 +36,11 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMomen
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSettings;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynchronisationData;
 import com.philips.platform.baseapp.screens.dataservices.error.ErrorHandlerInterfaceImpl;
+import com.philips.platform.baseapp.screens.dataservices.reciever.ScheduleSyncReceiver;
 import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationInterfaceImpl;
 import com.philips.platform.baseapp.screens.dataservices.temperature.TemperatureTimeLineFragment;
-import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -52,6 +54,7 @@ import java.sql.SQLException;
 public class DataServicesState extends BaseState {
     public static final String TAG = DataServicesState.class.getSimpleName();
     FragmentLauncher fragmentLauncher;
+    ScheduleSyncReceiver mScheduleSyncReceiver;
 
     public DataServicesState() {
         super(AppStates.DATA_SYNC);
@@ -71,27 +74,40 @@ public class DataServicesState extends BaseState {
 
     @Override
     public void init(Context context) {
-        SynchronisationCompleteListener synchronisationCompleteListener = new SynchronisationCompleteListener() {
-            @Override
-            public void onSyncComplete() {
-
-            }
-
-            @Override
-            public void onSyncFailed(Exception exception) {
-
-            }
-        };
+        mScheduleSyncReceiver = new ScheduleSyncReceiver();
         OrmCreator creator = new OrmCreator(new UuidGenerator());
         UserRegistrationInterface userRegistrationInterface = new UserRegistrationInterfaceImpl(context, new User(context));
         ErrorHandlerInterfaceImpl errorHandlerInterface = new ErrorHandlerInterfaceImpl();
         DataServicesManager.getInstance().initializeDataServices(context, creator, userRegistrationInterface, errorHandlerInterface);
         injectDBInterfacesToCore(context);
-        DataServicesManager.getInstance().initializeSyncMonitors(context, null, null, synchronisationCompleteListener);
+        DataServicesManager.getInstance().initializeSyncMonitors(context, null, null);
+        DSLog.enableLogging(true);
+        DSLog.i(DSLog.LOG, "Before Setting up Synchronization Loop");
+        scheduleSync(context);
+        //Stetho.initializeWithDefaults(context);
+    }
+
+    void scheduleSync(final Context context) {
+        final Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    mScheduleSyncReceiver.onReceive(context);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    //also call the same runnable to call it at regular interval
+                    handler.postDelayed(this, ScheduleSyncReceiver.DATA_FETCH_FREQUENCY);
+                }
+            }
+        };
+        runnable.run();
     }
 
     void injectDBInterfacesToCore(Context context) {
-        final DatabaseHelper databaseHelper = new DatabaseHelper(context, new UuidGenerator());
+        final DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
         try {
             Dao<OrmMoment, Integer> momentDao = databaseHelper.getMomentDao();
             Dao<OrmMomentDetail, Integer> momentDetailDao = databaseHelper.getMomentDetailDao();
@@ -114,12 +130,12 @@ public class DataServicesState extends BaseState {
             OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao, settingsDao, consentDetailsDao, dcSyncDao, measurementGroup, synchronisationDataDao, measurementGroupDetails);
             OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDetailsDao, characteristicsesDao, settingsDao, dcSyncDao);
             OrmDeleting deleting = new OrmDeleting(momentDao, momentDetailDao, measurementDao,
-                    measurementDetailDao, synchronisationDataDao, measurementGroupDetails, measurementGroup, consentDetailsDao, characteristicsesDao, settingsDao);
+                    measurementDetailDao, synchronisationDataDao, measurementGroupDetails, measurementGroup, consentDetailsDao, characteristicsesDao, settingsDao,dcSyncDao);
 
 
             BaseAppDateTime uGrowDateTime = new BaseAppDateTime();
             ORMSavingInterfaceImpl ORMSavingInterfaceImpl = new ORMSavingInterfaceImpl(saving, updating, fetching, deleting, uGrowDateTime);
-            OrmDeletingInterfaceImpl ORMDeletingInterfaceImpl = new OrmDeletingInterfaceImpl(deleting, saving);
+            OrmDeletingInterfaceImpl ORMDeletingInterfaceImpl = new OrmDeletingInterfaceImpl(deleting, saving, fetching);
             ORMUpdatingInterfaceImpl dbInterfaceOrmUpdatingInterface = new ORMUpdatingInterfaceImpl(saving, updating, fetching, deleting);
             OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDetailsDao, characteristicsesDao, settingsDao, dcSyncDao);
 
