@@ -6,7 +6,6 @@
 package com.philips.platform.appframework.homescreen;
 
 import android.content.res.Configuration;
-import java.util.List;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
@@ -47,7 +46,7 @@ import java.util.ArrayList;
  * This activity is the container of all the other fragment for the app
  * ActionbarListener is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
  */
-public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPListener, FragmentManager.OnBackStackChangedListener, FragmentView {
+public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPListener,HamburgerSelectionListener, FragmentManager.OnBackStackChangedListener, FragmentView {
     private static String TAG = HamburgerActivity.class.getSimpleName();
     protected TextView actionBarTitle;
     private HamburgerUtil hamburgerUtil;
@@ -58,7 +57,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
     private NavigationView navigationView;
     private Toolbar toolbar;
     private ImageView footerView;
-    public HamburgerAdapter adapter;
+    private HamburgerAdapter adapter;
     private ImageView hamburgerIcon;
     private FrameLayout hamburgerClick = null;//shoppingCartLayout;
     private UserRegistrationState userRegistrationState;
@@ -435,4 +434,9 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
         return this;
     }
 
+
+    @Override
+    public void setHamburgerSelectionIndex(int position) {
+        adapter.setSelectedIndex(0);
+    }
 }

@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * This activity is the container of all the other fragment for the app
  * ActionbarListener is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
  */
-public class TabbedActivity extends AppFrameworkBaseActivity implements FragmentManager.OnBackStackChangedListener, FragmentView, IAPListener {
+public class TabbedActivity extends AppFrameworkBaseActivity implements FragmentManager.OnBackStackChangedListener, hamburgerSelectionListener,FragmentView, IAPListener {
     private static String TAG = TabbedActivity.class.getSimpleName();
     private TabLayout topLayout;
 
@@ -248,5 +248,8 @@ public class TabbedActivity extends AppFrameworkBaseActivity implements Fragment
     @Override
     public void onFailure(final int i) {
 
+    }
+    @Override
+    public void setHamburgerSelectionIndex(int position) {
     }
 }

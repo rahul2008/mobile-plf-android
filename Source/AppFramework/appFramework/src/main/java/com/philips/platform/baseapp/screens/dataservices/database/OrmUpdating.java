@@ -20,11 +20,16 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMomen
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMomentDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSettings;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynchronisationData;
+import com.philips.platform.baseapp.screens.dataservices.utility.NotifyDBRequestListener;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.Callable;
 
 
 /**
@@ -220,4 +225,28 @@ public class OrmUpdating {
             updateBuilder.update();
 
     }
+
+    public boolean updateMoments(final List<Moment> moments, DBRequestListener dbRequestListener) {
+        try {
+            momentDao.callBatchTasks(new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    for (Moment moment : moments) {
+                        moment.setSynced(false);
+                        OrmMoment ormMoment = OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
+                        updateMoment(ormMoment);
+                        refreshMoment(ormMoment);
+                    }
+
+                    return null;
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            new NotifyDBRequestListener().notifyFailure(e,dbRequestListener);
+            return false;
+        }
+        return true;
+    }
+
 }
