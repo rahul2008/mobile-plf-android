@@ -123,6 +123,7 @@ public class UappHamburgerActivity extends AppFrameworkBaseActivity implements F
     private void showNavigationDrawerItem(int position) {
         philipsDrawerLayout.closeDrawer(navigationView);
         presenter.onEvent(position);
+        setTitle(hamburgerMenuTitles[position]);
     }
 
     public HamburgerAdapter getHamburgerAdapter()
@@ -241,10 +242,12 @@ public class UappHamburgerActivity extends AppFrameworkBaseActivity implements F
                 backState = ((BackEventListener) currentFrag).handleBackEvent();
                 if (!backState) {
                     adapter.setSelectedIndex(0);
+                    setTitle(hamburgerMenuTitles[0]);
                     super.onBackPressed();
                 }
             } else {
                 adapter.setSelectedIndex(0);
+                setTitle(hamburgerMenuTitles[0]);
                 super.onBackPressed();
             }
         }
