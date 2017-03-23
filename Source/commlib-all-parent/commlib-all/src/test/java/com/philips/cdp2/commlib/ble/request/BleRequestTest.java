@@ -23,8 +23,6 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -48,10 +46,11 @@ public class BleRequestTest {
 
     private BleRequest request;
 
-    private Map<String, SHNDevice> deviceMap = new HashMap<>();
+    @Mock
+    private BleDeviceCache mockDeviceCache;
 
     @Mock
-    private BleDeviceCache deviceCacheMock;
+    private BleDeviceCache.CacheData mockCacheData;
 
     @Mock
     private ResponseHandler responseHandlerMock;
@@ -80,11 +79,11 @@ public class BleRequestTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        deviceMap.put(CPP_ID, mockDevice);
         when(mockDevice.getCapabilityForType(SHNCapabilityType.DI_COMM)).thenReturn(mockCapability);
         when(mockDevice.getState()).thenReturn(Connected);
 
-        when(deviceCacheMock.getDeviceMap()).thenReturn(deviceMap);
+        when(mockDeviceCache.getCacheData(anyString())).thenReturn(mockCacheData);
+        when(mockCacheData.getDevice()).thenReturn(mockDevice);
 
         doAnswer(new Answer() {
             @Override
@@ -105,7 +104,7 @@ public class BleRequestTest {
         when(mockDicommResponse.getStatus()).thenReturn(NoError);
         when(mockDicommResponse.getPropertiesAsString()).thenReturn("{}");
 
-        request = new BleGetRequest(deviceCacheMock, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock, handlerMock, new AtomicBoolean(true));
+        request = new BleGetRequest(mockDeviceCache, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock, handlerMock, new AtomicBoolean(true));
         request.inProgressLatch = mockInProgressLatch;
 
         when(handlerMock.post(runnableCaptor.capture())).thenAnswer(new Answer<Void>() {
@@ -153,7 +152,7 @@ public class BleRequestTest {
 
     @Test
     public void doesntCallDisconnectWhenStayingConnected() {
-        request = new BleGetRequest(deviceCacheMock, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock, handlerMock, new AtomicBoolean(false));
+        request = new BleGetRequest(mockDeviceCache, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock, handlerMock, new AtomicBoolean(false));
         request.inProgressLatch = mockInProgressLatch;
 
         request.run();

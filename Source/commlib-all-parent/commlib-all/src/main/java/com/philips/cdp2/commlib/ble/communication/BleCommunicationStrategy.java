@@ -5,7 +5,6 @@
 package com.philips.cdp2.commlib.ble.communication;
 
 import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
@@ -19,6 +18,8 @@ import com.philips.cdp2.commlib.ble.request.BleGetRequest;
 import com.philips.cdp2.commlib.ble.request.BlePutRequest;
 import com.philips.cdp2.commlib.ble.request.BleRequest;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.util.HandlerProvider;
+import com.philips.cdp2.commlib.core.util.VerboseRunnable;
 import com.philips.pins.shinelib.SHNDevice;
 
 import java.util.Locale;
@@ -57,7 +58,7 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
      * @param deviceCache the device cache
      */
     public BleCommunicationStrategy(@NonNull String cppId, @NonNull BleDeviceCache deviceCache) {
-        this(cppId, deviceCache, new Handler(Looper.getMainLooper()));
+        this(cppId, deviceCache, HandlerProvider.createHandler());
     }
 
     /**
@@ -149,7 +150,7 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
 
     @Override
     public boolean isAvailable() {
-        return deviceCache.getDeviceMap().containsKey(cppId);
+        return deviceCache.contains(cppId);
     }
 
     /**
@@ -160,7 +161,7 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     @Override
     public void enableCommunication(SubscriptionEventListener subscriptionEventListener) {
         if (isAvailable()) {
-            SHNDevice device = deviceCache.getDeviceMap().get(cppId);
+            SHNDevice device = deviceCache.getCacheData(cppId).getDevice();
             device.connect();
         }
         disconnectAfterRequest.set(false);
@@ -173,7 +174,7 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     @Override
     public void disableCommunication() {
         if (isAvailable() && requestExecutor.getQueue().isEmpty() && requestExecutor.getActiveCount() == 0) {
-            SHNDevice device = deviceCache.getDeviceMap().get(cppId);
+            SHNDevice device = deviceCache.getCacheData(cppId).getDevice();
             device.disconnect();
         }
         disconnectAfterRequest.set(true);
@@ -181,6 +182,6 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
 
     @VisibleForTesting
     protected void dispatchRequest(final BleRequest request) {
-        requestExecutor.execute(request);
+        requestExecutor.execute(new VerboseRunnable(request));
     }
 }
