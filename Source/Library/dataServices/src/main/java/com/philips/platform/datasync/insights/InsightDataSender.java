@@ -110,11 +110,11 @@ public class InsightDataSender extends DataSender {
         return false;
     }
 
-    private void postDeletedOk(final Insight insight) {
+    void postDeletedOk(final Insight insight) {
         eventing.post(new DeleteInsightResponse(insight, null));
     }
 
-    private boolean isResponseSuccess(final Response response) {
+    boolean isResponseSuccess(final Response response) {
         return response != null && (response.getStatus() == HttpURLConnection.HTTP_OK || response.getStatus() == HttpURLConnection.HTTP_CREATED
                 || response.getStatus() == HttpURLConnection.HTTP_NO_CONTENT);
     }

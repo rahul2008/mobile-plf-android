@@ -15,6 +15,12 @@ public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
+    public boolean deleteMoments(List<Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException {
+        return false;
+    }
+
+
+    @Override
     public void markAsInActive(Moment moment, DBRequestListener dbRequestListener) {
 
     }
@@ -24,11 +30,7 @@ public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface {
 
     }
 
-    @Override
-    public boolean deleteMoments(List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
 
-        return false;
-    }
 
     @Override
     public void deleteMomentDetail(Moment moment, DBRequestListener dbRequestListener) throws SQLException {
@@ -46,23 +48,24 @@ public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
+    public void markMomentsAsInActive(List<Moment> moment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
+
+    }
+
+    @Override
+    public boolean markInsightsAsInActive(List<Insight> insights, DBRequestListener<Insight> dbRequestListener) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public boolean deleteInsights(List<Insight> insights, DBRequestListener<Insight> dbRequestListener) throws SQLException {
+        return false;
+    }
+
+
+    @Override
     public void deleteAllMoments(DBRequestListener dbRequestListener) throws SQLException {
 
-    }
-
-    @Override
-    public void markMomentsAsInActive(List<Moment> moment, DBRequestListener dbRequestListener) throws SQLException {
-
-    }
-
-    @Override
-    public boolean markInsightsAsInActive(List<Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
-        return false;
-    }
-
-    @Override
-    public boolean deleteInsights(List<Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
-        return false;
     }
 
     @Override

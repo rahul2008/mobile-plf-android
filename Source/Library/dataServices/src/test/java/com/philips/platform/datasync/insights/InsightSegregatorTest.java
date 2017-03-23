@@ -1,5 +1,6 @@
 package com.philips.platform.datasync.insights;
 
+import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.InsightMetadata;
 import com.philips.platform.core.datatypes.SynchronisationData;
@@ -46,6 +47,9 @@ public class InsightSegregatorTest {
     @Mock
     DBRequestListener mDBRequestListener;
 
+    @Mock
+    BaseAppDataCreator dataCreatorMock;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -55,13 +59,14 @@ public class InsightSegregatorTest {
         mInsightSegregator.mDBFetchingInterface = mDBFetchingInterface;
         mInsightSegregator.mDBDeletingInterface = mDBDeletingInterface;
         mInsightSegregator.mDBSavingInterface = mDBSavingInterface;
+        mInsightSegregator.mBaseAppDataCreator=dataCreatorMock;
     }
 
     @Test
     public void processInsightTest() throws SQLException {
         Insight appInsight = new OrmInsight();
 
-        SynchronisationData synchronisationData = new OrmSynchronisationData("insight", false, new DateTime(), 1);
+        SynchronisationData synchronisationData = new OrmSynchronisationData("aefe5623-a7ac-4b4a-b789-bdeaf23add9f", false, new DateTime(), 1);
         appInsight.setSynchronisationData(synchronisationData);
 
         appInsight.setGUId("aefe5623-a7ac-4b4a-b789-bdeaf23add9f");

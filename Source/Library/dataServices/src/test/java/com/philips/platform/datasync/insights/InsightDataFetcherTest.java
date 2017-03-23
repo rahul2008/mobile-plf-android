@@ -3,12 +3,15 @@ package com.philips.platform.datasync.insights;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.BaseAppData;
 import com.philips.platform.core.datatypes.Insight;
+import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.FetchInsightRequest;
+import com.philips.platform.core.events.FetchInsightsResponse;
 import com.philips.platform.core.events.ListEvent;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
+import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataSender;
 
 import org.joda.time.DateTime;
@@ -22,9 +25,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.RetrofitError;
+import retrofit.client.Header;
+import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
+import retrofit.mime.TypedString;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyList;
+import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -68,18 +78,22 @@ public class InsightDataFetcherTest {
     private ArgumentCaptor<ListEvent<? extends BaseAppData>> saveRequestCaptor;
 
     @Mock
-    UCoreInsightList mUCoreInsightList;
+    UCoreInsightList uCoreInsightListMock;
 
     @Mock
     Insight mInsight;
 
     InsightDataFetcher insightDataFetcher;
 
+    @Mock
+    DataFetcher dataFetcher;
+
     @Captor
     private ArgumentCaptor<FetchInsightRequest> insightBackendGetRequestArgumentCaptor;
 
     @Mock
     private AppComponent appComponantMock;
+    private Response response;
 
     @Before
     public void setUp() throws Exception {
@@ -105,11 +119,30 @@ public class InsightDataFetcherTest {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
         when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
+        when(accessProviderMock.getInsightLastSyncTimestamp()).thenReturn("2017-03-21T10:19:51.706Z");
         when(uCoreAdapterMock.getAppFrameworkClient(InsightClient.class, TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(mInsightClient);
-        when(mInsightClient.fetchInsights("","",9,"2017-03-21T10:19:51.706Z")).thenReturn(mock(UCoreInsightList.class));
+        when(mInsightClient.fetchInsights(TEST_USER_ID,TEST_USER_ID,9,"2017-03-21T10:19:51.706Z")).thenReturn(uCoreInsightListMock);
         RetrofitError retrofitError = insightDataFetcher.fetchDataSince(null);
         assertThat(retrofitError).isNull();
         insightDataFetcher.fetchDataSince(new DateTime());
+    }
+
+    @Test
+    public void shouldThrowError_WhenRetrofitErrorComes() throws Exception {
+
+        final RetrofitError retrofitErrorMock = mock(RetrofitError.class);
+        response = new Response("", 401, "Unauthorised", new ArrayList<Header>(), new TypedString("ERROR"));
+        when(retrofitErrorMock.getResponse()).thenReturn(response);
+
+        insightDataFetcher.synchronizationState.set(DataSender.State.IDLE.getCode());
+        when(accessProviderMock.isLoggedIn()).thenReturn(true);
+        when(accessProviderMock.getAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
+        when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
+        when(accessProviderMock.getInsightLastSyncTimestamp()).thenReturn("2017-03-21T10:19:51.706Z");
+        when(uCoreAdapterMock.getAppFrameworkClient(InsightClient.class, TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(mInsightClient);
+        when(mInsightClient.fetchInsights(TEST_USER_ID,TEST_USER_ID,9,"2017-03-21T10:19:51.706Z")).thenThrow(retrofitErrorMock);
+        insightDataFetcher.fetchDataSince(null);
+        verify(eventingMock).post(new  BackendDataRequestFailed(any(RetrofitError.class)));
     }
 
     @Test
@@ -122,5 +155,10 @@ public class InsightDataFetcherTest {
     public void returnFalseWhenIsUserInvalidIsCalled_IfAccessProviderIsNull() throws Exception {
         insightDataFetcher.uCoreAccessProvider=null;
         assertThat(insightDataFetcher.isUserInvalid()).isFalse();
+    }
+
+    @Test
+    public void callSuperFetchAllData_whenFetchAllDataIsCalled() throws Exception {
+        insightDataFetcher.fetchAllData();
     }
 }

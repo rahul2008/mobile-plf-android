@@ -24,12 +24,12 @@ public class VerticalDBSavingInterface implements DBSavingInterface {
     }
 
     @Override
-    public boolean saveMoments(List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
+    public boolean saveMoments(List<Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException {
         return false;
     }
 
     @Override
-    public boolean saveConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener dbRequestListener) throws SQLException {
+    public boolean saveConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) throws SQLException {
         return false;
     }
 
@@ -40,17 +40,19 @@ public class VerticalDBSavingInterface implements DBSavingInterface {
     }
 
     @Override
-    public boolean saveUserCharacteristics(List<Characteristics> userCharacteristics, DBRequestListener dbRequestListener) throws SQLException {
+    public boolean saveUserCharacteristics(List<Characteristics> userCharacteristics, DBRequestListener<Characteristics> dbRequestListener) throws SQLException {
         return false;
     }
+
+    @Override
+    public boolean saveInsights(List<Insight> insights, DBRequestListener<Insight> dbRequestListener) throws SQLException {
+        return false;
+    }
+
 
     @Override
     public boolean saveSettings(Settings settings, DBRequestListener dbRequestListener) throws SQLException {
         return false;
     }
 
-    @Override
-    public boolean saveInsights(List<Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
-        return false;
-    }
 }

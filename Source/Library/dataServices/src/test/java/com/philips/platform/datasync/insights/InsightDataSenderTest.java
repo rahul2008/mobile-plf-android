@@ -2,9 +2,12 @@ package com.philips.platform.datasync.insights;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.BaseAppData;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Insight;
+import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.events.DeleteInsightRequest;
 import com.philips.platform.core.events.ListEvent;
 import com.philips.platform.core.injection.AppComponent;
@@ -12,7 +15,10 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataSender;
+import com.philips.platform.datasync.synchronisation.SynchronisationManager;
+import com.philips.platform.verticals.VerticalCreater;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -24,11 +30,17 @@ import java.util.List;
 import javax.inject.Inject;
 
 import retrofit.RetrofitError;
+import retrofit.client.Header;
+import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyList;
+import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class InsightDataSenderTest {
@@ -71,7 +83,10 @@ public class InsightDataSenderTest {
     UCoreInsightList mUCoreInsightList;
 
     @Mock
-    Insight mInsight;
+    Insight mInsightMock;
+
+    @Mock
+    VerticalCreater dataCreatorMock;
 
 
     @Captor
@@ -80,21 +95,61 @@ public class InsightDataSenderTest {
     @Mock
     private AppComponent appComponantMock;
 
-    @Inject
-    public InsightDataSenderTest(@NonNull UCoreAdapter uCoreAdapter, @NonNull GsonConverter gsonConverter, @NonNull InsightConverter insightConverter) {
+    @Mock
+    private SynchronisationManager synchronisationManagerMock;
+
+    @Mock
+    SynchronisationData synchronisationDataMock;
+
+    @Before
+    public void setUp() {
         initMocks(this);
         DataServicesManager.getInstance().setAppComponant(appComponantMock);
-        insightDataSender=new InsightDataSender(uCoreAdapter,gsonConverter,insightConverter);
-        this.uCoreAdapterMock = uCoreAdapter;
-        this.gsonConverterMock = gsonConverter;
-        this.insightConverterMock = insightConverter;
+        insightDataSender=new InsightDataSender(uCoreAdapterMock,gsonConverterMock,insightConverterMock);
+        insightDataSender.eventing = eventingMock;
+        insightDataSender.uCoreAccessProvider = accessProviderMock;
+        insightDataSender.synchronisationManager=synchronisationManagerMock;
     }
 
     @Test
-    public void shouldNotFetchDataSince_WhenDataSenderIsBusy() throws Exception {
+    public void shouldNotSendData_WhenDataSenderIsBusy() throws Exception {
 
         insightDataSender.synchronizationState.set(DataSender.State.BUSY.getCode());
-        insightDataSender.sendDataToBackend(anyList());
+        insightDataSender.sendDataToBackend(null);
         verify(eventingMock, never()).post(insightBackendDeleteRequestArgumentCaptor.capture());
+    }
+
+    @Test
+    public void shouldNotSendDataToBackEnd_WhenUserIsNotLoggedIN() throws Exception {
+
+        insightDataSender.synchronizationState.set(DataSender.State.IDLE.getCode());
+        when(accessProviderMock.isLoggedIn()).thenReturn(false);
+        insightDataSender.sendDataToBackend(null);
+        verify(eventingMock, never()).post(insightBackendDeleteRequestArgumentCaptor.capture());
+
+    }
+
+    @Test
+    public void shouldSendDataToBackEnd_WhenUserIsLoggedInAndDataIsNotEmpty() throws Exception {
+
+        insightDataSender.synchronizationState.set(DataSender.State.IDLE.getCode());
+        when(accessProviderMock.isLoggedIn()).thenReturn(true);
+
+        List<Insight> insights=new ArrayList<>();
+
+        insights.add(mInsightMock);
+
+        when(mInsightMock.getSynchronisationData()).thenReturn(synchronisationDataMock);
+        when(mInsightMock.getSynchronisationData().getGuid()).thenReturn("aefe5623-a7ac-4b4a-b789-bdeaf23add9f");
+        when(accessProviderMock.isLoggedIn()).thenReturn(true);
+        when(accessProviderMock.getAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
+        when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
+        when(accessProviderMock.getInsightLastSyncTimestamp()).thenReturn("2017-03-21T10:19:51.706Z");
+        when(uCoreAdapterMock.getAppFrameworkClient(InsightClient.class, TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(mInsightClient);
+
+        Response response = new Response("", 201, "OK", new ArrayList<Header>(), null);
+        when(mInsightClient.deleteInsight(TEST_USER_ID,"aefe5623-a7ac-4b4a-b789-bdeaf23add9f",TEST_USER_ID)).thenReturn(response);
+
+        insightDataSender.sendDataToBackend(insights);
     }
 }

@@ -16,6 +16,7 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
+import com.philips.platform.datasync.synchronisation.DataSender;
 
 import org.joda.time.DateTime;
 
@@ -61,10 +62,14 @@ public class InsightDataFetcher extends DataFetcher {
     @Nullable
     @Override
     public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
-        if (isUserInvalid()) {
-            return null;
-        } else {
-            getInsights();
+
+        if(synchronizationState.get() != DataSender.State.BUSY.getCode()) {
+
+            if (isUserInvalid()) {
+                postError(1, getNonLoggedInError());
+            } else {
+                getInsights();
+            }
         }
         return null;
     }
@@ -75,12 +80,6 @@ public class InsightDataFetcher extends DataFetcher {
     }
 
     public void getInsights() {
-        if (isUserInvalid())
-            postError(1, getNonLoggedInError());
-
-        if (uCoreAccessProvider == null) {
-            return;
-        }
 
         InsightClient client = uCoreAdapter.getAppFrameworkClient(InsightClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
 
@@ -94,7 +93,6 @@ public class InsightDataFetcher extends DataFetcher {
             eventing.post(new FetchInsightsResponse(insights, null));
         } catch (RetrofitError retrofitError) {
             eventing.post(new BackendDataRequestFailed(retrofitError));
-            System.out.println("***InsightList fetch error" + retrofitError.getMessage());
         }
     }
 
@@ -106,11 +104,11 @@ public class InsightDataFetcher extends DataFetcher {
         return false;
     }
 
-    private void postError(int referenceId, final RetrofitError error) {
+    void postError(int referenceId, final RetrofitError error) {
         eventing.post(new BackendResponse(referenceId, error));
     }
 
-    private RetrofitError getNonLoggedInError() {
+    RetrofitError getNonLoggedInError() {
         return RetrofitError.unexpectedError("", new IllegalStateException("you're not logged in"));
     }
 }
