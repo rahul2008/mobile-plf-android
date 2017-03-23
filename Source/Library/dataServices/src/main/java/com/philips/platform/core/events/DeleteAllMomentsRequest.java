@@ -13,7 +13,7 @@ public class DeleteAllMomentsRequest extends Event{
         this.dbRequestListener = dbRequestListener;
     }
 
-    public DBRequestListener getDbRequestListener() {
+    public DBRequestListener<Moment> getDbRequestListener() {
         return dbRequestListener;
     }
 }
