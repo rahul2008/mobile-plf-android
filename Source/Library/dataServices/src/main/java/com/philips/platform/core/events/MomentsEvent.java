@@ -18,8 +18,8 @@ import java.util.List;
  */
 public abstract class MomentsEvent extends Event {
     List<Moment> moments;
-    DBRequestListener dbRequestListener;
-    public MomentsEvent(final List<Moment> moments, final DBRequestListener dbRequestListener) {
+    DBRequestListener<Moment> dbRequestListener;
+    public MomentsEvent(final List<Moment> moments, final DBRequestListener<Moment> dbRequestListener) {
         this.moments = moments;
         this.dbRequestListener=dbRequestListener;
     }
@@ -37,7 +37,7 @@ public abstract class MomentsEvent extends Event {
         return moments;
     }
 
-    public DBRequestListener getDbRequestListener() {
+    public DBRequestListener<Moment> getDbRequestListener() {
         return dbRequestListener;
     }
 }
