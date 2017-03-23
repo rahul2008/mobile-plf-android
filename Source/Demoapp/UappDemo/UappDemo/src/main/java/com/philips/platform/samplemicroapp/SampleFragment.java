@@ -8,10 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
-import microapp.com.samplemicroapp.R;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

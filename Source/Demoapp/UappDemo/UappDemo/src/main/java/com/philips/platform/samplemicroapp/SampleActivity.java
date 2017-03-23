@@ -14,9 +14,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
-import microapp.com.samplemicroapp.R;
+
 
 import static com.philips.platform.samplemicroapp.SampleMicroAppInterface.WELCOME_MESSAGE;
 
