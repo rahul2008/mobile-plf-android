@@ -18,8 +18,8 @@ public class GridViewSettingsFragment extends BaseFragment {
 
 
     public ObservableBoolean isSecondaryActionEnabled = new ObservableBoolean(Boolean.TRUE);
-    public ObservableBoolean isDarkBackroungEnabled = new ObservableBoolean(Boolean.TRUE);
-    public ObservableBoolean isEnlargedGutterEnabled = new ObservableBoolean(Boolean.TRUE);
+    public ObservableBoolean isDarkBackroungEnabled = new ObservableBoolean(Boolean.FALSE);
+    public ObservableBoolean isEnlargedGutterEnabled = new ObservableBoolean(Boolean.FALSE);
     public ObservableBoolean isGridDisableEnabled = new ObservableBoolean(Boolean.FALSE);
     public ObservableInt templateSelection = new ObservableInt();
 
@@ -57,8 +57,8 @@ public class GridViewSettingsFragment extends BaseFragment {
 
     private void initSavedSettings(){
         setSecondaryActionEnabled(gridDataHelper.isSecondaryActionEnabled());
-        setDarkBackgroundEnabled(gridDataHelper.isDarkBackgroundEnabled());
-        setEnlargedGutterEnabled(gridDataHelper.isEnlargedGutterEnabled());
+        setDarkBackgroundEnabled(isDarkBackroungEnabled.get());
+        setEnlargedGutterEnabled(isEnlargedGutterEnabled.get());
         setGridDisableEnabled(gridDataHelper.isSetDisableStateEnabled());
         setTemplateSelection(gridDataHelper.getTemplateSelection());
     }
@@ -67,8 +67,10 @@ public class GridViewSettingsFragment extends BaseFragment {
         this.isSecondaryActionEnabled.set(isSecondaryActionEnabled);
     }
 
-    public void setDarkBackgroundEnabled(boolean isDarkBackroungEnabled){
-        this.isDarkBackroungEnabled.set(isDarkBackroungEnabled);
+    public void setDarkBackgroundEnabled(boolean isDarkBackroundEnabled){
+        this.isDarkBackroungEnabled.set(isDarkBackroundEnabled);
+         gridviewSettingsBinding.getRoot().findViewById(R.id.single_line_header).setEnabled(this.isDarkBackroungEnabled.get() ? false :  true);
+
     }
 
     public void setEnlargedGutterEnabled(boolean isEnlargedGutterEnabled){
