@@ -8,6 +8,7 @@ import com.philips.platform.core.datatypes.BaseAppData;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.SynchronisationData;
+import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.DeleteInsightRequest;
 import com.philips.platform.core.events.ListEvent;
 import com.philips.platform.core.injection.AppComponent;
@@ -33,10 +34,12 @@ import retrofit.RetrofitError;
 import retrofit.client.Header;
 import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
+import retrofit.mime.TypedString;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -151,5 +154,41 @@ public class InsightDataSenderTest {
         when(mInsightClient.deleteInsight(TEST_USER_ID,"aefe5623-a7ac-4b4a-b789-bdeaf23add9f",TEST_USER_ID)).thenReturn(response);
 
         insightDataSender.sendDataToBackend(insights);
+    }
+
+    /* final RetrofitError retrofitErrorMock = mock(RetrofitError.class);
+        response = new Response("", 401, "Unauthorised", new ArrayList<Header>(), new TypedString("ERROR"));*/
+
+    @Test
+    public void shouldThrowError_WhenDeleteInsightfails() throws Exception {
+
+        insightDataSender.synchronizationState.set(DataSender.State.IDLE.getCode());
+        when(accessProviderMock.isLoggedIn()).thenReturn(true);
+
+        List<Insight> insights=new ArrayList<>();
+
+        insights.add(mInsightMock);
+
+        when(mInsightMock.getSynchronisationData()).thenReturn(synchronisationDataMock);
+        when(mInsightMock.getSynchronisationData().getGuid()).thenReturn("aefe5623-a7ac-4b4a-b789-bdeaf23add9f");
+        when(accessProviderMock.isLoggedIn()).thenReturn(true);
+        when(accessProviderMock.getAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
+        when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
+        when(accessProviderMock.getInsightLastSyncTimestamp()).thenReturn("2017-03-21T10:19:51.706Z");
+        when(uCoreAdapterMock.getAppFrameworkClient(InsightClient.class, TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(mInsightClient);
+
+        final RetrofitError retrofitErrorMock = mock(RetrofitError.class);
+        Response response = new Response("", 401, "Unauthorised", new ArrayList<Header>(), new TypedString("ERROR"));
+        when(retrofitErrorMock.getResponse()).thenReturn(response);
+        when(mInsightClient.deleteInsight(TEST_USER_ID,"aefe5623-a7ac-4b4a-b789-bdeaf23add9f",TEST_USER_ID)).thenThrow(retrofitErrorMock);
+
+        insightDataSender.sendDataToBackend(insights);
+
+        verify(eventingMock).post(isA(BackendResponse.class));
+    }
+
+    @Test
+    public void shouldReturnInsightClass_WhenGetClassForSyncDataIsCalled() throws Exception {
+        insightDataSender.getClassForSyncData();
     }
 }
