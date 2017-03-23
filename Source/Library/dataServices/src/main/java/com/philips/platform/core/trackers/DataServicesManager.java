@@ -134,13 +134,13 @@ public class DataServicesManager {
     }
 
     @NonNull
-    public void saveMoment(@NonNull final Moment moment, DBRequestListener dbRequestListener) {
+    public void saveMoment(@NonNull final Moment moment, DBRequestListener<Moment> dbRequestListener) {
         DSLog.i(DSLog.LOG, "In DataServicesManager.saveMoment for " + moment.toString());
         mEventing.post(new MomentSaveRequest(moment, dbRequestListener));
     }
 
     @NonNull
-    public void saveMoments(@NonNull final List<Moment> moments, DBRequestListener dbRequestListener) {
+    public void saveMoments(@NonNull final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) {
         mEventing.post(new MomentsSaveRequest(moments, dbRequestListener));
     }
 
@@ -167,11 +167,11 @@ public class DataServicesManager {
         return mDataCreater.createConsentDetail(detailType, consentDetailStatusType.getDescription(), documentVersion, deviceIdentificationNumber);
     }
 
-    public void saveConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener dbRequestListener) {
+    public void saveConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) {
         mEventing.post(new DatabaseConsentSaveRequest(consentDetails,dbRequestListener));
     }
 
-    public void updateConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener dbRequestListener) {
+    public void updateConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) {
         mEventing.post(new DatabaseConsentUpdateRequest(consentDetails,dbRequestListener));
     }
 
@@ -180,12 +180,12 @@ public class DataServicesManager {
         return settings;
     }
 
-    public void saveUserSettings(Settings settings, DBRequestListener dbRequestListener) {
+    public void saveUserSettings(Settings settings, DBRequestListener<Settings> dbRequestListener) {
         mEventing.post(new DatabaseSettingsSaveRequest(settings,dbRequestListener));
     }
 
 
-    public void updateUserSettings(Settings settings, DBRequestListener dbRequestListener) {
+    public void updateUserSettings(Settings settings, DBRequestListener<Settings> dbRequestListener) {
         mEventing.post(new DatabaseSettingsUpdateRequest(settings,dbRequestListener));
     }
 
@@ -240,7 +240,7 @@ public class DataServicesManager {
         mEventing.post(new MomentsDeleteRequest(moments, dbRequestListener));
     }
 
-    public void updateMoment(Moment moment, DBRequestListener dbRequestListener) {
+    public void updateMoment(Moment moment, DBRequestListener<Moment> dbRequestListener) {
         mEventing.post((new MomentUpdateRequest(moment, dbRequestListener)));
     }
 
@@ -314,7 +314,7 @@ public class DataServicesManager {
         mEventing.post(new DataClearRequest(dbRequestListener));
     }
 
-    public void deleteAllMoments(DBRequestListener dbRequestListener) {
+    public void deleteAllMoments(DBRequestListener<Moment> dbRequestListener) {
         mEventing.post(new DeleteAllMomentsRequest(dbRequestListener));
     }
 
@@ -349,11 +349,11 @@ public class DataServicesManager {
         return measurementGroupDetail;
     }
 
-    public void updateUserCharacteristics(List<Characteristics> characteristicses, DBRequestListener dbRequestListener) {
+    public void updateUserCharacteristics(List<Characteristics> characteristicses, DBRequestListener<Characteristics> dbRequestListener) {
         mEventing.post(new UserCharacteristicsSaveRequest(characteristicses, dbRequestListener));
     }
 
-    public void saveUserCharacteristics(List<Characteristics> characteristicses, DBRequestListener dbRequestListener) {
+    public void saveUserCharacteristics(List<Characteristics> characteristicses, DBRequestListener<Characteristics> dbRequestListener) {
         mEventing.post(new UserCharacteristicsSaveRequest(characteristicses, dbRequestListener));
     }
 
