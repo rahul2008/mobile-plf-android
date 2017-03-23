@@ -78,7 +78,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public boolean updateConsent(final List<? extends ConsentDetail> consents, DBRequestListener dbRequestListener) throws SQLException {
+    public boolean updateConsent(final List<? extends ConsentDetail> consents, DBRequestListener<ConsentDetail> dbRequestListener) throws SQLException {
 
         for (ConsentDetail consentDetail : consents) {
             try {
@@ -108,7 +108,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public boolean updateMoments(List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
+    public boolean updateMoments(List<Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException {
 
         boolean isUpdated = updating.updateMoments(moments, dbRequestListener);
         if (isUpdated) {
@@ -129,7 +129,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
 
     //User AppUserCharacteristics
     @Override
-    public boolean updateCharacteristics(List<Characteristics> characteristicsList, DBRequestListener dbRequestListener) throws SQLException {
+    public boolean updateCharacteristics(List<Characteristics> characteristicsList, DBRequestListener<Characteristics> dbRequestListener) throws SQLException {
 
         try {
 
@@ -149,7 +149,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public boolean updateInsights(List<? extends Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
+    public boolean updateInsights(List<? extends Insight> insights, DBRequestListener<Insight> dbRequestListener) throws SQLException {
         boolean isSaved = saving.saveInsights((List<Insight>) insights, dbRequestListener);
         if (isSaved)
             notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.INSIGHT); //Should notify DB change?

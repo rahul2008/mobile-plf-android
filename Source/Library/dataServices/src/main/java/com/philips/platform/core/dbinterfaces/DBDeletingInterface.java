@@ -13,15 +13,15 @@ import java.util.List;
 
 public interface DBDeletingInterface {
     void deleteAll(DBRequestListener dbRequestListener) throws SQLException;
-    void markAsInActive(Moment moment,DBRequestListener dbRequestListener) throws SQLException;
-    void deleteMoment(Moment moment,DBRequestListener dbRequestListener) throws  SQLException;
-    boolean deleteMoments(List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException;
-    void deleteMomentDetail(Moment moment, DBRequestListener dbRequestListener) throws SQLException;
-    void deleteMeasurementGroup(Moment moment,DBRequestListener dbRequestListener) throws SQLException;
+    void markAsInActive(Moment moment,DBRequestListener<Moment> dbRequestListener) throws SQLException;
+    void deleteMoment(Moment moment,DBRequestListener<Moment> dbRequestListener) throws  SQLException;
+    boolean deleteMoments(List<Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException;
+    void deleteMomentDetail(Moment moment, DBRequestListener<Moment> dbRequestListener) throws SQLException;
+    void deleteMeasurementGroup(Moment moment,DBRequestListener<Moment> dbRequestListener) throws SQLException;
     void deleteFailed(Exception e,DBRequestListener dbRequestListener);
-    void deleteAllMoments(DBRequestListener dbRequestListener) throws SQLException;
-    void markMomentsAsInActive(final List<Moment> moment, DBRequestListener dbRequestListener) throws SQLException;
-    boolean markInsightsAsInActive(final List<Insight> insights ,DBRequestListener dbRequestListener) throws SQLException;
-    boolean deleteInsights(final List<Insight> insights ,DBRequestListener dbRequestListener) throws SQLException;
-    void deleteInsight(Insight insight, DBRequestListener dbRequestListener) throws SQLException;
+    void deleteAllMoments(DBRequestListener<Moment> dbRequestListener) throws SQLException;
+    void markMomentsAsInActive(final List<Moment> moment, DBRequestListener<Moment> dbRequestListener) throws SQLException;
+    boolean markInsightsAsInActive(final List<Insight> insights ,DBRequestListener<Insight> dbRequestListener) throws SQLException;
+    boolean deleteInsights(final List<Insight> insights ,DBRequestListener<Insight> dbRequestListener) throws SQLException;
+    void deleteInsight(Insight insight, DBRequestListener<Insight> dbRequestListener) throws SQLException;
 }

@@ -15,20 +15,20 @@ import java.util.List;
  * All rights reserved.
  */
 public interface DBUpdatingInterface {
-    void updateMoment(final Moment ormMoment, DBRequestListener dbRequestListener) throws SQLException;
+    void updateMoment(final Moment ormMoment, DBRequestListener<Moment> dbRequestListener) throws SQLException;
 
-    boolean updateMoments(final List<Moment> ormMoments, DBRequestListener dbRequestListener) throws SQLException;
+    boolean updateMoments(final List<Moment> ormMoments, DBRequestListener<Moment> dbRequestListener) throws SQLException;
 
-    boolean updateConsent(final List<? extends ConsentDetail> consentDetails, DBRequestListener dbRequestListener) throws SQLException;
+    boolean updateConsent(final List<? extends ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) throws SQLException;
 
     void updateFailed(Exception e, DBRequestListener dbRequestListener);
 
-    boolean updateCharacteristics(final List<Characteristics> userCharacteristics, DBRequestListener dbRequestListener) throws SQLException;
+    boolean updateCharacteristics(final List<Characteristics> userCharacteristics, DBRequestListener<Characteristics> dbRequestListener) throws SQLException;
 
-    void updateSettings(Settings settings, DBRequestListener dbRequestListener) throws SQLException;
+    void updateSettings(Settings settings, DBRequestListener<Settings> dbRequestListener) throws SQLException;
 
     boolean updateSyncBit(int tableID,boolean isSynced) throws SQLException;
 
-    boolean updateInsights(final List<? extends Insight> insights ,DBRequestListener dbRequestListener) throws SQLException;
+    boolean updateInsights(final List<? extends Insight> insights ,DBRequestListener<Insight> dbRequestListener) throws SQLException;
 
 }

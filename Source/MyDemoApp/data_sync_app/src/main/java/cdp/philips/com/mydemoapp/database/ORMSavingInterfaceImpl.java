@@ -61,7 +61,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     }
 
     @Override
-    public boolean saveMoments(final List<Moment> moments, final DBRequestListener dbRequestListener) throws SQLException {
+    public boolean saveMoments(final List<Moment> moments, final DBRequestListener<Moment> dbRequestListener) throws SQLException {
         boolean isSaved = saving.saveMoments(moments, dbRequestListener);
         ///notifyDBRequestListener.notifyDBChange(SyncType.MOMENT);
         notifyDBRequestListener.notifyMomentsSaveSuccess(moments, dbRequestListener);
@@ -70,7 +70,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
 
     @Override
-    public boolean saveConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener dbRequestListener) throws SQLException {
+    public boolean saveConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) throws SQLException {
 
         deleting.deleteAllConsentDetails();
 
@@ -90,7 +90,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     }
 
     @Override
-    public boolean saveUserCharacteristics(List<Characteristics> characteristicsList, DBRequestListener dbRequestListener) throws SQLException {
+    public boolean saveUserCharacteristics(List<Characteristics> characteristicsList, DBRequestListener<Characteristics> dbRequestListener) throws SQLException {
 
         try {
             deleting.deleteCharacteristics();
@@ -140,7 +140,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     }
 
     @Override
-    public boolean saveInsights(List<Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
+    public boolean saveInsights(List<Insight> insights, DBRequestListener<Insight> dbRequestListener) throws SQLException {
         boolean isSaved = saving.saveInsights(insights, dbRequestListener);
         notifyDBRequestListener.notifyDBChange(SyncType.INSIGHT);
         notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.INSIGHT); //Is this line req?

@@ -69,7 +69,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
 
 
     @Override
-    public void markMomentsAsInActive(final List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
+    public void markMomentsAsInActive(final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException {
         for (Moment moment : moments) {
             markAsInActive(moment, dbRequestListener);
         }
@@ -77,13 +77,13 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
-    public void deleteMoment(Moment moment, DBRequestListener dbRequestListener) throws SQLException {
+    public void deleteMoment(Moment moment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
         ormDeleting.ormDeleteMoment((OrmMoment) moment);
         notifyDBRequestListener.notifySuccess(dbRequestListener, (OrmMoment) moment, SyncType.MOMENT);
     }
 
     @Override
-    public boolean deleteMoments(List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
+    public boolean deleteMoments(List<Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException {
 
         boolean isDeleted = ormDeleting.deleteMoments(moments, dbRequestListener);
         if (isDeleted) {
@@ -94,7 +94,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
 
 
     @Override
-    public void deleteMomentDetail(Moment moment, DBRequestListener dbRequestListener) throws SQLException {
+    public void deleteMomentDetail(Moment moment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
         ormDeleting.deleteMomentDetails(moment.getId());
     }
 
@@ -142,7 +142,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
 
     //Insights
     @Override
-    public boolean markInsightsAsInActive(List<Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
+    public boolean markInsightsAsInActive(List<Insight> insights, DBRequestListener<Insight> dbRequestListener) throws SQLException {
         List<Insight> insightsToDelete = new ArrayList<>();
         for (Insight insight : insights) {
             if (insight.getSynchronisationData() == null)
@@ -158,7 +158,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
-    public boolean deleteInsights(List<Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
+    public boolean deleteInsights(List<Insight> insights, DBRequestListener<Insight> dbRequestListener) throws SQLException {
         boolean isDeleted = ormDeleting.deleteInsights(insights, dbRequestListener);
         if (isDeleted) {
             notifyDBRequestListener.notifyDBChange(SyncType.INSIGHT);
