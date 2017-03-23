@@ -4,11 +4,13 @@
  */
 package com.philips.cdp2.commlib.core.appliance;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
+import com.philips.cdp2.commlib.core.util.HandlerProvider;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -29,12 +31,16 @@ public class ApplianceManager {
         void onApplianceFound(@NonNull A foundAppliance);
 
         void onApplianceUpdated(@NonNull A updatedAppliance);
+
+        void onApplianceLost(@NonNull A lostAppliance);
     }
 
     private final DICommApplianceFactory applianceFactory;
 
     private final Set<ApplianceListener> applianceListeners = new CopyOnWriteArraySet<>();
     private Set<Appliance> availableAppliances = new CopyOnWriteArraySet<>();
+
+    private final Handler handler = HandlerProvider.createHandler();
 
     private final DiscoveryStrategy.DiscoveryListener discoveryListener = new DiscoveryStrategy.DiscoveryListener() {
         @Override
@@ -55,12 +61,10 @@ public class ApplianceManager {
 
         @Override
         public void onNetworkNodeLost(NetworkNode networkNode) {
-            // TODO find Appliance and remove from availableAppliances, notify
-
             final Appliance appliance = createAppliance(networkNode);
             availableAppliances.remove(appliance);
 
-            // FIXME Remove appliance from availableAppliances using the NetworkNode's cppId.
+            notifyApplianceLost(appliance);
         }
 
         @Override
@@ -152,7 +156,7 @@ public class ApplianceManager {
      * @param applianceListener the listener
      * @return true, if the listener was present and therefore removed
      */
-    public boolean removeApplianceListener(@NonNull ApplianceListener applianceListener) {
+    public boolean removeApplianceListener(@NonNull ApplianceListener<Appliance> applianceListener) {
         return applianceListeners.remove(applianceListener);
     }
 
@@ -167,9 +171,36 @@ public class ApplianceManager {
         return null;
     }
 
-    private <A extends Appliance> void notifyApplianceFound(@NonNull A appliance) {
-        for (ApplianceListener listener : applianceListeners) {
-            listener.onApplianceFound(appliance);
+    private <A extends Appliance> void notifyApplianceFound(final @NonNull A appliance) {
+        for (final ApplianceListener listener : applianceListeners) {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onApplianceFound(appliance);
+                }
+            });
+        }
+    }
+
+    private <A extends Appliance> void notifyApplianceUpdated(final @NonNull A appliance) {
+        for (final ApplianceListener listener : applianceListeners) {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onApplianceUpdated(appliance);
+                }
+            });
+        }
+    }
+
+    private <A extends Appliance> void notifyApplianceLost(final @NonNull A appliance) {
+        for (final ApplianceListener listener : applianceListeners) {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onApplianceLost(appliance);
+                }
+            });
         }
     }
 }
