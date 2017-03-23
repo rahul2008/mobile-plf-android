@@ -23,7 +23,6 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cdp.uikit.UiKitActivity;
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.ccdemouapp.util.ThemeUtil;
@@ -43,7 +42,9 @@ public class CCDemoUAppFragmentActivity extends UiKitActivity implements View.On
     private FragmentManager mFragmentManager = null;
     private CcSettings ccSettings = null;
     private CcLaunchInput ccLaunchInput = null;
-    private AppInfraInterface mAppInfraInterface;
+    //private AppInfraInterface mAppInfraInterface;
+
+    private AppInfraInterface appInfraInterface;
 
     private ActionBarListener actionBarListener = new ActionBarListener() {
         @Override
@@ -77,6 +78,8 @@ public class CCDemoUAppFragmentActivity extends UiKitActivity implements View.On
             return;
         }
         super.onCreate(savedInstanceState);
+
+        appInfraInterface = CCDemoUAppuAppInterface.mAppInfraInterface;
 
         getSupportActionBar().hide();
         ThemeUtil mThemeUtil = new ThemeUtil(getApplicationContext().getSharedPreferences(
@@ -113,7 +116,7 @@ public class CCDemoUAppFragmentActivity extends UiKitActivity implements View.On
            /* CcInterface ccInterface = new CcInterface();
             ccInterface.init(this, null);
             ccInterface.launch(launcher, productsSelection, this);*/
-            mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
+            //mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
 
             final CcInterface ccInterface = new CcInterface();
             if (ccSettings == null) ccSettings = new CcSettings(getApplicationContext());
@@ -121,11 +124,11 @@ public class CCDemoUAppFragmentActivity extends UiKitActivity implements View.On
             ccLaunchInput.setProductModelSelectionType(productsSelection);
             ccLaunchInput.setConsumerCareListener(this);
 
-            CcDependencies ccDependencies = new CcDependencies(mAppInfraInterface);
+            CcDependencies ccDependencies = new CcDependencies(appInfraInterface);
 
             ccInterface.init(ccDependencies, ccSettings);
             //ccInterface.launch(launcher, ccLaunchInput);
-            mAppInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+            appInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
                 @Override
                 public void onSuccess(String s, SOURCE source) {
                     if(s.equals("CN")) {

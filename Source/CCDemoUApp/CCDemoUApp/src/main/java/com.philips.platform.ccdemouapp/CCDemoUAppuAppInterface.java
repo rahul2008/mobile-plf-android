@@ -3,6 +3,7 @@ package com.philips.platform.ccdemouapp;
 import android.content.Context;
 import android.content.Intent;
 
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -14,6 +15,7 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 public class CCDemoUAppuAppInterface implements UappInterface {
 
     private Context context;
+    public static AppInfraInterface mAppInfraInterface;
 
     /**
      * @param uappDependencies - App dependencies
@@ -22,6 +24,7 @@ public class CCDemoUAppuAppInterface implements UappInterface {
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         this.context = uappSettings.getContext();
+        this.mAppInfraInterface = uappDependencies.getAppInfra();
     }
 
     /**
