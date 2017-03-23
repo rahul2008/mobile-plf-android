@@ -46,7 +46,6 @@ public class SettingsAdapter extends BaseAdapter {
     private ArrayList<SettingListItem> settingsItemList = null;
     private UIBasePresenter fragmentPresenter;
     private SharedPreferenceUtility sharedPreferenceUtility;
-
     private ProgressDialog progress, progressDialog;
     private int LOGIN_VIEW = 0;
     private int VERTICAL_SETTING_VIEW = 1;
@@ -66,7 +65,8 @@ public class SettingsAdapter extends BaseAdapter {
         this.isMarketingEnabled=isMarketingEnabled;
         this.userRegistrationState=userRegistrationState;
         sharedPreferenceUtility = new SharedPreferenceUtility(context);
-    }
+
+}
 
     @Override
     public int getCount() {
@@ -302,7 +302,9 @@ public class SettingsAdapter extends BaseAdapter {
                                     public void onLogoutSuccess() {
                                         //    ((AppFrameworkBaseActivity)activityContext).setCartItemCount(0);
                                         progressDialog.cancel();
+                                        ((IndexSelectionListener)activityContext).updateSelectionIndex(0);
                                         fragmentPresenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
+
                                     }
 
                                     @Override
@@ -332,6 +334,5 @@ public class SettingsAdapter extends BaseAdapter {
     private String getString(int id) {
         return activityContext.getResources().getString(id);
     }
-
 
 }
