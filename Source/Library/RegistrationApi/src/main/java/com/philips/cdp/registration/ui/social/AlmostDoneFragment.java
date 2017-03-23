@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -34,6 +35,7 @@ import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
+import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.XButton;
 import com.philips.cdp.registration.ui.customviews.XCheckBox;
@@ -41,6 +43,7 @@ import com.philips.cdp.registration.ui.customviews.XEmail;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.onUpdateListener;
 import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
+import com.philips.cdp.registration.ui.traditional.LogoutFragment;
 import com.philips.cdp.registration.ui.traditional.MarketingAccountFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
@@ -61,8 +64,10 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import static com.philips.cdp.registration.ui.traditional.LogoutFragment.BAD_RESPONSE_ERROR_CODE;
+
 public class AlmostDoneFragment extends RegistrationBaseFragment implements EventListener,
-        onUpdateListener, SocialProviderLoginHandler, NetworStateListener, OnClickListener, XCheckBox.OnCheckedChangeListener {
+        onUpdateListener, SocialProviderLoginHandler, NetworStateListener, OnClickListener,UpdateUserDetailsHandler, XCheckBox.OnCheckedChangeListener {
 
     @Inject
     NetworkUtility networkUtility;
@@ -75,7 +80,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private LinearLayout mLlAlmostDoneContainer;
 
-    private LinearLayout mLlPeriodicOffersCheck;
+    private FrameLayout mLlPeriodicOffersCheck;
 
     private LinearLayout mLlAcceptTermsContainer;
 
@@ -125,6 +130,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private boolean isTermsAndConditionVisible;
 
+    private boolean isForOptInMarketingEmail;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -282,6 +288,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                      trackAbtesting();
                 }
 
+                isForOptInMarketingEmail = mBundle.getBoolean(RegConstants.IS_OPT_IN_RECEIVING_MARKETING, false);
                 isForTermsAccepatance = mBundle.getBoolean(RegConstants.IS_FOR_TERMS_ACCEPATNACE, false);
 
                 JSONObject mPreRegJson = null;
@@ -362,8 +369,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         mLlAcceptTermsContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_accept_terms);
 
-        mLlPeriodicOffersCheck = (LinearLayout) view
-                .findViewById(R.id.ll_reg_periodic_offers_check);
+        mLlPeriodicOffersCheck = (FrameLayout) view
+                .findViewById(R.id.fl_reg_receive_philips_news);
 
         mRlContinueBtnContainer = (RelativeLayout) view
                 .findViewById(R.id.rl_reg_btn_continue_container);
@@ -386,12 +393,13 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         
 
         mCbAcceptTerms.setOnCheckedChangeListener(this);
+        mCbRemarketingOpt.setOnCheckedChangeListener(this);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
         mEtEmail.setOnUpdateListener(this);
         mEtEmail.setOnClickListener(this);
 
-        mPbSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_social_almost_done_spinner);
+        mPbSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_marketing_opt_spinner);
         mPbSpinner.setClickable(false);
         mPbSpinner.setEnabled(true);
 
@@ -447,11 +455,15 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             mLlAcceptTermsContainer.setVisibility(View.GONE);
         }
 
-        if (!isForTermsAccepatance) {
-            view.findViewById(R.id.ll_reg_periodic_offers_check).setVisibility(View.GONE);
+        if (!isForTermsAccepatance && isForOptInMarketingEmail) {
+            view.findViewById(R.id.fl_reg_receive_philips_news).setVisibility(View.GONE);
             view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.GONE);
             view.findViewById(R.id.tv_join_now).setVisibility(View.GONE);
 
+        }else if(!isForOptInMarketingEmail && !isForOptInMarketingEmail){
+            view.findViewById(R.id.fl_reg_receive_philips_news).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.tv_join_now).setVisibility(View.VISIBLE);
         }
     }
 
@@ -512,11 +524,13 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     }
 
     private void showSpinner() {
+        mCbRemarketingOpt.setEnabled(false);
         mPbSpinner.setVisibility(View.VISIBLE);
         mBtnContinue.setEnabled(false);
     }
 
     private void hideSpinner() {
+        mCbRemarketingOpt.setEnabled(true);
         mPbSpinner.setVisibility(View.INVISIBLE);
         mBtnContinue.setEnabled(true);
     }
@@ -712,8 +726,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 handleContinueSocialProvider();
             }
         });
-
-
     }
 
     private void handleContinueSocialProvider() {
@@ -785,9 +797,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             }
         });
 
-
     }
-
 
     private void handleContinueSocialProviderFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onContinueSocialProviderLoginFailure");
@@ -815,6 +825,24 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         }
     }
 
+    private void handleUpdate() {
+        if (networkUtility.isNetworkAvailable()) {
+            mRegError.hideError();
+            showSpinner();
+            updateUser();
+        } else {
+            mCbRemarketingOpt.setOnCheckedChangeListener(null);
+            mCbRemarketingOpt.setChecked(!mCbRemarketingOpt.isChecked());
+            mCbRemarketingOpt.setOnCheckedChangeListener(this);
+            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+        }
+    }
+
+    private void updateUser() {
+        User user = new User(mContext);
+        user.updateReceiveMarketingEmail(this, mCbRemarketingOpt.isChecked());
+    }
+
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
         RLog.i(RLog.NETWORK_STATE, "AlmostDone :onNetWorkStateReceived state :" + isOnline);
@@ -833,8 +861,13 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     @Override
     public void onCheckedChanged(View view, boolean isChecked) {
-        int id = mCbAcceptTerms.getId();
-        if (id == R.id.cb_reg_accept_terms) {
+        int cbRemarketingOptId = mCbRemarketingOpt.getId();
+        int CbAcceptTermsId = mCbAcceptTerms.getId();
+        if (cbRemarketingOptId == R.id.cb_reg_receive_philips_news) {
+            System.out.println("********* PHILIPS NEWS");
+            handleUpdate();
+        }else if (CbAcceptTermsId == R.id.cb_reg_accept_terms) {
+            System.out.println("********* Terms and Condition ");
             if (isChecked) {
                 mRegAccptTermsError.setVisibility(View.GONE);
             } else {
@@ -842,4 +875,50 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             }
         }
     }
+
+    @Override
+    public void onUpdateSuccess() {
+
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                hideSpinner();
+                if (mCbRemarketingOpt.isChecked()) {
+                    trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
+                } else {
+                    trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void onUpdateFailedWithError(final int error) {
+
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                handleUpdateReceiveMarket(error);
+            }
+        });
+    }
+
+    private void handleUpdateReceiveMarket(int error) {
+        hideSpinner();
+        if (error == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
+            if (getRegistrationFragment() != null) {
+                getRegistrationFragment().replaceWithHomeFragment();
+            }
+            return;
+        }
+        if (error == RegConstants.FAILURE_TO_CONNECT || error == BAD_RESPONSE_ERROR_CODE) {
+            mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
+            return;
+        }
+        mCbRemarketingOpt.setOnCheckedChangeListener(null);
+        mCbRemarketingOpt.setChecked(!mCbRemarketingOpt.isChecked());
+        mCbRemarketingOpt.setOnCheckedChangeListener(AlmostDoneFragment.this);
+    }
+
 }

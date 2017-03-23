@@ -41,6 +41,7 @@ import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
+import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -739,7 +740,22 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBtnForgot.setEnabled(true);
         mBtnResend.setEnabled(true);
         mRegError.hideError();
+        /*mUser.refreshUser(new RefreshUserHandler() {
+            @Override
+            public void onRefreshUserSuccess() {
+                if(!mUser.getReceiveMarketingEmail()) {
+                    launchAlmostDoneFragmentOptinReceivingMarketingEMail();
+                    System.out.println("*********** getReceiveMarketingEmail Sign In :"+mUser.getReceiveMarketingEmail());
+                    return;
+                }
+            }
 
+            @Override
+            public void onRefreshUserFailed(int error) {
+                mRegError.setError(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
+            }
+        });
+*/
         if (mUser.getEmailVerificationStatus() || !RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
             if (RegPreferenceUtility.getStoredState(mContext, mEmail)) {
                 launchWelcomeFragment();
@@ -754,7 +770,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                     launchWelcomeFragment();
                 }
             }
-        } else {
+        }else {
             if (FieldsValidator.isValidEmail(mEtEmail.getEmailId().toString())) {
                 mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_Janrain_Error_Need_Email_Verification));
                 mTvResendDetails.setText(mContext.getResources().getString(R.string.reg_VerifyEmail_ResendErrorMsg_lbltxt));
@@ -775,6 +791,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         }
 
     }
+
+    private void launchAlmostDoneFragmentOptinReceivingMarketingEMail() {
+        getRegistrationFragment().addAlmostDoneFragmentOptinReceivingMarketingEMail();
+        trackPage(AppTaggingPages.ALMOST_DONE);
+    }
+
 
     private OnClickListener mContinueBtnClick = new OnClickListener() {
 

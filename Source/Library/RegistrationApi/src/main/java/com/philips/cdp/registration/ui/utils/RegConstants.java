@@ -178,6 +178,8 @@ public class RegConstants {
 
     public static final String SUCCESS_STATE_RESPONSE_OK ="ok";
 
+    public static final String IS_OPT_IN_RECEIVING_MARKETING = "IsOptInReceivingMarketing";
 
+    public static final int FAILURE_TO_CONNECT = -1;
 
 }

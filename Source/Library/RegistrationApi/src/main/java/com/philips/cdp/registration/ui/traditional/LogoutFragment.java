@@ -53,8 +53,6 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     @Inject
     NetworkUtility networkUtility;
 
-    private static final int FAILURE_TO_CONNECT = -1;
-
     private TextView mTvWelcome;
 
     private TextView mTvSignInEmail;
@@ -312,7 +310,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
             }
             return;
         }
-        if (error == FAILURE_TO_CONNECT || error == BAD_RESPONSE_ERROR_CODE) {
+        if (error == RegConstants.FAILURE_TO_CONNECT || error == BAD_RESPONSE_ERROR_CODE) {
             mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
             return;
         }
