@@ -17,7 +17,7 @@ import java.util.List;
  * All rights reserved.
  */
 public class MomentsDeleteRequest extends MomentsEvent {
-    public MomentsDeleteRequest(final List<Moment> moments, DBRequestListener dbRequestListener) {
+    public MomentsDeleteRequest(final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) {
         super(moments,dbRequestListener);
     }
 }

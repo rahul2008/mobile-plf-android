@@ -23,6 +23,7 @@ import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.monitors.ErrorMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.Backend;
 import com.philips.platform.datasync.insights.UCoreInsight;
 
@@ -32,6 +33,10 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 public class BaseAppCore implements BaseAppDataCreator {
     @Inject
     Eventing eventing;
@@ -54,13 +59,9 @@ public class BaseAppCore implements BaseAppDataCreator {
     }
 
     public void start() {
-        try {
-            dbMonitors.start(eventing);
-            appBackend.start(eventing);
-            errorMonitor.start(eventing);
-        } catch (NullPointerException e) {
-
-        }
+        dbMonitors.start(eventing);
+        appBackend.start(eventing);
+        errorMonitor.start(eventing);
     }
 
     public void stop() {
@@ -70,27 +71,23 @@ public class BaseAppCore implements BaseAppDataCreator {
     }
 
     @NonNull
-    public Moment createMoment(final String creatorId,
-                               final String subjectId, String type) {
+    public Moment createMoment(final String creatorId, final String subjectId, String type) {
         return database.createMoment(creatorId, subjectId, type);
     }
 
 
     @NonNull
-    public MomentDetail createMomentDetail(final String type,
-                                           final Moment moment) {
+    public MomentDetail createMomentDetail(final String type, final Moment moment) {
         return database.createMomentDetail(type, moment);
     }
 
     @NonNull
-    public Measurement createMeasurement(final String type,
-                                         final MeasurementGroup measurementGroup) {
+    public Measurement createMeasurement(final String type, final MeasurementGroup measurementGroup) {
         return database.createMeasurement(type, measurementGroup);
     }
 
     @NonNull
-    public MeasurementDetail createMeasurementDetail(final String type,
-                                                     final Measurement measurement) {
+    public MeasurementDetail createMeasurementDetail(final String type, final Measurement measurement) {
         return database.createMeasurementDetail(type, measurement);
     }
 
@@ -108,25 +105,19 @@ public class BaseAppCore implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public MeasurementGroupDetail createMeasurementGroupDetail(String type,
-                                                               MeasurementGroup measurementGroup) {
+    public MeasurementGroupDetail createMeasurementGroupDetail(String type, MeasurementGroup measurementGroup) {
         return database.createMeasurementGroupDetail(type, measurementGroup);
     }
 
     @NonNull
     @Override
-    public SynchronisationData createSynchronisationData(String guid,
-                                                         boolean inactive,
-                                                         DateTime lastModifiedTime,
-                                                         int version) {
+    public SynchronisationData createSynchronisationData(String guid, boolean inactive, DateTime lastModifiedTime, int version) {
         return database.createSynchronisationData(guid, inactive, lastModifiedTime, version);
     }
 
     @NonNull
     @Override
-    public ConsentDetail createConsentDetail(String type,
-                                             String status, String version,
-                                             String deviceIdentificationNumber) {
+    public ConsentDetail createConsentDetail(String type, String status, String version, String deviceIdentificationNumber) {
         return database.createConsentDetail(type, status, version,
                 deviceIdentificationNumber);
     }

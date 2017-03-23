@@ -15,7 +15,7 @@ import com.philips.platform.core.listeners.DBRequestListener;
  * All rights reserved.
  */
 public class MomentDeleteRequest extends com.philips.platform.core.events.MomentEvent {
-    public MomentDeleteRequest(final Moment moment, DBRequestListener dbRequestListener) {
+    public MomentDeleteRequest(final Moment moment, DBRequestListener<Moment> dbRequestListener) {
         super(moment,dbRequestListener);
     }
 }

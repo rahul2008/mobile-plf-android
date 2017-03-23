@@ -8,6 +8,7 @@ package com.philips.platform.core.events;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 
 
@@ -20,32 +21,32 @@ public class LoadMomentsRequest extends Event {
     private final String type;
     private final int momentID;
 
-    public DBFetchRequestListner getDbFetchRequestListener() {
+    public DBFetchRequestListner<Moment> getDbFetchRequestListener() {
         return dbFetchRequestListener;
     }
 
-    public void setDbFetchRequestListener(DBFetchRequestListner dbFetchRequestListener) {
+    public void setDbFetchRequestListener(DBFetchRequestListner<Moment> dbFetchRequestListener) {
         this.dbFetchRequestListener = dbFetchRequestListener;
     }
 
     private String[] types;
-    private DBFetchRequestListner dbFetchRequestListener;
+    private DBFetchRequestListner<Moment> dbFetchRequestListener;
 
-    public LoadMomentsRequest(DBFetchRequestListner dbFetchRequestListner) {
+    public LoadMomentsRequest(DBFetchRequestListner<Moment> dbFetchRequestListner) {
         this.dbFetchRequestListener = dbFetchRequestListner;
         types = null;
         type = null;
         momentID = -1;
     }
 
-    public LoadMomentsRequest(DBFetchRequestListner dbFetchRequestListner,final @NonNull String... type) {
+    public LoadMomentsRequest(DBFetchRequestListner<Moment> dbFetchRequestListner,final @NonNull String... type) {
         this.type = type[0];
         this.types = type;
         momentID = -1;
         this.dbFetchRequestListener =dbFetchRequestListner;
     }
 
-    public LoadMomentsRequest(int momentID,DBFetchRequestListner dbFetchRequestListner) {
+    public LoadMomentsRequest(int momentID,DBFetchRequestListner<Moment> dbFetchRequestListner) {
         this.momentID = momentID;
         this.type = null;
         this.dbFetchRequestListener =dbFetchRequestListner;
