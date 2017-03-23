@@ -16,8 +16,8 @@ import com.philips.platform.core.listeners.DBRequestListener;
  */
 public abstract class MomentEvent extends Event {
     Moment moment;
-    DBRequestListener dbRequestListener;
-    public MomentEvent(final Moment moment,final DBRequestListener dbRequestListener) {
+    DBRequestListener<Moment> dbRequestListener;
+    public MomentEvent(final Moment moment,final DBRequestListener<Moment> dbRequestListener) {
         this.moment = moment;
         this.dbRequestListener=dbRequestListener;
     }
@@ -35,7 +35,7 @@ public abstract class MomentEvent extends Event {
         return moment;
     }
 
-    public DBRequestListener getDbRequestListener() {
+    public DBRequestListener<Moment> getDbRequestListener() {
         return dbRequestListener;
     }
 }

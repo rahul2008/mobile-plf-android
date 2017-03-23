@@ -4,6 +4,7 @@
  */
 package com.philips.platform.core.monitors;
 
+import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
@@ -32,6 +33,7 @@ public class DeletingMonitor extends EventMonitor {
 
     }
 
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(DataClearRequest event) {
         final DBRequestListener dbRequestListener = event.getDbRequestListener();
@@ -45,7 +47,7 @@ public class DeletingMonitor extends EventMonitor {
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(DeleteAllMomentsRequest event) {
-        final DBRequestListener dbRequestListener = event.getDbRequestListener();
+        final DBRequestListener<Moment> dbRequestListener = event.getDbRequestListener();
         try {
             dbInterface.deleteAllMoments(dbRequestListener);
         } catch (SQLException e) {
@@ -56,7 +58,7 @@ public class DeletingMonitor extends EventMonitor {
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(MomentDeleteRequest event) {
-        final DBRequestListener dbRequestListener = event.getDbRequestListener();
+        final DBRequestListener<Moment> dbRequestListener = event.getDbRequestListener();
         try {
             dbInterface.markAsInActive(event.getMoment(), dbRequestListener);
         } catch (SQLException e) {
@@ -68,7 +70,7 @@ public class DeletingMonitor extends EventMonitor {
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(MomentsDeleteRequest event) {
-        final DBRequestListener dbRequestListener = event.getDbRequestListener();
+        final DBRequestListener<Moment> dbRequestListener = event.getDbRequestListener();
         try {
             dbInterface.markMomentsAsInActive(event.getMoments(), dbRequestListener);
         } catch (SQLException e) {
@@ -80,7 +82,7 @@ public class DeletingMonitor extends EventMonitor {
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(MomentBackendDeleteResponse backendDeleteResponse) {
-        final DBRequestListener dbRequestListener = backendDeleteResponse.getDbRequestListener();
+        final DBRequestListener<Moment> dbRequestListener = backendDeleteResponse.getDbRequestListener();
         try {
             dbInterface.deleteMoment(backendDeleteResponse.getMoment(),
                     backendDeleteResponse.getDbRequestListener());

@@ -7,6 +7,7 @@
 package com.philips.platform.core.events;
 
 
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 
 /**
@@ -15,13 +16,13 @@ import com.philips.platform.core.listeners.DBFetchRequestListner;
  */
 public class LoadConsentsRequest extends Event {
 
-    private final DBFetchRequestListner dbFetchRequestListner;
+    private final DBFetchRequestListner<ConsentDetail> dbFetchRequestListner;
 
-    public DBFetchRequestListner getDbFetchRequestListner() {
+    public DBFetchRequestListner<ConsentDetail> getDbFetchRequestListner() {
         return dbFetchRequestListner;
     }
 
-    public LoadConsentsRequest(DBFetchRequestListner dbRequestListener) {
+    public LoadConsentsRequest(DBFetchRequestListner<ConsentDetail> dbRequestListener) {
 
         this.dbFetchRequestListner = dbRequestListener;
     }
