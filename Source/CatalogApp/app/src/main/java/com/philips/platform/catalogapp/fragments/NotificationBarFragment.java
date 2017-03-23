@@ -45,6 +45,11 @@ public class NotificationBarFragment extends BaseFragment {
         ((TextView) view.findViewById(R.id.uid_notification_content)).setText(R.string.notification_bar_content);
         ((TextView) view.findViewById(R.id.uid_notification_btn_1)).setText(R.string.notification_bar_action_1);
         ((TextView) view.findViewById(R.id.uid_notification_btn_2)).setText(R.string.notification_bar_action_2);
+
+        view.findViewById(R.id.uid_notification_title).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.uid_notification_content).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.uid_notification_btn_1).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.uid_notification_btn_2).setVisibility(View.VISIBLE);
         return view;
     }
 
