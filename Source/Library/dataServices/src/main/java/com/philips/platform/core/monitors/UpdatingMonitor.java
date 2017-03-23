@@ -67,7 +67,7 @@ public class UpdatingMonitor extends EventMonitor {
     public void onEventBackGround(final MomentUpdateRequest momentUpdateRequest) {
         Moment moment = momentUpdateRequest.getMoment();
         moment.setSynced(false);
-        DBRequestListener dbRequestListener = momentUpdateRequest.getDbRequestListener();
+        DBRequestListener<Moment> dbRequestListener = momentUpdateRequest.getDbRequestListener();
         try {
             dbUpdatingInterface.updateMoment(moment, dbRequestListener);
         } catch (SQLException e) {
