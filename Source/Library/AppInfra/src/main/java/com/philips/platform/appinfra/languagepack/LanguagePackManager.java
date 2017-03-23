@@ -1,6 +1,7 @@
 package com.philips.platform.appinfra.languagepack;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.os.Build;
 import android.os.LocaleList;
 
@@ -21,13 +22,19 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -39,10 +46,11 @@ public class LanguagePackManager implements LanguagePackInterface {
 
 	private AppInfra mAppInfra;
 	private Context mContext;
-	RestInterface mRestInterface;
+	private RestInterface mRestInterface;
 	private static final String LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY = "LANGUAGEPACK.SERVICEID";
 	private JSONObject languagePackOverviewFile;
 	private LanguageList mLanguageList;
+	private String mLocale;
 
 	public LanguagePackManager(AppInfra appInfra) {
 		mAppInfra = appInfra;
@@ -118,18 +126,22 @@ public class LanguagePackManager implements LanguagePackInterface {
 					aILPRefreshResult.onSuccess(OnRefreshListener.AILPRefreshResult.RefreshedFromServer);
 					String url = getPreferedLocaleURL();
 
-					JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-						@Override
-						public void onResponse(JSONObject response) {
-							mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", "Language Pack Json: " + response.toString());
-							System.out.println("Language Pack Json" + " " + response.toString());
-						}
-					}, new Response.ErrorListener() {
+					JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+							new Response.Listener<JSONObject>() {
+								@Override
+								public void onResponse(JSONObject response) {
+									mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL",
+											"Language Pack Json: " + response.toString());
+									saveFile(response.toString());
+									System.out.println("Language Pack Json" + " " + response.toString());
+								}
+							}, new Response.ErrorListener() {
 						@Override
 						public void onErrorResponse(VolleyError error) {
 
 						}
 					}, null, null, null);
+					mRestInterface.getRequestQueue().add(jsonObjectRequest);
 
 				}
 			}
@@ -158,38 +170,78 @@ public class LanguagePackManager implements LanguagePackInterface {
 		}
 	}
 
-
 	private String getPreferedLocaleURL() {
+
 		ArrayList<LanguageModel> languageModels = mLanguageList.getLanguages();
 		ArrayList<String> deviceLocaleList = new ArrayList<>(Arrays.asList(getLocaleList().split(",")));
 
-		for (LanguageModel model : languageModels) {
-			for (String deviceLocale : deviceLocaleList) {
+		for (String deviceLocale : deviceLocaleList) {
+			for (LanguageModel model : languageModels) {
 				if (model.getLocale().equalsIgnoreCase(deviceLocale)) {
-					return model.getUrl();
-				} else if (model.getLocale().substring(0, 2).intern().equalsIgnoreCase(deviceLocale.substring(0, 2).intern())) {
+					mLocale = model.getLocale();
 					return model.getUrl();
 				}
 			}
 		}
-		String defaultlocale = "en_GB";
-		if (languageModels.contains(defaultlocale.trim())) {
-			int index = languageModels.indexOf("en_GB");
-			return languageModels.get(index).getUrl();
+
+		for (String deviceLocale : deviceLocaleList) {
+			for (LanguageModel model : languageModels) {
+				if (model.getLocale().substring(0, 2).intern().equalsIgnoreCase
+						(deviceLocale.substring(0, 2).intern())) {
+					mLocale = model.getLocale();
+					return model.getUrl();
+				}
+			}
 		}
+
+		for (String deviceLocale : deviceLocaleList) {
+			for (LanguageModel model : languageModels) {
+				if (deviceLocale.contains(model.getLocale().substring(0, 2))) {
+					mLocale = model.getLocale();
+					return model.getUrl();
+				}
+			}
+		}
+
+		//	String defaultlocale = new String("en_GB");
+//		if (languageModels.contains(defaultlocale)) {
+//			int index = languageModels.indexOf("en_GB");
+//			return languageModels.get(index).getUrl();
+//		}
 		return null;
 	}
 
-	public boolean saveFile(Context context, String mytext) {
+	private File getInternalFilePath() {
+		ContextWrapper contextWrapper = new ContextWrapper(mAppInfra.getAppInfraContext());
+		File directory = contextWrapper.getDir(mLocale, Context.MODE_PRIVATE);
+		File myInternalFile = new File(directory, "locale.json");
+		return myInternalFile;
+	}
+
+	public void saveFile(String localeResponse) {
 		try {
-			FileOutputStream fos = context.openFileOutput("file_name" + ".json", Context.MODE_PRIVATE);
-			Writer out = new OutputStreamWriter(fos);
-			out.write(mytext);
-			out.close();
-			return true;
+			FileOutputStream fos = new FileOutputStream(getInternalFilePath());
+			fos.write(localeResponse.getBytes());
+			fos.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-			return false;
+		}
+	}
+
+	public void getFile() {
+		String myData = "";
+		try {
+			FileInputStream fis = new FileInputStream(getInternalFilePath());
+			DataInputStream in = new DataInputStream(fis);
+			BufferedReader br =
+					new BufferedReader(new InputStreamReader(in));
+			String strLine;
+			while ((strLine = br.readLine()) != null) {
+				myData = myData + strLine;
+			}
+			in.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
