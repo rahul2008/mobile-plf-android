@@ -33,11 +33,10 @@ import static com.philips.platform.uid.utils.UIDTestUtils.modulateColorAlpha;
 
 public class PrimaryButtonWithTextOnlyTest {
 
-    private Resources testResources;
-    private Context instrumentationContext;
-
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
+    private Resources testResources;
+    private Context instrumentationContext;
     private BaseTestActivity activity;
 
     @Before
@@ -99,7 +98,7 @@ public class PrimaryButtonWithTextOnlyTest {
     // TODO: 9/20/2016 Fix this failing test case.
     @Test
     public void verifyPrimaryTextOnlyPressedButtonControlColorULTone() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlPrimaryPressedColor);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlPrimaryPressed);
 
         getPrimaryButton().check(matches(FunctionDrawableMatchers
                 .isSameColorFromColorListWithReflection(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, 0, expectedColor)));

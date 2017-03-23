@@ -10,7 +10,7 @@
         <activity
             android:name="com.philips.platform.uid.activity.BaseTestActivity"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.Philips">
+            android:theme="@style/Theme.Philips.GroupBlue.UltraLight">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>

@@ -39,9 +39,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
 
-    static final String THEMESETTINGS_ACTIVITY_RESTART = "THEMESETTINGS_ACTIVITY_RESTART";
     protected static final String TITLE_TEXT = "TITLE_TEXT";
-
+    static final String THEMESETTINGS_ACTIVITY_RESTART = "THEMESETTINGS_ACTIVITY_RESTART";
     private ContentColor contentColor;
     private ColorRange colorRange;
     private NavigationColor navigationColor;
@@ -57,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         themeHelper = new ThemeHelper(defaultSharedPreferences);
 
         UIDHelper.init(getThemeConfig());
+
         if (BuildConfig.DEBUG) {
             Log.d(MainActivity.class.getName(), String.format("Theme config Tonal Range :%s, Color Range :%s , Navigation Color : %s",
                     contentColor, colorRange, navigationColor));
@@ -88,11 +88,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
     }
 
     void restartActivity() {

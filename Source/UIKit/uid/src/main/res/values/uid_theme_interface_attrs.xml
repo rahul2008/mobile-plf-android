@@ -3,7 +3,9 @@
     <declare-styleable name="UIDButton">
         <attr name="uidButtonNormalColor" format="reference|color"/>
         <attr name="uidButtonPressedColor" format="reference|color"/>
-        <attr name="uidButtonDisabledColor" format="reference|color"/>
+        <!--
+                <attr name="uidButtonDisabledColor" format="reference|color"/>
+        -->
         <attr name="uidButtonDisabledAlpha" format="reference|float|dimension"/>
         <attr name="uidButtonTextColor" format="reference|color"/>
         <attr name="uidButtonTextPressedColor" format="reference|color"/>
@@ -34,7 +36,7 @@
         <attr name="uidInputTextFillDisabledAlpha" format="reference|float|dimension"/>
         <attr name="uidInputTextFillColorList" format="reference"/>
         <attr name="uidInputTextHint" format="reference|color"/>
-        <attr name="uidInputText" format="reference|color"/>
+        <attr name="uidInputText"/>
         <attr name="uidInputTextFillBackground" format="reference"/>
         <attr name="uidInputTextFillBackgroundColorList" format="reference"/>
         <attr name="uidInputTextBorderBackground" format="reference"/>
@@ -56,8 +58,10 @@
     </declare-styleable>
 
     <declare-styleable name="UIDNavigationBar">
-        <attr name="uidActionBarBackground" format="reference|color"/>
+        <!--
         <attr name="uidNavigationBarTextColor" format="reference|color"/>
+        -->
+        <attr name="uidActionBarBackground" format="reference|color"/>
         <attr name="uidNavigationShadowLevelOne" format="reference|color"/>
         <attr name="uidNavigationShadowLevelOneAlpha" format="reference|float"/>
         <attr name="uidNavigationShadowLevelTwo" format="reference|color"/>
@@ -214,7 +218,7 @@
         <attr name="gradientStartColor" format="reference|color"/>
         <attr name="gradientEndColor" format="reference|color"/>
     </declare-styleable>
-    
+
     <declare-styleable name="UIDInputValidation">
         <attr name="uidTextBoxValidationBackground" format="reference|color"/>
         <attr name="uidTextBoxValidationBackgroundAlpha" format="reference|float"/>

@@ -17,7 +17,7 @@
 
     <style name="TestButtonTexts">
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">?attr/uidTextPrimaryColor</item>
+        <item name="android:textColor">?attr/uidTextPrimary</item>
         <item name="android:textSize">@dimen/button_toggle_text_size</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_marginLeft">@dimen/layout_margin_left_right</item>
@@ -50,7 +50,7 @@
     </style>
 
     <style name="RecyclerViewRadioButton">
-        <item name="android:textColor">?attr/uidTextPrimaryColor</item>
+        <item name="android:textColor">?attr/uidTextPrimary</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
     </style>
@@ -65,7 +65,7 @@
 
     <style name="UIDLabel.TestButtonTexts">
         <item name="android:layout_height">wrap_content</item>
-        <item name="uidLabelTextColor">?attr/uidTextPrimaryColor</item>
+        <item name="uidLabelTextColor">?attr/uidTextPrimary</item>
         <item name="uidLabelTextSize">@dimen/button_toggle_text_size</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_marginLeft">@dimen/layout_margin_left_right</item>

@@ -11,7 +11,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/uidApplicationBackground">
+        android:background="?attr/uidContentBackground">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                     android:checked="@{fragment.withLongContent}"
                     android:onCheckedChanged="@{(v, isChecked) -> fragment.setWithLongContent(isChecked)}"
                     android:text="@string/dialog_screen_text_long_content"
-                    android:textColor="?attr/uidTextPrimaryColor"
+                    android:textColor="?attr/uidTextPrimary"
                     android:textSize="@dimen/button_toggle_text_size"/>
 
                 <com.philips.platform.uid.view.widget.Switch
@@ -49,7 +49,7 @@
                     android:checked="@{fragment.withTitle}"
                     android:onCheckedChanged="@{(v, isChecked) -> fragment.setWithTitle(isChecked)}"
                     android:text="@string/dialog_screen_text_with_title"
-                    android:textColor="?attr/uidTextPrimaryColor"
+                    android:textColor="?attr/uidTextPrimary"
                     android:textSize="@dimen/button_toggle_text_size"/>
 
                 <com.philips.platform.uid.view.widget.Switch
@@ -64,7 +64,7 @@
                     android:enabled="@{fragment.withTitle}"
                     android:onCheckedChanged="@{(v, isChecked) -> fragment.setWithIcon(isChecked)}"
                     android:text="@string/dialog_screen_text_title_with_icon"
-                    android:textColor="?attr/uidTextPrimaryColor"
+                    android:textColor="?attr/uidTextPrimary"
                     android:textSize="@dimen/button_toggle_text_size"/>
             </LinearLayout>
 

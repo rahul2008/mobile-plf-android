@@ -30,13 +30,13 @@ public class UIDHelper {
     }
 
     public static void init(@NonNull ThemeConfiguration themeConfiguration) {
-        Resources.Theme theme = themeConfiguration.context.getTheme();
-        themeConfiguration.contentColor.injectTonalRange(theme);
-        themeConfiguration.colorRange.injectColorRange(theme);
-        if (themeConfiguration.controlType != null) {
-            themeConfiguration.controlType.injectPrimaryControlColors(theme);
-        }
-        themeConfiguration.navigationColor.injectNavigationColor(theme);
+//        Resources.Theme theme = themeConfiguration.context.getTheme();
+//        themeConfiguration.contentColor.injectTonalRange(theme);
+//        themeConfiguration.colorRange.injectColorRange(theme);
+//        if (themeConfiguration.controlType != null) {
+//            themeConfiguration.controlType.injectPrimaryControlColors(theme);
+//        }
+//        themeConfiguration.navigationColor.injectNavigationColor(theme);
     }
 
     /**

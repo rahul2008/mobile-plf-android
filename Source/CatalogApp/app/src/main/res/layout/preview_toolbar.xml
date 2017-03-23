@@ -38,9 +38,9 @@
                     android:gravity="start|center_vertical"
                     android:onClick="@{(v)-> preActivity.cancelOrPreviewClicked()}"
                     android:text="@string/cancel"
-                    android:textColor="?attr/uidNavigationBarTextColor"
+                    android:textColor="?attr/uidNavigationPrimaryTextColor"
                     app:uidButtonTextColorList="@color/toolbar_quiet_button_selector"
-                    app:uidLabelTextColor="?attr/uidNavigationBarTextColor"/>
+                    app:uidLabelTextColor="?attr/uidNavigationPrimaryTextColor"/>
 
                 <TextView
                     android:id="@+id/preview_title"
@@ -61,9 +61,9 @@
                     android:gravity="end|center_vertical"
                     android:onClick="@{(v)-> preActivity.cancelOrPreviewClicked()}"
                     android:text="@string/preview"
-                    android:textColor="?attr/uidNavigationBarTextColor"
+                    android:textColor="?attr/uidNavigationPrimaryTextColor"
                     app:uidButtonTextColorList="@color/toolbar_quiet_button_selector"
-                    app:uidLabelTextColor="?attr/uidNavigationBarTextColor"/>
+                    app:uidLabelTextColor="?attr/uidNavigationPrimaryTextColor"/>
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>

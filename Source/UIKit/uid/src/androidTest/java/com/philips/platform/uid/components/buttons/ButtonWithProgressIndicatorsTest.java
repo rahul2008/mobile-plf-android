@@ -39,11 +39,10 @@ import static com.philips.platform.uid.activity.BaseTestActivity.CONTENT_COLOR_K
 import static org.hamcrest.CoreMatchers.allOf;
 
 public class ButtonWithProgressIndicatorsTest {
-    private Resources testResources;
-    private Context context;
-
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class, false, false);
+    private Resources testResources;
+    private Context context;
     private BaseTestActivity activity;
 
     public void setUpDefaultTheme() {
@@ -205,7 +204,7 @@ public class ButtonWithProgressIndicatorsTest {
         setUpDefaultTheme();
 
         simulateSetProgressText("Hello ");
-        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlPrimaryTextColor);
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlPrimaryText);
 
         getButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
     }
@@ -224,7 +223,7 @@ public class ButtonWithProgressIndicatorsTest {
     public void verifyButtonFillColor() {
         setUpDefaultTheme();
 
-        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlPrimaryEnabledColor);
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlPrimary);
 
         getButton().check(matches(FunctionDrawableMatchers
                 .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, android.R.attr.state_enabled, color)));

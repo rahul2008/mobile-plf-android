@@ -43,21 +43,21 @@
     <style name="UIDLabel.RecyclerViewItemOneLineTitleText">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="uidLabelTextSize">@dimen/uid_recyclerview_item_title_text_size</item>
-        <item name="uidLabelTextColor">?attr/uidTextPrimaryColor</item>
+        <item name="uidLabelTextColor">?attr/uidTextPrimary</item>
         <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_100</item>
     </style>
 
     <style name="UIDLabel.RecyclerViewItemMultipleLinesTitleText">
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
         <item name="uidLabelTextSize">@dimen/uid_recyclerview_item_title_text_size</item>
-        <item name="uidLabelTextColor">?attr/uidTextPrimaryColor</item>
+        <item name="uidLabelTextColor">?attr/uidTextPrimary</item>
         <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_100</item>
     </style>
 
     <style name="UIDLabel.RecyclerViewItemSubtitleText">
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
         <item name="uidLabelTextSize">@dimen/uid_recyclerview_item_subtitle_text_size</item>
-        <item name="uidLabelTextColor">?attr/uidTextPrimaryColor</item>
+        <item name="uidLabelTextColor">?attr/uidTextPrimary</item>
         <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_100</item>
     </style>
 
@@ -130,7 +130,7 @@
 
     <style name="UIDLabel.GridViewSettingsText">
         <item name="uidLabelTextSize">@dimen/uid_recyclerview_item_title_text_size</item>
-        <item name="uidLabelTextColor">?attr/uidTextPrimaryColor</item>
+        <item name="uidLabelTextColor">?attr/uidTextPrimary</item>
         <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_100</item>
     </style>
 </resources>

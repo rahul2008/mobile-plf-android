@@ -30,8 +30,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
                 android:text="@string/recyclerview_settings"
-                android:textSize="@dimen/uid_recyclerview_item_title_text_size"
-                android:textColor="?attr/uidTextPrimaryColor"/>
+                android:textColor="?attr/uidTextPrimary"
+                android:textSize="@dimen/uid_recyclerview_item_title_text_size"/>
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -48,8 +48,8 @@
             layout="@layout/uid_horizontal_separator"/>
 
         <include
-            layout="@layout/uid_recyclerview"
             android:id="@+id/recyclerview_recyclerview"
+            layout="@layout/uid_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>

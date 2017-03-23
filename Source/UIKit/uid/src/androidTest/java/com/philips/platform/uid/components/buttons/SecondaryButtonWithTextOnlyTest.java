@@ -33,10 +33,9 @@ import static com.philips.platform.uid.utils.UIDTestUtils.modulateColorAlpha;
 
 public class SecondaryButtonWithTextOnlyTest {
 
-    private Context instrumentationContext;
-
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
+    private Context instrumentationContext;
     private BaseTestActivity activity;
 
     @Before
@@ -60,7 +59,7 @@ public class SecondaryButtonWithTextOnlyTest {
     // TODO: 9/20/2016 Fix this failing test case.
     @Test
     public void verifySecTextOnlyPressedButtonControlColorULTone() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlSecondaryPressedColor);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlSecondaryPressed);
         getSecondaryButton().check(matches(FunctionDrawableMatchers
                 .isSameColorFromColorListWithReflection(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, 0, expectedColor)));
     }
@@ -74,7 +73,7 @@ public class SecondaryButtonWithTextOnlyTest {
     @Ignore
     @Test
     public void verifySecTextOnlyPressedButtonFontColor() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlSecondaryEnabledColor);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlSecondary);
 
         getSecondaryButton().check(matches(TextViewPropertiesMatchers.isSameTextColorWithReflection(0, expectedColor)));
     }
