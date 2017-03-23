@@ -368,14 +368,10 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 		String baseUrl;
 		if (serviceEnv.equalsIgnoreCase(stateProduction)) {
 			baseUrl = baseURLProduction;
-		} else if (serviceEnv.equalsIgnoreCase(stateTesting)) {
-			baseUrl = baseURLTesting;
 		} else if (serviceEnv.equalsIgnoreCase(stateStaging)) {
 			baseUrl = baseURLStaging;
-		} else if (serviceEnv.equalsIgnoreCase(stateAccepteance)) {
-			baseUrl = baseURLAcceptance;
 		} else {
-			baseUrl = baseURLTesting;
+			baseUrl = baseURLProduction;
 		}
 		return baseUrl;
 	}
