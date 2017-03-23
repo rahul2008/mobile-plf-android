@@ -178,6 +178,11 @@ android {
                 }
             }
         }
+        applicationVariants.all { variant ->
+            def productFlavor = variant.productFlavors[0] != null ? "${variant.productFlavors[0].name.capitalize()}" : ""
+            def buildType = "${variant.buildType.name.capitalize()}"
+            tasks["compile${productFlavor}${buildType}UnitTestSources"].dependsOn(tasks["merge${productFlavor}${buildType}Assets"])
+        }
 
     }
 
@@ -357,7 +362,8 @@ dependencies {
 //    testCompile 'junit:junit:4.12'
 //    compile 'com.android.support:multidex:1.0.1'
 
-    testCompile ('org.robolectric:robolectric:3.2.2') /*{
+    testCompile ('org.robolectric:robolectric:3.2.2')
+    testCompile "org.robolectric:shadows-support-v4:3.0"/*{
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }*/
