@@ -3,9 +3,7 @@ package com.philips.cdp.registration.ui.traditional;
 import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.platform.appinfra.AppInfra;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,8 +35,6 @@ public class ForgotPasswordFragmentTest extends InstrumentationTestCase{
             synchronized(this){//synchronized block
 
                 try{
-                    RegistrationHelper.getInstance().
-                            setAppInfraInstance(new AppInfra.Builder().build(getInstrumentation().getContext()));
                     RLog.init();
                 }catch(Exception e){System.out.println(e);}
             }

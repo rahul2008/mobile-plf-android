@@ -21,17 +21,20 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.janrain.android.Jump;
 import com.janrain.android.engage.session.JRSession;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.apptagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
+import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.coppa.base.CoppaResendError;
 import com.philips.cdp.registration.coppa.base.ResendCoppaEmailConsentHandler;
 import com.philips.cdp.registration.coppa.utils.CoppaInterface;
@@ -41,11 +44,11 @@ import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
 public class RegistrationCoppaSampleActivity extends Activity implements OnClickListener,
@@ -68,6 +71,8 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
 
     private RadioGroup mRadioGroup;
     private User mUser;
+    private Switch mCountrySelectionSwitch;
+    private boolean isCountrySelection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +92,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
         mBtnParentalConsent.setOnClickListener(this);
         mBtnRegistrationWithOutAccountSettings = (Button) findViewById(R.id.btn_registration_without_account);
         mBtnRegistrationWithOutAccountSettings.setOnClickListener(this);
-
+        mCountrySelectionSwitch = (Switch) findViewById(R.id.county_selection_switch);
         mProgressDialog = new ProgressDialog(RegistrationCoppaSampleActivity.this);
         mProgressDialog.setCancelable(false);
 
@@ -129,6 +134,15 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
                 mLlConfiguration.setVisibility(View.VISIBLE);
             }
         });
+
+        mCountrySelectionSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isCountrySelection = isChecked;
+            }
+        });
+
         mBtnApply = (Button) findViewById(R.id.Apply);
         mBtnApply.setOnClickListener(new OnClickListener() {
             @Override
@@ -229,11 +243,12 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
         CoppaLaunchInput urLaunchInput;
         ActivityLauncher activityLauncher;
         CoppaInterface urInterface;
+        initCountrySelection();
         switch (v.getId()) {
 
             case R.id.btn_registration_with_account:
                 RLog.d(RLog.ONCLICK, "RegistrationCoppaSampleActivity : Registration");
-                RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
+                RegistrationCoppaApplication.getInstance().getAppInfra().getTagging().setPreviousPage("demoapp:home");
                 urLaunchInput = new CoppaLaunchInput();
                 urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
                 urLaunchInput.setAccountSettings(true);
@@ -248,7 +263,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
 
             case R.id.btn_marketing_opt_in:
                 RLog.d(RLog.ONCLICK, "RegistrationCoppaSampleActivity : Registration");
-                RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
+                RegistrationCoppaApplication.getInstance().getAppInfra().getTagging().setPreviousPage("demoapp:home");
                 urLaunchInput = new CoppaLaunchInput();
                 urLaunchInput.setEndPointScreen(RegistrationLaunchMode.MARKETING_OPT);
                 urLaunchInput.setAccountSettings(false);
@@ -263,7 +278,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
 
             case R.id.btn_registration_without_account:
                 RLog.d(RLog.ONCLICK, "RegistrationCoppaSampleActivity : Registration");
-                RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
+                RegistrationCoppaApplication.getInstance().getAppInfra().getTagging().setPreviousPage("demoapp:home");
                 urLaunchInput = new CoppaLaunchInput();
                 urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
                 urLaunchInput.setAccountSettings(false);
@@ -407,6 +422,17 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
     }
 
     final Handler handler = new Handler();
+
+    private void initCountrySelection() {
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        String countrySelection = isCountrySelection?"true":"false";
+        RegistrationCoppaApplication.getInstance().getAppInfra().getConfigInterface().setPropertyForKey(
+                URConfigurationConstants.SHOW_COUNTRY_SELECTION,
+                URConfigurationConstants.UR,
+                countrySelection,
+                configError);
+    }
 
     private void showToast(final String msg) {
         handler.post(new Runnable() {

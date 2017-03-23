@@ -17,20 +17,25 @@ import android.net.NetworkInfo;
 
 public class NetworkUtility {
 
-    public static boolean isNetworkAvailable(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
+    private Context context;
+
+    public NetworkUtility(Context context) {
+        this.context = context;
+    }
+
+    public boolean isNetworkAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean isConnected = (activeNetwork != null && activeNetwork.isConnectedOrConnecting());
         return isConnected;
     }
 
-    public static void registerNetworkListener(Context context, BroadcastReceiver broadcastReceiver) {
+    public void registerNetworkListener(BroadcastReceiver broadcastReceiver) {
         context.registerReceiver(broadcastReceiver,
                 new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
-    public static void unRegisterNetworkListener(Context context, BroadcastReceiver broadcastReceiver) {
+    public void unRegisterNetworkListener(BroadcastReceiver broadcastReceiver) {
         context.unregisterReceiver(broadcastReceiver);
     }
 }

@@ -54,10 +54,10 @@ public class RefreshUserSessionTest extends InstrumentationTestCase {
 
 //        mRefreshSession.onRefreshLoginSessionSuccess();
 
-        mRefreshSession.onRefreshLoginSessionFailedWithError(1);;
-
-        mRefreshSession.onRefreshLoginSessionInProgress("message");
-        assertNotNull(mRefreshSession);
+//        mRefreshSession.onRefreshLoginSessionFailedWithError(1);;
+//
+//        mRefreshSession.onRefreshLoginSessionInProgress("message");
+//        assertNotNull(mRefreshSession);
     }
 
 

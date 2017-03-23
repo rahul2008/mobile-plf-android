@@ -21,6 +21,7 @@ import com.philips.cdp.registration.dao.ConsumerInterest;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.UpdateConsumerInterestHandler;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import org.json.JSONObject;
 
@@ -143,7 +144,7 @@ public class ConsumerInterestUpdate {
             } else {
                 try {
                     JSONObject jsonObject = new JSONObject(resultString);
-                    if ("ok".equals(jsonObject.opt("stat"))) {
+                    if (RegConstants.SUCCESS_STATE_RESPONSE_OK.equals(jsonObject.opt(RegConstants.SUCCESS_STATE_RESPONSE))) {
                         User user = new User(mContext);
                         user.refreshUser(new RefreshUserHandler() {
                             @Override

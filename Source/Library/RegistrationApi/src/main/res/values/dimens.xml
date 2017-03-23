@@ -154,4 +154,6 @@
     <dimen name="cp_dialog_width">200dp</dimen>
     <dimen name="cp_dialog_height">300dp</dimen>
     <dimen name="reg_first_to_know_know">72dip</dimen>
+    <dimen name="reg_text_padding_bottom">5dp</dimen>
+
 </resources>

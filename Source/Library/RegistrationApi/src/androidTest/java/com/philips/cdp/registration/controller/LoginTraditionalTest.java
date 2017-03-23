@@ -7,8 +7,6 @@ import android.test.InstrumentationTestCase;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.platform.appinfra.AppInfra;
 
 import org.json.JSONArray;
 import org.junit.Before;
@@ -54,10 +52,6 @@ public class LoginTraditionalTest extends InstrumentationTestCase {
         };
         loginTraditional = new LoginTraditional(traditionalLoginHandler,context,updateUserRecordHandler,"sample@sample.com","sample");
         synchronized(this){//synchronized block
-
-            try{
-                RegistrationHelper.getInstance().setAppInfraInstance(new AppInfra.Builder().build(context));
-            }catch(Exception e){System.out.println(e);}
         }
     }
 

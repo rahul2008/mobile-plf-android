@@ -4,10 +4,6 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.platform.appinfra.AppInfra;
-
 import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
@@ -64,14 +60,7 @@ public class CoppaExtensionTest extends InstrumentationTestCase {
         consent.setId("22222222");
         consent.setStoredAt("22222222");
         consent.setConfirmationCommunicationToSendAt("22222222");
-        synchronized(this){//synchronized block
 
-            try{
-                RegistrationHelper.getInstance().
-                        setAppInfraInstance(new AppInfra.Builder().build(mContext));
-            }catch(Exception e){System.out.println(e);}
-        }
-        RLog.init();
 
             Method method = null;
             try {
