@@ -28,7 +28,7 @@ public class AppIdentityTest extends MockitoTestCase {
     private Context context;
     AppInfra mAppInfra;
 
-    List<String> mServiceDiscoveryEnv = Arrays.asList("TEST", "STAGING", "ACCEPTANCE", "PRODUCTION");
+    List<String> mServiceDiscoveryEnv = Arrays.asList( "STAGING", "PRODUCTION");
     List<String> mAppStateValues = Arrays.asList("DEVELOPMENT", "TEST", "STAGING", "ACCEPTANCE", "PRODUCTION");
     private List<String> mSectorValues = Arrays.asList("b2b", "b2c", "b2b_Li", "b2b_HC");
 
@@ -178,7 +178,7 @@ public class AppIdentityTest extends MockitoTestCase {
                 set.addAll(mServiceDiscoveryEnv);
                 if (!set.contains(mAppIdentityManager.getServiceDiscoveryEnvironment())) {
                     throw new IllegalArgumentException("\"servicediscoveryENV in appIdentityConfig  file must match \" +\n" +
-                            "                            \"one of the following values \\n TEST,\\n STAGING, \\n ACCEPTANCE, \\n PRODUCTION\"");
+                            "                            \"one of the following values \\n STAGING, \\n PRODUCTION\"");
                 }
             } else {
                 throw new IllegalArgumentException("ServiceDiscovery Environment cannot be empty in appIdentityConfig json file");
