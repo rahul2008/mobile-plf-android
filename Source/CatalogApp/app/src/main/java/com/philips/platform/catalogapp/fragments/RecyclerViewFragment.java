@@ -165,6 +165,7 @@ public class RecyclerViewFragment extends BaseFragment {
     public void setHeaderEnabled(boolean isheaderEnabled) {
         this.isHeaderEnabled.set(isheaderEnabled);
         fragmentRecyclerviewBinding.recyclerviewRecyclerview.findViewById(R.id.uid_recyclerview_header).setVisibility(isHeaderEnabled.get() ? View.VISIBLE : View.GONE);
+        fragmentRecyclerviewBinding.divider.findViewById(R.id.divider).setVisibility(isHeaderEnabled.get() ? View.INVISIBLE :  View.VISIBLE);
     }
 
     public void setSeparatorEnabled(boolean isSeparatorEnabled) {

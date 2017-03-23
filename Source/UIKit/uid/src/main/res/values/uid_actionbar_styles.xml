@@ -42,7 +42,7 @@
         <item name="android:lineSpacingMultiplier">
             @integer/uid_navigation_bar_text_line_spacing_multiplier
         </item>
-        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
     </style>
 
     <style name="UIDActionBarOverflowButton" parent="Widget.AppCompat.Light.ActionButton.Overflow">
