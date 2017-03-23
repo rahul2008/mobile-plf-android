@@ -35,8 +35,8 @@
     <color name="uid_blue_level_80">#092F52</color>
     <color name="uid_blue_level_85">#05294A</color>
     <color name="uid_blue_level_90">#02101B</color>
-    <color name="uid_default_level_black">#000000</color>
-    <color name="uid_default_level_white">#FFFFFF</color>
+    <color name="uid_default_level_black">#FF000000</color>
+    <color name="uid_default_level_white">#FFFFFFFF</color>
     <color name="uid_gray_level_10">#E8E8E8</color>
     <color name="uid_gray_level_15">#D6D6D6</color>
     <color name="uid_gray_level_20">#C4C4C4</color>
