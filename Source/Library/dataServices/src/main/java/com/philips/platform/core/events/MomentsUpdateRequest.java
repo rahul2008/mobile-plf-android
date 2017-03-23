@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class MomentsUpdateRequest extends MomentsEvent {
 
-    public MomentsUpdateRequest(final List<Moment> moment, DBRequestListener dbRequestListener) {
+    public MomentsUpdateRequest(final List<Moment> moment, DBRequestListener<Moment> dbRequestListener) {
         super(moment,dbRequestListener);
     }
 }

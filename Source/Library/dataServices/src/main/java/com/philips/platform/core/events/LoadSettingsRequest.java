@@ -1,5 +1,6 @@
 package com.philips.platform.core.events;
 
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 
 /**
@@ -7,13 +8,13 @@ import com.philips.platform.core.listeners.DBFetchRequestListner;
  */
 public class LoadSettingsRequest extends Event {
 
-    private final DBFetchRequestListner dbFetchRequestListner;
+    private final DBFetchRequestListner<Settings> dbFetchRequestListner;
 
-    public DBFetchRequestListner getDbFetchRequestListner() {
+    public DBFetchRequestListner<Settings> getDbFetchRequestListner() {
         return dbFetchRequestListner;
     }
 
-    public LoadSettingsRequest(DBFetchRequestListner dbRequestListener) {
+    public LoadSettingsRequest(DBFetchRequestListner<Settings> dbRequestListener) {
 
         this.dbFetchRequestListner = dbRequestListener;
     }

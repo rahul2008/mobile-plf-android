@@ -1,5 +1,6 @@
 package com.philips.platform.core.events;
 
+import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.listeners.DBRequestListener;
 
 /**
@@ -7,8 +8,8 @@ import com.philips.platform.core.listeners.DBRequestListener;
  */
 
 public class DeleteAllMomentsRequest extends Event{
-    private final DBRequestListener dbRequestListener;
-    public DeleteAllMomentsRequest(DBRequestListener dbRequestListener) {
+    private final DBRequestListener<Moment> dbRequestListener;
+    public DeleteAllMomentsRequest(DBRequestListener<Moment> dbRequestListener) {
         this.dbRequestListener = dbRequestListener;
     }
 

@@ -144,21 +144,21 @@ public class DataServicesManager {
         mEventing.post(new MomentsSaveRequest(moments, dbRequestListener));
     }
 
-    public void fetchMomentWithType(DBFetchRequestListner dbFetchRequestListner, final @NonNull String... type) {
+    public void fetchMomentWithType(DBFetchRequestListner<Moment> dbFetchRequestListner, final @NonNull String... type) {
         DSLog.i(DSLog.LOG, "pabitra DataServiceManger fetchMomentWithType");
         mEventing.post(new LoadMomentsRequest(dbFetchRequestListner, type));
     }
 
-    public void fetchMomentForMomentID(final int momentID, DBFetchRequestListner dbFetchRequestListner) {
+    public void fetchMomentForMomentID(final int momentID, DBFetchRequestListner<Moment> dbFetchRequestListner) {
         mEventing.post(new LoadMomentsRequest(momentID, dbFetchRequestListner));
     }
 
-    public void fetchAllMoment(DBFetchRequestListner dbFetchRequestListner) {
+    public void fetchAllMoment(DBFetchRequestListner<Moment> dbFetchRequestListner) {
         mEventing.post(new LoadMomentsRequest(dbFetchRequestListner));
     }
 
     @NonNull
-    public void fetchConsentDetail(DBFetchRequestListner dbFetchRequestListner) {
+    public void fetchConsentDetail(DBFetchRequestListner<ConsentDetail> dbFetchRequestListner) {
         mEventing.post(new LoadConsentsRequest(dbFetchRequestListner));
     }
 
@@ -232,11 +232,11 @@ public class DataServicesManager {
         return measurementDetail;
     }
 
-    public void deleteMoment(final Moment moment, DBRequestListener dbRequestListener) {
+    public void deleteMoment(final Moment moment, DBRequestListener<Moment> dbRequestListener) {
         mEventing.post(new MomentDeleteRequest(moment, dbRequestListener));
     }
 
-    public void deleteMoments(final List<Moment> moments, DBRequestListener dbRequestListener) {
+    public void deleteMoments(final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) {
         mEventing.post(new MomentsDeleteRequest(moments, dbRequestListener));
     }
 
@@ -244,7 +244,7 @@ public class DataServicesManager {
         mEventing.post((new MomentUpdateRequest(moment, dbRequestListener)));
     }
 
-    public void updateMoments(List<Moment> moments, DBRequestListener dbRequestListener) {
+    public void updateMoments(List<Moment> moments, DBRequestListener<Moment> dbRequestListener) {
         mEventing.post((new MomentsUpdateRequest(moments, dbRequestListener)));
     }
 
@@ -358,7 +358,7 @@ public class DataServicesManager {
     }
 
 
-    public void fetchUserCharacteristics(DBFetchRequestListner dbFetchRequestListner) {
+    public void fetchUserCharacteristics(DBFetchRequestListner<Characteristics> dbFetchRequestListner) {
         mEventing.post(new LoadUserCharacteristicsRequest(dbFetchRequestListner));
     }
 
@@ -389,7 +389,7 @@ public class DataServicesManager {
         this.mSynchronisationCompleteListener = null;
     }
 
-    public void fetchUserSettings(DBFetchRequestListner dbFetchRequestListner) {
+    public void fetchUserSettings(DBFetchRequestListner<Settings> dbFetchRequestListner) {
       mEventing.post(new LoadSettingsRequest(dbFetchRequestListner));
     }
 

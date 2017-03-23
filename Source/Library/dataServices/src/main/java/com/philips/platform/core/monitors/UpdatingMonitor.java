@@ -79,7 +79,7 @@ public class UpdatingMonitor extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final MomentsUpdateRequest momentsUpdateRequest) {
         List<Moment> moments = momentsUpdateRequest.getMoments();
-        DBRequestListener dbRequestListener = momentsUpdateRequest.getDbRequestListener();
+        DBRequestListener<Moment> dbRequestListener = momentsUpdateRequest.getDbRequestListener();
         try {
             dbUpdatingInterface.updateMoments(moments, dbRequestListener);
         } catch (SQLException e) {

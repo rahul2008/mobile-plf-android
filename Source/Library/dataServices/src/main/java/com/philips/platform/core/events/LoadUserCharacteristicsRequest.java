@@ -5,17 +5,18 @@
 
 package com.philips.platform.core.events;
 
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 
 public class LoadUserCharacteristicsRequest extends Event {
 
-    private final DBFetchRequestListner dbFetchRequestListner;
+    private final DBFetchRequestListner<Characteristics> dbFetchRequestListner;
 
-    public DBFetchRequestListner getDbFetchRequestListner() {
+    public DBFetchRequestListner<Characteristics> getDbFetchRequestListner() {
         return dbFetchRequestListner;
     }
 
-    public LoadUserCharacteristicsRequest(DBFetchRequestListner dbRequestListener) {
+    public LoadUserCharacteristicsRequest(DBFetchRequestListner<Characteristics> dbRequestListener) {
 
         this.dbFetchRequestListner = dbRequestListener;
     }
