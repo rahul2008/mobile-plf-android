@@ -142,7 +142,6 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
 
         @Override
         public void onApplianceLost(@NonNull BleReferenceAppliance bleReferenceAppliance) {
-
         }
     };
 
