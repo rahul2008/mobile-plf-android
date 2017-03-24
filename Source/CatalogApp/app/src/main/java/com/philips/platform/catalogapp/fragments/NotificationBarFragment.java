@@ -4,6 +4,7 @@ package com.philips.platform.catalogapp.fragments;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +14,22 @@ import android.widget.TextView;
 
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentNotificationBarBinding;
+import com.philips.platform.catalogapp.events.OptionMenuClickedEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class NotificationBarFragment extends BaseFragment {
 
     private PopupWindow popupWindow;
     private Button showHideNotification;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,8 +42,19 @@ public class NotificationBarFragment extends BaseFragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     public int getPageTitle() {
         return R.string.page_title_notification_bar;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessage(OptionMenuClickedEvent event) {
+        dismissPopUp();
     }
 
     private void createPopUPWindow(Context context) {

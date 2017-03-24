@@ -22,6 +22,7 @@ import android.view.MenuItem;
 
 import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
 import com.philips.platform.catalogapp.events.NavigationColorChangedEvent;
+import com.philips.platform.catalogapp.events.OptionMenuClickedEvent;
 import com.philips.platform.catalogapp.events.TonalRangeChangedEvent;
 import com.philips.platform.catalogapp.themesettings.PreviewActivity;
 import com.philips.platform.catalogapp.themesettings.ThemeHelper;
@@ -117,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
+        EventBus.getDefault().post(new OptionMenuClickedEvent(item.toString()));
         switch (item.getItemId()) {
             case R.id.menu_theme_settings:
                 navigationController.loadThemeSettingsPage();
