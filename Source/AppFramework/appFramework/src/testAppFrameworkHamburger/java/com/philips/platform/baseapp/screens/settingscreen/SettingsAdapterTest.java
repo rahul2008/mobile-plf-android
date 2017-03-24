@@ -6,39 +6,22 @@
 
 package com.philips.platform.baseapp.screens.settingscreen;
 
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.widget.DrawerLayout;
 import android.text.Html;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
 import com.philips.cdp.uikit.customviews.UIKitButton;
 import com.philips.platform.GradleRunner;
+import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
-import com.philips.platform.appframework.homescreen.TestAppFrameworkApplication;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
-import com.philips.platform.uappframework.listener.ActionBarListener;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
-
 import java.util.ArrayList;
-
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyList;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(GradleRunner.class)
@@ -62,9 +45,6 @@ public class SettingsAdapterTest {
     @Before
     public void setup() {
         initMocks(this);
-        //mocking
-//       SettingsFragment settingsFragment = mock(SettingsFragment.class);
-
         SettingsFragment settingsFragment = new SettingsFragment();
 
         hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().get();
