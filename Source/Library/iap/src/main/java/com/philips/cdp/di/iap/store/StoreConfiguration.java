@@ -47,12 +47,10 @@ public class StoreConfiguration {
     }
 
     public String getRawConfigUrl() {
-        final StringBuilder builder = new StringBuilder(getHostPort());
-        builder.append(HybrisStore.WEBROOT).append(HybrisStore.SEPERATOR).append(HybrisStore.V2).append(HybrisStore.SEPERATOR);
-        builder.append(SUFFIX_CONFIGURATION).append(HybrisStore.SEPERATOR);
-        builder.append(mWebStoreConfig.getLocale()).append(HybrisStore.SEPERATOR);
-        builder.append(getProposition());
-        return builder.toString();
+        return getHostPort() + HybrisStore.WEBROOT + HybrisStore.SEPERATOR + HybrisStore.V2 + HybrisStore.SEPERATOR +
+                SUFFIX_CONFIGURATION + HybrisStore.SEPERATOR +
+                mWebStoreConfig.getLocale() + HybrisStore.SEPERATOR +
+                getProposition();
     }
 
     public void generateStoreUrls() {

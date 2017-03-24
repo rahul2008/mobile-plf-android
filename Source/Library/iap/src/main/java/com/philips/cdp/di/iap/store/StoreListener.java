@@ -28,7 +28,7 @@ public interface StoreListener {
 
     String getLocale();
 
-    void initStoreConfig(String language, String countryCode, RequestListener listener);//is language and country code is required to be passed?
+    void initStoreConfig(RequestListener listener);//is language and country code is required to be passed?
 
     boolean isStoreInitialized();
 

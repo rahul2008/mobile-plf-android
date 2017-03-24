@@ -33,7 +33,7 @@ public class OrderHistoryRequestTest {
     public void setUp() {
         mIAPSetting = new MockIAPSetting(mContext);
         StoreListener mStore = (new MockStore(mContext, mUser)).getStore(mIAPSetting);
-        mStore.initStoreConfig("en", "US", null);
+        mStore.initStoreConfig(/*"en", "US",*/ null);
         mModel = new OrderHistoryRequest(mStore, null, null);
     }
 

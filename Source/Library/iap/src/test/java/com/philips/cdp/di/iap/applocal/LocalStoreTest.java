@@ -34,7 +34,7 @@ public class LocalStoreTest {
 
     @Test
     public void testInitStoreConfig() {
-        mAppLocalStore.initStoreConfig("en", "US", null);
+        mAppLocalStore.initStoreConfig(/*"en", "US",*/ null);
     }
 
     @Test

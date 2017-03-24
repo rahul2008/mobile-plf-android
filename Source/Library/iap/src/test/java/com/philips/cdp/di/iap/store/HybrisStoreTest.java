@@ -42,7 +42,7 @@ public class HybrisStoreTest {
         mockIAPSetting = new MockIAPSetting(mContext);
         mockIAPSetting.setUseLocalData(false);
         mStore = new MockStore(mContext, mIAPMockedUser).getStore(mockIAPSetting);
-        mStore.initStoreConfig("en", "US", null);
+        mStore.initStoreConfig(/*"en", "US",*/ null);
     }
 
     @Test

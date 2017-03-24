@@ -85,9 +85,9 @@ class IAPHandler {
                             mIAPSetting.setUseLocalData(true);
                         } else {
                             mIAPSetting.setUseLocalData(false);
-                            //String urlPort = url.toString();//"https://acc.occ.shop.philips.com/en_US";"https://www.occ.shop.philips.com/en_US"
-                            String locale = CartModelContainer.getInstance().getLanguage() + "_" + CartModelContainer.getInstance().getCountry();
-                            String urlPort = "https://acc.occ.shop.philips.com/" + locale;
+                            String urlPort = url.toString();//"https://acc.occ.shop.philips.com/en_US";"https://www.occ.shop.philips.com/en_US"
+                            //String locale = CartModelContainer.getInstance().getLanguage() + "_" + CartModelContainer.getInstance().getCountry();
+                            //String urlPort = "https://acc.occ.shop.philips.com/" + locale;
                             mIAPSetting.setHostPort(urlPort.substring(0, urlPort.length() - 5));
                         }
                         mIAPSetting.setProposition(loadConfigParams());
@@ -146,8 +146,8 @@ class IAPHandler {
     void initIAP(final UiLauncher uiLauncher, final IAPLaunchInput pLaunchInput) {
         final IAPListener iapListener = pLaunchInput.getIapListener();
         HybrisDelegate delegate = HybrisDelegate.getInstance(mIAPSetting.getContext());
-        delegate.getStore().initStoreConfig(CartModelContainer.getInstance().getLanguage(),
-                CartModelContainer.getInstance().getCountry(), new RequestListener() {
+        delegate.getStore().initStoreConfig(/*CartModelContainer.getInstance().getLanguage(),
+                CartModelContainer.getInstance().getCountry(),*/ new RequestListener() {
                     @Override
                     public void onSuccess(final Message msg) {
                         onSuccessOfInitialization(uiLauncher, pLaunchInput, iapListener);

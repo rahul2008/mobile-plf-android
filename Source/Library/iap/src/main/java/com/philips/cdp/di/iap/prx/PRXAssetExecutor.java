@@ -79,10 +79,30 @@ public class PRXAssetExecutor {
 
     protected void notifySuccess(ResponseData responseData) {
         AssetModel assetModel = (AssetModel) responseData;
-        Data data = assetModel.getData();
-        Assets assets = data.getAssets();
-        List<Asset> asset = assets.getAsset();
+        if (assetModel == null) {
+            //fail call
+            //notifyError();
+            mAssetListener.onFetchAssetFailure(null);
+            return;
+        }
 
+        Data data = assetModel.getData();
+        if (data == null) {
+            //fail call
+            mAssetListener.onFetchAssetFailure(null);
+            return;
+        }
+        Assets assets = data.getAssets();
+        if (assets == null) {
+            mAssetListener.onFetchAssetFailure(null);
+            return;
+        }
+        List<Asset> asset = assets.getAsset();
+        if (asset == null) {
+            mAssetListener.onFetchAssetFailure(null);
+            //fail call
+            return;
+        }
         ArrayList<String> assetArray = fetchImageUrlsFromPRXAssets(asset);
 
         Message result = Message.obtain();

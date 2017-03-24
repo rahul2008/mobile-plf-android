@@ -26,7 +26,7 @@ public class CartCreateRequestTest {
     @Before
     public void setUP() {
         mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(new MockIAPSetting(mock(Context.class)));
-        mStore.initStoreConfig("en", "us", null);
+        mStore.initStoreConfig(/*"en", "us", */null);
     }
 
     @Test

@@ -53,7 +53,7 @@ public class TestUtils {
             return mockHybrisStore;
         }
         StoreListener mockStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(new MockIAPSetting(mock(Context.class)));
-        mockStore.initStoreConfig("en", "US", null);
+        mockStore.initStoreConfig(/*"en", "US",*/ null);
         return mockStore;
     }
 

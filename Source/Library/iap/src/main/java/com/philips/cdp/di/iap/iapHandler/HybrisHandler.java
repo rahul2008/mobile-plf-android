@@ -27,8 +27,8 @@ public class HybrisHandler extends IAPInterface implements IAPExposedAPI {
 
     public HybrisHandler(Context context) {
         mContext = context;
-        mLanguage = CartModelContainer.getInstance().getLanguage();
-        mCountry = CartModelContainer.getInstance().getCountry();
+      //  mLanguage = CartModelContainer.getInstance().getLanguage();
+      //  mCountry = CartModelContainer.getInstance().getCountry();
     }
 
     @Override
@@ -37,7 +37,7 @@ public class HybrisHandler extends IAPInterface implements IAPExposedAPI {
             getProductCount(iapListener);
         } else {
             HybrisDelegate.getInstance(mContext).getStore().
-                    initStoreConfig(mLanguage, mCountry, new RequestListener() {
+                    initStoreConfig(/*mLanguage, mCountry, */new RequestListener() {
                         @Override
                         public void onSuccess(final Message msg) {
                             getProductCount(iapListener);
@@ -74,7 +74,7 @@ public class HybrisHandler extends IAPInterface implements IAPExposedAPI {
             presenter.getCompleteProductList(iapListener);
         } else {
             HybrisDelegate.getInstance(mContext).getStore().
-                    initStoreConfig(mLanguage, mCountry, new RequestListener() {
+                    initStoreConfig(/*mLanguage, mCountry,*/ new RequestListener() {
                         @Override
                         public void onSuccess(final Message msg) {
                             presenter.getCompleteProductList(iapListener);

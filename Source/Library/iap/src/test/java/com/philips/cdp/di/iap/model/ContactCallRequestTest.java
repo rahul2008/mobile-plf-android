@@ -38,7 +38,7 @@ public class ContactCallRequestTest {
     @Before
     public void setUP() {
         mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPSetting(mContext));
-        mStore.initStoreConfig("en", "GB", null);
+        mStore.initStoreConfig(/*"en", "GB",*/ null);
         mModel = new ContactCallRequest(mStore, null, null);
     }
 

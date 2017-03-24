@@ -34,7 +34,7 @@ public class RefreshOAuthRequestTest {
     @Before
     public void setUp() {
         StoreListener mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPSetting(mContext));
-        mStore.initStoreConfig("en", "US", null);
+        mStore.initStoreConfig(/*"en", "US",*/ null);
         mModel = new RefreshOAuthRequest(mStore, new HashMap<String, String>());
     }
 

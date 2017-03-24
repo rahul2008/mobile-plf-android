@@ -26,7 +26,7 @@ public abstract class AbstractStore implements StoreListener {
     }
 
     @Override
-    public void initStoreConfig(final String language, final String countryCode, final RequestListener listener) {
+    public void initStoreConfig(/*final String language, final String countryCode,*/ final RequestListener listener) {
     }
 
     protected void checkAndUpdateStoreChange(String language, String countryCode) {

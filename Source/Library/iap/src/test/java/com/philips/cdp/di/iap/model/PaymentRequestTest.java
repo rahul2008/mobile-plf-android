@@ -43,7 +43,7 @@ public class PaymentRequestTest {
     @Before
     public void setUP() {
         mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPSetting(mContext));
-        mStore.initStoreConfig("en", "US", null);
+        mStore.initStoreConfig(/*"en", "US",*/ null);
         HashMap<String, String> params = new HashMap<>();
         params.put(ModelConstants.ORDER_NUMBER, "H1212");
         mModel = new PaymentRequest(mStore, params, null);

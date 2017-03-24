@@ -33,7 +33,7 @@ public class GetAddressRequestTest {
     @Before
     public void setUP() {
         StoreListener mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPSetting(mContext));
-        mStore.initStoreConfig("en", "US", null);
+        mStore.initStoreConfig(/*"en", "US",*/ null);
         mModel = new GetAddressRequest(mStore, null, null);
     }
 

@@ -38,7 +38,7 @@ public class ProductDetailRequestTest {
     @Before
     public void setUp() {
         mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPSetting(mContext));
-        mStore.initStoreConfig("en", "US", null);
+        mStore.initStoreConfig(/*"en", "US",*/ null);
         mModel = new ProductDetailRequest(mStore, null, null);
     }
 
