@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -16,7 +18,8 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 public class AILDemouAppInterface implements UappInterface {
 
     private Context mContext;
-    public static AppInfra mAppInfra;
+    public static AppInfraInterface mAppInfra;
+    public static AppTaggingInterface mAIAppTaggingInterface;
 
     /**
      * @param uappDependencies - App dependencies
@@ -25,7 +28,9 @@ public class AILDemouAppInterface implements UappInterface {
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         this.mContext = uappSettings.getContext();
-        this.mAppInfra = (AppInfra) uappDependencies.getAppInfra();
+        this.mAppInfra = (AppInfraInterface) uappDependencies.getAppInfra();
+        mAIAppTaggingInterface = mAppInfra.getTagging().createInstanceForComponent("Component name", "Component ID");
+        mAIAppTaggingInterface.setPreviousPage("SomePreviousPage");
 
 
     }

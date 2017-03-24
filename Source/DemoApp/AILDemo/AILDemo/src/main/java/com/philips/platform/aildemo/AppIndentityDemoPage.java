@@ -27,7 +27,7 @@ public class AppIndentityDemoPage extends AppCompatActivity {
         AppInfraInterface appInfra =  AILDemouAppInterface.mAppInfra;
         mAppIdentityInterface = appInfra.getAppIdentity();
         AppTaggingInterface mAppTaggingInterface;
-        mAppTaggingInterface =  AILDemouAppInterface.mAppInfra.getTagging().createInstanceForComponent("AppIndentityID", "AppIndentityIDVersion");
+        mAppTaggingInterface =  AILDemouAppInterface.mAIAppTaggingInterface.createInstanceForComponent("AppIndentityID", "AppIndentityIDVersion");
 
         mAppTaggingInterface.trackPageWithInfo("AppIndentityPageDemoPage", "AppIndentityKEy", "AppIndentityValue");
 

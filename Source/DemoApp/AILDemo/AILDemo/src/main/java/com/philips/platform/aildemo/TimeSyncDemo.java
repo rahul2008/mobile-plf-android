@@ -38,9 +38,9 @@ public class TimeSyncDemo extends AppCompatActivity {
 
         mTimeSyncInterface = AILDemouAppInterface.mAppInfra.getTime();
 
-        AILDemouAppInterface.mAppInfra.getTagging().createInstanceForComponent("TimeSyncComponentID", "TimeSyncComponentVersion");
+        AILDemouAppInterface.mAIAppTaggingInterface.createInstanceForComponent("TimeSyncComponentID", "TimeSyncComponentVersion");
 
-        AILDemouAppInterface.mAppInfra.getTagging().trackPageWithInfo("TimeSyncDemo", "TimeSyncDemoKey", "TimeSyncDemoVersion");
+        AILDemouAppInterface.mAIAppTaggingInterface.trackPageWithInfo("TimeSyncDemo", "TimeSyncDemoKey", "TimeSyncDemoVersion");
 
         localTimeTextvalue.setText(getDeviceTime());
 //        utcTimeTextvalue.setText(mTimeSyncInterface.getUTCTime());
