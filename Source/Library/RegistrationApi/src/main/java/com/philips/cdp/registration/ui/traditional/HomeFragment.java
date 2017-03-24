@@ -399,6 +399,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mBtnMyPhilips = (XProviderButton) view.findViewById(R.id.btn_reg_my_philips);
         mBtnMyPhilips.setOnClickListener(this);
         mCountryDisplayy = (XTextView) view.findViewById(R.id.tv_country_displat);
+        mCountryDisplayy.setText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
         mCountryDisplayy.setOnClickListener(this);
 
         mTvWelcomeNeedAccount = (TextView) view.findViewById(R.id.tv_reg_create_account);
