@@ -139,6 +139,11 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         public void onApplianceUpdated(@NonNull BleReferenceAppliance bleReferenceAppliance) {
             // NOOP
         }
+
+        @Override
+        public void onApplianceLost(@NonNull BleReferenceAppliance bleReferenceAppliance) {
+            
+        }
     };
 
 
