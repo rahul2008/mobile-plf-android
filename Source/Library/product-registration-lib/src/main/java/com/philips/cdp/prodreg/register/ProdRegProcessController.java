@@ -31,6 +31,7 @@ public class ProdRegProcessController {
         void showLoadingDialog();
         void showFragment(Fragment fragment);
         void showAlertOnError(int responseCode);
+        void buttonEnable();
     }
 
     private RegisteredProduct currentProduct;
