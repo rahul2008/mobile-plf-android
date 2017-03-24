@@ -1,6 +1,5 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:alpha="?attr/uidQuietButtonDisabledAlpha"
-          android:color="?attr/uidControlPrimary" android:state_enabled="false"/>
-    <item android:color="?attr/uidControlPrimaryPressed" android:state_pressed="true"/>
-    <item android:color="?attr/uidControlPrimary"/>
+    <item android:color="?attr/uidButtonQuietDisabledIconColor" android:state_enabled="false"/>
+    <item android:color="?attr/uidButtonQuietPressedIconColor" android:state_pressed="true"/>
+    <item android:color="?attr/uidButtonQuietNormalIconColor"/>
 </selector>

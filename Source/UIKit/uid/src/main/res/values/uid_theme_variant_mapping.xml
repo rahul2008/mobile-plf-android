@@ -2,26 +2,30 @@
 <resources>
 
     <style name="UIDPrimaryControl">
-        <item name="uidButtonPrimaryNormalBackgroundColor">?attr/uidControlPrimary</item>
-        <item name="uidButtonPrimaryPressedBackgroundColor">?attr/uidControlPrimaryPressed</item>
-        <item name="uidButtonPrimaryDisabledBackgroundColor">?attr/uidControlPrimaryDisabled</item>
-        <item name="uidButtonDisabledAlpha">@dimen/uid_button_disabled_alpha</item>
-        <item name="uidButtonPrimaryNormalTextColor">?attr/uidControlPrimaryText</item>
-        <item name="uidButtonTextDisabledAlpha">@dimen/uid_button_disabled_alpha</item>
+        <!--
+          <item name="uidButtonPrimaryNormalBackgroundColor">?attr/uidControlPrimary</item>
+          <item name="uidButtonPrimaryPressedBackgroundColor">?attr/uidControlPrimaryPressed</item>
+          <item name="uidButtonPrimaryDisabledBackgroundColor">?attr/uidControlPrimaryDisabled</item>
+          <item name="uidButtonPrimaryNormalTextColor">?attr/uidControlPrimaryText</item>
+          <item name="uidButtonTextDisabledAlpha">@dimen/uid_button_disabled_alpha</item>
+        -->
     </style>
 
     <style name="UIDPrimaryControl.AlternatePrimary">
-        <item name="uidButtonPrimaryNormalBackgroundColor">?attr/uidControlPrimary</item>
+        <!--<item name="uidButtonPrimaryNormalBackgroundColor">?attr/uidControlPrimary</item>
         <item name="uidButtonPrimaryPressedBackgroundColor">?attr/uidControlPrimaryPressed</item>
         <item name="uidButtonPrimaryDisabledBackgroundColor">?attr/uidControlPrimaryDisabled</item>
+        -->
     </style>
 
     <style name="UIDPrimaryControl.Secondary">
+        <!--
         <item name="uidButtonSecondaryNormalBackgroundColor">?attr/uidControlSecondary</item>
         <item name="uidButtonSecondaryPressedBackgroundColor">?attr/uidControlSecondaryPressed
         </item>
         <item name="uidButtonSecondaryDisabledBackgroundColor">?attr/uidControlSecondaryDisabled
         </item>
         <item name="uidButtonTextColor">?attr/uidControlSecondaryText</item>
+        -->
     </style>
 </resources>

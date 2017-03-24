@@ -58,20 +58,6 @@
                         android:text="@string/secondary_button_label"
                         app:uidComponentType="Secondary"/>
 
-                    <com.philips.platform.uid.view.widget.EditText
-                        android:layout_width="@dimen/texteditbox_width"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/component_bottom_spacing"
-                        android:hint="@string/hint_text"
-                        android:inputType="text"/>
-
-                    <com.philips.platform.uid.view.widget.EditText
-                        android:layout_width="@dimen/texteditbox_width"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/component_bottom_spacing"
-                        android:hint="@string/hint_text_multi_lines"/>
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

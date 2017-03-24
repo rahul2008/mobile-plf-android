@@ -41,9 +41,10 @@ public class MainActivity extends AppCompatActivity {
 
     protected static final String TITLE_TEXT = "TITLE_TEXT";
     static final String THEMESETTINGS_ACTIVITY_RESTART = "THEMESETTINGS_ACTIVITY_RESTART";
-    private ContentColor contentColor;
-    private ColorRange colorRange;
-    private NavigationColor navigationColor;
+
+    ContentColor contentColor;
+    ColorRange colorRange;
+    NavigationColor navigationColor;
     private ThemeHelper themeHelper;
     private SharedPreferences defaultSharedPreferences;
 
@@ -56,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         themeHelper = new ThemeHelper(defaultSharedPreferences);
 
         UIDHelper.init(getThemeConfig());
-
         if (BuildConfig.DEBUG) {
             Log.d(MainActivity.class.getName(), String.format("Theme config Tonal Range :%s, Color Range :%s , Navigation Color : %s",
                     contentColor, colorRange, navigationColor));

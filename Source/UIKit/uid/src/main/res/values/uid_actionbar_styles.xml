@@ -2,28 +2,28 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="UIDNavigationbarUltraLight">
-        <!--<item name="uidActionBarBackground">@color/uidColorWhite</item>
-        <item name="uidNavigationBarTextColor">?attr/uidColorLevel45</item>-->
+        <!--<item name="uidNavigationPrimaryBackgroundColor">@color/uidColorWhite</item>
+        <item name="uidNavigationPrimaryTextColor">?attr/uidTextPrimary</item>-->
     </style>
 
-    <style name="UIDNavigationbarVeryLight"><!--
-        <item name="uidNavigationBarTextColor">?attr/uidColorLevel45</item>
-        <item name="uidActionBarBackground">?attr/uidColorLevel10</item>-->
+    <style name="UIDNavigationbarVeryLight">
+        <!--<item name="uidNavigationPrimaryBackgroundColor">?attr/uidColorLevel10</item>
+        <item name="uidNavigationPrimaryTextColor">?attr/uidColorLevel45</item>-->
     </style>
 
-    <style name="UIDNavigationbarLight"><!--
-        <item name="uidActionBarBackground">?attr/uidColorLevel25</item>
-        <item name="uidNavigationBarTextColor">@color/uidColorWhite</item>-->
+    <style name="UIDNavigationbarLight">
+        <!--<item name="uidNavigationPrimaryBackgroundColor">?attr/uidColorLevel25</item>
+        <item name="uidNavigationPrimaryTextColor">?attr/uidTextPrimary</item>-->
     </style>
 
-    <style name="UIDNavigationbarBright"><!--
-        <item name="uidActionBarBackground">?attr/uidColorLevel40</item>
-        <item name="uidNavigationBarTextColor">@color/uidColorWhite</item>-->
+    <style name="UIDNavigationbarBright">
+        <!--<item name="uidNavigationPrimaryBackgroundColor">?attr/uidColorLevel40</item>
+        <item name="uidNavigationPrimaryTextColor">?attr/uidTextPrimary</item>-->
     </style>
 
-    <style name="UIDNavigationbarVeryDark"><!--
-        <item name="uidNavigationBarTextColor">@color/uidColorWhite</item>
-        <item name="uidActionBarBackground">?attr/uidColorLevel70</item>-->
+    <style name="UIDNavigationbarVeryDark">
+        <!--<item name="uidActionBarBackground">?attr/uidColorLevel70</item>
+        <item name="uidNavigationPrimaryTextColor">?attr/uidTextPrimary</item>-->
     </style>
 
     <style name="UIDToolbarBarTitleText" parent="Base.TextAppearance.Widget.AppCompat.Toolbar.Title">
@@ -47,7 +47,8 @@
 
     <style name="UIDActionBarOverflowButton" parent="Widget.AppCompat.Light.ActionButton.Overflow">
         <item name="srcCompat">@drawable/uid_switch_thumb</item>
-        <!-- <item name="android:src">@drawable/uid_switch_thumb</item> &lt;!&ndash; This is for showing overflow icon with (three vertical dots) in action bar
+        <!-- <item name="android:src">@drawable/uid_switch_thumb</item>
+         This is for showing overflow icon with (three vertical dots) in action bar
         -->
         <item name="android:selectableItemBackground">@android:color/transparent</item>
         <item name="selectableItemBackground">@android:color/transparent</item>
@@ -89,8 +90,8 @@
     <style name="UIDToolbarTitleStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="collapseContentDescription">@dimen/uid_navigation_bar_title_margin_left_right
         </item>
-        <item name="android:textColor">?attr/uidNavigationText</item>
-        <item name="android:textColorPrimary">?attr/uidNavigationText</item>
+        <item name="android:textColor">?attr/uidNavigationPrimaryTextColor</item>
+        <item name="android:textColorPrimary">?attr/uidNavigationPrimaryTextColor</item>
         <item name="android:textSize">@dimen/uid_navigation_bar_text_size</item>
         <item name="android:lineSpacingExtra">@dimen/uid_navigation_bar_text_line_spacing_extra
         </item>
@@ -103,8 +104,8 @@
     <style name="UIDToolbarMenuTextAppearance" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Menu">
         <item name="android:textAllCaps">false</item>
         <item name="textAllCaps">false</item>
-        <item name="android:textColor">?attr/uidNavigationText</item>
-        <item name="android:textColorPrimary">?attr/uidNavigationText</item>
+        <item name="android:textColor">?attr/uidNavigationPrimaryTextColor</item>
+        <item name="android:textColorPrimary">?attr/uidNavigationPrimaryTextColor</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
     </style>

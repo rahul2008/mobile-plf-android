@@ -85,7 +85,7 @@ public class SocialIconsListFragment extends BaseFragment {
         final ThemeHelper themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(getContext()));
         final ContentColor contentColor = themeHelper.initContentTonalRange();
 
-        return !(contentColor == ContentColor.ULTRA_LIGHT || contentColor == ContentColor.VERY_LIGHT);
+        return true;//!(contentColor == ContentColor.ULTRA_LIGHT || contentColor == ContentColor.VERY_LIGHT);
     }
 
     static class SocialIconsViewHolder extends RecyclerView.ViewHolder {
@@ -149,10 +149,6 @@ public class SocialIconsListFragment extends BaseFragment {
             return VectorDrawableCompat.create(context.getResources(), iconId, context.getTheme());
         }
 
-        protected int getSocialIconId() {
-            return R.id.primarySocialIcon;
-        }
-
         protected int getLayoutId() {
             return R.layout.primary_social_icon_item;
         }
@@ -166,10 +162,6 @@ public class SocialIconsListFragment extends BaseFragment {
         @Override
         protected int getLayoutId() {
             return R.layout.white_social_icon_item;
-        }
-
-        protected int getSocialIconId() {
-            return R.id.whiteSocialIcon;
         }
     }
 }

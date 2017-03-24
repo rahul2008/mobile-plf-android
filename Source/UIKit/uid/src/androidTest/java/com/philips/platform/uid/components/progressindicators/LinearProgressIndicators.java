@@ -1,9 +1,10 @@
-package com.philips.platform.uid.components.progressindicators;
 /*
- * (C) Koninklijke Philips N.V., 2016.
+ * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  *
  */
+
+package com.philips.platform.uid.components.progressindicators;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -31,11 +32,10 @@ import static com.philips.platform.uid.utils.UIDTestUtils.modulateColorAlpha;
 
 public class LinearProgressIndicators {
 
-    private Context activityContext;
-    private Context instrumentationContext;
-
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
+    private Context activityContext;
+    private Context instrumentationContext;
     private Resources testResources;
 
     @Before
@@ -95,7 +95,6 @@ public class LinearProgressIndicators {
     public void verifySecondaryProgressBarSecondaryProgressColor() {
         final int expectedSecProgressBarSecondaryColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.30f);
         getProgressBarSecondary().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedSecProgressBarSecondaryColor, progressSecondaryID(), true)));
-
     }
 
     @Test

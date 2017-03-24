@@ -10,10 +10,6 @@ public class NavigationColorChangedEvent extends MessageEvent {
         this.navigationColor = navigationColor;
     }
 
-    public NavigationColorChangedEvent(final String message) {
-        super(message);
-    }
-
     public NavigationColor getNavigationColor() {
         return navigationColor;
     }

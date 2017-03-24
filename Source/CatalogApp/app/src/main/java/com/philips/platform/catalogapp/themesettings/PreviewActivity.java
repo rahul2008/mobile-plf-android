@@ -31,8 +31,8 @@ public class PreviewActivity extends AppCompatActivity {
 
     private ContentColor contentColor = ContentColor.ULTRA_LIGHT;
     private ColorRange colorRange = ColorRange.GROUP_BLUE;
-    private NavigationColor navigationColor = NavigationColor.VERY_LIGHT;
     private ThemeHelper themeHelper;
+    private NavigationColor navigationColor = NavigationColor.ULTRA_LIGHT;
 
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
@@ -41,8 +41,8 @@ public class PreviewActivity extends AppCompatActivity {
         UIDHelper.init(getThemeConfig());
 
         if (BuildConfig.DEBUG) {
-            Log.d(PreviewActivity.class.getName(), String.format("Theme config Tonal Range :%s, Color Range :%s , Navigation Color : %s",
-                    contentColor, colorRange, navigationColor));
+            Log.d(PreviewActivity.class.getName(), String.format("Theme config Tonal Range :%s, Color Range :%s",
+                    contentColor, this.colorRange));
         }
         super.onCreate(savedInstanceState);
 
@@ -64,8 +64,8 @@ public class PreviewActivity extends AppCompatActivity {
 
     public ThemeConfiguration getThemeConfig() {
         colorRange = themeHelper.initColorRange();
-        navigationColor = themeHelper.initNavigationRange();
         contentColor = themeHelper.initContentTonalRange();
+        navigationColor = themeHelper.initNavigationRange();
         return new ThemeConfiguration(colorRange, contentColor, navigationColor, this);
     }
 

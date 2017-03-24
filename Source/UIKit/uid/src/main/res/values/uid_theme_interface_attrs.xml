@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="UIDButton">
-        <attr name="uidButtonNormalColor" format="reference|color"/>
+        <!--<attr name="uidButtonNormalColor" format="reference|color"/>
         <attr name="uidButtonPressedColor" format="reference|color"/>
-        <!--
+
                 <attr name="uidButtonDisabledColor" format="reference|color"/>
         -->
-        <attr name="uidButtonDisabledAlpha" format="reference|float|dimension"/>
+        <!--<attr name="uidButtonDisabledAlpha" format="reference|float|dimension"/>
         <attr name="uidButtonTextColor" format="reference|color"/>
         <attr name="uidButtonTextPressedColor" format="reference|color"/>
         <attr name="uidButtonTextDisabledAlpha" format="reference|float|dimension"/>
+        -->
         <attr name="uidButtonBackgroundColorList" format="reference"/>
         <attr name="uidButtonTextColorList" format="reference"/>
         <attr name="uidButtonDrawableColorList" format="reference"/>
@@ -18,7 +19,9 @@
         <attr name="uidButtonImageDrawableWidth" format="dimension"/>
         <attr name="uidButtonImageDrawableSrc" format="reference"/>
         <attr name="uidButtonCenter" format="boolean"/>
-        <attr name="uidQuietButtonDisabledAlpha" format="reference|float"/>
+        <!--
+                <attr name="uidQuietButtonDisabledAlpha" format="reference|float"/>
+        -->
     </declare-styleable>
 
     <declare-styleable name="UIDImageButton">
@@ -68,27 +71,29 @@
         <attr name="uidNavigationShadowLevelTwoAlpha" format="reference|float"/>
     </declare-styleable>
 
-    <declare-styleable name="UIDSwitch">
-        <attr name="uidSwitchThumbColor" format="reference|color"/>
-        <attr name="uidSwitchThumbColorList" format="reference|color"/>
-        <attr name="uidSwitchThumbDisabledColor" format="reference|color"/>
-        <attr name="uidSwitchTrackOnColor" format="reference|color"/>
-        <attr name="uidSwitchTrackOffColor" format="reference|color"/>
-        <attr name="uidSwitchTrackOffAlpha" format="reference|float"/>
-        <attr name="uidSwitchTrackColorList" format="reference|color"/>
-        <attr name="uidSwitchTrackDisabledColor" format="reference|color"/>
-        <attr name="uidSwitchTrackDisabledAlpha" format="reference|float"/>
-        <attr name="uidSwitchBorderColor" format="reference|color"/>
-        <attr name="uidSwitchBorderColorAlpha" format="reference|color"/>
-        <attr name="uidSwitchBorderColorList" format="reference|color"/>
-    </declare-styleable>
+    <!-- <declare-styleable name="UIDSwitch">
+         <attr name="uidSwitchThumbColor" format="reference|color"/>
+         <attr name="uidSwitchThumbColorList" format="reference|color"/>
+         <attr name="uidSwitchThumbDisabledColor" format="reference|color"/>
+         <attr name="uidSwitchTrackOnColor" format="reference|color"/>
+         <attr name="uidSwitchTrackOffColor" format="reference|color"/>
+         <attr name="uidSwitchTrackOffAlpha" format="reference|float"/>
+         <attr name="uidSwitchTrackColorList" format="reference|color"/>
+         <attr name="uidSwitchTrackDisabledColor" format="reference|color"/>
+         <attr name="uidSwitchTrackDisabledAlpha" format="reference|float"/>
+         <attr name="uidSwitchBorderColor" format="reference|color"/>
+         <attr name="uidSwitchBorderColorAlpha" format="reference|color"/>
+         <attr name="uidSwitchBorderColorList" format="reference|color"/>
+     </declare-styleable>-->
 
     <declare-styleable name="UIDProgressBar">
         <attr name="uidProgressBarBGColor" format="reference|color"/>
         <attr name="uidProgressBarBGColorAlpha" format="reference|float"/>
         <attr name="uidProgressBarSecondaryColor" format="reference|color"/>
         <attr name="uidProgressBarSecondaryColorAlpha" format="reference|float"/>
-        <attr name="uidProgressBarProgressColor" format="reference|float"/>
+        <!--
+                <attr name="uidProgressBarProgressColor" format="reference|float"/>
+        -->
         <attr name="uidIsLinearProgressBar" format="boolean"/>
         <attr name="uidProgressBarCircularEndColor" format="reference|color"/>
         <attr name="uidProgressBarCircularProgressColorList" format="reference|color"/>
@@ -168,15 +173,15 @@
         <attr name="uidDatePickerButtonTextColor" format="reference|color"/>
     </declare-styleable>
 
-    <declare-styleable name="UIDSocialMediaButton">
-        <attr name="uidSocialIconPrimaryButtonIconColor" format="reference|color"/>
-        <attr name="uidSocialIconPrimaryButtonNormalFillColor" format="reference|color"/>
-        <attr name="uidSocialIconPrimaryButtonPressedColor" format="reference|color"/>
-        <attr name="uidSocialIconWhiteButtonIconColor" format="reference|color"/>
-        <attr name="uidSocialIconWhiteButtonNormalFillColor" format="reference|color"/>
-        <attr name="uidSocialIconWhitePressedColor" format="reference|color"/>
+    <!-- <declare-styleable name="UIDSocialMediaButton">
+         <attr name="uidSocialIconPrimaryButtonIconColor" format="reference|color"/>
+         <attr name="uidSocialIconPrimaryButtonNormalFillColor" format="reference|color"/>
+         <attr name="uidSocialIconPrimaryButtonPressedColor" format="reference|color"/>
+         <attr name="uidSocialIconWhiteButtonIconColor" format="reference|color"/>
+         <attr name="uidSocialIconWhiteButtonNormalFillColor" format="reference|color"/>
+         <attr name="uidSocialIconWhitePressedColor" format="reference|color"/>
 
-    </declare-styleable>
+     </declare-styleable>-->
 
     <declare-styleable name="UIDCheckBox">
         <attr name="uidCheckBoxTextEnabledColor" format="reference|color"/>

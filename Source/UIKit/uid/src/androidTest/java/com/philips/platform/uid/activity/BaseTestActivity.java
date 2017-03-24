@@ -16,7 +16,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.WindowManager;
 
 import com.philips.platform.uid.thememanager.UIDHelper;
 
@@ -34,14 +33,14 @@ public class BaseTestActivity extends AppCompatActivity implements DelayerCallba
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 //        int navigationColor = NavigationColor.BRIGHT.ordinal();
 //        int contentColor = 0;
-//        if (getIntent() != null && getIntent().getExtras() != null) {
-//            final Bundle extras = getIntent().getExtras();
+//        if (getIntentWithContentRange() != null && getIntentWithContentRange().getExtras() != null) {
+//            final Bundle extras = getIntentWithContentRange().getExtras();
 //            navigationColor = extras.getInt(NAVIGATION_COLOR_KEY, 1);
 //            contentColor = extras.getInt(CONTENT_COLOR_KEY, 0);
 //        }
         UIDHelper.injectCalligraphyFonts();
 //        UIDHelper.init(getThemeConfig(navigationColor, contentColor));
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         super.onCreate(savedInstanceState);
     }

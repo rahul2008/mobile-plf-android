@@ -15,7 +15,10 @@ import android.support.v4.content.ContextCompat;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
+import com.philips.platform.uid.components.BaseTest;
 import com.philips.platform.uid.matcher.FunctionDrawableMatchers;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.utils.TestConstants;
 
 import org.junit.Before;
@@ -32,22 +35,19 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uid.test.R.color.GroupBlue45;
 import static com.philips.platform.uid.utils.UIDTestUtils.modulateColorAlpha;
 
-public class ToggleSwitchTest {
-
-    private Context activityContext;
-    private Context instrumentationContext;
+public class ToggleSwitchTest extends BaseTest {
 
     @Rule
-    public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
+    public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class, false, false);
+    private Context instrumentationContext;
     private Resources testResources;
 
     @Before
     public void setUp() {
-        final BaseTestActivity activity = mActivityTestRule.getActivity();
+        final BaseTestActivity activity = mActivityTestRule.launchActivity(getLaunchIntent(NavigationColor.ULTRA_LIGHT.ordinal(), ContentColor.VERY_DARK.ordinal()));
         activity.switchTo(com.philips.platform.uid.test.R.layout.layout_toggle_switch);
         testResources = getInstrumentation().getContext().getResources();
         instrumentationContext = getInstrumentation().getContext();
-        activityContext = activity;
     }
 
     //*********************************Toggle Switch Layout TestScenarios**************************//
