@@ -163,6 +163,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                         controller.getProductDetail(mCTNValue);
                     } else {
                         fetchProductDetailFromPrx();
+                        if (mIapListener != null)
+                            mIapListener.onSuccess();
                     }
                 }
             } else {
@@ -324,6 +326,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mImageAdapter = new ImageAdapter(mContext, getFragmentManager(), mLaunchedFromProductCatalog, mAsset);
         mViewPager.setAdapter(mImageAdapter);
         mImageAdapter.notifyDataSetChanged();
+        if (mIapListener != null)
+            mIapListener.onSuccess();
         if (isProgressDialogShowing())
             dismissProgressDialog();
     }
@@ -335,6 +339,11 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             dismissProgressDialog();
         if (!isNetworkConnected()) return;
         NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+
+        if (msg.obj instanceof IAPNetworkError) {
+            IAPNetworkError obj = (IAPNetworkError) msg.obj;
+            mIapListener.onFailure(obj.getIAPErrorCode());
+        }
 
     }
 
@@ -373,6 +382,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             dismissProgressDialog();
         }
         mDetailLayout.setVisibility(View.VISIBLE);
+        if (mIapListener != null)
+            mIapListener.onSuccess();
     }
 
     @Override
@@ -382,6 +393,11 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         showErrorDialog(msg);
         if (isProgressDialogShowing())
             dismissProgressDialog();
+
+        if (msg.obj instanceof IAPNetworkError) {
+            IAPNetworkError obj = (IAPNetworkError) msg.obj;
+            mIapListener.onFailure(obj.getIAPErrorCode());
+        }
     }
 
     @Override

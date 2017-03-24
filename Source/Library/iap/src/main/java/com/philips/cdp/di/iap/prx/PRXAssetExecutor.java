@@ -11,7 +11,6 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.TimeoutError;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.localematch.enums.Catalog;
@@ -27,7 +26,6 @@ import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.request.ProductAssetRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,14 +78,41 @@ public class PRXAssetExecutor {
     }
 
     protected void notifySuccess(ResponseData responseData) {
+        Message result = Message.obtain();
         AssetModel assetModel = (AssetModel) responseData;
+        if (assetModel == null) {
+            if (mAssetListener != null) {
+                result.obj = mContext.getString(R.string.iap_something_gone_wrong);
+                mAssetListener.onFetchAssetFailure(result);
+            }
+            return;
+        }
         Data data = assetModel.getData();
+        if (data == null) {
+            if (mAssetListener != null) {
+                result.obj = mContext.getString(R.string.iap_something_gone_wrong);
+                mAssetListener.onFetchAssetFailure(result);
+            }
+            return;
+        }
         Assets assets = data.getAssets();
+        if (assets == null) {
+            if (mAssetListener != null) {
+                result.obj = mContext.getString(R.string.iap_something_gone_wrong);
+                mAssetListener.onFetchAssetFailure(result);
+            }
+            return;
+        }
         List<Asset> asset = assets.getAsset();
-
+        if (asset == null) {
+            if (mAssetListener != null) {
+                result.obj = mContext.getString(R.string.iap_something_gone_wrong);
+                mAssetListener.onFetchAssetFailure(result);
+            }
+            return;
+        }
         ArrayList<String> assetArray = fetchImageUrlsFromPRXAssets(asset);
 
-        Message result = Message.obtain();
         result.obj = assetArray;
         if (mAssetListener != null) {
             mAssetListener.onFetchAssetSuccess(result);
@@ -146,7 +171,7 @@ public class PRXAssetExecutor {
     }
 
     private ProductAssetRequest prepareAssetBuilder(final String code) {
-      //  String locale = HybrisDelegate.getInstance(mContext).getStore().getLocale();//Check
+        //  String locale = HybrisDelegate.getInstance(mContext).getStore().getLocale();//Check
 
         ProductAssetRequest productAssetBuilder = new ProductAssetRequest(code, null);
         productAssetBuilder.setSector(Sector.B2C);

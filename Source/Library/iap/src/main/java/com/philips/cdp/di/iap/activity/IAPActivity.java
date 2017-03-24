@@ -39,7 +39,6 @@ import com.philips.cdp.di.iap.screens.ShoppingCartFragment;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -80,7 +79,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
 
     private void addLandingViews(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-            updateConfigurationWithCurrentLocale();
             int landingScreen = getIntent().getIntExtra(IAPConstant.IAP_LANDING_SCREEN, -1);
             ArrayList<String> CTNs = getIntent().getExtras().getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS);
             Bundle bundle = new Bundle();
@@ -137,16 +135,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
             themeIndex = DEFAULT_THEME;
         }
         setTheme(themeIndex);
-    }
-
-    private void updateConfigurationWithCurrentLocale() {
-        Locale locale = new Locale(CartModelContainer.getInstance().getLanguage(),
-                CartModelContainer.getInstance().getCountry());
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.setLocale(locale);
-        getResources().updateConfiguration(config,
-                getResources().getDisplayMetrics());
     }
 
     @Override

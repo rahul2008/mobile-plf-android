@@ -257,7 +257,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mEtCTN.setText("");
             hideKeypad(this);
         } else if (view == mRegister) {
-            RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
+            mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
+            //RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
             URLaunchInput urLaunchInput = new URLaunchInput();
             urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
             urLaunchInput.setUserRegistrationUIEventListener(this);

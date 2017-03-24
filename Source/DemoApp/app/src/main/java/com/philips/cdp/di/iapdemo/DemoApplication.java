@@ -10,7 +10,6 @@ import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.URDependancies;
@@ -31,7 +30,7 @@ public class DemoApplication extends Application {
     public void onCreate() {
         super.onCreate();
         LeakCanary.install(this);
-        initAppInfra();
+        mAppInfra = new AppInfra.Builder().build(getApplicationContext());
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         String restoredText = prefs.getString("reg_environment", null);
         if (restoredText != null) {
@@ -41,13 +40,8 @@ public class DemoApplication extends Application {
             }
             initRegistration(RegUtility.getConfiguration(restoredText));
         } else {
-            initRegistration(Configuration.STAGING);
+            initRegistration(Configuration.PRODUCTION);
         }
-    }
-
-    public void initAppInfra() {
-        mAppInfra = new AppInfra.Builder().build(getApplicationContext());
-        RegistrationHelper.getInstance().setAppInfraInstance(mAppInfra);
     }
 
     public AppInfra getAppInfra() {
