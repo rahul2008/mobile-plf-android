@@ -13,6 +13,9 @@ import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.screens.dataservices.database.DatabaseHelper;
 import com.philips.platform.baseapp.screens.dataservices.database.ORMSavingInterfaceImpl;
@@ -55,6 +58,8 @@ public class DataServicesState extends BaseState {
     public static final String TAG = DataServicesState.class.getSimpleName();
     FragmentLauncher fragmentLauncher;
     ScheduleSyncReceiver mScheduleSyncReceiver;
+    AppInfraInterface appInfraInterface;
+    ServiceDiscoveryInterface serviceDiscovery;
 
     public DataServicesState() {
         super(AppStates.DATA_SYNC);
@@ -66,24 +71,57 @@ public class DataServicesState extends BaseState {
      * @param uiLauncher requires UiLauncher
      */
     @Override
-    public void navigate(UiLauncher uiLauncher) {
-        fragmentLauncher = (FragmentLauncher) uiLauncher;
-        ((AppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).
-                handleFragmentBackStack(new TemperatureTimeLineFragment(), TemperatureTimeLineFragment.TAG, getUiStateData().getFragmentLaunchState());
+    public void navigate(final UiLauncher uiLauncher) {
+        AppFrameworkApplication appContext = (AppFrameworkApplication) ((AppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).getApplicationContext();
+
+        appInfraInterface = appContext.getAppInfra();
+        serviceDiscovery = appInfraInterface.getServiceDiscovery();
+
+        serviceDiscovery.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+            @Override
+            public void onSuccess(String s, SOURCE source) {
+                if(s.equals("CN")) {
+
+                } else {
+
+                    fragmentLauncher = (FragmentLauncher) uiLauncher;
+                    ((AppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).
+                            handleFragmentBackStack(new TemperatureTimeLineFragment(), TemperatureTimeLineFragment.TAG, getUiStateData().getFragmentLaunchState());
+                }
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+            }
+        });
+
     }
 
     @Override
-    public void init(Context context) {
-        mScheduleSyncReceiver = new ScheduleSyncReceiver();
-        OrmCreator creator = new OrmCreator(new UuidGenerator());
-        UserRegistrationInterface userRegistrationInterface = new UserRegistrationInterfaceImpl(context, new User(context));
-        ErrorHandlerInterfaceImpl errorHandlerInterface = new ErrorHandlerInterfaceImpl();
-        DataServicesManager.getInstance().initializeDataServices(context, creator, userRegistrationInterface, errorHandlerInterface);
-        injectDBInterfacesToCore(context);
-        DataServicesManager.getInstance().initializeSyncMonitors(context, null, null);
-        DSLog.enableLogging(true);
-        DSLog.i(DSLog.LOG, "Before Setting up Synchronization Loop");
-        scheduleSync(context);
+    public void init(final Context context) {
+        serviceDiscovery.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+            @Override
+            public void onSuccess(String s, SOURCE source) {
+                if(s.equals("CN")) {
+
+                } else {
+                    mScheduleSyncReceiver = new ScheduleSyncReceiver();
+                    OrmCreator creator = new OrmCreator(new UuidGenerator());
+                    UserRegistrationInterface userRegistrationInterface = new UserRegistrationInterfaceImpl(context, new User(context));
+                    ErrorHandlerInterfaceImpl errorHandlerInterface = new ErrorHandlerInterfaceImpl();
+                    DataServicesManager.getInstance().initializeDataServices(context, creator, userRegistrationInterface, errorHandlerInterface);
+                    injectDBInterfacesToCore(context);
+                    DataServicesManager.getInstance().initializeSyncMonitors(context, null, null);
+                    DSLog.enableLogging(true);
+                    DSLog.i(DSLog.LOG, "Before Setting up Synchronization Loop");
+                    scheduleSync(context);
+                }
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+            }
+        });
         //Stetho.initializeWithDefaults(context);
     }
 

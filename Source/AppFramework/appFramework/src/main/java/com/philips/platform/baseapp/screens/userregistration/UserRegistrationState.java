@@ -28,8 +28,12 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFound
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
+import com.philips.platform.baseapp.screens.dataservices.temperature.TemperatureTimeLineFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -81,7 +85,24 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     public void init(Context context) {
         this.applicationContext = context;
         initializeUserRegistrationLibrary();
-        initHSDP();
+
+        AppInfraInterface appInfraInterface = getApplicationContext().getAppInfra();
+        ServiceDiscoveryInterface serviceDiscovery = appInfraInterface.getServiceDiscovery();
+
+        serviceDiscovery.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+            @Override
+            public void onSuccess(String s, SOURCE source) {
+                if(s.equals("CN")) {
+
+                } else {
+                    initHSDP();
+                }
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+            }
+        });
     }
 
 
