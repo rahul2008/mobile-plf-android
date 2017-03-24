@@ -76,6 +76,7 @@ public class UpdatingMonitor extends EventMonitor {
         }
     }
 
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final MomentsUpdateRequest momentsUpdateRequest) {
         List<Moment> moments = momentsUpdateRequest.getMoments();

@@ -42,6 +42,7 @@ public class DeletingMonitor extends EventMonitor {
         //eventing.post(new DataClearResponse(event.getEventId()));
     }
 
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(DeleteAllMomentsRequest event) {
         final DBRequestListener<Moment> dbRequestListener = event.getDbRequestListener();
