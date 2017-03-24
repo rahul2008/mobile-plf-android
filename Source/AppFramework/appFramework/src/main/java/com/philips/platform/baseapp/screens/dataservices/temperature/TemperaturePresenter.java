@@ -19,7 +19,10 @@ import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.utils.RowItem;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
+import com.philips.platform.baseapp.screens.dataservices.characteristics.CharacteristicsDialogFragment;
 import com.philips.platform.baseapp.screens.dataservices.database.DatabaseHelper;
 import com.philips.platform.baseapp.screens.dataservices.database.EmptyForeignCollection;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MeasurementDetailType;
@@ -48,6 +51,8 @@ import java.util.List;
 
 
 public class TemperaturePresenter {
+    public final String TAG = TemperaturePresenter.class.getSimpleName();
+
     private final DBRequestListener dbRequestListener;
     private DataServicesManager mDataServices;
 
@@ -194,8 +199,8 @@ public class TemperaturePresenter {
                 DSLog.i(DSLog.LOG, "e = " + e.getMessage());
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,
+                    e.getMessage());        }
     }
 
     private void updateMoment(OrmMoment old) {
@@ -276,8 +281,8 @@ public class TemperaturePresenter {
                             Dao<OrmMoment, Integer> momentDao = DatabaseHelper.getInstance(mContext).getMomentDao();
                             momentDao.refresh((OrmMoment) moment);
                         } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
+                            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,
+                                    e.getMessage());                        }
                         updateMoment((OrmMoment) moment);
                         break;
                 }

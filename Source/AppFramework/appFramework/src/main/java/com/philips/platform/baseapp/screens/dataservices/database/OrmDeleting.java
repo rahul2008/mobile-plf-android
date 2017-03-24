@@ -11,6 +11,9 @@ import android.support.annotation.Nullable;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.base.FileUtility;
 import com.philips.platform.baseapp.screens.dataservices.consents.ConsentDetailType;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
@@ -42,6 +45,7 @@ import java.util.concurrent.Callable;
  * All rights reserved.
  */
 public class OrmDeleting {
+    public final String TAG = OrmDeleting.class.getSimpleName();
 
     @NonNull
     private final Dao<OrmMoment, Integer> momentDao;
@@ -125,7 +129,7 @@ public class OrmDeleting {
             syncDao.createOrUpdate(new OrmDCSync(SyncType.CONSENT.getId(), SyncType.CONSENT.getDescription(), true));
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,e.getMessage());
         }
     }
 
@@ -134,7 +138,7 @@ public class OrmDeleting {
             settingsDao.createOrUpdate(new OrmSettings("en_US" ,"metric"));
             syncDao.createOrUpdate(new OrmDCSync(SyncType.SETTINGS.getId(), SyncType.SETTINGS.getDescription(), true));
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,e.getMessage());
         }
     }
 
@@ -142,7 +146,7 @@ public class OrmDeleting {
         try {
             syncDao.createOrUpdate(new OrmDCSync(SyncType.CHARACTERISTICS.getId(), SyncType.CHARACTERISTICS.getDescription(), true));
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,e.getMessage());
         }
     }
 
@@ -292,7 +296,7 @@ public class OrmDeleting {
                 }
             });
         } catch (Exception e) {
-            e.printStackTrace();
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,e.getMessage());
             //dbRequestListener.onFailure(e);
             new NotifyDBRequestListener().notifyFailure(e,dbRequestListener);
             return false;

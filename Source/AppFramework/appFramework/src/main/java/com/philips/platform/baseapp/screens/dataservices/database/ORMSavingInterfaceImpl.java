@@ -5,6 +5,8 @@
 
 package com.philips.platform.baseapp.screens.dataservices.database;
 
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.dataservices.database.table.BaseAppDateTime;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
@@ -75,7 +77,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
                 OrmConsentDetail ormConsent = OrmTypeChecking.checkOrmType(consentDetail, OrmConsentDetail.class);
                 saving.saveConsentDetail(ormConsent);
             } catch (OrmTypeChecking.OrmTypeException e) {
-                e.printStackTrace();
+                AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,e.getMessage());
             }
 
         }
@@ -98,7 +100,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             updateUCUI(characteristicsList, dbRequestListener);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
-            e.printStackTrace();
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,e.getMessage());
             return false;
         }
     }

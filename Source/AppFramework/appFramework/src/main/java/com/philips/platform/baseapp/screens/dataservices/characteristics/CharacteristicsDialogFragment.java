@@ -15,6 +15,9 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.base.FileUtility;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.SyncType;
@@ -31,6 +34,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class CharacteristicsDialogFragment extends DialogFragment implements View.OnClickListener, DBFetchRequestListner<Characteristics>,DBRequestListener<Characteristics>,DBChangeListener {
+    public final String TAG = CharacteristicsDialogFragment.class.getSimpleName();
     Button mBtnOk,mBtnEdit;
     private Context mContext;
     private EditText mEtCharacteristics;
@@ -171,8 +175,8 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
                     mEtCharacteristics.setText(jsonObj);
                 } catch (Exception e) {
                     DSLog.i(DSLog.LOG, "Inder Exception onSuccess= " + e.getMessage());
-                    e.printStackTrace();
-                }
+                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,
+                            e.getMessage());                }
             }
 
 

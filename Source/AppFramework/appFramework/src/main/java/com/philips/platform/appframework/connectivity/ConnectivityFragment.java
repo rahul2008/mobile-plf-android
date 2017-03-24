@@ -42,6 +42,8 @@ import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceApplianceFactory;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
 
 public class ConnectivityFragment extends AppFrameworkBaseFragment implements View.OnClickListener, ConnectivityContract.View {
@@ -285,8 +287,8 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                         editText.setText(Integer.toString(-1));
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,
+                            e.getMessage());              }
             }
         });
 

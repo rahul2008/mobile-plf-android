@@ -18,6 +18,8 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.platform.appframework.connectivity.models.Measurement;
 import com.philips.platform.appframework.connectivity.models.MomentDetail;
 import com.philips.platform.appframework.connectivity.models.UserMoment;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PostMomentRquest extends PlatformRequest {
+    public static final String TAG = PostMomentRquest.class.getSimpleName();
 
     private UserMoment userMoment;
 
@@ -116,8 +119,8 @@ public class PostMomentRquest extends PlatformRequest {
             parent.put(UserMoment.TYPE, "Example");
             return parent;
         } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,
+                    e.getMessage());            return null;
         }
     }
 
@@ -130,8 +133,8 @@ public class PostMomentRquest extends PlatformRequest {
                 try {
                     postMomentResponseListener.onPostMomentSuccess(response.getString("momentId"));
                 } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,
+                            e.getMessage());                }
             }
         };
     }

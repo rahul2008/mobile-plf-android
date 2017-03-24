@@ -34,6 +34,7 @@ import java.util.Arrays;
  * based on user selection this class loads the next state of the application.
  */
 public class TabbedActivityPresenter extends UIBasePresenter implements UIStateListener{
+    public static final String TAG = TabbedActivityPresenter.class.getSimpleName();
 
     private FragmentView fragmentView;
     private AppFrameworkApplication appFrameworkApplication;
@@ -77,8 +78,8 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             //Logger.e(TAG, "IllegalStateException" + e.getMessage());
-            e.printStackTrace();
-        }
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,
+                    e.getMessage());        }
     }
 
     @NonNull

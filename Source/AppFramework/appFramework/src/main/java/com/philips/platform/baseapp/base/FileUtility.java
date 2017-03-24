@@ -8,6 +8,7 @@ package com.philips.platform.baseapp.base;
 import android.content.Context;
 import android.support.annotation.Nullable;
 
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 
 import java.io.File;
@@ -18,6 +19,7 @@ import java.io.InputStream;
 public class FileUtility {
 
     private Context context;
+    public final String TAG = FileUtility.class.getSimpleName();
 
     public FileUtility(Context context){
             this.context = context;
@@ -28,8 +30,8 @@ public class FileUtility {
         try {
             inputStream = context.getAssets().open(context.getString(resId));
         } catch (IOException e) {
-            e.printStackTrace();
-        }
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,
+                    e.getMessage());        }
         return inputStream;
     }
 
@@ -58,7 +60,8 @@ public class FileUtility {
             inputStream.close();
             return file;
         } catch (IOException e) {
-            e.printStackTrace();
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,
+                   e.getMessage());
         }
 
         return null;

@@ -10,6 +10,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.j256.ormlite.dao.Dao;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.base.FileUtility;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurement;
@@ -35,6 +38,7 @@ import java.util.concurrent.Callable;
  * All rights reserved.
  */
 public class OrmSaving {
+    public final String TAG = OrmSaving.class.getSimpleName();
 
     @NonNull
     private final Dao<OrmMoment, Integer> momentDao;
@@ -210,7 +214,7 @@ public class OrmSaving {
                 }
             });
         } catch (Exception e) {
-            e.printStackTrace();
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,e.getMessage());
             new NotifyDBRequestListener().notifyFailure(e,dbRequestListener);
             return false;
         }

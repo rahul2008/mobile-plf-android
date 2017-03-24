@@ -1,5 +1,7 @@
 package com.philips.platform.baseapp.screens.dataservices.database;
 
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMoment;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSettings;
@@ -59,9 +61,9 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             notifyDBRequestListener.notifySuccess(dbRequestListener,SyncType.SETTINGS);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,e.getMessage());
         } catch (OrmTypeChecking.OrmTypeException e) {
-            e.printStackTrace();
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,e.getMessage());
         }
     }
 
@@ -70,7 +72,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         try {
             updating.updateDCSync(tableID,isSynced);
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,e.getMessage());
         }
         return false;
     }
@@ -84,7 +86,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             try {
                 updating.updateConsentDetails(consentDetail);
             } catch (SQLException e) {
-                e.printStackTrace();
+                AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,e.getMessage());
                 notifyDBRequestListener.notifyFailure(e,dbRequestListener);
                 return false;
             }
@@ -142,7 +144,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             notifyDBRequestListener.notifySuccess(dbRequestListener,SyncType.CHARACTERISTICS);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
-            e.printStackTrace();
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,e.getMessage());
             return false;
         }
 

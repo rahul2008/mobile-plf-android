@@ -13,6 +13,8 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.dataservices.consents.ConsentDetailType;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MeasurementDetailType;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MeasurementGroupDetailType;
@@ -141,7 +143,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             try {
                 ormDCSyncDao.createOrUpdate(new OrmDCSync(tableType.getId(), tableType.getDescription(), true));
             } catch (SQLException e) {
-                e.printStackTrace();
+                AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,e.getMessage());
             }
         }
 
@@ -152,7 +154,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             try {
                 ormDCSyncDao.createOrUpdate(new OrmDCSync(type.getId(), type.getDescription(), true));
             } catch (SQLException e) {
-                e.printStackTrace();
+                AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,e.getMessage());
             }
 
     }
@@ -172,7 +174,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             try {
                 settingDao = getDao(OrmSettings.class);
             } catch (SQLException e) {
-                e.printStackTrace();
+                AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,e.getMessage());
             }
         }
         return settingDao;
@@ -183,7 +185,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             try {
                 ormDCSyncDao = getDao(OrmDCSync.class);
             } catch (SQLException e) {
-                e.printStackTrace();
+                AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,e.getMessage());
             }
         }
         return ormDCSyncDao;

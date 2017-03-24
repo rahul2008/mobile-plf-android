@@ -23,6 +23,7 @@ import com.philips.cdp.uikit.customviews.CircularProgressbar;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.exceptions.NullEventException;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
@@ -206,8 +207,8 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
             }
             storeLastEmail();
         }catch (NullPointerException e){
-            e.printStackTrace();
-        }
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,
+                    e.getMessage());        }
     }
 
     private boolean isSameEmail() {
