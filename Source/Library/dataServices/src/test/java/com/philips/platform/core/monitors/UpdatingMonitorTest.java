@@ -12,6 +12,7 @@ import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
+import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
@@ -37,6 +38,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -158,6 +160,21 @@ public class UpdatingMonitorTest {
         updatingMonitor.onEventBackGround(new BackendMomentListSaveRequest(Arrays.asList(moment1), dbChangeListener));
         verify(momentsSegregatorMock).processMomentsReceivedFromBackend(Arrays.asList(moment1),null);
     }
+
+    @Test
+    public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenBackendMomentListSaveRequestPassedWithNull() throws Exception {
+        updatingMonitor.onEventBackGround(new BackendMomentListSaveRequest(null, dbChangeListener));
+        verifyNoMoreInteractions(momentsSegregatorMock);
+    }
+
+    @Test
+    public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenBackendMomentListSaveRequestFailedWithException() throws Exception {
+        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
+        doThrow(SQLException.class).when(momentsSegregatorMock).processMomentsReceivedFromBackend(Arrays.asList(moment1), null);
+        updatingMonitor.onEventBackGround(new BackendMomentListSaveRequest(Arrays.asList(moment1), dbChangeListener));
+        verify(momentsSegregatorMock).processMomentsReceivedFromBackend(Arrays.asList(moment1), null);
+    }
+
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenMomentDataSenderCreatedRequestPassed() throws Exception {
