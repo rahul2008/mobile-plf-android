@@ -30,6 +30,6 @@
     "servicediscovery.platformMicrositeId":"77000",
     "servicediscovery.platformEnvironment":"production",
     "appconfig.cloudServiceId":" appinfra.appconfigdownload",
-    "LANGUAGEPACK.SERVICEID":"appinfra.languagePack"
+    "LANGUAGEPACK.SERVICEID":"appinfra.languagepack"
   }
 }
