@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.screens.dataservices.characteristics.CharacteristicsDialogFragment;
 
 import java.io.BufferedReader;
 import java.io.File;

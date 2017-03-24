@@ -21,8 +21,6 @@ import com.philips.cdp.uikit.utils.RowItem;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
-import com.philips.platform.baseapp.screens.dataservices.characteristics.CharacteristicsDialogFragment;
 import com.philips.platform.baseapp.screens.dataservices.database.DatabaseHelper;
 import com.philips.platform.baseapp.screens.dataservices.database.EmptyForeignCollection;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MeasurementDetailType;
