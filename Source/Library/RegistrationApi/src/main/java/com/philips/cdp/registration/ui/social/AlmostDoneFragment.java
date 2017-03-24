@@ -59,9 +59,6 @@ import com.philips.cdp.registration.ui.utils.URInterface;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.inject.Inject;
 
 import static com.philips.cdp.registration.ui.traditional.LogoutFragment.BAD_RESPONSE_ERROR_CODE;
@@ -130,6 +127,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private boolean isTermsAndConditionVisible;
 
+    private User mUser;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onCreate");
@@ -148,6 +147,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 "AlmostDoneFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
         View view = inflater.inflate(R.layout.reg_fragment_social_almost_done, container, false);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
+
         initUI(view);
         updateUiStatus(false);
         handleOrientation(view);
@@ -362,6 +362,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         mTvSignInWith = (TextView) view.findViewById(R.id.tv_reg_sign_in_with);
         mLlAlmostDoneContainer = (LinearLayout) view.findViewById(R.id.ll_reg_almost_done);
 
+        mUser = new User(mContext);
         mLlAcceptTermsContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_accept_terms);
 
@@ -448,10 +449,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             acceptTermsLine.setVisibility(View.GONE);
             mLlAcceptTermsContainer.setVisibility(View.GONE);
         }
-        User user = new User(mContext);
 
         if(isTermsAndConditionAccepted()){
-            if(!user.getReceiveMarketingEmail()){
+            if(!mUser.getReceiveMarketingEmail()){
                 view.findViewById(R.id.fl_reg_receive_philips_news).setVisibility(View.VISIBLE);
             }else{
                 view.findViewById(R.id.fl_reg_receive_philips_news).setVisibility(View.GONE);
@@ -589,24 +589,22 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             return;
         }
 
-        User user = new User(mContext);
-        if(user.getMobile()!=null && !user.getMobile().equalsIgnoreCase("null")){
-            RegPreferenceUtility.storePreference(mContext,user.getMobile(),true);
-        }else if(user.getEmail()!=null && !user.getEmail().equalsIgnoreCase("null")){
-            RegPreferenceUtility.storePreference(mContext,user.getEmail(),true);
+        if(mUser.getMobile()!=null && !mUser.getMobile().equalsIgnoreCase("null")){
+            RegPreferenceUtility.storePreference(mContext,mUser.getMobile(),true);
+        }else if(mUser.getEmail()!=null && !mUser.getEmail().equalsIgnoreCase("null")){
+            RegPreferenceUtility.storePreference(mContext,mUser.getEmail(),true);
         }
     }
     private void register() {
         if (networkUtility.isNetworkAvailable()) {
             mRegAccptTermsError.setVisibility(View.GONE);
-            User user = new User(mContext);
             showSpinner();
             if (isEmailExist) {
-                user.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName, mEmail, true,
+                mUser.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName, mEmail, true,
                         mCbRemarketingOpt.isChecked(), this, mRegistrationToken);
             } else {
                 mEmail = FieldsValidator.getMobileNumber(mEtEmail.getEmailId().trim());
-                user.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName,
+                mUser.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName,
                         mEmail, true, mCbRemarketingOpt.isChecked(), this, mRegistrationToken);
             }
         }
@@ -736,12 +734,11 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     }
 
     private void handleABTestingFlow() {
-        User user = new User(mContext);
         final UIFlow abTestingUIFlow = RegUtility.getUiFlow();
         switch (abTestingUIFlow){
             case FLOW_A:
                 RLog.d(RLog.AB_TESTING, "UI Flow Type A");
-                if (user.getEmailVerificationStatus()) {
+                if (mUser.getEmailVerificationStatus()) {
                     launchWelcomeFragment();
                 } else {
                     launchAccountActivateFragment();
@@ -753,7 +750,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 break;
             case FLOW_C:
                 RLog.d(RLog.AB_TESTING, "UI Flow Type C");
-                if (user.getEmailVerificationStatus()) {
+                if (mUser.getEmailVerificationStatus()) {
                     launchWelcomeFragment();
                 } else {
                     launchAccountActivateFragment();
@@ -836,8 +833,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     }
 
     private void updateUser() {
-        User user = new User(mContext);
-        user.updateReceiveMarketingEmail(this, mCbRemarketingOpt.isChecked());
+        mUser.updateReceiveMarketingEmail(this, mCbRemarketingOpt.isChecked());
     }
 
     @Override
@@ -850,8 +846,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     public void clearUserData() {
         if (null != mCbAcceptTerms && !mCbAcceptTerms.isChecked() &&
                 RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
-            User user = new User(mContext);
-            user.logout(null);
+            mUser.logout(null);
         }
     }
 
@@ -907,10 +902,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private boolean isTermsAndConditionAccepted(){
 
-        User user = new User(mContext);
         boolean isTermAccepted = false;
-        String mobileNo = user.getMobile();
-        String email  = user.getEmail();
+        String mobileNo = mUser.getMobile();
+        String email  = mUser.getEmail();
         if(FieldsValidator.isValidMobileNumber(mobileNo)){
             isTermAccepted = RegPreferenceUtility.getStoredState(mContext, mobileNo);
         }else if(FieldsValidator.isValidEmail(email)){
