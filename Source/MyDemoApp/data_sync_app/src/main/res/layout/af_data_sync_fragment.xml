@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/data_sync_fragment"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,7 +9,7 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_centerInParent="true"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 
     <ImageButton
@@ -22,8 +21,8 @@
         android:layout_gravity="end"
         android:layout_marginBottom="10dp"
         android:layout_marginEnd="10dp"
-        android:background="@drawable/reg_circle" android:clickable="true"
-        android:src="@android:drawable/ic_input_add"/>
+        android:clickable="true"
+        android:src="@android:drawable/ic_input_add" />
 
 
     <android.support.v7.widget.RecyclerView
@@ -45,6 +44,15 @@
 
     </android.support.v7.widget.RecyclerView>
 
+    <TextView
+        android:id="@+id/tv_set_consents"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tv_insights"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/consent"
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/tv_set_characteristics"
@@ -54,7 +62,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginStart="10dp"
         android:text="@string/set_characteristics"
-        android:textSize="20dp"/>
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/tv_settings"
@@ -65,7 +73,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginStart="10dp"
         android:text="User Settings"
-        android:textSize="20dp"/>
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/tv_logout"
@@ -76,22 +84,10 @@
         android:layout_marginBottom="10dp"
         android:layout_marginStart="10dp"
         android:text="@string/logout"
-        android:textSize="20dp"/>
-
-
-    <TextView
-        android:text="@string/insights"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginBottom="10dp"
-        android:textSize="20dp"
-        android:layout_above="@id/tv_logout"
-        android:layout_marginStart="10dp"
-        android:id="@+id/tv_insights" />
+        android:textSize="20dp" />
 
     <TextView
-        android:id="@+id/tv_set_consents"
+        android:id="@+id/tv_insights"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -99,9 +95,7 @@
         android:layout_gravity="end"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="10dp"
-        android:text="@string/consent"
-        android:textSize="20dp"/>
-
-
+        android:text="@string/insights"
+        android:textSize="20dp" />
 
 </RelativeLayout>

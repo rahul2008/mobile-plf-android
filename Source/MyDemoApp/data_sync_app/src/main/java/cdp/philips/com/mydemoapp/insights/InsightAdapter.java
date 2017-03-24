@@ -50,7 +50,7 @@ public class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightH
                 DataServicesManager.getInstance().deleteInsights(insightsToDelete, dbRequestListener);
                 mInsightList.remove(position);
                 notifyItemRemoved(position);
-                notifyItemRangeChanged(position,getItemCount());
+                notifyItemRangeChanged(position, getItemCount());
                 notifyDataSetChanged();
             }
         });

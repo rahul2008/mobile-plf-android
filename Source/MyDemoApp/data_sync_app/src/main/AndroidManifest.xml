@@ -1,40 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="cdp.philips.com.mydemoapp">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="cdp.philips.com.mydemoapp">
 
     <application
         android:name="cdp.philips.com.mydemoapp.DataSyncApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
-        android:resizeableActivity="true"
         android:label="@string/app_name_data_sync"
-        android:supportsRtl="true"
+        android:resizeableActivity="true"
         android:screenOrientation="portrait"
+        android:supportsRtl="true"
         android:theme="@style/Theme.Philips.DarkBlue.WhiteBackground"
         tools:replace="android:label">
 
-        <activity android:name=".activity.DemoActivity"
+        <activity
+            android:name=".activity.DemoActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!--<receiver android:name=".reciever.ScheduleSyncReceiver">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="ACTION_USER_DATA_FETCH"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.LOCALE_CHANGED"/>
-            </intent-filter>
-        </receiver>-->
 
     </application>
 
