@@ -6,6 +6,7 @@
         <item name="uidLabelTextColor">?attr/uidNotificationBarWhiteNormalPrimaryTextColor</item>
         <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_100</item>
         <item name="android:gravity">center_vertical</item>
+        <item name="android:textAlignment">viewStart</item>
         <item name="android:layout_marginTop">@dimen/uid_notification_bar_margin</item>
         <item name="android:layout_marginStart">@dimen/uid_notification_bar_margin</item>
         <item name="android:layout_marginEnd">@dimen/uid_notification_bar_margin</item>
