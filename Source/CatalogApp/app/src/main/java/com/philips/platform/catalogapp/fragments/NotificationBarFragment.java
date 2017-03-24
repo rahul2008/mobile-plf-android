@@ -50,6 +50,14 @@ public class NotificationBarFragment extends BaseFragment {
         view.findViewById(R.id.uid_notification_content).setVisibility(View.VISIBLE);
         view.findViewById(R.id.uid_notification_btn_1).setVisibility(View.VISIBLE);
         view.findViewById(R.id.uid_notification_btn_2).setVisibility(View.VISIBLE);
+
+        view.findViewById(R.id.uid_notification_icon).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.uid_notification_icon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismissPopUp();
+            }
+        });
         return view;
     }
 
@@ -60,6 +68,12 @@ public class NotificationBarFragment extends BaseFragment {
         } else {
             popupWindow.showAsDropDown(getActivity().findViewById(R.id.uid_toolbar));
             showHideNotification.setText(R.string.notification_bar_notification_hide);
+        }
+    }
+
+    public void dismissPopUp() {
+        if (popupWindow != null) {
+            popupWindow.dismiss();
         }
     }
 }

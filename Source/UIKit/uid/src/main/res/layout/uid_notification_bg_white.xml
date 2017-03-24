@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/uidColorWhite">
+    android:background="?attr/uidNotificationBarWhiteNormalBackgroundColor">
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@id/uid_notification_title"
@@ -32,6 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        app:srcCompat="@drawable/uid_ic_cross_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
