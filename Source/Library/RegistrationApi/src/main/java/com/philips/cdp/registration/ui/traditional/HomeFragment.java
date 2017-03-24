@@ -884,11 +884,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         }
         if (emailorMobile != null && RegistrationConfiguration.getInstance().
                 isTermsAndConditionsAcceptanceRequired() &&
-                !RegPreferenceUtility.getStoredState(mContext, emailorMobile)) {
+                !RegPreferenceUtility.getStoredState(mContext, emailorMobile) || !mUser.getReceiveMarketingEmail()) {
             launchAlmostDoneForTermsAcceptanceFragment();
             return;
         }
-
         trackPage(AppTaggingPages.WELCOME);
         getRegistrationFragment().addWelcomeFragmentOnVerification();
     }

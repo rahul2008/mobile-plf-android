@@ -475,7 +475,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
             case FLOW_B:
                 RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-                //We need to show always receive philips news un
+                //We need to show always receive philips news until opt-in
                /* mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
                 mLlPeriodicOffersCheck.setVisibility(View.GONE);
                 view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.GONE);
