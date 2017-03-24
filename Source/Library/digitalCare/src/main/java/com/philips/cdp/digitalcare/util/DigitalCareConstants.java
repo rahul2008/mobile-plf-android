@@ -73,7 +73,7 @@ public class DigitalCareConstants {
     public static final String KEY_PRODUCT_CATALOG = "productCatalog";
     public static final String KEY_PRODUCT_CATEGORY = "productCategory";
     public static final String KEY_PRODUCT_SUBCATEGORY = "productSubCategory";
-    public static final String KEY_PRODUCT_SUBCATEGORY_PRX = "productSubcategory";
+    public static final String KEY_PRODUCT_SUBCATEGORY_PRX = "productSubCategory";
     public static final String KEY_PRODUCT_REVIEWURL = "productReviewURL";
     public static final String KEY_APPNAME = "appName";
     public static final String KEY_LATITUDE = "lattitude";

@@ -1183,12 +1183,14 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                     DigiCareLogger.v(TAG,"Response from Service Discovery : Service ID : 'cc.prx.category' - "+serviceDiscoveryService.getConfigUrls());
                 }
 
-                serviceDiscoveryService = map.get("cc.cdls");
-                if(serviceDiscoveryService != null){
-                    DigitalCareConfigManager.getInstance().setCdlsUrl(serviceDiscoveryService.getConfigUrls());
-                    DigiCareLogger.v(TAG,"Response from Service Discovery : Service ID : 'cc.cdls' - "+serviceDiscoveryService.getConfigUrls());
-                }
+                if(!(DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSubCategory() == null )) {
 
+                    serviceDiscoveryService = map.get("cc.cdls");
+                    if (serviceDiscoveryService != null) {
+                        DigitalCareConfigManager.getInstance().setCdlsUrl(serviceDiscoveryService.getConfigUrls());
+                        DigiCareLogger.v(TAG, "Response from Service Discovery : Service ID : 'cc.cdls' - " + serviceDiscoveryService.getConfigUrls());
+                    }
+                }
                 serviceDiscoveryService = map.get("cc.emailformurl");
                 if(serviceDiscoveryService != null){
                     DigitalCareConfigManager.getInstance().setEmailUrl(serviceDiscoveryService.getConfigUrls());
