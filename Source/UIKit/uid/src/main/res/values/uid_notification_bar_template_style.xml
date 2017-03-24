@@ -20,6 +20,7 @@
 
     <style name="UIDNotificationBarCloseButton" parent="Widget.AppCompat.ImageButton">
         <item name="android:padding">@dimen/uid_notification_bar_margin</item>
+        <item name="android:tint">?attr/uidNotificationBarWhiteNormalPrimaryTextColor</item>
         <item name="android:background">@null</item>
     </style>
     <style name="UIDNotificationBarButton1" parent="UIDQuietButton">
