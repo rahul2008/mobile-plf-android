@@ -740,29 +740,15 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBtnForgot.setEnabled(true);
         mBtnResend.setEnabled(true);
         mRegError.hideError();
-        /*mUser.refreshUser(new RefreshUserHandler() {
-            @Override
-            public void onRefreshUserSuccess() {
-                if(!mUser.getReceiveMarketingEmail()) {
-                    launchAlmostDoneFragmentOptinReceivingMarketingEMail();
-                    System.out.println("*********** getReceiveMarketingEmail Sign In :"+mUser.getReceiveMarketingEmail());
-                    return;
-                }
-            }
 
-            @Override
-            public void onRefreshUserFailed(int error) {
-                mRegError.setError(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
-            }
-        });
-*/
         if (mUser.getEmailVerificationStatus() || !RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
-            if (RegPreferenceUtility.getStoredState(mContext, mEmail)) {
+            if (RegPreferenceUtility.getStoredState(mContext, mEmail) && mUser.getReceiveMarketingEmail()) {
                 launchWelcomeFragment();
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                         AppTagingConstants.SUCCESS_LOGIN);
             } else {
-                if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
+                if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() || !mUser.getReceiveMarketingEmail()) {
+                    System.out.println("******* launchAlmostDoneScreenForTermsAcceptance : ");
                     launchAlmostDoneScreenForTermsAcceptance();
                 } else {
                     trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
@@ -792,11 +778,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     }
 
-    private void launchAlmostDoneFragmentOptinReceivingMarketingEMail() {
+   /* private void launchAlmostDoneFragmentOptinReceivingMarketingEMail() {
         getRegistrationFragment().addAlmostDoneFragmentOptinReceivingMarketingEMail();
         trackPage(AppTaggingPages.ALMOST_DONE);
     }
-
+*/
 
     private OnClickListener mContinueBtnClick = new OnClickListener() {
 

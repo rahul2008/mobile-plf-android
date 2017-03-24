@@ -163,7 +163,6 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
     }
 
     private void updateUserRecord(CaptureRecord user, final JSONObject originalUserInfo) {
-        RLog.d(LOG_TAG, "******** NEW updateUserRecord :"+user.toString());
         try {
             user.synchronize(new Capture.CaptureApiRequestCallback() {
 

@@ -130,7 +130,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private boolean isTermsAndConditionVisible;
 
-    private boolean isForOptInMarketingEmail;
+    //private boolean isForOptInMarketingEmail;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -281,6 +281,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     private void parseRegistrationInfo() {
 
         mBundle = getArguments();
+        Bundle bundle = getArguments();
+        System.out.println("****** new Bundle is :"+bundle);
         if (null != mBundle) {
             try {
 
@@ -288,8 +290,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                      trackAbtesting();
                 }
 
-                isForOptInMarketingEmail = mBundle.getBoolean(RegConstants.IS_OPT_IN_RECEIVING_MARKETING, false);
+               // isForOptInMarketingEmail = mBundle.getBoolean(RegConstants.IS_OPT_IN_RECEIVING_MARKETING, false);
                 isForTermsAccepatance = mBundle.getBoolean(RegConstants.IS_FOR_TERMS_ACCEPATNACE, false);
+                System.out.println("****** IS_FOR_TERMS_ACCEPATNACE :"+isForTermsAccepatance);
 
                 JSONObject mPreRegJson = null;
                 mPreRegJson = new JSONObject(mBundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR));
@@ -390,9 +393,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         String updateJoinNowText =  " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
         sourceString = String.format(sourceString, updateJoinNowText);
         mJoinNow.setText(Html.fromHtml(sourceString));
-        
 
-        mCbAcceptTerms.setOnCheckedChangeListener(this);
         mCbRemarketingOpt.setOnCheckedChangeListener(this);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
@@ -454,16 +455,26 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             acceptTermsLine.setVisibility(View.GONE);
             mLlAcceptTermsContainer.setVisibility(View.GONE);
         }
-
-        if (!isForTermsAccepatance && isForOptInMarketingEmail) {
-            view.findViewById(R.id.fl_reg_receive_philips_news).setVisibility(View.GONE);
-            view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.GONE);
-            view.findViewById(R.id.tv_join_now).setVisibility(View.GONE);
-
-        }else if(!isForOptInMarketingEmail && !isForOptInMarketingEmail){
+        User user = new User(mContext);
+        System.out.println("****** isForTermsAccepatance : "+isForTermsAccepatance + " market : "+user.getReceiveMarketingEmail());
+        if(!isForTermsAccepatance && !user.getReceiveMarketingEmail()){
+            System.out.println("****** 1 ");
             view.findViewById(R.id.fl_reg_receive_philips_news).setVisibility(View.VISIBLE);
             view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.VISIBLE);
             view.findViewById(R.id.tv_join_now).setVisibility(View.VISIBLE);
+           view.findViewById(R.id.ll_reg_accept_terms).setVisibility(View.VISIBLE);
+        }else if(isForTermsAccepatance && !user.getReceiveMarketingEmail()) {
+            System.out.println("****** 2 ");
+            view.findViewById(R.id.fl_reg_receive_philips_news).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.tv_join_now).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.ll_reg_accept_terms).setVisibility(View.GONE);
+        }else if (!isForTermsAccepatance && user.getReceiveMarketingEmail()) {
+            System.out.println("****** 3 ");
+           view.findViewById(R.id.ll_reg_accept_terms).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.fl_reg_receive_philips_news).setVisibility(View.GONE);
+            view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.tv_join_now).setVisibility(View.GONE);
         }
     }
 
@@ -846,7 +857,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
         RLog.i(RLog.NETWORK_STATE, "AlmostDone :onNetWorkStateReceived state :" + isOnline);
-        //handleUiState();
         updateUiStatus(true);
     }
 
@@ -861,19 +871,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     @Override
     public void onCheckedChanged(View view, boolean isChecked) {
-        int cbRemarketingOptId = mCbRemarketingOpt.getId();
-        int CbAcceptTermsId = mCbAcceptTerms.getId();
-        if (cbRemarketingOptId == R.id.cb_reg_receive_philips_news) {
-            System.out.println("********* PHILIPS NEWS");
-            handleUpdate();
-        }else if (CbAcceptTermsId == R.id.cb_reg_accept_terms) {
-            System.out.println("********* Terms and Condition ");
-            if (isChecked) {
-                mRegAccptTermsError.setVisibility(View.GONE);
-            } else {
-                mRegAccptTermsError.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
-            }
-        }
+        handleUpdate();
     }
 
     @Override

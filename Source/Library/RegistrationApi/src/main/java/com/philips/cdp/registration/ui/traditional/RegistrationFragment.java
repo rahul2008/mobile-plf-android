@@ -451,6 +451,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     }
 
     public void addAlmostDoneFragmentforTermsAcceptance() {
+        System.out.println("********* Adding Bundle");
         AlmostDoneFragment almostDoneFragment = new AlmostDoneFragment();
         Bundle almostDoneFragmentBundle = new Bundle();
         almostDoneFragmentBundle.putBoolean(RegConstants.IS_FOR_TERMS_ACCEPATNACE, true);
@@ -488,12 +489,12 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         addFragment(accountActivationFragment);
     }
 
-    public void addAlmostDoneFragmentOptinReceivingMarketingEMail() {
+    /*public void addAlmostDoneFragmentOptinReceivingMarketingEMail() {
         AlmostDoneFragment almostDoneFragment = new AlmostDoneFragment();
         Bundle almostDoneFragmentBundle = new Bundle();
         almostDoneFragmentBundle.putBoolean(RegConstants.IS_OPT_IN_RECEIVING_MARKETING, true);
         addFragment(almostDoneFragment);
-    }
+    }*/
 
     public void addResetPasswordFragment() {
         ForgotPasswordFragment resetPasswordFragment = new ForgotPasswordFragment();
