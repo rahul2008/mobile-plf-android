@@ -130,8 +130,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private boolean isTermsAndConditionVisible;
 
-    //private boolean isForOptInMarketingEmail;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onCreate");
@@ -282,7 +280,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
         mBundle = getArguments();
         Bundle bundle = getArguments();
-        System.out.println("****** new Bundle is :"+bundle);
         if (null != mBundle) {
             try {
 
@@ -290,43 +287,39 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                      trackAbtesting();
                 }
 
-               // isForOptInMarketingEmail = mBundle.getBoolean(RegConstants.IS_OPT_IN_RECEIVING_MARKETING, false);
                 isForTermsAccepatance = mBundle.getBoolean(RegConstants.IS_FOR_TERMS_ACCEPATNACE, false);
-                System.out.println("****** IS_FOR_TERMS_ACCEPATNACE :"+isForTermsAccepatance);
+                if(mBundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR)!=null) {
+                    JSONObject mPreRegJson = new JSONObject(mBundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR));
 
-                JSONObject mPreRegJson = null;
-                mPreRegJson = new JSONObject(mBundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR));
+                    if (null != mPreRegJson) {
+                        mProvider = mBundle.getString(RegConstants.SOCIAL_PROVIDER);
+                        mRegistrationToken = mBundle.getString(RegConstants.SOCIAL_REGISTRATION_TOKEN);
 
-                if (null != mPreRegJson) {
-                    mProvider = mBundle.getString(RegConstants.SOCIAL_PROVIDER);
-                    mRegistrationToken = mBundle.getString(RegConstants.SOCIAL_REGISTRATION_TOKEN);
-
-                    if (!mPreRegJson.isNull(RegConstants.REGISTER_GIVEN_NAME)
-                            && !RegConstants.SOCIAL_BLANK_CHARACTER.equals(mPreRegJson
-                            .getString(RegConstants.REGISTER_GIVEN_NAME))) {
-                        mGivenName = mPreRegJson.getString(RegConstants.REGISTER_GIVEN_NAME);
+                        if (!mPreRegJson.isNull(RegConstants.REGISTER_GIVEN_NAME)
+                                && !RegConstants.SOCIAL_BLANK_CHARACTER.equals(mPreRegJson
+                                .getString(RegConstants.REGISTER_GIVEN_NAME))) {
+                            mGivenName = mPreRegJson.getString(RegConstants.REGISTER_GIVEN_NAME);
+                        }
+                        if (!mPreRegJson.isNull(RegConstants.REGISTER_DISPLAY_NAME)
+                                && !RegConstants.SOCIAL_BLANK_CHARACTER.equals(mPreRegJson
+                                .getString(RegConstants.REGISTER_DISPLAY_NAME))) {
+                            mDisplayName = mPreRegJson.getString(RegConstants.REGISTER_DISPLAY_NAME);
+                        }
+                        if (!mPreRegJson.isNull(RegConstants.REGISTER_FAMILY_NAME)
+                                && !RegConstants.SOCIAL_BLANK_CHARACTER.equals(mPreRegJson
+                                .getString(RegConstants.REGISTER_FAMILY_NAME))) {
+                            mFamilyName = mPreRegJson.getString(RegConstants.REGISTER_FAMILY_NAME);
+                        }
+                        if (!mPreRegJson.isNull(RegConstants.REGISTER_EMAIL)
+                                && !RegConstants.SOCIAL_BLANK_CHARACTER.equals(mPreRegJson
+                                .getString(RegConstants.REGISTER_EMAIL))) {
+                            mEmail = mPreRegJson.getString(RegConstants.REGISTER_EMAIL);
+                            isEmailExist = true;
+                        } else {
+                            isEmailExist = false;
+                        }
                     }
-                    if (!mPreRegJson.isNull(RegConstants.REGISTER_DISPLAY_NAME)
-                            && !RegConstants.SOCIAL_BLANK_CHARACTER.equals(mPreRegJson
-                            .getString(RegConstants.REGISTER_DISPLAY_NAME))) {
-                        mDisplayName = mPreRegJson.getString(RegConstants.REGISTER_DISPLAY_NAME);
-                    }
-                    if (!mPreRegJson.isNull(RegConstants.REGISTER_FAMILY_NAME)
-                            && !RegConstants.SOCIAL_BLANK_CHARACTER.equals(mPreRegJson
-                            .getString(RegConstants.REGISTER_FAMILY_NAME))) {
-                        mFamilyName = mPreRegJson.getString(RegConstants.REGISTER_FAMILY_NAME);
-                    }
-                    if (!mPreRegJson.isNull(RegConstants.REGISTER_EMAIL)
-                            && !RegConstants.SOCIAL_BLANK_CHARACTER.equals(mPreRegJson
-                            .getString(RegConstants.REGISTER_EMAIL))) {
-                        mEmail = mPreRegJson.getString(RegConstants.REGISTER_EMAIL);
-                        isEmailExist = true;
-                    } else {
-                        isEmailExist = false;
-                    }
-
                 }
-
                 if (null == mGivenName) {
                     mGivenName = mDisplayName;
                 }
@@ -456,25 +449,17 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             mLlAcceptTermsContainer.setVisibility(View.GONE);
         }
         User user = new User(mContext);
-        System.out.println("****** isForTermsAccepatance : "+isForTermsAccepatance + " market : "+user.getReceiveMarketingEmail());
-        if(!isForTermsAccepatance && !user.getReceiveMarketingEmail()){
-            System.out.println("****** 1 ");
-            view.findViewById(R.id.fl_reg_receive_philips_news).setVisibility(View.VISIBLE);
-            view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.VISIBLE);
-            view.findViewById(R.id.tv_join_now).setVisibility(View.VISIBLE);
-           view.findViewById(R.id.ll_reg_accept_terms).setVisibility(View.VISIBLE);
-        }else if(isForTermsAccepatance && !user.getReceiveMarketingEmail()) {
-            System.out.println("****** 2 ");
-            view.findViewById(R.id.fl_reg_receive_philips_news).setVisibility(View.VISIBLE);
-            view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.VISIBLE);
-            view.findViewById(R.id.tv_join_now).setVisibility(View.VISIBLE);
-            view.findViewById(R.id.ll_reg_accept_terms).setVisibility(View.GONE);
-        }else if (!isForTermsAccepatance && user.getReceiveMarketingEmail()) {
-            System.out.println("****** 3 ");
-           view.findViewById(R.id.ll_reg_accept_terms).setVisibility(View.VISIBLE);
-            view.findViewById(R.id.fl_reg_receive_philips_news).setVisibility(View.GONE);
-            view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.VISIBLE);
+
+        if(isTermsAndConditionAccepted()){
+            if(!user.getReceiveMarketingEmail()){
+                view.findViewById(R.id.fl_reg_receive_philips_news).setVisibility(View.VISIBLE);
+            }else{
+                view.findViewById(R.id.fl_reg_receive_philips_news).setVisibility(View.GONE);
+            }
+            mCbAcceptTerms.setChecked(true);
+            view.findViewById(R.id.reg_view_line).setVisibility(View.GONE);
             view.findViewById(R.id.tv_join_now).setVisibility(View.GONE);
+            view.findViewById(R.id.ll_reg_accept_terms).setVisibility(View.GONE);
         }
     }
 
@@ -490,10 +475,11 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
             case FLOW_B:
                 RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-                mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
+                //We need to show always receive philips news un
+               /* mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
                 mLlPeriodicOffersCheck.setVisibility(View.GONE);
                 view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.GONE);
-                mJoinNow.setVisibility(View.GONE);
+                mJoinNow.setVisibility(View.GONE);*/
                 break;
 
             case FLOW_C:
@@ -919,4 +905,17 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         mCbRemarketingOpt.setOnCheckedChangeListener(AlmostDoneFragment.this);
     }
 
+    private boolean isTermsAndConditionAccepted(){
+
+        User user = new User(mContext);
+        boolean isTermAccepted = false;
+        String mobileNo = user.getMobile();
+        String email  = user.getEmail();
+        if(FieldsValidator.isValidMobileNumber(mobileNo)){
+            isTermAccepted = RegPreferenceUtility.getStoredState(mContext, mobileNo);
+        }else if(FieldsValidator.isValidEmail(email)){
+            isTermAccepted = RegPreferenceUtility.getStoredState(mContext, email);
+        }
+        return isTermAccepted;
+    }
 }

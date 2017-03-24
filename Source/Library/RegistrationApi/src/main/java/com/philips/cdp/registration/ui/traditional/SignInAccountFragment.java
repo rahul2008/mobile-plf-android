@@ -41,7 +41,6 @@ import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
-import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -748,7 +747,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                         AppTagingConstants.SUCCESS_LOGIN);
             } else {
                 if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() || !mUser.getReceiveMarketingEmail()) {
-                    System.out.println("******* launchAlmostDoneScreenForTermsAcceptance : ");
                     launchAlmostDoneScreenForTermsAcceptance();
                 } else {
                     trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
@@ -756,7 +754,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                     launchWelcomeFragment();
                 }
             }
-        }else {
+        } else {
             if (FieldsValidator.isValidEmail(mEtEmail.getEmailId().toString())) {
                 mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_Janrain_Error_Need_Email_Verification));
                 mTvResendDetails.setText(mContext.getResources().getString(R.string.reg_VerifyEmail_ResendErrorMsg_lbltxt));
@@ -777,12 +775,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         }
 
     }
-
-   /* private void launchAlmostDoneFragmentOptinReceivingMarketingEMail() {
-        getRegistrationFragment().addAlmostDoneFragmentOptinReceivingMarketingEMail();
-        trackPage(AppTaggingPages.ALMOST_DONE);
-    }
-*/
 
     private OnClickListener mContinueBtnClick = new OnClickListener() {
 
@@ -831,17 +823,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         }
     }
 
-    /*
-    String url = "https://tst.philips.com/api/v1/user/requestVerificationSmsCode?provider=" +
-                "JANRAIN-CN&locale=" + RegistrationHelper.getInstance().getLocale(mContext) + "&phonenumber=" + mEmail;
-     */
-
     private Intent createResendSMSIntent() {
         RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER * ** : " + mUser.getMobile());
         String url = verificationSmsCodeURL + "?provider=" +
                 "JANRAIN-CN&locale=zh_CN" + "&phonenumber=" + FieldsValidator.getMobileNumber(mUser.getMobile());
-
-        System.out.println("RESEND URL : " + url);
 
         Intent httpServiceIntent = new Intent(mContext, HttpClientService.class);
 
@@ -853,25 +838,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         httpServiceIntent.putExtra("url", url);
         return httpServiceIntent;
     }
-
-   /* private String initializePRXLinks(String registrationEnv) {
-        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.DEVELOPMENT.getValue())) {
-            return DEV_VERFICATION_CODE;
-        }
-        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.PRODUCTION.getValue())) {
-            return PROD_VERFICATION_CODE;
-        }
-        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.STAGING.getValue())) {
-            return STAGE_VERFICATION_CODE;
-        }
-        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.TESTING.getValue())) {
-            return TEST_VERFICATION_CODE;
-        }
-        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.EVALUATION.getValue())) {
-            return EVAL_VERFICATION_CODE;
-        }
-        return null;
-    }*/
 
     private void trackMultipleActionsOnMobileSuccess() {
         Map<String, String> map = new HashMap<String, String>();
