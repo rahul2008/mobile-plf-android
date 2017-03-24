@@ -104,13 +104,17 @@ public class UpdatingMonitorTest {
     @Mock
     private DBChangeListener dbChangeListener;
 
+    DataServicesManager mDataServices;
+
     @Mock
     private DatabaseSettingsUpdateRequest databaseSettingsUpdateRequestMock;
 
     @Before
     public void setUp() {
         initMocks(this);
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        mDataServices = DataServicesManager.getInstance();
+        mDataServices.setAppComponant(appComponantMock);
+        mDataServices.registerDBChangeListener(dbChangeListener);
         updatingMonitor = new UpdatingMonitor(dbUpdatingInterface, dbDeletingInterface, dbFetchingInterface);
         updatingMonitor.momentsSegregator = momentsSegregatorMock;
         updatingMonitor.start(eventingMock);
@@ -132,7 +136,7 @@ public class UpdatingMonitorTest {
     }
 
 
-    /*@Test
+/*    @Test
     public void shouldDeleteUpdateAndPostMoment_whenonEventBackgroundThreadIsCalled() throws Exception {
 
         when(dbUpdatingInterface.getOrmMoment(momentMock)).thenReturn(momentMock);
@@ -146,9 +150,9 @@ public class UpdatingMonitorTest {
         when(dbUpdatingInterface.getOrmMoment(momentMock)).thenReturn(momentMock);
         updatingMonitor.onEventBackgroundThread(backendMomentRequestFailedMock);
         verify(dbUpdatingInterface).updateFailed(backendMomentRequestFailedMock.getException());
-    }*/
+    }
 
-   /* @Test
+    @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenReadDataFromBackendResponsePassed() throws Exception {
         updatingMonitor.onEventAsync(readDataFromBackendResponseMock);
         verify(dbFetchingInterface).fetchMoments(readDataFromBackendResponseMock.getDbFetchRequestListner());
@@ -182,6 +186,12 @@ public class UpdatingMonitorTest {
         updatingMonitor.onEventBackGround(new MomentDataSenderCreatedRequest(Arrays.asList(moment1), dbChangeListener));
       //  List<? extends Moment> moments = momentDataSenderCreatedRequestMock.getList();
          verify(momentsSegregatorMock).processCreatedMoment(Arrays.asList(moment1),null);
+    }
+
+    @Test
+    public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenMomentDataSenderCreatedRequestPassedWithNullMoments() throws Exception {
+        updatingMonitor.onEventBackGround(new MomentDataSenderCreatedRequest(null, dbChangeListener));
+        verifyNoMoreInteractions(momentsSegregatorMock);
     }
 
     @Test
