@@ -16,7 +16,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/uidContentPrimary"
             android:orientation="vertical">
 
             <LinearLayout
@@ -76,7 +75,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/uidContentPrimary"
                 android:orientation="vertical">
 
                 <com.philips.platform.uid.view.widget.Button

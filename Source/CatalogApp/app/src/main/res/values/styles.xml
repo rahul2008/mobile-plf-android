@@ -6,7 +6,7 @@
     </style>
 
     <style name="BaseLayoutMargins">
-        <item name="android:background">?attr/uidContentPrimary</item>
+        <item name="android:background">?attr/uidContentBackground</item>
     </style>
 
     <style name="BaseLayoutMargins.Dimens">

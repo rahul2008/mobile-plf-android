@@ -52,7 +52,7 @@
                 android:clickable="true"
                 android:contentDescription="@string/date_time_picker"
                 android:onClick="@{(v) ->fragment.showDatePicker(dateTimePickerDate, false)}"
-                android:tint="?attr/uidTextPrimary"
+                android:tint="?attr/uidTextSecondary"
                 app:srcCompat="@drawable/ic_calender"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -62,8 +62,7 @@
                 android:layout_marginStart="@dimen/uid_date_margin_start"
                 android:onClick="@{(v) ->fragment.showDatePicker(dateTimePickerDate, false)}"
                 android:text="@{fragment.getFormattedDate(fragment.dateTimePickerDate)}"
-                app:uidLabelTextAlpha="1.0"
-                app:uidLabelTextColor="?attr/uidTextPrimary"/>
+                android:textColor="?attr/uidTextPrimary"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/timePicker"
@@ -73,8 +72,7 @@
                 android:onClick="@{(v) ->fragment.showTimePicker(dateTimePickerDate, false)}"
                 android:text="@{fragment.getFormattedTime(fragment.dateTimePickerDate)}"
                 android:textColor="?attr/uidTextPrimary"
-                android:visibility="@{fragment.disableTimePicker}"
-                app:uidLabelTextAlpha="1.0"/>
+                android:visibility="@{fragment.disableTimePicker}"/>
         </LinearLayout>
 
         <com.philips.platform.uid.view.widget.Label
@@ -97,7 +95,7 @@
                 android:clickable="true"
                 android:contentDescription="@string/date_time_picker"
                 android:onClick="@{(v) ->fragment.showDatePicker(rangePickerStartDate, true)}"
-                android:tint="?attr/uidTextPrimary"
+                android:tint="?attr/uidTextSecondary"
                 app:srcCompat="@drawable/ic_calender"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -107,8 +105,7 @@
                 android:layout_marginStart="@dimen/uid_date_margin_start"
                 android:onClick="@{(v) ->fragment.showDatePicker(rangePickerStartDate, true)}"
                 android:text="@{fragment.getFormattedDate(fragment.rangePickerStartDate)}"
-                app:uidLabelTextAlpha="1.0"
-                app:uidLabelTextColor="?attr/uidTextPrimary"/>
+                android:textColor="?attr/uidTextSecondary"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/startTimePicker"
@@ -117,9 +114,8 @@
                 android:gravity="end"
                 android:onClick="@{(v) ->fragment.showTimePicker(rangePickerStartDate, true)}"
                 android:text="@{fragment.getFormattedTime(fragment.rangePickerStartDate)}"
-                android:textColor="?attr/uidTextPrimary"
-                android:visibility="@{fragment.disableTimePicker}"
-                app:uidLabelTextAlpha="1.0"/>
+                android:textColor="?attr/uidTextSecondary"
+                android:visibility="@{fragment.disableTimePicker}"/>
         </LinearLayout>
 
         <LinearLayout
