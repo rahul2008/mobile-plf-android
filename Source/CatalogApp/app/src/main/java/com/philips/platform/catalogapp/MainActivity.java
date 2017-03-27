@@ -14,6 +14,7 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -187,5 +188,15 @@ public class MainActivity extends AppCompatActivity {
 
     public NavigationController getNavigationController() {
         return navigationController;
+    }
+
+    @VisibleForTesting
+    public void setColorRange(final ColorRange colorRange) {
+        this.colorRange = colorRange;
+    }
+
+    @VisibleForTesting
+    public void setContentColor(final ContentColor contentColor) {
+        this.contentColor = contentColor;
     }
 }
