@@ -27,6 +27,8 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.BaseAppD
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmDCSync;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmInsight;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmInsightMetaData;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurement;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementGroup;
@@ -55,6 +57,12 @@ public class DataServicesState extends BaseState {
     public static final String TAG = DataServicesState.class.getSimpleName();
     FragmentLauncher fragmentLauncher;
     ScheduleSyncReceiver mScheduleSyncReceiver;
+
+    public DatabaseHelper getDatabaseHelper() {
+        return databaseHelper;
+    }
+
+    private DatabaseHelper databaseHelper;
 
     public DataServicesState() {
         super(AppStates.DATA_SYNC);
@@ -107,7 +115,7 @@ public class DataServicesState extends BaseState {
     }
 
     void injectDBInterfacesToCore(Context context) {
-        final DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
+        databaseHelper = DatabaseHelper.getInstance(context);
         try {
             Dao<OrmMoment, Integer> momentDao = databaseHelper.getMomentDao();
             Dao<OrmMomentDetail, Integer> momentDetailDao = databaseHelper.getMomentDetailDao();
@@ -119,25 +127,33 @@ public class DataServicesState extends BaseState {
 
             Dao<OrmConsentDetail, Integer> consentDetailsDao = databaseHelper.getConsentDetailsDao();
             Dao<OrmCharacteristics, Integer> characteristicsesDao = databaseHelper.getCharacteristicsDao();
+            //  Dao<OrmCharacteristics, Integer> characteristicsDetailsDao = databaseHelper.getCharacteristicsDetailsDao();
 
             Dao<OrmSettings, Integer> settingsDao = databaseHelper.getSettingsDao();
+            Dao<OrmInsight, Integer> insightsDao = databaseHelper.getInsightDao();
+            Dao<OrmInsightMetaData, Integer> insightMetaDataDao = databaseHelper.getInsightMetaDataDao();
 
 
             OrmSaving saving = new OrmSaving(momentDao, momentDetailDao, measurementDao, measurementDetailDao,
-                    synchronisationDataDao, consentDetailsDao, measurementGroup, measurementGroupDetails, characteristicsesDao, settingsDao);
+                    synchronisationDataDao,consentDetailsDao, measurementGroup, measurementGroupDetails,
+                    characteristicsesDao, settingsDao, insightsDao, insightMetaDataDao);
 
             Dao<OrmDCSync, Integer> dcSyncDao = databaseHelper.getDCSyncDao();
-            OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao, settingsDao, consentDetailsDao, dcSyncDao, measurementGroup, synchronisationDataDao, measurementGroupDetails);
-            OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDetailsDao, characteristicsesDao, settingsDao, dcSyncDao);
+            OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao, settingsDao,
+                     consentDetailsDao, dcSyncDao, measurementGroup, synchronisationDataDao, measurementGroupDetails);
+            OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao,consentDetailsDao, characteristicsesDao,
+                    settingsDao, dcSyncDao, insightsDao);
             OrmDeleting deleting = new OrmDeleting(momentDao, momentDetailDao, measurementDao,
-                    measurementDetailDao, synchronisationDataDao, measurementGroupDetails, measurementGroup, consentDetailsDao, characteristicsesDao, settingsDao,dcSyncDao);
+                    measurementDetailDao, synchronisationDataDao, measurementGroupDetails, measurementGroup, consentDetailsDao, characteristicsesDao, settingsDao, dcSyncDao ,insightsDao, insightMetaDataDao);
+
 
 
             BaseAppDateTime uGrowDateTime = new BaseAppDateTime();
             ORMSavingInterfaceImpl ORMSavingInterfaceImpl = new ORMSavingInterfaceImpl(saving, updating, fetching, deleting, uGrowDateTime);
             OrmDeletingInterfaceImpl ORMDeletingInterfaceImpl = new OrmDeletingInterfaceImpl(deleting, saving, fetching);
             ORMUpdatingInterfaceImpl dbInterfaceOrmUpdatingInterface = new ORMUpdatingInterfaceImpl(saving, updating, fetching, deleting);
-            OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDetailsDao, characteristicsesDao, settingsDao, dcSyncDao);
+            OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao,consentDetailsDao,
+                    characteristicsesDao, settingsDao, dcSyncDao, insightsDao);
 
             DataServicesManager.getInstance().initializeDatabaseMonitor(context, ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
         } catch (SQLException exception) {
