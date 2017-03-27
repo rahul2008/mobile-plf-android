@@ -200,8 +200,10 @@
 
     <!--Notification Bar-->
     <dimen name="uid_notification_bar_margin">16dp</dimen>
-    <dimen name="uid_notification_bar_margin_top_content">8dp</dimen>
+    <dimen name="uid_notification_bar_margin_top_content">5dp</dimen>
     <dimen name="uid_notification_bar_title_text_size">16dp</dimen>
     <dimen name="uid_notification_bar_content_text_size">14dp</dimen>
     <dimen name="uid_notification_bar_action_btn_height">56dp</dimen>
+    <dimen name="uid_notification_bar_line_spacing">0dp</dimen>
+    <integer name="uid_notification_bar_line_space_multiplier">1</integer>
 </resources>

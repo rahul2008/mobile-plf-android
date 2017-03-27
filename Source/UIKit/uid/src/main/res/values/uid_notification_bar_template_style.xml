@@ -10,6 +10,8 @@
         <item name="android:layout_marginTop">@dimen/uid_notification_bar_margin</item>
         <item name="android:layout_marginStart">@dimen/uid_notification_bar_margin</item>
         <item name="android:layout_marginEnd">@dimen/uid_notification_bar_margin</item>
+        <item name="android:lineSpacingExtra">@dimen/uid_notification_bar_line_spacing</item>
+        <item name="android:lineSpacingMultiplier">@integer/uid_notification_bar_line_space_multiplier</item>
     </style>
 
     <style name="UIDNotificationBarContent" parent="UIDNotificationBarTitle">

@@ -172,7 +172,7 @@
 
     <!--Notification Bar-->
     <string name="page_title_notification_bar">NotificationBar</string>
-    <string name="notification_bar_title">Notification title</string>
+    <string name="notification_bar_title">Welcome!\nThanks for signing up.</string>
     <string name="notification_bar_content">Display the notification content here to explain details and guide users.</string>
     <string name="notification_bar_action_1">Action 1</string>
     <string name="notification_bar_action_2">Action 2</string>
