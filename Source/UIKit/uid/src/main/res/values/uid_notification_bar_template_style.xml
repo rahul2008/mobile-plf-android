@@ -17,7 +17,6 @@
     <style name="UIDNotificationBarContent" parent="UIDNotificationBarTitle">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="uidLabelTextColor">?attr/uidNotificationBarWhiteNormalSecondaryTextColor</item>
-        <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_70</item>
         <item name="uidLabelTextSize">@dimen/uid_notification_bar_content_text_size</item>
         <item name="android:layout_marginTop">@dimen/uid_notification_bar_margin_top_content</item>
     </style>
