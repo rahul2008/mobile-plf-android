@@ -17,6 +17,7 @@
     <style name="UIDNotificationBarContent" parent="UIDNotificationBarTitle">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="uidLabelTextColor">?attr/uidNotificationBarWhiteNormalSecondaryTextColor</item>
+        <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_70</item>
         <item name="uidLabelTextSize">@dimen/uid_notification_bar_content_text_size</item>
         <item name="android:layout_marginTop">@dimen/uid_notification_bar_margin_top_content</item>
     </style>
@@ -28,15 +29,11 @@
     </style>
     <style name="UIDNotificationBarButton1" parent="UIDQuietButton">
         <item name="android:paddingStart">0dp</item>
-        <item name="uidButtonTextColorList">@null</item>
-        <item name="android:textColor">?attr/uidNotificationBarWhiteNormalButtonTextColor</item>
         <item name="android:minHeight">@dimen/uid_notification_bar_action_btn_height</item>
         <item name="android:layout_marginStart">@dimen/uid_notification_bar_margin</item>
     </style>
 
     <style name="UIDNotificationBarButton2" parent="UIDQuietButton">
         <item name="android:minHeight">@dimen/uid_notification_bar_action_btn_height</item>
-        <item name="uidButtonTextColorList">@null</item>
-        <item name="android:textColor">?attr/uidNotificationBarWhiteNormalButtonTextColor</item>
     </style>
 </resources>

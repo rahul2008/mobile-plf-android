@@ -4,6 +4,8 @@ package com.philips.platform.catalogapp.fragments;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,8 @@ public class NotificationBarFragment extends BaseFragment {
     private PopupWindow popupWindow;
     private Button showHideNotification;
 
+    private boolean wasPopUPShowing;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,13 +42,39 @@ public class NotificationBarFragment extends BaseFragment {
         binding.setFragment(this);
         showHideNotification = binding.showHideNotification;
         createPopUPWindow(getActivity());
+
+        if (savedInstanceState != null) {
+            wasPopUPShowing = savedInstanceState.getBoolean("popupshowing");
+        } else {
+            wasPopUPShowing = true;
+        }
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(wasPopUPShowing) {
+                    alterPopUpState();
+                }
+            }
+        },200);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("popupshowing", popupWindow.isShowing());
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        dismissPopUp();
     }
 
     @Override
@@ -78,13 +108,13 @@ public class NotificationBarFragment extends BaseFragment {
         view.findViewById(R.id.uid_notification_icon).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismissPopUp();
+                alterPopUpState();
             }
         });
         return view;
     }
 
-    public void showDismissAlert() {
+    public void alterPopUpState() {
         if (popupWindow.isShowing()) {
             popupWindow.dismiss();
             showHideNotification.setText(R.string.notification_bar_notification_show);
