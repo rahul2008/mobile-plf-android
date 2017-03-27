@@ -56,8 +56,6 @@ public class RecyclerViewSeparatorItemDecoration extends RecyclerView.ItemDecora
         for (int i = 0; i < childCount; i++) {
             View child = parent.getChildAt(i);
 
-            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
-
             int top = child.getBottom() - divider.getHeight();
             int bottom = child.getBottom();
             divider.setBounds(left, top, right, bottom);

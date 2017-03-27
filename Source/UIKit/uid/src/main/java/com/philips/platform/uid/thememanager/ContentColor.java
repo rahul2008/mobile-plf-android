@@ -46,7 +46,6 @@ public enum ContentColor {
     };
 
     void injectTonalRange(Resources.Theme theme, @StyleRes int style) {
-//        theme.applyStyle(R.style.Base, true);
         theme.applyStyle(style, true);
     }
 
