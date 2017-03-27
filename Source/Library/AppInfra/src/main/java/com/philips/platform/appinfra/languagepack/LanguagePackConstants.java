@@ -1,8 +1,5 @@
 package com.philips.platform.appinfra.languagepack;
 
-/**
- * Created by Yogesh on 3/27/17.
- */
 
 public class LanguagePackConstants {
 

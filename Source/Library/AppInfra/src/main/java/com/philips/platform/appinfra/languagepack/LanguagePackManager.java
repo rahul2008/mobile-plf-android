@@ -1,7 +1,5 @@
 package com.philips.platform.appinfra.languagepack;
 
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.os.Build;
 import android.os.LocaleList;
 import android.util.Log;
@@ -20,16 +18,9 @@ import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,24 +28,19 @@ import java.util.Arrays;
 import static com.philips.platform.appinfra.languagepack.LanguagePackConstants.LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY;
 
 
-/**
- * Created by philips on 3/13/17.
- */
-
 public class LanguagePackManager implements LanguagePackInterface {
 
 	private AppInfra mAppInfra;
-	private Context mContext;
 	private RestInterface mRestInterface;
 	private LanguageList mLanguageList;
 	private LanguageModel selectedLanguageModel;
-
+	private LanguagePackUtil languagePackUtil;
 
 	public LanguagePackManager(AppInfra appInfra) {
 		mAppInfra = appInfra;
-		mContext = appInfra.getAppInfraContext();
 		mRestInterface = appInfra.getRestClient();
 		mLanguageList = new LanguageList();
+		languagePackUtil = new LanguagePackUtil(appInfra.getAppInfraContext());
 	}
 
 	@Override
@@ -118,8 +104,8 @@ public class LanguagePackManager implements LanguagePackInterface {
                     public void onResponse(JSONObject response) {
                         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL",
                                 "Language Pack Json: " + response.toString());
-                        saveFile(response.toString(), LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
-                        saveLocaleMetaData(selectedLanguageModel);
+                        languagePackUtil.saveFile(response.toString(), LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
+                        languagePackUtil.saveLocaleMetaData(selectedLanguageModel);
                         aILPRefreshResult.onSuccess(OnRefreshListener.AILPRefreshResult.RefreshedFromServer);
                     }
                 }, new Response.ErrorListener() {
@@ -134,19 +120,6 @@ public class LanguagePackManager implements LanguagePackInterface {
         }, null, null, null);
         mRestInterface.getRequestQueue().add(jsonObjectRequest);
     }
-
-	private void saveLocaleMetaData(LanguageModel languageModel) {
-		try {
-			JSONObject jsonObject = new JSONObject();
-			jsonObject.put(LanguagePackConstants.LOCALE,languageModel.getLocale());
-			jsonObject.put(LanguagePackConstants.VERSION,languageModel.getRemoteVersion());
-			jsonObject.put(LanguagePackConstants.URL,languageModel.getUrl());
-			saveFile(jsonObject.toString(),LanguagePackConstants.LOCALE_FILE_INFO);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-	}
-
 
 	private String getLocaleList() {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -196,91 +169,10 @@ public class LanguagePackManager implements LanguagePackInterface {
 		return null;
 	}
 
-	private File getFilePath(String fileName) {
-		ContextWrapper contextWrapper = new ContextWrapper(mAppInfra.getAppInfraContext());
-		File directory = contextWrapper.getExternalCacheDir();
-		File file = new File(directory, LanguagePackConstants.LANGUAGE_PACK_PATH);
-		File jsonFile = new File(file.getPath(), fileName);
-		if(!file.exists()) {
-			boolean mkdirs = file.mkdirs();
-			if(!mkdirs) {
-				Log.e(this.getClass() + "", "error in creating folders");
-			} else {
-				try {
-					jsonFile.createNewFile();
-				} catch (IOException var5) {
-					var5.printStackTrace();
-				}
-			}
-		}
-
-		return jsonFile;
-	}
-
-	private void saveFile(String response, String fileName) {
-		FileWriter fileWriter = null;
-		try {
-			fileWriter = new FileWriter(getFilePath(fileName));
-			fileWriter.write(response);
-			fileWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (fileWriter != null)
-					fileWriter.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private String readFile(File file) {
-		int length = (int) file.length();
-		byte[] bytes = new byte[length];
-		FileInputStream fileInputStream = null;
-		try {
-			fileInputStream = new FileInputStream(file);
-			fileInputStream.read(bytes);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (fileInputStream != null)
-					fileInputStream.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return new String(bytes);
-	}
-
-	private void getFile(String fileName) {
-		String myData = "";
-		try {
-			FileInputStream fis = new FileInputStream(getFilePath(fileName));
-			DataInputStream in = new DataInputStream(fis);
-			BufferedReader br =
-					new BufferedReader(new InputStreamReader(in));
-			String strLine;
-			while ((strLine = br.readLine()) != null) {
-				myData = myData + strLine;
-			}
-			in.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private boolean deleteFile(String fileName) {
-		File file = getFilePath(fileName);
-		return file.delete();
-	}
-
 	public void activate(OnActivateListener onActivateListener) {
-		File file = getFilePath(LanguagePackConstants.LOCALE_FILE_INFO);
+		File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_INFO);
 		Gson gson = new Gson();
-		LanguagePackMetadata languagePackMetadata = gson.fromJson(readFile(file), LanguagePackMetadata.class);
+		LanguagePackMetadata languagePackMetadata = gson.fromJson(languagePackUtil.readFile(file), LanguagePackMetadata.class);
 		Log.d(getClass() + "", languagePackMetadata.getLocale() + "---" + languagePackMetadata.getUrl() + "-----" + languagePackMetadata.getVersion());
 		onActivateListener.onSuccess(file.getAbsolutePath());
 	}
