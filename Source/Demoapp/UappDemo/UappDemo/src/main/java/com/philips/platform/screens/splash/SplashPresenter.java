@@ -11,6 +11,7 @@ import com.philips.platform.appframework.flowmanager.base.UIStateListener;
 import com.philips.platform.flowmanager.UappStates;
 import com.philips.platform.screens.base.UIBasePresenter;
 import com.philips.platform.screens.introscreen.LaunchView;
+import com.philips.platform.screens.stateimpl.HamburgerActivityState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 
@@ -40,7 +41,9 @@ public class SplashPresenter extends UIBasePresenter implements UIStateListener 
         BaseState baseState = targetFlowManager.getNextState(splashState, APP_START);
         if (null != baseState) {
             baseState.setStateListener(this);
-              baseState.navigate(getFragmentLauncher());
+            baseState.navigate(getFragmentLauncher());
+            if (baseState instanceof HamburgerActivityState)
+                finishActivity();
         }
     }
 
@@ -48,7 +51,7 @@ public class SplashPresenter extends UIBasePresenter implements UIStateListener 
         return new FragmentLauncher(uiView.getFragmentActivity(), uiView.getContainerId(), uiView.getActionBarListener());
     }
     protected void finishActivity() {
-        uiView.finishActivityAffinity();
+        uiView.finishActivity();
     }
 
     @Override

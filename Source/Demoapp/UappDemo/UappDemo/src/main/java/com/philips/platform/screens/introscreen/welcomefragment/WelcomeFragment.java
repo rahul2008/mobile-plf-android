@@ -54,7 +54,7 @@ public class WelcomeFragment extends OnboardingBaseFragment implements View.OnCl
             BaseFlowManager targetFlowManager = getTargetFlowManager();
             targetFlowManager.getBackState(targetFlowManager.getCurrentState());
             targetFlowManager.clearStates();
-            getActivity().finishAffinity();
+            getActivity().finish();
         } else {
             pager.arrowScroll(View.FOCUS_LEFT);
         }

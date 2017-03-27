@@ -23,8 +23,6 @@ public class UappActivity extends AppCompatActivity {
         UappDemouAppDependencies uappDependencies = new UappDemouAppDependencies(appFrameworkApplication.getAppInfra());
         uAppInterface.init(uappDependencies, new UappDemouAppSettings(this));// pass App-infra instance instead of null
         uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);// pass launch input if required
-
-
-
+        finish();
     }
 }

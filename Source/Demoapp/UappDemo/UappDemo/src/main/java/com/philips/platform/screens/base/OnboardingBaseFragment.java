@@ -37,10 +37,9 @@ public abstract class OnboardingBaseFragment extends Fragment implements LaunchV
         launchActivity.hideActionBar();
     }
 
-    @Override
-    public void finishActivityAffinity() {
+    public void finishActivity() {
         final LaunchActivity launchActivity = (LaunchActivity) getActivity();
-        launchActivity.finishAffinity();
+        launchActivity.finish();
     }
 
     @Override

@@ -98,8 +98,8 @@ public class LaunchActivity extends AppFrameworkBaseActivity implements LaunchVi
     }
 
     @Override
-    public void finishActivityAffinity() {
-        finishAffinity();
+    public void finishActivity() {
+        finish();
     }
 
     @Override

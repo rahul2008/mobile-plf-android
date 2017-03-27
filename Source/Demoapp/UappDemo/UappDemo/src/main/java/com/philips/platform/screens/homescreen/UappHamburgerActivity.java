@@ -237,7 +237,7 @@ public class UappHamburgerActivity extends AppFrameworkBaseActivity implements F
             Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container);
             boolean backState = false;
             if (fragmentManager.getBackStackEntryCount() == 1) {
-                finishAffinity();
+                finish();
             } else if (currentFrag instanceof BackEventListener) {
                 backState = ((BackEventListener) currentFrag).handleBackEvent();
                 if (!backState) {

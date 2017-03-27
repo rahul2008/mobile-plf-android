@@ -14,5 +14,5 @@ public interface LaunchView extends FragmentView {
 
     void hideActionBar();
 
-    void finishActivityAffinity();
+    void finishActivity();
 }
