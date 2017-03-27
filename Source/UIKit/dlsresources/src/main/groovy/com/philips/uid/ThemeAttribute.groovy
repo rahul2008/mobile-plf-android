@@ -1,7 +1,9 @@
-/**
+/*
  * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
+ *
  */
+
 package com.philips.uid
 
 class ThemeAttribute {

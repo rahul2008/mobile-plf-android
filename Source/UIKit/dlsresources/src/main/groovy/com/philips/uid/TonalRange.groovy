@@ -96,7 +96,7 @@ class TonalRange {
             }
             return "@color/${colorReference}"
         } else if (colorCode != null) {
-            def hexAlpha = "FF"
+            def hexAlpha = ""
             if (opacity != null) {
                 hexAlpha = alphaToHex(Float.valueOf(opacity))
             }
@@ -108,15 +108,15 @@ class TonalRange {
             def colorValue = colorsXmlInput.findAll {
                 it.@name == colorReference
             }*.text().get(0)
-            if (hexAlpha == "FF") {
-                println("colorReference: #" + colorReference + "#" + " colorValue " + colorValue)
+            if (hexAlpha.isEmpty()) {
+//                println("colorReference: #" + colorReference + "#" + " colorValue " + colorValue)
                 return "@color/${colorReference}";
             }
             def colorWithHex = colorValue.replace("#", "#${hexAlpha}")
 
             return colorWithHex
         }
-        println(" Invalid combination " + this.toString())
+//        println(" Invalid combination " + this.toString())
         return "@null"
     }
 
@@ -124,10 +124,9 @@ class TonalRange {
         def index = allAttributes.indexOf(new ThemeAttribute(reference))
 
         if (index > -1) {
-
             return "${DLSResourceConstants.ATTR}" + reference
         }
-        println(" Invalid Attribute " + reference)
+//        println(" Invalid Attribute " + reference)
 
         return "@null"
     }

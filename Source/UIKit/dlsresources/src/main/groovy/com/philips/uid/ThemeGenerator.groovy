@@ -58,11 +58,19 @@ class ThemeGenerator {
 
             allBrushAttributes.each {
                 def tr = tonalRange.toString()
+                def value = "null"
+                def themeValue = null;
                 if (it.attributeMap.containsKey(tr)) {
-                    item("${DLSResourceConstants.ITEM_NAME}": it.attrName, it.attributeMap.get(tr).getValue("${colorName}", colorsXmlInput, allBrushAttributes))
+                    themeValue = it.attributeMap.get(tr)
+                    value = themeValue.getValue("${colorName}", colorsXmlInput, allBrushAttributes)
                 } else {
-                    item("${DLSResourceConstants.ITEM_NAME}": it.attrName, it.attributeMap.get(defaultTonalRange).getValue("${colorName}", colorsXmlInput, allBrushAttributes))
+                    themeValue = it.attributeMap.get(defaultTonalRange)
+                    value = themeValue.getValue("${colorName}", colorsXmlInput, allBrushAttributes)
                 }
+                if (value == "@null") {
+                    println(" Invalid combination Tonal Range " + tr + " Brush " + it.attrName + " Theme values " + themeValue.toString())
+                }
+                item("${DLSResourceConstants.ITEM_NAME}": it.attrName, value)
             }
 
             allComponentAttributes.each {
