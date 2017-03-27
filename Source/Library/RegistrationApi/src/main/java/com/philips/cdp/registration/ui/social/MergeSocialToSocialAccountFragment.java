@@ -36,7 +36,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XButton;
 import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.customviews.onUpdateListener;
+import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
@@ -50,7 +50,7 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 
 public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment implements EventListener,
-        onUpdateListener, NetworStateListener, SocialProviderLoginHandler, OnClickListener {
+        OnUpdateListener, NetworStateListener, SocialProviderLoginHandler, OnClickListener {
 
     @Inject
     NetworkUtility networkUtility;
@@ -310,7 +310,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     }
 
     @Override
-    public void onUpadte() {
+    public void onUpdate() {
         handleOnUIThread(new Runnable() {
             @Override
             public void run() {

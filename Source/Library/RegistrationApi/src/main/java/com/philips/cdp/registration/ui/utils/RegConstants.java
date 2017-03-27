@@ -152,7 +152,7 @@ public class RegConstants {
 
     public static final String COPPA_STATUS = "CoppaStatus";
 
-    public static final int VERIFY_CODE_ENTER = 6;
+    public static final int VERIFY_CODE_MINIMUM_LENGTH = 6;
 
     public static final String IS_FROM_PARENTAL_CONSENT = "ParentalConsent";
 

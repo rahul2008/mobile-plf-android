@@ -38,7 +38,7 @@ import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XButton;
 import com.philips.cdp.registration.ui.customviews.XPassword;
 import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.customviews.onUpdateListener;
+import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
@@ -51,7 +51,7 @@ import com.philips.cdp.registration.ui.utils.URInterface;
 import javax.inject.Inject;
 
 public class MergeAccountFragment extends RegistrationBaseFragment implements EventListener,
-        onUpdateListener, TraditionalLoginHandler, ForgotPasswordHandler, NetworStateListener,
+        OnUpdateListener, TraditionalLoginHandler, ForgotPasswordHandler, NetworStateListener,
         OnClickListener {
 
     @Inject
@@ -335,7 +335,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
     }
 
     @Override
-    public void onUpadte() {
+    public void onUpdate() {
         handleOnUIThread(new Runnable() {
             @Override
             public void run() {

@@ -216,7 +216,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
     }
 
     private void updateUiStatus() {
-        if (mEtCodeNUmber.getNumber().length() >= RegConstants.VERIFY_CODE_ENTER) {
+        if (mEtCodeNUmber.getNumber().length() >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH) {
             mBtnVerify.setEnabled(true);
         } else {
             mBtnVerify.setEnabled(false);

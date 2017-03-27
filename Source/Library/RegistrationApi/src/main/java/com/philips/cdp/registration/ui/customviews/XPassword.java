@@ -42,7 +42,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
     private boolean mValidPassword;
 
-    private onUpdateListener mUpdateStatusListener;
+    private OnUpdateListener mUpdateStatusListener;
 
     private RelativeLayout mRlEtPassword;
 
@@ -86,13 +86,13 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
     }
 
 
-    public void setOnUpdateListener(onUpdateListener updateStatusListener) {
+    public void setOnUpdateListener(OnUpdateListener updateStatusListener) {
         mUpdateStatusListener = updateStatusListener;
     }
 
     private void fireUpdateStatusEvent() {
         if (null != mUpdateStatusListener) {
-            mUpdateStatusListener.onUpadte();
+            mUpdateStatusListener.onUpdate();
         }
     }
 
@@ -156,7 +156,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        mEtPassword.setTextColor( ContextCompat.getColor(mContext,R.color.reg_edt_text_feild_color));
+        mEtPassword.setTextColor( ContextCompat.getColor(mContext,R.color.reg_edit_text_field_color));
         if (v.getId() == R.id.et_reg_password) {
             handlePassword(hasFocus);
             fireUpdateStatusEvent();
@@ -262,7 +262,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
     private void showValidPasswordAlert() {
         mRlEtPassword.setBackgroundResource(R.drawable.reg_et_focus_disable);
-        mEtPassword.setTextColor( ContextCompat.getColor(mContext,R.color.reg_edt_text_feild_color));
+        mEtPassword.setTextColor( ContextCompat.getColor(mContext,R.color.reg_edit_text_field_color));
         mFlInvaliFielddAlert.setVisibility(GONE);
         mTvErrDescriptionView.setVisibility(GONE);
     }

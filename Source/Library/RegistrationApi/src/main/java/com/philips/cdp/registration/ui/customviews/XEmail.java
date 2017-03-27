@@ -43,7 +43,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 
     private boolean mValidEmail;
 
-    private onUpdateListener mUpdateStatusListener;
+    private OnUpdateListener mUpdateStatusListener;
 
     private RelativeLayout mRlEtEmail;
 
@@ -182,7 +182,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 
     public void showValidEmailAlert() {
         mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_disable);
-        mEtEmail.setTextColor(ContextCompat.getColor(mContext,R.color.reg_edt_text_feild_color));
+        mEtEmail.setTextColor(ContextCompat.getColor(mContext,R.color.reg_edit_text_field_color));
         mFlInvalidFieldAlert.setVisibility(GONE);
         mTvErrDescriptionView.setVisibility(GONE);
     }
@@ -193,19 +193,19 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
         mFlInvalidFieldAlert.setVisibility(VISIBLE);
     }
 
-    public void setOnUpdateListener(onUpdateListener updateStatusListener) {
+    public void setOnUpdateListener(OnUpdateListener updateStatusListener) {
         mUpdateStatusListener = updateStatusListener;
     }
 
     private void raiseUpdateUIEvent() {
         if (null != mUpdateStatusListener) {
-            mUpdateStatusListener.onUpadte();
+            mUpdateStatusListener.onUpdate();
         }
     }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        mEtEmail.setTextColor(ContextCompat.getColor(mContext,R.color.reg_edt_text_feild_color));
+        mEtEmail.setTextColor(ContextCompat.getColor(mContext,R.color.reg_edit_text_field_color));
         if (v.getId() == R.id.et_reg_email) {
             handleEmail(hasFocus);
             raiseUpdateUIEvent();
