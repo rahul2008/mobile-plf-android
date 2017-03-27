@@ -33,28 +33,12 @@
     </declare-styleable>
 
     <declare-styleable name="UIDTextEditBox">
-        <attr name="uidInputTextFillColor" format="reference|color"/>
-        <attr name="uidInputTextFillPressedColor" format="reference|color"/>
-        <attr name="uidInputTextFillDisabledColor" format="reference|color"/>
-        <attr name="uidInputTextFillDisabledAlpha" format="reference|float|dimension"/>
         <attr name="uidInputTextFillColorList" format="reference"/>
-        <attr name="uidInputTextHint" format="reference|color"/>
-        <attr name="uidInputText"/>
         <attr name="uidInputTextFillBackground" format="reference"/>
         <attr name="uidInputTextFillBackgroundColorList" format="reference"/>
-        <attr name="uidInputTextBorderBackground" format="reference"/>
         <attr name="uidInputTextBorderWidth" format="reference|dimension"/>
-        <attr name="uidInputTextBorderColor" format="reference|color"/>
-        <attr name="uidInputTextBorderPressedColor" format="reference|color"/>
-        <attr name="uidInputTextBorderPressedColorAlpha" format="reference|float"/>
-        <attr name="uidInputTextBorderDisabledColor" format="reference|color"/>
+        <attr name="uidInputTextBorderBackground" format="reference"/>
         <attr name="uidInputTextBorderBackgroundColorList" format="reference"/>
-        <attr name="uidInputTextTextColor" format="reference|color"/>
-        <attr name="uidInputTextTextDisabledColor" format="reference|color"/>
-        <attr name="uidInputTextTextDisabledAlpha" format="reference|float"/>
-        <attr name="uidInputTextHintTextColor" format="reference|color"/>
-        <attr name="uidInputTextHintTextDisabledColor" format="reference|color"/>
-        <attr name="uidInputTextHintTextDisabledAlpha" format="reference|float"/>
         <attr name="uidInputTextTextSelector" format="reference"/>
         <attr name="uidInputTextHintTextSelector" format="reference"/>
         <attr name="uidInputTextWithClearButton" format="reference|boolean"/>

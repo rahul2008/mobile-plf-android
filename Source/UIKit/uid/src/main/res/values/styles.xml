@@ -51,8 +51,9 @@
 
 
         <!-- Moved to based temporarily to avoid crash-->
-        <item name="uidInputTextTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
+        <!--<item name="uidInputTextTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
         <item name="uidInputTextHintTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
+        -->
         <item name="uidTextBoxValidationBackground">@color/uid_signal_orange_level_15</item>
         <item name="uidTextBoxValidationBackgroundAlpha">@dimen/uid_alpha_per_50</item>
         <item name="uidTextBoxValidationBorder">@android:color/transparent</item>
