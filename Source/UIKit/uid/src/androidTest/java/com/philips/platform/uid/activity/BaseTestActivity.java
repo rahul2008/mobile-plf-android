@@ -17,6 +17,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
+import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -31,23 +35,22 @@ public class BaseTestActivity extends AppCompatActivity implements DelayerCallba
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-//        int navigationColor = NavigationColor.BRIGHT.ordinal();
-//        int contentColor = 0;
-//        if (getIntentWithContentRange() != null && getIntentWithContentRange().getExtras() != null) {
-//            final Bundle extras = getIntentWithContentRange().getExtras();
-//            navigationColor = extras.getInt(NAVIGATION_COLOR_KEY, 1);
-//            contentColor = extras.getInt(CONTENT_COLOR_KEY, 0);
-//        }
+        int navigationColor = NavigationColor.BRIGHT.ordinal();
+        int contentColor = 0;
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            final Bundle extras = getIntent().getExtras();
+            navigationColor = extras.getInt(NAVIGATION_COLOR_KEY, 1);
+            contentColor = extras.getInt(CONTENT_COLOR_KEY, 0);
+        }
         UIDHelper.injectCalligraphyFonts();
-//        UIDHelper.init(getThemeConfig(navigationColor, contentColor));
-//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        UIDHelper.init(getThemeConfig(navigationColor, contentColor));
 
         super.onCreate(savedInstanceState);
     }
 
-//    private ThemeConfiguration getThemeConfig(final int navigationColor, final int contentColor) {
-//        return new ThemeConfiguration(ColorRange.GROUP_BLUE, ContentColor.values()[contentColor], NavigationColor.values()[navigationColor], this);
-//    }
+    private ThemeConfiguration getThemeConfig(final int navigationColor, final int contentColor) {
+        return new ThemeConfiguration(ColorRange.GROUP_BLUE, ContentColor.values()[contentColor], NavigationColor.values()[navigationColor], this);
+    }
 
     public void switchTo(final int layout) {
         runOnUiThread(
