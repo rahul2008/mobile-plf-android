@@ -28,12 +28,12 @@ public class GenericApplianceFactory implements DICommApplianceFactory<GenericAp
     @Override
     public GenericAppliance createApplianceForNode(NetworkNode networkNode) {
         // TODO Refactor this when libraries have been unified (BLE devices now have 'null' for modelType)
-        if(networkNode.getModelType() == null) {
-            networkNode.setModelType("unknown");
+        if(networkNode.getModelId() == null) {
+            networkNode.setModelId("unknown");
         }
 
         CommunicationStrategy strategy = mTransportContext.createCommunicationStrategyFor(networkNode);
-        ApplianceSpecification applianceSpec = supportedAppliances.findSpecification(networkNode.getModelType());
+        ApplianceSpecification applianceSpec = supportedAppliances.findSpecification(networkNode.getModelId());
 
         GenericAppliance genericAppliance = new GenericAppliance(networkNode, strategy);
         genericAppliance.readApplianceSpecification(applianceSpec, strategy);

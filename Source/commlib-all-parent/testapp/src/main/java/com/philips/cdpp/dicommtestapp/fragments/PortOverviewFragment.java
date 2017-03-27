@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdpp.dicommtestapp.MainActivity;
 import com.philips.cdpp.dicommtestapp.R;
@@ -47,17 +48,24 @@ public class PortOverviewFragment extends SampleAppFragment<PropertyPort> implem
             notifyListUpdated();
         }
     };
-    private ApplianceManager.ApplianceListener<GenericAppliance> mApplianceListener = new ApplianceManager.ApplianceListener<GenericAppliance>() {
+    private ApplianceManager.ApplianceListener<Appliance> mApplianceListener = new ApplianceManager.ApplianceListener<Appliance>() {
         @Override
-        public void onApplianceFound(@NonNull GenericAppliance appliance) {
+        public void onApplianceFound(@NonNull Appliance appliance) {
             String msg = String.format("onApplianceFound: %s", appliance.getName());
             Log.d(TAG, msg);
             notifyListUpdated();
         }
 
         @Override
-        public void onApplianceUpdated(@NonNull GenericAppliance appliance) {
+        public void onApplianceUpdated(@NonNull Appliance appliance) {
             String msg = String.format("onApplianceUpdated: %s", appliance.getName());
+            Log.d(TAG, msg);
+            notifyListUpdated();
+        }
+
+        @Override
+        public void onApplianceLost(@NonNull Appliance lostAppliance) {
+            String msg = String.format("onApplianceLost: %s", lostAppliance.getName());
             Log.d(TAG, msg);
             notifyListUpdated();
         }

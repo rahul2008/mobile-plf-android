@@ -35,17 +35,24 @@ public class DeviceDiscoveryFragment extends SampleAppFragment<GenericAppliance>
             updateDiscoveredDeviceList();
         }
     };
-    private ApplianceManager.ApplianceListener<GenericAppliance> mApplianceListener = new ApplianceManager.ApplianceListener<GenericAppliance>() {
+    private ApplianceManager.ApplianceListener<Appliance> mApplianceListener = new ApplianceManager.ApplianceListener<Appliance>() {
         @Override
-        public void onApplianceFound(@NonNull GenericAppliance appliance) {
+        public void onApplianceFound(@NonNull Appliance appliance) {
             String msg = String.format("onApplianceFound: %s", appliance.getName());
             Log.e(TAG, msg);
             updateDiscoveredDeviceList();
         }
 
         @Override
-        public void onApplianceUpdated(@NonNull GenericAppliance appliance) {
+        public void onApplianceUpdated(@NonNull Appliance appliance) {
             String msg = String.format("onApplianceUpdated: %s", appliance.getName());
+            Log.e(TAG, msg);
+            updateDiscoveredDeviceList();
+        }
+
+        @Override
+        public void onApplianceLost(@NonNull Appliance lostAppliance) {
+            String msg = String.format("onApplianceLost: %s", lostAppliance.getName());
             Log.e(TAG, msg);
             updateDiscoveredDeviceList();
         }
