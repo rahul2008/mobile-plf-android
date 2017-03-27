@@ -93,7 +93,7 @@ public class AppIdentityManager implements AppIdentityInterface {
 				mAppState = defAppState;
 			}
 		} else {
-			throw new IllegalArgumentException("AppState cannot be empty in appIdentityConfig json file");
+			throw new IllegalArgumentException("AppState cannot be empty in AppConfig.json file");
 		}
 
 	}
@@ -106,13 +106,13 @@ public class AppIdentityManager implements AppIdentityInterface {
 			if (!set.contains(serviceDiscoveryEnvironment)) {
 				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "APPIDENTITY"
 						, serviceDiscoveryEnvironment);
-				throw new IllegalArgumentException("\"servicediscoveryENV in appIdentityConfig " +
+				throw new IllegalArgumentException("\"ServiceDiscovery Environment in AppConfig.json " +
 						" file must match \" +\n" +
-						"\"one of the following values ,\\n STAGING, \\n PRODUCTION\"");
+						"\"one of the following values \\n STAGING, \\n PRODUCTION\"");
 			}
 		} else {
 			throw new IllegalArgumentException("ServiceDiscovery Environment cannot be empty" +
-					" in appIdentityConfig json file");
+					" in AppConfig.json file");
 		}
 	}
 
@@ -125,14 +125,14 @@ public class AppIdentityManager implements AppIdentityInterface {
 		if (sector != null && !sector.isEmpty()) {
 			if (!set.contains(sector)) {
 				sector = null;
-				throw new IllegalArgumentException("\"Sector in appIdentityConfig  file" +
+				throw new IllegalArgumentException("\"Sector in AppConfig.json  file" +
 						" must match one of the following values\" +\n" +
 						" \" \\\\n b2b,\\\\n b2c,\\\\n b2b_Li, \\\\n b2b_HC\"");
 
 			}
 		} else {
 			throw new IllegalArgumentException("\"App Sector cannot be empty in" +
-					" appIdentityConfig json file\"");
+					" AppConfig.json file\"");
 		}
 
 	}
@@ -142,10 +142,10 @@ public class AppIdentityManager implements AppIdentityInterface {
 		if (micrositeId != null && !micrositeId.isEmpty()) {
 			if (!micrositeId.matches("[a-zA-Z0-9]+")) {
 				throw new IllegalArgumentException("micrositeId must not contain special " +
-						"charectors in appIdentityConfig json file");
+						"charectors in AppConfig.json json file");
 			}
 		} else {
-			throw new IllegalArgumentException("micrositeId cannot be empty in appIdentityConfig" +
+			throw new IllegalArgumentException("micrositeId cannot be empty in AppConfig.json" +
 					"  file");
 		}
 	}
@@ -180,7 +180,7 @@ public class AppIdentityManager implements AppIdentityInterface {
 			} else if (mAppState.equalsIgnoreCase("PRODUCTION")) {
 				mAppStateEnum = AppState.PRODUCTION;
 			} else {
-				throw new IllegalArgumentException("\"App State in appIdentityConfig  file must" +
+				throw new IllegalArgumentException("\"App State in AppConfig.json  file must" +
 						" match one of the following values \\\\n TEST,\\\\n DEVELOPMENT,\\\\n " +
 						"STAGING, \\\\n ACCEPTANCE, \\\\n PRODUCTION\"");
 			}
@@ -220,7 +220,7 @@ public class AppIdentityManager implements AppIdentityInterface {
 			} else if (serviceDiscoveryEnvironment.equalsIgnoreCase("PRODUCTION")) {
 				serviceDiscoveryEnvironment = "PRODUCTION";
 			} else {
-				throw new IllegalArgumentException("\"servicediscoveryENV in appIdentityConfig " +
+				throw new IllegalArgumentException("\"ServiceDiscovery environment in AppConfig.json " +
 						" file must match \" +\n" +
 						"\"one of the following values \\n STAGING, \\n PRODUCTION\"");
 			}
@@ -233,7 +233,7 @@ public class AppIdentityManager implements AppIdentityInterface {
 	@Override
 	public String getLocalizedAppName() {
 	    /* Vertical App should have this string defined for all supported language files
-         *  default <string name="localized_commercial_app_name">AppInfra DemoApp localized</string>
+	     *  default <string name="localized_commercial_app_name">AppInfra DemoApp localized</string>
          * */
 		mLocalizedAppName = context.getResources().getString(R.string.localized_commercial_app_name);
 

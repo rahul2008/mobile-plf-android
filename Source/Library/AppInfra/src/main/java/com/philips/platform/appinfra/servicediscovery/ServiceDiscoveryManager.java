@@ -334,6 +334,9 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 				sector = identityManager.getSector();
 				micrositeid = identityManager.getMicrositeId();
 				environment = getSDBaseURLForEnvironment(service_environment);
+				if (micrositeid == null || micrositeid.isEmpty() || environment == null || environment.isEmpty()) {
+					throw new IllegalArgumentException("Proposition MicrositeId or Proposition Service Environment is Missing");
+				}
 				break;
 		}
 		if (sector != null && micrositeid != null &&
@@ -365,13 +368,11 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 	}
 
 	private String getSDBaseURLForEnvironment(String serviceEnv) {
-		String baseUrl;
+		String baseUrl = null;
 		if (serviceEnv.equalsIgnoreCase(stateProduction)) {
 			baseUrl = baseURLProduction;
 		} else if (serviceEnv.equalsIgnoreCase(stateStaging)) {
 			baseUrl = baseURLStaging;
-		} else {
-			baseUrl = baseURLProduction;
 		}
 		return baseUrl;
 	}
