@@ -1,7 +1,9 @@
-/**
- * (C) Koninklijke Philips N.V., 2016.
+/*
+ * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
+ *
  */
+
 package com.philips.platform.uid.view.widget;
 
 import android.animation.Animator;
@@ -71,19 +73,16 @@ import com.philips.platform.uid.utils.UIDUtils;
  * </table>
  */
 public class IndeterminateLinearProgressBar extends View {
+    private static final float TRANSITION_DRAWABLE_WIDTH_RATIO = 0.4F;
     Drawable leadingDrawable;
     Drawable leadingMirrorDrawable;
     Drawable trailingDrawable;
     Drawable trailingMirrorDrawable;
     AnimatedTranslateDrawable leadingAnim;
     AnimatedTranslateDrawable trailingAnim;
-
     private int transitionDrawableWidth;
     private int transitionExtraWhiteSpace;
     private boolean drawTrailingAnim;
-
-    private static final float TRANSITION_DRAWABLE_WIDTH_RATIO = 0.4F;
-
     private int gradientStartColor;
     private int gradientCenterColor;
     private int gradientEndColor;

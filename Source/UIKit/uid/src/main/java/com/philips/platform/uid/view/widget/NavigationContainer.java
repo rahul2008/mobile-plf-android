@@ -1,6 +1,7 @@
-/**
+/*
  * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
+ *
  */
 
 package com.philips.platform.uid.view.widget;

@@ -1,7 +1,9 @@
-/**
+/*
  * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
+ *
  */
+
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
@@ -197,6 +199,15 @@ public class ProgressBarButton extends LinearLayout {
     }
 
     /**
+     * Get the progress of the indicator on the button
+     *
+     * @return value between 0 and 100
+     */
+    public int getProgress() {
+        return progressBar.getProgress();
+    }
+
+    /**
      * Set the progress of the indicator on the button
      *
      * @param progress value between 0 - 100
@@ -208,21 +219,21 @@ public class ProgressBarButton extends LinearLayout {
     }
 
     /**
-     * Get the progress of the indicator on the button
-     *
-     * @return value between 0 and 100
-     */
-    public int getProgress() {
-        return progressBar.getProgress();
-    }
-
-    /**
      * Set the progress text of the button
      *
      * @param resId on the text that will be shown on the button
      */
     public void setProgressText(@StringRes int resId) {
         setProgressText(getContext().getString(resId));
+    }
+
+    /**
+     * Get the progress text of the button
+     *
+     * @String progress text of the button
+     */
+    public String getProgressText() {
+        return progressTextView.getText().toString();
     }
 
     /**
@@ -236,32 +247,12 @@ public class ProgressBarButton extends LinearLayout {
     }
 
     /**
-     * Get the progress text of the button
-     *
-     * @String progress text of the button
-     */
-    public String getProgressText() {
-        return progressTextView.getText().toString();
-    }
-
-    /**
      * Set the text of the button
      *
      * @param resId on the text that will be shown on the button
      */
     public void setText(@StringRes int resId) {
         setText(getContext().getString(resId));
-    }
-
-    /**
-     * Set the text of the button
-     *
-     * @param text that will be shown on the button
-     */
-    public void setText(String text) {
-        if (!TextUtils.isEmpty(text)) {
-            button.setText(text);
-        }
     }
 
     /**
@@ -280,6 +271,17 @@ public class ProgressBarButton extends LinearLayout {
      */
     public String getText() {
         return button.getText().toString();
+    }
+
+    /**
+     * Set the text of the button
+     *
+     * @param text that will be shown on the button
+     */
+    public void setText(String text) {
+        if (!TextUtils.isEmpty(text)) {
+            button.setText(text);
+        }
     }
 
     /**
@@ -330,6 +332,16 @@ public class ProgressBarButton extends LinearLayout {
     }
 
     static class SavedState extends BaseSavedState {
+        public static final Parcelable.Creator<ProgressBarButton.SavedState> CREATOR
+                = new Parcelable.Creator<ProgressBarButton.SavedState>() {
+            public ProgressBarButton.SavedState createFromParcel(Parcel in) {
+                return new ProgressBarButton.SavedState(in);
+            }
+
+            public ProgressBarButton.SavedState[] newArray(int size) {
+                return new ProgressBarButton.SavedState[size];
+            }
+        };
         String buttonText;
         String progressText;
         int progress;
@@ -356,17 +368,6 @@ public class ProgressBarButton extends LinearLayout {
             out.writeInt(progress);
             out.writeInt(buttonVisibility);
         }
-
-        public static final Parcelable.Creator<ProgressBarButton.SavedState> CREATOR
-                = new Parcelable.Creator<ProgressBarButton.SavedState>() {
-            public ProgressBarButton.SavedState createFromParcel(Parcel in) {
-                return new ProgressBarButton.SavedState(in);
-            }
-
-            public ProgressBarButton.SavedState[] newArray(int size) {
-                return new ProgressBarButton.SavedState[size];
-            }
-        };
     }
 
     private class TapDetector extends GestureDetector.SimpleOnGestureListener {
