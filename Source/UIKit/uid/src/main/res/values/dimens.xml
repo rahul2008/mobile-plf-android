@@ -135,7 +135,7 @@
     <dimen name="uid_label_margin_bottom_control">16dp</dimen>
     <dimen name="uid_label_margin_start_control">12dp</dimen>
     <dimen name="uid_label_margin_start">12dp</dimen>
-    <dimen name="uid_label_margin_bottom_slider">36dp</dimen>
+    <dimen name="uid_label_margin_bottom_slider">24dp</dimen>
     <dimen name="uid_label_margin_left_control">12dp</dimen>
 
     <!--CheckBox-->

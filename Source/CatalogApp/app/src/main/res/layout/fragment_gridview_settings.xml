@@ -113,6 +113,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
+            android:layout_marginEnd="@dimen/layout_margin_left_right"
             android:orientation="vertical">
 
             <RadioButton
@@ -131,7 +132,10 @@
                 android:id="@+id/single_line_header"
                 style="@style/RecyclerViewRadioButton"
                 android:checked="@{frag.templateSelection == 3 ? true : false}"
-                android:text="@string/single_line_header" />
+                android:text="@string/single_line_header"
+                android:enabled="@{!frag.isDarkBackroungEnabled}"
+                android:alpha="@{frag.isDarkBackroungEnabled ? (float)0.3 : 1}"
+                />
         </RadioGroup>
     </LinearLayout>
 </layout>

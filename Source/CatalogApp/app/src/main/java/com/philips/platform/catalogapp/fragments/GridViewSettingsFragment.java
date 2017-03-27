@@ -57,8 +57,8 @@ public class GridViewSettingsFragment extends BaseFragment {
 
     private void initSavedSettings(){
         setSecondaryActionEnabled(gridDataHelper.isSecondaryActionEnabled());
-        setDarkBackgroundEnabled(isDarkBackroungEnabled.get());
-        setEnlargedGutterEnabled(isEnlargedGutterEnabled.get());
+        setDarkBackgroundEnabled(gridDataHelper.isDarkBackgroundEnabled());
+        setEnlargedGutterEnabled(gridDataHelper.isEnlargedGutterEnabled());
         setGridDisableEnabled(gridDataHelper.isSetDisableStateEnabled());
         setTemplateSelection(gridDataHelper.getTemplateSelection());
     }
@@ -69,8 +69,6 @@ public class GridViewSettingsFragment extends BaseFragment {
 
     public void setDarkBackgroundEnabled(boolean isDarkBackroundEnabled){
         this.isDarkBackroungEnabled.set(isDarkBackroundEnabled);
-         gridviewSettingsBinding.getRoot().findViewById(R.id.single_line_header).setEnabled(this.isDarkBackroungEnabled.get() ? false :  true);
-
     }
 
     public void setEnlargedGutterEnabled(boolean isEnlargedGutterEnabled){
