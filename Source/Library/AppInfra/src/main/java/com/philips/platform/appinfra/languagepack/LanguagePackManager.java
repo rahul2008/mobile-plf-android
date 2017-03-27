@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.os.Build;
 import android.os.LocaleList;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -13,25 +14,27 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.languagepack.model.LanguageList;
 import com.philips.platform.appinfra.languagepack.model.LanguageModel;
+import com.philips.platform.appinfra.languagepack.model.LanguagePackMetadata;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+
+import static com.philips.platform.appinfra.languagepack.LanguagePackConstants.LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY;
 
 
 /**
@@ -43,10 +46,9 @@ public class LanguagePackManager implements LanguagePackInterface {
 	private AppInfra mAppInfra;
 	private Context mContext;
 	private RestInterface mRestInterface;
-	private static final String LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY = "LANGUAGEPACK.SERVICEID";
 	private LanguageList mLanguageList;
-	private String mLocale;
-	private HashMap<String, LanguageModel> mLanguageOverview;
+	private LanguageModel selectedLanguageModel;
+
 
 	public LanguagePackManager(AppInfra appInfra) {
 		mAppInfra = appInfra;
@@ -78,7 +80,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 								if (null != response) {
 									Gson gson = new Gson();
 									mLanguageList = gson.fromJson(response.toString(), LanguageList.class);
-									String url = getPreferedLocaleURL();
+									String url = getPreferredLocaleURL();
 									downloadLanguagePack(url, aILPRefreshResult);
 								}
 							}
@@ -108,29 +110,41 @@ public class LanguagePackManager implements LanguagePackInterface {
 
 	}
 
-	private void downloadLanguagePack(String url, final OnRefreshListener aILPRefreshResult) {
+    private void downloadLanguagePack(String url, final OnRefreshListener aILPRefreshResult) {
 
-		JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-				new Response.Listener<JSONObject>() {
-					@Override
-					public void onResponse(JSONObject response) {
-						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL",
-								"Language Pack Json: " + response.toString());
-						saveFile(response.toString(), "locale.json");
-						saveFile(mLanguageOverview, "languagepack.txt");
-						aILPRefreshResult.onSuccess(OnRefreshListener.AILPRefreshResult.RefreshedFromServer);
-					}
-				}, new Response.ErrorListener() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL",
+                                "Language Pack Json: " + response.toString());
+                        saveFile(response.toString(), LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
+                        saveLocaleMetaData(selectedLanguageModel);
+                        aILPRefreshResult.onSuccess(OnRefreshListener.AILPRefreshResult.RefreshedFromServer);
+                    }
+                }, new Response.ErrorListener() {
 
-			@Override
-			public void onErrorResponse(VolleyError error) {
-				String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
-				String errMsg = " Error Code:" + errorcode + " , Error Message:" + error.toString();
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", errMsg);
-				aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.RefreshFailed, errMsg);
-			}
-		}, null, null, null);
-		mRestInterface.getRequestQueue().add(jsonObjectRequest);
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
+                String errMsg = " Error Code:" + errorcode + " , Error Message:" + error.toString();
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", errMsg);
+                aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.RefreshFailed, errMsg);
+            }
+        }, null, null, null);
+        mRestInterface.getRequestQueue().add(jsonObjectRequest);
+    }
+
+	private void saveLocaleMetaData(LanguageModel languageModel) {
+		try {
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put(LanguagePackConstants.LOCALE,languageModel.getLocale());
+			jsonObject.put(LanguagePackConstants.VERSION,languageModel.getRemoteVersion());
+			jsonObject.put(LanguagePackConstants.URL,languageModel.getUrl());
+			saveFile(jsonObject.toString(),LanguagePackConstants.LOCALE_FILE_INFO);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	}
 
 
@@ -142,33 +156,31 @@ public class LanguagePackManager implements LanguagePackInterface {
 		}
 	}
 
-	private String getPreferedLocaleURL() {
+	private String getPreferredLocaleURL() {
 
 		ArrayList<LanguageModel> languageModels = mLanguageList.getLanguages();
 		ArrayList<String> deviceLocaleList = new ArrayList<>(Arrays.asList(getLocaleList().split(",")));
-
-		mLanguageOverview = new HashMap<>();
 		LanguageModel langModel = new LanguageModel();
 		for (String deviceLocale : deviceLocaleList) {
 			for (LanguageModel model : languageModels) {
 				if (model.getLocale().equalsIgnoreCase(deviceLocale)) {
+                    selectedLanguageModel = model;
 					langModel.setRemoteVersion(model.getRemoteVersion());
+					langModel.setLocale(model.getLocale());
 					langModel.setUrl(model.getUrl());
-					mLanguageOverview.put(model.getLocale(), langModel);
-					mLocale = model.getLocale();
 					return model.getUrl();
 				} else if (model.getLocale().substring(0, 2).intern().equalsIgnoreCase
 						(deviceLocale.substring(0, 2).intern())) {
+                    selectedLanguageModel = model;
 					langModel.setRemoteVersion(model.getRemoteVersion());
+					langModel.setLocale(model.getLocale());
 					langModel.setUrl(model.getUrl());
-					mLanguageOverview.put(model.getLocale(), langModel);
-					mLocale = model.getLocale();
 					return model.getUrl();
 				} else if (deviceLocale.contains(model.getLocale().substring(0, 2))) {
+                    selectedLanguageModel = model;
 					langModel.setRemoteVersion(model.getRemoteVersion());
+					langModel.setLocale(model.getLocale());
 					langModel.setUrl(model.getUrl());
-					mLanguageOverview.put(model.getLocale(), langModel);
-					mLocale = model.getLocale();
 					return model.getUrl();
 				}
 
@@ -184,31 +196,69 @@ public class LanguagePackManager implements LanguagePackInterface {
 		return null;
 	}
 
-	private File getInternalFilePath(String fileName) {
+	private File getFilePath(String fileName) {
 		ContextWrapper contextWrapper = new ContextWrapper(mAppInfra.getAppInfraContext());
-		File directory = contextWrapper.getDir(mLocale, Context.MODE_PRIVATE);
-		File myInternalFile = new File(directory, fileName);
-		return myInternalFile;
+		File directory = contextWrapper.getExternalCacheDir();
+		File file = new File(directory, LanguagePackConstants.LANGUAGE_PACK_PATH);
+		File jsonFile = new File(file.getPath(), fileName);
+		if(!file.exists()) {
+			boolean mkdirs = file.mkdirs();
+			if(!mkdirs) {
+				Log.e(this.getClass() + "", "error in creating folders");
+			} else {
+				try {
+					jsonFile.createNewFile();
+				} catch (IOException var5) {
+					var5.printStackTrace();
+				}
+			}
+		}
+
+		return jsonFile;
 	}
 
-	public void saveFile(Object localeResponse, String fileName) {
+	private void saveFile(String response, String fileName) {
+		FileWriter fileWriter = null;
 		try {
-			FileOutputStream fileOutputStream = new FileOutputStream(getInternalFilePath(fileName));
-			ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+			fileWriter = new FileWriter(getFilePath(fileName));
+			fileWriter.write(response);
+			fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fileWriter != null)
+					fileWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-			objectOutputStream.writeObject(localeResponse);
-			objectOutputStream.flush();
-			objectOutputStream.close();
-			fileOutputStream.close();
+    private String readFile(File file) {
+		int length = (int) file.length();
+		byte[] bytes = new byte[length];
+		FileInputStream fileInputStream = null;
+		try {
+			fileInputStream = new FileInputStream(file);
+			fileInputStream.read(bytes);
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if (fileInputStream != null)
+					fileInputStream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
+		return new String(bytes);
 	}
 
 	private void getFile(String fileName) {
 		String myData = "";
 		try {
-			FileInputStream fis = new FileInputStream(getInternalFilePath(fileName));
+			FileInputStream fis = new FileInputStream(getFilePath(fileName));
 			DataInputStream in = new DataInputStream(fis);
 			BufferedReader br =
 					new BufferedReader(new InputStreamReader(in));
@@ -223,8 +273,16 @@ public class LanguagePackManager implements LanguagePackInterface {
 	}
 
 	private boolean deleteFile(String fileName) {
-		File file = getInternalFilePath(fileName);
+		File file = getFilePath(fileName);
 		return file.delete();
+	}
+
+	public void activate(OnActivateListener onActivateListener) {
+		File file = getFilePath(LanguagePackConstants.LOCALE_FILE_INFO);
+		Gson gson = new Gson();
+		LanguagePackMetadata languagePackMetadata = gson.fromJson(readFile(file), LanguagePackMetadata.class);
+		Log.d(getClass() + "", languagePackMetadata.getLocale() + "---" + languagePackMetadata.getUrl() + "-----" + languagePackMetadata.getVersion());
+		onActivateListener.onSuccess(file.getAbsolutePath());
 	}
 
 }

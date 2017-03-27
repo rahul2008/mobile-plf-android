@@ -1,5 +1,6 @@
 package com.philips.platform.appinfra.demo;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +15,7 @@ public class LanguagePackActivity extends AppCompatActivity {
 
     private  LanguagePackInterface mLanguagePack;
     private  AppInfraInterface mAppInfra;
-    private TextView overviewfileStatus;
+    private TextView overviewfileStatus, activatedUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,9 +23,32 @@ public class LanguagePackActivity extends AppCompatActivity {
         setContentView(R.layout.activity_language_pack);
         mLanguagePack = AppInfraApplication.gAppInfra.getLanguagePack();
         overviewfileStatus= (TextView) findViewById(R.id.overviewfileStatus);
+        activatedUrl= (TextView) findViewById(R.id.activatedUrl);
 
         Button languagePackRefresh = (Button) findViewById(R.id.OverviewfileRefresh);
-        languagePackRefresh.setOnClickListener(new View.OnClickListener() {
+        Button languagePackActivate = (Button) findViewById(R.id.activate);
+        languagePackRefresh.setOnClickListener(onClickRefresh());
+        languagePackActivate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mLanguagePack.activate(new LanguagePackInterface.OnActivateListener() {
+                    @Override
+                    public void onSuccess(String path) {
+                        activatedUrl.setText(path);
+                    }
+
+                    @Override
+                    public void onError(String description) {
+                        activatedUrl.setText(description);
+                    }
+                });
+            }
+        });
+    }
+
+    @NonNull
+    private View.OnClickListener onClickRefresh() {
+        return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 overviewfileStatus.setText(null);
@@ -43,6 +67,6 @@ public class LanguagePackActivity extends AppCompatActivity {
                 });
 
             }
-        });
+        };
     }
 }

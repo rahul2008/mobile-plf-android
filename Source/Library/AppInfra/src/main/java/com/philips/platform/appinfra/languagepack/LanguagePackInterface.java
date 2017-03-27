@@ -15,6 +15,10 @@ public interface LanguagePackInterface {
 		void onSuccess(AILPRefreshResult result);
 	}
 
+	interface OnActivateListener {
+		void onSuccess(String path);
+		void onError(String description);
+	}
 
 	/**
 	 * download language pack overview file.
@@ -24,6 +28,6 @@ public interface LanguagePackInterface {
 	 */
 	void refresh(OnRefreshListener refreshListener);
 
-
+	void activate(OnActivateListener onActivateListener);
 }
 
