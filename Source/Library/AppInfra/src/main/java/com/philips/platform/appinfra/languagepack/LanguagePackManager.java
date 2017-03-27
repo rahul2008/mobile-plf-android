@@ -35,12 +35,14 @@ public class LanguagePackManager implements LanguagePackInterface {
 	private LanguageList mLanguageList;
 	private LanguageModel selectedLanguageModel;
 	private LanguagePackUtil languagePackUtil;
+	private Gson gson;
 
 	public LanguagePackManager(AppInfra appInfra) {
 		mAppInfra = appInfra;
 		mRestInterface = appInfra.getRestClient();
 		mLanguageList = new LanguageList();
 		languagePackUtil = new LanguagePackUtil(appInfra.getAppInfraContext());
+		gson = new Gson();
 	}
 
 	@Override
@@ -63,12 +65,12 @@ public class LanguagePackManager implements LanguagePackInterface {
 							@Override
 							public void onResponse(JSONObject response) {
 								mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", response.toString());
-								if (null != response) {
-									Gson gson = new Gson();
-									mLanguageList = gson.fromJson(response.toString(), LanguageList.class);
+								mLanguageList = gson.fromJson(response.toString(), LanguageList.class);
+								if (null != mLanguageList) {
 									String url = getPreferredLocaleURL();
 									downloadLanguagePack(url, aILPRefreshResult);
-								}
+								} else
+									aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.RefreshFailed, OnRefreshListener.AILPRefreshResult.RefreshFailed.toString());
 							}
 						}, new Response.ErrorListener() {
 					@Override
@@ -171,10 +173,10 @@ public class LanguagePackManager implements LanguagePackInterface {
 
 	public void activate(OnActivateListener onActivateListener) {
 		File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_INFO);
-		Gson gson = new Gson();
+		File fileDownloaded = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
 		LanguagePackMetadata languagePackMetadata = gson.fromJson(languagePackUtil.readFile(file), LanguagePackMetadata.class);
 		Log.d(getClass() + "", languagePackMetadata.getLocale() + "---" + languagePackMetadata.getUrl() + "-----" + languagePackMetadata.getVersion());
-		onActivateListener.onSuccess(file.getAbsolutePath());
+		onActivateListener.onSuccess(fileDownloaded.getAbsolutePath());
 	}
 
 }

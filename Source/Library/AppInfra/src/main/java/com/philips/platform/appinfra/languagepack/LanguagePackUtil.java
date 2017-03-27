@@ -81,13 +81,13 @@ class LanguagePackUtil {
         return new String(bytes);
     }
 
-    private boolean deleteFile(String fileName) {
+    boolean deleteFile(String fileName) {
         File file = getLanguagePackFilePath(fileName);
         return file.delete();
     }
 
 
-    protected void saveLocaleMetaData(LanguageModel languageModel) {
+    void saveLocaleMetaData(LanguageModel languageModel) {
         try {
             JSONObject metadataJsonObject = new JSONObject();
             metadataJsonObject.put(LanguagePackConstants.LOCALE,languageModel.getLocale());
