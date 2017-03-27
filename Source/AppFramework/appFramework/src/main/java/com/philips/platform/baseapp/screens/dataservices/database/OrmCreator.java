@@ -55,11 +55,11 @@ import javax.inject.Singleton;
  */
 public class OrmCreator implements BaseAppDataCreator {
 
-    private final UuidGenerator uuidGenerator;
+    //private final UuidGenerator uuidGenerator;
 
     @Singleton
-    public OrmCreator(UuidGenerator uuidGenerator) {
-        this.uuidGenerator = uuidGenerator;
+    public OrmCreator() {
+        //this.uuidGenerator = uuidGenerator;
 
     }
 

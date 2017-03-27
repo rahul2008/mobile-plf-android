@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply plugin: 'jacoco-everywhere'
+apply plugin: 'com.neenbedankt.android-apt'
 
 buildscript {
     repositories {
@@ -147,7 +148,7 @@ android {
         versionName objcdp.getVersionWithHash()
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 24
-        // applicationId "net.gouline.jacoco"
+        applicationId "net.gouline.jacoco"
         renderscriptSupportModeEnabled true
         testApplicationId "com.philips.platform.appframework.test"
         testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
@@ -207,20 +208,20 @@ android {
         debug {
             minifyEnabled false
             shrinkResources false
-            debuggable true
-            testCoverageEnabled = true
+            debuggable false
+            testCoverageEnabled = false
         }
 
 
         leakCanary {
             minifyEnabled false
             shrinkResources false
-            debuggable true
+            debuggable false
             signingConfig signingConfigs.debug
         }
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFile 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
@@ -316,8 +317,8 @@ dependencies {
     //compile project(':dataServices')
     // DEBUG
     debugCompile 'com.facebook.stetho:stetho:1.2.0'
-    compile "com.j256.ormlite:ormlite-core:5.0"
-    compile "com.j256.ormlite:ormlite-android:5.0"
+    compile 'com.j256.ormlite:ormlite-core:5.0'
+    compile 'com.j256.ormlite:ormlite-android:5.0'
     compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '2.3.5' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive = true
     }
@@ -328,9 +329,9 @@ dependencies {
         transitive = true
     }
     /* compile(group: 'com.philips.cdp', name: 'dataServices', version: '1.0.0' + objcdp.getVersionSuffix(), ext: 'aar') {
-                exclude group: 'com.android.support'
-                transitive = true
-            }*/
+                            exclude group: 'com.android.support'
+                            transitive = true
+                        }*/
     compile(group: 'com.philips.cdp', name: 'commlib-all', version: '1.2.2' + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
@@ -347,12 +348,25 @@ dependencies {
     //    compile 'com.android.support:multidex:1.0.1'
     testCompile 'org.robolectric:robolectric:3.2.2'
     /*{
-                exclude group: 'commons-logging', module: 'commons-logging'
-                exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-            }*/
+                            exclude group: 'commons-logging', module: 'commons-logging'
+                            exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+                        }*/
     testCompile 'org.mockito:mockito-all:1.10.17'
     // testCompile "com.squareup.assertj:assertj-android:${androidAssertJVer}" compile project(':MyDemoApp-debug')
+    //  compile project(':MyDemoApp-release')
     compile project(':MyDemoApp-debug')
+    //EventBus and Retrofit
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    // DAGGER
+    compile "com.google.dagger:dagger:2.0.2"
+    apt "com.google.dagger:dagger-compiler:2.0.2"
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+    provided 'javax.annotation:jsr250-api:1.0'
+    compile 'javax.inject:javax.inject:1'
+    testApt "com.google.dagger:dagger-compiler:2.0.2"
+
+
 }
 
 task copyToLib(type: Copy) {

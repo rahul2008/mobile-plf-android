@@ -83,7 +83,9 @@ public class DataServicesState extends BaseState {
     @Override
     public void init(Context context) {
         mScheduleSyncReceiver = new ScheduleSyncReceiver();
-        OrmCreator creator = new OrmCreator(new UuidGenerator());
+        //OrmCreator creator = new OrmCreator(new UuidGenerator());
+
+        OrmCreator creator = new OrmCreator();
         UserRegistrationInterface userRegistrationInterface = new UserRegistrationInterfaceImpl(context, new User(context));
         ErrorHandlerInterfaceImpl errorHandlerInterface = new ErrorHandlerInterfaceImpl();
         DataServicesManager.getInstance().initializeDataServices(context, creator, userRegistrationInterface, errorHandlerInterface);
