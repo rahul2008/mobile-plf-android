@@ -94,7 +94,11 @@ public class BTGatt extends BluetoothGattCallback {
     }
 
     public void close() {
-        bluetoothGatt.close();
+        if (bluetoothGatt != null) {
+            bluetoothGatt.close();
+        } else {
+            DebugLog("Unexpectedly bluetoothGatt is set to null in BTGatt::close()");
+        }
         bluetoothGatt = null;
         commandQueue.clear();
         btGattCallback = new NullBTGattCallback();

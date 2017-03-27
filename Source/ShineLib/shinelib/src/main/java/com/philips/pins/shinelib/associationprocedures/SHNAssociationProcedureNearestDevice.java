@@ -73,8 +73,10 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
             }
         } else {
             SHNLogger.i(TAG, "associateWithNearestDeviceIfPossible address NOT matched with previous iteration");
-            nearestDeviceInPreviousIteration = nearestDevice;
-            successivelyNearestDeviceCount = 1;
+            if(nearestDevice!=null) {
+                nearestDeviceInPreviousIteration = nearestDevice;
+                successivelyNearestDeviceCount = 1;
+            }
         }
 
         if (!finished) {
