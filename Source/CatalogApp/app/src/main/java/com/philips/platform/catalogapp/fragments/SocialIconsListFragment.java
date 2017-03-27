@@ -85,7 +85,7 @@ public class SocialIconsListFragment extends BaseFragment {
         final ThemeHelper themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(getContext()));
         final ContentColor contentColor = themeHelper.initContentTonalRange();
 
-        return true;//!(contentColor == ContentColor.ULTRA_LIGHT || contentColor == ContentColor.VERY_LIGHT);
+        return !(contentColor == ContentColor.ULTRA_LIGHT || contentColor == ContentColor.VERY_LIGHT);
     }
 
     static class SocialIconsViewHolder extends RecyclerView.ViewHolder {
