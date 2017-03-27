@@ -163,14 +163,14 @@
     </declare-styleable>
 
     <declare-styleable name="UIDPickers">
-        <attr name="uidDatePickerHeaderFillColor" format="reference|color"/>
-        <attr name="uidDatePickerHeaderTextColor" format="reference|color"/>
-        <attr name="uidDatePickerFillColor" format="reference|color"/>
-        <attr name="uidDatePickerTextColor" format="reference|color"/>
-        <attr name="uidDatePickerWeekDayTextColor" format="reference|color"/>
-        <attr name="uidDatePickerDayOfWeekTextColor" format="reference|color"/>
-        <attr name="uidDatePickerSelectedFillColor" format="reference|color"/>
-        <attr name="uidDatePickerButtonTextColor" format="reference|color"/>
+        <!-- <attr name="uidDatePickerHeaderFillColor" format="reference|color"/>
+         <attr name="uidDatePickerHeaderTextColor" format="reference|color"/>
+         <attr name="uidDatePickerFillColor" format="reference|color"/>
+         <attr name="uidDatePickerTextColor" format="reference|color"/>
+         <attr name="uidDatePickerWeekDayTextColor" format="reference|color"/>
+         <attr name="uidDatePickerDayOfWeekTextColor" format="reference|color"/>
+         <attr name="uidDatePickerSelectedFillColor" format="reference|color"/>
+         <attr name="uidDatePickerButtonTextColor" format="reference|color"/>-->
     </declare-styleable>
 
     <!-- <declare-styleable name="UIDSocialMediaButton">
@@ -201,8 +201,6 @@
     </declare-styleable>
 
     <declare-styleable name="UIDSeparator">
-        <attr name="uidSeparatorColor" format="reference|color"/>
-        <attr name="uidSeparatorAlpha" format="float"/>
     </declare-styleable>
 
     <declare-styleable name="UIDNavigationContainer">
