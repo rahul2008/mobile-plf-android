@@ -24,27 +24,25 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uid.test.R.color.GroupBlue45;
-import static com.philips.platform.uid.utils.UIDTestUtils.modulateColorAlpha;
 
 public class PrimaryButtonWithTextOnlyTest {
 
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
     private Resources testResources;
-    private Context instrumentationContext;
+    private Context context;
     private BaseTestActivity activity;
 
     @Before
     public void setUp() {
         activity = mActivityTestRule.getActivity();
         activity.switchTo(com.philips.platform.uid.test.R.layout.layout_buttons);
-        testResources = getInstrumentation().getContext().getResources();
-        instrumentationContext = getInstrumentation().getContext();
+        testResources = activity.getResources();
+        context = activity;
     }
 
     /*****************************************
@@ -90,12 +88,11 @@ public class PrimaryButtonWithTextOnlyTest {
 
     @Test
     public void verifyPrimaryTextOnlyButtonControlColorULTone() {
-        final int expectedColor = ContextCompat.getColor(instrumentationContext, GroupBlue45);
+        final int expectedColor = ContextCompat.getColor(context, GroupBlue45);
         getPrimaryButton().check(matches(FunctionDrawableMatchers
                 .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, android.R.attr.state_enabled, expectedColor)));
     }
 
-    // TODO: 9/20/2016 Fix this failing test case.
     @Test
     public void verifyPrimaryTextOnlyPressedButtonControlColorULTone() {
         final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlPrimaryPressed);
@@ -116,7 +113,7 @@ public class PrimaryButtonWithTextOnlyTest {
 
     @Test
     public void verifyPrimaryTextOnlyDisabledButtonControlColorULTone() {
-        final int disabledColor = modulateColorAlpha(Color.parseColor("#1474A4"), 0.25f);
+        final int disabledColor = UIDTestUtils.getAttributeColor(context, R.attr.uidButtonPrimaryDisabledBackgroundColor);
         disableAllViews();
         getPrimaryButton().check(matches(FunctionDrawableMatchers
                 .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, -android.R.attr.enabled, disabledColor)));
@@ -125,7 +122,7 @@ public class PrimaryButtonWithTextOnlyTest {
     @Test
     public void verifyPrimaryTextOnlyDisabledButtonFontColor() {
         disableAllViews();
-        final int disabledTextColor = UIDTestUtils.modulateColorAlpha(Color.WHITE, 0.25f);
+        final int disabledTextColor = UIDTestUtils.getAttributeColor(context, R.attr.uidButtonPrimaryDisabledTextColor);
         getPrimaryButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(-android.R.attr.enabled, disabledTextColor)));
     }
 

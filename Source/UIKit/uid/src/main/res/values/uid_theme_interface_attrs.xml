@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="UIDButton">
-        <!--<attr name="uidButtonNormalColor" format="reference|color"/>
-        <attr name="uidButtonPressedColor" format="reference|color"/>
 
-                <attr name="uidButtonDisabledColor" format="reference|color"/>
-        -->
-        <!--<attr name="uidButtonDisabledAlpha" format="reference|float|dimension"/>
-        <attr name="uidButtonTextColor" format="reference|color"/>
-        <attr name="uidButtonTextPressedColor" format="reference|color"/>
-        <attr name="uidButtonTextDisabledAlpha" format="reference|float|dimension"/>
-        -->
         <attr name="uidButtonBackgroundColorList" format="reference"/>
         <attr name="uidButtonTextColorList" format="reference"/>
         <attr name="uidButtonDrawableColorList" format="reference"/>
@@ -19,9 +10,6 @@
         <attr name="uidButtonImageDrawableWidth" format="dimension"/>
         <attr name="uidButtonImageDrawableSrc" format="reference"/>
         <attr name="uidButtonCenter" format="boolean"/>
-        <!--
-                <attr name="uidQuietButtonDisabledAlpha" format="reference|float"/>
-        -->
     </declare-styleable>
 
     <declare-styleable name="UIDImageButton">

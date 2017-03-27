@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="UIDDefaultButtonTextAppearance" parent="TextAppearance.AppCompat.Widget.Button">
         <item name="android:shadowDx">0.0</item>
         <item name="android:shadowDy">0.0</item>

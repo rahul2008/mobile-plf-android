@@ -2,13 +2,6 @@
 <resources>
 
     <style name="UIDPrimaryControl">
-        <!--
-          <item name="uidButtonPrimaryNormalBackgroundColor">?attr/uidControlPrimary</item>
-          <item name="uidButtonPrimaryPressedBackgroundColor">?attr/uidControlPrimaryPressed</item>
-          <item name="uidButtonPrimaryDisabledBackgroundColor">?attr/uidControlPrimaryDisabled</item>
-          <item name="uidButtonPrimaryNormalTextColor">?attr/uidControlPrimaryText</item>
-          <item name="uidButtonTextDisabledAlpha">@dimen/uid_button_disabled_alpha</item>
-        -->
     </style>
 
     <style name="UIDPrimaryControl.AlternatePrimary">
@@ -19,13 +12,17 @@
     </style>
 
     <style name="UIDPrimaryControl.Secondary">
-        <!--
-        <item name="uidButtonSecondaryNormalBackgroundColor">?attr/uidControlSecondary</item>
-        <item name="uidButtonSecondaryPressedBackgroundColor">?attr/uidControlSecondaryPressed
+        <item name="uidButtonPrimaryNormalBackgroundColor">
+            ?attr/uidButtonSecondaryNormalBackgroundColor
         </item>
-        <item name="uidButtonSecondaryDisabledBackgroundColor">?attr/uidControlSecondaryDisabled
+        <item name="uidButtonPrimaryPressedBackgroundColor">
+            ?attr/uidButtonSecondaryPressedBackgroundColor
         </item>
-        <item name="uidButtonTextColor">?attr/uidControlSecondaryText</item>
-        -->
+        <item name="uidButtonPrimaryDisabledBackgroundColor">
+            ?attr/uidButtonSecondaryDisabledBackgroundColor
+        </item>
+        <item name="uidButtonPrimaryDisabledTextColor">?attr/uidButtonSecondaryDisabledTextColor
+        </item>
+        <item name="uidButtonPrimaryNormalTextColor">?attr/uidButtonSecondaryNormalTextColor</item>
     </style>
 </resources>
