@@ -1,8 +1,9 @@
 package com.philips.platform.appinfra.languagepack;
 
+import android.content.Context;
 import android.os.Build;
+import android.os.Handler;
 import android.os.LocaleList;
-import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -36,10 +37,13 @@ public class LanguagePackManager implements LanguagePackInterface {
 	private LanguageModel selectedLanguageModel;
 	private LanguagePackUtil languagePackUtil;
 	private Gson gson;
+	private Context context;
+	private Handler languagePackHandler;
 
 	public LanguagePackManager(AppInfra appInfra) {
 		mAppInfra = appInfra;
 		mRestInterface = appInfra.getRestClient();
+		this.context = appInfra.getAppInfraContext();
 		mLanguageList = new LanguageList();
 		languagePackUtil = new LanguagePackUtil(appInfra.getAppInfraContext());
 		gson = new Gson();
@@ -63,14 +67,15 @@ public class LanguagePackManager implements LanguagePackInterface {
 				JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, languagePackConfigURL, null,
 						new Response.Listener<JSONObject>() {
 							@Override
-							public void onResponse(JSONObject response) {
+							public void onResponse(final JSONObject response) {
 								mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", response.toString());
-								mLanguageList = gson.fromJson(response.toString(), LanguageList.class);
-								if (null != mLanguageList) {
-									String url = getPreferredLocaleURL();
-									downloadLanguagePack(url, aILPRefreshResult);
-								} else
-									aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.RefreshFailed, OnRefreshListener.AILPRefreshResult.RefreshFailed.toString());
+								languagePackHandler = getHandler(context);
+								new Thread(new Runnable() {
+									@Override
+									public void run() {
+										processForLanguagePack(response, aILPRefreshResult);
+									}
+								}).start();
 							}
 						}, new Response.ErrorListener() {
 					@Override
@@ -98,6 +103,30 @@ public class LanguagePackManager implements LanguagePackInterface {
 
 	}
 
+
+	Runnable getRunnable(final OnRefreshListener aILPRefreshResult) {
+		return new Runnable() {
+			@Override
+			public void run() {
+				if (aILPRefreshResult != null)
+					aILPRefreshResult.onSuccess(OnRefreshListener.AILPRefreshResult.RefreshedFromServer);
+			}
+		};
+	}
+
+	private void processForLanguagePack(JSONObject response, OnRefreshListener aILPRefreshResult) {
+		mLanguageList = gson.fromJson(response.toString(), LanguageList.class);
+		if (null != mLanguageList) {
+			String url = getPreferredLocaleURL();
+			downloadLanguagePack(url, aILPRefreshResult);
+		} else
+			aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.RefreshFailed, OnRefreshListener.AILPRefreshResult.RefreshFailed.toString());
+	}
+
+	Handler getHandler(Context context) {
+		return new Handler(context.getMainLooper());
+	}
+
     private void downloadLanguagePack(String url, final OnRefreshListener aILPRefreshResult) {
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -108,8 +137,8 @@ public class LanguagePackManager implements LanguagePackInterface {
                                 "Language Pack Json: " + response.toString());
                         languagePackUtil.saveFile(response.toString(), LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
                         languagePackUtil.saveLocaleMetaData(selectedLanguageModel);
-                        aILPRefreshResult.onSuccess(OnRefreshListener.AILPRefreshResult.RefreshedFromServer);
-                    }
+						languagePackHandler.post(getRunnable(aILPRefreshResult));
+					}
                 }, new Response.ErrorListener() {
 
             @Override
@@ -175,7 +204,8 @@ public class LanguagePackManager implements LanguagePackInterface {
 		File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_INFO);
 		File fileDownloaded = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
 		LanguagePackMetadata languagePackMetadata = gson.fromJson(languagePackUtil.readFile(file), LanguagePackMetadata.class);
-		Log.d(getClass() + "", languagePackMetadata.getLocale() + "---" + languagePackMetadata.getUrl() + "-----" + languagePackMetadata.getVersion());
+		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Language pack metadata info",
+				" contains : " + languagePackMetadata.getLocale() + "---" + languagePackMetadata.getUrl() + "-----" + languagePackMetadata.getVersion());
 		onActivateListener.onSuccess(fileDownloaded.getAbsolutePath());
 	}
 

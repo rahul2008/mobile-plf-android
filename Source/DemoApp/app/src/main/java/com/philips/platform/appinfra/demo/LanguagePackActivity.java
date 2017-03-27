@@ -1,8 +1,8 @@
 package com.philips.platform.appinfra.demo;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +28,12 @@ public class LanguagePackActivity extends AppCompatActivity {
         Button languagePackRefresh = (Button) findViewById(R.id.OverviewfileRefresh);
         Button languagePackActivate = (Button) findViewById(R.id.activate);
         languagePackRefresh.setOnClickListener(onClickRefresh());
-        languagePackActivate.setOnClickListener(new View.OnClickListener() {
+        languagePackActivate.setOnClickListener(onClickActivate());
+    }
+
+    @NonNull
+    private View.OnClickListener onClickActivate() {
+        return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mLanguagePack.activate(new LanguagePackInterface.OnActivateListener() {
@@ -43,7 +48,7 @@ public class LanguagePackActivity extends AppCompatActivity {
                     }
                 });
             }
-        });
+        };
     }
 
     @NonNull
