@@ -1,7 +1,9 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
+/*
+ * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
+ *
  */
+
 package com.philips.platform.uid.components.alert;
 
 import android.content.res.Resources;
@@ -29,12 +31,10 @@ import static com.philips.platform.uid.test.R.color.Gray75;
 
 public class AlertTest extends BaseTest {
 
-    private static final String NOTITLE = "NOTITLE";
-    private Resources testResources;
-
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class, false, false);
     BaseTestActivity activity;
+    private Resources testResources;
 
     @Before
     public void setUp() {
@@ -208,14 +208,14 @@ public class AlertTest extends BaseTest {
      * Theming Scenarios for Alert
      ******************************************************/
     @Test
-    public void verifyTextColorofAlertTitle() {
+    public void verifyTextColorOfAlertTitle() {
 
         final int expectedColor = ContextCompat.getColor(activity, Gray75);
         getAlertTitle().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test
-    public void verifyTextColorofAlertContent() {
+    public void verifyTextColorOfAlertContent() {
 
         final int expectedColor = ContextCompat.getColor(activity, Gray65);
         getAlertContent().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));

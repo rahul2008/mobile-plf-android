@@ -34,10 +34,6 @@ public class AlertNoTitleTest extends BaseTest {
         getAlertContainer().check(matches(ViewPropertiesMatchers.isSameTopMargin(expectedTopMargin)));
     }
 
-    private ViewInteraction getAlertTitle() {
-        return onView(withId(com.philips.platform.uid.test.R.id.uid_alert_title));
-    }
-
     private ViewInteraction getAlertContainer() {
         return onView(withId(com.philips.platform.uid.test.R.id.uid_alert_message_scroll_container));
     }
