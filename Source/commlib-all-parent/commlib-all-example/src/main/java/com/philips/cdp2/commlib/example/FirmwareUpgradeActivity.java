@@ -70,7 +70,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
                 case R.id.btnDeployFirmware:
                     deployFirmware();
                     break;
-                case R.id.btnCancel:
+                case R.id.btnCancelFirmware:
                     cancelFirmware();
                     break;
                 default:
@@ -164,7 +164,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
 
         btnUpload = (Button) findViewById(R.id.btnUploadFirmware);
         btnDeploy = (Button) findViewById(R.id.btnDeployFirmware);
-        btnCancel = (Button) findViewById(R.id.btnCancel);
+        btnCancel = (Button) findViewById(R.id.btnCancelFirmware);
 
         stateTextView = (TextView) findViewById(R.id.txtFirmwareState);
         versionTextView = (TextView) findViewById(R.id.txtFirmwareVersion);
