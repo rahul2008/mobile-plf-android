@@ -58,8 +58,6 @@ public class DataServicesState extends BaseState {
     public static final String TAG = DataServicesState.class.getSimpleName();
     FragmentLauncher fragmentLauncher;
     ScheduleSyncReceiver mScheduleSyncReceiver;
-    AppInfraInterface appInfraInterface;
-    ServiceDiscoveryInterface serviceDiscovery;
 
     public DataServicesState() {
         super(AppStates.DATA_SYNC);
@@ -74,54 +72,24 @@ public class DataServicesState extends BaseState {
     public void navigate(final UiLauncher uiLauncher) {
         AppFrameworkApplication appContext = (AppFrameworkApplication) ((AppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).getApplicationContext();
 
-        appInfraInterface = appContext.getAppInfra();
-        serviceDiscovery = appInfraInterface.getServiceDiscovery();
-
-        serviceDiscovery.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
-            @Override
-            public void onSuccess(String s, SOURCE source) {
-                if(s.equals("CN")) {
-
-                } else {
-
-                    fragmentLauncher = (FragmentLauncher) uiLauncher;
-                    ((AppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).
-                            handleFragmentBackStack(new TemperatureTimeLineFragment(), TemperatureTimeLineFragment.TAG, getUiStateData().getFragmentLaunchState());
-                }
-            }
-
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-            }
-        });
-
+        fragmentLauncher = (FragmentLauncher) uiLauncher;
+        ((AppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).
+                handleFragmentBackStack(new TemperatureTimeLineFragment(), TemperatureTimeLineFragment.TAG, getUiStateData().getFragmentLaunchState());
     }
 
     @Override
     public void init(final Context context) {
-        serviceDiscovery.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
-            @Override
-            public void onSuccess(String s, SOURCE source) {
-                if(s.equals("CN")) {
+        mScheduleSyncReceiver = new ScheduleSyncReceiver();
+        OrmCreator creator = new OrmCreator(new UuidGenerator());
+        UserRegistrationInterface userRegistrationInterface = new UserRegistrationInterfaceImpl(context, new User(context));
+        ErrorHandlerInterfaceImpl errorHandlerInterface = new ErrorHandlerInterfaceImpl();
+        DataServicesManager.getInstance().initializeDataServices(context, creator, userRegistrationInterface, errorHandlerInterface);
+        injectDBInterfacesToCore(context);
+        DataServicesManager.getInstance().initializeSyncMonitors(context, null, null);
+        DSLog.enableLogging(true);
+        DSLog.i(DSLog.LOG, "Before Setting up Synchronization Loop");
+        scheduleSync(context);
 
-                } else {
-                    mScheduleSyncReceiver = new ScheduleSyncReceiver();
-                    OrmCreator creator = new OrmCreator(new UuidGenerator());
-                    UserRegistrationInterface userRegistrationInterface = new UserRegistrationInterfaceImpl(context, new User(context));
-                    ErrorHandlerInterfaceImpl errorHandlerInterface = new ErrorHandlerInterfaceImpl();
-                    DataServicesManager.getInstance().initializeDataServices(context, creator, userRegistrationInterface, errorHandlerInterface);
-                    injectDBInterfacesToCore(context);
-                    DataServicesManager.getInstance().initializeSyncMonitors(context, null, null);
-                    DSLog.enableLogging(true);
-                    DSLog.i(DSLog.LOG, "Before Setting up Synchronization Loop");
-                    scheduleSync(context);
-                }
-            }
-
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-            }
-        });
         //Stetho.initializeWithDefaults(context);
     }
 
