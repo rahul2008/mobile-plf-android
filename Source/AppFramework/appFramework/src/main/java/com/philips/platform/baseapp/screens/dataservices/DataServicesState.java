@@ -69,14 +69,14 @@ public class DataServicesState extends BaseState {
      * @param uiLauncher requires UiLauncher
      */
     @Override
-    public void navigate(final UiLauncher uiLauncher) {
+    public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         ((AppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).
                 handleFragmentBackStack(new TemperatureTimeLineFragment(), TemperatureTimeLineFragment.TAG, getUiStateData().getFragmentLaunchState());
     }
 
     @Override
-    public void init(final Context context) {
+    public void init(Context context) {
         mScheduleSyncReceiver = new ScheduleSyncReceiver();
         OrmCreator creator = new OrmCreator(new UuidGenerator());
         UserRegistrationInterface userRegistrationInterface = new UserRegistrationInterfaceImpl(context, new User(context));
