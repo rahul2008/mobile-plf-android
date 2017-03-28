@@ -85,7 +85,7 @@ public class NotificationBarLayoutTest extends BaseTest {
 
     @Test
     public void verifyNotificationContentTopMargin() {
-        int expectedSize = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.notification_bar_general_margin);
+        int expectedSize = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.notification_bar_content_margin_top);
         getNotificationContent().check(matches(ViewPropertiesMatchers.isSameTopMargin(expectedSize)));
     }
 
@@ -100,6 +100,51 @@ public class NotificationBarLayoutTest extends BaseTest {
         int expectedSize = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.notification_bar_general_margin);
         getNotificationContent().check(matches(ViewPropertiesMatchers.isSameEndMargin(expectedSize)));
     }
+
+    @Test
+    public void verifyNotificationActionButton1MinHeight() {
+        int expectedSize = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.notification_bar_btn_min_height);
+        getNotificationActionButton1().check(matches(ViewPropertiesMatchers.isSameViewMinHeight(expectedSize)));
+    }
+
+    @Test
+    public void verifyNotificationActionButton1StartMargin() {
+        int expectedSize = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.notification_bar_general_margin);
+        getNotificationActionButton1().check(matches(ViewPropertiesMatchers.isSameStartMargin(expectedSize)));
+    }
+
+    @Test
+    public void verifyNotificationActionButton2MinHeight() {
+        int expectedSize = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.notification_bar_btn_min_height);
+        getNotificationActionButton2().check(matches(ViewPropertiesMatchers.isSameViewMinHeight(expectedSize)));
+    }
+
+    @Test
+    public void verifyNotificationActionButton2StartMargin() {
+        getNotificationActionButton2().check(matches(ViewPropertiesMatchers.isSameStartMargin(0)));
+    }
+
+    @Test
+    public void verifyNotificationIconStartPadding() {
+        int expectedSize = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.notification_bar_general_margin);
+        getNotificationCloseButton().check(matches(ViewPropertiesMatchers.isSameStartPadding(expectedSize)));
+    }
+    @Test
+    public void verifyNotificationIconEndPadding() {
+        int expectedSize = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.notification_bar_general_margin);
+        getNotificationCloseButton().check(matches(ViewPropertiesMatchers.isSameEndPadding(expectedSize)));
+    }
+    @Test
+    public void verifyNotificationIconTopPadding() {
+        int expectedSize = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.notification_bar_general_margin);
+        getNotificationCloseButton().check(matches(ViewPropertiesMatchers.isSameTopPadding(expectedSize)));
+    }
+    @Test
+    public void verifyNotificationIconBottomadding() {
+        int expectedSize = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.notification_bar_general_margin);
+        getNotificationCloseButton().check(matches(ViewPropertiesMatchers.isSameBottomPadding(expectedSize)));
+    }
+
     private ViewInteraction getNotificationTitle() {
         return onView(withId(R.id.uid_notification_title));
     }
@@ -114,5 +159,9 @@ public class NotificationBarLayoutTest extends BaseTest {
 
     private ViewInteraction getNotificationActionButton2() {
         return onView(withId(R.id.uid_notification_btn_2));
+    }
+
+    private ViewInteraction getNotificationCloseButton() {
+        return onView(withId(R.id.uid_notification_icon));
     }
 }
