@@ -18,6 +18,10 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortKey.PROGRESS;
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortKey.STATE;
@@ -33,10 +37,12 @@ public class FirmwareUploader {
     private final byte[] firmwareData;
     @NonNull
     private final UploadListener listener;
+    private final ExecutorService executor;
 
     private int maxChunkSize;
 
     private int progress;
+    private Future<Void> uploadTask;
 
     public interface UploadListener {
         void onSuccess();
@@ -51,18 +57,33 @@ public class FirmwareUploader {
         this.communicationStrategy = communicationStrategy;
         this.firmwareData = firmwareData;
         this.listener = listener;
+        this.executor = Executors.newSingleThreadExecutor();
     }
 
-    public void upload() {
-        maxChunkSize = this.firmwarePort.getPortProperties().getMaxChunkSize();
-        if (maxChunkSize <= 0) {
-            Throwable t = new IOException("Max chunk size is invalid.");
-            listener.onError(t.getMessage(), t);
-        }
+    public void start() {
+        uploadTask = executor.submit(new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                maxChunkSize = firmwarePort.getPortProperties().getMaxChunkSize();
+                if (maxChunkSize <= 0) {
+                    Throwable t = new IOException("Max chunk size is invalid.");
+                    listener.onError(t.getMessage(), t);
+                }
 
-        progress = 0;
-        listener.onProgress(progress);
-        uploadNextChunk(progress);
+                progress = 0;
+                listener.onProgress(progress);
+                uploadNextChunk(progress);
+
+                return null;
+            }
+        });
+    }
+
+    public void stop() {
+        if (uploadTask == null) {
+            return;
+        }
+        uploadTask.cancel(true);
     }
 
     private void uploadNextChunk(int offset) {

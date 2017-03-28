@@ -43,8 +43,6 @@ import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties
 
 public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
 
-    private long stateTransitionTimeoutMillis;
-
     private static final class StateMap extends HashMap<FirmwarePortState, FirmwareUpdateState> {
         FirmwarePortState findByState(@NonNull FirmwareUpdateState state) {
             for (Entry<FirmwarePortState, FirmwareUpdateState> entry : this.entrySet()) {
@@ -72,6 +70,9 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
     private final byte[] firmwareData;
 
     private FirmwarePortStateWaiter firmwarePortStateWaiter;
+    private FirmwareUploader firmwareUploader;
+
+    private long stateTransitionTimeoutMillis;
 
     private FirmwareUpdateState currentState;
 
@@ -93,8 +94,13 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
     }
 
     private void initDeviceState() {
-        // TODO check for actual device currentState
-        currentState = stateMap.get(IDLE);
+        FirmwarePortProperties properties = firmwarePort.getPortProperties();
+
+        if (properties == null) {
+            currentState = stateMap.get(IDLE);
+        } else {
+            currentState = stateMap.get(properties.getState());
+        }
     }
 
     private void initStateMap() {
@@ -132,7 +138,15 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
     }
 
     public void uploadFirmware(UploadListener firmwareUploadListener) {
-        new FirmwareUploader(firmwarePort, communicationStrategy, firmwareData, firmwareUploadListener).upload();
+        this.firmwareUploader = new FirmwareUploader(firmwarePort, communicationStrategy, firmwareData, firmwareUploadListener);
+        this.firmwareUploader.start();
+    }
+
+    public void stopUploading() {
+        if (this.firmwareUploader == null) {
+            return;
+        }
+        this.firmwareUploader.stop();
     }
 
     public void onDeployFinished() {

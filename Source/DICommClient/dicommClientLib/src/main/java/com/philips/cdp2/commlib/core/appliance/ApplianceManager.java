@@ -50,21 +50,22 @@ public class ApplianceManager {
         @Override
         public void onNetworkNodeDiscovered(NetworkNode networkNode) {
             final Appliance appliance = createAppliance(networkNode);
-
             if (appliance == null) {
                 return;
             }
-            availableAppliances.add(appliance);
 
-            notifyApplianceFound(appliance);
+            if (availableAppliances.add(appliance)) {
+                notifyApplianceFound(appliance);
+            }
         }
 
         @Override
         public void onNetworkNodeLost(NetworkNode networkNode) {
             final Appliance appliance = createAppliance(networkNode);
-            availableAppliances.remove(appliance);
 
-            notifyApplianceLost(appliance);
+            if (availableAppliances.remove(appliance)) {
+                notifyApplianceLost(appliance);
+            }
         }
 
         @Override

@@ -85,7 +85,7 @@ public class FirmwareUploaderTest {
 
     @Test
     public void onUpload_progressRunsThrough() throws IOException {
-        uploaderUnderTest.upload();
+        uploaderUnderTest.start();
         for (int progress = 1; progress < firmwaredata.length; progress++) {
             getNextHandler().onSuccess(createPutPropsReply(progress));
         }

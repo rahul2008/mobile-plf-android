@@ -48,4 +48,10 @@ public class FirmwareUpdateStateDownloading extends CancelableFirmwareUpdateStat
     protected void onFinish() {
         firmwareUpdateOperation.onDownloadProgress(100);
     }
+
+    @Override
+    public void cancel() {
+        firmwareUpdateOperation.stopUploading();
+        super.cancel();
+    }
 }
