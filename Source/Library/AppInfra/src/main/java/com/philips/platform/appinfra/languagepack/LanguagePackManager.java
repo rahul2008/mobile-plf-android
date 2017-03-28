@@ -250,7 +250,8 @@ public class LanguagePackManager implements LanguagePackInterface {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				if (languagePackUtil.renameOnActivate()) {
+				boolean isRenamed = languagePackUtil.renameOnActivate();
+				if (isRenamed) {
 					languagePackHandler.post(postActivateSuccess(onActivateListener));
 				} else
 					languagePackHandler.post(postActivateError(onActivateListener, OnActivateListener.AILPActivateResult.REFRESH_NOT_CALLED));

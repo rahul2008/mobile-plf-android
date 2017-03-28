@@ -105,7 +105,6 @@ class LanguagePackUtil {
         File to = new File(getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_ACTIVATED), "");
         if (from.exists()) {
             return from.renameTo(to);
-        }
-        return false;
+        } else return to.exists();
     }
 }
