@@ -26,8 +26,6 @@ import java.util.concurrent.Future;
 
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortKey.PROGRESS;
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortKey.STATE;
-import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.DOWNLOADING;
-import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.UNKNOWN;
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.fromString;
 import static java.lang.Math.min;
 
@@ -120,18 +118,21 @@ public class FirmwareUploader {
                     return;
                 }
 
-                int progressPercentage = (int) (progress / firmwareData.length * 100);
-                if (FirmwareUploader.this.progress != progressPercentage) {
-                    FirmwareUploader.this.progress = progressPercentage;
-                    listener.onProgress(progressPercentage);
+                switch (firmwarePortState) {
+                    case DOWNLOADING:
+                    case UNKNOWN:
+                        int progressPercentage = (int) (progress / firmwareData.length * 100);
+                        if (FirmwareUploader.this.progress != progressPercentage) {
+                            FirmwareUploader.this.progress = progressPercentage;
+                            listener.onProgress(progressPercentage);
+                        }
+                        uploadNextChunk(progress.intValue());
+                        break;
+                    case CHECKING:
+                    case READY:
+                        listener.onSuccess();
+                        break;
                 }
-
-                if (firmwarePortState == DOWNLOADING || firmwarePortState == UNKNOWN) {
-                    uploadNextChunk(progress.intValue());
-                    return;
-                }
-
-                listener.onSuccess();
             }
 
             @Override

@@ -33,9 +33,24 @@ public class FirmwarePortStateWaiter {
 
     @NonNull
     private final CommunicationStrategy communicationStrategy;
+
+    @NonNull
     private FirmwarePortState initialState;
 
     private TimerTask timeoutTask;
+
+    private final ResponseHandler emptyResponseHandler = new ResponseHandler() {
+
+        @Override
+        public void onSuccess(String data) {
+            // Ignored
+        }
+
+        @Override
+        public void onError(Error error, String errorData) {
+            // Ignored
+        }
+    };
 
     public interface WaiterListener {
         void onNewState(FirmwarePortState state);
@@ -50,35 +65,28 @@ public class FirmwarePortStateWaiter {
             if (firmwarePortProperties == null) {
                 return;
             }
+
             final FirmwarePortState newState = firmwarePortProperties.getState();
+            if (initialState == newState) {
+                return;
+            }
+
             DICommLog.d(DICommLog.FIRMWAREPORT, String.format(Locale.US, "onPortUpdate - initialState [%s], newState [%s]", initialState.toString(), newState.toString()));
+            firmwarePort.removePortListener(this);
+            communicationStrategy.unsubscribe(firmwarePort.getDICommPortName(), firmwarePort.getDICommProductId(), emptyResponseHandler);
 
-            if (initialState != newState) {
-                firmwarePort.removePortListener(firmwarePortListener);
-                communicationStrategy.unsubscribe(firmwarePort.getDICommPortName(), firmwarePort.getDICommProductId(), new ResponseHandler() {
-                    @Override
-                    public void onSuccess(final String data) {
-
-                    }
-
-                    @Override
-                    public void onError(final Error error, final String errorData) {
-
-                    }
-                });
-
-                listener.onNewState(newState);
-                if (timeoutTask != null) {
-                    timeoutTask.cancel();
-                }
+            listener.onNewState(newState);
+            if (timeoutTask != null) {
+                timeoutTask.cancel();
             }
         }
 
         @Override
         public void onPortError(FirmwarePort port, Error error, String errorData) {
             DICommLog.e(DICommLog.FIRMWAREPORT, String.format(Locale.US, "onPortError - error [%s], message [%s], state [%s]", error.toString(), errorData, initialState.toString()));
-            firmwarePort.removePortListener(firmwarePortListener);
-            firmwarePort.unsubscribe();
+            firmwarePort.removePortListener(this);
+            communicationStrategy.unsubscribe(firmwarePort.getDICommPortName(), firmwarePort.getDICommProductId(), emptyResponseHandler);
+
             listener.onError(error.toString());
         }
     };
@@ -108,17 +116,7 @@ public class FirmwarePortStateWaiter {
         }
 
         firmwarePort.addPortListener(firmwarePortListener);
-        communicationStrategy.subscribe(firmwarePort.getDICommPortName(), firmwarePort.getDICommProductId(), SUBSCRIPTION_TTL, new ResponseHandler() {
-            @Override
-            public void onSuccess(final String data) {
-
-            }
-
-            @Override
-            public void onError(final Error error, final String errorData) {
-
-            }
-        });
+        communicationStrategy.subscribe(firmwarePort.getDICommPortName(), firmwarePort.getDICommProductId(), SUBSCRIPTION_TTL, emptyResponseHandler);
 
         timeoutTask = new TimerTask() {
             @Override
