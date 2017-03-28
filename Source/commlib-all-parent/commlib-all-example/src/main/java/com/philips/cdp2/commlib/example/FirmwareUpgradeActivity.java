@@ -110,7 +110,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
             Log.i(TAG, "onDownloadProgress(" + progress + ")");
 
             updateButtons(false, false, true);
-            statusTextView.setText(R.string.uploading_firmware_image);
+            statusTextView.setText(getString(R.string.uploading_firmware_image) + " (" + progress + "%)");
             firmwareUploadProgressBar.setProgress(progress);
         }
 
@@ -126,7 +126,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
         public void onDownloadFinished() {
             Log.i(TAG, "onDownloadFinished()");
 
-            updateButtons(false, true, true);
+            updateButtons(false, true, false);
             statusTextView.setText(R.string.upload_firmware_finished);
         }
 
