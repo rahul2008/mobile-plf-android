@@ -179,6 +179,11 @@ android {
                 }
             }
         }
+        applicationVariants.all { variant ->
+            def productFlavor = variant.productFlavors[0] != null ? "${variant.productFlavors[0].name.capitalize()}" : ""
+            def buildType = "${variant.buildType.name.capitalize()}"
+            tasks["compile${productFlavor}${buildType}UnitTestSources"].dependsOn(tasks["merge${productFlavor}${buildType}Assets"])
+        }
 
     }
 
@@ -359,14 +364,18 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     // DAGGER
-    compile "com.google.dagger:dagger:2.0.2"
-    apt "com.google.dagger:dagger-compiler:2.0.2"
+    compile "com.google.dagger:dagger:2.9"
+    apt "com.google.dagger:dagger-compiler:2.9"
     provided 'org.glassfish:javax.annotation:10.0-b28'
     provided 'javax.annotation:jsr250-api:1.0'
     compile 'javax.inject:javax.inject:1'
-    testApt "com.google.dagger:dagger-compiler:2.0.2"
+    testApt "com.google.dagger:dagger-compiler:2.9"
 
 
+    /*compile "com.google.dagger:dagger:2.0.2"
+apt "com.google.dagger:dagger-compiler:2.0.2"
+provided 'org.glassfish:javax.annotation:10.0-b28'
+provided 'javax.annotation:jsr250-api:1.0'*/
 }
 
 task copyToLib(type: Copy) {

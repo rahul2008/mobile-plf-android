@@ -33,6 +33,10 @@ public class AboutScreenFragment extends AppFrameworkBaseFragment
     @Override
     public void onResume() {
         super.onResume();
+        updateActionBar();
+    }
+
+    protected void updateActionBar() {
         ((AppFrameworkBaseActivity)getActivity()).updateActionBarIcon(false);
     }
 
@@ -48,8 +52,12 @@ public class AboutScreenFragment extends AppFrameworkBaseFragment
         version.setText(getResources().getString(R.string.RA_About_App_Version) +BuildConfig.VERSION_NAME);
         TextView  content =(TextView)view.findViewById(R.id.about_content);
         content.setText(R.string.RA_About_Description);
-        AppFrameworkTagging.getInstance().trackPage(TAG);
+        startAppTagging();
         return view;
 
+    }
+
+    protected void startAppTagging() {
+        AppFrameworkTagging.getInstance().trackPage(TAG);
     }
 }

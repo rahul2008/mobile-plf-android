@@ -67,9 +67,6 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
 
     TextView mTvConsents, mTvCharacteristics , mTvSettings ,mTvLogout ,mTvInsights;
 
-    DataServicesState dataServicesState;
-
-
     @Override
     public String getActionbarTitle() {
         return "Data service";
@@ -79,14 +76,13 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        dataServicesState=new DataServicesState();
         mDataServicesManager = DataServicesManager.getInstance();
         mUser = new User(mContext);
         userRegistrationInterface = new UserRegistrationInterfaceImpl(mContext, mUser);
         mTemperatureMomentHelper = new TemperatureMomentHelper();
         alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
         //EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
-        mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE, this, dataServicesState);
+        mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE, this);
         mUtility = new Utility();
         mSharedPreferences = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
         mProgressBar = new ProgressDialog(getContext());

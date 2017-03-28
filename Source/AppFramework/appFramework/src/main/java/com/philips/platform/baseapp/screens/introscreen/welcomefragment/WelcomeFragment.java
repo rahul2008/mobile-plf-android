@@ -81,8 +81,7 @@ public class WelcomeFragment extends OnboardingBaseFragment implements View.OnCl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        ((AppFrameworkApplication)getFragmentActivity().getApplicationContext()).getLoggingInterface().log(LoggingInterface.LogLevel.INFO, TAG,
-                " IntroductionScreen Activity Created ");
+        startLogging();
         View view = inflater.inflate(R.layout.af_welcome_fragment, container, false);
 
         pager = (ViewPager) view.findViewById(R.id.welcome_pager);
@@ -142,6 +141,11 @@ public class WelcomeFragment extends OnboardingBaseFragment implements View.OnCl
             }
         });
         return view;
+    }
+
+    protected void startLogging() {
+        ((AppFrameworkApplication)getFragmentActivity().getApplicationContext()).getLoggingInterface().log(LoggingInterface.LogLevel.INFO, TAG,
+                " IntroductionScreen Activity Created ");
     }
 
     @Override

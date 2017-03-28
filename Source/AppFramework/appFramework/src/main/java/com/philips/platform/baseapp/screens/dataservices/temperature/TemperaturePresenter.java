@@ -66,10 +66,7 @@ public class TemperaturePresenter {
     private EditText mPhase;
     private Button mDialogButton;
 
-    private final DataServicesState dataServicesState;
-
-    TemperaturePresenter(Context context, String momentType, DBRequestListener dbRequestListener, DataServicesState dataServicesState) {
-        this.dataServicesState = dataServicesState;
+    TemperaturePresenter(Context context, String momentType, DBRequestListener dbRequestListener) {
         mDataServices = DataServicesManager.getInstance();
         mMomentType = momentType;
         mContext = context;
@@ -185,10 +182,10 @@ public class TemperaturePresenter {
                               final List<? extends Moment> data, int adapterPosition) {
         try {
             Moment moment = data.get(adapterPosition);
-            Dao<OrmSynchronisationData, Integer> ormSynchronisationDataDao = dataServicesState.getDatabaseHelper().getSynchronisationDataDao();
+            Dao<OrmSynchronisationData, Integer> ormSynchronisationDataDao = DatabaseHelper.getInstance(mContext).getSynchronisationDataDao();
             ormSynchronisationDataDao.refresh((OrmSynchronisationData) moment.getSynchronisationData());
 
-            Dao<OrmMoment, Integer> momentDao = dataServicesState.getDatabaseHelper().getMomentDao();
+            Dao<OrmMoment, Integer> momentDao = DatabaseHelper.getInstance(mContext).getMomentDao();
             momentDao.refresh((OrmMoment) moment);
 
             mDataServices.deleteMoment(moment, dbRequestListener);
@@ -275,9 +272,9 @@ public class TemperaturePresenter {
                         dialog.dismiss();
 
                         try {
-                            Dao<OrmSynchronisationData, Integer> ormSynchronisationDataDao = dataServicesState.getDatabaseHelper().getSynchronisationDataDao();
+                            Dao<OrmSynchronisationData, Integer> ormSynchronisationDataDao =DatabaseHelper.getInstance(mContext).getSynchronisationDataDao();
                             ormSynchronisationDataDao.refresh((OrmSynchronisationData) moment.getSynchronisationData());
-                            Dao<OrmMoment, Integer> momentDao = dataServicesState.getDatabaseHelper().getMomentDao();
+                            Dao<OrmMoment, Integer> momentDao =DatabaseHelper.getInstance(mContext).getMomentDao();
                             momentDao.refresh((OrmMoment) moment);
                         } catch (SQLException e) {
                             e.printStackTrace();

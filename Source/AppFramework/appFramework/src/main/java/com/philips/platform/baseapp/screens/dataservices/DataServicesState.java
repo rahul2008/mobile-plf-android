@@ -58,10 +58,6 @@ public class DataServicesState extends BaseState {
     FragmentLauncher fragmentLauncher;
     ScheduleSyncReceiver mScheduleSyncReceiver;
 
-    public DatabaseHelper getDatabaseHelper() {
-        return databaseHelper;
-    }
-
     private DatabaseHelper databaseHelper;
 
     public DataServicesState() {

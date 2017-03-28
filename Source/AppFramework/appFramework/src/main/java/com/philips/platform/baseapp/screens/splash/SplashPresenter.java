@@ -31,6 +31,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 public class SplashPresenter extends UIBasePresenter implements UIStateListener {
     private final LaunchView uiView;
     private String APP_START = "onSplashTimeOut";
+    private BaseState baseState;
 
     public SplashPresenter(LaunchView uiView) {
         super(uiView);
@@ -46,9 +47,8 @@ public class SplashPresenter extends UIBasePresenter implements UIStateListener 
     @Override
     public void onEvent(int componentID) {
         try {
-            BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-            final BaseState splashState = targetFlowManager.getState(AppStates.SPLASH);
-            BaseState baseState = targetFlowManager.getNextState(splashState, APP_START);
+            final BaseState splashState = getTargetFlowManager().getState(AppStates.SPLASH);
+            baseState = getTargetFlowManager().getNextState(splashState, APP_START);
             if (null != baseState) {
                 baseState.setUiStateData(setStateData(baseState.getStateID()));
                 baseState.setStateListener(this);
@@ -63,6 +63,10 @@ public class SplashPresenter extends UIBasePresenter implements UIStateListener 
             Log.d(getClass() + "", e.getMessage());
             Toast.makeText(uiView.getFragmentActivity(), uiView.getFragmentActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    protected BaseFlowManager getTargetFlowManager() {
+        return getApplicationContext().getTargetFlowManager();
     }
 
     protected FragmentLauncher getFragmentLauncher() {
