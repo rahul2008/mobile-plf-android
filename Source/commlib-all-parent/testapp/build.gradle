@@ -50,9 +50,6 @@ dependencies {
     compile 'com.android.support:support-v4:25.1.1'
     // CDPP platform
     compile project(":commlib-all")
-//    compile(group: 'com.philips.cdp', name: 'commlib-all', version: '1.2.2-rc.+', ext: 'aar') {
-//        transitive true
-//    }
 
     testCompile 'junit:junit:4.12'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {

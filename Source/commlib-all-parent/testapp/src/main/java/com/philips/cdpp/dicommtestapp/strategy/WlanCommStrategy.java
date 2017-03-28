@@ -5,10 +5,10 @@ import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 
 public class WlanCommStrategy implements CommStrategy
 {
-    private final LanTransportContext mWifiContext;
+    private final LanTransportContext wifiContext;
 
     public WlanCommStrategy(LanTransportContext transportContext) {
-        this.mWifiContext = transportContext;
+        this.wifiContext = transportContext;
     }
 
     @Override
@@ -18,6 +18,6 @@ public class WlanCommStrategy implements CommStrategy
 
     @Override
     public TransportContext getTransportContext() {
-        return mWifiContext;
+        return wifiContext;
     }
 }

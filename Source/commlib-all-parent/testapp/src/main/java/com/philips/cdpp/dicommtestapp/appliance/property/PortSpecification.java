@@ -1,16 +1,16 @@
 package com.philips.cdpp.dicommtestapp.appliance.property;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public class PortSpecification {
     String name;
     int productID;
     boolean supportsSubscription;
-    List<Property> properties;
+    Set<Property> properties;
 
     public PortSpecification() {
-        this.properties = new ArrayList<>();
+        this.properties = new CopyOnWriteArraySet<>();
     }
 
     public boolean supportsSubscription() {
@@ -41,7 +41,7 @@ public class PortSpecification {
         this.supportsSubscription = isSupported;
     }
 
-    public List<Property> getProperties() {
+    public Set<Property> getProperties() {
         return properties;
     }
 }

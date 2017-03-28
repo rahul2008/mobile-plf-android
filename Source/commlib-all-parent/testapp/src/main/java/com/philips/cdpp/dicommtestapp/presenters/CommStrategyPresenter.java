@@ -13,7 +13,6 @@ import nl.rwslinkman.presentable.Presenter;
 
 public class CommStrategyPresenter implements Presenter<CommStrategy, CommStrategyPresenter.ViewHolder>
 {
-
     @Override
     public CommStrategyPresenter.ViewHolder onCreateViewHolder(ViewGroup parent)
     {

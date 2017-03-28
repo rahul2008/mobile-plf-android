@@ -18,17 +18,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.philips.cdp2.commlib.core.CommCentral;
-import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
-import com.philips.cdp2.commlib.core.context.TransportContext;
-import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdpp.dicommtestapp.appliance.GenericAppliance;
-import com.philips.cdpp.dicommtestapp.appliance.GenericApplianceFactory;
 import com.philips.cdpp.dicommtestapp.appliance.PropertyPort;
 import com.philips.cdpp.dicommtestapp.background.BackgroundConnectionService;
 import com.philips.cdpp.dicommtestapp.fragments.StrategyChoiceFragment;
-import com.philips.cdpp.dicommtestapp.strategy.CommStrategy;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -39,19 +32,19 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             Log.d(TAG, "onServiceConnected: service connected to main activity");
-            mService = ((BackgroundConnectionService.BackgroundBinder)service).getService();
+            MainActivity.this.service = ((BackgroundConnectionService.BackgroundBinder)service).getService();
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
             Log.d(TAG, "onServiceDisconnected: service disconnected from main activity");
-            mService = null;
+            service = null;
         }
     };
-    private BackgroundConnectionService mService;
-    private boolean mIsBound;
-    private GenericAppliance mCurrentAppliance = null;
-    private PropertyPort mCurrentPort = null;
+    private BackgroundConnectionService service;
+    private boolean isBound;
+    private GenericAppliance currentAppliance = null;
+    private PropertyPort currentPort = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,14 +70,14 @@ public class MainActivity extends AppCompatActivity
     protected void onPause() {
         super.onPause();
         doUnbindService();
-        mCurrentAppliance = null;
+        currentAppliance = null;
     }
 
     private void doUnbindService() {
-        if(mIsBound) {
+        if(isBound) {
             Log.d(TAG, "doUnbindService");
             unbindService(mConnection);
-            mIsBound = false;
+            isBound = false;
         }
     }
 
@@ -92,7 +85,7 @@ public class MainActivity extends AppCompatActivity
         Log.d(TAG, "doBindService");
         Intent serviceIntent = new Intent(this, BackgroundConnectionService.class);
         bindService(serviceIntent, mConnection, Context.BIND_AUTO_CREATE);
-        mIsBound = true;
+        isBound = true;
     }
 
     public void navigateTo(Fragment destination) {
@@ -139,26 +132,26 @@ public class MainActivity extends AppCompatActivity
     }
 
     public BackgroundConnectionService getBoundService() {
-        return mService;
+        return service;
     }
 
     // TODO Replace with CommCentral.getApplianceManager().storeAppliance() when it is availabe
     @Deprecated
     public void storeAppliance(GenericAppliance appliance) {
-        mCurrentAppliance = appliance;
+        currentAppliance = appliance;
     }
 
     // TODO Replace with CommCentral.getApplianceManager().getAvailableAppliances() when it is availabe
     @Deprecated
     public GenericAppliance getAppliance() {
-        return mCurrentAppliance;
+        return currentAppliance;
     }
 
     public void storePort(PropertyPort port) {
-        mCurrentPort = port;
+        currentPort = port;
     }
 
     public PropertyPort getPort() {
-        return mCurrentPort;
+        return currentPort;
     }
 }

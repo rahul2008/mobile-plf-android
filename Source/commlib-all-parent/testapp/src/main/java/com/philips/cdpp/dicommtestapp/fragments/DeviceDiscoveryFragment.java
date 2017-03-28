@@ -25,17 +25,17 @@ import java.util.Set;
 import nl.rwslinkman.presentable.Presenter;
 import nl.rwslinkman.presentable.interaction.PresentableItemClickListener;
 
-public class DeviceDiscoveryFragment extends SampleAppFragment<GenericAppliance> implements PresentableItemClickListener<GenericAppliance> {
+public class DeviceDiscoveryFragment extends DiCommTestAppFragment<GenericAppliance> implements PresentableItemClickListener<GenericAppliance> {
     private static final String TAG = "DeviceDiscoveryFragment";
 
-    private DiscoveryEventListener mDiscoveryListener = new DiscoveryEventListener() {
+    private DiscoveryEventListener discoveryListener = new DiscoveryEventListener() {
         @Override
         public void onDiscoveredAppliancesListChanged() {
             Log.e(TAG, "onDiscoveredAppliancesListChanged: ");
             updateDiscoveredDeviceList();
         }
     };
-    private ApplianceManager.ApplianceListener<Appliance> mApplianceListener = new ApplianceManager.ApplianceListener<Appliance>() {
+    private ApplianceManager.ApplianceListener<Appliance> applianceListener = new ApplianceManager.ApplianceListener<Appliance>() {
         @Override
         public void onApplianceFound(@NonNull Appliance appliance) {
             String msg = String.format("onApplianceFound: %s", appliance.getName());
@@ -57,8 +57,7 @@ public class DeviceDiscoveryFragment extends SampleAppFragment<GenericAppliance>
             updateDiscoveredDeviceList();
         }
     };
-
-    private CommStrategy mUsedStrategy;
+    private CommStrategy usedStrategy;
 
     public DeviceDiscoveryFragment() {
         // NOP
@@ -81,7 +80,7 @@ public class DeviceDiscoveryFragment extends SampleAppFragment<GenericAppliance>
         super.onResume();
 
         BackgroundConnectionService service = getConnectionService();
-        mUsedStrategy = service.getCommStrategy();
+        usedStrategy = service.getCommStrategy();
 
         setListItemClickListener(this);
         CommCentral commCentral = service.getCommCentral();
@@ -94,11 +93,11 @@ public class DeviceDiscoveryFragment extends SampleAppFragment<GenericAppliance>
             updateDiscoveredDeviceList();
 
             // TODO Update when CommLib Discovery moves away from DiscoveryManager
-            DiscoveryManager.getInstance().addDiscoveryEventListener(mDiscoveryListener);
-            commCentral.getApplianceManager().addApplianceListener(mApplianceListener);
+            DiscoveryManager.getInstance().addDiscoveryEventListener(discoveryListener);
+            commCentral.getApplianceManager().addApplianceListener(applianceListener);
             startDiscovery(commCentral);
 
-            subtitleMsg = String.format("Using %s as TransportContext", mUsedStrategy.getType().value());
+            subtitleMsg = String.format("Using %s as TransportContext", usedStrategy.getType().value());
         }
 
         titleView.setText(getString(R.string.device_discovery_title_message));
@@ -106,7 +105,7 @@ public class DeviceDiscoveryFragment extends SampleAppFragment<GenericAppliance>
     }
 
     private void startDiscovery(CommCentral commCentral) {
-        switch(mUsedStrategy.getType()) {
+        switch(usedStrategy.getType()) {
             case LAN:
                 // WiFi discovery
                 DiscoveryManager.getInstance().start();
@@ -124,9 +123,9 @@ public class DeviceDiscoveryFragment extends SampleAppFragment<GenericAppliance>
 
     @Override
     public void onPause() {
-        DiscoveryManager.getInstance().removeDiscoverEventListener(mDiscoveryListener);
+        DiscoveryManager.getInstance().removeDiscoverEventListener(discoveryListener);
         DiscoveryManager.getInstance().stop();
-        getConnectionService().getCommCentral().getApplianceManager().removeApplianceListener(mApplianceListener);
+        getConnectionService().getCommCentral().getApplianceManager().removeApplianceListener(applianceListener);
         super.onPause();
     }
 
@@ -149,7 +148,7 @@ public class DeviceDiscoveryFragment extends SampleAppFragment<GenericAppliance>
             @Override
             public void run() {
                 List<? extends Appliance> availableAppliances;
-                switch (mUsedStrategy.getType()) {
+                switch (usedStrategy.getType()) {
                     case BLE:
                         // BLE devices in CommCentral
                         CommCentral central = getConnectionService().getCommCentral();

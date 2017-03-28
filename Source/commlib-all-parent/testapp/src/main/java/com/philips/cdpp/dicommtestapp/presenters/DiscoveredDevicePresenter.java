@@ -28,7 +28,6 @@ public class DiscoveredDevicePresenter implements Presenter<GenericAppliance, Di
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, GenericAppliance item) {
-        //
         String title = item.getName() == null ? "[Unnnamed device]" : item.getDeviceName();
         String subtitle = item.getNetworkNode().getIpAddress() == null ? "[Address unknown]" : item.getModelNumber();
 

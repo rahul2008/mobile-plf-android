@@ -26,7 +26,7 @@ public class DiCommTestApp extends Application {
     private GenericApplianceFactory applianceFactory;
     private BleTransportContext bleTransportContext;
     private LanTransportContext lanTransportContext;
-    private ServiceConnection mConnection = new ServiceConnection() {
+    private ServiceConnection connection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
             Log.d(TAG, "onServiceConnected: service connected");
         }
@@ -64,7 +64,7 @@ public class DiCommTestApp extends Application {
 
     private void doBindService() {
         Intent serviceIntent = new Intent(this, BackgroundConnectionService.class);
-        bindService(serviceIntent, mConnection, Context.BIND_AUTO_CREATE);
+        bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE);
     }
 
     public GenericApplianceFactory getApplianceFactory() {

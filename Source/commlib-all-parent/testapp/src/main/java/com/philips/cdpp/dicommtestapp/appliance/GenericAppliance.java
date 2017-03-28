@@ -1,6 +1,6 @@
 package com.philips.cdpp.dicommtestapp.appliance;
 
-import android.util.Log;
+import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
@@ -8,19 +8,19 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdpp.dicommtestapp.appliance.property.ApplianceSpecification;
 import com.philips.cdpp.dicommtestapp.appliance.property.PortSpecification;
-import com.philips.cdpp.dicommtestapp.appliance.property.Property;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
-
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public class GenericAppliance extends Appliance
 {
-    private static final String TAG = "GenericAppliance";
     private String modelNumber;
     private String deviceName;
 
-    GenericAppliance(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
+    GenericAppliance(@NonNull NetworkNode networkNode, @NonNull CommunicationStrategy communicationStrategy) {
         super(networkNode, communicationStrategy);
         getAllPorts().clear();
     }
@@ -39,9 +39,9 @@ public class GenericAppliance extends Appliance
         return "";
     }
 
-    public List<PropertyPort> getPropertyPorts()
+    public Set<PropertyPort> getPropertyPorts()
     {
-        List<PropertyPort> propPorts = new ArrayList<>();
+        Set<PropertyPort> propPorts = new CopyOnWriteArraySet<>();
         for(DICommPort port : getAllPorts()) {
             if(port instanceof PropertyPort) {
                 propPorts.add((PropertyPort) port);

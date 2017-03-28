@@ -12,8 +12,7 @@ import com.philips.cdpp.dicommtestapp.appliance.PropertyPort;
 
 import nl.rwslinkman.presentable.Presenter;
 
-public class PortOverviewPresenter implements Presenter<PropertyPort, PortOverviewPresenter.ViewHolder>
-{
+public class PortOverviewPresenter implements Presenter<PropertyPort, PortOverviewPresenter.ViewHolder> {
     private int redColor;
     private int blackColor;
 

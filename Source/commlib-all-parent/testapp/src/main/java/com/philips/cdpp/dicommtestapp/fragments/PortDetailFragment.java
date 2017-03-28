@@ -12,15 +12,17 @@ import com.philips.cdpp.dicommtestapp.appliance.property.PortSpecification;
 import com.philips.cdpp.dicommtestapp.appliance.property.Property;
 import com.philips.cdpp.dicommtestapp.presenters.PortDetailPresenter;
 
+import java.util.ArrayList;
+
 import nl.rwslinkman.presentable.Presenter;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PortDetailFragment extends SampleAppFragment<Property>
+public class PortDetailFragment extends DiCommTestAppFragment<Property>
 {
     private static final String TAG = "PortDetailFragment";
-    private DICommPortListener<PropertyPort> mPortListener = new DICommPortListener<PropertyPort>() {
+    private DICommPortListener<PropertyPort> portListener = new DICommPortListener<PropertyPort>() {
         @Override
         public void onPortUpdate(PropertyPort propertyPort) {
             Log.e(TAG, "onPortUpdate on " + propertyPort.getPortName() + ": " + propertyPort.toString());
@@ -52,11 +54,11 @@ public class PortDetailFragment extends SampleAppFragment<Property>
         super.onResume();
 
         PropertyPort currentPort = getMainActivity().getPort();
-        currentPort.addPortListener(mPortListener);
+        currentPort.addPortListener(portListener);
         currentPort.reloadProperties();
 
         PortSpecification portSpec = currentPort.getPortSpecification();
-        updateList(portSpec.getProperties());
+        updateList(new ArrayList<>(portSpec.getProperties()));
 
         titleView.setText(getString(R.string.port_detail_title_message));
         String msg = String.format("Available in '%s' port", currentPort.getPortName());
@@ -68,7 +70,7 @@ public class PortDetailFragment extends SampleAppFragment<Property>
         super.onPause();
 
         PropertyPort currentPort = getMainActivity().getPort();
-        currentPort.removePortListener(mPortListener);
+        currentPort.removePortListener(portListener);
     }
 
     @Override

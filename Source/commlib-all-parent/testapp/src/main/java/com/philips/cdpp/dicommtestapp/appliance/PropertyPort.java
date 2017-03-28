@@ -12,14 +12,14 @@ import java.util.Map;
 public class PropertyPort extends DICommPort
 {
     private static final String TAG = "PropertyPort";
-    private PortSpecification mPortSpec;
-    private String mErrorText;
+    private PortSpecification portSpec;
+    private String errorText;
     private boolean isEnabled;
-    private String mStatusText;
+    private String statusText;
 
     PropertyPort(CommunicationStrategy communicationStrategy, PortSpecification portSpec) {
         super(communicationStrategy);
-        mPortSpec = portSpec;
+        this.portSpec = portSpec;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class PropertyPort extends DICommPort
         //noinspection unchecked
         Map<String, Object> portResponse = gson.fromJson(json, Map.class);
 
-        for(Property prop : mPortSpec.getProperties()) {
+        for(Property prop : portSpec.getProperties()) {
             Object propValue = portResponse.get(prop.getKey());
             if(propValue != null) {
                 String valueText = propValue.toString();
@@ -49,17 +49,17 @@ public class PropertyPort extends DICommPort
 
     @Override
     protected String getDICommPortName() {
-        return mPortSpec.getName();
+        return portSpec.getName();
     }
 
     @Override
     protected int getDICommProductId() {
-        return mPortSpec.getProductID();
+        return portSpec.getProductID();
     }
 
     @Override
     public boolean supportsSubscription() {
-        return mPortSpec.supportsSubscription();
+        return portSpec.supportsSubscription();
     }
 
     public String getPortName() {
@@ -67,18 +67,18 @@ public class PropertyPort extends DICommPort
     }
 
     public String getErrorText() {
-        if(mErrorText == null) {
+        if(errorText == null) {
             return "";
         }
-        return mErrorText;
+        return errorText;
     }
 
     public void setErrorText(String mErrorText) {
-        this.mErrorText = mErrorText;
+        this.errorText = mErrorText;
     }
 
     public PortSpecification getPortSpecification() {
-        return mPortSpec;
+        return portSpec;
     }
 
     public boolean isEnabled() {
@@ -90,13 +90,13 @@ public class PropertyPort extends DICommPort
     }
 
     public void setStatusText(String statusText) {
-        this.mStatusText = statusText;
+        this.statusText = statusText;
     }
 
     public String getStatusText() {
-        if(mStatusText == null) {
+        if(statusText == null) {
             return "";
         }
-        return mStatusText;
+        return statusText;
     }
 }

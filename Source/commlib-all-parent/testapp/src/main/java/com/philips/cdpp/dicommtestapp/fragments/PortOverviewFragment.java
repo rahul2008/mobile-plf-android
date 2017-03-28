@@ -17,7 +17,9 @@ import com.philips.cdpp.dicommtestapp.appliance.GenericAppliance;
 import com.philips.cdpp.dicommtestapp.appliance.PropertyPort;
 import com.philips.cdpp.dicommtestapp.presenters.PortOverviewPresenter;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import nl.rwslinkman.presentable.Presenter;
 import nl.rwslinkman.presentable.interaction.PresentableItemClickListener;
@@ -25,10 +27,10 @@ import nl.rwslinkman.presentable.interaction.PresentableItemClickListener;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PortOverviewFragment extends SampleAppFragment<PropertyPort> implements PresentableItemClickListener<PropertyPort> {
+public class PortOverviewFragment extends DiCommTestAppFragment<PropertyPort> implements PresentableItemClickListener<PropertyPort> {
     private static final String TAG = "PortOverviewFragment";
 
-    private DICommPortListener<PropertyPort> mPortListener = new DICommPortListener<PropertyPort>() {
+    private DICommPortListener<PropertyPort> portListener = new DICommPortListener<PropertyPort>() {
         @Override
         public void onPortUpdate(PropertyPort propertyPort) {
             Log.e(TAG, "onPortUpdate on " + propertyPort.getPortName() + ": " + propertyPort.toString());
@@ -48,7 +50,7 @@ public class PortOverviewFragment extends SampleAppFragment<PropertyPort> implem
             notifyListUpdated();
         }
     };
-    private ApplianceManager.ApplianceListener<Appliance> mApplianceListener = new ApplianceManager.ApplianceListener<Appliance>() {
+    private ApplianceManager.ApplianceListener<Appliance> applianceListener = new ApplianceManager.ApplianceListener<Appliance>() {
         @Override
         public void onApplianceFound(@NonNull Appliance appliance) {
             String msg = String.format("onApplianceFound: %s", appliance.getName());
@@ -95,13 +97,13 @@ public class PortOverviewFragment extends SampleAppFragment<PropertyPort> implem
 
         CommCentral central = getConnectionService().getCommCentral();
         ApplianceManager applianceManager = central.getApplianceManager();
-        applianceManager.addApplianceListener(mApplianceListener);
+        applianceManager.addApplianceListener(applianceListener);
 
         // TODO Remove when ApplianceManager allows to listen for appliance changes
         GenericAppliance currentAppliance = getMainActivity().getAppliance();
-        List<PropertyPort> portList = currentAppliance.getPropertyPorts();
+        Set<PropertyPort> portList = currentAppliance.getPropertyPorts();
         // Show ports of the selected appliance
-        updateList(portList);
+        updateList(new ArrayList<>(portList));
 
         titleView.setText(getString(R.string.ports_overview_title_message));
         String subtitleText = String.format("Available on %s", currentAppliance.getModelNumber());
@@ -109,7 +111,7 @@ public class PortOverviewFragment extends SampleAppFragment<PropertyPort> implem
 
         for(PropertyPort port : portList)
         {
-            port.addPortListener(mPortListener);
+            port.addPortListener(portListener);
             port.setEnabled(false);
             port.reloadProperties();
         }
@@ -118,13 +120,13 @@ public class PortOverviewFragment extends SampleAppFragment<PropertyPort> implem
     @Override
     public void onPause() {
         CommCentral central = getConnectionService().getCommCentral();
-        central.getApplianceManager().removeApplianceListener(mApplianceListener);
+        central.getApplianceManager().removeApplianceListener(applianceListener);
 
         // TODO Remove when ApplianceManager allows to listen for appliance changes
         GenericAppliance currentAppliance = getMainActivity().getAppliance();
         for(PropertyPort port : currentAppliance.getPropertyPorts())
         {
-            port.removePortListener(mPortListener);
+            port.removePortListener(portListener);
         }
         super.onPause();
     }

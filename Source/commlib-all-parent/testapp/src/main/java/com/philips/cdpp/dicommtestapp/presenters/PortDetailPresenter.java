@@ -11,8 +11,7 @@ import com.philips.cdpp.dicommtestapp.appliance.property.Property;
 
 import nl.rwslinkman.presentable.Presenter;
 
-public class PortDetailPresenter implements Presenter<Property, PortDetailPresenter.ViewHolder>
-{
+public class PortDetailPresenter implements Presenter<Property, PortDetailPresenter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
         // Inflate your custom XML layout representing a list item in the RecyclerView

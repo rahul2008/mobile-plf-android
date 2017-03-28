@@ -12,11 +12,11 @@ import java.util.List;
 import nl.rwslinkman.presentable.Presenter;
 import nl.rwslinkman.presentable.interaction.PresentableItemClickListener;
 
-public class StrategyChoiceFragment extends SampleAppFragment<CommStrategy> implements PresentableItemClickListener<CommStrategy> {
+public class StrategyChoiceFragment extends DiCommTestAppFragment<CommStrategy> implements PresentableItemClickListener<CommStrategy> {
     private static final String TAG = "StrategyChoiceFragment";
 
     public StrategyChoiceFragment(){
-        //
+        // NOP
     }
 
     public static StrategyChoiceFragment newInstance() {
@@ -29,8 +29,8 @@ public class StrategyChoiceFragment extends SampleAppFragment<CommStrategy> impl
 
         setListItemClickListener(this);
 
-        titleView.setText(getString(R.string.strategy_choice_title_message));
-        subtitleView.setText("Please select a scanning strategy");
+        titleView.setText(R.string.strategy_choice_title_message);
+        subtitleView.setText(R.string.strategy_choice_subtitle);
 
         List<CommStrategy> strategyList = ((DiCommTestApp)getActivity().getApplication()).getAvailableContexts();
         updateList(strategyList);

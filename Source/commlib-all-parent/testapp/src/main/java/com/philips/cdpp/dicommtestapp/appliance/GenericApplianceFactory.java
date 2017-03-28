@@ -12,8 +12,7 @@ import java.util.Set;
 
 public class GenericApplianceFactory implements DICommApplianceFactory<GenericAppliance>
 {
-    private static final String TAG = "GenericApplianceFactory";
-    private TransportContext mTransportContext;
+    private TransportContext transportContext;
     private SupportedAppliances supportedAppliances;
 
     public GenericApplianceFactory() {
@@ -27,12 +26,7 @@ public class GenericApplianceFactory implements DICommApplianceFactory<GenericAp
 
     @Override
     public GenericAppliance createApplianceForNode(NetworkNode networkNode) {
-        // TODO Refactor this when libraries have been unified (BLE devices now have 'null' for modelType)
-        if(networkNode.getModelId() == null) {
-            networkNode.setModelId("unknown");
-        }
-
-        CommunicationStrategy strategy = mTransportContext.createCommunicationStrategyFor(networkNode);
+        CommunicationStrategy strategy = transportContext.createCommunicationStrategyFor(networkNode);
         ApplianceSpecification applianceSpec = supportedAppliances.findSpecification(networkNode.getModelId());
 
         GenericAppliance genericAppliance = new GenericAppliance(networkNode, strategy);
@@ -53,6 +47,6 @@ public class GenericApplianceFactory implements DICommApplianceFactory<GenericAp
     }
 
     public void setTransportContext(TransportContext transportContext) {
-        mTransportContext = transportContext;
+        this.transportContext = transportContext;
     }
 }

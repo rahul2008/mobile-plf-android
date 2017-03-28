@@ -14,9 +14,9 @@ import nl.rwslinkman.presentable.PresentableAdapter;
 import nl.rwslinkman.presentable.Presenter;
 import nl.rwslinkman.presentable.interaction.PresentableItemClickListener;
 
-abstract public class SampleAppFragment<T> extends BaseFragment
+abstract public class DiCommTestAppFragment<T> extends BaseFragment
 {
-    private PresentableAdapter<T> mAdapter;
+    private PresentableAdapter<T> adapter;
     protected TextView titleView;
     protected TextView subtitleView;
 
@@ -26,13 +26,13 @@ abstract public class SampleAppFragment<T> extends BaseFragment
         Presenter p = getListPresenter();
 
         RecyclerView itemList = (RecyclerView) fragmentView.findViewById(R.id.sample_app_fragment_list);
-        mAdapter = new PresentableAdapter<>(p, new ArrayList<T>());
+        adapter = new PresentableAdapter<>(p, new ArrayList<T>());
         titleView = (TextView) fragmentView.findViewById(R.id.sample_app_fragment_title);
         subtitleView = (TextView) fragmentView.findViewById(R.id.sample_app_fragment_subtitle);
 
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         itemList.setLayoutManager(llm);
-        itemList.setAdapter(mAdapter);
+        itemList.setAdapter(adapter);
     }
 
     @Override
@@ -43,15 +43,15 @@ abstract public class SampleAppFragment<T> extends BaseFragment
     abstract Presenter getListPresenter();
 
     protected void updateList(List<T> content) {
-        mAdapter.setData(content);
+        adapter.setData(content);
         notifyListUpdated();
     }
 
     protected void notifyListUpdated() {
-        mAdapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
     }
 
     protected void setListItemClickListener(PresentableItemClickListener<T> clickListener) {
-        mAdapter.setItemClickListener(clickListener);
+        adapter.setItemClickListener(clickListener);
     }
 }

@@ -1,5 +1,7 @@
 package com.philips.cdpp.dicommtestapp;
 
+import android.text.TextUtils;
+
 import com.philips.cdpp.dicommtestapp.appliance.property.ApplianceSpecification;
 import com.philips.cdpp.dicommtestapp.appliance.property.PortSpecification;
 import com.philips.cdpp.dicommtestapp.appliance.property.Property;
@@ -14,7 +16,7 @@ public class SupportedAppliances
 {
     private List<PortSpecification> defaultPortSpecs;
     private ApplianceSpecification unknownApplianceSpec;
-    private HashMap<String, ApplianceSpecification> applianceSpecs;
+    private Map<String, ApplianceSpecification> applianceSpecs;
 
     public SupportedAppliances() {
         defaultPortSpecs = new ArrayList<>();
@@ -34,6 +36,11 @@ public class SupportedAppliances
 
     public ApplianceSpecification findSpecification(String modelNumber)
     {
+        // TODO Refactor this when libraries have been unified (BLE devices now have 'null' for modelType)
+        if(TextUtils.isEmpty(modelNumber)) {
+            modelNumber = "unknown";
+        }
+
         ApplianceSpecification spec = applianceSpecs.get(modelNumber.toUpperCase());
         if(spec == null) {
             spec = unknownApplianceSpec;
