@@ -41,6 +41,8 @@ import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.MomentsDeleteRequest;
 import com.philips.platform.core.events.MomentsSaveRequest;
 import com.philips.platform.core.events.MomentsUpdateRequest;
+import com.philips.platform.core.events.RegisterDeviceToken;
+import com.philips.platform.core.events.UnRegisterDeviceToken;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.injection.ApplicationModule;
@@ -49,6 +51,7 @@ import com.philips.platform.core.injection.DaggerAppComponent;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.listeners.RegisterDeviceTokenListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.EventingImpl;
@@ -411,5 +414,14 @@ public class DataServicesManager {
 
     public ArrayList<DataSender> getCustomSenders() {
         return mCustomSenders;
+    }
+
+    //Push Notification
+    public void registerDeviceToken(String deviceToken, String appVariant, RegisterDeviceTokenListener registerDeviceTokenListener) {
+        mEventing.post(new RegisterDeviceToken(deviceToken, appVariant, registerDeviceTokenListener));
+    }
+
+    public void unRegisterDeviceToken(String appToken, String appVariant, RegisterDeviceTokenListener registerDeviceTokenListener) {
+        mEventing.post(new UnRegisterDeviceToken(appToken, appVariant, registerDeviceTokenListener));
     }
 }

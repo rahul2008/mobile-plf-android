@@ -1,0 +1,49 @@
+package com.philips.platform.datasync.PushNotification;
+
+import android.support.annotation.NonNull;
+
+import com.philips.platform.core.events.PushNotificationResponse;
+import com.philips.platform.core.events.RegisterDeviceToken;
+import com.philips.platform.core.events.UnRegisterDeviceToken;
+import com.philips.platform.core.listeners.RegisterDeviceTokenListener;
+import com.philips.platform.core.monitors.EventMonitor;
+import com.philips.platform.core.trackers.DataServicesManager;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.sql.SQLException;
+
+import javax.inject.Inject;
+
+public class PushNotificationMonitor extends EventMonitor {
+
+    private PushNotificationController mPushNotificationController;
+    private RegisterDeviceTokenListener mRegisterDeviceTokenListener;
+
+    @Inject
+    public PushNotificationMonitor(@NonNull PushNotificationController pushNotificationController) {
+        mPushNotificationController = pushNotificationController;
+        DataServicesManager.getInstance().getAppComponant().injectPushNotificationMonitor(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void onEventAsync(RegisterDeviceToken registerDeviceToken) {
+        mRegisterDeviceTokenListener = registerDeviceToken.getRegisterDeviceTokenListener();
+        UCorePushNotification uCorePushNotification = new UCorePushNotification();
+        uCorePushNotification.setAppVariant(registerDeviceToken.getAppVariant());
+        uCorePushNotification.setToken(registerDeviceToken.getDeviceToken());
+        mPushNotificationController.registerPushNotification(uCorePushNotification);
+    }
+
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void onEventAsync(UnRegisterDeviceToken unRegisterDeviceToken) {
+        mRegisterDeviceTokenListener = unRegisterDeviceToken.getRegisterDeviceTokenListener();
+        mPushNotificationController.unRegisterPushNotification(unRegisterDeviceToken.getAppVariant(), unRegisterDeviceToken.getAppToken());
+    }
+
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void onEventAsync(final PushNotificationResponse pushNotificationResponse) throws SQLException {
+        mRegisterDeviceTokenListener.onResponse(pushNotificationResponse.isSuccess());
+    }
+}

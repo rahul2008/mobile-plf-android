@@ -11,6 +11,7 @@ import com.philips.platform.core.monitors.ErrorMonitor;
 import com.philips.platform.core.monitors.FetchingMonitor;
 import com.philips.platform.core.monitors.UpdatingMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.datasync.PushNotification.PushNotificationMonitor;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsConverter;
@@ -114,4 +115,6 @@ public interface AppComponent {
     void injectDataFetcher(DataFetcher dataFetcher);
 
     void injectDataSender(DataSender tDataSender);
+
+    void injectPushNotificationMonitor(PushNotificationMonitor pushNotificationMonitor);
 }
