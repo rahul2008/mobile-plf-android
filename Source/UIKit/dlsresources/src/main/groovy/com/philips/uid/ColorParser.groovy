@@ -37,6 +37,9 @@ class ColorParser {
                             }
                     }
             }
+            color("${DLSResourceConstants.ITEM_NAME}": "${DLSResourceConstants.LIB_PREFIX}_level_white", "#FFFFFF")
+            color("${DLSResourceConstants.ITEM_NAME}": "${DLSResourceConstants.LIB_PREFIX}_level_black", "#000000")
+
         }
         def outDir = new File(DLSResourceConstants.PATH_OUT)
 

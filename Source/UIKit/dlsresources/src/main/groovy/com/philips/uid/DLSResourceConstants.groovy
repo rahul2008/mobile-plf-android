@@ -40,11 +40,4 @@ class DLSResourceConstants {
         String.format(PATH_OUT_THEME_FILE, "${fileName}")
     }
 
-    //JSON key constants
-    static final String JSON_KEY_COLOR_CODE = "color-code"
-    static final String JSON_KEY_COLOR = "color"
-    static final String JSON_KEY_REFERENCE = "reference"
-    static final String JSON_KEY_OPACITY = "opacity"
-    static final String JSON_KEY_OFFSET = "offset"
-    static final String JSON_KEY_RANGE_NAME = "color-range"
 }

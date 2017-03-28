@@ -1,7 +1,8 @@
 /*
- * (C) Koninklijke Philips N.V., 2017.
- * All rights reserved.
- *
+ * Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
  */
 
 package com.philips.uid
@@ -77,18 +78,10 @@ class TonalRange {
                 return "@null"
             }
         } else if (color != null) {
-            def colorReference = "${DLSResourceConstants.LIB_PREFIX}_default_level_${color}";
+            def colorReference = "${DLSResourceConstants.LIB_PREFIX}_level_${color}";
 //            println("colorReference: #" + colorReference +"#" +" name " + name)
 
-            def colorValue = colorsXmlInput.findAll {
-                it.@name == colorReference
-            }*.text().get(0)
-            if (colorValue == null) {
-                colorReference = "${DLSResourceConstants.LIB_PREFIX}_${color}";
-                colorValue = colorsXmlInput.findAll {
-                    it.@name == colorReference
-                }*.text().get(0)
-            }
+            def colorValue = getColorValue(colorsXmlInput, colorReference)
             if (opacity != null) {
                 def hexAlpha = alphaToHex(Float.valueOf(opacity))
                 def colorWithHex = colorValue.replace("#", "#${hexAlpha}")
@@ -96,6 +89,9 @@ class TonalRange {
             }
             return "@color/${colorReference}"
         } else if (colorCode != null) {
+            if (colorRange == "accent" || colorRange == "validation")
+                return "@null"
+
             def hexAlpha = ""
             if (opacity != null) {
                 hexAlpha = alphaToHex(Float.valueOf(opacity))
@@ -105,15 +101,13 @@ class TonalRange {
                 colorReference = "${DLSResourceConstants.LIB_PREFIX}_" + colorRange + "_${DLSResourceConstants.LEVEL}_" + colorCode
             }
             colorReference = colorReference.replaceAll("${DLSResourceConstants.HIPHEN}", "${DLSResourceConstants.UNDERSCORE}")
-            def colorValue = colorsXmlInput.findAll {
-                it.@name == colorReference
-            }*.text().get(0)
+            def colorValue = getColorValue(colorsXmlInput, colorReference)
+
             if (hexAlpha.isEmpty()) {
 //                println("colorReference: #" + colorReference + "#" + " colorValue " + colorValue)
                 return "@color/${colorReference}";
             }
             def colorWithHex = colorValue.replace("#", "#${hexAlpha}")
-
             return colorWithHex
         }
 //        println(" Invalid combination " + this.toString())
@@ -138,6 +132,17 @@ class TonalRange {
             hexAlpha = "0${hexAlpha}"
         }
         return hexAlpha
+    }
+
+    def getColorValue(colorsXmlInput, colorReference) {
+        try {
+            return colorsXmlInput.findAll {
+                it.@name == colorReference
+            }*.text().get(0)
+        } catch (IndexOutOfBoundsException exception) {
+            println("invalid colorCode with colorName: " + colorReference)
+            return "@null"
+        }
     }
 
     @Override

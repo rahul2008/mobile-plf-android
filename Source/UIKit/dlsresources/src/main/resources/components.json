@@ -340,6 +340,17 @@
   {
     "state": [],
     "parent": [],
+    "context": "validated",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "tooltip-text-light"
+    },
+    "component": "tooltip"
+  },
+  {
+    "state": [],
+    "parent": [],
     "context": "secondary",
     "property": {
       "item": "background",
@@ -387,18 +398,6 @@
       "value": "quiet-toggle-on-text-disabled"
     },
     "component": "toggle-button"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "on-icon",
-      "type": "color",
-      "value": "control-primary-text"
-    },
-    "component": "check-box"
   },
   {
     "state": [
@@ -643,6 +642,30 @@
       "value": "text-primary"
     },
     "component": "toggle-switch"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-primary-text"
+    },
+    "component": "check-box"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "property": {
+      "item": "on-icon",
+      "type": "color",
+      "value": "control-primary-text"
+    },
+    "component": "check-box"
   },
   {
     "state": [],
@@ -955,6 +978,17 @@
   {
     "state": [],
     "parent": [],
+    "context": "validated",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "tooltip-validated"
+    },
+    "component": "tooltip"
+  },
+  {
+    "state": [],
+    "parent": [],
     "context": "primary",
     "property": {
       "item": "background",
@@ -1238,6 +1272,17 @@
       "value": "control-primary-focus"
     },
     "component": "button"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "validated",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "tooltip-text-light"
+    },
+    "component": "tooltip"
   },
   {
     "state": [],
@@ -2876,18 +2921,6 @@
     "component": "check-box"
   },
   {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "on-background",
-      "type": "color",
-      "value": "control-primary"
-    },
-    "component": "radio-button"
-  },
-  {
     "state": [],
     "parent": [],
     "context": "strong",
@@ -3086,5 +3119,18 @@
       "value": "quiet-toggle-off-hover"
     },
     "component": "toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-primary"
+    },
+    "component": "radio-button"
   }
 ]

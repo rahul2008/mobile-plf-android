@@ -217,9 +217,5 @@
   },
   "philips-brand": {
     "philips-blue": "#0B5ED7"
-  },
-  "default": {
-    "white": "#FFFFFF",
-    "black": "#000000"
   }
 }
