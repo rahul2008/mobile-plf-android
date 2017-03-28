@@ -9,8 +9,10 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 
 public class BTDevice {
+    private static final String TAG = "BTDevice";
     private BluetoothDevice device;
     private Handler handler;
     private BTGatt btGatt;
@@ -34,6 +36,9 @@ public class BTDevice {
         btGatt = new BTGatt(callback, handler);
         BluetoothGatt bluetoothGatt = device.connectGatt(context, autoConnect, btGatt);
         btGatt.setBluetoothGatt(bluetoothGatt);
+        if (bluetoothGatt == null) {
+            Log.e(TAG, "device.connectGatt returns null");
+        }
         return btGatt;
     }
 
