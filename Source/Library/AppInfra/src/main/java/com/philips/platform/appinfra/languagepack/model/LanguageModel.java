@@ -15,7 +15,7 @@ public class LanguageModel {
 
 	@SerializedName("remoteVersion")
 	@Expose
-	private String mRemoteVersion;
+	private String version;
 
 	@SerializedName("url")
 	@Expose
@@ -29,12 +29,12 @@ public class LanguageModel {
 		this.mLocale = locale;
 	}
 
-	public String getRemoteVersion() {
-		return mRemoteVersion;
+	public String getVersion() {
+		return version;
 	}
 
-	public void setRemoteVersion(String remoteVersion) {
-		this.mRemoteVersion = remoteVersion;
+	public void setVersion(String remoteVersion) {
+		this.version = remoteVersion;
 	}
 
 	public String getUrl() {

@@ -78,7 +78,7 @@ class LanguagePackUtil {
                 e.printStackTrace();
             }
         }
-        return new String(bytes);
+         return (bytes.length == 0 ? null : new String(bytes));
     }
 
     boolean deleteFile(String fileName) {
@@ -91,7 +91,7 @@ class LanguagePackUtil {
         try {
             JSONObject metadataJsonObject = new JSONObject();
             metadataJsonObject.put(LanguagePackConstants.LOCALE,languageModel.getLocale());
-            metadataJsonObject.put(LanguagePackConstants.VERSION,languageModel.getRemoteVersion());
+            metadataJsonObject.put(LanguagePackConstants.VERSION, languageModel.getVersion());
             metadataJsonObject.put(LanguagePackConstants.URL,languageModel.getUrl());
             saveFile(metadataJsonObject.toString(),LanguagePackConstants.LOCALE_FILE_INFO);
         } catch (JSONException e) {

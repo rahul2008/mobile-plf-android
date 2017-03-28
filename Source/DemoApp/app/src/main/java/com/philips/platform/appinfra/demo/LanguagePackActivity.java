@@ -61,7 +61,7 @@ public class LanguagePackActivity extends AppCompatActivity {
                     @Override
                     public void onError(AILPRefreshResult error, String message) {
                         Log.e("LPactivity","error "+message);
-                        overviewfileStatus.setText(error.toString() +"       "+message);
+                        overviewfileStatus.setText(error.toString());
                     }
 
                     @Override

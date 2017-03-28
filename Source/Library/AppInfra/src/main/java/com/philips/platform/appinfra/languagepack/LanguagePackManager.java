@@ -68,7 +68,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 						new Response.Listener<JSONObject>() {
 							@Override
 							public void onResponse(final JSONObject response) {
-								mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", response.toString());
+								mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_LP", response.toString());
 								languagePackHandler = getHandler(context);
 								new Thread(new Runnable() {
 									@Override
@@ -128,18 +128,39 @@ public class LanguagePackManager implements LanguagePackInterface {
 		mLanguageList = gson.fromJson(response.toString(), LanguageList.class);
 		if (null != mLanguageList) {
 			String url = getPreferredLocaleURL();
-			downloadLanguagePack(url, aILPRefreshResult);
+			boolean languagePackDownloadRequired = isLanguagePackDownloadRequired(selectedLanguageModel);
+			if (languagePackDownloadRequired) {
+				downloadLanguagePack(url, aILPRefreshResult);
+			} else {
+				languagePackHandler.post(postError(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.NoRefreshRequired, OnRefreshListener.AILPRefreshResult.NoRefreshRequired.toString()));
+			}
 		} else
-            languagePackHandler.post(postError(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.RefreshFailed, OnRefreshListener.AILPRefreshResult.RefreshFailed.toString()));
-    }
+			languagePackHandler.post(postError(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.RefreshFailed, OnRefreshListener.AILPRefreshResult.RefreshFailed.toString()));
+	}
+
+	private boolean isLanguagePackDownloadRequired(LanguageModel selectedLanguageModel) {
+		File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_INFO);
+		String json = languagePackUtil.readFile(file);
+		LanguagePackMetadata languagePackMetadata = gson.fromJson(json, LanguagePackMetadata.class);
+		if (languagePackMetadata == null) {
+			return true;
+		} else if (languagePackMetadata.getUrl().equalsIgnoreCase(selectedLanguageModel.getUrl())
+				&& languagePackMetadata.getVersion().equalsIgnoreCase(selectedLanguageModel.getVersion())
+				&& languagePackMetadata.getLocale().equalsIgnoreCase(selectedLanguageModel.getLocale())) {
+			return false;
+		}
+
+		return true;
+	}
 
 	Handler getHandler(Context context) {
 		return new Handler(context.getMainLooper());
 	}
 
     private void downloadLanguagePack(String url, final OnRefreshListener aILPRefreshResult) {
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "downloading language pack to fetch ",
+				"Language Pack Json: ");
+		JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -163,6 +184,7 @@ public class LanguagePackManager implements LanguagePackInterface {
     }
 
 	private String getLocaleList() {
+		// TODO - Need to handle when applying resolution
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 			return LocaleList.getDefault().toString();
 		} else {
@@ -179,26 +201,30 @@ public class LanguagePackManager implements LanguagePackInterface {
 			for (LanguageModel model : languageModels) {
 				if (model.getLocale().equalsIgnoreCase(deviceLocale)) {
                     selectedLanguageModel = model;
-					langModel.setRemoteVersion(model.getRemoteVersion());
+					langModel.setVersion(model.getVersion());
 					langModel.setLocale(model.getLocale());
 					langModel.setUrl(model.getUrl());
 					return model.getUrl();
-				} else if (model.getLocale().substring(0, 2).intern().equalsIgnoreCase
+				}
+				/*else if (model.getLocale().substring(0, 2).intern().equalsIgnoreCase
 						(deviceLocale.substring(0, 2).intern())) {
                     selectedLanguageModel = model;
-					langModel.setRemoteVersion(model.getRemoteVersion());
+					langModel.setVersion(model.getVersion());
 					langModel.setLocale(model.getLocale());
 					langModel.setUrl(model.getUrl());
 					return model.getUrl();
-				} else if (deviceLocale.contains(model.getLocale().substring(0, 2))) {
-                    selectedLanguageModel = model;
-					langModel.setRemoteVersion(model.getRemoteVersion());
+				} */
+				else if (deviceLocale.contains(model.getLocale().substring(0, 2))) {
+					selectedLanguageModel = model;
+					langModel.setVersion(model.getVersion());
 					langModel.setLocale(model.getLocale());
 					langModel.setUrl(model.getUrl());
 					return model.getUrl();
 				}
 
 			}
+
+			// TODO - Need to handle fallback scenarios
 		}
 
 
@@ -214,8 +240,10 @@ public class LanguagePackManager implements LanguagePackInterface {
 		File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_INFO);
 		File fileDownloaded = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
 		LanguagePackMetadata languagePackMetadata = gson.fromJson(languagePackUtil.readFile(file), LanguagePackMetadata.class);
-		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Language pack metadata info",
-				" contains : " + languagePackMetadata.getLocale() + "---" + languagePackMetadata.getUrl() + "-----" + languagePackMetadata.getVersion());
+		if (languagePackMetadata != null) {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Language pack metadata info",
+					" contains : " + languagePackMetadata.getLocale() + "---" + languagePackMetadata.getUrl() + "-----" + languagePackMetadata.getVersion());
+		}
 		onActivateListener.onSuccess(fileDownloaded.getAbsolutePath());
 	}
 
