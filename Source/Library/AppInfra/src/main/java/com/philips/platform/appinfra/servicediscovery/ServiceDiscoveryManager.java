@@ -92,14 +92,9 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 	private static final String URLTagProduction = "apps%2b%2benv%2bprod";
 
 	private static final String baseURLProduction = "www.philips.com";
-	private static final String baseURLTesting = "tst.philips.com";
-	private static final String baseURLStaging = "dev.philips.com";
-	private static final String baseURLAcceptance = "acc.philips.com";
+	private static final String baseURLStaging = "stg.philips.com";
 
-	private static final String stateTesting = "TEST";
-	private static final String stateDevelopment = "DEVELOPMENT";
 	private static final String stateStaging = "STAGING";
-	private static final String stateAccepteance = "ACCEPTANCE";
 	private static final String stateProduction = "PRODUCTION";
 
 
