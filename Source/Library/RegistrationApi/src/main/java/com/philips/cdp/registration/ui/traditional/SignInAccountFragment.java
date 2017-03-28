@@ -45,7 +45,7 @@ import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.RegistrationSettingsURL;
-import com.philips.cdp.registration.ui.customviews.XEmail;
+import com.philips.cdp.registration.ui.customviews.LoginIdEditText;
 import com.philips.cdp.registration.ui.customviews.XHavingProblems;
 import com.philips.cdp.registration.ui.customviews.XPassword;
 import com.philips.cdp.registration.ui.customviews.XRegError;
@@ -97,7 +97,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private Button mBtnResend;
 
-    private XEmail mEtEmail;
+    private LoginIdEditText mEtEmail;
 
     private XPassword mEtPassword;
 
@@ -376,7 +376,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 .findViewById(R.id.ll_reg_create_account_fields);
         mRlSignInBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_welcome_container);
 
-        mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
+        mEtEmail = (LoginIdEditText) view.findViewById(R.id.rl_reg_email_field);
         mEtEmail.checkingEmailorMobileSignIn();
         mEtEmail.setOnClickListener(this);
         mEtEmail.setOnUpdateListener(this);

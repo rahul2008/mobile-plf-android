@@ -19,7 +19,6 @@ import com.janrain.android.capture.Capture.InvalidApidChangeException;
 import com.janrain.android.capture.CaptureApiError;
 import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.RegistrationSettings;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -113,10 +112,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                             RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
                     String microSiteId = myPrefs.getString(RegistrationSettings.MICROSITE_ID, null);
 
-                    RegistrationHelper userSettings = RegistrationHelper.getInstance();
-                    // visitedMicroSites
                     try {
-
                         ServerTime.init(timeInterface);
                         String currentDate = ServerTime.getCurrentUTCTimeWithFormat(DATE_FORMAT);
                         JSONObject visitedMicroSitesObject = new JSONObject();

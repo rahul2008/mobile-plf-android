@@ -38,7 +38,7 @@ import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.XCheckBox;
-import com.philips.cdp.registration.ui.customviews.XEmail;
+import com.philips.cdp.registration.ui.customviews.LoginIdEditText;
 import com.philips.cdp.registration.ui.customviews.XPassword;
 import com.philips.cdp.registration.ui.customviews.XPasswordHint;
 import com.philips.cdp.registration.ui.customviews.XRegError;
@@ -82,7 +82,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     private XUserName mEtName;
 
-    private XEmail mEtEmail;
+    private LoginIdEditText mEtEmail;
 
     private XPassword mEtPassword;
 
@@ -346,7 +346,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         mEtName.requestFocus();
         mEtName.setOnUpdateListener(this);
-        mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
+        mEtEmail = (LoginIdEditText) view.findViewById(R.id.rl_reg_email_field);
         mEtEmail.setOnUpdateListener(this);
         mEtPassword = (XPassword) view.findViewById(R.id.rl_reg_password_field);
         mEtPassword.setOnUpdateListener(this);

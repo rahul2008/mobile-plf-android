@@ -95,7 +95,6 @@ public class MobileVerifyCodePresenterTest {
     public void testResultReceived_EmptyResult() {
         Bundle resultData = new Bundle();
         presenter.onReceiveResult(0, resultData);
-        verify(mockContract).enableVerifyButton();
         verify(mockContract).showSmsSendFailedError();
     }
 
