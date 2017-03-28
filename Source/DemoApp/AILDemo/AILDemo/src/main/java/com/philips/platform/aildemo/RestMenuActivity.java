@@ -6,8 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.philips.platform.aildemo.R;
-
 
 /**
  * Created by 310238114 on 10/20/2016.

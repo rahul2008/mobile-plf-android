@@ -19,8 +19,6 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.philips.platform.aildemo.AILDemouAppInterface;
-import com.philips.platform.aildemo.R;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.ServiceIDUrlFormatting;
 import com.philips.platform.appinfra.rest.request.ImageRequest;

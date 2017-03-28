@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.philips.platform.aildemo.R;
-
 
 /**
  * Created by 310238114 on 11/16/2016.

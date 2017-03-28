@@ -12,8 +12,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.platform.aildemo.AILDemouAppInterface;
-import com.philips.platform.aildemo.R;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
 import org.json.JSONException;

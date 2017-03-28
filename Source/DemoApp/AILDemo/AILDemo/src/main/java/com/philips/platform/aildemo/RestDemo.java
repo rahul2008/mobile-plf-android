@@ -7,7 +7,6 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.philips.platform.aildemo.AILDemouAppInterface;
 import com.philips.platform.appinfra.rest.request.StringRequest;
 
 

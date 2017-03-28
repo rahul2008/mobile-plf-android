@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.philips.platform.aildemo.R;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 
 /**
@@ -50,7 +49,7 @@ public class AbTestingDemo extends Activity {
         testName = (EditText) findViewById(R.id.tesName);
         defaultValue = (EditText) findViewById(R.id.defaultValue);
 
-        abTestingInterface = AILDemouAppInterface.mAppInfra.getAbTesting();
+        abTestingInterface =AILDemouAppInterface.mAppInfra.getAbTesting();
 
         testName.setText("philipsmobileappabtest1content");
         defaultValue.setText("Experience K");

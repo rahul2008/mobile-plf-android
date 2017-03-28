@@ -12,8 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.philips.platform.aildemo.AILDemouAppInterface;
-import com.philips.platform.aildemo.R;
 import com.philips.platform.appinfra.contentloader.ContentLoader;
 import com.philips.platform.appinfra.contentloader.model.ContentArticle;
 
@@ -81,11 +79,11 @@ public class ContentLoaderCreateActivity extends AppCompatActivity {
                             ContentType="articles";
                             break;
                         case "BeardStyle":
-                            contentClass= com.philips.platform.aildemo.BeardStyle.class;
+                            contentClass= BeardStyle.class;
                             ContentType="beardStyles";
                             break;
                         case "Asset":
-                            contentClass= com.philips.platform.aildemo.Asset.class;
+                            contentClass= Asset.class;
                             ContentType="assets";
                             break;
 
@@ -99,7 +97,7 @@ public class ContentLoaderCreateActivity extends AppCompatActivity {
                     else {
                         ContentLoaderServiceIdList.add(mContentLoader.getmServiceId());
                         ContentLoaderList.add(mContentLoader);
-                        Intent i = new Intent(ContentLoaderCreateActivity.this, com.philips.platform.aildemo.ContentLoaderList.class);
+                        Intent i = new Intent(ContentLoaderCreateActivity.this, ContentLoaderList.class);
                         startActivity(i);
                     }
                 }
@@ -109,7 +107,7 @@ public class ContentLoaderCreateActivity extends AppCompatActivity {
         existingCLs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(ContentLoaderCreateActivity.this, com.philips.platform.aildemo.ContentLoaderList.class);
+                Intent i = new Intent(ContentLoaderCreateActivity.this, ContentLoaderList.class);
                 startActivity(i);
             }
         });

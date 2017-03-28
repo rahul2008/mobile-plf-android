@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.philips.platform.aildemo.R;
 import com.philips.platform.appinfra.contentloader.ContentInterface;
 
 import java.util.List;

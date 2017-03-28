@@ -6,8 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.philips.platform.aildemo.R;
-
 
 /**
  * Created by 310238114 on 8/26/2016.
@@ -21,7 +19,7 @@ public class SecureStorageMenuActivity extends AppCompatActivity {
         secureStorageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SecureStorageMenuActivity.this, com.philips.platform.aildemo.SecureStorageActivity.class);
+                Intent intent = new Intent(SecureStorageMenuActivity.this, SecureStorageActivity.class);
                 startActivity(intent);
 
             }
@@ -38,7 +36,7 @@ public class SecureStorageMenuActivity extends AppCompatActivity {
         passWordCreationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SecureStorageMenuActivity.this,SecureStoragePasswordActivity.class);
+                Intent intent = new Intent(SecureStorageMenuActivity.this, SecureStoragePasswordActivity.class);
                 startActivity(intent);
 
             }

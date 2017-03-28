@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("aildemo", appContext.getPackageName());
+        assertEquals("appinfra.com.philips.platform.appinfra.com.philips.platform.appinfra.com.philips.platform.aildemo", appContext.getPackageName());
     }
 }

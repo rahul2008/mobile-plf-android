@@ -6,8 +6,6 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.platform.aildemo.AILDemouAppInterface;
-import com.philips.platform.aildemo.R;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;

@@ -17,14 +17,11 @@ import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.VideoView;
 
-import com.philips.platform.aildemo.AILDemouAppInterface;
-import com.philips.platform.aildemo.R;
-
 
 public class AndroidMediaPlayerExample extends Activity {
     ProgressBar progressBar = null;
     VideoView videoView = null;
-    String videoUrl = "android.resource://com.philips.platform.appinfra.demo/" + R.raw.demotagging;
+    String videoUrl = "android.resource://com.philips.platform.aildemo/" + R.raw.demotagging;
     Context context = null;
 
     @Override
@@ -35,6 +32,8 @@ public class AndroidMediaPlayerExample extends Activity {
         setContentView(R.layout.mediaplayer_demo);
         videoView = (VideoView) findViewById(R.id.videoview);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
+        int rawId = getResources().getIdentifier("demotagging", "raw", getPackageName());
+        String videoUrl = "android.resource://" + "com.philips.platform.aildemolaunch" + "/" + R.raw.demotagging;
         Uri videoUri = Uri.parse(videoUrl);
         videoView.setVideoURI(videoUri);
         MediaController mediaController = null;

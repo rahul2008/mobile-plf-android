@@ -17,8 +17,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.philips.platform.aildemo.AILDemouAppInterface;
-import com.philips.platform.aildemo.R;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.HashMap;
@@ -30,7 +28,6 @@ import java.util.HashMap;
 public class AIATDemoPage extends AppCompatActivity {
     EditText key;
     EditText value;
-
     AppTaggingInterface.SocialMedium sSocialMedium;
 
     @Override

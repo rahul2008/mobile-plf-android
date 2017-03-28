@@ -19,8 +19,6 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.philips.platform.aildemo.ContentLoaderCreateActivity;
-import com.philips.platform.aildemo.R;
 import com.philips.platform.appinfra.contentloader.ContentInterface;
 import com.philips.platform.appinfra.contentloader.ContentLoader;
 import com.philips.platform.appinfra.contentloader.ContentLoaderInterface;

@@ -17,12 +17,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.philips.platform.aildemo.AILDemouAppInterface;
-import com.philips.platform.aildemo.AILDemouAppLaunchInput;
-import com.philips.platform.aildemo.AbTestingDemo;
-import com.philips.platform.aildemo.R;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
-
 
 import java.util.ArrayList;
 
@@ -148,15 +143,15 @@ public class AppInfraMainActivity extends AppCompatActivity {
             case 0:
                /* Toast toast = Toast.makeText(getContext(), "Launch your activity here", Toast.LENGTH_SHORT);
                 toast.show();*/
-                Intent intent = new Intent(AppInfraMainActivity.this, com.philips.platform.aildemo.SecureStorageMenuActivity.class);
+                Intent intent = new Intent(AppInfraMainActivity.this, SecureStorageMenuActivity.class);
                 startActivity(intent);
                 break;
             case 1:
                 //                AppTagging.enableAppTagging(true);
 //                //Mandatory to set
 //                AppTagging.setTrackingIdentifier(ANALYTICS_APP_ID);
-//                AppTagging.init(Locale.CHINA, getActivity(), "App Framwork demo app");
-                Intent i = new Intent(AppInfraMainActivity.this, com.philips.platform.aildemo.AIATDemoPage.class);
+//                AppTagging.init(Locale.CHINA, getActivity(), "App Framwork com.philips.platform.appinfra.com.philips.platform.appinfra.com.philips.platform.aildemo app");
+                Intent i = new Intent(AppInfraMainActivity.this, AIATDemoPage.class);
                 startActivity(i);
                 break;
             case 2:
@@ -167,19 +162,19 @@ public class AppInfraMainActivity extends AppCompatActivity {
 
             case 3:
                 Intent intentAppIdentityActivity = new Intent(AppInfraMainActivity.this,
-                        com.philips.platform.aildemo.AppIndentityDemoPage.class);
+                        AppIndentityDemoPage.class);
                 startActivity(intentAppIdentityActivity);
 
                 break;
             case 4:
                 Intent intentLocalMainActivity = new Intent(AppInfraMainActivity.this,
-                        com.philips.platform.aildemo.InternationalizationDemoPage.class);
+                        InternationalizationDemoPage.class);
                 startActivity(intentLocalMainActivity);
 
                 break;
             case 5:
                 Intent intentServiceDiscoveryActivity = new Intent(AppInfraMainActivity.this,
-                        com.philips.platform.aildemo.ServiceDiscoveryDemo.class);
+                        ServiceDiscoveryDemo.class);
                 startActivity(intentServiceDiscoveryActivity);
 
                 break;
@@ -192,7 +187,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
             case 7:
 
                 Intent configActivity = new Intent(AppInfraMainActivity.this,
-                        com.philips.platform.aildemo.AppConfigurationActivity.class);
+                        AppConfigurationActivity.class);
                 startActivity(configActivity);
                 break;
 
