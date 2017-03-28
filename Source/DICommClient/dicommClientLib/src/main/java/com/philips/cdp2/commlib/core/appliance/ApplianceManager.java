@@ -138,7 +138,8 @@ public class ApplianceManager {
      * @param appliance the appliance
      */
     public <A extends Appliance> void storeAppliance(@NonNull A appliance) {
-        // TODO store, notify availableAppliances
+        // TODO
+        throw new UnsupportedOperationException("Not implemented yet.");
     }
 
     /**
@@ -147,7 +148,7 @@ public class ApplianceManager {
      * @param applianceListener the listener
      * @return true, if the listener didn't exist yet and was therefore added
      */
-    public boolean addApplianceListener(@NonNull ApplianceListener applianceListener) {
+    public <A extends Appliance> boolean addApplianceListener(@NonNull ApplianceListener<A> applianceListener) {
         return applianceListeners.add(applianceListener);
     }
 
@@ -157,12 +158,13 @@ public class ApplianceManager {
      * @param applianceListener the listener
      * @return true, if the listener was present and therefore removed
      */
-    public boolean removeApplianceListener(@NonNull ApplianceListener<Appliance> applianceListener) {
+    public <A extends Appliance> boolean removeApplianceListener(@NonNull ApplianceListener<? extends Appliance> applianceListener) {
         return applianceListeners.remove(applianceListener);
     }
 
     private void loadAppliancesFromPersistentStorage() {
-        // TODO implement
+        // TODO
+        throw new UnsupportedOperationException("Not implemented yet.");
     }
 
     private Appliance createAppliance(NetworkNode networkNode) {
