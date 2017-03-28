@@ -56,13 +56,10 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.Gender;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
-import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.URInterface;
-import com.philips.cdp.security.SecureStorage;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -685,7 +682,6 @@ public class User {
     public void refreshUser(final RefreshUserHandler handler) {
         if (networkUtility.isNetworkAvailable()) {
             new RefreshandUpdateUserHandler(mUpdateUserRecordHandler, mContext).refreshAndUpdateUser(handler, this, ABCD.getInstance().getmP());
-            //ABCD.getInstance().setmP(null);
         } else {
             handler.onRefreshUserFailed(-1);
         }

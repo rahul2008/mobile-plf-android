@@ -170,7 +170,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     public void onRefreshUserSuccess() {
         RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess");
         hideSpinner();
-        getRegistrationFragment().addFragment(new WelcomeFragment());
+        getRegistrationFragment().addFragment(new AddSecureEmailFragment());
     }
 
     @Override
