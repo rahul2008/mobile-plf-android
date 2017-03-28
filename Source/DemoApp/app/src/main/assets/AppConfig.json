@@ -21,7 +21,7 @@
   "appinfra":{
     "appidentity.micrositeId": "77001",
     "appidentity.sector": "b2c",
-    "appidentity.appState": "Acceptance",
+    "appidentity.appState": "production",
     "appidentity.serviceDiscoveryEnvironment": "production",
     "restclient.cacheSizeInKB": 51200,
     "tagging.sensitiveData": ["bundleId", "language"] ,
