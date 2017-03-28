@@ -9,8 +9,7 @@
         android:id="@+id/progressButtonsNormalDeterminate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        app:uidProgressIndicatorButtonProgress="50"/>
+        android:gravity="center"/>
 
 
     <com.philips.platform.uid.view.widget.ProgressBarButton

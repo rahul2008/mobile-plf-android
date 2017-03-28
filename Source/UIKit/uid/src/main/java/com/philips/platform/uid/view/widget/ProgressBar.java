@@ -60,7 +60,7 @@ public class ProgressBar extends android.widget.ProgressBar {
             initLinearProgressBar(theme);
         } else {
             if (isIndeterminate()) {
-                initIndeterminateCircularProgressBar(theme);
+                initIndeterminateCircularProgressBar();
             } else {
                 initCircularProgressBar(theme);
             }
@@ -103,14 +103,14 @@ public class ProgressBar extends android.widget.ProgressBar {
         setProgressDrawable(layer);
     }
 
-    private void initIndeterminateCircularProgressBar(final Theme theme) {
+    private void initIndeterminateCircularProgressBar() {
         final LayerDrawable progressBarDrawable = (LayerDrawable) getIndeterminateDrawable();
         final Drawable background = progressBarDrawable.findDrawableByLayerId(android.R.id.background);
         final Drawable progress = progressBarDrawable.findDrawableByLayerId(android.R.id.progress);
 
         final Drawable backgroundDrawable = DrawableCompat.wrap(background);
         DrawableCompat.setTint(backgroundDrawable, Color.TRANSPARENT);
-        setGradientOnProvidedDrawable((RotateDrawable) progress, theme);
+        setGradientOnProvidedDrawable((RotateDrawable) progress);
 
         final LayerDrawable layer = createCircularProgressBarLayerDrawable(progress, backgroundDrawable);
         setIndeterminateDrawable(layer);
@@ -124,7 +124,7 @@ public class ProgressBar extends android.widget.ProgressBar {
         return layer;
     }
 
-    private void setGradientOnProvidedDrawable(@NonNull final RotateDrawable progress, final Theme theme) {
+    private void setGradientOnProvidedDrawable(@NonNull final RotateDrawable progress) {
         GradientDrawable gradientDrawable = (GradientDrawable) progress.getDrawable();
         gradientDrawable.setGradientType(GradientDrawable.SWEEP_GRADIENT);
 

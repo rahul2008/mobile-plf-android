@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
-import android.support.v4.content.ContextCompat;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
@@ -27,7 +26,6 @@ import org.junit.Test;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.philips.platform.uid.test.R.color.GroupBlue45;
 
 public class PrimaryButtonWithTextOnlyTest {
 
@@ -88,14 +86,21 @@ public class PrimaryButtonWithTextOnlyTest {
 
     @Test
     public void verifyPrimaryTextOnlyButtonControlColorULTone() {
-        final int expectedColor = ContextCompat.getColor(context, GroupBlue45);
+        final int exoectedColor = UIDTestUtils.getAttributeColor(context, R.attr.uidButtonPrimaryNormalBackgroundColor);
         getPrimaryButton().check(matches(FunctionDrawableMatchers
-                .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, android.R.attr.state_enabled, expectedColor)));
+                .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, android.R.attr.state_enabled, exoectedColor)));
+    }
+
+    @Test
+    public void verifyPrimaryTextOnlyDisabledButtonFillColor() {
+        final int exoectedColor = UIDTestUtils.getAttributeColor(context, R.attr.uidButtonPrimaryDisabledBackgroundColor);
+        getPrimaryButton().check(matches(FunctionDrawableMatchers
+                .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, -android.R.attr.state_enabled, exoectedColor)));
     }
 
     @Test
     public void verifyPrimaryTextOnlyPressedButtonControlColorULTone() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlPrimaryPressed);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidButtonPrimaryPressedBackgroundColor);
 
         getPrimaryButton().check(matches(FunctionDrawableMatchers
                 .isSameColorFromColorListWithReflection(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, 0, expectedColor)));
