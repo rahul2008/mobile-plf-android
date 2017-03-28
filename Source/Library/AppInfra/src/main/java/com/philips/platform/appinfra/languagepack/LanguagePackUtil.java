@@ -22,14 +22,14 @@ class LanguagePackUtil {
         this.context = context;
     }
 
-     File getLanguagePackFilePath(String fileName) {
+    File getLanguagePackFilePath(String fileName) {
         ContextWrapper contextWrapper = new ContextWrapper(context);
-         File directory = contextWrapper.getExternalCacheDir();
+        File directory = contextWrapper.getCacheDir();
         File file = new File(directory, LanguagePackConstants.LANGUAGE_PACK_PATH);
         File jsonFile = new File(file.getPath(), fileName);
-        if(!file.exists()) {
+        if (!file.exists()) {
             boolean mkdirs = file.mkdirs();
-            if(!mkdirs) {
+            if (!mkdirs) {
                 Log.e(this.getClass() + "", "error in creating folders");
             } else {
                 try {
