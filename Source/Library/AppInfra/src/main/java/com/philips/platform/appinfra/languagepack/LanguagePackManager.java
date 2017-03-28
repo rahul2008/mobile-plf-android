@@ -240,7 +240,6 @@ public class LanguagePackManager implements LanguagePackInterface {
 
 	public void activate(final OnActivateListener onActivateListener) {
 		File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_INFO);
-		File fileDownloaded = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
 		LanguagePackMetadata languagePackMetadata = gson.fromJson(languagePackUtil.readFile(file), LanguagePackMetadata.class);
 		if (languagePackMetadata != null) {
 			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Language pack metadata info",
@@ -251,10 +250,22 @@ public class LanguagePackManager implements LanguagePackInterface {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				languagePackUtil.renameOnActivate();
-				languagePackHandler.post(postActivateSuccess(onActivateListener));
+				if (languagePackUtil.renameOnActivate()) {
+					languagePackHandler.post(postActivateSuccess(onActivateListener));
+				} else
+					languagePackHandler.post(postActivateError(onActivateListener, OnActivateListener.AILPActivateResult.REFRESH_NOT_CALLED));
 			}
 		}).start();
+	}
+
+	private Runnable postActivateError(final OnActivateListener onActivateListener, final OnActivateListener.AILPActivateResult error) {
+		return new Runnable() {
+			@Override
+			public void run() {
+				if (onActivateListener != null)
+					onActivateListener.onError(error);
+			}
+		};
 	}
 
 	private Runnable postActivateSuccess(final OnActivateListener onActivateListener) {
