@@ -105,8 +105,8 @@ public class LanguagePackManager implements LanguagePackInterface {
 	}
 
 
-    Runnable postSuccess(final OnRefreshListener aILPRefreshResult) {
-        return new Runnable() {
+	Runnable postRefreshSuccess(final OnRefreshListener aILPRefreshResult) {
+		return new Runnable() {
 			@Override
 			public void run() {
 				if (aILPRefreshResult != null)
@@ -115,8 +115,8 @@ public class LanguagePackManager implements LanguagePackInterface {
 		};
     }
 
-    Runnable postError(final OnRefreshListener aILPRefreshResult, final OnRefreshListener.AILPRefreshResult ailpRefreshResult, final String errorDescription) {
-        return new Runnable() {
+	Runnable postRefreshError(final OnRefreshListener aILPRefreshResult, final OnRefreshListener.AILPRefreshResult ailpRefreshResult, final String errorDescription) {
+		return new Runnable() {
             @Override
             public void run() {
                 if (aILPRefreshResult != null)
@@ -133,10 +133,10 @@ public class LanguagePackManager implements LanguagePackInterface {
 			if (languagePackDownloadRequired) {
 				downloadLanguagePack(url, aILPRefreshResult);
 			} else {
-				languagePackHandler.post(postError(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.NoRefreshRequired, OnRefreshListener.AILPRefreshResult.NoRefreshRequired.toString()));
+				languagePackHandler.post(postRefreshError(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.NoRefreshRequired, OnRefreshListener.AILPRefreshResult.NoRefreshRequired.toString()));
 			}
 		} else
-			languagePackHandler.post(postError(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.RefreshFailed, OnRefreshListener.AILPRefreshResult.RefreshFailed.toString()));
+			languagePackHandler.post(postRefreshError(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.RefreshFailed, OnRefreshListener.AILPRefreshResult.RefreshFailed.toString()));
 	}
 
 	private boolean isLanguagePackDownloadRequired(LanguageModel selectedLanguageModel) {
@@ -170,17 +170,17 @@ public class LanguagePackManager implements LanguagePackInterface {
                         languagePackUtil.saveFile(response.toString(), LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
                         languagePackUtil.saveLocaleMetaData(selectedLanguageModel);
 						languagePackUtil.deleteFile(LanguagePackConstants.LOCALE_FILE_ACTIVATED);
-						languagePackHandler.post(postSuccess(aILPRefreshResult));
-                    }
+						languagePackHandler.post(postRefreshSuccess(aILPRefreshResult));
+					}
                 }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
-                String errMsg = " Error Code:" + errorcode + " , Error Message:" + error.toString();
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", errMsg);
-                languagePackHandler.post(postError(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.RefreshFailed, errMsg));
-            }
+				String errorCode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
+				String errMsg = " Error Code:" + errorCode + " , Error Message:" + error.toString();
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", errMsg);
+				languagePackHandler.post(postRefreshError(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.RefreshFailed, errMsg));
+			}
         }, null, null, null);
         mRestInterface.getRequestQueue().add(jsonObjectRequest);
     }
