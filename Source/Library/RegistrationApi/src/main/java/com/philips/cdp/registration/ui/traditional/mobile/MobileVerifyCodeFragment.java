@@ -43,8 +43,6 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
-import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,7 +66,7 @@ import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SUCCES
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.TECHNICAL_ERROR;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.USER_ERROR;
 
-public class MobileVerifyCodeFragment extends RegistrationBaseFragment implements MobileVerifyCodeContract, RefreshUserHandler, HttpClientServiceReceiver.Listener, OnUpdateListener {
+public class MobileVerifyCodeFragment extends RegistrationBaseFragment implements MobileVerifyCodeContract, RefreshUserHandler, OnUpdateListener {
 
     @Inject
     ServiceDiscoveryInterface serviceDiscoveryInterface;
@@ -152,37 +150,9 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     private void updateUiStatus() {
         if (otpEditTextAndResendButton.getNumber().length() >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH) {
-            verifyButton.setEnabled(true);
+            enableVerifyButton();
         } else {
-            verifyButton.setEnabled(false);
-        }
-    }
-
-    @Override
-    public void onReceiveResult(int resultCode, Bundle resultData) {
-            otpEditTextAndResendButton.setEnabled(false);
-            handleResendSMSRespone("response");
-    }
-
-    private void handleResendSMSRespone(String response) {
-        try {
-            JSONObject jsonObject = new JSONObject(response);
-            if (jsonObject.getString("errorCode").toString().equals("0")) {
-                otpEditTextAndResendButton.setEnabled(true);
-                trackMultipleActionsOnMobileSuccess();
-                otpEditTextAndResendButton.hideResendSpinner();
-                handleResendVerificationEmailSuccess();
-            } else {
-                trackActionStatus(SEND_DATA, TECHNICAL_ERROR, MOBILE_RESEND_SMS_VERFICATION_FAILURE);
-                String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode").toString(), context);
-                otpEditTextAndResendButton.hideResendSpinner();
-                RLog.i("MobileVerifyCodeFragment ", " SMS Resend failure = " + response);
-                otpEditTextAndResendButton.showEmailIsInvalidAlert();
-                otpEditTextAndResendButton.setErrDescription(errorMsg);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            disableVerifyButton();
         }
     }
 
@@ -211,7 +181,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     private void hideSpinner() {
         spinnerProgress.setVisibility(GONE);
-        verifyButton.setEnabled(true);
+        enableVerifyButton();
     }
 
     @Override
@@ -231,7 +201,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @OnClick(B.id.btn_reg_Verify)
     public void verifyClicked() {
         spinnerProgress.setVisibility(View.VISIBLE);
-        verifyButton.setEnabled(false);
+        disableVerifyButton();
         otpEditTextAndResendButton.disableResendSpinner();
         mobileVerifyCodePresenter.verifyMobileNumber(user.getJanrainUUID(), otpEditTextAndResendButton.getNumber());
     }
@@ -239,7 +209,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @OnClick(B.id.rl_reg_name_field)
     public void resendButtonClicked() {
         otpEditTextAndResendButton.showResendSpinner();
-        verifyButton.setEnabled(false);
+        disableVerifyButton();
         spinnerProgress.setVisibility(GONE);
         otpEditTextAndResendButton.showValidEmailAlert();
         mobileVerifyCodePresenter.resendOTPRequest(user.getMobile());

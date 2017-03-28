@@ -144,8 +144,6 @@ public class MobileVerifyCodePresenter implements HttpClientServiceReceiver.List
 
     @Override
     public void onReceiveResult(int resultCode, Bundle resultData) {
-        System.out.println("onReceiveResult " + resultCode);
-        mobileVerifyCodeContract.enableVerifyButton();
         String response = resultData.getString(HTTP_SERVICE_RESPONSE);
         if (response == null || response.isEmpty()) {
             mobileVerifyCodeContract.showSmsSendFailedError();
@@ -158,6 +156,7 @@ public class MobileVerifyCodePresenter implements HttpClientServiceReceiver.List
 
         if(resultCode == RESEND_OTP_REQUEST_CODE) {
             handleResendSms(response);
+            startResendTimer();
         }
     }
 
