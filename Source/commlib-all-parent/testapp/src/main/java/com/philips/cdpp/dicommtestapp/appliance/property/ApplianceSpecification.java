@@ -3,8 +3,7 @@ package com.philips.cdpp.dicommtestapp.appliance.property;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ApplianceSpecification
-{
+public class ApplianceSpecification {
     private String deviceName;
     private String modelNumber;
     private List<PortSpecification> portSpecifications;

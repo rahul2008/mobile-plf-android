@@ -57,6 +57,7 @@ public class DeviceDiscoveryFragment extends SampleAppFragment<GenericAppliance>
             updateDiscoveredDeviceList();
         }
     };
+
     private CommStrategy mUsedStrategy;
 
     public DeviceDiscoveryFragment() {
@@ -64,13 +65,11 @@ public class DeviceDiscoveryFragment extends SampleAppFragment<GenericAppliance>
     }
 
     public static DeviceDiscoveryFragment newInstance() {
-
         Bundle args = new Bundle();
         DeviceDiscoveryFragment fragment = new DeviceDiscoveryFragment();
         fragment.setArguments(args);
         return fragment;
     }
-
 
     @Override
     Presenter getListPresenter() {
@@ -88,7 +87,10 @@ public class DeviceDiscoveryFragment extends SampleAppFragment<GenericAppliance>
         CommCentral commCentral = service.getCommCentral();
 
         String subtitleMsg;
-        if(commCentral != null) {
+        if(commCentral == null) {
+            subtitleMsg = "Error selecting strategy";
+        }
+        else {
             updateDiscoveredDeviceList();
 
             // TODO Update when CommLib Discovery moves away from DiscoveryManager
@@ -97,8 +99,6 @@ public class DeviceDiscoveryFragment extends SampleAppFragment<GenericAppliance>
             startDiscovery(commCentral);
 
             subtitleMsg = String.format("Using %s as TransportContext", mUsedStrategy.getType().value());
-        } else {
-            subtitleMsg = "Error selecting strategy";
         }
 
         titleView.setText(getString(R.string.device_discovery_title_message));
@@ -106,17 +106,19 @@ public class DeviceDiscoveryFragment extends SampleAppFragment<GenericAppliance>
     }
 
     private void startDiscovery(CommCentral commCentral) {
-        if(mUsedStrategy.getType() == CommStrategy.CommStrategyType.LAN) {
-            // WiFi discovery
-            DiscoveryManager.getInstance().start();
-        }
-        else if(mUsedStrategy.getType() == CommStrategy.CommStrategyType.BLE) {
-            // Bluetooth discovery
-            startScanning(commCentral, getMainActivity());
-        }
-        else {
-            // None
-            Log.wtf(TAG, "Non-existing strategy chosen. Unable to start scanning");
+        switch(mUsedStrategy.getType()) {
+            case LAN:
+                // WiFi discovery
+                DiscoveryManager.getInstance().start();
+                break;
+            case BLE:
+                // Bluetooth discovery
+                startScanning(commCentral, getMainActivity());
+                break;
+            default:
+                // None
+                Log.wtf(TAG, "Non-existing strategy chosen. Unable to start scanning");
+                break;
         }
     }
 
@@ -147,16 +149,20 @@ public class DeviceDiscoveryFragment extends SampleAppFragment<GenericAppliance>
             @Override
             public void run() {
                 List<? extends Appliance> availableAppliances;
-                if(mUsedStrategy.getType() == CommStrategy.CommStrategyType.BLE) {
-                    // BLE devices in CommCentral
-                    CommCentral central = getConnectionService().getCommCentral();
-                    Set<? extends Appliance> bleAppliances = central.getApplianceManager().getAvailableAppliances();
-                    availableAppliances = convertToList(bleAppliances);
-                } else if(mUsedStrategy.getType() == CommStrategy.CommStrategyType.LAN){
-                    // LAN devices in DiscoveryManager
-                    availableAppliances = DiscoveryManager.getInstance().getAllDiscoveredAppliances();
-                } else {
-                    availableAppliances = null;
+                switch (mUsedStrategy.getType()) {
+                    case BLE:
+                        // BLE devices in CommCentral
+                        CommCentral central = getConnectionService().getCommCentral();
+                        Set<? extends Appliance> bleAppliances = central.getApplianceManager().getAvailableAppliances();
+                        availableAppliances = convertToList(bleAppliances);
+                        break;
+                    case LAN:
+                        // LAN devices in DiscoveryManager
+                        availableAppliances = DiscoveryManager.getInstance().getAllDiscoveredAppliances();
+                        break;
+                    default:
+                        availableAppliances = null;
+                        break;
                 }
 
                 if(availableAppliances == null) {

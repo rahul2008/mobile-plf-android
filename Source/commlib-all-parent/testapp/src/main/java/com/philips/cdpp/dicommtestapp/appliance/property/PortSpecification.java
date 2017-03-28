@@ -37,8 +37,8 @@ public class PortSpecification {
         properties.add(property);
     }
 
-    public void setSubscriptionSupport(boolean doesSupport) {
-        this.supportsSubscription = doesSupport;
+    public void isSubscriptionSupported(boolean isSupported) {
+        this.supportsSubscription = isSupported;
     }
 
     public List<Property> getProperties() {

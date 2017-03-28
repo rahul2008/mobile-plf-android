@@ -1,5 +1,7 @@
 package com.philips.cdpp.dicommtestapp.appliance.property;
 
+import android.text.TextUtils;
+
 public class Property
 {
     private String name;
@@ -42,7 +44,7 @@ public class Property
     }
 
     public String getValueText() {
-        if(valueText == null) {
+        if(TextUtils.isEmpty(valueText)) {
             return "";
         }
         return valueText;

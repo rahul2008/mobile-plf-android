@@ -1,7 +1,5 @@
 package com.philips.cdpp.dicommtestapp;
 
-import android.util.Log;
-
 import com.philips.cdpp.dicommtestapp.appliance.property.ApplianceSpecification;
 import com.philips.cdpp.dicommtestapp.appliance.property.PortSpecification;
 import com.philips.cdpp.dicommtestapp.appliance.property.Property;
@@ -68,14 +66,14 @@ public class SupportedAppliances
         PortSpecification userPortSpec = new PortSpecification();
         userPortSpec.setName("userinfo");
         userPortSpec.setProductID(0);
-        userPortSpec.setSubscriptionSupport(true);
+        userPortSpec.isSubscriptionSupported(true);
         userPortSpec.addProperty(useridsProp);
 
         Property climateProp = new Property("Climate", "climate", PropertyType.ARRAY);
         PortSpecification climatePortSpec = new PortSpecification();
         climatePortSpec.setName("climate");
         climatePortSpec.setProductID(1);
-        climatePortSpec.setSubscriptionSupport(true);
+        climatePortSpec.isSubscriptionSupported(true);
         climatePortSpec.addProperty(climateProp);
 
         ApplianceSpecification scd860 = new ApplianceSpecification();
@@ -119,7 +117,7 @@ public class SupportedAppliances
         PortSpecification userPortSpec = new PortSpecification();
         userPortSpec.setName("userinfo");
         userPortSpec.setProductID(0);
-        userPortSpec.setSubscriptionSupport(true);
+        userPortSpec.isSubscriptionSupported(true);
         userPortSpec.addProperty(useridsProp);
 
         ApplianceSpecification ac1214 = new ApplianceSpecification();
@@ -136,7 +134,7 @@ public class SupportedAppliances
         PortSpecification airPort = new PortSpecification();
         airPort.setName("air");
         airPort.setProductID(1);
-        airPort.setSubscriptionSupport(true);
+        airPort.isSubscriptionSupported(true);
         airPort.addProperty(aqilProp);
 
         ApplianceSpecification ac2889 = new ApplianceSpecification();
@@ -151,7 +149,7 @@ public class SupportedAppliances
         PortSpecification devicePort = new PortSpecification();
         devicePort.setName("device");
         devicePort.setProductID(1);
-        devicePort.setSubscriptionSupport(true);
+        devicePort.isSubscriptionSupported(true);
 
         Property nameProp = new Property("Name", "name", PropertyType.STRING);
         devicePort.addProperty(nameProp);
@@ -172,7 +170,7 @@ public class SupportedAppliances
         PortSpecification wifiPort = new PortSpecification();
         wifiPort.setName("wifi");
         wifiPort.setProductID(0);
-        wifiPort.setSubscriptionSupport(false);
+        wifiPort.isSubscriptionSupported(false);
 
         Property netmaskProp = new Property("Netmask", "netmask", PropertyType.STRING);
         wifiPort.addProperty(netmaskProp);
@@ -208,7 +206,7 @@ public class SupportedAppliances
         PortSpecification firmwarePort = new PortSpecification();
         firmwarePort.setName("firmware");
         firmwarePort.setProductID(0);
-        firmwarePort.setSubscriptionSupport(false);
+        firmwarePort.isSubscriptionSupported(false);
 
         Property mandatoryProp = new Property("Mandatory", "mandatory", PropertyType.BOOL);
         firmwarePort.addProperty(mandatoryProp);
@@ -238,7 +236,7 @@ public class SupportedAppliances
         PortSpecification wifiPort = new PortSpecification();
         wifiPort.setName("security");
         wifiPort.setProductID(0);
-        wifiPort.setSubscriptionSupport(true);
+        wifiPort.isSubscriptionSupported(true);
 
         return wifiPort;
     }
