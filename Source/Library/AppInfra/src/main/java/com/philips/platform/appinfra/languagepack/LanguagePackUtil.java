@@ -24,7 +24,7 @@ class LanguagePackUtil {
 
      File getLanguagePackFilePath(String fileName) {
         ContextWrapper contextWrapper = new ContextWrapper(context);
-        File directory = contextWrapper.getCacheDir();
+         File directory = contextWrapper.getExternalCacheDir();
         File file = new File(directory, LanguagePackConstants.LANGUAGE_PACK_PATH);
         File jsonFile = new File(file.getPath(), fileName);
         if(!file.exists()) {
@@ -100,4 +100,12 @@ class LanguagePackUtil {
     }
 
 
+    boolean renameOnActivate() {
+        File from = getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
+        File to = new File(getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_ACTIVATED), "");
+        if (from.exists()) {
+            return from.renameTo(to);
+        }
+        return false;
+    }
 }

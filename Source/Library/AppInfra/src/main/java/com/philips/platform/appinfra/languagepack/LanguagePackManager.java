@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static com.philips.platform.appinfra.languagepack.LanguagePackConstants.LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY;
+import static com.philips.platform.appinfra.languagepack.LanguagePackConstants.LOCALE_FILE_ACTIVATED;
 
 
 public class LanguagePackManager implements LanguagePackInterface {
@@ -168,7 +169,8 @@ public class LanguagePackManager implements LanguagePackInterface {
                                 "Language Pack Json: " + response.toString());
                         languagePackUtil.saveFile(response.toString(), LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
                         languagePackUtil.saveLocaleMetaData(selectedLanguageModel);
-                        languagePackHandler.post(postSuccess(aILPRefreshResult));
+						languagePackUtil.deleteFile(LanguagePackConstants.LOCALE_FILE_ACTIVATED);
+						languagePackHandler.post(postSuccess(aILPRefreshResult));
                     }
                 }, new Response.ErrorListener() {
 
@@ -236,7 +238,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 		return null;
 	}
 
-	public void activate(OnActivateListener onActivateListener) {
+	public void activate(final OnActivateListener onActivateListener) {
 		File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_INFO);
 		File fileDownloaded = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
 		LanguagePackMetadata languagePackMetadata = gson.fromJson(languagePackUtil.readFile(file), LanguagePackMetadata.class);
@@ -244,7 +246,25 @@ public class LanguagePackManager implements LanguagePackInterface {
 			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Language pack metadata info",
 					" contains : " + languagePackMetadata.getLocale() + "---" + languagePackMetadata.getUrl() + "-----" + languagePackMetadata.getVersion());
 		}
-		onActivateListener.onSuccess(fileDownloaded.getAbsolutePath());
+
+		languagePackHandler = getHandler(context);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				languagePackUtil.renameOnActivate();
+				languagePackHandler.post(postActivateSuccess(onActivateListener));
+			}
+		}).start();
+	}
+
+	private Runnable postActivateSuccess(final OnActivateListener onActivateListener) {
+		return new Runnable() {
+			@Override
+			public void run() {
+				if (onActivateListener != null)
+					onActivateListener.onSuccess(languagePackUtil.getLanguagePackFilePath(LOCALE_FILE_ACTIVATED).getAbsolutePath());
+			}
+		};
 	}
 
 }
