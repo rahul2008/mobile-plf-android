@@ -64,9 +64,8 @@ public class ConfigValues {
 				"\t\t\t\t\"locale\": \"en_IN\",\n" +
 				"\t\t\t\t\"configs\": [{\n" +
 				"\t\t\t\t\t\"micrositeId\": \"77001\",\n" +
-				"\t\t\t\t\t\"urls\": {\n" +
-				"\t\t\t\t\t\t\"appinfra.testing.service\": \"https://dev.appinfra.testing.service/en_IN/B2C/77001\",\n" +
-				"\t\t\t\t\t\t\"appinfra.testing.identity.service\": \"https://dev.appinfra.testing.identity.service/en_IN/B2C/77001\",\n" +
+                "\t\t\t\t\t\"urls\": {\n" + "\t\t\t\t\t\t\"appinfra.testing.service\": \"https://dev.appinfra.testing.service/en_IN/B2C/77001\",\n" +
+                "\t\t\t\t\t\t\"appinfra.testing.identity.service\": \"https://dev.appinfra.testing.identity.service/en_IN/B2C/77001\",\n" +
 				"\t\t\t\t\t\t\"appinfra.testing.configuration.service\": \"https://dev.appinfra.testing.configuration.service/en_IN/B2C/77001\",\n" +
 				"\t\t\t\t\t\t\"appinfra.testing.discovery.service\": \"https://www.philips.com/api/v1/discovery/b2c/77001?locale=en_IN&country=IN&testappstate=apps%2b%2benv%2bdev\"\n" +
 				"\t\t\t\t\t},\n" +
