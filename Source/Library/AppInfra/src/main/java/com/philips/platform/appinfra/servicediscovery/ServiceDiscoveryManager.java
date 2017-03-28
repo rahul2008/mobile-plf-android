@@ -211,10 +211,11 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 			String country = fetchFromSecureStorage(COUNTRY);
 			String countrySource = fetchFromSecureStorage(COUNTRY_SOURCE);
 			if (country == null) {
-				if (countrySource == null)
+				if (countrySource == null){
 					countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
+					saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
+				}
 				saveToSecureStore(propositionService.getCountry(), COUNTRY);
-				saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
 			}
 			platformService = downloadPlatformService();
 		}
@@ -713,7 +714,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 				queueResultListener(false, new DownloadItemListener() {
 					@Override
 					public void onDownloadDone(AISDResponse result) {
-						if (result != null) {
+						if (result != null && result.isSuccess()) {
 							String country = result.getCountryCode();
 							if (country != null) {
 								if (countryCodeSource == null)
