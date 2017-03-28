@@ -165,16 +165,16 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                         configError.setErrorCode(null);// reset error code to null
                         object = getKey(key, group, configError, getStaticConfigJsonCache()); // Level 3 search in static config
                         if (configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.NoError) { //if key is found in cloud config
-                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "uAppConfig", "key found in static config");
+                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "uAppConfig", "key found in static config");
                         }
                     } else {
                         if (configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.NoError) { //if key is found in cloud config
-                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "uAppConfig", "key found in cloud config");
+                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "uAppConfig", "key found in cloud config");
                         }
                     }
                 } else {
                     if (configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.NoError) { //if key is found in dynamic config
-                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "uAppConfig", "key found in dynamic config");
+                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "uAppConfig", "key found in dynamic config");
                     }
                 }
             } catch (Exception e) {
