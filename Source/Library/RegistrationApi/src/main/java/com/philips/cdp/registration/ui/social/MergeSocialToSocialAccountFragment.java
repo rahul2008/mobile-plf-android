@@ -331,7 +331,8 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         }else {
             emailorMobile =mUser.getMobile();
         }
-        if (emailorMobile != null && RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && !RegPreferenceUtility.getStoredState(mContext, emailorMobile)) {
+        if (emailorMobile != null && RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() &&
+                !RegPreferenceUtility.getStoredState(mContext, emailorMobile) || !mUser.getReceiveMarketingEmail()) {
             launchAlmostDoneForTermsAcceptanceFragment();
             return;
         }

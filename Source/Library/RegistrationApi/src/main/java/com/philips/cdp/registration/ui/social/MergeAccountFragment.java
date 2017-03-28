@@ -364,7 +364,16 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
         });
     }
 
+    private void launchAlmostDoneScreen() {
+        getRegistrationFragment().addAlmostDoneFragmentforTermsAcceptance();
+        trackPage(AppTaggingPages.ALMOST_DONE);
+    }
+
     private void launchWelcomeFragment() {
+        if(!mUser.getReceiveMarketingEmail()){
+            launchAlmostDoneScreen();
+            return;
+        }
         getRegistrationFragment().addWelcomeFragmentOnVerification();
         trackPage(AppTaggingPages.WELCOME);
     }
