@@ -202,39 +202,31 @@ public class LanguagePackManager implements LanguagePackInterface {
 		for (String deviceLocale : deviceLocaleList) {
 			for (LanguageModel model : languageModels) {
 				if (model.getLocale().equalsIgnoreCase(deviceLocale)) {
-                    selectedLanguageModel = model;
-					langModel.setVersion(model.getVersion());
-					langModel.setLocale(model.getLocale());
-					langModel.setUrl(model.getUrl());
-					return model.getUrl();
-				}
-				/*else if (model.getLocale().substring(0, 2).intern().equalsIgnoreCase
-						(deviceLocale.substring(0, 2).intern())) {
-                    selectedLanguageModel = model;
-					langModel.setVersion(model.getVersion());
-					langModel.setLocale(model.getLocale());
-					langModel.setUrl(model.getUrl());
-					return model.getUrl();
-				} */
-				else if (deviceLocale.contains(model.getLocale().substring(0, 2))) {
 					selectedLanguageModel = model;
 					langModel.setVersion(model.getVersion());
 					langModel.setLocale(model.getLocale());
 					langModel.setUrl(model.getUrl());
 					return model.getUrl();
 				}
-
+			}
+			for (LanguageModel model : languageModels) {
+				if (deviceLocale.contains(model.getLocale().substring(0, 2))) {
+					selectedLanguageModel = model;
+					langModel.setVersion(model.getVersion());
+					langModel.setLocale(model.getLocale());
+					langModel.setUrl(model.getUrl());
+					return model.getUrl();
+				}
 			}
 
 			// TODO - Need to handle fallback scenarios
 		}
-
-
-		//	String defaultlocale = new String("en_GB");
-//		if (languageModels.contains(defaultlocale)) {
-//			int index = languageModels.indexOf("en_GB");
-//			return languageModels.get(index).getUrl();
-//		}
+		LanguageModel defaultLocale = getDefaultLocale();
+		if (languageModels.contains(defaultLocale)) {
+			int index = languageModels.indexOf(defaultLocale);
+			selectedLanguageModel = languageModels.get(index);
+			return languageModels.get(index).getUrl();
+		}
 		return null;
 	}
 
@@ -279,4 +271,9 @@ public class LanguagePackManager implements LanguagePackInterface {
 		};
 	}
 
+	private LanguageModel getDefaultLocale() {
+		LanguageModel defaultLocale = new LanguageModel();
+		defaultLocale.setLocale("en_GB");
+		return defaultLocale;
+	}
 }
