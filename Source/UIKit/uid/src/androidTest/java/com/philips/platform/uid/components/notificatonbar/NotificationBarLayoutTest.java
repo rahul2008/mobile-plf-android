@@ -139,8 +139,9 @@ public class NotificationBarLayoutTest extends BaseTest {
         int expectedSize = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.notification_bar_general_margin);
         getNotificationCloseButton().check(matches(ViewPropertiesMatchers.isSameTopPadding(expectedSize)));
     }
+
     @Test
-    public void verifyNotificationIconBottomadding() {
+    public void verifyNotificationIconBottomPadding() {
         int expectedSize = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.notification_bar_general_margin);
         getNotificationCloseButton().check(matches(ViewPropertiesMatchers.isSameBottomPadding(expectedSize)));
     }
