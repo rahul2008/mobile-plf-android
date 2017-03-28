@@ -5,6 +5,7 @@
 package com.philips.cdp2.commlib.core.port.firmware.util;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.dicommclient.request.Error;
@@ -57,7 +58,13 @@ public class FirmwareUploader {
         this.communicationStrategy = communicationStrategy;
         this.firmwareData = firmwareData;
         this.listener = listener;
-        this.executor = Executors.newSingleThreadExecutor();
+        this.executor = createExecutor();
+    }
+
+    @NonNull
+    @VisibleForTesting
+    ExecutorService createExecutor() {
+        return Executors.newSingleThreadExecutor();
     }
 
     public void start() {

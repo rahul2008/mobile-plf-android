@@ -4,6 +4,8 @@
  */
 package com.philips.cdp2.commlib.core.port.firmware.util;
 
+import android.support.annotation.NonNull;
+
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.GsonProvider;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
@@ -23,7 +25,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 import static com.philips.cdp.dicommclient.util.DICommLog.disableLogging;
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortKey.PROGRESS;
@@ -34,10 +39,14 @@ import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class FirmwareUploaderTest {
+
+    @Mock
+    private ExecutorService executorMock;
 
     @Mock
     private CommunicationStrategy mockCommunicationStrategy;
@@ -68,6 +77,16 @@ public class FirmwareUploaderTest {
         initMocks(this);
         disableLogging();
 
+        doAnswer(new Answer<Future<Void>>() {
+            @Override
+            public Future<Void> answer(InvocationOnMock invocation) throws Throwable {
+                Callable<Void> callable = invocation.getArgumentAt(0, Callable.class);
+                callable.call();
+
+                return mock(Future.class);
+            }
+        }).when(executorMock).submit(any(Callable.class));
+
         when(mockFirmwarePort.getPortProperties()).thenReturn(mockPortProperties);
         when(mockPortProperties.getMaxChunkSize()).thenReturn(1);
 
@@ -80,7 +99,13 @@ public class FirmwareUploaderTest {
             }
         }).when(mockCommunicationStrategy).putProperties(any(Map.class), anyString(), anyInt(), any(ResponseHandler.class));
 
-        uploaderUnderTest = new FirmwareUploader(mockFirmwarePort, mockCommunicationStrategy, firmwaredata, mockUploadListener);
+        uploaderUnderTest = new FirmwareUploader(mockFirmwarePort, mockCommunicationStrategy, firmwaredata, mockUploadListener) {
+            @NonNull
+            @Override
+            ExecutorService createExecutor() {
+                return executorMock;
+            }
+        };
     }
 
     @Test
