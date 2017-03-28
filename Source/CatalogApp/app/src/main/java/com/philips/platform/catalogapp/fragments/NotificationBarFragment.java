@@ -41,7 +41,7 @@ public class NotificationBarFragment extends BaseFragment {
         FragmentNotificationBarBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_notification_bar, container, false);
         binding.setFragment(this);
         showHideNotification = binding.showHideNotification;
-        createPopUPWindow(getActivity());
+        createPopUpWindow(getActivity());
 
         if (savedInstanceState != null) {
             wasPopUPShowing = savedInstanceState.getBoolean("popupshowing");
@@ -87,7 +87,7 @@ public class NotificationBarFragment extends BaseFragment {
         dismissPopUp();
     }
 
-    private void createPopUPWindow(Context context) {
+    private void createPopUpWindow(Context context) {
         View view = getNotificationContentView(context);
         popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
