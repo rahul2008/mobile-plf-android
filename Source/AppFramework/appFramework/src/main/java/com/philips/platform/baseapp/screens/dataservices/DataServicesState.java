@@ -70,8 +70,6 @@ public class DataServicesState extends BaseState {
      */
     @Override
     public void navigate(final UiLauncher uiLauncher) {
-        AppFrameworkApplication appContext = (AppFrameworkApplication) ((AppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).getApplicationContext();
-
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         ((AppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).
                 handleFragmentBackStack(new TemperatureTimeLineFragment(), TemperatureTimeLineFragment.TAG, getUiStateData().getFragmentLaunchState());
