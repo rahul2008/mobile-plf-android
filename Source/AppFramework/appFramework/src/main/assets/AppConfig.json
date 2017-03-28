@@ -17,7 +17,7 @@
     "ShowCountrySelection":"true"
   },
   "IAP": {
-    "hostport": "dev.occ.shop.philips.com",
+    "hostport": "acc.occ.shop.philips.com",
     "propositionid": "Tuscany2016"
   },
   "appinfra": {
