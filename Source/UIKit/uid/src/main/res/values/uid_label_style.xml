@@ -4,6 +4,7 @@
     <style name="UIDLabel">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="uidLabelTextSize">@dimen/uid_label_text_size</item>
+        <item name="android:textColor">?attr/uidLabelRegularNormalTextColor</item>
     </style>
 
     <style name="UIDLabel.MarginTop">

@@ -7,9 +7,6 @@
         <item name="colorAccent">?attr/uidDatePickerAndroidNormalHeaderBackgroundColor</item>
         <item name="android:textColorPrimary">?attr/uidDatePickerAndroidNormalContentTextColor
         </item>
-        <item name="android:windowBackground">
-            ?attr/uidDatePickerAndroidNormalHeaderBackgroundColor
-        </item>
         <item name="android:calendarViewStyle">@style/UIDCalendarViewStyle</item>
         <item name="android:datePickerStyle">@style/UIDDatePicker</item>
         <item name="android:buttonBarPositiveButtonStyle">@style/UIDCalendarButtonStyle</item>
