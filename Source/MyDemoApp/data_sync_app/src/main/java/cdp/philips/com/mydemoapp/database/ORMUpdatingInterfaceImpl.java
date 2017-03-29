@@ -43,7 +43,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public void updateSettings(Settings settings, DBRequestListener dbRequestListener) {
+    public void updateSettings(Settings settings, DBRequestListener<Settings> dbRequestListener) {
         try {
             OrmSettings ormSettings = OrmTypeChecking.checkOrmType(settings, OrmSettings.class);
 
@@ -95,7 +95,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public void updateMoment(final Moment moment, DBRequestListener dbRequestListener) throws SQLException {
+    public void updateMoment(final Moment moment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
 
         OrmMoment ormMoment = getOrmMoment(moment, dbRequestListener);
         if (ormMoment == null) {
@@ -117,7 +117,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         return isUpdated;
     }
 
-    public OrmMoment getOrmMoment(final Moment moment, DBRequestListener dbRequestListener) {
+    public OrmMoment getOrmMoment(final Moment moment, DBRequestListener<Moment> dbRequestListener) {
         try {
             return OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
         } catch (OrmTypeChecking.OrmTypeException e) {

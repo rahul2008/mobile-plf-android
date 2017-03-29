@@ -45,7 +45,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     }
 
     @Override
-    public boolean saveMoment(final Moment moment, DBRequestListener dbRequestListener) throws SQLException {
+    public boolean saveMoment(final Moment moment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
         OrmMoment ormMoment = null;
         try {
             ormMoment = OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
@@ -108,7 +108,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     }
 
     @Override
-    public boolean saveSettings(Settings settings, DBRequestListener dbRequestListener) throws SQLException {
+    public boolean saveSettings(Settings settings, DBRequestListener<Settings> dbRequestListener) throws SQLException {
 
         try {
             deleting.deleteSettings();
@@ -123,7 +123,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
     }
 
-    private void updateUCUI(List<Characteristics> characteristicsList, DBRequestListener dbRequestListener) {
+    private void updateUCUI(List<Characteristics> characteristicsList, DBRequestListener<Characteristics> dbRequestListener) {
         if (dbRequestListener == null) {
             return;
         }

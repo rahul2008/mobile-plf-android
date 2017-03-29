@@ -55,7 +55,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
-    public void markAsInActive(final Moment moment, DBRequestListener dbRequestListener) throws SQLException {
+    public void markAsInActive(final Moment moment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
         if (isMomentSyncedToBackend(moment)) {
             prepareMomentForDeletion(moment, dbRequestListener);
         } else {
@@ -99,7 +99,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
-    public void deleteMeasurementGroup(Moment moment, DBRequestListener dbRequestListener) throws SQLException {
+    public void deleteMeasurementGroup(Moment moment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
         ormDeleting.deleteMeasurementGroups((OrmMoment) moment);
     }
 
@@ -109,7 +109,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
-    public void deleteAllMoments(DBRequestListener dbRequestListener) throws SQLException {
+    public void deleteAllMoments(DBRequestListener<Moment> dbRequestListener) throws SQLException {
         List<? extends Moment> moments = fetching.fetchMoments(null);
         markMomentsAsInActive((List<Moment>) moments, dbRequestListener);
     }
@@ -118,11 +118,11 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         return moment.getSynchronisationData() != null;
     }
 
-    private void saveMoment(final Moment moment, DBRequestListener dbRequestListener) throws SQLException {
+    private void saveMoment(final Moment moment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
         ormSaving.saveMoment(getOrmMoment(moment, dbRequestListener));
     }
 
-    private OrmMoment getOrmMoment(final Moment moment, DBRequestListener dbRequestListener) {
+    private OrmMoment getOrmMoment(final Moment moment, DBRequestListener<Moment> dbRequestListener) {
         try {
             return OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
         } catch (OrmTypeChecking.OrmTypeException e) {
@@ -134,7 +134,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         return null;
     }
 
-    private void prepareMomentForDeletion(final Moment moment, DBRequestListener dbRequestListener) throws SQLException {
+    private void prepareMomentForDeletion(final Moment moment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
         moment.setSynced(false);
         moment.getSynchronisationData().setInactive(true);
         saveMoment(moment, dbRequestListener);
@@ -167,7 +167,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
-    public void deleteInsight(Insight insight, DBRequestListener dbRequestListener) throws SQLException {
+    public void deleteInsight(Insight insight, DBRequestListener<Insight> dbRequestListener) throws SQLException {
         ormDeleting.deleteInsight((OrmInsight) insight);
         notifyDBRequestListener.notifyDBChange(SyncType.INSIGHT);
     }
