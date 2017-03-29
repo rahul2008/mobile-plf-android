@@ -6,7 +6,8 @@ Version NEXT
 
 ### API Changes
 * NetworkNode.getModelType() and NetworkNode.setModelType(String modelType) are renamed to NetworkNode.getModelId() and NetworkNode.setModelId(String modelId)
-* FirmwarePort was changed, a timeout value was added as argument to pushLocalFirmware(byte[], long), pullRemoteFirmware(String, long), cancel(long) and deployFirmware(long)
+* FirmwarePort: a timeout value was added as argument to pushLocalFirmware(byte[], long), pullRemoteFirmware(String, long), cancel(long) and deployFirmware(long)
+* FirmwarePort: canUpgrade() method was added. The user can use this to determine if the device is able or willing to perform a firmware upgrade.
 
 ### New features
 * DiscoveryStrategy interface is extended with start(Set<String> deviceTypes, Set<String> modelIds) method to allow filtering on model ids.
