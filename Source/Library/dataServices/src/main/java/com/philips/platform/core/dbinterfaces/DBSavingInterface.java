@@ -21,7 +21,10 @@ public interface DBSavingInterface {
     boolean saveMoments(List<Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException;
 
     boolean saveConsentDetails(final List<ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) throws SQLException;
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
     void postError(Exception e, DBRequestListener dbRequestListener);
+
     boolean saveUserCharacteristics(final List<Characteristics> userCharacteristics, DBRequestListener<Characteristics> dbRequestListener) throws SQLException;
     boolean saveSettings(final Settings settings, DBRequestListener<Settings> dbRequestListener) throws SQLException;
     boolean saveInsights(final List<Insight> insights, DBRequestListener<Insight> dbRequestListener) throws SQLException;

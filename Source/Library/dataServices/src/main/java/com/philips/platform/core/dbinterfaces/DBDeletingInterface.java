@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface DBDeletingInterface {
+    @SuppressWarnings({"rawtypes", "unchecked"})
     void deleteAll(DBRequestListener dbRequestListener) throws SQLException;
     void markAsInActive(Moment moment,DBRequestListener<Moment> dbRequestListener) throws SQLException;
     void deleteMoment(Moment moment,DBRequestListener<Moment> dbRequestListener) throws  SQLException;
