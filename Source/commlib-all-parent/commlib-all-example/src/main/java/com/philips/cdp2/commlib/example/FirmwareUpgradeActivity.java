@@ -15,6 +15,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.philips.cdp.dicommclient.port.DICommPort;
+import com.philips.cdp.dicommclient.port.DICommPortListener;
+import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortListener;
 import com.philips.cdp2.commlib.example.appliance.BleReferenceAppliance;
 
@@ -158,6 +162,26 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
         }
         bleReferenceAppliance.getFirmwarePort().addFirmwarePortListener(firmwarePortListener);
         bleReferenceAppliance.enableCommunication();
+
+        checkUpgradeSupport();
+    }
+
+    private void checkUpgradeSupport() {
+        final FirmwarePort firmwarePort = bleReferenceAppliance.getFirmwarePort();
+        firmwarePort.addPortListener(new DICommPortListener() {
+            @Override
+            public void onPortUpdate(DICommPort port) {
+                firmwarePort.removePortListener(this);
+                boolean canUpgrade = firmwarePort.canUpgrade();
+                ((TextView) findViewById(R.id.tvCanUpgrade)).setText(canUpgrade ? "Yes" : "No");
+            }
+
+            @Override
+            public void onPortError(DICommPort port, Error error, String errorData) {
+                port.removePortListener(this);
+            }
+        });
+        firmwarePort.reloadProperties();
     }
 
     @Override
