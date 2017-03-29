@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
@@ -38,6 +39,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,6 +51,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
+import static com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy.SCAN_WINDOW_MILLIS;
 import static com.philips.pins.shinelib.SHNCapabilityType.DI_COMM;
 import static com.philips.pins.shinelib.SHNDevice.State.Connected;
 import static com.philips.pins.shinelib.SHNDevice.State.Disconnected;
@@ -94,6 +97,9 @@ public class BleCommunicationStrategyTestSteps {
     private Map<String, SHNDevice.SHNDeviceListener> deviceListenerMap;
 
     @Mock
+    private NetworkNode mockNetworkNode;
+
+    @Mock
     CapabilityDiComm capability;
 
     @Captor
@@ -111,7 +117,7 @@ public class BleCommunicationStrategyTestSteps {
 
         mRawDataListeners = new ConcurrentHashMap<>();
         writtenBytes = new ConcurrentHashMap<>();
-        mDeviceCache = new BleDeviceCache();
+        mDeviceCache = new BleDeviceCache(Executors.newSingleThreadScheduledExecutor());
         mRequestQueue = new ArrayDeque<>();
         mGson = new GsonBuilder().serializeNulls().create();
         deviceListenerMap = new ConcurrentHashMap<>();
@@ -202,7 +208,14 @@ public class BleCommunicationStrategyTestSteps {
             }
         }).when(device).disconnect();
 
-        mDeviceCache.addDevice(device);
+        when(mockNetworkNode.getCppId()).thenReturn(deviceId);
+
+        mDeviceCache.addDevice(device, mockNetworkNode, new BleDeviceCache.ExpirationCallback() {
+            @Override
+            public void onCacheExpired(NetworkNode networkNode) {
+                // Ignored
+            }
+        }, SCAN_WINDOW_MILLIS);
     }
 
     private void resetCapability(final String deviceId) {
@@ -416,7 +429,7 @@ public class BleCommunicationStrategyTestSteps {
 
     @Then("^the json result contains the key '(.*?)'$")
     public void theJsonResultContainsTheKey(String key) {
-        assertTrue("key '"+ key +"' not found in: " + getObjectMapFromLastSuccessfulResult(), getObjectMapFromLastSuccessfulResult().containsKey(key));
+        assertTrue("key '" + key + "' not found in: " + getObjectMapFromLastSuccessfulResult(), getObjectMapFromLastSuccessfulResult().containsKey(key));
     }
 
     @Then("^the json value for key '(.*?)' has length '(\\d+)'$")

@@ -12,6 +12,7 @@ import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
+import com.philips.cdp2.commlib.ble.BleDeviceCache.CacheData;
 import com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
@@ -34,6 +35,7 @@ import org.mockito.stubbing.Answer;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Executors;
 
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
@@ -43,19 +45,19 @@ import cucumber.api.java.en.When;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy.MANUFACTURER_PREAMBLE;
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class BleDiscoveryStrategyTestSteps {
-
+    private static final int TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS = 100;
     private CommCentral commCentral;
 
     @Mock
@@ -88,9 +90,9 @@ public class BleDiscoveryStrategyTestSteps {
 
         final Context mockContext = mock(Context.class);
 
-        bleDeviceCache = new BleDeviceCache();
+        bleDeviceCache = new BleDeviceCache(Executors.newSingleThreadScheduledExecutor());
 
-        bleDiscoveryStrategy = new BleDiscoveryStrategy(mockContext, bleDeviceCache, deviceScanner, 30000L) {
+        bleDiscoveryStrategy = new BleDiscoveryStrategy(mockContext, bleDeviceCache, deviceScanner) {
             @Override
             int checkAndroidPermission(Context context, String permission) {
                 return PERMISSION_GRANTED;
@@ -165,9 +167,10 @@ public class BleDiscoveryStrategyTestSteps {
         }
     }
 
+    //TODO: Check with Peter F. whether there is a better method iso timeout(), to improve stability
     @Then("^startScanning is called (\\d+) time on BlueLib$")
     public void startscanningIsCalledTimeOnBlueLib(int times) {
-        verify(deviceScanner, times(times)).startScanning(any(SHNDeviceScanner.SHNDeviceScannerListener.class), any(SHNDeviceScanner.ScannerSettingDuplicates.class), anyLong());
+        verify(deviceScanner, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS).times(times)).startScanning(any(SHNDeviceScanner.SHNDeviceScannerListener.class), any(SHNDeviceScanner.ScannerSettingDuplicates.class), anyLong());
     }
 
     @When("^starting discovery for BLE appliances (\\d+) times$")
@@ -193,32 +196,31 @@ public class BleDiscoveryStrategyTestSteps {
         verify(deviceScanner, times(0)).stopScanning();
     }
 
-    @Then("^the following appliances? (?:are|is) created:$")
+    @Then("^the following appliances? (?:are|is) in the list of available appliances:$")
     public void theFollowingAppliancesAreCreated(final List<String> appliances) {
+        final Set<String> applianceNames = new HashSet<>(appliances);
         final Set<? extends Appliance> availableAppliances = commCentral.getApplianceManager().getAvailableAppliances();
 
         final Set<String> availableApplianceNames = new HashSet<>();
         for (Appliance availableAppliance : availableAppliances) {
             availableApplianceNames.add(availableAppliance.getName());
         }
-        assertTrue("Expected appliances " + appliances + " don't match created appliances " + availableApplianceNames, availableApplianceNames.containsAll(appliances));
+        assertTrue("Expected appliances " + applianceNames + " must appear in available appliances " + availableApplianceNames, availableApplianceNames.containsAll(applianceNames));
     }
 
-    @Then("^the following appliances? (?:are|is) not created:$")
+    @Then("^the following appliances? (?:are|is) not in the list of available appliances:$")
     public void theFollowingAppliancesAreNotCreated(final List<String> appliances) {
+        final Set<String> applianceNames = new HashSet<>(appliances);
         final Set<? extends Appliance> availableAppliances = commCentral.getApplianceManager().getAvailableAppliances();
 
         final Set<String> availableApplianceNames = new HashSet<>();
         for (Appliance availableAppliance : availableAppliances) {
             availableApplianceNames.add(availableAppliance.getName());
         }
-        assertFalse("Expected appliances " + appliances + " must match created appliances " + availableApplianceNames, availableApplianceNames.containsAll(appliances));
-    }
 
-    @Then("^no appliances are created$")
-    public void noAppliancesAreCreated() {
-        final Set<? extends Appliance> availableAppliances = commCentral.getApplianceManager().getAvailableAppliances();
-        assertTrue("Available appliances set was not empty: " + availableAppliances, availableAppliances.isEmpty());
+        // Take the intersection of both collections, should be empty
+        availableApplianceNames.retainAll(applianceNames);
+        assertTrue("Expected appliances " + applianceNames + " must not appear in available appliances " + availableApplianceNames, availableApplianceNames.isEmpty());
     }
 
     @When("^(.*?) is discovered (\\d+) times? by BlueLib$")
@@ -263,13 +265,32 @@ public class BleDiscoveryStrategyTestSteps {
         }
     }
 
-    private String getApplianceTypeByName(final @NonNull String applianceName) {
-        return applianceName.substring(0, applianceName.length() - 1);
+    @When("^the cached data expires for the following appliances?:$")
+    public void theCachedDataExpiresForTheFollowingAppliance(final List<String> appliances) {
+        final Set<? extends Appliance> availableAppliances = commCentral.getApplianceManager().getAvailableAppliances();
+
+        for (String applianceName : appliances) {
+            for (Appliance appliance : availableAppliances) {
+                if (applianceName.equals(appliance.getName())) {
+                    final CacheData cacheData = bleDeviceCache.getCacheData(appliance.getNetworkNode().getCppId());
+                    if (cacheData == null) {
+                        continue;
+                    }
+
+                    when(cacheData.getDevice().getState()).thenReturn(SHNDevice.State.Disconnected);
+                    cacheData.getExpirationCallback().onCacheExpired(appliance.getNetworkNode());
+                }
+            }
+        }
     }
 
-    @Then("^the number of created appliances is (\\d+)$")
+    @Then("^the length of the list of available appliances is (\\d+)$")
     public void theNumberOfCreatedAppliancesIs(int numberOfAppliances) {
         final Set<? extends Appliance> availableAppliances = commCentral.getApplianceManager().getAvailableAppliances();
         assertEquals("Number of created appliances doesn't match expected number.", numberOfAppliances, availableAppliances.size());
+    }
+
+    private String getApplianceTypeByName(final @NonNull String applianceName) {
+        return applianceName.substring(0, applianceName.length() - 1);
     }
 }
