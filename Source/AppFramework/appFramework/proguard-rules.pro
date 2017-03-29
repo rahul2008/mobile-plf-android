@@ -243,6 +243,9 @@ public static <fields>;
 -keep class com.philips.platform.datasync.characteristics.UCoreCharacteristics { *; }
 -keep class com.philips.platform.datasync.characteristics.UCoreUserCharacteristics { *; }
 -keep class com.philips.platform.datasync.settings.UCoreSettings { *; }
+-keep class com.philips.platform.datasync.settings.UCoreInsight { *; }
+-keep class com.philips.platform.datasync.settings.UCoreInsightList { *; }
+-keep class com.philips.platform.datasync.PushNotification.UCorePushNotification { *; }
 
 #HSDP Lib
 -keep  class com.philips.dhpclient.** {*;}

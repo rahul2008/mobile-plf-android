@@ -23,4 +23,5 @@ public class SettingsFragmentPresenter {
         DataServicesManager.getInstance().updateUserSettings(settings, dbRequestListener);
     }
 
+
 }

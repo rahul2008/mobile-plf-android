@@ -14,7 +14,7 @@ import javax.inject.Inject;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ScheduleSyncReceiver{
+public class ScheduleSyncReceiver {
 
     public static final long DATA_FETCH_FREQUENCY = 30 * DateTimeConstants.MILLIS_PER_SECOND;
 
@@ -30,11 +30,11 @@ public class ScheduleSyncReceiver{
     }
 
     public void onReceive(final Context context) {
-        DSLog.i(DSLog.LOG, "On Receive Sync Request");
         mDataServices = DataServicesManager.getInstance();
+
         //TODO: review changing connection
         if (mUtility.isOnline(context)) {
-            DSLog.i(DSLog.LOG, "START SYNC FROM REC");
+            DSLog.i(DSLog.LOG,"START SYNC FROM REC");
             mDataServices.synchronize();
         }
     }

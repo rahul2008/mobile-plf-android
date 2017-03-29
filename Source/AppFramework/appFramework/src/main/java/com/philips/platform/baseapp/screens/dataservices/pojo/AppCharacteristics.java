@@ -3,7 +3,7 @@ package com.philips.platform.baseapp.screens.dataservices.pojo;
 import java.io.Serializable;
 import java.util.List;
 
-public class AppCharacteristics implements Serializable {
+public class AppCharacteristics implements Serializable{
     private String type;
     private String value;
 
