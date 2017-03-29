@@ -290,7 +290,7 @@ public class OrmDeleting {
         ormSettingsDeleteBuilder.delete();
     }
 
-    public boolean deleteMoments(final List<Moment> moments, DBRequestListener dbRequestListener) {
+    public boolean deleteMoments(final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) {
 
         try {
             momentDao.callBatchTasks(new Callable<Void>() {
@@ -316,7 +316,7 @@ public class OrmDeleting {
     }
 
     //Insights
-    public boolean deleteInsights(final List<Insight> insights, DBRequestListener dbRequestListener) {
+    public boolean deleteInsights(final List<Insight> insights, DBRequestListener<Insight> dbRequestListener) {
         try {
             momentDao.callBatchTasks(new Callable<Void>() {
                 @Override

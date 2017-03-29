@@ -207,7 +207,7 @@ public class OrmSaving {
         settingsDao.createOrUpdate(settings);
     }
 
-    public boolean saveMoments(final List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
+    public boolean saveMoments(final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException {
 
         try {
             momentDao.callBatchTasks(new Callable<Void>() {
@@ -231,7 +231,7 @@ public class OrmSaving {
     }
 
     //Insights
-    public boolean saveInsights(final List<Insight> insights, DBRequestListener dbRequestListener) {
+    public boolean saveInsights(final List<Insight> insights, DBRequestListener<Insight> dbRequestListener) {
         try {
             insightsDao.callBatchTasks(new Callable<Void>() {
                 @Override
