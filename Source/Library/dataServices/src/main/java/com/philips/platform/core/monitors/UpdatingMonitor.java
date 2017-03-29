@@ -2,6 +2,7 @@ package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
@@ -100,7 +101,8 @@ public class UpdatingMonitor extends EventMonitor {
         consentUpdateRequest.getConsentDetails();
         try {
 
-            if(dbUpdatingInterface.updateConsent(consentUpdateRequest.getConsentDetails(),consentUpdateRequest.getDbRequestListener()))
+            final DBRequestListener<ConsentDetail> dbRequestListener = consentUpdateRequest.getDbRequestListener();
+            if(dbUpdatingInterface.updateConsent(consentUpdateRequest.getConsentDetails(), dbRequestListener))
             {
                 dbUpdatingInterface.updateSyncBit(SyncType.CONSENT.getId(),false);
                 eventing.post(new ConsentBackendSaveRequest((new ArrayList<>(consentUpdateRequest.getConsentDetails())), ConsentBackendSaveRequest.RequestType.SAVE));

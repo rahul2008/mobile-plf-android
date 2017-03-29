@@ -6,9 +6,9 @@ import com.philips.platform.core.listeners.DBRequestListener;
 public class DeleteInsightResponse extends Event {
 
     private Insight insight;
-    private DBRequestListener mDBRequestListener;
+    private DBRequestListener<Insight> mDBRequestListener;
 
-    public DeleteInsightResponse(Insight insight, DBRequestListener dbRequestListener) {
+    public DeleteInsightResponse(Insight insight, DBRequestListener<Insight> dbRequestListener) {
         this.insight = insight;
         this.mDBRequestListener = dbRequestListener;
     }
@@ -17,7 +17,7 @@ public class DeleteInsightResponse extends Event {
         return insight;
     }
 
-    public DBRequestListener getDBRequestListener() {
+    public DBRequestListener<Insight> getDBRequestListener() {
         return mDBRequestListener;
     }
 }

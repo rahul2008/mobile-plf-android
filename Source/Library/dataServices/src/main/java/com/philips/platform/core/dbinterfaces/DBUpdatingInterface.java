@@ -14,6 +14,7 @@ import java.util.List;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public interface DBUpdatingInterface {
     void updateMoment(final Moment ormMoment, DBRequestListener<Moment> dbRequestListener) throws SQLException;
 
@@ -21,7 +22,6 @@ public interface DBUpdatingInterface {
 
     boolean updateConsent(final List<? extends ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) throws SQLException;
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
     void updateFailed(Exception e, DBRequestListener dbRequestListener);
 
     boolean updateCharacteristics(final List<Characteristics> userCharacteristics, DBRequestListener<Characteristics> dbRequestListener) throws SQLException;

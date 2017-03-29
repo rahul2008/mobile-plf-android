@@ -4,6 +4,7 @@
  */
 package com.philips.platform.core.monitors;
 
+import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.events.DataClearRequest;
@@ -96,7 +97,7 @@ public class DeletingMonitor extends EventMonitor {
     //Insights
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(DeleteInsightFromDB deleteInsightFromDB) {
-        final DBRequestListener dbRequestListener = deleteInsightFromDB.getDbRequestListener();
+        final DBRequestListener<Insight> dbRequestListener = deleteInsightFromDB.getDbRequestListener();
         try {
             dbInterface.markInsightsAsInActive(deleteInsightFromDB.getInsights(), dbRequestListener);
             eventing.post(new DeleteInsightRequest(deleteInsightFromDB.getInsights())); //is it good to have here?
@@ -107,7 +108,7 @@ public class DeletingMonitor extends EventMonitor {
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(DeleteInsightResponse deleteInsightResponse) {
-        final DBRequestListener dbRequestListener = deleteInsightResponse.getDBRequestListener();
+        final DBRequestListener<Insight> dbRequestListener = deleteInsightResponse.getDBRequestListener();
         try {
             dbInterface.deleteInsight(deleteInsightResponse.getInsight(),
                     dbRequestListener);

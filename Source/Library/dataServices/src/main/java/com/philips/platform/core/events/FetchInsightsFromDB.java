@@ -7,6 +7,7 @@
 package com.philips.platform.core.events;
 
 
+import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 
 /**
@@ -15,13 +16,13 @@ import com.philips.platform.core.listeners.DBFetchRequestListner;
  */
 public class FetchInsightsFromDB extends Event {
 
-    private final DBFetchRequestListner dbFetchRequestListner;
+    private final DBFetchRequestListner<Insight> dbFetchRequestListner;
 
-    public DBFetchRequestListner getDbFetchRequestListner() {
+    public DBFetchRequestListner<Insight> getDbFetchRequestListner() {
         return dbFetchRequestListner;
     }
 
-    public FetchInsightsFromDB(DBFetchRequestListner dbRequestListener) {
+    public FetchInsightsFromDB(DBFetchRequestListner<Insight> dbRequestListener) {
 
         this.dbFetchRequestListner = dbRequestListener;
     }

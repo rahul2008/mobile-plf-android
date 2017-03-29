@@ -15,6 +15,7 @@ import java.util.List;
  * All rights reserved.
  */
 //TODO: Write an DBErrorInterface and all db interfaces will extend this
+@SuppressWarnings({"rawtypes", "unchecked"})
 public interface DBSavingInterface {
     boolean saveMoment(final Moment moment, DBRequestListener<Moment> dbRequestListener) throws SQLException;
 
@@ -22,7 +23,6 @@ public interface DBSavingInterface {
 
     boolean saveConsentDetails(final List<ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) throws SQLException;
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
     void postError(Exception e, DBRequestListener dbRequestListener);
 
     boolean saveUserCharacteristics(final List<Characteristics> userCharacteristics, DBRequestListener<Characteristics> dbRequestListener) throws SQLException;

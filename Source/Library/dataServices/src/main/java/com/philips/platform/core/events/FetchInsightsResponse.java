@@ -12,14 +12,14 @@ import java.util.List;
 public class FetchInsightsResponse extends Event {
 
     private final List<Insight> insights;
-    final DBRequestListener dbRequestListener;
+    final DBRequestListener<Insight> dbRequestListener;
 
-    public FetchInsightsResponse(List<Insight> insights, DBRequestListener dbRequestListener) {
+    public FetchInsightsResponse(List<Insight> insights, DBRequestListener<Insight> dbRequestListener) {
         this.insights = insights;
         this.dbRequestListener = dbRequestListener;
     }
 
-    public DBRequestListener getDbRequestListener() {
+    public DBRequestListener<Insight> getDbRequestListener() {
         return dbRequestListener;
     }
 

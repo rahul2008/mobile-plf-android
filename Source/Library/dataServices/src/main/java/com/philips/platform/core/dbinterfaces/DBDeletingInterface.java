@@ -10,9 +10,8 @@ import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
 import java.util.List;
-
+@SuppressWarnings({"rawtypes", "unchecked"})
 public interface DBDeletingInterface {
-    @SuppressWarnings({"rawtypes", "unchecked"})
     void deleteAll(DBRequestListener dbRequestListener) throws SQLException;
     void markAsInActive(Moment moment,DBRequestListener<Moment> dbRequestListener) throws SQLException;
     void deleteMoment(Moment moment,DBRequestListener<Moment> dbRequestListener) throws  SQLException;
