@@ -158,13 +158,12 @@ public class ApplianceManager {
      * @param applianceListener the listener
      * @return true, if the listener was present and therefore removed
      */
-    public <A extends Appliance> boolean removeApplianceListener(@NonNull ApplianceListener<? extends Appliance> applianceListener) {
+    public <A extends Appliance> boolean removeApplianceListener(@NonNull ApplianceListener<A> applianceListener) {
         return applianceListeners.remove(applianceListener);
     }
 
     private void loadAppliancesFromPersistentStorage() {
-        // TODO Implement this. Don't throw an UnsupportedOperationException because this method is called from the constructor.
-        //throw new UnsupportedOperationException("Not implemented yet.");
+        // TODO
     }
 
     private Appliance createAppliance(NetworkNode networkNode) {
