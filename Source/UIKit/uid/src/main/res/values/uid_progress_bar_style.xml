@@ -92,9 +92,9 @@
     </style>
     
     <style name="UIDIndeterminateLinearProgress">
-        <item name="uidIndeterminateLinearProgressBGColor">?attr/uidControlPrimaryDetail</item>
+        <item name="uidIndeterminateLinearProgressBGColor">?attr/uidControlTrackOff</item>
         <item name="uidIndeterminateLinearProgressStartColor">@android:color/transparent</item>
-        <item name="uidIndeterminateLinearProgressCenterColor">?attr/uidControlBuffer</item>
+        <item name="uidIndeterminateLinearProgressCenterColor">?attr/uidControlPrimaryDetail</item>
         <item name="uidIndeterminateLinearProgressEndColor">@android:color/transparent</item>
         <item name="uidIndeterminateLinearProgressAnimDuration">@integer/uid_indeterminate_progressbar_anim_duration</item>
     </style>
