@@ -163,8 +163,8 @@ public class ApplianceManager {
     }
 
     private void loadAppliancesFromPersistentStorage() {
-        // TODO
-        throw new UnsupportedOperationException("Not implemented yet.");
+        // TODO Implement this. Don't throw an UnsupportedOperationException because this method is called from the constructor.
+        //throw new UnsupportedOperationException("Not implemented yet.");
     }
 
     private Appliance createAppliance(NetworkNode networkNode) {
