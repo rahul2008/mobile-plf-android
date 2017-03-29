@@ -22,10 +22,43 @@
 </FrameLayout>
 
     <LinearLayout
+        android:id="@+id/ll_moment_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_toLeftOf="@id/frame"
+        >
+
+        <TextView
+            android:id="@+id/moment_id_text"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="MomentID"
+            style="@style/centralesansBoldFont"
+            android:textColor="?attr/uikit_baseColor"
+            android:textSize="16sp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/moment_id"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="default"
+            android:gravity="left|bottom"
+            android:textColor="?attr/uikit_baseColor"
+            android:textSize="14sp"
+            style="@style/centralesansBookFont"
+            android:layout_toRightOf="@id/temperature"
+            />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/temperature_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_below="@id/ll_moment_id"
         android:layout_toLeftOf="@id/frame"
     >
 
