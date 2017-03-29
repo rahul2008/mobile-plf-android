@@ -116,5 +116,22 @@
                 android:padding="3dip"
                 tools:text="Status value" />
         </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:padding="3dip"
+                android:text="@string/lblFirmwareCanUpgrade"
+                android:textStyle="bold" />
+
+    		<TextView
+        		android:id="@+id/tvCanUpgrade"
+        		android:layout_width="0dp"
+        		android:layout_weight="1"
+        		android:text="N/A"
+                android:padding="3dip"
+        		tools:text="Can upgrade value" />
+        </TableRow>
+		
     </TableLayout>
 </LinearLayout>
