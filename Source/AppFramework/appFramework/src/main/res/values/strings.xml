@@ -1,7 +1,7 @@
 <resources>
     <string name="RA_HomeScreen_Title">Mobile App Home</string>
-    <string name="left_arrow">&lt;</string>
-    <string name="right_arrow">&gt;</string>
+    <string name="left_arrow" translatable="false">&lt;</string>
+    <string name="right_arrow" translatable="false">&gt;</string>
 
     <!-- Introduction/Welcome screen strings -->
     <string name="RA_Skip_Button_Text">Skip</string>
@@ -26,8 +26,8 @@
     <string name="RA_Vertical_App_Setting_A">Vertical App Setting A</string>
     <string name="RA_Vertical_App_Setting_B">Vertical App Setting B</string>
     <string name="RA_Vertical_App_Setting_C">Vertical App Setting C</string>
-    <string name="RA_Setting_Philips_Promo_Title_Only">Receive Philips\'</string>
-    <string name="RA_Setting_Philips_Promo_content">promotional communications based on my preferences and online behavior</string>
+    <string name="RA_Setting_Philips_Promo_Title_Only" translatable="false">Receive Philips\'</string>
+    <string name="RA_Setting_Philips_Promo_content" translatable="false">promotional communications based on my preferences and online behavior</string>
     <string name="RA_Settings_Promo_Question_Text">What does this mean?</string>
     <string name="RA_Settings_Purchases">&lt;b>Purchases&lt;/b></string>
     <string name="RA_Settings_OrderHistory">Order History</string>
@@ -50,41 +50,41 @@
     <string name="RA_Current_Configuration">Current Configuration: </string>
 
     <!-- Data Sync related Strings-->
-    <string name="data_sync">Data Sync</string>
+    <string name="data_sync" translatable="false">Data Sync</string>
     <string name="RA_DataServicesScreen_Title">Data Services</string>
-    <string name="add">Add</string>
-    <string name="sync">Sync</string>
-    <string name="update">Update</string>
-    <string name="delete">Delete</string>
-    <string name="registration">Registration</string>
-    <string name="phase">Time Of the Day</string>
-    <string name="temperature">Temperature</string>
-    <string name="temperature_hint">Temperature of the Baby</string>
-    <string name="location">Notes</string>
-    <string name="location_hint">Location Name</string>
-    <string name="save">Save</string>
-    <string name="synced">Not Synced</string>
-    <string name="ds_screen_title">Data Services</string>
-    <string name="create_moment">Create moment</string>
-    <string name="invalid_temperature">Invalid temperature entry</string>
-    <string name="consent">User Consents</string>
-    <string name="set_characteristics">User Characteristics</string>
-    <string name="view_characteristics">View Characteristics</string>
-    <string name="hide_characteristics">Hide Characteristics</string>
-    <string name="edit">Edit</string>
-    <string name="consents">User Consents</string>
-    <string name="characteristics">User Characteristics</string>
-    <string name="cancel">CANCEL</string>
-    <string name="ok">OK</string>
-    <string name="something_wrong">Something went wrong</string>
+    <string name="add" translatable="false">Add</string>
+    <string name="sync" translatable="false">Sync</string>
+    <string name="update" translatable="false">Update</string>
+    <string name="delete" translatable="false">Delete</string>
+    <string name="registration" translatable="false">Registration</string>
+    <string name="phase" translatable="false">Time Of the Day</string>
+    <string name="temperature" translatable="false">Temperature</string>
+    <string name="temperature_hint" translatable="false">Temperature of the Baby</string>
+    <string name="location" translatable="false">Notes</string>
+    <string name="location_hint" translatable="false">Location Name</string>
+    <string name="save" translatable="false">Save</string>
+    <string name="synced" translatable="false">Not Synced</string>
+    <string name="ds_screen_title" translatable="false">Data Services</string>
+    <string name="create_moment" translatable="false">Create moment</string>
+    <string name="invalid_temperature" translatable="false">Invalid temperature entry</string>
+    <string name="consent" translatable="false">User Consents</string>
+    <string name="set_characteristics" translatable="false">User Characteristics</string>
+    <string name="view_characteristics" translatable="false">View Characteristics</string>
+    <string name="hide_characteristics" translatable="false">Hide Characteristics</string>
+    <string name="edit" translatable="false">Edit</string>
+    <string name="consents" translatable="false">User Consents</string>
+    <string name="characteristics" translatable="false">User Characteristics</string>
+    <string name="cancel" translatable="false">CANCEL</string>
+    <string name="ok" translatable="false">OK</string>
+    <string name="something_wrong" translatable="false">Something went wrong</string>
 
-    <string-array name="metrics">
+    <string-array name="metrics" translatable="false">
         <item>"metric"</item>
         <item>"imperial"</item>
         <item>"us-customary"</item>
     </string-array>
 
-    <string-array name="locals">
+    <string-array name="locals" translatable="false">
         <item>"en_AU"</item>
         <item>"en_GB""</item>
         <item>"en_CA"</item>
@@ -102,7 +102,7 @@
         <item>"en_ZA"</item>
 
     </string-array>
-    <string name="settings">User Settings</string>
+    <string name="settings" translatable="false">User Settings</string>
 
     <!-- Connectivity component -->
     <string name="RA_Connectivity_DeviceID">Device ID</string>
@@ -119,12 +119,12 @@
 
 
     <!-- Consumer Care related-->
-    <string-array name="productselection_ctnlist">
+    <string-array name="productselection_ctnlist" translatable="false">
         <item>HX6064/33</item>
     </string-array>
 
 
-    <string-array name="iap_productselection_ctnlist">
+    <string-array name="iap_productselection_ctnlist" translatable="false">
         <item>HD9240/90</item>
     </string-array>
     <!--ConsumerCare related end here.-->
@@ -141,12 +141,24 @@
         <item>@string/RA_ConnectivityScreen_Menu_Title</item>
     </string-array>
 
+    <string-array name="demo_drawer_items">
+        <item>@string/RA_HomeScreen_Title</item>
+        <item>@string/RA_Settings_Menu_Title</item>
+        <item>@string/RA_Philips_Shop_Menu_Title</item>
+        <item>@string/RA_Support_Menu_Title</item>
+        <item>@string/RA_About_Menu_Title</item>
+        <item>@string/RA_DataServices_Menu_Title</item>
+        <item>@string/RA_ConnectivityScreen_Menu_Title</item>
+        <item>@string/RA_Demo_Menu_Title</item>
+    </string-array>
+
     <string name="RA_Settings_Menu_Title">Settings</string>
     <string name="RA_Philips_Shop_Menu_Title">Philips Shop</string>
     <string name="RA_Support_Menu_Title">Support</string>
     <string name="RA_About_Menu_Title">About</string>
     <string name="RA_DataServices_Menu_Title">Data Services</string>
     <string name="RA_ConnectivityScreen_Menu_Title">Connectivity</string>
+    <string name="RA_Demo_Menu_Title">Demo</string>
     <string name="RA_HomeTab_Menu_Title">Home</string>
 
     <!-- IAP errors -->
@@ -156,12 +168,38 @@
     <string name="RA_Iap_Authentication_Failure">Authentication failure</string>
     <string name="RA_Iap_Product_Out_Of_Stock">Product out of stock</string>
 
-    <string name="reference_device_scan">Reference Device Scan</string>
-    <string name="ble_ref_device">ble ref device</string>
-    <string name="unknown_device">Unknown Device</string>
+    <string name="reference_device_scan" translatable="false">Reference Device Scan</string>
+    <string name="ble_ref_device" translatable="false">ble ref device</string>
+    <string name="unknown_device" translatable="false">Unknown Device</string>
 
 
-
+    <string name="BA_AppFramework">AppFramework </string>
+    <string name="RA_You_are_not_LoggedIn">You are not Logged In. Please go to Settings and Log In</string>
+    <string name="RA_OK">OK</string>
+    <string name="RA_Cancel">Cancel</string>
+    <string name="RA_Warning">WARNING</string>
+    <string name="RA_SupportScreen_Title">Support</string>
+    <string name="RA_DebugAndTestScreen_Title">Debug and Test</string>
+    <string name="RA_ConnectivityScreen_Title">Connectivity</string>
+    <string name="RA_PhilipsShopScreen_Title">Products</string>
+    <string name="RA_Debug_and_Test_Menu_Title">Debug and Test</string>
+    <string name="RA_HomeScreen_Menu_Title">Mobile App home</string>
+    <string name="RA_Setting_Philips_Promo_Title">Receive Philip\'s promotional communications based on my preferences and online behaviour</string>
+    <string name="BA_Add_Edit_Temp">Add  or Edit Temperature </string>
+    <string name="BA_HSDP_login_not_available">HSDP login not available</string>
+    <string name="BA_Sync_Settings">Sync Settings</string>
+    <string name="RA_Empty_Invalid_Data">Data field is empty or invalid</string>
+    <string name="RA_Invalid_Param_Msg">You have entered or selected invalid parameter values. Please select appropiate parameter values  and launch again</string>
+    <string name="RA_NO_Order_History">Order History Not Available</string>
+<string name="RA_PR_Benefit_Text">Extend your warranty for 24 months.
+Receive 10% discount in the Philips.
+Receive free product accessories</string>
+    <string name="RA_PR_Extentende_Warranty">Your warranty period has been extended until next year</string>
+    <string name="RA_PR_Email_Text">An email with extended warranty contract  has been sent out to your email address</string>
+    <string name="RA_UR_Env_Alert">Change configuration</string>
+    <string name="RA_UR_Env_Alert_Msg">Configuration can only be changed at launch time. You need to relaunch the app to change it</string>
+    <string name="RA_Update_Userdata_Error">There was an error updating User Data. Please try after sometime</string>
+    <string name="RA_Setting_Philips_Promo_PartTwo">Promotional communications based on my preferences and online behavior</string>
     <!--<array name="hamburger_drawer_icons">-->
     <!--<item>@drawable/uikit_cart</item>-->
     <!--<item>@drawable/uikit_cart</item>-->

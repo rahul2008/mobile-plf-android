@@ -24,10 +24,12 @@ import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.cdp.uikit.customviews.UIKitButton;
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
+import com.philips.platform.baseapp.screens.utility.TaggingConstants;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
@@ -44,7 +46,6 @@ public class SettingsAdapter extends BaseAdapter {
     private ArrayList<SettingListItem> settingsItemList = null;
     private UIBasePresenter fragmentPresenter;
     private SharedPreferenceUtility sharedPreferenceUtility;
-
     private ProgressDialog progress, progressDialog;
     private int LOGIN_VIEW = 0;
     private int VERTICAL_SETTING_VIEW = 1;
@@ -64,7 +65,8 @@ public class SettingsAdapter extends BaseAdapter {
         this.isMarketingEnabled=isMarketingEnabled;
         this.userRegistrationState=userRegistrationState;
         sharedPreferenceUtility = new SharedPreferenceUtility(context);
-    }
+
+}
 
     @Override
     public int getCount() {
@@ -205,6 +207,7 @@ public class SettingsAdapter extends BaseAdapter {
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, true);
                                 progress.cancel();
                                 Toast.makeText(activityContext, activityContext.getResources().getString(R.string.RA_Settings_Update_Success), Toast.LENGTH_LONG).show();
+                                AppFrameworkTagging.getInstance().trackAction(TaggingConstants.MARKETING_OPT_IN);
                             }
 
                             @Override
@@ -222,6 +225,7 @@ public class SettingsAdapter extends BaseAdapter {
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, false);
                                 progress.cancel();
                                 Toast.makeText(activityContext, activityContext.getResources().getString(R.string.RA_Settings_Update_Success), Toast.LENGTH_LONG).show();
+                                AppFrameworkTagging.getInstance().trackAction(TaggingConstants.MARKETING_OPT_OUT);
                             }
 
                             @Override
@@ -298,7 +302,9 @@ public class SettingsAdapter extends BaseAdapter {
                                     public void onLogoutSuccess() {
                                         //    ((AppFrameworkBaseActivity)activityContext).setCartItemCount(0);
                                         progressDialog.cancel();
+                                        ((IndexSelectionListener)activityContext).updateSelectionIndex(0);
                                         fragmentPresenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
+
                                     }
 
                                     @Override
@@ -328,6 +334,5 @@ public class SettingsAdapter extends BaseAdapter {
     private String getString(int id) {
         return activityContext.getResources().getString(id);
     }
-
 
 }
