@@ -209,6 +209,14 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
         firmwarePortListeners.remove(listener);
     }
 
+    public boolean canUpgrade() {
+        FirmwarePortProperties properties = getPortProperties();
+        if (properties == null) {
+            return false;
+        }
+        return properties.canUpgrade();
+    }
+
     @Override
     public boolean isResponseForThisPort(String jsonResponse) {
         return parseResponse(jsonResponse) != null;
