@@ -94,7 +94,7 @@ public class DeletingMonitor extends EventMonitor {
 
     //Insights
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventAsync(DeleteInsightFromDB deleteInsightFromDB) {
+    public void onEventBackGround(DeleteInsightFromDB deleteInsightFromDB) {
         final DBRequestListener dbRequestListener = deleteInsightFromDB.getDbRequestListener();
         try {
             dbInterface.markInsightsAsInActive(deleteInsightFromDB.getInsights(), dbRequestListener);
@@ -105,7 +105,7 @@ public class DeletingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventAsync(DeleteInsightResponse deleteInsightResponse) {
+    public void onEventBackGround(DeleteInsightResponse deleteInsightResponse) {
         final DBRequestListener dbRequestListener = deleteInsightResponse.getDBRequestListener();
         try {
             dbInterface.deleteInsight(deleteInsightResponse.getInsight(),

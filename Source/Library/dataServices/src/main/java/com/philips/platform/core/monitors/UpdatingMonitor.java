@@ -212,8 +212,8 @@ public class UpdatingMonitor extends EventMonitor {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void onEventAsync(final FetchInsightsResponse updateInsightsBackendResponse) throws SQLException {
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventBackGround(final FetchInsightsResponse updateInsightsBackendResponse) throws SQLException {
         try {
             insightSegregator.processInsights(updateInsightsBackendResponse.getInsights(), updateInsightsBackendResponse.getDbRequestListener());
             notifyDBChangeSuccess(SyncType.INSIGHT);

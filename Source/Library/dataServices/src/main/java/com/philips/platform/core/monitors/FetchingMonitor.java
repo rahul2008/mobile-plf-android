@@ -168,7 +168,7 @@ public class FetchingMonitor extends EventMonitor {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(FetchInsightsFromDB fetchInsightsFromDB) {
         try {
             dbInterface.fetchActiveInsights(fetchInsightsFromDB.getDbFetchRequestListner());
