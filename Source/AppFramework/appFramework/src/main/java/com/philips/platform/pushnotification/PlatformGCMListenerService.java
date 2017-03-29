@@ -11,8 +11,13 @@ import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
+import com.philips.platform.pushnotification.models.Platform;
+
+import java.util.Set;
 
 public class PlatformGCMListenerService extends GcmListenerService {
 
@@ -28,7 +33,16 @@ public class PlatformGCMListenerService extends GcmListenerService {
     // [START receive_message]
     @Override
     public void onMessageReceived(String from, Bundle data) {
-        String message = data.getString("message");
+            String message = data.getString("message");
+            Set<String> set= data.keySet();
+            for(String string:set){
+            Log.d(TAG,string+""+data.getString(string));
+                if(string.equalsIgnoreCase("dsc")){
+                    Gson gson = new GsonBuilder().create();
+                    Platform platform = gson.fromJson(data.getString(string), Platform.class);
+                    Log.d(TAG,""+platform.getDataServiceModel().getDataSync());
+                }
+        }
         Log.d(TAG, "From: " + from);
         Log.d(TAG, "Message: " + message);
 
