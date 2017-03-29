@@ -77,6 +77,8 @@ public class FirmwarePortProperties implements PortProperties {
         }
     }
 
+    // By default, always support upgrades if the device doesn't provide a value.
+    private boolean canupgrade = true;
     private boolean mandatory;
     private int maxchunksize;
     private int progress;
@@ -109,6 +111,10 @@ public class FirmwarePortProperties implements PortProperties {
 
     public String getStatusMessage() {
         return statusmsg;
+    }
+
+    public boolean canUpgrade() {
+        return canupgrade;
     }
 
     public boolean isMandatory() {

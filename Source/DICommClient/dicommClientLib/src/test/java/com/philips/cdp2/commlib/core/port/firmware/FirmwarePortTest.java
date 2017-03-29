@@ -20,8 +20,10 @@ import org.mockito.Mock;
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.IDLE;
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.READY;
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -182,6 +184,35 @@ public class FirmwarePortTest extends RobolectricTest {
         parseFirmwarePortData(createPropertiesJson("1", "2", "idle", 0, "", 0));
 
         verify(mockFirmwarePortListener).onFirmwareAvailable("2");
+    }
+
+    @Test
+    public void givenDeviceHasNoCanUpgradePropertyThenUpgradeIsSupportedByDefault() {
+        String json = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgrade\":\"1.2\",\"state\":\"wrong\",\"progress\":150,\"statusmsg\":\"\",\"mandatory\":false}";
+        firmwarePort.processResponse(json);
+
+        assertTrue("canUpgrade() should return true by default if not supported by device.", firmwarePort.canUpgrade());
+    }
+
+    @Test
+    public void givenDeviceHasCanUpgradePropertyAndUpgradeIsSupportedThenCanUpgradeValueIsTrue() {
+        String json = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgrade\":\"1.2\",\"state\":\"wrong\",\"progress\":150,\"statusmsg\":\"\",\"mandatory\":false,\"canupgrade\":true}";
+        firmwarePort.processResponse(json);
+
+        assertTrue("canUpgrade() should return true if supported by device and set to 'true'.", firmwarePort.canUpgrade());
+    }
+
+    @Test
+    public void givenDeviceHasCanUpgradePropertyAndUpgradeIsNotSupportedThenCanUpgradeValueIsFalse() {
+        String json = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgrade\":\"1.2\",\"state\":\"wrong\",\"progress\":150,\"statusmsg\":\"\",\"mandatory\":false,\"canupgrade\":false}";
+        firmwarePort.processResponse(json);
+
+        assertFalse("canUpgrade() should return true if supported by device and set to 'false'.", firmwarePort.canUpgrade());
+    }
+
+    @Test
+    public void givenFirmwarePortPropertiesNotLoadedBeforeThenCanUpgradeValueIsFalse() {
+        assertFalse("canUpgrade() should return false if port properties not loaded yet.", firmwarePort.canUpgrade());
     }
 
     private String createPropertiesJson(String version, String upgrade, String state, int progress, String statusMsg, int size) {
