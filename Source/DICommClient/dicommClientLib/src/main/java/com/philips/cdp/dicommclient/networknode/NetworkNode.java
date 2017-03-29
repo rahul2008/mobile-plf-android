@@ -7,6 +7,7 @@ package com.philips.cdp.dicommclient.networknode;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import java.util.Observable;
 
@@ -18,7 +19,9 @@ public class NetworkNode extends Observable implements Parcelable {
     }
 
     private String mIpAddress;
+    @NonNull
     private String mCppId;
+    @Deprecated
     private ConnectionState mConnectionState;
 
     private String mName;
@@ -47,18 +50,21 @@ public class NetworkNode extends Observable implements Parcelable {
         this.mIpAddress = ipAddress;
     }
 
+    @NonNull
     public synchronized String getCppId() {
         return mCppId;
     }
 
-    public synchronized void setCppId(String cppId) {
+    public synchronized void setCppId(@NonNull String cppId) {
         this.mCppId = cppId;
     }
 
+    @Deprecated
     public synchronized ConnectionState getConnectionState() {
         return mConnectionState;
     }
 
+    @Deprecated
     public void setConnectionState(ConnectionState connectionState) {
         synchronized (this) { // notifyObservers called from same Thread
             if (connectionState.equals(mConnectionState)) return;

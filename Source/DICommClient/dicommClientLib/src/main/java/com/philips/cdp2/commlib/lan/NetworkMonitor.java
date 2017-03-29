@@ -18,6 +18,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.util.VerboseRunnable;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -100,12 +101,12 @@ public class NetworkMonitor {
     }
 
     private void updateNetworkStateAsync() {
-        executor.execute(new Runnable() {
+        executor.execute(new VerboseRunnable(new Runnable() {
             @Override
             public void run() {
                 loadNetworkStateSynchronous();
             }
-        });
+        }));
     }
 
     private void loadNetworkStateSynchronous() {
