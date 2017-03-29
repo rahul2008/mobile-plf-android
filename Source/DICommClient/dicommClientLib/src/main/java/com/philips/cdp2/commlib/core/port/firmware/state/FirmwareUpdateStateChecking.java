@@ -16,11 +16,6 @@ public class FirmwareUpdateStateChecking extends CancelableFirmwareUpdateState {
     }
 
     @Override
-    public void start(@Nullable FirmwareUpdateState previousState) {
-        super.start( previousState);
-    }
-
-    @Override
     public void onStart(@Nullable FirmwareUpdateState previousState) {
         firmwareUpdateOperation.waitForNextState();
     }

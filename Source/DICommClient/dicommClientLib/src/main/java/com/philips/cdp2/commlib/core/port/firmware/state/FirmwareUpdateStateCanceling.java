@@ -5,7 +5,6 @@
 package com.philips.cdp2.commlib.core.port.firmware.state;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.philips.cdp2.commlib.core.port.firmware.operation.FirmwareUpdatePushLocal;
 
@@ -13,11 +12,6 @@ public class FirmwareUpdateStateCanceling extends FirmwareUpdateState {
 
     public FirmwareUpdateStateCanceling(@NonNull FirmwareUpdatePushLocal firmwareUpdate) {
         super(firmwareUpdate);
-    }
-
-    @Override
-    public void start(@Nullable FirmwareUpdateState previousState) {
-        super.start(previousState);
     }
 
     @Override
