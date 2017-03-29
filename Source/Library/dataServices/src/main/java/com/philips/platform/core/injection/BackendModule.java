@@ -28,6 +28,7 @@ import com.philips.platform.core.monitors.UpdatingMonitor;
 import com.philips.platform.datasync.Backend;
 import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.OkClientFactory;
+import com.philips.platform.datasync.PushNotification.PushNotificationMonitor;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsFetcher;
@@ -138,8 +139,9 @@ public class BackendModule {
     Backend providesBackend(
             @NonNull final ConsentsMonitor consentsMonitor,
             @NonNull final UserCharacteristicsMonitor userCharacteristicsMonitor,
-            @NonNull final SettingsMonitor settingsMonitor) {
-        return new Backend(consentsMonitor, userCharacteristicsMonitor,settingsMonitor);
+            @NonNull final SettingsMonitor settingsMonitor,
+            @NonNull final PushNotificationMonitor pushNotificationMonitor) {
+        return new Backend(consentsMonitor, userCharacteristicsMonitor,settingsMonitor, pushNotificationMonitor);
     }
 
     @Provides

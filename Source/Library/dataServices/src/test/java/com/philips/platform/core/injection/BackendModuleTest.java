@@ -17,6 +17,7 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.Backend;
 import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.OkClientFactory;
+import com.philips.platform.datasync.PushNotification.PushNotificationMonitor;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsFetcher;
@@ -59,7 +60,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
@@ -67,32 +67,25 @@ import retrofit.converter.GsonConverter;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * Created by sangamesh on 30/11/16.
- */
 public class BackendModuleTest {
 
     private BackendModule backendModule;
 
     @Mock
     Eventing eventingMock;
-   /* @Mock
-    MomentsMonitor momentsMonitor;*/
     @Mock
     ConsentsMonitor consentsMonitor;
     @Mock
     UserCharacteristicsMonitor userCharacteristicsMonitor;
-
-
+    @Mock
+    PushNotificationMonitor pushNotificationMonitor;
     @Mock
     SettingsMonitor settingsMonitor;
 
-    ExecutorService executorService;
     @Mock
     MomentsDataFetcher momentsDataFetcher;
     @Mock
     UserCharacteristicsFetcher userCharacteristicsFetcher;
-
     @Mock
     SettingsDataFetcher settingsDataFetcher;
     @Mock
@@ -103,7 +96,6 @@ public class BackendModuleTest {
     ConsentDataSender consentDataSender;
     @Mock
     UserCharacteristicsSender userCharacteristicsSender;
-
     @Mock
     SettingsDataSender settingsDataSender;
 
@@ -193,7 +185,7 @@ public class BackendModuleTest {
 
     @Test
     public void ShouldReturnBackend_WhenProvidesBackendIsCalled() throws Exception {
-        final Backend backend = backendModule.providesBackend(consentsMonitor, userCharacteristicsMonitor,settingsMonitor);
+        final Backend backend = backendModule.providesBackend(consentsMonitor, userCharacteristicsMonitor, settingsMonitor, pushNotificationMonitor);
         assertThat(backend).isNotNull();
         assertThat(backend).isInstanceOf(Backend.class);
     }
@@ -249,14 +241,14 @@ public class BackendModuleTest {
 
     @Test
     public void ShouldReturnDataPullSynchronise_WhenProvidesDataPullSynchroniseIsCalled() throws Exception {
-        final DataPullSynchronise dataPullSynchronise = backendModule.providesDataSynchronise(momentsDataFetcher, consentsDataFetcher, userCharacteristicsFetcher,settingsDataFetcher);
+        final DataPullSynchronise dataPullSynchronise = backendModule.providesDataSynchronise(momentsDataFetcher, consentsDataFetcher, userCharacteristicsFetcher, settingsDataFetcher);
         assertThat(dataPullSynchronise).isNotNull();
         assertThat(dataPullSynchronise).isInstanceOf(DataPullSynchronise.class);
     }
 
     @Test
     public void ShouldReturnDataPushSynchronise_WhenProvidesDataPushSynchroniseIsCalled() throws Exception {
-        final DataPushSynchronise dataPushSynchronise = backendModule.providesDataPushSynchronise(momentsDataSender, consentDataSender, userCharacteristicsSender,settingsDataSender);
+        final DataPushSynchronise dataPushSynchronise = backendModule.providesDataPushSynchronise(momentsDataSender, consentDataSender, userCharacteristicsSender, settingsDataSender);
         assertThat(dataPushSynchronise).isNotNull();
         assertThat(dataPushSynchronise).isInstanceOf(DataPushSynchronise.class);
     }
