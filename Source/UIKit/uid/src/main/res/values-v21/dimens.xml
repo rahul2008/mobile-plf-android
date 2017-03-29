@@ -6,4 +6,8 @@
     <!--checkbox text leading-->
     <dimen name="uid_checkbox_line_spacing">6dp</dimen>
     <integer name="uid_checkbox_font_spacing_multiplier">1</integer>
+
+    <!--Notification bar text leading-->
+    <dimen name="uid_notification_bar_line_spacing">6dp</dimen>
+    <integer name="uid_notification_bar_line_space_multiplier">1</integer>
 </resources>

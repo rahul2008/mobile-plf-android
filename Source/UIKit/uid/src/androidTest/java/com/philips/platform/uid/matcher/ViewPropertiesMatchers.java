@@ -105,6 +105,17 @@ public class ViewPropertiesMatchers {
         };
     }
 
+    public static Matcher<View> isSameStartMargin(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+                setValues(lp.getMarginStart(), expectedValue);
+                return areEqual();
+            }
+        };
+    }
+
     public static Matcher<View> isSameEndMargin(final int expectedValue) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
