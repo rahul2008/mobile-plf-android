@@ -21,6 +21,7 @@ public interface DBUpdatingInterface {
 
     boolean updateConsent(final List<? extends ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) throws SQLException;
 
+    @SuppressWarnings({"rawtypes", "unchecked"})
     void updateFailed(Exception e, DBRequestListener dbRequestListener);
 
     boolean updateCharacteristics(final List<Characteristics> userCharacteristics, DBRequestListener<Characteristics> dbRequestListener) throws SQLException;

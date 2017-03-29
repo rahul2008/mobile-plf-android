@@ -23,6 +23,7 @@ import java.sql.SQLException;
 
 import javax.inject.Inject;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class DeletingMonitor extends EventMonitor {
 
     private final DBDeletingInterface dbInterface;
