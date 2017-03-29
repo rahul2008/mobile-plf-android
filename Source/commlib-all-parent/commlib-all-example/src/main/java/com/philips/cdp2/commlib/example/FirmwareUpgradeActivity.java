@@ -89,7 +89,8 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
 
         @Override
         public void onPortError(FirmwarePort port, Error error, String errorData) {
-            // Ignored
+            stateTextView.setText(port.getPortProperties().getState().toString());
+            statusTextView.setText("Error: " + error.getErrorMessage());
         }
     };
 
