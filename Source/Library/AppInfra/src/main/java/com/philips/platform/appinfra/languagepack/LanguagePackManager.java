@@ -230,6 +230,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 		return null;
 	}
 
+	@Override
 	public void activate(final OnActivateListener onActivateListener) {
 		File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_INFO);
 		LanguagePackMetadata languagePackMetadata = gson.fromJson(languagePackUtil.readFile(file), LanguagePackMetadata.class);
