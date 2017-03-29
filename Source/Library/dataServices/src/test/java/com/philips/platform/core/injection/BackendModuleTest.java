@@ -17,6 +17,7 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.Backend;
 import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.OkClientFactory;
+import com.philips.platform.datasync.PushNotification.PushNotificationMonitor;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsFetcher;
@@ -80,6 +81,8 @@ public class BackendModuleTest {
     ConsentsMonitor consentsMonitor;
     @Mock
     UserCharacteristicsMonitor userCharacteristicsMonitor;
+    @Mock
+    PushNotificationMonitor pushNotificationMonitor;
     @Mock
     SettingsMonitor settingsMonitor;
     @Mock
@@ -195,7 +198,7 @@ public class BackendModuleTest {
 
     @Test
     public void ShouldReturnBackend_WhenProvidesBackendIsCalled() throws Exception {
-        final Backend backend = backendModule.providesBackend(consentsMonitor, userCharacteristicsMonitor, settingsMonitor, mInsightMonitor);
+        final Backend backend = backendModule.providesBackend(consentsMonitor, userCharacteristicsMonitor, settingsMonitor, mInsightMonitor ,pushNotificationMonitor);
         assertThat(backend).isNotNull();
         assertThat(backend).isInstanceOf(Backend.class);
     }

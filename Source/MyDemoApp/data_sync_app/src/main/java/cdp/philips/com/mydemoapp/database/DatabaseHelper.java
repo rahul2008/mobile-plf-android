@@ -103,48 +103,50 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         insertMeasurementDetailTypes();
         insertMeasurementGroupDetailType();
         insertDefaultSettings();
-        insertDefaultDCSyncValues();
         insertDefaultConsent();
+        insertDefaultUCSyncValue();
     }
 
     private void insertDefaultConsent() {
-        DataServicesManager mDataServices = DataServicesManager.getInstance();
-        List<ConsentDetail> consentDetails = new ArrayList<>();
 
-        consentDetails.add(mDataServices.createConsentDetail
-                (ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED,ConsentDetail.DEFAULT_DOCUMENT_VERSION,
-                        ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
+        try {
+            consentDetailDao=getConsentDetailsDao();
+            consentDetailDao.createOrUpdate(new OrmConsentDetail(ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED.getDescription(),ConsentDetail.DEFAULT_DOCUMENT_VERSION,
+                    ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
+            consentDetailDao.createOrUpdate(new OrmConsentDetail(ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED.getDescription(),ConsentDetail.DEFAULT_DOCUMENT_VERSION,
+                    ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
+            consentDetailDao.createOrUpdate(new OrmConsentDetail(ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED.getDescription(),ConsentDetail.DEFAULT_DOCUMENT_VERSION,
+                    ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
+            insertDefaultDCSyncValues(SyncType.CONSENT);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-        consentDetails.add(mDataServices.createConsentDetail
-                (ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED,ConsentDetail.DEFAULT_DOCUMENT_VERSION,
-                        ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
-        consentDetails.add(mDataServices.createConsentDetail
-                (ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED,ConsentDetail.DEFAULT_DOCUMENT_VERSION,
-                        ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
-        mDataServices.saveConsentDetails(consentDetails, null);
     }
 
-    private void insertDefaultDCSyncValues() {
-
-        for (SyncType tableType : SyncType
-                .values()) {
+    private void insertDefaultDCSyncValues(SyncType tableType) {
 
             try {
                 ormDCSyncDao = getDCSyncDao();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
                 ormDCSyncDao.createOrUpdate(new OrmDCSync(tableType.getId(), tableType.getDescription(), true));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
+
+    }
+
+    private void insertDefaultUCSyncValue(){
+        insertDefaultDCSyncValues(SyncType.CHARACTERISTICS);
     }
 
     private void insertDefaultSettings() {
-        Settings settings = DataServicesManager.getInstance().createUserSettings("en_US" ,"metric");
-        DataServicesManager.getInstance().saveUserSettings(settings, null);
+        try {
+            settingDao=getSettingsDao();
+            settingDao.createOrUpdate(new OrmSettings("en_US" ,"metric"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        insertDefaultDCSyncValues(SyncType.SETTINGS);
     }
 
 

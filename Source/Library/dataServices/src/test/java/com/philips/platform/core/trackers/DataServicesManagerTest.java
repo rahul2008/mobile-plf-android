@@ -61,9 +61,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by indrajitkumar on 08/12/16.
- */
 public class DataServicesManagerTest {
     public static final int TEST_REFERENCE_ID = 111;
     public static final String TEST_USER_ID = "TEST_USER_ID";
@@ -135,7 +132,6 @@ public class DataServicesManagerTest {
     private ConsentDetail consentDetailMock;
 
 
-
     UCoreAccessProvider uCoreAccessProvider;
 
     @Mock
@@ -183,72 +179,44 @@ public class DataServicesManagerTest {
 
     @Test
     public void ShouldPostSaveEvent_WhenSaveIsCalled() throws Exception {
-        //noinspection ConstantConditions
-        tracker.saveMoment(momentMock,dbRequestListener);
-
+        tracker.saveMoment(momentMock, dbRequestListener);
         verify(eventingMock).post(any(MomentSaveRequest.class));
     }
 
     @Test
     public void ShouldPostUpdateEvent_WhenUpdateIsCalled() throws Exception {
-        //noinspection ConstantConditions
-        tracker.updateMoment(momentMock,dbRequestListener);
-
+        tracker.updateMoment(momentMock, dbRequestListener);
         verify(eventingMock).post(any(MomentUpdateRequest.class));
     }
 
     @Test
     public void ShouldPostFetchEvent_WhenFetchIsCalled() throws Exception {
-        //noinspection ConstantConditions
-        tracker.fetchMomentWithType(dbFetchRequestListner , MomentType.TEMPERATURE);
-
+        tracker.fetchMomentWithType(dbFetchRequestListner, MomentType.TEMPERATURE);
         verify(eventingMock).post(any(LoadMomentsRequest.class));
     }
 
     @Test
     public void ShouldPostFetchMomentByIdEvent_WhenFetchMomentByIdIsCalled() throws Exception {
-        //noinspection ConstantConditions
-        tracker.fetchMomentForMomentID(1,dbFetchRequestListner);
-
+        tracker.fetchMomentForMomentID(1, dbFetchRequestListner);
         verify(eventingMock).post(any(LoadMomentsRequest.class));
     }
 
-    /*@Test
-    public void ShouldPostFetchAllDataEvent_WhenFetchAllDataIsCalled() throws Exception {
-        //noinspection ConstantConditions
-        tracker.fetchAllData(dbRequestListener);
-
-        verify(eventingMock).post(any(LoadMomentsRequest.class));
-    }*/
-
     @Test
     public void ShouldPostFetchConsentEvent_WhenFetchConsentIsCalled() throws Exception {
-        //noinspection ConstantConditions
         tracker.fetchConsentDetail(dbFetchRequestListner);
-
         verify(eventingMock).post(any(LoadConsentsRequest.class));
     }
 
     @Test
     public void ShouldPostFetchSettingsEvent_WhenFetchSettingsIsCalled() throws Exception {
-        //noinspection ConstantConditions
         tracker.fetchUserSettings(dbFetchRequestListner);
-
         verify(eventingMock).post(any(LoadSettingsRequest.class));
     }
 
-
     @Test
     public void ShouldCreateConsentDetail_WhenCreateConsentDetailIsCalled() throws Exception {
-        tracker.createConsentDetail(TEST_CONSENT_DETAIL_TYPE, ConsentDetailStatusType.ACCEPTED,ConsentDetail.DEFAULT_DOCUMENT_VERSION, "fsdfsdf");
+        tracker.createConsentDetail(TEST_CONSENT_DETAIL_TYPE, ConsentDetailStatusType.ACCEPTED, ConsentDetail.DEFAULT_DOCUMENT_VERSION, "fsdfsdf");
     }
-
-    @Test
-    public void ShouldCreateSettings_WhenCreateSettingsIsCalled() throws Exception {
-       // tracker.createUserSettings(anyString(),anyString(),anyString());
-    }
-
-
 
     //TODO: Spoorti - Fix later
 /*    @Test(expected = NullPointerException.class)
@@ -266,23 +234,19 @@ public class DataServicesManagerTest {
 
     @Test
     public void ShouldPostSaveConsentEvent_WhenSaveConsentIsCalled() throws Exception {
-        //noinspection ConstantConditions
-        tracker.saveConsentDetails(anyListOf(ConsentDetail.class),dbRequestListener);
-
+        tracker.saveConsentDetails(anyListOf(ConsentDetail.class), dbRequestListener);
         verify(eventingMock).post(any(DatabaseConsentSaveRequest.class));
     }
 
     @Test
     public void ShouldPostUpdateSettingsEvent_WhenUpdateSettingsIsCalled() throws Exception {
-        //noinspection ConstantConditions
-        tracker.updateUserSettings(any(Settings.class),dbRequestListener);
-
+        tracker.updateUserSettings(any(Settings.class), dbRequestListener);
         verify(eventingMock).post(any(DatabaseSettingsUpdateRequest.class));
     }
 
     @Test
     public void ShouldPostUpdateCharacteristicsRequest_WhenUpdateCharacteristicsIsCalled() throws Exception {
-        tracker.updateUserCharacteristics(anyListOf(Characteristics.class),dbRequestListener);
+        tracker.updateUserCharacteristics(anyListOf(Characteristics.class), dbRequestListener);
     }
 
     @Test
@@ -292,221 +256,70 @@ public class DataServicesManagerTest {
 
     @Test
     public void ShouldPostUpdateConsentEvent_WhenUpdateConsentIsCalled() throws Exception {
-        //noinspection ConstantConditions
-        tracker.updateConsentDetails(anyListOf(ConsentDetail.class),dbRequestListener);
-
+        tracker.updateConsentDetails(anyListOf(ConsentDetail.class), dbRequestListener);
         verify(eventingMock).post(any(DatabaseConsentSaveRequest.class));
     }
 
     @Test
     public void ShouldPostdeleteAllMomentEvent_WhendeleteAllMomentIsCalled() throws Exception {
-        //noinspection ConstantConditions
         tracker.deleteAllMoments(dbRequestListener);
-
         verify(eventingMock).post(any(DataClearRequest.class));
     }
 
     //TODO: Spoorti - revisit this
     @Test
     public void ShouldCreateMoment_WhenCreateMomentIsCalled() throws Exception {
-        //noinspection ConstantConditions
         tracker.createMoment("jh");
-
-        //      verify(baseAppDataCreator).createMoment("fsdf", "", "jh");
     }
 
     @Test
     public void ShouldCreateMeasurementGroup_WhenCreateMeasurementGroupIsCalled() throws Exception {
-        //noinspection ConstantConditions
         tracker.createMeasurementGroup(momentMock);
     }
-
-//    @Test
-//    public void ShouldCreateMeasurementGroupDetail_WhenCreateMeasurementGroupDetailIsCalled() throws Exception {
-//        //noinspection ConstantConditions
-//        tracker.createMeasurementGroupDetail("", "some", measurementGroupMock);
-//    }
-
-    /*@Test
-    public void ShouldReleaseDataServicesInstances_WhenReleaseDataServicesInstancesIsCalled() throws Exception {
-        //noinspection ConstantConditions
-        tracker.releaseDataServicesInstances();
-    }*/
-
 
     //TODO: Spoorti - revisit
     @Test
     public void ShouldAddMomentDetail_WhenCreateMomentDetailIsCreated() throws Exception {
         baseAppDataCreator.createMomentDetail(TEST_MEASUREMENT_DETAIL_TYPE, momentMock);
-        // assertThat(momentDetail).isSameAs(momentMock);
-        //   verify(momentMock).addMomentDetail(momentDetail);
     }
 
     @Test
     public void ShouldStopCore_WhenStopCoreIsCalled() throws Exception {
-        //noinspection ConstantConditions
         tracker.stopCore();
     }
 
     @Test(expected = RuntimeException.class)
     public void ShouldinitializeSyncMonitors_WheninitializeSyncMonitorsIsCalled() throws Exception {
-        //noinspection ConstantConditions
-        tracker.initializeSyncMonitors(null, new ArrayList<DataFetcher>(), new ArrayList<DataSender>(),synchronisationCompleteListener);
+        tracker.initializeSyncMonitors(null, new ArrayList<DataFetcher>(), new ArrayList<DataSender>(), synchronisationCompleteListener);
     }
-
- /*   @Test
-    public void ShouldSynchchronize_WhenSynchchronizeIsCalled() throws Exception {
-        //noinspection ConstantConditions
-        tracker.synchronize();
-    }*/
-
-//    @Test
-//    public void ShouldCreateMeasurementDetail_WhenCreateMeasurementDetailIsCalled() throws Exception {
-//        //noinspection ConstantConditions
-//        tracker.createMeasurementDetail(TEST_MEASUREMENT_TYPE, "some", measurementMock);
-//    }
-//
-//    @Test
-//    public void ShouldCreateMeasurement_WhenCreateMeasurementIsCalled() throws Exception {
-//        //noinspection ConstantConditions
-//        tracker.createMeasurement(TEST_MEASUREMENT_TYPE, "Some", "celcius", measurementGroupMock);
-//    }
 
     @Test
     public void ShouldCreateMeasurement_WhenqCreateMeasurementIsCalled() throws Exception {
         tracker.createMeasurementGroup(measurementGroupMock);
-
-        // verify(baseAppDataCreator).createMeasurementGroup(measurementGroupMock);
     }
 
     @Test
     public void ShouldInitializeDBMonitors_WhenInitializeDBMonitorsIsCalled() throws Exception {
-        //noinspection ConstantConditions
         tracker.initializeDatabaseMonitor(null, deletingInterfaceMock, fetchingInterfaceMock, savingInterfaceMock, updatingInterfaceMock);
     }
 
-
     @Test
     public void ShouldCreateCharacteristicsDetails_WhenCreateCharacteristicsDetailsIsCalled() throws Exception {
-        tracker.createUserCharacteristics("TYPE", "VALUE",mock(Characteristics.class));
-//        verify(baseAppDataCreator).createUserCharacteristics(TEST_USER_ID);
+        tracker.createUserCharacteristics("TYPE", "VALUE", mock(Characteristics.class));
     }
 
     @Test
     public void ShouldCreateCharacteristicsDetails_WhenCreateCharacteristicsDetailIsNULL() throws Exception {
         tracker.createUserCharacteristics("TYPE", "VALUE", null);
-//        verify(baseAppDataCreator).createUserCharacteristics(TEST_USER_ID);
     }
 
-    /*@Test
-    public void ShouldIsPullComplete_IsTrue() throws Exception{
-        tracker.setPullComplete(true);
-        tracker.isPullComplete();
-    }
     @Test
-    public void ShouldIsPushComplete_IsTrue() throws Exception{
-        tracker.setPushComplete(true);
-        tracker.isPushComplete();
-    }*/
-//    @Test(expected = NullPointerException.class)
-//    public void ShouldAddMeasurement_WhenCreateMeasurementIsCreated() throws Exception {
-//        tracker.initializeDataServices(mockContext, baseAppDataCreator, userRegistrationInterface);
-//        Measurement measurement = baseAppDataCreator.createMeasurement( TEST_MEASUREMENT_DETAIL_TYPE, measurementGroupMock);
-//        verify(measurementGroupMock).addMeasurement(measurement);
-//    }
-//
-//    @Test(expected = NullPointerException.class)
-//    public void ShouldAddMeasurementDetail_WhenCreateMeasurementDetailIsCreated() throws Exception {
-//        tracker.initializeDataServices(mockContext, baseAppDataCreator, userRegistrationInterface);
-//        MeasurementDetail measurementGroup = baseAppDataCreator.createMeasurementDetail( TEST_MEASUREMENT_DETAIL_TYPE, measurementMock);
-//        verify(measurementMock).addMeasurementDetail(measurementGroup);
-//    }
+    public void unRegisterDeviceTokenTest() throws Exception {
+        tracker.unRegisterDeviceToken("token", "variant", null);
+    }
 
-//    @Test(expected = NullPointerException.class)
-//    public void ShouldCreateMoment_WhenAsked() throws Exception {
-//        tracker.initializeDataServices(mockContext, baseAppDataCreator, userRegistrationInterface);
-//        when(eventingMock).thenReturn(new EventingImpl(new EventBus(), new Handler()));
-//        when(backendIdProviderMock.getUserId()).thenReturn(TEST_USER_ID);
-//        when(backendIdProviderMock.getSubjectId()).thenReturn(TEST_BABY_ID);
-//        when(baseAppDataCreator.createMoment(TEST_USER_ID, TEST_BABY_ID, TEST_MOMENT_TYPE)).thenReturn(momentMock);
-//
-//        Moment moment = tracker.createMoment(TEST_MOMENT_TYPE);
-//        verify(baseAppDataCreator).createMoment(TEST_USER_ID, TEST_BABY_ID, TEST_MOMENT_TYPE)l
-//
-//        assertThat(moment).isSameAs(momentMock);
-//    }
-//
-//    @Test(expected = NullPointerException.class)
-//    public void ShouldSetSubjectIdAsUserId_WhenMomentTypeIsPumping() throws Exception {
-//        tracker.initializeDataServices(mockContext, baseAppDataCreator, userRegistrationInterface);
-//
-//        when(backendIdProviderMock.getUserId()).thenReturn(TEST_USER_ID);
-//        when(baseAppDataCreator.createMoment(TEST_USER_ID, TEST_USER_ID, "PUMPING")).thenReturn(momentMock);
-//
-//        Moment moment = tracker.createMoment("PUMPING");
-//
-//        assertThat(moment).isSameAs(momentMock);
-//    }
-//
-//    @Test(expected = NullPointerException.class)
-//    public void ShouldAddMomentDetailToMoment_WhenMomentDetailIsCreated() throws Exception {
-//        //noinspection ConstantConditions
-//        tracker.initializeDataServices(mockContext, baseAppDataCreator, userRegistrationInterface);
-//
-//        when(baseAppDataCreator.createMomentDetail(TEST_MOMENT_DETAIL_TYPE, momentMock)).thenReturn(momentDetailMock);
-//
-//        MomentDetail momentDetail = tracker.createMomentDetail(TEST_MOMENT_DETAIL_TYPE, momentMock);
-//
-//        assertThat(momentDetail).isSameAs(momentDetailMock);
-//        verify(momentMock).addMomentDetail(momentDetailMock);
-//    }
-//
-//    @Test(expected = NullPointerException.class)
-//    public void ShouldAddMeasurementToMoment_WhenMeasurementIsCreated() throws Exception {
-//        //noinspection ConstantConditions
-//        tracker.initializeDataServices(mockContext, baseAppDataCreator, userRegistrationInterface);
-//
-//
-//        when(baseAppDataCreator.createMeasurement(TEST_MEASUREMENT_TYPE, measurementGroupMock)).thenReturn(measurementMock);
-//
-//        Measurement measurement = tracker.createMeasurement(TEST_MEASUREMENT_TYPE, measurementGroupMock);
-//
-//        assertThat(measurement).isSameAs(measurementGroupMock);
-//        verify(momentMock).addMeasurementGroup(measurementGroupMock);
-//    }
-//
-//    @Test(expected = NullPointerException.class)
-//    public void ShouldAddMeasurementDetailToMoment_WhenMeasurementDetailIsCreated() throws Exception {
-//        //noinspection ConstantConditions
-//        tracker.initializeDataServices(mockContext, baseAppDataCreator, userRegistrationInterface);
-//
-//        when(baseAppDataCreator.createMeasurementDetail(TEST_MEASUREMENT_DETAIL_TYPE, measurementMock)).thenReturn(measurementDetailMock);
-//
-//        MeasurementDetail measurementDetail = tracker.createMeasurementDetail(TEST_MEASUREMENT_DETAIL_TYPE, measurementMock);
-//
-//        assertThat(measurementDetail).isSameAs(measurementDetailMock);
-//        verify(measurementMock).addMeasurementDetail(measurementDetailMock);
-//    }
-//
-//    @Test(expected = NullPointerException.class)
-//    public void ShouldPostDeleteEvent_WhenDeleteMomentAsked() throws Exception {
-//        //noinspection ConstantConditions
-//        tracker.initializeDataServices(mockContext, baseAppDataCreator, userRegistrationInterface);
-//
-//        tracker.markAsInActive(momentMock);
-//
-//        verify(eventingMock).post(momentDeleteEventCaptor.capture());
-//        assertThat(momentDeleteEventCaptor.getValue().getMoments()).isSameAs(momentMock);
-//    }
-//
-//    @Test(expected = NullPointerException.class)
-//    public void ShouldPostUpdateEvent_WhenEditMomentAsked() throws Exception {
-//        //noinspection ConstantConditions
-//        tracker.initializeDataServices(mockContext, baseAppDataCreator, userRegistrationInterface);
-//        when(eventingMock).thenReturn(new EventingImpl(new EventBus(), new Handler()));
-//        tracker.update(momentMock);
-//
-//        verify(eventingMock).post(momentUpdateEventCaptor.capture());
-//        assertThat(momentUpdateEventCaptor.getValue().getMoments()).isSameAs(momentMock);
-//    }
+    @Test
+    public void registerDeviceTokenTest() throws Exception {
+        tracker.registerDeviceToken("token", "variant", null);
+    }
 }
