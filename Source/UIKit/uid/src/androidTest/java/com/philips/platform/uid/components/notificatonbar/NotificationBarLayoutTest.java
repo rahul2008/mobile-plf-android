@@ -1,6 +1,5 @@
 package com.philips.platform.uid.components.notificatonbar;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.support.test.espresso.ViewInteraction;
@@ -24,7 +23,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 public class NotificationBarLayoutTest extends BaseTest {
     private Resources testResources;
-    private Context context;
 
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class, false, false);
@@ -38,7 +36,6 @@ public class NotificationBarLayoutTest extends BaseTest {
         activity.switchTo(R.layout.uid_notification_bg_white);
 
         testResources = getInstrumentation().getContext().getResources();
-        context = getInstrumentation().getContext();
     }
 
     @Test
@@ -129,11 +126,13 @@ public class NotificationBarLayoutTest extends BaseTest {
         int expectedSize = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.notification_bar_general_margin);
         getNotificationCloseButton().check(matches(ViewPropertiesMatchers.isSameStartPadding(expectedSize)));
     }
+
     @Test
     public void verifyNotificationIconEndPadding() {
         int expectedSize = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.notification_bar_general_margin);
         getNotificationCloseButton().check(matches(ViewPropertiesMatchers.isSameEndPadding(expectedSize)));
     }
+
     @Test
     public void verifyNotificationIconTopPadding() {
         int expectedSize = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.notification_bar_general_margin);
