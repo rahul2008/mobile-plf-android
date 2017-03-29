@@ -145,6 +145,14 @@ public static <fields>;
 
 -keep class com.philips.platform.baseapp.base.wxapi.** {*;}
 
+-keep class com.philips.platform.referenceapp.wxapi.** {*;}
+
+-keep class com.philips.platform.referenceapp.wxapi.WXEntryActivity
+
+-keep class com.tencent.mm.sdk.** {
+      *;
+  }
+
 #-------------------------Consumer Care Starts -------------------------
 
 
@@ -442,3 +450,9 @@ public static <fields>;
 -keep public interface com.philips.platform.appinfra.AppInfraInterface {*;}
 
 #-----------------------------app infra ends here-----------------------------------
+
+
+-keep class com.tencent.mm.sdk.openapi.WXMediaMessage {*;}
+-keep class com.tencent.mm.sdk.openapi.** implements com.tencent.mm.sdk.openapi.WXMediaMessage$IMediaObject {*;}
+-keep class com.janrainphilips.philipsregistration.wxapi.** {*;}
+-keep class com.philips.cdp.registration.wxapi.** {*;}
