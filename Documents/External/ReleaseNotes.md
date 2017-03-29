@@ -12,6 +12,7 @@ Version NEXT
 * DiscoveryStrategy interface is extended with start(Set<String> deviceTypes, Set<String> modelIds) method to allow filtering on model ids.
  
 ### Bugs fixed
+* 17024 Internet permission is added to CommLib. If you have manifest mergeing enabled you no longer have to specify this permission in your app.
 
 ### Known issues
 
