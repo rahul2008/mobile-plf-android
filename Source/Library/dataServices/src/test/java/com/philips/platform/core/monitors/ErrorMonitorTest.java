@@ -2,6 +2,7 @@ package com.philips.platform.core.monitors;
 
 import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.events.BackendDataRequestFailed;
+import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.synchronisation.SynchronisationManager;
@@ -82,11 +83,20 @@ public class ErrorMonitorTest {
        // verify(errorHandlingInterface).syncError(-1);
     }
 
-   /* @Test
+    @Test
     public void ShouldStart_WhenonEventBackgroundThreadBackendResponse_called() throws Exception {
-        errorMonitor.onEventAsync(new BackendResponse(501));
-        verify(errorHandlingInterface).syncError(-1);
-    }*/
+
+        String string = "not able to connect";
+        ArrayList<Header> headers = new ArrayList<>();
+        headers.add(new Header("test", "test"));
+
+        when((typedByteArrayMock).getBytes()).thenReturn(string.getBytes());
+        Response response = new Response("http://localhost", 403, string, headers, typedByteArrayMock);
+        when(retrofitError.getResponse()).thenReturn(response);
+
+        errorMonitor.onEventAsync(new BackendResponse(501,retrofitError));
+        verify(errorHandlingInterface).syncError(403);
+    }
 
     @Test
     public void ShouldPostError_On_Error() throws Exception {

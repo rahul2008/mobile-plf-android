@@ -8,6 +8,9 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
+import com.philips.platform.core.events.DeleteInsightRequest;
+import com.philips.platform.core.events.DeleteInsightResponse;
+import com.philips.platform.core.events.DeleteInsightFromDB;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentsDeleteRequest;
@@ -84,6 +87,29 @@ public class DeletingMonitor extends EventMonitor {
         try {
             dbInterface.deleteMoment(backendDeleteResponse.getMoment(),
                     backendDeleteResponse.getDbRequestListener());
+        } catch (SQLException e) {
+            dbInterface.deleteFailed(e, dbRequestListener);
+        }
+    }
+
+    //Insights
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventBackGround(DeleteInsightFromDB deleteInsightFromDB) {
+        final DBRequestListener dbRequestListener = deleteInsightFromDB.getDbRequestListener();
+        try {
+            dbInterface.markInsightsAsInActive(deleteInsightFromDB.getInsights(), dbRequestListener);
+            eventing.post(new DeleteInsightRequest(deleteInsightFromDB.getInsights())); //is it good to have here?
+        } catch (SQLException e) {
+            dbInterface.deleteFailed(e, dbRequestListener);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventBackGround(DeleteInsightResponse deleteInsightResponse) {
+        final DBRequestListener dbRequestListener = deleteInsightResponse.getDBRequestListener();
+        try {
+            dbInterface.deleteInsight(deleteInsightResponse.getInsight(),
+                    dbRequestListener);
         } catch (SQLException e) {
             dbInterface.deleteFailed(e, dbRequestListener);
         }

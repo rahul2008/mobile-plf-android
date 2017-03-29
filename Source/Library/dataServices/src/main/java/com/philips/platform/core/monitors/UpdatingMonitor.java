@@ -19,11 +19,13 @@ import com.philips.platform.core.events.SettingsBackendSaveRequest;
 import com.philips.platform.core.events.SettingsBackendSaveResponse;
 import com.philips.platform.core.events.SyncBitUpdateRequest;
 import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
+import com.philips.platform.core.events.FetchInsightsResponse;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSegregator;
+import com.philips.platform.datasync.insights.InsightSegregator;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -49,6 +51,9 @@ public class UpdatingMonitor extends EventMonitor {
     @NonNull
     DBFetchingInterface dbFetchingInterface;
 
+
+    @Inject
+    InsightSegregator insightSegregator;
 
     @Inject
     MomentsSegregator momentsSegregator;
@@ -202,8 +207,19 @@ public class UpdatingMonitor extends EventMonitor {
                 notifyDBChangeSuccess(SyncType.SETTINGS);
             }
 
-        }catch (SQLException e){
-           notifyDBFailure(e);
+        } catch (SQLException e) {
+            notifyDBFailure(e);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventBackGround(final FetchInsightsResponse updateInsightsBackendResponse) throws SQLException {
+        try {
+            insightSegregator.processInsights(updateInsightsBackendResponse.getInsights(), updateInsightsBackendResponse.getDbRequestListener());
+            notifyDBChangeSuccess(SyncType.INSIGHT);
+        } catch (SQLException e) {
+            dbUpdatingInterface.updateFailed(e, null);
+            notifyDBFailure(e);
         }
     }
 }

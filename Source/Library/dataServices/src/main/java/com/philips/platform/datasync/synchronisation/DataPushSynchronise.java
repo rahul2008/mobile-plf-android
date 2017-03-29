@@ -17,6 +17,8 @@ import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSender;
 import com.philips.platform.datasync.consent.ConsentDataSender;
+import com.philips.platform.datasync.insights.InsightClient;
+import com.philips.platform.datasync.insights.InsightDataSender;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.settings.SettingsDataSender;
 
@@ -69,8 +71,10 @@ public class DataPushSynchronise extends EventMonitor {
     SettingsDataSender settingsDataSender;
 
     @Inject
-    UserCharacteristicsSender userCharacteristicsSender;
+    InsightDataSender insightDataSender;
 
+    @Inject
+    UserCharacteristicsSender userCharacteristicsSender;
 
     DataServicesManager mDataServicesManager;
 
@@ -201,6 +205,9 @@ public class DataPushSynchronise extends EventMonitor {
                     break;
                 case "consent":
                     dataSenders.add(consentsDataSender);
+                    break;
+                case "insight":
+                    dataSenders.add(insightDataSender);
                     break;
             }
         }

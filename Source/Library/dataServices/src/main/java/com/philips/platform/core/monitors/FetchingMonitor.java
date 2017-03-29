@@ -15,6 +15,7 @@ import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
 import com.philips.platform.core.events.LoadConsentsRequest;
+import com.philips.platform.core.events.FetchInsightsFromDB;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
@@ -22,6 +23,7 @@ import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.consent.ConsentsSegregator;
+import com.philips.platform.datasync.insights.InsightSegregator;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 import com.philips.platform.datasync.settings.SettingsSegregator;
 
@@ -53,6 +55,9 @@ public class FetchingMonitor extends EventMonitor {
 
     @Inject
     SettingsSegregator settingsSegregator;
+
+    @Inject
+    InsightSegregator insightSegregator;
 
     public FetchingMonitor(DBFetchingInterface dbInterface) {
         this.dbInterface = dbInterface;
@@ -91,6 +96,8 @@ public class FetchingMonitor extends EventMonitor {
 
         DSLog.i(DSLog.LOG, "In Fetching Monitor before sending GetNonSynchronizedDataResponse for UC");
         dataToSync = settingsSegregator.putSettingsForSync(dataToSync);
+
+        dataToSync = insightSegregator.putInsightForSync(dataToSync);
 
         eventing.post(new GetNonSynchronizedDataResponse(event.getEventId(), dataToSync));
 
@@ -160,4 +167,14 @@ public class FetchingMonitor extends EventMonitor {
             dbInterface.postError(e, loadSettingsRequest.getDbFetchRequestListner());
         }
     }
+
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void onEventAsync(FetchInsightsFromDB fetchInsightsFromDB) {
+        try {
+            dbInterface.fetchActiveInsights(fetchInsightsFromDB.getDbFetchRequestListner());
+        } catch (SQLException e) {
+            dbInterface.postError(e, fetchInsightsFromDB.getDbFetchRequestListner());
+        }
+    }
+
 }

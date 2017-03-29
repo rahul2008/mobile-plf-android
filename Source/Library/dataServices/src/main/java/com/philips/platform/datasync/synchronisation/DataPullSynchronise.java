@@ -15,6 +15,7 @@ import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsFetcher;
 import com.philips.platform.datasync.consent.ConsentsDataFetcher;
+import com.philips.platform.datasync.insights.InsightDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.settings.SettingsDataFetcher;
 
@@ -62,6 +63,9 @@ public class DataPullSynchronise {
 
     @Inject
     UserCharacteristicsFetcher userCharacteristicsFetcher;
+
+    @Inject
+    InsightDataFetcher insightDataFetcher;
 
     @Inject
     Eventing eventing;
@@ -221,6 +225,10 @@ public class DataPullSynchronise {
                 case "consent":
                     fetchList.add(consentsDataFetcher);
                     break;
+                case "insight":
+                    fetchList.add(insightDataFetcher);
+                    break;
+
             }
         }
         return fetchList;

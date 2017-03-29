@@ -1,9 +1,7 @@
-/*
- * Copyright (c) 2016. Philips Electronics India Ltd
- * All rights reserved. Reproduction in whole or in part is prohibited without
- * the written consent of the copyright holder.
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
  */
-
 package com.philips.platform.datasync;
 
 import android.content.SharedPreferences;
@@ -16,16 +14,11 @@ import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 @Singleton
 public class UCoreAccessProvider implements BackendIdProvider {
 
     public static final String MOMENT_LAST_SYNC_URL_KEY = "MOMENT_LAST_SYNC_URL_KEY";
     public static final String INSIGHT_LAST_SYNC_URL_KEY = "INSIGHT_LAST_SYNC_URL_KEY";
-    public static final String INSIGHT_FOR_USER_LAST_SYNC_URL_KEY = "INSIGHT_FOR_USER_LAST_SYNC_URL_KEY";
 
     @Inject
     SharedPreferences sharedPreferences;
@@ -76,10 +69,6 @@ public class UCoreAccessProvider implements BackendIdProvider {
 
     public String getInsightLastSyncTimestamp() {
         return sharedPreferences.getString(INSIGHT_LAST_SYNC_URL_KEY, null);
-    }
-
-    public String getInsightLastSyncTimestampForUser() {
-        return sharedPreferences.getString(INSIGHT_FOR_USER_LAST_SYNC_URL_KEY, null);
     }
 
     public void saveLastSyncTimeStamp(String lastSyncUrl, String key) {

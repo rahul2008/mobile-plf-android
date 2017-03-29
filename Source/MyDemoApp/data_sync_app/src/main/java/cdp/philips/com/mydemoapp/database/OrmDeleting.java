@@ -13,6 +13,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
+import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -27,6 +28,8 @@ import cdp.philips.com.mydemoapp.consents.ConsentDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmDCSync;
+import cdp.philips.com.mydemoapp.database.table.OrmInsight;
+import cdp.philips.com.mydemoapp.database.table.OrmInsightMetaData;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
@@ -75,6 +78,12 @@ public class OrmDeleting {
     private final Dao<OrmSettings, Integer> settingsDao;
     private final Dao<OrmDCSync,Integer> syncDao;
 
+    @NonNull
+    private final Dao<OrmInsight, Integer> ormInsightDao;
+
+    @NonNull
+    private final Dao<OrmInsightMetaData, Integer> ormInsightMetadataDao;
+
 
     public OrmDeleting(@NonNull final Dao<OrmMoment, Integer> momentDao,
                        @NonNull final Dao<OrmMomentDetail, Integer> momentDetailDao,
@@ -84,7 +93,9 @@ public class OrmDeleting {
                        @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetailDao,
                        @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroupsDao,
                        @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao,
-                       @NonNull Dao<OrmCharacteristics, Integer> characteristicsesDao, Dao<OrmSettings, Integer> settingsDao, Dao<OrmDCSync, Integer> syncDao) {
+                       @NonNull Dao<OrmCharacteristics, Integer> characteristicsesDao, Dao<OrmSettings, Integer> settingsDao, Dao<OrmDCSync, Integer> syncDao, @NonNull Dao<OrmInsight, Integer> ormInsightDao,
+                       @NonNull Dao<OrmInsightMetaData, Integer> ormInsightMetadataDao) {
+
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
@@ -97,6 +108,8 @@ public class OrmDeleting {
         this.characteristicsDao = characteristicsesDao;
         this.settingsDao = settingsDao;
         this.syncDao = syncDao;
+        this.ormInsightDao = ormInsightDao;
+        this.ormInsightMetadataDao = ormInsightMetadataDao;
     }
 
     public void deleteAll() throws SQLException {
@@ -108,6 +121,8 @@ public class OrmDeleting {
         consentDetailDao.executeRawNoArgs("DELETE FROM `ormconsentdetail`");
         characteristicsDao.executeRawNoArgs("DELETE FROM `ormcharacteristics`");
         settingsDao.executeRawNoArgs("DELETE FROM `ormsettings`");
+        ormInsightDao.executeRawNoArgs("DELETE FROM `orminsight`");
+        ormInsightMetadataDao.executeRawNoArgs("DELETE FROM `orminsightmetaData`");
 
         insertDefaultConsentAndSyncBit();
         insertDefaultSettingsAndSyncBit();
@@ -276,7 +291,7 @@ public class OrmDeleting {
         ormSettingsDeleteBuilder.delete();
     }
 
-    public boolean deleteMoments(final List<Moment> moments, DBRequestListener dbRequestListener) {
+    public boolean deleteMoments(final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) {
 
         try {
             momentDao.callBatchTasks(new Callable<Void>() {
@@ -299,5 +314,38 @@ public class OrmDeleting {
             return false;
         }
         return true;
+    }
+
+    //Insights
+    public boolean deleteInsights(final List<Insight> insights, DBRequestListener<Insight> dbRequestListener) {
+        try {
+            momentDao.callBatchTasks(new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    for (Insight insight : insights) {
+                        deleteInsight((OrmInsight) insight);
+                    }
+                    return null;
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            new NotifyDBRequestListener().notifyFailure(e, dbRequestListener);
+            return false;
+        }
+        return true;
+    }
+
+    public int deleteInsightMetaData(@NonNull final OrmInsight ormInsight) throws SQLException {
+        DeleteBuilder<OrmInsightMetaData, Integer> deleteBuilder = ormInsightMetadataDao.deleteBuilder();
+        deleteBuilder.where().eq("ormInsight_id", ormInsight.getId());
+        return deleteBuilder.delete();
+    }
+
+    public void deleteInsight(@NonNull final OrmInsight insight) throws SQLException {
+        if (insight.getInsightMetaData() != null && insight.getInsightMetaData().size() > 0)
+            deleteInsightMetaData(insight);
+        deleteSynchronisationData(insight.getSynchronisationData());
+        ormInsightDao.delete(insight);
     }
 }

@@ -139,9 +139,9 @@ public class UCoreAccessProviderTest {
     @Test
     public void ShouldReturnValue_WhenGetInsightLastSyncTimestampForUserIsCalled() {
      //   uCoreAccessProvider.injectSaredPrefs(sharedPreferencesMock);
-        when(sharedPreferencesMock.getString(eq(UCoreAccessProvider.INSIGHT_FOR_USER_LAST_SYNC_URL_KEY), anyString())).thenReturn(INSIGHT_FOR_USER_LAST_SYNC_URL_KEY);
+        when(sharedPreferencesMock.getString(eq(UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY), anyString())).thenReturn(INSIGHT_FOR_USER_LAST_SYNC_URL_KEY);
 
-        String babyId = uCoreAccessProvider.getInsightLastSyncTimestampForUser();
+        String babyId = uCoreAccessProvider.getInsightLastSyncTimestamp();
 
         assertThat(babyId).isEqualTo(INSIGHT_FOR_USER_LAST_SYNC_URL_KEY);
     }

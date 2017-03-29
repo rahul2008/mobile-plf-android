@@ -3,6 +3,7 @@ package cdp.philips.com.mydemoapp.temperature;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.test.suitebuilder.TestMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +59,10 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
             mSyncViewHolder.mOptions.setImageDrawable(mOptionsDrawable);
             TemperatureMomentHelper helper = new TemperatureMomentHelper();
             Moment moment = (OrmMoment) mData.get(position);
+            if (moment.getSynchronisationData() != null)
+                mSyncViewHolder.mMomentID.setText(moment.getSynchronisationData().getGuid());
+            else
+                mSyncViewHolder.mMomentID.setText("Fetching...");
             mSyncViewHolder.mPhase.setText(helper.getTime(moment));
             mSyncViewHolder.mTemperature.setText(String.valueOf(helper.getTemperature(moment)));
             mSyncViewHolder.mLocation.setText(helper.getNotes(moment));
@@ -84,19 +89,21 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
     }
 
     public class DataSyncViewHolder extends RecyclerView.ViewHolder {
+        public TextView mMomentID;
         public TextView mTemperature;
-        public  TextView mPhase;
-        public  TextView mLocation;
+        public TextView mPhase;
+        public TextView mLocation;
         public ImageView mOptions;
         public FrameLayout mDotsLayout;
         public TextView mIsSynced;
 
         public DataSyncViewHolder(final View itemView) {
             super(itemView);
+            mMomentID = (TextView) itemView.findViewById(R.id.moment_id);
             mTemperature = (TextView) itemView.findViewById(R.id.time_line_data);
             mPhase = (TextView) itemView.findViewById(R.id.phasedata);
             mLocation = (TextView) itemView.findViewById(R.id.location_detail);
-            mOptions = (ImageView)itemView.findViewById(R.id.dots);
+            mOptions = (ImageView) itemView.findViewById(R.id.dots);
             mDotsLayout = (FrameLayout) itemView.findViewById(R.id.frame);
             mIsSynced = (TextView) itemView.findViewById(R.id.is_synced);
         }
@@ -105,6 +112,4 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
     private void initDrawables() {
         mOptionsDrawable = VectorDrawable.create(mContext, R.drawable.dots);
     }
-
-
 }

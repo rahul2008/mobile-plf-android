@@ -39,6 +39,7 @@ import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.characteristics.CharacteristicsDialogFragment;
 import cdp.philips.com.mydemoapp.consents.ConsentDialogFragment;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
+import cdp.philips.com.mydemoapp.insights.InsightFragment;
 import cdp.philips.com.mydemoapp.registration.UserRegistrationInterfaceImpl;
 import cdp.philips.com.mydemoapp.settings.SettingsFragment;
 import cdp.philips.com.mydemoapp.utility.Utility;
@@ -67,7 +68,8 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     User mUser;
     Utility mUtility;
 
-    TextView mTvConsents, mTvCharacteristics , mTvSettings ,mTvLogout;
+    TextView mTvConsents, mTvCharacteristics , mTvSettings ,mTvLogout ,mTvInsights;
+
 
 
     @Override
@@ -170,10 +172,14 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mTvCharacteristics = (TextView) view.findViewById(R.id.tv_set_characteristics);
         mTvSettings= (TextView) view.findViewById(R.id.tv_settings);
         mTvLogout= (TextView) view.findViewById(R.id.tv_logout);
+        mTvSettings = (TextView) view.findViewById(R.id.tv_settings);
+        mTvInsights = (TextView)view.findViewById(R.id.tv_insights);
+
         mTvConsents.setOnClickListener(this);
         mTvCharacteristics.setOnClickListener(this);
         mTvSettings.setOnClickListener(this);
         mTvLogout.setOnClickListener(this);
+        mTvInsights.setOnClickListener(this);
         return view;
     }
 
@@ -214,6 +220,9 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 if(isLogout)getActivity().finish();
 
                 break;
+            case R.id.tv_insights:
+                InsightFragment insightFragment = new InsightFragment();
+                insightFragment.show(getFragmentManager(), "Insight");
         }
     }
 

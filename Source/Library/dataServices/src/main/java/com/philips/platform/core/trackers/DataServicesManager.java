@@ -7,6 +7,7 @@ package com.philips.platform.core.trackers;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
@@ -14,6 +15,7 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
+import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
@@ -31,7 +33,9 @@ import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
+import com.philips.platform.core.events.DeleteInsightFromDB;
 import com.philips.platform.core.events.LoadConsentsRequest;
+import com.philips.platform.core.events.FetchInsightsFromDB;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
 import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
@@ -414,6 +418,15 @@ public class DataServicesManager {
 
     public ArrayList<DataSender> getCustomSenders() {
         return mCustomSenders;
+    }
+
+    //Insight
+    public void fetchInsights(DBFetchRequestListner dbFetchRequestListner){
+        mEventing.post(new FetchInsightsFromDB(dbFetchRequestListner));
+    }
+
+    public void deleteInsights(List<? extends Insight> insights, DBRequestListener dbRequestListener){
+        mEventing.post(new DeleteInsightFromDB((List<Insight>) insights,dbRequestListener));
     }
 
     //Push Notification

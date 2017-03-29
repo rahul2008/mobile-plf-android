@@ -181,7 +181,7 @@ public class BaseAppCoreTest {
 //    @Test
 //    public void ShouldCreateInsight_WhenAsked() {
 //
-//        Insight insights = ormCreator.createInsight("Test_Rule", "Test_Title", "Test_Tags", "Test_SubjectId", "Test_MomentId", DateTime.now(), "", "", "");
+//        UCoreInsight insights = ormCreator.createInsight("Test_Rule", "Test_Title", "Test_Tags", "Test_SubjectId", "Test_MomentId", DateTime.now(), "", "", "");
 //
 //        assertThat(insights).isNotNull();
 //        assertThat(insights.getRuleId()).isEqualTo("Test_Rule");

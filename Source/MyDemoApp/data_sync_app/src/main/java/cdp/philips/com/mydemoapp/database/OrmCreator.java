@@ -11,6 +11,8 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.Insight;
+import com.philips.platform.core.datatypes.InsightMetadata;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
@@ -19,8 +21,11 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.utils.UuidGenerator;
+import com.philips.platform.datasync.insights.UCoreInsight;
 
 import org.joda.time.DateTime;
+
+import java.util.Map;
 
 import javax.inject.Singleton;
 
@@ -31,6 +36,8 @@ import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmInsight;
+import cdp.philips.com.mydemoapp.database.table.OrmInsightMetaData;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetailType;
@@ -125,19 +132,19 @@ public class OrmCreator implements BaseAppDataCreator {
     @NonNull
     @Override
     public Characteristics createCharacteristics(@NonNull String type, @NonNull String value, @NonNull Characteristics characteristics) {
-        return new OrmCharacteristics(type,value,(OrmCharacteristics) characteristics);
+        return new OrmCharacteristics(type, value, (OrmCharacteristics) characteristics);
     }
 
     @NonNull
     @Override
     public Characteristics createCharacteristics(@NonNull String type, @NonNull String value) {
-        return new OrmCharacteristics(type,value);
+        return new OrmCharacteristics(type, value);
     }
 
     @NonNull
     @Override
     public Settings createSettings(String type, String value) {
-        return new OrmSettings(type,value);
+        return new OrmSettings(type, value);
     }
 
     @NonNull
@@ -180,4 +187,18 @@ public class OrmCreator implements BaseAppDataCreator {
         OrmMeasurementGroupDetailType ormMeasurementGroupDetailType = new OrmMeasurementGroupDetailType(MeasurementGroupDetailType.getIDFromDescription(type), type);
         return new OrmMeasurementGroupDetail(ormMeasurementGroupDetailType, measurementGroup);
     }
+
+    //Insight
+    @NonNull
+    @Override
+    public Insight createInsight() {
+        return new OrmInsight();
+    }
+
+    @NonNull
+    @Override
+    public InsightMetadata createInsightMetaData(String key, String value, Insight insight) {
+        return new OrmInsightMetaData(key, value, (OrmInsight) insight);
+    }
+
 }

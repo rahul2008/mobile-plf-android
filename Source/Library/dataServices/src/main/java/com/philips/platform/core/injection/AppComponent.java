@@ -24,6 +24,11 @@ import com.philips.platform.datasync.consent.ConsentsConverter;
 import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.consent.ConsentsMonitor;
 import com.philips.platform.datasync.consent.ConsentsSegregator;
+import com.philips.platform.datasync.insights.InsightConverter;
+import com.philips.platform.datasync.insights.InsightDataFetcher;
+import com.philips.platform.datasync.insights.InsightDataSender;
+import com.philips.platform.datasync.insights.InsightMonitor;
+import com.philips.platform.datasync.insights.InsightSegregator;
 import com.philips.platform.datasync.moments.MomentsConverter;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataSender;
@@ -115,6 +120,17 @@ public interface AppComponent {
     void injectDataFetcher(DataFetcher dataFetcher);
 
     void injectDataSender(DataSender tDataSender);
+
+    void injectInsightSegregator(InsightSegregator insightSegregator);
+
+    void injectInsightDataSender(InsightDataSender insightDataSender);
+
+    void injectInsightConverter(InsightConverter insightConverter);
+
+    void injectInsightsDataFetcher(InsightDataFetcher insightDataFetcher);
+
+    void injectInsightMonitor(InsightMonitor insightMonitor);
+
 
     void injectPushNotificationMonitor(PushNotificationMonitor pushNotificationMonitor);
 }

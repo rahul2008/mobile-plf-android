@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.Insight;
+import com.philips.platform.core.datatypes.InsightMetadata;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
@@ -18,8 +20,11 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SynchronisationData;
+import com.philips.platform.datasync.insights.UCoreInsight;
 
 import org.joda.time.DateTime;
+
+import java.util.Map;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -63,4 +68,9 @@ public interface BaseAppDataCreator {
     @NonNull
     Characteristics createCharacteristics(@NonNull final String type, @NonNull final String value);
 
+    @NonNull
+    Insight createInsight();
+
+    @NonNull
+    InsightMetadata createInsightMetaData(String key, String value, Insight insight);
 }

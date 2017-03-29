@@ -2,6 +2,7 @@ package com.philips.platform.verticals;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
@@ -12,15 +13,11 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by 310218660 on 1/2/2017.
- */
-
-public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
+public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface {
 
     @Override
     public List<? extends Moment> fetchMoments(DBFetchRequestListner dbFetchRequestListner) throws SQLException {
-    return null;
+        return null;
     }
 
     @Override
@@ -64,9 +61,8 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
 
-
     @Override
-    public void postError(Exception e,DBFetchRequestListner dbFetchRequestListner) {
+    public void postError(Exception e, DBFetchRequestListner dbFetchRequestListner) {
 
     }
 
@@ -104,6 +100,26 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     @Override
     public boolean isSynced(int tableID) throws SQLException {
         return false;
+    }
+
+    @Override
+    public List<? extends Insight> fetchActiveInsights(DBFetchRequestListner dbFetchRequestListner) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public Insight fetchInsightByGuid(@NonNull String guid) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public Insight fetchInsightById(int id, DBFetchRequestListner dbFetchRequestListner) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public List<?> fetchNonSynchronizedInsights() throws SQLException {
+        return null;
     }
 
     @Override

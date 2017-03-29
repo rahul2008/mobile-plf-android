@@ -21,6 +21,7 @@
     <string name="create_moment">Create moment</string>
     <string name="invalid_temperature"><![CDATA[<strInvalid temperature entry]]></string>
     <string name="consent">User Consents</string>
+    <string name="insights">Insights</string>
     <string name="characteristics">User Characteristics</string>
     <string name="cancel">CANCEL</string>
     <string name="ok">OK</string>

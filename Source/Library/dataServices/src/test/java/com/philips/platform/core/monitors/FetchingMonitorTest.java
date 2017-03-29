@@ -19,6 +19,7 @@ import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.consent.ConsentsSegregator;
+import com.philips.platform.datasync.insights.InsightSegregator;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 import com.philips.platform.datasync.settings.SettingsSegregator;
 
@@ -103,6 +104,9 @@ public class FetchingMonitorTest {
     @Mock
     private DBFetchRequestListner dbFetchRequestListner;
 
+    @Mock
+    InsightSegregator insightSegregatorMock;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -112,6 +116,7 @@ public class FetchingMonitorTest {
         fetchingMonitor.momentsSegregator = momentsSegregatorMock;
         fetchingMonitor.consentsSegregator = consentsSegregatorMock;
         fetchingMonitor.settingsSegregator = settingsSegregatorMock;
+        fetchingMonitor.insightSegregator=insightSegregatorMock;
         uGrowDateTime = new DateTime();
         fetchingMonitor.start(eventingMock);
     }

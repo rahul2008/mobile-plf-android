@@ -226,7 +226,7 @@ public class OrmUpdating {
 
     }
 
-    public boolean updateMoments(final List<Moment> moments, DBRequestListener dbRequestListener) {
+    public boolean updateMoments(final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) {
         try {
             momentDao.callBatchTasks(new Callable<Void>() {
                 @Override
