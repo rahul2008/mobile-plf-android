@@ -126,7 +126,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
         public void onDownloadFinished() {
             Log.i(TAG, "onDownloadFinished()");
 
-            updateButtons(false, true, false);
+            updateButtons(false, true, true);
             statusTextView.setText(R.string.upload_firmware_finished);
         }
 
