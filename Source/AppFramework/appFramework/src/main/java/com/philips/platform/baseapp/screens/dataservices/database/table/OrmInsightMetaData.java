@@ -1,29 +1,34 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 package com.philips.platform.baseapp.screens.dataservices.database.table;
 
 import android.support.annotation.NonNull;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+import com.philips.platform.baseapp.screens.dataservices.database.annotations.DatabaseConstructor;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.InsightMetadata;
 
 import java.io.Serializable;
 
+@DatabaseTable
 public class OrmInsightMetaData implements InsightMetadata, Serializable {
 
     public static final long serialVersionUID = 11L;
 
+    @DatabaseField(generatedId = true)
     private int id;
 
+    @DatabaseField(canBeNull = true)
     private String meta_key;
 
+    @DatabaseField(canBeNull = true)
     private String meta_value;
 
+    @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = false)
     private OrmInsight ormInsight;
 
-    OrmInsightMetaData() {
+    @DatabaseConstructor
+    public OrmInsightMetaData() {
     }
 
     public OrmInsightMetaData(@NonNull final String meta_key, @NonNull final String meta_value, OrmInsight ormInsight) {
