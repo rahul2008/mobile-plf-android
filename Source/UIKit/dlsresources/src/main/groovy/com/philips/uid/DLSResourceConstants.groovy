@@ -24,6 +24,9 @@ class DLSResourceConstants {
                                  Green    : 'green', Orange: 'orange', Pink: 'pink', Purple: 'purple', Gray: 'gray']
 
     static final TONAL_RANGES = ['ultra-light', 'very-light', 'light', 'bright', 'very-dark']
+    static final NAVIGATION_ATTRIBUTES = ['uidNavigationPrimaryBackgroundColor',
+                                          'uidNavigationPrimaryTextColor',
+                                          'uidNavigationPrimaryIconColor']
 
     //Path constants
     static final String PATH_RES = "src/main/resources"
@@ -34,6 +37,7 @@ class DLSResourceConstants {
     static final String PATH_OUT = "generated"
     static final String PATH_OUT_THEME_FILE = "${PATH_OUT}/uid_theme_%s.xml"
     static final String PATH_OUT_COLORS_FILE = "${PATH_OUT}/uid_colors.xml"
+    static final String PATH_OUT_NAVIGATION_FILE = "${PATH_OUT}/uid_navigation.xml"
     static final String PATH_OUT_ATTRS_FILE = "${PATH_OUT}/uid_attrs.xml"
 
     static def getThemeFilePath(fileName) {

@@ -63,7 +63,7 @@ class ThemeAttributeTest extends GroovyTestCase {
         list.add(new ThemeAttribute("uidContentPrimary"))
         def colorValue = tonalRange.getValue("blue", colorsXmlInput, list)
 
-        assertEquals("@color/uid_default_level_white", colorValue)
+        assertEquals("@color/uid_level_white", colorValue)
     }
 
     void testGetTonalRangeValueColorWithOpacity() {
@@ -154,7 +154,7 @@ class ThemeAttributeTest extends GroovyTestCase {
         def colorsXmlInput = new XmlParser().parseText(new File(DLSResourceConstants.PATH_OUT_COLORS_FILE).text)
         def colorValue = tonalRange.getValue("blue", colorsXmlInput, list)
 
-        assertEquals("@color/uid_default_level_white", colorValue)
+        assertEquals("@color/uid_level_white", colorValue)
     }
 
     void testGetTonalRangeValueFromReferenceAndOpacity() {

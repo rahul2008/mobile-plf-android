@@ -21,6 +21,7 @@ class BrushParser {
 
         new AttributeGenerator().flushAttrsFile(allBrushAttributes, allComponentAttributes)
         new ThemeGenerator().createThemeXml(allBrushAttributes, allComponentAttributes)
+        new NavigationStyleCreator().create(allBrushAttributes, allComponentAttributes)
     }
 
     static def generateBrushAttributes(brushesMap) {

@@ -102,8 +102,10 @@ class TonalRange {
             }
             colorReference = colorReference.replaceAll("${DLSResourceConstants.HIPHEN}", "${DLSResourceConstants.UNDERSCORE}")
             def colorValue = getColorValue(colorsXmlInput, colorReference)
-
-            if (hexAlpha.isEmpty()) {
+            if (colorValue == "@null") {
+                return "?attr/" + BrushParser.getAttributeName("Color_${DLSResourceConstants.LEVEL}_" + colorCode)
+            }
+            if (hexAlpha.isEmpty() && colorValue != null) {
 //                println("colorReference: #" + colorReference + "#" + " colorValue " + colorValue)
                 return "@color/${colorReference}";
             }
@@ -119,6 +121,17 @@ class TonalRange {
 
         if (index > -1) {
             return "${DLSResourceConstants.ATTR}" + reference
+        }
+//        println(" Invalid Attribute " + reference)
+
+        return "@null"
+    }
+
+    def getAttributeName(allAttributes) {
+        def index = allAttributes.indexOf(new ThemeAttribute(reference))
+
+        if (index > -1) {
+            return reference
         }
 //        println(" Invalid Attribute " + reference)
 
