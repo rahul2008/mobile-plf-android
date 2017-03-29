@@ -1,31 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="UIDNavigationbarUltraLight">
-        <!--<item name="uidNavigationPrimaryBackgroundColor">@color/uidColorWhite</item>
-        <item name="uidNavigationPrimaryTextColor">?attr/uidTextPrimary</item>-->
-    </style>
-
-    <style name="UIDNavigationbarVeryLight">
-        <!--<item name="uidNavigationPrimaryBackgroundColor">?attr/uidColorLevel10</item>
-        <item name="uidNavigationPrimaryTextColor">?attr/uidColorLevel45</item>-->
-    </style>
-
-    <style name="UIDNavigationbarLight">
-        <!--<item name="uidNavigationPrimaryBackgroundColor">?attr/uidColorLevel25</item>
-        <item name="uidNavigationPrimaryTextColor">?attr/uidTextPrimary</item>-->
-    </style>
-
-    <style name="UIDNavigationbarBright">
-        <!--<item name="uidNavigationPrimaryBackgroundColor">?attr/uidColorLevel40</item>
-        <item name="uidNavigationPrimaryTextColor">?attr/uidTextPrimary</item>-->
-    </style>
-
-    <style name="UIDNavigationbarVeryDark">
-        <!--<item name="uidActionBarBackground">?attr/uidColorLevel70</item>
-        <item name="uidNavigationPrimaryTextColor">?attr/uidTextPrimary</item>-->
-    </style>
-
     <style name="UIDToolbarBarTitleText" parent="Base.TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textColor">?attr/uidNavigationPrimaryTextColor</item>
         <item name="android:textColorPrimary">?attr/uidNavigationPrimaryTextColor</item>
