@@ -86,7 +86,7 @@ public class TimeSyncSntpClient implements TimeInterface {
             long[] roundTripDelays;
 
             ArrayList<String> timeSyncServerList=getTimeSyncServerPoolFromConfig();
-            if(!timeSyncServerList.isEmpty())
+            if(null!=timeSyncServerList && !timeSyncServerList.isEmpty())
             {
                 serverPool=  timeSyncServerList.toArray(new String[timeSyncServerList.size()]);
             }
