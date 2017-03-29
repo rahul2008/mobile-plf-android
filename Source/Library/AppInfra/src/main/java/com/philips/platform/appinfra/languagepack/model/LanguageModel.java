@@ -45,4 +45,9 @@ public class LanguageModel {
 		this.mUrl = url;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		LanguageModel languageModel = (LanguageModel) obj;
+		return languageModel.getLocale().equals(this.getLocale());
+	}
 }

@@ -105,8 +105,8 @@ public class LanguagePackManager implements LanguagePackInterface {
 	}
 
 
-    Runnable postSuccess(final OnRefreshListener aILPRefreshResult) {
-        return new Runnable() {
+	Runnable postRefreshSuccess(final OnRefreshListener aILPRefreshResult) {
+		return new Runnable() {
 			@Override
 			public void run() {
 				if (aILPRefreshResult != null)
@@ -115,8 +115,8 @@ public class LanguagePackManager implements LanguagePackInterface {
 		};
     }
 
-    Runnable postError(final OnRefreshListener aILPRefreshResult, final OnRefreshListener.AILPRefreshResult ailpRefreshResult, final String errorDescription) {
-        return new Runnable() {
+	Runnable postRefreshError(final OnRefreshListener aILPRefreshResult, final OnRefreshListener.AILPRefreshResult ailpRefreshResult, final String errorDescription) {
+		return new Runnable() {
             @Override
             public void run() {
                 if (aILPRefreshResult != null)
@@ -133,10 +133,10 @@ public class LanguagePackManager implements LanguagePackInterface {
 			if (languagePackDownloadRequired) {
 				downloadLanguagePack(url, aILPRefreshResult);
 			} else {
-				languagePackHandler.post(postError(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.NoRefreshRequired, OnRefreshListener.AILPRefreshResult.NoRefreshRequired.toString()));
+				languagePackHandler.post(postRefreshError(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.NoRefreshRequired, OnRefreshListener.AILPRefreshResult.NoRefreshRequired.toString()));
 			}
 		} else
-			languagePackHandler.post(postError(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.RefreshFailed, OnRefreshListener.AILPRefreshResult.RefreshFailed.toString()));
+			languagePackHandler.post(postRefreshError(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.RefreshFailed, OnRefreshListener.AILPRefreshResult.RefreshFailed.toString()));
 	}
 
 	private boolean isLanguagePackDownloadRequired(LanguageModel selectedLanguageModel) {
@@ -170,17 +170,17 @@ public class LanguagePackManager implements LanguagePackInterface {
                         languagePackUtil.saveFile(response.toString(), LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
                         languagePackUtil.saveLocaleMetaData(selectedLanguageModel);
 						languagePackUtil.deleteFile(LanguagePackConstants.LOCALE_FILE_ACTIVATED);
-						languagePackHandler.post(postSuccess(aILPRefreshResult));
-                    }
+						languagePackHandler.post(postRefreshSuccess(aILPRefreshResult));
+					}
                 }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
-                String errMsg = " Error Code:" + errorcode + " , Error Message:" + error.toString();
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", errMsg);
-                languagePackHandler.post(postError(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.RefreshFailed, errMsg));
-            }
+				String errorCode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
+				String errMsg = " Error Code:" + errorCode + " , Error Message:" + error.toString();
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", errMsg);
+				languagePackHandler.post(postRefreshError(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.RefreshFailed, errMsg));
+			}
         }, null, null, null);
         mRestInterface.getRequestQueue().add(jsonObjectRequest);
     }
@@ -202,45 +202,36 @@ public class LanguagePackManager implements LanguagePackInterface {
 		for (String deviceLocale : deviceLocaleList) {
 			for (LanguageModel model : languageModels) {
 				if (model.getLocale().equalsIgnoreCase(deviceLocale)) {
-                    selectedLanguageModel = model;
-					langModel.setVersion(model.getVersion());
-					langModel.setLocale(model.getLocale());
-					langModel.setUrl(model.getUrl());
-					return model.getUrl();
-				}
-				/*else if (model.getLocale().substring(0, 2).intern().equalsIgnoreCase
-						(deviceLocale.substring(0, 2).intern())) {
-                    selectedLanguageModel = model;
-					langModel.setVersion(model.getVersion());
-					langModel.setLocale(model.getLocale());
-					langModel.setUrl(model.getUrl());
-					return model.getUrl();
-				} */
-				else if (deviceLocale.contains(model.getLocale().substring(0, 2))) {
 					selectedLanguageModel = model;
 					langModel.setVersion(model.getVersion());
 					langModel.setLocale(model.getLocale());
 					langModel.setUrl(model.getUrl());
 					return model.getUrl();
 				}
-
+			}
+			for (LanguageModel model : languageModels) {
+				if (deviceLocale.contains(model.getLocale().substring(0, 2))) {
+					selectedLanguageModel = model;
+					langModel.setVersion(model.getVersion());
+					langModel.setLocale(model.getLocale());
+					langModel.setUrl(model.getUrl());
+					return model.getUrl();
+				}
 			}
 
 			// TODO - Need to handle fallback scenarios
 		}
-
-
-		//	String defaultlocale = new String("en_GB");
-//		if (languageModels.contains(defaultlocale)) {
-//			int index = languageModels.indexOf("en_GB");
-//			return languageModels.get(index).getUrl();
-//		}
+		LanguageModel defaultLocale = getDefaultLocale();
+		if (languageModels.contains(defaultLocale)) {
+			int index = languageModels.indexOf(defaultLocale);
+			selectedLanguageModel = languageModels.get(index);
+			return languageModels.get(index).getUrl();
+		}
 		return null;
 	}
 
 	public void activate(final OnActivateListener onActivateListener) {
 		File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_INFO);
-		File fileDownloaded = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
 		LanguagePackMetadata languagePackMetadata = gson.fromJson(languagePackUtil.readFile(file), LanguagePackMetadata.class);
 		if (languagePackMetadata != null) {
 			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Language pack metadata info",
@@ -251,10 +242,23 @@ public class LanguagePackManager implements LanguagePackInterface {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				languagePackUtil.renameOnActivate();
-				languagePackHandler.post(postActivateSuccess(onActivateListener));
+				boolean isRenamed = languagePackUtil.renameOnActivate();
+				if (isRenamed) {
+					languagePackHandler.post(postActivateSuccess(onActivateListener));
+				} else
+					languagePackHandler.post(postActivateError(onActivateListener, OnActivateListener.AILPActivateResult.REFRESH_NOT_CALLED));
 			}
 		}).start();
+	}
+
+	private Runnable postActivateError(final OnActivateListener onActivateListener, final OnActivateListener.AILPActivateResult error) {
+		return new Runnable() {
+			@Override
+			public void run() {
+				if (onActivateListener != null)
+					onActivateListener.onError(error);
+			}
+		};
 	}
 
 	private Runnable postActivateSuccess(final OnActivateListener onActivateListener) {
@@ -267,4 +271,9 @@ public class LanguagePackManager implements LanguagePackInterface {
 		};
 	}
 
+	private LanguageModel getDefaultLocale() {
+		LanguageModel defaultLocale = new LanguageModel();
+		defaultLocale.setLocale("en_GB");
+		return defaultLocale;
+	}
 }

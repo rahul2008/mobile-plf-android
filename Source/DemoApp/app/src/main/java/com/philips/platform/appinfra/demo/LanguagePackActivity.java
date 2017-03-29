@@ -43,9 +43,10 @@ public class LanguagePackActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onError(String description) {
-                        activatedUrl.setText(description);
+                    public void onError(AILPActivateResult ailpActivateResult) {
+                        activatedUrl.setText(ailpActivateResult.toString());
                     }
+
                 });
             }
         };
