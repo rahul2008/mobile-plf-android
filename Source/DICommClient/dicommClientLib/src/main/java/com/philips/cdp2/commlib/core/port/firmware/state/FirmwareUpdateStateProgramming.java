@@ -16,12 +16,12 @@ public class FirmwareUpdateStateProgramming extends FirmwareUpdateState {
 
     @Override
     public void onStart(FirmwareUpdateState previousState) {
-        firmwareUpdate.waitForNextState();
+        firmwareUpdateOperation.waitForNextState();
     }
 
     @Override
     public void onError(final String message) {
-        firmwareUpdate.onDeployFailed("Deployment failed: " + message);
-        firmwareUpdate.finish();
+        firmwareUpdateOperation.onDeployFailed("Deployment failed: " + message);
+        firmwareUpdateOperation.finish();
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Koninklijke Philips N.V.
+ * Copyright (c) 2016, 2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp2.commlib.core.appliance;
@@ -50,21 +50,22 @@ public class ApplianceManager {
         @Override
         public void onNetworkNodeDiscovered(NetworkNode networkNode) {
             final Appliance appliance = createAppliance(networkNode);
-
             if (appliance == null) {
                 return;
             }
-            availableAppliances.add(appliance);
 
-            notifyApplianceFound(appliance);
+            if (availableAppliances.add(appliance)) {
+                notifyApplianceFound(appliance);
+            }
         }
 
         @Override
         public void onNetworkNodeLost(NetworkNode networkNode) {
             final Appliance appliance = createAppliance(networkNode);
-            availableAppliances.remove(appliance);
 
-            notifyApplianceLost(appliance);
+            if (availableAppliances.remove(appliance)) {
+                notifyApplianceLost(appliance);
+            }
         }
 
         @Override
@@ -137,7 +138,8 @@ public class ApplianceManager {
      * @param appliance the appliance
      */
     public <A extends Appliance> void storeAppliance(@NonNull A appliance) {
-        // TODO store, notify availableAppliances
+        // TODO
+        throw new UnsupportedOperationException("Not implemented yet.");
     }
 
     /**
@@ -146,7 +148,7 @@ public class ApplianceManager {
      * @param applianceListener the listener
      * @return true, if the listener didn't exist yet and was therefore added
      */
-    public boolean addApplianceListener(@NonNull ApplianceListener applianceListener) {
+    public <A extends Appliance> boolean addApplianceListener(@NonNull ApplianceListener<A> applianceListener) {
         return applianceListeners.add(applianceListener);
     }
 
@@ -156,12 +158,12 @@ public class ApplianceManager {
      * @param applianceListener the listener
      * @return true, if the listener was present and therefore removed
      */
-    public boolean removeApplianceListener(@NonNull ApplianceListener<Appliance> applianceListener) {
+    public <A extends Appliance> boolean removeApplianceListener(@NonNull ApplianceListener<A> applianceListener) {
         return applianceListeners.remove(applianceListener);
     }
 
     private void loadAppliancesFromPersistentStorage() {
-        // TODO implement
+        // TODO
     }
 
     private Appliance createAppliance(NetworkNode networkNode) {

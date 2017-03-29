@@ -5,18 +5,19 @@
 package com.philips.cdp2.commlib.core.port.firmware.state;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.philips.cdp2.commlib.core.port.firmware.operation.FirmwareUpdatePushLocal;
 
 public class FirmwareUpdateStateChecking extends CancelableFirmwareUpdateState {
 
-    public FirmwareUpdateStateChecking(@NonNull FirmwareUpdatePushLocal firmwareUpdate) {
-        super(firmwareUpdate);
+    public FirmwareUpdateStateChecking(@NonNull FirmwareUpdatePushLocal firmwareUpdateOperation) {
+        super(firmwareUpdateOperation);
     }
 
     @Override
-    public void onStart(FirmwareUpdateState previousState) {
-        firmwareUpdate.waitForNextState();
+    public void onStart(@Nullable FirmwareUpdateState previousState) {
+        firmwareUpdateOperation.waitForNextState();
     }
 
     @Override
@@ -26,6 +27,6 @@ public class FirmwareUpdateStateChecking extends CancelableFirmwareUpdateState {
 
     @Override
     public void onFinish() {
-        firmwareUpdate.onCheckingProgress(100);
+        firmwareUpdateOperation.onCheckingProgress(100);
     }
 }

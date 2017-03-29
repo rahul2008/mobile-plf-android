@@ -18,18 +18,17 @@ public class FirmwareUpdateStateReady extends CancelableFirmwareUpdateState {
 
     @Override
     public void onStart(FirmwareUpdateState previousState) {
-        firmwareUpdate.onDownloadFinished();
+        firmwareUpdateOperation.onDownloadFinished();
     }
 
     @Override
     public void deploy() {
-        firmwareUpdate.requestState(PROGRAMMING);
-        firmwareUpdate.waitForNextState();
+        firmwareUpdateOperation.requestState(PROGRAMMING);
+        firmwareUpdateOperation.waitForNextState();
     }
 
     @Override
     public void onError(final String message) {
-        firmwareUpdate.onDeployFailed("Deployment failed.");
-        firmwareUpdate.finish();
+        super.onError("Deployment failed: " + message);
     }
 }

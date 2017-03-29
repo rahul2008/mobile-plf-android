@@ -5,18 +5,18 @@
 
 package com.philips.cdp2.commlib.core.appliance;
 
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.DevicePort;
-import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
 import com.philips.cdp.dicommclient.port.common.PairingPort;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiUIPort;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
 
 import java.util.ArrayList;
 import java.util.List;

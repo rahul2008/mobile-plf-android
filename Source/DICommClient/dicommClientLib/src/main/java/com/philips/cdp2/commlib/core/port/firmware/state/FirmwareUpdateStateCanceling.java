@@ -16,12 +16,12 @@ public class FirmwareUpdateStateCanceling extends FirmwareUpdateState {
 
     @Override
     public void onStart(FirmwareUpdateState previousState) {
-        firmwareUpdate.waitForNextState();
+        firmwareUpdateOperation.waitForNextState();
     }
 
     @Override
     public void onError(final String message) {
-        firmwareUpdate.onDownloadFailed("Could not cancel.");
-        firmwareUpdate.finish();
+        firmwareUpdateOperation.onDownloadFailed("Could not cancel: " + message);
+        firmwareUpdateOperation.finish();
     }
 }

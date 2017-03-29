@@ -16,10 +16,8 @@ import org.mockito.stubbing.Answer;
 
 import static com.philips.cdp.dicommclient.util.DICommLog.disableLogging;
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.CANCELING;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -38,7 +36,7 @@ public class CancelableFirmwareUpdateStateTest {
         stateUnderTest = new CancelableFirmwareUpdateState(mockFirmwareUpdate) {
             @Override
             protected void onStart(@Nullable final FirmwareUpdateState previousState) {
-
+                // Ignored
             }
         };
     }

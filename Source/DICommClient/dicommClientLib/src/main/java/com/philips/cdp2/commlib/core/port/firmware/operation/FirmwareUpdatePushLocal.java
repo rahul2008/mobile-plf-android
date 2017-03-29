@@ -13,7 +13,6 @@ import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortListener;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortListener.FirmwarePortException;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState;
-import com.philips.cdp2.commlib.core.port.firmware.FirmwareUpdate;
 import com.philips.cdp2.commlib.core.port.firmware.state.FirmwareUpdateState;
 import com.philips.cdp2.commlib.core.port.firmware.state.FirmwareUpdateStateCanceling;
 import com.philips.cdp2.commlib.core.port.firmware.state.FirmwareUpdateStateChecking;
@@ -24,6 +23,7 @@ import com.philips.cdp2.commlib.core.port.firmware.state.FirmwareUpdateStatePrep
 import com.philips.cdp2.commlib.core.port.firmware.state.FirmwareUpdateStateProgramming;
 import com.philips.cdp2.commlib.core.port.firmware.state.FirmwareUpdateStateReady;
 import com.philips.cdp2.commlib.core.port.firmware.util.FirmwarePortStateWaiter;
+import com.philips.cdp2.commlib.core.port.firmware.util.FirmwareUpdateException;
 import com.philips.cdp2.commlib.core.port.firmware.util.FirmwareUploader;
 import com.philips.cdp2.commlib.core.port.firmware.util.FirmwareUploader.UploadListener;
 
@@ -41,7 +41,7 @@ import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.PROGRAMMING;
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.READY;
 
-public class FirmwareUpdatePushLocal implements FirmwareUpdate {
+public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
 
     private static final class StateMap extends HashMap<FirmwarePortState, FirmwareUpdateState> {
         FirmwarePortState findByState(@NonNull FirmwareUpdateState state) {
@@ -69,24 +69,20 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
     @NonNull
     private final byte[] firmwareData;
 
-    private final int timeoutMillis;
-
     private FirmwarePortStateWaiter firmwarePortStateWaiter;
+    private FirmwareUploader firmwareUploader;
+
+    private long stateTransitionTimeoutMillis;
 
     private FirmwareUpdateState currentState;
 
     public FirmwareUpdatePushLocal(@NonNull final FirmwarePort firmwarePort,
                                    @NonNull final CommunicationStrategy communicationStrategy,
                                    @NonNull final FirmwarePortListener firmwarePortListener,
-                                   @NonNull byte[] firmwareData, int timeoutMillis) {
+                                   @NonNull byte[] firmwareData) {
         this.firmwarePort = firmwarePort;
         this.communicationStrategy = communicationStrategy;
         this.firmwarePortListener = firmwarePortListener;
-
-        if (timeoutMillis <= 0) {
-            throw new IllegalArgumentException("Timeout value is invalid, must be a non-zero positive integer.");
-        }
-        this.timeoutMillis = timeoutMillis;
 
         if (firmwareData.length == 0) {
             throw new IllegalArgumentException("Firmware data has zero length.");
@@ -98,8 +94,13 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
     }
 
     private void initDeviceState() {
-        // TODO check for actual device currentState
-        currentState = stateMap.get(IDLE);
+        FirmwarePortProperties properties = firmwarePort.getPortProperties();
+
+        if (properties == null) {
+            currentState = stateMap.get(IDLE);
+        } else {
+            currentState = stateMap.get(properties.getState());
+        }
     }
 
     private void initStateMap() {
@@ -114,17 +115,20 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
     }
 
     @Override
-    public void start() {
+    public void start(long stateTransitionTimeoutMillis) {
+        this.stateTransitionTimeoutMillis = stateTransitionTimeoutMillis;
         currentState.start(null);
     }
 
     @Override
-    public void deploy() throws FirmwareUpdateException {
+    public void deploy(long stateTransitionTimeoutMillis) throws FirmwareUpdateException {
+        this.stateTransitionTimeoutMillis = stateTransitionTimeoutMillis;
         currentState.deploy();
     }
 
     @Override
-    public void cancel() throws FirmwareUpdateException {
+    public void cancel(long stateTransitionTimeoutMillis) throws FirmwareUpdateException {
+        this.stateTransitionTimeoutMillis = stateTransitionTimeoutMillis;
         currentState.cancel();
     }
 
@@ -133,13 +137,17 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
         this.firmwarePort.finishFirmwareUpdate();
     }
 
-    @Override
-    public void onError(final String message) {
-        currentState.onError(message);
+    public void uploadFirmware(UploadListener firmwareUploadListener) {
+        this.firmwareUploader = new FirmwareUploader(firmwarePort, communicationStrategy, firmwareData, firmwareUploadListener);
+        this.firmwareUploader.start();
     }
 
-    public void uploadFirmware(UploadListener firmwareUploadListener) {
-        new FirmwareUploader(firmwarePort, communicationStrategy, firmwareData, firmwareUploadListener).upload();
+    public void stopUploading() {
+        if (this.firmwareUploader == null) {
+            return;
+        }
+        this.firmwareUploader.stop();
+        this.firmwareUploader = null;
     }
 
     public void onDeployFinished() {
@@ -189,7 +197,7 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
         FirmwarePortState currentPortState = stateMap.findByState(currentState);
 
         this.firmwarePortStateWaiter = createFirmwarePortStateWaiter(currentPortState);
-        this.firmwarePortStateWaiter.waitForNextState();
+        this.firmwarePortStateWaiter.waitForNextState(this.stateTransitionTimeoutMillis);
     }
 
     private String getStatusMessage() {
@@ -200,14 +208,14 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdate {
 
     @VisibleForTesting
     FirmwarePortStateWaiter createFirmwarePortStateWaiter(FirmwarePortState portState) {
-        return new FirmwarePortStateWaiter(this.firmwarePort, this.communicationStrategy, portState, this.timeoutMillis, new FirmwarePortStateWaiter.WaiterListener() {
+        return new FirmwarePortStateWaiter(this.firmwarePort, this.communicationStrategy, portState, new FirmwarePortStateWaiter.WaiterListener() {
 
             @Override
             public void onNewState(final FirmwarePortState newState) {
-                FirmwareUpdateState previousState = FirmwareUpdatePushLocal.this.currentState;
-                FirmwareUpdatePushLocal.this.currentState.finish();
-                FirmwareUpdatePushLocal.this.currentState = stateMap.get(newState);
-                FirmwareUpdatePushLocal.this.currentState.start(previousState);
+                final FirmwareUpdateState previousState = currentState;
+                currentState.finish();
+                currentState = stateMap.get(newState);
+                currentState.start(previousState);
             }
 
             @Override

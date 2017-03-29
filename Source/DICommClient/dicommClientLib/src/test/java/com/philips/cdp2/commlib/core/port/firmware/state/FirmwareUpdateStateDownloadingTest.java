@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import static com.philips.cdp.dicommclient.util.DICommLog.disableLogging;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -56,8 +55,8 @@ public class FirmwareUpdateStateDownloadingTest {
     }
 
     @Test
-    public void onFinish_downloadProgress100() {
-        stateUnderTest.finish();
+    public void onSuccess_downloadProgress100() {
+        stateUnderTest.firmwareUploadListener.onSuccess();
 
         verify(mockFirmwareUpdate).onDownloadProgress(100);
     }

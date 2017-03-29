@@ -12,19 +12,19 @@ import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties
 
 abstract class CancelableFirmwareUpdateState extends FirmwareUpdateState {
 
-    CancelableFirmwareUpdateState(@NonNull FirmwareUpdatePushLocal firmwareUpdate) {
-        super(firmwareUpdate);
+    CancelableFirmwareUpdateState(@NonNull FirmwareUpdatePushLocal firmwareUpdateOperation) {
+        super(firmwareUpdateOperation);
     }
 
     @Override
     public void cancel() {
-        firmwareUpdate.requestState(CANCELING);
-        firmwareUpdate.waitForNextState();
+        firmwareUpdateOperation.requestState(CANCELING);
+        firmwareUpdateOperation.waitForNextState();
     }
 
     @Override
     public void onError(final String message) {
-        firmwareUpdate.onDownloadFailed(message);
-        firmwareUpdate.finish();
+        firmwareUpdateOperation.onDownloadFailed(message);
+        firmwareUpdateOperation.finish();
     }
 }
