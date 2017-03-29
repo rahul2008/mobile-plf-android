@@ -29,7 +29,6 @@ public class FirmwareUpdateStateReady extends CancelableFirmwareUpdateState {
 
     @Override
     public void onError(final String message) {
-        firmwareUpdateOperation.onDeployFailed("Deployment failed.");
-        firmwareUpdateOperation.finish();
+        super.onError("Deployment failed: " + message);
     }
 }

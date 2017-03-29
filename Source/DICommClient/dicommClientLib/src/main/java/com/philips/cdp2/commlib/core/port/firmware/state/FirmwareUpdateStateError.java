@@ -6,6 +6,7 @@ package com.philips.cdp2.commlib.core.port.firmware.state;
 
 import android.support.annotation.NonNull;
 
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.port.firmware.operation.FirmwareUpdatePushLocal;
 
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.IDLE;
@@ -34,6 +35,7 @@ public class FirmwareUpdateStateError extends FirmwareUpdateState {
 
     @Override
     public void onError(final String message) {
+        DICommLog.e(DICommLog.FIRMWAREPORT, "Reached error state - reason: " + message);
         firmwareUpdateOperation.finish();
     }
 }

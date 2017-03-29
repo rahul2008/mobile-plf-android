@@ -27,7 +27,7 @@ public class FirmwareUpdateStateCanceling extends FirmwareUpdateState {
 
     @Override
     public void onError(final String message) {
-        firmwareUpdateOperation.onDownloadFailed("Could not cancel.");
+        firmwareUpdateOperation.onDownloadFailed("Could not cancel: " + message);
         firmwareUpdateOperation.finish();
     }
 }

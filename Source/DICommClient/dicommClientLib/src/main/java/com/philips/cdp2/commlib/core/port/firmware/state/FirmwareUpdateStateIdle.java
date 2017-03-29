@@ -29,7 +29,7 @@ public class FirmwareUpdateStateIdle extends FirmwareUpdateState {
 
     @Override
     public void onError(final String message) {
-        firmwareUpdateOperation.onDownloadFailed("Could not start uploading.");
+        firmwareUpdateOperation.onDownloadFailed("Could not start uploading: " + message);
         firmwareUpdateOperation.finish();
     }
 }

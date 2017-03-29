@@ -147,6 +147,7 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
             return;
         }
         this.firmwareUploader.stop();
+        this.firmwareUploader = null;
     }
 
     public void onDeployFinished() {

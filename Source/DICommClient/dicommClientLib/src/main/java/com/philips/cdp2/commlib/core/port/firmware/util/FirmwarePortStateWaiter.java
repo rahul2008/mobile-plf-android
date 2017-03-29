@@ -121,6 +121,7 @@ public class FirmwarePortStateWaiter {
         timeoutTask = new TimerTask() {
             @Override
             public void run() {
+                firmwarePort.removePortListener(firmwarePortListener);
                 listener.onError("Timeout while waiting for next state.");
             }
         };

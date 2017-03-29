@@ -85,10 +85,10 @@ public class FirmwareUploader {
     }
 
     public void stop() {
-        if (uploadTask == null) {
-            return;
+        if (uploadTask != null) {
+            uploadTask.cancel(true);
         }
-        uploadTask.cancel(true);
+        executor.shutdownNow();
     }
 
     private void uploadNextChunk(int offset) {
