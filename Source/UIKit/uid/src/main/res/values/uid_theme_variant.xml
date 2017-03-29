@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--<style name="Base">
-
-         <item name="uidControlPrimaryTextColor">@color/uidColorWhite</item>
+    <style name="Base">
+    <item name="uidInputTextBorderWidth">@dimen/uid_edittext_stroke_width</item>
+        <!-- <item name="uidControlPrimaryTextColor">@color/uidColorWhite</item>
          <item name="uidControlPrimaryTextPressedColor">?attr/uidColorLevel55</item>
          <item name="uidControlPrimaryDisabledAlpha">@dimen/uid_alpha_per_35</item>
          <item name="uidTextPrimaryColor">@color/uidColorWhite</item>
@@ -126,11 +126,12 @@
         <item name="uidTextBoxValidationBorder">@android:color/transparent</item>
         <item name="uidTextBoxValidationText">@color/uid_signal_orange_level_75</item>
         <item name="uidTextBoxValidationErrorColor">@color/uid_signal_orange_level_15</item>
+-->
 
+    </style>
 
-    </style> -->
-
-    <style name="UltraLight">
+    <style name="Base.UltraLight">
+        <item name="uidInputTextBorderWidth">@dimen/uid_edittext_stroke_width_ultralight</item>
         <!--<item name="uidContentPrimary">@color/uidColorWhite</item>
         <item name="uidContentSecondary">?attr/uidColorLevel5</item>
         <item name="uidNavigationPrimaryColor">@color/uidColorWhite</item>
@@ -199,7 +200,7 @@
         <item name="uidTextBoxValidationErrorColor">@color/uid_signal_orange_level_75</item>-->
     </style>
 
-    <style name="VeryLight">
+    <style name="Base.VeryLight">
         <!--     <item name="uidContentPrimary">?attr/uidColorLevel20</item>
              <item name="uidControlPrimaryDetail">?attr/uidControlPrimaryEnabledColor</item>
 
@@ -261,7 +262,7 @@
              <item name="uidControlTrackOff">?attr/uidColorLevel45</item>-->
     </style>
 
-    <style name="Light">
+    <style name="Base.Light">
         <!--  <item name="uidContentPrimary">?attr/uidColorLevel35</item>
           <item name="uidControlPrimaryDetail">@color/uidColorWhite</item>
 
@@ -322,7 +323,7 @@
           <item name="uidControlTrackOff">@color/uidColorWhite</item>-->
     </style>
 
-    <style name="Bright">
+    <style name="Base.Bright">
         <item name="uidApplicationBackground">?attr/uidColorLevel55</item>
 
         <!--  <item name="uidContentPrimary">?attr/uidColorLevel50</item>
@@ -384,7 +385,7 @@
           <item name="uidControlTrackOff">@color/uidColorWhite</item>-->
     </style>
 
-    <style name="VeryDark">
+    <style name="Base.VeryDark">
         <!--<item name="uidContentPrimary">?attr/uidColorLevel80</item>
         <item name="uidControlPrimaryDetail">@color/uidColorWhite</item>
         <item name="uidContentSecondary">?attr/uidColorLevel75</item>

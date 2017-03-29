@@ -38,6 +38,7 @@ public class UIDHelper {
                 themeConfiguration.colorRange, themeConfiguration.contentColor);
         themeConfiguration.context.setTheme(themeResourceId);
         themeConfiguration.navigationColor.injectNavigationColor(theme);
+        themeConfiguration.contentColor.injectTonalRange(theme);
     }
 
     /**
