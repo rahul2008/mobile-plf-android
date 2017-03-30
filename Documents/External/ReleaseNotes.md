@@ -1,6 +1,10 @@
 BlueLib(/ShineLib) for Android - Release Notes
 =======================================
 
+Version 2.3.3
+-------------
+No changes.
+
 Version 2.3.2
 -------------
 ### New features
