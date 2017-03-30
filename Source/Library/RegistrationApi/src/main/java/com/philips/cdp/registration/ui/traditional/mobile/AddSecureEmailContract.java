@@ -15,8 +15,8 @@ public interface AddSecureEmailContract {
 
     void disableButtons();
 
-    void showErrorMsg();
+    void showNetworkUnavailableError();
 
-    void hideErrorMsg();
+    void hideError();
 }
 

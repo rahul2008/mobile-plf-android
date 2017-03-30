@@ -10,7 +10,6 @@ import android.widget.Button;
 
 import com.philips.cdp.registration.B;
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.LoginIdEditText;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
@@ -122,13 +121,13 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
     }
 
     @Override
-    public void showErrorMsg() {
+    public void showNetworkUnavailableError() {
         recoveryErrorTextView.setError(getResources().getString(R.string.reg_Generic_Network_Error));
         recoveryErrorTextView.setVisibility(VISIBLE);
     }
 
     @Override
-    public void hideErrorMsg() {
+    public void hideError() {
         recoveryErrorTextView.setError(null);
         recoveryErrorTextView.setVisibility(View.GONE);
     }

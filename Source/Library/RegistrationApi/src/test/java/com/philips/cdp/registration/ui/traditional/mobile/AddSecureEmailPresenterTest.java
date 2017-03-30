@@ -104,14 +104,14 @@ public class AddSecureEmailPresenterTest {
     public void testNetwork_online(){
         presenter.onNetWorkStateReceived(true);
         verify(contractMock).enableButtons();
-        verify(contractMock).showErrorMsg();
+        verify(contractMock).hideError();
     }
 
     @Test
     public void testNetwork_offline(){
         presenter.onNetWorkStateReceived(false);
         verify(contractMock).disableButtons();
-        verify(contractMock).hideErrorMsg();
+        verify(contractMock).showNetworkUnavailableError();
     }
 
 }

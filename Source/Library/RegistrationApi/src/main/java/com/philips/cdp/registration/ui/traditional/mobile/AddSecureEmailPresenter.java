@@ -7,8 +7,6 @@ import com.janrain.android.capture.CaptureApiError;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
-import com.philips.cdp.registration.ui.utils.NetworkUtility;
-import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.update.UpdateUserProfile;
 
@@ -60,10 +58,10 @@ public class AddSecureEmailPresenter implements CaptureApiRequestCallback, Netwo
     public void onNetWorkStateReceived(boolean isOnline) {
         if (isOnline) {
             addSecureEmailContract.enableButtons();
-            addSecureEmailContract.hideErrorMsg();
+            addSecureEmailContract.hideError();
         } else {
             addSecureEmailContract.disableButtons();
-            addSecureEmailContract.showErrorMsg();
+            addSecureEmailContract.showNetworkUnavailableError();
         }
     }
 
