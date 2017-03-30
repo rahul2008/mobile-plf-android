@@ -150,15 +150,13 @@ public class LanguagePackManager implements LanguagePackInterface {
 	}
 
 	private boolean isLanguagePackDownloadRequired(LanguageModel selectedLanguageModel) {
-
-		// ToDO - Handle version increase not equal to
 		File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_INFO);
 		String json = languagePackUtil.readFile(file);
 		LanguagePackMetadata languagePackMetadata = gson.fromJson(json, LanguagePackMetadata.class);
 		if (languagePackMetadata == null) {
 			return true;
 		} else if (languagePackMetadata.getUrl().equalsIgnoreCase(selectedLanguageModel.getUrl())
-				&& languagePackMetadata.getVersion().equalsIgnoreCase(selectedLanguageModel.getVersion())
+				&& (Integer.parseInt(languagePackMetadata.getVersion()) >= Integer.parseInt(selectedLanguageModel.getVersion()))
 				&& languagePackMetadata.getLocale().equalsIgnoreCase(selectedLanguageModel.getLocale())) {
 			return false;
 		}
