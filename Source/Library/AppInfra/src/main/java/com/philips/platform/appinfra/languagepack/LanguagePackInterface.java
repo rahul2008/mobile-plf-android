@@ -5,11 +5,6 @@
  */
 package com.philips.platform.appinfra.languagepack;
 
-
-/**
- * Created by philips on 3/13/17.
- */
-
 public interface LanguagePackInterface {
 
 	/**
