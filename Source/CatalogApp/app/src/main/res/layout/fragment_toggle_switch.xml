@@ -73,6 +73,6 @@
                 android:enabled="false"
                 android:layout_weight="1"/>
         </LinearLayout>
-
+        <include layout="@layout/divider_layout"/>
     </LinearLayout>
 </ScrollView>

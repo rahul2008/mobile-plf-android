@@ -32,6 +32,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/layout_margin_left_right"
                     android:layout_marginStart="@dimen/layout_margin_left_right"
+                    android:layout_marginBottom="12dp"
                     android:layout_marginTop="12dp"
                     android:checked="@{fragment.withLongContent}"
                     android:onCheckedChanged="@{(v, isChecked) -> fragment.setWithLongContent(isChecked)}"
@@ -46,6 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/layout_margin_left_right"
                     android:layout_marginStart="@dimen/layout_margin_left_right"
+                    android:layout_marginBottom="12dp"
                     android:layout_marginTop="12dp"
                     android:checked="@{fragment.withTitle}"
                     android:onCheckedChanged="@{(v, isChecked) -> fragment.setWithTitle(isChecked)}"
@@ -60,6 +62,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/layout_margin_left_right"
                     android:layout_marginStart="@dimen/layout_margin_left_right"
+                    android:layout_marginBottom="12dp"
                     android:layout_marginTop="12dp"
                     android:checked="true"
                     android:enabled="@{fragment.withTitle}"
@@ -71,7 +74,6 @@
 
             <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
-                android:layout_marginTop="14dp"
                 android:text="@string/dialog_screen_text_dialogs"/>
 
             <LinearLayout
