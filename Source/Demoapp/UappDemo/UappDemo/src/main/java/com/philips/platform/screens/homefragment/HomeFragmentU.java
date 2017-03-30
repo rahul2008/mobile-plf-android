@@ -11,8 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.platform.screens.base.AppFrameworkBaseActivity;
-import com.philips.platform.screens.base.AppFrameworkBaseFragment;
+import com.philips.platform.screens.base.UappBaseActivity;
+import com.philips.platform.screens.base.UAppBaseFragment;
 import com.philips.platform.uappdemolibrary.R;
 
 /**
@@ -20,15 +20,15 @@ import com.philips.platform.uappdemolibrary.R;
  * All the fragments are added on top of this , handleBack event from all other fragemnts ends up  landing here
  */
 
-public class HomeFragment extends AppFrameworkBaseFragment {
-    public static final String TAG =  HomeFragment.class.getSimpleName();
-    public HomeFragment() {
+public class HomeFragmentU extends UAppBaseFragment {
+    public static final String TAG =  HomeFragmentU.class.getSimpleName();
+    public HomeFragmentU() {
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ((AppFrameworkBaseActivity)getActivity()).updateActionBarIcon(false);
+        ((UappBaseActivity)getActivity()).updateActionBarIcon(false);
     }
 
     @Override

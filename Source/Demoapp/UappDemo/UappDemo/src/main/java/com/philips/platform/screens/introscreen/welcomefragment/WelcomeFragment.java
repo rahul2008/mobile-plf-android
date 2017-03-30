@@ -18,8 +18,8 @@ import android.widget.TextView;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.screens.base.OnboardingBaseFragment;
-import com.philips.platform.screens.base.UIBasePresenter;
+import com.philips.platform.screens.base.UappOnBoardingBaseFragment;
+import com.philips.platform.screens.base.UappBasePresenter;
 import com.philips.platform.screens.introscreen.LaunchActivity;
 import com.philips.platform.screens.introscreen.pager.WelcomePagerAdapter;
 import com.philips.platform.uappdemo.UappUiHelper;
@@ -37,7 +37,7 @@ import com.shamanland.fonticon.FontIconView;
  * <pre>&lt;To make the start , skip ,left and right button visibility in each screen, please use the onPageSelected
  *
  */
-public class WelcomeFragment extends OnboardingBaseFragment implements View.OnClickListener, WelcomeFragmentView, BackEventListener {
+public class WelcomeFragment extends UappOnBoardingBaseFragment implements View.OnClickListener, WelcomeFragmentViewUapp, BackEventListener {
 
     public static String TAG = LaunchActivity.class.getSimpleName();
 
@@ -46,7 +46,7 @@ public class WelcomeFragment extends OnboardingBaseFragment implements View.OnCl
     private TextView doneButton;
     private TextView skipButton;
     private CircleIndicator indicator;
-    private UIBasePresenter presenter;
+    private UappBasePresenter presenter;
     private ViewPager pager;
 
     public void onBackPressed() {

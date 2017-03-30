@@ -8,7 +8,7 @@ package com.philips.platform.screens.base;
 import android.content.Context;
 import android.support.annotation.Nullable;
 
-import com.philips.platform.flowmanager.utility.BaseAppUtil;
+import com.philips.platform.flowmanager.utility.UappBaseAppUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -16,11 +16,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 
-public class FileUtility {
+public class UappFileUtility {
 
     private Context context;
 
-    public FileUtility(Context context) {
+    public UappFileUtility(Context context) {
         this.context = context;
     }
 
@@ -45,7 +45,7 @@ public class FileUtility {
             final File file = File.createTempFile(filename, null, context.getCacheDir());
             outputStream = new FileOutputStream(file);
             if (sdCardFileCreated)
-                jsonFileOutputStream = new FileOutputStream(new BaseAppUtil().getJsonFilePath());
+                jsonFileOutputStream = new FileOutputStream(new UappBaseAppUtil().getJsonFilePath());
             byte buffer[] = new byte[1024];
             int length;
 

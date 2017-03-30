@@ -24,8 +24,8 @@ import android.widget.TextView;
 
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
-import com.philips.platform.flowmanager.utility.Constants;
-import com.philips.platform.screens.base.AppFrameworkBaseActivity;
+import com.philips.platform.flowmanager.utility.UappConstants;
+import com.philips.platform.screens.base.UappBaseActivity;
 import com.philips.platform.screens.splash.SplashFragment;
 import com.philips.platform.uappdemo.UappUiHelper;
 import com.philips.platform.uappdemolibrary.R;
@@ -39,7 +39,7 @@ import com.philips.platform.uappframework.listener.BackEventListener;
  * 1. The user registration
  * 2. Welcome fragments
  */
-public class LaunchActivity extends AppFrameworkBaseActivity implements LaunchView {
+public class LaunchActivity extends UappBaseActivity implements LaunchViewUapp {
     private TextView textView;
 
     @Override
@@ -157,7 +157,7 @@ public class LaunchActivity extends AppFrameworkBaseActivity implements LaunchVi
             isConsumed = ((BackEventListener) fragment).handleBackEvent();
         }
         if (!isConsumed) {
-            presenter.onEvent(Constants.BACK_BUTTON_CLICK_CONSTANT);
+            presenter.onEvent(UappConstants.BACK_BUTTON_CLICK_CONSTANT);
         }
     }
     @Override

@@ -9,8 +9,8 @@ import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListen
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.flowmanager.UappFlowManager;
-import com.philips.platform.flowmanager.utility.BaseAppUtil;
-import com.philips.platform.screens.base.FileUtility;
+import com.philips.platform.flowmanager.utility.UappBaseAppUtil;
+import com.philips.platform.screens.base.UappFileUtility;
 import com.philips.platform.uappdemolibrary.BuildConfig;
 import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
@@ -74,7 +74,7 @@ public class UappUiHelper {
     public void setTargetFlowManager(FlowManagerListener flowManagerListener, FragmentActivity activity) {
         try {
             this.flowManager = new UappFlowManager();
-            this.flowManager.initialize(context, new BaseAppUtil().getJsonFilePath().getPath(), flowManagerListener);
+            this.flowManager.initialize(context, new UappBaseAppUtil().getJsonFilePath().getPath(), flowManagerListener);
         } catch (JsonFileNotFoundException e) {
             if (tempFile != null) {
                 this.flowManager = new UappFlowManager();
@@ -84,9 +84,9 @@ public class UappUiHelper {
     }
 
     private void initFile() {
-        isSdCardFileCreated = new BaseAppUtil().createDirIfNotExists();
+        isSdCardFileCreated = new UappBaseAppUtil().createDirIfNotExists();
         final int resId = R.string.af_json_path;
-        FileUtility fileUtility = new FileUtility(context);
-        tempFile = fileUtility.createFileFromInputStream(resId, isSdCardFileCreated);
+        UappFileUtility uappFileUtility = new UappFileUtility(context);
+        tempFile = uappFileUtility.createFileFromInputStream(resId, isSdCardFileCreated);
     }
 }

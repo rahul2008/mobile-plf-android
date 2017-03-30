@@ -9,7 +9,7 @@ import android.content.Context;
 
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.flowmanager.UappStates;
-import com.philips.platform.screens.base.AppFrameworkBaseActivity;
+import com.philips.platform.screens.base.UappBaseActivity;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
@@ -26,14 +26,14 @@ public class AboutScreenState extends BaseState {
     }
 
     /**
-     * Navigating to AboutScreenFragment
+     * Navigating to AboutScreenFragmentU
      * @param uiLauncher requires UiLauncher
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
-        ((AppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).
-                handleFragmentBackStack( new AboutScreenFragment(), AboutScreenFragment.TAG,getUiStateData().getFragmentLaunchState());
+        ((UappBaseActivity)fragmentLauncher.getFragmentActivity()).
+                handleFragmentBackStack( new AboutScreenFragmentU(), AboutScreenFragmentU.TAG,getUiStateData().getFragmentLaunchState());
     }
 
     @Override

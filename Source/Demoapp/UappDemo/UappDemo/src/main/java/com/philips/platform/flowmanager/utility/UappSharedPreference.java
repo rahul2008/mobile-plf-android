@@ -11,13 +11,13 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-public class SharedPreferenceUtility {
+public class UappSharedPreference {
 
     private Context context;
     @NonNull
     private SharedPreferences mMyPreferences;
 
-    public SharedPreferenceUtility(@NonNull Context ctxt) {
+    public UappSharedPreference(@NonNull Context ctxt) {
         context = ctxt;
         mMyPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }

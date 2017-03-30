@@ -3,12 +3,10 @@ package com.philips.platform.flowmanager.utility;
 import android.os.Environment;
 import android.util.Log;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 
-public class BaseAppUtil {
+public class UappBaseAppUtil {
 
     private File jsonFile;
 
@@ -35,23 +33,5 @@ public class BaseAppUtil {
         File file = new File(Environment.getExternalStorageDirectory(), "/uApp");
         jsonFile = new File(file.getPath(), "appflow.json");
         return jsonFile;
-    }
-
-    public String readJsonFileFromSdCard() {
-        File file = new File(Environment.getExternalStorageDirectory(), "/uApp");
-        StringBuilder text = new StringBuilder();
-        File jsonFile = new File(file.getPath(), "appflow.json");
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(jsonFile));
-            String line;
-            while ((line = br.readLine()) != null) {
-                text.append(line);
-                text.append('\n');
-            }
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return text.toString();
     }
 }

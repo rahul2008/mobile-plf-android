@@ -7,7 +7,7 @@ package com.philips.platform.screens.base;
 
 import android.support.v4.app.FragmentActivity;
 
-public interface UIView {
+public interface UappUIView {
 
     FragmentActivity getFragmentActivity();
 }

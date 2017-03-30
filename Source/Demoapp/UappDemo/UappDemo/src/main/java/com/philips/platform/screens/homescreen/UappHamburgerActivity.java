@@ -30,10 +30,10 @@ import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
 import com.philips.cdp.uikit.utils.HamburgerUtil;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
-import com.philips.platform.flowmanager.utility.Constants;
-import com.philips.platform.flowmanager.utility.SharedPreferenceUtility;
-import com.philips.platform.screens.base.AppFrameworkBaseActivity;
-import com.philips.platform.screens.base.FragmentView;
+import com.philips.platform.flowmanager.utility.UappConstants;
+import com.philips.platform.flowmanager.utility.UappSharedPreference;
+import com.philips.platform.screens.base.UappBaseActivity;
+import com.philips.platform.screens.base.FragmentViewUapp;
 import com.philips.platform.uappdemo.UappUiHelper;
 import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -47,7 +47,7 @@ import java.util.List;
  * This activity is the container of all the other fragment for the app
  * ActionbarListener is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
  */
-public class UappHamburgerActivity extends AppFrameworkBaseActivity implements FragmentManager.OnBackStackChangedListener, FragmentView {
+public class UappHamburgerActivity extends UappBaseActivity implements FragmentManager.OnBackStackChangedListener, FragmentViewUapp {
     private static String TAG = UappHamburgerActivity.class.getSimpleName();
     protected TextView actionBarTitle;
     private HamburgerUtil hamburgerUtil;
@@ -62,10 +62,7 @@ public class UappHamburgerActivity extends AppFrameworkBaseActivity implements F
     private HamburgerAdapter adapter;
     private ImageView hamburgerIcon;
     private FrameLayout hamburgerClick = null;//shoppingCartLayout;
-    private SharedPreferenceUtility sharedPreferenceUtility;
-   /* private ImageView cartIcon;
-    private TextView cartCount;
-    private boolean isCartVisible = true;*/
+    private UappSharedPreference uappSharedPreference;
 
     /**
      * For instantiating the view and actionabar and hamburger menu initialization
@@ -79,7 +76,7 @@ public class UappHamburgerActivity extends AppFrameworkBaseActivity implements F
          */
         super.onCreate(savedInstanceState);
         presenter = new HamburgerActivityPresenter(this);
-        sharedPreferenceUtility = new SharedPreferenceUtility(this);
+        uappSharedPreference = new UappSharedPreference(this);
         setContentView(R.layout.uikit_hamburger_menu);
         initViews();
         setActionBar(getSupportActionBar());
@@ -101,14 +98,14 @@ public class UappHamburgerActivity extends AppFrameworkBaseActivity implements F
         hamburgerUtil.updateSmartFooter(footerView, hamburgerItems.size());
         setDrawerAdapter();
         showNavigationDrawerItem(0);
-        sharedPreferenceUtility.writePreferenceInt(Constants.HOME_FRAGMENT_PRESSED,0);
+        uappSharedPreference.writePreferenceInt(UappConstants.HOME_FRAGMENT_PRESSED,0);
         drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 if (!hamburgerMenuTitles[position].equalsIgnoreCase("Title")) {
                     adapter.setSelectedIndex(position);
                     adapter.notifyDataSetChanged();
-                    sharedPreferenceUtility.writePreferenceInt(Constants.HOME_FRAGMENT_PRESSED,position);
+                    uappSharedPreference.writePreferenceInt(UappConstants.HOME_FRAGMENT_PRESSED,position);
                     showNavigationDrawerItem(position);
 
                 }
@@ -156,19 +153,6 @@ public class UappHamburgerActivity extends AppFrameworkBaseActivity implements F
         });
         actionBarTitle = (TextView) mCustomView.findViewById(R.id.af_actionbar_title);
         setTitle(getResources().getString(R.string.app_name));
-       /* cartIcon = (ImageView) mCustomView.findViewById(R.id.af_shoppng_cart_icon);
-        shoppingCartLayout = (FrameLayout) mCustomView.findViewById(R.id.af_cart_layout);
-        Drawable mCartIconDrawable = VectorDrawable.create(this, R.drawable.uikit_cart);
-        cartIcon.setBackground(mCartIconDrawable);
-        shoppingCartLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onEvent(View v) {
-                philipsDrawerLayout.closeDrawer(navigationView);
-                presenter.onEvent(Constants.UI_SHOPPING_CART_BUTTON_CLICK);
-            }
-        });
-        cartCount = (TextView) mCustomView.findViewById(R.id.af_cart_count_view);
-        cartCount.setVisibility(View.GONE);*/
         actionBar.setCustomView(mCustomView, params);
         Toolbar parent = (Toolbar) mCustomView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
@@ -265,15 +249,6 @@ public class UappHamburgerActivity extends AppFrameworkBaseActivity implements F
         super.onDestroy();
     }
 
-
-   /* private void addIapCartCount() {
-        try {
-
-            IAPInterface iapInterface = ((AppFrameworkApplication)getApplicationContext()).getIap().getIapInterface();
-            iapInterface.getProductCartCount(this);
-        }catch (RuntimeException e){
-        }
-    }*/
     @Override
     protected void onResume() {
         super.onResume();
@@ -329,55 +304,8 @@ public class UappHamburgerActivity extends AppFrameworkBaseActivity implements F
         }
     }
 
-    /*public void cartIconVisibility(boolean shouldShow) {
-        if(shouldShow){
-            cartIcon.setVisibility(View.VISIBLE);
-            int cartItemsCount = getCartItemCount();
-                if (cartItemsCount > 0) {
-                        cartCount.setVisibility(View.VISIBLE);
-                        cartCount.setText(String.valueOf(cartItemsCount));
-                }else {
-                    cartCount.setVisibility(View.GONE);
-                }
-        } else {
-                cartIcon.setVisibility(View.GONE);
-                cartCount.setVisibility(View.GONE);
-        }
-    }*/
-
-
-
-
-    /*private void showToast(int errorCode) {
-        String errorText = getResources().getString(R.string.af_iap_server_error);
-        if (IAPConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
-            errorText = getResources().getString(R.string.af_iap_no_connection);
-        } else if (IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT == errorCode) {
-            errorText = getResources().getString(R.string.af_iap_connection_time_out);
-        } else if (IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE == errorCode) {
-            errorText = getResources().getString(R.string.af_iap_authentication_failure);
-        } else if (IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
-            errorText = getResources().getString(R.string.af_iap_prod_out_of_stock);
-        }
-        Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
-    }*/
     @Override
     public void onBackStackChanged() {
-        /*if(getSupportFragmentManager().getBackStackEntryCount() > 0) {
-            FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
-            String str = backEntry.getName();
-            if(null != str){
-                Fragment fragment = getSupportFragmentManager().findFragmentByTag(str);
-                if(fragment instanceof InAppBaseFragment){
-                    cartIconVisibility(isCartVisible);
-                }
-                else {
-                    cartIconVisibility(true);
-                }
-            }
-        }*/
     }
 
     @Override

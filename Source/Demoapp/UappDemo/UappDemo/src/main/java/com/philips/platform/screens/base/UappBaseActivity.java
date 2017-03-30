@@ -10,15 +10,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.uikit.UiKitActivity;
-import com.philips.platform.flowmanager.utility.Constants;
-import com.philips.platform.screens.homefragment.HomeFragment;
+import com.philips.platform.flowmanager.utility.UappConstants;
+import com.philips.platform.screens.homefragment.HomeFragmentU;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 /**
- * AppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
+ * UappBaseActivity is the App level settings class for controlling the behavior of apps.
  */
-public abstract class AppFrameworkBaseActivity extends UiKitActivity implements ActionBarListener {
-    public UIBasePresenter presenter;
+public abstract class UappBaseActivity extends UiKitActivity implements ActionBarListener {
+    public UappBasePresenter presenter;
   //  private int cartItemCount = 0;
     int containerId;
     private FragmentTransaction fragmentTransaction;
@@ -30,27 +30,27 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
         try {
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             switch (fragmentAddState) {
-                case Constants.ADD_HOME_FRAGMENT:
+                case UappConstants.ADD_HOME_FRAGMENT:
 
-                    if (null == getSupportFragmentManager().findFragmentByTag(HomeFragment.TAG)) {
+                    if (null == getSupportFragmentManager().findFragmentByTag(HomeFragmentU.TAG)) {
                         addToBackStack(containerId, fragment, fragmentTag);
                     } else {
-                        getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG, 0);
+                        getSupportFragmentManager().popBackStackImmediate(HomeFragmentU.TAG, 0);
                     }
 
                     break;
-                case Constants.ADD_FROM_HAMBURGER:
+                case UappConstants.ADD_FROM_HAMBURGER:
 
                     getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    addToBackStack(containerId,new HomeFragment(),HomeFragment.TAG);
+                    addToBackStack(containerId,new HomeFragmentU(), HomeFragmentU.TAG);
                     fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     addToBackStack(containerId, fragment, fragmentTag);
 
                     break;
-                case Constants.CLEAR_TILL_HOME:
+                case UappConstants.CLEAR_TILL_HOME:
 
                     getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    addToBackStack(containerId,new HomeFragment(),HomeFragment.TAG);
+                    addToBackStack(containerId,new HomeFragmentU(), HomeFragmentU.TAG);
 
                     break;
             }

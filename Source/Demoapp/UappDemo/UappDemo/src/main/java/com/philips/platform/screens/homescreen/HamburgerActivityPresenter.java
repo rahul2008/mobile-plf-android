@@ -17,8 +17,8 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundExce
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.flowmanager.UappStates;
-import com.philips.platform.screens.base.FragmentView;
-import com.philips.platform.screens.base.UIBasePresenter;
+import com.philips.platform.screens.base.FragmentViewUapp;
+import com.philips.platform.screens.base.UappBasePresenter;
 import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -30,14 +30,14 @@ import java.util.Arrays;
  * This class id used for loading various fragments that are supported by home activity ,
  * based on user selection this class loads the next state of the application.
  */
-public class HamburgerActivityPresenter extends UIBasePresenter {
+public class HamburgerActivityPresenter extends UappBasePresenter {
 
-    private FragmentView fragmentView;
+    private FragmentViewUapp fragmentView;
     private FragmentLauncher fragmentLauncher;
     private BaseState baseState;
     private final int SAMPLE = 2;
 
-    public HamburgerActivityPresenter(final FragmentView fragmentView) {
+    public HamburgerActivityPresenter(final FragmentViewUapp fragmentView) {
         super(fragmentView);
         this.fragmentView = fragmentView;
         setState(UappStates.HAMBURGER_HOME);
@@ -85,9 +85,6 @@ public class HamburgerActivityPresenter extends UIBasePresenter {
                 return HOME_ABOUT;
             case SAMPLE:
                 return "sample";
-            // Commented as part of Plan A removal.
-           /* case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
-                return SHOPPING_CART;*/
             default:
                 return HOME_FRAGMENT;
         }

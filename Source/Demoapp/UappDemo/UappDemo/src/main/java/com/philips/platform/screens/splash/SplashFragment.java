@@ -25,20 +25,20 @@ import android.widget.TextView;
 
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
-import com.philips.platform.screens.base.OnboardingBaseFragment;
-import com.philips.platform.screens.base.UIBasePresenter;
+import com.philips.platform.screens.base.UappOnBoardingBaseFragment;
+import com.philips.platform.screens.base.UappBasePresenter;
 import com.philips.platform.screens.introscreen.LaunchActivity;
 import com.philips.platform.uappdemo.UappUiHelper;
 import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 
-public class SplashFragment extends OnboardingBaseFragment implements BackEventListener, FlowManagerListener {
+public class SplashFragment extends UappOnBoardingBaseFragment implements BackEventListener, FlowManagerListener {
     public static String TAG = LaunchActivity.class.getSimpleName();
     public static int PERMISSION_ALL = 998;
     private static int SPLASH_TIME_OUT = 3000;
     private final int APP_START = 1;
-    UIBasePresenter presenter;
+    UappBasePresenter presenter;
     ImageView logo;
     TextView title;
     private boolean isVisible = false;

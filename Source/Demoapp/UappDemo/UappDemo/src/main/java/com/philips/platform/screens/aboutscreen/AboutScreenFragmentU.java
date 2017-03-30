@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.philips.platform.screens.base.AppFrameworkBaseActivity;
-import com.philips.platform.screens.base.AppFrameworkBaseFragment;
+import com.philips.platform.screens.base.UappBaseActivity;
+import com.philips.platform.screens.base.UAppBaseFragment;
 import com.philips.platform.uappdemolibrary.BuildConfig;
 import com.philips.platform.uappdemolibrary.R;
 
@@ -25,14 +25,14 @@ import com.philips.platform.uappdemolibrary.R;
  * Latest version
  */
 
-public class AboutScreenFragment extends AppFrameworkBaseFragment
+public class AboutScreenFragmentU extends UAppBaseFragment
 {
-    public static final String TAG =AboutScreenFragment.class.getSimpleName();
+    public static final String TAG =AboutScreenFragmentU.class.getSimpleName();
 
     @Override
     public void onResume() {
         super.onResume();
-        ((AppFrameworkBaseActivity)getActivity()).updateActionBarIcon(false);
+        ((UappBaseActivity)getActivity()).updateActionBarIcon(false);
     }
 
     @Override

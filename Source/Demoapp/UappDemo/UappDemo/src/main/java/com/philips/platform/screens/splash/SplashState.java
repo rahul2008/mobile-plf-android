@@ -9,7 +9,7 @@ import android.content.Context;
 
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.flowmanager.UappStates;
-import com.philips.platform.screens.base.AppFrameworkBaseActivity;
+import com.philips.platform.screens.base.UappBaseActivity;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
@@ -23,7 +23,7 @@ public class SplashState extends BaseState {
     @Override
     public void navigate(final UiLauncher uiLauncher) {
         final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
-        ((AppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).
+        ((UappBaseActivity) fragmentLauncher.getFragmentActivity()).
                 addFragment(new SplashFragment(), SplashFragment.TAG);
     }
 

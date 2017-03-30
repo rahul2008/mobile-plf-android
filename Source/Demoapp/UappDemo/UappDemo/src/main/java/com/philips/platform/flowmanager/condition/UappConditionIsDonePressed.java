@@ -10,8 +10,8 @@ import android.content.Context;
 
 import com.philips.platform.appframework.flowmanager.base.BaseCondition;
 import com.philips.platform.flowmanager.UappConditions;
-import com.philips.platform.flowmanager.utility.Constants;
-import com.philips.platform.flowmanager.utility.SharedPreferenceUtility;
+import com.philips.platform.flowmanager.utility.UappConstants;
+import com.philips.platform.flowmanager.utility.UappSharedPreference;
 
 public class UappConditionIsDonePressed extends BaseCondition {
 
@@ -21,7 +21,7 @@ public class UappConditionIsDonePressed extends BaseCondition {
 
     @Override
     public boolean isSatisfied(final Context context) {
-        final SharedPreferenceUtility sharedPreferenceUtility = new SharedPreferenceUtility(context);
-        return sharedPreferenceUtility.getPreferenceBoolean(Constants.DONE_PRESSED);
+        final UappSharedPreference uappSharedPreference = new UappSharedPreference(context);
+        return uappSharedPreference.getPreferenceBoolean(UappConstants.DONE_PRESSED);
     }
 }

@@ -5,8 +5,6 @@
 */
 package com.philips.platform.flowmanager;
 
-import android.content.Context;
-
 import com.philips.platform.appframework.flowmanager.base.BaseCondition;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
@@ -22,10 +20,6 @@ import com.philips.platform.screens.stateimpl.HamburgerActivityState;
 import java.util.Map;
 
 public class UappFlowManager extends BaseFlowManager {
-
-    public UappFlowManager(Context applicationContext, String path) {
-        super(applicationContext,path);
-    }
 
     public UappFlowManager(){}
 

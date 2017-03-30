@@ -11,8 +11,8 @@ import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.flowmanager.base.UIStateListener;
-import com.philips.platform.flowmanager.utility.Constants;
-import com.philips.platform.screens.base.UIBasePresenter;
+import com.philips.platform.flowmanager.utility.UappConstants;
+import com.philips.platform.screens.base.UappBasePresenter;
 import com.philips.platform.screens.splash.SplashState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -21,15 +21,15 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  * Welcome presenter handles the events inside welcome fragment
  * it takes care of scenarios in which we can complete onboarding or skip it for time being
  */
-public class LaunchActivityPresenter extends UIBasePresenter implements UIStateListener {
+public class LaunchActivityPresenter extends UappBasePresenter implements UIStateListener {
 
     public static final int APP_LAUNCH_STATE = 890;
-    private LaunchView launchView;
+    private LaunchViewUapp launchView;
     private FragmentLauncher fragmentLauncher;
     private String LAUNCH_BACK_PRESSED = "back";
     private String APP_LAUNCH = "onAppLaunch";
 
-    public LaunchActivityPresenter(LaunchView launchView) {
+    public LaunchActivityPresenter(LaunchViewUapp launchView) {
         super(launchView);
         this.launchView = launchView;
     }
@@ -69,7 +69,7 @@ public class LaunchActivityPresenter extends UIBasePresenter implements UIStateL
     // TODO: Deepthi  can we make it abstract if its common
     protected String getEvent(final int componentID) {
         switch (componentID) {
-            case Constants.BACK_BUTTON_CLICK_CONSTANT:
+            case UappConstants.BACK_BUTTON_CLICK_CONSTANT:
                 return LAUNCH_BACK_PRESSED;
             default:
                 return APP_LAUNCH;
@@ -84,7 +84,7 @@ public class LaunchActivityPresenter extends UIBasePresenter implements UIStateL
     @NonNull
     protected UIStateData getUiStateData() {
         UIStateData homeStateData = new UIStateData();
-        homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
+        homeStateData.setFragmentLaunchType(UappConstants.ADD_HOME_FRAGMENT);
         return homeStateData;
     }
 

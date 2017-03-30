@@ -10,15 +10,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.screens.introscreen.LaunchActivity;
-import com.philips.platform.screens.introscreen.LaunchView;
+import com.philips.platform.screens.introscreen.LaunchViewUapp;
 import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 /**
- * OnboardingBaseFragment is the <b>Base class</b> for all fragments which comes
+ * UappOnBoardingBaseFragment is the <b>Base class</b> for all fragments which comes
  * under onboarding journey.
  */
-public abstract class OnboardingBaseFragment extends Fragment implements LaunchView {
+public abstract class UappOnBoardingBaseFragment extends Fragment implements LaunchViewUapp {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

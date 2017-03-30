@@ -9,23 +9,23 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.flowmanager.utility.Constants;
-import com.philips.platform.flowmanager.utility.SharedPreferenceUtility;
-import com.philips.platform.screens.base.UIBasePresenter;
+import com.philips.platform.flowmanager.utility.UappConstants;
+import com.philips.platform.flowmanager.utility.UappSharedPreference;
+import com.philips.platform.screens.base.UappBasePresenter;
 import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
-public class WelcomeFragmentPresenter extends UIBasePresenter {
+public class WelcomeFragmentPresenter extends UappBasePresenter {
 
     private final int MENU_OPTION_HOME = 0;
-    private SharedPreferenceUtility sharedPreferenceUtility;
+    private UappSharedPreference uappSharedPreference;
     private BaseState baseState;
-    private WelcomeFragmentView welcomeFragmentView;
+    private WelcomeFragmentViewUapp welcomeFragmentView;
     private String WELCOME_SKIP = "welcome_skip";
     private String WELCOME_DONE = "welcome_done";
     private String WELCOME_HOME = "welcome_home";
 
-    public WelcomeFragmentPresenter(WelcomeFragmentView welcomeFragmentView) {
+    public WelcomeFragmentPresenter(WelcomeFragmentViewUapp welcomeFragmentView) {
         super(welcomeFragmentView);
         this.welcomeFragmentView = welcomeFragmentView;
     }
@@ -34,8 +34,8 @@ public class WelcomeFragmentPresenter extends UIBasePresenter {
     public void onEvent(final int componentID) {
         String eventState = getEventState(componentID);
         if (eventState.equals(WELCOME_DONE)) {
-            sharedPreferenceUtility = new SharedPreferenceUtility(welcomeFragmentView.getFragmentActivity());
-            sharedPreferenceUtility.writePreferenceBoolean(Constants.DONE_PRESSED, true);
+            uappSharedPreference = new UappSharedPreference(welcomeFragmentView.getFragmentActivity());
+            uappSharedPreference.writePreferenceBoolean(UappConstants.DONE_PRESSED, true);
         }
         BaseFlowManager targetFlowManager = welcomeFragmentView.getTargetFlowManager();
         baseState = targetFlowManager.getNextState(eventState);

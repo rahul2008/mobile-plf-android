@@ -13,11 +13,11 @@ import com.philips.platform.uappdemolibrary.R;
 
 
 /**
- * AppFrameworkBaseFragment is the <b>Base class</b> for all fragments.
+ * UAppBaseFragment is the <b>Base class</b> for all fragments.
  */
-public abstract class AppFrameworkBaseFragment extends Fragment {
+public abstract class UAppBaseFragment extends Fragment {
 
-    protected UIBasePresenter fragmentPresenter;
+    protected UappBasePresenter fragmentPresenter;
     private TextView actionBarTitle = null;
 
     public abstract String getActionbarTitle();
