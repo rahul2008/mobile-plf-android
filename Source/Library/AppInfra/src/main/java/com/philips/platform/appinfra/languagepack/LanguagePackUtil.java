@@ -29,7 +29,7 @@ class LanguagePackUtil {
 
     File getLanguagePackFilePath(String fileName) {
         ContextWrapper contextWrapper = new ContextWrapper(context);
-        File directory = contextWrapper.getExternalCacheDir();
+        File directory = contextWrapper.getCacheDir();
         File file = new File(directory, LanguagePackConstants.LANGUAGE_PACK_PATH);
         File jsonFile = new File(file.getPath(), fileName);
         if (!file.exists()) {
