@@ -1,7 +1,7 @@
 CommLib-all for Android - Release Notes
 =======================================
 
-Version NEXT
+Version 1.3.0
 -------------
 
 ### New features

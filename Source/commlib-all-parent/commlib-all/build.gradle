@@ -125,14 +125,14 @@ dependencies {
         debugCompile project(path: ':bluelib', configuration: 'debug')
         releaseCompile project(path: ':bluelib', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.3.2' + objcdp.getVersionSuffix())
+        compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.3.3' + objcdp.getVersionSuffix())
     }
 
     if (findProject(':commlib')) {
         debugCompile project(path: ':commlib', configuration: 'debug')
         releaseCompile project(path: ':commlib', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '3.1.2' + objcdp.getVersionSuffix())
+        compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '4.0.0' + objcdp.getVersionSuffix())
     }
 
     testCompile deps.mockito
