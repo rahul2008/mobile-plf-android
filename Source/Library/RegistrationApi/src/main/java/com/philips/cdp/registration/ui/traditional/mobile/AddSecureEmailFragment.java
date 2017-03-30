@@ -11,6 +11,8 @@ import android.widget.Button;
 import com.philips.cdp.registration.B;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.ui.customviews.LoginIdEditText;
+import com.philips.cdp.registration.ui.customviews.XRegError;
+import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.traditional.WelcomeFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -19,6 +21,8 @@ import butterfork.Bind;
 import butterfork.ButterFork;
 import butterfork.OnClick;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.REGISTRATION_ACTIVATION_SMS;
 
 
@@ -32,6 +36,9 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
 
     @Bind(B.id.rl_reg_securedata_email_field)
     LoginIdEditText recoveryEmail;
+
+    @Bind(B.id.reg_error_msg)
+    XRegError recoveryErrorTextView;
 
     private AddSecureEmailPresenter addSecureEmailPresenter;
 
@@ -69,11 +76,12 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
 
     @OnClick(B.id.btn_reg_secure_data_email)
     public void addEmailButtonClicked(){
+        recoveryErrorTextView.setVisibility(GONE);
         addSecureEmailPresenter.addEmailClicked(recoveryEmail.getEmailId());
     }
 
     @OnClick(B.id.btn_reg_secure_data_email_later)
-    public void maybeLaterButtonClicked(){
+    public void maybeLaterButtonClicked() {
         addSecureEmailPresenter.maybeLaterClicked();
     }
 
@@ -90,11 +98,12 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
 
     @Override
     public void onAddRecoveryEmailSuccess() {
-
+        getRegistrationFragment().addFragment(new AccountActivationFragment());
     }
 
     @Override
-    public void onAddRecoveryEmailFailure() {
-
+    public void onAddRecoveryEmailFailure(String error) {
+        recoveryErrorTextView.setError(error);
+        recoveryErrorTextView.setVisibility(VISIBLE);
     }
 }

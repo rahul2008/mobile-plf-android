@@ -9,6 +9,6 @@ public interface AddSecureEmailContract {
 
     void onAddRecoveryEmailSuccess();
 
-    void onAddRecoveryEmailFailure();
+    void onAddRecoveryEmailFailure(String error);
 
 }

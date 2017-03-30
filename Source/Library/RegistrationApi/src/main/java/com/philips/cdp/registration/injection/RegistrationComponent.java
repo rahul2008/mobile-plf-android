@@ -22,6 +22,7 @@ import com.philips.cdp.registration.ui.traditional.MarketingAccountFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.traditional.SignInAccountFragment;
 import com.philips.cdp.registration.ui.traditional.WelcomeFragment;
+import com.philips.cdp.registration.ui.traditional.mobile.AddSecureEmailPresenter;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileForgotPasswordVerifyCodeFragment;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodePresenter;
@@ -38,7 +39,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {NetworkModule.class, AppInfraModule.class, ConfigurationModule.class})
+@Component(modules = {NetworkModule.class, AppInfraModule.class, ConfigurationModule.class, UserModule.class})
 public interface RegistrationComponent {
 
     NetworkUtility getNetworkUtility();
@@ -104,4 +105,6 @@ public interface RegistrationComponent {
     void inject(UpdateUserRecord updateUserRecord);
 
     void inject(MobileVerifyCodePresenter mobileVerifyCodePresenter);
+
+    void inject(AddSecureEmailPresenter addSecureEmailPresenter);
 }
