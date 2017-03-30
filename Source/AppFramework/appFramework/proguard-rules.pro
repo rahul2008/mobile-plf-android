@@ -193,6 +193,18 @@ public static <fields>;
 -keep @com.j256.ormlite.table.DatabaseTable class * { *; }
 
 
+
+
+-dontwarn org.slf4j.**
+-dontwarn org.apache.log4j.**
+-dontwarn org.apache.commons.logging.**
+-dontwarn org.apache.commons.codec.binary.**
+-dontwarn javax.persistence.**
+-dontwarn javax.lang.**
+-dontwarn javax.annotation.**
+-dontwarn javax.tools.**
+
+
 ##--------------- Eventbus  ----------
 
 -keepclassmembers class ** {
@@ -453,9 +465,3 @@ public static <fields>;
 -keep public interface com.philips.platform.appinfra.AppInfraInterface {*;}
 
 #-----------------------------app infra ends here-----------------------------------
-
-
--keep class com.tencent.mm.sdk.openapi.WXMediaMessage {*;}
--keep class com.tencent.mm.sdk.openapi.** implements com.tencent.mm.sdk.openapi.WXMediaMessage$IMediaObject {*;}
--keep class com.janrainphilips.philipsregistration.wxapi.** {*;}
--keep class com.philips.cdp.registration.wxapi.** {*;}
