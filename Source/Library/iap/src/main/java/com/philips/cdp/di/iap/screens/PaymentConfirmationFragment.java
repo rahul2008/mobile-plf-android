@@ -136,9 +136,8 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
             if (arguments.containsKey(ModelConstants.EMAIL_ADDRESS)) {
                 email = arguments.getString(ModelConstants.EMAIL_ADDRESS);
             }
-            String emailConfirmation = String.format(mContext.getString(R.string.iap_confirmation_email_msg),
-                    email);
-            mConfirmWithEmail.setText(emailConfirmation);
+            String emailConfirmation = getString(R.string.iap_confirmation_email_msg);
+            mConfirmWithEmail.setText(emailConfirmation + " " + email);
             setPaymentTitle(R.string.iap_thank_for_order);
         }
     }
