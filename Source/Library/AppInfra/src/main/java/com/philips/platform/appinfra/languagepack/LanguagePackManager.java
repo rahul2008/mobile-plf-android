@@ -150,6 +150,8 @@ public class LanguagePackManager implements LanguagePackInterface {
 	}
 
 	private boolean isLanguagePackDownloadRequired(LanguageModel selectedLanguageModel) {
+
+		// ToDO - Handle version increase not equal to
 		File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_INFO);
 		String json = languagePackUtil.readFile(file);
 		LanguagePackMetadata languagePackMetadata = gson.fromJson(json, LanguagePackMetadata.class);
@@ -179,7 +181,6 @@ public class LanguagePackManager implements LanguagePackInterface {
                                 "Language Pack Json: " + response.toString());
                         languagePackUtil.saveFile(response.toString(), LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
                         languagePackUtil.saveLocaleMetaData(selectedLanguageModel);
-						languagePackUtil.deleteFile(LanguagePackConstants.LOCALE_FILE_ACTIVATED);
 						languagePackHandler.post(postRefreshSuccess(aILPRefreshResult));
 					}
                 }, new Response.ErrorListener() {
