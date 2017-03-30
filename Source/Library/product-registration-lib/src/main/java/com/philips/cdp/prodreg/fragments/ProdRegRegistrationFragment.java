@@ -222,6 +222,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     private void handleSerialNumberEditTextOnError() {
+
         serial_number_editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(final View v, final boolean hasFocus) {
@@ -231,6 +232,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     private void showErrorMessageSerialNumber() {
+
         findSerialNumberLayout.setVisibility(View.VISIBLE);
         if (serial_number_editText.length() != 0) {
             serialNumberErrorLayout.setVisibility(View.VISIBLE);
@@ -241,6 +243,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     private void handleDateEditTextOnError() {
+
         date_EditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(final View v, final boolean hasFocus) {
@@ -251,6 +254,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     private void showErrorMessageDate() {
+
         dateErrorLayout.setVisibility(View.VISIBLE);
         dateErrorTextView.setText(new ErrorHandler().getError(mActivity, ProdRegError.INVALID_DATE.getCode()).getDescription());
         final ProdRegCache prodRegCache = new ProdRegCache();
@@ -293,6 +297,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         return new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
+                registerButton.setEnabled(false);
                 prodRegRegistrationController.registerProduct(date_EditText.getText().toString(), serial_number_editText.getText().toString());
             }
         };
@@ -321,13 +326,19 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void exitProductRegistration() {
+
         clearFragmentStack();
         unRegisterProdRegListener();
     }
 
     @Override
-    public void showAlertOnError(int responseCode) {
-        super.showAlertOnError(responseCode);
+    public void showAlertOnError(int responseCode){
+    super.showAlertOnError(responseCode);
+    }
+
+    @Override
+    public void buttonEnable() {
+        registerButton.setEnabled(true);
     }
 
     @Override
@@ -460,4 +471,11 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public void showLoadingDialog() {
         ProdRegLoadingAlertDialog.showProdRegLoadingDialog(getString(R.string.PPR_Registering_Products_Lbltxt),getActivity());
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        dismissAlertOnError();
+    }
+
 }

@@ -129,23 +129,25 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
         if (productMetadataResponseData != null) {
             final MetadataSerNumbSampleContent serialNumberSampleContent = productMetadataResponseData.getSerialNumberSampleContent();
             final String asset = serialNumberSampleContent.getAsset();
+            PrxLogger.i("Success values ***", serialNumberSampleContent.getAsset());
+            if (asset != null) {
+                PRUiHelper.getInstance().getAppInfraInstance().getServiceDiscovery().
+                        getServiceUrlWithCountryPreference(ProdRegConstants.PRODUCTMETADATAREQUEST_SERVICE_ID,
+                                new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+                                    public void onSuccess(URL url) {
 
-            PRUiHelper.getInstance().getAppInfraInstance().getServiceDiscovery().
-                    getServiceUrlWithCountryPreference(ProdRegConstants.PRODUCTMETADATAREQUEST_SERVICE_ID,
-                            new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                public void onSuccess(URL url) {
-                    String uriSubString = (url.getProtocol() + urlBaseSeparator + url.getHost()).concat(asset);
-                    PrxLogger.i("Success values ***", uriSubString);
-                    onUrlReceived.onSuccess(uriSubString);
-                }
+                                        String uriSubString = (url.getProtocol() + urlBaseSeparator + url.getHost()).concat(asset);
+                                        PrxLogger.i("Success values ***", uriSubString);
+                                        onUrlReceived.onSuccess(uriSubString);
+                                    }
 
-                public void onError(ERRORVALUES error, String message) {
-                    PrxLogger.i("ERRORVALUES ***", "" + message);
-                }
-            });
+                                    public void onError(ERRORVALUES error, String message) {
+                                        PrxLogger.i("ERRORVALUES ***", "" + message);
+                                    }
+                                });
+            }
         }
         return null;
     }
-
 
 }

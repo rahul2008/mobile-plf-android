@@ -16,6 +16,7 @@
             android:id="@+id/device_image"
             android:layout_width="match_parent"
             android:layout_height="170dp"
+            android:src="@drawable/prodreg_placeholder"
             android:layout_marginTop="@dimen/pr_top_padding_sm"/>
 
         <TextView

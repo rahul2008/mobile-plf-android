@@ -145,6 +145,11 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
     }
 
     @Override
+    public void buttonEnable() {
+
+    }
+
+    @Override
     protected void resetErrorDialogIfExists() {
         Fragment prev = getFragmentManager().findFragmentByTag("error_dialog");
         if (prev != null && prev instanceof ProdRegErrorAlertFragment) {

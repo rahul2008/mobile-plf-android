@@ -196,6 +196,7 @@ public class ProdRegRegistrationController {
                 isProductRegistered = true;
                 if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
                     ProdRegRegistrationController.this.registeredProduct = registeredProduct;
+                    registerControllerCallBacks.buttonEnable();
                     registerControllerCallBacks.dismissLoadingDialog();
                     final ProdRegCache prodRegCache = getProdRegCache();
                     prodRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT, 1);
@@ -211,6 +212,7 @@ public class ProdRegRegistrationController {
                 registerControllerCallBacks.logEvents(TAG, "Product registration failed");
                 if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
                     ProdRegRegistrationController.this.registeredProduct = registeredProduct;
+                    registerControllerCallBacks.buttonEnable();
                     registerControllerCallBacks.dismissLoadingDialog();
                     if (registeredProduct.getProdRegError() != ProdRegError.PRODUCT_ALREADY_REGISTERED) {
                         registerControllerCallBacks.showAlertOnError(registeredProduct.getProdRegError().getCode());
