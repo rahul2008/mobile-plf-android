@@ -1,6 +1,5 @@
 package com.philips.platform.core.events;
 
-import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.listeners.RegisterDeviceTokenListener;
 
 public class UnRegisterDeviceToken extends Event {

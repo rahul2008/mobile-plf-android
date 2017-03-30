@@ -11,13 +11,13 @@ import com.philips.platform.core.listeners.DBRequestListener;
 public class DatabaseSettingsSaveRequest extends Event {
 
     private  final Settings settings;
-    private final DBRequestListener dbRequestListener;
+    private final DBRequestListener<Settings> dbRequestListener;
 
-    public DBRequestListener getDbRequestListener() {
+    public DBRequestListener<Settings> getDbRequestListener() {
         return dbRequestListener;
     }
 
-    public DatabaseSettingsSaveRequest(Settings settings, DBRequestListener dbRequestListener) {
+    public DatabaseSettingsSaveRequest(Settings settings, DBRequestListener<Settings> dbRequestListener) {
         this.settings = settings;
 
         this.dbRequestListener = dbRequestListener;

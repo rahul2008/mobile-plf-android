@@ -14,20 +14,20 @@ public class DatabaseConsentUpdateRequest extends Event {
 
     private final List<? extends ConsentDetail> consentDetails;
 
-    private final DBRequestListener dbRequestListener;
+    private final DBRequestListener<ConsentDetail> dbRequestListener;
 
     public List<? extends ConsentDetail> getConsentDetails() {
         return consentDetails;
     }
 
-    public DatabaseConsentUpdateRequest(List<? extends ConsentDetail> consentDetails, DBRequestListener dbRequestListener) {
+    public DatabaseConsentUpdateRequest(List<? extends ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) {
 
         this.consentDetails = consentDetails;
 
         this.dbRequestListener = dbRequestListener;
     }
 
-    public DBRequestListener getDbRequestListener() {
+    public DBRequestListener<ConsentDetail> getDbRequestListener() {
         return dbRequestListener;
     }
 }

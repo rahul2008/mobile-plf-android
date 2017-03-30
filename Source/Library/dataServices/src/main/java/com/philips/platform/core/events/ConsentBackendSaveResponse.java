@@ -12,9 +12,9 @@ public class ConsentBackendSaveResponse extends Event{
 
     private final int responseCode;
 
-    private final DBRequestListener dbRequestListener;
+    private final DBRequestListener<ConsentDetail> dbRequestListener;
 
-    public ConsentBackendSaveResponse(List<ConsentDetail> consentDetailList, final int responseCode, DBRequestListener dbRequestListener) {
+    public ConsentBackendSaveResponse(List<ConsentDetail> consentDetailList, final int responseCode, DBRequestListener<ConsentDetail> dbRequestListener) {
 
         this.consentDetailList = consentDetailList;
         this.responseCode = responseCode;
@@ -29,7 +29,7 @@ public class ConsentBackendSaveResponse extends Event{
         return responseCode;
     }
 
-    public DBRequestListener getDbRequestListener() {
+    public DBRequestListener<ConsentDetail> getDbRequestListener() {
         return dbRequestListener;
     }
 }

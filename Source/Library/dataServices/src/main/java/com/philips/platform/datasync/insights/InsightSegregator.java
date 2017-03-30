@@ -71,7 +71,7 @@ public class InsightSegregator {
         return insightInDatabase != null && !insight.getTimeStamp().equals(insightInDatabase.getTimeStamp());
     }
 
-    public void processInsights(final List<Insight> insights, DBRequestListener dbRequestListener) throws SQLException {
+    public void processInsights(final List<Insight> insights, DBRequestListener<Insight> dbRequestListener) throws SQLException {
         List<Insight> insightsToCreate = new ArrayList<>();
         List<Insight> insightsToUpdate = new ArrayList<>();
         List<Insight> insightsToDelete = new ArrayList<>();
@@ -110,7 +110,7 @@ public class InsightSegregator {
             deleteAndSaveInsights(insightsToUpdate, dbRequestListener);
     }
 
-    private void deleteAndSaveInsights(List<Insight> insights, DBRequestListener dbRequestListener) {
+    private void deleteAndSaveInsights(List<Insight> insights, DBRequestListener<Insight> dbRequestListener) {
         List<Insight> insightsToDelete = new ArrayList<>();
         try {
             for (Insight insight : insights) {

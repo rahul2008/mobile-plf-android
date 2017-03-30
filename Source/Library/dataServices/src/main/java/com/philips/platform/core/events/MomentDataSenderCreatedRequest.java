@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.listeners.DBChangeListener;
-import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.util.List;
 

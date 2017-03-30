@@ -32,7 +32,7 @@ public class MomentsSegregator {
         DataServicesManager.getInstance().getAppComponant().injectMomentsSegregator(this);
     }
 
-    public int processMomentsReceivedFromBackend(final List<? extends Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
+    public int processMomentsReceivedFromBackend(final List<? extends Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException {
         int updatedCount = 0;
         for (final Moment moment : moments) {
             updatedCount = processMoment(updatedCount, moment, dbRequestListener);
@@ -40,7 +40,7 @@ public class MomentsSegregator {
         return updatedCount;
     }
 
-    private Moment getOrmMomentFromDatabase(Moment moment, DBRequestListener dbRequestListener) throws SQLException {
+    private Moment getOrmMomentFromDatabase(Moment moment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
         Moment momentInDatabase = null;
         final SynchronisationData synchronisationData = moment.getSynchronisationData();
 
@@ -78,14 +78,14 @@ public class MomentsSegregator {
         return synchronisationData == null || !synchronisationData.isInactive();
     }
 
-    private void deleteMomentInDatabaseIfExists(final Moment momentInDatabase, DBRequestListener dbRequestListener)
+    private void deleteMomentInDatabaseIfExists(final Moment momentInDatabase, DBRequestListener<Moment> dbRequestListener)
             throws SQLException {
         if (momentInDatabase != null) {
             dbDeletingInterface.deleteMoment(momentInDatabase, dbRequestListener);
         }
     }
 
-    private void deleteMomentsInDatabaseIfExists(final List<Moment> momentsInDatabase, DBRequestListener dbRequestListener)
+    private void deleteMomentsInDatabaseIfExists(final List<Moment> momentsInDatabase, DBRequestListener<Moment> dbRequestListener)
             throws SQLException {
         dbDeletingInterface.deleteMoments(momentsInDatabase, dbRequestListener);
     }
@@ -101,7 +101,7 @@ public class MomentsSegregator {
         return false;
     }
 
-    public int processMoment(int count, final Moment moment, DBRequestListener dbRequestListener) throws SQLException {
+    public int processMoment(int count, final Moment moment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
         final Moment momentInDatabase = getOrmMomentFromDatabase(moment, dbRequestListener);
         if (hasDifferentMomentVersion(moment, momentInDatabase)) {
             if (!isActive(moment.getSynchronisationData())) {
@@ -130,7 +130,7 @@ public class MomentsSegregator {
                 !ormMoment.getDateTime().equals(momentInDatabase.getDateTime());
     }
 
-    private void deleteMeasurementAndMomentDetailsAndSetId(final Moment momentInDatabase, Moment ormMoment, DBRequestListener dbRequestListener) throws SQLException {
+    private void deleteMeasurementAndMomentDetailsAndSetId(final Moment momentInDatabase, Moment ormMoment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
         if (momentInDatabase != null) {
             dbDeletingInterface.deleteMomentDetail(momentInDatabase, dbRequestListener);
             dbDeletingInterface.deleteMeasurementGroup(momentInDatabase, dbRequestListener);
@@ -138,7 +138,7 @@ public class MomentsSegregator {
     }
 
     private void deleteAndSaveMoment(final Moment momentInDatabase,
-                                     final Moment ormMoment, DBRequestListener dbRequestListener) throws SQLException {
+                                     final Moment ormMoment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
 
         if (momentInDatabase != null) {
             ormMoment.setId(momentInDatabase.getId());
@@ -147,7 +147,7 @@ public class MomentsSegregator {
         dbSavingInterface.saveMoment(ormMoment, dbRequestListener);
     }
 
-    private void deleteAndSaveMoments(final List<Moment> moments, DBRequestListener dbRequestListener) throws SQLException {
+    private void deleteAndSaveMoments(final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException {
 
         for (Moment moment : moments) {
             final Moment momentInDatabase = getOrmMomentFromDatabase(moment, dbRequestListener);
@@ -156,7 +156,7 @@ public class MomentsSegregator {
         dbSavingInterface.saveMoments(moments, null);
     }
 
-    public void processCreatedMoment(List<? extends Moment> moments, DBRequestListener dbRequestListener) {
+    public void processCreatedMoment(List<? extends Moment> moments, DBRequestListener<Moment> dbRequestListener) {
         for (final Moment moment : moments) {
             moment.setSynced(true);
             try {

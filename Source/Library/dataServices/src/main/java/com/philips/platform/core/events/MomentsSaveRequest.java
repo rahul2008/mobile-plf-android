@@ -17,7 +17,7 @@ import java.util.List;
  * All rights reserved.
  */
 public class MomentsSaveRequest extends MomentsEvent {
-    public MomentsSaveRequest(final List<Moment> moments, DBRequestListener dbRequestListener) {
+    public MomentsSaveRequest(final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) {
         super(moments,dbRequestListener);
     }
 }

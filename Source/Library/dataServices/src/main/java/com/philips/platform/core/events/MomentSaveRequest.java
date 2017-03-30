@@ -15,7 +15,7 @@ import com.philips.platform.core.listeners.DBRequestListener;
  * All rights reserved.
  */
 public class MomentSaveRequest extends MomentEvent {
-    public MomentSaveRequest(final Moment moment, DBRequestListener dbRequestListener) {
+    public MomentSaveRequest(final Moment moment, DBRequestListener<Moment> dbRequestListener) {
         super(moment,dbRequestListener);
     }
 }

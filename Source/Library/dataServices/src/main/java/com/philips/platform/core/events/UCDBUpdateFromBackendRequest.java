@@ -12,13 +12,13 @@ import java.util.List;
 public class UCDBUpdateFromBackendRequest extends Event {
 
     private List<Characteristics> characteristicsList;
-    private final DBRequestListener dbRequestListener;
+    private final DBRequestListener<Characteristics> dbRequestListener;
 
-    public DBRequestListener getDbRequestListener() {
+    public DBRequestListener<Characteristics> getDbRequestListener() {
         return dbRequestListener;
     }
 
-    public UCDBUpdateFromBackendRequest(List<Characteristics> characteristicsList, DBRequestListener dbRequestListener) {
+    public UCDBUpdateFromBackendRequest(List<Characteristics> characteristicsList, DBRequestListener<Characteristics> dbRequestListener) {
         this.characteristicsList = characteristicsList;
         this.dbRequestListener = dbRequestListener;
 
