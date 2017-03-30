@@ -7,6 +7,7 @@ package com.philips.platform.baseapp.base;
 
 import android.app.Application;
 import android.support.multidex.MultiDex;
+import android.text.TextUtils;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.platform.appframework.BuildConfig;
@@ -25,6 +26,7 @@ import com.philips.platform.baseapp.screens.productregistration.ProductRegistrat
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
+import com.philips.platform.pushnotification.PushNotificationManager;
 import com.squareup.leakcanary.LeakCanary;
 
 import java.io.File;
@@ -44,6 +46,7 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
     private ProductRegistrationState productRegistrationState;
     private boolean isSdCardFileCreated;
     private File tempFile;
+    private PushNotificationManager pushNotificationManager;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -80,6 +83,7 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
          * context to gets started.
          */
         AppFrameworkTagging.getInstance().initAppTaggingInterface(this);
+        initPushNotification();
     }
 
     public LoggingInterface getLoggingInterface() {
@@ -121,5 +125,15 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
     @Override
     public void onParseSuccess() {
 
+    }
+
+    /**
+     *Intialize push notification
+     */
+    public void initPushNotification(){
+        pushNotificationManager= PushNotificationManager.getInstance();
+        if(TextUtils.isEmpty(pushNotificationManager.getToken(getApplicationContext()))){
+            pushNotificationManager.startGCMRegistrationService(getApplicationContext());
+        }
     }
 }

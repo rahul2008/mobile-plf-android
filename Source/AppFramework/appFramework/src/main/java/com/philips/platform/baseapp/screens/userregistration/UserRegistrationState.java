@@ -30,6 +30,7 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoStateException
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.pushnotification.PushNotificationManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -88,6 +89,8 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     @Override
     public void onUserRegistrationComplete(Activity activity) {
         if (null != activity) {
+            //Register GCM token with data services on login success
+            PushNotificationManager.getInstance().registerTokenWithBackend(activity.getApplicationContext());
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
             BaseState baseState = null;
             try {
@@ -204,6 +207,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onUserLogoutSuccess() {
+        PushNotificationManager.getInstance().deregisterTokenWithBackend(activityContext.getApplicationContext());
     }
 
     @Override

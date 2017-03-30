@@ -6,7 +6,6 @@
 
 package com.philips.platform.baseapp.screens.introscreen;
 
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,7 +28,6 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.screens.splash.SplashFragment;
 import com.philips.platform.baseapp.screens.utility.Constants;
-import com.philips.platform.pushnotification.RegistrationIntentService;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
@@ -51,9 +49,6 @@ public class LaunchActivity extends AppFrameworkBaseActivity implements LaunchVi
         initCustomActionBar();
         setContentView(R.layout.af_launch_activity);
         presenter.onEvent(LaunchActivityPresenter.APP_LAUNCH_STATE);
-        Intent intent = new Intent(this, RegistrationIntentService.class);
-        startService(intent);
-
     }
 
     @Override
