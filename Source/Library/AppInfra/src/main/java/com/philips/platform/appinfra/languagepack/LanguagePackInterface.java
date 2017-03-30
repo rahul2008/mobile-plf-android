@@ -20,6 +20,11 @@ public interface LanguagePackInterface {
 	 */
 	void refresh(OnRefreshListener refreshListener);
 
+	/**
+	 *  It activates device matching locale from downloaded overview file
+	 *  Calling activate will return path of Language pack through call back listener
+	 * @param onActivateListener asynchronous callback reporting result of activate
+	 */
 	void activate(OnActivateListener onActivateListener);
 
 	interface OnRefreshListener {
