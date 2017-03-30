@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V. 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.appinfra.languagepack;
 
 import android.content.Context;
@@ -50,7 +55,12 @@ public class LanguagePackManager implements LanguagePackInterface {
 		gson = new Gson();
 	}
 
-	@Override
+    /**
+     * Api used to refresh language pack
+     *
+     * @param aILPRefreshResult
+     */
+    @Override
 	public void refresh(final OnRefreshListener aILPRefreshResult) {
 
 		AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
