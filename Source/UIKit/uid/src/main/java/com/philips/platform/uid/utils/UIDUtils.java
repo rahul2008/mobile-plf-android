@@ -14,14 +14,21 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
 
 import com.philips.platform.uid.thememanager.ThemeUtils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class UIDUtils {
+import static android.content.ContentValues.TAG;
+
+public final class UIDUtils {
+
+    private UIDUtils() {
+    }
 
     public static boolean isMinLollipop() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
@@ -34,8 +41,12 @@ public class UIDUtils {
             Method setMaxRadius = drawable.getClass().getDeclaredMethod("setMaxRadius", Integer.TYPE);
             setMaxRadius.setAccessible(true);
             setMaxRadius.invoke(drawable, radius);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            Log.e(TAG, e.getMessage());
+        } catch (IllegalAccessException e) {
+            Log.e(TAG, e.getMessage());
+        } catch (InvocationTargetException e) {
+            Log.e(TAG, e.getMessage());
         }
     }
 
