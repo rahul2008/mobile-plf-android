@@ -130,11 +130,12 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
             final MetadataSerNumbSampleContent serialNumberSampleContent = productMetadataResponseData.getSerialNumberSampleContent();
             final String asset = serialNumberSampleContent.getAsset();
             PrxLogger.i("Success values ***", serialNumberSampleContent.getAsset());
-            if(asset != null){
+            if (asset != null) {
                 PRUiHelper.getInstance().getAppInfraInstance().getServiceDiscovery().
                         getServiceUrlWithCountryPreference(ProdRegConstants.PRODUCTMETADATAREQUEST_SERVICE_ID,
                                 new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
                                     public void onSuccess(URL url) {
+
                                         String uriSubString = (url.getProtocol() + urlBaseSeparator + url.getHost()).concat(asset);
                                         PrxLogger.i("Success values ***", uriSubString);
                                         onUrlReceived.onSuccess(uriSubString);
@@ -145,8 +146,8 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
                                     }
                                 });
             }
+        }
         return null;
     }
-
 
 }
