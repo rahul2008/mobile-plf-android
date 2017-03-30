@@ -1,13 +1,98 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.jfrog.artifactory'
 apply from: '../extra/calabash.gradle'
+apply plugin: 'maven-publish'
 
-repositories {
-    maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
-    maven {
-        url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
+buildscript {
+    repositories {
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
+        maven {
+            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "readonly"
+            }
+        }
     }
-    maven {
-        url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android'
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.0', changing: true
+    }
+}
+
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment )
+archivesBaseName = rootProject.name + "App"
+
+allprojects {
+    repositories {
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
+        maven { url objcdp.getArtifactoryUrl() }
+        apply plugin: 'com.jfrog.artifactory'
+        group = 'com.philips.cdp'
+
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+
+group = 'com.philips.cdp'
+version = objcdp.getVersion()
+
+artifactory {
+    contextUrl = objcdp.getArtifactoryContextUrl()
+    publish {
+            repository {
+			repoKey = objcdp.getArtifactoryPublishRepoKey()
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+                publishArtifacts = true
+				publications ('apk')
+            }
+	    }
+    }
+    resolve {
+        repository {
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
+        }
+    }
+    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+}
+
+publishing {
+    publications {
+        apk(MavenPublication) {
+            groupId group
+            version = version
+            artifactId archivesBaseName
+
+            artifact("$buildDir/outputs/apk/${archivesBaseName}-device-release-unsigned.apk")
+
+            pom.withXml{
+                def dependenciesNode = asNode().appendNode('dependencies')
+                configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.moduleGroup)
+                    dependencyNode.appendNode('artifactId', it.moduleName)
+                    dependencyNode.appendNode('version', it.moduleVersion)
+                }
+            }
+        }
     }
 }
 
@@ -41,7 +126,7 @@ android {
             minifyEnabled true
             //  proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             proguardFile 'proguard.pro'
-            proguardFile 'appinfraproguard.pro'
+//            proguardFile 'appinfraproguard.pro'
             //  proguardFile 'proguard.pro'
             signingConfig signingConfigs.release
         }
@@ -112,10 +197,10 @@ dependencies {
     compile 'com.android.support:appcompat-v7:+'
     compile 'com.android.support:support-v4:+'
     compile 'com.android.support:multidex:+'
-//    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.3.5-SNAPSHOT', ext: 'aar')
-//            {
-//                transitive true
-//            }
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.3.5' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+            {
+                transitive true
+            }
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
