@@ -38,7 +38,7 @@
                     android:text="@string/dialog_screen_text_long_content"
                     android:textColor="?attr/uidTextPrimaryColor"
                     android:textSize="@dimen/button_toggle_text_size"/>
-
+                <include layout="@layout/divider_layout"/>
                 <com.philips.platform.uid.view.widget.Switch
                     android:id="@+id/toggle_switch_with_title"
                     fontPath="fonts/centralesansbook.ttf"
@@ -52,7 +52,7 @@
                     android:text="@string/dialog_screen_text_with_title"
                     android:textColor="?attr/uidTextPrimaryColor"
                     android:textSize="@dimen/button_toggle_text_size"/>
-
+                <include layout="@layout/divider_layout"/>
                 <com.philips.platform.uid.view.widget.Switch
                     android:id="@+id/checkbox_title_with_icon"
                     fontPath="fonts/centralesansbook.ttf"

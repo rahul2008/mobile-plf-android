@@ -4,5 +4,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_layout_divider"
-        android:background="@android:color/transparent"/>
+        android:background="?attr/uidSeparatorColor"
+        android:alpha="?attr/uidSeparatorAlpha"/>
 </merge>

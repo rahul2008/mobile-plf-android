@@ -46,7 +46,7 @@
                         android:checked="@={frag.isSeparatorEnabled}"
                         android:onCheckedChanged="@{(v, isChecked) -> frag.setSeparatorEnabled(isChecked)}"/>
                 </LinearLayout>
-
+                <include layout="@layout/divider_layout"/>
                 <LinearLayout
                     style="@style/BaseLayoutMargins.Dimens"
                     android:orientation="horizontal">
@@ -67,20 +67,21 @@
                         android:checked="@={frag.isHeaderEnabled}"
                         android:onCheckedChanged="@{(v, isChecked) -> frag.setHeaderEnabled(isChecked)}"/>
                 </LinearLayout>
-
+                <include layout="@layout/divider_layout"/>
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
+                    android:background="?attr/uidContentTertiary"
                     android:orientation="horizontal">
 
                     <com.philips.platform.uid.view.widget.Label
-                        style="@style/UIDLabel.RecyclerViewHeader"
+                        style="@style/UIDLabel.RecyclerViewHeaderText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
                         android:gravity="center_vertical"
-                        android:text="@string/template_selection"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentStart="true" />
+                        android:text="@string/template_selection" />
                 </RelativeLayout>
 
                 <RadioGroup

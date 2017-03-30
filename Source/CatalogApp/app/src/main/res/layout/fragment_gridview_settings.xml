@@ -11,6 +11,11 @@
             type="com.philips.platform.catalogapp.fragments.GridViewSettingsFragment" />
     </data>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -35,6 +40,8 @@
                 android:onCheckedChanged="@{(v, isChecked) -> frag.setSecondaryActionEnabled(isChecked)}" />
         </LinearLayout>
 
+        <include layout="@layout/divider_layout"/>
+
         <LinearLayout
             style="@style/BaseLayoutMargins.Dimens"
             android:orientation="horizontal">
@@ -54,6 +61,8 @@
                 android:onCheckedChanged="@{(v, isChecked) -> frag.setDarkBackgroundEnabled(isChecked)}" />
         </LinearLayout>
 
+        <include layout="@layout/divider_layout"/>
+
         <LinearLayout
             style="@style/BaseLayoutMargins.Dimens"
             android:orientation="horizontal">
@@ -72,7 +81,7 @@
                 android:checked="@={frag.isEnlargedGutterEnabled}"
                 android:onCheckedChanged="@{(v, isChecked) -> frag.setEnlargedGutterEnabled(isChecked)}" />
         </LinearLayout>
-
+        <include layout="@layout/divider_layout"/>
         <LinearLayout
             style="@style/BaseLayoutMargins.Dimens"
             android:orientation="horizontal">
@@ -91,7 +100,7 @@
                 android:checked="@={frag.isGridDisableEnabled}"
                 android:onCheckedChanged="@{(v, isChecked) -> frag.setGridDisableEnabled(isChecked)}" />
         </LinearLayout>
-
+        <include layout="@layout/divider_layout"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
@@ -107,7 +116,7 @@
                 android:gravity="center_vertical"
                 android:text="@string/template_selection" />
         </RelativeLayout>
-
+        <include layout="@layout/divider_layout"/>
         <RadioGroup
             android:id="@+id/radioGroupTemplates"
             android:layout_width="match_parent"
@@ -138,4 +147,5 @@
                 />
         </RadioGroup>
     </LinearLayout>
+    </ScrollView>
 </layout>

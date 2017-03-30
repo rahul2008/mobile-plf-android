@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.dataUtils.GridDataHelper;
 import com.philips.platform.catalogapp.databinding.FragmentGridviewSettingsBinding;
+import com.philips.platform.uid.drawable.SeparatorDrawable;
 
 
 public class GridViewSettingsFragment extends BaseFragment {
