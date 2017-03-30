@@ -1,7 +1,7 @@
 CommLib for Android - Release Notes
 =======================================
 
-Version NEXT
+Version 4.0.0
 -------------
 
 ### API Changes
