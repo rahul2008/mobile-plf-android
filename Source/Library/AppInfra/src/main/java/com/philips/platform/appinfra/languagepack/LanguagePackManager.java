@@ -210,6 +210,8 @@ public class LanguagePackManager implements LanguagePackInterface {
 		ArrayList<String> deviceLocaleList = new ArrayList<>(Arrays.asList(getLocaleList().split(",")));
 		LanguageModel langModel = new LanguageModel();
 		for (String deviceLocale : deviceLocaleList) {
+			deviceLocale = deviceLocale.replaceAll("[\\[\\]]", ""); // removing extra [] from locale list
+
 			for (LanguageModel model : languageModels) {
 				if (model.getLocale().equalsIgnoreCase(deviceLocale)) {
 					selectedLanguageModel = model;
