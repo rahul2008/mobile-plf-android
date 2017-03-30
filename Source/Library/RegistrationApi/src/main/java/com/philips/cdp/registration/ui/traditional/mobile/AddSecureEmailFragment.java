@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import com.philips.cdp.registration.B;
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.LoginIdEditText;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
@@ -45,7 +46,7 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileActivationFragment : onCreateView");
-        trackActionStatus(REGISTRATION_ACTIVATION_SMS,"","");
+        trackActionStatus(REGISTRATION_ACTIVATION_SMS, "", "");
         addSecureEmailPresenter = new AddSecureEmailPresenter(this);
         View view = inflater.inflate(R.layout.reg_fragment_secure_email, container, false);
         ButterFork.bind(this, view);
@@ -75,7 +76,7 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
 
 
     @OnClick(B.id.btn_reg_secure_data_email)
-    public void addEmailButtonClicked(){
+    public void addEmailButtonClicked() {
         recoveryErrorTextView.setVisibility(GONE);
         addSecureEmailPresenter.addEmailClicked(recoveryEmail.getEmailId());
     }
@@ -105,5 +106,42 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
     public void onAddRecoveryEmailFailure(String error) {
         recoveryErrorTextView.setError(error);
         recoveryErrorTextView.setVisibility(VISIBLE);
+    }
+
+    @Override
+    public void enableButtons() {
+        addRecoveryEmailButton.setEnabled(true);
+        maybeLaterButton.setEnabled(true);
+
+    }
+
+    @Override
+    public void disableButtons() {
+        addRecoveryEmailButton.setEnabled(false);
+        maybeLaterButton.setEnabled(false);
+    }
+
+    @Override
+    public void showErrorMsg() {
+        recoveryErrorTextView.setError(getResources().getString(R.string.reg_Generic_Network_Error));
+        recoveryErrorTextView.setVisibility(VISIBLE);
+    }
+
+    @Override
+    public void hideErrorMsg() {
+        recoveryErrorTextView.setError(null);
+        recoveryErrorTextView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        addSecureEmailPresenter.registerNetworkListener();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        addSecureEmailPresenter.unRegisterNetworkListener();
     }
 }

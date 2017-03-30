@@ -100,4 +100,18 @@ public class AddSecureEmailPresenterTest {
         verify(contractMock).onAddRecoveryEmailFailure("Internal error");
     }
 
+    @Test
+    public void testNetwork_online(){
+        presenter.onNetWorkStateReceived(true);
+        verify(contractMock).enableButtons();
+        verify(contractMock).showErrorMsg();
+    }
+
+    @Test
+    public void testNetwork_offline(){
+        presenter.onNetWorkStateReceived(false);
+        verify(contractMock).disableButtons();
+        verify(contractMock).hideErrorMsg();
+    }
+
 }
