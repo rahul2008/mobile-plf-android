@@ -14,7 +14,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 /**
  * Application class is used for initialization
  */
-public class AppFrameworkApplication extends Application {
+public class UappDemoApplication extends Application {
     public AppInfraInterface appInfra;
 
     @SuppressWarnings("deprecation")
