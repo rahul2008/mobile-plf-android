@@ -12,7 +12,7 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 
-public class UappDemouAppInterface implements UappInterface {
+public class UappDemoInterface implements UappInterface {
 
     private Context context;
 
@@ -39,7 +39,7 @@ public class UappDemouAppInterface implements UappInterface {
         }
     }
 
-    protected UappUiHelper getInstance(){
-        return UappUiHelper.getInstance();
+    protected UappDemoUiHelper getInstance(){
+        return UappDemoUiHelper.getInstance();
     }
 }

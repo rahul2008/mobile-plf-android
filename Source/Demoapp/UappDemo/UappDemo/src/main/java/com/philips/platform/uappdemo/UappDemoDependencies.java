@@ -6,11 +6,11 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
 
-public class UappDemouAppDependencies extends UappDependencies {
+public class UappDemoDependencies extends UappDependencies {
 
     private BaseFlowManager flowManager;
 
-    public UappDemouAppDependencies(final AppInfraInterface appInfra) {
+    public UappDemoDependencies(final AppInfraInterface appInfra) {
         super(appInfra);
     }
 

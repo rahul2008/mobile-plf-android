@@ -28,7 +28,7 @@ import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListen
 import com.philips.platform.screens.base.UappOnBoardingBaseFragment;
 import com.philips.platform.screens.base.UappBasePresenter;
 import com.philips.platform.screens.introscreen.LaunchActivity;
-import com.philips.platform.uappdemo.UappUiHelper;
+import com.philips.platform.uappdemo.UappDemoUiHelper;
 import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
@@ -99,7 +99,7 @@ public class SplashFragment extends UappOnBoardingBaseFragment implements BackEv
     }
 
     private void setFlowManager() {
-       UappUiHelper.getInstance().setTargetFlowManager(this,getActivity());
+       UappDemoUiHelper.getInstance().setTargetFlowManager(this,getActivity());
     }
 
     //Requesting permission
@@ -225,6 +225,6 @@ public class SplashFragment extends UappOnBoardingBaseFragment implements BackEv
 
     @Override
     public BaseFlowManager getTargetFlowManager() {
-        return UappUiHelper.getInstance().getFlowManager();
+        return UappDemoUiHelper.getInstance().getFlowManager();
     }
 }

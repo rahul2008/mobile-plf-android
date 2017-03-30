@@ -18,9 +18,9 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.io.File;
 
-public class UappUiHelper {
+public class UappDemoUiHelper {
 
-    private static UappUiHelper uappUiHelper;
+    private static UappDemoUiHelper uappDemoUiHelper;
     private BaseFlowManager flowManager;
     private LoggingInterface loggingInterface;
     private AppInfraInterface appInfra;
@@ -33,17 +33,17 @@ public class UappUiHelper {
     * Hosting app, which will integrate this Product Registration, has to pass app
     * context.
     */
-    private UappUiHelper() {
+    private UappDemoUiHelper() {
     }
 
     /*
      * Singleton pattern.
      */
-    public static UappUiHelper getInstance() {
-        if (uappUiHelper == null) {
-            uappUiHelper = new UappUiHelper();
+    public static UappDemoUiHelper getInstance() {
+        if (uappDemoUiHelper == null) {
+            uappDemoUiHelper = new UappDemoUiHelper();
         }
-        return uappUiHelper;
+        return uappDemoUiHelper;
     }
 
     public BaseFlowManager getFlowManager() {
@@ -51,7 +51,7 @@ public class UappUiHelper {
     }
 
     protected void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
-        UappDemouAppDependencies dependencies = (UappDemouAppDependencies) uappDependencies;
+        UappDemoDependencies dependencies = (UappDemoDependencies) uappDependencies;
         this.context = uappSettings.getContext();
         this.flowManager = dependencies.getFlowManager();
         this.appInfra = uappDependencies.getAppInfra();

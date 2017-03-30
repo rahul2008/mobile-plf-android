@@ -34,7 +34,7 @@ import com.philips.platform.flowmanager.utility.UappConstants;
 import com.philips.platform.flowmanager.utility.UappSharedPreference;
 import com.philips.platform.screens.base.UappBaseActivity;
 import com.philips.platform.screens.base.FragmentViewUapp;
-import com.philips.platform.uappdemo.UappUiHelper;
+import com.philips.platform.uappdemo.UappDemoUiHelper;
 import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -320,7 +320,7 @@ public class UappHamburgerActivity extends UappBaseActivity implements FragmentM
 
     @Override
     public BaseFlowManager getTargetFlowManager() {
-        return UappUiHelper.getInstance().getFlowManager();
+        return UappDemoUiHelper.getInstance().getFlowManager();
     }
 
     @Override

@@ -13,7 +13,7 @@ import com.philips.platform.samplemicroapp.SampleMicroAppDependencies;
 import com.philips.platform.samplemicroapp.SampleMicroAppInterface;
 import com.philips.platform.samplemicroapp.SampleMicroAppLaunchInput;
 import com.philips.platform.samplemicroapp.SampleMicroAppSettings;
-import com.philips.platform.uappdemo.UappUiHelper;
+import com.philips.platform.uappdemo.UappDemoUiHelper;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
@@ -32,7 +32,7 @@ public class SampleState extends BaseState {
     public void navigate(UiLauncher uiLauncher) {
         FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
 
-        SampleMicroAppDependencies sampleMicroAppDependencies = new SampleMicroAppDependencies(UappUiHelper.getInstance().getAppInfra());
+        SampleMicroAppDependencies sampleMicroAppDependencies = new SampleMicroAppDependencies(UappDemoUiHelper.getInstance().getAppInfra());
         SampleMicroAppInterface sampleMicroAppInterface = new SampleMicroAppInterface();
         sampleMicroAppInterface.init(sampleMicroAppDependencies, new SampleMicroAppSettings(fragmentLauncher.getFragmentActivity()));
         sampleMicroAppInterface.launch(uiLauncher, new SampleMicroAppLaunchInput("Welcome to Sample micro app"));

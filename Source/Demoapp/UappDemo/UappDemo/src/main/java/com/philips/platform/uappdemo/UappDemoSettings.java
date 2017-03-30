@@ -6,9 +6,9 @@ import android.content.Context;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 
-public class UappDemouAppSettings extends UappSettings {
+public class UappDemoSettings extends UappSettings {
 
-    public UappDemouAppSettings(final Context applicationContext) {
+    public UappDemoSettings(final Context applicationContext) {
         super(applicationContext);
     }
 }

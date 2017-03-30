@@ -22,7 +22,7 @@ import com.philips.platform.screens.base.UappOnBoardingBaseFragment;
 import com.philips.platform.screens.base.UappBasePresenter;
 import com.philips.platform.screens.introscreen.LaunchActivity;
 import com.philips.platform.screens.introscreen.pager.WelcomePagerAdapter;
-import com.philips.platform.uappdemo.UappUiHelper;
+import com.philips.platform.uappdemo.UappDemoUiHelper;
 import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.shamanland.fonticon.FontIconView;
@@ -69,7 +69,7 @@ public class WelcomeFragment extends UappOnBoardingBaseFragment implements View.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        UappUiHelper.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.INFO, TAG,
+        UappDemoUiHelper.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.INFO, TAG,
                 " IntroductionScreen Activity Created ");
         View view = inflater.inflate(R.layout.af_welcome_fragment, container, false);
 
@@ -147,6 +147,6 @@ public class WelcomeFragment extends UappOnBoardingBaseFragment implements View.
 
     @Override
     public BaseFlowManager getTargetFlowManager() {
-        return UappUiHelper.getInstance().getFlowManager();
+        return UappDemoUiHelper.getInstance().getFlowManager();
     }
 }
