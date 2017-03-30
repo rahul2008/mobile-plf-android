@@ -127,6 +127,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private boolean isTermsAndConditionVisible;
 
+    private View mViewAcceptTermsLine;
+
     private User mUser;
 
     @Override
@@ -361,7 +363,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         mBtnContinue.setOnClickListener(this);
         mTvSignInWith = (TextView) view.findViewById(R.id.tv_reg_sign_in_with);
         mLlAlmostDoneContainer = (LinearLayout) view.findViewById(R.id.ll_reg_almost_done);
-
+        mViewAcceptTermsLine = (View) view.findViewById(R.id.reg_view_accep_terms_line);
         mUser = new User(mContext);
         mLlAcceptTermsContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_accept_terms);
@@ -436,17 +438,16 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     };
 
     private void handleUiAcceptTerms(View view) {
+        mJoinNow.setVisibility(View.GONE);
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             if (isEmailExist && RegPreferenceUtility.getStoredState(mContext, mEmail)) {
-                View acceptTermsLine = view.findViewById(R.id.reg_view_accep_terms_line);
-                acceptTermsLine.setVisibility(View.GONE);
+                mViewAcceptTermsLine.setVisibility(View.GONE);
                 mLlAcceptTermsContainer.setVisibility(View.GONE);
-            } else {
+            } else if(mBundle !=null && mBundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR)!=null){
                 updateABTestingUIFlow(view);
             }
         } else {
-            View acceptTermsLine = view.findViewById(R.id.reg_view_accep_terms_line);
-            acceptTermsLine.setVisibility(View.GONE);
+            mViewAcceptTermsLine.setVisibility(View.GONE);
             mLlAcceptTermsContainer.setVisibility(View.GONE);
         }
 
@@ -460,6 +461,11 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             view.findViewById(R.id.reg_view_line).setVisibility(View.GONE);
             view.findViewById(R.id.tv_join_now).setVisibility(View.GONE);
             view.findViewById(R.id.ll_reg_accept_terms).setVisibility(View.GONE);
+        }else if(mUser.getReceiveMarketingEmail()){
+            view.findViewById(R.id.fl_reg_receive_philips_news).setVisibility(View.GONE);
+            view.findViewById(R.id.reg_view_line).setVisibility(View.GONE);
+            view.findViewById(R.id.tv_join_now).setVisibility(View.GONE);
+            mViewAcceptTermsLine.setVisibility(View.GONE);
         }
     }
 
@@ -476,10 +482,10 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             case FLOW_B:
                 RLog.d(RLog.AB_TESTING, "UI Flow Type B");
                 //We need to show always receive philips news until opt-in
-               /* mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
+                mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
                 mLlPeriodicOffersCheck.setVisibility(View.GONE);
                 view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.GONE);
-                mJoinNow.setVisibility(View.GONE);*/
+                mJoinNow.setVisibility(View.GONE);
                 break;
 
             case FLOW_C:

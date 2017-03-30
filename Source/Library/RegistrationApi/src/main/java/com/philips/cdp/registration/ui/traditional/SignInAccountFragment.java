@@ -127,6 +127,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private static final int BAD_RESPONSE_CODE = 7004;
 
+    private static final int INPUTS_INVALID_CODE = 390;
+
     private ScrollView mSvRootLayout;
 
     private boolean isSavedEmailError;
@@ -469,7 +471,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBtnSignInAccount.setEnabled(false);
 
         if (userRegistrationFailureInfo.getErrorCode() == -1 || userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE
-                || userRegistrationFailureInfo.getErrorCode() == UN_EXPECTED_ERROR) {
+                || userRegistrationFailureInfo.getErrorCode() == UN_EXPECTED_ERROR || userRegistrationFailureInfo.getErrorCode() == INPUTS_INVALID_CODE) {
             mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
         } else {
             if (userRegistrationFailureInfo.getErrorCode() >= RegConstants.HSDP_LOWER_ERROR_BOUND) {
@@ -739,7 +741,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBtnForgot.setEnabled(true);
         mBtnResend.setEnabled(true);
         mRegError.hideError();
-
         if (mUser.getEmailVerificationStatus() || !RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
             if (RegPreferenceUtility.getStoredState(mContext, mEmail) && mUser.getReceiveMarketingEmail()) {
                 launchWelcomeFragment();
