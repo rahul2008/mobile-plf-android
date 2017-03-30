@@ -35,7 +35,6 @@ import com.philips.cdp.registration.ui.customviews.XMobileHavingProblems;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.XVerifyNumber;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
-import com.philips.cdp.registration.ui.traditional.WelcomeFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegChinaUtil;
@@ -208,7 +207,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @OnClick(B.id.rl_reg_name_field)
     public void resendButtonClicked() {
-        otpEditTextAndResendButton.showResendSpinner();
+        otpEditTextAndResendButton.showResendSpinnerAndDisableResendButton();
         disableVerifyButton();
         spinnerProgress.setVisibility(GONE);
         otpEditTextAndResendButton.showValidEmailAlert();
@@ -232,7 +231,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void enableResendButton() {
-        otpEditTextAndResendButton.hideResendSpinner();
+        otpEditTextAndResendButton.hideResendSpinnerAndEnableResendButton();
         otpEditTextAndResendButton.setCounterFinish();
     }
 
@@ -263,7 +262,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void showSmsSendFailedError() {
-        otpEditTextAndResendButton.hideResendSpinner();
+        otpEditTextAndResendButton.hideResendSpinnerAndEnableResendButton();
         otpEditTextAndResendButton.showEmailIsInvalidAlert();
         otpEditTextAndResendButton.setErrDescription(getString(R.string.reg_URX_SMS_InternalServerError));
     }
@@ -293,6 +292,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void setOtpErrorMessageFromJson(String errorDescription) {
+        trackActionStatus(SEND_DATA, USER_ERROR, ACTIVATION_NOT_VERIFIED);
         otpEditTextAndResendButton.setErrDescription(errorDescription);
     }
 
@@ -305,7 +305,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     public void enableResendButtonAndHideSpinner() {
         otpEditTextAndResendButton.setEnabled(true);
         trackMultipleActionsOnMobileSuccess();
-        otpEditTextAndResendButton.hideResendSpinner();
+        otpEditTextAndResendButton.hideResendSpinnerAndEnableResendButton();
         handleResendVerificationEmailSuccess();
     }
 
@@ -313,7 +313,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     public void showSmsResendTechincalError(String errorCodeString) {
         trackActionStatus(SEND_DATA, TECHNICAL_ERROR, MOBILE_RESEND_SMS_VERFICATION_FAILURE);
         String errorMsg = RegChinaUtil.getErrorMsgDescription(errorCodeString, context);
-        otpEditTextAndResendButton.hideResendSpinner();
+        otpEditTextAndResendButton.hideResendSpinnerAndEnableResendButton();
         otpEditTextAndResendButton.showEmailIsInvalidAlert();
         otpEditTextAndResendButton.setErrDescription(errorMsg);
     }

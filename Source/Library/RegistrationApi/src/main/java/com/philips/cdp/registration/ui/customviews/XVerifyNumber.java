@@ -222,19 +222,19 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher,
         mEtVerify.setImeOptions(option);
     }
 
-    public void showResendSpinner(){
+    public void showResendSpinnerAndDisableResendButton(){
         mBtResend.setEnabled(false);
         mEtVerify.setEnabled(false);
         mProgressBar.setVisibility(VISIBLE);
     }
 
-    public void hideResendSpinner(){
+    public void hideResendSpinnerAndEnableResendButton(){
         mProgressBar.setVisibility(GONE);
         mEtVerify.setEnabled(true);
+        mBtResend.setEnabled(true);
     }
 
     public void disableResendSpinner(){
-        mBtResend.setEnabled(false);
         mProgressBar.setVisibility(GONE);
     }
 

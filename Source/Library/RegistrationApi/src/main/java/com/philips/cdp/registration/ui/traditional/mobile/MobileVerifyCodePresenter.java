@@ -51,7 +51,7 @@ public class MobileVerifyCodePresenter implements HttpClientServiceReceiver.List
 
     private final MobileVerifyCodeContract mobileVerifyCodeContract;
 
-    private final CountDownTimer countDownTimer = new CountDownTimer(RESEND_DISABLED_DURATION, INTERVAL) {
+    private final CountDownTimer resendTimer = new CountDownTimer(RESEND_DISABLED_DURATION, INTERVAL) {
         @Override
         public void onTick(long timeLeft) {
             String timeRemaining = String.format("%02d", + timeLeft / 1000) + "s";
@@ -72,7 +72,7 @@ public class MobileVerifyCodePresenter implements HttpClientServiceReceiver.List
     }
 
     public void startResendTimer() {
-        countDownTimer.start();
+        resendTimer.start();
     }
 
     public void verifyMobileNumber(String uuid, String otp) {
@@ -197,6 +197,7 @@ public class MobileVerifyCodePresenter implements HttpClientServiceReceiver.List
             mobileVerifyCodeContract.setOtpErrorMessageFromJson(errorMessage);
         }
         mobileVerifyCodeContract.showOtpInvalidError();
+        mobileVerifyCodeContract.enableVerifyButton();
     }
 
     private boolean isResponseCodeValid(JSONObject jsonObject) throws JSONException {

@@ -11,6 +11,9 @@ import org.json.JSONException;
 
 public class AddSecureEmailPresenter implements CaptureApiRequestCallback {
 
+    private static final String JANRAIN_UPDATE_EMAIL_KEY = "email";
+    private static final String EDIT_PROFILE_FORM_NAME = "editProfileForm";
+
     AddSecureEmailContract addSecureEmailContract;
 
     public AddSecureEmailPresenter(AddSecureEmailContract addSecureEmailContract) {
@@ -28,14 +31,13 @@ public class AddSecureEmailPresenter implements CaptureApiRequestCallback {
         }
 
         updateUserEmail(emailId);
-
     }
 
     private void updateUserEmail(String emailId) {
         CaptureRecord currentUser = Jump.getSignedInUser();
         try {
-            currentUser.put("email", emailId);
-            Capture.updateUserProfile(currentUser, "editProfileForm", this);
+            currentUser.put(JANRAIN_UPDATE_EMAIL_KEY, emailId);
+            Capture.updateUserProfile(currentUser, EDIT_PROFILE_FORM_NAME, this);
         } catch (JSONException e) {
             e.printStackTrace();
         }
