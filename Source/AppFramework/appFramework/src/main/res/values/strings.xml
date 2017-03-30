@@ -200,6 +200,8 @@ Receive free product accessories</string>
     <string name="RA_UR_Env_Alert_Msg">Configuration can only be changed at launch time. You need to relaunch the app to change it</string>
     <string name="RA_Update_Userdata_Error">There was an error updating User Data. Please try after sometime</string>
     <string name="RA_Setting_Philips_Promo_PartTwo">Promotional communications based on my preferences and online behavior</string>
+    <string name="insights">Insights</string>
+    <string name="logout">logout</string>
     <!--<array name="hamburger_drawer_icons">-->
     <!--<item>@drawable/uikit_cart</item>-->
     <!--<item>@drawable/uikit_cart</item>-->

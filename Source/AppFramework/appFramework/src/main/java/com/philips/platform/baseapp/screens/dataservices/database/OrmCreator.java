@@ -15,6 +15,8 @@ import com.philips.platform.baseapp.screens.dataservices.database.datatypes.Mome
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentType;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmInsight;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmInsightMetaData;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurement;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementDetailType;
@@ -31,6 +33,8 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynch
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.Insight;
+import com.philips.platform.core.datatypes.InsightMetadata;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
@@ -51,11 +55,11 @@ import javax.inject.Singleton;
  */
 public class OrmCreator implements BaseAppDataCreator {
 
-    private final UuidGenerator uuidGenerator;
+    //private final UuidGenerator uuidGenerator;
 
     @Singleton
-    public OrmCreator(UuidGenerator uuidGenerator) {
-        this.uuidGenerator = uuidGenerator;
+    public OrmCreator() {
+        //this.uuidGenerator = uuidGenerator;
 
     }
 
@@ -180,4 +184,18 @@ public class OrmCreator implements BaseAppDataCreator {
         OrmMeasurementGroupDetailType ormMeasurementGroupDetailType = new OrmMeasurementGroupDetailType(MeasurementGroupDetailType.getIDFromDescription(type), type);
         return new OrmMeasurementGroupDetail(ormMeasurementGroupDetailType, measurementGroup);
     }
+
+    //Insight
+    @NonNull
+    @Override
+    public Insight createInsight() {
+        return new OrmInsight();
+    }
+
+    @NonNull
+    @Override
+    public InsightMetadata createInsightMetaData(String key, String value, Insight insight) {
+        return new OrmInsightMetaData(key, value, (OrmInsight) insight);
+    }
+
 }
