@@ -131,6 +131,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private User mUser;
 
+    private TextView mTvFirstToKnow;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onCreate");
@@ -271,6 +273,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         applyParams(config, mRegError, width);
         applyParams(config, mRegAccptTermsError, width);
         applyParams(config, mLlAcceptTermsContainer, width);
+        applyParams(config, mTvFirstToKnow, width);
     }
 
     @Override
@@ -377,6 +380,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         mCbRemarketingOpt = (XCheckBox) view.findViewById(R.id.cb_reg_receive_philips_news);
         mCbRemarketingOpt.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbRemarketingOpt.getPaddingTop(), mCbRemarketingOpt.getPaddingRight(), mCbRemarketingOpt.getPaddingBottom());
 
+        mTvFirstToKnow = (TextView)view.findViewById(R.id.tv_reg_first_to_know);
         TextView acceptTermsView = (TextView) view.findViewById(R.id.tv_reg_accept_terms);
         mCbAcceptTerms = (XCheckBox) view.findViewById(R.id.cb_reg_accept_terms);
         RegUtility.linkifyTermsandCondition(acceptTermsView, getRegistrationFragment().getParentActivity(), mTermsAndConditionClick);
@@ -481,7 +485,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
             case FLOW_B:
                 RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-                //We need to show always receive philips news until opt-in
                 mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
                 mLlPeriodicOffersCheck.setVisibility(View.GONE);
                 view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.GONE);
@@ -490,6 +493,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
             case FLOW_C:
                 RLog.d(RLog.AB_TESTING, "UI Flow Type C");
+                String firstToKnow = "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Be_The_First) + "</b> ";
+                mTvFirstToKnow.setText(Html.fromHtml(firstToKnow));
+                mTvFirstToKnow.setVisibility(View.VISIBLE);
                 mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
                 mJoinNow.setVisibility(View.VISIBLE);
                 break;
