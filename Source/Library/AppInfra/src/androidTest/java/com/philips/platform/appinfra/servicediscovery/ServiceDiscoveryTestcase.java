@@ -929,17 +929,9 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 			assertNotNull(baseUrlproduction);
 			assertSame("www.philips.com", baseUrlproduction);
 
-			String baseUrltest = (String) method.invoke(mServiceDiscoveryManager, "TEST");
-			assertNotNull(baseUrltest);
-			assertSame("tst.philips.com", baseUrltest);
-
 			String baseUrlstaging = (String) method.invoke(mServiceDiscoveryManager, "STAGING");
 			assertNotNull(baseUrlstaging);
-			assertSame("dev.philips.com", baseUrlstaging);
-
-			String baseUrlacceptance = (String) method.invoke(mServiceDiscoveryManager, "ACCEPTANCE");
-			assertNotNull(baseUrlacceptance);
-			assertSame("acc.philips.com", baseUrlacceptance);
+			assertSame("stg.philips.com", baseUrlstaging);
 
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
 			e.printStackTrace();

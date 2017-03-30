@@ -92,14 +92,9 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 	private static final String URLTagProduction = "apps%2b%2benv%2bprod";
 
 	private static final String baseURLProduction = "www.philips.com";
-	private static final String baseURLTesting = "tst.philips.com";
-	private static final String baseURLStaging = "dev.philips.com";
-	private static final String baseURLAcceptance = "acc.philips.com";
+	private static final String baseURLStaging = "stg.philips.com";
 
-	private static final String stateTesting = "TEST";
-	private static final String stateDevelopment = "DEVELOPMENT";
 	private static final String stateStaging = "STAGING";
-	private static final String stateAccepteance = "ACCEPTANCE";
 	private static final String stateProduction = "PRODUCTION";
 
 
@@ -216,10 +211,11 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 			String country = fetchFromSecureStorage(COUNTRY);
 			String countrySource = fetchFromSecureStorage(COUNTRY_SOURCE);
 			if (country == null) {
-				if (countrySource == null)
+				if (countrySource == null){
 					countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
+					saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
+				}
 				saveToSecureStore(propositionService.getCountry(), COUNTRY);
-				saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
 			}
 			platformService = downloadPlatformService();
 		}
@@ -334,6 +330,9 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 				sector = identityManager.getSector();
 				micrositeid = identityManager.getMicrositeId();
 				environment = getSDBaseURLForEnvironment(service_environment);
+				if (micrositeid == null || micrositeid.isEmpty() || environment == null || environment.isEmpty()) {
+					throw new IllegalArgumentException("Proposition MicrositeId or Proposition Service Environment is Missing");
+				}
 				break;
 		}
 		if (sector != null && micrositeid != null &&
@@ -365,17 +364,11 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 	}
 
 	private String getSDBaseURLForEnvironment(String serviceEnv) {
-		String baseUrl;
+		String baseUrl = null;
 		if (serviceEnv.equalsIgnoreCase(stateProduction)) {
 			baseUrl = baseURLProduction;
-		} else if (serviceEnv.equalsIgnoreCase(stateTesting)) {
-			baseUrl = baseURLTesting;
 		} else if (serviceEnv.equalsIgnoreCase(stateStaging)) {
 			baseUrl = baseURLStaging;
-		} else if (serviceEnv.equalsIgnoreCase(stateAccepteance)) {
-			baseUrl = baseURLAcceptance;
-		} else {
-			baseUrl = baseURLTesting;
 		}
 		return baseUrl;
 	}
@@ -721,7 +714,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 				queueResultListener(false, new DownloadItemListener() {
 					@Override
 					public void onDownloadDone(AISDResponse result) {
-						if (result != null) {
+						if (result != null && result.isSuccess()) {
 							String country = result.getCountryCode();
 							if (country != null) {
 								if (countryCodeSource == null)
