@@ -179,7 +179,72 @@ public class LanguagePackTest extends MockitoTestCase {
         }
     }
 
-    public void testgetLanguagePackUtilFileOperations() {
+    public void testProcessForLanguagePack(){
+        try {
+            Method method = mLanguagePackManager.getClass().getDeclaredMethod("processForLanguagePack");
+            method.setAccessible(true);
+            LanguagePackInterface.OnRefreshListener listener = new LanguagePackInterface.OnRefreshListener() {
+                @Override
+                public void onError(AILPRefreshResult error, String message) {
+                }
+                @Override
+                public void onSuccess(AILPRefreshResult result) {
+                }
+            };
+            method.invoke(mLanguagePackInterface,listener);
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void testDownloadLanguagePack(){
+        try {
+            Method method = mLanguagePackManager.getClass().getDeclaredMethod("downloadLanguagePack");
+            method.setAccessible(true);
+            LanguagePackInterface.OnRefreshListener listener = new LanguagePackInterface.OnRefreshListener() {
+                @Override
+                public void onError(AILPRefreshResult error, String message) {
+                }
+                @Override
+                public void onSuccess(AILPRefreshResult result) {
+                }
+            };
+            URL url = new URL("");
+            method.invoke(mLanguagePackInterface,url,listener);
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void testIsLanguagePackDownloadRequired(){
+        try {
+            Method method = mLanguagePackManager.getClass().getDeclaredMethod("isLanguagePackDownloadRequired");
+            method.setAccessible(true);
+            LanguageModel defaultLocale = new LanguageModel();
+            defaultLocale.setLocale("en_GB");
+            defaultLocale.setUrl("https:\\/\\/hashim-rest.herokuapp.com\\/sd\\/dev\\/en_IN\\/appinfra\\/lp\\/en_GB.json");
+            defaultLocale.setVersion("1");
+            method.invoke(mLanguagePackInterface,defaultLocale);
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void testGetPreferredLocaleURL(){
+        try {
+            Method method = mLanguagePackManager.getClass().getDeclaredMethod("getPreferredLocaleURL");
+            method.setAccessible(true);
+            method.invoke(mLanguagePackInterface);
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void testGetLanguagePackUtilFileOperations() {
         languagePackUtil.saveFile(getLanguageResponse(), "downloadTest.json");
         File file = languagePackUtil.getLanguagePackFilePath("downloadTest.json");
         assertNotNull(file);
@@ -210,6 +275,7 @@ public class LanguagePackTest extends MockitoTestCase {
             e.printStackTrace();
         }
     }
+
 
 
     private String getLanguageResponse() {
