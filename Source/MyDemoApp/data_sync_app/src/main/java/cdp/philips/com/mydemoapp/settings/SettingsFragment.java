@@ -25,8 +25,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import cdp.philips.com.mydemoapp.R;
+import android.support.v4.app.Fragment;
 
-public class SettingsFragment extends DialogFragment implements DBFetchRequestListner<Settings>,DBRequestListener<Settings>, DBChangeListener, View.OnClickListener {
+public class SettingsFragment extends Fragment implements DBFetchRequestListner<Settings>,DBRequestListener<Settings>, DBChangeListener, View.OnClickListener {
 
     private Button mBtnOk;
     private Button mBtnCancel;
@@ -136,10 +137,14 @@ public class SettingsFragment extends DialogFragment implements DBFetchRequestLi
                 settings.setLocale(mSpinner_Local.getSelectedItem().toString());
                 settingsFragmentPresenter.updateSettings(settings);
 
-                dismissConsentDialog(getDialog());
+               // dismissConsentDialog(getDialog());
+                getFragmentManager().popBackStack();
+                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                 break;
             case R.id.btnCancel:
-                dismissConsentDialog(getDialog());
+                //dismissConsentDialog(getDialog());
+                getFragmentManager().popBackStack();
+                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                 break;
 
         }
@@ -172,13 +177,13 @@ public class SettingsFragment extends DialogFragment implements DBFetchRequestLi
     public void onStart() {
         super.onStart();
         mDataServicesManager.registerDBChangeListener(this);
-        Dialog dialog = getDialog();
+       /* Dialog dialog = getDialog();
         dialog.setTitle(R.string.settings);
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
             dialog.getWindow().setLayout(width, height);
-        }
+        }*/
     }
 
     private void showProgressDialog() {
