@@ -114,6 +114,12 @@ android {
         testApplicationId "com.philips.cdp.registration.coppa.test"
         multiDexEnabled true
         testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
+
+        // replace the below string with your own Google client ID. Make sure this is consistent
+        // with the values used in openid_appauth_idp_configs.xml
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
+        ]
     }
     buildTypes {
         release {
@@ -124,6 +130,10 @@ android {
             debuggable true
             testCoverageEnabled false
         }
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
     }
 
     packagingOptions {

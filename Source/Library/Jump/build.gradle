@@ -119,6 +119,11 @@ android {
         versionName version
         multiDexEnabled true
         testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
+
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
+        ]
+
     }
     lintOptions {
         abortOnError false
@@ -166,13 +171,19 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.5.5' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     compile 'com.squareup.okio:okio:1.6.0'
-//    compile project(':servertime')
     //WeChat China
     compile files('libs/libammsdk.jar')
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.6.1'
+    
     compile 'com.android.support:multidex:1.0.1'
+    
+     compile 'com.squareup.picasso:picasso:2.5.2'
+    //compile 'com.squareup.retrofit:retrofit:1.8.0'
+    compile 'net.openid:appauth:0.4.1'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.6.1'
 
 }
+
+
 
 task copyToLib(type: Copy) {
     into "$buildDir/outputs/lib"

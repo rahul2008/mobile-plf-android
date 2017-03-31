@@ -21,7 +21,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 
-public class DhpApiSigner {
+public class DhpApiSigner implements ApiSigner{
 
     private static final String ALGORITHM_NAME = "HmacSHA256";
     private static final String SECRET_KEY_PREFIX = "DHPWS";
@@ -109,5 +109,11 @@ public class DhpApiSigner {
         } catch (InvalidKeyException e) {
             throw new IllegalArgumentException("Error during hash generation", e);
         }
+    }
+
+    @Override
+    public String createHeader(String httpMethod, String queryParams, Map<String, String> headers, String url, String body) {
+        String header = buildAuthorizationHeaderValue(httpMethod, queryParams, headers, url, body);
+        return header;
     }
 }

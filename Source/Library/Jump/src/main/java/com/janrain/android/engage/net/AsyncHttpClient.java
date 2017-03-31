@@ -51,6 +51,7 @@ package com.janrain.android.engage.net;
 
 import android.os.Handler;
 
+import com.janrain.android.engage.JREngage;
 import com.janrain.android.engage.net.async.HttpResponseHeaders;
 import com.janrain.android.utils.IoUtils;
 import com.janrain.android.utils.LogUtils;
@@ -122,8 +123,9 @@ import static com.janrain.android.engage.net.JRConnectionManager.ManagedConnecti
                 for (NameValuePair header : mConn.getRequestHeaders()) {
                     request.addHeader(header.getName(), header.getValue());
                 }
-
-                LogUtils.logd("Headers: " + Arrays.asList(mConn.getHttpRequest().getAllHeaders()).toString());
+                if(JREngage.isLoggingEnabled) {
+                    LogUtils.logd("Headers: " + Arrays.asList(mConn.getHttpRequest().getAllHeaders()).toString());
+                }
                 if (mConn.getHttpRequest() instanceof HttpPost) {
                     String postBody = EntityUtils.toString(((HttpPost) mConn.getHttpRequest()).getEntity());
                     LogUtils.logd("POST to " + mConn.getRequestUrl() + ": " + postBody);
@@ -198,7 +200,9 @@ import static com.janrain.android.engage.net.JRConnectionManager.ManagedConnecti
                 mConn.setResponse(ahr);
                 invokeCallback(callBack);
             } catch (IOException e) {
-                LogUtils.loge(this.toString());
+                if(JREngage.isLoggingEnabled) {
+                    LogUtils.loge(this.toString());
+                }
                 LogUtils.loge("IOException while executing HTTP request.", e);
                 mConn.setResponse(new AsyncHttpResponse(mConn, e, null, null));
                 invokeCallback(callBack);

@@ -32,7 +32,6 @@
 
 package com.janrain.android.engage.ui;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -41,12 +40,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -55,6 +56,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.janrain.android.R;
 import com.janrain.android.engage.session.JRProvider;
 import com.janrain.android.engage.session.JRSession;
@@ -88,7 +90,7 @@ public abstract class JRUiFragment extends Fragment {
 
     public static final int REQUEST_LANDING = 1;
     public static final int REQUEST_WEBVIEW = 2;
-    public static final int REQUEST_NATIVE = 3;
+    public static final int REQUEST_OPENID_APPAUTH = 3;
     public static final int DIALOG_ABOUT = 1000;
     public static final int DIALOG_PROGRESS = 1001;
     public static final String JR_ACTIVITY_JSON = "JRActivityJson";
@@ -133,8 +135,8 @@ public abstract class JRUiFragment extends Fragment {
     }
 
     @Override
-    public void onInflate(Activity activity, AttributeSet attrs, Bundle savedInstanceState) {
-        super.onInflate(activity, attrs, savedInstanceState);
+    public void onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState) {
+        super.onInflate(context, attrs, savedInstanceState);
 
         if (JRSession.getInstance() == null) {
             throw new IllegalStateException("You must call JREngage.initInstance before inflating " +
@@ -143,8 +145,8 @@ public abstract class JRUiFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
 
         if (mFinishReceiver == null) mFinishReceiver = new FinishReceiver();
         getActivity().registerReceiver(mFinishReceiver, JRFragmentHostActivity.FINISH_INTENT_FILTER);
@@ -247,6 +249,7 @@ public abstract class JRUiFragment extends Fragment {
         if (mSession != null) mSession.setUiIsShowing(false);
 
         if (mCustomInterfaceConfiguration != null) mCustomInterfaceConfiguration.onDestroy();
+
 
         super.onDestroy();
     }
@@ -467,9 +470,22 @@ public abstract class JRUiFragment extends Fragment {
         startActivityForFragId(fragId, requestCode, null);
     }
 
-    /*package*/ int getColor(int colorId) {
+
+    /*package*/
+    /*
+    int getColor(int colorId) {
         return getResources().getColor(colorId);
     }
+    */
+    int getColor(Context context, int id) {
+        final int version = Build.VERSION.SDK_INT;
+        if (version >= 23) {
+            return ContextCompat.getColor(context, id);
+        } else {
+            return context.getResources().getColor(id);
+        }
+    }
+
 
     /*package*/ void startActivityForFragId(int fragId, int requestCode, Bundle opts) {
         boolean showTitle;
@@ -527,12 +543,12 @@ public abstract class JRUiFragment extends Fragment {
         return mFragmentResult;
     }
 
-    /*package*/ void finishFragmentWithResult(int result) {
+    /*package*/ public void finishFragmentWithResult(int result) {
         setFragmentResult(result);
         finishFragment();
     }
 
-    /*package*/ void finishFragment() {
+    /*package*/ public void finishFragment() {
         FragmentActivity activity = getActivity();
         if (activity instanceof JRFragmentHostActivity) {
             if (mFragmentResult != null) ((JRFragmentHostActivity) activity)._setResult(mFragmentResult);
@@ -555,7 +571,7 @@ public abstract class JRUiFragment extends Fragment {
         }
     }
 
-    /*package*/ void startWebViewAuthForProvider(JRProvider provider) {
+    /*package*/ public void startWebViewAuthForProvider(JRProvider provider) {
         if (provider.requiresInput() ||
                 (mSession.getAuthenticatedUserForProvider(provider) != null &&
                         !provider.getForceReauthUrlFlag()) && !mSession.getAlwaysForceReauth()) {
@@ -564,7 +580,6 @@ public abstract class JRUiFragment extends Fragment {
             showWebView();
         }
     }
-
 
     /*package*/ void showUserLanding() {
         if (getActivity() instanceof JRFragmentHostActivity || isSharingFlow()) {
