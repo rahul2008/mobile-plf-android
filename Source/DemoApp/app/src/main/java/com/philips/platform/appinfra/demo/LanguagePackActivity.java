@@ -43,7 +43,8 @@ public class LanguagePackActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onError(AILPActivateResult ailpActivateResult) {
+                    public void onError(AILPActivateResult ailpActivateResult, String message) {
+                        Log.e("LPactivity","error "+ailpActivateResult.toString() + "   "+message);
                         activatedUrl.setText(ailpActivateResult.toString());
                     }
 
@@ -61,8 +62,8 @@ public class LanguagePackActivity extends AppCompatActivity {
                 mLanguagePack.refresh(new LanguagePackInterface.OnRefreshListener() {
                     @Override
                     public void onError(AILPRefreshResult error, String message) {
-                        Log.e("LPactivity","error "+message);
-                        overviewfileStatus.setText(error.toString());
+                        Log.e("LPactivity","error "+error.toString() + "   "+message);
+                        overviewfileStatus.setText(error.toString() +"   "+message);
                     }
 
                     @Override

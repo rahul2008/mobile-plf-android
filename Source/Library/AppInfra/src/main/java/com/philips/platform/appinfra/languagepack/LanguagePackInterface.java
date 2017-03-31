@@ -27,15 +27,29 @@ public interface LanguagePackInterface {
 
 		void onSuccess(AILPRefreshResult result);
 
-		enum AILPRefreshResult {LoadedFromLocalCache, RefreshedFromServer, NoRefreshRequired, RefreshFailed}
+		enum AILPRefreshResult { RefreshedFromServer, NoRefreshRequired, RefreshFailed}
+
+		/*
+		*
+		* Not able to read overview file
+		*
+		*
+		* */
 	}
 
 	interface OnActivateListener {
 		void onSuccess(String path);
 
-		void onError(AILPActivateResult ailpActivateResult);
+		void onError(AILPActivateResult ailpActivateResult, String message);
 
-		enum AILPActivateResult {REFRESH_NOT_CALLED, SOMETHING_WENT_WRONG}
+		enum AILPActivateResult {UpdateActivated,NoUpdateStored, UpdateFailed}
+		/*
+		* UpdateActivated
+		* No Update stored  Already updated
+		*
+		* UpdateFailed No Language Pack available
+		*
+		* */
 	}
 }
 
