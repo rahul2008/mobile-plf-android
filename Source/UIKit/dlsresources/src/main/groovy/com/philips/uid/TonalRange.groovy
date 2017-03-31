@@ -77,17 +77,6 @@ class TonalRange {
             } else {
                 return "@null"
             }
-        } else if (color != null) {
-            def colorReference = "${DLSResourceConstants.LIB_PREFIX}_level_${color}";
-//            println("colorReference: #" + colorReference +"#" +" name " + name)
-
-            def colorValue = getColorValue(colorsXmlInput, colorReference)
-            if (opacity != null) {
-                def hexAlpha = alphaToHex(Float.valueOf(opacity))
-                def colorWithHex = colorValue.replace("#", "#${hexAlpha}")
-                return colorWithHex;
-            }
-            return "@color/${colorReference}"
         } else if (colorCode != null) {
             if (colorRange == "accent" || colorRange == "validation")
                 return "@null"
@@ -111,6 +100,17 @@ class TonalRange {
             }
             def colorWithHex = colorValue.replace("#", "#${hexAlpha}")
             return colorWithHex
+        } else if (color != null) {
+            def colorReference = "${DLSResourceConstants.LIB_PREFIX}_level_${color}";
+//            println("colorReference: #" + colorReference +"#" +" name " + name)
+
+            def colorValue = getColorValue(colorsXmlInput, colorReference)
+            if (opacity != null) {
+                def hexAlpha = alphaToHex(Float.valueOf(opacity))
+                def colorWithHex = colorValue.replace("#", "#${hexAlpha}")
+                return colorWithHex;
+            }
+            return "@color/${colorReference}"
         }
 //        println(" Invalid combination " + this.toString())
         return "@null"
