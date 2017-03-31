@@ -210,37 +210,39 @@ public class LanguagePackManager implements LanguagePackInterface {
 	private String getPreferredLocaleURL() {
 
 		ArrayList<LanguageModel> languageModels = mLanguageList.getLanguages();
-		ArrayList<String> deviceLocaleList = new ArrayList<>(Arrays.asList(getLocaleList().split(",")));
-		LanguageModel langModel = new LanguageModel();
-		for (String deviceLocale : deviceLocaleList) {
-			deviceLocale = deviceLocale.replaceAll("[\\[\\]]", ""); // removing extra [] from locale list
+		if(null!=languageModels) {
+			ArrayList<String> deviceLocaleList = new ArrayList<>(Arrays.asList(getLocaleList().split(",")));
+			LanguageModel langModel = new LanguageModel();
+			for (String deviceLocale : deviceLocaleList) {
+				deviceLocale = deviceLocale.replaceAll("[\\[\\]]", ""); // removing extra [] from locale list
 
-			for (LanguageModel model : languageModels) {
-				if (model.getLocale().equalsIgnoreCase(deviceLocale)) {
-					selectedLanguageModel = model;
-					langModel.setVersion(model.getVersion());
-					langModel.setLocale(model.getLocale());
-					langModel.setUrl(model.getUrl());
-					return model.getUrl();
+				for (LanguageModel model : languageModels) {
+					if (model.getLocale().equalsIgnoreCase(deviceLocale)) {
+						selectedLanguageModel = model;
+						langModel.setVersion(model.getVersion());
+						langModel.setLocale(model.getLocale());
+						langModel.setUrl(model.getUrl());
+						return model.getUrl();
+					}
 				}
-			}
-			for (LanguageModel model : languageModels) {
-				if (deviceLocale.contains(model.getLocale().substring(0, 2))) {
-					selectedLanguageModel = model;
-					langModel.setVersion(model.getVersion());
-					langModel.setLocale(model.getLocale());
-					langModel.setUrl(model.getUrl());
-					return model.getUrl();
+				for (LanguageModel model : languageModels) {
+					if (deviceLocale.contains(model.getLocale().substring(0, 2))) {
+						selectedLanguageModel = model;
+						langModel.setVersion(model.getVersion());
+						langModel.setLocale(model.getLocale());
+						langModel.setUrl(model.getUrl());
+						return model.getUrl();
+					}
 				}
-			}
 
-			// TODO - Need to handle fallback scenarios
-		}
-		LanguageModel defaultLocale = getDefaultLocale();
-		if (languageModels.contains(defaultLocale)) {
-			int index = languageModels.indexOf(defaultLocale);
-			selectedLanguageModel = languageModels.get(index);
-			return languageModels.get(index).getUrl();
+				// TODO - Need to handle fallback scenarios
+			}
+			LanguageModel defaultLocale = getDefaultLocale();
+			if (languageModels.contains(defaultLocale)) {
+				int index = languageModels.indexOf(defaultLocale);
+				selectedLanguageModel = languageModels.get(index);
+				return languageModels.get(index).getUrl();
+			}
 		}
 		return null;
 	}
