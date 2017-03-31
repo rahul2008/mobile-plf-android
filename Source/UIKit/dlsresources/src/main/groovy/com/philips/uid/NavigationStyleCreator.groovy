@@ -25,26 +25,22 @@ class NavigationStyleCreator {
                     tonalRange = BrushParser.getCapitalizedValue(tonalRange)
                     colorXML.style("${DLSResourceConstants.ITEM_NAME}": "UIDNavigationbar" + tonalRange) {
 
-
-                        DLSResourceConstants.NAVIGATION_ATTRIBUTES.each {
-                            attribute ->
-                                def index = allComponentAttributes.indexOf(new ThemeAttribute(attribute))
-
-                                if (index >= 0) {
-                                    ThemeAttribute themeAttr = allComponentAttributes.get(index);
-//                                    println("themeAttr  " + themeAttr + " value " + themeAttr.attributeMap.get(themeAttr.attrName).getAttributeName(allBrushAttributes))
-                                    def attName = themeAttr.attributeMap.get(themeAttr.attrName).getAttributeName(allBrushAttributes)
+                        allComponentAttributes.each {
+                            themeAttribute ->
+                                if (themeAttribute.attrName.contains("uidNavigation")) {
+//                                    println("themeAttr  " + themeAttribute + " value " + themeAttribute.attributeMap.get(themeAttribute.attrName).getAttributeName(allBrushAttributes))
+                                    def attName = themeAttribute.attributeMap.get(themeAttribute.attrName).getAttributeName(allBrushAttributes)
                                     def themeAttrIndex = allBrushAttributes.indexOf(new ThemeAttribute(attName))
                                     if (themeAttrIndex >= 0) {
                                         ThemeAttribute themeAttrValue = allBrushAttributes.get(themeAttrIndex)
 //                                        println("themeAttrValue  " + themeAttrValue + " tonalRange " + tonalRange)
                                         def tonalRangeValue = themeAttrValue.attributeMap.get(tonalRange)
                                         def value = tonalRangeValue.getValue("color", colorsXmlInput, allBrushAttributes)
-                                        item("${DLSResourceConstants.ITEM_NAME}": attribute, value)
+                                        item("${DLSResourceConstants.ITEM_NAME}": themeAttribute.attrName, value)
                                     }
 
                                 } else {
-                                    println("themeAttr  " + attribute + " not found")
+                                    println("themeAttr  " + themeAttribute + " not found")
                                 }
                         }
                     }
