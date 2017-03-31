@@ -249,7 +249,7 @@ dependencies {
 
     compile "com.j256.ormlite:ormlite-core:5.0"
     compile "com.j256.ormlite:ormlite-android:5.0"
-    compile "com.philips.cdp:registrationApi:9.0.0-rc.+"
+    compile "com.philips.cdp:registrationApi:9.0.0-SNAPSHOT.+"
     compile "com.philips.cdp:uikitLib:3.7.5-SNAPSHOT.+"
     //compile 'com.github.chrisbanes.actionbarpulltorefresh:library:+'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
