@@ -14,6 +14,9 @@ import android.os.Looper;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.app.tagging.Encryption;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
@@ -372,6 +375,8 @@ public class HsdpUser {
                         hsdpUserRecord = hsdpUserRecord.parseHsdpUserInfo(rawResponse);
                         hsdpUserRecord.setRefreshSecret(refreshSecret);
                         HsdpUserInstance.getInstance().setHsdpUserRecord(hsdpUserRecord);
+                        Encryption encryption = new Encryption();
+                        final String userUID = encryption.encrypt(hsdpUserRecord.getUserUUID());
                         saveToDisk(new UserFileWriteListener() {
 
                             @Override
@@ -383,6 +388,12 @@ public class HsdpUser {
                                                 + rawResponse.toString());
                                         HsdpUser hsdpUser = new HsdpUser(mContext);
                                         if (hsdpUser.getHsdpUserRecord() != null)
+                                            if(null!= userUID) {
+                                                AppTagging.trackAction(AppTagingConstants.SEND_DATA,
+                                                        "evar2", userUID);
+                                            }
+
+                                            hsdpUser.getHsdpUserRecord().getUserUUID();
                                             loginHandler.onLoginSuccess();
                                     }
                                 });
