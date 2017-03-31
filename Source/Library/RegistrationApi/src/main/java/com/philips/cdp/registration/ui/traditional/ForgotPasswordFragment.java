@@ -41,9 +41,9 @@ import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.XButton;
-import com.philips.cdp.registration.ui.customviews.XEmail;
+import com.philips.cdp.registration.ui.customviews.LoginIdEditText;
 import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.customviews.onUpdateListener;
+import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileForgotPasswordVerifyCodeFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
@@ -62,11 +62,8 @@ import java.net.URL;
 
 import javax.inject.Inject;
 
-/**
- * Created by 310190722 on 10/7/2015.
- */
 public class ForgotPasswordFragment extends RegistrationBaseFragment implements EventListener,
-        onUpdateListener, NetworStateListener, View.OnClickListener, ForgotPasswordHandler, HttpClientServiceReceiver.Listener {
+        OnUpdateListener, NetworStateListener, View.OnClickListener, ForgotPasswordHandler, HttpClientServiceReceiver.Listener {
 
     @Inject
     NetworkUtility networkUtility;
@@ -84,7 +81,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
     private TextView mTvForgotPassword;
 
-    private XEmail mEtEmail;
+    private LoginIdEditText mEtEmail;
 
     private XButton mBtnContinue;
 
@@ -129,7 +126,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
     private void initUI(View view) {
         consumeTouch(view);
-        mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
+        mEtEmail = (LoginIdEditText) view.findViewById(R.id.rl_reg_email_field);
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         mEtEmail.requestFocus();
         mEtEmail.setOnUpdateListener(this);
@@ -325,7 +322,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     }
 
     @Override
-    public void onUpadte() {
+    public void onUpdate() {
         handleOnUIThread(new Runnable() {
             @Override
             public void run() {

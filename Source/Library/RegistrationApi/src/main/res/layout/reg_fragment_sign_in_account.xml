@@ -38,7 +38,7 @@
                     android:textSize="@dimen/reg_title_text_size"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
 
-                <com.philips.cdp.registration.ui.customviews.XEmail
+                <com.philips.cdp.registration.ui.customviews.LoginIdEditText
                     android:id="@+id/rl_reg_email_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

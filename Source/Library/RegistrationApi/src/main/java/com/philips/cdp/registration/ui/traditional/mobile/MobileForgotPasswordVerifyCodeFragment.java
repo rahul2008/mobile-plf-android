@@ -216,7 +216,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
     }
 
     private void updateUiStatus() {
-        if (mEtCodeNUmber.getNumber().length() >= RegConstants.VERIFY_CODE_ENTER) {
+        if (mEtCodeNUmber.getNumber().length() >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH) {
             mBtnVerify.setEnabled(true);
         } else {
             mBtnVerify.setEnabled(false);
@@ -255,7 +255,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
 
         }
         if (response == null) {
-            mEtCodeNUmber.hideResendSpinner();
+            mEtCodeNUmber.hideResendSpinnerAndEnableResendButton();
             mEtCodeNUmber.showEmailIsInvalidAlert();
             mEtCodeNUmber.setErrDescription(mContext.getResources().getString(R.string.reg_URX_SMS_InternalServerError));
             return;
@@ -390,13 +390,13 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
             if (jsonObject.getString("errorCode").toString().equals("0")) {
                 mEtCodeNUmber.setEnabled(true);
                 trackMultipleActionsOnMobileSuccess();
-                mEtCodeNUmber.hideResendSpinner();
+                mEtCodeNUmber.hideResendSpinnerAndEnableResendButton();
                 handleResendVerificationEmailSuccess();
                 resetTimer();
             } else {
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.TECHNICAL_ERROR, AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
                 String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode").toString(), mContext);
-                mEtCodeNUmber.hideResendSpinner();
+                mEtCodeNUmber.hideResendSpinnerAndEnableResendButton();
                 RLog.i("MobileVerifyCodeFragment ", " SMS Resend failure = " + response);
                 mEtCodeNUmber.showEmailIsInvalidAlert();
                 mEtCodeNUmber.setErrDescription(errorMsg);
@@ -421,7 +421,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
 
         @Override
         public void onClick(View view) {
-            mEtCodeNUmber.showResendSpinner();
+            mEtCodeNUmber.showResendSpinnerAndDisableResendButton();
             mEtCodeNUmber.showValidEmailAlert();
             mBtnVerify.setEnabled(false);
             isResendRequested = true;

@@ -15,6 +15,7 @@ import com.philips.cdp.registration.injection.AppInfraModule;
 import com.philips.cdp.registration.injection.DaggerRegistrationComponent;
 import com.philips.cdp.registration.injection.NetworkModule;
 import com.philips.cdp.registration.injection.RegistrationComponent;
+import com.philips.cdp.registration.injection.UserModule;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
@@ -144,6 +145,7 @@ public class URInterface implements UappInterface {
         return DaggerRegistrationComponent.builder()
                     .networkModule(new NetworkModule(uappSettings.getContext()))
                     .appInfraModule(new AppInfraModule(uappDependencies.getAppInfra()))
+                    .userModule(new UserModule(uappSettings.getContext()))
                     .build();
     }
 

@@ -15,7 +15,6 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,7 +37,7 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher,
 
     private TextView mTvErrDescriptionView;
 
-    private onUpdateListener mUpdateStatusListener;
+    private OnUpdateListener mUpdateStatusListener;
 
     private RelativeLayout mRlEtEmail;
 
@@ -96,7 +95,7 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher,
 
     private boolean validateEmail() {
         if (mEtVerify != null) {
-            if (mEtVerify.getText().toString().length() >= RegConstants.VERIFY_CODE_ENTER) {
+            if (mEtVerify.getText().toString().length() >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH) {
                 return true;
             } else {
                 return false;
@@ -135,24 +134,24 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher,
 
     public void showValidEmailAlert() {
         mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_disable);
-        mEtVerify.setTextColor(mContext.getResources().getColor(R.color.reg_edt_text_feild_color));
+        mEtVerify.setTextColor(mContext.getResources().getColor(R.color.reg_edit_text_field_color));
         mFlInvalidFieldAlert.setVisibility(GONE);
         mTvErrDescriptionView.setVisibility(GONE);
     }
 
-    public void setOnUpdateListener(onUpdateListener updateStatusListener) {
+    public void setOnUpdateListener(OnUpdateListener updateStatusListener) {
         mUpdateStatusListener = updateStatusListener;
     }
 
     private void raiseUpdateUIEvent() {
         if (null != mUpdateStatusListener) {
-            mUpdateStatusListener.onUpadte();
+            mUpdateStatusListener.onUpdate();
         }
     }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        mEtVerify.setTextColor(mContext.getResources().getColor(R.color.reg_edt_text_feild_color));
+        mEtVerify.setTextColor(mContext.getResources().getColor(R.color.reg_edit_text_field_color));
         if (v.getId() == R.id.et_reg_verify) {
             handleEmail(hasFocus);
             raiseUpdateUIEvent();
@@ -223,19 +222,19 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher,
         mEtVerify.setImeOptions(option);
     }
 
-    public void showResendSpinner(){
+    public void showResendSpinnerAndDisableResendButton(){
         mBtResend.setEnabled(false);
         mEtVerify.setEnabled(false);
         mProgressBar.setVisibility(VISIBLE);
     }
 
-    public void hideResendSpinner(){
+    public void hideResendSpinnerAndEnableResendButton(){
         mProgressBar.setVisibility(GONE);
         mEtVerify.setEnabled(true);
+        mBtResend.setEnabled(true);
     }
 
     public void disableResendSpinner(){
-        mBtResend.setEnabled(false);
         mProgressBar.setVisibility(GONE);
     }
 

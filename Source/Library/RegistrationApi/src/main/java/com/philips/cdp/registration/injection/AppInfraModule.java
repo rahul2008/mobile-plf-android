@@ -2,6 +2,7 @@ package com.philips.cdp.registration.injection;
 
 
 import com.philips.cdp.registration.app.infra.AppInfraWrapper;
+import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -55,5 +56,10 @@ public class AppInfraModule {
     @Provides
     public LoggingInterface providesLoggingInterface() {
         return appInfraInterface.getLogging();
+    }
+
+    @Provides
+    public ServiceDiscoveryWrapper providesServiceDiscoveryWrapper() {
+        return new ServiceDiscoveryWrapper(appInfraInterface.getServiceDiscovery());
     }
 }

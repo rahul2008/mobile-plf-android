@@ -38,12 +38,12 @@ import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.XCheckBox;
-import com.philips.cdp.registration.ui.customviews.XEmail;
+import com.philips.cdp.registration.ui.customviews.LoginIdEditText;
 import com.philips.cdp.registration.ui.customviews.XPassword;
 import com.philips.cdp.registration.ui.customviews.XPasswordHint;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.XUserName;
-import com.philips.cdp.registration.ui.customviews.onUpdateListener;
+import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
@@ -57,7 +57,7 @@ import com.philips.cdp.registration.ui.utils.URInterface;
 import javax.inject.Inject;
 
 public class CreateAccountFragment extends RegistrationBaseFragment implements OnClickListener,
-        TraditionalRegistrationHandler, onUpdateListener, NetworStateListener, EventListener, XCheckBox.OnCheckedChangeListener {
+        TraditionalRegistrationHandler, OnUpdateListener, NetworStateListener, EventListener, XCheckBox.OnCheckedChangeListener {
 
     @Inject
     NetworkUtility networkUtility;
@@ -82,7 +82,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     private XUserName mEtName;
 
-    private XEmail mEtEmail;
+    private LoginIdEditText mEtEmail;
 
     private XPassword mEtPassword;
 
@@ -346,7 +346,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         mEtName.requestFocus();
         mEtName.setOnUpdateListener(this);
-        mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
+        mEtEmail = (LoginIdEditText) view.findViewById(R.id.rl_reg_email_field);
         mEtEmail.setOnUpdateListener(this);
         mEtPassword = (XPassword) view.findViewById(R.id.rl_reg_password_field);
         mEtPassword.setOnUpdateListener(this);
@@ -619,7 +619,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     }
 
     @Override
-    public void onUpadte() {
+    public void onUpdate() {
         handleOnUIThread(new Runnable() {
             @Override
             public void run() {
