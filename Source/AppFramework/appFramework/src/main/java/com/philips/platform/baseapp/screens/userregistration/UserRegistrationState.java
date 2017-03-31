@@ -129,33 +129,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
         AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
 
-//        appInfra.getConfigInterface().setPropertyForKey(
-//                "HSDPConfiguration.ApplicationName",
-//                UR,
-//                "OneBackend",
-//                configError);
-//
-//        appInfra.getConfigInterface().setPropertyForKey(
-//                "HSDPConfiguration.Secret",
-//                UR,
-//                "f5b62a26d680e5ae8001522a8e3268f966545a1a14a47ea2040793ea825484cd12fce9c46b43e2c2604cb836db64362a0c8b39eb7b162b8b3e83740143337eda",
-//                configError);
-//
-//        appInfra.getConfigInterface().setPropertyForKey(
-//                "HSDPConfiguration.Shared",
-//                UR,
-//                "f52cd90d-c955-43e1-8380-999e03d0d4c0",
-//                configError);
-//
-//        appInfra.getConfigInterface().setPropertyForKey(
-//                "HSDPConfiguration.BaseURL",
-//                UR,
-//                "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com",
-////                "https://user-registration-assembly-staging.eu-west.philips-healthsuite.com",
-//                configError);
-
-
-
         Map<String, String> hsdpAppNames = new HashMap<>();
         hsdpAppNames.put(CHINA_CODE, "OneBackend");
         hsdpAppNames.put(DEFAULT, "OneBackend");

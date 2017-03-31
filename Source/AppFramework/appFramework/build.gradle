@@ -337,6 +337,10 @@ dependencies {
         transitive = true
     }
 
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '10.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+        transitive = true
+    }
+
     compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.3.5' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive=true
     }
