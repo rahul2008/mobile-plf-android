@@ -29,7 +29,7 @@ public interface LanguagePackInterface {
 
 		enum AILPRefreshResult { RefreshedFromServer, NoRefreshRequired, RefreshFailed}
 
-		
+
 	}
 
 	interface OnActivateListener {

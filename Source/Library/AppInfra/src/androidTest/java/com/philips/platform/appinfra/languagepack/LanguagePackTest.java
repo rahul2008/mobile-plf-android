@@ -170,7 +170,7 @@ public class LanguagePackTest extends MockitoTestCase {
 
                 }
                 @Override
-                public void onError(AILPActivateResult ailpActivateResult) {
+                public void onError(AILPActivateResult ailpActivateResult, String message) {
                 }
             };
             method.invoke(mLanguagePackInterface, listener);

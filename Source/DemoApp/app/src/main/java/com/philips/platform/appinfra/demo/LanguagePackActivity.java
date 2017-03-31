@@ -45,7 +45,7 @@ public class LanguagePackActivity extends AppCompatActivity {
                     @Override
                     public void onError(AILPActivateResult ailpActivateResult, String message) {
                         Log.e("LPactivity","error "+ailpActivateResult.toString() + "   "+message);
-                        activatedUrl.setText(ailpActivateResult.toString());
+                        activatedUrl.setText(ailpActivateResult.toString() + "   "+message);
                     }
 
                 });
