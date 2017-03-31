@@ -19,4 +19,5 @@
     <issue id ="WebViewLayout" severity="ignore" />
     <issue id ="MissingTranslation" severity="ignore" />
     <issue id ="ExtraTranslation" severity="ignore" />
+    
 </lint>
