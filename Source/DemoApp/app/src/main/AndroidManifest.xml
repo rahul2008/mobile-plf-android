@@ -139,6 +139,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity
+            android:name=".LanguagePackActivity"
+            android:label="LanguagePack"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity android:name=".WhiteBoxAPIActivity" />
 
     </application>
