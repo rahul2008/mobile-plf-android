@@ -30,6 +30,6 @@
     "servicediscovery.platformMicrositeId":"77000",
     "servicediscovery.platformEnvironment":"production",
     "appconfig.cloudServiceId":" appinfra.appconfigdownload",
-    "LANGUAGEPACK.SERVICEID":"appinfra.languagepack"
+    "timesync.ntp.hosts":["0.pool.ntp.org","1.pool.ntp.org","2.pool.ntp.org","3.pool.ntp.org","0.cn.pool.ntp.org"]
   }
 }
