@@ -285,7 +285,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 
 	private LanguageModel getDefaultLocale() {
 		LanguageModel defaultLocale = new LanguageModel();
-		defaultLocale.setLocale("en_GB");
+		defaultLocale.setLocale("en_US"); // developer default language
 		return defaultLocale;
 	}
 }
