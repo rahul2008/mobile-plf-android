@@ -13,8 +13,8 @@ public class LanguagePackConstants {
     static final String URL = "url";
     static final String LANGUAGE_PACK_PATH = "/AppInfra/AILanguagePack";
     static final String LOCALE_FILE_DOWNLOADED = "downloadedLangPack.json";
-    static final String LOCALE_FILE_ACTIVATED = "“activatedLangPack.json";
-    static final String LOCALE_FILE_INFO = "“LangPackMetadata.json";
+    static final String LOCALE_FILE_ACTIVATED = "activatedLangPack.json";
+    static final String LOCALE_FILE_INFO = "LangPackMetadata.json";
     static final String LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY = "LANGUAGEPACK.SERVICEID";
 
 }
