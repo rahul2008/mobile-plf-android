@@ -142,15 +142,20 @@ public class LanguagePackManager implements LanguagePackInterface {
 	private void processForLanguagePack(JSONObject response, OnRefreshListener aILPRefreshResult) {
 		mLanguageList = gson.fromJson(response.toString(), LanguageList.class);
 		if (null != mLanguageList) {
-			String url = getPreferredLocaleURL();
-			boolean languagePackDownloadRequired = isLanguagePackDownloadRequired(selectedLanguageModel);
-			if (languagePackDownloadRequired) {
-				downloadLanguagePack(url, aILPRefreshResult);
-			} else {
-				languagePackHandler.post(postRefreshSuccess(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.NoRefreshRequired));
+				String url = getPreferredLocaleURL();
+				if (null == url) {
+					languagePackHandler.post(postRefreshError(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.RefreshFailed, "Not able to read overview file"));
+				}else{
+				boolean languagePackDownloadRequired = isLanguagePackDownloadRequired(selectedLanguageModel);
+				if (languagePackDownloadRequired) {
+					downloadLanguagePack(url, aILPRefreshResult);
+				} else {
+					languagePackHandler.post(postRefreshSuccess(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.NoRefreshRequired));
+				}
 			}
-		} else
+		} else {
 			languagePackHandler.post(postRefreshError(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.RefreshFailed, "Not able to read overview file"));
+		}
 	}
 
 	private boolean isLanguagePackDownloadRequired(LanguageModel selectedLanguageModel) {

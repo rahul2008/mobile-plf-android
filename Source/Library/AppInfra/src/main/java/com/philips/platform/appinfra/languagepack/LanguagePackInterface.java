@@ -29,12 +29,7 @@ public interface LanguagePackInterface {
 
 		enum AILPRefreshResult { RefreshedFromServer, NoRefreshRequired, RefreshFailed}
 
-		/*
-		*
-		* Not able to read overview file
-		*
-		*
-		* */
+		
 	}
 
 	interface OnActivateListener {
@@ -43,11 +38,11 @@ public interface LanguagePackInterface {
 		void onError(AILPActivateResult ailpActivateResult, String message);
 
 		enum AILPActivateResult {UpdateActivated,NoUpdateStored, UpdateFailed}
+		  // TODO  UpdateFailed implementation
 		/*
-		* UpdateActivated
-		* No Update stored  Already updated
-		*
-		* UpdateFailed No Language Pack available
+		* UpdateActivated (Success)
+		* No Update stored(error)  Already updated (message)
+		* UpdateFailed No Language(error) Pack available(message)
 		*
 		* */
 	}
