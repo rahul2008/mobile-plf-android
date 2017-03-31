@@ -37,7 +37,7 @@ import com.shamanland.fonticon.FontIconView;
  * <pre>&lt;To make the start , skip ,left and right button visibility in each screen, please use the onPageSelected
  *
  */
-public class WelcomeFragment extends UappOnBoardingBaseFragment implements View.OnClickListener, WelcomeFragmentViewUapp, BackEventListener {
+public class WelcomeFragment extends UappOnBoardingBaseFragment implements View.OnClickListener, UappWelcomeView, BackEventListener {
 
     public static String TAG = LaunchActivity.class.getSimpleName();
 

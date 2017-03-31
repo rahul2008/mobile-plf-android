@@ -20,12 +20,12 @@ public class WelcomeFragmentPresenter extends UappBasePresenter {
     private final int MENU_OPTION_HOME = 0;
     private UappSharedPreference uappSharedPreference;
     private BaseState baseState;
-    private WelcomeFragmentViewUapp welcomeFragmentView;
+    private UappWelcomeView welcomeFragmentView;
     private String WELCOME_SKIP = "welcome_skip";
     private String WELCOME_DONE = "welcome_done";
     private String WELCOME_HOME = "welcome_home";
 
-    public WelcomeFragmentPresenter(WelcomeFragmentViewUapp welcomeFragmentView) {
+    public WelcomeFragmentPresenter(UappWelcomeView welcomeFragmentView) {
         super(welcomeFragmentView);
         this.welcomeFragmentView = welcomeFragmentView;
     }

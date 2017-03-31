@@ -10,7 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.screens.introscreen.LaunchActivity;
-import com.philips.platform.screens.introscreen.LaunchViewUapp;
+import com.philips.platform.screens.introscreen.UappLaunchView;
 import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -18,7 +18,7 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
  * UappOnBoardingBaseFragment is the <b>Base class</b> for all fragments which comes
  * under onboarding journey.
  */
-public abstract class UappOnBoardingBaseFragment extends Fragment implements LaunchViewUapp {
+public abstract class UappOnBoardingBaseFragment extends Fragment implements UappLaunchView {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

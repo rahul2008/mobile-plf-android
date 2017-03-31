@@ -33,7 +33,7 @@ import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.flowmanager.utility.UappConstants;
 import com.philips.platform.flowmanager.utility.UappSharedPreference;
 import com.philips.platform.screens.base.UappBaseActivity;
-import com.philips.platform.screens.base.FragmentViewUapp;
+import com.philips.platform.screens.base.UappFragmentView;
 import com.philips.platform.uappdemo.UappDemoUiHelper;
 import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -47,7 +47,7 @@ import java.util.List;
  * This activity is the container of all the other fragment for the app
  * ActionbarListener is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
  */
-public class UappHamburgerActivity extends UappBaseActivity implements FragmentManager.OnBackStackChangedListener, FragmentViewUapp {
+public class UappHamburgerActivity extends UappBaseActivity implements FragmentManager.OnBackStackChangedListener, UappFragmentView {
     private static String TAG = UappHamburgerActivity.class.getSimpleName();
     protected TextView actionBarTitle;
     private HamburgerUtil hamburgerUtil;

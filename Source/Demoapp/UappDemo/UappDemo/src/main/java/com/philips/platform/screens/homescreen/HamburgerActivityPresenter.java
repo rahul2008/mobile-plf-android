@@ -17,7 +17,7 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundExce
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.flowmanager.UappStates;
-import com.philips.platform.screens.base.FragmentViewUapp;
+import com.philips.platform.screens.base.UappFragmentView;
 import com.philips.platform.screens.base.UappBasePresenter;
 import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -32,12 +32,12 @@ import java.util.Arrays;
  */
 public class HamburgerActivityPresenter extends UappBasePresenter {
 
-    private FragmentViewUapp fragmentView;
+    private UappFragmentView fragmentView;
     private FragmentLauncher fragmentLauncher;
     private BaseState baseState;
     private final int SAMPLE = 2;
 
-    public HamburgerActivityPresenter(final FragmentViewUapp fragmentView) {
+    public HamburgerActivityPresenter(final UappFragmentView fragmentView) {
         super(fragmentView);
         this.fragmentView = fragmentView;
         setState(UappStates.HAMBURGER_HOME);

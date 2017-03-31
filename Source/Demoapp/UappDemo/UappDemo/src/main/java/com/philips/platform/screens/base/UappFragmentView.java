@@ -8,7 +8,7 @@ package com.philips.platform.screens.base;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-public interface FragmentViewUapp extends UappUIView {
+public interface UappFragmentView extends UappUIView {
 
     ActionBarListener getActionBarListener();
 

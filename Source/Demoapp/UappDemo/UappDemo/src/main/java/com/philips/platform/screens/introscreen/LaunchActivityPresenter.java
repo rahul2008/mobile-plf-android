@@ -24,12 +24,12 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 public class LaunchActivityPresenter extends UappBasePresenter implements UIStateListener {
 
     public static final int APP_LAUNCH_STATE = 890;
-    private LaunchViewUapp launchView;
+    private UappLaunchView launchView;
     private FragmentLauncher fragmentLauncher;
     private String LAUNCH_BACK_PRESSED = "back";
     private String APP_LAUNCH = "onAppLaunch";
 
-    public LaunchActivityPresenter(LaunchViewUapp launchView) {
+    public LaunchActivityPresenter(UappLaunchView launchView) {
         super(launchView);
         this.launchView = launchView;
     }

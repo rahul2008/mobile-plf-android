@@ -39,7 +39,7 @@ import com.philips.platform.uappframework.listener.BackEventListener;
  * 1. The user registration
  * 2. Welcome fragments
  */
-public class LaunchActivity extends UappBaseActivity implements LaunchViewUapp {
+public class LaunchActivity extends UappBaseActivity implements UappLaunchView {
     private TextView textView;
 
     @Override
