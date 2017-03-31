@@ -78,6 +78,17 @@
         <item name="android:background">?attr/uidContentTertiary</item>
     </style>
 
+    <style name="UIDLabel.RecyclerViewHeader">
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
+        <item name="uidLabelTextSize">@dimen/uid_recyclerview_header_text_size</item>
+        <item name="android:paddingStart">@dimen/uid_recyclerview_margin_left_right</item>
+        <item name="android:minHeight">@dimen/uid_recyclerview_lable_height</item>
+        <item name="uidLabelTextColor">?attr/uidTextTertiaryColor</item>
+        <item name="uidLabelTextAlpha">?attr/uidTextTertiaryAlpha</item>
+        <item name="android:paddingTop">@dimen/uid_recyclerview_lable_top</item>
+        <item name="android:paddingBottom">@dimen/uid_recyclerview_lable_bottom</item>
+    </style>
+
     <style name="UIDLabel.ProgressBarLabel">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>

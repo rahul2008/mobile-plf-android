@@ -135,7 +135,7 @@
     <dimen name="uid_label_margin_bottom_control">16dp</dimen>
     <dimen name="uid_label_margin_start_control">12dp</dimen>
     <dimen name="uid_label_margin_start">12dp</dimen>
-    <dimen name="uid_label_margin_bottom_slider">36dp</dimen>
+    <dimen name="uid_label_margin_bottom_slider">24dp</dimen>
     <dimen name="uid_label_margin_left_control">12dp</dimen>
 
     <!--CheckBox-->
@@ -164,6 +164,9 @@
     <dimen name="uid_recyclerview_item_three_lines_height">88dp</dimen>
     <dimen name="uid_recyclerview_drawable_padding">32dp</dimen>
     <dimen name="uid_recyclerview_padding_top_bottom">8dp</dimen>
+    <dimen name="uid_recyclerview_lable_height">8dp</dimen>
+    <dimen name="uid_recyclerview_lable_bottom">8dp</dimen>
+    <dimen name="uid_recyclerview_lable_top">20dp</dimen>
 
     <!--Social Icons-->
     <dimen name="uid_social_icons_width">32dp</dimen>

@@ -91,8 +91,6 @@
 
             </LinearLayout>
 
-            <include layout="@layout/divider_layout"/>
-
             <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
                 android:text="@string/buttons"/>

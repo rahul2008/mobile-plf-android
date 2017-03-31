@@ -50,6 +50,7 @@
     <string name="content_desc_enabled">Enabled</string>
     <string name="content_desc_close">close</string>
     <string name="preview">Preview</string>
+    <string name="done">Done</string>
     <string name="buttons_text_quiet">Quiet Button</string>
 
     <!--Settings page for ToggleSwitch-->
@@ -111,22 +112,23 @@
     <string name="social_media_icons">Social media icons</string>
     <string name="page_title_separator">Separator</string>
 
-    <string name="title1">Title 1</string>
-    <string name="title2">Title 2</string>
-    <string name="title3">Title 3</string>
-    <string name="title4">Title 4</string>
-    <string name="title5">Title 5</string>
-    <string name="title6">Title 6</string>
+    <string name="title1">ListView Item 1</string>
+    <string name="title2">ListView Item 2</string>
+    <string name="title3">ListView Item 3</string>
+    <string name="title4">ListView Item 4</string>
+    <string name="title5">ListView Item 5</string>
+    <string name="title6">ListView Item 6</string>
 
-    <string name="page_title_recyclerview">RecyclerView</string>
+    <!--<string name="page_title_recyclerview">RecyclerView</string>-->
+    <string name="page_title_recyclerview">ListView</string>
     <string name="page_title_recyclerview_settings">RecyclerView Settings</string>
     <string name="recyclerview_settings">RecyclerView settings</string>
-    <string name="description1">Description 1</string>
-    <string name="description2">Description 2</string>
-    <string name="description3">Description 3</string>
-    <string name="description4">Description 4</string>
-    <string name="description5">Description 5</string>
-    <string name="description6">Description 6</string>
+    <string name="description1">Two-Line ListView with description 1</string>
+    <string name="description2">Two-Line ListView with description 2</string>
+    <string name="description3">Two-Line ListView with description 3</string>
+    <string name="description4">Two-Line ListView with description 4</string>
+    <string name="description5">Two-Line ListView with description 5</string>
+    <string name="description6">Two-Line ListView with description 6</string>
 
     <string name="show_separators">Show separators</string>
     <string name="show_header">Show header</string>
@@ -144,7 +146,7 @@
     <string name="single_line_with_icon">Single line with icon</string>
     <string name="two_lines">Two lines</string>
     <string name="template_selection">Template selection</string>
-    <string name="recyclerview_the_header">The header</string>
+    <string name="recyclerview_the_header">ListView Header</string>
     <string name="display_labels">Display labels</string>
     <string name="loading">Loading</string>
     <string name="label_left_top">Label left top</string>

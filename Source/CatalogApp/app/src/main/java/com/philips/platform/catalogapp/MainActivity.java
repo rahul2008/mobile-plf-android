@@ -24,7 +24,6 @@ import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
 import com.philips.platform.catalogapp.events.NavigationColorChangedEvent;
 import com.philips.platform.catalogapp.events.OptionMenuClickedEvent;
 import com.philips.platform.catalogapp.events.TonalRangeChangedEvent;
-import com.philips.platform.catalogapp.themesettings.PreviewActivity;
 import com.philips.platform.catalogapp.themesettings.ThemeHelper;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -100,8 +99,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(THEMESETTINGS_ACTIVITY_RESTART, true);
         startActivity(intent);
-        this.overridePendingTransition(0, 0);
-        startActivity(new Intent(this, PreviewActivity.class));
     }
 
     @Override

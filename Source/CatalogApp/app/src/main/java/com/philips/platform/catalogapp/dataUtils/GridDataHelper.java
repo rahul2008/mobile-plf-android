@@ -25,11 +25,11 @@ public class GridDataHelper {
     }
 
     public boolean isDarkBackgroundEnabled() {
-        return sharedPreferences.getBoolean(IS_DARK_BACKGROUND_ENABLED, true);
+        return sharedPreferences.getBoolean(IS_DARK_BACKGROUND_ENABLED, false);
     }
 
     public boolean isEnlargedGutterEnabled() {
-        return sharedPreferences.getBoolean(IS_ENLARGED_GUTTER_ENABLED, true);
+        return sharedPreferences.getBoolean(IS_ENLARGED_GUTTER_ENABLED, false);
     }
 
     public boolean isSetDisableStateEnabled() {
