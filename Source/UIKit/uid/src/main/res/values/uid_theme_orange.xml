@@ -20,7 +20,7 @@
     <item name="uidColorLevel90">@color/uid_orange_level_90</item>
   </style>
   <style name="Theme.Philips.Orange.UltraLight">
-      <item name="uidContentBackground">@color/uid_level_white</item>
+      <item name="uidContentBackground">@color/uid_orange_level_15</item>
       <item name="uidContentPrimary">@color/uid_level_white</item>
     <item name="uidContentPrimaryDisabled">#59FFFFFF</item>
     <item name="uidContentSecondary">@color/uid_orange_level_5</item>
@@ -827,8 +827,8 @@
       <item name="uidControlTrackDisabled">#26FFFFFF</item>
     <item name="uidControlTrackOff">#4DFFFFFF</item>
       <item name="uidControlWhite">@color/uid_level_white</item>
-      <item name="uidControlWhiteHover">@color/uid_level_white</item>
-      <item name="uidControlWhitePressed">@color/uid_level_white</item>
+      <item name="uidControlWhiteHover">@color/uid_orange_level_5</item>
+      <item name="uidControlWhitePressed">@color/uid_orange_level_10</item>
     <item name="uidControlWhiteText">@color/uid_orange_level_35</item>
       <item name="uidDatePicker">@color/uid_level_white</item>
       <item name="uidDatePickerHeader">#996E202D</item>
@@ -1213,8 +1213,8 @@
       <item name="uidControlTrackDisabled">#26FFFFFF</item>
     <item name="uidControlTrackOff">#40FFFFFF</item>
       <item name="uidControlWhite">@color/uid_level_white</item>
-      <item name="uidControlWhiteHover">@color/uid_level_white</item>
-      <item name="uidControlWhitePressed">@color/uid_level_white</item>
+      <item name="uidControlWhiteHover">@color/uid_orange_level_5</item>
+      <item name="uidControlWhitePressed">@color/uid_orange_level_10</item>
     <item name="uidControlWhiteText">@color/uid_orange_level_50</item>
       <item name="uidDatePicker">@color/uid_level_white</item>
       <item name="uidDatePickerHeader">#996E202D</item>
@@ -1599,9 +1599,9 @@
       <item name="uidControlTrackDisabled">#26EBB626</item>
     <item name="uidControlTrackOff">#4DEBB626</item>
       <item name="uidControlWhite">@color/uid_level_white</item>
-      <item name="uidControlWhiteHover">@color/uid_level_white</item>
+      <item name="uidControlWhiteHover">@color/uid_orange_level_10</item>
       <item name="uidControlWhitePressed">@color/uid_level_white</item>
-      <item name="uidControlWhiteText">@color/uid_level_white</item>
+      <item name="uidControlWhiteText">@color/uid_orange_level_85</item>
       <item name="uidDatePicker">@color/uid_level_white</item>
       <item name="uidDatePickerHeader">#99DE7510</item>
     <item name="uidDatePickerText">@color/uid_gray_level_75</item>

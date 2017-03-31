@@ -61,8 +61,8 @@
         <item name="android:paddingLeft">@dimen/uid_quiet_button_padding_left_right</item>
         <item name="android:paddingRight">@dimen/uid_quiet_button_padding_left_right</item>
         <item name="uidButtonTextColorList">@color/uid_quiet_button_text_selector</item>
-        <item name="uidButtonDrawableColorList">@color/uid_quiet_button_text_selector</item>
-        <item name="uidImageButtonDrawableColorList">@color/uid_quiet_button_text_selector</item>
+        <item name="uidButtonDrawableColorList">@color/uid_quiet_button_icon_selector</item>
+        <item name="uidImageButtonDrawableColorList">@color/uid_quiet_button_icon_selector</item>
         <item name="uidImageButtonColorList">@color/uid_quiet_button_text_selector</item>
     </style>
 
