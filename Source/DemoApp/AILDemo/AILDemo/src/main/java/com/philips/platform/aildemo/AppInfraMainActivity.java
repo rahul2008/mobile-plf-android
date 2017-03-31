@@ -17,15 +17,10 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
-
 import java.util.ArrayList;
 
 public class AppInfraMainActivity extends AppCompatActivity {
 
-    ActivityLauncher activityLauncher;
-    AILDemouAppInterface demoAppInterface;
-    AILDemouAppLaunchInput demoAppLaunchInput;
     ListView listView;
     String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging","AppIdentity",
             "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client" , " A/B Testing", "Content Loader","WhiteBox API","Internet Check"};
@@ -34,11 +29,6 @@ public class AppInfraMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_infra_main);
-
-        demoAppLaunchInput = new AILDemouAppLaunchInput();
-        demoAppInterface = new AILDemouAppInterface();
-        activityLauncher = new ActivityLauncher(ActivityLauncher.
-                ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
         listView = (ListView) findViewById(R.id.listViewAppInfraComponents);
         listView.setAdapter(new AppInfraListAdapter());
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
