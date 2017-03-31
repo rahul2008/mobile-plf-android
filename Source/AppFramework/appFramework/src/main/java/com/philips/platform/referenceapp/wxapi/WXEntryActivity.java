@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -66,18 +65,14 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
      */
     @Override
     public void onResp(BaseResp resp) {
-        Log.i("testing", "onResp -- " + resp.toString());
-        Log.i("testing", "onResp resp.errCode - " + resp.errCode);
         int error_code = resp.errCode;
         String weChatCode = null;
         if (error_code == BaseResp.ErrCode.ERR_OK) {
             try {
                 SendAuth.Resp sendResp = (SendAuth.Resp) resp;
                 weChatCode = sendResp.code;
-                Log.i("testing", "onResp try weChatCode - " + weChatCode);
             } catch (Exception e) {
                 RLog.e(TAG, Arrays.toString(e.getStackTrace()));
-                Log.i("testing", "onResp catch ");
             }
         }
         sendMessage(error_code, weChatCode);
