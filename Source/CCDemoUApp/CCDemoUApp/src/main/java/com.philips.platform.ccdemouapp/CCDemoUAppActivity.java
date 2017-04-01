@@ -6,7 +6,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.DividerItemDecoration;
+//import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -174,9 +174,9 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
         mRecyclerView.setAdapter(adapter);
         LinearLayoutManager layoutManager =new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
-        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
-                layoutManager.getOrientation());
-        mRecyclerView.addItemDecoration(mDividerItemDecoration);
+       // DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
+         //       layoutManager.getOrientation());
+        //mRecyclerView.addItemDecoration(mDividerItemDecoration);
         return adapter;
     }
 
