@@ -11,6 +11,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.RegistrationSettingsURL;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
+import com.philips.cdp.registration.ui.social.AlmostDonePresenter;
 import com.philips.cdp.registration.ui.social.MergeAccountFragment;
 import com.philips.cdp.registration.ui.social.MergeSocialToSocialAccountFragment;
 import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
@@ -107,4 +108,6 @@ public interface RegistrationComponent {
     void inject(MobileVerifyCodePresenter mobileVerifyCodePresenter);
 
     void inject(AddSecureEmailPresenter addSecureEmailPresenter);
+
+    void inject(AlmostDonePresenter almostDonePresenter);
 }

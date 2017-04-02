@@ -16,7 +16,6 @@ import android.text.Html;
 import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -25,25 +24,22 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.philips.cdp.registration.B;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.events.EventHelper;
-import com.philips.cdp.registration.events.EventListener;
-import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.customviews.LoginIdEditText;
+import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.customviews.XButton;
 import com.philips.cdp.registration.ui.customviews.XCheckBox;
-import com.philips.cdp.registration.ui.customviews.XEmail;
 import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.customviews.onUpdateListener;
 import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
-import com.philips.cdp.registration.ui.traditional.LogoutFragment;
 import com.philips.cdp.registration.ui.traditional.MarketingAccountFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
@@ -54,48 +50,94 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.UIFlow;
-import com.philips.cdp.registration.ui.utils.URInterface;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
 
+import butterfork.Bind;
+import butterfork.ButterFork;
+import butterfork.OnClick;
+
 import static com.philips.cdp.registration.ui.traditional.LogoutFragment.BAD_RESPONSE_ERROR_CODE;
 
-public class AlmostDoneFragment extends RegistrationBaseFragment implements EventListener,
-        onUpdateListener, SocialProviderLoginHandler, NetworStateListener, OnClickListener,UpdateUserDetailsHandler, XCheckBox.OnCheckedChangeListener {
-
-    @Inject
-    NetworkUtility networkUtility;
+public class AlmostDoneFragment extends RegistrationBaseFragment implements AlmostDoneContract,
+        OnUpdateListener, SocialProviderLoginHandler,UpdateUserDetailsHandler, XCheckBox.OnCheckedChangeListener {
 
     private static final int LOGIN_FAILURE = -1;
 
     private final static int EMAIL_ADDRESS_ALREADY_USE_CODE = 390;
 
-    private TextView mTvSignInWith;
+    @Inject
+    NetworkUtility networkUtility;
 
-    private LinearLayout mLlAlmostDoneContainer;
+    @Bind(B.id.tv_reg_sign_in_with)
+    TextView signInWithTextView;
 
-    private FrameLayout mLlPeriodicOffersCheck;
+    @Bind(B.id.ll_reg_almost_done)
+    LinearLayout almostDoneContainer;
 
-    private LinearLayout mLlAcceptTermsContainer;
+    @Bind(B.id.fl_reg_receive_philips_news)
+    FrameLayout periodicOffersCheck;
 
-    private XCheckBox mCbAcceptTerms;
+    @Bind(B.id.ll_reg_accept_terms)
+    LinearLayout acceptTermsContainer;
 
-    private XRegError mRegAccptTermsError;
+    @Bind(B.id.cb_reg_accept_terms)
+    XCheckBox acceptTermsCheck;
 
-    private RelativeLayout mRlContinueBtnContainer;
+    @Bind(B.id.cb_reg_accept_terms_error)
+    XRegError errorMessage;
 
-    private XCheckBox mCbRemarketingOpt;
+    @Bind(B.id.rl_reg_btn_continue_container)
+    RelativeLayout continueBtnContainer;
 
-    private XRegError mRegError;
+    @Bind(B.id.cb_reg_receive_philips_news)
+    XCheckBox remarketingOptCheck;
 
-    private XEmail mEtEmail;
+    @Bind(B.id.reg_error_msg)
+    XRegError mRegError;
 
-    private XButton mBtnContinue;
+    @Bind(B.id.rl_reg_email_field)
+    LoginIdEditText mEtEmail;
 
-    private ProgressBar mPbSpinner;
+    @Bind(B.id.reg_btn_continue)
+    XButton mBtnContinue;
+
+    @Bind(B.id.pb_reg_marketing_opt_spinner)
+    ProgressBar mPbSpinner;
+
+    @Bind(B.id.sv_root_layout)
+    ScrollView mSvRootLayout;
+
+    @Bind(B.id.tv_join_now)
+    TextView mJoinNow;
+
+    @Bind(B.id.reg_view_accep_terms_line)
+    View mViewAcceptTermsLine;
+
+    @Bind(B.id.tv_reg_accept_terms)
+    TextView acceptTermsView;
+
+    private User mUser;
+
+    @Bind(B.id.tv_reg_first_to_know)
+    TextView mTvFirstToKnow;
+
+    @Bind(B.id.tv_reg_philips_news)
+    TextView receivePhilipsNewsView;
+
+    @Bind(B.id.reg_view_line)
+    View fieldViewLine;
+
+   /* @Bind(B.id.tv_join_now)
+    TextView marketingJoinNowView;*/
+
+    @Bind(B.id.reg_recieve_email_line)
+    View receivePhilipsNewsLineView;
+
+    private AlmostDonePresenter almostDonePresenter;
 
     private String mGivenName;
 
@@ -113,25 +155,13 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private Context mContext;
 
-    private ScrollView mSvRootLayout;
-
     private Bundle mBundle;
-
-    private TextView mJoinNow;
-
-    private boolean isForTermsAccepatance;
 
     private boolean isSavedCBTermsChecked;
 
     private boolean isSavedCbAcceptTermsChecked;
 
     private boolean isTermsAndConditionVisible;
-
-    private View mViewAcceptTermsLine;
-
-    private User mUser;
-
-    private TextView mTvFirstToKnow;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -142,18 +172,14 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onCreateView");
-        URInterface.getComponent().inject(this);
-        RegistrationHelper.getInstance().registerNetworkStateListener(this);
-        EventHelper.getInstance()
-                .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
+        almostDonePresenter = new AlmostDonePresenter(this);
         parseRegistrationInfo();
         RLog.i(RLog.EVENT_LISTENERS,
                 "AlmostDoneFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
         View view = inflater.inflate(R.layout.reg_fragment_social_almost_done, container, false);
-        mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
-
+        ButterFork.bind(this, view);
         initUI(view);
-        updateUiStatus(false);
+        updateUiStatus();
         handleOrientation(view);
         return view;
     }
@@ -197,12 +223,10 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     @Override
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onDestroy");
-        RegistrationHelper.getInstance().unRegisterNetworkListener(this);
-        EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
-                this);
         RLog.i(RLog.EVENT_LISTENERS,
                 "AlmostDoneFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS");
         super.onDestroy();
+        almostDonePresenter.cleanUp();
     }
 
     @Override
@@ -217,22 +241,22 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     public void onSaveInstanceState(Bundle outState) {
         mSavedBundle = outState;
         super.onSaveInstanceState(mSavedBundle);
-        if (mCbAcceptTerms != null) {
-            if (mCbRemarketingOpt.isChecked()) {
+        if (acceptTermsCheck != null) {
+            if (remarketingOptCheck.isChecked()) {
                 isSavedCBTermsChecked = true;
                 mSavedBundle.putBoolean("isSavedCBTermsChecked", isSavedCBTermsChecked);
                 mSavedBundle.putString("savedCBTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
             }
         }
-        if (mCbAcceptTerms != null) {
-            if (mCbAcceptTerms.isChecked()) {
+        if (acceptTermsCheck != null) {
+            if (acceptTermsCheck.isChecked()) {
                 isSavedCbAcceptTermsChecked = true;
                 mSavedBundle.putBoolean("isSavedCbAcceptTermsChecked", isSavedCbAcceptTermsChecked);
                 mSavedBundle.putString("savedCbAcceptTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
             }
         }
-        if (mRegAccptTermsError != null) {
-            if (mRegAccptTermsError.getVisibility() == View.VISIBLE) {
+        if (errorMessage != null) {
+            if (errorMessage.getVisibility() == View.VISIBLE) {
                 isTermsAndConditionVisible = true;
                 mSavedBundle.putBoolean("isTermsAndConditionVisible", isTermsAndConditionVisible);
                 mSavedBundle.putString("saveTermsAndConditionErrText", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
@@ -245,13 +269,13 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null) {
             if (savedInstanceState.getBoolean("isSavedCBTermsChecked")) {
-                mCbRemarketingOpt.setChecked(true);
+                remarketingOptCheck.setChecked(true);
             }
             if (savedInstanceState.getBoolean("isSavedCbAcceptTermsChecked")) {
-                mCbAcceptTerms.setChecked(true);
+                acceptTermsCheck.setChecked(true);
             }
             if (savedInstanceState.getString("saveTermsAndConditionErrText") != null && savedInstanceState.getBoolean("isTermsAndConditionVisible")) {
-                mRegAccptTermsError.setError(savedInstanceState.getString("saveTermsAndConditionErrText"));
+                errorMessage.setError(savedInstanceState.getString("saveTermsAndConditionErrText"));
             }
         }
         mSavedBundle = null;
@@ -266,13 +290,13 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, mTvSignInWith, width);
-        applyParams(config, mLlAlmostDoneContainer, width);
-        applyParams(config, mLlPeriodicOffersCheck, width);
-        applyParams(config, mRlContinueBtnContainer, width);
+        applyParams(config, signInWithTextView, width);
+        applyParams(config, almostDoneContainer, width);
+        applyParams(config, periodicOffersCheck, width);
+        applyParams(config, continueBtnContainer, width);
         applyParams(config, mRegError, width);
-        applyParams(config, mRegAccptTermsError, width);
-        applyParams(config, mLlAcceptTermsContainer, width);
+        applyParams(config, errorMessage, width);
+        applyParams(config, acceptTermsContainer, width);
         applyParams(config, mTvFirstToKnow, width);
     }
 
@@ -282,48 +306,16 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     }
 
     private void parseRegistrationInfo() {
-
         mBundle = getArguments();
-        Bundle bundle = getArguments();
         if (null != mBundle) {
             try {
-
                 if(mBundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR)!=null){
                      trackAbtesting();
                 }
 
-                isForTermsAccepatance = mBundle.getBoolean(RegConstants.IS_FOR_TERMS_ACCEPATNACE, false);
                 if(mBundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR)!=null) {
                     JSONObject mPreRegJson = new JSONObject(mBundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR));
-
-                    if (null != mPreRegJson) {
-                        mProvider = mBundle.getString(RegConstants.SOCIAL_PROVIDER);
-                        mRegistrationToken = mBundle.getString(RegConstants.SOCIAL_REGISTRATION_TOKEN);
-
-                        if (!mPreRegJson.isNull(RegConstants.REGISTER_GIVEN_NAME)
-                                && !RegConstants.SOCIAL_BLANK_CHARACTER.equals(mPreRegJson
-                                .getString(RegConstants.REGISTER_GIVEN_NAME))) {
-                            mGivenName = mPreRegJson.getString(RegConstants.REGISTER_GIVEN_NAME);
-                        }
-                        if (!mPreRegJson.isNull(RegConstants.REGISTER_DISPLAY_NAME)
-                                && !RegConstants.SOCIAL_BLANK_CHARACTER.equals(mPreRegJson
-                                .getString(RegConstants.REGISTER_DISPLAY_NAME))) {
-                            mDisplayName = mPreRegJson.getString(RegConstants.REGISTER_DISPLAY_NAME);
-                        }
-                        if (!mPreRegJson.isNull(RegConstants.REGISTER_FAMILY_NAME)
-                                && !RegConstants.SOCIAL_BLANK_CHARACTER.equals(mPreRegJson
-                                .getString(RegConstants.REGISTER_FAMILY_NAME))) {
-                            mFamilyName = mPreRegJson.getString(RegConstants.REGISTER_FAMILY_NAME);
-                        }
-                        if (!mPreRegJson.isNull(RegConstants.REGISTER_EMAIL)
-                                && !RegConstants.SOCIAL_BLANK_CHARACTER.equals(mPreRegJson
-                                .getString(RegConstants.REGISTER_EMAIL))) {
-                            mEmail = mPreRegJson.getString(RegConstants.REGISTER_EMAIL);
-                            isEmailExist = true;
-                        } else {
-                            isEmailExist = false;
-                        }
-                    }
+                    performSocialTwoStepError(mPreRegJson);
                 }
                 if (null == mGivenName) {
                     mGivenName = mDisplayName;
@@ -332,6 +324,41 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             } catch (JSONException e) {
                 RLog.e(RLog.EXCEPTION, "AlmostDoneFragment Exception : " + e.getMessage());
             }
+        }
+    }
+
+    private void performSocialTwoStepError(JSONObject mPreRegJson) {
+        try{
+            if (null != mPreRegJson) {
+                mProvider = mBundle.getString(RegConstants.SOCIAL_PROVIDER);
+                mRegistrationToken = mBundle.getString(RegConstants.SOCIAL_REGISTRATION_TOKEN);
+
+                if (!mPreRegJson.isNull(RegConstants.REGISTER_GIVEN_NAME)
+                        && !RegConstants.SOCIAL_BLANK_CHARACTER.equals(mPreRegJson
+                        .getString(RegConstants.REGISTER_GIVEN_NAME))) {
+                    mGivenName = mPreRegJson.getString(RegConstants.REGISTER_GIVEN_NAME);
+                }
+                if (!mPreRegJson.isNull(RegConstants.REGISTER_DISPLAY_NAME)
+                        && !RegConstants.SOCIAL_BLANK_CHARACTER.equals(mPreRegJson
+                        .getString(RegConstants.REGISTER_DISPLAY_NAME))) {
+                    mDisplayName = mPreRegJson.getString(RegConstants.REGISTER_DISPLAY_NAME);
+                }
+                if (!mPreRegJson.isNull(RegConstants.REGISTER_FAMILY_NAME)
+                        && !RegConstants.SOCIAL_BLANK_CHARACTER.equals(mPreRegJson
+                        .getString(RegConstants.REGISTER_FAMILY_NAME))) {
+                    mFamilyName = mPreRegJson.getString(RegConstants.REGISTER_FAMILY_NAME);
+                }
+                if (!mPreRegJson.isNull(RegConstants.REGISTER_EMAIL)
+                        && !RegConstants.SOCIAL_BLANK_CHARACTER.equals(mPreRegJson
+                        .getString(RegConstants.REGISTER_EMAIL))) {
+                    mEmail = mPreRegJson.getString(RegConstants.REGISTER_EMAIL);
+                    isEmailExist = true;
+                } else {
+                    isEmailExist = false;
+                }
+            }
+        }catch (JSONException e){
+            RLog.e(RLog.EXCEPTION, "AlmostDoneFragment Exception : " + e.getMessage());
         }
     }
 
@@ -362,49 +389,23 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     private void initUI(View view) {
         consumeTouch(view);
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
-        mBtnContinue = (XButton) view.findViewById(R.id.reg_btn_continue);
-        mBtnContinue.setOnClickListener(this);
-        mTvSignInWith = (TextView) view.findViewById(R.id.tv_reg_sign_in_with);
-        mLlAlmostDoneContainer = (LinearLayout) view.findViewById(R.id.ll_reg_almost_done);
-        mViewAcceptTermsLine = (View) view.findViewById(R.id.reg_view_accep_terms_line);
+        //mBtnContinue.setOnClickListener(this);
         mUser = new User(mContext);
-        mLlAcceptTermsContainer = (LinearLayout) view
-                .findViewById(R.id.ll_reg_accept_terms);
-
-        mLlPeriodicOffersCheck = (FrameLayout) view
-                .findViewById(R.id.fl_reg_receive_philips_news);
-
-        mRlContinueBtnContainer = (RelativeLayout) view
-                .findViewById(R.id.rl_reg_btn_continue_container);
-
-        mCbRemarketingOpt = (XCheckBox) view.findViewById(R.id.cb_reg_receive_philips_news);
-        mCbRemarketingOpt.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbRemarketingOpt.getPaddingTop(), mCbRemarketingOpt.getPaddingRight(), mCbRemarketingOpt.getPaddingBottom());
-
-        mTvFirstToKnow = (TextView)view.findViewById(R.id.tv_reg_first_to_know);
-        TextView acceptTermsView = (TextView) view.findViewById(R.id.tv_reg_accept_terms);
-        mCbAcceptTerms = (XCheckBox) view.findViewById(R.id.cb_reg_accept_terms);
+        remarketingOptCheck.setPadding(RegUtility.getCheckBoxPadding(mContext), remarketingOptCheck.getPaddingTop(), remarketingOptCheck.getPaddingRight(), remarketingOptCheck.getPaddingBottom());
         RegUtility.linkifyTermsandCondition(acceptTermsView, getRegistrationFragment().getParentActivity(), mTermsAndConditionClick);
 
-        TextView receivePhilipsNewsView = (TextView) view.findViewById(R.id.tv_reg_philips_news);
         RegUtility.linkifyPhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
-        mJoinNow = (TextView) view.findViewById(R.id.tv_join_now);
-
         String sourceString = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now) ;
         String updateJoinNowText =  " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
         sourceString = String.format(sourceString, updateJoinNowText);
         mJoinNow.setText(Html.fromHtml(sourceString));
 
-        mCbRemarketingOpt.setOnCheckedChangeListener(this);
-        mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
-        mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
+        remarketingOptCheck.setOnCheckedChangeListener(this);
         mEtEmail.setOnUpdateListener(this);
-        mEtEmail.setOnClickListener(this);
+        //mEtEmail.setOnClickListener(this);
 
-        mPbSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_marketing_opt_spinner);
         mPbSpinner.setClickable(false);
         mPbSpinner.setEnabled(true);
-
-        mRegAccptTermsError = (XRegError) view.findViewById(R.id.cb_reg_accept_terms_error);
 
         if (null != mProvider) {
             mProvider = Character.toUpperCase(mProvider.charAt(0)) + mProvider.substring(1);
@@ -417,12 +418,11 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             if (mBundle == null) {
                 mBtnContinue.setEnabled(true);
             } else {
-                View viewLine = view.findViewById(R.id.reg_view_line);
-                viewLine.setVisibility(View.VISIBLE);
+                fieldViewLine.setVisibility(View.VISIBLE);
                 mEtEmail.setVisibility(View.VISIBLE);
             }
         }
-        handleUiAcceptTerms(view);
+        handleUiAcceptTerms();
     }
 
     private ClickableSpan mTermsAndConditionClick = new ClickableSpan() {
@@ -441,53 +441,68 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         }
     };
 
-    private void handleUiAcceptTerms(View view) {
+    @Override
+    public void handleUiAcceptTerms() {
         mJoinNow.setVisibility(View.GONE);
-        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
-            if (isEmailExist && RegPreferenceUtility.getStoredState(mContext, mEmail)) {
-                mViewAcceptTermsLine.setVisibility(View.GONE);
-                mLlAcceptTermsContainer.setVisibility(View.GONE);
-            } else if(mBundle !=null && mBundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR)!=null){
-                updateABTestingUIFlow(view);
-            }
-        } else {
-            mViewAcceptTermsLine.setVisibility(View.GONE);
-            mLlAcceptTermsContainer.setVisibility(View.GONE);
-        }
+        almostDonePresenter.handleAcceptTermsAndReceiveMarketingOpt();
+    }
 
-        if(isTermsAndConditionAccepted()){
-            if(!mUser.getReceiveMarketingEmail()){
-                view.findViewById(R.id.fl_reg_receive_philips_news).setVisibility(View.VISIBLE);
-            }else{
-                view.findViewById(R.id.fl_reg_receive_philips_news).setVisibility(View.GONE);
-            }
-            mCbAcceptTerms.setChecked(true);
-            view.findViewById(R.id.reg_view_line).setVisibility(View.GONE);
-            view.findViewById(R.id.tv_join_now).setVisibility(View.GONE);
-            view.findViewById(R.id.ll_reg_accept_terms).setVisibility(View.GONE);
-        }else if(mUser.getReceiveMarketingEmail()){
-            view.findViewById(R.id.fl_reg_receive_philips_news).setVisibility(View.GONE);
-            view.findViewById(R.id.reg_view_line).setVisibility(View.GONE);
-            view.findViewById(R.id.tv_join_now).setVisibility(View.GONE);
+    @Override
+    public boolean isReceiveMarketingEmail(){
+        return mUser.getReceiveMarketingEmail();
+    }
+
+    public void hideAcceptTermsView() {
+        mViewAcceptTermsLine.setVisibility(View.GONE);
+        acceptTermsContainer.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void handleTermsAndCondition() {
+        if (isEmailExist && RegPreferenceUtility.getStoredState(mContext, mEmail)) {
             mViewAcceptTermsLine.setVisibility(View.GONE);
+            acceptTermsContainer.setVisibility(View.GONE);
+        } else if(mBundle !=null && mBundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR)!=null){
+            updateABTestingUIFlow();
         }
     }
 
-    private void updateABTestingUIFlow(View view) {
+    @Override
+    public void updateTermsAndConditionView() {
+        if(!mUser.getReceiveMarketingEmail()){
+            periodicOffersCheck.setVisibility(View.VISIBLE);
+        }else{
+            periodicOffersCheck.setVisibility(View.GONE);
+        }
+        acceptTermsCheck.setChecked(true);
+        fieldViewLine.setVisibility(View.GONE);
+        mJoinNow.setVisibility(View.GONE);
+        acceptTermsContainer.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void updateReceiveMarktingView() {
+        periodicOffersCheck.setVisibility(View.GONE);
+        fieldViewLine.setVisibility(View.GONE);
+        mJoinNow.setVisibility(View.GONE);
+        mViewAcceptTermsLine.setVisibility(View.GONE);
+    }
+
+    private void updateABTestingUIFlow() {
         final UIFlow abTestingUIFlow = RegUtility.getUiFlow();
 
         switch (abTestingUIFlow){
             case FLOW_A:
                 RLog.d(RLog.AB_TESTING, "UI Flow Type A");
-                mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
+                acceptTermsContainer.setVisibility(View.VISIBLE);
                 mJoinNow.setVisibility(View.GONE);
                 break;
 
             case FLOW_B:
                 RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-                mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
-                mLlPeriodicOffersCheck.setVisibility(View.GONE);
-                view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.GONE);
+                acceptTermsContainer.setVisibility(View.VISIBLE);
+                periodicOffersCheck.setVisibility(View.GONE);
+                receivePhilipsNewsLineView.setVisibility(View.GONE);
                 mJoinNow.setVisibility(View.GONE);
                 break;
 
@@ -496,7 +511,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 String firstToKnow = "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Be_The_First) + "</b> ";
                 mTvFirstToKnow.setText(Html.fromHtml(firstToKnow));
                 mTvFirstToKnow.setVisibility(View.VISIBLE);
-                mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
+                acceptTermsContainer.setVisibility(View.VISIBLE);
                 mJoinNow.setVisibility(View.VISIBLE);
                 break;
             default:break;
@@ -505,9 +520,10 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     }
 
-    private void updateUiStatus(Boolean isNetwork) {
+    @Override
+    public void updateUiStatus() {
         if (isEmailExist) {
-            if (networkUtility.isNetworkAvailable()) {
+            if (almostDonePresenter.isNetworkAvailable()) {
                 mBtnContinue.setEnabled(true);
                 mRegError.hideError();
             } else {
@@ -516,7 +532,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 scrollViewAutomatically(mRegError, mSvRootLayout);
             }
         } else {
-            if (networkUtility.isNetworkAvailable()) {
+            if (almostDonePresenter.isNetworkAvailable()) {
 
                 if ((mEtEmail.isShown() && mEtEmail.isValidEmail()) ||
                         (mEtEmail.getVisibility() != View.VISIBLE)) {
@@ -533,65 +549,44 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     }
 
     private void showSpinner() {
-        mCbRemarketingOpt.setEnabled(false);
+        remarketingOptCheck.setEnabled(false);
         mPbSpinner.setVisibility(View.VISIBLE);
         mBtnContinue.setEnabled(false);
     }
 
     private void hideSpinner() {
-        mCbRemarketingOpt.setEnabled(true);
+        remarketingOptCheck.setEnabled(true);
         mPbSpinner.setVisibility(View.INVISIBLE);
         mBtnContinue.setEnabled(true);
     }
 
-    @Override
-    public void onEventReceived(String event) {
-        RLog.i(RLog.EVENT_LISTENERS, "AlmostDoneFragment :onEventReceived is : " + event);
-        if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
-            updateUiStatus(false);
-        }
-    }
-
-    @Override
-    public void onUpadte() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                updateUiStatus(false);
-            }
-        });
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.reg_btn_continue) {
-            RLog.d(RLog.ONCLICK, "AlmostDoneFragment : Continue");
-            mEtEmail.clearFocus();
-            if (mEtEmail.isShown() && !mEtEmail.isValidEmail()) return;
-            if (mBundle == null) {
-                if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
-                    if (mCbAcceptTerms.isChecked()) {
-                        storeEmailOrMobileInPreference();
-                        trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
-                        launchWelcomeFragment();
-                    } else {
-                        mRegAccptTermsError.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
-                    }
-                } else {
+    @OnClick(B.id.reg_btn_continue)
+    public void continueButtonClicked() {
+        RLog.d(RLog.ONCLICK, "AlmostDoneFragment : Continue");
+        mEtEmail.clearFocus();
+        if (mEtEmail.isShown() && !mEtEmail.isValidEmail()) return;
+        if (mBundle == null) {
+            if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
+                if (acceptTermsCheck.isChecked()) {
+                    storeEmailOrMobileInPreference();
+                    trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
                     launchWelcomeFragment();
-                }
-                return;
-            }
-            if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && mLlAcceptTermsContainer.getVisibility() == View.VISIBLE) {
-                if (mCbAcceptTerms.isChecked()) {
-                    register();
                 } else {
-                    mRegAccptTermsError.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+                    errorMessage.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
                 }
             } else {
-                register();
+                launchWelcomeFragment();
             }
-
+            return;
+        }
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && acceptTermsContainer.getVisibility() == View.VISIBLE) {
+            if (acceptTermsCheck.isChecked()) {
+                register();
+            } else {
+                errorMessage.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+            }
+        } else {
+            register();
         }
     }
 
@@ -608,16 +603,16 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         }
     }
     private void register() {
-        if (networkUtility.isNetworkAvailable()) {
-            mRegAccptTermsError.setVisibility(View.GONE);
+        if (almostDonePresenter.isNetworkAvailable()) {
+            errorMessage.setVisibility(View.GONE);
             showSpinner();
             if (isEmailExist) {
                 mUser.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName, mEmail, true,
-                        mCbRemarketingOpt.isChecked(), this, mRegistrationToken);
+                        remarketingOptCheck.isChecked(), this, mRegistrationToken);
             } else {
                 mEmail = FieldsValidator.getMobileNumber(mEtEmail.getEmailId().trim());
                 mUser.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName,
-                        mEmail, true, mCbRemarketingOpt.isChecked(), this, mRegistrationToken);
+                        mEmail, true, remarketingOptCheck.isChecked(), this, mRegistrationToken);
             }
         }
     }
@@ -629,7 +624,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private void trackTermsAndConditionAccepted() {
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
-            if (mCbAcceptTerms.isChecked()) {
+            if (acceptTermsCheck.isChecked()) {
                 trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
             } else {
                 trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_OUT);
@@ -640,7 +635,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     private void trackABTestingUIFlow() {
         final UIFlow abTestingUIFlow = RegUtility.getUiFlow();
         if (!abTestingUIFlow.equals(UIFlow.FLOW_B)) {
-            if (mCbRemarketingOpt.isChecked()) {
+            if (remarketingOptCheck.isChecked()) {
                 trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
             } else {
                 trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
@@ -772,6 +767,14 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         }
     }
 
+    //called on click of back
+    public void clearUserData() {
+        if (null != acceptTermsCheck && !acceptTermsCheck.isChecked() &&
+                RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
+            mUser.logout(null);
+        }
+    }
+
     private void launchMarketingAccountFragment() {
         getRegistrationFragment().addFragment(new MarketingAccountFragment());
         trackPage(AppTaggingPages.MARKETING_OPT_IN);
@@ -832,34 +835,20 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     }
 
     private void handleUpdate() {
-        if (networkUtility.isNetworkAvailable()) {
+        if (almostDonePresenter.isNetworkAvailable()) {
             mRegError.hideError();
             showSpinner();
             updateUser();
         } else {
-            mCbRemarketingOpt.setOnCheckedChangeListener(null);
-            mCbRemarketingOpt.setChecked(!mCbRemarketingOpt.isChecked());
-            mCbRemarketingOpt.setOnCheckedChangeListener(this);
+            remarketingOptCheck.setOnCheckedChangeListener(null);
+            remarketingOptCheck.setChecked(!remarketingOptCheck.isChecked());
+            remarketingOptCheck.setOnCheckedChangeListener(this);
             mRegError.setError(getString(R.string.reg_NoNetworkConnection));
         }
     }
 
     private void updateUser() {
-        mUser.updateReceiveMarketingEmail(this, mCbRemarketingOpt.isChecked());
-    }
-
-    @Override
-    public void onNetWorkStateReceived(boolean isOnline) {
-        RLog.i(RLog.NETWORK_STATE, "AlmostDone :onNetWorkStateReceived state :" + isOnline);
-        updateUiStatus(true);
-    }
-
-    //called on click of back
-    public void clearUserData() {
-        if (null != mCbAcceptTerms && !mCbAcceptTerms.isChecked() &&
-                RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
-            mUser.logout(null);
-        }
+        mUser.updateReceiveMarketingEmail(this, remarketingOptCheck.isChecked());
     }
 
     @Override
@@ -874,7 +863,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             @Override
             public void run() {
                 hideSpinner();
-                if (mCbRemarketingOpt.isChecked()) {
+                if (remarketingOptCheck.isChecked()) {
                     trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
                 } else {
                     trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
@@ -907,13 +896,13 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
             return;
         }
-        mCbRemarketingOpt.setOnCheckedChangeListener(null);
-        mCbRemarketingOpt.setChecked(!mCbRemarketingOpt.isChecked());
-        mCbRemarketingOpt.setOnCheckedChangeListener(AlmostDoneFragment.this);
+        remarketingOptCheck.setOnCheckedChangeListener(null);
+        remarketingOptCheck.setChecked(!remarketingOptCheck.isChecked());
+        remarketingOptCheck.setOnCheckedChangeListener(AlmostDoneFragment.this);
     }
 
-    private boolean isTermsAndConditionAccepted(){
-
+    @Override
+    public boolean isTermsAndConditionAccepted(){
         boolean isTermAccepted = false;
         String mobileNo = mUser.getMobile();
         String email  = mUser.getEmail();
@@ -923,5 +912,15 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             isTermAccepted = RegPreferenceUtility.getStoredState(mContext, email);
         }
         return isTermAccepted;
+    }
+
+    @Override
+    public void onUpdate() {
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                updateUiStatus();
+            }
+        });
     }
 }
