@@ -5,11 +5,13 @@ import com.philips.platform.core.listeners.RegisterDeviceTokenListener;
 public class RegisterDeviceToken extends Event {
     String mDeviceToken;
     String mAppVariant;
+    String mProtocolProvider;
     RegisterDeviceTokenListener mRegisterDeviceTokenListener;
 
-    public RegisterDeviceToken(String deviceToken, String appVariant, RegisterDeviceTokenListener registerDeviceTokenListener) {
+    public RegisterDeviceToken(String deviceToken, String appVariant, String protocolProvider, RegisterDeviceTokenListener registerDeviceTokenListener) {
         mDeviceToken = deviceToken;
         mAppVariant = appVariant;
+        mProtocolProvider = protocolProvider;
         mRegisterDeviceTokenListener = registerDeviceTokenListener;
     }
 
@@ -23,5 +25,9 @@ public class RegisterDeviceToken extends Event {
 
     public String getAppVariant() {
         return mAppVariant;
+    }
+
+    public String getProtocolProvider() {
+        return mProtocolProvider;
     }
 }

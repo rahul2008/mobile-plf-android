@@ -430,8 +430,8 @@ public class DataServicesManager {
     }
 
     //Push Notification
-    public void registerDeviceToken(String deviceToken, String appVariant, RegisterDeviceTokenListener registerDeviceTokenListener) {
-        mEventing.post(new RegisterDeviceToken(deviceToken, appVariant, registerDeviceTokenListener));
+    public void registerDeviceToken(String deviceToken, String appVariant, String protocolProvider, RegisterDeviceTokenListener registerDeviceTokenListener) {
+        mEventing.post(new RegisterDeviceToken(deviceToken, appVariant, protocolProvider, registerDeviceTokenListener));
     }
 
     public void unRegisterDeviceToken(String appToken, String appVariant, RegisterDeviceTokenListener registerDeviceTokenListener) {

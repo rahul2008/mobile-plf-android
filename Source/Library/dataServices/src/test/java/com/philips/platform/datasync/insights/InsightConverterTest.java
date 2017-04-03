@@ -22,6 +22,7 @@ import java.util.Map;
 import retrofit.converter.GsonConverter;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class InsightConverterTest {
@@ -72,6 +73,8 @@ public class InsightConverterTest {
         data.put("min", "100");
         uCoreInsight.setMetadata(data);
         uCoreInsights.add(uCoreInsight);
+        uCoreInsightList.setSyncurl("Url");
+        assertTrue(uCoreInsightList.getSyncurl().equals("Url"));
         uCoreInsightList.setInsights(uCoreInsights);
 
         List<Insight> appInsightList = mInsightConverter.convertToAppInsights(uCoreInsightList);

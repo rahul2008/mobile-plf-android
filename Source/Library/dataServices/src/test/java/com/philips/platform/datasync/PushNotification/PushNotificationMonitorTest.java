@@ -68,7 +68,7 @@ public class PushNotificationMonitorTest {
     public void pushNotificationResponseEventTest() throws Exception {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(true);
         when(mUCoreAccessProvider.getAccessToken()).thenReturn("676786768898");
-        RegisterDeviceToken registerDeviceToken = new RegisterDeviceToken("app token", "app variant", new RegisterDeviceTokenListener() {
+        RegisterDeviceToken registerDeviceToken = new RegisterDeviceToken("app token", "app variant", "protocol provider", new RegisterDeviceTokenListener() {
             @Override
             public void onResponse(boolean status) {
             }

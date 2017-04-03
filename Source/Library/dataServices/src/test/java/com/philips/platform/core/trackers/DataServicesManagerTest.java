@@ -320,6 +320,6 @@ public class DataServicesManagerTest {
 
     @Test
     public void registerDeviceTokenTest() throws Exception {
-        tracker.registerDeviceToken("token", "variant", null);
+        tracker.registerDeviceToken("token", "variant", "protocol provider", null);
     }
 }
