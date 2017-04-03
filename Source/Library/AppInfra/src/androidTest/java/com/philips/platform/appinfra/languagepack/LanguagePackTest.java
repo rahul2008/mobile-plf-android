@@ -8,6 +8,7 @@ import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.MockitoTestCase;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
+import com.philips.platform.appinfra.languagepack.model.LanguageList;
 import com.philips.platform.appinfra.languagepack.model.LanguageModel;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
@@ -22,6 +23,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
@@ -150,6 +152,9 @@ public class LanguagePackTest extends MockitoTestCase {
                 }
             };
             method.invoke(mLanguagePackInterface, listener);
+            //////////
+
+            mLanguagePackInterface.refresh(listener);
 
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
@@ -245,11 +250,15 @@ public class LanguagePackTest extends MockitoTestCase {
 
 
     public void testGetLanguagePackUtilFileOperations() {
-        languagePackUtil.saveFile(getLanguageResponse(), "downloadTest.json");
-        File file = languagePackUtil.getLanguagePackFilePath("downloadTest.json");
+
+        languagePackUtil.saveFile(getLanguageResponse(), LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
+        File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
         assertNotNull(file);
         assertEquals(getLanguageResponse(), languagePackUtil.readFile(file));
-        assertTrue(languagePackUtil.deleteFile("downloadTest.json"));
+        languagePackUtil.saveFile(getLanguageResponse(), LanguagePackConstants.LOCALE_FILE_ACTIVATED);
+        assertEquals(getLanguageResponse(), languagePackUtil.readFile(file));
+
+        assertTrue(languagePackUtil.deleteFile(LanguagePackConstants.LOCALE_FILE_DOWNLOADED));
     }
 
     public void testLanguagePackUtilSaveLocaleMetaData(){
@@ -260,9 +269,16 @@ public class LanguagePackTest extends MockitoTestCase {
             defaultLocale.setLocale("en_GB");
             defaultLocale.setUrl("https:\\/\\/hashim-rest.herokuapp.com\\/sd\\/dev\\/en_IN\\/appinfra\\/lp\\/en_GB.json");
             defaultLocale.setVersion("1");
-            method.invoke(languagePackUtil, defaultLocale);
+            ArrayList<LanguageModel> arrayListLanguage=  new             ArrayList<LanguageModel>();
+            arrayListLanguage.add(defaultLocale);
+            LanguageList list = new LanguageList();
+            list.setLanguages(arrayListLanguage);
+            method.invoke(languagePackUtil, list.getLanguages().get(0));
+            languagePackUtil.saveLocaleMetaData(list.getLanguages().get(0));
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
+        } catch(Exception e){
+
         }
     }
 

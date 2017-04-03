@@ -23,21 +23,16 @@ public interface LanguagePackInterface {
 	void activate(OnActivateListener onActivateListener);
 
 	interface OnRefreshListener {
-		void onError(AILPRefreshResult error, String message);
-
-		void onSuccess(AILPRefreshResult result);
-
 		enum AILPRefreshResult { RefreshedFromServer, NoRefreshRequired, RefreshFailed}
-
-
+		void onError(AILPRefreshResult error, String message);
+		void onSuccess(AILPRefreshResult result);
 	}
 
 	interface OnActivateListener {
+		enum AILPActivateResult {UpdateActivated,NoUpdateStored, UpdateFailed}
 		void onSuccess(String path);
-
 		void onError(AILPActivateResult ailpActivateResult, String message);
 
-		enum AILPActivateResult {UpdateActivated,NoUpdateStored, UpdateFailed}
 		  // TODO  UpdateFailed implementation
 		/*
 		* UpdateActivated (Success)
