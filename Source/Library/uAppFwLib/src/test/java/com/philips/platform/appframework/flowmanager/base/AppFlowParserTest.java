@@ -41,12 +41,12 @@ public class AppFlowParserTest extends TestCase {
         try {
             appFlowParser.getAppFlow(null);
         } catch (JsonFileNotFoundException e) {
-            assertTrue(e.getMessage().equals("No Json file found"));
+            assertTrue(e.getMessage().equals("There is no Json in the given path"));
         }
         try {
             appFlowParser.getAppFlow("data");
         } catch (JsonFileNotFoundException e) {
-            assertTrue(e.getMessage().equals("No Json file found"));
+            assertTrue(e.getMessage().equals("There is no Json in the given path"));
         }
 
         appFlowParser = new AppFlowParser() {
@@ -60,7 +60,7 @@ public class AppFlowParserTest extends TestCase {
         try {
             appFlowParser.getAppFlow("path");
         } catch (JsonStructureException e) {
-            assertTrue(e.getMessage().equals("Error in Json Structure"));
+            assertTrue(e.getMessage().equals("The Json structure is wrong"));
         }
     }
 
