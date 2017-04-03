@@ -16,7 +16,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.WindowManager;
 
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -45,7 +44,6 @@ public class BaseTestActivity extends AppCompatActivity implements DelayerCallba
         }
         UIDHelper.injectCalligraphyFonts();
         UIDHelper.init(getThemeConfig(navigationColor, contentColor));
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         super.onCreate(savedInstanceState);
     }

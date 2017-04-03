@@ -1,7 +1,9 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
+/*
+ * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
+ *
  */
+
 package com.philips.platform.uid.thememanager;
 
 import android.content.res.Resources;

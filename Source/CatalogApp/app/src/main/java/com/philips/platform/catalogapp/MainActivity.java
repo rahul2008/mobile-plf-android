@@ -14,6 +14,7 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -39,12 +40,12 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
 
-    static final String THEMESETTINGS_ACTIVITY_RESTART = "THEMESETTINGS_ACTIVITY_RESTART";
     protected static final String TITLE_TEXT = "TITLE_TEXT";
+    static final String THEMESETTINGS_ACTIVITY_RESTART = "THEMESETTINGS_ACTIVITY_RESTART";
 
-    private ContentColor contentColor;
-    private ColorRange colorRange;
-    private NavigationColor navigationColor;
+    ContentColor contentColor;
+    ColorRange colorRange;
+    NavigationColor navigationColor;
     private ThemeHelper themeHelper;
     private SharedPreferences defaultSharedPreferences;
 
@@ -88,11 +89,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
     }
 
     void restartActivity() {
@@ -191,5 +187,15 @@ public class MainActivity extends AppCompatActivity {
 
     public NavigationController getNavigationController() {
         return navigationController;
+    }
+
+    @VisibleForTesting
+    public void setColorRange(final ColorRange colorRange) {
+        this.colorRange = colorRange;
+    }
+
+    @VisibleForTesting
+    public void setContentColor(final ContentColor contentColor) {
+        this.contentColor = contentColor;
     }
 }

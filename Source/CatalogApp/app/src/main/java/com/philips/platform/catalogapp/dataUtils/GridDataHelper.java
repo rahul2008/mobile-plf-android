@@ -24,39 +24,39 @@ public class GridDataHelper {
         return sharedPreferences.getBoolean(IS_SECONDARY_ACTION_ENABLED, true);
     }
 
-    public boolean isDarkBackgroundEnabled() {
-        return sharedPreferences.getBoolean(IS_DARK_BACKGROUND_ENABLED, false);
-    }
-
-    public boolean isEnlargedGutterEnabled() {
-        return sharedPreferences.getBoolean(IS_ENLARGED_GUTTER_ENABLED, false);
-    }
-
-    public boolean isSetDisableStateEnabled() {
-        return sharedPreferences.getBoolean(IS_SET_DISABLE_STATE_ENABLED, false);
-    }
-
     public void setSecondaryActionEnabled(boolean enabled) {
         editor.putBoolean(IS_SECONDARY_ACTION_ENABLED, enabled).apply();
+    }
+
+    public boolean isDarkBackgroundEnabled() {
+        return sharedPreferences.getBoolean(IS_DARK_BACKGROUND_ENABLED, false);
     }
 
     public void setDarkBackgroundEnabled(boolean enabled) {
         editor.putBoolean(IS_DARK_BACKGROUND_ENABLED, enabled).apply();
     }
 
+    public boolean isEnlargedGutterEnabled() {
+        return sharedPreferences.getBoolean(IS_ENLARGED_GUTTER_ENABLED, false);
+    }
+
     public void setEnlargedGutterEnabled(boolean enabled) {
         editor.putBoolean(IS_ENLARGED_GUTTER_ENABLED, enabled).apply();
+    }
+
+    public boolean isSetDisableStateEnabled() {
+        return sharedPreferences.getBoolean(IS_SET_DISABLE_STATE_ENABLED, false);
     }
 
     public void setSetDisableStateEnabled(boolean enabled) {
         editor.putBoolean(IS_SET_DISABLE_STATE_ENABLED, enabled).apply();
     }
 
-    public void setTemplateSelection(int templateSelection) {
-        editor.putInt(TEMPLATE_SELECTION, templateSelection).apply();
-    }
-
     public int getTemplateSelection(){
         return sharedPreferences.getInt(TEMPLATE_SELECTION, 1);
+    }
+
+    public void setTemplateSelection(int templateSelection) {
+        editor.putInt(TEMPLATE_SELECTION, templateSelection).apply();
     }
 }

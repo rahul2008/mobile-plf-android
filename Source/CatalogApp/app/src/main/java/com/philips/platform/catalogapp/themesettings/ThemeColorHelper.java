@@ -51,7 +51,7 @@ public class ThemeColorHelper {
         tonalRangelist.add(new ColorModel("B", color, R.color.uidColorWhite, 45, 40));
         tonalRangelist.add(new ColorModel("L", color, R.color.uidColorWhite, 30, 25));
         tonalRangelist.add(new ColorModel("VL", color, colorResourceId75, 15, 10));
-        tonalRangelist.add(new ColorModel("UL", color, colorResourceId75, 05, 0));
+        tonalRangelist.add(new ColorModel("UL", color, colorResourceId75, 5, 0));
         return tonalRangelist;
     }
 
@@ -90,7 +90,7 @@ public class ThemeColorHelper {
                 getColorResourceId(resources, colorResourcePlaceHolder, "65", packageName),
                 getColorResourceId(resources, colorResourcePlaceHolder, "40", packageName),
                 getColorResourceId(resources, colorResourcePlaceHolder, "20", packageName),
-                getColorResourceId(resources, colorResourcePlaceHolder, "05", packageName),
+                getColorResourceId(resources, colorResourcePlaceHolder, "5", packageName),
                 R.color.uidColorWhite
         };
     }

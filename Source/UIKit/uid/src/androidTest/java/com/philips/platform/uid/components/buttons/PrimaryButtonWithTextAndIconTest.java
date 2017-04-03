@@ -10,7 +10,6 @@ import android.support.test.rule.ActivityTestRule;
 
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
-import com.philips.platform.uid.view.widget.Button;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -24,16 +23,13 @@ import static com.philips.platform.uid.utils.UIDTestUtils.waitFor;
 
 public class PrimaryButtonWithTextAndIconTest {
 
-    private Button button;
-    private Resources testResources;
-
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
+    private Resources testResources;
 
     @Before
     public void setUp() {
         mActivityTestRule.getActivity().switchTo(com.philips.platform.uid.test.R.layout.layout_buttons);
-        button = new Button(mActivityTestRule.getActivity());
         testResources = getInstrumentation().getContext().getResources();
     }
 
@@ -53,6 +49,6 @@ public class PrimaryButtonWithTextAndIconTest {
      ************************************************/
 
     private ViewInteraction getIconandTextButton() {
-        return onView(withId(com.philips.platform.uid.test.R.id.demo_image_text_button));
+        return onView(withId(com.philips.platform.uid.test.R.id.primary_image_text_button));
     }
 }

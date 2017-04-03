@@ -1,3 +1,9 @@
+/*
+ * (C) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ *
+ */
+
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
@@ -42,6 +48,13 @@ public class AlertDialogFragment extends DialogFragment {
 
     public AlertDialogFragment() {
         dialogParams = new AlertDialogController.DialogParams();
+    }
+
+    private static AlertDialogFragment create(@NonNull final AlertDialogController.DialogParams dialogParams, final int themee) {
+        final AlertDialogFragment alertDialogFragment = new AlertDialogFragment();
+        alertDialogFragment.setDialogParams(dialogParams);
+        alertDialogFragment.setStyle(themee, R.style.UIDAlertDialog);
+        return alertDialogFragment;
     }
 
     @Nullable
@@ -111,13 +124,6 @@ public class AlertDialogFragment extends DialogFragment {
     public void onDismiss(DialogInterface dialog) {
         startExitAnimation();
         super.onDismiss(dialog);
-    }
-
-    private static AlertDialogFragment create(@NonNull final AlertDialogController.DialogParams dialogParams, final int themee) {
-        final AlertDialogFragment alertDialogFragment = new AlertDialogFragment();
-        alertDialogFragment.setDialogParams(dialogParams);
-        alertDialogFragment.setStyle(themee, R.style.UIDAlertDialog);
-        return alertDialogFragment;
     }
 
     private void setNegativeButtonProperties() {

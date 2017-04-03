@@ -27,8 +27,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class ComponentListFragment extends BaseFragment implements AdapterView.OnItemClickListener {
-    private HashMap<Integer, String> itemsMap = new HashMap<Integer, String>();
     ListView listView;
+    private HashMap<Integer, String> itemsMap = new HashMap<Integer, String>();
     private NavigationController navigationController;
 
     @Nullable

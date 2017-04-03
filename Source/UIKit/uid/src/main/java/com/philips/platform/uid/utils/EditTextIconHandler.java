@@ -1,3 +1,9 @@
+/*
+ * (C) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ *
+ */
+
 package com.philips.platform.uid.utils;
 
 import android.graphics.drawable.Drawable;
@@ -18,11 +24,11 @@ public abstract class EditTextIconHandler {
     static final int RIGHT_DRAWABLE_INDEX = 2;
     static final int BOTTOM_DRAWABLE_INDEX = 3;
     private final int passwordDrawableTouchArea;
+    protected EditText editText;
     private boolean isIconActionUpDetected;
     private boolean isIconActionDownDetected;
     private boolean isIconDisplayed;
     private Drawable icon;
-    protected EditText editText;
 
     protected EditTextIconHandler(@NonNull final EditText editText) {
         this.editText = editText;

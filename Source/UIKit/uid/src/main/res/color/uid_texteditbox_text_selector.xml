@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:color="?attr/uidTextBoxValidationText" android:state_focused="false" android:state_enabled="true" app:state_error="true" />
-    <item android:alpha="?attr/uidInputTextTextDisabledAlpha" android:color="?attr/uidInputTextTextDisabledColor" android:state_enabled="false" />
-    <item android:color="?attr/uidInputTextTextColor" />
+    <item android:color="?attr/uidTextBoxValidationText" android:state_enabled="true" android:state_focused="false" app:state_error="true"/>
+    <item android:color="?attr/uidTextBoxDisabledTextColor" android:state_enabled="false"/>
+    <item android:color="?attr/uidTextBoxNormalTextBulletsColor"/>
 </selector>

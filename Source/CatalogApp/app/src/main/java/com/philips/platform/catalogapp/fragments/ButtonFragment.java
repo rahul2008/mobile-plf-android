@@ -23,18 +23,14 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
 
 public class ButtonFragment extends BaseFragment {
-    public ObservableBoolean isButtonsEnabled = new ObservableBoolean(Boolean.TRUE);
-    public ObservableBoolean showExtraWideButtons = new ObservableBoolean(Boolean.TRUE);
-    public ObservableBoolean showingIcons = new ObservableBoolean(Boolean.TRUE);
-    public ObservableBoolean showingProgressIndicator = new ObservableBoolean(Boolean.TRUE);
-
-    private Drawable shareDrawable;
-
-    private Handler handler = new Handler();
     private static final int PROGRESS_INDICATOR_VISIBILITY_TIME = 6000;
     private static final int PROGRESS_INDICATOR_PROGRESS_OFFSET = 20;
     private static final int PROGRESS_INDICATOR_PROGRESS_UPDATE_TIME = 1000;
-
+    public ObservableBoolean isButtonsEnabled = new ObservableBoolean(Boolean.TRUE);
+    public ObservableBoolean showExtraWideButtons = new ObservableBoolean(Boolean.TRUE);
+    public ObservableBoolean showingIcons = new ObservableBoolean(Boolean.TRUE);
+    private Drawable shareDrawable;
+    private Handler handler = new Handler();
     private FragmentButtonsBinding fragmentBinding;
 
     @Override

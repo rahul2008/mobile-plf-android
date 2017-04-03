@@ -1,7 +1,9 @@
-/**
- * (C) Koninklijke Philips N.V., 2016.
+/*
+ * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
+ *
  */
+
 package com.philips.platform.uid.view.widget;
 
 import android.animation.Animator;
@@ -22,7 +24,6 @@ import android.view.View;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.drawable.AnimatedTranslateDrawable;
-import com.philips.platform.uid.utils.UIDUtils;
 
 /**
  * <p>Provides custom implementation for indeterminate linear progress bar.
@@ -71,19 +72,16 @@ import com.philips.platform.uid.utils.UIDUtils;
  * </table>
  */
 public class IndeterminateLinearProgressBar extends View {
+    private static final float TRANSITION_DRAWABLE_WIDTH_RATIO = 0.4F;
     Drawable leadingDrawable;
     Drawable leadingMirrorDrawable;
     Drawable trailingDrawable;
     Drawable trailingMirrorDrawable;
     AnimatedTranslateDrawable leadingAnim;
     AnimatedTranslateDrawable trailingAnim;
-
     private int transitionDrawableWidth;
     private int transitionExtraWhiteSpace;
     private boolean drawTrailingAnim;
-
-    private static final float TRANSITION_DRAWABLE_WIDTH_RATIO = 0.4F;
-
     private int gradientStartColor;
     private int gradientCenterColor;
     private int gradientEndColor;
@@ -106,8 +104,7 @@ public class IndeterminateLinearProgressBar extends View {
     private void obtainStyleAttributes(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         final TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attrs, R.styleable.UIDIndeterminateLinearProgressBar, defStyleAttr, R.style.UIDIndeterminateLinearProgress);
         final int bgColor = obtainStyledAttributes.getColor(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressBGColor, Color.WHITE);
-        final float bgColorAlpha = obtainStyledAttributes.getFloat(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressBGAlpha, 1.0f);
-        setTintedBackground(bgColor, bgColorAlpha);
+        setTintedBackground(bgColor);
 
         gradientStartColor = obtainStyledAttributes.getColor(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressStartColor, Color.WHITE);
         gradientCenterColor = obtainStyledAttributes.getColor(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressCenterColor, Integer.MIN_VALUE);
@@ -181,8 +178,8 @@ public class IndeterminateLinearProgressBar extends View {
         return ContextCompat.getDrawable(getContext(), R.drawable.uid_progess_bar_linear_transition_mirror).getConstantState().newDrawable();
     }
 
-    private void setTintedBackground(int color, float alpha) {
-        setBackground(new ColorDrawable(UIDUtils.modulateColorAlpha(color, alpha)));
+    private void setTintedBackground(int color) {
+        setBackground(new ColorDrawable(color));
     }
 
     @Override

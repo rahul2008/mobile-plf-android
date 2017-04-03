@@ -1,6 +1,5 @@
 package com.philips.platform.catalogapp.fragments;
 
-
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -57,11 +56,11 @@ public class NotificationBarFragment extends BaseFragment {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(wasPopUPShowing) {
+                if (wasPopUPShowing) {
                     alterPopUpState();
                 }
             }
-        },200);
+        }, 200);
     }
 
     @Override

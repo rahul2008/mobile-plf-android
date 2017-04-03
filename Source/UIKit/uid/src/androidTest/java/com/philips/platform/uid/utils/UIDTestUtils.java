@@ -18,7 +18,6 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 
@@ -27,7 +26,6 @@ import java.util.List;
 
 public class UIDTestUtils {
     public final static int UI_LOAD_WAIT_TIME = 750;
-    public final static Object LOCK = new Object() ;
 
     public static int getAttributeColor(Context context, int attribute) {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{attribute});

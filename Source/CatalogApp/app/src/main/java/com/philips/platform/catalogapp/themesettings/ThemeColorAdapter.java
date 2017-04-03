@@ -134,7 +134,7 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
             int startColors = colorListHelper.getColorResourceId(context.getResources(), colorModel.getName(), String.valueOf(colorModel.getStartColor()), context.getPackageName());
             int endColors = colorListHelper.getColorResourceId(context.getResources(), colorModel.getName(), String.valueOf(colorModel.getEndColor()), context.getPackageName());
             if (colorModel.getEndColor() == 0) {
-                startColors = colorListHelper.getColorResourceId(context.getResources(), colorModel.getName(), "05", context.getPackageName());
+                startColors = colorListHelper.getColorResourceId(context.getResources(), colorModel.getName(), "5", context.getPackageName());
                 endColors = R.color.uidColorWhite;
             }
             holder.itemView.setBackground(getItemviewBackground(getCompatColor(context, startColors), getCompatColor(context, endColors)));

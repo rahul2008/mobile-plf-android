@@ -6,7 +6,6 @@
 
 package com.philips.platform.catalogapp.themesettings;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -57,25 +56,23 @@ public class ThemeSettingsFragment extends BaseFragment {
 
     private int colorPickerWidth = 48;
 
-    private SharedPreferences defaultSharedPreferences;
     private ThemeColorAdapter colorRangeAdapter;
     private ThemeColorAdapter tonalRangeAdapter;
     private ThemeColorAdapter navigationListAdapter;
     private ContentColor contentColor = ContentColor.ULTRA_LIGHT;
 
     private ColorRange colorRange = ColorRange.GROUP_BLUE;
-    private NavigationColor navigationColor = NavigationColor.ULTRA_LIGHT;
     private ThemeHelper themeHelper;
     private int colorRangeSelectedPosition;
     private int contentSelectedPosition;
     private int navigationSelectedPosition;
+    private NavigationColor navigationColor;
 
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_theme_settings, container, false);
         view.setVisibility(View.GONE);
-        defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         ButterKnife.bind(this, view);
         themeColorHelper = new ThemeColorHelper();
         themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(getContext()));

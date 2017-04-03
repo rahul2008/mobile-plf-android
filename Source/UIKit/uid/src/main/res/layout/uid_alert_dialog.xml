@@ -4,7 +4,6 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:background="?attr/uidDialogBackgroundColor"
               android:orientation="vertical">
 
     <LinearLayout
@@ -16,9 +15,9 @@
             android:id="@id/uid_alert_dialog_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/uid_alert_dialog_message_top_margin"
             android:layout_marginEnd="@dimen/uid_page_marging_left_right"
             android:layout_marginStart="@dimen/uid_page_marging_left_right"
-            android:layout_marginBottom="@dimen/uid_alert_dialog_message_top_margin"
             android:orientation="horizontal">
 
             <ImageView
@@ -39,9 +38,9 @@
 
         <com.philips.platform.uid.utils.MaxHeightScrollView
             android:id="@id/uid_alert_message_scroll_container"
+            style="@style/UIDAlertDialogMessageContainerStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/UIDAlertDialogMessageContainerStyle">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@id/uid_alert_message"

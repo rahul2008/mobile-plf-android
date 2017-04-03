@@ -49,14 +49,14 @@
                 android:text="@string/demo_primary_button"/>
 
 
-            <com.philips.platform.uid.view.widget.Button
+            <!--<com.philips.platform.uid.view.widget.Button
                 android:id="@+id/alt_primary_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/component_bottom_spacing"
                 android:text="@string/alternate_primary_label"
                 app:uidComponentType="AltPrimary"/>
-
+-->
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/seconday_button"
                 android:layout_width="wrap_content"
@@ -64,14 +64,6 @@
                 android:layout_marginTop="@dimen/component_bottom_spacing"
                 android:text="@string/secondary_button_label"
                 app:uidComponentType="Secondary"/>
-
-            <com.philips.platform.uid.view.widget.Button
-                android:id="@+id/quiet_button"
-                style="@style/UIDQuietButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/component_bottom_spacing"
-                android:text="@string/quiet_button_label"/>
 
         </LinearLayout>
 
@@ -100,26 +92,8 @@
                 android:layout_marginTop="@dimen/component_bottom_spacing"
                 app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
 
-            <com.philips.platform.uid.view.widget.ImageButton
-                android:id="@+id/quiet_icon_only"
-                style="@style/UIDQuietIconButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/component_bottom_spacing"
-                app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
-
             <com.philips.platform.uid.view.widget.Button
-                android:id="@+id/quiet_demo_image_text_button"
-                style="@style/UIDDefaultButton.UIDImageTextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/component_bottom_spacing"
-                android:drawablePadding="@dimen/uid_imagebutton_padding"
-                android:text="@string/buttons_with_icons"
-                app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
-
-            <com.philips.platform.uid.view.widget.Button
-                android:id="@+id/demo_image_text_button"
+                android:id="@+id/primary_image_text_button"
                 style="@style/UIDDefaultButton.UIDImageTextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

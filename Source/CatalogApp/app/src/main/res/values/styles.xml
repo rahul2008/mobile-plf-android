@@ -6,7 +6,7 @@
     </style>
 
     <style name="BaseLayoutMargins">
-        <item name="android:background">?attr/uidContentPrimary</item>
+        <item name="android:background">?attr/uidContentBackground</item>
     </style>
 
     <style name="BaseLayoutMargins.Dimens">
@@ -17,7 +17,7 @@
 
     <style name="TestButtonTexts">
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">?attr/uidTextPrimaryColor</item>
+        <item name="android:textColor">?attr/uidTextPrimary</item>
         <item name="android:textSize">@dimen/button_toggle_text_size</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/layout_margin_left_right</item>
@@ -51,15 +51,15 @@
     </style>
 
     <style name="RecyclerViewRadioButton">
-        <item name="android:textColor">?attr/uidTextPrimaryColor</item>
         <item name="android:layout_height">@dimen/radio_button_height</item>
+        <item name="android:textColor">?attr/uidTextPrimary</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:paddingStart">@dimen/radio_button_text_padding_left_right</item>
         <item name="android:paddingEnd">@dimen/radio_button_text_padding_left_right</item>
     </style>
     <style name="TestButtonSecondaryText">
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">?attr/uidCheckBoxTextDisabledColor</item>
+        <item name="android:textColor">?attr/uidCheckBoxDisabledTextColor</item>
         <item name="android:textSize">@dimen/button_category_text_size</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/layout_margin_left_right</item>
@@ -68,12 +68,11 @@
 
     <style name="UIDLabel.TestButtonTexts">
         <item name="android:layout_height">wrap_content</item>
-        <item name="uidLabelTextColor">?attr/uidTextPrimaryColor</item>
+        <item name="uidLabelTextColor">?attr/uidTextPrimary</item>
         <item name="uidLabelTextSize">@dimen/button_toggle_text_size</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/layout_margin_left_right</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
-        <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_100</item>
     </style>
 
     <style name="ItemLabel" parent="UIDLabel">

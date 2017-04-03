@@ -12,7 +12,7 @@
             style="@style/BaseLayoutMargins.Dimens"
             android:orientation="horizontal">
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 style="@style/TestButtonTexts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
             style="@style/BaseLayoutMargins.Dimens"
             android:orientation="horizontal">
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 style="@style/TestButtonTexts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -46,9 +46,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/layout_margin_left_right"
+                android:layout_weight="1"
                 android:checked="true"
-                android:enabled="false"
-                android:layout_weight="1"/>
+                android:enabled="false"/>
         </LinearLayout>
 
         <include layout="@layout/divider_layout"/>
@@ -57,7 +57,7 @@
             style="@style/BaseLayoutMargins.Dimens"
             android:orientation="horizontal">
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 style="@style/TestButtonTexts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -69,10 +69,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/layout_margin_left_right"
+                android:layout_weight="1"
                 android:checked="false"
-                android:enabled="false"
-                android:layout_weight="1"/>
+                android:enabled="false"/>
         </LinearLayout>
+
         <include layout="@layout/divider_layout"/>
     </LinearLayout>
 </ScrollView>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="UIDLabelInlineValidation">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="uidLabelTextSize">@dimen/uid_inline_label_text_size</item>
-        <item name="uidLabelTextColor">?attr/uidTextBoxValidationErrorColor</item>
-        <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_100</item>
+        <item name="android:textColor">?attr/uidTextBoxValidationErrorColor</item>
     </style>
 </resources>

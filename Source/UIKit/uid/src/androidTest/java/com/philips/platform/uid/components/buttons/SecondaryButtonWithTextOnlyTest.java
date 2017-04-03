@@ -1,15 +1,13 @@
-/**
- * (C) Koninklijke Philips N.V., 2016.
+/*
+ * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
+ *
  */
 package com.philips.platform.uid.components.buttons;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.test.espresso.ViewInteraction;
-import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
-import android.support.v4.content.ContextCompat;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
@@ -19,31 +17,24 @@ import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.philips.platform.uid.test.R.color.GroupBlue15;
-import static com.philips.platform.uid.test.R.color.GroupBlue75;
-import static com.philips.platform.uid.utils.UIDTestUtils.modulateColorAlpha;
 
 public class SecondaryButtonWithTextOnlyTest {
 
-    private Context instrumentationContext;
-
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
-    private BaseTestActivity activity;
+    private Context context;
 
     @Before
     public void setUp() {
-        activity = mActivityTestRule.getActivity();
-        activity.switchTo(com.philips.platform.uid.test.R.layout.layout_buttons);
-        instrumentationContext = getInstrumentation().getContext();
+        final BaseTestActivity activity = mActivityTestRule.getActivity();
+        activity.switchTo(com.philips.platform.uid.test.R.layout.layout_secondary_buttons);
+        context = activity;
     }
 
     /*******************************************************
@@ -51,56 +42,49 @@ public class SecondaryButtonWithTextOnlyTest {
      ******************************************************/
 
     @Test
-    public void verifySecTextOnlyButtonControlColorULTone() {
-        final int expectedColor = ContextCompat.getColor(instrumentationContext, GroupBlue15);
+    public void verifyTextOnlySecondaryButtonEnabledBacgroundColor() {
+        final int expectedColor = UIDTestUtils.getAttributeColor(context, R.attr.uidButtonSecondaryNormalBackgroundColor);
+
         getSecondaryButton().check(matches(FunctionDrawableMatchers
                 .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, android.R.attr.state_enabled, expectedColor)));
     }
 
-    // TODO: 9/20/2016 Fix this failing test case.
     @Test
-    public void verifySecTextOnlyPressedButtonControlColorULTone() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlSecondaryPressedColor);
+    public void verifySecTextOnlyPressedButtonBackgroundColor() {
+        final int expectedColor = UIDTestUtils.getAttributeColor(context, R.attr.uidButtonSecondaryPressedBackgroundColor);
         getSecondaryButton().check(matches(FunctionDrawableMatchers
                 .isSameColorFromColorListWithReflection(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, 0, expectedColor)));
     }
 
     @Test
-    public void verifySecTextOnlyButtonFontColor() {
-        final int expectedFontColor = ContextCompat.getColor(getInstrumentation().getContext(), GroupBlue75);
+    public void verifySecTextOnlyButtonDisabledBackgroundColor() {
+        final int expectedColor = UIDTestUtils.getAttributeColor(context, R.attr.uidButtonSecondaryDisabledBackgroundColor);
+        getSecondaryButton().check(matches(FunctionDrawableMatchers
+                .isSameColorFromColorListWithReflection(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, 1, expectedColor)));
+    }
+
+    @Test
+    public void verifySecTextOnlyButtonTextColor() {
+        final int expectedFontColor = UIDTestUtils.getAttributeColor(context, R.attr.uidButtonSecondaryNormalTextColor);
         getSecondaryButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedFontColor)));
     }
 
-    @Ignore
     @Test
-    public void verifySecTextOnlyPressedButtonFontColor() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlSecondaryEnabledColor);
+    public void verifySecTextOnlyDisabledButtonTextColor() {
+        final int expectedColor = UIDTestUtils.getAttributeColor(context, R.attr.uidButtonSecondaryDisabledTextColor);
 
         getSecondaryButton().check(matches(TextViewPropertiesMatchers.isSameTextColorWithReflection(0, expectedColor)));
     }
 
     @Test
-    public void verifySecTextOnlyDisabledButtonControlColorULTone() {
-        final int disabledColor = modulateColorAlpha(Color.parseColor("#BFE2EB"), 0.25f);
-        disableAllViews();
-        getSecondaryButton().check(matches(FunctionDrawableMatchers
-                .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, -android.R.attr.enabled, disabledColor)));
-    }
+    public void verifySecTextOnlyNormalButtonTextColor() {
+        final int expectedColor = UIDTestUtils.getAttributeColor(context, R.attr.uidButtonSecondaryNormalTextColor);
 
-    @Test
-    public void verifySecTextOnlyDisabledButtonFontColor() {
-        disableAllViews();
-        final int expectedFontColor = ContextCompat.getColor(getInstrumentation().getContext(), GroupBlue75);
-        final int disabledTextColor = UIDTestUtils.modulateColorAlpha(expectedFontColor, 0.25f);
-        getSecondaryButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(-android.R.attr.enabled, disabledTextColor)));
+        getSecondaryButton().check(matches(TextViewPropertiesMatchers.isSameTextColorWithReflection(1, expectedColor)));
     }
 
     private ViewInteraction getSecondaryButton() {
         return onView(withId(com.philips.platform.uid.test.R.id.seconday_button));
-    }
-
-    private void disableAllViews() {
-        onView(withId(com.philips.platform.uid.test.R.id.disable_switch)).perform(ViewActions.click());
     }
 }
 
