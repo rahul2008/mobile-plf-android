@@ -11,6 +11,11 @@ android {
         multiDexEnabled true
         renderscriptTargetApi 20
         renderscriptSupportModeEnabled true
+        // replace the below string with your own Google client ID. Make sure this is consistent
+        // with the values used in openid_appauth_idp_configs.xml
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
+        ]
     }
     buildTypes {
         release {
@@ -70,6 +75,7 @@ allprojects {
 dependencies {
     compile project(':iap')
     compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:customtabs:**.**.**'
     compile(group: 'com.philips.cdp', name: 'registrationApi', version: '10.0.0-rc.+', ext: 'aar', changing: true) {
         transitive = true
     }
