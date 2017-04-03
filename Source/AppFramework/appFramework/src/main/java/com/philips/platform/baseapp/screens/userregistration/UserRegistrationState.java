@@ -45,6 +45,7 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
  */
 public abstract class UserRegistrationState extends BaseState implements UserRegistrationListener, UserRegistrationUIEventListener{
 
+    private static final String TAG=UserRegistrationState.class.getSimpleName();
     final String AI = "appinfra";
     private Context activityContext;
     private User userObject;
@@ -90,6 +91,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     public void onUserRegistrationComplete(Activity activity) {
         if (null != activity) {
             //Register GCM token with data services on login success
+            Log.d(TAG,"Registering token with data services");
             PushNotificationManager.getInstance().registerTokenWithBackend(activity.getApplicationContext());
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
             BaseState baseState = null;
@@ -207,6 +209,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onUserLogoutSuccess() {
+        Log.d(TAG,"Deregistering token with data services");
         PushNotificationManager.getInstance().deregisterTokenWithBackend(activityContext.getApplicationContext());
     }
 
