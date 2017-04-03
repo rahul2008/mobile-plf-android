@@ -135,7 +135,7 @@ android {
             // /launchDigitalCare/proguard.pro'
             minifyEnabled false
             proguardFile 'proguard.pro'
-            proguardFile 'appinfraproguard.pro'
+//            proguardFile 'appinfraproguard.pro'
             //  proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             // proguardFile 'C:/CodeRepository/ConsumerCare/consumer_care_android/Source/Library/
             // launchDigitalCare/proguard.pro'
