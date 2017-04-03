@@ -108,6 +108,7 @@
 <string name="reg_Verification_email_Message">我们已向您发送一封电子邮件，用于验证您的电子邮件地址。电子邮件到达可能需要一段时间。</string>
 <string name="reg_Forgot_Password_Title">忘记了密码？</string>
 <string name="reg_Forgot_Password_description">我们将向您发送一封电子邮件，用于重置您的密码。</string>
+    <string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">我们将向您发送一封电子邮件或短信，用于重置您的密码。</string>
 <string name="reg_Merge_Account_Title">合并您的帐户</string>
 <string name="reg_Create_Account_PasswordHint_Length_lbltxt">8-32 个字符</string>
 <string name="reg_Create_Account_PasswordHint_Aplhabets_lbltxt">大写或小写字母</string>

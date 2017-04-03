@@ -108,6 +108,7 @@
 <string name="reg_Verification_email_Message">We have sent you an email to verify your email address. It may take some time for the email to arrive.</string>
 <string name="reg_Forgot_Password_Title">Forgotten password?</string>
 <string name="reg_Forgot_Password_description">We will send you an email to reset your password.</string>
+    <string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">We will send you an email or SMS to reset your password.</string>
 <string name="reg_Merge_Account_Title">Merge your accounts</string>
 <string name="reg_Create_Account_PasswordHint_Length_lbltxt">8-32 characters</string>
 <string name="reg_Create_Account_PasswordHint_Aplhabets_lbltxt">Upper- or lowercase letters</string>

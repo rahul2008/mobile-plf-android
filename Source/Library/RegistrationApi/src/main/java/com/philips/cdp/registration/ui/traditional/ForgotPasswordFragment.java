@@ -40,9 +40,11 @@ import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
 import com.philips.cdp.registration.configuration.ClientIDConfiguration;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.RegistrationSettingsURL;
 import com.philips.cdp.registration.ui.customviews.XButton;
 import com.philips.cdp.registration.ui.customviews.XEmail;
 import com.philips.cdp.registration.ui.customviews.XRegError;
+import com.philips.cdp.registration.ui.customviews.XTextView;
 import com.philips.cdp.registration.ui.customviews.onUpdateListener;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileForgotPasswordVerifyCodeFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
@@ -136,6 +138,13 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
                 .findViewById(R.id.rl_reg_btn_continue_container);
 
         mEtEmail.checkingEmailorMobileSignIn();
+
+        RegistrationSettingsURL registrationSettingsURL = new RegistrationSettingsURL();
+        if(registrationSettingsURL.isChinaFlow()){
+            XTextView tv_reg_email_reset = (XTextView) view.findViewById(R.id.tv_reg_email_reset);
+            tv_reg_email_reset.setText(R.string.reg_Forgot_Password_Email_Or_PhoneNumber_description);
+        }
+
     }
 
     @Override
@@ -371,10 +380,12 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
                 mEtEmail.showInvalidAlert();
                 mEtEmail.setErrDescription(getString(R.string.reg_TraditionalSignIn_ForgotPwdSocialError_lbltxt));
                 mEtEmail.showErrPopUp();
+                mBtnContinue.setEnabled(false);
             } else {
                 mEtEmail.showErrPopUp();
-                mEtEmail.setErrDescription(userRegistrationFailureInfo.getSocialOnlyError());
+                mEtEmail.setErrDescription(userRegistrationFailureInfo.getErrorDescription());
                 mEtEmail.showInvalidAlert();
+                mBtnContinue.setEnabled(false);
             }
 
             if (null != userRegistrationFailureInfo.getSocialOnlyError()) {
