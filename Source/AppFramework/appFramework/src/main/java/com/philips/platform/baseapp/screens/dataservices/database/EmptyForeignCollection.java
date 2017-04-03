@@ -8,6 +8,7 @@ package com.philips.platform.baseapp.screens.dataservices.database;
 
 import com.j256.ormlite.dao.CloseableIterator;
 import com.j256.ormlite.dao.CloseableWrappedIterable;
+import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.ForeignCollection;
 
 import java.sql.SQLException;
@@ -82,6 +83,11 @@ public class EmptyForeignCollection<T> extends ArrayList<T> implements ForeignCo
     @Override
     public int refreshCollection() throws SQLException {
         return 0;
+    }
+
+    @Override
+    public Dao<T, ?> getDao() {
+        return null;
     }
 
     @Override

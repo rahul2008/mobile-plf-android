@@ -19,8 +19,8 @@ import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.utils.RowItem;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.dataservices.database.DatabaseHelper;
 import com.philips.platform.baseapp.screens.dataservices.database.EmptyForeignCollection;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MeasurementDetailType;
@@ -49,8 +49,6 @@ import java.util.List;
 
 
 public class TemperaturePresenter {
-    public final String TAG = TemperaturePresenter.class.getSimpleName();
-
     private final DBRequestListener dbRequestListener;
     private DataServicesManager mDataServices;
 
@@ -197,8 +195,8 @@ public class TemperaturePresenter {
                 DSLog.i(DSLog.LOG, "e = " + e.getMessage());
             }
         } catch (SQLException e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,
-                    e.getMessage());        }
+            e.printStackTrace();
+        }
     }
 
     private void updateMoment(OrmMoment old) {
@@ -274,13 +272,13 @@ public class TemperaturePresenter {
                         dialog.dismiss();
 
                         try {
-                            Dao<OrmSynchronisationData, Integer> ormSynchronisationDataDao = DatabaseHelper.getInstance(mContext).getSynchronisationDataDao();
+                            Dao<OrmSynchronisationData, Integer> ormSynchronisationDataDao =DatabaseHelper.getInstance(mContext).getSynchronisationDataDao();
                             ormSynchronisationDataDao.refresh((OrmSynchronisationData) moment.getSynchronisationData());
-                            Dao<OrmMoment, Integer> momentDao = DatabaseHelper.getInstance(mContext).getMomentDao();
+                            Dao<OrmMoment, Integer> momentDao =DatabaseHelper.getInstance(mContext).getMomentDao();
                             momentDao.refresh((OrmMoment) moment);
                         } catch (SQLException e) {
-                            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,
-                                    e.getMessage());                        }
+                            e.printStackTrace();
+                        }
                         updateMoment((OrmMoment) moment);
                         break;
                 }

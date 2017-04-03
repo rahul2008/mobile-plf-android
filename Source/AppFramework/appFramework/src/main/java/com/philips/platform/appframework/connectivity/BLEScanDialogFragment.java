@@ -151,4 +151,9 @@ public class BLEScanDialogFragment extends DialogFragment {
             progressBar.setVisibility(View.GONE);
         }
     }
+
+    public int getDeviceCount()
+    {
+      return   leDeviceListAdapter.getCount();
+    }
 }

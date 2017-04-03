@@ -144,7 +144,6 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
 
         @Override
         public void onApplianceLost(@NonNull BleReferenceAppliance bleReferenceAppliance) {
-
         }
     };
 
@@ -199,6 +198,13 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                                     commCentral.stopDiscovery();
                                     if(bleScanDialogFragment!=null) {
                                         bleScanDialogFragment.hideProgressBar();
+                                        if(bleScanDialogFragment.getDeviceCount()==0)
+                                        {
+                                            bleScanDialogFragment.dismiss();
+                                            Toast.makeText(getActivity(), R.string.no_device_found, Toast.LENGTH_SHORT).show();
+
+                                        }
+
                                     }
                                 }
                             }

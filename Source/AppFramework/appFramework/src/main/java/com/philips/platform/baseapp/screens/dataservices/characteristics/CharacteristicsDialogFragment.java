@@ -170,7 +170,7 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
                     Gson gson = new GsonBuilder().setPrettyPrinting().create();
                     String jsonObj = gson.toJson(uCoreCharacteristics);
 
-                    DSLog.i(DSLog.LOG, "Inder AppUserCharacteristics onSuccess= " + jsonObj);
+                   // DSLog.i(DSLog.LOG, "Inder AppUserCharacteristics onSuccess= " + jsonObj);
                     mEtCharacteristics.setText(jsonObj);
                 } catch (Exception e) {
                     DSLog.i(DSLog.LOG, "Inder Exception onSuccess= " + e.getMessage());

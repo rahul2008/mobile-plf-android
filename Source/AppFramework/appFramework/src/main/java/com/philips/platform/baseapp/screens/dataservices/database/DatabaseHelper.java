@@ -24,6 +24,8 @@ import com.philips.platform.baseapp.screens.dataservices.database.datatypes.Mome
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmDCSync;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmInsight;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmInsightMetaData;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurement;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementDetailType;
@@ -78,6 +80,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<OrmCharacteristics, Integer> characteristicsDao;
 
     private Dao<OrmDCSync, Integer> ormDCSyncDao;
+    private Dao<OrmInsight, Integer> ormInsightDao;
+    private Dao<OrmInsightMetaData, Integer> ormInsightMetaDataDao;
 
     public static synchronized DatabaseHelper getInstance(Context context) {
 
@@ -253,6 +257,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.createTable(connectionSource, OrmCharacteristics.class);
         TableUtils.createTable(connectionSource, OrmSettings.class);
         TableUtils.createTable(connectionSource, OrmDCSync.class);
+        TableUtils.createTable(connectionSource, OrmInsight.class);
+        TableUtils.createTable(connectionSource, OrmInsightMetaData.class);
     }
 
     @Override
@@ -315,6 +321,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.dropTable(connectionSource, OrmSettings.class, true);
         TableUtils.dropTable(connectionSource, OrmCharacteristics.class, true);
         TableUtils.dropTable(connectionSource, OrmDCSync.class, true);
+        TableUtils.dropTable(connectionSource, OrmInsight.class, true);
+        TableUtils.dropTable(connectionSource, OrmInsightMetaData.class, true);
     }
 
     public Dao<OrmMoment, Integer> getMomentDao() throws SQLException {
@@ -417,4 +425,17 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
 
+    public Dao<OrmInsight, Integer> getInsightDao() throws SQLException {
+        if (ormInsightDao == null) {
+            ormInsightDao = getDao(OrmInsight.class);
+        }
+        return ormInsightDao;
+    }
+
+    public Dao<OrmInsightMetaData, Integer> getInsightMetaDataDao() throws SQLException {
+        if (ormInsightMetaDataDao == null) {
+            ormInsightMetaDataDao = getDao(OrmInsightMetaData.class);
+        }
+        return ormInsightMetaDataDao;
+    }
 }

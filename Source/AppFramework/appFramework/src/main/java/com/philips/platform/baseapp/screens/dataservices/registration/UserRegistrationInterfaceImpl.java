@@ -128,7 +128,6 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface{
         return userProfile;
     }
 
-    // TODO: We may have to ask the common component to take care of this
     @Override
     public synchronized void refreshAccessTokenUsingWorkAround() {
         DSLog.i(DSLog.LOG,"Inside Refresh Access Token");
