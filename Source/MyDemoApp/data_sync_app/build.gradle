@@ -131,6 +131,10 @@ android {
         renderscriptSupportModeEnabled true
         generatedDensities = []
         multiDexEnabled true
+
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
+        ]
     }
 
     lintOptions {
@@ -233,6 +237,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     compile 'com.android.support:support-annotations:23.2.0'
+    compile 'com.android.support:customtabs:**.**.**'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.android.support:design:23.1.1'
     compile 'com.android.support:appcompat-v7:+'
@@ -249,7 +254,7 @@ dependencies {
 
     compile "com.j256.ormlite:ormlite-core:5.0"
     compile "com.j256.ormlite:ormlite-android:5.0"
-    compile "com.philips.cdp:registrationApi:9.0.0-SNAPSHOT.+"
+    compile "com.philips.cdp:registrationApi:10.0.0-rc.+"
     compile "com.philips.cdp:uikitLib:3.7.5-SNAPSHOT.+"
     //compile 'com.github.chrisbanes.actionbarpulltorefresh:library:+'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
