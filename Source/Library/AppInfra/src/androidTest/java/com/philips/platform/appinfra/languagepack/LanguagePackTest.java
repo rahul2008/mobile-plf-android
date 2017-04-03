@@ -95,6 +95,7 @@ public class LanguagePackTest extends MockitoTestCase {
         };
         assertNotNull(mServiceDiscoveryInterface);
 
+        mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).setServiceDiscovery(mServiceDiscoveryInterface).build(context);
         mLanguagePackInterface = mAppInfra.getLanguagePack();
         assertNotNull(mLanguagePackInterface);
 
@@ -152,16 +153,58 @@ public class LanguagePackTest extends MockitoTestCase {
                 }
             };
             method.invoke(mLanguagePackInterface, listener);
-            //////////
-
-            mLanguagePackInterface.refresh(listener);
-
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
+    }
 
+    public void testPostRefreshSuccess(){
+        try {
+            Method method = mLanguagePackManager.getClass().getDeclaredMethod("postRefreshSuccess", LanguagePackInterface.OnRefreshListener.class, LanguagePackInterface.OnRefreshListener.AILPRefreshResult.class);
+            method.setAccessible(true);
 
+            LanguagePackInterface.OnRefreshListener listener = new LanguagePackInterface.OnRefreshListener() {
+                @Override
+                public void onError(AILPRefreshResult error, String message) {
+
+                }
+
+                @Override
+                public void onSuccess(AILPRefreshResult result) {
+
+                }
+            };
+            LanguagePackInterface.OnRefreshListener.AILPRefreshResult result = LanguagePackInterface.OnRefreshListener.AILPRefreshResult.REFRESHED_FROM_SERVER;
+            method.invoke(mLanguagePackInterface, listener, result);
+
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void testPostRefreshError(){
+        try {
+            Method method = mLanguagePackManager.getClass().getDeclaredMethod("postRefreshSuccess", LanguagePackInterface.OnRefreshListener.class, LanguagePackInterface.OnRefreshListener.AILPRefreshResult.class,String.class);
+            method.setAccessible(true);
+
+            LanguagePackInterface.OnRefreshListener listener = new LanguagePackInterface.OnRefreshListener() {
+                @Override
+                public void onError(AILPRefreshResult error, String message) {
+
+                }
+
+                @Override
+                public void onSuccess(AILPRefreshResult result) {
+
+                }
+            };
+            LanguagePackInterface.OnRefreshListener.AILPRefreshResult result = LanguagePackInterface.OnRefreshListener.AILPRefreshResult.REFRESHED_FROM_SERVER;
+            method.invoke(mLanguagePackInterface, listener, result,"errorMessage");
+
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
 

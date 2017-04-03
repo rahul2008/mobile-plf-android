@@ -11,7 +11,7 @@ public interface LanguagePackInterface {
 	 * download language pack overview file.
 	 * If should be called everytime when app is launched
 	 *
-	 * @param refreshListener asynchronous callback reporting result of refresh eg {LoadedFromLocalCache, RefreshedFromServer, NoRefreshRequired, RefreshFailed}
+	 * @param refreshListener asynchronous callback reporting result of refresh eg {LoadedFromLocalCache, REFRESHED_FROM_SERVER, NO_REFRESH_REQUIRED, REFRESH_FAILED}
 	 */
 	void refresh(OnRefreshListener refreshListener);
 
@@ -23,21 +23,21 @@ public interface LanguagePackInterface {
 	void activate(OnActivateListener onActivateListener);
 
 	interface OnRefreshListener {
-		enum AILPRefreshResult { RefreshedFromServer, NoRefreshRequired, RefreshFailed}
+		enum AILPRefreshResult {REFRESHED_FROM_SERVER, NO_REFRESH_REQUIRED, REFRESH_FAILED}
 		void onError(AILPRefreshResult error, String message);
 		void onSuccess(AILPRefreshResult result);
 	}
 
 	interface OnActivateListener {
-		enum AILPActivateResult {UpdateActivated,NoUpdateStored, UpdateFailed}
+		enum AILPActivateResult {UPDATE_ACTIVATED, NO_UPDATE_STORED, UPDATE_FAILED}
 		void onSuccess(String path);
 		void onError(AILPActivateResult ailpActivateResult, String message);
 
-		  // TODO  UpdateFailed implementation
+		  // TODO  UPDATE_FAILED implementation
 		/*
-		* UpdateActivated (Success)
+		* UPDATE_ACTIVATED (Success)
 		* No Update stored(error)  Already updated (message)
-		* UpdateFailed No Language(error) Pack available(message)
+		* UPDATE_FAILED No Language(error) Pack available(message)
 		*
 		* */
 	}
