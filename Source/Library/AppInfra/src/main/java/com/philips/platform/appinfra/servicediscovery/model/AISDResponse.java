@@ -73,7 +73,7 @@ public class AISDResponse {
 	public HashMap<String, ServiceDiscoveryService> getServicesUrl(ArrayList<String> serviceIds,
 	                                                               AISDResponse.AISDPreference preference,
 	                                                               Map<String, String> replacement) {
-		HashMap<String, ServiceDiscoveryService> response = new HashMap<>();
+		final HashMap<String, ServiceDiscoveryService> response = new HashMap<>();
 		HashMap<String, ServiceDiscoveryService> propositionResponse = null, platformResponse = null;
 
 		if (getPropositionURLs() != null) {
@@ -86,8 +86,8 @@ public class AISDResponse {
 
 		for (String serviceId : serviceIds) {
 			if (propositionResponse != null && platformResponse != null) {
-				ServiceDiscoveryService propositionService = propositionResponse.get(serviceId);
-				ServiceDiscoveryService platformService = platformResponse.get(serviceId);
+				final ServiceDiscoveryService propositionService = propositionResponse.get(serviceId);
+				final ServiceDiscoveryService platformService = platformResponse.get(serviceId);
 
 				if (propositionService != null && platformService != null) {
 					if (propositionService.getConfigUrls() != null && platformService.getConfigUrls() != null) {

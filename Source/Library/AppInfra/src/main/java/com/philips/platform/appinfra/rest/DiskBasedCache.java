@@ -57,11 +57,11 @@ public class DiskBasedCache extends com.android.volley.toolbox.DiskBasedCache {
     @Override
     public synchronized void put(String key, Entry entry) {
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AI Rest Cache write ", key + " before encryption");
-        SecureStorageInterface secureStorage = mAppInfra.getSecureStorage();
-        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        entry.data = secureStorage.encryptData(entry.data, sse);
+        final SecureStorageInterface secureStorage = mAppInfra.getSecureStorage();
+        final SecureStorageInterface.SecureStorageError mSecureStorageError = new SecureStorageInterface.SecureStorageError();
+        entry.data = secureStorage.encryptData(entry.data, mSecureStorageError);
 
-        if (sse.getErrorCode() != null) {
+        if (mSecureStorageError.getErrorCode() != null) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AI Rest ", key + " response Encryption Error");
         } else {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AI Rest Cache write ", key + " after encryption");

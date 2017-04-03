@@ -128,8 +128,8 @@ public class ServiceDiscovery {
 		try {
 			setSuccess(response.optBoolean("success"));
 			setHttpStatus(response.optString("httpStatus"));
-			JSONObject payloadJSONObject = response.getJSONObject("payload");
-			String country = response.getJSONObject("payload").optString("country");
+			final JSONObject payloadJSONObject = response.getJSONObject("payload");
+			final String country = response.getJSONObject("payload").optString("country");
 			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ServiceDiscovery country",
 					country);
 			this.country = country.toUpperCase();
@@ -151,11 +151,11 @@ public class ServiceDiscovery {
 				resultsLanguageJSONArray.put(response.optJSONObject("results"));
 			} else if (resultsLanguageJSONArray.length() > 0) {
 				matchByLanguage.setLocale(resultsLanguageJSONArray.getJSONObject(0).optString("locale"));
-				ArrayList<MatchByCountryOrLanguage.Config> matchByLanguageConfigs = new ArrayList<>();
-				JSONArray configLanguageJSONArray = resultsLanguageJSONArray.getJSONObject(0).optJSONArray("configs");
+				final ArrayList<MatchByCountryOrLanguage.Config> matchByLanguageConfigs = new ArrayList<>();
+				final JSONArray configLanguageJSONArray = resultsLanguageJSONArray.getJSONObject(0).optJSONArray("configs");
 				if (configLanguageJSONArray != null) {
 					for (int configCount = 0; configCount < configLanguageJSONArray.length(); configCount++) {
-						MatchByCountryOrLanguage.Config config = new MatchByCountryOrLanguage.Config();
+						final MatchByCountryOrLanguage.Config config = new MatchByCountryOrLanguage.Config();
 						config.parseConfigArray(configLanguageJSONArray.optJSONObject(configCount));
 						matchByLanguageConfigs.add(config);
 					}
@@ -177,12 +177,10 @@ public class ServiceDiscovery {
 			resultsJSONArray = new JSONArray();
 			resultsJSONArray.put(jsonObject.optJSONObject("results"));
 		}
-		JSONArray configCountryJSONArray = getActualResultsForLocaleList(matchByCountry, resultsJSONArray);
-
-
+		final JSONArray configCountryJSONArray = getActualResultsForLocaleList(matchByCountry, resultsJSONArray);
 		if (configCountryJSONArray != null) {
 			for (int configCount = 0; configCount < configCountryJSONArray.length(); configCount++) {
-				MatchByCountryOrLanguage.Config config = new MatchByCountryOrLanguage.Config();
+				final MatchByCountryOrLanguage.Config config = new MatchByCountryOrLanguage.Config();
 				config.parseConfigArray(configCountryJSONArray.optJSONObject(configCount));
 				this.matchByCountry.configs.add(config);
 			}
@@ -198,14 +196,14 @@ public class ServiceDiscovery {
 	private JSONArray getActualResultsForLocaleList(MatchByCountryOrLanguage matchByCountry,
 	                                                JSONArray resultsJSONArray) {
 		try {
-			ArrayList<String> deviceLocaleList = new ArrayList<>(Arrays.asList(new RequestManager(mContext, mAppInfra)
+			final ArrayList<String> deviceLocaleList = new ArrayList<>(Arrays.asList(new RequestManager(mContext, mAppInfra)
 					.getLocaleList().split(",")));
 
 			if (resultsJSONArray != null && resultsJSONArray.length() > 0) {
 				for (int i = 0; i < deviceLocaleList.size(); i++) {
 					for (int j = 0; j < resultsJSONArray.length(); j++) {
-						String resLocale = resultsJSONArray.getJSONObject(j).optString("locale");
-						String deviceLocale = deviceLocaleList.get(i).replaceAll("[\\[\\]]", ""); // removing extra [] from locale list
+						final String resLocale = resultsJSONArray.getJSONObject(j).optString("locale");
+						final String deviceLocale = deviceLocaleList.get(i).replaceAll("[\\[\\]]", ""); // removing extra [] from locale list
 						if (deviceLocale.equals(resLocale)) {
 							matchByCountry.setLocale(resLocale);
 							return resultsJSONArray.getJSONObject(j).optJSONArray("configs");
@@ -230,7 +228,7 @@ public class ServiceDiscovery {
 
 
 	private void setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES error, String message) {
-		Error err = new Error(error, message);
+		final Error err = new Error(error, message);
 		setError(err);
 	}
 
@@ -269,7 +267,7 @@ public class ServiceDiscovery {
 						if (urls.get(serviceId) != null) {
 							String serviceUrl = urls.get(serviceId);
 							try {
-								URL url = new URL(serviceUrl);
+								final URL url = new URL(serviceUrl);
 								return urlDecodeForServiceDiscovery(url, replacement);
 
 							} catch (MalformedURLException e) {

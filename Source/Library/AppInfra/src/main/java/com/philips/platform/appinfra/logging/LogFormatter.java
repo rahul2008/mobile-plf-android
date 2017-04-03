@@ -52,7 +52,7 @@ public class LogFormatter extends Formatter {
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ", Locale.ENGLISH);
 
     public String format(LogRecord record) {
-        StringBuilder builder = new StringBuilder(1000);
+        final StringBuilder builder = new StringBuilder(1000);
         builder.append("[");
         if (mappInfra != null && mappInfra.getTime() != null) {
             dateFormat.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
@@ -60,7 +60,7 @@ public class LogFormatter extends Formatter {
         }
 
         builder.append("[").append(componentNameAndVersion).append("]");
-        Level logLevel = record.getLevel();
+        final Level logLevel = record.getLevel();
         String logLevelPrettyName = logLevel.toString();
         if (logLevel == Level.SEVERE) {
             logLevelPrettyName = "ERROR";
@@ -73,7 +73,7 @@ public class LogFormatter extends Formatter {
         builder.append("[").append(formatMessage(record)).append("]"); // this we assume as event
         //builder.append("[").append(record.getSourceClassName()).append("] ");
         //builder.append("[").append(record.getSourceMethodName()).append("] ");
-        Object[] eventNameList = record.getParameters(); // this we assume as message
+        final Object[] eventNameList = record.getParameters(); // this we assume as message
         String eventName = "NA";// Default event name
         if (null != eventNameList && eventNameList.length > 0) {
             eventName = (String) eventNameList[0];

@@ -51,7 +51,7 @@ public class TimeSyncSntpClient implements TimeInterface {
     }
 
     private void refreshIfNeeded() {
-        Calendar now = Calendar.getInstance();
+        final Calendar now = Calendar.getInstance();
         if (!mRefreshInProgressLock.isLocked() && now.after(mNextRefreshTime)) {
             refreshTime();
         }
@@ -74,7 +74,7 @@ public class TimeSyncSntpClient implements TimeInterface {
     }
 
     private void refreshOffset() {
-        boolean lockAcquired = mRefreshInProgressLock.tryLock();
+        final boolean lockAcquired = mRefreshInProgressLock.tryLock();
         if (lockAcquired) {
             boolean offsetUpdated = false;
             long offsetOfLowestRoundTrip = 0;
@@ -164,8 +164,8 @@ public class TimeSyncSntpClient implements TimeInterface {
     }
 
     private void registerReciever() {
-        DateTimeChangedReceiver receiver = new DateTimeChangedReceiver();
-        IntentFilter registeReceiver = new IntentFilter();
+        final DateTimeChangedReceiver receiver = new DateTimeChangedReceiver();
+        final IntentFilter registeReceiver = new IntentFilter();
         registeReceiver.addAction("android.intent.action.DATE_CHANGED");
         registeReceiver.addAction("android.intent.action.TIME_SET");
         mAppInfra.getAppInfraContext().registerReceiver(receiver, registeReceiver);

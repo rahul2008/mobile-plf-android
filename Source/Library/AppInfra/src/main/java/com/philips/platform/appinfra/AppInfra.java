@@ -189,8 +189,8 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo{
 
         public AppInfra build(Context pContext) {
             Log.v("APPINFRA INT", "AI Intitialization Starts");
-            AppInfra ai = new AppInfra(pContext);
-            AppConfigurationManager appConfigurationManager=new AppConfigurationManager(ai);
+            final AppInfra ai = new AppInfra(pContext);
+            final AppConfigurationManager appConfigurationManager=new AppConfigurationManager(ai);
             ai.setConfigInterface(configInterface == null ? appConfigurationManager : configInterface);
             Log.v("APPINFRA INT", "AppConfig Intitialization Done");
 
@@ -214,7 +214,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo{
             ai.setServiceDiscoveryInterface(mServiceDiscoveryInterface == null ? new ServiceDiscoveryManager(ai) : mServiceDiscoveryInterface);
             Log.v("APPINFRA INT", "ServiceDiscovery Intitialization Done");
             if (ai.getAppIdentity() != null) {
-                StringBuilder appInfraLogStatement = new StringBuilder();
+                final StringBuilder appInfraLogStatement = new StringBuilder();
 
                 try {
                     appInfraLogStatement.append("AppInfra initialized for application \"");

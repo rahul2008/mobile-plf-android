@@ -42,7 +42,7 @@ public class ImageRequest extends com.android.volley.toolbox.ImageRequest {
     public Map<String, String> getHeaders() throws AuthFailureError {
         if(mHeader != null) {
             if (mProvider != null) {
-                Map<String, String> tokenHeader = RestManager.setTokenProvider(mProvider);
+                final Map<String, String> tokenHeader = RestManager.setTokenProvider(mProvider);
                 mHeader.putAll(tokenHeader);
             }
             return mHeader;

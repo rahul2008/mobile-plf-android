@@ -25,7 +25,7 @@ public class RequestQueue extends com.android.volley.RequestQueue {
 
     @Override
     public <T> Request<T> add(Request<T> request) {
-        String url = request.getUrl();
+        final String url = request.getUrl();
         if (!url.trim().toLowerCase().startsWith("https://")) {
             if (url.trim().startsWith("serviceid://")) {
                 return super.add(request);

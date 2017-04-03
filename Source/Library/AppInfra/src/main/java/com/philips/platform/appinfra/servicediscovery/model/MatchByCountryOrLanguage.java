@@ -20,41 +20,35 @@ import java.util.Iterator;
  */
 public class MatchByCountryOrLanguage {
 
+    ArrayList<Config> configs = new ArrayList<>();
     private boolean available;
     private String locale;
-    ArrayList<Config> configs = new ArrayList<>();
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    public String getLocale() {
+        return locale;
+    }
+
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
+
+    public ArrayList<Config> getConfigs() {
+        return configs;
+    }
+
+    public void setConfigs(ArrayList<Config> configs) {
+        this.configs = configs;
+    }
 
     public static class Config {
-
-        public static class Tag {
-            private String id;
-            private String name;
-            private String key;
-
-            public String getId() {
-                return id;
-            }
-
-            public void setId(String id) {
-                this.id = id;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public void setName(String name) {
-                this.name = name;
-            }
-
-            public String getKey() {
-                return key;
-            }
-
-            public void setKey(String key) {
-                this.key = key;
-            }
-        }
 
         private String micrositeId;
         private HashMap<String, String> urls;
@@ -115,33 +109,36 @@ public class MatchByCountryOrLanguage {
                 result.setError(err);
             }
         }
-    }
 
+        public static class Tag {
+            private String id;
+            private String name;
+            private String key;
 
-    public boolean isAvailable() {
-        return available;
-    }
+            public String getId() {
+                return id;
+            }
 
-    public void setAvailable(boolean available) {
-        this.available = available;
-    }
+            public void setId(String id) {
+                this.id = id;
+            }
 
+            public String getName() {
+                return name;
+            }
 
-    public String getLocale() {
-        return locale;
-    }
+            public void setName(String name) {
+                this.name = name;
+            }
 
-    public void setLocale(String locale) {
-        this.locale = locale;
-    }
+            public String getKey() {
+                return key;
+            }
 
-
-    public ArrayList<Config> getConfigs() {
-        return configs;
-    }
-
-    public void setConfigs(ArrayList<Config> configs) {
-        this.configs = configs;
+            public void setKey(String key) {
+                this.key = key;
+            }
+        }
     }
 
 }

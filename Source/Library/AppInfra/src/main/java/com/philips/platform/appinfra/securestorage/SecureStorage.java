@@ -94,9 +94,9 @@ public class SecureStorage implements SecureStorageInterface {
             returnResult = false;
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SecureStorage", e.getMessage());
             //Log.e("SecureStorage", Log.getStackTraceString(e));
-        } finally {
-            return returnResult;
         }
+        return returnResult;
+
     }
 
 
@@ -130,9 +130,9 @@ public class SecureStorage implements SecureStorageInterface {
             if (null != decryptedString) {  // if exception is thrown at:  decryptedString = new String(decText);
                 decryptedString = null;
             }
-        } finally {
-            return decryptedString;
         }
+           return decryptedString;
+
     }
 
 
@@ -164,9 +164,9 @@ public class SecureStorage implements SecureStorageInterface {
             returnResult = false;
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SecureStorage  SqlCipher Data Key ", e.getMessage());
             //Log.e("SecureStorage", Log.getStackTraceString(e));
-        } finally {
-            return returnResult;
         }
+            return returnResult;
+
     }
 
     @Override
@@ -189,9 +189,9 @@ public class SecureStorage implements SecureStorageInterface {
             if (null != decryptedKey) {  // if exception is thrown at:  decryptedString = new String(decText);
                 decryptedKey = null;
             }
-        } finally {
-            return decryptedKey;
         }
+            return decryptedKey;
+
     }
 
     @Override
@@ -293,7 +293,7 @@ public class SecureStorage implements SecureStorageInterface {
     private String fetchEncryptedData(String key, SecureStorageError secureStorageError, String fileName) {
         String result = null;
         // encrypted data will be fetched from device  SharedPreferences
-        SharedPreferences prefs = getSharedPreferences(fileName);
+        final SharedPreferences prefs = getSharedPreferences(fileName);
         if (prefs.contains(key)) { // if key is present
             result = prefs.getString(key, null);
             if (null == result) {
@@ -316,7 +316,7 @@ public class SecureStorage implements SecureStorageInterface {
     private boolean deleteEncryptedData(String key, String fileName) {
         boolean deleteResult = false;
         try {
-            SharedPreferences prefs = getSharedPreferences(fileName);
+            final SharedPreferences prefs = getSharedPreferences(fileName);
             // String isGivenKeyPresentInSharedPreferences = prefs.getString(key, null);
             if (prefs.contains(key)) {  // if given key is present in SharedPreferences
                 // encrypted data will be deleted from device  SharedPreferences
@@ -334,10 +334,10 @@ public class SecureStorage implements SecureStorageInterface {
 
     private SecretKey generateAESKey() throws NoSuchAlgorithmException {
         final int outputKeyLength = 256; // Generate a 256-bit key
-        SecureRandom secureRandom = new SecureRandom();    // Do *not* seed secureRandom! Automatically seeded from system entropy.
-        KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+        final SecureRandom secureRandom = new SecureRandom();    // Do *not* seed secureRandom! Automatically seeded from system entropy.
+        final KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
         keyGenerator.init(outputKeyLength, secureRandom);
-        SecretKey key = keyGenerator.generateKey();
+        final SecretKey key = keyGenerator.generateKey();
         return key;
     }
 
@@ -381,7 +381,7 @@ public class SecureStorage implements SecureStorageInterface {
         Cipher cipher = null;
         try {
             cipher = Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
-            SharedPreferences prefs = getSharedPreferences(KEY_FILE_NAME);
+            final SharedPreferences prefs = getSharedPreferences(KEY_FILE_NAME);
             if (prefs.contains(SINGLE_AES_KEY_TAG)) { // if  key is present
                 final String aesKeyForEcryptandDecrypt = prefs.getString(SINGLE_AES_KEY_TAG, null);
                 secretKeyBytes = Base64.decode(aesKeyForEcryptandDecrypt, Base64.DEFAULT);//  AES key bytes

@@ -80,7 +80,7 @@ public class ContentArticle implements ContentInterface {
     @Override
     public boolean parseInput(String json) {
         System.out.println("JSONELEMENT" + "" + json);
-        JsonElement response = new JsonParser().parse(json);
+        final JsonElement response = new JsonParser().parse(json);
         this.title = String.valueOf(response.getAsJsonObject().get("title"));
         this.link = String.valueOf(response.getAsJsonObject().get("link"));
         this.linkurl = String.valueOf(response.getAsJsonObject().get("link"));
@@ -89,10 +89,10 @@ public class ContentArticle implements ContentInterface {
         this.overlay = String.valueOf(response.getAsJsonObject().get("overlay"));
         this.articleDescription = String.valueOf(response.getAsJsonObject().get("description"));
         this.uid = String.valueOf(response.getAsJsonObject().get("uid"));
-        JsonElement tagElement = response.getAsJsonObject().get("tags");
+        final JsonElement tagElement = response.getAsJsonObject().get("tags");
 
         if (tagElement != null && tagElement.isJsonArray()) {
-            JsonArray tagArray = tagElement.getAsJsonArray();
+            final JsonArray tagArray = tagElement.getAsJsonArray();
             if (tagArray != null) {
                 for (int i = 0; i < tagArray.size(); i++) {
                     JsonElement tagobj = tagArray.get(i);

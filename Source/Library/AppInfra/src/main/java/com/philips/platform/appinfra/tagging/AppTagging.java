@@ -59,7 +59,7 @@ public class AppTagging implements AppTaggingInterface {
 	private boolean checkForSslConnection() {
 		boolean sslValue = false;
 
-		JSONObject jSONObject = getMasterADBMobileConfig();
+		final JSONObject jSONObject = getMasterADBMobileConfig();
 
 		try {
 			if (jSONObject != null) {

@@ -160,7 +160,7 @@ public class AppInfraLogging implements LoggingInterface {
                 // nothing to do, fileHandler already added to Logger
             }
         } else { // remove file log if any
-            Handler[] currentComponentHandlers = javaLogger.getHandlers();
+            final Handler[] currentComponentHandlers = javaLogger.getHandlers();
             if (null != currentComponentHandlers && currentComponentHandlers.length > 0) {
                 for (Handler handler : currentComponentHandlers) {
                     if (handler instanceof FileHandler) {
@@ -179,16 +179,16 @@ public class AppInfraLogging implements LoggingInterface {
     private FileHandler getFileHandler() {
         FileHandler fileHandler = null;
         try {
-            File directoryCreated = createInternalDirectory();
-            String logFileName = LogManager.getLogManager().getProperty("java.util.logging.FileHandler.pattern").trim();
-            String filePath = directoryCreated.getAbsolutePath() + File.separator + logFileName;
-            boolean isDebuggable = (0 != (mAppInfra.getAppInfraContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
+            final File directoryCreated = createInternalDirectory();
+            final String logFileName = LogManager.getLogManager().getProperty("java.util.logging.FileHandler.pattern").trim();
+            final String filePath = directoryCreated.getAbsolutePath() + File.separator + logFileName;
+            final boolean isDebuggable = (0 != (mAppInfra.getAppInfraContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
             if (isDebuggable) { // debug mode is for development environment where logs and property file will be written to device external memory if available
                 Log.e("App Infra log File Path", filePath);// this path will be dynamic for each device
             }
-            int logFileSize = Integer.parseInt(LogManager.getLogManager().getProperty("java.util.logging.FileHandler.limit").trim());
-            int maxLogFileCount = Integer.parseInt(LogManager.getLogManager().getProperty("java.util.logging.FileHandler.count").trim());
-            boolean logFileAppendMode = Boolean.parseBoolean(LogManager.getLogManager().getProperty("java.util.logging.FileHandler.append").trim());
+            final int logFileSize = Integer.parseInt(LogManager.getLogManager().getProperty("java.util.logging.FileHandler.limit").trim());
+            final int maxLogFileCount = Integer.parseInt(LogManager.getLogManager().getProperty("java.util.logging.FileHandler.count").trim());
+            final boolean logFileAppendMode = Boolean.parseBoolean(LogManager.getLogManager().getProperty("java.util.logging.FileHandler.append").trim());
             fileHandler = new FileHandler(filePath, logFileSize, maxLogFileCount, logFileAppendMode);
         } catch (Exception e) {
             Log.e("AI Log", "FileHandler exception", e);

@@ -41,14 +41,14 @@ public class HSDPPHSApiSigning implements ApiSigningInterface {
 
     @Override
     public String createSignature(String requestMethod, String queryString, Map<String, String> headers, String dhpUrl, String requestbody) {
-        byte[] signatureKey = hashRequest(requestMethod, queryString, requestbody, joinHeaders(headers));
-        String signature = signString(signatureKey, dhpUrl);
+        final byte[] signatureKey = hashRequest(requestMethod, queryString, requestbody, joinHeaders(headers));
+        final String signature = signString(signatureKey, dhpUrl);
 
         return buildAuthorizationHeaderValue(joinHeaders(headers), signature);
     }
 
     private String joinHeaders(Map<String, String> headers) {
-        List<String> headerList = new LinkedList<String>();
+        final List<String> headerList = new LinkedList<String>();
 
         for (Map.Entry<String, String> header : headers.entrySet())
             headerList.add(header.getKey() + ":" + header.getValue());
@@ -57,7 +57,7 @@ public class HSDPPHSApiSigning implements ApiSigningInterface {
     }
 
     private String joinHeaders(List<String> headerList) {
-        StringBuilder stringBuilder = new StringBuilder();
+        final StringBuilder stringBuilder = new StringBuilder();
         for (String header : headerList) {
             stringBuilder.append(header);
             stringBuilder.append(";");
@@ -67,7 +67,7 @@ public class HSDPPHSApiSigning implements ApiSigningInterface {
     }
 
     private String buildAuthorizationHeaderValue(String requestHeader, String signature) {
-        StringBuilder buffer = new StringBuilder(ALGORITHM_NAME);
+        final StringBuilder buffer = new StringBuilder(ALGORITHM_NAME);
         buffer.append(";");
         buffer.append("Credential:");
         buffer.append(sharedKey);
@@ -88,21 +88,21 @@ public class HSDPPHSApiSigning implements ApiSigningInterface {
     }
 
     private byte[] hashRequest(String requestMethod, String queryString, String requestBody, String requestHeaders) {
-        PsLib psLib = new PsLib();
-        byte[] kMethod = psLib.createHmac(this.secretKey,requestMethod.getBytes());
+        final PsLib psLib = new PsLib();
+        final byte[] kMethod = psLib.createHmac(this.secretKey,requestMethod.getBytes());
         final byte[] kQueryString = hash(queryString, kMethod);
         final byte[] kBody = hash(requestBody, kQueryString);
         return hash(requestHeaders, kBody);
     }
 
     private String signString(byte[] signatureKey, String uriToBeSigned) {
-        byte[] signatureArray = hash(uriToBeSigned, signatureKey);
+        final byte[] signatureArray = hash(uriToBeSigned, signatureKey);
         return Base64.encodeToString(signatureArray,Base64.DEFAULT);
     }
 
     private byte[] hash(String data, byte[] key) {
         try {
-            Mac mac = Mac.getInstance(ALGORITHM_NAME);
+            final Mac mac = Mac.getInstance(ALGORITHM_NAME);
             mac.init(new SecretKeySpec(key, ALGORITHM_NAME));
             if (data== null) return mac.doFinal(null);
             return mac.doFinal(data.getBytes(UTF_8_CHARSET));
@@ -114,8 +114,8 @@ public class HSDPPHSApiSigning implements ApiSigningInterface {
     }
 
     private static byte[] hexStringToByteArray(String s) {
-        int len = s.length();
-        byte[] data = new byte[len / 2];
+        final int len = s.length();
+        final byte[] data = new byte[len / 2];
         for (int i = 0; i < len; i += 2) {
             data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
                     + Character.digit(s.charAt(i+1), 16));

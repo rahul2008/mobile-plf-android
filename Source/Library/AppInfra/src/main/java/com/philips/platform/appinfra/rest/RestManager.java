@@ -44,8 +44,8 @@ public class RestManager implements RestInterface {
             // Activity or BroadcastReceiver if someone ,passes one in.
             // Instantiate the cache
             ;
-            AppConfigurationInterface mAppConfigurationInterface = mAppInfra.getConfigInterface();
-            AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+            final AppConfigurationInterface mAppConfigurationInterface = mAppInfra.getConfigInterface();
+            final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
             if (mAppInfra.getConfigInterface() != null) {
                 try {
                     cacheSizeinKB = (Integer) mAppConfigurationInterface.getPropertyForKey("restclient.cacheSizeInKB", "appinfra", configError);
@@ -56,10 +56,10 @@ public class RestManager implements RestInterface {
             if (cacheSizeinKB == null) {
                 cacheSizeinKB = 1024; // default fall back
             }
-            Cache cache = new DiskBasedCache(getCacheDir(), cacheSizeinKB, mAppInfra); //
+            final Cache cache = new DiskBasedCache(getCacheDir(), cacheSizeinKB, mAppInfra); //
 
             // Set up the network to use HttpURLConnection as the HTTP client.
-            Network network = getNetwork();
+            final Network network = getNetwork();
             mRequestQueue = new RequestQueue(cache, network);
             mRequestQueue.start();
             // mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
@@ -104,8 +104,8 @@ public class RestManager implements RestInterface {
     }
 
     public static HashMap<String, String> setTokenProvider(TokenProviderInterface provider) {
-        HashMap<String, String> header = new HashMap<String, String>();
-        TokenProviderInterface.Token token = provider.getToken();
+        final HashMap<String, String> header = new HashMap<String, String>();
+        final TokenProviderInterface.Token token = provider.getToken();
         String scheme = "";
         if (token.getTokenType() == TokenProviderInterface.TokenType.OAUTH2)
             scheme = "Bearer";
@@ -134,7 +134,7 @@ public class RestManager implements RestInterface {
             final StringBuilder resultURL = new StringBuilder();
             //lock.lock();
 
-            String sid = ServiceIDUrlFormatting.getServiceID(originalUrl);
+            final String sid = ServiceIDUrlFormatting.getServiceID(originalUrl);
             try {
                 if (ServiceIDUrlFormatting.getPreference(originalUrl) == ServiceIDUrlFormatting.SERVICEPREFERENCE.BYLANGUAGE) {
                     mAppInfra.getServiceDiscovery().getServiceUrlWithLanguagePreference(sid, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {

@@ -45,18 +45,18 @@ public class RequestManager {
 	}
 
 	public ServiceDiscovery execute(final String url, ServiceDiscoveryManager.AISDURLType urlType) {
-		RequestFuture<JSONObject> future = RequestFuture.newFuture();
-		JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, future, future, null, null, null);
+		final RequestFuture<JSONObject> future = RequestFuture.newFuture();
+		final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, future, future, null, null, null);
 		request.setShouldCache(true);
 		mAppInfra.getRestClient().getRequestQueue().add(request);
 
-		ServiceDiscovery result = new ServiceDiscovery();
+		final ServiceDiscovery result = new ServiceDiscovery();
 		try {
-			JSONObject response = future.get(10, TimeUnit.SECONDS);
+			final JSONObject response = future.get(10, TimeUnit.SECONDS);
 			cacheServiceDiscovery(response, url, urlType);
 			return parseResponse(response);
 		} catch (InterruptedException | TimeoutException e) {
-			ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface
+			final ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface
 					.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "Timed out or interrupted");
 			result.setError(err);
 			result.setSuccess(false);
@@ -96,10 +96,10 @@ public class RequestManager {
 	}
 
 	private ServiceDiscovery parseResponse(JSONObject response) {
-		ServiceDiscovery result = new ServiceDiscovery();
+		final ServiceDiscovery result = new ServiceDiscovery();
 		result.setSuccess(response.optBoolean("success"));
 		if (!result.isSuccess()) {
-			ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server reports failure");
+			final ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server reports failure");
 			result.setError(err);
 		} else { // no sense in further processing if server reports error
 			// START setting match by country
@@ -119,9 +119,9 @@ public class RequestManager {
 	}
 
 	private void cacheServiceDiscovery(JSONObject serviceDiscovery, String url, ServiceDiscoveryManager.AISDURLType urlType) {
-		SharedPreferences sharedPreferences = getServiceDiscoverySharedPreferences();
-		SharedPreferences.Editor prefEditor = sharedPreferences.edit();
-		Date currentDate = new Date();
+		final SharedPreferences sharedPreferences = getServiceDiscoverySharedPreferences();
+		final SharedPreferences.Editor prefEditor = sharedPreferences.edit();
+		final Date currentDate = new Date();
 		long refreshTimeExpiry = currentDate.getTime() + 24 * 3600 * 1000;  // current time + 24 hour
 		switch (urlType) {
 			case AISDURLTypeProposition:
@@ -140,17 +140,17 @@ public class RequestManager {
 
 	protected AISDResponse getCachedData() {
 		AISDResponse cachedResponse = null;
-		SharedPreferences prefs = getServiceDiscoverySharedPreferences();
+		final SharedPreferences prefs = getServiceDiscoverySharedPreferences();
 		if (prefs != null) {
-			String propositionCache = prefs.getString("SDPROPOSITION", null);
-			String platformCache = prefs.getString("SDPLATFORM", null);
+			final String propositionCache = prefs.getString("SDPROPOSITION", null);
+			final String platformCache = prefs.getString("SDPLATFORM", null);
 			try {
 				if (propositionCache != null && platformCache != null) {
-					JSONObject propositionObject = new JSONObject(propositionCache);
-					ServiceDiscovery propostionService = parseResponse(propositionObject);
+					final JSONObject propositionObject = new JSONObject(propositionCache);
+					final ServiceDiscovery propostionService = parseResponse(propositionObject);
 
-					JSONObject platformObject = new JSONObject(platformCache);
-					ServiceDiscovery platformService = parseResponse(platformObject);
+					final JSONObject platformObject = new JSONObject(platformCache);
+					final ServiceDiscovery platformService = parseResponse(platformObject);
 					cachedResponse = new AISDResponse(mAppInfra);
 					cachedResponse.setPropositionURLs(propostionService);
 					cachedResponse.setPlatformURLs(platformService);
@@ -164,7 +164,7 @@ public class RequestManager {
 	}
 
 	String getUrlProposition() {
-		SharedPreferences prefs = getServiceDiscoverySharedPreferences();
+		final SharedPreferences prefs = getServiceDiscoverySharedPreferences();
 		if (prefs != null) {
 			return prefs.getString("SDPROPOSITIONURL", null);
 		}
@@ -172,7 +172,7 @@ public class RequestManager {
 	}
 
 	String getUrlPlatform() {
-		SharedPreferences prefs = getServiceDiscoverySharedPreferences();
+		final SharedPreferences prefs = getServiceDiscoverySharedPreferences();
 		if (prefs != null) {
 			return prefs.getString("SDPLATFORMURL", null);
 		}
@@ -180,10 +180,10 @@ public class RequestManager {
 	}
 
 	boolean isServiceDiscoveryDataExpired() {
-		SharedPreferences prefs = getServiceDiscoverySharedPreferences();
+		final SharedPreferences prefs = getServiceDiscoverySharedPreferences();
 		if (prefs != null) {
 			final long refreshTimeExpiry = prefs.getLong("SDrefreshTime", 0);
-			Date currentDate = new Date();
+			final Date currentDate = new Date();
 			long currentDateLong = currentDate.getTime();
 			return currentDateLong >= refreshTimeExpiry;
 		}
@@ -192,8 +192,8 @@ public class RequestManager {
 
 
 	void clearCacheServiceDiscovery() {
-		SharedPreferences prefs = getServiceDiscoverySharedPreferences();
-		SharedPreferences.Editor prefEditor = prefs.edit();
+		final SharedPreferences prefs = getServiceDiscoverySharedPreferences();
+		final SharedPreferences.Editor prefEditor = prefs.edit();
 		prefEditor.clear();
 		prefEditor.commit();
 	}
