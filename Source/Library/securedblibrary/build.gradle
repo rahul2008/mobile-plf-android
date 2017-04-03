@@ -2,8 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
-//apply plugin: 'com.jfrog.artifactory-upload'
-//apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'maven-publish'
 
 buildscript {
@@ -22,10 +20,8 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.0'
-        //classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.0', changing: true
-        //classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
     }
 }
 
@@ -33,11 +29,6 @@ def environment = 'production'
 if (project.hasProperty('envCode')) {
     environment = envCode
 }
-
-// apply plugin: 'cdpSCM'
-// import com.philips.cdp.cdpSCM
-// def objcdp = new cdpSCM()
-// objcdp.setProjectDir(projectDir)
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
@@ -52,7 +43,6 @@ allprojects {
         maven { url objcdp.getArtifactoryUrl() }
     }
 
-//    apply plugin: 'com.jfrog.artifactory-upload'
     apply plugin: 'com.jfrog.artifactory'
     group = 'com.philips.cdp'
 }
@@ -61,13 +51,9 @@ group = 'com.philips.cdp'
 version = objcdp.getVersion()
 
 artifactory {
-    //contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
     contextUrl = objcdp.getArtifactoryContextUrl()
     publish {
-        // contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
-
         repository {
-            // repoKey = objcdp.getArtifactoryRepoKey('android')
             repoKey = objcdp.getArtifactoryPublishRepoKey()
             username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
@@ -82,7 +68,6 @@ artifactory {
     }
     resolve {
         repository {
-            // repoKey = 'libs-release-local'
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
@@ -96,9 +81,6 @@ artifacts {
 }
 
 task zipDocuments(type: Zip) {
-//    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
-//    def docfiles = docpath + File.separator + "Documents"+ File.separator + "External"
-//    from files(docfiles) {
     from files(objcdp.getExternalDocPath()) {
         baseName = project.name
         classifier 'docs'
@@ -114,15 +96,6 @@ publishing {
             artifactId archivesBaseName
 
             artifact zipDocuments
-
-            /* if (new File("$buildDir/outputs/aar/${archivesBaseName}-release.aar").exists()) {
-                artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-            } else if (new File("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar").exists()) {
-                artifact("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar")
-            } else if (new File("$buildDir/outputs/aar/${archivesBaseName}-debug.aar").exists()) {
-                artifact("$buildDir/outputs/aar/${archivesBaseName}-debug.aar")
-            } else {
-            } */
 
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
@@ -174,9 +147,9 @@ configurations.all {
 
 dependencies {
     compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.5.5' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-            {
-                transitive = true
-            }
+    {
+        transitive = true
+    }
     compile "com.j256.ormlite:ormlite-core:5.0"
     compile "com.j256.ormlite:ormlite-android:5.0"
     compile 'net.zetetic:android-database-sqlcipher:3.5.4@aar'
