@@ -29,6 +29,8 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFound
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -100,15 +102,37 @@ public class SupportFragmentState extends BaseState implements CcListener {
         ProductModelSelectionType productsSelection = new com.philips.cdp.productselection.productselectiontype.HardcodedProductList(getCtnList());
         productsSelection.setCatalog(Catalog.CARE);
         productsSelection.setSector(Sector.B2C);
-        CcInterface ccInterface = new CcInterface();
+        final CcInterface ccInterface = new CcInterface();
 
         if (ccSettings == null) ccSettings = new CcSettings(activityContext);
         if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
         ccLaunchInput.setProductModelSelectionType(productsSelection);
         ccLaunchInput.setConsumerCareListener(this);
-        CcDependencies ccDependencies = new CcDependencies(getApplicationContext().getAppInfra());
+
+        AppInfraInterface appInfraInterface = ((AppFrameworkApplication)getApplicationContext()).getAppInfra();
+        ServiceDiscoveryInterface serviceDiscovery = appInfraInterface.getServiceDiscovery();
+
+        CcDependencies ccDependencies = new CcDependencies(appInfraInterface);
 
         ccInterface.init(ccDependencies, ccSettings);
+
+        serviceDiscovery.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+            @Override
+            public void onSuccess(String s, SOURCE source) {
+                if(s.equals("CN")) {
+                    ccLaunchInput.setLiveChatUrl("http://ph-china.livecom.cn/webapp/index.html?app_openid=ph_6idvd4fj&token=PhilipsTest");
+                } else {
+                    ccLaunchInput.setLiveChatUrl(null);
+                }
+                ccInterface.launch(fragmentLauncher, ccLaunchInput);
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+                ccInterface.launch(fragmentLauncher, ccLaunchInput);
+            }
+        });
+
         ccInterface.launch(fragmentLauncher, ccLaunchInput);
     }
 

@@ -17,7 +17,7 @@ public class MeasurementType {
 
 
     public static final String UNKNOWN = "UNKNOWN";
-    public static final String TEMPERATURE = "TEMPERATURE";
+    public static final String TEMPERATURE = "Temperature";
     public static final String AMOUNT = "AMOUNT";
     public static final String WEIGHT = "WEIGHT";
     public static final String DURATION = "DURATION";

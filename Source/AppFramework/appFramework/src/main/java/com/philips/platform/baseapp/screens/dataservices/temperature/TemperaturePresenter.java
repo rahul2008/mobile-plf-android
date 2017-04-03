@@ -19,6 +19,7 @@ import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.utils.RowItem;
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.dataservices.database.DatabaseHelper;
 import com.philips.platform.baseapp.screens.dataservices.database.EmptyForeignCollection;
@@ -271,9 +272,9 @@ public class TemperaturePresenter {
                         dialog.dismiss();
 
                         try {
-                            Dao<OrmSynchronisationData, Integer> ormSynchronisationDataDao = DatabaseHelper.getInstance(mContext).getSynchronisationDataDao();
+                            Dao<OrmSynchronisationData, Integer> ormSynchronisationDataDao =DatabaseHelper.getInstance(mContext).getSynchronisationDataDao();
                             ormSynchronisationDataDao.refresh((OrmSynchronisationData) moment.getSynchronisationData());
-                            Dao<OrmMoment, Integer> momentDao = DatabaseHelper.getInstance(mContext).getMomentDao();
+                            Dao<OrmMoment, Integer> momentDao =DatabaseHelper.getInstance(mContext).getMomentDao();
                             momentDao.refresh((OrmMoment) moment);
                         } catch (SQLException e) {
                             e.printStackTrace();

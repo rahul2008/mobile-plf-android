@@ -20,7 +20,7 @@ public class MomentType {
     public static final String TREATMENT = "TREATMENT";
     public static final String USER_INFO = "USER_INFO";
     public static final String PHOTO = "PHOTO";
-    public static final String TEMPERATURE = "TEMPERATURE";
+    public static final String TEMPERATURE = "Temperature";
 
 
     public static int getIDFromDescription(String description) {

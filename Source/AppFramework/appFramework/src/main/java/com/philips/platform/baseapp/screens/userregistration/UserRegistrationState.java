@@ -116,32 +116,29 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.ApplicationName",
                 UR,
-               // "Datacore",
-                //"uGrow",
-                "HealthySleepSolutions",
+                "OneBackend",
                 configError);
 
         ((AppFrameworkApplication)applicationContext).getAppInfra().
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.Secret",
                 UR,
-                "ad3d0618-be4d-4958-adc9-f6bcd01fde16",
+                "f5b62a26d680e5ae8001522a8e3268f966545a1a14a47ea2040793ea825484cd12fce9c46b43e2c2604cb836db64362a0c8b39eb7b162b8b3e83740143337eda",
                 configError);
 
         ((AppFrameworkApplication)applicationContext).getAppInfra().
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.Shared",
                 UR,
-                "ba404af2-ee41-4e7c-9157-fd20663f2a6c",
+                "f52cd90d-c955-43e1-8380-999e03d0d4c0",
                 configError);
 
         ((AppFrameworkApplication)applicationContext).getAppInfra().
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.BaseURL",
                 UR,
-                //"https://referenceplatform-ds-platforminfradev.cloud.pcftest.com",
-               // "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com",
-                "https://healthysleep-ds-staging.eu-west.philips-healthsuite.com",
+                "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com",
+//                "https://user-registration-assembly-staging.eu-west.philips-healthsuite.com",
                 configError);
     }
 
