@@ -10,7 +10,7 @@ class DLSResourceConstants {
     static final String LIB_PREFIX = "uid"
     static final String HIPHEN = "-"
     static final String UNDERSCORE = "_"
-    static final String THEME_PREFIX = "Theme.Philips"
+    static final String THEME_PREFIX = "Theme.DLS"
     static final String THEME_DECLARED_ID = "PhilipsUID"
     static final String THEME_DECLARED_STYLEABLE = "declare-styleable"
     static final String FORMAT_REF_OR_COLOR = "reference|color"
@@ -24,9 +24,6 @@ class DLSResourceConstants {
                                  Green    : 'green', Orange: 'orange', Pink: 'pink', Purple: 'purple', Gray: 'gray']
 
     static final TONAL_RANGES = ['ultra-light', 'very-light', 'light', 'bright', 'very-dark']
-    static final NAVIGATION_ATTRIBUTES = ['uidNavigationPrimaryBackgroundColor',
-                                          'uidNavigationPrimaryTextColor',
-                                          'uidNavigationPrimaryIconColor']
 
     //Path constants
     static final String PATH_RES = "src/main/resources"

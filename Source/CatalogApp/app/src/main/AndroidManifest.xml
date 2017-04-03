@@ -7,12 +7,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/catalog_app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Philips">
+        android:theme="@style/Theme.DLS">
 
         <activity
             android:name="com.philips.platform.catalogapp.MainActivity"
             android:label="@string/catalog_app_name"
-            android:theme="@style/Theme.Philips.GroupBlue.VeryDark">
+            android:theme="@style/Theme.DLS.GroupBlue.VeryDark">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -21,6 +21,6 @@
         <activity
             android:name=".themesettings.PreviewActivity"
             android:parentActivityName="com.philips.platform.catalogapp.MainActivity"
-            android:theme="@style/Theme.Philips.GroupBlue.VeryDark"/>
+            android:theme="@style/Theme.DLS.GroupBlue.VeryDark"/>
     </application>
 </manifest>

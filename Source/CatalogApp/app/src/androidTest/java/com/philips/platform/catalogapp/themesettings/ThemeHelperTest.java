@@ -48,7 +48,7 @@ public class ThemeHelperTest {
         final SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mainActivity);
         setTheme(mainActivity, ContentColor.ULTRA_LIGHT, ColorRange.GROUP_BLUE);
         themeHelper = new ThemeHelper(defaultSharedPreferences);
-        assertEquals(R.style.Theme_Philips_GroupBlue_UltraLight, themeHelper.getThemeResourceId(mainActivity.getResources(), mainActivity.getPackageName()));
+        assertEquals(R.style.Theme_DLS_GroupBlue_UltraLight, themeHelper.getThemeResourceId(mainActivity.getResources(), mainActivity.getPackageName()));
     }
 
     private void setTheme(final MainActivity mainActivity, final ContentColor ultraLight, final ColorRange groupBlue) {
@@ -63,6 +63,6 @@ public class ThemeHelperTest {
         final SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mainActivity);
         setTheme(mainActivity, ContentColor.LIGHT, ColorRange.BLUE);
         themeHelper = new ThemeHelper(defaultSharedPreferences);
-        assertEquals(R.style.Theme_Philips_Blue_Light, themeHelper.getThemeResourceId(mainActivity.getResources(), mainActivity.getPackageName()));
+        assertEquals(R.style.Theme_DLS_Blue_Light, themeHelper.getThemeResourceId(mainActivity.getResources(), mainActivity.getPackageName()));
     }
 }

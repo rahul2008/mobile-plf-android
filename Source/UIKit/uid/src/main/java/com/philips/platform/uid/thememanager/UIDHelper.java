@@ -86,7 +86,7 @@ public class UIDHelper {
 
     @StyleRes
     static int getColorResourceId(final Resources resources, final String colorRange, final String tonalRange, final String packageName) {
-        final String themeName = String.format("Theme.Philips.%s.%s", toCamelCase(colorRange), toCamelCase(tonalRange));
+        final String themeName = String.format("Theme.DLS.%s.%s", toCamelCase(colorRange), toCamelCase(tonalRange));
 
         return resources.getIdentifier(themeName, "style", packageName);
     }
