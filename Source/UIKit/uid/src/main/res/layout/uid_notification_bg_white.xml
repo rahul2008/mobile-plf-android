@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.philips.platform.uid.view.widget.NavigationContainer xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/uid_shadow_level_two"
-    app:uidShadowOffset="0dp">
+                                                          xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                          android:layout_width="match_parent"
+                                                          android:layout_height="match_parent"
+                                                          android:background="@drawable/uid_shadow_level_two"
+                                                          app:uidShadowOffset="0dp">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@id/uid_notification_icon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@id/uid_notification_content"
@@ -31,7 +31,7 @@
             app:layout_constraintEnd_toStartOf="@id/uid_notification_icon"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/uid_notification_title" />
+            app:layout_constraintTop_toBottomOf="@id/uid_notification_title"/>
 
         <ImageButton
             android:id="@id/uid_notification_icon"
@@ -41,7 +41,7 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/uid_ic_cross_icon" />
+            app:srcCompat="@drawable/uid_ic_cross_icon"/>
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@id/uid_notification_btn_1"
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/uid_notification_content" />
+            app:layout_constraintTop_toBottomOf="@id/uid_notification_content"/>
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@id/uid_notification_btn_2"
@@ -59,6 +59,6 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:layout_constraintStart_toEndOf="@+id/uid_notification_btn_1"
-            app:layout_constraintTop_toBottomOf="@id/uid_notification_content" />
+            app:layout_constraintTop_toBottomOf="@id/uid_notification_content"/>
     </android.support.constraint.ConstraintLayout>
 </com.philips.platform.uid.view.widget.NavigationContainer>

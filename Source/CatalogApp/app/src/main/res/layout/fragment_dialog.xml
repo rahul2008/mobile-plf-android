@@ -16,7 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/uidContentPrimary"
+            android:background="?attr/uidContentBackground"
             android:orientation="vertical">
 
             <LinearLayout
@@ -29,39 +29,41 @@
                     fontPath="fonts/centralesansbook.ttf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
                     android:layout_marginEnd="@dimen/layout_margin_left_right"
                     android:layout_marginStart="@dimen/layout_margin_left_right"
-                    android:layout_marginBottom="12dp"
                     android:layout_marginTop="12dp"
                     android:checked="@{fragment.withLongContent}"
                     android:onCheckedChanged="@{(v, isChecked) -> fragment.setWithLongContent(isChecked)}"
                     android:text="@string/dialog_screen_text_long_content"
                     android:textColor="?attr/uidTextPrimary"
                     android:textSize="@dimen/button_toggle_text_size"/>
+
                 <include layout="@layout/divider_layout"/>
                 <com.philips.platform.uid.view.widget.Switch
                     android:id="@+id/toggle_switch_with_title"
                     fontPath="fonts/centralesansbook.ttf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
                     android:layout_marginEnd="@dimen/layout_margin_left_right"
                     android:layout_marginStart="@dimen/layout_margin_left_right"
-                    android:layout_marginBottom="12dp"
                     android:layout_marginTop="12dp"
                     android:checked="@{fragment.withTitle}"
                     android:onCheckedChanged="@{(v, isChecked) -> fragment.setWithTitle(isChecked)}"
                     android:text="@string/dialog_screen_text_with_title"
                     android:textColor="?attr/uidTextPrimary"
                     android:textSize="@dimen/button_toggle_text_size"/>
+
                 <include layout="@layout/divider_layout"/>
                 <com.philips.platform.uid.view.widget.Switch
                     android:id="@+id/checkbox_title_with_icon"
                     fontPath="fonts/centralesansbook.ttf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
                     android:layout_marginEnd="@dimen/layout_margin_left_right"
                     android:layout_marginStart="@dimen/layout_margin_left_right"
-                    android:layout_marginBottom="12dp"
                     android:layout_marginTop="12dp"
                     android:checked="true"
                     android:enabled="@{fragment.withTitle}"
@@ -77,9 +79,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/uidContentPrimary"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:background="?attr/uidContentBackground">
 
                 <com.philips.platform.uid.view.widget.Button
                     android:id="@+id/dialog_with_text"

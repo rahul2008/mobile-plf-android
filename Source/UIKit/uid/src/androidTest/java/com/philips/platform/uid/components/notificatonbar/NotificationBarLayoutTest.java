@@ -22,10 +22,9 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 public class NotificationBarLayoutTest extends BaseTest {
-    private Resources testResources;
-
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class, false, false);
+    private Resources testResources;
     private BaseTestActivity activity;
 
     @Before

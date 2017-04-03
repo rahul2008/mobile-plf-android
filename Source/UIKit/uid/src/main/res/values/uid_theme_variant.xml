@@ -2,7 +2,7 @@
 <resources>
 
     <style name="Base">
-    <item name="uidInputTextBorderWidth">@dimen/uid_edittext_stroke_width</item>
+        <item name="uidInputTextBorderWidth">@dimen/uid_edittext_stroke_width</item>
         <!-- <item name="uidControlPrimaryTextColor">@color/uidColorWhite</item>
          <item name="uidControlPrimaryTextPressedColor">?attr/uidColorLevel55</item>
          <item name="uidControlPrimaryDisabledAlpha">@dimen/uid_alpha_per_35</item>
@@ -126,13 +126,12 @@
         <item name="uidTextBoxValidationBorder">@android:color/transparent</item>
         <item name="uidTextBoxValidationText">@color/uid_signal_orange_level_75</item>
         <item name="uidTextBoxValidationErrorColor">@color/uid_signal_orange_level_15</item>
--->
-
 
         <item name="uidNotificationBarWhiteNormalPrimaryTextColor">@color/uid_gray_level_75</item>
         <item name="uidNotificationBarWhiteNormalSecondaryTextColor">@color/uid_gray_level_65</item>
         <item name="uidNotificationBarWhiteNormalButtonTextColor">?attr/uidColorLevel45</item>
         <item name="uidNotificationBarWhiteNormalBackgroundColor">@color/uidColorWhite</item>
+        -->
     </style>
 
     <style name="Base.UltraLight">
@@ -264,11 +263,11 @@
              <item name="uidListPressedAlpha">@dimen/uid_alpha_per_25</item>
 
              <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_30</item>
-             <item name="uidControlTrackOff">?attr/uidColorLevel45</item>-->
+             <item name="uidControlTrackOff">?attr/uidColorLevel45</item>
         <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_30</item>
         <item name="uidControlTrackOff">?attr/uidColorLevel45</item>
 
-        <item name="uidNotificationBarWhiteNormalButtonTextColor">?attr/uidColorLevel75</item>
+        <item name="uidNotificationBarWhiteNormalButtonTextColor">?attr/uidColorLevel75</item>-->
     </style>
 
     <style name="Base.Light">
@@ -329,11 +328,9 @@
           <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_20</item>
 
           <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_30</item>
-          <item name="uidControlTrackOff">@color/uidColorWhite</item>-->
-        <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_30</item>
-        <item name="uidControlTrackOff">@color/uidColorWhite</item>
+          <item name="uidControlTrackOff">@color/uidColorWhite</item>
 
-        <item name="uidNotificationBarWhiteNormalButtonTextColor">?attr/uidColorLevel75</item>
+        <item name="uidNotificationBarWhiteNormalButtonTextColor">?attr/uidColorLevel75</item>-->
     </style>
 
     <style name="Base.Bright">

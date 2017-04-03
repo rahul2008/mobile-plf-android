@@ -53,7 +53,6 @@
     <style name="RecyclerViewRadioButton">
         <item name="android:layout_height">@dimen/radio_button_height</item>
         <item name="android:textColor">?attr/uidTextPrimary</item>
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:paddingStart">@dimen/radio_button_text_padding_left_right</item>
         <item name="android:paddingEnd">@dimen/radio_button_text_padding_left_right</item>

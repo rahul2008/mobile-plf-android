@@ -32,12 +32,10 @@ import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 public class RecyclerViewFragment extends BaseFragment {
 
-    private FragmentRecyclerviewBinding fragmentRecyclerviewBinding;
-
     public ObservableBoolean isSeparatorEnabled = new ObservableBoolean(Boolean.TRUE);
     public ObservableBoolean isHeaderEnabled = new ObservableBoolean(Boolean.TRUE);
     public ObservableBoolean isIconTemplateSelected = new ObservableBoolean(Boolean.TRUE);
-
+    private FragmentRecyclerviewBinding fragmentRecyclerviewBinding;
     private RecyclerView recyclerView;
     private RecyclerViewSeparatorItemDecoration separatorItemDecoration;
 
@@ -55,7 +53,7 @@ public class RecyclerViewFragment extends BaseFragment {
         fragmentRecyclerviewBinding.getRoot().findViewById(R.id.divider).setBackground(separatorDrawable);
 
         separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
-        recyclerView = ((RecyclerView)fragmentRecyclerviewBinding.recyclerviewRecyclerview.findViewById(R.id.uid_recyclerview_recyclerview));
+        recyclerView = ((RecyclerView) fragmentRecyclerviewBinding.recyclerviewRecyclerview.findViewById(R.id.uid_recyclerview_recyclerview));
 
         enableRecyclerViewSeparator(separatorItemDecoration, recyclerView);
         initializeRecyclerView(context);
@@ -72,7 +70,7 @@ public class RecyclerViewFragment extends BaseFragment {
     }
 
     private void enableRecyclerViewSeparator(RecyclerViewSeparatorItemDecoration separatorItemDecoration, RecyclerView recyclerView) {
-        if(isSeparatorEnabled.get()) {
+        if (isSeparatorEnabled.get()) {
             recyclerView.addItemDecoration(separatorItemDecoration);
         } else {
             recyclerView.removeItemDecoration(separatorItemDecoration);
@@ -101,6 +99,29 @@ public class RecyclerViewFragment extends BaseFragment {
         dataHolderView.addIconItem(R.drawable.ic_bottle, R.string.title5, context);
         dataHolderView.addIconItem(R.drawable.ic_location, R.string.title6, context);
         return dataHolderView;
+    }
+
+    @Override
+    public int getPageTitle() {
+        return R.string.page_title_recyclerview;
+    }
+
+    public void setHeaderEnabled(boolean isheaderEnabled) {
+        this.isHeaderEnabled.set(isheaderEnabled);
+        fragmentRecyclerviewBinding.recyclerviewRecyclerview.findViewById(R.id.uid_recyclerview_header).setVisibility(isHeaderEnabled.get() ? View.VISIBLE : View.GONE);
+        fragmentRecyclerviewBinding.divider.findViewById(R.id.divider).setVisibility(isHeaderEnabled.get() ? View.INVISIBLE : View.VISIBLE);
+    }
+
+    public void setSeparatorEnabled(boolean isSeparatorEnabled) {
+        this.isSeparatorEnabled.set(isSeparatorEnabled);
+        enableRecyclerViewSeparator(separatorItemDecoration, recyclerView);
+        recyclerView.invalidate();
+    }
+
+    public void setIsIconTemplateSelected(boolean isIconTemplateSelected) {
+        this.isIconTemplateSelected.set(isIconTemplateSelected);
+        initializeRecyclerView(getContext());
+        recyclerView.invalidate();
     }
 
     class RecyclerViewAdapter extends RecyclerView.Adapter {
@@ -155,28 +176,5 @@ public class RecyclerViewFragment extends BaseFragment {
                 return binding;
             }
         }
-    }
-
-    @Override
-    public int getPageTitle() {
-        return R.string.page_title_recyclerview;
-    }
-
-    public void setHeaderEnabled(boolean isheaderEnabled) {
-        this.isHeaderEnabled.set(isheaderEnabled);
-        fragmentRecyclerviewBinding.recyclerviewRecyclerview.findViewById(R.id.uid_recyclerview_header).setVisibility(isHeaderEnabled.get() ? View.VISIBLE : View.GONE);
-        fragmentRecyclerviewBinding.divider.findViewById(R.id.divider).setVisibility(isHeaderEnabled.get() ? View.INVISIBLE :  View.VISIBLE);
-    }
-
-    public void setSeparatorEnabled(boolean isSeparatorEnabled) {
-        this.isSeparatorEnabled.set(isSeparatorEnabled);
-        enableRecyclerViewSeparator(separatorItemDecoration, recyclerView);
-        recyclerView.invalidate();
-    }
-
-    public void setIsIconTemplateSelected(boolean isIconTemplateSelected) {
-        this.isIconTemplateSelected.set(isIconTemplateSelected);
-        initializeRecyclerView(getContext());
-        recyclerView.invalidate();
     }
 }
