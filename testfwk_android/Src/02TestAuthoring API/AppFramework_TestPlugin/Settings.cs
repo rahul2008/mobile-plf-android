@@ -57,7 +57,7 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
         public static bool IsVisible()
         {
             bool bVisible = false;
-            if (GetHeader() == "Account settings")
+            if (GetHeader() == "Account Settings")
                 bVisible = true;
             return bVisible;
         }
