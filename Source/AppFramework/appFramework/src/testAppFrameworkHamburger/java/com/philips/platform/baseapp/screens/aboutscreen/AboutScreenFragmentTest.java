@@ -19,16 +19,12 @@ import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.robolectric.Robolectric;
 import org.robolectric.annotation.Config;
+import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil.*;
-import static org.robolectric.util.FragmentTestUtil.startFragment;
 
 @RunWith(GradleRunner.class)
 @Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 21)
@@ -37,7 +33,7 @@ public class AboutScreenFragmentTest {
     private FrameLayout hamburgerClick = null;
     private ListView drawerListView =null;
     private HamburgerAdapter adapter;
-    private TestAboutScreenFragment aboutScreenFragment;
+    private AboutScreenFragmentMock aboutScreenFragment;
 
     @Before
     public void setUp(){
@@ -47,7 +43,7 @@ public class AboutScreenFragmentTest {
         hamburgerClick = (FrameLayout) customView.findViewById(R.id.af_hamburger_frame_layout);
         drawerListView = (ListView) hamburgerActivity.findViewById(R.id.hamburger_list);
         adapter = (HamburgerAdapter) drawerListView.getAdapter();
-        aboutScreenFragment = new TestAboutScreenFragment();
+        aboutScreenFragment = new AboutScreenFragmentMock();
         SupportFragmentTestUtil.startFragment(aboutScreenFragment);
     }
 
@@ -69,7 +65,7 @@ public class AboutScreenFragmentTest {
         assertEquals(content.getText(),hamburgerActivity.getResources().getString(R.string.RA_About_Description));
     }
 
-    public static class TestAboutScreenFragment extends AboutScreenFragment{
+    public static class AboutScreenFragmentMock extends AboutScreenFragment{
        View view;
        @Override
        protected void startAppTagging() {
