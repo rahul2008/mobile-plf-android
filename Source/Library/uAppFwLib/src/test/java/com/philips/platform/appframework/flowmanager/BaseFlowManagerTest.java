@@ -118,7 +118,7 @@ public class BaseFlowManagerTest extends TestCase {
         try {
             flowManagerTest.getCondition("");
         } catch (ConditionIdNotSetException e) {
-            assertEquals(e.getMessage(), "No condition id set on constructor");
+            assertEquals(e.getMessage(), "There is no Condition Id for the passed Condition");
         }
     }
 
@@ -131,7 +131,7 @@ public class BaseFlowManagerTest extends TestCase {
         try {
             flowManagerTest.getNextState(flowManagerTest.getState(AppStates.SPLASH), "testing");
         } catch (NoEventFoundException e) {
-            assertEquals(e.getMessage(), "No Event Found");
+            assertEquals(e.getMessage(), "No Event found with that Id");
         }
     }
 
@@ -140,7 +140,7 @@ public class BaseFlowManagerTest extends TestCase {
         try {
             flowManagerTest.getNextState(flowManagerTest.getState(AppStates.ON_BOARDING_REGISTRATION), "URComplete");
         } catch (ConditionIdNotSetException e) {
-            assertTrue(e.getMessage().equals("No condition id set on constructor"));
+            assertTrue(e.getMessage().equals("There is no Condition Id for the passed Condition"));
         }
     }
 
@@ -148,17 +148,17 @@ public class BaseFlowManagerTest extends TestCase {
         try {
             flowManagerTest.getNextState(flowManagerTest.getCurrentState(), null);
         } catch (NullEventException e) {
-            assertTrue(e.getMessage().equals("Null Event Found"));
+            assertTrue(e.getMessage().equals("Passed Event is not valid"));
         }
         try {
             flowManagerTest.getNextState(flowManagerTest.getState(AppStates.TEST), "test");
         } catch (StateIdNotSetException e) {
-            assertTrue(e.getMessage().equals("No State id set on constructor"));
+            assertTrue(e.getMessage().equals("There is no State Id for the passed State"));
         }
         try {
             flowManagerTest.getNextState(flowManagerTest.getState("unknown"), "test");
         } catch (NoStateException e) {
-            assertTrue(e.getMessage().equals("No State Found"));
+            assertTrue(e.getMessage().equals("No State found with that Id"));
         }
         assertEquals(flowManagerTest.getNextState(flowManagerTest.getState(AppStates.SPLASH), "onSplashTimeOut"), flowManagerTest.getState(AppStates.WELCOME));
     }
@@ -211,7 +211,7 @@ public class BaseFlowManagerTest extends TestCase {
         try {
             flowManagerTest.getBackState();
         } catch (NoStateException e) {
-            assertEquals(e.getMessage(), "No State Found");
+            assertEquals(e.getMessage(), "No State found with that Id");
         }
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.SPLASH), "onSplashTimeOut");
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.HOME), "support");
