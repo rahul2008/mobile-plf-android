@@ -22,25 +22,22 @@ node ('android_pipeline &&' + node_ext) {
 			step([$class: 'StashNotifier'])
 		}
 		try {
-		if (BranchName =~ /master|develop|release.*/) {
-			stage ('build') {
-                sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease zipDocuments artifactoryPublish'
-			}
-			}
-			else
-			{
-			stage ('build') {
-				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug assembleRelease'
-			}
-			}
+            if (BranchName =~ /master|develop|release.*/) {
+                stage ('build') {
+                    sh 'chmod -R 775 . && cd ./Source/DemoApp && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease zipDocuments artifactoryPublish'
+                }
+            } else {
+                stage ('build') {
+                    sh 'chmod -R 775 . && cd ./Source/DemoApp && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease'
+                }
+            }
 			stage ('save dependencies list') {
+            	sh 'chmod -R 775 . && cd ./Source/DemoApp && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
             	sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
             }
             archiveArtifacts '**/dependencies.lock'
             currentBuild.result = 'SUCCESS'
-        }
-
-        catch(err) {
+        } catch(err) {
             currentBuild.result = 'FAILURE'
             error ("Someone just broke the build")
         }
@@ -56,9 +53,7 @@ node ('android_pipeline &&' + node_ext) {
                     currentBuild.result = 'SUCCESS'
             	}            
             } 
-		} 
-		
-		catch(err) {
+		} catch(err) {
             currentBuild.result = 'UNSTABLE'
         }
 
