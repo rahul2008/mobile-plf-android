@@ -1,6 +1,12 @@
 # Release Notes MobileUitoolkit Android
 
-SPRINT - MUITK.PI17.2.1
+SPRINT - MUITK.PI17.2.Sprint2
+Story 16488:(Android)Notification Bar
+Story 16557:(Android)Gallery page polishing
+Story 6662:(Android)Demo app as Micro app to test in Ref app context_ MUKIT
+
+
+SPRINT - MUITK.PI17.2.1.Sprint1
 Story-14057 - Inline Data Validation
 
 SPRINT - MUITK.PI17.1.Sprint5

@@ -55,7 +55,7 @@ import com.philips.platform.uid.R;
  *              &lt;android:id="@+id/textbox_input_field"
  *                    android:layout_width="match_parent"
  *                    android:layout_height="wrap_content"
- *                    app:uidTextBoxValidationErrorDrawable="@drawable/ic_data_validation_icon"
+ *                    app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
  *                    app:uidTextBoxValidationErrorText="@string/inline_error_message"/&gt;
  *
  *                           &lt;com.philips.platform.uid.view.widget.ValidationEditText

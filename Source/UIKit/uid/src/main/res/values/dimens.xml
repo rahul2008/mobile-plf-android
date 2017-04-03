@@ -135,7 +135,7 @@
     <dimen name="uid_label_margin_bottom_control">16dp</dimen>
     <dimen name="uid_label_margin_start_control">12dp</dimen>
     <dimen name="uid_label_margin_start">12dp</dimen>
-    <dimen name="uid_label_margin_bottom_slider">36dp</dimen>
+    <dimen name="uid_label_margin_bottom_slider">24dp</dimen>
     <dimen name="uid_label_margin_left_control">12dp</dimen>
 
     <!--CheckBox-->
@@ -164,6 +164,9 @@
     <dimen name="uid_recyclerview_item_three_lines_height">88dp</dimen>
     <dimen name="uid_recyclerview_drawable_padding">32dp</dimen>
     <dimen name="uid_recyclerview_padding_top_bottom">8dp</dimen>
+    <dimen name="uid_recyclerview_lable_height">8dp</dimen>
+    <dimen name="uid_recyclerview_lable_bottom">8dp</dimen>
+    <dimen name="uid_recyclerview_lable_top">20dp</dimen>
 
     <!--Social Icons-->
     <dimen name="uid_social_icons_width">32dp</dimen>
@@ -197,4 +200,13 @@
     <dimen name="uid_inline_validation_message_margin_top">8dp</dimen>
     <dimen name="uid_inline_validation_icon_margin_end">4dp</dimen>
     <dimen name="uid_inline_label_text_size">12sp</dimen>
+
+    <!--Notification Bar-->
+    <dimen name="uid_notification_bar_margin">16dp</dimen>
+    <dimen name="uid_notification_bar_margin_top_content">5dp</dimen>
+    <dimen name="uid_notification_bar_title_text_size">16dp</dimen>
+    <dimen name="uid_notification_bar_content_text_size">14dp</dimen>
+    <dimen name="uid_notification_bar_action_btn_height">56dp</dimen>
+    <dimen name="uid_notification_bar_line_spacing">0dp</dimen>
+    <integer name="uid_notification_bar_line_space_multiplier">1</integer>
 </resources>

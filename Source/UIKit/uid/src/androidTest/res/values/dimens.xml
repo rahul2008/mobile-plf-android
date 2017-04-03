@@ -129,4 +129,10 @@
     <dimen name="recyclerview_two_lines_item_margin_left_right">16dp</dimen>
     <dimen name="recyclerview_padding_top_bottom">8dp</dimen>
 
+    <!--notification bar template-->
+    <dimen name="notification_bar_title_text_size">16dp</dimen>
+    <dimen name="notification_bar_general_margin">16dp</dimen>
+    <dimen name="notification_bar_content_text_size">14dp</dimen>
+    <dimen name="notification_bar_content_margin_top">5dp</dimen>
+    <dimen name="notification_bar_btn_min_height">56dp</dimen>
 </resources>

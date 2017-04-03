@@ -20,13 +20,17 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:contentInsetStart="0dp"
-            app:contentInsetStartWithNavigation="0dp"
+            app:contentInsetEnd="0dp"
+            android:paddingEnd="0dp"
+            android:layout_marginEnd="0dp"
             app:theme="@style/UIDToolbar"
             app:title="@null">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:paddingEnd="0dp"
+                android:layout_marginEnd="0dp">
 
                 <com.philips.platform.uid.view.widget.Button
                     android:id="@+id/cancel_button"
@@ -40,7 +44,7 @@
                     android:text="@string/cancel"
                     android:textColor="?attr/uidNavigationPrimaryTextColor"
                     app:uidButtonTextColorList="@color/toolbar_quiet_button_selector"
-                    app:uidLabelTextColor="?attr/uidNavigationPrimaryTextColor"/>
+                    android:textColor="?attr/uidNavigationPrimaryTextColor"/>
 
                 <TextView
                     android:id="@+id/preview_title"
@@ -62,8 +66,9 @@
                     android:onClick="@{(v)-> preActivity.cancelOrPreviewClicked()}"
                     android:text="@string/preview"
                     android:textColor="?attr/uidNavigationPrimaryTextColor"
-                    app:uidButtonTextColorList="@color/toolbar_quiet_button_selector"
-                    app:uidLabelTextColor="?attr/uidNavigationPrimaryTextColor"/>
+                    android:text="@string/done"
+                    android:textColor="?attr/uidNavigationBarTextColor"
+                    app:uidButtonTextColorList="@color/toolbar_quiet_button_selector"/>
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>

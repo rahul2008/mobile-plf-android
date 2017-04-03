@@ -12,14 +12,15 @@ import android.view.ViewGroup;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.dataUtils.GridDataHelper;
 import com.philips.platform.catalogapp.databinding.FragmentGridviewSettingsBinding;
+import com.philips.platform.uid.drawable.SeparatorDrawable;
 
 
 public class GridViewSettingsFragment extends BaseFragment {
 
 
     public ObservableBoolean isSecondaryActionEnabled = new ObservableBoolean(Boolean.TRUE);
-    public ObservableBoolean isDarkBackroungEnabled = new ObservableBoolean(Boolean.TRUE);
-    public ObservableBoolean isEnlargedGutterEnabled = new ObservableBoolean(Boolean.TRUE);
+    public ObservableBoolean isDarkBackroungEnabled = new ObservableBoolean(Boolean.FALSE);
+    public ObservableBoolean isEnlargedGutterEnabled = new ObservableBoolean(Boolean.FALSE);
     public ObservableBoolean isGridDisableEnabled = new ObservableBoolean(Boolean.FALSE);
     public ObservableInt templateSelection = new ObservableInt();
 
@@ -67,8 +68,8 @@ public class GridViewSettingsFragment extends BaseFragment {
         this.isSecondaryActionEnabled.set(isSecondaryActionEnabled);
     }
 
-    public void setDarkBackgroundEnabled(boolean isDarkBackroungEnabled){
-        this.isDarkBackroungEnabled.set(isDarkBackroungEnabled);
+    public void setDarkBackgroundEnabled(boolean isDarkBackroundEnabled){
+        this.isDarkBackroungEnabled.set(isDarkBackroundEnabled);
     }
 
     public void setEnlargedGutterEnabled(boolean isEnlargedGutterEnabled){

@@ -63,27 +63,27 @@ public class AlertDialogFragment extends DialogFragment {
         final View view = inflater.inflate(R.layout.uid_alert_dialog, container, false);
 
         if (savedInstanceState != null) {
-            dialogParams.message = savedInstanceState.getString(AlertDialogController.UID_ALERT_DAILOG_MESSAGE_KEY);
-            dialogParams.title = savedInstanceState.getString(AlertDialogController.UID_ALERT_DAILOG_TITLE_KEY);
-            dialogParams.iconId = savedInstanceState.getInt(AlertDialogController.UID_ALERT_DAILOG_TITLE_ICON_KEY, -1);
-            dialogParams.positiveButtonText = savedInstanceState.getString(AlertDialogController.UID_ALERT_DAILOG_POSITIVE_BUTTON_TEXT_KEY, null);
-            dialogParams.negativeButtonText = savedInstanceState.getString(AlertDialogController.UID_ALERT_DAILOG_NEGATIVE_BUTTON_TEXT_KEY, null);
+            dialogParams.setMessage(savedInstanceState.getString(AlertDialogController.UID_ALERT_DAILOG_MESSAGE_KEY));
+            dialogParams.setTitle(savedInstanceState.getString(AlertDialogController.UID_ALERT_DAILOG_TITLE_KEY));
+            dialogParams.setIconId(savedInstanceState.getInt(AlertDialogController.UID_ALERT_DAILOG_TITLE_ICON_KEY, -1));
+            dialogParams.setPositiveButtonText(savedInstanceState.getString(AlertDialogController.UID_ALERT_DAILOG_POSITIVE_BUTTON_TEXT_KEY, null));
+            dialogParams.setNegativeButtonText(savedInstanceState.getString(AlertDialogController.UID_ALERT_DAILOG_NEGATIVE_BUTTON_TEXT_KEY, null));
         }
         positiveButton = (Button) view.findViewById(R.id.uid_alert_positive_button);
         negativeButton = (Button) view.findViewById(R.id.uid_alert_negative_button);
         final TextView messageContent = (TextView) view.findViewById(R.id.uid_alert_message);
-        messageContent.setText(dialogParams.message);
+        messageContent.setText(dialogParams.getMessage());
 
         messageContainer = (MaxHeightScrollView) view.findViewById(R.id.uid_alert_message_scroll_container);
 
         titleTextView = (TextView) view.findViewById(R.id.uid_alert_title);
-        titleTextView.setText(dialogParams.title);
+        titleTextView.setText(dialogParams.getTitle());
         final ViewGroup headerView = (ViewGroup) view.findViewById(R.id.uid_alert_dialog_header);
         setTitleIcon((ImageView) view.findViewById(R.id.uid_alert_icon), headerView);
 
         setPositiveButtonProperties();
         setNegativeButtonProperties();
-        setCancelable(dialogParams.cancelable);
+        setCancelable(dialogParams.isCancelable());
 
         //initialize container view
         setDimLayer();
@@ -106,11 +106,11 @@ public class AlertDialogFragment extends DialogFragment {
 
     @Override
     public void onSaveInstanceState(final Bundle outState) {
-        outState.putString(AlertDialogController.UID_ALERT_DAILOG_MESSAGE_KEY, dialogParams.message);
-        outState.putString(AlertDialogController.UID_ALERT_DAILOG_TITLE_KEY, dialogParams.title);
-        outState.putInt(AlertDialogController.UID_ALERT_DAILOG_TITLE_ICON_KEY, dialogParams.iconId);
-        outState.putString(AlertDialogController.UID_ALERT_DAILOG_POSITIVE_BUTTON_TEXT_KEY, dialogParams.positiveButtonText);
-        outState.putString(AlertDialogController.UID_ALERT_DAILOG_NEGATIVE_BUTTON_TEXT_KEY, dialogParams.negativeButtonText);
+        outState.putString(AlertDialogController.UID_ALERT_DAILOG_MESSAGE_KEY, dialogParams.getMessage());
+        outState.putString(AlertDialogController.UID_ALERT_DAILOG_TITLE_KEY, dialogParams.getTitle());
+        outState.putInt(AlertDialogController.UID_ALERT_DAILOG_TITLE_ICON_KEY, dialogParams.getIconId());
+        outState.putString(AlertDialogController.UID_ALERT_DAILOG_POSITIVE_BUTTON_TEXT_KEY, dialogParams.getPositiveButtonText());
+        outState.putString(AlertDialogController.UID_ALERT_DAILOG_NEGATIVE_BUTTON_TEXT_KEY, dialogParams.getNegativeButtonText());
         super.onSaveInstanceState(outState);
     }
 
@@ -127,18 +127,18 @@ public class AlertDialogFragment extends DialogFragment {
     }
 
     private void setNegativeButtonProperties() {
-        if (dialogParams.negativeButtonText != null) {
-            negativeButton.setText(dialogParams.negativeButtonText);
-            negativeButton.setOnClickListener(dialogParams.negativeButtonListener);
+        if (dialogParams.getNegativeButtonText() != null) {
+            negativeButton.setText(dialogParams.getNegativeButtonText());
+            negativeButton.setOnClickListener(dialogParams.getNegativeButtonListener());
         } else {
             negativeButton.setVisibility(View.GONE);
         }
     }
 
     private void setPositiveButtonProperties() {
-        if (dialogParams.positiveButtonText != null) {
-            positiveButton.setText(dialogParams.positiveButtonText);
-            positiveButton.setOnClickListener(dialogParams.positiveButtonLister);
+        if (dialogParams.getPositiveButtonText() != null) {
+            positiveButton.setText(dialogParams.getPositiveButtonText());
+            positiveButton.setOnClickListener(dialogParams.getPositiveButtonLister());
         } else {
             positiveButton.setVisibility(View.GONE);
         }
@@ -147,10 +147,10 @@ public class AlertDialogFragment extends DialogFragment {
     private void setTitleIcon(final ImageView mIconView, final ViewGroup headerView) {
 
         if (mIconView != null) {
-            if (dialogParams.iconId != 0) {
-                mIconView.setImageResource(dialogParams.iconId);
-            } else if (dialogParams.iconDrawable != null) {
-                mIconView.setImageDrawable(dialogParams.iconDrawable);
+            if (dialogParams.getIconId() != 0) {
+                mIconView.setImageResource(dialogParams.getIconId());
+            } else if (dialogParams.getIconDrawable() != null) {
+                mIconView.setImageDrawable(dialogParams.getIconDrawable());
             } else {
                 mIconView.setVisibility(View.GONE);
             }
@@ -225,9 +225,9 @@ public class AlertDialogFragment extends DialogFragment {
     }
 
     private void setTitle(final ViewGroup headerView) {
-        if (dialogParams.title != null) {
+        if (dialogParams.getTitle() != null) {
             titleTextView.setVisibility(View.VISIBLE);
-            titleTextView.setText(dialogParams.title);
+            titleTextView.setText(dialogParams.getTitle());
         } else {
             headerView.setVisibility(View.GONE);
             titleTextView.setVisibility(View.GONE);
@@ -247,7 +247,7 @@ public class AlertDialogFragment extends DialogFragment {
      * @param listener Listener for positive button
      */
     public void setPositiveButtonListener(@NonNull final View.OnClickListener listener) {
-        dialogParams.positiveButtonLister = listener;
+        dialogParams.setPositiveButtonLister(listener);
         if (positiveButton != null) {
             positiveButton.setOnClickListener(listener);
         }
@@ -259,14 +259,14 @@ public class AlertDialogFragment extends DialogFragment {
      * @param listener Listener for negative button
      */
     public void setNegativeButtonListener(@NonNull final View.OnClickListener listener) {
-        dialogParams.negativeButtonListener = listener;
+        dialogParams.setNegativeButtonListener(listener);
         if (negativeButton != null) {
             negativeButton.setOnClickListener(listener);
         }
     }
 
     private void setCanceledOnTouchOutside(final boolean canceledOnTouchOutside) {
-        dialogParams.cancelable = canceledOnTouchOutside;
+        dialogParams.setCancelable(canceledOnTouchOutside);
     }
 
     public static class Builder {
@@ -279,7 +279,7 @@ public class AlertDialogFragment extends DialogFragment {
 
         public Builder(@NonNull Context context, @StyleRes int themeResId) {
             params = new AlertDialogController.DialogParams();
-            params.context = context;
+            params.setContext(context);
             theme = themeResId;
         }
 
@@ -289,7 +289,7 @@ public class AlertDialogFragment extends DialogFragment {
          * @return This Builder object to allow for chaining of calls to set methods
          */
         public AlertDialogFragment.Builder setTitle(@StringRes int titleId) {
-            params.title = params.context.getString(titleId);
+            params.setTitle(params.getContext().getString(titleId));
             return this;
         }
 
@@ -299,7 +299,7 @@ public class AlertDialogFragment extends DialogFragment {
          * @return This Builder object to allow for chaining of calls to set methods
          */
         public AlertDialogFragment.Builder setTitle(@NonNull CharSequence title) {
-            params.title = title.toString();
+            params.setTitle(title.toString());
             return this;
         }
 
@@ -309,7 +309,7 @@ public class AlertDialogFragment extends DialogFragment {
          * @return This Builder object to allow for chaining of calls to set methods
          */
         public AlertDialogFragment.Builder setMessage(@StringRes int messageId) {
-            params.message = params.context.getString(messageId);
+            params.setMessage(params.getContext().getString(messageId));
             return this;
         }
 
@@ -319,7 +319,7 @@ public class AlertDialogFragment extends DialogFragment {
          * @return This Builder object to allow for chaining of calls to set methods
          */
         public AlertDialogFragment.Builder setMessage(@NonNull CharSequence message) {
-            params.message = message.toString();
+            params.setMessage(message.toString());
             return this;
         }
 
@@ -331,7 +331,7 @@ public class AlertDialogFragment extends DialogFragment {
          * @return This Builder object to allow for chaining of calls to set methods
          */
         public AlertDialogFragment.Builder setIcon(@DrawableRes int iconId) {
-            params.iconId = iconId;
+            params.setIconId(iconId);
             return this;
         }
 
@@ -346,7 +346,7 @@ public class AlertDialogFragment extends DialogFragment {
          * methods
          */
         public AlertDialogFragment.Builder setIcon(Drawable icon) {
-            params.iconDrawable = icon;
+            params.setIconDrawable(icon);
             return this;
         }
 
@@ -358,8 +358,8 @@ public class AlertDialogFragment extends DialogFragment {
          * @return This Builder object to allow for chaining of calls to set methods
          */
         public AlertDialogFragment.Builder setPositiveButton(@StringRes int textId, final View.OnClickListener listener) {
-            params.positiveButtonText = params.context.getString(textId);
-            params.positiveButtonLister = listener;
+            params.setPositiveButtonText(params.getContext().getString(textId));
+            params.setPositiveButtonLister(listener);
             return this;
         }
 
@@ -371,8 +371,8 @@ public class AlertDialogFragment extends DialogFragment {
          * @return This Builder object to allow for chaining of calls to set methods
          */
         public AlertDialogFragment.Builder setPositiveButton(CharSequence text, final View.OnClickListener listener) {
-            params.positiveButtonText = text.toString();
-            params.positiveButtonLister = listener;
+            params.setPositiveButtonText(text.toString());
+            params.setPositiveButtonLister(listener);
             return this;
         }
 
@@ -384,8 +384,8 @@ public class AlertDialogFragment extends DialogFragment {
          * @return This Builder object to allow for chaining of calls to set methods
          */
         public AlertDialogFragment.Builder setNegativeButton(@StringRes int textId, final View.OnClickListener listener) {
-            params.negativeButtonText = params.context.getString(textId);
-            params.negativeButtonListener = listener;
+            params.setNegativeButtonText(params.getContext().getString(textId));
+            params.setNegativeButtonListener(listener);
             return this;
         }
 
@@ -397,8 +397,8 @@ public class AlertDialogFragment extends DialogFragment {
          * @return This Builder object to allow for chaining of calls to set methods
          */
         public AlertDialogFragment.Builder setNegativeButton(CharSequence text, final View.OnClickListener listener) {
-            params.negativeButtonText = text.toString();
-            params.negativeButtonListener = listener;
+            params.setNegativeButtonText(text.toString());
+            params.setNegativeButtonListener(listener);
             return this;
         }
 
@@ -408,7 +408,7 @@ public class AlertDialogFragment extends DialogFragment {
          * @return This Builder object to allow for chaining of calls to set methods
          */
         public AlertDialogFragment.Builder setCancelable(boolean cancelable) {
-            params.cancelable = cancelable;
+            params.setCancelable(cancelable);
             return this;
         }
 
@@ -416,8 +416,8 @@ public class AlertDialogFragment extends DialogFragment {
             // so we always have to re-set the theme
             final AlertDialogFragment dialog = AlertDialogFragment.create(params, theme);
 
-            dialog.setCancelable(params.cancelable);
-            if (params.cancelable) {
+            dialog.setCancelable(params.isCancelable());
+            if (params.isCancelable()) {
                 dialog.setCanceledOnTouchOutside(true);
             }
             return dialog;

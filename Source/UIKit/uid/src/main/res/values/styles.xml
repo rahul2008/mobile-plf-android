@@ -11,8 +11,12 @@
         <item name="android:alertDialogStyle">@style/UIDAlertDialog</item>
         <item name="alertDialogStyle">@style/UIDAlertDialog</item>
 
-        <item name="android:timePickerDialogTheme" tools:targetApi="lollipop">@style/UIDDatePickerDialogTheme</item>
-        <item name="android:datePickerDialogTheme" tools:targetApi="lollipop">@style/UIDDatePickerDialogTheme</item>
+        <item name="android:timePickerDialogTheme" tools:targetApi="lollipop">
+            @style/UIDDatePickerDialogTheme
+        </item>
+        <item name="android:datePickerDialogTheme" tools:targetApi="lollipop">
+            @style/UIDDatePickerDialogTheme
+        </item>
 
         <!-- Action bar and toolbar style-->
         <!-- <item name="actionBarStyle">@style/UIDToolbar</item>
@@ -20,6 +24,7 @@
         -->
         <item name="android:toolbarStyle" tools:targetApi="lollipop">@style/UIDToolbar</item>
         <item name="toolbarStyle">@style/UIDToolbar</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">?attr/uidActionBarBackground</item>
 
         <item name="actionOverflowButtonStyle">@style/UIDActionBarOverflowButton</item>
         <!-- Navigation color for lolipop-->
@@ -27,6 +32,13 @@
 
         <item name="android:colorPrimary" tools:targetApi="lollipop">
             ?attr/uidNavigationPrimaryBackgroundColor
+
+        <!--  navigation bar should remain black in all other cases if wants the theme color un-commite it
+          <item name="android:navigationBarColor" tools:targetApi="lollipop">
+              ?attr/uidActionBarBackground
+          </item>
+          -->
+        <item name="android:colorPrimary" tools:targetApi="lollipop">?attr/uidActionBarBackground
         </item>
         <item name="android:colorPrimaryDark" tools:targetApi="lollipop">
             ?attr/uidNavigationSecondaryBackgroundColor

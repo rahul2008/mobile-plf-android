@@ -9,12 +9,12 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableBoolean;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,9 +23,7 @@ import android.view.ViewGroup;
 
 import com.philips.platform.catalogapp.DataHolder;
 import com.philips.platform.catalogapp.DataHolderView;
-import com.philips.platform.catalogapp.MainActivity;
 import com.philips.platform.catalogapp.R;
-import com.philips.platform.catalogapp.RecyclerViewSettingsHelper;
 import com.philips.platform.catalogapp.databinding.FragmentRecyclerviewBinding;
 import com.philips.platform.uid.drawable.SeparatorDrawable;
 import com.philips.platform.uid.thememanager.ThemeUtils;
@@ -35,36 +33,50 @@ import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 public class RecyclerViewFragment extends BaseFragment {
 
     private FragmentRecyclerviewBinding fragmentRecyclerviewBinding;
-    private static boolean isIconTemplateSelected;
+
+    public ObservableBoolean isSeparatorEnabled = new ObservableBoolean(Boolean.TRUE);
+    public ObservableBoolean isHeaderEnabled = new ObservableBoolean(Boolean.TRUE);
+    public ObservableBoolean isIconTemplateSelected = new ObservableBoolean(Boolean.TRUE);
+
+    private RecyclerView recyclerView;
+    private RecyclerViewSeparatorItemDecoration separatorItemDecoration;
 
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         final Context context = getContext();
-        RecyclerViewSettingsHelper settingsHelper = new RecyclerViewSettingsHelper(context);
-        isIconTemplateSelected = settingsHelper.isIconTemplateSelected();
-
-        DataHolderView dataHolderView = isIconTemplateSelected ? getIconDataHolderView(context) : getTwoLinesDataHolderView(context);
 
         fragmentRecyclerviewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_recyclerview, container, false);
         fragmentRecyclerviewBinding.setFrag(this);
 
-        fragmentRecyclerviewBinding.recyclerviewRecyclerview.findViewById(R.id.uid_recyclerview_header).setVisibility(settingsHelper.isHeaderEnabled() ? View.VISIBLE : View.GONE);
+        fragmentRecyclerviewBinding.recyclerviewRecyclerview.findViewById(R.id.uid_recyclerview_header).setVisibility(isHeaderEnabled.get() ? View.VISIBLE : View.GONE);
 
         SeparatorDrawable separatorDrawable = new SeparatorDrawable(context);
         fragmentRecyclerviewBinding.getRoot().findViewById(R.id.divider).setBackground(separatorDrawable);
 
-        RecyclerView recyclerView = ((RecyclerView)fragmentRecyclerviewBinding.recyclerviewRecyclerview.findViewById(R.id.uid_recyclerview_recyclerview));
+        separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
+        recyclerView = ((RecyclerView)fragmentRecyclerviewBinding.recyclerviewRecyclerview.findViewById(R.id.uid_recyclerview_recyclerview));
 
-        if(settingsHelper.isSeperatorEnabled()) {
-            recyclerView.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
-        }
+        enableRecyclerViewSeparator(separatorItemDecoration, recyclerView);
+        initializeRecyclerView(context);
 
-        recyclerView.setAdapter(new RecyclerViewAdapter(dataHolderView.dataHolders));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         ((Label)fragmentRecyclerviewBinding.recyclerviewRecyclerview.findViewById(R.id.uid_recyclerview_header)).setText(R.string.recyclerview_the_header);
 
         return fragmentRecyclerviewBinding.getRoot();
+    }
+
+    private void initializeRecyclerView(Context context) {
+        DataHolderView dataHolderView = isIconTemplateSelected.get() ? getIconDataHolderView(context) : getTwoLinesDataHolderView(context);
+        recyclerView.setAdapter(new RecyclerViewAdapter(dataHolderView.dataHolders));
+    }
+
+    private void enableRecyclerViewSeparator(RecyclerViewSeparatorItemDecoration separatorItemDecoration, RecyclerView recyclerView) {
+        if(isSeparatorEnabled.get()) {
+            recyclerView.addItemDecoration(separatorItemDecoration);
+        } else {
+            recyclerView.removeItemDecoration(separatorItemDecoration);
+        }
     }
 
     @NonNull
@@ -91,7 +103,7 @@ public class RecyclerViewFragment extends BaseFragment {
         return dataHolderView;
     }
 
-    static class RecyclerViewAdapter extends RecyclerView.Adapter {
+    class RecyclerViewAdapter extends RecyclerView.Adapter {
         private ObservableArrayList<DataHolder> dataHolders;
 
         public RecyclerViewAdapter(@NonNull final ObservableArrayList<DataHolder> dataHolders) {
@@ -100,7 +112,7 @@ public class RecyclerViewFragment extends BaseFragment {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
-            int layoutId = isIconTemplateSelected ? R.layout.recyclerview_one_line_icon : R.layout.recyclerview_two_line_text_item;
+            int layoutId = isIconTemplateSelected.get() ? R.layout.recyclerview_one_line_icon : R.layout.recyclerview_two_line_text_item;
             View v = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
             RecyclerViewAdapter.BindingHolder holder = new RecyclerViewAdapter.BindingHolder(v);
             return holder;
@@ -131,12 +143,7 @@ public class RecyclerViewFragment extends BaseFragment {
             return dataHolders.size();
         }
 
-        private int getSelectedStateColor(Context context) {
-            ColorStateList colorStateList = ContextCompat.getColorStateList(context, R.color.uid_recyclerview_background_selector);
-            return colorStateList.getDefaultColor();
-        }
-
-        static class BindingHolder extends RecyclerView.ViewHolder {
+        class BindingHolder extends RecyclerView.ViewHolder {
             private ViewDataBinding binding;
 
             public BindingHolder(@NonNull View rowView) {
@@ -155,7 +162,21 @@ public class RecyclerViewFragment extends BaseFragment {
         return R.string.page_title_recyclerview;
     }
 
-    public void showRecyclerViewSettingsFragment() {
-        ((MainActivity) getActivity()).getNavigationController().switchFragment(new RecyclerViewSettingsFragment());
+    public void setHeaderEnabled(boolean isheaderEnabled) {
+        this.isHeaderEnabled.set(isheaderEnabled);
+        fragmentRecyclerviewBinding.recyclerviewRecyclerview.findViewById(R.id.uid_recyclerview_header).setVisibility(isHeaderEnabled.get() ? View.VISIBLE : View.GONE);
+        fragmentRecyclerviewBinding.divider.findViewById(R.id.divider).setVisibility(isHeaderEnabled.get() ? View.INVISIBLE :  View.VISIBLE);
+    }
+
+    public void setSeparatorEnabled(boolean isSeparatorEnabled) {
+        this.isSeparatorEnabled.set(isSeparatorEnabled);
+        enableRecyclerViewSeparator(separatorItemDecoration, recyclerView);
+        recyclerView.invalidate();
+    }
+
+    public void setIsIconTemplateSelected(boolean isIconTemplateSelected) {
+        this.isIconTemplateSelected.set(isIconTemplateSelected);
+        initializeRecyclerView(getContext());
+        recyclerView.invalidate();
     }
 }

@@ -11,6 +11,11 @@
             type="com.philips.platform.catalogapp.fragments.GridViewSettingsFragment" />
     </data>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -35,6 +40,8 @@
                 android:onCheckedChanged="@{(v, isChecked) -> frag.setSecondaryActionEnabled(isChecked)}" />
         </LinearLayout>
 
+        <include layout="@layout/divider_layout"/>
+
         <LinearLayout
             style="@style/BaseLayoutMargins.Dimens"
             android:orientation="horizontal">
@@ -54,6 +61,8 @@
                 android:onCheckedChanged="@{(v, isChecked) -> frag.setDarkBackgroundEnabled(isChecked)}" />
         </LinearLayout>
 
+        <include layout="@layout/divider_layout"/>
+
         <LinearLayout
             style="@style/BaseLayoutMargins.Dimens"
             android:orientation="horizontal">
@@ -72,7 +81,7 @@
                 android:checked="@={frag.isEnlargedGutterEnabled}"
                 android:onCheckedChanged="@{(v, isChecked) -> frag.setEnlargedGutterEnabled(isChecked)}" />
         </LinearLayout>
-
+        <include layout="@layout/divider_layout"/>
         <LinearLayout
             style="@style/BaseLayoutMargins.Dimens"
             android:orientation="horizontal">
@@ -91,6 +100,7 @@
                 android:checked="@={frag.isGridDisableEnabled}"
                 android:onCheckedChanged="@{(v, isChecked) -> frag.setGridDisableEnabled(isChecked)}" />
         </LinearLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
@@ -104,7 +114,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:gravity="center_vertical"
-                android:text="@string/template_selection"/>
+                android:text="@string/template_selection" />
         </RelativeLayout>
 
         <RadioGroup
@@ -112,24 +122,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
+            android:layout_marginEnd="@dimen/layout_margin_left_right"
             android:orientation="vertical">
 
             <RadioButton
                 android:id="@+id/without_secondary_content"
                 style="@style/RecyclerViewRadioButton"
-                android:checked="@{frag.templateSelection == 1 ? true : false}"
-                android:text="@string/without_secondary_content"/>
+                android:checked="@{frag.templateSelection == 1 ? true :( (frag.templateSelection ==3) ? (frag.isDarkBackroungEnabled? true : false): false)}"
+                android:text="@string/without_secondary_content" />
 
             <RadioButton
                 android:id="@+id/double_line_footer"
                 style="@style/RecyclerViewRadioButton"
                 android:checked="@{frag.templateSelection == 2 ? true : false}"
-                android:text="@string/double_line_footer"/>
+                android:text="@string/double_line_footer" />
+
             <RadioButton
                 android:id="@+id/single_line_header"
                 style="@style/RecyclerViewRadioButton"
                 android:checked="@{frag.templateSelection == 3 ? true : false}"
-                android:text="@string/single_line_header"/>
+                android:text="@string/single_line_header"
+                android:enabled="@{!frag.isDarkBackroungEnabled}"
+                android:alpha="@{frag.isDarkBackroungEnabled ? (float)0.3 : 1}"
+                />
         </RadioGroup>
     </LinearLayout>
+    </ScrollView>
 </layout>

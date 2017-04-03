@@ -15,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.graphics.ColorUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.StateSet;
 import android.util.Xml;
 
@@ -26,13 +27,19 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.lang.reflect.Array;
 
+
 // TODO: 14/09/16 API needs refractoring as some code is copied from AOSP
-public class ThemeUtils {
+public final class ThemeUtils {
+
+    public static final String TAG = "ThemeUtils";
+
+    private ThemeUtils() {
+    }
 
     public static Resources.Theme getTheme(@NonNull final Context context, @NonNull final AttributeSet attributeSet) {
-        TypedArray typedArray = context.obtainStyledAttributes(attributeSet, new int[]{R.attr.uidComponentType});
+        final TypedArray typedArray = context.obtainStyledAttributes(attributeSet, new int[]{R.attr.uidComponentType});
 
-        int resourceId = getResourceIdBasedComponentType(typedArray);
+        final int resourceId = getResourceIdBasedComponentType(typedArray);
         typedArray.recycle();
         if (resourceId == 0) {
             return context.getTheme();
@@ -70,7 +77,10 @@ public class ThemeUtils {
         final XmlPullParser xml = resources.getXml(resId);
         try {
             return createFromXml(resources, xml, theme);
-        } catch (Exception e) {
+        } catch (XmlPullParserException e) {
+            Log.e(TAG, e.getMessage());
+        } catch (IOException e) {
+            Log.e(TAG, e.getMessage());
         }
         return null;
     }
@@ -90,10 +100,10 @@ public class ThemeUtils {
                                                @Nullable Resources.Theme theme) throws XmlPullParserException, IOException {
         final AttributeSet attrs = Xml.asAttributeSet(parser);
 
-        int type;
-        while ((type = parser.next()) != XmlPullParser.START_TAG
+        int type = parser.next();
+        while (type != XmlPullParser.START_TAG
                 && type != XmlPullParser.END_DOCUMENT) {
-            // Seek parser to start tag.
+            type = parser.next();
         }
 
         if (type != XmlPullParser.START_TAG) {
@@ -116,7 +126,7 @@ public class ThemeUtils {
                                                      @Nullable Resources.Theme theme)
             throws XmlPullParserException, IOException {
         final String name = parser.getName();
-        if (!name.equals("selector")) {
+        if (!"selector".equals(name)) {
             throw new XmlPullParserException(
                     parser.getPositionDescription() + ": invalid color state list tag " + name);
         }
@@ -131,9 +141,9 @@ public class ThemeUtils {
                                           @NonNull AttributeSet attrs, @Nullable Resources.Theme theme)
             throws XmlPullParserException, IOException {
         final int innerDepth = parser.getDepth() + 1;
-        int depth;
+
         int type;
-        int defaultColor = Color.RED;
+        int depth;
 
         int[][] stateSpecList = new int[20][];
         int[] colorList = new int[stateSpecList.length];
@@ -172,17 +182,14 @@ public class ThemeUtils {
             // alpha yet, the default values leave us enough information to
             // modulate again during applyTheme().
             final int color = modulateColorAlpha(baseColor, alphaMod);
-            if (listSize == 0 || stateSpec.length == 0) {
-                defaultColor = color;
-            }
 
             colorList = append(colorList, listSize, color);
             stateSpecList = append(stateSpecList, listSize, stateSpec);
             listSize++;
         }
 
-        int[] colors = new int[listSize];
-        int[][] stateSpecs = new int[listSize][];
+        final int[] colors = new int[listSize];
+        final int[][] stateSpecs = new int[listSize][];
         System.arraycopy(colorList, 0, colors, 0, listSize);
         System.arraycopy(stateSpecList, 0, stateSpecs, 0, listSize);
 
@@ -190,12 +197,13 @@ public class ThemeUtils {
     }
 
     private static float getAlphaMode(final TypedArray typedArray, float alphaMod) {
+        float alpha = alphaMod;
         if (typedArray.hasValue(android.support.v7.appcompat.R.styleable.ColorStateListItem_android_alpha)) {
-            alphaMod = typedArray.getFloat(android.support.v7.appcompat.R.styleable.ColorStateListItem_android_alpha, alphaMod);
+            alpha = typedArray.getFloat(android.support.v7.appcompat.R.styleable.ColorStateListItem_android_alpha, alphaMod);
         } else if (typedArray.hasValue(android.support.v7.appcompat.R.styleable.ColorStateListItem_alpha)) {
-            alphaMod = typedArray.getFloat(android.support.v7.appcompat.R.styleable.ColorStateListItem_alpha, alphaMod);
+            alpha = typedArray.getFloat(android.support.v7.appcompat.R.styleable.ColorStateListItem_alpha, alphaMod);
         }
-        return alphaMod;
+        return alpha;
     }
 
     /**
@@ -209,29 +217,29 @@ public class ThemeUtils {
      * array.
      */
     public static <T> T[] append(T[] array, int currentSize, T element) {
-
+        T[] returnArray = array;
         if (currentSize + 1 > array.length) {
             T[] newArray = (T[]) Array.newInstance(array.getClass().getComponentType(),
                     growSize(currentSize));
             System.arraycopy(array, 0, newArray, 0, currentSize);
-            array = newArray;
+            returnArray = newArray;
         }
-        array[currentSize] = element;
-        return array;
+        returnArray[currentSize] = element;
+        return returnArray;
     }
 
     /**
      * Primitive int version of {@link #append(Object[], int, Object)}.
      */
     public static int[] append(int[] array, int currentSize, int element) {
-
+        int[] returnArray = array;
         if (currentSize + 1 > array.length) {
             int[] newArray = new int[growSize(currentSize)];
             System.arraycopy(array, 0, newArray, 0, currentSize);
-            array = newArray;
+            returnArray = newArray;
         }
-        array[currentSize] = element;
-        return array;
+        returnArray[currentSize] = element;
+        return returnArray;
     }
 
     /**

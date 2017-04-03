@@ -11,7 +11,7 @@
     <dimen name="texteditbox_width">200dp</dimen>
 
     <!--Base layout margins-->
-    <dimen name="layout_margin_left_right">24dp</dimen>
+    <dimen name="layout_margin_left_right">16dp</dimen>
     <dimen name="layout_margin_top">24dp</dimen>
     <dimen name="layout_margin_top_bottom">12dp</dimen>
     <!--<dimen name="layout_margin_top">20dp</dimen>-->
@@ -57,4 +57,8 @@
     <dimen name="grid_spacing_enlarged">4dp</dimen>
     <dimen name="grid_column_width">160dp</dimen>
     <string name="gridview_item_opacity">0.35</string>
+
+    <!-- Radio Button-->
+    <dimen name="radio_button_height">48dp</dimen>
+    <dimen name="radio_button_text_padding_left_right">16dp</dimen>
 </resources>
