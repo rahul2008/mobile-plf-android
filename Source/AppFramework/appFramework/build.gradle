@@ -286,6 +286,10 @@ android {
 
     testOptions {
         unitTests.returnDefaultValues = true
+        // set JVM arguments for the test JVM(s)
+        unitTests.all {
+            jvmArgs '-noverify'
+        }
     }
 }
 
