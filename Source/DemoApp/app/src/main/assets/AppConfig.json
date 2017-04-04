@@ -22,11 +22,15 @@
   "appinfra": {
     "appidentity.micrositeId" : "77000",
     "appidentity.sector"  : "b2c",
-    "appidentity.appState"  : "acceptance",
-    "appidentity.serviceDiscoveryEnvironment"  : "Production",
-    "abtest.precache": ["DOT-ReceiveMarketingOptIn"],
+    "appidentity.appState"  : "STAGING",
+    "appidentity.serviceDiscoveryEnvironment"  : "PRODUCTION",
+    "restclient.cacheSizeInKB": 51200,
+    "tagging.sensitiveData": ["bundleId", "language"],
+    "abtest.precache": ["philipsmobileappabtest1content","philipsmobileappabtest1success","DOT-ReceiveMarketingOptIn"],
+    "contentLoader.limitSize":100,
     "servicediscovery.platformMicrositeId":"70000",
-    "servicediscovery.platformEnvironment":"production"
+    "servicediscovery.platformEnvironment":"production",
+    "appconfig.cloudServiceId":" appinfra.appconfigdownload"
   }
 }
 
