@@ -28,6 +28,10 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.philips.platform.baseapp.screens.utility.Constants.SERVER_DATACREATION;
+import static com.philips.platform.baseapp.screens.utility.Constants.SERVER_DATAPARSING;
+
+
 public class PostMomentRquest extends PlatformRequest {
     public static final String TAG = PostMomentRquest.class.getSimpleName();
 
@@ -119,7 +123,7 @@ public class PostMomentRquest extends PlatformRequest {
             parent.put(UserMoment.TYPE, "Example");
             return parent;
         } catch (JSONException e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SERVER_DATAPARSING,
                     e.getMessage());            return null;
         }
     }
@@ -133,7 +137,7 @@ public class PostMomentRquest extends PlatformRequest {
                 try {
                     postMomentResponseListener.onPostMomentSuccess(response.getString("momentId"));
                 } catch (JSONException e) {
-                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,
+                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SERVER_DATACREATION,
                             e.getMessage());                }
             }
         };

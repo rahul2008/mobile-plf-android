@@ -62,7 +62,7 @@ public class TestConfigManager {
             is.close();
             json = new String(buffer, "UTF-8");
         } catch (IOException ex) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, FILE_IO,
                     e.getMessage());
             return null;
         }

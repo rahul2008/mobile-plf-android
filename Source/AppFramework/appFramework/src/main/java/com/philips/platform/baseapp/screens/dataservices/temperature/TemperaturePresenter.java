@@ -19,6 +19,7 @@ import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.utils.RowItem;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.dataservices.database.DatabaseHelper;
@@ -46,6 +47,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import static com.philips.platform.baseapp.screens.utility.Constants.FILE_CREATION_ERROR;
+import static com.philips.platform.baseapp.screens.utility.Constants.SQLITE_EXCEPTION;
 
 
 public class TemperaturePresenter {
@@ -195,7 +199,8 @@ public class TemperaturePresenter {
                 DSLog.i(DSLog.LOG, "e = " + e.getMessage());
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SQLITE_EXCEPTION,
+                    e.getMessage());
         }
     }
 
@@ -277,8 +282,8 @@ public class TemperaturePresenter {
                             Dao<OrmMoment, Integer> momentDao =DatabaseHelper.getInstance(mContext).getMomentDao();
                             momentDao.refresh((OrmMoment) moment);
                         } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
+                            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SQLITE_EXCEPTION,
+                                    e.getMessage());                        }
                         updateMoment((OrmMoment) moment);
                         break;
                 }

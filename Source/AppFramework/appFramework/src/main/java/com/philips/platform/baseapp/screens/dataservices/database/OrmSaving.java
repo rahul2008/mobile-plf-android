@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.j256.ormlite.dao.Dao;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmInsight;
@@ -32,6 +34,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
+
+import static com.philips.platform.baseapp.screens.utility.Constants.SQLITE_EXCEPTION;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -223,7 +227,7 @@ public class OrmSaving {
                 }
             });
         } catch (Exception e) {
-            e.printStackTrace();
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SQLITE_EXCEPTION,e.getMessage());
             new NotifyDBRequestListener().notifyFailure(e, dbRequestListener);
             return false;
         }
@@ -246,7 +250,7 @@ public class OrmSaving {
                 }
             });
         } catch (Exception e) {
-            e.printStackTrace();
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SQLITE_EXCEPTION,e.getMessage());
             new NotifyDBRequestListener().notifyFailure(e, dbRequestListener);
             return false;
         }

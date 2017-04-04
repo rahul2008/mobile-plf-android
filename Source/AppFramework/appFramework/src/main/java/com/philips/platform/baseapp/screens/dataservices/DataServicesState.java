@@ -52,6 +52,8 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.sql.SQLException;
 
+import static com.philips.platform.baseapp.screens.utility.Constants.SYNC_ERROR;
+
 /**
  * This class has UI extended from UIKIT about screen , It shows the current version of the app
  */
@@ -104,7 +106,7 @@ public class DataServicesState extends BaseState {
                 try {
                     mScheduleSyncReceiver.onReceive(context);
                 } catch (Exception e) {
-                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,
+                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SYNC_ERROR,
                             e.getMessage());                } finally {
                     //also call the same runnable to call it at regular interval
                     handler.postDelayed(this, ScheduleSyncReceiver.DATA_FETCH_FREQUENCY);

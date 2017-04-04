@@ -26,6 +26,8 @@ import com.philips.platform.core.utils.DSLog;
 import java.sql.SQLException;
 import java.util.List;
 
+import static com.philips.platform.baseapp.screens.utility.Constants.ORM_TYPE_EXCEPTION;
+
 public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
     private static final String TAG = ORMSavingInterfaceImpl.class.getSimpleName();
@@ -78,7 +80,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
                 OrmConsentDetail ormConsent = OrmTypeChecking.checkOrmType(consentDetail, OrmConsentDetail.class);
                 saving.saveConsentDetail(ormConsent);
             } catch (OrmTypeChecking.OrmTypeException e) {
-                AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,e.getMessage());
+                AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, ORM_TYPE_EXCEPTION,e.getMessage());
             }
 
         }
@@ -101,7 +103,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             updateUCUI(characteristicsList, dbRequestListener);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,e.getMessage());
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, ORM_TYPE_EXCEPTION,e.getMessage());
             return false;
         }
     }

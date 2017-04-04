@@ -16,6 +16,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static com.philips.platform.baseapp.screens.utility.Constants.FILE_IO;
+
 public class FileUtility {
 
     private Context context;
@@ -30,7 +32,7 @@ public class FileUtility {
         try {
             inputStream = context.getAssets().open(context.getString(resId));
         } catch (IOException e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, FILE_IO,
                     e.getMessage());        }
         return inputStream;
     }
@@ -60,7 +62,7 @@ public class FileUtility {
             inputStream.close();
             return file;
         } catch (IOException e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, FILE_IO,
                    e.getMessage());
         }
 

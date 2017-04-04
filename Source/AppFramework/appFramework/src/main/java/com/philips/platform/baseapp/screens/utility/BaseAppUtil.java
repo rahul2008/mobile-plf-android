@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import static com.philips.platform.baseapp.screens.utility.Constants.FILE_IO;
+
 public class BaseAppUtil {
     public final String TAG = BaseAppUtil.class.getSimpleName();
 
@@ -28,7 +30,7 @@ public class BaseAppUtil {
                 try {
                     ret = jsonFile.createNewFile();
                 } catch (IOException e) {
-                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,
+                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, FILE_IO,
                             e.getMessage());                }
             }
         }
@@ -54,7 +56,7 @@ public class BaseAppUtil {
             }
             br.close();
         } catch (IOException e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, FILE_IO,
                     e.getMessage());        }
         return text.toString();
     }

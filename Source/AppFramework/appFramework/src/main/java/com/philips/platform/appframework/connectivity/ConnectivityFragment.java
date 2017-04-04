@@ -46,6 +46,8 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
 
+import static com.philips.platform.baseapp.screens.utility.Constants.DEVICE_DATAPARSING;
+
 public class ConnectivityFragment extends AppFrameworkBaseFragment implements View.OnClickListener, ConnectivityContract.View {
     public static final String TAG = ConnectivityFragment.class.getSimpleName();
     private static final int ACCESS_COARSE_LOCATION_REQUEST_CODE = 0x1;
@@ -298,7 +300,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                         editText.setText(Integer.toString(-1));
                     }
                 } catch (Exception e) {
-                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,
+                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, DEVICE_DATAPARSING,
                             e.getMessage());              }
             }
         });

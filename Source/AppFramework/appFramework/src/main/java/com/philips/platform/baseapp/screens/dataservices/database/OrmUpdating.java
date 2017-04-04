@@ -34,6 +34,9 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 
+import static com.philips.platform.baseapp.screens.utility.Constants.SQLITE_EXCEPTION;
+
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
@@ -245,7 +248,7 @@ public class OrmUpdating {
                 }
             });
         } catch (Exception e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,e.getMessage());
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SQLITE_EXCEPTION,e.getMessage());
             new NotifyDBRequestListener().notifyFailure(e,dbRequestListener);
             return false;
         }

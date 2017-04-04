@@ -51,6 +51,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.philips.platform.baseapp.screens.utility.Constants.ORM_TYPE_EXCEPTION;
+import static com.philips.platform.baseapp.screens.utility.Constants.SQLITE_EXCEPTION;
+
 /**
  * Database helper which creates and upgrades the database and provides the DAOs for the app.
  *
@@ -147,7 +150,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             try {
                 ormDCSyncDao.createOrUpdate(new OrmDCSync(tableType.getId(), tableType.getDescription(), true));
             } catch (SQLException e) {
-                AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,e.getMessage());
+                AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SQLITE_EXCEPTION,e.getMessage());
             }
         }
 
@@ -158,7 +161,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             try {
                 ormDCSyncDao.createOrUpdate(new OrmDCSync(type.getId(), type.getDescription(), true));
             } catch (SQLException e) {
-                AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,e.getMessage());
+                AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SQLITE_EXCEPTION,e.getMessage());
             }
 
     }
