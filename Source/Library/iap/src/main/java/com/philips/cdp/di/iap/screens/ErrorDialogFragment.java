@@ -107,6 +107,18 @@ public class ErrorDialogFragment extends DialogFragment {
         };
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        dismissDialog();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        dismissDialog();
+    }
+
     private void handleEmptyScreen() {
         if (bundle.getString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION) != null
                 && bundle.getString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION).equals(getString(R.string.iap_something_went_wrong))) {

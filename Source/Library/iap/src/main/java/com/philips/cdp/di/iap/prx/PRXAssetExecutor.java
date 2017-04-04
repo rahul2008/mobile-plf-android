@@ -78,34 +78,41 @@ public class PRXAssetExecutor {
     }
 
     protected void notifySuccess(ResponseData responseData) {
+        Message result = Message.obtain();
         AssetModel assetModel = (AssetModel) responseData;
         if (assetModel == null) {
-            //fail call
-            //notifyError();
-            mAssetListener.onFetchAssetFailure(null);
+            if (mAssetListener != null) {
+                result.obj = mContext.getString(R.string.iap_something_gone_wrong);
+                mAssetListener.onFetchAssetFailure(result);
+            }
             return;
         }
-
         Data data = assetModel.getData();
         if (data == null) {
-            //fail call
-            mAssetListener.onFetchAssetFailure(null);
+            if (mAssetListener != null) {
+                result.obj = mContext.getString(R.string.iap_something_gone_wrong);
+                mAssetListener.onFetchAssetFailure(result);
+            }
             return;
         }
         Assets assets = data.getAssets();
         if (assets == null) {
-            mAssetListener.onFetchAssetFailure(null);
+            if (mAssetListener != null) {
+                result.obj = mContext.getString(R.string.iap_something_gone_wrong);
+                mAssetListener.onFetchAssetFailure(result);
+            }
             return;
         }
         List<Asset> asset = assets.getAsset();
         if (asset == null) {
-            mAssetListener.onFetchAssetFailure(null);
-            //fail call
+            if (mAssetListener != null) {
+                result.obj = mContext.getString(R.string.iap_something_gone_wrong);
+                mAssetListener.onFetchAssetFailure(result);
+            }
             return;
         }
         ArrayList<String> assetArray = fetchImageUrlsFromPRXAssets(asset);
 
-        Message result = Message.obtain();
         result.obj = assetArray;
         if (mAssetListener != null) {
             mAssetListener.onFetchAssetSuccess(result);

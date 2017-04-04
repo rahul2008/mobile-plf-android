@@ -144,8 +144,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
 
         CircleIndicator indicator = (CircleIndicator) rootView.findViewById(R.id.indicator);
-        mImageAdapter = new ImageAdapter(mContext, getFragmentManager(),
-                mLaunchedFromProductCatalog, new ArrayList<String>());
+        mImageAdapter = new ImageAdapter(mContext, new ArrayList<String>());
         mViewPager.setAdapter(mImageAdapter);
         indicator.setViewPager(mViewPager);
 
@@ -163,6 +162,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                         controller.getProductDetail(mCTNValue);
                     } else {
                         fetchProductDetailFromPrx();
+                        if (mIapListener != null)
+                            mIapListener.onSuccess();
                     }
                 }
             } else {
@@ -209,8 +210,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                     break;
                 }
             }
-            mImageAdapter = new ImageAdapter(mContext, getFragmentManager(),
-                    mLaunchedFromProductCatalog, mAsset);
+            mImageAdapter = new ImageAdapter(mContext, mAsset);
             mViewPager.setAdapter(mImageAdapter);
             mImageAdapter.notifyDataSetChanged();
             if (isProgressDialogShowing())
@@ -268,6 +268,15 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     public void onDestroyView() {
         super.onDestroyView();
         EventHelper.getInstance().unregisterEventNotification(IAPConstant.IAP_LAUNCH_SHOPPING_CART, this);
+        if (mErrorDialogFragment != null)
+            mErrorDialogFragment.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mErrorDialogFragment != null)
+            mErrorDialogFragment.onDestroy();
     }
 
     private void handleViews() {
@@ -321,9 +330,11 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Success");
         mAsset = (ArrayList<String>) msg.obj;
         CartModelContainer.getInstance().addProductAsset(mCTNValue, mAsset);
-        mImageAdapter = new ImageAdapter(mContext, getFragmentManager(), mLaunchedFromProductCatalog, mAsset);
+        mImageAdapter = new ImageAdapter(mContext, mAsset);
         mViewPager.setAdapter(mImageAdapter);
         mImageAdapter.notifyDataSetChanged();
+        if (mIapListener != null)
+            mIapListener.onSuccess();
         if (isProgressDialogShowing())
             dismissProgressDialog();
     }
@@ -335,6 +346,11 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             dismissProgressDialog();
         if (!isNetworkConnected()) return;
         NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+
+        if (msg.obj instanceof IAPNetworkError) {
+            IAPNetworkError obj = (IAPNetworkError) msg.obj;
+            mIapListener.onFailure(obj.getIAPErrorCode());
+        }
 
     }
 
@@ -373,6 +389,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             dismissProgressDialog();
         }
         mDetailLayout.setVisibility(View.VISIBLE);
+        if (mIapListener != null)
+            mIapListener.onSuccess();
     }
 
     @Override
@@ -382,6 +400,11 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         showErrorDialog(msg);
         if (isProgressDialogShowing())
             dismissProgressDialog();
+
+        if (msg.obj instanceof IAPNetworkError) {
+            IAPNetworkError obj = (IAPNetworkError) msg.obj;
+            mIapListener.onFailure(obj.getIAPErrorCode());
+        }
     }
 
     @Override

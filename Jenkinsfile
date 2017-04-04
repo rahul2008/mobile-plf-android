@@ -18,29 +18,26 @@ if (env.triggerBy == "ppc") {
 node ('android_pipeline &&' + node_ext) {
 	timestamps {
 		stage ('Checkout') {
-			checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '4edede71-63a0-455e-a9dd-d250f8955958', url: 'ssh://git@bitbucket.atlas.philips.com:7999/ip/in-app-purchase_android.git']]])
+			checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '4edede71-63a0-455e-a9dd-d250f8955958', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/iap-android-in-app-purchase']]])
 			step([$class: 'StashNotifier'])
 		}
 		try {
-		if (BranchName =~ /master|develop|release.*/) {
-			stage ('build') {
-                sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease zipDocuments artifactoryPublish'
-			}
-			}
-			else
-			{
-			stage ('build') {
-				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug assembleRelease'
-			}
-			}
+            if (BranchName =~ /master|develop|release.*/) {
+                stage ('build') {
+                    sh 'chmod -R 775 . && cd ./Source/DemoApp && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease zipDocuments artifactoryPublish'
+                }
+            } else {
+                stage ('build') {
+                    sh 'chmod -R 775 . && cd ./Source/DemoApp && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease'
+                }
+            }
 			stage ('save dependencies list') {
+            	sh 'chmod -R 775 . && cd ./Source/DemoApp && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
             	sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
             }
             archiveArtifacts '**/dependencies.lock'
             currentBuild.result = 'SUCCESS'
-        }
-
-        catch(err) {
+        } catch(err) {
             currentBuild.result = 'FAILURE'
             error ("Someone just broke the build")
         }
@@ -56,9 +53,7 @@ node ('android_pipeline &&' + node_ext) {
                     currentBuild.result = 'SUCCESS'
             	}            
             } 
-		} 
-		
-		catch(err) {
+		} catch(err) {
             currentBuild.result = 'UNSTABLE'
         }
 

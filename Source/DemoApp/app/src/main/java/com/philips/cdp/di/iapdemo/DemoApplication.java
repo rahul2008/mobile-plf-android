@@ -8,7 +8,10 @@ import android.util.Log;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.configuration.HSDPInfo;
+import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URSettings;
@@ -28,7 +31,17 @@ public class DemoApplication extends Application {
         super.onCreate();
         LeakCanary.install(this);
         mAppInfra = new AppInfra.Builder().build(getApplicationContext());
-        initRegistration(Configuration.STAGING);
+        SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
+        String restoredText = prefs.getString("reg_environment", null);
+        if (restoredText != null) {
+            String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
+            if (restoredHSDPText != null && restoredHSDPText.equals(restoredText)) {
+                initHSDP(RegUtility.getConfiguration(restoredHSDPText));
+            }
+            initRegistration(RegUtility.getConfiguration(restoredText));
+        } else {
+            initRegistration(Configuration.PRODUCTION);
+        }
     }
 
     public AppInfra getAppInfra() {
@@ -67,6 +80,141 @@ public class DemoApplication extends Application {
         urInterface.init(urDependancies, urSettings);
 
         RLog.enableLogging();
+
+
+        mAppInfra.getConfigInterface().setPropertyForKey("appidentity.micrositeId",
+                "appinfra",
+                "11400",
+                configError);
+
+    }
+
+    public void initHSDP(Configuration configuration) {
+        if (mAppInfra == null) {
+            mAppInfra = new AppInfra.Builder().build(this);
+        }
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        //store hsdp last envoronment
+        HSDPInfo hsdpInfo;
+        SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
+        switch (configuration) {
+            case EVALUATION:
+                mAppInfra.
+                        getConfigInterface().setPropertyForKey(
+                        URConfigurationConstants.
+                                HSDP_CONFIGURATION_APPLICATION_NAME,
+                        URConfigurationConstants.UR,
+                        "uGrow",
+                        configError);
+
+                mAppInfra.
+                        getConfigInterface().setPropertyForKey(
+                        URConfigurationConstants.
+                                HSDP_CONFIGURATION_SECRET,
+                        URConfigurationConstants.UR,
+                        "e33a4d97-6ada-491f-84e4-a2f7006625e2",
+                        configError);
+
+                mAppInfra.
+                        getConfigInterface().setPropertyForKey(
+                        URConfigurationConstants.
+                                HSDP_CONFIGURATION_SHARED,
+                        URConfigurationConstants.UR,
+                        "e95f5e71-c3c0-4b52-8b12-ec297d8ae960",
+                        configError);
+
+                mAppInfra.
+                        getConfigInterface().setPropertyForKey(
+                        URConfigurationConstants.
+                                HSDP_CONFIGURATION_BASE_URL,
+                        URConfigurationConstants.UR,
+                        "https://ugrow-ds-staging.eu-west.philips-healthsuite.com",
+                        configError);
+
+                editor.putString("reg_hsdp_environment", configuration.getValue());
+                editor.commit();
+                break;
+            case DEVELOPMENT:
+                mAppInfra.
+                        getConfigInterface().setPropertyForKey(
+                        URConfigurationConstants.
+                                HSDP_CONFIGURATION_APPLICATION_NAME,
+                        URConfigurationConstants.UR,
+                        "uGrow",
+                        configError);
+
+                mAppInfra.
+                        getConfigInterface().setPropertyForKey(
+                        URConfigurationConstants.
+                                HSDP_CONFIGURATION_SECRET,
+                        URConfigurationConstants.UR,
+                        "c623685e-f02c-11e5-9ce9-5e5517507c66",
+                        configError);
+
+                mAppInfra.
+                        getConfigInterface().setPropertyForKey(
+                        URConfigurationConstants.
+                                HSDP_CONFIGURATION_SHARED,
+                        URConfigurationConstants.UR,
+                        "c62362a0-f02c-11e5-9ce9-5e5517507c66",
+                        configError);
+
+                mAppInfra.
+                        getConfigInterface().setPropertyForKey(
+                        URConfigurationConstants.
+                                HSDP_CONFIGURATION_BASE_URL,
+                        URConfigurationConstants.UR,
+                        "https://ugrow-ds-development.cloud.pcftest.com",
+                        configError);
+                editor.putString("reg_hsdp_environment", configuration.getValue());
+                editor.commit();
+
+                break;
+            case PRODUCTION:
+                SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
+                prefs.edit().remove("reg_hsdp_environment").commit();
+                break;
+            case STAGING:
+                mAppInfra.
+                        getConfigInterface().setPropertyForKey(
+                        URConfigurationConstants.
+                                HSDP_CONFIGURATION_APPLICATION_NAME,
+                        URConfigurationConstants.UR,
+                        "uGrow",
+                        configError);
+                mAppInfra.
+                        getConfigInterface().setPropertyForKey(
+                        URConfigurationConstants.
+                                HSDP_CONFIGURATION_SECRET,
+                        URConfigurationConstants.UR,
+                        "e33a4d97-6ada-491f-84e4-a2f7006625e2",
+                        configError);
+                mAppInfra.
+                        getConfigInterface().setPropertyForKey(
+                        URConfigurationConstants.
+                                HSDP_CONFIGURATION_SHARED,
+                        URConfigurationConstants.UR,
+                        "e95f5e71-c3c0-4b52-8b12-ec297d8ae960",
+                        configError);
+                mAppInfra.
+                        getConfigInterface().setPropertyForKey(
+                        URConfigurationConstants.
+                                HSDP_CONFIGURATION_BASE_URL,
+                        URConfigurationConstants.UR,
+                        "https://ugrow-ds-staging.eu-west.philips-healthsuite.com",
+                        configError);
+                editor.putString("reg_hsdp_environment", configuration.getValue());
+                editor.commit();
+
+                break;
+            case TESTING:
+                prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
+                prefs.edit().remove("reg_hsdp_environment").commit();
+                break;
+        }
+
+
     }
 
     public static final String SERVICE_DISCOVERY_TAG = "ServiceDiscovery";

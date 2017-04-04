@@ -1,4 +1,4 @@
+rootProject.setName 'iap'
 include ':app'
-
 include ':iap'
 project(':iap').projectDir = new File('../Library/iap')

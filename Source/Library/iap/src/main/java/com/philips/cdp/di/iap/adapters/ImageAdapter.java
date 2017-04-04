@@ -5,7 +5,6 @@
 package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +19,11 @@ import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import java.util.ArrayList;
 
 public class ImageAdapter extends PagerAdapter {
-    protected static ArrayList<String> mAssetsFromPRX = new ArrayList<>();
+    protected ArrayList<String> mAssetsFromPRX = new ArrayList<>();
     private LayoutInflater mLayoutInflater;
     private Context mContext;
 
-    public ImageAdapter(Context context, FragmentManager fm, boolean isLaunchedFromProductCatalog, ArrayList<String> assets) {
+    public ImageAdapter(Context context, ArrayList<String> assets) {
         super();
         mAssetsFromPRX = assets;
         mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -69,6 +68,6 @@ public class ImageAdapter extends PagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return ImageAdapter.mAssetsFromPRX.get(position % mAssetsFromPRX.size());
+        return mAssetsFromPRX.get(position % mAssetsFromPRX.size());
     }
 }
