@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static com.philips.platform.baseapp.screens.utility.Constants.JSON_EXCEPTION;
+import static com.philips.platform.baseapp.screens.utility.Constants.JSON_PARSING_EXCEPTION;
 
 public class CharacteristicsDialogFragment extends DialogFragment implements View.OnClickListener, DBFetchRequestListner<Characteristics>,DBRequestListener<Characteristics>,DBChangeListener {
     public final String TAG = CharacteristicsDialogFragment.class.getSimpleName();
@@ -176,7 +176,7 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
                     mEtCharacteristics.setText(jsonObj);
                 } catch (Exception e) {
                     DSLog.i(DSLog.LOG, "Inder Exception onSuccess= " + e.getMessage());
-                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, JSON_EXCEPTION,
+                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, JSON_PARSING_EXCEPTION,
                             e.getMessage());                }
             }
 
