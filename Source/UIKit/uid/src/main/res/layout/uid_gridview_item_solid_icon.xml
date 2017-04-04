@@ -26,7 +26,7 @@
             android:layout_alignParentEnd="true"
             >
 
-            <ImageButton
+            <com.philips.platform.uid.view.widget.ImageButton
                 android:id="@id/uid_gridview_icon"
                 style="@style/UIDGridViewImageButton"/>
         </FrameLayout>
