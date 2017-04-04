@@ -43,6 +43,7 @@
 
     <string name="hint_text">Frits Philips</string>
     <string name="hamburger_menu">Hamburger</string>
+    <string name="hamburger_not_ready">Hamburger is not ready yet</string>
     <string name="hint_text_multi_lines">Hint text multi lines</string>
     <string name="filled_text">Filled text</string>
     <string name="content_desc_back">back</string>

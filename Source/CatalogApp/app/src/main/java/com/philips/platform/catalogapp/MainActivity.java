@@ -30,6 +30,7 @@ import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.utils.UIDActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -37,7 +38,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends UIDActivity {
 
     static final String THEMESETTINGS_ACTIVITY_RESTART = "THEMESETTINGS_ACTIVITY_RESTART";
     protected static final String TITLE_TEXT = "TITLE_TEXT";
@@ -136,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showSnackBar() {
-        Snackbar.make(navigationController.getToolbar(), "Hamburger is not ready yet", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(navigationController.getToolbar(), R.string.hamburger_not_ready, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
