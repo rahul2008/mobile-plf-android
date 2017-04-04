@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Custom components styles-->
+    <attr name="uidButtonStyle" format="reference"/>
+    <attr name="uidSwitchStyle" format="reference"/>
+    <attr name="uidProgressBarStyle" format="reference"/>
+    <attr name="uidCheckBoxStyle" format="reference"/>
+    <attr name="uidImageButtonStyle" format="reference"/>
+    <attr name="uidEditTextStyle" format="reference"/>
+    <attr name="uidIndeterminateLinearPBStyle" format="reference"/>
+
+
+    <!--Style assignments-->
+    <style name="UIDComponentStyles">
+        <item name="uidButtonStyle">@style/UIDDefaultButton</item>
+        <item name="uidSwitchStyle">@style/UIDSwitchStyle</item>
+        <item name="uidProgressBarStyle">@style/UIDProgressBarHorizontalDeterminate</item>
+        <item name="uidCheckBoxStyle">@style/UIDCheckBox</item>
+        <item name="uidImageButtonStyle">@style/UIDImageButton</item>
+        <item name="uidEditTextStyle">@style/UIDEditTextBox</item>
+        <item name="uidIndeterminateLinearPBStyle">@style/UIDIndeterminateLinearProgress</item>
+        <item name="uidTextBoxValidationBackground">@color/uid_signal_orange_level_15</item>
+        <item name="uidTextBoxValidationBackgroundAlpha">@dimen/uid_alpha_per_50</item>
+        <item name="uidTextBoxValidationBorder">@android:color/transparent</item>
+        <item name="uidTextBoxValidationText">@color/uid_signal_orange_level_75</item>
+        <item name="uidTextBoxValidationErrorColor">@color/uid_signal_orange_level_75</item>
+    </style>
+</resources>
+
