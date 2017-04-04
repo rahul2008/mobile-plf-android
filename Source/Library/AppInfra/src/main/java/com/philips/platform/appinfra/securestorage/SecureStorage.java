@@ -46,6 +46,8 @@ public class SecureStorage implements SecureStorageInterface {
     private static KeyStore keyStore = null;
     private final Context mContext;
     private final AppInfra mAppInfra;
+    private SharedPreferences mAppInfraPrefs;
+    private  SharedPreferences.Editor editor;
 
 
     public SecureStorage(AppInfra bAppInfra) {
@@ -279,7 +281,8 @@ public class SecureStorage implements SecureStorageInterface {
         boolean storeEncryptedDataResult = true;
         try {
             // encrypted data will be saved in device  SharedPreferences
-            SharedPreferences.Editor editor = getSharedPreferences(filename).edit();
+            mAppInfraPrefs = getSharedPreferences(filename);
+            editor = mAppInfraPrefs.edit();
             editor.putString(key, encryptedData);
             storeEncryptedDataResult = editor.commit();
         } catch (Exception e) {
@@ -293,9 +296,9 @@ public class SecureStorage implements SecureStorageInterface {
     private String fetchEncryptedData(String key, SecureStorageError secureStorageError, String fileName) {
         String result = null;
         // encrypted data will be fetched from device  SharedPreferences
-        final SharedPreferences prefs = getSharedPreferences(fileName);
-        if (prefs.contains(key)) { // if key is present
-            result = prefs.getString(key, null);
+        mAppInfraPrefs = getSharedPreferences(fileName);
+        if (mAppInfraPrefs.contains(key)) { // if key is present
+            result = mAppInfraPrefs.getString(key, null);
             if (null == result) {
                 // key is present but there is no data for that key
                 secureStorageError.setErrorCode(SecureStorageError.secureStorageError.NoDataFoundForKey);
@@ -316,11 +319,11 @@ public class SecureStorage implements SecureStorageInterface {
     private boolean deleteEncryptedData(String key, String fileName) {
         boolean deleteResult = false;
         try {
-            final SharedPreferences prefs = getSharedPreferences(fileName);
+            mAppInfraPrefs = getSharedPreferences(fileName);
             // String isGivenKeyPresentInSharedPreferences = prefs.getString(key, null);
-            if (prefs.contains(key)) {  // if given key is present in SharedPreferences
+            if (mAppInfraPrefs.contains(key)) {  // if given key is present in SharedPreferences
                 // encrypted data will be deleted from device  SharedPreferences
-                SharedPreferences.Editor editor = getSharedPreferences(fileName).edit();
+                editor = mAppInfraPrefs.edit();
                 editor.remove(key);
                 deleteResult = editor.commit();
             }
