@@ -7,49 +7,44 @@
 package com.philips.platform.uid.thememanager;
 
 import android.content.res.Resources;
-import android.support.annotation.StyleRes;
 
 import com.philips.platform.uid.R;
 
 /**
  * This class is used to set the theme type of application
  */
-public enum ContentColor {
+public enum ContentColor implements ThemeConfig {
 
     ULTRA_LIGHT {
         @Override
-        public void injectTonalRange(Resources.Theme theme) {
-            injectTonalRange(theme, R.style.Base_UltraLight);
+        public void injectStyle(Resources.Theme theme) {
+            theme.applyStyle(R.style.Base_UltraLight, true);
         }
     },
     VERY_LIGHT {
         @Override
-        public void injectTonalRange(Resources.Theme theme) {
-            injectTonalRange(theme, R.style.Base_VeryLight);
+        public void injectStyle(Resources.Theme theme) {
+            theme.applyStyle(R.style.Base_VeryLight, true);
         }
     },
     LIGHT {
         @Override
-        public void injectTonalRange(Resources.Theme theme) {
-            injectTonalRange(theme, R.style.Base_Light);
+        public void injectStyle(Resources.Theme theme) {
+            theme.applyStyle(R.style.Base_Light, true);
         }
     },
     BRIGHT {
         @Override
-        public void injectTonalRange(Resources.Theme theme) {
-            injectTonalRange(theme, R.style.Base_Bright);
+        public void injectStyle(Resources.Theme theme) {
+            theme.applyStyle(R.style.Base_Bright, true);
         }
     },
     VERY_DARK {
         @Override
-        public void injectTonalRange(Resources.Theme theme) {
-            injectTonalRange(theme, R.style.Base_VeryDark);
+        public void injectStyle(Resources.Theme theme) {
+            theme.applyStyle(R.style.Base_VeryDark, true);
         }
     };
 
-    void injectTonalRange(Resources.Theme theme, @StyleRes int style) {
-        theme.applyStyle(style, true);
-    }
-
-    public abstract void injectTonalRange(Resources.Theme theme);
+    public abstract void injectStyle(Resources.Theme theme);
 }

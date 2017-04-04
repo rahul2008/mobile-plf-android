@@ -1,5 +1,4 @@
 <resources>
-
   <style name="Theme.DLS.Aqua">
     <item name="uidColorLevel5">@color/uid_aqua_level_5</item>
     <item name="uidColorLevel10">@color/uid_aqua_level_10</item>
@@ -20,7 +19,6 @@
     <item name="uidColorLevel85">@color/uid_aqua_level_85</item>
     <item name="uidColorLevel90">@color/uid_aqua_level_90</item>
   </style>
-
   <style name="Theme.DLS.Aqua.UltraLight">
     <item name="uidContentBackground">@color/uid_aqua_level_15</item>
     <item name="uidContentPrimary">@color/uid_level_white</item>
@@ -323,8 +321,7 @@
     <item name="uidCheckBoxDisabledTextColor">?attr/uidTextPrimaryDisabled</item>
     <item name="uidListViewNormalHeaderTextColor">?attr/uidTextTertiary</item>
     <item name="uidTextBoxDisabledBorderColor">?attr/uidInputBorderDisabled</item>
-    <item name="uidButtonSocialMediaPrimaryPressedBackgroundColor">?attr/uidControlPrimaryPressed
-    </item>
+    <item name="uidButtonSocialMediaPrimaryPressedBackgroundColor">?attr/uidControlPrimaryPressed</item>
     <item name="uidDotNavigationHoverBackgroundColor">?attr/uidDotHover</item>
     <item name="uidToggleButtonQuietNormalOnTextColor">?attr/uidQuietToggleOnText</item>
     <item name="uidToggleButtonHoverOffBackgroundColor">?attr/uidToggleOffHover</item>
@@ -406,7 +403,6 @@
     <item name="uidToggleButtonQuietHoverOffBackgroundColor">?attr/uidQuietToggleOffHover</item>
     <item name="uidRadioButtonNormalOnBackgroundColor">?attr/uidControlPrimary</item>
   </style>
-
   <style name="Theme.DLS.Aqua.VeryLight">
     <item name="uidContentBackground">@color/uid_aqua_level_5</item>
     <item name="uidContentPrimary">@color/uid_aqua_level_20</item>
@@ -709,8 +705,7 @@
     <item name="uidCheckBoxDisabledTextColor">?attr/uidTextPrimaryDisabled</item>
     <item name="uidListViewNormalHeaderTextColor">?attr/uidTextTertiary</item>
     <item name="uidTextBoxDisabledBorderColor">?attr/uidInputBorderDisabled</item>
-    <item name="uidButtonSocialMediaPrimaryPressedBackgroundColor">?attr/uidControlPrimaryPressed
-    </item>
+    <item name="uidButtonSocialMediaPrimaryPressedBackgroundColor">?attr/uidControlPrimaryPressed</item>
     <item name="uidDotNavigationHoverBackgroundColor">?attr/uidDotHover</item>
     <item name="uidToggleButtonQuietNormalOnTextColor">?attr/uidQuietToggleOnText</item>
     <item name="uidToggleButtonHoverOffBackgroundColor">?attr/uidToggleOffHover</item>
@@ -792,18 +787,17 @@
     <item name="uidToggleButtonQuietHoverOffBackgroundColor">?attr/uidQuietToggleOffHover</item>
     <item name="uidRadioButtonNormalOnBackgroundColor">?attr/uidControlPrimary</item>
   </style>
-
   <style name="Theme.DLS.Aqua.Light">
     <item name="uidContentBackground">@color/uid_aqua_level_20</item>
     <item name="uidContentPrimary">@color/uid_aqua_level_35</item>
     <item name="uidContentPrimaryDisabled">#5942ADA1</item>
     <item name="uidContentSecondary">@color/uid_aqua_level_30</item>
     <item name="uidContentTertiary">@color/uid_aqua_level_40</item>
-    <item name="uidControlAccent">@null</item>
-    <item name="uidControlAccentDisabled">@null</item>
-    <item name="uidControlAccentFocus">@null</item>
-    <item name="uidControlAccentHover">@null</item>
-    <item name="uidControlAccentPressed">@null</item>
+    <item name="uidControlAccent">?attr/uidAccentLevel50</item>
+    <item name="uidControlAccentDisabled">?attr/uidAccentLevel50</item>
+    <item name="uidControlAccentFocus">?attr/uidAccentLevel50</item>
+    <item name="uidControlAccentHover">?attr/uidAccentLevel55</item>
+    <item name="uidControlAccentPressed">?attr/uidAccentLevel60</item>
     <item name="uidControlAccentText">@color/uid_level_white</item>
     <item name="uidControlBright">@color/uid_aqua_level_45</item>
     <item name="uidControlBuffer">#4DFFFFFF</item>
@@ -1095,8 +1089,7 @@
     <item name="uidCheckBoxDisabledTextColor">?attr/uidTextPrimaryDisabled</item>
     <item name="uidListViewNormalHeaderTextColor">?attr/uidTextTertiary</item>
     <item name="uidTextBoxDisabledBorderColor">?attr/uidInputBorderDisabled</item>
-    <item name="uidButtonSocialMediaPrimaryPressedBackgroundColor">?attr/uidControlPrimaryPressed
-    </item>
+    <item name="uidButtonSocialMediaPrimaryPressedBackgroundColor">?attr/uidControlPrimaryPressed</item>
     <item name="uidDotNavigationHoverBackgroundColor">?attr/uidDotHover</item>
     <item name="uidToggleButtonQuietNormalOnTextColor">?attr/uidQuietToggleOnText</item>
     <item name="uidToggleButtonHoverOffBackgroundColor">?attr/uidToggleOffHover</item>
@@ -1178,18 +1171,17 @@
     <item name="uidToggleButtonQuietHoverOffBackgroundColor">?attr/uidQuietToggleOffHover</item>
     <item name="uidRadioButtonNormalOnBackgroundColor">?attr/uidControlPrimary</item>
   </style>
-
   <style name="Theme.DLS.Aqua.Bright">
     <item name="uidContentBackground">@color/uid_aqua_level_35</item>
     <item name="uidContentPrimary">@color/uid_aqua_level_50</item>
     <item name="uidContentPrimaryDisabled">#59158275</item>
     <item name="uidContentSecondary">@color/uid_aqua_level_45</item>
     <item name="uidContentTertiary">@color/uid_aqua_level_55</item>
-    <item name="uidControlAccent">@null</item>
-    <item name="uidControlAccentDisabled">@null</item>
-    <item name="uidControlAccentFocus">@null</item>
-    <item name="uidControlAccentHover">@null</item>
-    <item name="uidControlAccentPressed">@null</item>
+    <item name="uidControlAccent">?attr/uidAccentLevel45</item>
+    <item name="uidControlAccentDisabled">?attr/uidAccentLevel45</item>
+    <item name="uidControlAccentFocus">?attr/uidAccentLevel45</item>
+    <item name="uidControlAccentHover">?attr/uidAccentLevel50</item>
+    <item name="uidControlAccentPressed">?attr/uidAccentLevel55</item>
     <item name="uidControlAccentText">@color/uid_level_white</item>
     <item name="uidControlBright">@color/uid_aqua_level_45</item>
     <item name="uidControlBuffer">#4DFFFFFF</item>
@@ -1481,8 +1473,7 @@
     <item name="uidCheckBoxDisabledTextColor">?attr/uidTextPrimaryDisabled</item>
     <item name="uidListViewNormalHeaderTextColor">?attr/uidTextTertiary</item>
     <item name="uidTextBoxDisabledBorderColor">?attr/uidInputBorderDisabled</item>
-    <item name="uidButtonSocialMediaPrimaryPressedBackgroundColor">?attr/uidControlPrimaryPressed
-    </item>
+    <item name="uidButtonSocialMediaPrimaryPressedBackgroundColor">?attr/uidControlPrimaryPressed</item>
     <item name="uidDotNavigationHoverBackgroundColor">?attr/uidDotHover</item>
     <item name="uidToggleButtonQuietNormalOnTextColor">?attr/uidQuietToggleOnText</item>
     <item name="uidToggleButtonHoverOffBackgroundColor">?attr/uidToggleOffHover</item>
@@ -1564,18 +1555,17 @@
     <item name="uidToggleButtonQuietHoverOffBackgroundColor">?attr/uidQuietToggleOffHover</item>
     <item name="uidRadioButtonNormalOnBackgroundColor">?attr/uidControlPrimary</item>
   </style>
-
   <style name="Theme.DLS.Aqua.VeryDark">
     <item name="uidContentBackground">@color/uid_aqua_level_55</item>
     <item name="uidContentPrimary">@color/uid_aqua_level_80</item>
     <item name="uidContentPrimaryDisabled">#59183842</item>
     <item name="uidContentSecondary">@color/uid_aqua_level_75</item>
     <item name="uidContentTertiary">@color/uid_aqua_level_85</item>
-    <item name="uidControlAccent">@null</item>
-    <item name="uidControlAccentDisabled">@null</item>
-    <item name="uidControlAccentFocus">@null</item>
-    <item name="uidControlAccentHover">@null</item>
-    <item name="uidControlAccentPressed">@null</item>
+    <item name="uidControlAccent">?attr/uidAccentLevel45</item>
+    <item name="uidControlAccentDisabled">?attr/uidAccentLevel45</item>
+    <item name="uidControlAccentFocus">?attr/uidAccentLevel45</item>
+    <item name="uidControlAccentHover">?attr/uidAccentLevel50</item>
+    <item name="uidControlAccentPressed">?attr/uidAccentLevel55</item>
     <item name="uidControlAccentText">@color/uid_level_white</item>
     <item name="uidControlBright">@color/uid_aqua_level_45</item>
     <item name="uidControlBuffer">#4DFFFFFF</item>
@@ -1867,8 +1857,7 @@
     <item name="uidCheckBoxDisabledTextColor">?attr/uidTextPrimaryDisabled</item>
     <item name="uidListViewNormalHeaderTextColor">?attr/uidTextTertiary</item>
     <item name="uidTextBoxDisabledBorderColor">?attr/uidInputBorderDisabled</item>
-    <item name="uidButtonSocialMediaPrimaryPressedBackgroundColor">?attr/uidControlPrimaryPressed
-    </item>
+    <item name="uidButtonSocialMediaPrimaryPressedBackgroundColor">?attr/uidControlPrimaryPressed</item>
     <item name="uidDotNavigationHoverBackgroundColor">?attr/uidDotHover</item>
     <item name="uidToggleButtonQuietNormalOnTextColor">?attr/uidQuietToggleOnText</item>
     <item name="uidToggleButtonHoverOffBackgroundColor">?attr/uidToggleOffHover</item>

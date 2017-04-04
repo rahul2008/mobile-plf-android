@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AccentGroupBlue">
+        <item name="uidAccentLevel90">@color/uid_group_blue_level_90</item>
+        <item name="uidAccentLevel85">@color/uid_group_blue_level_85</item>
+        <item name="uidAccentLevel80">@color/uid_group_blue_level_80</item>
+        <item name="uidAccentLevel75">@color/uid_group_blue_level_75</item>
+        <item name="uidAccentLevel70">@color/uid_group_blue_level_70</item>
+        <item name="uidAccentLevel65">@color/uid_group_blue_level_65</item>
+        <item name="uidAccentLevel60">@color/uid_group_blue_level_60</item>
+        <item name="uidAccentLevel55">@color/uid_group_blue_level_55</item>
+        <item name="uidAccentLevel50">@color/uid_group_blue_level_50</item>
+        <item name="uidAccentLevel45">@color/uid_group_blue_level_45</item>
+        <item name="uidAccentLevel40">@color/uid_group_blue_level_40</item>
+        <item name="uidAccentLevel35">@color/uid_group_blue_level_35</item>
+        <item name="uidAccentLevel30">@color/uid_group_blue_level_30</item>
+        <item name="uidAccentLevel25">@color/uid_group_blue_level_25</item>
+        <item name="uidAccentLevel20">@color/uid_group_blue_level_20</item>
+        <item name="uidAccentLevel15">@color/uid_group_blue_level_15</item>
+        <item name="uidAccentLevel10">@color/uid_group_blue_level_10</item>
+        <item name="uidAccentLevel5">@color/uid_group_blue_level_5</item>
+    </style>
+
+    <!--Blue color-->
+    <style name="AccentBlue">
+        <item name="uidAccentLevel90">@color/uid_blue_level_90</item>
+        <item name="uidAccentLevel85">@color/uid_blue_level_85</item>
+        <item name="uidAccentLevel80">@color/uid_blue_level_80</item>
+        <item name="uidAccentLevel75">@color/uid_blue_level_75</item>
+        <item name="uidAccentLevel70">@color/uid_blue_level_70</item>
+        <item name="uidAccentLevel65">@color/uid_blue_level_65</item>
+        <item name="uidAccentLevel60">@color/uid_blue_level_60</item>
+        <item name="uidAccentLevel55">@color/uid_blue_level_55</item>
+        <item name="uidAccentLevel50">@color/uid_blue_level_50</item>
+        <item name="uidAccentLevel45">@color/uid_blue_level_45</item>
+        <item name="uidAccentLevel40">@color/uid_blue_level_40</item>
+        <item name="uidAccentLevel35">@color/uid_blue_level_35</item>
+        <item name="uidAccentLevel30">@color/uid_blue_level_30</item>
+        <item name="uidAccentLevel25">@color/uid_blue_level_25</item>
+        <item name="uidAccentLevel20">@color/uid_blue_level_20</item>
+        <item name="uidAccentLevel15">@color/uid_blue_level_15</item>
+        <item name="uidAccentLevel10">@color/uid_blue_level_10</item>
+        <item name="uidAccentLevel5">@color/uid_blue_level_5</item>
+    </style>
+
+    <!--Aqua-->
+    <style name="AccentAqua">
+        <item name="uidAccentLevel90">@color/uid_aqua_level_90</item>
+        <item name="uidAccentLevel85">@color/uid_aqua_level_85</item>
+        <item name="uidAccentLevel80">@color/uid_aqua_level_80</item>
+        <item name="uidAccentLevel75">@color/uid_aqua_level_75</item>
+        <item name="uidAccentLevel70">@color/uid_aqua_level_70</item>
+        <item name="uidAccentLevel65">@color/uid_aqua_level_65</item>
+        <item name="uidAccentLevel60">@color/uid_aqua_level_60</item>
+        <item name="uidAccentLevel55">@color/uid_aqua_level_55</item>
+        <item name="uidAccentLevel50">@color/uid_aqua_level_50</item>
+        <item name="uidAccentLevel45">@color/uid_aqua_level_45</item>
+        <item name="uidAccentLevel40">@color/uid_aqua_level_40</item>
+        <item name="uidAccentLevel35">@color/uid_aqua_level_35</item>
+        <item name="uidAccentLevel30">@color/uid_aqua_level_30</item>
+        <item name="uidAccentLevel25">@color/uid_aqua_level_25</item>
+        <item name="uidAccentLevel20">@color/uid_aqua_level_20</item>
+        <item name="uidAccentLevel15">@color/uid_aqua_level_15</item>
+        <item name="uidAccentLevel10">@color/uid_aqua_level_10</item>
+        <item name="uidAccentLevel5">@color/uid_aqua_level_5</item>
+    </style>
+
+    <!--Green-->
+    <style name="AccentGreen">
+        <item name="uidAccentLevel90">@color/uid_green_level_90</item>
+        <item name="uidAccentLevel85">@color/uid_green_level_85</item>
+        <item name="uidAccentLevel80">@color/uid_green_level_80</item>
+        <item name="uidAccentLevel75">@color/uid_green_level_75</item>
+        <item name="uidAccentLevel70">@color/uid_green_level_70</item>
+        <item name="uidAccentLevel65">@color/uid_green_level_65</item>
+        <item name="uidAccentLevel60">@color/uid_green_level_60</item>
+        <item name="uidAccentLevel55">@color/uid_green_level_55</item>
+        <item name="uidAccentLevel50">@color/uid_green_level_50</item>
+        <item name="uidAccentLevel45">@color/uid_green_level_45</item>
+        <item name="uidAccentLevel40">@color/uid_green_level_40</item>
+        <item name="uidAccentLevel35">@color/uid_green_level_35</item>
+        <item name="uidAccentLevel30">@color/uid_green_level_30</item>
+        <item name="uidAccentLevel25">@color/uid_green_level_25</item>
+        <item name="uidAccentLevel20">@color/uid_green_level_20</item>
+        <item name="uidAccentLevel15">@color/uid_green_level_15</item>
+        <item name="uidAccentLevel10">@color/uid_green_level_10</item>
+        <item name="uidAccentLevel5">@color/uid_green_level_5</item>
+    </style>
+
+    <!--Orange-->
+    <style name="AccentOrange">
+        <item name="uidAccentLevel90">@color/uid_orange_level_90</item>
+        <item name="uidAccentLevel85">@color/uid_orange_level_85</item>
+        <item name="uidAccentLevel80">@color/uid_orange_level_80</item>
+        <item name="uidAccentLevel75">@color/uid_orange_level_75</item>
+        <item name="uidAccentLevel70">@color/uid_orange_level_70</item>
+        <item name="uidAccentLevel65">@color/uid_orange_level_65</item>
+        <item name="uidAccentLevel60">@color/uid_orange_level_60</item>
+        <item name="uidAccentLevel55">@color/uid_orange_level_55</item>
+        <item name="uidAccentLevel50">@color/uid_orange_level_50</item>
+        <item name="uidAccentLevel45">@color/uid_orange_level_45</item>
+        <item name="uidAccentLevel40">@color/uid_orange_level_40</item>
+        <item name="uidAccentLevel35">@color/uid_orange_level_35</item>
+        <item name="uidAccentLevel30">@color/uid_orange_level_30</item>
+        <item name="uidAccentLevel25">@color/uid_orange_level_25</item>
+        <item name="uidAccentLevel20">@color/uid_orange_level_20</item>
+        <item name="uidAccentLevel15">@color/uid_orange_level_15</item>
+        <item name="uidAccentLevel10">@color/uid_orange_level_10</item>
+        <item name="uidAccentLevel5">@color/uid_orange_level_5</item>
+
+
+    </style>
+
+    <!--Pink-->
+    <style name="AccentPink">
+        <item name="uidAccentLevel90">@color/uid_pink_level_90</item>
+        <item name="uidAccentLevel85">@color/uid_pink_level_85</item>
+        <item name="uidAccentLevel80">@color/uid_pink_level_80</item>
+        <item name="uidAccentLevel75">@color/uid_pink_level_75</item>
+        <item name="uidAccentLevel70">@color/uid_pink_level_70</item>
+        <item name="uidAccentLevel65">@color/uid_pink_level_65</item>
+        <item name="uidAccentLevel60">@color/uid_pink_level_60</item>
+        <item name="uidAccentLevel55">@color/uid_pink_level_55</item>
+        <item name="uidAccentLevel50">@color/uid_pink_level_50</item>
+        <item name="uidAccentLevel45">@color/uid_pink_level_45</item>
+        <item name="uidAccentLevel40">@color/uid_pink_level_40</item>
+        <item name="uidAccentLevel35">@color/uid_pink_level_35</item>
+        <item name="uidAccentLevel30">@color/uid_pink_level_30</item>
+        <item name="uidAccentLevel25">@color/uid_pink_level_25</item>
+        <item name="uidAccentLevel20">@color/uid_pink_level_20</item>
+        <item name="uidAccentLevel15">@color/uid_pink_level_15</item>
+        <item name="uidAccentLevel10">@color/uid_pink_level_10</item>
+        <item name="uidAccentLevel5">@color/uid_pink_level_5</item>
+    </style>
+
+    <!--Purple-->
+    <style name="AccentPurple">
+        <item name="uidAccentLevel90">@color/uid_purple_level_90</item>
+        <item name="uidAccentLevel85">@color/uid_purple_level_85</item>
+        <item name="uidAccentLevel80">@color/uid_purple_level_80</item>
+        <item name="uidAccentLevel75">@color/uid_purple_level_75</item>
+        <item name="uidAccentLevel70">@color/uid_purple_level_70</item>
+        <item name="uidAccentLevel65">@color/uid_purple_level_65</item>
+        <item name="uidAccentLevel60">@color/uid_purple_level_60</item>
+        <item name="uidAccentLevel55">@color/uid_purple_level_55</item>
+        <item name="uidAccentLevel50">@color/uid_purple_level_50</item>
+        <item name="uidAccentLevel45">@color/uid_purple_level_45</item>
+        <item name="uidAccentLevel40">@color/uid_purple_level_40</item>
+        <item name="uidAccentLevel35">@color/uid_purple_level_35</item>
+        <item name="uidAccentLevel30">@color/uid_purple_level_30</item>
+        <item name="uidAccentLevel25">@color/uid_purple_level_25</item>
+        <item name="uidAccentLevel20">@color/uid_purple_level_20</item>
+        <item name="uidAccentLevel15">@color/uid_purple_level_15</item>
+        <item name="uidAccentLevel10">@color/uid_purple_level_10</item>
+        <item name="uidAccentLevel5">@color/uid_purple_level_5</item>
+    </style>
+
+    <!--Black-->
+    <style name="AccentGray">
+        <item name="uidAccentLevel90">@color/uid_gray_level_90</item>
+        <item name="uidAccentLevel85">@color/uid_gray_level_85</item>
+        <item name="uidAccentLevel80">@color/uid_gray_level_80</item>
+        <item name="uidAccentLevel75">@color/uid_gray_level_75</item>
+        <item name="uidAccentLevel70">@color/uid_gray_level_70</item>
+        <item name="uidAccentLevel65">@color/uid_gray_level_65</item>
+        <item name="uidAccentLevel60">@color/uid_gray_level_60</item>
+        <item name="uidAccentLevel55">@color/uid_gray_level_55</item>
+        <item name="uidAccentLevel50">@color/uid_gray_level_50</item>
+        <item name="uidAccentLevel45">@color/uid_gray_level_45</item>
+        <item name="uidAccentLevel40">@color/uid_gray_level_40</item>
+        <item name="uidAccentLevel35">@color/uid_gray_level_35</item>
+        <item name="uidAccentLevel30">@color/uid_gray_level_30</item>
+        <item name="uidAccentLevel25">@color/uid_gray_level_25</item>
+        <item name="uidAccentLevel20">@color/uid_gray_level_20</item>
+        <item name="uidAccentLevel15">@color/uid_gray_level_15</item>
+        <item name="uidAccentLevel10">@color/uid_gray_level_10</item>
+        <item name="uidAccentLevel5">@color/uid_gray_level_5</item>
+    </style>
+</resources>

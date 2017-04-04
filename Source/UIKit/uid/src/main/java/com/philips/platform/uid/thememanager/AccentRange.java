@@ -10,56 +10,56 @@ import android.content.res.Resources;
 
 import com.philips.platform.uid.R;
 
-public enum ColorRange implements ThemeConfig {
+public enum AccentRange implements ThemeConfig {
     GROUP_BLUE {
         @Override
         public void injectStyle(final Resources.Theme theme) {
-            theme.applyStyle(R.style.GroupBlue, true);
+            theme.applyStyle(R.style.AccentGroupBlue, true);
         }
     },
     BLUE {
         @Override
         public void injectStyle(final Resources.Theme theme) {
-            theme.applyStyle(R.style.Blue, true);
+            theme.applyStyle(R.style.AccentBlue, true);
         }
     },
     AQUA {
         @Override
         public void injectStyle(final Resources.Theme theme) {
-            theme.applyStyle(R.style.Aqua, true);
+            theme.applyStyle(R.style.AccentAqua, true);
         }
     },
     GREEN {
         @Override
         public void injectStyle(final Resources.Theme theme) {
-            theme.applyStyle(R.style.Green, true);
+            theme.applyStyle(R.style.AccentGreen, true);
         }
     },
     ORANGE {
         @Override
         public void injectStyle(final Resources.Theme theme) {
-            theme.applyStyle(R.style.Orange, true);
+            theme.applyStyle(R.style.AccentOrange, true);
         }
     },
     PINK {
         @Override
         public void injectStyle(final Resources.Theme theme) {
-            theme.applyStyle(R.style.Pink, true);
+            theme.applyStyle(R.style.AccentPink, true);
         }
     },
     PURPLE {
         @Override
         public void injectStyle(final Resources.Theme theme) {
-            theme.applyStyle(R.style.Purple, true);
+            theme.applyStyle(R.style.AccentPurple, true);
         }
     },
     GRAY {
         @Override
         public void injectStyle(final Resources.Theme theme) {
-            theme.applyStyle(R.style.Gray, true);
+            theme.applyStyle(R.style.AccentGray, true);
         }
     };
 
-    @Override
-    abstract public void injectStyle(final Resources.Theme theme);
+    public abstract void injectStyle(Resources.Theme theme);
+
 }

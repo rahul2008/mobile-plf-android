@@ -9,9 +9,9 @@ package com.philips.platform.uid.thememanager;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
-import android.support.annotation.StyleRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -33,12 +33,13 @@ public class UIDHelper {
     }
 
     public static void init(@NonNull ThemeConfiguration themeConfiguration) {
-        Resources.Theme theme = themeConfiguration.context.getTheme();
-        final int themeResourceId = getThemeResourceId(themeConfiguration.context.getResources(), themeConfiguration.context.getPackageName(),
-                themeConfiguration.colorRange, themeConfiguration.contentColor);
-        themeConfiguration.context.setTheme(themeResourceId);
-        themeConfiguration.navigationColor.injectNavigationColor(theme);
-        themeConfiguration.contentColor.injectTonalRange(theme);
+        Resources.Theme theme = themeConfiguration.getContext().getTheme();
+        Log.d(UIDHelper.class.getName(), " init ");
+
+        for (ThemeConfig config : themeConfiguration.getConfigurations()) {
+            Log.d(UIDHelper.class.getName(), " config " + config);
+            config.injectStyle(theme);
+        }
     }
 
     /**
@@ -84,31 +85,5 @@ public class UIDHelper {
         throw new RuntimeException("Please include a uid_toolbar_layout in your main activity layout xml");
     }
 
-    @StyleRes
-    static int getColorResourceId(final Resources resources, final String colorRange, final String tonalRange, final String packageName) {
-        final String themeName = String.format("Theme.DLS.%s.%s", toCamelCase(colorRange), toCamelCase(tonalRange));
 
-        return resources.getIdentifier(themeName, "style", packageName);
-    }
-
-    static String toCamelCase(String s) {
-        String[] parts = s.split("_");
-        String camelCaseString = "";
-        for (String part : parts) {
-            camelCaseString = camelCaseString + toProperCase(part);
-        }
-        return camelCaseString;
-    }
-
-    static String toProperCase(String s) {
-        return s.substring(0, 1).toUpperCase() +
-                s.substring(1).toLowerCase();
-    }
-
-    public static
-    @StyleRes
-    int getThemeResourceId(Resources resources, final String packageName, final ColorRange colorRange, final ContentColor contentColor) {
-        int colorResourceId = getColorResourceId(resources, colorRange.name(), contentColor.name(), packageName);
-        return colorResourceId;
-    }
 }
