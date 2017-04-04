@@ -39,6 +39,14 @@ public class UIDHelper {
         themeConfiguration.context.setTheme(themeResourceId);
         themeConfiguration.navigationColor.injectNavigationColor(theme);
         themeConfiguration.contentColor.injectTonalRange(theme);
+
+        //Inject colorPaletteID
+        if (themeConfiguration.colorPaletteID != -1) {
+            theme.applyStyle(themeConfiguration.colorPaletteID, true);
+        }
+
+        //Inject components to support both DLS and non-DLS
+        theme.applyStyle(R.style.UIDComponentStyles, true);
     }
 
     /**

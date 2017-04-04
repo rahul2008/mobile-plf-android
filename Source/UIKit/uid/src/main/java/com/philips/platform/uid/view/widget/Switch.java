@@ -28,7 +28,7 @@ public class Switch extends SwitchCompat {
     }
 
     public Switch(Context context, AttributeSet attrs) {
-        this(context, attrs, R.attr.switchStyle);
+        this(context, attrs, R.attr.uidSwitchStyle);
     }
 
     public Switch(Context context, AttributeSet attrs, int defStyleAttr) {

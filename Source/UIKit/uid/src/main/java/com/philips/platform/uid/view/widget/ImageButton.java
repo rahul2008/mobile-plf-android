@@ -31,7 +31,7 @@ public class ImageButton extends AppCompatButton {
     }
 
     public ImageButton(@NonNull Context context, @NonNull AttributeSet attrs) {
-        this(context, attrs, android.support.v7.appcompat.R.attr.imageButtonStyle);
+        this(context, attrs, R.attr.uidImageButtonStyle);
     }
 
     public ImageButton(@NonNull Context context, @NonNull AttributeSet attrs, int defStyleAttr) {

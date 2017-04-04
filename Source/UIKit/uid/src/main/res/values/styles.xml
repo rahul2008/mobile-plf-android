@@ -7,7 +7,6 @@
         <item name="windowNoTitle">true</item>
         <item name="colorControlHighlight">@android:color/transparent</item>
 
-        <item name="switchStyle">@style/UIDSwitchStyle</item>
         <item name="android:alertDialogStyle">@style/UIDAlertDialog</item>
         <item name="alertDialogStyle">@style/UIDAlertDialog</item>
 
@@ -52,12 +51,6 @@
         <item name="android:actionMenuTextColor">?attr/uidNavigationPrimaryTextColor</item>
 
         <item name="actionBarStyle">@style/UIDActionBarStyle</item>
-        <item name="progressBarStyle">@style/UIDProgressBarHorizontalDeterminate</item>
-        <item name="checkboxStyle">@style/UIDCheckBox</item>
-        <item name="buttonStyle">@style/UIDDefaultButton</item>
-        <item name="imageButtonStyle">@style/UIDImageButton</item>
-        <item name="editTextStyle">@style/UIDEditTextBox</item>
-        <item name="uidIndeterminateLinearPBStyle">@style/UIDIndeterminateLinearProgress</item>
 
         <item name="android:listDivider">?attr/uidSeparator</item>
         <item name="android:dividerHeight">@dimen/uid_divider_Height</item>
@@ -67,11 +60,7 @@
         <!--<item name="uidInputTextTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
         <item name="uidInputTextHintTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
         -->
-        <item name="uidTextBoxValidationBackground">@color/uid_signal_orange_level_15</item>
-        <item name="uidTextBoxValidationBackgroundAlpha">@dimen/uid_alpha_per_50</item>
-        <item name="uidTextBoxValidationBorder">@android:color/transparent</item>
-        <item name="uidTextBoxValidationText">@color/uid_signal_orange_level_75</item>
-        <item name="uidTextBoxValidationErrorColor">@color/uid_signal_orange_level_75</item>
+
 
     </style>
 </resources>
