@@ -40,7 +40,7 @@ public class DemoApplication extends Application {
             }
             initRegistration(RegUtility.getConfiguration(restoredText));
         } else {
-            initRegistration(Configuration.PRODUCTION);
+            initRegistration(Configuration.STAGING);
         }
     }
 
