@@ -10,13 +10,14 @@ import android.util.Log;
 
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientManager;
-
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityManager;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationManager;
+import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
+import com.philips.platform.appinfra.languagepack.LanguagePackManager;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -54,7 +55,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo{
      * The App infra context. This MUST be Application context
      */
     private Context appInfraContext;
-
+    private LanguagePackInterface mLanguagePackInterface;
 
 
     /**
@@ -75,6 +76,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo{
 
         private AppConfigurationInterface configInterface;
         private RestInterface mRestInterface;
+        private LanguagePackInterface languagePack;
 
         /**
          * Instantiates a new Builder.
@@ -91,6 +93,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo{
             mTimeSyncInterfaceBuilder = null;
             configInterface = null;
             mRestInterface = null;
+            languagePack = null;
         }
 
 
@@ -251,6 +254,8 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo{
 
                 }
             });
+            ai.setLanguagePackInterface(languagePack == null? new LanguagePackManager(ai) : languagePack);
+
             return ai;
         }
     }
@@ -306,8 +311,18 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo{
         return mAbtesting;
     }
 
+    @Override
+    public LanguagePackInterface getLanguagePack() {
+        return mLanguagePackInterface;
+    }
+
     private AppInfra(Context pContext) {
         appInfraContext = pContext;
+    }
+
+
+    public void setLanguagePackInterface(LanguagePackInterface languagePackInterface) {
+        this.mLanguagePackInterface = languagePackInterface;
     }
 
     private void setTime(TimeInterface mTimeSyncInterface) {

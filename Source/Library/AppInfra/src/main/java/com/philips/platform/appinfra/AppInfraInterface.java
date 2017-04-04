@@ -4,6 +4,7 @@ import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
+import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
@@ -80,7 +81,13 @@ public interface AppInfraInterface {
 
     /**
      *  Gets the A/B testing Manager.
-     * @return the config
+     * @return the abTesting
      */
     public ABTestClientInterface getAbTesting();
+
+    /**
+     *  Gets the language pack Manager.
+     * @return the language pack
+     */
+    public LanguagePackInterface getLanguagePack();
 }

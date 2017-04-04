@@ -15,8 +15,10 @@ import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.R;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.locks.ReentrantLock;
@@ -83,7 +85,15 @@ public class TimeSyncSntpClient implements TimeInterface {
             long[] offSets;
             long[] roundTripDelays;
 
-            serverPool = mAppInfra.getAppInfraContext().getResources().getStringArray(R.array.server_pool);
+            ArrayList<String> timeSyncServerList=getTimeSyncServerPoolFromConfig();
+            if(null!=timeSyncServerList && !timeSyncServerList.isEmpty())
+            {
+                serverPool=  timeSyncServerList.toArray(new String[timeSyncServerList.size()]);
+            }
+            else {
+                serverPool = mAppInfra.getAppInfraContext().getResources().getStringArray(R.array.server_pool);
+            }
+
             if (serverPool == null || serverPool.length == 0)
                 throw new IllegalArgumentException("NTP server pool string array asset missing");
 
@@ -123,6 +133,45 @@ public class TimeSyncSntpClient implements TimeInterface {
 
         }
     }
+
+    /**
+     * Method to fetch the TimeSync ServerPool from the config.
+     *
+     * @return Arraylist list of TimeSync ServerPool.
+     */
+    private ArrayList<String> getTimeSyncServerPoolFromConfig() {
+        AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
+                .AppConfigurationError();
+        if (mAppInfra.getConfigInterface() != null) {
+            try {
+                Object mServerPool = mAppInfra.getConfigInterface().getPropertyForKey
+                        ("timesync.ntp.hosts", "appinfra", configError);
+                if (mServerPool != null) {
+                    if (mServerPool instanceof ArrayList<?>) {
+                        ArrayList<String> mServerPoolList = new ArrayList<>();
+                        ArrayList<?> list = (ArrayList<?>) mServerPool;
+                        for (int i = 0; i < list.size(); i++) {
+                            if (list.get(i) instanceof String) {
+                                mServerPoolList.add((String) list.get(i));
+                            } else {
+                                throw new IllegalArgumentException("Server Pool should be array of strings" +
+                                        " in AppConfig.json file");
+                            }
+                        }
+                        return mServerPoolList;
+                    } else {
+                        throw new IllegalArgumentException("Server Pool should be array of strings" +
+                                " in AppConfig.json file");
+                    }
+                }
+            } catch (IllegalArgumentException exception) {
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "TIMESYNCCLIENT",
+                        exception.toString());
+            }
+        }
+        return null;
+    }
+
 
     @Override
     public Date getUTCTime() {
