@@ -10,6 +10,8 @@ import android.content.SharedPreferences;
 import android.os.StrictMode;
 import android.util.Log;
 
+import com.crittercism.app.Crittercism;
+import com.crittercism.app.CrittercismConfig;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
@@ -27,6 +29,7 @@ public class AppInfraApplication extends Application {
     public static AppTaggingInterface mAIAppTaggingInterface;
     public static AppInfraInterface gAppInfra;
     private AppInfra mAppInfra;
+    private static final String CRITTERCISM_APP_ID = "cba7f25561b444e5b0aa29639669532d00555300";
 
 
     //SecurDb
@@ -39,6 +42,10 @@ public class AppInfraApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Crittercism.initialize(getApplicationContext(), CRITTERCISM_APP_ID);
+        Crittercism.didCrashOnLastLoad();
+        CrittercismConfig config = new CrittercismConfig();
+        config.setLogcatReportingEnabled(true);
 
         //https://developer.android.com/reference/android/os/StrictMode.html
         // to monitor penaltyLog() log output in logcat for ANR or any other performance issue

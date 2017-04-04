@@ -39,6 +39,10 @@ public interface AppTaggingInterface {
 		}
 	}
 
+	interface RegisterListener {
+		void registerListerner(RegisterListener registerListener);
+		void sendEvent(String data);
+	}
 
 	/**
 	 * Create instance for component ai app tagging interface.
@@ -185,16 +189,16 @@ public interface AppTaggingInterface {
 
 	/**
 	 * get Privacy Consent For SensitiveData.
-     *
-     * @return returns consent value true or false
+	 *
+	 * @return returns consent value true or false
 	 */
 	boolean getPrivacyConsentForSensitiveData();
 
 
 	/**
-	 *	@brief Retrieves the analytics tracking identifier
-	 *	@return an NSString value containing the tracking identifier
-	 *	@note This method can cause a blocking network call and should not be used from a UI thread.
+	 * @return an NSString value containing the tracking identifier
+	 * @brief Retrieves the analytics tracking identifier
+	 * @note This method can cause a blocking network call and should not be used from a UI thread.
 	 */
 	String getTrackingIdentifier();
 }

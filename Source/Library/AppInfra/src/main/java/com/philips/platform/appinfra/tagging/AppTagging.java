@@ -40,6 +40,7 @@ public class AppTagging implements AppTaggingInterface {
 	private final AppInfra mAppInfra;
 	protected String mComponentID;
 	protected String mComponentVersion;
+	AppTaggingInterface.RegisterListener registerListener;
 
 	private Locale mLocale;
 	private final static String AIL_PRIVACY_CONSENT = "ailPrivacyConsentForSensitiveData";
@@ -50,6 +51,10 @@ public class AppTagging implements AppTaggingInterface {
 		init(mAppInfra.getInternationalization().getUILocale(), mAppInfra.getAppInfraContext());
 		// Class shall not presume appInfra to be completely initialized at this point.
 		// At any call after the constructor, appInfra can be presumed to be complete.
+	}
+
+	public void setRegisterListener(RegisterListener listener) {
+		registerListener = listener;
 	}
 
     /*
@@ -386,11 +391,13 @@ public class AppTagging implements AppTaggingInterface {
 	@Override
 	public void trackVideoStart(String videoName) {
 		trackActionWithInfo("videoStart", "videoName", videoName);
+		registerListener.sendEvent(videoName);
 	}
 
 	@Override
 	public void trackVideoEnd(String videoName) {
 		trackActionWithInfo("videoEnd", "videoName", videoName);
+		registerListener.sendEvent(videoName);
 	}
 
 	@Override
