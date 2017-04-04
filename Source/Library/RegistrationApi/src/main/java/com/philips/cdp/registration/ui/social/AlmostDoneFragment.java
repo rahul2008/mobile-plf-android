@@ -31,9 +31,6 @@ import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
-import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.LoginIdEditText;
 import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.customviews.XButton;
@@ -44,33 +41,20 @@ import com.philips.cdp.registration.ui.traditional.MarketingAccountFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
-import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.UIFlow;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import javax.inject.Inject;
+import com.philips.cdp.registration.ui.utils.URInterface;
 
 import butterfork.Bind;
 import butterfork.ButterFork;
 import butterfork.OnClick;
 
-import static com.philips.cdp.registration.ui.traditional.LogoutFragment.BAD_RESPONSE_ERROR_CODE;
-
 public class AlmostDoneFragment extends RegistrationBaseFragment implements AlmostDoneContract,
-        OnUpdateListener, SocialProviderLoginHandler,UpdateUserDetailsHandler, XCheckBox.OnCheckedChangeListener {
+        OnUpdateListener, XCheckBox.OnCheckedChangeListener {
 
-    private static final int LOGIN_FAILURE = -1;
-
-    private final static int EMAIL_ADDRESS_ALREADY_USE_CODE = 390;
-
-    @Inject
-    NetworkUtility networkUtility;
+    //private static final int LOGIN_FAILURE = -1;
 
     @Bind(B.id.tv_reg_sign_in_with)
     TextView signInWithTextView;
@@ -131,37 +115,20 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     @Bind(B.id.reg_view_line)
     View fieldViewLine;
 
-   /* @Bind(B.id.tv_join_now)
-    TextView marketingJoinNowView;*/
-
     @Bind(B.id.reg_recieve_email_line)
     View receivePhilipsNewsLineView;
 
     private AlmostDonePresenter almostDonePresenter;
 
-    private String mGivenName;
-
-    private String mDisplayName;
-
-    private String mFamilyName;
-
-    private String mEmail;
-
-    private String mProvider;
-
-    private boolean isEmailExist;
-
-    private String mRegistrationToken;
-
     private Context mContext;
-
-    private Bundle mBundle;
 
     private boolean isSavedCBTermsChecked;
 
     private boolean isSavedCbAcceptTermsChecked;
 
     private boolean isTermsAndConditionVisible;
+
+    private Bundle mBundle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -172,14 +139,16 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onCreateView");
+        URInterface.getComponent().inject(this);
+        mBundle = getArguments();
         almostDonePresenter = new AlmostDonePresenter(this);
-        parseRegistrationInfo();
+        almostDonePresenter.parseRegistrationInfo(mBundle);
         RLog.i(RLog.EVENT_LISTENERS,
                 "AlmostDoneFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
         View view = inflater.inflate(R.layout.reg_fragment_social_almost_done, container, false);
         ButterFork.bind(this, view);
         initUI(view);
-        updateUiStatus();
+        almostDonePresenter.updateUIStatus();
         handleOrientation(view);
         return view;
     }
@@ -305,93 +274,12 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         handleOrientationOnView(view);
     }
 
-    private void parseRegistrationInfo() {
-        mBundle = getArguments();
-        if (null != mBundle) {
-            try {
-                if(mBundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR)!=null){
-                     trackAbtesting();
-                }
-
-                if(mBundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR)!=null) {
-                    JSONObject mPreRegJson = new JSONObject(mBundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR));
-                    performSocialTwoStepError(mPreRegJson);
-                }
-                if (null == mGivenName) {
-                    mGivenName = mDisplayName;
-                }
-
-            } catch (JSONException e) {
-                RLog.e(RLog.EXCEPTION, "AlmostDoneFragment Exception : " + e.getMessage());
-            }
-        }
-    }
-
-    private void performSocialTwoStepError(JSONObject mPreRegJson) {
-        try{
-            if (null != mPreRegJson) {
-                mProvider = mBundle.getString(RegConstants.SOCIAL_PROVIDER);
-                mRegistrationToken = mBundle.getString(RegConstants.SOCIAL_REGISTRATION_TOKEN);
-
-                if (!mPreRegJson.isNull(RegConstants.REGISTER_GIVEN_NAME)
-                        && !RegConstants.SOCIAL_BLANK_CHARACTER.equals(mPreRegJson
-                        .getString(RegConstants.REGISTER_GIVEN_NAME))) {
-                    mGivenName = mPreRegJson.getString(RegConstants.REGISTER_GIVEN_NAME);
-                }
-                if (!mPreRegJson.isNull(RegConstants.REGISTER_DISPLAY_NAME)
-                        && !RegConstants.SOCIAL_BLANK_CHARACTER.equals(mPreRegJson
-                        .getString(RegConstants.REGISTER_DISPLAY_NAME))) {
-                    mDisplayName = mPreRegJson.getString(RegConstants.REGISTER_DISPLAY_NAME);
-                }
-                if (!mPreRegJson.isNull(RegConstants.REGISTER_FAMILY_NAME)
-                        && !RegConstants.SOCIAL_BLANK_CHARACTER.equals(mPreRegJson
-                        .getString(RegConstants.REGISTER_FAMILY_NAME))) {
-                    mFamilyName = mPreRegJson.getString(RegConstants.REGISTER_FAMILY_NAME);
-                }
-                if (!mPreRegJson.isNull(RegConstants.REGISTER_EMAIL)
-                        && !RegConstants.SOCIAL_BLANK_CHARACTER.equals(mPreRegJson
-                        .getString(RegConstants.REGISTER_EMAIL))) {
-                    mEmail = mPreRegJson.getString(RegConstants.REGISTER_EMAIL);
-                    isEmailExist = true;
-                } else {
-                    isEmailExist = false;
-                }
-            }
-        }catch (JSONException e){
-            RLog.e(RLog.EXCEPTION, "AlmostDoneFragment Exception : " + e.getMessage());
-        }
-    }
-
-    private void trackAbtesting() {
-        final UIFlow abTestingFlow = RegUtility.getUiFlow();
-
-        switch (abTestingFlow){
-            case FLOW_A :
-                RLog.d(RLog.AB_TESTING, "UI Flow Type A");
-                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                        AppTagingConstants.REGISTRATION_CONTROL);
-                break;
-
-            case FLOW_B:
-                RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                        AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
-                break;
-            case FLOW_C:
-                RLog.d(RLog.AB_TESTING, "UI Flow Type C");
-                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                        AppTagingConstants.REGISTRATION_SOCIAL_PROOF);
-                break;
-            default:break;
-        }
-    }
-
     private void initUI(View view) {
         consumeTouch(view);
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
-        //mBtnContinue.setOnClickListener(this);
         mUser = new User(mContext);
-        remarketingOptCheck.setPadding(RegUtility.getCheckBoxPadding(mContext), remarketingOptCheck.getPaddingTop(), remarketingOptCheck.getPaddingRight(), remarketingOptCheck.getPaddingBottom());
+        remarketingOptCheck.setPadding(RegUtility.getCheckBoxPadding(mContext), remarketingOptCheck.getPaddingTop(),
+                remarketingOptCheck.getPaddingRight(), remarketingOptCheck.getPaddingBottom());
         RegUtility.linkifyTermsandCondition(acceptTermsView, getRegistrationFragment().getParentActivity(), mTermsAndConditionClick);
 
         RegUtility.linkifyPhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
@@ -402,27 +290,25 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
         remarketingOptCheck.setOnCheckedChangeListener(this);
         mEtEmail.setOnUpdateListener(this);
-        //mEtEmail.setOnClickListener(this);
-
         mPbSpinner.setClickable(false);
         mPbSpinner.setEnabled(true);
-
-        if (null != mProvider) {
-            mProvider = Character.toUpperCase(mProvider.charAt(0)) + mProvider.substring(1);
-        }
-
-        if (isEmailExist) {
-            mEtEmail.setVisibility(View.GONE);
-            mBtnContinue.setEnabled(true);
-        } else {
-            if (mBundle == null) {
-                mBtnContinue.setEnabled(true);
-            } else {
-                fieldViewLine.setVisibility(View.VISIBLE);
-                mEtEmail.setVisibility(View.VISIBLE);
-            }
-        }
         handleUiAcceptTerms();
+    }
+
+    @Override
+    public void enableBtnContinue(){
+        mBtnContinue.setEnabled(true);
+    }
+    @Override
+    public void emailFieldHide() {
+        mEtEmail.setVisibility(View.GONE);
+        mBtnContinue.setEnabled(true);
+    }
+
+    @Override
+    public void showEmailField() {
+        fieldViewLine.setVisibility(View.VISIBLE);
+        mEtEmail.setVisibility(View.VISIBLE);
     }
 
     private ClickableSpan mTermsAndConditionClick = new ClickableSpan() {
@@ -452,19 +338,11 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         return mUser.getReceiveMarketingEmail();
     }
 
+
+    @Override
     public void hideAcceptTermsView() {
         mViewAcceptTermsLine.setVisibility(View.GONE);
         acceptTermsContainer.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void handleTermsAndCondition() {
-        if (isEmailExist && RegPreferenceUtility.getStoredState(mContext, mEmail)) {
-            mViewAcceptTermsLine.setVisibility(View.GONE);
-            acceptTermsContainer.setVisibility(View.GONE);
-        } else if(mBundle !=null && mBundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR)!=null){
-            updateABTestingUIFlow();
-        }
     }
 
     @Override
@@ -488,7 +366,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         mViewAcceptTermsLine.setVisibility(View.GONE);
     }
 
-    private void updateABTestingUIFlow() {
+    @Override
+    public void updateABTestingUIFlow() {
         final UIFlow abTestingUIFlow = RegUtility.getUiFlow();
 
         switch (abTestingUIFlow){
@@ -521,40 +400,36 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     @Override
-    public void updateUiStatus() {
-        if (isEmailExist) {
-            if (almostDonePresenter.isNetworkAvailable()) {
-                mBtnContinue.setEnabled(true);
-                mRegError.hideError();
-            } else {
-                mRegError.setError(getString(R.string.reg_NoNetworkConnection));
-                mBtnContinue.setEnabled(false);
-                scrollViewAutomatically(mRegError, mSvRootLayout);
-            }
-        } else {
-            if (almostDonePresenter.isNetworkAvailable()) {
-
-                if ((mEtEmail.isShown() && mEtEmail.isValidEmail()) ||
-                        (mEtEmail.getVisibility() != View.VISIBLE)) {
-                    mBtnContinue.setEnabled(true);
-                }
-                mRegError.hideError();
-            } else {
-
-                mRegError.setError(getString(R.string.reg_NoNetworkConnection));
-                mBtnContinue.setEnabled(false);
-                scrollViewAutomatically(mRegError, mSvRootLayout);
-            }
+    public void validateEmailFieldUI() {
+        if ((mEtEmail.isShown() && mEtEmail.isValidEmail()) ||
+                (mEtEmail.getVisibility() != View.VISIBLE)) {
+            mBtnContinue.setEnabled(true);
         }
+        mRegError.hideError();
     }
 
-    private void showSpinner() {
+    @Override
+    public void enableContinueBtn() {
+        mBtnContinue.setEnabled(true);
+        mRegError.hideError();
+    }
+
+    @Override
+    public void handleOfflineMode() {
+        mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+        mBtnContinue.setEnabled(false);
+        scrollViewAutomatically(mRegError, mSvRootLayout);
+    }
+
+    @Override
+    public void showMarketingOptSpinner() {
         remarketingOptCheck.setEnabled(false);
         mPbSpinner.setVisibility(View.VISIBLE);
         mBtnContinue.setEnabled(false);
     }
 
-    private void hideSpinner() {
+    @Override
+    public void hideMarketingOptSpinner() {
         remarketingOptCheck.setEnabled(true);
         mPbSpinner.setVisibility(View.INVISIBLE);
         mBtnContinue.setEnabled(true);
@@ -568,7 +443,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         if (mBundle == null) {
             if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
                 if (acceptTermsCheck.isChecked()) {
-                    storeEmailOrMobileInPreference();
+                    almostDonePresenter.storeEmailOrMobileInPreference();
                     trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
                     launchWelcomeFragment();
                 } else {
@@ -581,41 +456,20 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         }
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && acceptTermsContainer.getVisibility() == View.VISIBLE) {
             if (acceptTermsCheck.isChecked()) {
-                register();
+                almostDonePresenter.register(remarketingOptCheck.isChecked(),FieldsValidator.getMobileNumber(mEtEmail.getEmailId().trim()));
             } else {
                 errorMessage.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
             }
         } else {
-            register();
+            almostDonePresenter.register(remarketingOptCheck.isChecked(),FieldsValidator.getMobileNumber(mEtEmail.getEmailId().trim()));
         }
     }
 
-    private void storeEmailOrMobileInPreference() {
-        if (mEmail != null) {
-            RegPreferenceUtility.storePreference(mContext, mEmail, true);
-            return;
-        }
+    @Override
+    public void storePreference(String emailOrMobileNumber){
+        RegPreferenceUtility.storePreference(mContext, emailOrMobileNumber, true);
+    }
 
-        if(mUser.getMobile()!=null && !mUser.getMobile().equalsIgnoreCase("null")){
-            RegPreferenceUtility.storePreference(mContext,mUser.getMobile(),true);
-        }else if(mUser.getEmail()!=null && !mUser.getEmail().equalsIgnoreCase("null")){
-            RegPreferenceUtility.storePreference(mContext,mUser.getEmail(),true);
-        }
-    }
-    private void register() {
-        if (almostDonePresenter.isNetworkAvailable()) {
-            errorMessage.setVisibility(View.GONE);
-            showSpinner();
-            if (isEmailExist) {
-                mUser.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName, mEmail, true,
-                        remarketingOptCheck.isChecked(), this, mRegistrationToken);
-            } else {
-                mEmail = FieldsValidator.getMobileNumber(mEtEmail.getEmailId().trim());
-                mUser.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName,
-                        mEmail, true, remarketingOptCheck.isChecked(), this, mRegistrationToken);
-            }
-        }
-    }
 
     private void trackMultipleActions() {
         trackABTestingUIFlow();
@@ -635,11 +489,16 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     private void trackABTestingUIFlow() {
         final UIFlow abTestingUIFlow = RegUtility.getUiFlow();
         if (!abTestingUIFlow.equals(UIFlow.FLOW_B)) {
-            if (remarketingOptCheck.isChecked()) {
-                trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
-            } else {
-                trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
-            }
+            trackMarketingOpt();
+        }
+    }
+
+    @Override
+    public void trackMarketingOpt() {
+        if (remarketingOptCheck.isChecked()) {
+            trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
+        } else {
+            trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
         }
     }
 
@@ -649,95 +508,37 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     @Override
-    public void onLoginSuccess() {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onLoginSuccess");
-                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
-                        AppTagingConstants.SUCCESS_LOGIN);
-                hideSpinner();
-            }
-        });
+    public void phoneNumberAlreadyInuseError(){
+        mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_CreateAccount_Using_Phone_Alreadytxt));
     }
 
     @Override
-    public void onLoginFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                handleLoginFailed(userRegistrationFailureInfo);
-            }
-        });
-    }
-
-    private void handleLoginFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onLoginFailedWithError");
-        hideSpinner();
-        if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
-            if (RegistrationHelper.getInstance().isChinaFlow()){
-                mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_CreateAccount_Using_Phone_Alreadytxt));
-            }else {
-                mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
-            }
-            mEtEmail.showInvalidAlert();
-            mEtEmail.showErrPopUp();
-            scrollViewAutomatically(mEtEmail, mSvRootLayout);
-        }
+    public void emailAlreadyInuseError(){
+        mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
     }
 
     @Override
-    public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord,
-                                              String socialRegistrationToken) {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onLoginFailedWithTwoStepError");
-                hideSpinner();
-            }
-        });
+    public void showLoginFailedError() {
+        mEtEmail.showInvalidAlert();
+        mEtEmail.showErrPopUp();
+        scrollViewAutomatically(mEtEmail, mSvRootLayout);
     }
+
 
     @Override
-    public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider,
-                                                String conflictingIdentityProvider, String conflictingIdpNameLocalized,
-                                                String existingIdpNameLocalized, String emailId) {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onLoginFailedWithMergeFlowError");
-                hideSpinner();
-                addMergeAccountFragment();
-            }
-        });
-    }
-
-    private void addMergeAccountFragment() {
+    public void addMergeAccountFragment() {
         getRegistrationFragment().addFragment(new MergeAccountFragment());
         trackPage(AppTaggingPages.MERGE_ACCOUNT);
     }
 
     @Override
-    public void onContinueSocialProviderLoginSuccess() {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                handleContinueSocialProvider();
-            }
-        });
-    }
-
-    private void handleContinueSocialProvider() {
-        RegPreferenceUtility.storePreference(mContext, mEmail, true);
+    public void handleContinueSocialProvider() {
         RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onContinueSocialProviderLoginSuccess");
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_USER_CREATION);
         trackMultipleActions();
         handleABTestingFlow();
-        hideSpinner();
+        hideMarketingOptSpinner();
     }
 
     private void handleABTestingFlow() {
@@ -796,49 +597,26 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     @Override
-    public void onContinueSocialProviderLoginFailure(final
-                                                     UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                handleContinueSocialProviderFailed(userRegistrationFailureInfo);
-            }
-        });
-
+    public void displayNameErrorMessage(UserRegistrationFailureInfo userRegistrationFailureInfo,String displayName){
+        mEtEmail.setErrDescription(userRegistrationFailureInfo.getDisplayNameErrorMessage());
+        mEtEmail.showInvalidAlert();
+        mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + ".\n'"
+                + displayName + "' "
+                + userRegistrationFailureInfo.getDisplayNameErrorMessage());
     }
 
-    private void handleContinueSocialProviderFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onContinueSocialProviderLoginFailure");
-        hideSpinner();
-        if (null != userRegistrationFailureInfo.getDisplayNameErrorMessage()) {
-            mEtEmail.setErrDescription(userRegistrationFailureInfo.getDisplayNameErrorMessage());
-            mEtEmail.showInvalidAlert();
-            mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + ".\n'"
-                    + mDisplayName + "' "
-                    + userRegistrationFailureInfo.getDisplayNameErrorMessage());
-            return;
-        }
-        if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
-            mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
-            mEtEmail.showInvalidAlert();
-            mEtEmail.showErrPopUp();
-        } else {
-            if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
-                if (RegistrationHelper.getInstance().isChinaFlow()){
-                    mRegError.setError(mContext.getResources().getString(R.string.reg_CreateAccount_Using_Phone_Alreadytxt));
-                }else {
-                    mRegError.setError(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
-                }
-            }
-        }
+    @Override
+    public void emailErrorMessage(UserRegistrationFailureInfo userRegistrationFailureInfo){
+        mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
+        mEtEmail.showInvalidAlert();
+        mEtEmail.showErrPopUp();
     }
 
     private void handleUpdate() {
-        if (almostDonePresenter.isNetworkAvailable()) {
+        if (networkUtility.isNetworkAvailable()) {
             mRegError.hideError();
-            showSpinner();
-            updateUser();
+            showMarketingOptSpinner();
+            almostDonePresenter.updateUser(remarketingOptCheck.isChecked());
         } else {
             remarketingOptCheck.setOnCheckedChangeListener(null);
             remarketingOptCheck.setChecked(!remarketingOptCheck.isChecked());
@@ -847,71 +625,21 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         }
     }
 
-    private void updateUser() {
-        mUser.updateReceiveMarketingEmail(this, remarketingOptCheck.isChecked());
-    }
-
     @Override
     public void onCheckedChanged(View view, boolean isChecked) {
         handleUpdate();
     }
 
     @Override
-    public void onUpdateSuccess() {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                hideSpinner();
-                if (remarketingOptCheck.isChecked()) {
-                    trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
-                } else {
-                    trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
-                }
-            }
-        });
-
+    public void failedToConnectToServer(){
+        mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
     }
 
     @Override
-    public void onUpdateFailedWithError(final int error) {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                handleUpdateReceiveMarket(error);
-            }
-        });
-    }
-
-    private void handleUpdateReceiveMarket(int error) {
-        hideSpinner();
-        if (error == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
-            if (getRegistrationFragment() != null) {
-                getRegistrationFragment().replaceWithHomeFragment();
-            }
-            return;
+    public void replaceWithHomeFragment() {
+        if (getRegistrationFragment() != null) {
+            getRegistrationFragment().replaceWithHomeFragment();
         }
-        if (error == RegConstants.FAILURE_TO_CONNECT || error == BAD_RESPONSE_ERROR_CODE) {
-            mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
-            return;
-        }
-        remarketingOptCheck.setOnCheckedChangeListener(null);
-        remarketingOptCheck.setChecked(!remarketingOptCheck.isChecked());
-        remarketingOptCheck.setOnCheckedChangeListener(AlmostDoneFragment.this);
-    }
-
-    @Override
-    public boolean isTermsAndConditionAccepted(){
-        boolean isTermAccepted = false;
-        String mobileNo = mUser.getMobile();
-        String email  = mUser.getEmail();
-        if(FieldsValidator.isValidMobileNumber(mobileNo)){
-            isTermAccepted = RegPreferenceUtility.getStoredState(mContext, mobileNo);
-        }else if(FieldsValidator.isValidEmail(email)){
-            isTermAccepted = RegPreferenceUtility.getStoredState(mContext, email);
-        }
-        return isTermAccepted;
     }
 
     @Override
@@ -919,8 +647,25 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         handleOnUIThread(new Runnable() {
             @Override
             public void run() {
-                updateUiStatus();
+                almostDonePresenter.updateUIStatus();
             }
         });
     }
+
+    @Override
+    public void updateMarketingOptFailedError(){
+        remarketingOptCheck.setOnCheckedChangeListener(null);
+        remarketingOptCheck.setChecked(!remarketingOptCheck.isChecked());
+        remarketingOptCheck.setOnCheckedChangeListener(AlmostDoneFragment.this);
+    }
+
+    @Override
+    public void hideErrorMessage(){
+        errorMessage.setVisibility(View.GONE);
+    }
+
+    public boolean getPreferenceStoredState(String emailOrMobileNumber){
+        return RegPreferenceUtility.getStoredState(mContext, emailOrMobileNumber);
+    }
+
 }
