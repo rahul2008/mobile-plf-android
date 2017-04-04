@@ -28,12 +28,12 @@ class LanguagePackUtil {
     }
 
     File getLanguagePackFilePath(String fileName) {
-        ContextWrapper contextWrapper = new ContextWrapper(context);
-        File directory = contextWrapper.getCacheDir();
-        File file = new File(directory, LanguagePackConstants.LANGUAGE_PACK_PATH);
-        File jsonFile = new File(file.getPath(), fileName);
+        final ContextWrapper contextWrapper = new ContextWrapper(context);
+        final File directory = contextWrapper.getCacheDir();
+        final File file = new File(directory, LanguagePackConstants.LANGUAGE_PACK_PATH);
+        final File jsonFile = new File(file.getPath(), fileName);
         if (!file.exists()) {
-            boolean mkdirs = file.mkdirs();
+            final boolean mkdirs = file.mkdirs();
             if (!mkdirs) {
                 Log.e(this.getClass() + "", "error in creating folders");
             } else {
@@ -67,8 +67,8 @@ class LanguagePackUtil {
     }
 
      String readFile(File file) {
-        int length = (int) file.length();
-        byte[] bytes = new byte[length];
+        final int length = (int) file.length();
+        final byte[] bytes = new byte[length];
         FileInputStream fileInputStream = null;
         try {
             fileInputStream = new FileInputStream(file);
@@ -87,14 +87,14 @@ class LanguagePackUtil {
     }
 
     boolean deleteFile(String fileName) {
-        File file = getLanguagePackFilePath(fileName);
+        final File file = getLanguagePackFilePath(fileName);
         return file.delete();
     }
 
 
     void saveLocaleMetaData(LanguageModel languageModel) {
         try {
-            JSONObject metadataJsonObject = new JSONObject();
+            final JSONObject metadataJsonObject = new JSONObject();
             metadataJsonObject.put(LanguagePackConstants.LOCALE,languageModel.getLocale());
             metadataJsonObject.put(LanguagePackConstants.VERSION, languageModel.getVersion());
             metadataJsonObject.put(LanguagePackConstants.URL,languageModel.getUrl());
@@ -106,8 +106,8 @@ class LanguagePackUtil {
 
 
     boolean renameOnActivate() {
-        File from = getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
-        File to = new File(getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_ACTIVATED), "");
+        final File from = getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
+        final File to = new File(getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_ACTIVATED), "");
         if (from.exists()) {
             if (to.exists()) {
                 to.delete();

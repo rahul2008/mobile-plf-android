@@ -63,19 +63,19 @@ public class LanguagePackManager implements LanguagePackInterface {
     @Override
 	public void refresh(final OnRefreshListener aILPRefreshResult) {
 
-		AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
-		AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
-		String languagePackServiceId = (String) appConfigurationInterface.getPropertyForKey(LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY, "APPINFRA", configError);
+		final AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
+		final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+		final String languagePackServiceId = (String) appConfigurationInterface.getPropertyForKey(LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY, "APPINFRA", configError);
 		if(null==languagePackServiceId){
 			aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.RefreshFailed, "Invalid ServiceID");
 
 		} else {
-			ServiceDiscoveryInterface mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
+			final ServiceDiscoveryInterface mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
 
 			mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(languagePackServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 				@Override
 				public void onSuccess(URL url) {
-					String languagePackConfigURL = url.toString();
+					final String languagePackConfigURL = url.toString();
 
 					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", url.toString()); // US requirement to show language pack URL
 
@@ -95,8 +95,8 @@ public class LanguagePackManager implements LanguagePackInterface {
 							}, new Response.ErrorListener() {
 						@Override
 						public void onErrorResponse(VolleyError error) {
-							String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
-							String errMsg = " Error Code:" + errorcode + " , Error Message:" + error.toString();
+							final String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
+							final String errMsg = " Error Code:" + errorcode + " , Error Message:" + error.toString();
 							mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", errMsg);
 							aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.RefreshFailed, errMsg);
 
@@ -109,7 +109,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 				public void onError(ERRORVALUES error, String message) {
 					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
 							"AILP_URL", " Error Code:" + error.toString() + " , Error Message:" + message);
-					String errMsg = " Error Code:" + error + " , Error Message:" + error.toString();
+					final String errMsg = " Error Code:" + error + " , Error Message:" + error.toString();
 					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", errMsg);
 					aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.RefreshFailed, errMsg);
 
@@ -142,7 +142,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 	private void processForLanguagePack(JSONObject response, OnRefreshListener aILPRefreshResult) {
 		mLanguageList = gson.fromJson(response.toString(), LanguageList.class);
 		if (null != mLanguageList) {
-				String url = getPreferredLocaleURL();
+				final String url = getPreferredLocaleURL();
 				if (null == url) {
 					languagePackHandler.post(postRefreshError(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.RefreshFailed, "Not able to read overview file"));
 				}else{
@@ -159,9 +159,9 @@ public class LanguagePackManager implements LanguagePackInterface {
 	}
 
 	private boolean isLanguagePackDownloadRequired(LanguageModel selectedLanguageModel) {
-		File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_INFO);
-		String json = languagePackUtil.readFile(file);
-		LanguagePackMetadata languagePackMetadata = gson.fromJson(json, LanguagePackMetadata.class);
+		final File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_INFO);
+		final String json = languagePackUtil.readFile(file);
+		final LanguagePackMetadata languagePackMetadata = gson.fromJson(json, LanguagePackMetadata.class);
 		if (languagePackMetadata == null) {
 			return true;
 		} else if (languagePackMetadata.getUrl().equalsIgnoreCase(selectedLanguageModel.getUrl())
@@ -194,8 +194,8 @@ public class LanguagePackManager implements LanguagePackInterface {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-				String errorCode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
-				String errMsg = " Error Code:" + errorCode + " , Error Message:" + error.toString();
+				final String errorCode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
+				final String errMsg = " Error Code:" + errorCode + " , Error Message:" + error.toString();
 				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", errMsg);
 				languagePackHandler.post(postRefreshError(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.RefreshFailed, errMsg));
 			}
@@ -214,10 +214,10 @@ public class LanguagePackManager implements LanguagePackInterface {
 
 	private String getPreferredLocaleURL() {
 
-		ArrayList<LanguageModel> languageModels = mLanguageList.getLanguages();
+		final ArrayList<LanguageModel> languageModels = mLanguageList.getLanguages();
 		if(null!=languageModels) {
-			ArrayList<String> deviceLocaleList = new ArrayList<>(Arrays.asList(getLocaleList().split(",")));
-			LanguageModel langModel = new LanguageModel();
+			final ArrayList<String> deviceLocaleList = new ArrayList<>(Arrays.asList(getLocaleList().split(",")));
+			final LanguageModel langModel = new LanguageModel();
 			for (String deviceLocale : deviceLocaleList) {
 				deviceLocale = deviceLocale.replaceAll("[\\[\\]]", ""); // removing extra [] from locale list
 
@@ -242,7 +242,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 
 				// TODO - Need to handle fallback scenarios
 			}
-			LanguageModel defaultLocale = getDefaultLocale();
+			final LanguageModel defaultLocale = getDefaultLocale();
 			if (languageModels.contains(defaultLocale)) {
 				int index = languageModels.indexOf(defaultLocale);
 				selectedLanguageModel = languageModels.get(index);
@@ -254,8 +254,8 @@ public class LanguagePackManager implements LanguagePackInterface {
 
 	@Override
 	public void activate(final OnActivateListener onActivateListener) {
-		File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_INFO);
-		LanguagePackMetadata languagePackMetadata = gson.fromJson(languagePackUtil.readFile(file), LanguagePackMetadata.class);
+		final File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_INFO);
+		final LanguagePackMetadata languagePackMetadata = gson.fromJson(languagePackUtil.readFile(file), LanguagePackMetadata.class);
 		if (languagePackMetadata != null) {
 			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Language pack metadata info",
 					" contains : " + languagePackMetadata.getLocale() + "---" + languagePackMetadata.getUrl() + "-----" + languagePackMetadata.getVersion());
@@ -296,7 +296,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 	}
 
 	private LanguageModel getDefaultLocale() {
-		LanguageModel defaultLocale = new LanguageModel();
+		final LanguageModel defaultLocale = new LanguageModel();
 		defaultLocale.setLocale("en_US"); // developer default language
 		return defaultLocale;
 	}
