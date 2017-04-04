@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">Instalare</string>
 <string name="reg_Phonenumbernotfound">Numărul de telefon nu a fost găsit</string>
 <string name="reg_InvalidMobilenumber">Număr de telefon mobil nevalid</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Îţi vom trimite un e-mail sau SMS pentru a-ţi reseta parola.</string>
 </resources>

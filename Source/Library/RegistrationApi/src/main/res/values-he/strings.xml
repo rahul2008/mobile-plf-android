@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton"></string>
 <string name="reg_Phonenumbernotfound"></string>
 <string name="reg_InvalidMobilenumber"></string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">נשלח לך הודעת דוא"ל או הודעת SMS כדי לאפס את סיסמתך.</string>
 </resources>

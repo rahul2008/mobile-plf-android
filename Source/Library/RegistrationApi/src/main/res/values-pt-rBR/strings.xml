@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton"></string>
 <string name="reg_Phonenumbernotfound"></string>
 <string name="reg_InvalidMobilenumber"></string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Enviaremos um e-mail ou SMS para redefinir sua senha.</string>
 </resources>

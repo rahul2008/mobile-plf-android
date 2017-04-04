@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton"></string>
 <string name="reg_Phonenumbernotfound"></string>
 <string name="reg_InvalidMobilenumber"></string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Nous allons vous envoyer un courriel ou message texte pour réinitialiser votre mot de passe.</string>
 </resources>
