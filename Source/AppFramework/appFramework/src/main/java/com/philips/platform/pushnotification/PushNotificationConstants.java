@@ -6,8 +6,10 @@ package com.philips.platform.pushnotification;
 
 public class PushNotificationConstants {
 
-        public static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
+        public static final String IS_TOKEN_REGISTERED = "sentTokenToServer";
         public static final String REGISTRATION_COMPLETE = "registrationComplete";
         public static final String GCM_TOKEN="gcm_token";
-        public static final String APP_VARIANT = "REFERENCE-APP-ANDROID";
+        public static final String APP_VARIANT = "RAP-ANDROID";
+        public static final String PUSH_GCMA="Push.Gcma";
+        public static final String PUSH_JPUSH="Push.JPush";
 }
