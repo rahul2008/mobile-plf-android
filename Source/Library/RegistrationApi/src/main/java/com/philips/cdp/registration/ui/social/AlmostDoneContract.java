@@ -16,8 +16,6 @@ public interface AlmostDoneContract {
 
     void updateReceiveMarktingView();
 
-    boolean isReceiveMarketingEmail();
-
     void showMarketingOptSpinner();
 
     void hideMarketingOptSpinner();

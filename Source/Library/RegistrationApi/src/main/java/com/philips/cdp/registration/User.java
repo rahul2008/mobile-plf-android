@@ -467,7 +467,7 @@ public class User {
                 return true;
             }
         } catch (JSONException e) {
-            Log.e(LOG_TAG, "On getEmailVerificationStatus,Caught JSON Exception");
+            Log.e(LOG_TAG, "On isEmailVerificationStatus,Caught JSON Exception");
         }
         return false;
     }

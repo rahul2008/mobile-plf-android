@@ -607,10 +607,10 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
 //        public void test_getEmailVerificationStatus(){
 //                Jump.signOutCaptureUser(context);
 //                User user = new User(context);
-//                assertFalse(user.getEmailVerificationStatus());
+//                assertFalse(user.isEmailVerificationStatus());
 //                saveToDisk(COPPA_CONFIRMED_SIGNED_USER);
 //                Jump.loadUserFromDiskInternal(context);
-//                assertTrue(user.getEmailVerificationStatus());
+//                assertTrue(user.isEmailVerificationStatus());
 //
 //        }
 }

@@ -60,6 +60,8 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
 
     private Bundle mBundle;
 
+    private boolean isNetworkAvailable;
+
     @Inject
     User mUser;
 
@@ -82,8 +84,13 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
+        isNetworkAvailable = isOnline;
         RLog.i(RLog.NETWORK_STATE, "AlmostDone :onNetWorkStateReceived state :" + isOnline);
         updateUIStatus();
+    }
+
+    public boolean isNetworkAvailable(){
+        return isNetworkAvailable;
     }
 
     public void updateUIStatus() {
@@ -122,7 +129,7 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
         }
         if(isTermsAndConditionAccepted()){
             almostDoneContract.updateTermsAndConditionView();
-        }else if(almostDoneContract.isReceiveMarketingEmail()){
+        }else if(mUser.getReceiveMarketingEmail()){
             almostDoneContract.updateReceiveMarktingView();
         }
     }
@@ -262,7 +269,6 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
                 RLog.e(RLog.EXCEPTION, "AlmostDoneFragment Exception : " + e.getMessage());
             }
         }
-
         if (null != mProvider) {
             mProvider = Character.toUpperCase(mProvider.charAt(0)) + mProvider.substring(1);
         }
@@ -417,4 +423,21 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
         return isTermAccepted;
     }
 
+    public boolean isValidEmail(){
+        return FieldsValidator.isValidEmail(mEmail);
+    }
+
+    public boolean isEmailVerificationStatus(){
+        return mUser.getEmailVerificationStatus();
+    }
+
+    public boolean isReceiveMarketingEmailOpt(){
+        return mUser.getReceiveMarketingEmail();
+    }
+
+    public void handleClearUserData(){
+         mUser.logout(null);
+    }
 }
+
+

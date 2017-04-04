@@ -26,7 +26,6 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.B;
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -53,8 +52,6 @@ import butterfork.OnClick;
 
 public class AlmostDoneFragment extends RegistrationBaseFragment implements AlmostDoneContract,
         OnUpdateListener, XCheckBox.OnCheckedChangeListener {
-
-    //private static final int LOGIN_FAILURE = -1;
 
     @Bind(B.id.tv_reg_sign_in_with)
     TextView signInWithTextView;
@@ -104,8 +101,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     @Bind(B.id.tv_reg_accept_terms)
     TextView acceptTermsView;
 
-    private User mUser;
-
     @Bind(B.id.tv_reg_first_to_know)
     TextView mTvFirstToKnow;
 
@@ -138,8 +133,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onCreateView");
         URInterface.getComponent().inject(this);
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onCreateView");
         mBundle = getArguments();
         almostDonePresenter = new AlmostDonePresenter(this);
         almostDonePresenter.parseRegistrationInfo(mBundle);
@@ -277,7 +272,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     private void initUI(View view) {
         consumeTouch(view);
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
-        mUser = new User(mContext);
         remarketingOptCheck.setPadding(RegUtility.getCheckBoxPadding(mContext), remarketingOptCheck.getPaddingTop(),
                 remarketingOptCheck.getPaddingRight(), remarketingOptCheck.getPaddingBottom());
         RegUtility.linkifyTermsandCondition(acceptTermsView, getRegistrationFragment().getParentActivity(), mTermsAndConditionClick);
@@ -334,12 +328,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     @Override
-    public boolean isReceiveMarketingEmail(){
-        return mUser.getReceiveMarketingEmail();
-    }
-
-
-    @Override
     public void hideAcceptTermsView() {
         mViewAcceptTermsLine.setVisibility(View.GONE);
         acceptTermsContainer.setVisibility(View.GONE);
@@ -347,7 +335,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void updateTermsAndConditionView() {
-        if(!mUser.getReceiveMarketingEmail()){
+        if(!almostDonePresenter.isReceiveMarketingEmailOpt()){
             periodicOffersCheck.setVisibility(View.VISIBLE);
         }else{
             periodicOffersCheck.setVisibility(View.GONE);
@@ -441,27 +429,35 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         mEtEmail.clearFocus();
         if (mEtEmail.isShown() && !mEtEmail.isValidEmail()) return;
         if (mBundle == null) {
-            if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
-                if (acceptTermsCheck.isChecked()) {
-                    almostDonePresenter.storeEmailOrMobileInPreference();
-                    trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
-                    launchWelcomeFragment();
-                } else {
-                    errorMessage.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
-                }
-            } else {
-                launchWelcomeFragment();
-            }
+            handleTraditionalTermsAndCondition();
             return;
         }
+        handleSocialTermsAndCondition();
+    }
+
+    private void handleSocialTermsAndCondition() {
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && acceptTermsContainer.getVisibility() == View.VISIBLE) {
             if (acceptTermsCheck.isChecked()) {
-                almostDonePresenter.register(remarketingOptCheck.isChecked(),FieldsValidator.getMobileNumber(mEtEmail.getEmailId().trim()));
+                almostDonePresenter.register(remarketingOptCheck.isChecked(), FieldsValidator.getMobileNumber(mEtEmail.getEmailId().trim()));
             } else {
                 errorMessage.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
             }
         } else {
             almostDonePresenter.register(remarketingOptCheck.isChecked(),FieldsValidator.getMobileNumber(mEtEmail.getEmailId().trim()));
+        }
+    }
+
+    private void handleTraditionalTermsAndCondition() {
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
+            if (acceptTermsCheck.isChecked()) {
+                almostDonePresenter.storeEmailOrMobileInPreference();
+                trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
+                launchWelcomeFragment();
+            } else {
+                errorMessage.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+            }
+        } else {
+            launchWelcomeFragment();
         }
     }
 
@@ -546,7 +542,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         switch (abTestingUIFlow){
             case FLOW_A:
                 RLog.d(RLog.AB_TESTING, "UI Flow Type A");
-                if (mUser.getEmailVerificationStatus()) {
+                if (almostDonePresenter.isEmailVerificationStatus()) {
                     launchWelcomeFragment();
                 } else {
                     launchAccountActivateFragment();
@@ -558,7 +554,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
                 break;
             case FLOW_C:
                 RLog.d(RLog.AB_TESTING, "UI Flow Type C");
-                if (mUser.getEmailVerificationStatus()) {
+                if (almostDonePresenter.isEmailVerificationStatus()) {
                     launchWelcomeFragment();
                 } else {
                     launchAccountActivateFragment();
@@ -568,11 +564,10 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         }
     }
 
-    //called on click of back
     public void clearUserData() {
         if (null != acceptTermsCheck && !acceptTermsCheck.isChecked() &&
                 RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
-            mUser.logout(null);
+            almostDonePresenter.handleClearUserData();
         }
     }
 
@@ -583,7 +578,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     private void launchAccountActivateFragment() {
         trackPage(AppTaggingPages.ACCOUNT_ACTIVATION);
-        if (FieldsValidator.isValidEmail(mEmail)) {
+        if (almostDonePresenter.isValidEmail()) {
             getRegistrationFragment().addFragment(new AccountActivationFragment());
         } else {
             getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
@@ -613,7 +608,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     private void handleUpdate() {
-        if (networkUtility.isNetworkAvailable()) {
+        if (almostDonePresenter.isNetworkAvailable()) {
             mRegError.hideError();
             showMarketingOptSpinner();
             almostDonePresenter.updateUser(remarketingOptCheck.isChecked());
