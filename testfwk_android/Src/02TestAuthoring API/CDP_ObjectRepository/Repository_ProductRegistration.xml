@@ -14,7 +14,7 @@
     <PR_Hamburgericon>com.philips.platform.referenceapp:id/af_hamburger_imageview</PR_Hamburgericon>
     <PRRegister>com.philips.platform.referenceapp:id/btn_register</PRRegister>
     <PRheader>com.philips.platform.referenceapp:id/af_actionbar_title</PRheader>
-    <DatePurchase>//android.widget.EditText[@text='Please enter purchase date']</DatePurchase>
+    <DatePurchase>//android.widget.EditText[@text='YY-MM-DD']</DatePurchase>
     <PROK>android:id/button1</PROK>
     <PRCancel>android:id/button2</PRCancel>
     <PRSuccess>com.philips.platform.referenceapp:id/pr_success_title_textview</PRSuccess>
