@@ -128,7 +128,7 @@ public class DiscoveryActivity extends AppCompatActivity {
                 View view = super.getView(position, convertView, parent);
                 Appliance appliance = getItem(position);
 
-                ((TextView) view.findViewById(R.id.appliance_name)).setText(String.format("%s (%s)", appliance.getName(), appliance.getDeviceType()));
+                ((TextView) view.findViewById(R.id.appliance_name)).setText(String.format("%s (%s)", appliance.getDeviceType(), appliance.getName()));
                 ((TextView) view.findViewById(R.id.appliance_cpp_id)).setText(appliance.getNetworkNode().getCppId());
                 ((TextView) view.findViewById(R.id.appliance_model_id)).setText(appliance.getNetworkNode().getModelId());
 
