@@ -1,3 +1,6 @@
+/* following line is mandatory for the platform CI pipeline integration */
+properties([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name: 'triggerBy']]]])
+
 node('Android') {
     stage('Checkout') {
         sh 'rm -rf *'
@@ -65,5 +68,5 @@ node('Android') {
             archiveArtifacts '**/dependencies.lock'
         }
     }
-    Pipeline.trigger(env.triggerBy, env.BRANCH_NAME, "CommLibBle", "cml")
+    Pipeline.trigger(env.triggerBy, env.BRANCH_NAME, "CommLibBle", "cba")
 }
