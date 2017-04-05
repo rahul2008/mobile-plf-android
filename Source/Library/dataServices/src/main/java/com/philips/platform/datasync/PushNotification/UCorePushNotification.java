@@ -1,17 +1,9 @@
 package com.philips.platform.datasync.PushNotification;
 
 public class UCorePushNotification {
-    private String token;
+    private String protocolAddress;
     private String appVariant;
     private String protocolProvider;
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
 
     public String getAppVariant() {
         return appVariant;
@@ -27,5 +19,13 @@ public class UCorePushNotification {
 
     public void setProtocolProvider(String protocolProvider) {
         this.protocolProvider = protocolProvider;
+    }
+
+    public String getProtocolAddress() {
+        return protocolAddress;
+    }
+
+    public void setProtocolAddress(String protocolAddress) {
+        this.protocolAddress = protocolAddress;
     }
 }

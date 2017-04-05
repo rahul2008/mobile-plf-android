@@ -69,10 +69,10 @@ public class PushNotificationControllerTest {
         when(mUCoreAdapter.getAppFrameworkClient(PushNotificationClient.class, TEST_ACCESS_TOKEN, mGsonConverter)).thenReturn(mPushNotificationClient);
         UCorePushNotification uCorePushNotification = new UCorePushNotification();
         uCorePushNotification.setAppVariant("test app variant");
-        uCorePushNotification.setToken("test token");
+        uCorePushNotification.setProtocolAddress("test token");
         uCorePushNotification.setProtocolProvider("Push.Gcma");
         assertTrue(uCorePushNotification.getAppVariant() != null);
-        assertTrue(uCorePushNotification.getToken() != null);
+        assertTrue(uCorePushNotification.getProtocolAddress() != null);
         assertTrue(uCorePushNotification.getProtocolProvider() != null);
         mPushNotificationController.registerPushNotification(uCorePushNotification);
     }
@@ -129,7 +129,7 @@ public class PushNotificationControllerTest {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(false);
         UCorePushNotification uCorePushNotification = new UCorePushNotification();
         uCorePushNotification.setAppVariant("test app variant");
-        uCorePushNotification.setToken("test token");
+        uCorePushNotification.setProtocolAddress("test token");
         uCorePushNotification.setProtocolProvider("Push.Gcma");
         mPushNotificationController.registerPushNotification(uCorePushNotification);
     }
@@ -154,7 +154,7 @@ public class PushNotificationControllerTest {
         when(mUCoreAdapter.getAppFrameworkClient(PushNotificationClient.class, TEST_ACCESS_TOKEN, mGsonConverter)).thenReturn(mPushNotificationClient);
         UCorePushNotification uCorePushNotification = new UCorePushNotification();
         uCorePushNotification.setAppVariant("test app variant");
-        uCorePushNotification.setToken("test token");
+        uCorePushNotification.setProtocolAddress("test token");
         uCorePushNotification.setProtocolProvider("Push.Gcma");
 
         final RetrofitError retrofitError = mock(RetrofitError.class);

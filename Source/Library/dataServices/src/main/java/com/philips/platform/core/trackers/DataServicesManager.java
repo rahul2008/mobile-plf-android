@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
+import com.google.gson.JsonObject;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
@@ -436,5 +437,9 @@ public class DataServicesManager {
 
     public void unRegisterDeviceToken(String appToken, String appVariant, RegisterDeviceTokenListener registerDeviceTokenListener) {
         mEventing.post(new UnRegisterDeviceToken(appToken, appVariant, registerDeviceTokenListener));
+    }
+
+    public void handlePushNotificationPayload(JsonObject jsonObject){
+
     }
 }
