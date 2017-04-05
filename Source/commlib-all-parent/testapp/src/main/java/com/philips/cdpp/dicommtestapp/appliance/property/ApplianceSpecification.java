@@ -5,15 +5,16 @@ import java.util.List;
 
 public class ApplianceSpecification {
     private String deviceName;
-    private String modelNumber;
+    private String modelId;
+    private String modelName;
     private List<PortSpecification> portSpecifications;
 
     public ApplianceSpecification() {
         portSpecifications = new ArrayList<>();
     }
 
-    public void setModelNumber(String modelNumber) {
-        this.modelNumber = modelNumber;
+    public void setModelId(String modelId) {
+        this.modelId = modelId;
     }
 
     public void setDeviceName(String deviceName) {
@@ -32,11 +33,19 @@ public class ApplianceSpecification {
         return portSpecifications;
     }
 
-    public String getModelNumber() {
-        return modelNumber;
+    public String getModelId() {
+        return modelId;
     }
 
     public void addPortSpecification(PortSpecification specification) {
         this.portSpecifications.add(specification);
+    }
+
+    public String getModelName() {
+        return modelName;
+    }
+
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
     }
 }

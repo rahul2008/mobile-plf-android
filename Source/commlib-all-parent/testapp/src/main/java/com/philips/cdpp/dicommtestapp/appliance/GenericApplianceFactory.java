@@ -10,8 +10,7 @@ import com.philips.cdpp.dicommtestapp.appliance.property.ApplianceSpecification;
 import java.util.HashSet;
 import java.util.Set;
 
-public class GenericApplianceFactory implements DICommApplianceFactory<GenericAppliance>
-{
+public class GenericApplianceFactory implements DICommApplianceFactory<GenericAppliance> {
     private TransportContext transportContext;
     private SupportedAppliances supportedAppliances;
 
@@ -27,7 +26,7 @@ public class GenericApplianceFactory implements DICommApplianceFactory<GenericAp
     @Override
     public GenericAppliance createApplianceForNode(NetworkNode networkNode) {
         CommunicationStrategy strategy = transportContext.createCommunicationStrategyFor(networkNode);
-        ApplianceSpecification applianceSpec = supportedAppliances.findSpecification(networkNode.getModelId());
+        ApplianceSpecification applianceSpec = supportedAppliances.findSpecification(networkNode.getModelId(), networkNode.getModelName());
 
         GenericAppliance genericAppliance = new GenericAppliance(networkNode, strategy);
         genericAppliance.readApplianceSpecification(applianceSpec, strategy);

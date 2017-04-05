@@ -12,11 +12,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SupportedAppliances
-{
+public class SupportedAppliances {
     private List<PortSpecification> defaultPortSpecs;
     private ApplianceSpecification unknownApplianceSpec;
-    private Map<String, ApplianceSpecification> applianceSpecs;
+    private Map<String, ApplianceSpecification> applianceSpecsByModelId;
+    private Map<String, ApplianceSpecification> applianceSpecsByModelName;
 
     public SupportedAppliances() {
         defaultPortSpecs = new ArrayList<>();
@@ -27,22 +27,25 @@ public class SupportedAppliances
 
         unknownApplianceSpec = new ApplianceSpecification();
         unknownApplianceSpec.setDeviceName("Unknown Appliance");
-        unknownApplianceSpec.setModelNumber("Unknown");
+        unknownApplianceSpec.setModelId("Unknown");
         unknownApplianceSpec.setPortSpecifications(defaultPortSpecs);
 
-        applianceSpecs = new HashMap<>();
+        applianceSpecsByModelId = new HashMap<>();
+        applianceSpecsByModelName = new HashMap<>();
         createSupportedApplianceSpecs();
     }
 
-    public ApplianceSpecification findSpecification(String modelNumber)
-    {
-        // TODO Refactor this when libraries have been unified (BLE devices now have 'null' for modelType)
-        if(TextUtils.isEmpty(modelNumber)) {
-            modelNumber = "unknown";
+    public ApplianceSpecification findSpecification(String modelId, String modelName) {
+        // TODO Refactor this when libraries have been unified (BLE devices now have 'null' for modelName)
+        if (TextUtils.isEmpty(modelId)) {
+            modelId = "unknown";
         }
 
-        ApplianceSpecification spec = applianceSpecs.get(modelNumber.toUpperCase());
-        if(spec == null) {
+        ApplianceSpecification spec = applianceSpecsByModelId.get(modelId.toUpperCase());
+        if (spec == null) {
+            spec = applianceSpecsByModelName.get(modelName.toUpperCase());
+        }
+        if (spec == null) {
             spec = unknownApplianceSpec;
         }
         return spec;
@@ -50,18 +53,19 @@ public class SupportedAppliances
 
     private void createSupportedApplianceSpecs() {
         ApplianceSpecification jaguar = ac2889();
-        applianceSpecs.put(jaguar.getModelNumber().toUpperCase(), jaguar);
+        applianceSpecsByModelId.put(jaguar.getModelId().toUpperCase(), jaguar);
+        applianceSpecsByModelName.put(jaguar.getModelName().toUpperCase(), jaguar);
 
         ApplianceSpecification simba = ac1214();
-        applianceSpecs.put(simba.getModelNumber().toUpperCase(), simba);
+        applianceSpecsByModelId.put(simba.getModelId().toUpperCase(), simba);
 
         ApplianceSpecification compas = scd860();
-        applianceSpecs.put(compas.getModelNumber().toUpperCase(), compas);
+        applianceSpecsByModelId.put(compas.getModelId().toUpperCase(), compas);
 
         // Add 'default ports' to all appliance specs
-        for (Map.Entry<String,ApplianceSpecification> pair : applianceSpecs.entrySet()) {
+        for (Map.Entry<String, ApplianceSpecification> pair : applianceSpecsByModelId.entrySet()) {
             ApplianceSpecification supportedAppliance = pair.getValue();
-            for(PortSpecification port : defaultPortSpecs) {
+            for (PortSpecification port : defaultPortSpecs) {
                 supportedAppliance.addPortSpecification(port);
             }
         }
@@ -85,7 +89,7 @@ public class SupportedAppliances
 
         ApplianceSpecification scd860 = new ApplianceSpecification();
         scd860.setDeviceName("uGrow Smart Baby Monitor");
-        scd860.setModelNumber("SCD860");
+        scd860.setModelId("SCD860");
         scd860.addPortSpecification(userPortSpec);
         scd860.addPortSpecification(climatePortSpec);
         return scd860;
@@ -129,7 +133,7 @@ public class SupportedAppliances
 
         ApplianceSpecification ac1214 = new ApplianceSpecification();
         ac1214.setDeviceName("Simba Air Purifier");
-        ac1214.setModelNumber("AC1214");
+        ac1214.setModelId("AC1214");
         ac1214.addPortSpecification(userPortSpec);
         ac1214.addPortSpecification(airPort);
         return ac1214;
@@ -146,7 +150,8 @@ public class SupportedAppliances
 
         ApplianceSpecification ac2889 = new ApplianceSpecification();
         ac2889.setDeviceName("Jaguar AirPurifier");
-        ac2889.setModelNumber("AC2889");
+        ac2889.setModelName("AirPurifier");
+        ac2889.setModelId("AC2889");
         ac2889.addPortSpecification(airPort);
         return ac2889;
     }

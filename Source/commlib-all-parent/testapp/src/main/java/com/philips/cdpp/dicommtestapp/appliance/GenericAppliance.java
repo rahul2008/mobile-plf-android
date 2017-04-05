@@ -9,9 +9,6 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdpp.dicommtestapp.appliance.property.ApplianceSpecification;
 import com.philips.cdpp.dicommtestapp.appliance.property.PortSpecification;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -52,7 +49,7 @@ public class GenericAppliance extends Appliance
 
     void readApplianceSpecification(ApplianceSpecification applianceSpec, CommunicationStrategy strategy) {
         this.addSpecificationPorts(applianceSpec, strategy);
-        this.modelNumber = applianceSpec.getModelNumber();
+        this.modelNumber = applianceSpec.getModelId();
         this.deviceName = applianceSpec.getDeviceName();
     }
 
