@@ -52,7 +52,7 @@ Scenario: 05 Verify Read FAQs
 	Then Verify that the user is in User Registration screen
 	Given user select the country as "United Kingdom"
 	Then I click on Philips Account
-	Then enter email as "eno55465@gmail.com" and password as "Philips123"
+	Then enter email as "gg@sl.in" and password as "Philips@1"
 	Then I click on Log In button
 	Then accept terms conditions and click on continue
 	Then Verify that the user should land to home screen

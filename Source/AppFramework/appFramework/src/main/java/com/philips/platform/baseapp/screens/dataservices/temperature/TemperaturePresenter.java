@@ -48,7 +48,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static com.philips.platform.baseapp.screens.utility.Constants.FILE_CREATION_ERROR;
 import static com.philips.platform.baseapp.screens.utility.Constants.SQLITE_EXCEPTION;
 
 

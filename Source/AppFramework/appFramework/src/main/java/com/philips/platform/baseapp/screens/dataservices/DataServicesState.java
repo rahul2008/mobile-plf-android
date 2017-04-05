@@ -52,7 +52,6 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.sql.SQLException;
 
-import static com.philips.platform.baseapp.screens.utility.Constants.SYNC_ERROR;
 
 /**
  * This class has UI extended from UIKIT about screen , It shows the current version of the app

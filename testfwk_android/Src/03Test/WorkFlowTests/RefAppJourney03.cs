@@ -54,7 +54,8 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
         [Given(@"that the user should be logged out")]
         public void GivenThatTheUserShouldBeLoggedOut()
         {
-            bool title = AppHomeScreen.IsVisibleScreenTitleText("Mobile App Home");
+            Thread.Sleep(3000);
+            bool title = AppHomeScreen.IsVisibleScreenTitleText("Mobile App home");
 
             if (title == true)
             {
