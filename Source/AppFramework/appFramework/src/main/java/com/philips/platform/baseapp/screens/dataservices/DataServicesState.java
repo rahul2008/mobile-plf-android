@@ -7,6 +7,7 @@ package com.philips.platform.baseapp.screens.dataservices;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
@@ -43,10 +44,12 @@ import com.philips.platform.baseapp.screens.dataservices.registration.UserRegist
 import com.philips.platform.baseapp.screens.dataservices.temperature.TemperatureTimeLineFragment;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
-import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.sql.SQLException;
 
@@ -163,6 +166,16 @@ public class DataServicesState extends BaseState {
     @Override
     public void updateDataModel() {
 
+    }
+
+    public void sendPayloadMessageToDSC(JSONObject payloadMesssage){
+        Log.d(TAG,"Sending payload to Data services component....");
+        try {
+            DataServicesManager.getInstance().handlePushNotificationPayload(payloadMesssage);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        //TODO: Need to hadover payload to dsc component
     }
 }
 

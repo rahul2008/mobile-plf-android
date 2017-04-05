@@ -76,8 +76,7 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
         productRegistrationState.init(this);
         iapState = new IAPRetailerFlowState();
         iapState.init(this);
-        dataSyncScreenState = new DataServicesState();
-        dataSyncScreenState.init(this);
+        getDataServiceState();
         /*
          * Initializing tagging class and its interface. Interface initialization needs
          * context to gets started.
@@ -135,5 +134,17 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
         if(TextUtils.isEmpty(pushNotificationManager.getToken(getApplicationContext()))){
             pushNotificationManager.startGCMRegistrationService(getApplicationContext());
         }
+        //TODO:Need to remove this after PN feature implementation. Used for testing JSON parsing
+//        Bundle bundle=new Bundle();
+//        bundle.putString("platform","{ \"dsc\": { \"dataSync\": \"moment\" } }");
+//        pushNotificationManager.sendPayloadToCoCo(getApplicationContext(),bundle);
+    }
+
+    public DataServicesState getDataServiceState(){
+        if(dataSyncScreenState==null){
+            dataSyncScreenState = new DataServicesState();
+            dataSyncScreenState.init(this);
+        }
+        return dataSyncScreenState;
     }
 }

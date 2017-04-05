@@ -12,4 +12,6 @@ public class PushNotificationConstants {
         public static final String APP_VARIANT = "RAP-ANDROID";
         public static final String PUSH_GCMA="Push.Gcma";
         public static final String PUSH_JPUSH="Push.JPush";
+        public static final String PLATFORM_KEY ="platform";
+        public static final String DSC = "dsc";
 }
