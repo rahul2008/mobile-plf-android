@@ -89,7 +89,7 @@ public class SavingMonitorTest {
     @Before
     public void setUp() {
         initMocks(this);
-        savingMonitor = new SavingMonitor(savingMock);
+        savingMonitor = new SavingMonitor(savingMock, dbDeletingInterface, dbUpdatingInterface);
         savingMonitor.start(eventingMock);
     }
 

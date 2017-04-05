@@ -313,7 +313,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         QueryBuilder<OrmDCSync, Integer> lDCSyncQueryBuilder = ormDCSyncDao.queryBuilder();
         lDCSyncQueryBuilder.where().eq("tableID", tableID);
         OrmDCSync ormDCSync = lDCSyncQueryBuilder.queryForFirst();
-        if (ormDCSync == null) return false;
+        if (ormDCSync == null) return true;
         return ormDCSync.isSynced();
     }
 

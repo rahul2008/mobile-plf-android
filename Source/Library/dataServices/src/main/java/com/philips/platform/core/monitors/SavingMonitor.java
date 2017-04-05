@@ -6,7 +6,11 @@ package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.datatypes.SyncType;
+import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
+import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
+import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.CharacteristicsBackendSaveRequest;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
@@ -25,8 +29,16 @@ public class SavingMonitor extends EventMonitor {
     @NonNull
     DBSavingInterface dbInterface;
 
-    public SavingMonitor(DBSavingInterface dbInterface) {
+    @NonNull
+    private final DBDeletingInterface dbDeletingInterface;
+
+    @NonNull
+    private final DBUpdatingInterface dbUpdatingInterface;
+
+    public SavingMonitor(DBSavingInterface dbInterface, @NonNull DBDeletingInterface dbDeletingInterface, @NonNull DBUpdatingInterface dbUpdatingInterface) {
         this.dbInterface = dbInterface;
+        this.dbDeletingInterface = dbDeletingInterface;
+        this.dbUpdatingInterface = dbUpdatingInterface;
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
@@ -54,6 +66,7 @@ public class SavingMonitor extends EventMonitor {
     public void onEventBackGround(final DatabaseConsentSaveRequest consentSaveRequest) throws SQLException {
 
         boolean saved = dbInterface.saveConsentDetails(consentSaveRequest.getConsentDetails(),consentSaveRequest.getDbRequestListener());
+        dbInterface.saveSyncBit(SyncType.CONSENT, true);
         if (!saved) {
             dbInterface.postError(new Exception("Failed to insert"), consentSaveRequest.getDbRequestListener());
             return;
@@ -62,7 +75,11 @@ public class SavingMonitor extends EventMonitor {
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final DatabaseSettingsSaveRequest databaseSettingsSaveRequest) throws SQLException {
+
+        dbDeletingInterface.deleteSyncBit(SyncType.SETTINGS);
+        dbInterface.saveSyncBit(SyncType.SETTINGS,true);
         dbInterface.saveSettings(databaseSettingsSaveRequest.getSettings(),databaseSettingsSaveRequest.getDbRequestListener());
+
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
@@ -71,10 +88,9 @@ public class SavingMonitor extends EventMonitor {
         if (userCharacteristicsSaveRequest.getUserCharacteristicsList() == null)
             return;
 
+        dbDeletingInterface.deleteUserCharacteristics();
         boolean isSaved = dbInterface.saveUserCharacteristics(userCharacteristicsSaveRequest.getUserCharacteristicsList(),userCharacteristicsSaveRequest.getDbRequestListener());
-
-
-
+        dbInterface.saveSyncBit(SyncType.CHARACTERISTICS, false);
         DSLog.d(DSLog.LOG, "SavingMonitor = UserCharacteristicsSaveRequest isSaved ="+isSaved);
         if(!isSaved){
             dbInterface.postError(new Exception("Failed to insert"),userCharacteristicsSaveRequest.getDbRequestListener());

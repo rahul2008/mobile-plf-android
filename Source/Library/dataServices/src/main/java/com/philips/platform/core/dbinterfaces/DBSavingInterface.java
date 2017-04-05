@@ -5,6 +5,7 @@ import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
@@ -28,4 +29,5 @@ public interface DBSavingInterface {
     boolean saveUserCharacteristics(final List<Characteristics> userCharacteristics, DBRequestListener<Characteristics> dbRequestListener) throws SQLException;
     boolean saveSettings(final Settings settings, DBRequestListener<Settings> dbRequestListener) throws SQLException;
     boolean saveInsights(final List<Insight> insights, DBRequestListener<Insight> dbRequestListener) throws SQLException;
+    boolean saveSyncBit(SyncType type,boolean isSynced) throws SQLException;
 }

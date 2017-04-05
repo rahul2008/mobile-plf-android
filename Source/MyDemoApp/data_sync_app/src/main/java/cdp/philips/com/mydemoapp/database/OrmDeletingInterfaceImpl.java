@@ -171,4 +171,14 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         ormDeleting.deleteInsight((OrmInsight) insight);
         notifyDBRequestListener.notifyDBChange(SyncType.INSIGHT);
     }
+
+    @Override
+    public int deleteSyncBit(SyncType syncType) throws SQLException{
+       return ormDeleting.deleteSyncBit(syncType);
+    }
+
+    @Override
+    public void deleteUserCharacteristics() throws SQLException {
+       ormDeleting.deleteCharacteristics();
+    }
 }

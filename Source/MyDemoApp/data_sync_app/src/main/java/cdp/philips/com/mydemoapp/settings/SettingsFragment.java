@@ -85,8 +85,15 @@ public class SettingsFragment extends DialogFragment implements DBFetchRequestLi
                 public void run() {
                     if (data != null) {
                         settings = data.get(0);
-                        updateUi(settings.getUnit(), settings.getLocale());
+                        if(settings==null){
+                            mDataServicesManager.saveUserSettings(mDataServicesManager.createUserSettings("en_US" ,"metric"),SettingsFragment.this);
+                        }else{
+                            updateUi(settings.getUnit(), settings.getLocale());
+                        }
 
+
+                    }else{
+                        mDataServicesManager.saveUserSettings(mDataServicesManager.createUserSettings("en_US" ,"metric"),SettingsFragment.this);
                     }
                     dismissProgressDialog();
                 }
