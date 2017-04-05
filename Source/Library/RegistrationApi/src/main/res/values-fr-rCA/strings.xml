@@ -98,7 +98,7 @@
 <string name="reg_vk">VK</string>
 <string name="reg_wordpress">WordPress</string>
 <string name="reg_xing">XING</string>
-<string name="reg_wechat"></string>
+<string name="reg_wechat">WeChat</string>
 <string name="reg_LegalNoticeText_With_Terms_And_Conditions" formatted="false">Veuillez lire notre %s et notre %s.</string>
 <string name="reg_LegalNoticeText">Veuillez lire notre %s</string>
 <string name="reg_AgeLimitText">En créant un compte ou en vous connectant, vous certifiez être âgé de %s ans ou plus.\n</string>
@@ -240,10 +240,10 @@
 <string name="reg_Country_US">Canada</string>
 <string name="reg_Country_VN">Vietnam</string>
 <string name="reg_Country_Search_Text">Recherche..</string>
-<string name="reg_AppNotInstalled_Alert_Title"></string>
-<string name="reg_App_NotInstalled_AlertMessage"></string>
-<string name="reg_App_NotInstalled_InstallButton"></string>
-<string name="reg_Phonenumbernotfound"></string>
-<string name="reg_InvalidMobilenumber"></string>
+<string name="reg_AppNotInstalled_Alert_Title">Application non installée</string>
+<string name="reg_App_NotInstalled_AlertMessage">Veuillez installer l’application %s pour profiter de cette fonction.</string>
+<string name="reg_App_NotInstalled_InstallButton">Installer</string>
+<string name="reg_Phonenumbernotfound">Numéro de téléphone introuvable</string>
+<string name="reg_InvalidMobilenumber">Numéro de téléphone mobile non valide</string>
 <string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Nous allons vous envoyer un courriel ou message texte pour réinitialiser votre mot de passe.</string>
 </resources>

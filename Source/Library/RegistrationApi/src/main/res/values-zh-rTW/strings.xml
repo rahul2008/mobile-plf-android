@@ -108,7 +108,6 @@
 <string name="reg_Verification_email_Message">我們已傳送驗證電子郵件地址的電子郵件給您。電子郵件送達可能要花一些時間。</string>
 <string name="reg_Forgot_Password_Title">忘記密碼？</string>
 <string name="reg_Forgot_Password_description">我們將傳送重設密碼電子郵件給您。</string>
-    <string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">我們將傳送重設密碼電子郵件或簡訊給您。</string>
 <string name="reg_Merge_Account_Title">合併帳戶</string>
 <string name="reg_Create_Account_PasswordHint_Length_lbltxt">8-32 個字元</string>
 <string name="reg_Create_Account_PasswordHint_Aplhabets_lbltxt">大寫或小寫字母</string>
@@ -246,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">安裝</string>
 <string name="reg_Phonenumbernotfound">找不到電話號碼</string>
 <string name="reg_InvalidMobilenumber">手機號碼無效</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">我們將傳送重設密碼電子郵件或簡訊給您。</string>
 </resources>

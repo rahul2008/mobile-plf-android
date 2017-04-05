@@ -22,7 +22,7 @@
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Sono d\'accordo</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Non sono d\'accordo</string>
 <string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Grazie del suo consenso </string>
-<string name="reg_Coppa_US_Parental_Access_Content_Txt">Riceverà una richiesta di conferma del consenso quando effettuerà di nuovo l\'accesso alla sezione genitori dopo un periodo minimo di 24 ore a partire da ora.</string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">Riceverai una richiesta di conferma del consenso quando effettuerai di nuovo l\'accesso alla sezione genitori dopo un periodo minimo di 24 ore a partire dalla richiesta iniziale.</string>
 <string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Grazie per il suo interesse e desiderio di condivisione!</string>
 <string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Ha offerto a Philips il consenso per raccogliere dall\'impugnatura dello spazzolino e dall\'app informazioni sul tempo, il periodo e la frequenza di utilizzo. \n \n Philips tratta la sua privacy e i suoi dati personali con molta serietà. Utilizzeremo questi dati solo per migliorare l\'esperienza Sonicare for Kids e mai per altri scopi.</string>
 <string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Ha già fornito a Philips il consenso per raccogliere e utilizzare determinate informazioni dall\'app Philips Sonicare Kids.\n\nPer Philips la protezione della sua privacy è della massima importanza. Per assicurarci che fosse veramente lei, la preghiamo di confermare nuovamente il suo consenso.\n\n</string>
