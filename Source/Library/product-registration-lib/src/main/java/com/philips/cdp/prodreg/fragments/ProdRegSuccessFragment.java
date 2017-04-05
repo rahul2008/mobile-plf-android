@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
@@ -28,6 +29,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
     private ArrayList<RegisteredProduct> regProdList;
     private ImageView imageBackground;
     private int resId;
+    private TextView prSuccessConfigurableTextView;
 
     @Override
     public int getActionbarTitleResId() {
@@ -55,6 +57,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
         ProdRegTagging.getInstance().trackPage("ProductRegistrationSuccessScreen", "trackPage", "ProductRegistrationSuccessScreen");
         Button button = (Button) view.findViewById(R.id.continueButton);
         imageBackground = (ImageView) view.findViewById(R.id.success_background_image);
+        prSuccessConfigurableTextView = (TextView) view.findViewById(R.id.pr_success_configurable_textView);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -76,7 +79,11 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
             regProdList = (ArrayList<RegisteredProduct>) arguments.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
             resId = arguments.getInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
             setImageBackground();
+
             if (registeredProduct != null) {
+                if (!registeredProduct.getEmail()) {
+                    prSuccessConfigurableTextView.setVisibility(View.GONE);
+                }
                 ProdRegTagging.getInstance().trackAction("ProdRegSuccessEvent", "productModel", registeredProduct.getCtn());
             }
         }

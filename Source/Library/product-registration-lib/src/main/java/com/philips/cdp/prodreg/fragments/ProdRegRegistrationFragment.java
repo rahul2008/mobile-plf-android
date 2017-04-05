@@ -43,6 +43,8 @@ import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
 
+import org.w3c.dom.Text;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -54,7 +56,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public static final String TAG = ProdRegRegistrationFragment.class.getName();
     private ImageLoader imageLoader;
     private LinearLayout dateParentLayout, dateErrorLayout, serialNumberErrorLayout, findSerialNumberLayout, serialNumberParentLayout, successLayout;
-    private TextView productFriendlyNameTextView, productTitleTextView, productCtnTextView, dateErrorTextView, serialNumberErrorTextView;
+    private TextView productFriendlyNameTextView, productTitleTextView, productCtnTextView, dateErrorTextView, serialNumberErrorTextView,prSuccessConfigurableTextView;
     private ImageView productImageView;
     private EditText serial_number_editText;
     private EditText date_EditText;
@@ -136,6 +138,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         serial_number_editText = (EditText) view.findViewById(R.id.serial_edit_text);
         date_EditText = (EditText) view.findViewById(R.id.date_edit_text);
         imageLoader = ImageRequestHandler.getInstance(mActivity.getApplicationContext()).getImageLoader();
+        prSuccessConfigurableTextView = (TextView) view.findViewById(R.id.pr_success_configurable_textView);
         registerButton = (Button) view.findViewById(R.id.btn_register);
         final Button continueButton = (Button) view.findViewById(R.id.continueButton);
         productImageView = (ImageView) view.findViewById(R.id.product_image);
@@ -383,6 +386,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public void setProductView(final RegisteredProduct registeredProduct) {
         date_EditText.setText(registeredProduct.getPurchaseDate());
         serial_number_editText.setText(registeredProduct.getSerialNumber());
+        if (!registeredProduct.getEmail()) {
+            prSuccessConfigurableTextView.setVisibility(View.GONE);
+        }
         final String productCtn = registeredProduct.getCtn();
         if (!TextUtils.isEmpty(registeredProduct.getCtn())) {
             productCtnTextView.setVisibility(View.VISIBLE);
