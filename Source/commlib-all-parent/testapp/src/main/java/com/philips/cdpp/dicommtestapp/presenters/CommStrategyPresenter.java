@@ -1,0 +1,43 @@
+package com.philips.cdpp.dicommtestapp.presenters;
+
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.philips.cdpp.dicommtestapp.strategy.CommStrategy;
+
+import nl.rwslinkman.presentable.Presenter;
+
+
+public class CommStrategyPresenter implements Presenter<CommStrategy, CommStrategyPresenter.ViewHolder>
+{
+    @Override
+    public CommStrategyPresenter.ViewHolder onCreateViewHolder(ViewGroup parent)
+    {
+        // Inflate your custom XML layout representing a list item in the RecyclerView
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(android.R.layout.simple_list_item_1, parent, false);
+
+        ViewHolder vh = new ViewHolder(v);
+        vh.textView = (TextView) v.findViewById(android.R.id.text1);
+
+        return vh;
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, CommStrategy item)
+    {
+        String strategyName = item.getType().value();
+        viewHolder.textView.setText(strategyName);
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+        TextView textView;
+
+        ViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+}
