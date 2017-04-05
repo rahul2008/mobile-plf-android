@@ -78,7 +78,10 @@ class TonalRange {
                 return "@null"
             }
         } else if (colorCode != null) {
-            if (colorRange == "accent" || colorRange == "validation")
+            if (colorRange == "accent") {
+                return "?attr/uidAccentLevel" + colorCode
+            }
+            if (colorRange == "validation")
                 return "@null"
 
             def hexAlpha = ""

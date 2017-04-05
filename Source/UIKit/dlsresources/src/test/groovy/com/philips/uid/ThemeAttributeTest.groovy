@@ -273,6 +273,21 @@ class ThemeAttributeTest extends GroovyTestCase {
         assertEquals("#1A02101B", colorValue)
     }
 
+    void testGetTonalRangeValueFromReferenceAndOpacityAccent() {
+        resetThemeValueObject()
+        themeValueObject.colorRange = "accent"
+        themeValueObject.colorCode = "20"
+        themeAttribute.addTonalRange(LIGHT, themeValueObject)
+
+        ArrayList list = new ArrayList()
+
+        TonalRange tonalRange = ((TonalRange) themeAttribute.attributeMap.get(LIGHT))
+        def colorsXmlInput = new XmlParser().parseText(new File(DLSResourceConstants.PATH_OUT_COLORS_FILE).text)
+        def colorValue = tonalRange.getValue("blue", colorsXmlInput, list)
+
+        assertEquals("?attr/uidAccentLevel20", colorValue)
+    }
+
     private void resetThemeValueObject() {
         themeValueObject.color = null
         themeValueObject.colorCode = null

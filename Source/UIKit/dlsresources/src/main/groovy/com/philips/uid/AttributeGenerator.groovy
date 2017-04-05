@@ -22,6 +22,11 @@ class AttributeGenerator {
                     colorLevel = colorLevel + DLSResourceConstants.COLOR_OFFSET
 
                 }
+                for (int colorLevel = 5; colorLevel <= 90;) {
+                    attr("${DLSResourceConstants.ITEM_NAME}": BrushParser.getAttributeName("Accent_Level_" + colorLevel), "${DLSResourceConstants.ITEM_FORMAT}": DLSResourceConstants.FORMAT_REF_OR_COLOR)
+                    colorLevel = colorLevel + DLSResourceConstants.COLOR_OFFSET
+
+                }
 
                 allBrushAttributes.each {
                     attr("${DLSResourceConstants.ITEM_NAME}": it.attrName, "${DLSResourceConstants.ITEM_FORMAT}": DLSResourceConstants.FORMAT_REF_OR_COLOR)
