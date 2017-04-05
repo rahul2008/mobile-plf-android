@@ -1,3 +1,7 @@
+/*
+ * (C) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
 package com.philips.cdpp.dicommtestapp.presenters;
 
 import android.support.v4.content.ContextCompat;
@@ -12,14 +16,16 @@ import com.philips.cdpp.dicommtestapp.appliance.PropertyPort;
 
 import nl.rwslinkman.presentable.Presenter;
 
+import static android.support.v4.content.ContextCompat.*;
+
 public class PortOverviewPresenter implements Presenter<PropertyPort, PortOverviewPresenter.ViewHolder> {
     private int redColor;
     private int blackColor;
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
-        redColor = ContextCompat.getColor(parent.getContext(), android.R.color.holo_red_dark);
-        blackColor = ContextCompat.getColor(parent.getContext(), android.R.color.black);
+        redColor = getColor(parent.getContext(), android.R.color.holo_red_dark);
+        blackColor = getColor(parent.getContext(), android.R.color.black);
 
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_port_overview, parent, false);

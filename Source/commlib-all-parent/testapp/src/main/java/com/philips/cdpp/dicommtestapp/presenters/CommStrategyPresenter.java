@@ -1,3 +1,7 @@
+/*
+ * (C) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
 package com.philips.cdpp.dicommtestapp.presenters;
 
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +13,6 @@ import android.widget.TextView;
 import com.philips.cdpp.dicommtestapp.strategy.CommStrategy;
 
 import nl.rwslinkman.presentable.Presenter;
-
 
 public class CommStrategyPresenter implements Presenter<CommStrategy, CommStrategyPresenter.ViewHolder>
 {

@@ -1,3 +1,7 @@
+/*
+ * (C) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
 package com.philips.cdpp.dicommtestapp.presenters;
 
 import android.support.v7.widget.RecyclerView;

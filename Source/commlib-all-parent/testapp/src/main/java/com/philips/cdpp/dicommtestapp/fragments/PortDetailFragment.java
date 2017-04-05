@@ -1,3 +1,7 @@
+/*
+ * (C) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
 package com.philips.cdpp.dicommtestapp.fragments;
 
 import android.os.Bundle;
@@ -16,9 +20,6 @@ import java.util.ArrayList;
 
 import nl.rwslinkman.presentable.Presenter;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class PortDetailFragment extends DiCommTestAppFragment<Property>
 {
     private static final String TAG = "PortDetailFragment";

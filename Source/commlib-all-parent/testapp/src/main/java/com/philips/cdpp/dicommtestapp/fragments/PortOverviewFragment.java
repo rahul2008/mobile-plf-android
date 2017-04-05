@@ -1,3 +1,7 @@
+/*
+ * (C) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
 package com.philips.cdpp.dicommtestapp.fragments;
 
 import android.os.Bundle;
@@ -24,9 +28,6 @@ import java.util.Set;
 import nl.rwslinkman.presentable.Presenter;
 import nl.rwslinkman.presentable.interaction.PresentableItemClickListener;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class PortOverviewFragment extends DiCommTestAppFragment<PropertyPort> implements PresentableItemClickListener<PropertyPort> {
     private static final String TAG = "PortOverviewFragment";
 
