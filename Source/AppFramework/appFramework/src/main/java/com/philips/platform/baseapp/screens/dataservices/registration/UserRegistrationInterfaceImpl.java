@@ -200,9 +200,9 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface{
     @Override
     public String getHSDPUrl() {
 
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        Object propertyForKey = ((AppFrameworkApplication)context.getApplicationContext()).getAppInfra().getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL, URConfigurationConstants.UR, configError);
-        return propertyForKey.toString();
+//        AppConfigurationInterface.AppConfigurationError configError = new
+//                AppConfigurationInterface.AppConfigurationError();
+//        Object propertyForKey = ((AppFrameworkApplication)context.getApplicationContext()).getAppInfra().getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL, URConfigurationConstants.UR, configError);
+        return "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com";
     }
 }
