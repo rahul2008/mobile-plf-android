@@ -17,6 +17,7 @@ import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -137,12 +138,12 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onCreateView");
         mBundle = getArguments();
         almostDonePresenter = new AlmostDonePresenter(this);
-        almostDonePresenter.parseRegistrationInfo(mBundle);
         RLog.i(RLog.EVENT_LISTENERS,
                 "AlmostDoneFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
         View view = inflater.inflate(R.layout.reg_fragment_social_almost_done, container, false);
         ButterFork.bind(this, view);
         initUI(view);
+        almostDonePresenter.parseRegistrationInfo(mBundle);
         almostDonePresenter.updateUIStatus();
         handleOrientation(view);
         return view;
