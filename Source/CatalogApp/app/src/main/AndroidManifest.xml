@@ -18,9 +18,5 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".themesettings.PreviewActivity"
-            android:parentActivityName="com.philips.platform.catalogapp.MainActivity"
-            android:theme="@style/Theme.DLS.GroupBlue.VeryDark"/>
     </application>
 </manifest>
