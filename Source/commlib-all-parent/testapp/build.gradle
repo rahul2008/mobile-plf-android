@@ -22,12 +22,12 @@ repositories {
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
     defaultConfig {
         applicationId "com.philips.cdpp.dicommtestapp"
-        minSdkVersion 19
-        targetSdkVersion 25
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.sdk
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -44,14 +44,16 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // 3rd party
-    compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'nl.rwslinkman.presentable:presentable:1.7'
-    compile 'com.android.support:design:25.1.1'
+    compile deps.support.appcompatv7
+    compile deps.support.design
     compile 'com.android.support:support-v4:25.1.1'
-    // CDPP platform
-    compile project(":commlib-all")
 
-    testCompile 'junit:junit:4.12'
+    // CDPP platform
+    def commlib_ble = findProject(':commlib-ble') ? ':commlib-ble' : ':commlib-all'
+    compile project(commlib_ble)
+
+    testCompile deps.junit
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
