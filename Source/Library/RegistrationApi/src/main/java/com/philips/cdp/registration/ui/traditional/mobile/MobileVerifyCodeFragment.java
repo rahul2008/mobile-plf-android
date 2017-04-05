@@ -269,8 +269,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void refreshUserOnSmsVerificationSuccess() {
-        trackActionStatus(SEND_DATA, SPECIAL_EVENTS,
-                SUCCESS_USER_REGISTRATION);
+        trackActionStatus(SEND_DATA, SPECIAL_EVENTS, SUCCESS_USER_REGISTRATION);
         user.refreshUser(this);
     }
 

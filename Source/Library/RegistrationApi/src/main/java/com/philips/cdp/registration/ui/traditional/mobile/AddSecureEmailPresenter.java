@@ -50,8 +50,8 @@ public class AddSecureEmailPresenter implements CaptureApiRequestCallback, Netwo
     }
 
     @Override
-    public void onFailure(CaptureApiError e) {
-        addSecureEmailContract.onAddRecoveryEmailFailure(e.error);
+    public void onFailure(CaptureApiError error) {
+        addSecureEmailContract.onAddRecoveryEmailFailure(error.error);
     }
 
     @Override

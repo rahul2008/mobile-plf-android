@@ -73,6 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/btn_reg_activate_acct"
+                android:visibility="gone"
                 android:layout_marginTop="@dimen/reg_margin_bottom" />
 
         </LinearLayout>
