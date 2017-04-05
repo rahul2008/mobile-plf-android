@@ -31,8 +31,8 @@ public class PushNotificationMonitor extends EventMonitor {
     public void onEventAsync(RegisterDeviceToken registerDeviceToken) {
         mRegisterDeviceTokenListener = registerDeviceToken.getRegisterDeviceTokenListener();
         UCorePushNotification uCorePushNotification = new UCorePushNotification();
-        uCorePushNotification.setAppVariant(registerDeviceToken.getAppVariant());
         uCorePushNotification.setProtocolAddress(registerDeviceToken.getDeviceToken());
+        uCorePushNotification.setAppVariant(registerDeviceToken.getAppVariant());
         uCorePushNotification.setProtocolProvider(registerDeviceToken.getProtocolProvider());
         mPushNotificationController.registerPushNotification(uCorePushNotification);
     }
