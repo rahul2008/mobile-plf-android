@@ -17,7 +17,6 @@ import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -608,22 +607,24 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         mEtEmail.showErrPopUp();
     }
 
-    private void handleUpdate() {
-        if (almostDonePresenter.isNetworkAvailable()) {
-            mRegError.hideError();
-            showMarketingOptSpinner();
-            almostDonePresenter.updateUser(remarketingOptCheck.isChecked());
-        } else {
-            remarketingOptCheck.setOnCheckedChangeListener(null);
-            remarketingOptCheck.setChecked(!remarketingOptCheck.isChecked());
-            remarketingOptCheck.setOnCheckedChangeListener(this);
-            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
-        }
+    @Override
+    public void marketingOptCheckDisable() {
+        remarketingOptCheck.setOnCheckedChangeListener(null);
+        remarketingOptCheck.setChecked(!remarketingOptCheck.isChecked());
+        remarketingOptCheck.setOnCheckedChangeListener(this);
+        mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+    }
+
+    @Override
+    public void handleUpdateUser() {
+        mRegError.hideError();
+        showMarketingOptSpinner();
+        almostDonePresenter.updateUser(remarketingOptCheck.isChecked());
     }
 
     @Override
     public void onCheckedChanged(View view, boolean isChecked) {
-        handleUpdate();
+        almostDonePresenter.handleUpdate();
     }
 
     @Override

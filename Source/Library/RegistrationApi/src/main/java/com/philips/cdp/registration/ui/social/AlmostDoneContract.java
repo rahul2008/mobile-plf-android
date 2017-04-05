@@ -61,4 +61,8 @@ public interface AlmostDoneContract {
     void handleOfflineMode();
 
     void validateEmailFieldUI();
+
+    void handleUpdateUser();
+
+    void marketingOptCheckDisable();
 }

@@ -438,6 +438,14 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
     public void handleClearUserData(){
          mUser.logout(null);
     }
+
+    public void handleUpdate() {
+        if (networkUtility.isNetworkAvailable()) {
+            almostDoneContract.handleUpdateUser();
+        } else {
+            almostDoneContract.marketingOptCheckDisable();
+        }
+    }
 }
 
 
