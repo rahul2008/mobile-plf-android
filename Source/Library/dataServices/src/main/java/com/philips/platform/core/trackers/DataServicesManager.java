@@ -68,6 +68,8 @@ import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -439,7 +441,8 @@ public class DataServicesManager {
         mEventing.post(new UnRegisterDeviceToken(appToken, appVariant, registerDeviceTokenListener));
     }
 
-    public void handlePushNotificationPayload(JsonObject jsonObject){
-
+    public void handlePushNotificationPayload(JSONObject jsonObject) throws JSONException {
+        String value = jsonObject.getString("dataSync");
+        System.out.println("****value*****" + value);
     }
 }
