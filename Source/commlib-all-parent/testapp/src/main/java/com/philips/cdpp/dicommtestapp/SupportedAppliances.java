@@ -9,8 +9,10 @@ import com.philips.cdpp.dicommtestapp.appliance.property.PropertyType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class SupportedAppliances {
     private List<PortSpecification> defaultPortSpecs;
@@ -62,6 +64,10 @@ public class SupportedAppliances {
         ApplianceSpecification compas = scd860();
         applianceSpecsByModelId.put(compas.getModelId().toUpperCase(), compas);
 
+        ApplianceSpecification refnode = refnode();
+        applianceSpecsByModelId.put(refnode.getModelId().toUpperCase(), refnode);
+        applianceSpecsByModelName.put(refnode.getModelName().toUpperCase(), refnode);
+
         // Add 'default ports' to all appliance specs
         for (Map.Entry<String, ApplianceSpecification> pair : applianceSpecsByModelId.entrySet()) {
             ApplianceSpecification supportedAppliance = pair.getValue();
@@ -72,6 +78,14 @@ public class SupportedAppliances {
     }
 
     // SUPPORTED APPLIANCES
+    private ApplianceSpecification refnode() {
+        ApplianceSpecification refnode = new ApplianceSpecification();
+        refnode.setDeviceName("Reference node");
+        refnode.setModelId("PS1234");
+        refnode.setModelName("ReferenceNode");
+        return refnode;
+    }
+
     private ApplianceSpecification scd860() {
         Property useridsProp = new Property("User identifiers", "userids", PropertyType.ARRAY);
         PortSpecification userPortSpec = new PortSpecification();
