@@ -44,7 +44,6 @@ public class CombinedDiscoveryStrategy extends ObservableDiscoveryStrategy imple
         for (DiscoveryStrategy strategy : discoveryStrategies) {
             strategy.start(deviceTypes);
         }
-        this.onDiscoveryStarted();
     }
 
     @Override
@@ -52,12 +51,6 @@ public class CombinedDiscoveryStrategy extends ObservableDiscoveryStrategy imple
         for (DiscoveryStrategy strategy : discoveryStrategies) {
             strategy.stop();
         }
-        this.onDiscoveryStopped();
-    }
-
-    @Override
-    public void onDiscoveryStarted() {
-        notifyDiscoveryStarted();
     }
 
     @Override
@@ -73,10 +66,5 @@ public class CombinedDiscoveryStrategy extends ObservableDiscoveryStrategy imple
     @Override
     public void onNetworkNodeUpdated(NetworkNode networkNode) {
         notifyNetworkNodeUpdated(networkNode);
-    }
-
-    @Override
-    public void onDiscoveryStopped() {
-        notifyDiscoveryStopped();
     }
 }
