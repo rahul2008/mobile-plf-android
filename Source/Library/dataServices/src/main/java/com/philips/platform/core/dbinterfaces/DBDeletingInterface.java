@@ -6,6 +6,7 @@ package com.philips.platform.core.dbinterfaces;
 
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
@@ -24,4 +25,7 @@ public interface DBDeletingInterface {
     boolean markInsightsAsInActive(final List<Insight> insights ,DBRequestListener<Insight> dbRequestListener) throws SQLException;
     boolean deleteInsights(final List<Insight> insights ,DBRequestListener<Insight> dbRequestListener) throws SQLException;
     void deleteInsight(Insight insight, DBRequestListener<Insight> dbRequestListener) throws SQLException;
+
+    int deleteSyncBit(SyncType syncType) throws SQLException;
+    void deleteUserCharacteristics() throws SQLException;
 }
