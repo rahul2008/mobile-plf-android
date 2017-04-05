@@ -90,6 +90,7 @@ public class SavingMonitor extends EventMonitor {
 
         dbDeletingInterface.deleteUserCharacteristics();
         boolean isSaved = dbInterface.saveUserCharacteristics(userCharacteristicsSaveRequest.getUserCharacteristicsList(),userCharacteristicsSaveRequest.getDbRequestListener());
+        dbDeletingInterface.deleteSyncBit(SyncType.SETTINGS);
         dbInterface.saveSyncBit(SyncType.CHARACTERISTICS, false);
         DSLog.d(DSLog.LOG, "SavingMonitor = UserCharacteristicsSaveRequest isSaved ="+isSaved);
         if(!isSaved){
@@ -97,12 +98,6 @@ public class SavingMonitor extends EventMonitor {
             return;
         }
 
-        //
-
-        //if (!userCharacteristicsSaveRequest.getUserCharacteristics().isSynchronized()) {
-            eventing.post(new CharacteristicsBackendSaveRequest(CharacteristicsBackendSaveRequest.RequestType.UPDATE,
-                    userCharacteristicsSaveRequest.getUserCharacteristicsList()));
-        //}
     }
 
 

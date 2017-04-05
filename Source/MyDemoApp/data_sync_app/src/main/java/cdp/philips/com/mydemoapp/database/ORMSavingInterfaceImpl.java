@@ -145,7 +145,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
     @Override
     public boolean saveSyncBit(SyncType type, boolean isSynced) throws SQLException {
-        deleting.deleteSyncBit(type);
+        //deleting.deleteSyncBit(type);
         saving.saveSyncBit(type,isSynced);
         return true;
     }

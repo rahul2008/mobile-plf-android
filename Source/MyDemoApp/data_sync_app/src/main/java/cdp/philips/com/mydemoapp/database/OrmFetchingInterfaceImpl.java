@@ -13,6 +13,7 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.DCSync;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
@@ -313,8 +314,17 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         QueryBuilder<OrmDCSync, Integer> lDCSyncQueryBuilder = ormDCSyncDao.queryBuilder();
         lDCSyncQueryBuilder.where().eq("tableID", tableID);
         OrmDCSync ormDCSync = lDCSyncQueryBuilder.queryForFirst();
-        if (ormDCSync == null) return true;
+        if (ormDCSync == null)
+            return true;
         return ormDCSync.isSynced();
+    }
+
+    @Override
+    public DCSync fetchDCSyncData(SyncType syncType) throws SQLException {
+        QueryBuilder<OrmDCSync, Integer> lDCSyncQueryBuilder = ormDCSyncDao.queryBuilder();
+        lDCSyncQueryBuilder.where().eq("tableID", syncType.getId());
+        OrmDCSync ormDCSync = lDCSyncQueryBuilder.queryForFirst();
+        return ormDCSync;
     }
 
     //Insights

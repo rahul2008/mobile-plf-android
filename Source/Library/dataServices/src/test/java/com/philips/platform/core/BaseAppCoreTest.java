@@ -88,7 +88,7 @@ public class BaseAppCoreTest {
         savingMonitor = new SavingMonitor(savingInterface, dbDeletingInterface, dbUpdatingInterface);
         fetchMonitor = new FetchingMonitor(fetchingInterface);
         deletingMonitor = new DeletingMonitor(deletingInterface);
-        updatingMonitor = new UpdatingMonitor(updatingInterface, deletingInterface, fetchingInterface);
+        updatingMonitor = new UpdatingMonitor(updatingInterface, deletingInterface, fetchingInterface, dbSavingInterface);
         database = new VerticalCreater();
 
         dbMonitors = new DBMonitors(Arrays.asList(savingMonitor, fetchMonitor, deletingMonitor, updatingMonitor));

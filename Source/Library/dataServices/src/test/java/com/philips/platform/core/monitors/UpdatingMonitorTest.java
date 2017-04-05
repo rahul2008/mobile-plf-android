@@ -13,7 +13,6 @@ import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
-import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
@@ -28,7 +27,6 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSegregator;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 import com.philips.testing.verticals.datatyes.MomentType;
-import com.philips.testing.verticals.table.OrmConsentDetail;
 import com.philips.testing.verticals.table.OrmMoment;
 import com.philips.testing.verticals.table.OrmMomentType;
 
@@ -126,7 +124,7 @@ public class UpdatingMonitorTest {
         mDataServices = DataServicesManager.getInstance();
         mDataServices.setAppComponant(appComponantMock);
         mDataServices.registerDBChangeListener(dbChangeListener);
-        updatingMonitor = new UpdatingMonitor(dbUpdatingInterface, dbDeletingInterface, dbFetchingInterface);
+        updatingMonitor = new UpdatingMonitor(dbUpdatingInterface, dbDeletingInterface, dbFetchingInterface, dbSavingInterface);
         updatingMonitor.momentsSegregator = momentsSegregatorMock;
         updatingMonitor.mUserCharacteristicsSegregator = userCharacteristicsSegregator;
         updatingMonitor.start(eventingMock);

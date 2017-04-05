@@ -218,7 +218,7 @@ public class BackendModule {
         SavingMonitor savingMonitor = new SavingMonitor(savingInterface, deletingInterface, updatingInterface);
         FetchingMonitor fetchMonitor = new FetchingMonitor(fetchingInterface);
         DeletingMonitor deletingMonitor = new DeletingMonitor(deletingInterface);
-        UpdatingMonitor updatingMonitor = new UpdatingMonitor(updatingInterface, deletingInterface, fetchingInterface);
+        UpdatingMonitor updatingMonitor = new UpdatingMonitor(updatingInterface, deletingInterface, fetchingInterface, savingInterface);
 
         return new DBMonitors(Arrays.asList(savingMonitor, fetchMonitor, deletingMonitor, updatingMonitor));
     }
