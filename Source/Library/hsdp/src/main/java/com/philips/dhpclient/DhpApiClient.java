@@ -42,7 +42,7 @@ public class DhpApiClient {
         JSON_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
-    private final DhpApiSigner apiSigner;
+    private final ApiSigner apiSigner;
     private final String apiBaseUrl;
     protected final String dhpApplicationName;
 
@@ -58,7 +58,7 @@ public class DhpApiClient {
 
         apiBaseUrl = dhpApiClientConfiguration.getApiBaseUrl();
         dhpApplicationName = dhpApiClientConfiguration.getDhpApplicationName();
-        apiSigner = new DhpApiSigner(dhpApiClientConfiguration.getSigningKey(), dhpApiClientConfiguration.getSigningSecret());
+        apiSigner = ApiSigner.Get.signer(dhpApiClientConfiguration.getSigningKey(), dhpApiClientConfiguration.getSigningSecret());
     }
 
     protected DhpResponse sendSignedRequest(String httpMethod, String apiEndpoint, String queryParams, Map<String, String> headers, Object body) {
@@ -188,7 +188,7 @@ public class DhpApiClient {
     }
 
     private void sign(Map<String, String> headers, String url, String queryParams, String httpMethod, String body) {
-        String authHeaderValue = apiSigner.buildAuthorizationHeaderValue(httpMethod, queryParams, headers, url, body);
+        String authHeaderValue = apiSigner.createHeader(httpMethod, queryParams, headers, url, body);
         headers.put("Authorization", authHeaderValue);
     }
 

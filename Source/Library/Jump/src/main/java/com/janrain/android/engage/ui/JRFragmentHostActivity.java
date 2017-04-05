@@ -35,7 +35,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -61,6 +60,7 @@ public class JRFragmentHostActivity extends FragmentActivity {
     public static final int JR_WEBVIEW = 2;
     public static final int JR_PUBLISH = 3;
     public static final int JR_PROVIDER_LIST = 4;
+    public static final int JR_OPENID_APPAUTH = 5;
     private static final String JR_OPERATION_MODE = "JR_OPERATION_MODE";
     private static final int JR_DIALOG = 0;
     private static final int JR_FULLSCREEN = 1;
@@ -194,20 +194,6 @@ public class JRFragmentHostActivity extends FragmentActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle bundle) {
-        super.onSaveInstanceState(bundle);
-        int alwaysFinishActivity = Settings.System.getInt(getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
-        bundle.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        int alwaysFinishActivity = Settings.System.getInt(getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
-        savedInstanceState.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         LogUtils.logd(TAG, "requestCode: " + requestCode + " resultCode: " + resultCode);
         super.onActivityResult(requestCode, resultCode, data);
@@ -219,6 +205,10 @@ public class JRFragmentHostActivity extends FragmentActivity {
          * the request code up two bytes. This method doesn't handle such request codes; they dispatch
          * by the Fragment API path.
          */
+        JRSession session = JRSession.getInstance();
+        if (session != null && session.getCurrentOpenIDAppAuthProvider() != null) {
+            session.getCurrentOpenIDAppAuthProvider().onActivityResult(requestCode, resultCode, data);
+        }
 
     }
 
@@ -268,8 +258,7 @@ public class JRFragmentHostActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-        LogUtils.logd(TAG, "onBackPressed");
-
+        LogUtils.logd(TAG, "[onBackPressed]");
         mUiFragment.onBackPressed();
     }
 
@@ -316,6 +305,12 @@ public class JRFragmentHostActivity extends FragmentActivity {
     public static Intent createWebViewIntent(Activity activity) {
         Intent i = createIntentForCurrentScreen(activity, false);
         i.putExtra(JR_FRAGMENT_ID, JR_WEBVIEW);
+        return i;
+    }
+
+    public static Intent createOpenIDAppAuthIntent(Activity activity) {
+        Intent i = createIntentForCurrentScreen(activity, false);
+        i.putExtra(JR_FRAGMENT_ID, JR_OPENID_APPAUTH);
         return i;
     }
 

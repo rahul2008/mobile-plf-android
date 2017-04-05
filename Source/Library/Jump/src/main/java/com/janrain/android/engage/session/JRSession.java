@@ -31,6 +31,7 @@
  */
 package com.janrain.android.engage.session;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -47,17 +48,22 @@ import com.janrain.android.engage.JREngageError;
 import com.janrain.android.engage.JREngageError.ConfigurationError;
 import com.janrain.android.engage.JREngageError.ErrorType;
 import com.janrain.android.engage.JREngageError.SocialPublishingError;
+import com.janrain.android.engage.JROpenIDAppAuth;
+import com.janrain.android.engage.JROpenIDAppAuth.OpenIDAppAuthProvider;
 import com.janrain.android.engage.net.JRConnectionManager;
 import com.janrain.android.engage.net.JRConnectionManagerDelegate;
 import com.janrain.android.engage.net.async.HttpResponseHeaders;
 import com.janrain.android.engage.types.JRActivityObject;
 import com.janrain.android.engage.types.JRDictionary;
+import com.janrain.android.engage.ui.JRFragmentHostActivity;
+import com.janrain.android.engage.ui.JRUiFragment;
 import com.janrain.android.utils.AndroidUtils;
 import com.janrain.android.utils.Archiver;
 import com.janrain.android.utils.CollectionUtils;
 import com.janrain.android.utils.LogUtils;
 import com.janrain.android.utils.PrefUtils;
 import com.janrain.android.utils.StringUtils;
+import net.openid.appauth.AuthorizationService;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -82,7 +88,7 @@ public class JRSession implements JRConnectionManagerDelegate {
     private static final String ARCHIVE_AUTH_PROVIDERS = "authProviders";
     private static final String ARCHIVE_SHARING_PROVIDERS = "sharingProviders";
     private static final String ARCHIVE_AUTH_USERS_BY_PROVIDER = "jrAuthenticatedUsersByProvider";
-    private static final String ARCHIVE_AUTH_NATIVE_PROVIDERS = "jrAuthenticatedNativeProviders";
+    private static final String ARCHIVE_AUTH_OPENID_APPAUTH_PROVIDERS = "jrAuthenticatedOpenIDAppAuthProviders";
 
     private static final String RPXNOW_BASE_URL = "https://rpxnow.com";
     private static String mEngageBaseUrl = (Jump.getFlowEngage()==null)? RPXNOW_BASE_URL :Jump.getFlowEngage();
@@ -104,8 +110,15 @@ public class JRSession implements JRConnectionManagerDelegate {
     private String[] mCurrentlyAuthenticatingProviderPermissions;
     private JRProvider mCurrentlyPublishingProvider;
 
+    private JROpenIDAppAuth.OpenIDAppAuthProvider mCurrentOpenIDAppAuthProvider;
+    private AuthorizationService mCurrentOpenIDAppAuthService;
+    private Activity mCurrentOpenIDAppAuthActivity;
+    private JRUiFragment mCurrentJRUiFragment;
+    private Context mCurrentOpenIdStartActivityContext;
+
     private String mReturningAuthProvider;
     private String[] mReturningAuthProviderPermissions;
+
     private String mReturningSharingProvider;
 
     private Map<String, JRProvider> mProviders;
@@ -114,13 +127,12 @@ public class JRSession implements JRConnectionManagerDelegate {
     private List<String> mEnabledSharingProviders;
     private List<String> mSharingProviders;
     private Map<String, JRAuthenticatedUser> mAuthenticatedUsersByProvider;
-    private Set<String> mAuthenticatedNativeAuthProviders;
+    private Set<String> mAuthenticatedOpenIDAppAuthProviders;
     private List<JRProvider> mCustomProviders;
 
     private JRActivityObject mActivity;
     private String mTokenUrl;
     private String mAppId;
-    //WeChat China
     private String mAppUrl;
     private String mRpBaseUrl;
     private String mUrlEncodedAppName;
@@ -147,7 +159,7 @@ public class JRSession implements JRConnectionManagerDelegate {
         return sInstance;
     }
 
-    //WeChat China
+
     public static JRSession getInstance(String appId, String appUrl, String tokenUrl, JRSessionDelegate delegate) {
         if (sInstance != null) {
             if (sInstance.isUiShowing()) {
@@ -159,6 +171,22 @@ public class JRSession implements JRConnectionManagerDelegate {
         } else {
             LogUtils.logd("returning new instance.");
             sInstance = new JRSession(appId, appUrl, tokenUrl, delegate);
+        }
+
+        return sInstance;
+    }
+
+    public static JRSession getInstance(String appId, String tokenUrl, JRSessionDelegate delegate) {
+        if (sInstance != null) {
+            if (sInstance.isUiShowing()) {
+                LogUtils.loge("Cannot reinitialize JREngage while its UI is showing");
+            } else {
+                LogUtils.logd("reinitializing, registered delegates will be unregistered");
+                sInstance.initialize(appId, "", tokenUrl, delegate);
+            }
+        } else {
+            LogUtils.logd("returning new instance.");
+            sInstance = new JRSession(appId, "", tokenUrl, delegate);
         }
 
         return sInstance;
@@ -202,7 +230,10 @@ public class JRSession implements JRConnectionManagerDelegate {
         return new JRProvider(providerId, dict);
     }
 
-    //WeChat China
+    private JRSession(String appId, String tokenUrl, JRSessionDelegate delegate) {
+        initialize(appId, "", tokenUrl, delegate);
+    }
+
     private JRSession(String appId, String appUrl, String tokenUrl, JRSessionDelegate delegate) {
         initialize(appId, appUrl, tokenUrl, delegate);
     }
@@ -260,18 +291,16 @@ public class JRSession implements JRConnectionManagerDelegate {
 
             /* Load the library state from disk */
             mAuthenticatedUsersByProvider = Archiver.load(ARCHIVE_AUTH_USERS_BY_PROVIDER);
-            mAuthenticatedNativeAuthProviders = Archiver.load(ARCHIVE_AUTH_NATIVE_PROVIDERS);
+            mAuthenticatedOpenIDAppAuthProviders = Archiver.load(ARCHIVE_AUTH_OPENID_APPAUTH_PROVIDERS);
             mProviders = Archiver.load(ARCHIVE_ALL_PROVIDERS);
 
             /* Fix up the provider objects with data that isn't serialized along with them */
-            for (Object provider : mProviders.values())
-                ((JRProvider) provider).loadDynamicVariables();
+            for (Object provider : mProviders.values()) ((JRProvider)provider).loadDynamicVariables();
 
             /* Load the list of auth providers */
             mAuthProviders = Archiver.load(ARCHIVE_AUTH_PROVIDERS);
             for (Object v : mAuthProviders) {
-                if (!(v instanceof String))
-                    throw new Archiver.LoadException("Non String in mAuthProviders");
+                if (!(v instanceof  String)) throw new Archiver.LoadException("Non String in mAuthProviders");
             }
             LogUtils.logd("auth providers: [" + TextUtils.join(",", mAuthProviders) + "]");
 
@@ -349,6 +378,14 @@ public class JRSession implements JRConnectionManagerDelegate {
         mCurrentlyAuthenticatingProvider = provider;
     }
 
+    public Context getCurrentOpenIdStartActivityContext() {
+        return mCurrentOpenIdStartActivityContext;
+    }
+
+    public void setCurrentOpenIdStartActivityContext(Context context){
+        mCurrentOpenIdStartActivityContext = context;
+    }
+
     public String[] getCurrentlyAuthenticatingProviderPermissions() {
         return mCurrentlyAuthenticatingProviderPermissions;
     }
@@ -356,6 +393,50 @@ public class JRSession implements JRConnectionManagerDelegate {
     public void setCurrentlyAuthenticatingProviderPermissions(String[] permissions) {
         mCurrentlyAuthenticatingProviderPermissions = permissions;
     }
+
+    public OpenIDAppAuthProvider getCurrentlyAuthenticatingOpenIDAppAuthProvider() {
+        return mCurrentOpenIDAppAuthProvider;
+    }
+
+    public void setCurrentlyAuthenticatingOpenIDAppAuthProvider(OpenIDAppAuthProvider provider) {
+        mCurrentOpenIDAppAuthProvider = provider;
+    }
+
+    public void setCurrentlyAuthenticatingOpenIDAppAuthService(AuthorizationService authorizationService) {
+        mCurrentOpenIDAppAuthService = authorizationService;
+    }
+
+    public AuthorizationService getCurrentOpenIDAppAuthService() {
+        return mCurrentOpenIDAppAuthService;
+    }
+
+    public void setCurrentlyAuthenticatingOpenIDAppAuthActivity(Activity activity) {
+        mCurrentOpenIDAppAuthActivity = activity;
+    }
+
+    public Activity getCurrentOpenIDAppAuthActivity() {
+        return mCurrentOpenIDAppAuthActivity;
+    }
+
+    public void setCurrentlyAuthenticatingJrUiFragment(JRUiFragment jrUiFragment) {
+        mCurrentJRUiFragment = jrUiFragment;
+    }
+
+    public JRUiFragment getCurrentlyAuthenticatingJrUiFragment() {
+        return mCurrentJRUiFragment;
+    }
+
+    public void setCurrentOpenIDAppAuthProvider(JROpenIDAppAuth.OpenIDAppAuthProvider openIDProvider) {
+        mCurrentOpenIDAppAuthProvider = openIDProvider;
+    }
+
+    public JROpenIDAppAuth.OpenIDAppAuthProvider getCurrentOpenIDAppAuthProvider() {
+        return mCurrentOpenIDAppAuthProvider;
+    }
+
+
+
+
 
     public ArrayList<JRProvider> getAuthProviders() {
         ArrayList<JRProvider> providerList = new ArrayList<JRProvider>();
@@ -365,7 +446,8 @@ public class JRSession implements JRConnectionManagerDelegate {
                 // Filter by enabled provider list if available
                 if (mEnabledAuthenticationProviders != null &&
                         !mEnabledAuthenticationProviders.contains(name)) continue;
-                providerList.add(mProviders.get(name));
+                JRProvider provider = mProviders.get(name);
+                if(provider != null) providerList.add(mProviders.get(name));
             }
         }
         if (mCustomProviders != null) providerList.addAll(mCustomProviders);
@@ -441,8 +523,7 @@ public class JRSession implements JRConnectionManagerDelegate {
     }
 
     public void setReturningSharingProvider(String returningSharingProvider) {
-        if (TextUtils.isEmpty(returningSharingProvider))
-            returningSharingProvider = ""; // nulls -> ""s
+        if (TextUtils.isEmpty(returningSharingProvider)) returningSharingProvider = ""; // nulls -> ""s
         if (!getSharingProviders().contains(getProviderByName(returningSharingProvider))) {
             returningSharingProvider = "";
         }
@@ -558,8 +639,8 @@ public class JRSession implements JRConnectionManagerDelegate {
     private void clearEngageConfigurationCache() {
         mAuthenticatedUsersByProvider = new HashMap<String, JRAuthenticatedUser>();
         Archiver.asyncSave(ARCHIVE_AUTH_USERS_BY_PROVIDER, mAuthenticatedUsersByProvider);
-        mAuthenticatedNativeAuthProviders = new HashSet<String>();
-        Archiver.asyncSave(ARCHIVE_AUTH_NATIVE_PROVIDERS, mAuthenticatedNativeAuthProviders);
+        mAuthenticatedOpenIDAppAuthProviders = new HashSet<String>();
+        Archiver.asyncSave(ARCHIVE_AUTH_OPENID_APPAUTH_PROVIDERS, mAuthenticatedOpenIDAppAuthProviders);
 
         // Note that these values are removed from the settings when resetting state to prevent
         // uninitialized state from being read on startup as valid state
@@ -698,7 +779,13 @@ public class JRSession implements JRConnectionManagerDelegate {
         mError = startGetConfiguration();
     }
 
-    //WeChat China
+    public void tryToReconfigureLibraryWithNewAppId(String engageAppId) {
+        clearEngageConfigurationCache();
+        mAppId = engageAppId;
+        mAppUrl = "";
+        tryToReconfigureLibrary();
+    }
+
     public void tryToReconfigureLibraryWithNewAppId(String engageAppId, String engageAppUrl) {
         clearEngageConfigurationCache();
         mAppId = engageAppId;
@@ -706,10 +793,9 @@ public class JRSession implements JRConnectionManagerDelegate {
         tryToReconfigureLibrary();
     }
 
-    //WeChat China
     private JREngageError startGetConfiguration() {
         String engageBaseUrl = mEngageBaseUrl;
-        if(!mAppUrl.isEmpty()){
+        if(mAppUrl != null && !mAppUrl.isEmpty()){
             engageBaseUrl = String.format("https://%s", mAppUrl);
         }
         String urlString = String.format(UNFORMATTED_CONFIG_URL,
@@ -887,9 +973,9 @@ public class JRSession implements JRConnectionManagerDelegate {
         return mAuthenticatedUsersByProvider.get(provider.getName());
     }
 
-    public void addNativeProvider(String providerName) {
-        mAuthenticatedNativeAuthProviders.add(providerName);
-        Archiver.asyncSave(ARCHIVE_AUTH_NATIVE_PROVIDERS, mAuthenticatedNativeAuthProviders);
+    public void addOpenIDAppAuthProvider(String providerName) {
+        mAuthenticatedOpenIDAppAuthProviders.add(providerName);
+        Archiver.asyncSave(ARCHIVE_AUTH_OPENID_APPAUTH_PROVIDERS, mAuthenticatedOpenIDAppAuthProviders);
     }
 
     public void signOutUserForProvider(String providerName) {
@@ -916,6 +1002,41 @@ public class JRSession implements JRConnectionManagerDelegate {
             mAuthenticatedUsersByProvider.remove(providerName);
             Archiver.asyncSave(ARCHIVE_AUTH_USERS_BY_PROVIDER, mAuthenticatedUsersByProvider);
             triggerUserWasSignedOut(providerName);
+        }
+    }
+
+    public void signOutOpenIDAppAuthProviders(Activity fromActivity) {
+        String providerName = "googleplus";
+        if (mAuthenticatedOpenIDAppAuthProviders.contains(providerName)) {
+            mAuthenticatedOpenIDAppAuthProviders.clear();
+            Archiver.asyncSave(ARCHIVE_AUTH_OPENID_APPAUTH_PROVIDERS, mAuthenticatedOpenIDAppAuthProviders);
+
+            JRProvider provider = getAllProviders().get(providerName);
+            if (provider == null) {
+                throwDebugException(new IllegalStateException("Unknown provider name:" + providerName));
+                return;
+            }
+
+            if (JROpenIDAppAuth.canHandleProvider(fromActivity, provider) && fromActivity != null) {
+                Intent i = JRFragmentHostActivity.createOpenIDAppAuthIntent(fromActivity);
+                i.putExtra(JRFragmentHostActivity.JR_SIGN_OUT_PROVIDER, provider.getName());
+                fromActivity.startActivity(i);
+            }
+        }
+    }
+
+    public void revokeAndDisconnectOpenIDAppAuthGooglePlus(Activity fromActivity) {
+        String providerName = "googleplus";
+        JRProvider provider = getAllProviders().get(providerName);
+        if (provider == null) {
+            throwDebugException(new IllegalStateException("Unknown provider name:" + providerName));
+            return;
+        }
+
+        if (JROpenIDAppAuth.canHandleProvider(fromActivity, provider) && fromActivity != null) {
+            Intent i = JRFragmentHostActivity.createOpenIDAppAuthIntent(fromActivity);
+            i.putExtra(JRFragmentHostActivity.JR_REVOKE_PROVIDER, provider.getName());
+            fromActivity.startActivity(i);
         }
     }
 
@@ -1227,5 +1348,6 @@ public class JRSession implements JRConnectionManagerDelegate {
     public boolean getLinkAccount() {
         return mLinkAccount;
     }
+
 
 }

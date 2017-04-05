@@ -39,15 +39,15 @@ public class LogUtils {
     private LogUtils() {}
 
     public static void logd(String tag, String msg, Throwable tr) {
-        if (JREngage.sLoggingEnabled == null || JREngage.sLoggingEnabled) Log.d(tag, msg, tr);
+        if (JREngage.isLoggingEnabled == null || JREngage.isLoggingEnabled) Log.d(tag, msg, tr);
     }
 
     public static void logd(String tag, String msg) {
-        if (JREngage.sLoggingEnabled == null || JREngage.sLoggingEnabled) Log.d(tag, msg);
+        if (JREngage.isLoggingEnabled == null || JREngage.isLoggingEnabled) Log.d(tag, msg);
     }
 
     private static void logd(String msg, Throwable t, int stackDepth) {
-        if (!(JREngage.sLoggingEnabled == null || JREngage.sLoggingEnabled)) return;
+        if (!(JREngage.isLoggingEnabled == null || JREngage.isLoggingEnabled)) return;
         if (t != null) {
             Log.d("[" + getLogTag(stackDepth) + "]", msg, t);
         } else {

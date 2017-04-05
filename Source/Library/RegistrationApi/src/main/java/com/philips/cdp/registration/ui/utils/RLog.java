@@ -47,13 +47,13 @@ public class RLog {
     public static void enableLogging() {
         HsdpLog.enableLogging();
         isLoggingEnabled = true;
-        JREngage.sLoggingEnabled = Boolean.TRUE;
+        JREngage.isLoggingEnabled = Boolean.TRUE;
     }
 
     public static void disableLogging() {
         HsdpLog.disableLogging();
         isLoggingEnabled = false;
-        JREngage.sLoggingEnabled = Boolean.FALSE;
+        JREngage.isLoggingEnabled = Boolean.FALSE;
     }
 
     public static boolean isLoggingEnabled() {
