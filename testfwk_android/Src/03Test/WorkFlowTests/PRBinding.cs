@@ -28,7 +28,7 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
         {
             AppHomeScreen.WaitforAppFrameworkHomeScreen(60);
             string title = AppHomeScreen.GetScreenTitleAppFameworkHomeScreen();
-            if (title != "Mobile App Home")
+            if (title != "Mobile App home")
             {
                 Logger.Fail("Error: The user is not in the App Framework Home Screen.");
             }
@@ -70,7 +70,7 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
         public void ThenIVerifyThatTheUserIsAbleToSeeSuccessfullProductMessage()
         {
             PRSuccess.SuccessMessage();
-            PRSuccess.Click(PRSuccess.Button.PR_Continue);
+         //   PRSuccess.Click(PRSuccess.Button.PR_Continue);
         }
 
         //[Then(@"I Register the Product from Support screen")]

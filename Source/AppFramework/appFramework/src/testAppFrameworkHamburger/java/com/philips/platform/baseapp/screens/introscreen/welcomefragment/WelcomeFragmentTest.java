@@ -23,7 +23,6 @@ import org.robolectric.shadows.ShadowLooper;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
 
 /**
  * Created by philips on 3/21/17.
@@ -31,17 +30,17 @@ import static junit.framework.Assert.assertTrue;
 @RunWith(GradleRunner.class)
 @Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 21)
 public class WelcomeFragmentTest {
-    private SplashFragmentTest.LaunchActivityMockTest launchActivity;
+    private SplashFragmentTest.LaunchActivityMock launchActivity;
     private ImageView logo;
-    private WelcomeFragmentTestMock welcomeFragment;
+    private WelcomeFragmentMock welcomeFragment;
     private ViewPager pager;
     private FontIconView leftArrow,rightArrow;
 
     @Before
     public void setUp(){
 
-        launchActivity = Robolectric.buildActivity(SplashFragmentTest.LaunchActivityMockTest.class).create().start().get();
-        welcomeFragment =  new WelcomeFragmentTestMock();
+        launchActivity = Robolectric.buildActivity(SplashFragmentTest.LaunchActivityMock.class).create().start().get();
+        welcomeFragment =  new WelcomeFragmentMock();
         launchActivity.getSupportFragmentManager().beginTransaction().add(welcomeFragment,null).commit();
 
     }
@@ -93,7 +92,7 @@ public class WelcomeFragmentTest {
         boolean handleBack = welcomeFragment.handleBackEvent();
         assertEquals(true,handleBack);
     }
-    public static class WelcomeFragmentTestMock extends WelcomeFragment{
+    public static class WelcomeFragmentMock extends WelcomeFragment{
         View view;
         @Override
         protected void startLogging() {

@@ -171,7 +171,7 @@
     <string name="reference_device_scan" translatable="false">Reference Device Scan</string>
     <string name="ble_ref_device" translatable="false">ble ref device</string>
     <string name="unknown_device" translatable="false">Unknown Device</string>
-
+    <string name="no_device_found">No device found</string>
 
     <string name="BA_AppFramework">AppFramework </string>
     <string name="RA_You_are_not_LoggedIn">You are not Logged In. Please go to Settings and Log In</string>
