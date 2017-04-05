@@ -1,0 +1,14 @@
+{
+    "page_title_buttons": "Toetsen",
+    "page_title_textbox": "Tekstvak",
+	"page_title_settings": "Instellingen",
+	"page_title_alertDialog": "Alarm",
+	"page_title_progress_bar": "Voortgangsindicator",
+	"page_title_label": "Labels",
+	"page_title_checkbox": "Selectievakje",
+	"page_title_separator": "Separator",
+	"page_title_recyclerview": "Lijstweergave",
+	"page_title_date_time_picker": "Datumkiezer",
+	"page_title_gridView": "Rasterweergave",
+	"page_title_notification_bar": "Notificatie balk"
+}

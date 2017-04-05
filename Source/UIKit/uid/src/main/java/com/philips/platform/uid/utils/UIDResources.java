@@ -30,9 +30,14 @@ public class UIDResources extends Resources {
     @Override
     public CharSequence getText(@StringRes int id){
 
-        String resourceName = getResourceName(id);
+        String resourceName = getResourceEntryName(id);
         if(resourceName != null){
-            return resourceName;
+            String string = UIDLocaleHelper.getUidLocaleHelper().lookUpString(resourceName);
+            if(string!=null){
+                return string;
+            }else {
+                return super.getText(id);
+            }
         }
         return super.getText(id);
     }
