@@ -14,6 +14,7 @@ import android.util.Base64;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
+import java.io.File;
 import java.math.BigInteger;
 import java.security.Key;
 import java.security.KeyPair;
@@ -400,4 +401,41 @@ public class SecureStorage implements SecureStorageInterface {
         }
         return cipher;
     }
+
+	@Override
+	public String getDeviceCapability() {
+
+		String buildTags = android.os.Build.TAGS;
+		if (buildTags != null && buildTags.contains("test-keys")) {
+			return "true";
+		}
+		String[] paths = {"/system/app/Superuser.apk", "/sbin/su", "/system/bin/su",
+				"/system/xbin/su", "/data/local/xbin/su", "/data/local/bin/su", "/system/sd/xbin/su",
+				"/system/bin/failsafe/su", "/data/local/su", "/su/bin/su"};
+		for (String path : paths) {
+			if (new File(path).exists()) return "true";
+		}
+		if (checkProcess("/system/xbin/which su")
+				|| checkProcess("/system/bin/which su") || checkProcess("which su")) {
+			return "true";
+
+		}
+
+		return "false";
+
+	}
+
+
+	private static boolean checkProcess(String command) {
+		boolean executedSuccesfully;
+		try {
+			Runtime.getRuntime().exec(command);
+			executedSuccesfully = true;
+		} catch (Exception e) {
+			executedSuccesfully = false;
+		}
+
+		return executedSuccesfully;
+	}
+
 }

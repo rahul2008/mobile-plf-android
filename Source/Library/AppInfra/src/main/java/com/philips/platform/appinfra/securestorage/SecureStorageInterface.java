@@ -108,4 +108,6 @@ public interface SecureStorageInterface {
 
 
     }
+
+    String getDeviceCapability();
 }
