@@ -2,6 +2,7 @@ package com.philips.platform.datasync.PushNotification;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.events.PushNotificationErrorResponse;
 import com.philips.platform.core.events.PushNotificationResponse;
 import com.philips.platform.core.events.RegisterDeviceToken;
 import com.philips.platform.core.events.UnRegisterDeviceToken;
@@ -31,8 +32,9 @@ public class PushNotificationMonitor extends EventMonitor {
     public void onEventAsync(RegisterDeviceToken registerDeviceToken) {
         mRegisterDeviceTokenListener = registerDeviceToken.getRegisterDeviceTokenListener();
         UCorePushNotification uCorePushNotification = new UCorePushNotification();
+        uCorePushNotification.setProtocolAddress(registerDeviceToken.getDeviceToken());
         uCorePushNotification.setAppVariant(registerDeviceToken.getAppVariant());
-        uCorePushNotification.setToken(registerDeviceToken.getDeviceToken());
+        uCorePushNotification.setProtocolProvider(registerDeviceToken.getProtocolProvider());
         mPushNotificationController.registerPushNotification(uCorePushNotification);
     }
 
@@ -43,7 +45,12 @@ public class PushNotificationMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void onEventAsync(final PushNotificationResponse pushNotificationResponse) throws SQLException {
+    public void onEventAsync(final PushNotificationResponse pushNotificationResponse) {
         mRegisterDeviceTokenListener.onResponse(pushNotificationResponse.isSuccess());
+    }
+
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void onEventAsync(final PushNotificationErrorResponse pushNotificationErrorResponse) {
+        mRegisterDeviceTokenListener.onError(pushNotificationErrorResponse.getDataServicesError());
     }
 }

@@ -69,9 +69,11 @@ public class PushNotificationControllerTest {
         when(mUCoreAdapter.getAppFrameworkClient(PushNotificationClient.class, TEST_ACCESS_TOKEN, mGsonConverter)).thenReturn(mPushNotificationClient);
         UCorePushNotification uCorePushNotification = new UCorePushNotification();
         uCorePushNotification.setAppVariant("test app variant");
-        uCorePushNotification.setToken("test token");
+        uCorePushNotification.setProtocolAddress("test token");
+        uCorePushNotification.setProtocolProvider("Push.Gcma");
         assertTrue(uCorePushNotification.getAppVariant() != null);
-        assertTrue(uCorePushNotification.getToken() != null);
+        assertTrue(uCorePushNotification.getProtocolAddress() != null);
+        assertTrue(uCorePushNotification.getProtocolProvider() != null);
         mPushNotificationController.registerPushNotification(uCorePushNotification);
     }
 
@@ -127,7 +129,8 @@ public class PushNotificationControllerTest {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(false);
         UCorePushNotification uCorePushNotification = new UCorePushNotification();
         uCorePushNotification.setAppVariant("test app variant");
-        uCorePushNotification.setToken("test token");
+        uCorePushNotification.setProtocolAddress("test token");
+        uCorePushNotification.setProtocolProvider("Push.Gcma");
         mPushNotificationController.registerPushNotification(uCorePushNotification);
     }
 
@@ -151,12 +154,13 @@ public class PushNotificationControllerTest {
         when(mUCoreAdapter.getAppFrameworkClient(PushNotificationClient.class, TEST_ACCESS_TOKEN, mGsonConverter)).thenReturn(mPushNotificationClient);
         UCorePushNotification uCorePushNotification = new UCorePushNotification();
         uCorePushNotification.setAppVariant("test app variant");
-        uCorePushNotification.setToken("test token");
+        uCorePushNotification.setProtocolAddress("test token");
+        uCorePushNotification.setProtocolProvider("Push.Gcma");
 
         final RetrofitError retrofitError = mock(RetrofitError.class);
         mResponse = new Response("", 403, "Test error", new ArrayList<Header>(), new TypedString("ERROR"));
         when(retrofitError.getResponse()).thenReturn(mResponse);
-        when(mPushNotificationClient.registerDeviceToken(TEST_USER_ID, TEST_USER_ID, uCorePushNotification)).thenThrow(retrofitError);
+        when(mPushNotificationClient.registerDeviceToken(TEST_USER_ID, TEST_USER_ID, 13, uCorePushNotification)).thenThrow(retrofitError);
         mPushNotificationController.registerPushNotification(uCorePushNotification);
     }
 
@@ -170,8 +174,9 @@ public class PushNotificationControllerTest {
         final RetrofitError retrofitError = mock(RetrofitError.class);
         mResponse = new Response("", 403, "Test error", new ArrayList<Header>(), new TypedString("ERROR"));
         when(retrofitError.getResponse()).thenReturn(mResponse);
-        when(mPushNotificationClient.unRegisterDeviceToken(TEST_USER_ID, TEST_USER_ID, "app variant", "token")).thenThrow(retrofitError);
+        when(mPushNotificationClient.unRegisterDeviceToken(TEST_USER_ID, TEST_USER_ID, 13, "app variant", "token")).thenThrow(retrofitError);
         mPushNotificationController.unRegisterPushNotification("app variant", "token");
+        mPushNotificationController.createDataServicesError(retrofitError);
     }
 
 }
