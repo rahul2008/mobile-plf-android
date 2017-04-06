@@ -74,7 +74,7 @@ class IAPHandler {
                         if (url.toString().isEmpty()) {
                             mIAPSetting.setUseLocalData(true);
                         } else {
-                            mIAPSetting.setUseLocalData(false);
+                            mIAPSetting.setUseLocalData(true);
                             String urlPort = url.toString();//"https://acc.occ.shop.philips.com/en_US";"https://www.occ.shop.philips.com/en_US"
                             //String locale = CartModelContainer.getInstance().getLanguage() + "_" + CartModelContainer.getInstance().getCountry();
                             //String urlPort = "https://acc.occ.shop.philips.com/" + locale;
