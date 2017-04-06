@@ -60,6 +60,15 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"/>
 
+            <TextView
+                android:id="@+id/product_registered"
+                style="@style/ProductRegistrationCtnTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/PPR_registered"
+                android:textColor="@color/uikit_philips_dark_blue"
+                android:visibility="gone"/>
+
         </LinearLayout>
 
         <ImageView

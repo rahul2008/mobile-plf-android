@@ -33,6 +33,7 @@ import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.imagehandler.ImageRequestHandler;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
@@ -43,18 +44,21 @@ import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
 
+import org.w3c.dom.Text;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements ProdRegRegistrationController.RegisterControllerCallBacks {
 
     public static final String TAG = ProdRegRegistrationFragment.class.getName();
     private ImageLoader imageLoader;
     private LinearLayout dateParentLayout, dateErrorLayout, serialNumberErrorLayout, findSerialNumberLayout, serialNumberParentLayout, successLayout;
-    private TextView productFriendlyNameTextView, productTitleTextView, productCtnTextView, dateErrorTextView, serialNumberErrorTextView;
+    private TextView productFriendlyNameTextView, productTitleTextView, productCtnTextView, dateErrorTextView, serialNumberErrorTextView,prSuccessConfigurableTextView,productRegSucess;
     private ImageView productImageView;
     private EditText serial_number_editText;
     private EditText date_EditText;
@@ -63,6 +67,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private Button registerButton;
     private FragmentActivity mActivity;
     private TextView tickIcon;
+    private Dialog dialog;
+    private DatePickerDialog datePickerDialog;
+
 
     @SuppressWarnings("SimpleDateFormat")
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
@@ -73,6 +80,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             String mMonth = prodRegUtil.getValidatedString(mMonthInt);
             String mDate = prodRegUtil.getValidatedString(arg3);
             SimpleDateFormat dateFormat = new SimpleDateFormat(getResources().getString(R.string.date_format));
+            dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+            System.out.println("UTctime " + PRUiHelper.getInstance().getAppInfraInstance().getTime().getUTCTime());
             final Calendar mCalendar = Calendar.getInstance();
             final String mGetDeviceDate = dateFormat.format(mCalendar.getTime());
             try {
@@ -88,6 +97,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             }
         }
     };
+
 
     @Override
     public int getActionbarTitleResId() {
@@ -131,11 +141,13 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         successLayout = (LinearLayout) view.findViewById(R.id.successLayout);
         productTitleTextView = (TextView) view.findViewById(R.id.product_title);
         productCtnTextView = (TextView) view.findViewById(R.id.product_ctn);
+        productRegSucess = (TextView) view.findViewById(R.id.product_registered) ;
         dateErrorTextView = (TextView) view.findViewById(R.id.dateErrorTextView);
         serialNumberErrorTextView = (TextView) view.findViewById(R.id.serialNumberErrorTextView);
         serial_number_editText = (EditText) view.findViewById(R.id.serial_edit_text);
         date_EditText = (EditText) view.findViewById(R.id.date_edit_text);
         imageLoader = ImageRequestHandler.getInstance(mActivity.getApplicationContext()).getImageLoader();
+        prSuccessConfigurableTextView = (TextView) view.findViewById(R.id.pr_success_configurable_textView);
         registerButton = (Button) view.findViewById(R.id.btn_register);
         final Button continueButton = (Button) view.findViewById(R.id.continueButton);
         productImageView = (ImageView) view.findViewById(R.id.product_image);
@@ -280,7 +292,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                         mMonthInt = mCalendar.get(Calendar.MONTH);
                         mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
                     }
-                    DatePickerDialog datePickerDialog = new DatePickerDialog(mActivity, myDateListener, mYear, mMonthInt, mDay);
+                    datePickerDialog = new DatePickerDialog(mActivity, myDateListener, mYear, mMonthInt, mDay);
                     final ProdRegUtil prodRegUtil = new ProdRegUtil();
                     datePickerDialog.getDatePicker().setMaxDate(prodRegUtil.getMaxDate());
                     datePickerDialog.getDatePicker().setMinDate(prodRegUtil.getMinDate());
@@ -383,6 +395,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public void setProductView(final RegisteredProduct registeredProduct) {
         date_EditText.setText(registeredProduct.getPurchaseDate());
         serial_number_editText.setText(registeredProduct.getSerialNumber());
+        if (!registeredProduct.getEmail()) {
+            prSuccessConfigurableTextView.setVisibility(View.GONE);
+        }
         final String productCtn = registeredProduct.getCtn();
         if (!TextUtils.isEmpty(registeredProduct.getCtn())) {
             productCtnTextView.setVisibility(View.VISIBLE);
@@ -424,16 +439,15 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         serialNumberParentLayout.setVisibility(View.GONE);
         dateParentLayout.setVisibility(View.GONE);
         registerButton.setVisibility(View.GONE);
+        productCtnTextView.setVisibility(View.GONE);
         successLayout.setVisibility(View.VISIBLE);
         tickIcon.setVisibility(View.VISIBLE);
-        productCtnTextView.setText(getString(R.string.PPR_registered));
-        final int baseColor = mActivity.getResources().getColor(R.color.uikit_philips_dark_blue);
-        productCtnTextView.setTextColor(baseColor);
+        productRegSucess.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showAlreadyRegisteredDialog(RegisteredProduct registeredProduct) {
-        final Dialog dialog = new Dialog(mActivity);
+        dialog = new Dialog(mActivity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.prodreg_already_registered_dialog);
         dialog.show();
@@ -475,7 +489,16 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     @Override
     public void onStop() {
         super.onStop();
-        dismissAlertOnError();
+        dismissDialogs();
     }
 
+    private void dismissDialogs() {
+        dismissAlertOnError();
+        if (dialog != null) {
+            dialog.dismiss();
+        }
+        if (datePickerDialog != null) {
+            datePickerDialog.dismiss();
+        }
+    }
 }
