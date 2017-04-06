@@ -18,62 +18,72 @@ public class UIDLocaleHelper {
 
     public static final String TAG = "UIDLocaleHelper";
 
-    private static String filePath = null;
-    private static UIDLocaleHelper uidLocaleHelper;
-    private static HashMap<String,String> stringHashMap = new HashMap<String, String>();
-    private static boolean isLookUp = false;
+    private static UIDLocaleHelper uidLocaleHelper = new UIDLocaleHelper();
+    private String filePath = null;
+    private HashMap<String, String> stringHashMap = new HashMap<>();
+    private boolean isLookUp = false;
 
     private UIDLocaleHelper() {
     }
 
+    /**
+     * This static API will help you get singleton instance of UIDLocaleHelper
+     *
+     */
     public static UIDLocaleHelper getUidLocaleHelper() {
-        if(uidLocaleHelper == null) {
-                uidLocaleHelper = new UIDLocaleHelper();
-        }
         return uidLocaleHelper;
     }
 
     /**
      * This API will help you to set the path of your Language pack JSON.<br> This path would be used by UIDLocaleHelper to parse the JSON.
-     *<br>DLS will handle the string value mappings to set the corresponding string in your widgets or controls.
-     * @param filePath Absolute path of your JSON file in String format
+     * <br>DLS will handle the string value mappings to set the corresponding string in your widgets or controls.
+     *
+     * @param pathInput Absolute path of your JSON file in String format
      */
-    public static void setFilePath(String filePath){
-        uidLocaleHelper.filePath = filePath;
-        UIDLocaleHelper.isLookUp = parseJSON();
+    public void setFilePath(String pathInput) {
+        uidLocaleHelper.filePath = pathInput;
+        uidLocaleHelper.isLookUp = parseJSON();
     }
 
-    public static String lookUpString(String key) {
-        return stringHashMap.get(key);
+    /**
+     * This method is used by UIDResources to lookup strings present in your Language pack JSON and subsequently apply the string values.
+     *
+     */
+    public String lookUpString(String key) {
+        return uidLocaleHelper.stringHashMap.get(key);
     }
 
-    public static boolean isLookUp() {
-        return isLookUp;
+    /**
+     * This method is used by UIDResources to check if lookup is needed based a result of JSON parsing.
+     *
+     */
+    public boolean isLookUp() {
+        return uidLocaleHelper.isLookUp;
     }
 
-    private static boolean parseJSON() {
+    private boolean parseJSON() {
         boolean parseSuccess = false;
         String jsonString = getJSONStringFromPath();
-            try {
-                if(jsonString!= null){
-                    JSONObject jsonObject = new JSONObject(jsonString);
-                    Iterator<String> keys = jsonObject.keys();
-                    while (keys.hasNext()){
-                        String key = keys.next();
-                        String value = jsonObject.getString(key);
-                        stringHashMap.put(key,value);
-                    }
-                    parseSuccess = true;
+        try {
+            if (jsonString != null) {
+                JSONObject jsonObject = new JSONObject(jsonString);
+                Iterator<String> keys = jsonObject.keys();
+                while (keys.hasNext()) {
+                    String key = keys.next();
+                    String value = jsonObject.getString(key);
+                    uidLocaleHelper.stringHashMap.put(key, value);
                 }
-            } catch (JSONException e) {
-                Log.e(TAG, e.getMessage());
+                parseSuccess = true;
             }
+        } catch (JSONException e) {
+            Log.e(TAG, e.getMessage());
+        }
         return parseSuccess;
     }
 
-    private static String getJSONStringFromPath(){
+    private String getJSONStringFromPath() {
 
-        File file = new File(filePath);
+        File file = new File(uidLocaleHelper.filePath);
         int length = (int) file.length();
         byte[] bytes = new byte[length];
         String jsonString = null;
