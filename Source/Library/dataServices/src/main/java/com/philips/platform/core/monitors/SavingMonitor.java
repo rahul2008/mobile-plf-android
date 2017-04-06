@@ -90,14 +90,16 @@ public class SavingMonitor extends EventMonitor {
 
         dbDeletingInterface.deleteUserCharacteristics();
         boolean isSaved = dbInterface.saveUserCharacteristics(userCharacteristicsSaveRequest.getUserCharacteristicsList(),userCharacteristicsSaveRequest.getDbRequestListener());
-        dbDeletingInterface.deleteSyncBit(SyncType.SETTINGS);
+        dbDeletingInterface.deleteSyncBit(SyncType.CHARACTERISTICS);
         dbInterface.saveSyncBit(SyncType.CHARACTERISTICS, false);
         DSLog.d(DSLog.LOG, "SavingMonitor = UserCharacteristicsSaveRequest isSaved ="+isSaved);
         if(!isSaved){
             dbInterface.postError(new Exception("Failed to insert"),userCharacteristicsSaveRequest.getDbRequestListener());
             return;
         }
-
+        
+            eventing.post(new CharacteristicsBackendSaveRequest(CharacteristicsBackendSaveRequest.RequestType.UPDATE,
+                    userCharacteristicsSaveRequest.getUserCharacteristicsList()));
     }
 
 
