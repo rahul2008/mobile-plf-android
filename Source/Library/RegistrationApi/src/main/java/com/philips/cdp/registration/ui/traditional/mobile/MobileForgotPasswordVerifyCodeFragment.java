@@ -36,7 +36,7 @@ import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XMobileHavingProblems;
 import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.customviews.XVerifyNumber;
+import com.philips.cdp.registration.ui.customviews.OtpEditTextWithResendButton;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.traditional.WelcomeFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
@@ -66,7 +66,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
 
     private Button mBtnVerify;
 
-    private XVerifyNumber mEtCodeNUmber;
+    private OtpEditTextWithResendButton mEtCodeNUmber;
 
     private ProgressBar mPbSpinner;
 
@@ -201,7 +201,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
 
         mBtnVerify = (Button) view.findViewById(R.id.btn_reg_Verify);
         mBtnVerify.setOnClickListener(mobileActivationController);
-        mEtCodeNUmber = (XVerifyNumber) view.findViewById(R.id.rl_reg_name_field);
+        mEtCodeNUmber = (OtpEditTextWithResendButton) view.findViewById(R.id.rl_reg_name_field);
         mEtCodeNUmber.setOnUpdateListener(mobileActivationController);
         mPbSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_activate_spinner);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);

@@ -24,6 +24,7 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.philips.cdp.registration.B;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
@@ -31,38 +32,47 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
-public class XPassword extends RelativeLayout implements TextWatcher, OnClickListener,
+import butterfork.Bind;
+import butterfork.ButterFork;
+
+public class PasswordView extends RelativeLayout implements TextWatcher, OnClickListener,
         OnFocusChangeListener {
 
     private Context mContext;
 
-    private TextView mTvErrDescriptionView;
+    @Bind(B.id.tv_reg_password_err)
+    TextView mTvErrDescriptionView;
 
-    private EditText mEtPassword;
+    @Bind(B.id.et_reg_password)
+    EditText mEtPassword;
+
+    @Bind(B.id.rl_reg_parent_verified_field)
+    RelativeLayout mRlEtPassword;
+
+    @Bind(B.id.tv_password_mask)
+    TextView mTvMaskPassword;
+
+    @Bind(B.id.iv_reg_close)
+    TextView mTvCloseIcon;
+
+    @Bind(B.id.fl_reg_password_field_err)
+    FrameLayout mFlInvalidFieldAlert;
 
     private boolean mValidPassword;
 
     private OnUpdateListener mUpdateStatusListener;
 
-    private RelativeLayout mRlEtPassword;
-
-    private TextView mTvMaskPassword;
-
-    private TextView mTvCloseIcon;
-
-    private FrameLayout mFlInvaliFielddAlert;
-
     private boolean isValidatePassword = true;
 
     private String mSavedPasswordError;
 
-    public XPassword(Context context) {
+    public PasswordView(Context context) {
         super(context);
         this.mContext = context;
         initUi(R.layout.reg_password);
     }
 
-    public XPassword(Context context, AttributeSet attrs) {
+    public PasswordView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.mContext = context;
         initUi(R.layout.reg_password);
@@ -70,17 +80,12 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
     public final void initUi(int resourceId) {
         LayoutInflater li = LayoutInflater.from(mContext);
-        li.inflate(resourceId, this, true);
-        mFlInvaliFielddAlert = (FrameLayout) findViewById(R.id.fl_reg_password_field_err);
-        mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_password_err);
-        mEtPassword = (EditText) findViewById(R.id.et_reg_password);
+        View view = li.inflate(resourceId, this, true);
+        ButterFork.bind(this, view);
         mEtPassword.setOnClickListener(this);
         mEtPassword.setOnFocusChangeListener(this);
         mEtPassword.addTextChangedListener(this);
-        mRlEtPassword = (RelativeLayout) findViewById(R.id.rl_reg_parent_verified_field);
-        mTvMaskPassword = (TextView) findViewById(R.id.tv_password_mask);
         FontLoader.getInstance().setTypeface(mTvMaskPassword, RegConstants.PUIICON_TTF);
-        mTvCloseIcon = (TextView) findViewById(R.id.iv_reg_close);
         FontLoader.getInstance().setTypeface(mTvCloseIcon, RegConstants.PUIICON_TTF);
         disableMaskPassoword();
     }
@@ -256,14 +261,14 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
     public void showInvalidPasswordAlert() {
         mEtPassword.setTextColor( ContextCompat.getColor(mContext,R.color.reg_error_box_color));
         mRlEtPassword.setBackgroundResource(R.drawable.reg_et_focus_error);
-        mFlInvaliFielddAlert.setVisibility(VISIBLE);
+        mFlInvalidFieldAlert.setVisibility(VISIBLE);
         mTvErrDescriptionView.setVisibility(VISIBLE);
     }
 
     private void showValidPasswordAlert() {
         mRlEtPassword.setBackgroundResource(R.drawable.reg_et_focus_disable);
         mEtPassword.setTextColor( ContextCompat.getColor(mContext,R.color.reg_edit_text_field_color));
-        mFlInvaliFielddAlert.setVisibility(GONE);
+        mFlInvalidFieldAlert.setVisibility(GONE);
         mTvErrDescriptionView.setVisibility(GONE);
     }
 
@@ -272,10 +277,10 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
         fireUpdateStatusEvent();
         if (isValidatePassword && validatePassword()) {
-            mFlInvaliFielddAlert.setVisibility(View.GONE);
+            mFlInvalidFieldAlert.setVisibility(View.GONE);
             mTvErrDescriptionView.setVisibility(View.GONE);
         } else if (validatePasswordWithoutPattern() && !isValidatePassword) {
-            mFlInvaliFielddAlert.setVisibility(View.GONE);
+            mFlInvalidFieldAlert.setVisibility(View.GONE);
             mTvErrDescriptionView.setVisibility(View.GONE);
         }
 

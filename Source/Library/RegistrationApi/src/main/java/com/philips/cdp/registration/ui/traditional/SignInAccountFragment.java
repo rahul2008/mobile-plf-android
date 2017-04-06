@@ -47,7 +47,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.RegistrationSettingsURL;
 import com.philips.cdp.registration.ui.customviews.LoginIdEditText;
 import com.philips.cdp.registration.ui.customviews.XHavingProblems;
-import com.philips.cdp.registration.ui.customviews.XPassword;
+import com.philips.cdp.registration.ui.customviews.PasswordView;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileForgotPasswordVerifyCodeFragment;
@@ -99,7 +99,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private LoginIdEditText mEtEmail;
 
-    private XPassword mEtPassword;
+    private PasswordView mEtPassword;
 
     private User mUser;
 
@@ -384,7 +384,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         mEtEmail.requestFocus();
 
-        mEtPassword = (XPassword) view.findViewById(R.id.rl_reg_password_field);
+        mEtPassword = (PasswordView) view.findViewById(R.id.rl_reg_password_field);
         mEtPassword.setOnClickListener(this);
         mEtPassword.setOnUpdateListener(this);
         mEtPassword.isValidatePassword(false);
