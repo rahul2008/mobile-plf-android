@@ -61,6 +61,7 @@ class IAPHandler {
     }
 
     protected void fetchBaseUrl(ServiceDiscoveryInterface serviceDiscoveryInterface) {
+        mIAPSetting.setUseLocalData(true);
         serviceDiscoveryInterface.getServiceUrlWithLanguagePreference("iap.baseurl", new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
