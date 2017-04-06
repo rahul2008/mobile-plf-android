@@ -4,7 +4,9 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
+import com.philips.platform.core.events.PushNotificationErrorResponse;
 import com.philips.platform.core.events.PushNotificationResponse;
+import com.philips.platform.core.utils.DataServicesError;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 
@@ -38,7 +40,6 @@ public class PushNotificationController {
                                       @NonNull GsonConverter gsonConverter) {
         mUCoreAdapter = uCoreAdapter;
         mGsonConverter = gsonConverter;
-
     }
 
     public boolean registerPushNotification(UCorePushNotification uCorePushNotification) {
@@ -54,7 +55,7 @@ public class PushNotificationController {
                     uCoreAccessProvider.getUserId(), 13, uCorePushNotification);
             eventing.post(new PushNotificationResponse(isResponseSuccess(response)));
         } catch (RetrofitError error) {
-            eventing.post(new BackendResponse(1, error));
+            eventing.post(new PushNotificationErrorResponse(createDataServicesError(error)));
         }
         return false;
     }
@@ -72,7 +73,7 @@ public class PushNotificationController {
                     uCoreAccessProvider.getUserId(), 13, appVariant, token);
             eventing.post(new PushNotificationResponse(isResponseSuccess(response)));
         } catch (RetrofitError error) {
-            eventing.post(new BackendResponse(1, error));
+            eventing.post(new PushNotificationErrorResponse(createDataServicesError(error)));
         }
         return false;
     }
@@ -92,5 +93,12 @@ public class PushNotificationController {
 
     void postError(int referenceId, final RetrofitError error) {
         eventing.post(new BackendResponse(referenceId, error));
+    }
+
+    protected DataServicesError createDataServicesError(RetrofitError error) {
+        DataServicesError dataServicesError = new DataServicesError();
+        dataServicesError.setErrorCode(error.getResponse().getStatus());
+        dataServicesError.setErrorMessage(error.getMessage());
+        return dataServicesError;
     }
 }

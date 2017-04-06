@@ -2,6 +2,7 @@ package com.philips.platform.datasync.PushNotification;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.events.PushNotificationErrorResponse;
 import com.philips.platform.core.events.PushNotificationResponse;
 import com.philips.platform.core.events.RegisterDeviceToken;
 import com.philips.platform.core.events.UnRegisterDeviceToken;
@@ -44,7 +45,12 @@ public class PushNotificationMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void onEventAsync(final PushNotificationResponse pushNotificationResponse) throws SQLException {
+    public void onEventAsync(final PushNotificationResponse pushNotificationResponse) {
         mRegisterDeviceTokenListener.onResponse(pushNotificationResponse.isSuccess());
+    }
+
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void onEventAsync(final PushNotificationErrorResponse pushNotificationErrorResponse) {
+        mRegisterDeviceTokenListener.onError(pushNotificationErrorResponse.getDataServicesError());
     }
 }
