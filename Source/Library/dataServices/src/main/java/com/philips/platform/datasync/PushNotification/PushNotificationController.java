@@ -51,7 +51,7 @@ public class PushNotificationController {
                 uCoreAccessProvider.getAccessToken(), mGsonConverter);
         try {
             Response response = mPushNotificationClient.registerDeviceToken(uCoreAccessProvider.getUserId(),
-                    uCoreAccessProvider.getUserId(), uCorePushNotification);
+                    uCoreAccessProvider.getUserId(), 13, uCorePushNotification);
             eventing.post(new PushNotificationResponse(isResponseSuccess(response)));
         } catch (RetrofitError error) {
             eventing.post(new BackendResponse(1, error));
@@ -69,7 +69,7 @@ public class PushNotificationController {
                 uCoreAccessProvider.getAccessToken(), mGsonConverter);
         try {
             Response response = mPushNotificationClient.unRegisterDeviceToken(uCoreAccessProvider.getUserId(),
-                    uCoreAccessProvider.getUserId(), appVariant, token);
+                    uCoreAccessProvider.getUserId(), 13, appVariant, token);
             eventing.post(new PushNotificationResponse(isResponseSuccess(response)));
         } catch (RetrofitError error) {
             eventing.post(new BackendResponse(1, error));

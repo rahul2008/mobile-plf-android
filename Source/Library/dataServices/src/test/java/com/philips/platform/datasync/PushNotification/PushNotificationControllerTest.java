@@ -160,7 +160,7 @@ public class PushNotificationControllerTest {
         final RetrofitError retrofitError = mock(RetrofitError.class);
         mResponse = new Response("", 403, "Test error", new ArrayList<Header>(), new TypedString("ERROR"));
         when(retrofitError.getResponse()).thenReturn(mResponse);
-        when(mPushNotificationClient.registerDeviceToken(TEST_USER_ID, TEST_USER_ID, uCorePushNotification)).thenThrow(retrofitError);
+        when(mPushNotificationClient.registerDeviceToken(TEST_USER_ID, TEST_USER_ID, 13, uCorePushNotification)).thenThrow(retrofitError);
         mPushNotificationController.registerPushNotification(uCorePushNotification);
     }
 
@@ -174,7 +174,7 @@ public class PushNotificationControllerTest {
         final RetrofitError retrofitError = mock(RetrofitError.class);
         mResponse = new Response("", 403, "Test error", new ArrayList<Header>(), new TypedString("ERROR"));
         when(retrofitError.getResponse()).thenReturn(mResponse);
-        when(mPushNotificationClient.unRegisterDeviceToken(TEST_USER_ID, TEST_USER_ID, "app variant", "token")).thenThrow(retrofitError);
+        when(mPushNotificationClient.unRegisterDeviceToken(TEST_USER_ID, TEST_USER_ID, 13, "app variant", "token")).thenThrow(retrofitError);
         mPushNotificationController.unRegisterPushNotification("app variant", "token");
     }
 

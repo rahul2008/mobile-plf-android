@@ -5,6 +5,14 @@ public class UCorePushNotification {
     private String appVariant;
     private String protocolProvider;
 
+    public String getProtocolAddress() {
+        return protocolAddress;
+    }
+
+    public void setProtocolAddress(String protocolAddress) {
+        this.protocolAddress = protocolAddress;
+    }
+
     public String getAppVariant() {
         return appVariant;
     }
@@ -19,13 +27,5 @@ public class UCorePushNotification {
 
     public void setProtocolProvider(String protocolProvider) {
         this.protocolProvider = protocolProvider;
-    }
-
-    public String getProtocolAddress() {
-        return protocolAddress;
-    }
-
-    public void setProtocolAddress(String protocolAddress) {
-        this.protocolAddress = protocolAddress;
     }
 }
