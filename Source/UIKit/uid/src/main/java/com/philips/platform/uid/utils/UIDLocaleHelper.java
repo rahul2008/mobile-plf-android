@@ -19,7 +19,7 @@ public class UIDLocaleHelper {
     public static final String TAG = "UIDLocaleHelper";
 
     private static String filePath = null;
-    private static UIDLocaleHelper uidLocaleHelper = null;
+    private static UIDLocaleHelper uidLocaleHelper;
     private static HashMap<String,String> stringHashMap = new HashMap<String, String>();
     private static boolean isLookUp = false;
 
@@ -33,8 +33,13 @@ public class UIDLocaleHelper {
         return uidLocaleHelper;
     }
 
+    /**
+     * This API will help you to set the path of your Language pack JSON.<br> This path would be used by UIDLocaleHelper to parse the JSON.
+     *<br>DLS will handle the string value mappings to set the corresponding string in your widgets or controls.
+     * @param filePath Absolute path of your JSON file in String format
+     */
     public static void setFilePath(String filePath){
-        UIDLocaleHelper.filePath = filePath;
+        uidLocaleHelper.filePath = filePath;
         UIDLocaleHelper.isLookUp = parseJSON();
     }
 
