@@ -38,8 +38,6 @@ public interface AlmostDoneContract {
 
     void showEmailField();
 
-    void enableBtnContinue();
-
     void trackMarketingOpt();
 
     void replaceWithHomeFragment();

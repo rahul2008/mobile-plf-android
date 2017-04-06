@@ -4,9 +4,6 @@ package com.philips.cdp.registration.ui.social;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.View;
-
-import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
@@ -22,7 +19,6 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -60,8 +56,6 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
 
     private Bundle mBundle;
 
-    private boolean isNetworkAvailable;
-
     @Inject
     User mUser;
 
@@ -84,13 +78,19 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        isNetworkAvailable = isOnline;
-        RLog.i(RLog.NETWORK_STATE, "AlmostDone :onNetWorkStateReceived state :" + isOnline);
-        updateUIStatus();
-    }
-
-    public boolean isNetworkAvailable(){
-        return isNetworkAvailable;
+        if (isEmailExist) {
+            if (isOnline) {
+                almostDoneContract.enableContinueBtn();
+            } else {
+                almostDoneContract.handleOfflineMode();
+            }
+        } else {
+            if (isOnline) {
+                almostDoneContract.validateEmailFieldUI();
+            } else {
+                almostDoneContract.handleOfflineMode();
+            }
+        }
     }
 
     public void updateUIStatus() {
@@ -111,7 +111,6 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
 
     @Override
     public void onEventReceived(String event) {
-        RLog.i(RLog.EVENT_LISTENERS, "AlmostDoneFragment :onEventReceived is : " + event);
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
             updateUIStatus();
         }
@@ -139,7 +138,6 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
         handleOnUIThread(new Runnable() {
             @Override
             public void run() {
-                RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onLoginSuccess");
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                         AppTagingConstants.SUCCESS_LOGIN);
                 almostDoneContract.hideMarketingOptSpinner();
@@ -159,7 +157,6 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
     }
 
     private void handleLoginFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onLoginFailedWithError");
         almostDoneContract.hideMarketingOptSpinner();
         if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
             if (RegistrationHelper.getInstance().isChinaFlow()){
@@ -177,7 +174,6 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
         handleOnUIThread(new Runnable() {
             @Override
             public void run() {
-                RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onLoginFailedWithTwoStepError");
                 almostDoneContract.hideMarketingOptSpinner();
             }
         });
@@ -190,7 +186,6 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
         handleOnUIThread(new Runnable() {
             @Override
             public void run() {
-                RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onLoginFailedWithMergeFlowError");
                 almostDoneContract.hideMarketingOptSpinner();
                 almostDoneContract.addMergeAccountFragment();
             }
@@ -211,7 +206,7 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
     }
 
     private void handleContinueSocialProviderFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onContinueSocialProviderLoginFailure");
+
         almostDoneContract.hideMarketingOptSpinner();
         if (null != userRegistrationFailureInfo.getDisplayNameErrorMessage()) {
             almostDoneContract.displayNameErrorMessage(userRegistrationFailureInfo,mDisplayName);
@@ -220,12 +215,16 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
         if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
             almostDoneContract.emailErrorMessage(userRegistrationFailureInfo);
         } else {
-            if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
-                if (RegistrationHelper.getInstance().isChinaFlow()){
-                    almostDoneContract.phoneNumberAlreadyInuseError();
-                }else {
-                    almostDoneContract.emailAlreadyInuseError();
-                }
+            emailAlreadyInUse(userRegistrationFailureInfo);
+        }
+    }
+
+    private void emailAlreadyInUse(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+        if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
+            if (RegistrationHelper.getInstance().isChinaFlow()){
+                almostDoneContract.phoneNumberAlreadyInuseError();
+            }else {
+                almostDoneContract.emailAlreadyInuseError();
             }
         }
     }
@@ -243,6 +242,7 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
     }
 
     private final void handleOnUIThread(Runnable runnable) {
+        runnable.run();
         if (Thread.currentThread() != mUiThread) {
             mHandler.post(runnable);
         } else {
@@ -253,21 +253,7 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
     public void parseRegistrationInfo(Bundle bundle) {
         mBundle = bundle;
         if (null != bundle) {
-            try {
-                if(bundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR)!=null){
-                    trackAbtesting();
-                }
-                if(bundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR)!=null) {
-                    JSONObject mPreRegJson = new JSONObject(bundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR));
-                    performSocialTwoStepError(mPreRegJson,bundle);
-                }
-                if (null == mGivenName) {
-                    mGivenName = mDisplayName;
-                }
-
-            } catch (JSONException e) {
-                RLog.e(RLog.EXCEPTION, "AlmostDoneFragment Exception : " + e.getMessage());
-            }
+            handleSocialTwoStepError(bundle);
         }
         if (null != mProvider) {
             mProvider = Character.toUpperCase(mProvider.charAt(0)) + mProvider.substring(1);
@@ -276,10 +262,28 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
            almostDoneContract.emailFieldHide();
         } else {
             if (bundle == null) {
-                almostDoneContract.enableBtnContinue();
+                almostDoneContract.enableContinueBtn();
             } else {
                 almostDoneContract.showEmailField();
             }
+        }
+    }
+
+    private void handleSocialTwoStepError(Bundle bundle) {
+        try {
+            if(bundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR)!=null){
+                trackAbtesting();
+            }
+            if(bundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR)!=null) {
+                JSONObject mPreRegJson = new JSONObject(bundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR));
+                performSocialTwoStepError(mPreRegJson,bundle);
+            }
+            if (null == mGivenName) {
+                mGivenName = mDisplayName;
+            }
+
+        } catch (JSONException e) {
+            RLog.e(RLog.EXCEPTION, "AlmostDoneFragment Exception : " + e.getMessage());
         }
     }
 
@@ -411,7 +415,7 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
         }
     }
 
-    public boolean isTermsAndConditionAccepted(){
+    private boolean isTermsAndConditionAccepted(){
         boolean isTermAccepted = false;
         String mobileNo = mUser.getMobile();
         String email  = mUser.getEmail();

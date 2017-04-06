@@ -290,10 +290,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     @Override
-    public void enableBtnContinue(){
-        mBtnContinue.setEnabled(true);
-    }
-    @Override
     public void emailFieldHide() {
         mEtEmail.setVisibility(View.GONE);
         mBtnContinue.setEnabled(true);
@@ -340,6 +336,10 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         }else{
             periodicOffersCheck.setVisibility(View.GONE);
         }
+        hideAcceptTermsAndConditionContainer();
+    }
+
+    private void hideAcceptTermsAndConditionContainer() {
         acceptTermsCheck.setChecked(true);
         fieldViewLine.setVisibility(View.GONE);
         mJoinNow.setVisibility(View.GONE);
@@ -465,7 +465,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     public void storePreference(String emailOrMobileNumber){
         RegPreferenceUtility.storePreference(mContext, emailOrMobileNumber, true);
     }
-
 
     private void trackMultipleActions() {
         trackABTestingUIFlow();
