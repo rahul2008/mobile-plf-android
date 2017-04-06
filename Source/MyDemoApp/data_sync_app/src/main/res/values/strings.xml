@@ -33,6 +33,7 @@
     <string name="settings">User Settings</string>
     <string name="moments">Moments</string>
     <string name="logout">logout</string>
+    <string name="blob">Blob</string>
 
     <string-array name="metrics">
         <item>"metric"</item>

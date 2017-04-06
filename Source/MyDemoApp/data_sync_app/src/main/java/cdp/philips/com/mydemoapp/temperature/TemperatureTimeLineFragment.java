@@ -36,6 +36,7 @@ import java.util.List;
 
 import cdp.philips.com.mydemoapp.DataSyncApplication;
 import cdp.philips.com.mydemoapp.R;
+import cdp.philips.com.mydemoapp.blob.BlobFragment;
 import cdp.philips.com.mydemoapp.characteristics.CharacteristicsDialogFragment;
 import cdp.philips.com.mydemoapp.consents.ConsentDialogFragment;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
@@ -68,7 +69,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     User mUser;
     Utility mUtility;
 
-    TextView mTvConsents, mTvCharacteristics , mTvSettings ,mTvLogout ,mTvInsights;
+    TextView mTvConsents, mTvCharacteristics , mTvSettings ,mTvLogout ,mTvInsights, mTvBlob;
 
 
 
@@ -174,12 +175,14 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mTvLogout= (TextView) view.findViewById(R.id.tv_logout);
         mTvSettings = (TextView) view.findViewById(R.id.tv_settings);
         mTvInsights = (TextView)view.findViewById(R.id.tv_insights);
+        mTvBlob = (TextView) view.findViewById(R.id.tv_blob);
 
         mTvConsents.setOnClickListener(this);
         mTvCharacteristics.setOnClickListener(this);
         mTvSettings.setOnClickListener(this);
         mTvLogout.setOnClickListener(this);
         mTvInsights.setOnClickListener(this);
+        mTvBlob.setOnClickListener(this);
         return view;
     }
 
@@ -223,6 +226,10 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
             case R.id.tv_insights:
                 InsightFragment insightFragment = new InsightFragment();
                 insightFragment.show(getFragmentManager(), "Insight");
+                break;
+            case R.id.tv_blob:
+                BlobFragment blobFragment = new BlobFragment();
+                blobFragment.show(getFragmentManager(), "Insight");
         }
     }
 

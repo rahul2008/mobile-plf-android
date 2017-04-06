@@ -27,6 +27,7 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
+import com.philips.platform.core.events.CreateBlobRequest;
 import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
@@ -52,6 +53,7 @@ import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.injection.ApplicationModule;
 import com.philips.platform.core.injection.BackendModule;
 import com.philips.platform.core.injection.DaggerAppComponent;
+import com.philips.platform.core.listeners.BlobRequestListener;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -68,12 +70,17 @@ import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import retrofit.mime.TypedFile;
 
 
 @SuppressWarnings({"rawtypes", "unchecked"})
@@ -436,5 +443,18 @@ public class DataServicesManager {
 
     public void unRegisterDeviceToken(String appToken, String appVariant, RegisterDeviceTokenListener registerDeviceTokenListener) {
         mEventing.post(new UnRegisterDeviceToken(appToken, appVariant, registerDeviceTokenListener));
+    }
+
+    //Blob Interfaces
+    public void createBlob(File file, String type, BlobRequestListener blobRequestListener){
+        mEventing.post(new CreateBlobRequest(file,type,blobRequestListener));
+    }
+
+    public void FetchBlob(String id, BlobRequestListener blobRequestListener){
+
+    }
+
+    public void FetchMetaDataForBlobID(String id, BlobRequestListener blobRequestListener){
+
     }
 }

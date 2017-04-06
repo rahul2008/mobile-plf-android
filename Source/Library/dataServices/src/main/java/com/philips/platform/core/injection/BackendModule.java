@@ -31,6 +31,9 @@ import com.philips.platform.datasync.OkClientFactory;
 import com.philips.platform.datasync.PushNotification.PushNotificationMonitor;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
+import com.philips.platform.datasync.blob.BlobDataFetcher;
+import com.philips.platform.datasync.blob.BlobDataSender;
+import com.philips.platform.datasync.blob.BlobMonitor;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsFetcher;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsMonitor;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSegregator;
@@ -141,15 +144,17 @@ public class BackendModule {
     @Provides
     @Singleton
     Backend providesBackend(
+            @NonNull final BlobMonitor blobMonitor,
             @NonNull final ConsentsMonitor consentsMonitor,
             @NonNull final UserCharacteristicsMonitor userCharacteristicsMonitor,
             @NonNull final SettingsMonitor settingsMonitor ,@NonNull final InsightMonitor insightMonitor, @NonNull final PushNotificationMonitor pushNotificationMonitor) {
-        return new Backend(consentsMonitor, userCharacteristicsMonitor,settingsMonitor,insightMonitor,pushNotificationMonitor);
+        return new Backend(blobMonitor,consentsMonitor, userCharacteristicsMonitor,settingsMonitor,insightMonitor,pushNotificationMonitor);
     }
 
     @Provides
     @Singleton
     DataPullSynchronise providesDataSynchronise(
+            @NonNull final BlobDataFetcher blobDataFetcher,
             @NonNull final MomentsDataFetcher momentsDataFetcher,
             @NonNull final ConsentsDataFetcher consentsDataFetcher,
             @NonNull final UserCharacteristicsFetcher userCharacteristicsFetcher,
@@ -167,6 +172,7 @@ public class BackendModule {
     @Provides
     @Singleton
     DataPushSynchronise providesDataPushSynchronise(
+            @NonNull final BlobDataSender blobDataSender,
             @NonNull final MomentsDataSender momentsDataSender,
             @NonNull final ConsentDataSender consentDataSender,
             @NonNull final UserCharacteristicsSender userCharacteristicsSender,

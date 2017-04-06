@@ -13,12 +13,18 @@ import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.ChecksumGenerator;
+import com.philips.platform.datasync.blob.BlobClient;
+import com.philips.platform.datasync.blob.BlobData;
 import com.philips.platform.datasync.insights.InsightClient;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.squareup.okhttp.OkHttpClient;
 
 import org.joda.time.DateTime;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -34,6 +40,7 @@ public class UCoreAdapter {
 
     public static final RestAdapter.LogLevel LOG_LEVEL = RestAdapter.LogLevel.FULL;
     public static final int API_VERSION = 9;
+    public static final int API_VERSION_BLOB = 1;
     public static final String API_VERSION_CUSTOM_HEADER = "api-version";
     public static final String APP_AGENT_HEADER = "appAgent";
     public static final String APP_AGENT_HEADER_VALUE = "%s android %s, %s";
@@ -47,6 +54,8 @@ public class UCoreAdapter {
     private final OkHttpClient okHttpClient;
     private Context context;
     private String buildType;
+
+    BlobData blobData;
 
     @NonNull
     private final OkClientFactory okClientFactory;
@@ -69,14 +78,21 @@ public class UCoreAdapter {
         this.context = context;
     }
 
+    public void setBlobData(BlobData blobData){
+        this.blobData = blobData;
+    }
 
     public <T> T getAppFrameworkClient(Class<T> clientClass, @NonNull final String accessToken, GsonConverter gsonConverter) {
         String baseUrl = null;
         if (userRegistrationImpl != null) {
-            if (clientClass == InsightClient.class)
+            if (clientClass == InsightClient.class) {
                 baseUrl = "https://platforminfra-cs-platforminfrastaging.cloud.pcftest.com/";
-            else
+            }
+            else if(clientClass == BlobClient.class){
+                baseUrl = BlobClient.BASE_URL;
+            }else {
                 baseUrl = userRegistrationImpl.getHSDPUrl();
+            }
         }
         if (baseUrl == null || baseUrl.isEmpty()) {
             return null;
@@ -89,9 +105,17 @@ public class UCoreAdapter {
                            @NonNull final String accessToken, @NonNull GsonConverter gsonConverter) {
         OkClient okClient = okClientFactory.create(okHttpClient);
 
+        RequestInterceptor requestInterceptor;
+
+        if(clientClass == BlobClient.class){
+            requestInterceptor = getRequestInterceptorForBlob(accessToken);
+
+        }else {
+            requestInterceptor = getRequestInterceptor(accessToken);
+        }
         RestAdapter restAdapter = restAdapterBuilder
                 .setEndpoint(baseUrl)
-                .setRequestInterceptor(getRequestInterceptor(accessToken))
+                .setRequestInterceptor(requestInterceptor)
                 .setClient(okClient)
                 .setConverter(gsonConverter)
                 .build();
@@ -110,6 +134,26 @@ public class UCoreAdapter {
                 request.addHeader("Authorization", "bearer " + accessToken);
                 request.addHeader(API_VERSION_CUSTOM_HEADER, String.valueOf(API_VERSION));
                 request.addHeader(APP_AGENT_HEADER, getAppAgentHeader());
+            }
+        };
+    }
+
+    @NonNull
+    private RequestInterceptor getRequestInterceptorForBlob(final @NonNull String accessToken) {
+        final ChecksumGenerator checksum = new ChecksumGenerator();
+        return new RequestInterceptor() {
+            @Override
+            public void intercept(RequestFacade request) {
+                request.addHeader("Content-Type", blobData.getType());
+                request.addHeader("Authorization", "bearer " + accessToken);
+                request.addHeader(API_VERSION_CUSTOM_HEADER, String.valueOf(API_VERSION_BLOB));
+                request.addHeader(APP_AGENT_HEADER, getAppAgentHeader());
+                request.addHeader("user","spoorti");
+                try {
+                    request.addHeader("Content-MD5","4DF3609C9C3EABCA6B3776FB1C7AEFA2");
+                } catch (Exception e) {
+
+                }
             }
         };
     }

@@ -14,6 +14,8 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.PushNotification.PushNotificationMonitor;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
+import com.philips.platform.datasync.blob.BlobDataSender;
+import com.philips.platform.datasync.blob.BlobMonitor;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsConverter;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsFetcher;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsMonitor;
@@ -133,4 +135,8 @@ public interface AppComponent {
 
 
     void injectPushNotificationMonitor(PushNotificationMonitor pushNotificationMonitor);
+
+    void injectBlobSender(BlobDataSender blobDataSender);
+
+    void injectBlobMonitor(BlobMonitor blobMonitor);
 }

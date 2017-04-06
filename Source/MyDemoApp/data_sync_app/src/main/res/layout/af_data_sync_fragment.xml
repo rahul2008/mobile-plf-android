@@ -90,12 +90,23 @@
         android:id="@+id/tv_insights"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/tv_blob"
+        android:layout_gravity="end"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/insights"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/tv_blob"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_gravity="end"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="10dp"
-        android:text="@string/insights"
+        android:text="@string/blob"
         android:textSize="20dp" />
 
 </RelativeLayout>
