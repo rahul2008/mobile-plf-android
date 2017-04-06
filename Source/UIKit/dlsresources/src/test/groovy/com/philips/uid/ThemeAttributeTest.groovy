@@ -288,6 +288,27 @@ class ThemeAttributeTest extends GroovyTestCase {
         assertEquals("?attr/uidAccentLevel20", colorValue)
     }
 
+    void testReferecenceAndOffset() {
+        resetThemeValueObject()
+        themeValueObject.reference = "uidContentPrimary"
+        themeValueObject.offset = "-15"
+        themeAttribute.addTonalRange(LIGHT, themeValueObject)
+
+        def referenceValue = new ThemeValue();
+        referenceValue.colorCode = "35"
+
+        ArrayList list = new ArrayList()
+        def attribute = new ThemeAttribute("uidContentPrimary")
+        attribute.addTonalRange(LIGHT, referenceValue)
+        list.add(attribute)
+
+        TonalRange tonalRange = ((TonalRange) themeAttribute.attributeMap.get(LIGHT))
+        def colorsXmlInput = new XmlParser().parseText(new File(DLSResourceConstants.PATH_OUT_COLORS_FILE).text)
+        def colorValue = tonalRange.getValue("blue", colorsXmlInput, list)
+
+        assertEquals("@color/uid_blue_level_20", colorValue)
+    }
+
     private void resetThemeValueObject() {
         themeValueObject.color = null
         themeValueObject.colorCode = null

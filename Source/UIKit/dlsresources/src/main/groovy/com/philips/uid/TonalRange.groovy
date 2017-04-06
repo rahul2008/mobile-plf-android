@@ -60,7 +60,7 @@ class TonalRange {
                                 colorCode = Integer.valueOf(colorCode) + Integer.valueOf(offset)
                             }
                             if (offset != null && colorCode == null) {
-                                colorCode = offset
+                                colorCode = Integer.valueOf(offset)
                             }
                         }
                         if (colorRange == null) {
@@ -69,8 +69,11 @@ class TonalRange {
                         if (opacity == null) {
                             opacity = themeReferenceValue.opacity
                         }
-                        reference = null
-
+                        if (themeReferenceValue.reference != null) {
+                            reference = themeReferenceValue.reference
+                        } else {
+                            reference = null
+                        }
                         return getValue(color_range, colorsXmlInput, allAttributes)
                     }
                 }
@@ -88,6 +91,7 @@ class TonalRange {
             if (opacity != null) {
                 hexAlpha = alphaToHex(Float.valueOf(opacity))
             }
+
             def colorReference = "${DLSResourceConstants.LIB_PREFIX}_" + color_range + "_${DLSResourceConstants.LEVEL}_" + colorCode
             if (colorRange != null) {
                 colorReference = "${DLSResourceConstants.LIB_PREFIX}_" + colorRange + "_${DLSResourceConstants.LEVEL}_" + colorCode
@@ -156,7 +160,7 @@ class TonalRange {
                 it.@name == colorReference
             }*.text().get(0)
         } catch (IndexOutOfBoundsException exception) {
-            println("invalid colorCode with colorName: " + colorReference)
+//            println("invalid colorCode with colorName: " + colorReference)
             return "@null"
         }
     }
