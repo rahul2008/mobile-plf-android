@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DICommTestApp</string>
+    <string name="app_name">Commlib Explorer</string>
     <string name="title_activity_strategy_choice">StrategyChoiceActivity</string>
     <string name="device_discovery_title_message">Device Discovery</string>
     <string name="strategy_choice_title_message">Choose Strategy</string>
