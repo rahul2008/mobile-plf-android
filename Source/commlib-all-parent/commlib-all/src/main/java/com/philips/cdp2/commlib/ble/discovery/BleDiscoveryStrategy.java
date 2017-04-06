@@ -9,10 +9,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.BleDeviceCache.CacheData;
 import com.philips.cdp2.commlib.ble.BleDeviceCache.ExpirationCallback;
@@ -44,7 +44,7 @@ import static com.philips.pins.shinelib.SHNDevice.State.Disconnected;
 import static com.philips.pins.shinelib.SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed;
 import static com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation.SHNDeviceInformationType.SerialNumber;
 
-public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy {
+public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements SHNDeviceScanner.SHNDeviceScannerListener {
 
     private static final String TAG = "BleDiscoveryStrategy";
 
@@ -82,50 +82,48 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy {
         }
     };
 
-    private final SHNDeviceScanner.SHNDeviceScannerListener deviceScannerListener = new SHNDeviceScanner.SHNDeviceScannerListener() {
-        @Override
-        public void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull SHNDeviceFoundInfo shnDeviceFoundInfo) {
-            final SHNDevice device = shnDeviceFoundInfo.getShnDevice();
-            final SHNCapabilityDeviceInformation deviceInformation = device.getCapability(SHNCapabilityDeviceInformation.class);
-            if (deviceInformation == null) {
-                throw new IllegalArgumentException("BLE device doesn't expose device information.");
-            }
-
-            String address = device.getAddress();
-
-            if (macAddresses.contains(address)) {
-                Log.w(TAG, ">>> Skipping known device: " + address);
-                return;
-            }
-
-            final String modelId = createModelId(shnDeviceFoundInfo);
-
-            if (modelIds.isEmpty() || modelIds.contains(modelId)) {
-                macAddresses.add(device.getAddress());
-                Log.d(TAG, ">>> MACs: " + Arrays.toString(macAddresses.toArray()));
-
-                final NetworkNode networkNode = new NetworkNode();
-                networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
-                networkNode.setModelId(modelId);
-                networkNode.setModelName(device.getDeviceTypeName()); // TODO model name, e.g. 'Polaris'
-
-                // TODO replace with FriendlyName from GAP
-                networkNode.setName(device.getAddress());
-
-                Log.d(TAG, ">>> Retrieving device information...");
-                device.registerSHNDeviceListener(new DeviceListener(device, deviceInformation, networkNode));
-                device.connect();
-
-                // TODO support updates?
-                // notifyNetworkNodeUpdated(networkNode);
-            }
+    @Override
+    public void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull SHNDeviceFoundInfo shnDeviceFoundInfo) {
+        final SHNDevice device = shnDeviceFoundInfo.getShnDevice();
+        final SHNCapabilityDeviceInformation deviceInformation = device.getCapability(SHNCapabilityDeviceInformation.class);
+        if (deviceInformation == null) {
+            throw new IllegalArgumentException("BLE device doesn't expose device information.");
         }
 
-        @Override
-        public void scanStopped(SHNDeviceScanner scanner) {
-            // TODO handle
+        String address = device.getAddress();
+
+        if (macAddresses.contains(address)) {
+            DICommLog.w(TAG, ">>> Skipping known device: " + address);
+            return;
         }
-    };
+
+        final String modelId = createModelId(shnDeviceFoundInfo);
+
+        if (modelIds.isEmpty() || modelIds.contains(modelId)) {
+            macAddresses.add(device.getAddress());
+            DICommLog.d(TAG, ">>> MACs: " + Arrays.toString(macAddresses.toArray()));
+
+            final NetworkNode networkNode = new NetworkNode();
+            networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+            networkNode.setModelId(modelId);
+            networkNode.setModelName(device.getDeviceTypeName()); // TODO model name, e.g. 'Polaris'
+
+            // TODO replace with FriendlyName from GAP
+            networkNode.setName(device.getAddress());
+
+            DICommLog.d(TAG, ">>> Retrieving device information...");
+            device.registerSHNDeviceListener(new DeviceListener(device, deviceInformation, networkNode));
+            device.connect();
+
+            // TODO support updates?
+            // notifyNetworkNodeUpdated(networkNode);
+        }
+    }
+
+    @Override
+    public void scanStopped(SHNDeviceScanner scanner) {
+        // TODO handle
+    }
 
     public BleDiscoveryStrategy(@NonNull Context context, @NonNull BleDeviceCache bleDeviceCache, @NonNull SHNDeviceScanner deviceScanner) {
         this.context = context;
@@ -157,7 +155,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy {
         discoveryFuture = executor.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                if (!deviceScanner.startScanning(deviceScannerListener, DuplicatesAllowed, SCAN_WINDOW_MILLIS)) {
+                if (!deviceScanner.startScanning(BleDiscoveryStrategy.this, DuplicatesAllowed, SCAN_WINDOW_MILLIS)) {
                     throw new TransportUnavailableException("Error starting scanning via BLE.");
                 }
             }
@@ -189,10 +187,11 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy {
         private final SHNCapabilityDeviceInformation.Listener deviceInformationListener = new SHNCapabilityDeviceInformation.Listener() {
             @Override
             public void onDeviceInformation(@NonNull SHNDeviceInformationType deviceInformationType, @NonNull String value, @NonNull Date dateWhenAcquired) {
-                Log.d(TAG, ">>> Device [" + device.getAddress() + "] CPPID: " + value);
+                DICommLog.d(TAG, ">>> Device [" + device.getAddress() + "] CPPID: " + value);
 
                 networkNode.setCppId(value);
                 bleDeviceCache.addDevice(device, networkNode, expirationCallback, SCAN_WINDOW_MILLIS);
+                macAddresses.remove(networkNode.getName());
                 notifyNetworkNodeDiscovered(networkNode);
 
                 onDeviceResponse();
@@ -200,7 +199,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
             @Override
             public void onError(@NonNull SHNDeviceInformationType deviceInformationType, @NonNull SHNResult error) {
-                Log.e(TAG, ">>> Device [" + device.getAddress() + "] error: " + error.toString());
+                DICommLog.e(TAG, ">>> Device [" + device.getAddress() + "] error: " + error.toString());
 
                 onDeviceResponse();
             }
@@ -214,7 +213,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
         @Override
         public void onStateUpdated(final SHNDevice shnDevice) {
-            Log.d(TAG, ">>> Device [" + shnDevice.getAddress() + "] state updated: " + shnDevice.getState().toString());
+            DICommLog.d(TAG, ">>> Device [" + shnDevice.getAddress() + "] state updated: " + shnDevice.getState().toString());
 
             switch (shnDevice.getState()) {
                 case Connecting:
@@ -233,7 +232,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
         @Override
         public void onFailedToConnect(SHNDevice shnDevice, SHNResult result) {
-            Log.e(TAG, ">>> Device [" + shnDevice.getAddress() + "] failed to connect: " + result.toString());
+            DICommLog.e(TAG, ">>> Device [" + shnDevice.getAddress() + "] failed to connect: " + result.toString());
 
             device.unregisterSHNDeviceListener(this);
             macAddresses.remove(shnDevice.getAddress());
@@ -241,12 +240,12 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
         @Override
         public void onReadRSSI(int rssi) {
-            Log.d(TAG, ">>> Device [" + device.getAddress() + "] signal strength: " + rssi + " dBm");
+            DICommLog.d(TAG, ">>> Device [" + device.getAddress() + "] signal strength: " + rssi + " dBm");
         }
 
         private void onDeviceResponse() {
             if (counter.decrementAndGet() == 0) {
-                Log.d(TAG, ">>> onDeviceResponse");
+                DICommLog.d(TAG, ">>> onDeviceResponse");
 
                 device.unregisterSHNDeviceListener(this);
                 device.disconnect();
