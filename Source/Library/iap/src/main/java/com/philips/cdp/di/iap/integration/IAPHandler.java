@@ -51,32 +51,22 @@ class IAPHandler {
 
     void initPreRequisite() {
         IAPAnalytics.initIAPAnalytics(mIAPDependencies);
-        initServiceDiscovery();
+        initIAPRequisite();
+        getLocaleFromServiceDiscovery();
     }
 
-    void initIAPRequisite(ServiceDiscoveryInterface serviceDiscoveryInterface) {
+    private void initIAPRequisite() {
         initControllerFactory();
         initHybrisDelegate();
-        setHomeCountry(serviceDiscoveryInterface);
     }
 
-    protected void initServiceDiscovery() {
-
-        AppInfraInterface appInfra = CartModelContainer.getInstance().getAppInfraInstance();
-        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
-
-        fetchBaseUrl(serviceDiscoveryInterface);
-    }
-
-    protected void fetchBaseUrl(final ServiceDiscoveryInterface serviceDiscoveryInterface) {
-
+    protected void fetchBaseUrl(ServiceDiscoveryInterface serviceDiscoveryInterface) {
         serviceDiscoveryInterface.getServiceUrlWithLanguagePreference("iap.baseurl", new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
                     @Override
                     public void onError(ERRORVALUES errorvalues, String s) {
                         mIAPSetting.setUseLocalData(true);
-                        initIAPRequisite(serviceDiscoveryInterface);
                     }
 
                     @Override
@@ -84,24 +74,26 @@ class IAPHandler {
                         if (url.toString().isEmpty()) {
                             mIAPSetting.setUseLocalData(true);
                         } else {
-                            mIAPSetting.setUseLocalData(true);
+                            mIAPSetting.setUseLocalData(false);
                             String urlPort = url.toString();//"https://acc.occ.shop.philips.com/en_US";"https://www.occ.shop.philips.com/en_US"
                             //String locale = CartModelContainer.getInstance().getLanguage() + "_" + CartModelContainer.getInstance().getCountry();
                             //String urlPort = "https://acc.occ.shop.philips.com/" + locale;
                             mIAPSetting.setHostPort(urlPort.substring(0, urlPort.length() - 5));
                         }
                         mIAPSetting.setProposition(loadConfigParams());
-                        initIAPRequisite(serviceDiscoveryInterface);
                     }
                 });
     }
 
-    private void setHomeCountry(ServiceDiscoveryInterface serviceDiscoveryInterface) {
+    private void getLocaleFromServiceDiscovery() {
+        AppInfraInterface appInfra = CartModelContainer.getInstance().getAppInfraInstance();
+        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
         serviceDiscoveryInterface.getServiceLocaleWithCountryPreference("", new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
             @Override
             public void onSuccess(String s) {
                 IAPLog.i(IAPLog.LOG, "ServiceDiscoveryInterface ==getHomeCountry " + s);
                 setLangAndCountry(s);
+                fetchBaseUrl(serviceDiscoveryInterface);
             }
 
             @Override
@@ -141,23 +133,23 @@ class IAPHandler {
         CartModelContainer.getInstance().setLanguage(localeArray[0]);
         CartModelContainer.getInstance().setCountry(localeArray[1]);
         HybrisDelegate.getInstance().getStore().setLangAndCountry(localeArray[0], localeArray[1]);
+        IAPLog.i(IAPLog.LOG, "setLangAndCountry Locale = " + HybrisDelegate.getInstance().getStore().getLocale());
     }
 
     void initIAP(final UiLauncher uiLauncher, final IAPLaunchInput pLaunchInput) {
         final IAPListener iapListener = pLaunchInput.getIapListener();
         HybrisDelegate delegate = HybrisDelegate.getInstance(mIAPSetting.getContext());
-        delegate.getStore().initStoreConfig(/*CartModelContainer.getInstance().getLanguage(),
-                CartModelContainer.getInstance().getCountry(),*/ new RequestListener() {
-                    @Override
-                    public void onSuccess(final Message msg) {
-                        onSuccessOfInitialization(uiLauncher, pLaunchInput, iapListener);
-                    }
+        delegate.getStore().initStoreConfig(new RequestListener() {
+            @Override
+            public void onSuccess(final Message msg) {
+                onSuccessOfInitialization(uiLauncher, pLaunchInput, iapListener);
+            }
 
-                    @Override
-                    public void onError(final Message msg) {
-                        onFailureOfInitialization(msg, iapListener);
-                    }
-                });
+            @Override
+            public void onError(final Message msg) {
+                onFailureOfInitialization(msg, iapListener);
+            }
+        });
     }
 
     protected void onSuccessOfInitialization(UiLauncher uiLauncher, IAPLaunchInput pLaunchInput, IAPListener iapListener) {

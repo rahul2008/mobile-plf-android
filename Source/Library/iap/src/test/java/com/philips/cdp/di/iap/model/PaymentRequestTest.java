@@ -134,7 +134,7 @@ public class PaymentRequestTest {
         addressHashMap.put(ModelConstants.POSTAL_CODE, "");
         addressHashMap.put(ModelConstants.TOWN, "Delhi?");
         addressHashMap.put(ModelConstants.PHONE_1, "5417543010");
-        addressHashMap.put(ModelConstants.PHONE_2, "");
+        addressHashMap.put(ModelConstants.PHONE_2, "5417543010");
         return addressHashMap;
     }
 
