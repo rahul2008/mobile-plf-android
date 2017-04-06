@@ -887,7 +887,10 @@ public class JRSession implements JRConnectionManagerDelegate {
 
     private String getWelcomeMessageFromCookieString() {
         String cookies = CookieManager.getInstance().getCookie(getRpBaseUrl());
-        String cookieString = cookies.replaceAll(".*welcome_info=([^;]*).*", "$1");
+        
+        String cookieString = null;
+        if(cookies!=null)
+            cookieString= cookies.replaceAll(".*welcome_info=([^;]*).*", "$1");
 
         if (!TextUtils.isEmpty(cookieString)) {
             String[] parts = cookieString.split("%22");
