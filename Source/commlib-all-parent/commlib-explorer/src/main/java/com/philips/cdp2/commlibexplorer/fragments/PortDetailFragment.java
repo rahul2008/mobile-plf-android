@@ -9,11 +9,11 @@ import android.util.Log;
 
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp2.commlibexplorer.R;
 import com.philips.cdp2.commlibexplorer.appliance.PropertyPort;
 import com.philips.cdp2.commlibexplorer.appliance.property.PortSpecification;
 import com.philips.cdp2.commlibexplorer.appliance.property.Property;
 import com.philips.cdp2.commlibexplorer.presenters.PortDetailPresenter;
-import com.philips.cdpp.dicommtestapp.R;
 
 import java.util.ArrayList;
 

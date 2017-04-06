@@ -15,11 +15,11 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlibexplorer.MainActivity;
+import com.philips.cdp2.commlibexplorer.R;
 import com.philips.cdp2.commlibexplorer.appliance.GenericAppliance;
 import com.philips.cdp2.commlibexplorer.background.BackgroundConnectionService;
 import com.philips.cdp2.commlibexplorer.presenters.DiscoveredDevicePresenter;
 import com.philips.cdp2.commlibexplorer.strategy.CommStrategy;
-import com.philips.cdpp.dicommtestapp.R;
 
 import java.util.ArrayList;
 import java.util.Collection;

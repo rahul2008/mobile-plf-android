@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.philips.cdp2.commlibexplorer.R;
 import com.philips.cdp2.commlibexplorer.appliance.property.Property;
-import com.philips.cdpp.dicommtestapp.R;
 
 import nl.rwslinkman.presentable.Presenter;
 

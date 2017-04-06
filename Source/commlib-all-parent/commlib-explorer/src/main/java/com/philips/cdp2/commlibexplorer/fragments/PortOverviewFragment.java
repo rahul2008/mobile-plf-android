@@ -15,10 +15,10 @@ import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlibexplorer.MainActivity;
+import com.philips.cdp2.commlibexplorer.R;
 import com.philips.cdp2.commlibexplorer.appliance.GenericAppliance;
 import com.philips.cdp2.commlibexplorer.appliance.PropertyPort;
 import com.philips.cdp2.commlibexplorer.presenters.PortOverviewPresenter;
-import com.philips.cdpp.dicommtestapp.R;
 
 import java.util.ArrayList;
 import java.util.Set;

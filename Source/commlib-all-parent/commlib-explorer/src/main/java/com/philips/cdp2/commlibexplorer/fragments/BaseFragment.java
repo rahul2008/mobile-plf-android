@@ -12,19 +12,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.cdp2.commlibexplorer.CommlibExplorerApp;
 import com.philips.cdp2.commlibexplorer.MainActivity;
 import com.philips.cdp2.commlibexplorer.background.BackgroundConnectionService;
-import com.philips.cdpp.dicommtestapp.DiCommTestApp;
 
-abstract public class BaseFragment extends Fragment
-{
-    protected MainActivity getMainActivity()
-    {
+abstract public class BaseFragment extends Fragment {
+    protected MainActivity getMainActivity() {
         return (MainActivity) this.getActivity();
     }
 
-    protected DiCommTestApp getApp() {
-        return (DiCommTestApp) getMainActivity().getApplication();
+    protected CommlibExplorerApp getApp() {
+        return (CommlibExplorerApp) getMainActivity().getApplication();
     }
 
     protected BackgroundConnectionService getConnectionService() {
@@ -33,8 +31,7 @@ abstract public class BaseFragment extends Fragment
 
     @Nullable
     @Override
-    final public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
+    final public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(getLayoutId(), container, false);
         setupFragmentView(fragmentView);
         return fragmentView;
@@ -42,5 +39,6 @@ abstract public class BaseFragment extends Fragment
 
     @LayoutRes
     abstract protected int getLayoutId();
+
     abstract void setupFragmentView(View fragmentView);
 }

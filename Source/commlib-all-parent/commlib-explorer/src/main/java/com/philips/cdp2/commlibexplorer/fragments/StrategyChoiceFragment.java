@@ -7,9 +7,9 @@ package com.philips.cdp2.commlibexplorer.fragments;
 import android.util.Log;
 
 import com.philips.cdp2.commlibexplorer.CommlibExplorerApp;
+import com.philips.cdp2.commlibexplorer.R;
 import com.philips.cdp2.commlibexplorer.presenters.CommStrategyPresenter;
 import com.philips.cdp2.commlibexplorer.strategy.CommStrategy;
-import com.philips.cdpp.dicommtestapp.R;
 
 import java.util.List;
 

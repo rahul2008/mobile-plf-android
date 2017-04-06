@@ -26,8 +26,6 @@ import com.philips.cdp2.commlibexplorer.appliance.GenericAppliance;
 import com.philips.cdp2.commlibexplorer.appliance.PropertyPort;
 import com.philips.cdp2.commlibexplorer.background.BackgroundConnectionService;
 import com.philips.cdp2.commlibexplorer.fragments.StrategyChoiceFragment;
-import com.philips.cdpp.dicommtestapp.R;
-
 
 public class MainActivity extends AppCompatActivity
 {
