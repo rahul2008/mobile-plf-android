@@ -13,6 +13,7 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.core.listeners.RegisterDeviceTokenListener;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DataServicesError;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,6 +68,11 @@ public class PushNotificationManager {
                     Log.d(TAG, "registerTokenWithBackend reponse isregistered:" + isRegistered);
                     saveTokenRegistrationState(applicationContext, isRegistered);
                 }
+
+                @Override
+                public void onError(DataServicesError dataServicesError) {
+                    Log.d(TAG,"Register token error: code::"+dataServicesError.getErrorCode()+"message::"+dataServicesError.getErrorMessage());
+                }
             });
         }
     }
@@ -83,9 +89,16 @@ public class PushNotificationManager {
             DataServicesManager.getInstance().unRegisterDeviceToken(getToken(applicationContext), PushNotificationConstants.APP_VARIANT, new RegisterDeviceTokenListener() {
                 @Override
                 public void onResponse(boolean isDeRegistered) {
+                    //TODO:Need to write logic based on auto logout configuration
                     Log.d(TAG, "deregisterTokenWithBackend isDergistered:" + isDeRegistered);
                     saveTokenRegistrationState(applicationContext, !isDeRegistered);
 
+                }
+
+                @Override
+                public void onError(DataServicesError dataServicesError) {
+                    //TODO:Handle error scenarios and retry logic
+                    Log.d(TAG,"Register token error: code::"+dataServicesError.getErrorCode()+"message::"+dataServicesError.getErrorMessage());
                 }
             });
         }
@@ -105,7 +118,7 @@ public class PushNotificationManager {
         editor.putString(PushNotificationConstants.GCM_TOKEN, token);
         editor.commit();
         if (new User(applicationContext).isUserSignIn()) {
-            Log.d(TAG, "User is already signed. Register token with data core");
+            Log.d(TAG, "User is already signed in. Registering token with data core");
             registerTokenWithBackend(applicationContext);
         }
     }
@@ -131,6 +144,7 @@ public class PushNotificationManager {
      */
     public String getToken(Context applicationContext) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+        Log.d(TAG,"GCM token:"+sharedPreferences.getString(PushNotificationConstants.GCM_TOKEN, ""));
         return sharedPreferences.getString(PushNotificationConstants.GCM_TOKEN, "");
     }
 
@@ -157,7 +171,7 @@ public class PushNotificationManager {
     public void sendPayloadToCoCo(Context context,Bundle data){
         Set<String> set = data.keySet();
         for (String string : set) {
-            Log.d(TAG, string + "" + data.getString(string));
+            Log.d(TAG, string + ":" + data.getString(string));
             if (string.equalsIgnoreCase(PushNotificationConstants.PLATFORM_KEY)) {
                 try {
                     JSONObject jsonObject = new JSONObject(data.getString(string));
@@ -171,7 +185,7 @@ public class PushNotificationManager {
                                 dataServicesState.sendPayloadMessageToDSC(dscobject);
                                 break;
                             default:
-                                Log.d(TAG,"Commom component is not designed for handling this key");
+                                Log.d(TAG,"Common component is not designed for handling this key");
                         }
                     }
                 } catch (JSONException e) {

@@ -30,6 +30,7 @@ import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSta
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 import com.philips.platform.baseapp.screens.utility.TaggingConstants;
+import com.philips.platform.pushnotification.PushNotificationManager;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
@@ -301,6 +302,8 @@ public class SettingsAdapter extends BaseAdapter {
                                     @Override
                                     public void onLogoutSuccess() {
                                         //    ((AppFrameworkBaseActivity)activityContext).setCartItemCount(0);
+                                        //TODO:Need to call UserRegistrationState on logout call. Now its crashingif we do so.
+                                        PushNotificationManager.getInstance().deregisterTokenWithBackend(activityContext.getApplicationContext());
                                         progressDialog.cancel();
                                         ((IndexSelectionListener)activityContext).updateSelectionIndex(0);
                                         fragmentPresenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);

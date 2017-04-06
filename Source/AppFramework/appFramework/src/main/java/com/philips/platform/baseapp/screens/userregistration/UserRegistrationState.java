@@ -215,6 +215,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onUserLogoutFailure() {
+        Log.d(TAG,"User logout failed");
     }
 
     @Override
