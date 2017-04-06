@@ -1,8 +1,8 @@
 package com.philips.cdp.registration.update;
 
-import com.janrain.android.capture.Capture.CaptureApiRequestCallback;
+import io.reactivex.Completable;
 
 public interface UpdateUserProfile {
 
-    void updateUserEmail(String emailId, CaptureApiRequestCallback captureApiRequestCallback);
+    Completable updateUserEmail(String emailId);
 }

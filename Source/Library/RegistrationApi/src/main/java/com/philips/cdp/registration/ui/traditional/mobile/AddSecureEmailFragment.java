@@ -141,6 +141,6 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        addSecureEmailPresenter.unRegisterNetworkListener();
+        addSecureEmailPresenter.cleanUp();
     }
 }
