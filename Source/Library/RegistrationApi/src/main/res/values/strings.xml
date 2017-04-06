@@ -245,6 +245,7 @@
     <string name="reg_App_NotInstalled_InstallButton">Install</string>
     <string name="reg_Phonenumbernotfound">Phone number not found</string>
     <string name="reg_InvalidMobilenumber">Invalid Mobile number</string>
+    <string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">We will send you an email or SMS to reset your password.</string>
 
     <!-- added apart from the localized strings -->
     <string name="app_name">RegistrationApi</string>

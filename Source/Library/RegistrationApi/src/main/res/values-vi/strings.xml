@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">Cài đặt</string>
 <string name="reg_Phonenumbernotfound">Không tìm thấy số điện thoại</string>
 <string name="reg_InvalidMobilenumber">Số điện thoại di động không hợp lệ</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Chúng tôi sẽ gửi cho bạn một email hoặc SMS để đặt lại mật khẩu của bạn.</string>
 </resources>

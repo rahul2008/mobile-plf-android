@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">Diegimas</string>
 <string name="reg_Phonenumbernotfound">Telefono numeris nerastas</string>
 <string name="reg_InvalidMobilenumber">Neteisingas mobiliojo telefono numeris</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Atsiųsime el. laišką arba SMS žinutę, kad galėtumėte iš naujo nustatyti slaptažodį.</string>
 </resources>

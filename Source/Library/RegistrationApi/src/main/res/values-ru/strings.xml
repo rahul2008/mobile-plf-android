@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">Установить</string>
 <string name="reg_Phonenumbernotfound">Номер телефона не найден</string>
 <string name="reg_InvalidMobilenumber">Неверный номер мобильного телефона</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Мы отправим вам электронное письмо или SMS-сообщение для сброса пароля.</string>
 </resources>
