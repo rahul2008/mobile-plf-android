@@ -20,6 +20,10 @@ public class ConditionIsLoggedIn extends BaseCondition {
 
     @Override
     public boolean isSatisfied(Context context) {
+        return isUserSignIn(context);
+    }
+
+    protected boolean isUserSignIn(Context context) {
         return new User(context).isUserSignIn();
     }
 }

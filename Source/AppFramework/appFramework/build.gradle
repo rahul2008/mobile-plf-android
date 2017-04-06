@@ -366,8 +366,9 @@ dependencies {
 //    testCompile 'junit:junit:4.12'
 //    compile 'com.android.support:multidex:1.0.1'
 
-    testCompile ('org.robolectric:robolectric:3.2.2')
-    testCompile "org.robolectric:shadows-support-v4:3.0"/*{
+    testCompile ('org.robolectric:robolectric:3.3.1')
+    testCompile "org.robolectric:shadows-multidex:3.3.1"
+    testCompile "org.robolectric:shadows-support-v4:3.3.1"/*{
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }*/

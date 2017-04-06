@@ -109,8 +109,10 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        final LaunchActivity launchActivity = (LaunchActivity) getActivity();
-        launchActivity.hideActionBar();
+        if(getActivity() instanceof LaunchActivity) {
+            final LaunchActivity launchActivity = (LaunchActivity) getActivity();
+            launchActivity.hideActionBar();
+        }
     }
 
     private boolean hasPermissions(String... permissions) {
