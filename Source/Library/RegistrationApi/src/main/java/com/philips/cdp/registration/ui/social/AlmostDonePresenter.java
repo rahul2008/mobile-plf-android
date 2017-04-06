@@ -56,6 +56,8 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
 
     private Bundle mBundle;
 
+    private boolean isOnline;
+
     @Inject
     User mUser;
 
@@ -78,30 +80,20 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        if (isEmailExist) {
-            if (isOnline) {
-                almostDoneContract.enableContinueBtn();
-            } else {
-                almostDoneContract.handleOfflineMode();
-            }
-        } else {
-            if (isOnline) {
-                almostDoneContract.validateEmailFieldUI();
-            } else {
-                almostDoneContract.handleOfflineMode();
-            }
-        }
+        this.isOnline = isOnline;
+        updateUIStatus();
+
     }
 
     public void updateUIStatus() {
         if (isEmailExist) {
-            if (networkUtility.isNetworkAvailable()) {
+            if (isOnline) {
                 almostDoneContract.enableContinueBtn();
             } else {
                 almostDoneContract.handleOfflineMode();
             }
         } else {
-            if (networkUtility.isNetworkAvailable()) {
+            if (isOnline) {
                 almostDoneContract.validateEmailFieldUI();
             } else {
                 almostDoneContract.handleOfflineMode();
@@ -126,6 +118,10 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
         }else{
             almostDoneContract.hideAcceptTermsView();
         }
+        updateTermsAndReceiveMarketingOpt();
+    }
+
+    public void updateTermsAndReceiveMarketingOpt() {
         if(isTermsAndConditionAccepted()){
             almostDoneContract.updateTermsAndConditionView();
         }else if(mUser.getReceiveMarketingEmail()){
@@ -354,7 +350,6 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
             public void run() {
                 almostDoneContract.hideMarketingOptSpinner();
                 almostDoneContract.trackMarketingOpt();
-
             }
         });
 
@@ -415,7 +410,7 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
         }
     }
 
-    private boolean isTermsAndConditionAccepted(){
+    public boolean isTermsAndConditionAccepted(){
         boolean isTermAccepted = false;
         String mobileNo = mUser.getMobile();
         String email  = mUser.getEmail();

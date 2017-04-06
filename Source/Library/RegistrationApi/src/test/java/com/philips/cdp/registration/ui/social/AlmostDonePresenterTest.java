@@ -3,6 +3,7 @@ package com.philips.cdp.registration.ui.social;
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeContract;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodePresenter;
@@ -37,6 +38,9 @@ public class AlmostDonePresenterTest {
     @Mock
     private NetworkUtility mockNetworkUtility;
 
+    @Mock
+    RegistrationConfiguration mockRregistrationConfiguration;
+
 
     private AlmostDonePresenter presenter;
 
@@ -60,4 +64,20 @@ public class AlmostDonePresenterTest {
         presenter.onNetWorkStateReceived(true);
         verify(mockContract).validateEmailFieldUI();
     }
+
+    @Test
+    public void testNetworkState_Disabled() {
+        when(mockNetworkUtility.isNetworkAvailable()).thenReturn(false);
+        presenter.onNetWorkStateReceived(false);
+        verify(mockContract).handleOfflineMode();
+    }
+
+    @Test
+    public void testHandleAcceptTermsAndReceiveMarketingOpt(){
+        when(mockRregistrationConfiguration.isTermsAndConditionsAcceptanceRequired()).thenReturn(true);
+        presenter.handleAcceptTermsAndReceiveMarketingOpt();
+        verify(mockContract).hideAcceptTermsView();
+    }
+
+
 }
