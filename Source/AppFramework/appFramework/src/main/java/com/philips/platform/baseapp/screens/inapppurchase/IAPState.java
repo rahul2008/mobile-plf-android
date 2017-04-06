@@ -109,7 +109,7 @@ public abstract class IAPState extends BaseState {
         iapInterface = new IAPInterface();
         IAPSettings iapSettings = new IAPSettings(applicationContext);
         IAPDependencies iapDependencies = new IAPDependencies(((AppFrameworkApplication)applicationContext).getAppInfra());
-        //iapSettings.setUseLocalData(true);
+        iapSettings.setUseLocalData(true);
         iapInterface.init(iapDependencies, iapSettings);
     }
 }
