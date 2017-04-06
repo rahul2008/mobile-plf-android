@@ -31,10 +31,17 @@ import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
+import com.philips.platform.uid.utils.UIDLocaleHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -58,6 +65,7 @@ public class MainActivity extends UIDActivity {
         themeHelper = new ThemeHelper(defaultSharedPreferences);
 
         UIDHelper.init(getThemeConfig());
+        UIDLocaleHelper.getUidLocaleHelper().setFilePath(getCatalogAppJSONAssetPath());
         if (BuildConfig.DEBUG) {
             Log.d(MainActivity.class.getName(), String.format("Theme config Tonal Range :%s, Color Range :%s , Navigation Color : %s",
                     contentColor, colorRange, navigationColor));
@@ -192,5 +200,28 @@ public class MainActivity extends UIDActivity {
 
     public NavigationController getNavigationController() {
         return navigationController;
+    }
+
+    public String getCatalogAppJSONAssetPath(){
+
+//        if (!f.exists())
+        try {
+            File f = new File(getCacheDir()+"/catalogapp.json");
+            InputStream is = getAssets().open("catalogapp.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(buffer);
+            fos.close();
+            return f.getPath();
+        } catch (FileNotFoundException e) {
+            Log.e("",e.getMessage());
+        } catch (IOException e) {
+            Log.e("",e.getMessage());
+        }
+        return null;
     }
 }

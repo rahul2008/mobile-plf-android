@@ -31,7 +31,7 @@ public class UIDResources extends Resources {
     public CharSequence getText(@StringRes int id){
 
         String resourceName = getResourceEntryName(id);
-        if(resourceName != null){
+        if(resourceName != null && UIDLocaleHelper.getUidLocaleHelper().isLookUp()){
             String string = UIDLocaleHelper.getUidLocaleHelper().lookUpString(resourceName);
             if(string!=null){
                 return string;

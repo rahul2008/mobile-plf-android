@@ -21,7 +21,8 @@ public class UIDLocaleHelper {
     private static String filePath = null;
     private static UIDLocaleHelper uidLocaleHelper = null;
     private static HashMap<String,String> stringHashMap = new HashMap<String, String>();
-    private static boolean isParseJSON = false;
+
+    private static boolean isLookUp = false;
 
     private UIDLocaleHelper() {
     }
@@ -35,20 +36,20 @@ public class UIDLocaleHelper {
 
     public static void setFilePath(String filePath){
         UIDLocaleHelper.filePath = filePath;
-    }
-
-    public static void setIsParseJSON(boolean isParseJSON) {
-        UIDLocaleHelper.isParseJSON = isParseJSON;
+        UIDLocaleHelper.isLookUp = parseJSON();
     }
 
     public static String lookUpString(String key) {
         return stringHashMap.get(key);
     }
 
-    public static boolean parseJSON() {
+    public static boolean isLookUp() {
+        return isLookUp;
+    }
+
+    private static boolean parseJSON() {
         boolean parseSuccess = false;
-        if(isParseJSON){
-            String jsonString = getJSONStringFromPath();
+        String jsonString = getJSONStringFromPath();
             try {
                 if(jsonString!= null){
                     JSONObject jsonObject = new JSONObject(jsonString);
@@ -63,7 +64,6 @@ public class UIDLocaleHelper {
             } catch (JSONException e) {
                 Log.e(TAG, e.getMessage());
             }
-        }
         return parseSuccess;
     }
 
