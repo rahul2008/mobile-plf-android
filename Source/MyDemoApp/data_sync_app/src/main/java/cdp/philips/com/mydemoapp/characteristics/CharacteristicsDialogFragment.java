@@ -30,8 +30,9 @@ import java.util.List;
 
 import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
+import android.support.v4.app.Fragment;
 
-public class CharacteristicsDialogFragment extends DialogFragment implements View.OnClickListener, DBFetchRequestListner<Characteristics>,DBRequestListener<Characteristics>,DBChangeListener {
+public class CharacteristicsDialogFragment extends Fragment implements View.OnClickListener, DBFetchRequestListner<Characteristics>,DBRequestListener<Characteristics>,DBChangeListener {
     Button mBtnOk,mBtnEdit;
     private Context mContext;
     private EditText mEtCharacteristics;
@@ -100,13 +101,13 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
     public void onStart() {
         super.onStart();
         DataServicesManager.getInstance().registerDBChangeListener(this);
-        Dialog dialog = getDialog();
+      /*  Dialog dialog = getDialog();
         dialog.setTitle(getString(R.string.characteristics));
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
             dialog.getWindow().setLayout(width, height);
-        }
+        }*/
     }
 
     @Override
@@ -123,10 +124,14 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
                 } else {
                     Toast.makeText(mContext, "Please enter valid input", Toast.LENGTH_SHORT).show();
                 }
-                getDialog().dismiss();
+                //getDialog().dismiss();
+                getFragmentManager().popBackStack();
+                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                 break;
             case R.id.btnCancel:
-                getDialog().dismiss();
+               // getDialog().dismiss();
+                getFragmentManager().popBackStack();
+                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                 break;
             case R.id.btnEdit:
                 isEditable = true;

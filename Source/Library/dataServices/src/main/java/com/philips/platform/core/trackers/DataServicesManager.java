@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
+import com.google.gson.JsonObject;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
@@ -69,6 +70,8 @@ import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.InputStream;
@@ -455,6 +458,13 @@ public class DataServicesManager {
     }
 
     public void FetchMetaDataForBlobID(String id, BlobRequestListener blobRequestListener){
+
+    }
+
+
+    public void handlePushNotificationPayload(JSONObject jsonObject) throws JSONException{
+        String value = jsonObject.getString("dataSync");
+        System.out.println("****value*****" + value);
 
     }
 }

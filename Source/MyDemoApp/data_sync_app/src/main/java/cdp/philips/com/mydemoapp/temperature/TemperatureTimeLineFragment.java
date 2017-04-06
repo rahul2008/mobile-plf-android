@@ -7,8 +7,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -100,6 +102,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     public void onStart() {
         super.onStart();
 
+        Log.d("pabitra","onStart");
         mDataServicesManager.registerDBChangeListener(this);
         mDataServicesManager.registerSynchronisationCompleteListener(this);
 
@@ -201,20 +204,19 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 break;
             case R.id.tv_set_consents:
                 ConsentDialogFragment dFragment = new ConsentDialogFragment();
-                dFragment.show(getFragmentManager(), "Dialog");
+                replaceFragment(dFragment,"consents");
 
                 break;
             case R.id.tv_settings:
                 SettingsFragment settingsFragment = new SettingsFragment();
-                settingsFragment.show(getFragmentManager(), "settings");
+                replaceFragment(settingsFragment,"settings");
 
                 break;
 
             case R.id.tv_set_characteristics:
 
                 CharacteristicsDialogFragment characteristicsDialogFragment = new CharacteristicsDialogFragment();
-                characteristicsDialogFragment.show(getFragmentManager(), "Character");
-
+                replaceFragment(characteristicsDialogFragment,"Character");
                 break;
 
             case R.id.tv_logout:
@@ -225,11 +227,12 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 break;
             case R.id.tv_insights:
                 InsightFragment insightFragment = new InsightFragment();
-                insightFragment.show(getFragmentManager(), "Insight");
+                replaceFragment(insightFragment,"insights");
                 break;
             case R.id.tv_blob:
                 BlobFragment blobFragment = new BlobFragment();
-                blobFragment.show(getFragmentManager(), "Insight");
+                //blobFragment.show(getFragmentManager(), "Insight");
+                replaceFragment(blobFragment,"blobs");
         }
     }
 
@@ -392,5 +395,20 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         }
 
         return false;
+    }
+
+
+    private void replaceFragment(Fragment fragment,String tag){
+
+        int containerId = R.id.frame_container_user_reg;
+        try {
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(containerId, fragment, tag);
+            fragmentTransaction.addToBackStack(tag);
+            fragmentTransaction.commit();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+
     }
 }
