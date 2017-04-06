@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
+import com.google.gson.JsonObject;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
@@ -67,6 +68,8 @@ import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -436,5 +439,10 @@ public class DataServicesManager {
 
     public void unRegisterDeviceToken(String appToken, String appVariant, RegisterDeviceTokenListener registerDeviceTokenListener) {
         mEventing.post(new UnRegisterDeviceToken(appToken, appVariant, registerDeviceTokenListener));
+    }
+
+    public void handlePushNotificationPayload(JSONObject jsonObject) throws JSONException {
+        String value = jsonObject.getString("dataSync");
+        System.out.println("****value*****" + value);
     }
 }

@@ -13,11 +13,13 @@ public interface PushNotificationClient {
     @POST("/api/users/{performer_id}/push_notifications/registration")
     Response registerDeviceToken(@Path("performer_id") String performerId,
                                  @Header("performerId") String userId,
+                                 @Header("api-version") int apiVersion,
                                  @Body UCorePushNotification uCorePushNotification);
 
     @DELETE("/api/users/{performer_id}/push_notifications/registration")
     Response unRegisterDeviceToken(@Path("performer_id") String performerId,
                                    @Header("performerId") String userID,
+                                   @Header("api-version") int apiVersion,
                                    @Query(value = "appVariant") String appVariant,
                                    @Query(value = "token") String appToken);
 }

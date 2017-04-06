@@ -1,11 +1,13 @@
 package com.philips.platform.datasync.PushNotification;
 
+import com.philips.platform.core.events.PushNotificationErrorResponse;
 import com.philips.platform.core.events.PushNotificationResponse;
 import com.philips.platform.core.events.RegisterDeviceToken;
 import com.philips.platform.core.events.UnRegisterDeviceToken;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.listeners.RegisterDeviceTokenListener;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DataServicesError;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 
@@ -38,6 +40,8 @@ public class PushNotificationMonitorTest {
     private UnRegisterDeviceToken mUnRegisterDeviceToken;
     @Mock
     private PushNotificationResponse mPushNotificationResponse;
+    @Mock
+    private PushNotificationErrorResponse mPushNotificationErrorResponse;
     @Mock
     private AppComponent mAppComponent;
     @Mock
@@ -72,8 +76,31 @@ public class PushNotificationMonitorTest {
             @Override
             public void onResponse(boolean status) {
             }
+
+            @Override
+            public void onError(DataServicesError dataServicesError) {
+
+            }
         });
         mPushNotificationMonitor.onEventAsync(registerDeviceToken);
         mPushNotificationMonitor.onEventAsync(mPushNotificationResponse);
+    }
+
+    @Test
+    public void pushNotificationErrorResponseEventTest() throws Exception {
+        when(mUCoreAccessProvider.isLoggedIn()).thenReturn(true);
+        when(mUCoreAccessProvider.getAccessToken()).thenReturn("676786768898");
+        RegisterDeviceToken registerDeviceToken = new RegisterDeviceToken("app token", "app variant", "protocol provider", new RegisterDeviceTokenListener() {
+            @Override
+            public void onResponse(boolean status) {
+            }
+
+            @Override
+            public void onError(DataServicesError dataServicesError) {
+
+            }
+        });
+        mPushNotificationMonitor.onEventAsync(registerDeviceToken);
+        mPushNotificationMonitor.onEventAsync(mPushNotificationErrorResponse);
     }
 }
