@@ -16,8 +16,7 @@ import com.philips.cdpp.dicommtestapp.appliance.property.PortSpecification;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-public class GenericAppliance extends Appliance
-{
+public class GenericAppliance extends Appliance {
     private String modelNumber;
     private String deviceName;
 
@@ -40,11 +39,10 @@ public class GenericAppliance extends Appliance
         return "";
     }
 
-    public Set<PropertyPort> getPropertyPorts()
-    {
+    public Set<PropertyPort> getPropertyPorts() {
         Set<PropertyPort> propPorts = new CopyOnWriteArraySet<>();
-        for(DICommPort port : getAllPorts()) {
-            if(port instanceof PropertyPort) {
+        for (DICommPort port : getAllPorts()) {
+            if (port instanceof PropertyPort) {
                 propPorts.add((PropertyPort) port);
             }
         }
@@ -58,8 +56,7 @@ public class GenericAppliance extends Appliance
     }
 
     private void addSpecificationPorts(ApplianceSpecification applianceSpec, CommunicationStrategy strategy) {
-        for(PortSpecification portSpec : applianceSpec.getPortSpecifications())
-        {
+        for (PortSpecification portSpec : applianceSpec.getPortSpecifications()) {
             PropertyPort propPort = new PropertyPort(strategy, portSpec);
             addPort(propPort);
         }
