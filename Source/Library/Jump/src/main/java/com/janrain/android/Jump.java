@@ -892,13 +892,13 @@ public class Jump {
         FileInputStream fis = null;
         ObjectInputStream ois = null;
         try {
-            fis = state.context.openFileInput(Capture.JR_REFRESH_SECRET);
+            fis = context.openFileInput(Capture.JR_REFRESH_SECRET);
             ois = new ObjectInputStream(fis);
             byte[] encryptedText = (byte[])ois.readObject();
             byte[] decrtext = SecureStorage.decrypt(encryptedText);
             //  state.refreshSecret = (String) ois.readObject();
             state.refreshSecret = new String(decrtext);
-            state.context.deleteFile(Capture.JR_REFRESH_SECRET);
+            context.deleteFile(Capture.JR_REFRESH_SECRET);
             mSecureStorageInterface.storeValueForKey(Capture.JR_REFRESH_SECRET,
                     state.refreshSecret ,new SecureStorageInterface.SecureStorageError());
 
