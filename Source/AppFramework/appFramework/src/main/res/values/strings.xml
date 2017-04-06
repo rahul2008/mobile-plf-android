@@ -121,6 +121,7 @@
     <!-- Consumer Care related-->
     <string-array name="productselection_ctnlist" translatable="false">
         <item>HX6064/33</item>
+        <item>HX6314/35</item>
     </string-array>
 
 

@@ -152,7 +152,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         Map<String, String> hsdpBaseUrls = new HashMap<>();
         try {
             hsdpBaseUrls.put(CHINA_CODE, URLEncoder.encode("https://user-registration-assembly-staging.cn1.philips-healthsuite.com.cn", URL_ENCODING));
-            hsdpBaseUrls.put(DEFAULT, URLEncoder.encode("https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com", URL_ENCODING));
+            hsdpBaseUrls.put(DEFAULT, URLEncoder.encode("https://user-registration-assembly-staging.eu-west.philips-healthsuite.com", URL_ENCODING));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

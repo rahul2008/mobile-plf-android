@@ -11,7 +11,9 @@ import android.widget.Toast;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.core.datatypes.UserProfile;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -203,6 +205,28 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface{
 //        AppConfigurationInterface.AppConfigurationError configError = new
 //                AppConfigurationInterface.AppConfigurationError();
 //        Object propertyForKey = ((AppFrameworkApplication)context.getApplicationContext()).getAppInfra().getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL, URConfigurationConstants.UR, configError);
-        return "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com";
+//        return "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com";
+
+        final String[] baseUrl = {"https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com"};
+
+        AppInfraInterface appInfraInterface = ((AppFrameworkApplication) context).getAppInfra();
+        ServiceDiscoveryInterface serviceDiscovery = appInfraInterface.getServiceDiscovery();
+
+        serviceDiscovery.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+            @Override
+            public void onSuccess(String s, SOURCE source) {
+                if (s.equals("CN")) {
+                    baseUrl[0] = "https://platforminfra-ds-platforminfrastaging.cn1.philips-healthsuite.com.cn";
+                }
+                else{
+                    baseUrl[0] = "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com";
+                }
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+            }
+        });
+        return baseUrl[0];
     }
 }
