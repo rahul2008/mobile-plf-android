@@ -2,26 +2,24 @@
  * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
-package com.philips.cdpp.dicommtestapp.fragments;
+package com.philips.cdp2.commlibexplorer.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp2.commlibexplorer.appliance.PropertyPort;
+import com.philips.cdp2.commlibexplorer.appliance.property.PortSpecification;
+import com.philips.cdp2.commlibexplorer.appliance.property.Property;
+import com.philips.cdp2.commlibexplorer.presenters.PortDetailPresenter;
 import com.philips.cdpp.dicommtestapp.R;
-import com.philips.cdpp.dicommtestapp.appliance.PropertyPort;
-import com.philips.cdpp.dicommtestapp.appliance.property.PortSpecification;
-import com.philips.cdpp.dicommtestapp.appliance.property.Property;
-import com.philips.cdpp.dicommtestapp.presenters.PortDetailPresenter;
 
 import java.util.ArrayList;
 
 import nl.rwslinkman.presentable.Presenter;
 
-public class PortDetailFragment extends DiCommTestAppFragment<Property>
-{
+public class PortDetailFragment extends DiCommTestAppFragment<Property> {
     private static final String TAG = "PortDetailFragment";
     private DICommPortListener<PropertyPort> portListener = new DICommPortListener<PropertyPort>() {
         @Override

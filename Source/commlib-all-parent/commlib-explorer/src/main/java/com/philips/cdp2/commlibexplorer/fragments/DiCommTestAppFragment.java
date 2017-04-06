@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
-package com.philips.cdpp.dicommtestapp.fragments;
+package com.philips.cdp2.commlibexplorer.fragments;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;

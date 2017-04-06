@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
-package com.philips.cdpp.dicommtestapp.strategy;
+package com.philips.cdp2.commlibexplorer.strategy;
 
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;

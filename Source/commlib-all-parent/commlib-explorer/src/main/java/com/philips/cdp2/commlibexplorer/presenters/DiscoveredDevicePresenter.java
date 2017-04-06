@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
-package com.philips.cdpp.dicommtestapp.presenters;
+package com.philips.cdp2.commlibexplorer.presenters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,16 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.philips.cdp2.commlibexplorer.appliance.GenericAppliance;
 import com.philips.cdpp.dicommtestapp.R;
-import com.philips.cdpp.dicommtestapp.appliance.GenericAppliance;
 
 import nl.rwslinkman.presentable.Presenter;
 
 public class DiscoveredDevicePresenter implements Presenter<GenericAppliance, DiscoveredDevicePresenter.ViewHolder> {
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent)
-    {
+    public ViewHolder onCreateViewHolder(ViewGroup parent) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_discovered_device, parent, false);
 

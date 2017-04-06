@@ -2,14 +2,14 @@
  * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
-package com.philips.cdpp.dicommtestapp.appliance;
+package com.philips.cdp2.commlibexplorer.appliance;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.context.TransportContext;
-import com.philips.cdpp.dicommtestapp.SupportedAppliances;
-import com.philips.cdpp.dicommtestapp.appliance.property.ApplianceSpecification;
+import com.philips.cdp2.commlibexplorer.SupportedAppliances;
+import com.philips.cdp2.commlibexplorer.appliance.property.ApplianceSpecification;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -2,14 +2,14 @@
  * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
-package com.philips.cdpp.dicommtestapp.fragments;
+package com.philips.cdp2.commlibexplorer.fragments;
 
 import android.util.Log;
 
-import com.philips.cdpp.dicommtestapp.DiCommTestApp;
+import com.philips.cdp2.commlibexplorer.CommlibExplorerApp;
+import com.philips.cdp2.commlibexplorer.presenters.CommStrategyPresenter;
+import com.philips.cdp2.commlibexplorer.strategy.CommStrategy;
 import com.philips.cdpp.dicommtestapp.R;
-import com.philips.cdpp.dicommtestapp.presenters.CommStrategyPresenter;
-import com.philips.cdpp.dicommtestapp.strategy.CommStrategy;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import nl.rwslinkman.presentable.interaction.PresentableItemClickListener;
 public class StrategyChoiceFragment extends DiCommTestAppFragment<CommStrategy> implements PresentableItemClickListener<CommStrategy> {
     private static final String TAG = "StrategyChoiceFragment";
 
-    public StrategyChoiceFragment(){
+    public StrategyChoiceFragment() {
         // NOP
     }
 
@@ -36,7 +36,7 @@ public class StrategyChoiceFragment extends DiCommTestAppFragment<CommStrategy> 
         titleView.setText(R.string.strategy_choice_title_message);
         subtitleView.setText(R.string.strategy_choice_subtitle);
 
-        List<CommStrategy> strategyList = ((DiCommTestApp)getActivity().getApplication()).getAvailableContexts();
+        List<CommStrategy> strategyList = ((CommlibExplorerApp) getActivity().getApplication()).getAvailableContexts();
         updateList(strategyList);
     }
 
@@ -51,8 +51,7 @@ public class StrategyChoiceFragment extends DiCommTestAppFragment<CommStrategy> 
         navigateToDeviceDiscovery(item);
     }
 
-    private void navigateToDeviceDiscovery(CommStrategy strategy)
-    {
+    private void navigateToDeviceDiscovery(CommStrategy strategy) {
         getConnectionService().createCommCentral(strategy);
 
         DeviceDiscoveryFragment fragment = DeviceDiscoveryFragment.newInstance();

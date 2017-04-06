@@ -2,21 +2,20 @@
  * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
-package com.philips.cdpp.dicommtestapp;
+package com.philips.cdp2.commlibexplorer;
 
 import android.text.TextUtils;
 
-import com.philips.cdpp.dicommtestapp.appliance.property.ApplianceSpecification;
-import com.philips.cdpp.dicommtestapp.appliance.property.PortSpecification;
-import com.philips.cdpp.dicommtestapp.appliance.property.Property;
-import com.philips.cdpp.dicommtestapp.appliance.property.PropertyType;
+import com.philips.cdp2.commlibexplorer.appliance.property.ApplianceSpecification;
+import com.philips.cdp2.commlibexplorer.appliance.property.PortSpecification;
+import com.philips.cdp2.commlibexplorer.appliance.property.Property;
+import com.philips.cdp2.commlibexplorer.appliance.property.PropertyType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
 
 public class SupportedAppliances {
     private List<PortSpecification> defaultPortSpecs;

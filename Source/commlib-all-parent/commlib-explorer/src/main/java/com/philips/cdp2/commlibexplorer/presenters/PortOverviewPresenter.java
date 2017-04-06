@@ -2,21 +2,20 @@
  * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
-package com.philips.cdpp.dicommtestapp.presenters;
+package com.philips.cdp2.commlibexplorer.presenters;
 
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.philips.cdp2.commlibexplorer.appliance.PropertyPort;
 import com.philips.cdpp.dicommtestapp.R;
-import com.philips.cdpp.dicommtestapp.appliance.PropertyPort;
 
 import nl.rwslinkman.presentable.Presenter;
 
-import static android.support.v4.content.ContextCompat.*;
+import static android.support.v4.content.ContextCompat.getColor;
 
 public class PortOverviewPresenter implements Presenter<PropertyPort, PortOverviewPresenter.ViewHolder> {
     private int redColor;
@@ -41,11 +40,10 @@ public class PortOverviewPresenter implements Presenter<PropertyPort, PortOvervi
     public void onBindViewHolder(ViewHolder viewHolder, PropertyPort item) {
         String subTitle = "Loading...";
         int textColor = blackColor;
-        if(!item.getErrorText().isEmpty()) {
+        if (!item.getErrorText().isEmpty()) {
             subTitle = item.getErrorText();
             textColor = redColor;
-        }
-        else if(!item.getStatusText().isEmpty()) {
+        } else if (!item.getStatusText().isEmpty()) {
             subTitle = item.getStatusText();
             textColor = blackColor;
         }

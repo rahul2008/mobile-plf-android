@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
-package com.philips.cdpp.dicommtestapp.background;
+package com.philips.cdp2.commlibexplorer.background;
 
 import android.app.Service;
 import android.content.Intent;
@@ -12,9 +12,9 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.philips.cdp2.commlib.core.CommCentral;
-import com.philips.cdpp.dicommtestapp.DiCommTestApp;
-import com.philips.cdpp.dicommtestapp.appliance.GenericApplianceFactory;
-import com.philips.cdpp.dicommtestapp.strategy.CommStrategy;
+import com.philips.cdp2.commlibexplorer.CommlibExplorerApp;
+import com.philips.cdp2.commlibexplorer.appliance.GenericApplianceFactory;
+import com.philips.cdp2.commlibexplorer.strategy.CommStrategy;
 
 public class BackgroundConnectionService extends Service {
     private static final String TAG = "BgConnectionService";
@@ -23,7 +23,7 @@ public class BackgroundConnectionService extends Service {
     private final IBinder binder = new BackgroundBinder();
 
     public class BackgroundBinder extends Binder {
-        public BackgroundConnectionService getService(){
+        public BackgroundConnectionService getService() {
             return BackgroundConnectionService.this;
         }
     }
@@ -47,7 +47,7 @@ public class BackgroundConnectionService extends Service {
     }
 
     public CommCentral createCommCentral(CommStrategy strategy) {
-        if(commCentral != null) {
+        if (commCentral != null) {
             // Remove existing one
             commCentral.stopDiscovery();
             commCentral = null;
@@ -55,7 +55,7 @@ public class BackgroundConnectionService extends Service {
 
         // Create new factory
         this.commStrategy = strategy;
-        DiCommTestApp app = getApp();
+        CommlibExplorerApp app = getApp();
         GenericApplianceFactory factory = app.getApplianceFactory();
         factory.setTransportContext(commStrategy.getTransportContext());
 
@@ -67,8 +67,8 @@ public class BackgroundConnectionService extends Service {
         return commCentral;
     }
 
-    private DiCommTestApp getApp() {
-        return (DiCommTestApp) getApplication();
+    private CommlibExplorerApp getApp() {
+        return (CommlibExplorerApp) getApplication();
     }
 
     public CommStrategy getCommStrategy() {

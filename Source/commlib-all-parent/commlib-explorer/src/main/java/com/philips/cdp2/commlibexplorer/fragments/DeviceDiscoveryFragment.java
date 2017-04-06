@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
-package com.philips.cdpp.dicommtestapp.fragments;
+package com.philips.cdp2.commlibexplorer.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,12 +14,12 @@ import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
-import com.philips.cdpp.dicommtestapp.MainActivity;
+import com.philips.cdp2.commlibexplorer.MainActivity;
+import com.philips.cdp2.commlibexplorer.appliance.GenericAppliance;
+import com.philips.cdp2.commlibexplorer.background.BackgroundConnectionService;
+import com.philips.cdp2.commlibexplorer.presenters.DiscoveredDevicePresenter;
+import com.philips.cdp2.commlibexplorer.strategy.CommStrategy;
 import com.philips.cdpp.dicommtestapp.R;
-import com.philips.cdpp.dicommtestapp.appliance.GenericAppliance;
-import com.philips.cdpp.dicommtestapp.background.BackgroundConnectionService;
-import com.philips.cdpp.dicommtestapp.presenters.DiscoveredDevicePresenter;
-import com.philips.cdpp.dicommtestapp.strategy.CommStrategy;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -90,10 +90,9 @@ public class DeviceDiscoveryFragment extends DiCommTestAppFragment<GenericApplia
         CommCentral commCentral = service.getCommCentral();
 
         String subtitleMsg;
-        if(commCentral == null) {
+        if (commCentral == null) {
             subtitleMsg = "Error selecting strategy";
-        }
-        else {
+        } else {
             updateDiscoveredDeviceList();
 
             // TODO Update when CommLib Discovery moves away from DiscoveryManager
@@ -109,7 +108,7 @@ public class DeviceDiscoveryFragment extends DiCommTestAppFragment<GenericApplia
     }
 
     private void startDiscovery(CommCentral commCentral) {
-        switch(usedStrategy.getType()) {
+        switch (usedStrategy.getType()) {
             case LAN:
                 // WiFi discovery
                 DiscoveryManager.getInstance().start();
@@ -168,7 +167,7 @@ public class DeviceDiscoveryFragment extends DiCommTestAppFragment<GenericApplia
                         break;
                 }
 
-                if(availableAppliances == null) {
+                if (availableAppliances == null) {
                     Log.e(TAG, "run: No devices found because no CommStrategy was set");
                     return;
                 }
@@ -195,8 +194,8 @@ public class DeviceDiscoveryFragment extends DiCommTestAppFragment<GenericApplia
     @NonNull
     private List<GenericAppliance> convertToList(Collection<? extends Appliance> availableAppliances) {
         List<GenericAppliance> applianceList = new ArrayList<>();
-        for(Appliance appl : availableAppliances) {
-            if(appl instanceof GenericAppliance) {
+        for (Appliance appl : availableAppliances) {
+            if (appl instanceof GenericAppliance) {
                 applianceList.add((GenericAppliance) appl);
             }
         }

@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
-package com.philips.cdpp.dicommtestapp;
+package com.philips.cdp2.commlibexplorer;
 
 import android.Manifest;
 import android.content.ComponentName;
@@ -22,10 +22,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.philips.cdpp.dicommtestapp.appliance.GenericAppliance;
-import com.philips.cdpp.dicommtestapp.appliance.PropertyPort;
-import com.philips.cdpp.dicommtestapp.background.BackgroundConnectionService;
-import com.philips.cdpp.dicommtestapp.fragments.StrategyChoiceFragment;
+import com.philips.cdp2.commlibexplorer.appliance.GenericAppliance;
+import com.philips.cdp2.commlibexplorer.appliance.PropertyPort;
+import com.philips.cdp2.commlibexplorer.background.BackgroundConnectionService;
+import com.philips.cdp2.commlibexplorer.fragments.StrategyChoiceFragment;
+import com.philips.cdpp.dicommtestapp.R;
+
 
 public class MainActivity extends AppCompatActivity
 {

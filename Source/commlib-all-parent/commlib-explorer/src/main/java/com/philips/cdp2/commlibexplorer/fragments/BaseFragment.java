@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
-package com.philips.cdpp.dicommtestapp.fragments;
+package com.philips.cdp2.commlibexplorer.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -12,10 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.cdp2.commlibexplorer.MainActivity;
+import com.philips.cdp2.commlibexplorer.background.BackgroundConnectionService;
 import com.philips.cdpp.dicommtestapp.DiCommTestApp;
-import com.philips.cdpp.dicommtestapp.MainActivity;
-import com.philips.cdpp.dicommtestapp.R;
-import com.philips.cdpp.dicommtestapp.background.BackgroundConnectionService;
 
 abstract public class BaseFragment extends Fragment
 {

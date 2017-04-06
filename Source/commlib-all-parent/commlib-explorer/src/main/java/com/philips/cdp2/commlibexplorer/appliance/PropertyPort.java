@@ -2,14 +2,14 @@
  * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
-package com.philips.cdpp.dicommtestapp.appliance;
+package com.philips.cdp2.commlibexplorer.appliance;
 
 import android.util.Log;
 
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
-import com.philips.cdpp.dicommtestapp.appliance.property.PortSpecification;
-import com.philips.cdpp.dicommtestapp.appliance.property.Property;
+import com.philips.cdp2.commlibexplorer.appliance.property.PortSpecification;
+import com.philips.cdp2.commlibexplorer.appliance.property.Property;
 
 import java.util.Map;
 

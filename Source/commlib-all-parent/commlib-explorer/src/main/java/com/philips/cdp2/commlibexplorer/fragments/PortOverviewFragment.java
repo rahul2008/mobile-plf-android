@@ -2,11 +2,10 @@
  * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
-package com.philips.cdpp.dicommtestapp.fragments;
+package com.philips.cdp2.commlibexplorer.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -15,14 +14,13 @@ import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
-import com.philips.cdpp.dicommtestapp.MainActivity;
+import com.philips.cdp2.commlibexplorer.MainActivity;
+import com.philips.cdp2.commlibexplorer.appliance.GenericAppliance;
+import com.philips.cdp2.commlibexplorer.appliance.PropertyPort;
+import com.philips.cdp2.commlibexplorer.presenters.PortOverviewPresenter;
 import com.philips.cdpp.dicommtestapp.R;
-import com.philips.cdpp.dicommtestapp.appliance.GenericAppliance;
-import com.philips.cdpp.dicommtestapp.appliance.PropertyPort;
-import com.philips.cdpp.dicommtestapp.presenters.PortOverviewPresenter;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import nl.rwslinkman.presentable.Presenter;
@@ -110,8 +108,7 @@ public class PortOverviewFragment extends DiCommTestAppFragment<PropertyPort> im
         String subtitleText = String.format("Available on %s", currentAppliance.getModelNumber());
         subtitleView.setText(subtitleText);
 
-        for(PropertyPort port : portList)
-        {
+        for (PropertyPort port : portList) {
             port.addPortListener(portListener);
             port.setEnabled(false);
             port.reloadProperties();
@@ -125,8 +122,7 @@ public class PortOverviewFragment extends DiCommTestAppFragment<PropertyPort> im
 
         // TODO Remove when ApplianceManager allows to listen for appliance changes
         GenericAppliance currentAppliance = getMainActivity().getAppliance();
-        for(PropertyPort port : currentAppliance.getPropertyPorts())
-        {
+        for (PropertyPort port : currentAppliance.getPropertyPorts()) {
             port.removePortListener(portListener);
         }
         super.onPause();
@@ -134,7 +130,7 @@ public class PortOverviewFragment extends DiCommTestAppFragment<PropertyPort> im
 
     @Override
     public void onItemClicked(PropertyPort item) {
-        if(!item.isEnabled()) {
+        if (!item.isEnabled()) {
             String toastMsg = String.format("The '%s' port is unavailable at this time.", item.getPortName());
             Toast.makeText(getMainActivity(), toastMsg, Toast.LENGTH_SHORT).show();
             return;

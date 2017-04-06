@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
-package com.philips.cdpp.dicommtestapp.appliance.property;
+package com.philips.cdp2.commlibexplorer.appliance.property;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;

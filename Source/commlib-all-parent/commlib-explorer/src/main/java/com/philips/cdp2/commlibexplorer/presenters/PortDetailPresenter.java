@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
-package com.philips.cdpp.dicommtestapp.presenters;
+package com.philips.cdp2.commlibexplorer.presenters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.philips.cdp2.commlibexplorer.appliance.property.Property;
 import com.philips.cdpp.dicommtestapp.R;
-import com.philips.cdpp.dicommtestapp.appliance.property.Property;
 
 import nl.rwslinkman.presentable.Presenter;
 
@@ -30,8 +30,7 @@ public class PortDetailPresenter implements Presenter<Property, PortDetailPresen
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, Property item)
-    {
+    public void onBindViewHolder(ViewHolder viewHolder, Property item) {
         String title = String.format("%s (%s)", item.getName(), item.getType().name().toLowerCase());
         viewHolder.titleView.setText(title);
         viewHolder.subtitleView.setText(item.getValueText());
