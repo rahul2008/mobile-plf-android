@@ -144,6 +144,9 @@ android {
         versionName objcdp.getVersionWithHash()
         testApplicationId "com.philips.cdp.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
+        ]
     }
     buildTypes {
         release {
@@ -190,7 +193,7 @@ configurations.all {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-
+    compile 'com.android.support:customtabs:**.**.**'
     compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.7.5' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     {
            transitive = true

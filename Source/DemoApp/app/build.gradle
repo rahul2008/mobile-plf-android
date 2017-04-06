@@ -17,6 +17,9 @@ android {
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
         multiDexEnabled true
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
+        ]
     }
     configurations.all {
         resolutionStrategy.force 'com.android.support:support-annotations:23.1.0'
@@ -90,6 +93,7 @@ dependencies {
 
     androidTestCompile "com.android.support.test:runner:0.5"
     androidTestCompile "com.android.support.test:rules:0.5"
+    compile 'com.android.support:customtabs:**.**.**'
     //    compile 'com.philips.cdp:product-registration-lib:0.0.1'
 }
 
