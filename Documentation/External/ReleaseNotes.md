@@ -1,5 +1,8 @@
 # Release Notes MobileUitoolkit Android
 
+SPRINT - MUITK.PI17.2.Sprint3
+Story 18842:(Android)DLS and NON DLS UI KIT controls working in conjunction.
+
 SPRINT - MUITK.PI17.2.Sprint2
 Story 16488:(Android)Notification Bar
 Story 16557:(Android)Gallery page polishing
