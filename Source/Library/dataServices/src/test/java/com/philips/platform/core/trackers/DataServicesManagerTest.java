@@ -322,4 +322,9 @@ public class DataServicesManagerTest {
     public void registerDeviceTokenTest() throws Exception {
         tracker.registerDeviceToken("token", "variant", "protocol provider", null);
     }
+
+    @Test
+    public void handlePushNotificationPayloadTest() throws Exception {
+        tracker.handlePushNotificationPayload(null);
+    }
 }

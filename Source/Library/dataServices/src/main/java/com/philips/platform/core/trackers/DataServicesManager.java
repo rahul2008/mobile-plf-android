@@ -442,7 +442,6 @@ public class DataServicesManager {
     }
 
     public void handlePushNotificationPayload(JSONObject jsonObject) throws JSONException {
-        String value = jsonObject.getString("dataSync");
-        System.out.println("****value*****" + value);
+        synchronize();
     }
 }
