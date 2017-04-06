@@ -55,19 +55,19 @@ public class LanguagePackManager implements LanguagePackInterface {
 		gson = new Gson();
 	}
 
-    /**
-     * Api used to refresh language pack
-     *
-     * @param aILPRefreshResult
-     */
-    @Override
+	/**
+	 * Api used to refresh language pack
+	 *
+	 * @param aILPRefreshResult
+	 */
+	@Override
 	public void refresh(final OnRefreshListener aILPRefreshResult) {
 
 		final AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
 		final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
 		final String languagePackServiceId = (String) appConfigurationInterface.getPropertyForKey(LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY, "APPINFRA", configError);
-		if(null==languagePackServiceId){
-			aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.RefreshFailed, "Invalid ServiceID");
+		if (null == languagePackServiceId) {
+			aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, "Invalid ServiceID");
 
 		} else {
 			final ServiceDiscoveryInterface mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
@@ -98,7 +98,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 							final String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
 							final String errMsg = " Error Code:" + errorcode + " , Error Message:" + error.toString();
 							mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", errMsg);
-							aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.RefreshFailed, errMsg);
+							aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, errMsg);
 
 						}
 					}, null, null, null);
@@ -111,7 +111,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 							"AILP_URL", " Error Code:" + error.toString() + " , Error Message:" + message);
 					final String errMsg = " Error Code:" + error + " , Error Message:" + error.toString();
 					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", errMsg);
-					aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.RefreshFailed, errMsg);
+					aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, errMsg);
 
 				}
 			});
@@ -127,34 +127,34 @@ public class LanguagePackManager implements LanguagePackInterface {
 					aILPRefreshResult.onSuccess(ailpRefreshResult);
 			}
 		};
-    }
+	}
 
 	Runnable postRefreshError(final OnRefreshListener aILPRefreshResult, final OnRefreshListener.AILPRefreshResult ailpRefreshResult, final String errorDescription) {
 		return new Runnable() {
-            @Override
-            public void run() {
-                if (aILPRefreshResult != null)
-                    aILPRefreshResult.onError(ailpRefreshResult, errorDescription);
-            }
-        };
-    }
+			@Override
+			public void run() {
+				if (aILPRefreshResult != null)
+					aILPRefreshResult.onError(ailpRefreshResult, errorDescription);
+			}
+		};
+	}
 
 	private void processForLanguagePack(JSONObject response, OnRefreshListener aILPRefreshResult) {
 		mLanguageList = gson.fromJson(response.toString(), LanguageList.class);
 		if (null != mLanguageList) {
-				final String url = getPreferredLocaleURL();
-				if (null == url) {
-					languagePackHandler.post(postRefreshError(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.RefreshFailed, "Not able to read overview file"));
-				}else{
-				boolean languagePackDownloadRequired = isLanguagePackDownloadRequired(selectedLanguageModel);
+			final String url = getPreferredLocaleURL();
+			if (null == url) {
+				languagePackHandler.post(postRefreshError(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, "Not able to read overview file"));
+			} else {
+				final boolean languagePackDownloadRequired = isLanguagePackDownloadRequired(selectedLanguageModel);
 				if (languagePackDownloadRequired) {
 					downloadLanguagePack(url, aILPRefreshResult);
 				} else {
-					languagePackHandler.post(postRefreshSuccess(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.NoRefreshRequired));
+					languagePackHandler.post(postRefreshSuccess(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.NO_REFRESH_REQUIRED));
 				}
 			}
 		} else {
-			languagePackHandler.post(postRefreshError(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.RefreshFailed, "Not able to read overview file"));
+			languagePackHandler.post(postRefreshError(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, "Not able to read overview file"));
 		}
 	}
 
@@ -177,31 +177,36 @@ public class LanguagePackManager implements LanguagePackInterface {
 		return new Handler(context.getMainLooper());
 	}
 
-    private void downloadLanguagePack(String url, final OnRefreshListener aILPRefreshResult) {
+	private void downloadLanguagePack(String url, final OnRefreshListener aILPRefreshResult) {
 		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "downloading language pack to fetch ",
 				"Language Pack Json: ");
 		JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL",
-                                "Language Pack Json: " + response.toString());
-                        languagePackUtil.saveFile(response.toString(), LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
-                        languagePackUtil.saveLocaleMetaData(selectedLanguageModel);
-						languagePackHandler.post(postRefreshSuccess(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.RefreshedFromServer));
-					}
-                }, new Response.ErrorListener() {
+				new Response.Listener<JSONObject>() {
+					@Override
+					public void onResponse(JSONObject response) {
+						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL",
+								"Language Pack Json: " + response.toString());
+						if (null != response && null != selectedLanguageModel && null != languagePackHandler) {
+							languagePackUtil.saveFile(response.toString(), LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
+							languagePackUtil.saveLocaleMetaData(selectedLanguageModel);
+							languagePackHandler.post(postRefreshSuccess(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.REFRESHED_FROM_SERVER));
+						}else{
+							aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.REFRESH_FAILED,OnRefreshListener.AILPRefreshResult.REFRESH_FAILED.toString());
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
+						}
+					}
+				}, new Response.ErrorListener() {
+
+			@Override
+			public void onErrorResponse(VolleyError error) {
 				final String errorCode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
 				final String errMsg = " Error Code:" + errorCode + " , Error Message:" + error.toString();
 				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", errMsg);
-				languagePackHandler.post(postRefreshError(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.RefreshFailed, errMsg));
+				languagePackHandler.post(postRefreshError(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, errMsg));
 			}
-        }, null, null, null);
-        mRestInterface.getRequestQueue().add(jsonObjectRequest);
-    }
+		}, null, null, null);
+		mRestInterface.getRequestQueue().add(jsonObjectRequest);
+	}
 
 	private String getLocaleList() {
 		// TODO - Need to handle when applying resolution
@@ -215,7 +220,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 	private String getPreferredLocaleURL() {
 
 		final ArrayList<LanguageModel> languageModels = mLanguageList.getLanguages();
-		if(null!=languageModels) {
+		if (null != languageModels) {
 			final ArrayList<String> deviceLocaleList = new ArrayList<>(Arrays.asList(getLocaleList().split(",")));
 			final LanguageModel langModel = new LanguageModel();
 			for (String deviceLocale : deviceLocaleList) {
@@ -265,11 +270,11 @@ public class LanguagePackManager implements LanguagePackInterface {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				boolean isRenamed = languagePackUtil.renameOnActivate();
+				final boolean isRenamed = languagePackUtil.renameOnActivate();
 				if (isRenamed) {
 					languagePackHandler.post(postActivateSuccess(onActivateListener));
 				} else
-					languagePackHandler.post(postActivateError(onActivateListener, OnActivateListener.AILPActivateResult.NoUpdateStored,"No Language Pack available"));
+					languagePackHandler.post(postActivateError(onActivateListener, OnActivateListener.AILPActivateResult.NO_UPDATE_STORED, "No Language Pack available"));
 			}
 		}).start();
 	}
@@ -279,7 +284,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 			@Override
 			public void run() {
 				if (onActivateListener != null)
-					onActivateListener.onError(error,errorMessage);
+					onActivateListener.onError(error, errorMessage);
 			}
 		};
 	}
@@ -289,8 +294,8 @@ public class LanguagePackManager implements LanguagePackInterface {
 			@Override
 			public void run() {
 				if (onActivateListener != null)
-					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "LP Activated path",languagePackUtil.getLanguagePackFilePath(LOCALE_FILE_ACTIVATED).getAbsolutePath());
-					onActivateListener.onSuccess(languagePackUtil.getLanguagePackFilePath(LOCALE_FILE_ACTIVATED).getAbsolutePath());
+					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "LP Activated path", languagePackUtil.getLanguagePackFilePath(LOCALE_FILE_ACTIVATED).getAbsolutePath());
+				onActivateListener.onSuccess(languagePackUtil.getLanguagePackFilePath(LOCALE_FILE_ACTIVATED).getAbsolutePath());
 			}
 		};
 	}
