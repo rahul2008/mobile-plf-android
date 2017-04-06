@@ -23,6 +23,7 @@ import com.philips.cdp2.commlib.core.util.HandlerProvider;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
+import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.utility.BleScanRecord;
 
@@ -32,6 +33,7 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,11 +46,15 @@ import cucumber.api.java.en.When;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy.MANUFACTURER_PREAMBLE;
+import static com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation.SHNDeviceInformationType.SerialNumber;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.times;
@@ -76,8 +82,14 @@ public class BleDiscoveryStrategyTestSteps {
     @Mock
     private BleScanRecord bleScanRecordMock;
 
+    @Mock
+    private SHNCapabilityDeviceInformation deviceInformationMock;
+
     @Captor
     private ArgumentCaptor<Runnable> runnableCaptor;
+
+    @Captor
+    private ArgumentCaptor<BleDiscoveryStrategy.DeviceListener> deviceListenerCaptor;
 
     @Before
     public void setup() throws SHNBluetoothHardwareUnavailableException {
@@ -141,10 +153,6 @@ public class BleDiscoveryStrategyTestSteps {
             }
         };
         commCentral = new CommCentral(testApplianceFactory, bleTransportContext);
-    }
-
-    private static String createCppId() {
-        return String.valueOf(++cppId);
     }
 
     @When("^starting discovery for BLE appliances$")
@@ -225,44 +233,66 @@ public class BleDiscoveryStrategyTestSteps {
 
     @When("^(.*?) is discovered (\\d+) times? by BlueLib$")
     public void applianceIsDiscoveredMultipleTimesByBlueLib(String applianceName, int times) {
-        SHNDevice shnDeviceMock = mock(SHNDevice.class);
-        when(shnDeviceMock.getState()).thenReturn(SHNDevice.State.Connected);
-        when(shnDeviceMock.getAddress()).thenReturn(createCppId());
-        when(shnDeviceMock.getName()).thenReturn(applianceName);
-        when(shnDeviceMock.getDeviceTypeName()).thenReturn(getApplianceTypeByName(applianceName));
-
-        SHNDeviceFoundInfo shnDeviceFoundInfoMock = mock(SHNDeviceFoundInfo.class);
-        when(shnDeviceFoundInfoMock.getShnDevice()).thenReturn(shnDeviceMock);
-        when(shnDeviceFoundInfoMock.getBleScanRecord()).thenReturn(bleScanRecordMock);
-        when(bleScanRecordMock.getManufacturerSpecificData()).thenReturn(new byte[]{(byte) 0xDD, 0x01, 80, 70, 49, 51, 51, 55}); // Model id 'PF1337'
-
-        for (int i = 0; i < times; i++) {
-            bleDiscoveryStrategy.deviceFound(null, shnDeviceFoundInfoMock);
-        }
+        byte[] modelIdArray = new byte[]{(byte) 0xDD, 0x01, 80, 70, 49, 51, 51, 55}; // PF1337
+        createShnDeviceMock(applianceName, modelIdArray, times);
     }
 
     @When("^(.*?) is discovered (\\d+) times? by BlueLib, matching model id (.*?)$")
     public void applianceIsDiscoveredMultipleTimesByBlueLibWithModelId(String applianceName, int times, String modelId) {
-        SHNDevice shnDeviceMock = mock(SHNDevice.class);
-        when(shnDeviceMock.getState()).thenReturn(SHNDevice.State.Connected);
-        when(shnDeviceMock.getAddress()).thenReturn(createCppId());
-        when(shnDeviceMock.getName()).thenReturn(applianceName);
-        when(shnDeviceMock.getDeviceTypeName()).thenReturn(getApplianceTypeByName(applianceName));
-
-        SHNDeviceFoundInfo shnDeviceFoundInfoMock = mock(SHNDeviceFoundInfo.class);
-        when(shnDeviceFoundInfoMock.getShnDevice()).thenReturn(shnDeviceMock);
-        when(shnDeviceFoundInfoMock.getBleScanRecord()).thenReturn(bleScanRecordMock);
-
         byte[] modelIdArray = new byte[8];
         System.arraycopy(MANUFACTURER_PREAMBLE, 0, modelIdArray, 0, MANUFACTURER_PREAMBLE.length);
         byte[] modelIdBytes = modelId.getBytes();
         System.arraycopy(modelIdBytes, 0, modelIdArray, MANUFACTURER_PREAMBLE.length, modelIdBytes.length);
 
+        createShnDeviceMock(applianceName, modelIdArray, times);
+    }
+
+    private SHNDevice createShnDeviceMock(String applianceName, byte[] modelIdArray, int times) {
+        final SHNDevice shnDeviceMock = mock(SHNDevice.class);
+
+        // Properties
+        when(shnDeviceMock.getState()).thenReturn(SHNDevice.State.Connected);
+        when(shnDeviceMock.getAddress()).thenReturn(createMacAddress());
+        when(shnDeviceMock.getName()).thenReturn(applianceName);
+        when(shnDeviceMock.getDeviceTypeName()).thenReturn(getApplianceTypeByName(applianceName));
+
+        final String cppId = createCppId();
+
+        // DIS -> CPP ID
+        when(shnDeviceMock.getCapability(SHNCapabilityDeviceInformation.class)).thenReturn(deviceInformationMock);
+        doAnswer(new Answer() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                SHNCapabilityDeviceInformation.Listener listener = invocation.getArgumentAt(1, SHNCapabilityDeviceInformation.Listener.class);
+                listener.onDeviceInformation(SerialNumber, cppId, new Date());
+
+                return null;
+            }
+        }).when(deviceInformationMock).readDeviceInformation(eq(SerialNumber), any(SHNCapabilityDeviceInformation.Listener.class));
+
+        // Device found info (advertisement)
+        SHNDeviceFoundInfo shnDeviceFoundInfoMock = mock(SHNDeviceFoundInfo.class);
+        when(shnDeviceFoundInfoMock.getShnDevice()).thenReturn(shnDeviceMock);
+
+        // Model id
+        when(shnDeviceFoundInfoMock.getBleScanRecord()).thenReturn(bleScanRecordMock);
         when(bleScanRecordMock.getManufacturerSpecificData()).thenReturn(modelIdArray);
+
+        doNothing().when(shnDeviceMock).registerSHNDeviceListener(deviceListenerCaptor.capture());
+
+        doAnswer(new Answer() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                deviceListenerCaptor.getValue().onStateUpdated(shnDeviceMock);
+                return null;
+            }
+        }).when(shnDeviceMock).connect();
 
         for (int i = 0; i < times; i++) {
             bleDiscoveryStrategy.deviceFound(null, shnDeviceFoundInfoMock);
         }
+
+        return shnDeviceMock;
     }
 
     @When("^the cached data expires for the following appliances?:$")
@@ -292,5 +322,13 @@ public class BleDiscoveryStrategyTestSteps {
 
     private String getApplianceTypeByName(final @NonNull String applianceName) {
         return applianceName.substring(0, applianceName.length() - 1);
+    }
+
+    private static String createCppId() {
+        return String.valueOf(++cppId);
+    }
+
+    private static final String createMacAddress() {
+        return "addr-" + createCppId();
     }
 }

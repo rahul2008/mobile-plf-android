@@ -160,7 +160,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
             networkNode.setModelName(device.getDeviceTypeName());
 
             networkNode.setBleAddress(device.getAddress());
-            networkNode.setName(shnDeviceFoundInfo.getDeviceName());
+            networkNode.setName(device.getName());
 
             device.registerSHNDeviceListener(new DeviceListener(device, deviceInformation, networkNode));
             device.connect();
@@ -172,7 +172,8 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         return ContextCompat.checkSelfPermission(context, permission);
     }
 
-    private class DeviceListener implements SHNDevice.SHNDeviceListener {
+    @VisibleForTesting
+    public class DeviceListener implements SHNDevice.SHNDeviceListener {
         final AtomicInteger counter = new AtomicInteger(1);
         @NonNull
         private final SHNDevice device;
