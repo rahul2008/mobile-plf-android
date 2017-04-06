@@ -1,7 +1,11 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-apply plugin: 'jacoco-everywhere'
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.7.1.201405082137"
+}
 
 buildscript {
     repositories {
@@ -414,5 +418,42 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
     reports {
         xml.enabled = true
         html.enabled = false
+    }
+
+    task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+        group = "Reporting"
+
+        description = "Generate Jacoco coverage reports"
+
+        classDirectories = fileTree(
+                dir: '../appFramework/build/intermediates/classes/debug',
+//            excludes: ['**/R.class',
+//                       '**/R$*.class',
+//                       '**/BuildConfig.*',
+//                       '**/response/*/*.class',
+//                       '**/view/*.class',
+//                       '**/adapters/*.class',
+//                       '**/analytics/*.class',
+//                       '**/utils/*.class',
+//                       '**/activity/*.class',
+//                       '**/screens/*.class',
+//                       '**/store/IAPUser.class',
+//                       '**/integration/IAPInterface.class']
+        )
+
+        def coverageSourceDirs = [
+                "src/main/java",
+                "src/AppFrameworkHamburger/java",
+                "src/AppFrameworkTabbed/java"
+        ]
+
+        additionalSourceDirs = files(coverageSourceDirs)
+        sourceDirectories = files(coverageSourceDirs)
+        executionData = files('build/jacoco/testDebugUnitTest.exec')
+
+        reports {
+            xml.enabled = true
+            html.enabled = true
+        }
     }
 }
