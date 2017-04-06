@@ -22,10 +22,10 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.philips.cdp.registration.apptagging.AppTaggingPages;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.app.tagging.AppTaggingPages;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
@@ -43,12 +43,17 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
+import com.philips.cdp.registration.ui.utils.URInterface;
 
 import org.json.JSONObject;
+
+import javax.inject.Inject;
 
 public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment implements EventListener,
         onUpdateListener, NetworStateListener, SocialProviderLoginHandler, OnClickListener {
 
+    @Inject
+    NetworkUtility networkUtility;
 
     private LinearLayout mLlUsedEMailAddressContainer;
 
@@ -87,6 +92,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        URInterface.getComponent().inject(this);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeSocialToSocialAccountFragment : onCreateView");
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         EventHelper.getInstance()
@@ -234,7 +240,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     }
 
     private void mergeAccount() {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
+        if (networkUtility.isNetworkAvailable()) {
             mUser.loginUserUsingSocialProvider(getActivity(), mConflictProvider, this, mMergeToken);
             showMergeSpinner();
         } else {
@@ -258,7 +264,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     }
 
     private void handleUiErrorState() {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
+        if (networkUtility.isNetworkAvailable()) {
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
             } else {
@@ -272,7 +278,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     private void updateUiStatus() {
         RLog.i("MergeSocialToSocialAccountFragment", "updateUiStatus");
-        if (NetworkUtility.isNetworkAvailable(mContext)
+        if (networkUtility.isNetworkAvailable()
                 && UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
             mBtnMerge.setEnabled(true);
             mBtnCancel.setEnabled(true);

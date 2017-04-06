@@ -26,8 +26,8 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.apptagging.AppTaggingPages;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
+import com.philips.cdp.registration.app.tagging.AppTaggingPages;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
@@ -51,6 +51,7 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.UIFlow;
+import com.philips.cdp.registration.ui.utils.URInterface;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,8 +59,13 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 public class AlmostDoneFragment extends RegistrationBaseFragment implements EventListener,
         onUpdateListener, SocialProviderLoginHandler, NetworStateListener, OnClickListener, XCheckBox.OnCheckedChangeListener {
+
+    @Inject
+    NetworkUtility networkUtility;
 
     private static final int LOGIN_FAILURE = -1;
 
@@ -129,6 +135,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onCreateView");
+        URInterface.getComponent().inject(this);
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         EventHelper.getInstance()
                 .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
@@ -342,20 +349,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 break;
             default:break;
         }
-
-       /* if (abTestingFlow.equals(UIFlow.FLOW_A)) {
-            RLog.d(RLog.AB_TESTING, "UI Flow Type A");
-            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                    AppTagingConstants.REGISTRATION_CONTROL);
-        } else if (abTestingFlow.equals(UIFlow.FLOW_B)) {
-            RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                    AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
-        } else if (abTestingFlow.equals(UIFlow.FLOW_C)) {
-            RLog.d(RLog.AB_TESTING, "UI Flow Type C");
-            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                    AppTagingConstants.REGISTRATION_SOCIAL_PROOF);
-        }*/
     }
 
     private void initUI(View view) {
@@ -446,22 +439,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 acceptTermsLine.setVisibility(View.GONE);
                 mLlAcceptTermsContainer.setVisibility(View.GONE);
             } else {
-                final UIFlow abStrings = RegUtility.getUiFlow();
-                if (abStrings.equals(UIFlow.FLOW_A)) {
-                    RLog.d(RLog.AB_TESTING, "UI Flow Type A");
-                    mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
-                    mJoinNow.setVisibility(View.GONE);
-                 } else if (abStrings.equals(UIFlow.FLOW_B)) {
-                    RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-                    mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
-                    mLlPeriodicOffersCheck.setVisibility(View.GONE);
-                    view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.GONE);
-                    mJoinNow.setVisibility(View.GONE);
-                   } else if (abStrings.equals(UIFlow.FLOW_C)) {
-                    RLog.d(RLog.AB_TESTING, "UI Flow Type C");
-                    mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
-                    mJoinNow.setVisibility(View.VISIBLE);
-                   }
+                updateABTestingUIFlow(view);
             }
         } else {
             View acceptTermsLine = view.findViewById(R.id.reg_view_accep_terms_line);
@@ -477,9 +455,38 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         }
     }
 
+    private void updateABTestingUIFlow(View view) {
+        final UIFlow abTestingUIFlow = RegUtility.getUiFlow();
+
+        switch (abTestingUIFlow){
+            case FLOW_A:
+                RLog.d(RLog.AB_TESTING, "UI Flow Type A");
+                mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
+                mJoinNow.setVisibility(View.GONE);
+                break;
+
+            case FLOW_B:
+                RLog.d(RLog.AB_TESTING, "UI Flow Type B");
+                mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
+                mLlPeriodicOffersCheck.setVisibility(View.GONE);
+                view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.GONE);
+                mJoinNow.setVisibility(View.GONE);
+                break;
+
+            case FLOW_C:
+                RLog.d(RLog.AB_TESTING, "UI Flow Type C");
+                mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
+                mJoinNow.setVisibility(View.VISIBLE);
+                break;
+            default:break;
+
+        }
+
+    }
+
     private void updateUiStatus(Boolean isNetwork) {
         if (isEmailExist) {
-            if (NetworkUtility.isNetworkAvailable(mContext)) {
+            if (networkUtility.isNetworkAvailable()) {
                 mBtnContinue.setEnabled(true);
                 mRegError.hideError();
             } else {
@@ -488,7 +495,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 scrollViewAutomatically(mRegError, mSvRootLayout);
             }
         } else {
-            if (NetworkUtility.isNetworkAvailable(mContext)) {
+            if (networkUtility.isNetworkAvailable()) {
 
                 if ((mEtEmail.isShown() && mEtEmail.isValidEmail()) ||
                         (mEtEmail.getVisibility() != View.VISIBLE)) {
@@ -579,7 +586,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         }
     }
     private void register() {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
+        if (networkUtility.isNetworkAvailable()) {
             mRegAccptTermsError.setVisibility(View.GONE);
             User user = new User(mContext);
             showSpinner();
@@ -595,21 +602,27 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     }
 
     private void trackMultipleActions() {
-        Map<String, Object> map = new HashMap<String, Object>();
+        trackABTestingUIFlow();
+        trackTermsAndConditionAccepted();
+    }
 
-        final UIFlow abStrings = RegUtility.getUiFlow();
-        if (!abStrings.equals(UIFlow.FLOW_B)) {
-            if (mCbRemarketingOpt.isChecked()) {
-                trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
-            } else {
-                trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
-            }
-        }
+    private void trackTermsAndConditionAccepted() {
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             if (mCbAcceptTerms.isChecked()) {
                 trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
             } else {
                 trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_OUT);
+            }
+        }
+    }
+
+    private void trackABTestingUIFlow() {
+        final UIFlow abTestingUIFlow = RegUtility.getUiFlow();
+        if (!abTestingUIFlow.equals(UIFlow.FLOW_B)) {
+            if (mCbRemarketingOpt.isChecked()) {
+                trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
+            } else {
+                trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
             }
         }
     }
@@ -709,27 +722,36 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_USER_CREATION);
         trackMultipleActions();
-        User user = new User(mContext);
-        final UIFlow abStrings = RegUtility.getUiFlow();
-        if (abStrings.equals(UIFlow.FLOW_A)) {
-            RLog.d(RLog.AB_TESTING, "UI Flow Type A");
-            if (user.getEmailVerificationStatus()) {
-                launchWelcomeFragment();
-            } else {
-                launchAccountActivateFragment();
-            }
-        } else if (abStrings.equals(UIFlow.FLOW_B)) {
-            RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-            launchMarketingAccountFragment();
-        } else if (abStrings.equals(UIFlow.FLOW_C)) {
-            RLog.d(RLog.AB_TESTING, "UI Flow Type C");
-            if (user.getEmailVerificationStatus()) {
-                launchWelcomeFragment();
-            } else {
-                launchAccountActivateFragment();
-            }
-        }
+        handleABTestingFlow();
         hideSpinner();
+    }
+
+    private void handleABTestingFlow() {
+        User user = new User(mContext);
+        final UIFlow abTestingUIFlow = RegUtility.getUiFlow();
+        switch (abTestingUIFlow){
+            case FLOW_A:
+                RLog.d(RLog.AB_TESTING, "UI Flow Type A");
+                if (user.getEmailVerificationStatus()) {
+                    launchWelcomeFragment();
+                } else {
+                    launchAccountActivateFragment();
+                }
+                break;
+            case FLOW_B:
+                RLog.d(RLog.AB_TESTING, "UI Flow Type B");
+                launchMarketingAccountFragment();
+                break;
+            case FLOW_C:
+                RLog.d(RLog.AB_TESTING, "UI Flow Type C");
+                if (user.getEmailVerificationStatus()) {
+                    launchWelcomeFragment();
+                } else {
+                    launchAccountActivateFragment();
+                }
+                break;
+            default:break;
+        }
     }
 
     private void launchMarketingAccountFragment() {

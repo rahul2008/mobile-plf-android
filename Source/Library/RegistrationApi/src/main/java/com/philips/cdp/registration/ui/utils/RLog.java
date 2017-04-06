@@ -4,7 +4,6 @@ package com.philips.cdp.registration.ui.utils;
 import android.util.Log;
 
 import com.janrain.android.engage.JREngage;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.dhpclient.util.HsdpLog;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
@@ -42,8 +41,7 @@ public class RLog {
 
     public static final String AB_TESTING= "AB Testing";
     public static void init() {
-        mLoggingInterface = RegistrationHelper.getInstance().getAppInfraInstance().
-                getLogging().createInstanceForComponent("Registration", "Registration");
+        mLoggingInterface  = URInterface.getComponent().getLoggingInterface();
     }
 
     public static void enableLogging() {

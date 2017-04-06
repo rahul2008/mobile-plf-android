@@ -30,10 +30,11 @@ import com.philips.cdp.registration.HttpClientService;
 import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.apptagging.AppTagging;
-import com.philips.cdp.registration.apptagging.AppTaggingErrors;
-import com.philips.cdp.registration.apptagging.AppTaggingPages;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
+import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
+import com.philips.cdp.registration.app.tagging.AppTaggingPages;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.configuration.ClientIDConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
@@ -42,7 +43,6 @@ import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
-import com.philips.cdp.registration.configuration.ClientIDConfiguration;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.RegistrationSettingsURL;
 import com.philips.cdp.registration.ui.customviews.XEmail;
@@ -58,7 +58,7 @@ import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegChinaUtil;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
-import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.squareup.okhttp.RequestBody;
 
@@ -70,11 +70,19 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 
 public class SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
         TraditionalLoginHandler, ForgotPasswordHandler, onUpdateListener,
         EventListener, ResendVerificationEmailHandler,
         NetworStateListener, HttpClientServiceReceiver.Listener {
+
+    @Inject
+    NetworkUtility networkUtility;
+
+    @Inject
+    ServiceDiscoveryInterface serviceDiscoveryInterface;
 
     public static final String USER_REQUEST_PASSWORD_RESET_SMS_CODE = "/api/v1/user/requestPasswordResetSmsCode";
     public static final String USER_REQUEST_RESET_PASSWORD_REDIRECT_URI_SMS = "/c-w/user-registration/apps/reset-password.html";
@@ -149,6 +157,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        URInterface.getComponent().inject(this);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onCreateView");
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
@@ -419,7 +428,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private String mEmail;
 
     private void handleUiState() {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
+        if (networkUtility.isNetworkAvailable()) {
             mRegError.hideError();
         } else {
             mRegError.setError(getString(R.string.reg_NoNetworkConnection));
@@ -602,7 +611,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         if (!validatorResult) {
             mEtEmail.showInvalidAlert();
         } else {
-            if (NetworkUtility.isNetworkAvailable(mContext)) {
+            if (networkUtility.isNetworkAvailable()) {
                 if (mUser != null) {
                     showForgotPasswordSpinner();
                     mEtEmail.clearFocus();
@@ -625,13 +634,13 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private void updateUiStatus() {
         if (mEtEmail.isValidEmail() && mEtPassword.isValidPassword()
-                && NetworkUtility.isNetworkAvailable(mContext)) {
+                && networkUtility.isNetworkAvailable()) {
             mLlattentionBox.setVisibility(View.GONE);
             mBtnSignInAccount.setEnabled(true);
             mBtnForgot.setEnabled(true);
             mBtnResend.setEnabled(true);
             mRegError.hideError();
-        } else if (mEtEmail.isValidEmail() && NetworkUtility.isNetworkAvailable(mContext)) {
+        } else if (mEtEmail.isValidEmail() && networkUtility.isNetworkAvailable()) {
             mBtnForgot.setEnabled(true);
             mBtnSignInAccount.setEnabled(false);
             mBtnResend.setEnabled(false);
@@ -866,9 +875,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     String verificationSmsCodeURL;
 
     private void serviceDiscovery() {
-
-        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
-        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
         RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
 
         //Temp: will be updated once actual URX received for reset sms

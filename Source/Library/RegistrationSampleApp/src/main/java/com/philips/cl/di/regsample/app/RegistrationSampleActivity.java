@@ -23,26 +23,27 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.janrain.android.Jump;
 import com.janrain.android.engage.session.JRSession;
-
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.apptagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
+import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.Gender;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -51,6 +52,7 @@ import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
 import net.hockeyapp.android.CrashManager;
@@ -86,6 +88,9 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     private RadioGroup mRadioGroup;
     private CheckBox mCheckBox;
     private User mUser;
+    private Switch mCountrySelectionSwitch;
+    private boolean isCountrySelection;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +121,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
             mBtnHsdpRefreshAccessToken.setVisibility(View.GONE);
         }
 
+        mCountrySelectionSwitch = (Switch) findViewById(R.id.county_selection_switch);
         mUser = new User(mContext);
         mUser.registerUserRegistrationListener(this);
         mBtnRefresh = (Button) findViewById(R.id.btn_refresh_user);
@@ -128,7 +134,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         mRadioGender = (RadioGroup) findViewById(R.id.genderRadio);
         mRadioGender.check(R.id.Male);
 
-
+        mCountrySelectionSwitch = (Switch) findViewById(R.id.county_selection_switch);
         mLlConfiguration = (LinearLayout) findViewById(R.id.ll_configuartion);
         mRadioGroup = (RadioGroup) findViewById(R.id.myRadioGroup);
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
@@ -164,6 +170,15 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 mLlConfiguration.setVisibility(View.VISIBLE);
             }
         });
+
+        mCountrySelectionSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isCountrySelection = isChecked;
+            }
+        });
+
         mBtnApply = (Button) findViewById(R.id.Apply);
         mBtnApply.setOnClickListener(new OnClickListener() {
             @Override
@@ -174,9 +189,6 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 UserRegistrationInitializer.getInstance().resetInitializationState();
                 //Logout mUser
                 clearData();
-
-
-
 
                 int checkedId = mRadioGroup.getCheckedRadioButtonId();
                 // find which radio button is selected
@@ -295,10 +307,12 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         URLaunchInput urLaunchInput;
         ActivityLauncher activityLauncher;
         URInterface urInterface;
+        initCountrySelection();
+
         switch (v.getId()) {
             case R.id.btn_registration_with_account:
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
-                RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
+                RegistrationSampleApplication.getInstance().getAppInfra().getTagging().setPreviousPage("demoapp:home");
                 urLaunchInput = new URLaunchInput();
                 urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
                 urLaunchInput.setAccountSettings(true);
@@ -308,22 +322,27 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                         ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
                 urInterface = new URInterface();
                 urInterface.launch(activityLauncher, urLaunchInput);
-                final UIFlow abStrings=RegUtility.getUiFlow();
-                if (abStrings.equals(UIFlow.FLOW_A)){
-                    Toast.makeText(mContext,"UI Flow Type A",Toast.LENGTH_LONG).show();
-                    RLog.d(RLog.AB_TESTING,"UI Flow Type A");
-                }else  if (abStrings.equals(UIFlow.FLOW_B)){
-                    Toast.makeText(mContext,"UI Flow Type B",Toast.LENGTH_LONG).show();
-                    RLog.d(RLog.AB_TESTING,"UI Flow Type B");
-                }else  if (abStrings.equals(UIFlow.FLOW_C)){
-                    Toast.makeText(mContext,"UI Flow Type C",Toast.LENGTH_LONG).show();
-                    RLog.d(RLog.AB_TESTING,"UI Flow Type C");
+                final UIFlow abTestingUIFlow = RegUtility.getUiFlow();
+                switch (abTestingUIFlow){
+                    case FLOW_A:
+                        Toast.makeText(mContext,"UI Flow Type A",Toast.LENGTH_LONG).show();
+                        RLog.d(RLog.AB_TESTING,"UI Flow Type A");
+                        break;
+                    case FLOW_B:
+                        Toast.makeText(mContext,"UI Flow Type B",Toast.LENGTH_LONG).show();
+                        RLog.d(RLog.AB_TESTING,"UI Flow Type B");
+                        break;
+                    case FLOW_C:
+                        Toast.makeText(mContext,"UI Flow Type C",Toast.LENGTH_LONG).show();
+                        RLog.d(RLog.AB_TESTING,"UI Flow Type C");
+                        break;
+                    default:break;
                 }
                 break;
 
             case R.id.btn_marketing_opt_in:
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
-                RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
+                RegistrationSampleApplication.getInstance().getAppInfra().getTagging().setPreviousPage("demoapp:home");
                 urLaunchInput = new URLaunchInput();
                 urLaunchInput.setEndPointScreen(RegistrationLaunchMode.MARKETING_OPT);
                 urLaunchInput.setAccountSettings(false);
@@ -334,24 +353,30 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
                 urInterface = new URInterface();
                 urInterface.launch(activityLauncher, urLaunchInput);
-                final UIFlow uiFlow=RegUtility.getUiFlow();
-                if (uiFlow.equals(UIFlow.FLOW_A)){
-                    Toast.makeText(mContext,"UI Flow Type A",Toast.LENGTH_LONG).show();
-                    RLog.d(RLog.AB_TESTING,"UI Flow Type A");
-                }else  if (uiFlow.equals(UIFlow.FLOW_B)){
-                    Toast.makeText(mContext,"UI Flow Type B",Toast.LENGTH_LONG).show();
-                    RLog.d(RLog.AB_TESTING,"UI Flow Type B");
-                }else  if (uiFlow.equals(UIFlow.FLOW_C)){
-                    Toast.makeText(mContext,"UI Flow Type C",Toast.LENGTH_LONG).show();
-                    RLog.d(RLog.AB_TESTING,"UI Flow Type C");
+                final UIFlow uiFlow = RegUtility.getUiFlow();
+
+                switch (uiFlow){
+
+                    case FLOW_A:
+                        Toast.makeText(mContext,"UI Flow Type A",Toast.LENGTH_LONG).show();
+                        RLog.d(RLog.AB_TESTING,"UI Flow Type A");
+                        break;
+                    case FLOW_B:
+                        Toast.makeText(mContext,"UI Flow Type B",Toast.LENGTH_LONG).show();
+                        RLog.d(RLog.AB_TESTING,"UI Flow Type B");
+                        break;
+                    case FLOW_C:
+                        Toast.makeText(mContext,"UI Flow Type C",Toast.LENGTH_LONG).show();
+                        RLog.d(RLog.AB_TESTING,"UI Flow Type C");
+                        break;
+                    default:break;
                 }
                 break;
-
 
             case R.id.btn_registration_without_account:
 
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
-                RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
+                RegistrationSampleApplication.getInstance().getAppInfra().getTagging().setPreviousPage("demoapp:home");
                 urLaunchInput = new URLaunchInput();
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
@@ -495,6 +520,18 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         datePickerDialog.show();
 
     }
+
+    private void initCountrySelection() {
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        String countrySelection = isCountrySelection?"true":"false";
+        RegistrationSampleApplication.getInstance().getAppInfra().getConfigInterface().setPropertyForKey(
+                URConfigurationConstants.SHOW_COUNTRY_SELECTION,
+                URConfigurationConstants.UR,
+                countrySelection,
+                configError);
+    }
+
 
     private void handleRefreshAccessToken() {
 

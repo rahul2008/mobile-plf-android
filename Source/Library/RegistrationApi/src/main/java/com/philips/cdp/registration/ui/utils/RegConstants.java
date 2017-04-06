@@ -174,4 +174,10 @@ public class RegConstants {
 
     public static final String COMPONENT_TAGS_ID ="PhilipsRegistration";
 
+    public static final String SUCCESS_STATE_RESPONSE ="stat";
+
+    public static final String SUCCESS_STATE_RESPONSE_OK ="ok";
+
+
+
 }

@@ -22,10 +22,11 @@ import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.RegistrationSettings;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.ntputils.ServerTime;
 import com.philips.ntputils.constants.ServerTimeConstants;
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.timesync.TimeInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +34,15 @@ import org.json.JSONObject;
 
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 public class UpdateUserRecord implements UpdateUserRecordHandler {
+
+    @Inject
+    ServiceDiscoveryInterface serviceDiscoveryInterface;
+
+    @Inject
+    TimeInterface timeInterface;
 
     private String CONSUMER_TIMESTAMP = "timestamp";
 
@@ -86,6 +95,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
     private String LOG_TAG = "RegisterSocial";
 
     public UpdateUserRecord(Context context) {
+        URInterface.getComponent().inject(this);
         mContext = context;
     }
 
@@ -93,9 +103,6 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
     public void updateUserRecordRegister() {
 
         if (Jump.getSignedInUser() != null) {
-
-            AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
-            final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
             serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
                 @Override
                 public void onSuccess(String s, SOURCE source) {
@@ -110,7 +117,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                     // visitedMicroSites
                     try {
 
-                        ServerTime.init(RegistrationHelper.getInstance().getAppInfraInstance().getTime());
+                        ServerTime.init(timeInterface);
                         String currentDate = ServerTime.getCurrentUTCTimeWithFormat(DATE_FORMAT);
                         JSONObject visitedMicroSitesObject = new JSONObject();
                         visitedMicroSitesObject.put(RegistrationSettings.MICROSITE_ID, microSiteId);
@@ -185,7 +192,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                     RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
             String microSiteId = myPrefs.getString(RegistrationSettings.MICROSITE_ID, null);
             try {
-                ServerTime.init(RegistrationHelper.getInstance().getAppInfraInstance().getTime());
+                ServerTime.init(timeInterface);
                 String currentDate = ServerTime.getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP);
 
                 JSONObject visitedMicroSitesObject = new JSONObject();

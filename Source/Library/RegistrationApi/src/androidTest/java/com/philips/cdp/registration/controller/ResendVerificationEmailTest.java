@@ -7,9 +7,7 @@ import android.test.InstrumentationTestCase;
 import com.janrain.android.capture.CaptureApiError;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.platform.appinfra.AppInfra;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,7 +63,6 @@ public class ResendVerificationEmailTest extends InstrumentationTestCase{
         synchronized(this){//synchronized block
 
             try{
-                RegistrationHelper.getInstance().setAppInfraInstance( new AppInfra.Builder().build(context));
                 mResendVerificationEmail.resendVerificationMail("emailAddress@sample.com");
 
             }catch(Exception e){System.out.println(e);}
@@ -106,7 +103,6 @@ public class ResendVerificationEmailTest extends InstrumentationTestCase{
         synchronized(this){//synchronized block
 
             try{
-                RegistrationHelper.getInstance().setAppInfraInstance( new AppInfra.Builder().build(context));
                 mResendVerificationEmail.resendVerificationMail("emailAddress@sample.com");
 
             }catch(Exception e){System.out.println(e);}
