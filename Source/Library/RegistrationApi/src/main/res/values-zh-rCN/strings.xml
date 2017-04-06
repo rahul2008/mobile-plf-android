@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">安装</string>
 <string name="reg_Phonenumbernotfound">无电话号码</string>
 <string name="reg_InvalidMobilenumber">手机电话号码无效</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">我们将向您发送一封电子邮件或短信，用于重置您的密码。</string>
 </resources>

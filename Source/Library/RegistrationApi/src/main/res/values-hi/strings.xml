@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">स्थापित करें</string>
 <string name="reg_Phonenumbernotfound">फ़ोन नंबर नहीं मिला</string>
 <string name="reg_InvalidMobilenumber">अमान्य मोबाइल नंबर</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">आपका पासवर्ड रीसेट करने के लिए हम आपको एक ईमेल या SMS भेजेंगे.</string>
 </resources>

@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">Инсталирај</string>
 <string name="reg_Phonenumbernotfound">Телефонскиот број не е пронајден</string>
 <string name="reg_InvalidMobilenumber">Неправилен мобилен број</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Ќе ви испратиме e-mail порака или SMS порака за да ја ресетирате лозинката.</string>
 </resources>

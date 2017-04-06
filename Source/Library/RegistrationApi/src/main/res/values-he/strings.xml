@@ -98,7 +98,7 @@
 <string name="reg_vk">VK</string>
 <string name="reg_wordpress">Wordpress</string>
 <string name="reg_xing">XING</string>
-<string name="reg_wechat"></string>
+<string name="reg_wechat">WeChat</string>
 <string name="reg_LegalNoticeText_With_Terms_And_Conditions" formatted="false">קרא את ה%s וה%s שלנו.</string>
 <string name="reg_LegalNoticeText">וה%s שלנו</string>
 <string name="reg_AgeLimitText">בעצם יצירת החשבון או הכניסה למערכת אתה מאשר כי גילך %s שנים או יותר.\n</string>
@@ -240,9 +240,10 @@
 <string name="reg_Country_US">ארצות הברית</string>
 <string name="reg_Country_VN">וייטנאם</string>
 <string name="reg_Country_Search_Text">חיפוש..</string>
-<string name="reg_AppNotInstalled_Alert_Title"></string>
-<string name="reg_App_NotInstalled_AlertMessage"></string>
-<string name="reg_App_NotInstalled_InstallButton"></string>
-<string name="reg_Phonenumbernotfound"></string>
-<string name="reg_InvalidMobilenumber"></string>
+<string name="reg_AppNotInstalled_Alert_Title">היישום אינו מותקן</string>
+<string name="reg_App_NotInstalled_AlertMessage">התקן את היישום %s כדי ליהנות מתכונה זו.</string>
+<string name="reg_App_NotInstalled_InstallButton">התקן</string>
+<string name="reg_Phonenumbernotfound">מספר הטלפון לא נמצא</string>
+<string name="reg_InvalidMobilenumber">מספר טלפון לא חוקי</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">נשלח לך הודעת דוא\"ל או הודעת SMS כדי לאפס את סיסמתך.</string>
 </resources>

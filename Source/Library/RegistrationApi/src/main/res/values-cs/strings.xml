@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">Instalace</string>
 <string name="reg_Phonenumbernotfound">Telefonní číslo nebylo nalezeno</string>
 <string name="reg_InvalidMobilenumber">Telefonní číslo je neplatné</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Zašleme vám e-mail nebo SMS, pomocí kterých lze resetovat heslo.</string>
 </resources>
