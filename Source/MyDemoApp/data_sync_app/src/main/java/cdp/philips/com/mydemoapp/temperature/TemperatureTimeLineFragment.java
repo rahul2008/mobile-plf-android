@@ -201,13 +201,11 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 break;
             case R.id.tv_set_consents:
                 ConsentDialogFragment dFragment = new ConsentDialogFragment();
-               // dFragment.show(getFragmentManager(), "Dialog");
                 replaceFragment(dFragment,"consents");
 
                 break;
             case R.id.tv_settings:
                 SettingsFragment settingsFragment = new SettingsFragment();
-                //settingsFragment.show(getFragmentManager(), "settings");
                 replaceFragment(settingsFragment,"settings");
 
                 break;
@@ -215,7 +213,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
             case R.id.tv_set_characteristics:
 
                 CharacteristicsDialogFragment characteristicsDialogFragment = new CharacteristicsDialogFragment();
-               // characteristicsDialogFragment.show(getFragmentManager(), "Character");
                 replaceFragment(characteristicsDialogFragment,"Character");
                 break;
 
@@ -227,13 +224,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 break;
             case R.id.tv_insights:
                 InsightFragment insightFragment = new InsightFragment();
-               /* insightFragment.show(getFragmentManager(), "Insight");
-
-
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.container, new InsightFragment())
-                        .commit();*/
 
                 replaceFragment(insightFragment,"insights");
         }
@@ -400,17 +390,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         return false;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.d("pabitra","onPause");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d("pabitra","onResume");
-    }
 
     private void replaceFragment(Fragment fragment,String tag){
 
