@@ -40,7 +40,7 @@ public class AppTagging implements AppTaggingInterface {
 	private final AppInfra mAppInfra;
 	protected String mComponentID;
 	protected String mComponentVersion;
-	AppTaggingInterface.RegisterListener registerListener;
+	private AppTaggingInterface.RegisterListener registerListener;
 
 	private Locale mLocale;
 	private final static String AIL_PRIVACY_CONSENT = "ailPrivacyConsentForSensitiveData";

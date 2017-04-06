@@ -242,12 +242,6 @@ public class AIATDemoPage extends AppCompatActivity implements AppTaggingInterfa
 		super.onPause();
 	}
 
-
-	@Override
-	public void registerListerner(AppTaggingInterface.RegisterListener registerListener) {
-		mRegisterListener = registerListener;
-	}
-
 	@Override
 	public void sendEvent(String data) {
 		Crittercism.leaveBreadcrumb(data);

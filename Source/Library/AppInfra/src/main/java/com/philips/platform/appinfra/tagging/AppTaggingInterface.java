@@ -40,7 +40,6 @@ public interface AppTaggingInterface {
 	}
 
 	interface RegisterListener {
-		void registerListerner(RegisterListener registerListener);
 		void sendEvent(String data);
 	}
 
