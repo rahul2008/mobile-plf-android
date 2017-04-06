@@ -49,6 +49,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     private static final String CLOUD_APP_CONFIG_FILE = "CloudConfig";
     private static final String CLOUD_APP_CONFIG_JSON = "cloudConfigJson";
     private static final String CLOUD_APP_CONFIG_URL = "cloudConfigUrl";
+    private JSONObject result = null;
 
     private SecureStorageInterface mSecureStorageInterface;
 
@@ -58,26 +59,34 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     }
 
     protected JSONObject getMasterConfigFromApp() {
-        JSONObject result = null;
-        try {
-            final InputStream mInputStream = mContext.getAssets().open("AppConfig.json");
-            final BufferedReader r = new BufferedReader(new InputStreamReader(mInputStream));
-            final StringBuilder total = new StringBuilder();
-            String line;
-            while ((line = r.readLine()) != null) {
-                total.append(line).append('\n');
-            }
-            result = new JSONObject(total.toString());
-            result = makeKeyUppercase(result); // converting all Group and child key Uppercase
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "Json",
-                    result.toString());
 
-        } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppConfiguration exception",
-                    Log.getStackTraceString(e));
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final InputStream mInputStream = mContext.getAssets().open("AppConfig.json");
+                    final BufferedReader r = new BufferedReader(new InputStreamReader(mInputStream));
+                    final StringBuilder total = new StringBuilder();
+                    String line;
+                         while ((line = r.readLine()) != null) {
+                        total.append(line).append('\n');
+                    }
+                    result = new JSONObject(total.toString());
+                    result = makeKeyUppercase(result); // converting all Group and child key Uppercase
+
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "Json",
+                            result.toString());
+
+                } catch (Exception e) {
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppConfiguration exception",
+                            Log.getStackTraceString(e));
+                }
+            }
+        }).start();
+
         return result;
     }
+
 
     private JSONObject getDynamicConfigJsonCache() {
         if (null == dynamicConfigJsonCache) {

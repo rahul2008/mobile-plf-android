@@ -29,17 +29,17 @@ import java.util.concurrent.CountDownLatch;
 
 public class ABTestClientManager implements ABTestClientInterface {
 
+    private static final String ABTEST_PRREFERENCE = "philips.appinfra.abtest.precache";
     private AppInfra mAppInfra;
     private Context mContext;
     private String mExperience = null;
     private HashMap<String, CacheModel.ValueModel> mCacheStatusValue = new HashMap<>();
     private CACHESTATUSVALUES mCachestatusvalues;
-    private CacheModel mCacheModel;
-    private static final String ABTEST_PRREFERENCE = "philips.appinfra.abtest.precache";
     private boolean isAppRestarted = false;
     private String previousVersion;
     private SharedPreferences mSharedPreferences;
-
+    private CacheModel mCacheModel;
+    private String cacheToPreference;
 
     public ABTestClientManager(AppInfra appInfra) {
         mAppInfra = appInfra;
@@ -56,9 +56,10 @@ public class ABTestClientManager implements ABTestClientInterface {
 
     private void loadfromDisk() {
         ArrayList<String> testList = new ArrayList<>();
-        if (getCachefromPreference() != null ) {
-            mCacheModel = getCachefromPreference();
-            if(mCacheModel.getTestValues() != null && mCacheModel.getTestValues().size() > 0) {
+        CacheModel cacheModel = getCachefromPreference();
+        if (cacheModel != null) {
+            mCacheModel = cacheModel;
+            if (mCacheModel.getTestValues() != null && mCacheModel.getTestValues().size() > 0) {
                 mCacheStatusValue = mCacheModel.getTestValues();
             }
         }
@@ -76,7 +77,7 @@ public class ABTestClientManager implements ABTestClientInterface {
                 if (mCacheStatusValue != null && mCacheStatusValue.containsKey(test)) {
                     // shouldRefresh = false;
                 } else {
-                    cacheModel(null,UPDATETYPES.EVERY_APP_START.name(),test);
+                    cacheModel(null, UPDATETYPES.EVERY_APP_START.name(), test);
 
                     //shouldRefresh = true;
                 }
@@ -193,7 +194,7 @@ public class ABTestClientManager implements ABTestClientInterface {
             if (val.getTestValue() != null && updateType.name().equalsIgnoreCase(UPDATETYPES.EVERY_APP_START.name())) {
                 //value is already there in cache ignoring the new value
             } else {
-                cacheModel(content,updateType.name(),testName);
+                cacheModel(content, updateType.name(), testName);
 
             }
         }
@@ -204,8 +205,7 @@ public class ABTestClientManager implements ABTestClientInterface {
     }
 
 
-    private void cacheModel(String testValue,String updateType, String cacheStatusKey)
-    {
+    private void cacheModel(String testValue, String updateType, String cacheStatusKey) {
         final CacheModel.ValueModel valueModel = new CacheModel.ValueModel();
         valueModel.setTestValue(testValue);
         valueModel.setUpdateType(updateType);
@@ -299,7 +299,7 @@ public class ABTestClientManager implements ABTestClientInterface {
      */
     @Override
     public void updateCache(final OnRefreshListener listener) {
-        if (null!=mAppInfra.getRestClient() && !mAppInfra.getRestClient().isInternetReachable()) {
+        if (null != mAppInfra.getRestClient() && !mAppInfra.getRestClient().isInternetReachable()) {
             mCachestatusvalues = CACHESTATUSVALUES.EXPERIENCES_NOT_UPDATED;
             if (listener != null)
                 listener.onError(OnRefreshListener.ERRORVALUES.NO_NETWORK, "NO INTERNET");
@@ -435,19 +435,24 @@ public class ABTestClientManager implements ABTestClientInterface {
     }
 
 
-
     /**
      * method to save cachemodel object in preference.
      *
      * @param model cachemodel object
      */
-    private void saveCachetoPreference(CacheModel model) {
+    private void saveCachetoPreference(final CacheModel model) {
         final SharedPreferences.Editor editor = mSharedPreferences.edit();
         final Gson gson = new Gson();
-        final String json = gson.toJson(model);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                cacheToPreference= gson.toJson(model);
+            }
+        }).start();
+
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ABTESTCLIENT",
-                json);
-        editor.putString("cacheobject", json);
+                cacheToPreference);
+        editor.putString("cacheobject", cacheToPreference);
         editor.commit();
     }
 

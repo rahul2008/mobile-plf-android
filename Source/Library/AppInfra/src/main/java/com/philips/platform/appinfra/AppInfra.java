@@ -31,11 +31,12 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
+import java.io.Serializable;
+
 /**
  * Created by 310238114 on 5/5/2016.
  */
-public class AppInfra implements AppInfraInterface ,ComponentVersionInfo{
-
+public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Serializable {
 
     private SecureStorageInterface secureStorage;
     private LoggingInterface logger;
