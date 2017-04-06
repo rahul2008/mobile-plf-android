@@ -28,15 +28,14 @@ public class UIDResources extends Resources {
 
     @NonNull
     @Override
-    public CharSequence getText(@StringRes int id){
-
-        String resourceName = getResourceEntryName(id);
-        if(resourceName != null && UIDLocaleHelper.getUidLocaleHelper().isLookUp()){
-            String string = UIDLocaleHelper.getUidLocaleHelper().lookUpString(resourceName);
-            if(string!=null){
-                return string;
-            }else {
-                return super.getText(id);
+    public CharSequence getText(@StringRes int id) {
+        if (UIDLocaleHelper.getUidLocaleHelper().isLookUp()) {
+            String resourceName = getResourceEntryName(id);
+            if (resourceName != null) {
+                String string = UIDLocaleHelper.getUidLocaleHelper().lookUpString(resourceName);
+                if (string != null) {
+                    return string;
+                }
             }
         }
         return super.getText(id);

@@ -21,7 +21,6 @@ public class UIDLocaleHelper {
     private static String filePath = null;
     private static UIDLocaleHelper uidLocaleHelper = null;
     private static HashMap<String,String> stringHashMap = new HashMap<String, String>();
-
     private static boolean isLookUp = false;
 
     private UIDLocaleHelper() {

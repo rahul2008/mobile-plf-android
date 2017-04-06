@@ -66,6 +66,7 @@ public class MainActivity extends UIDActivity {
 
         UIDHelper.init(getThemeConfig());
         UIDLocaleHelper.getUidLocaleHelper().setFilePath(getCatalogAppJSONAssetPath());
+        
         if (BuildConfig.DEBUG) {
             Log.d(MainActivity.class.getName(), String.format("Theme config Tonal Range :%s, Color Range :%s , Navigation Color : %s",
                     contentColor, colorRange, navigationColor));
@@ -203,8 +204,6 @@ public class MainActivity extends UIDActivity {
     }
 
     public String getCatalogAppJSONAssetPath(){
-
-//        if (!f.exists())
         try {
             File f = new File(getCacheDir()+"/catalogapp.json");
             InputStream is = getAssets().open("catalogapp.json");
