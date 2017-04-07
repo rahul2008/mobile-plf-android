@@ -425,7 +425,11 @@ public class SecureStorage implements SecureStorageInterface {
 
 	}
 
-
+    /**
+	 * Checks if the device is rooted.
+	 *
+	 * @return <code>true</code> if the device is rooted, <code>false</code> otherwise.
+	 */
 	private static boolean checkProcess(String command) {
 		boolean executedSuccesfully;
 		try {

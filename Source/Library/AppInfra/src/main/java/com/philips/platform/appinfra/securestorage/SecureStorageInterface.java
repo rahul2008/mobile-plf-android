@@ -109,5 +109,10 @@ public interface SecureStorageInterface {
 
     }
 
+    /**
+     * Checks if the device is rooted.
+     *
+     * @return <code>true</code> if the device is rooted, <code>false</code> otherwise.
+     */
     String getDeviceCapability();
 }
