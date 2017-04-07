@@ -45,6 +45,7 @@ import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.configuration.ClientIDConfiguration;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.RegistrationSettingsURL;
+import com.philips.cdp.registration.ui.customviews.XButton;
 import com.philips.cdp.registration.ui.customviews.XEmail;
 import com.philips.cdp.registration.ui.customviews.XHavingProblems;
 import com.philips.cdp.registration.ui.customviews.XPassword;
@@ -87,7 +88,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private Button mBtnForgot;
 
-    private Button mBtnResend;
+    private XButton mBtnResend;
 
     private XEmail mEtEmail;
 
@@ -361,7 +362,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBtnSignInAccount.setOnClickListener(this);
         mBtnForgot = (Button) view.findViewById(R.id.btn_reg_forgot_password);
         mBtnForgot.setOnClickListener(this);
-        mBtnResend = (Button) view.findViewById(R.id.btn_reg_resend);
+        mBtnResend = (XButton) view.findViewById(R.id.btn_reg_resend);
         mBtnResend.setOnClickListener(this);
         mLlCreateAccountFields = (LinearLayout) view
                 .findViewById(R.id.ll_reg_create_account_fields);
@@ -808,7 +809,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBtnSignInAccount.setEnabled(false);
         mBtnForgot.setEnabled(false);
         if (registrationSettingsURL.isChinaFlow()) {
-            getActivity().startService(createResendSMSIntent());
+                serviceDiscovery();
         } else {
             mUser.resendVerificationMail(mEtEmail.getEmailId(), this);
         }
@@ -923,6 +924,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         final String tokenKey= "token";
         final String redirectUriKey= "redirectUri";
         final String verificationSmsCodeURLKey="verificationSmsCodeURL";
+        updateResendUIState();
 
         try {
             JSONObject jsonObject = new JSONObject(response);
