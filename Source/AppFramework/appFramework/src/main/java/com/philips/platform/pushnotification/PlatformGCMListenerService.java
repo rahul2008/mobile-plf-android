@@ -16,7 +16,7 @@ import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
 
 public class PlatformGCMListenerService extends GcmListenerService {
 
-    private static final String TAG = "MyGcmListenerService";
+    private static final String TAG = "PushNotification";
 
     /**
      * Called when message is received.

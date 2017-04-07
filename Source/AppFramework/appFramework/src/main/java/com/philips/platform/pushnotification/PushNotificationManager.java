@@ -27,7 +27,7 @@ import java.util.Set;
 
 public class PushNotificationManager {
 
-    private static final String TAG = PushNotificationManager.class.getSimpleName();
+    private static final String TAG = "PushNotification";
     private static PushNotificationManager pushNotificationManager;
 
     public interface DeregisterTokenListener{
