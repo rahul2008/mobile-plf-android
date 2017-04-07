@@ -16,9 +16,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.logging.Logger;
+
+import package1.component1.Component1;
+import package2.component2.Component2;
 
 public class LoggingActivity extends AppCompatActivity {
 
@@ -131,7 +135,15 @@ public class LoggingActivity extends AppCompatActivity {
                             // Component1 component1= new Component1(AppInfraApplication.gAppInfra);
                             // AILoggingInterface.log(currentLogLevel, "back", "back");
                         }
+                     /*   /////////////
+                       AppInfra ai = (AppInfra)AppInfraApplication.gAppInfra;
+                        Component1 c1 = new Component1(ai);
+
+                                Component2 c2 = new Component2(ai);*/
+                        ////////////
                     }
+
+
                 }
             }
         });

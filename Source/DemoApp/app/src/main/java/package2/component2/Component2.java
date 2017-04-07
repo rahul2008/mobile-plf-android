@@ -23,18 +23,18 @@ public class Component2 {
       mAppInfra=pAppInfra;
 
         AILoggingInterface = mAppInfra.getLogging().createInstanceForComponent("package2.component2", "2.0.1"); //this.getClass().getPackage().toString()
-        AILoggingInterface.enableConsoleLog(true);
-        AILoggingInterface.enableFileLog(true);
+       /* AILoggingInterface.enableConsoleLog(true);
+        AILoggingInterface.enableFileLog(true);*/
         showLog();
     }
 
     public void showLog(){
         AILoggingInterface.log(LoggingInterface.LogLevel.ERROR,"c2 er","c2 msg");
-        AILoggingInterface.log(LoggingInterface.LogLevel.WARNING,"c2 er","c2 msg");
+       /* AILoggingInterface.log(LoggingInterface.LogLevel.WARNING,"c2 er","c2 msg");
 
         AILoggingInterface.log(LoggingInterface.LogLevel.INFO,"c2 er","c2 msg");
         AILoggingInterface.log(LoggingInterface.LogLevel.DEBUG,"c2 er","c2 msg");
-        AILoggingInterface.log(LoggingInterface.LogLevel.VERBOSE,"c2 er","c2 msg");
+        AILoggingInterface.log(LoggingInterface.LogLevel.VERBOSE,"c2 er","c2 msg");*/
 
 
     }

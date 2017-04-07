@@ -31,6 +31,35 @@
     "servicediscovery.platformEnvironment":"production",
     "appconfig.cloudServiceId":" appinfra.appconfigdownload",
     "timesync.ntp.hosts":["0.pool.ntp.org","1.pool.ntp.org","2.pool.ntp.org","3.pool.ntp.org","0.cn.pool.ntp.org"],
-    "LANGUAGEPACK.SERVICEID":"appinfra.languagePack"
+    "LANGUAGEPACK.SERVICEID":"appinfra.languagePack",
+    "logging.releaseConfig":{
+      "fileName":"AppInfraLog",
+      "numberOfFiles":5,
+      "fileSizeInBytes":50000,
+      "logLevel":"Warn",
+      "fileLogEnabled":true,
+      "consoleLogEnabled":true,
+      "componentLevelLogEnabled":true,
+      "componentIds": [
+        "DemoAppInfra",
+        "Registration"
+      ]
+    },
+    "logging.debugConfig":{
+      "fileName":"AppInfraLog",
+      "numberOfFiles":5,
+      "fileSizeInBytes":50000,
+      "logLevel":"Info",
+      "fileLogEnabled":true,
+      "consoleLogEnabled":true,
+      "componentLevelLogEnabled":true,
+      "componentIds": [
+
+        "DemoAppInfra",
+        "Registration","package1.component1","anu"
+      ]
+    }
+
   }
+
 }
