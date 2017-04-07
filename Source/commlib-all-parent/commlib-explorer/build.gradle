@@ -37,6 +37,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            minifyEnabled false
+        }
     }
 }
 
@@ -51,7 +54,8 @@ dependencies {
 
     // CDPP platform
     def commlib_ble = findProject(':commlib-ble') ? ':commlib-ble' : ':commlib-all'
-    compile project(commlib_ble)
+    releaseCompile project(path: commlib_ble, configuration: 'release')
+    debugCompile project(path: commlib_ble, configuration: 'debug')
 
     testCompile deps.junit
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {

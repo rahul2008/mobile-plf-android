@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.commlib.core.CommCentral;
@@ -19,6 +20,7 @@ import com.philips.cdp2.commlibexplorer.MainActivity;
 import com.philips.cdp2.commlibexplorer.R;
 import com.philips.cdp2.commlibexplorer.SupportedPorts;
 import com.philips.cdp2.commlibexplorer.appliance.GenericAppliance;
+import com.philips.cdp2.commlibexplorer.appliance.NativePort;
 import com.philips.cdp2.commlibexplorer.appliance.PropertyPort;
 import com.philips.cdp2.commlibexplorer.appliance.SupportedPort;
 import com.philips.cdp2.commlibexplorer.presenters.PortOverviewPresenter;
@@ -107,7 +109,7 @@ public class PortOverviewFragment extends DiCommTestAppFragment<SupportedPort> i
 
         // TODO Remove when ApplianceManager allows to listen for appliance changes
         GenericAppliance currentAppliance = getMainActivity().getAppliance();
-        Set<SupportedPort> portList = currentAppliance.getPropertyPorts();
+        Set<SupportedPort> portList = currentAppliance.getSupportedPorts();
         // Show ports of the selected appliance
         updateList(new ArrayList<>(portList));
 
@@ -132,9 +134,9 @@ public class PortOverviewFragment extends DiCommTestAppFragment<SupportedPort> i
 
         // TODO Remove when ApplianceManager allows to listen for appliance changes
         GenericAppliance currentAppliance = getMainActivity().getAppliance();
-        for (SupportedPort port : currentAppliance.getPropertyPorts()) {
+        for (SupportedPort port : currentAppliance.getSupportedPorts()) {
             if (port instanceof PropertyPort) {
-                port.removePortListener(portListener);
+                ((PropertyPort) port).removePortListener(portListener);
             }
         }
         super.onPause();
@@ -145,15 +147,27 @@ public class PortOverviewFragment extends DiCommTestAppFragment<SupportedPort> i
         if (!item.isEnabled()) {
             String toastMsg = String.format("The '%s' port is unavailable at this time, queueing reload", item.getPortName());
             Toast.makeText(getMainActivity(), toastMsg, Toast.LENGTH_SHORT).show();
-            item.reloadProperties();
+            if (item instanceof PropertyPort) {
+                ((PropertyPort) item).reloadProperties();
+            }
+            return;
+        }
+
+
+        DICommPort port;
+        if (item instanceof PropertyPort) {
+            port = (DICommPort) item;
+        } else if (item instanceof NativePort) {
+            port = ((NativePort) item).getPort();
+        } else {
             return;
         }
 
         // Only for available ports
         MainActivity activity = getMainActivity();
-        activity.storePort(item);
+        activity.storePort(port);
 
-        Fragment fragment = supportedPorts.getFragmentFor(item.getClass());
+        Fragment fragment = supportedPorts.getFragmentFor(port.getClass());
         activity.navigateTo(fragment);
     }
 }

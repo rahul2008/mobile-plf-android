@@ -22,8 +22,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp2.commlibexplorer.appliance.GenericAppliance;
-import com.philips.cdp2.commlibexplorer.appliance.SupportedPort;
 import com.philips.cdp2.commlibexplorer.background.BackgroundConnectionService;
 import com.philips.cdp2.commlibexplorer.fragments.StrategyChoiceFragment;
 
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private BackgroundConnectionService service;
     private boolean isBound;
     private GenericAppliance currentAppliance = null;
-    private SupportedPort currentPort = null;
+    private DICommPort currentPort = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,11 +148,11 @@ public class MainActivity extends AppCompatActivity {
         return currentAppliance;
     }
 
-    public void storePort(SupportedPort port) {
+    public void storePort(DICommPort port) {
         currentPort = port;
     }
 
-    public SupportedPort getPort() {
+    public DICommPort getPort() {
         return currentPort;
     }
 }

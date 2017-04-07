@@ -6,13 +6,14 @@ package com.philips.cdp2.commlibexplorer.appliance;
 
 import android.util.Log;
 
+import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlibexplorer.appliance.property.PortSpecification;
 import com.philips.cdp2.commlibexplorer.appliance.property.Property;
 
 import java.util.Map;
 
-public class PropertyPort extends SupportedPort {
+public class PropertyPort extends DICommPort implements SupportedPort {
     private static final String TAG = "PropertyPort";
     private PortSpecification portSpec;
     private String errorText;
@@ -34,11 +35,11 @@ public class PropertyPort extends SupportedPort {
         //noinspection unchecked
         Map<String, Object> portResponse = gson.fromJson(json, Map.class);
 
-        for(Property prop : portSpec.getProperties()) {
+        for (Property prop : portSpec.getProperties()) {
             Object propValue = portResponse.get(prop.getKey());
-            if(propValue != null) {
+            if (propValue != null) {
                 String valueText = propValue.toString();
-                if(valueText.isEmpty()) {
+                if (valueText.isEmpty()) {
                     valueText = "--";
                 }
 
@@ -71,7 +72,7 @@ public class PropertyPort extends SupportedPort {
 
     @Override
     public String getErrorText() {
-        if(errorText == null) {
+        if (errorText == null) {
             return "";
         }
         return errorText;
@@ -100,7 +101,7 @@ public class PropertyPort extends SupportedPort {
 
     @Override
     public String getStatusText() {
-        if(statusText == null) {
+        if (statusText == null) {
             return "";
         }
         return statusText;

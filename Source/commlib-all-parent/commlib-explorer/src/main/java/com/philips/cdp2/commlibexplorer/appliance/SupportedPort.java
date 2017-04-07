@@ -5,21 +5,13 @@
 
 package com.philips.cdp2.commlibexplorer.appliance;
 
-import com.philips.cdp.dicommclient.port.DICommPort;
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
-import com.philips.cdp2.commlib.core.port.PortProperties;
+public interface SupportedPort {
 
-public abstract class SupportedPort<T extends PortProperties> extends DICommPort<T> {
+    String getPortName();
 
-    public SupportedPort(CommunicationStrategy communicationStrategy) {
-        super(communicationStrategy);
-    }
+    String getErrorText();
 
-    public abstract String getPortName();
+    boolean isEnabled();
 
-    public abstract String getErrorText();
-
-    public abstract boolean isEnabled();
-
-    public abstract String getStatusText();
+    String getStatusText();
 }

@@ -10,6 +10,7 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlibexplorer.SupportedPorts;
 import com.philips.cdp2.commlibexplorer.appliance.property.ApplianceSpecification;
 import com.philips.cdp2.commlibexplorer.appliance.property.PortSpecification;
 
@@ -19,10 +20,12 @@ import java.util.concurrent.CopyOnWriteArraySet;
 public class GenericAppliance extends Appliance {
     private String modelNumber;
     private String deviceName;
+    private SupportedPorts supportedPorts = new SupportedPorts();
 
     GenericAppliance(@NonNull NetworkNode networkNode, @NonNull CommunicationStrategy communicationStrategy) {
         super(networkNode, communicationStrategy);
         getAllPorts().clear();
+        addPort(mPairingPort);
     }
 
     public String getModelNumber() {
@@ -39,14 +42,16 @@ public class GenericAppliance extends Appliance {
         return "";
     }
 
-    public Set<SupportedPort> getPropertyPorts() {
-        Set<SupportedPort> propPorts = new CopyOnWriteArraySet<>();
+    public Set<SupportedPort> getSupportedPorts() {
+        Set<SupportedPort> supportedPorts = new CopyOnWriteArraySet<>();
         for (DICommPort port : getAllPorts()) {
             if (port instanceof SupportedPort) {
-                propPorts.add((SupportedPort) port);
+                supportedPorts.add((SupportedPort) port);
+            } else if (this.supportedPorts.getSupportedPorts().contains(port.getClass())) {
+                supportedPorts.add(new NativePort(port));
             }
         }
-        return propPorts;
+        return supportedPorts;
     }
 
     void readApplianceSpecification(ApplianceSpecification applianceSpec, CommunicationStrategy strategy) {
