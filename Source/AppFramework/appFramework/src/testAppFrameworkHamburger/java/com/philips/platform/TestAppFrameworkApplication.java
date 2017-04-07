@@ -51,6 +51,9 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
     public void onCreate() {
         super.onCreate();
         appInfra = new AppInfra.Builder().build(getApplicationContext());
+        loggingInterface = appInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
+        loggingInterface.enableConsoleLog(true);
+        loggingInterface.enableFileLog(true);
         setLocale();
         userRegistrationOnBoardingState = new UserRegistrationOnBoardingState();
         userRegistrationOnBoardingState.init(this);

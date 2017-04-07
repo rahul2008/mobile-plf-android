@@ -1,11 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-apply plugin: 'jacoco'
-
-jacoco {
-    toolVersion = "0.7.1.201405082137"
-}
+apply plugin: 'jacoco-everywhere'
 
 buildscript {
     repositories {
@@ -311,8 +307,6 @@ configurations.all {
 }
 
 dependencies {
-  //  testCompile('org.mockito:mockito-core:2.7.0')
-   // testCompile "org.robolectric:shadows-multidex:3.0"
 
     compile ('com.android.support:support-annotations:24.0.0') {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -327,9 +321,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    // Module projects
-    //compile project(':dataServices')
-    // DEBUG
     debugCompile 'com.facebook.stetho:stetho:1.2.0'
 
     compile "com.j256.ormlite:ormlite-core:5.0"
@@ -358,26 +349,11 @@ dependencies {
     }
 
     testCompile 'junit:junit:4.12'
- //    compile group: 'org.robolectric', name: 'shadows-core', version: '3.0-rc2'
-//    compile 'junit:junit:4.12'
-//    compile 'org.robolectric:robolectric:3.2.2'
-
-
-//    testCompile 'org.mockito:mockito-all:1.10.17'
-//    compile group: 'org.robolectric', name: 'android-all', version: '7.0.0_r1-robolectric-0'
-//    testCompile ('org.robolectric:robolectric:3.2.2')
     testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
-//    testCompile 'junit:junit:4.12'
-//    compile 'com.android.support:multidex:1.0.1'
-
     testCompile ('org.robolectric:robolectric:3.3.1')
     testCompile "org.robolectric:shadows-multidex:3.3.1"
-    testCompile "org.robolectric:shadows-support-v4:3.3.1"/*{
-        exclude group: 'commons-logging', module: 'commons-logging'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-    }*/
+    testCompile "org.robolectric:shadows-support-v4:3.3.1"
     testCompile "org.mockito:mockito-all:1.10.17"
-
     testCompile "com.squareup.assertj:assertj-android:${androidAssertJVer}"
 
 
@@ -418,42 +394,5 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
     reports {
         xml.enabled = true
         html.enabled = false
-    }
-
-    task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
-        group = "Reporting"
-
-        description = "Generate Jacoco coverage reports"
-
-        classDirectories = fileTree(
-                dir: '../appFramework/build/intermediates/classes/debug',
-//            excludes: ['**/R.class',
-//                       '**/R$*.class',
-//                       '**/BuildConfig.*',
-//                       '**/response/*/*.class',
-//                       '**/view/*.class',
-//                       '**/adapters/*.class',
-//                       '**/analytics/*.class',
-//                       '**/utils/*.class',
-//                       '**/activity/*.class',
-//                       '**/screens/*.class',
-//                       '**/store/IAPUser.class',
-//                       '**/integration/IAPInterface.class']
-        )
-
-        def coverageSourceDirs = [
-                "src/main/java",
-                "src/AppFrameworkHamburger/java",
-                "src/AppFrameworkTabbed/java"
-        ]
-
-        additionalSourceDirs = files(coverageSourceDirs)
-        sourceDirectories = files(coverageSourceDirs)
-        executionData = files('build/jacoco/testDebugUnitTest.exec')
-
-        reports {
-            xml.enabled = true
-            html.enabled = true
-        }
     }
 }
