@@ -39,11 +39,11 @@ public class GenericAppliance extends Appliance {
         return "";
     }
 
-    public Set<PropertyPort> getPropertyPorts() {
-        Set<PropertyPort> propPorts = new CopyOnWriteArraySet<>();
+    public Set<SupportedPort> getPropertyPorts() {
+        Set<SupportedPort> propPorts = new CopyOnWriteArraySet<>();
         for (DICommPort port : getAllPorts()) {
-            if (port instanceof PropertyPort) {
-                propPorts.add((PropertyPort) port);
+            if (port instanceof SupportedPort) {
+                propPorts.add((SupportedPort) port);
             }
         }
         return propPorts;

@@ -52,7 +52,7 @@ public class PortDetailFragment extends DiCommTestAppFragment<Property> {
     public void onResume() {
         super.onResume();
 
-        PropertyPort currentPort = getMainActivity().getPort();
+        PropertyPort currentPort = (PropertyPort) getMainActivity().getPort();
         currentPort.addPortListener(portListener);
         currentPort.reloadProperties();
 
@@ -68,7 +68,7 @@ public class PortDetailFragment extends DiCommTestAppFragment<Property> {
     public void onPause() {
         super.onPause();
 
-        PropertyPort currentPort = getMainActivity().getPort();
+        PropertyPort currentPort = (PropertyPort) getMainActivity().getPort();
         currentPort.removePortListener(portListener);
     }
 

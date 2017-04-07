@@ -6,15 +6,13 @@ package com.philips.cdp2.commlibexplorer.appliance;
 
 import android.util.Log;
 
-import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlibexplorer.appliance.property.PortSpecification;
 import com.philips.cdp2.commlibexplorer.appliance.property.Property;
 
 import java.util.Map;
 
-public class PropertyPort extends DICommPort
-{
+public class PropertyPort extends SupportedPort {
     private static final String TAG = "PropertyPort";
     private PortSpecification portSpec;
     private String errorText;
@@ -66,10 +64,12 @@ public class PropertyPort extends DICommPort
         return portSpec.supportsSubscription();
     }
 
+    @Override
     public String getPortName() {
         return getDICommPortName();
     }
 
+    @Override
     public String getErrorText() {
         if(errorText == null) {
             return "";
@@ -85,6 +85,7 @@ public class PropertyPort extends DICommPort
         return portSpec;
     }
 
+    @Override
     public boolean isEnabled() {
         return isEnabled;
     }
@@ -97,6 +98,7 @@ public class PropertyPort extends DICommPort
         this.statusText = statusText;
     }
 
+    @Override
     public String getStatusText() {
         if(statusText == null) {
             return "";

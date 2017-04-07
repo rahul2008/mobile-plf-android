@@ -23,12 +23,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.philips.cdp2.commlibexplorer.appliance.GenericAppliance;
-import com.philips.cdp2.commlibexplorer.appliance.PropertyPort;
+import com.philips.cdp2.commlibexplorer.appliance.SupportedPort;
 import com.philips.cdp2.commlibexplorer.background.BackgroundConnectionService;
 import com.philips.cdp2.commlibexplorer.fragments.StrategyChoiceFragment;
 
-public class MainActivity extends AppCompatActivity
-{
+public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final int ACCESS_COARSE_LOCATION_REQUEST_CODE = 0x1;
     private Runnable permissionCallback;
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             Log.d(TAG, "onServiceConnected: service connected to main activity");
-            MainActivity.this.service = ((BackgroundConnectionService.BackgroundBinder)service).getService();
+            MainActivity.this.service = ((BackgroundConnectionService.BackgroundBinder) service).getService();
         }
 
         @Override
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity
     private BackgroundConnectionService service;
     private boolean isBound;
     private GenericAppliance currentAppliance = null;
-    private PropertyPort currentPort = null;
+    private SupportedPort currentPort = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +77,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void doUnbindService() {
-        if(isBound) {
+        if (isBound) {
             Log.d(TAG, "doUnbindService");
             unbindService(mConnection);
             isBound = false;
@@ -103,8 +102,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
-        switch (requestCode)
-        {
+        switch (requestCode) {
             case ACCESS_COARSE_LOCATION_REQUEST_CODE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     new Handler().post(this.permissionCallback);
@@ -118,8 +116,7 @@ public class MainActivity extends AppCompatActivity
     public void acquirePermission(@NonNull Runnable permissionCallback) {
         this.permissionCallback = permissionCallback;
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                     ACCESS_COARSE_LOCATION_REQUEST_CODE);
         }
@@ -128,7 +125,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         int stackSize = getSupportFragmentManager().getBackStackEntryCount();
-        if(stackSize > 1) {
+        if (stackSize > 1) {
             super.onBackPressed();
             return;
         }
@@ -151,11 +148,11 @@ public class MainActivity extends AppCompatActivity
         return currentAppliance;
     }
 
-    public void storePort(PropertyPort port) {
+    public void storePort(SupportedPort port) {
         currentPort = port;
     }
 
-    public PropertyPort getPort() {
+    public SupportedPort getPort() {
         return currentPort;
     }
 }

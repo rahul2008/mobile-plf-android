@@ -4,45 +4,14 @@
  */
 package com.philips.cdp2.commlibexplorer.presenters;
 
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.philips.cdp2.commlibexplorer.R;
 import com.philips.cdp2.commlibexplorer.appliance.property.Property;
 
-import nl.rwslinkman.presentable.Presenter;
-
-public class PortDetailPresenter implements Presenter<Property, PortDetailPresenter.ViewHolder> {
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent) {
-        // Inflate your custom XML layout representing a list item in the RecyclerView
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_port_property, parent, false);
-
-        ViewHolder vh = new ViewHolder(v);
-        vh.titleView = (TextView) v.findViewById(R.id.item_port_property_title);
-        vh.subtitleView = (TextView) v.findViewById(R.id.item_port_property_subtitle);
-
-        return vh;
-    }
+public class PortDetailPresenter extends TwoLinePresenter<Property> {
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, Property item) {
+    public void onBindViewHolder(TwoLinePresenter.ViewHolder viewHolder, Property item) {
         String title = String.format("%s (%s)", item.getName(), item.getType().name().toLowerCase());
         viewHolder.titleView.setText(title);
         viewHolder.subtitleView.setText(item.getValueText());
-    }
-
-    class ViewHolder extends RecyclerView.ViewHolder {
-
-        TextView titleView;
-        TextView subtitleView;
-
-        ViewHolder(View itemView) {
-            super(itemView);
-        }
     }
 }
