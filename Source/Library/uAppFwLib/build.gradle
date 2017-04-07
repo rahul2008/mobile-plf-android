@@ -3,6 +3,7 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
+apply plugin: 'jacoco-everywhere'
 
 def coverageSourceDirs = [
         '../uAppFwLib/src/main/java'
@@ -21,6 +22,7 @@ buildscript {
     }
 
     dependencies {
+        classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
         classpath 'com.android.tools.build:gradle:2.1.2'
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12"
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.0', changing: true
@@ -93,11 +95,11 @@ task zipDocuments(type: Zip) {
 
 task tgzTask(type: Tar) {
     classifier = 'src'
-    from projectDir    
-	include '**/*'
-	exclude ('build')
-	extension = 'tgz'
-	compression = Compression.GZIP
+    from projectDir
+    include '**/*'
+    exclude ('build')
+    extension = 'tgz'
+    compression = Compression.GZIP
 }
 
 publishing {
@@ -117,8 +119,8 @@ publishing {
                 artifact("$buildDir/outputs/aar/${archivesBaseName}-debug.aar")
             } else {
             } */
-			
-			artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
+
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
@@ -144,11 +146,18 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName objcdp.getVersionWithHash()
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            debuggable true
+            testCoverageEnabled true
         }
     }
 }
