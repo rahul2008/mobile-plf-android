@@ -111,9 +111,6 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
     }
 
     private void dismissConsentDialog(){
-        /*if(dialog!=null && dialog.isShowing()){
-            dialog.dismiss();
-        }*/
         getFragmentManager().popBackStack();
         getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
@@ -139,13 +136,6 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
     public void onStart() {
         super.onStart();
         mDataServicesManager.registerDBChangeListener(this);
-       /* Dialog dialog = getDialog();
-        dialog.setTitle(R.string.consent);
-        if (dialog != null) {
-            int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
-            dialog.getWindow().setLayout(width, height);
-        }*/
     }
 
     private void showProgressDialog() {

@@ -101,13 +101,6 @@ public class CharacteristicsDialogFragment extends Fragment implements View.OnCl
     public void onStart() {
         super.onStart();
         DataServicesManager.getInstance().registerDBChangeListener(this);
-      /*  Dialog dialog = getDialog();
-        dialog.setTitle(getString(R.string.characteristics));
-        if (dialog != null) {
-            int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
-            dialog.getWindow().setLayout(width, height);
-        }*/
     }
 
     @Override
@@ -124,12 +117,10 @@ public class CharacteristicsDialogFragment extends Fragment implements View.OnCl
                 } else {
                     Toast.makeText(mContext, "Please enter valid input", Toast.LENGTH_SHORT).show();
                 }
-                //getDialog().dismiss();
                 getFragmentManager().popBackStack();
                 getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                 break;
             case R.id.btnCancel:
-               // getDialog().dismiss();
                 getFragmentManager().popBackStack();
                 getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                 break;

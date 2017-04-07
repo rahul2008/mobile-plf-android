@@ -189,8 +189,6 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     @Override
     public void onDestroy() {
         super.onDestroy();
-        // EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT, this);
-        //mDataServicesManager.releaseDataServicesInstances();
     }
 
     @Override
@@ -312,8 +310,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
                 if (mSharedPreferences.getBoolean("isSynced", false)) {
                     dismissProgressDialog();
                 }
-                //dismissProgressDialog();
-               // Toast.makeText(getActivity(), "Exception :" + exception.getMessage(), Toast.LENGTH_LONG).show();
+
             }
         });
     }
