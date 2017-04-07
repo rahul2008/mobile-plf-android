@@ -82,6 +82,7 @@
             <enum name="Primary" value="0"/>
             <enum name="AltPrimary" value="1"/>
             <enum name="Secondary" value="2"/>
+            <enum name="Accent" value="3"/>
         </attr>
     </declare-styleable>
 </resources>

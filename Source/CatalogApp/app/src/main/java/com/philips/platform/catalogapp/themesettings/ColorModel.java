@@ -59,4 +59,16 @@ public class ColorModel {
     public int getBackgroundColor() {
         return backgroundColor;
     }
+
+    @Override
+    public String toString() {
+        return "ColorModel{" +
+                "startColor=" + startColor +
+                ", endColor=" + endColor +
+                ", title='" + title + '\'' +
+                ", name='" + name + '\'' +
+                ", contentColor=" + contentColor +
+                ", backgroundColor=" + backgroundColor +
+                '}';
+    }
 }

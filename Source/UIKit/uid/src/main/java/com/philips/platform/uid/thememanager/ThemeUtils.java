@@ -56,6 +56,8 @@ public final class ThemeUtils {
             resourceId = R.style.UIDPrimaryControl_AlternatePrimary;
         } else if (resourceId == 2) {
             resourceId = R.style.UIDPrimaryControl_Secondary;
+        } else if (resourceId == 3) {
+            resourceId = R.style.UIDPrimaryControl_Accent;
         }
 
         return resourceId;

@@ -16,13 +16,12 @@ public class ThemeConfiguration {
     private List<ThemeConfig> configurations;
     private Context context;
 
-    public ThemeConfiguration(@NonNull final ThemeConfig colorRange, @NonNull final ThemeConfig contentColor,
-                              final ThemeConfig navigationColor, @NonNull final Context context) {
+    public ThemeConfiguration(@NonNull final Context context, @NonNull final ThemeConfig... themeConfigs) {
         configurations = new ArrayList<>();
-        configurations.add(colorRange);
-        configurations.add(contentColor);
-        configurations.add(navigationColor);
         this.context = context;
+        for (ThemeConfig themeConfig : themeConfigs) {
+            configurations.add(themeConfig);
+        }
     }
 
     public void add(ThemeConfig config) {

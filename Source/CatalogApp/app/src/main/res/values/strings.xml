@@ -13,6 +13,7 @@
     <string name="individual_buttons_label">Individual Buttons</string>
     <string name="alternate_primary_label">Alternate Primary Button</string>
     <string name="secondary_button_label">Secondary Button</string>
+    <string name="accent_button_label">Accent Button</string>
 
     <!--Buttons layout page-->
     <string name="with_icon">With icon</string>
@@ -183,6 +184,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="page_title_accent">Accent</string>
 
 
 </resources>

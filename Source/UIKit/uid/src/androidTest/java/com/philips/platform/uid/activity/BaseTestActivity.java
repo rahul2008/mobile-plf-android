@@ -49,7 +49,7 @@ public class BaseTestActivity extends AppCompatActivity implements DelayerCallba
     }
 
     private ThemeConfiguration getThemeConfig(final int navigationColor, final int contentColor) {
-        return new ThemeConfiguration(ColorRange.GROUP_BLUE, ContentColor.values()[contentColor], NavigationColor.values()[navigationColor], this);
+        return new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.values()[contentColor], NavigationColor.values()[navigationColor]);
     }
 
     public void switchTo(final int layout) {

@@ -66,7 +66,7 @@ public class PreviewActivity extends AppCompatActivity {
         colorRange = themeHelper.initColorRange();
         contentColor = themeHelper.initContentTonalRange();
         navigationColor = themeHelper.initNavigationRange();
-        return new ThemeConfiguration(colorRange, contentColor, navigationColor, this);
+        return new ThemeConfiguration(this, colorRange, contentColor, navigationColor);
     }
 
     public void cancelOrPreviewClicked() {

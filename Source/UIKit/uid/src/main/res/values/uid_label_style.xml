@@ -8,7 +8,7 @@
     </style>
 
     <style name="UIDLabel.MarginTop">
-        <item name="android:layout_marginBottom">@dimen/uid_label_margin_bottom</item>
+        <item name="android:layout_marginTop">@dimen/uid_label_margin_bottom</item>
     </style>
 
     <style name="UIDLabel.MarginEnd">

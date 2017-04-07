@@ -23,16 +23,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.philips.platform.catalogapp.events.AccentColorChangedEvent;
 import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
 import com.philips.platform.catalogapp.events.NavigationColorChangedEvent;
 import com.philips.platform.catalogapp.events.OptionMenuClickedEvent;
-import com.philips.platform.catalogapp.events.TonalRangeChangedEvent;
+import com.philips.platform.catalogapp.events.ContentTonalRangeChangedEvent;
 import com.philips.platform.catalogapp.themesettings.ThemeHelper;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
-import com.philips.platform.uid.thememanager.ThemeConfig;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private NavigationController navigationController;
     private ViewDataBinding activityMainBinding;
     private SharedPreferences defaultSharedPreferences;
+    private AccentRange accentColorRange;
 
     @StyleRes
     static int getColorResourceId(final Resources resources, final String colorRange, final String tonalRange, final String packageName) {
@@ -102,14 +103,15 @@ public class MainActivity extends AppCompatActivity {
     private void initTheme() {
         final ThemeConfiguration themeConfig = getThemeConfig();
         final int themeResourceId = getThemeResourceId(themeConfig.getContext().getResources(), themeConfig.getContext().getPackageName(),
-                getColorRange(themeConfig), getContentColor(themeConfig));
-        themeConfig.getContext().setTheme(themeResourceId);
-        themeConfig.add(AccentRange.GRAY);
+                colorRange, contentColor);
+        themeConfig.add(navigationColor);
+        themeConfig.add(accentColorRange);
+        setTheme(themeResourceId);
         UIDHelper.init(themeConfig);
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void onMessage(TonalRangeChangedEvent event) {
+    public void onMessage(ContentTonalRangeChangedEvent event) {
         contentColor = event.getContentColor();
     }
 
@@ -121,6 +123,11 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onMessage(NavigationColorChangedEvent event) {
         navigationColor = event.getNavigationColor();
+    }
+
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void onMessage(AccentColorChangedEvent event) {
+        accentColorRange = event.getAccentRange();
     }
 
     @Override
@@ -191,7 +198,8 @@ public class MainActivity extends AppCompatActivity {
         colorRange = themeHelper.initColorRange();
         navigationColor = themeHelper.initNavigationRange();
         contentColor = themeHelper.initContentTonalRange();
-        return new ThemeConfiguration(contentColor, navigationColor, colorRange, this);
+        accentColorRange = themeHelper.initAccentRange();
+        return new ThemeConfiguration(this, colorRange, navigationColor, contentColor, accentColorRange);
     }
 
     @SuppressLint("CommitPrefEdits")
@@ -215,6 +223,7 @@ public class MainActivity extends AppCompatActivity {
         saveThemeValues(UIDHelper.COLOR_RANGE, colorRange.name());
         saveThemeValues(UIDHelper.NAVIGATION_RANGE, navigationColor.name());
         saveThemeValues(UIDHelper.CONTENT_TONAL_RANGE, contentColor.name());
+        saveThemeValues(UIDHelper.ACCENT_RANGE, accentColorRange.name());
     }
 
     @Override
@@ -236,21 +245,5 @@ public class MainActivity extends AppCompatActivity {
     @VisibleForTesting
     public void setContentColor(final ContentColor contentColor) {
         this.contentColor = contentColor;
-    }
-
-    public ColorRange getColorRange(final ThemeConfiguration themeConfig) {
-        for (ThemeConfig config : themeConfig.getConfigurations()) {
-            if (config instanceof ColorRange)
-                return (ColorRange) config;
-        }
-        return ColorRange.GROUP_BLUE;
-    }
-
-    public ContentColor getContentColor(final ThemeConfiguration themeConfig) {
-        for (ThemeConfig config : themeConfig.getConfigurations()) {
-            if (config instanceof ContentColor)
-                return (ContentColor) config;
-        }
-        return ContentColor.ULTRA_LIGHT;
     }
 }

@@ -25,4 +25,19 @@
         </item>
         <item name="uidButtonPrimaryNormalTextColor">?attr/uidButtonSecondaryNormalTextColor</item>
     </style>
+
+    <style name="UIDPrimaryControl.Accent">
+        <item name="uidButtonPrimaryNormalBackgroundColor">
+            ?attr/uidButtonAccentNormalBackgroundColor
+        </item>
+        <item name="uidButtonPrimaryPressedBackgroundColor">
+            ?attr/uidButtonAccentPressedBackgroundColor
+        </item>
+        <item name="uidButtonPrimaryDisabledBackgroundColor">
+            ?attr/uidButtonAccentDisabledBackgroundColor
+        </item>
+        <item name="uidButtonPrimaryDisabledTextColor">?attr/uidButtonAccentDisabledTextColor
+        </item>
+        <item name="uidButtonPrimaryNormalTextColor">?attr/uidButtonAccentNormalTextColor</item>
+    </style>
 </resources>

@@ -24,6 +24,7 @@ public class UIDHelper {
     public static final String CONTENT_TONAL_RANGE = "CONTENT_TONAL_RANGE";
     public static final String COLOR_RANGE = "COLOR_RANGE";
     public static final String NAVIGATION_RANGE = "NAVIGATION_RANGE";
+    public static final String ACCENT_RANGE = "ACCENT_RANGE";
 
     public static void injectCalligraphyFonts() {
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()

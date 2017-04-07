@@ -100,15 +100,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="@string/accent_color_range_text"
-                android:visibility="gone"/>
+                android:text="@string/accent_color_range_text"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/accentColorRangeList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:visibility="gone"/>
+                android:layout_marginTop="12dp"/>
 
 
         </LinearLayout>
