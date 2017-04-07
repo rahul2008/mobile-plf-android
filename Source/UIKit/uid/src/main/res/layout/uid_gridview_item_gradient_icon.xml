@@ -21,7 +21,7 @@
             android:layout_height="@dimen/uid_grid_single_line_text_height"
             android:layout_gravity="center|end">
 
-            <ImageButton
+            <com.philips.platform.uid.view.widget.ImageButton
                 android:id="@id/uid_gridview_icon"
                 style="@style/UIDGridViewImageButton"/>
         </FrameLayout>

@@ -10,10 +10,12 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.StyleRes;
 import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -57,7 +59,9 @@ public class MainActivity extends AppCompatActivity {
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         themeHelper = new ThemeHelper(defaultSharedPreferences);
 
-        UIDHelper.init(getThemeConfig());
+        ThemeConfiguration config = getThemeConfig();
+        setTheme(getThemeResourceId());
+        UIDHelper.init(config);
         if (BuildConfig.DEBUG) {
             Log.d(MainActivity.class.getName(), String.format("Theme config Tonal Range :%s, Color Range :%s , Navigation Color : %s",
                     contentColor, colorRange, navigationColor));
@@ -152,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
         colorRange = themeHelper.initColorRange();
         navigationColor = themeHelper.initNavigationRange();
         contentColor = themeHelper.initContentTonalRange();
-        return new ThemeConfiguration(colorRange, contentColor, navigationColor, this);
+        return new ThemeConfiguration(contentColor, navigationColor, this);
     }
 
     @SuppressLint("CommitPrefEdits")
@@ -197,5 +201,33 @@ public class MainActivity extends AppCompatActivity {
     @VisibleForTesting
     public void setContentColor(final ContentColor contentColor) {
         this.contentColor = contentColor;
+    }
+
+    @StyleRes
+    static int getColorResourceId(final Resources resources, final String colorRange, final String tonalRange, final String packageName) {
+        final String themeName = String.format("Theme.DLS.%s.%s", toCamelCase(colorRange), toCamelCase(tonalRange));
+
+        return resources.getIdentifier(themeName, "style", packageName);
+    }
+
+    static String toCamelCase(String s) {
+        String[] parts = s.split("_");
+        String camelCaseString = "";
+        for (String part : parts) {
+            camelCaseString = camelCaseString + toProperCase(part);
+        }
+        return camelCaseString;
+    }
+
+    static String toProperCase(String s) {
+        return s.substring(0, 1).toUpperCase() +
+                s.substring(1).toLowerCase();
+    }
+
+    private
+    @StyleRes
+    int getThemeResourceId() {
+        int colorResourceId = getColorResourceId(getResources(), colorRange.name(), contentColor.name(), getPackageName());
+        return colorResourceId;
     }
 }

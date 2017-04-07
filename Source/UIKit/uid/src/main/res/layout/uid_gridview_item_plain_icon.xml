@@ -17,7 +17,7 @@
         android:layout_gravity="top"
         >
 
-        <ImageButton
+        <com.philips.platform.uid.view.widget.ImageButton
             style="@style/UIDGridViewImageButton"
             android:id="@id/uid_gridview_icon"/>
     </FrameLayout>
