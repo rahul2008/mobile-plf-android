@@ -426,7 +426,7 @@ public class User {
             try{
                 diUserProfile.setMobile(captureRecord.getString(USER_MOBILE));
             }catch (Exception ignored){
-                
+
             }
 
             String gender = captureRecord.getString(UpdateGender.USER_GENDER);
@@ -443,7 +443,7 @@ public class User {
                 DateFormat formatter = new SimpleDateFormat(UpdateDateOfBirth.DATE_FORMAT_FOR_DOB, Locale.ROOT);
                 Date date = formatter.parse(dob);
                 diUserProfile.setDateOfBirth(date);
-              }
+            }
         } catch (JSONException e) {
             Log.e(LOG_TAG, "On getUserInstance,Caught JSON Exception : " +e);
         } catch (ParseException e) {
@@ -506,28 +506,29 @@ public class User {
         }
         if (RegistrationConfiguration.getInstance().getRegistrationClientId(RegUtility.
                 getConfiguration(
-                RegistrationConfiguration.getInstance().getRegistrationEnvironment())) != null) {
+                        RegistrationConfiguration.getInstance().getRegistrationEnvironment())) != null) {
             signedIn = signedIn && capturedRecord.getAccessToken() != null;
         }
 
         if (isAcceptTerms) {
-            boolean isTermAccepted = false;
-
-            String mobileNo = getMobile();
-
-            String email  = getEmail();
-
-            if(FieldsValidator.isValidMobileNumber(mobileNo)){
-                isTermAccepted = RegPreferenceUtility.getStoredState(mContext, mobileNo);
-            }else if(FieldsValidator.isValidEmail(email)){
-                isTermAccepted = RegPreferenceUtility.getStoredState(mContext, email);
-            }
-            if (!isTermAccepted) {
+            if (!isTermsAndConditionAccepted()) {
                 signedIn = false;
                 clearData();
             }
         }
         return signedIn;
+    }
+
+    public boolean isTermsAndConditionAccepted(){
+        boolean isTermAccepted = false;
+        String mobileNo = getMobile();
+        String email  = getEmail();
+        if(FieldsValidator.isValidMobileNumber(mobileNo)){
+            isTermAccepted = RegPreferenceUtility.getStoredState(mContext, mobileNo);
+        }else if(FieldsValidator.isValidEmail(email)){
+            isTermAccepted = RegPreferenceUtility.getStoredState(mContext, email);
+        }
+        return isTermAccepted;
     }
 
     // check merge flow error for capture

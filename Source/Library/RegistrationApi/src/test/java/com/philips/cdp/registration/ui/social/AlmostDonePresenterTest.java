@@ -47,7 +47,8 @@ public class AlmostDonePresenterTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         URInterface.setComponent(mockRegistrationComponent);
-        presenter = new AlmostDonePresenter(mockContract);
+        presenter = new AlmostDonePresenter(mockContract,mockUser);
+
     }
 
     @After
@@ -79,10 +80,36 @@ public class AlmostDonePresenterTest {
     }*/
 
     @Test
-    public void testUpdateTermsAndReceiveMarketingOpt(){
-        when(presenter.isTermsAndConditionAccepted()).thenReturn(true);
+    public void testUpdateTermsAndReceiveMarketingOpt_true(){
+        when(mockUser.isTermsAndConditionAccepted()).thenReturn(true);
+        when(mockUser.getReceiveMarketingEmail()).thenReturn(true);
         presenter.updateTermsAndReceiveMarketingOpt();
+        verify(mockContract).hideMarketingOptCheck();
         verify(mockContract).updateTermsAndConditionView();
-        verify(mockContract).hideAcceptTermsView();
     }
+
+    @Test
+    public void testUpdateTermsAndReceiveMarketingOpt_false(){
+        when(mockUser.isTermsAndConditionAccepted()).thenReturn(false);
+        when(mockUser.getReceiveMarketingEmail()).thenReturn(true);
+        presenter.updateTermsAndReceiveMarketingOpt();
+        verify(mockContract).updateReceiveMarktingView();
+    }
+
+    @Test
+    public void testReceiveMarketingOpt_false(){
+        when(mockUser.isTermsAndConditionAccepted()).thenReturn(true);
+        when(mockUser.getReceiveMarketingEmail()).thenReturn(false);
+        presenter.updateTermsAndReceiveMarketingOpt();
+        verify(mockContract).showMarketingOptCheck();
+    }
+
+    @Test
+    public void testUpdateReceivingMarketingEmail(){
+        when(mockUser.updateReceiveMarketingEmail().thenReturn(true);
+        when(mockUser.getReceiveMarketingEmail()).thenReturn(false);
+        presenter.updateTermsAndReceiveMarketingOpt();
+        verify(mockContract).showMarketingOptCheck();
+    }
+
 }

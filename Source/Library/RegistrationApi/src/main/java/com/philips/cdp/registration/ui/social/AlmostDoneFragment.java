@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.B;
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -45,6 +46,8 @@ import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.URInterface;
+
+import javax.inject.Inject;
 
 import butterfork.Bind;
 import butterfork.ButterFork;
@@ -113,6 +116,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     @Bind(B.id.reg_recieve_email_line)
     View receivePhilipsNewsLineView;
 
+    @Inject
+    User mUser;
+
     private AlmostDonePresenter almostDonePresenter;
 
     private Context mContext;
@@ -136,7 +142,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         URInterface.getComponent().inject(this);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onCreateView");
         mBundle = getArguments();
-        almostDonePresenter = new AlmostDonePresenter(this);
+        mContext = getRegistrationFragment().getActivity().getApplicationContext();
+        almostDonePresenter = new AlmostDonePresenter(this,mUser);
         RLog.i(RLog.EVENT_LISTENERS,
                 "AlmostDoneFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
         View view = inflater.inflate(R.layout.reg_fragment_social_almost_done, container, false);
@@ -271,7 +278,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     private void initUI(View view) {
         consumeTouch(view);
-        mContext = getRegistrationFragment().getActivity().getApplicationContext();
         marketingOptCheck.setPadding(RegUtility.getCheckBoxPadding(mContext), marketingOptCheck.getPaddingTop(),
                 marketingOptCheck.getPaddingRight(), marketingOptCheck.getPaddingBottom());
         RegUtility.linkifyTermsandCondition(acceptTermsView, getRegistrationFragment().getParentActivity(), mTermsAndConditionClick);

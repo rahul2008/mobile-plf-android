@@ -32,7 +32,7 @@ import javax.inject.Inject;
 
 import static com.philips.cdp.registration.ui.traditional.LogoutFragment.BAD_RESPONSE_ERROR_CODE;
 
-public class AlmostDonePresenter implements NetworStateListener,EventListener,SocialProviderLoginHandler,UpdateUserDetailsHandler {
+public class AlmostDonePresenter implements NetworStateListener,SocialProviderLoginHandler,UpdateUserDetailsHandler {
 
 
     @Inject
@@ -67,25 +67,22 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
 
     private boolean isOnline;
 
-    public AlmostDonePresenter(AlmostDoneContract almostDoneContract) {
+    public AlmostDonePresenter(AlmostDoneContract almostDoneContract, User user) {
         URInterface.getComponent().inject(this);
+        this.mUser = user;
         this.almostDoneContract = almostDoneContract;
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
-        EventHelper.getInstance().registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
     }
 
 
    public void cleanUp(){
        RegistrationHelper.getInstance().unRegisterNetworkListener(this);
-       EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
-               this);
    }
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
         this.isOnline = isOnline;
         updateUIControls();
-
     }
 
     public void updateUIControls() {
@@ -104,13 +101,6 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
         }
     }
 
-    @Override
-    public void onEventReceived(String event) {
-        if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
-            updateUIControls();
-        }
-    }
-
     public void handleAcceptTermsAndReceiveMarketingOpt(){
         if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
             if (isEmailExist && almostDoneContract.getPreferenceStoredState((mEmail))){
@@ -125,14 +115,14 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
     }
 
     public void updateTermsAndReceiveMarketingOpt() {
-        if(isTermsAndConditionAccepted()){
-            if(!isReceiveMarketingEmailOpt()){
+        if (mUser.isTermsAndConditionAccepted()) {
+            if (!mUser.getReceiveMarketingEmail()) {
                 almostDoneContract.showMarketingOptCheck();
-            }else{
+            } else {
                 almostDoneContract.hideMarketingOptCheck();
             }
             almostDoneContract.updateTermsAndConditionView();
-        }else if(mUser.getReceiveMarketingEmail()){
+        } else if (mUser.getReceiveMarketingEmail()) {
             almostDoneContract.updateReceiveMarktingView();
         }
     }
@@ -399,7 +389,6 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
                 mUser.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName, mEmail, true,
                         isReMarketingOptCheck, this, mRegistrationToken);
             } else {
-
                 mUser.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName,
                         email, true, isReMarketingOptCheck, this, mRegistrationToken);
             }
@@ -418,28 +407,12 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
         }
     }
 
-    public boolean isTermsAndConditionAccepted(){
-        boolean isTermAccepted = false;
-        String mobileNo = mUser.getMobile();
-        String email  = mUser.getEmail();
-        if(FieldsValidator.isValidMobileNumber(mobileNo)){
-            isTermAccepted = almostDoneContract.getPreferenceStoredState(mobileNo);
-        }else if(FieldsValidator.isValidEmail(email)){
-            isTermAccepted = almostDoneContract.getPreferenceStoredState(email);
-        }
-        return isTermAccepted;
-    }
-
     public boolean isValidEmail(){
         return FieldsValidator.isValidEmail(mEmail);
     }
 
     public boolean isEmailVerificationStatus(){
         return mUser.getEmailVerificationStatus();
-    }
-
-    public boolean isReceiveMarketingEmailOpt(){
-        return mUser.getReceiveMarketingEmail();
     }
 
     public void handleClearUserData(){
