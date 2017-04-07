@@ -23,6 +23,8 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.tagging.AppTagging;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import org.json.JSONObject;
 
@@ -62,6 +64,10 @@ public class LanguagePackManager implements LanguagePackInterface {
      */
     @Override
 	public void refresh(final OnRefreshListener aILPRefreshResult) {
+	   AppTaggingInterface appTagging = mAppInfra.getTagging().createInstanceForComponent("Language Pack " ,"Lang");
+	    appTagging.trackActionWithInfo("language pack " , "locale" , "en_IN");
+
+	    appTagging.trackVideoEnd("Video Lang Pack");
 
 		AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
 		AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();

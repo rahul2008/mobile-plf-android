@@ -6,21 +6,25 @@
 package com.philips.platform.appinfra.demo;
 
 import android.app.Application;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.StrictMode;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.crittercism.app.Crittercism;
 import com.crittercism.app.CrittercismConfig;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.tagging.AppTagging;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.appinfra.tagging.ApplicationLifeCycleHandler;
 import com.squareup.leakcanary.LeakCanary;
 
-import java.net.URL;
+import java.util.Map;
 
 /**
  * Created by deepakpanigrahi on 5/18/16.
@@ -69,9 +73,30 @@ public class AppInfraApplication extends Application {
         gAppInfra.getTime().refreshTime();
         mAppInfra = (AppInfra)gAppInfra;
         mAIAppTaggingInterface = gAppInfra.getTagging().createInstanceForComponent("Component name", "Component ID");
+        mAIAppTaggingInterface.registerReceiver(rec);
+        mAIAppTaggingInterface.trackVideoEnd("track - demo APP");
         mAIAppTaggingInterface.setPreviousPage("SomePreviousPage");
         ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler(mAppInfra);
         registerActivityLifecycleCallbacks(handler);
         registerComponentCallbacks(handler);
+    }
+
+
+    private BroadcastReceiver rec = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d("AppInfra APP", "BroadcastReceiver() {...}.onReceive()");
+            Map textExtra = (Map) intent.getSerializableExtra(AppTagging.DATA_EXTRA);
+            Crittercism.leaveBreadcrumb(textExtra.toString());
+            Toast.makeText(getApplicationContext(),
+                    textExtra.toString(), Toast.LENGTH_LONG).show();
+        }
+    };
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        mAIAppTaggingInterface.unregisterReceiver(rec);
     }
 }

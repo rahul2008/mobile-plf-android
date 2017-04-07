@@ -6,7 +6,10 @@
 package com.philips.platform.appinfra.tagging;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.util.Log;
 
 import com.adobe.mobile.Analytics;
@@ -24,6 +27,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,6 +35,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
+import android.support.v4.content.LocalBroadcastManager;
+
 
 public class AppTagging implements AppTaggingInterface {
 
@@ -40,11 +46,14 @@ public class AppTagging implements AppTaggingInterface {
 	private final AppInfra mAppInfra;
 	protected String mComponentID;
 	protected String mComponentVersion;
-	private AppTaggingInterface.RegisterListener registerListener;
+	//private  AppTaggingInterface.RegisterListener registerListener = null;
 
 	private Locale mLocale;
 	private final static String AIL_PRIVACY_CONSENT = "ailPrivacyConsentForSensitiveData";
-
+	private  final static String PAGE_NAME = "ailPageName";
+	private final static String ACTION_NAME = "ailActionName";
+	private static final String DATA_SENT_ACTION = "ACTION_SEND";
+	public static final String DATA_EXTRA = "TAGGING_DATA";
 
 	public AppTagging(AppInfra aAppInfra) {
 		mAppInfra = aAppInfra;
@@ -53,9 +62,6 @@ public class AppTagging implements AppTaggingInterface {
 		// At any call after the constructor, appInfra can be presumed to be complete.
 	}
 
-	public void setRegisterListener(RegisterListener listener) {
-		registerListener = listener;
-	}
 
     /*
     * Checks for SSL connection value from Adobe json
@@ -63,9 +69,7 @@ public class AppTagging implements AppTaggingInterface {
 
 	private boolean checkForSslConnection() {
 		boolean sslValue = false;
-
 		JSONObject jSONObject = getMasterADBMobileConfig();
-
 		try {
 			if (jSONObject != null) {
 				sslValue = jSONObject.getJSONObject("analytics").optBoolean("ssl");
@@ -305,10 +309,14 @@ public class AppTagging implements AppTaggingInterface {
 		}
 		if (isTrackPage) {
 			Analytics.trackState(pageName, contextData);
+			contextData.put(PAGE_NAME ,pageName);
 			prevPage = pageName;
 		} else {
 			Analytics.trackAction(pageName, contextData);
+			contextData.put(ACTION_NAME ,pageName);
 		}
+		sendBroadcast(contextData);
+
 	}
 
 	@Override
@@ -391,13 +399,11 @@ public class AppTagging implements AppTaggingInterface {
 	@Override
 	public void trackVideoStart(String videoName) {
 		trackActionWithInfo("videoStart", "videoName", videoName);
-		registerListener.sendEvent(videoName);
 	}
 
 	@Override
 	public void trackVideoEnd(String videoName) {
 		trackActionWithInfo("videoEnd", "videoName", videoName);
-		registerListener.sendEvent(videoName);
 	}
 
 	@Override
@@ -417,5 +423,23 @@ public class AppTagging implements AppTaggingInterface {
 	public void trackFileDownload(String filename) {
 		trackActionWithInfo("sendData", "fileName", filename);
 	}
+
+	public void sendBroadcast(Map data) {
+		Intent intent = new Intent(DATA_SENT_ACTION);
+		intent.putExtra(DATA_EXTRA, (Serializable) data);
+		LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext()).sendBroadcast(intent);
+	}
+
+	@Override
+	public void unregisterReceiver(BroadcastReceiver receiver) {
+		 LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
+				 .unregisterReceiver(receiver);
+	 }
+
+	@Override
+	public void registerReceiver(BroadcastReceiver receiver) {
+		 LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext()).registerReceiver(receiver,
+				 new IntentFilter(DATA_SENT_ACTION));
+	 }
 
 }

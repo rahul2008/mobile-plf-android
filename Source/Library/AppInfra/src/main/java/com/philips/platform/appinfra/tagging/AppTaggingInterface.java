@@ -6,6 +6,7 @@
 package com.philips.platform.appinfra.tagging;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 
 import java.util.Map;
 
@@ -37,10 +38,6 @@ public interface AppTaggingInterface {
 		public String toString() {
 			return this.socialMedium;
 		}
-	}
-
-	interface RegisterListener {
-		void sendEvent(String data);
 	}
 
 	/**
@@ -200,6 +197,10 @@ public interface AppTaggingInterface {
 	 * @note This method can cause a blocking network call and should not be used from a UI thread.
 	 */
 	String getTrackingIdentifier();
+
+	void unregisterReceiver(BroadcastReceiver receiver);
+
+	void registerReceiver(BroadcastReceiver receiver);
 }
 
 

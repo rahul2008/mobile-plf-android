@@ -17,10 +17,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.crittercism.app.Crittercism;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.tagging.AppTagging;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.HashMap;
@@ -29,24 +27,17 @@ import java.util.HashMap;
 /**
  * Created by 310238655 on 4/27/2016.
  */
-public class AIATDemoPage extends AppCompatActivity implements AppTaggingInterface.RegisterListener {
+public class AIATDemoPage extends AppCompatActivity  {
 	EditText key;
 	EditText value;
 
 	AppTaggingInterface.SocialMedium sSocialMedium;
-	AppTaggingInterface.RegisterListener mRegisterListener;
-	private AppInfra mAppInfra;
 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tagging_demo_page);
-		AppInfraInterface gAppInfra = new AppInfra.Builder().build(getApplicationContext());
-		AppInfra appInfra = (AppInfra) gAppInfra;
-
-		final AppTagging tagging = new AppTagging(appInfra);
-		tagging.setRegisterListener(AIATDemoPage.this);
 
 		key = (EditText) findViewById(R.id.tagg_key_field);
 		value = (EditText) findViewById(R.id.tagg_value_filed);
@@ -229,7 +220,6 @@ public class AIATDemoPage extends AppCompatActivity implements AppTaggingInterfa
 				AppInfraApplication.mAIAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.UNKNOWN);
 			}
 		});
-
 	}
 
 	@Override
@@ -242,8 +232,4 @@ public class AIATDemoPage extends AppCompatActivity implements AppTaggingInterfa
 		super.onPause();
 	}
 
-	@Override
-	public void sendEvent(String data) {
-		Crittercism.leaveBreadcrumb(data);
-	}
 }

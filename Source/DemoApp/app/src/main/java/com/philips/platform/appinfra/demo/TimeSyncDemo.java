@@ -37,6 +37,7 @@ public class TimeSyncDemo extends AppCompatActivity {
         mTimeSyncInterface = AppInfraApplication.gAppInfra.getTime();
 
         AppInfraApplication.gAppInfra.getTagging().createInstanceForComponent("TimeSyncComponentID", "TimeSyncComponentVersion");
+        AppInfraApplication.gAppInfra.getTagging().trackVideoStart("Time Synce");
 
         AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("TimeSyncDemo", "TimeSyncDemoKey", "TimeSyncDemoVersion");
 
