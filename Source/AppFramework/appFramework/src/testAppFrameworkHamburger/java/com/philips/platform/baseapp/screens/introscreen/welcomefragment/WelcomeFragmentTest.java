@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.baseapp.screens.introscreen.welcomefragment;
 
 import android.support.v4.view.ViewPager;
@@ -24,9 +29,6 @@ import org.robolectric.shadows.ShadowLooper;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
-/**
- * Created by philips on 3/21/17.
- */
 @RunWith(GradleRunner.class)
 @Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 21)
 public class WelcomeFragmentTest {
