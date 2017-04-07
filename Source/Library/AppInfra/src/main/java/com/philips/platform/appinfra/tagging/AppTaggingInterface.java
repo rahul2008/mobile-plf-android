@@ -198,6 +198,14 @@ public interface AppTaggingInterface {
 	 */
 	String getTrackingIdentifier();
 
+	interface RegisterListener {
+		void sendEvent(Map data);
+	}
+
+	void registerListener(RegisterListener listener);
+
+	void unregisterListener(RegisterListener listener);
+
 	void unregisterReceiver(BroadcastReceiver receiver);
 
 	void registerReceiver(BroadcastReceiver receiver);

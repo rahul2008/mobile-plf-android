@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * Created by deepakpanigrahi on 5/18/16.
  */
-public class AppInfraApplication extends Application {
+public class AppInfraApplication extends Application implements AppTaggingInterface.RegisterListener{
     public static AppTaggingInterface mAIAppTaggingInterface;
     public static AppInfraInterface gAppInfra;
     private AppInfra mAppInfra;
@@ -72,8 +72,11 @@ public class AppInfraApplication extends Application {
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
         gAppInfra.getTime().refreshTime();
         mAppInfra = (AppInfra)gAppInfra;
+
         mAIAppTaggingInterface = gAppInfra.getTagging().createInstanceForComponent("Component name", "Component ID");
-        mAIAppTaggingInterface.registerReceiver(rec);
+        mAIAppTaggingInterface.registerListener(this);
+      //  mAIAppTaggingInterface.registerReceiver(rec);
+        mAIAppTaggingInterface.trackPageWithInfo("Main APP" ,"APP " , "APPINFRA");
         mAIAppTaggingInterface.trackVideoEnd("track - demo APP");
         mAIAppTaggingInterface.setPreviousPage("SomePreviousPage");
         ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler(mAppInfra);
@@ -83,11 +86,12 @@ public class AppInfraApplication extends Application {
 
 
     private BroadcastReceiver rec = new BroadcastReceiver() {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d("AppInfra APP", "BroadcastReceiver() {...}.onReceive()");
             Map textExtra = (Map) intent.getSerializableExtra(AppTagging.DATA_EXTRA);
+            System.out.println("LENGTH"+" "+textExtra.toString().length());
+            System.out.println("DATA"+" "+textExtra.toString());
             Crittercism.leaveBreadcrumb(textExtra.toString());
             Toast.makeText(getApplicationContext(),
                     textExtra.toString(), Toast.LENGTH_LONG).show();
@@ -97,6 +101,12 @@ public class AppInfraApplication extends Application {
     @Override
     public void onTerminate() {
         super.onTerminate();
-        mAIAppTaggingInterface.unregisterReceiver(rec);
+      //  mAIAppTaggingInterface.unregisterReceiver(rec);
+    }
+
+    @Override
+    public void sendEvent(Map data) {
+        Toast.makeText(getApplicationContext(),
+                data.toString(), Toast.LENGTH_LONG).show();
     }
 }

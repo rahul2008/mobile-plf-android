@@ -46,7 +46,7 @@ public class AppTagging implements AppTaggingInterface {
 	private final AppInfra mAppInfra;
 	protected String mComponentID;
 	protected String mComponentVersion;
-	//private  AppTaggingInterface.RegisterListener registerListener = null;
+	private  AppTaggingInterface.RegisterListener registerListener = null;
 
 	private Locale mLocale;
 	private final static String AIL_PRIVACY_CONSENT = "ailPrivacyConsentForSensitiveData";
@@ -174,6 +174,16 @@ public class AppTagging implements AppTaggingInterface {
 	@Override
 	public String getTrackingIdentifier() {
 		return Analytics.getTrackingIdentifier();
+	}
+
+	@Override
+	public void registerListener(RegisterListener listener) {
+		registerListener = listener;
+	}
+
+	@Override
+	public void unregisterListener(RegisterListener listener) {
+		registerListener = null;
 	}
 
 	private String getAppStateFromConfig() {
@@ -315,8 +325,10 @@ public class AppTagging implements AppTaggingInterface {
 			Analytics.trackAction(pageName, contextData);
 			contextData.put(ACTION_NAME ,pageName);
 		}
-		sendBroadcast(contextData);
-
+		//sendBroadcast(contextData);
+        if(registerListener != null) {
+	        registerListener.sendEvent(contextData);
+        }
 	}
 
 	@Override
@@ -434,12 +446,12 @@ public class AppTagging implements AppTaggingInterface {
 	public void unregisterReceiver(BroadcastReceiver receiver) {
 		 LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
 				 .unregisterReceiver(receiver);
-	 }
+	}
 
 	@Override
 	public void registerReceiver(BroadcastReceiver receiver) {
 		 LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext()).registerReceiver(receiver,
 				 new IntentFilter(DATA_SENT_ACTION));
-	 }
+	}
 
 }
