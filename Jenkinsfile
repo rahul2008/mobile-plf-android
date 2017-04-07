@@ -24,25 +24,22 @@ node ('Ubuntu &&' + node_ext) {
 		}
         
 		try {
-		if (BranchName =~ /master|develop|release.*/) {
-			stage ('build') {
-                sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} lint test jacocoTestReport assembleRelease zipDocuments artifactoryPublish'
-			}
-			}
-			else
-			{
-			stage ('build') {
-				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug assembleRelease'
-			}
-			}
+            if (BranchName =~ /master|develop|release.*/) {
+                stage ('build') {
+                    sh 'chmod -R 775 . && cd ./Source/DemoApp && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} lint test jacocoTestReport assembleRelease zipDocuments artifactoryPublish'
+                }
+            } else {
+                stage ('build') {
+                    sh 'chmod -R 775 . && cd ./Source/DemoApp && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug assembleRelease'
+                }
+            }
 			stage ('save dependencies list') {
+            	sh 'chmod -R 775 . && cd ./Source/DemoApp && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
             	sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
             }
             archiveArtifacts '**/dependencies.lock'
             currentBuild.result = 'SUCCESS'
-        }
-
-        catch(err) {
+        } catch(err) {
             currentBuild.result = 'FAILURE'
             error ("Someone just broke the build")
         }
@@ -58,9 +55,7 @@ node ('Ubuntu &&' + node_ext) {
                     currentBuild.result = 'SUCCESS'
             	}            
             }            
-		}
-		
-		catch(err) {
+		} catch(err) {
             currentBuild.result = 'UNSTABLE'
         }
 

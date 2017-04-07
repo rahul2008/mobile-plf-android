@@ -1,6 +1,101 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
+
+buildscript {
+    repositories {
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
+        maven {
+            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "readonly"
+            }
+        }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.0', changing: true
+    }
+}
+
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment )
+archivesBaseName = rootProject.name + "App"
+
+allprojects {
+    repositories {
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
+        maven { url objcdp.getArtifactoryUrl() }
+        apply plugin: 'com.jfrog.artifactory'
+        group = 'com.philips.cdp'
+
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+
+group = 'com.philips.cdp'
+version = objcdp.getVersion()
+
+artifactory {
+    contextUrl = objcdp.getArtifactoryContextUrl()
+    publish {
+        repository {
+            repoKey = objcdp.getArtifactoryPublishRepoKey()
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+                publishArtifacts = true
+                publications ('apk')
+            }
+        }
+    }
+    resolve {
+        repository {
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
+        }
+    }
+    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+}
+
+publishing {
+    publications {
+        apk(MavenPublication) {
+            groupId group
+            version = version
+            artifactId archivesBaseName
+
+            artifact("$buildDir/outputs/apk/${archivesBaseName}-device-release-unsigned.apk")
+
+            pom.withXml{
+                def dependenciesNode = asNode().appendNode('dependencies')
+                configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.moduleGroup)
+                    dependencyNode.appendNode('artifactId', it.moduleName)
+                    dependencyNode.appendNode('version', it.moduleVersion)
+                }
+            }
+        }
+    }
+}
 
 android {
     compileSdkVersion 24
@@ -73,12 +168,6 @@ android {
 
 }
 
-repositories {
-    flatDir {
-        dirs 'libs'
-    }
-}
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:24.2.1'
@@ -86,15 +175,12 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.2.1'
     compile project(':product-registration-lib')
     compile 'com.android.support:multidex:1.0.1'
-    //    compile 'com.philips.cdp:product-registration-lib:0.0.1'
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile 'org.mockito:mockito-core:1.9.5'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
-
     androidTestCompile "com.android.support.test:runner:0.5"
     androidTestCompile "com.android.support.test:rules:0.5"
     compile 'com.android.support:customtabs:**.**.**'
-    //    compile 'com.philips.cdp:product-registration-lib:0.0.1'
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
