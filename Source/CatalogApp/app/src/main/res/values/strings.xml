@@ -85,4 +85,8 @@
     </array>
     <string name="title_activity_tab_bar_demo_bottom">TabBarDemoBottom</string>
     <string name="title_activity_tab_bar_demo_top">TabBarDemoTop</string>
+
+    <string name="main_page_list_about_screen">About Screen</string>
+    <string name="main_page_list_action_bar_up">Action Bar Up</string>
+    <string name="main_page_list_action_buttons">Action Buttons</string>
 </resources>

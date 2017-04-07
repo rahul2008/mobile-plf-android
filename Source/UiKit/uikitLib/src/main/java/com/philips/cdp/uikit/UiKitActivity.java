@@ -3,6 +3,8 @@ package com.philips.cdp.uikit;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,11 +12,13 @@ import android.os.PersistableBundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cdp.uikit.utils.UikitResources;
 import com.shamanland.fonticon.FontIconTypefaceHolder;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -27,6 +31,29 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class UiKitActivity extends AppCompatActivity {
 
     private TextView titleText;
+
+    private Resources uikitResources;
+
+    @Override
+    public Resources getResources() {
+        if (uikitResources == null) {
+            uikitResources = new UikitResources(super.getResources());
+        }
+        return uikitResources == null ? super.getResources() : uikitResources;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        getDelegate().onConfigurationChanged(newConfig);
+        if (uikitResources != null) {
+            // The real (and thus managed) resources object was already updated
+            // by ResourcesManager, so pull the current metrics from there.
+            final DisplayMetrics newMetrics = super.getResources().getDisplayMetrics();
+            uikitResources.updateConfiguration(newConfig, newMetrics);
+        }
+    }
+
 
     @Override
     protected void attachBaseContext(final Context newBase) {

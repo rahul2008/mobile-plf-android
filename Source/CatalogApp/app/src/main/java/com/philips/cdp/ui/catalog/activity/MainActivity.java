@@ -201,19 +201,19 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
 
     private Map<Integer, String> getDemoItems() {
         itemsMap = new LinkedHashMap<Integer, String>();
-        itemsMap.put(0, "Action Buttons");
+        itemsMap.put(0, getResources().getString(R.string.main_page_list_action_buttons));
         itemsMap.put(1, "Splash Screen");
         itemsMap.put(2, "Change Theme");
         itemsMap.put(3, "Buttons");
         itemsMap.put(4, "Dot Navigation");
         itemsMap.put(5, "Image Navigation");
         itemsMap.put(6, "Input Text Fields");
-        itemsMap.put(7, "About Screen");
+        itemsMap.put(7, getResources().getString(R.string.main_page_list_about_screen));
         itemsMap.put(8, "Tab Bar");
         itemsMap.put(9, "Sliders");
         itemsMap.put(10, "Rating Bar");
         itemsMap.put(11, "Controls");
-        itemsMap.put(12, "Action Bar Up");
+        itemsMap.put(12, getResources().getString(R.string.main_page_list_action_bar_up));
         itemsMap.put(13, "Hamburger Menu");
         itemsMap.put(14, "Social Media Icons");
         itemsMap.put(15, "Lists View Demo");
