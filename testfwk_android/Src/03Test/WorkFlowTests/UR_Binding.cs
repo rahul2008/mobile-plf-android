@@ -26,7 +26,7 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
        [Given(@"that the application is in logout state")]
        public void GivenThatTheApplicationIsInLogoutState()
        {
-          bool title = AppHomeScreen.IsVisibleScreenTitleText("Mobile App Home");
+          bool title = AppHomeScreen.IsVisibleScreenTitleText("Mobile App home");
            
            if (title == true)
            {
