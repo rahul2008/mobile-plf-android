@@ -24,12 +24,9 @@ import com.philips.platform.core.trackers.DataServicesManager;
 
 import java.util.Arrays;
 import java.util.List;
+import android.support.v4.app.Fragment;
 
-/**
- * Created by sangamesh on 09/01/17.
- */
-
-public class SettingsFragment extends DialogFragment implements DBFetchRequestListner<Settings>,DBRequestListener<Settings>, DBChangeListener, View.OnClickListener {
+public class SettingsFragment extends Fragment implements DBFetchRequestListner<Settings>,DBRequestListener<Settings>, DBChangeListener, View.OnClickListener {
 
     private Button mBtnOk;
     private Button mBtnCancel;
@@ -88,8 +85,15 @@ public class SettingsFragment extends DialogFragment implements DBFetchRequestLi
                 public void run() {
                     if (data != null) {
                         settings = data.get(0);
-                        updateUi(settings.getUnit(), settings.getLocale());
+                        if(settings==null){
 
+                        }else{
+                            updateUi(settings.getUnit(), settings.getLocale());
+                        }
+
+
+                    }else{
+                        mDataServicesManager.saveUserSettings(mDataServicesManager.createUserSettings("en_US" ,"metric"),SettingsFragment.this);
                     }
                     dismissProgressDialog();
                 }
@@ -135,14 +139,24 @@ public class SettingsFragment extends DialogFragment implements DBFetchRequestLi
         switch (v.getId()) {
             case R.id.btnOK:
 
-                settings.setUnit(mSpinner_Unit.getSelectedItem().toString());
-                settings.setLocale(mSpinner_Local.getSelectedItem().toString());
+                if(settings==null) {
+                    settings = mDataServicesManager.createUserSettings(mSpinner_Unit.getSelectedItem().toString(), mSpinner_Local.getSelectedItem().toString());
+
+                }else{
+                    settings.setUnit(mSpinner_Unit.getSelectedItem().toString());
+                    settings.setLocale(mSpinner_Local.getSelectedItem().toString());
+                }
+
                 settingsFragmentPresenter.updateSettings(settings);
 
-                dismissConsentDialog(getDialog());
+               // dismissConsentDialog(getDialog());
+                getFragmentManager().popBackStack();
+                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                 break;
             case R.id.btnCancel:
-                dismissConsentDialog(getDialog());
+                //dismissConsentDialog(getDialog());
+                getFragmentManager().popBackStack();
+                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                 break;
 
         }
@@ -175,13 +189,13 @@ public class SettingsFragment extends DialogFragment implements DBFetchRequestLi
     public void onStart() {
         super.onStart();
         mDataServicesManager.registerDBChangeListener(this);
-        Dialog dialog = getDialog();
+       /* Dialog dialog = getDialog();
         dialog.setTitle(R.string.settings);
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
             dialog.getWindow().setLayout(width, height);
-        }
+        }*/
     }
 
     private void showProgressDialog() {
