@@ -39,14 +39,17 @@ if (project.hasProperty('envCode')) {
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
+objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = rootProject.name
 
 allprojects {
     repositories {
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local'
+        }
         maven { url objcdp.getArtifactoryUrl() }
     }
     apply plugin: 'com.jfrog.artifactory'
@@ -67,7 +70,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('aar')
+                publications('aar')
             }
         }
     }
@@ -76,7 +79,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 //=======To zip and upload "Documents/External" ==STARTS=============
@@ -113,7 +117,7 @@ publishing {
 
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
-            pom.withXml{
+            pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
                 configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
@@ -193,6 +197,12 @@ configurations.all {
 }
 
 dependencies {
+
+    //coco
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.5.5' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+        transitive true
+    }
+
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'net.danlew:android.joda:2.9.2'
     compile fileTree(include: ['*.jar'], dir: 'libs')

@@ -2,6 +2,7 @@ package com.philips.platform.core.trackers;
 
 import android.content.Context;
 
+import com.google.gson.JsonObject;
 import com.philips.platform.core.BackendIdProvider;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
@@ -34,6 +35,7 @@ import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
+import com.philips.platform.core.utils.DataServicesConstants;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataSender;
@@ -45,6 +47,8 @@ import com.philips.platform.verticals.VerticalUCoreAccessProvider;
 import com.philips.platform.verticals.VerticalUserRegistrationInterface;
 import com.philips.testing.verticals.datatyes.MomentType;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
