@@ -30,6 +30,11 @@ public class PushNotificationManager {
     private static final String TAG = PushNotificationManager.class.getSimpleName();
     private static PushNotificationManager pushNotificationManager;
 
+    public interface DeregisterTokenListener{
+        public void onSuccess();
+        public void onError();
+    }
+
     private PushNotificationManager() {
     }
 
@@ -81,7 +86,7 @@ public class PushNotificationManager {
     /**
      * Registration of token with datacore or backend
      */
-    public void deregisterTokenWithBackend(final Context applicationContext) {
+    public void deregisterTokenWithBackend(final Context applicationContext, final DeregisterTokenListener deregisterTokenListener) {
         Log.d(TAG, "deregistering token with data core");
         if (TextUtils.isEmpty(getToken(applicationContext))) {
             Log.d(TAG, "Something went wrong. Token should not be empty");
@@ -92,12 +97,18 @@ public class PushNotificationManager {
                     //TODO:Need to write logic based on auto logout configuration
                     Log.d(TAG, "deregisterTokenWithBackend isDergistered:" + isDeRegistered);
                     saveTokenRegistrationState(applicationContext, !isDeRegistered);
+                    if(isDeRegistered){
+                        deregisterTokenListener.onSuccess();
+                    }else{
+                        deregisterTokenListener.onError();
+                    }
 
                 }
 
                 @Override
                 public void onError(DataServicesError dataServicesError) {
                     //TODO:Handle error scenarios and retry logic
+                    deregisterTokenListener.onError();
                     Log.d(TAG,"Register token error: code::"+dataServicesError.getErrorCode()+"message::"+dataServicesError.getErrorMessage());
                 }
             });

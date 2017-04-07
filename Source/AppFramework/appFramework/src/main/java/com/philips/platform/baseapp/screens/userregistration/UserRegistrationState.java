@@ -209,8 +209,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onUserLogoutSuccess() {
-        Log.d(TAG,"Deregistering token with data services");
-        PushNotificationManager.getInstance().deregisterTokenWithBackend(activityContext.getApplicationContext());
     }
 
     @Override

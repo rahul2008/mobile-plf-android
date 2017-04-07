@@ -298,22 +298,15 @@ public class SettingsAdapter extends BaseAdapter {
                                 progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                                 progressDialog.setCancelable(false);
                                 progressDialog.show();
-                                userRegistrationState.getUserObject(activityContext).logout(new LogoutHandler() {
+                                PushNotificationManager.getInstance().deregisterTokenWithBackend(activityContext.getApplicationContext(),new PushNotificationManager.DeregisterTokenListener() {
                                     @Override
-                                    public void onLogoutSuccess() {
-                                        //    ((AppFrameworkBaseActivity)activityContext).setCartItemCount(0);
-                                        //TODO:Need to call UserRegistrationState on logout call. Now its crashingif we do so.
-                                        PushNotificationManager.getInstance().deregisterTokenWithBackend(activityContext.getApplicationContext());
-                                        progressDialog.cancel();
-                                        ((IndexSelectionListener)activityContext).updateSelectionIndex(0);
-                                        fragmentPresenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
-
+                                    public void onSuccess() {
+                                        doLogout();
                                     }
 
                                     @Override
-                                    public void onLogoutFailure(final int i, final String s) {
-                                        progressDialog.cancel();
-                                        Toast.makeText(activityContext, getString(R.string.RA_Logout_Failed), Toast.LENGTH_LONG).show();
+                                    public void onError() {
+                                        doLogout();
                                     }
                                 });
                             }
@@ -336,6 +329,26 @@ public class SettingsAdapter extends BaseAdapter {
 
     private String getString(int id) {
         return activityContext.getResources().getString(id);
+    }
+
+    public void doLogout(){
+        userRegistrationState.getUserObject(activityContext).logout(new LogoutHandler() {
+            @Override
+            public void onLogoutSuccess() {
+                //    ((AppFrameworkBaseActivity)activityContext).setCartItemCount(0);
+                //TODO:Need to call UserRegistrationState on logout call. Now its crashingif we do so.
+                progressDialog.cancel();
+                ((IndexSelectionListener)activityContext).updateSelectionIndex(0);
+                fragmentPresenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
+
+            }
+
+            @Override
+            public void onLogoutFailure(final int i, final String s) {
+                progressDialog.cancel();
+                Toast.makeText(activityContext, getString(R.string.RA_Logout_Failed), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 }
