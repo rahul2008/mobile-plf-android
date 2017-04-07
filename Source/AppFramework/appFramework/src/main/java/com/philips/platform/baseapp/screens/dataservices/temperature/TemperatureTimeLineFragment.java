@@ -19,10 +19,10 @@ import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
 import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.dataservices.characteristics.CharacteristicsDialogFragment;
@@ -32,7 +32,6 @@ import com.philips.platform.baseapp.screens.dataservices.insights.InsightFragmen
 import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationInterfaceImpl;
 import com.philips.platform.baseapp.screens.dataservices.settings.SettingsFragment;
 import com.philips.platform.baseapp.screens.dataservices.utility.Utility;
-import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
@@ -365,11 +364,8 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     private void replaceFragment(Fragment fragment,String tag){
 
         int containerId = -1 ;
-
-        if(getActivity() instanceof LaunchActivity){
-           containerId = ((LaunchActivity)getActivity()).getContainerId();
-        }else if(getActivity() instanceof HamburgerActivity){
-            containerId = ((HamburgerActivity)getActivity()).getContainerId();
+        if(getActivity() instanceof AppFrameworkBaseActivity){
+            containerId = ((AppFrameworkBaseActivity)getActivity()).getContainerId();
         }
 
         try {
