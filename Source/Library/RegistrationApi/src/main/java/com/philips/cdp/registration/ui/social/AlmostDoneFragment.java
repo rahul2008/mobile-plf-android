@@ -75,7 +75,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     RelativeLayout continueBtnContainer;
 
     @Bind(B.id.cb_reg_receive_philips_news)
-    XCheckBox remarketingOptCheck;
+    XCheckBox marketingOptCheck;
 
     @Bind(B.id.reg_error_msg)
     XRegError mRegError;
@@ -143,7 +143,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         ButterFork.bind(this, view);
         initUI(view);
         almostDonePresenter.parseRegistrationInfo(mBundle);
-        almostDonePresenter.updateUIStatus();
+        almostDonePresenter.updateUIControls();
         handleOrientation(view);
         return view;
     }
@@ -206,7 +206,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         mSavedBundle = outState;
         super.onSaveInstanceState(mSavedBundle);
         if (acceptTermsCheck != null) {
-            if (remarketingOptCheck.isChecked()) {
+            if (marketingOptCheck.isChecked()) {
                 isSavedCBTermsChecked = true;
                 mSavedBundle.putBoolean("isSavedCBTermsChecked", isSavedCBTermsChecked);
                 mSavedBundle.putString("savedCBTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
@@ -233,7 +233,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null) {
             if (savedInstanceState.getBoolean("isSavedCBTermsChecked")) {
-                remarketingOptCheck.setChecked(true);
+                marketingOptCheck.setChecked(true);
             }
             if (savedInstanceState.getBoolean("isSavedCbAcceptTermsChecked")) {
                 acceptTermsCheck.setChecked(true);
@@ -272,21 +272,27 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     private void initUI(View view) {
         consumeTouch(view);
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
-        remarketingOptCheck.setPadding(RegUtility.getCheckBoxPadding(mContext), remarketingOptCheck.getPaddingTop(),
-                remarketingOptCheck.getPaddingRight(), remarketingOptCheck.getPaddingBottom());
+        marketingOptCheck.setPadding(RegUtility.getCheckBoxPadding(mContext), marketingOptCheck.getPaddingTop(),
+                marketingOptCheck.getPaddingRight(), marketingOptCheck.getPaddingBottom());
         RegUtility.linkifyTermsandCondition(acceptTermsView, getRegistrationFragment().getParentActivity(), mTermsAndConditionClick);
+        updateReceiveMarketingViewStyle();
+        initListener();
+        handleUiAcceptTerms();
+    }
 
+    private void initListener() {
+        marketingOptCheck.setOnCheckedChangeListener(this);
+        mEtEmail.setOnUpdateListener(this);
+        mPbSpinner.setClickable(false);
+        mPbSpinner.setEnabled(true);
+    }
+
+    private void updateReceiveMarketingViewStyle() {
         RegUtility.linkifyPhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
         String sourceString = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now) ;
         String updateJoinNowText =  " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
         sourceString = String.format(sourceString, updateJoinNowText);
         mJoinNow.setText(Html.fromHtml(sourceString));
-
-        remarketingOptCheck.setOnCheckedChangeListener(this);
-        mEtEmail.setOnUpdateListener(this);
-        mPbSpinner.setClickable(false);
-        mPbSpinner.setEnabled(true);
-        handleUiAcceptTerms();
     }
 
     @Override
@@ -331,12 +337,17 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void updateTermsAndConditionView() {
-        if(!almostDonePresenter.isReceiveMarketingEmailOpt()){
-            periodicOffersCheck.setVisibility(View.VISIBLE);
-        }else{
-            periodicOffersCheck.setVisibility(View.GONE);
-        }
         hideAcceptTermsAndConditionContainer();
+    }
+
+    @Override
+    public void showMarketingOptCheck() {
+        periodicOffersCheck.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideMarketingOptCheck() {
+        periodicOffersCheck.setVisibility(View.GONE);
     }
 
     private void hideAcceptTermsAndConditionContainer() {
@@ -382,9 +393,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
                 mJoinNow.setVisibility(View.VISIBLE);
                 break;
             default:break;
-
         }
-
     }
 
     @Override
@@ -411,14 +420,14 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void showMarketingOptSpinner() {
-        remarketingOptCheck.setEnabled(false);
+        marketingOptCheck.setEnabled(false);
         mPbSpinner.setVisibility(View.VISIBLE);
         mBtnContinue.setEnabled(false);
     }
 
     @Override
     public void hideMarketingOptSpinner() {
-        remarketingOptCheck.setEnabled(true);
+        marketingOptCheck.setEnabled(true);
         mPbSpinner.setVisibility(View.INVISIBLE);
         mBtnContinue.setEnabled(true);
     }
@@ -429,36 +438,37 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         mEtEmail.clearFocus();
         if (mEtEmail.isShown() && !mEtEmail.isValidEmail()) return;
         if (mBundle == null) {
-            handleTraditionalTermsAndCondition();
+            almostDonePresenter.handleTraditionalTermsAndCondition();
             return;
         }
-        handleSocialTermsAndCondition();
+        almostDonePresenter.handleSocialTermsAndCondition();
     }
 
-    private void handleSocialTermsAndCondition() {
-        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && acceptTermsContainer.getVisibility() == View.VISIBLE) {
-            if (acceptTermsCheck.isChecked()) {
-                almostDonePresenter.register(remarketingOptCheck.isChecked(), FieldsValidator.getMobileNumber(mEtEmail.getEmailId().trim()));
-            } else {
-                errorMessage.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
-            }
-        } else {
-            almostDonePresenter.register(remarketingOptCheck.isChecked(),FieldsValidator.getMobileNumber(mEtEmail.getEmailId().trim()));
-        }
+    @Override
+    public String getMobileNumber() {
+        return FieldsValidator.getMobileNumber(mEtEmail.getEmailId().trim());
     }
 
-    private void handleTraditionalTermsAndCondition() {
-        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
-            if (acceptTermsCheck.isChecked()) {
-                almostDonePresenter.storeEmailOrMobileInPreference();
-                trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
-                launchWelcomeFragment();
-            } else {
-                errorMessage.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
-            }
-        } else {
-            launchWelcomeFragment();
-        }
+    @Override
+    public boolean isAcceptTermsContainerVisible() {
+        return acceptTermsContainer.getVisibility() == View.VISIBLE;
+    }
+
+    @Override
+    public boolean isAcceptTermsChecked(){
+        return acceptTermsCheck.isChecked();
+    }
+
+    @Override
+    public void showTermsAndConditionError(){
+        errorMessage.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+    }
+
+    @Override
+    public void handleAcceptTermsTrue() {
+        almostDonePresenter.storeEmailOrMobileInPreference();
+        trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
+        launchWelcomeFragment();
     }
 
     @Override
@@ -490,7 +500,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void trackMarketingOpt() {
-        if (remarketingOptCheck.isChecked()) {
+        if (marketingOptCheck.isChecked()) {
             trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
         } else {
             trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
@@ -585,7 +595,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
 
-    private void launchWelcomeFragment() {
+    public void launchWelcomeFragment() {
         getRegistrationFragment().addWelcomeFragmentOnVerification();
         trackPage(AppTaggingPages.WELCOME);
     }
@@ -608,9 +618,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void marketingOptCheckDisable() {
-        remarketingOptCheck.setOnCheckedChangeListener(null);
-        remarketingOptCheck.setChecked(!remarketingOptCheck.isChecked());
-        remarketingOptCheck.setOnCheckedChangeListener(this);
+        marketingOptCheck.setOnCheckedChangeListener(null);
+        marketingOptCheck.setChecked(!marketingOptCheck.isChecked());
+        marketingOptCheck.setOnCheckedChangeListener(this);
         mRegError.setError(getString(R.string.reg_NoNetworkConnection));
     }
 
@@ -618,7 +628,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     public void handleUpdateUser() {
         mRegError.hideError();
         showMarketingOptSpinner();
-        almostDonePresenter.updateUser(remarketingOptCheck.isChecked());
+        almostDonePresenter.updateUser(marketingOptCheck.isChecked());
     }
 
     @Override
@@ -643,16 +653,16 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         handleOnUIThread(new Runnable() {
             @Override
             public void run() {
-                almostDonePresenter.updateUIStatus();
+                almostDonePresenter.updateUIControls();
             }
         });
     }
 
     @Override
     public void updateMarketingOptFailedError(){
-        remarketingOptCheck.setOnCheckedChangeListener(null);
-        remarketingOptCheck.setChecked(!remarketingOptCheck.isChecked());
-        remarketingOptCheck.setOnCheckedChangeListener(AlmostDoneFragment.this);
+        marketingOptCheck.setOnCheckedChangeListener(null);
+        marketingOptCheck.setChecked(!marketingOptCheck.isChecked());
+        marketingOptCheck.setOnCheckedChangeListener(AlmostDoneFragment.this);
     }
 
     @Override
@@ -662,6 +672,11 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     public boolean getPreferenceStoredState(String emailOrMobileNumber){
         return RegPreferenceUtility.getStoredState(mContext, emailOrMobileNumber);
+    }
+
+    @Override
+    public boolean isMarketingOptChecked(){
+        return marketingOptCheck.isChecked();
     }
 
 }

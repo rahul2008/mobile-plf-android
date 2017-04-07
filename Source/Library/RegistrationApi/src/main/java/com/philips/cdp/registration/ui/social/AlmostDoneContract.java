@@ -63,4 +63,22 @@ public interface AlmostDoneContract {
     void handleUpdateUser();
 
     void marketingOptCheckDisable();
+
+    void showMarketingOptCheck();
+
+    void hideMarketingOptCheck();
+
+    boolean isAcceptTermsChecked();
+
+    void handleAcceptTermsTrue();
+
+    void launchWelcomeFragment();
+
+    void showTermsAndConditionError();
+
+    boolean isAcceptTermsContainerVisible();
+
+    boolean isMarketingOptChecked();
+
+    String getMobileNumber();
 }

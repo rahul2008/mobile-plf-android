@@ -1,12 +1,9 @@
 package com.philips.cdp.registration.ui.social;
 
 import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.HttpClientServiceReceiver;
-import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
+import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.injection.RegistrationComponent;
-import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeContract;
-import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodePresenter;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.URInterface;
 
@@ -19,7 +16,6 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -39,10 +35,13 @@ public class AlmostDonePresenterTest {
     private NetworkUtility mockNetworkUtility;
 
     @Mock
-    RegistrationConfiguration mockRregistrationConfiguration;
+    RegistrationConfiguration registrationConfigurationDummy;
 
+    @Mock
+    User mockUser;
 
     private AlmostDonePresenter presenter;
+
 
     @Before
     public void setUp() throws Exception {
@@ -72,12 +71,18 @@ public class AlmostDonePresenterTest {
         verify(mockContract).handleOfflineMode();
     }
 
-    @Test
+    /*@Test
     public void testHandleAcceptTermsAndReceiveMarketingOpt(){
-        when(mockRregistrationConfiguration.isTermsAndConditionsAcceptanceRequired()).thenReturn(true);
+        when(registrationConfigurationDummy.isTermsAndConditionsAcceptanceRequired()).thenReturn(true);
         presenter.handleAcceptTermsAndReceiveMarketingOpt();
         verify(mockContract).hideAcceptTermsView();
+    }*/
+
+    @Test
+    public void testUpdateTermsAndReceiveMarketingOpt(){
+        when(presenter.isTermsAndConditionAccepted()).thenReturn(true);
+        presenter.updateTermsAndReceiveMarketingOpt();
+        verify(mockContract).updateTermsAndConditionView();
+        verify(mockContract).hideAcceptTermsView();
     }
-
-
 }

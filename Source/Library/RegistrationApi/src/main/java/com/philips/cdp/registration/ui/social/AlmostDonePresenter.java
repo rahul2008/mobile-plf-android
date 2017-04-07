@@ -4,6 +4,8 @@ package com.philips.cdp.registration.ui.social;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+
+import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
@@ -32,6 +34,13 @@ import static com.philips.cdp.registration.ui.traditional.LogoutFragment.BAD_RES
 
 public class AlmostDonePresenter implements NetworStateListener,EventListener,SocialProviderLoginHandler,UpdateUserDetailsHandler {
 
+
+    @Inject
+    User mUser;
+
+    @Inject
+    NetworkUtility networkUtility;
+
     private final AlmostDoneContract almostDoneContract;
 
     private final Handler mHandler = new Handler(Looper.getMainLooper());
@@ -58,12 +67,6 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
 
     private boolean isOnline;
 
-    @Inject
-    User mUser;
-
-    @Inject
-    NetworkUtility networkUtility;
-
     public AlmostDonePresenter(AlmostDoneContract almostDoneContract) {
         URInterface.getComponent().inject(this);
         this.almostDoneContract = almostDoneContract;
@@ -81,11 +84,11 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
         this.isOnline = isOnline;
-        updateUIStatus();
+        updateUIControls();
 
     }
 
-    public void updateUIStatus() {
+    public void updateUIControls() {
         if (isEmailExist) {
             if (isOnline) {
                 almostDoneContract.enableContinueBtn();
@@ -104,12 +107,12 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
     @Override
     public void onEventReceived(String event) {
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
-            updateUIStatus();
+            updateUIControls();
         }
     }
 
     public void handleAcceptTermsAndReceiveMarketingOpt(){
-        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
+        if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
             if (isEmailExist && almostDoneContract.getPreferenceStoredState((mEmail))){
                 almostDoneContract.hideAcceptTermsView();
             }else if(mBundle !=null && mBundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR)!=null){
@@ -123,6 +126,11 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
 
     public void updateTermsAndReceiveMarketingOpt() {
         if(isTermsAndConditionAccepted()){
+            if(!isReceiveMarketingEmailOpt()){
+                almostDoneContract.showMarketingOptCheck();
+            }else{
+                almostDoneContract.hideMarketingOptCheck();
+            }
             almostDoneContract.updateTermsAndConditionView();
         }else if(mUser.getReceiveMarketingEmail()){
             almostDoneContract.updateReceiveMarktingView();
@@ -443,6 +451,31 @@ public class AlmostDonePresenter implements NetworStateListener,EventListener,So
             almostDoneContract.handleUpdateUser();
         } else {
             almostDoneContract.marketingOptCheckDisable();
+        }
+    }
+
+    public void handleTraditionalTermsAndCondition() {
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
+            if (almostDoneContract.isAcceptTermsChecked()) {
+                almostDoneContract.handleAcceptTermsTrue();
+            } else {
+                almostDoneContract.showTermsAndConditionError();
+            }
+        } else {
+            almostDoneContract.launchWelcomeFragment();
+        }
+    }
+
+    public void handleSocialTermsAndCondition() {
+
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && almostDoneContract.isAcceptTermsContainerVisible()) {
+            if (almostDoneContract.isAcceptTermsChecked()) {
+                  register(almostDoneContract.isMarketingOptChecked(), almostDoneContract.getMobileNumber());
+            } else {
+                almostDoneContract.showTermsAndConditionError();
+            }
+        } else {
+              register(almostDoneContract.isMarketingOptChecked(),almostDoneContract.getMobileNumber());
         }
     }
 }
