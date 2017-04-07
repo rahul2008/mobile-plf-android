@@ -95,14 +95,36 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
             _instance.ClickById(AppFrameWork.Android.HomeScreen.PhilipsAccountReg);
         }
 
+        public static bool WaitForTerms()
+        {
+            int loopCount = 0;
+            IMobilePageControl TermsElement = null;
+            while (TermsElement == null)
+            {
+                TermsElement = _instance.GetElement(SearchBy.Id, AppFrameWork.Android.HomeScreen.Terms);
+                loopCount++;
+                if (TermsElement != null)
+                    break;
+                if (loopCount > 10)
+                {
+                    Thread.Sleep(1000);
+                    break;
+                }
+            }
+            if (TermsElement != null)
+                return true;
+            else
+                return false;
+        }
+
         public static void SignIn(string username, string password)
         {
             EnterText(TextField.UserName, username);
             EnterText(TextField.PassWord, password);
             AppHomeScreen.Click(AppHomeScreen.Button.ALoginButton);
-            Thread.Sleep(30000);
             try
             {
+                WaitForTerms();
                 IMobilePageControl terms = _instance.GetElement(SearchBy.Id, AppFrameWork.Android.HomeScreen.Terms);
                 terms.Click();
                 Thread.Sleep(1000);
