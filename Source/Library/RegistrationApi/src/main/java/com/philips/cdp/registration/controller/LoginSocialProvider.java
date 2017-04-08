@@ -58,25 +58,25 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
             HsdpUser hsdpUser = new HsdpUser(mContext);
 
             String emailorMobile;
-            if (FieldsValidator.isValidEmail(user.getEmail())){
+            if (FieldsValidator.isValidEmail(user.getEmail())) {
                 emailorMobile = user.getEmail();
-            }else {
-                emailorMobile =user.getMobile();
+            } else {
+                emailorMobile = user.getMobile();
             }
             hsdpUser.socialLogin(emailorMobile, user.getAccessToken(), Jump.getRefreshSecret(),
                     new SocialLoginHandler() {
 
-                @Override
-                public void onLoginSuccess() {
-                    mSocialLoginHandler.onLoginSuccess();
-                }
+                        @Override
+                        public void onLoginSuccess() {
+                            mSocialLoginHandler.onLoginSuccess();
+                        }
 
-                @Override
-                public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                    AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo,AppTagingConstants.HSDP);
-                    mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
-                }
-            });
+                        @Override
+                        public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+                            AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
+                            mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+                        }
+                    });
 
         } else {
             mSocialLoginHandler.onLoginSuccess();
@@ -97,7 +97,9 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
             String emailId = null;
             if (null != error.auth_info) {
                 JRDictionary profile = error.auth_info.getAsDictionary("profile");
-               // emailId = profile.getAsString("email");
+                if (profile != null) {
+                    emailId = profile.getAsString("email");
+                }
             }
             mMergeToken = error.captureApiError.getMergeToken();
             final String existingProvider = error.captureApiError
@@ -137,9 +139,9 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
         mActivity = activity;
         mProviderName = providerName;
         mMergeToken = mergeToken;
-        if(!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+        if (!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
             UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
-        }else{
+        } else {
             Jump.showSignInDialog(activity, providerName, this, mergeToken);
             return;
         }

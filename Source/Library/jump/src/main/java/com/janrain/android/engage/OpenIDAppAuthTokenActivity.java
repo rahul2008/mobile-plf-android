@@ -156,7 +156,8 @@ public class OpenIDAppAuthTokenActivity extends Activity {
         mAuthState.update(tokenResponse, authException);
         final JRSession session = JRSession.getInstance();
         JROpenIDAppAuth.OpenIDAppAuthProvider mOpenIDProvider = session.getCurrentOpenIDAppAuthProvider();
-        mOpenIDProvider.getAuthInfoTokenForAccessToken(tokenResponse.accessToken);
+        mOpenIDProvider.getAuthInfoTokenForAccessToken(mAuthState.getLastAuthorizationResponse().request.configuration.discoveryDoc.getUserinfoEndpoint(),mAuthState.getLastTokenResponse().accessToken,tokenResponse.accessToken);
+
         this.finish();
     }
 
