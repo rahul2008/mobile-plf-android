@@ -881,32 +881,36 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
                 RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.urx.verificationsmscode : " + errorvalues);
                 verificationSmsCodeURL = null;
+                mEtEmail.setErrDescription(getResources().getString(R.string.reg_Generic_Network_Error));
+                mEtEmail.showErrPopUp();
+                mEtEmail.showInvalidAlert();
+                updateResendUIState();
             }
 
             @Override
             public void onSuccess(URL url) {
                 RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.urx.verificationsmscode:" + url.toString());
-                verificationSmsCodeURL = url.toString();
+
+                String uriSubString = getBaseString(url.toString());
+                //Verification URI
+                verificationSmsCodeURL = uriSubString + USER_REQUEST_PASSWORD_RESET_SMS_CODE;
+                //Redirect URI
+                resetPasswordSmsRedirectUri = uriSubString + USER_REQUEST_RESET_PASSWORD_REDIRECT_URI_SMS;
+
+                getRegistrationFragment().getActivity().startService(createResendSMSIntent(verificationSmsCodeURL));
             }
         });
 
 
-        String uriSubString = getBaseString();
 
-        //Verification URI
-        verificationSmsCodeURL = uriSubString + USER_REQUEST_PASSWORD_RESET_SMS_CODE;
-        //Redirect URI
-        resetPasswordSmsRedirectUri = uriSubString + USER_REQUEST_RESET_PASSWORD_REDIRECT_URI_SMS;
-
-        getRegistrationFragment().getActivity().startService(createResendSMSIntent(verificationSmsCodeURL));
     }
 
     @NonNull
-    private String getBaseString() {
+    private String getBaseString(String respnseUrl) {
         URL url = null;
 
         try {
-            url = new URL(verificationSmsCodeURL);
+            url = new URL(respnseUrl);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -1007,6 +1011,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mEtEmail.showInvalidAlert();
             mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_Invalid_PhoneNumber_ErrorMsg));
             mEtEmail.showErrPopUp();
+            updateResendUIState();
             return;
         } else {
             handleResendSMSRespone(response);
