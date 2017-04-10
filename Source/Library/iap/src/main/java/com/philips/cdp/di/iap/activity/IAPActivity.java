@@ -5,7 +5,6 @@
 package com.philips.cdp.di.iap.activity;
 
 import android.app.ProgressDialog;
-import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
@@ -45,10 +44,9 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class IAPActivity extends UiKitActivity implements ActionBarListener, IAPListener {
-    private final int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
+    private final int DEFAULT_THEME = R.style.Theme_DLS_Orange_Bright;
     private TextView mTitleTextView;
     private TextView mCountText;
     private ImageView mBackImage;

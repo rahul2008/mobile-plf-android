@@ -1,5 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ratingthememain"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -21,7 +21,7 @@
     </FrameLayout>
 
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/iap_header_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
         android:maxEms="10"
         android:maxLines="1"
         android:textColor="#FFFFFF"
-        android:textSize="@dimen/header" />
+        app:uidLabelTextSize="@dimen/header" />
 
     <FrameLayout
         android:id="@+id/cart_container"

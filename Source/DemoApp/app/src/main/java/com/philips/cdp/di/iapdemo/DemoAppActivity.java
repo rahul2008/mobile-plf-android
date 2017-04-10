@@ -35,7 +35,6 @@ import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.cdp.uikit.UiKitActivity;
@@ -217,6 +216,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         if (isNetworkAvailable(mApplicationContext)) {
             mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput);
             try {
+                showProgressDialog();
                 mIapInterface.launch(new ActivityLauncher
                                 (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME),
                         mIapLaunchInput);

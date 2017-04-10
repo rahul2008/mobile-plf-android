@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. Apply UIKit theme-->
-    <style name="AppTheme" parent="Theme.Philips.BrightBlue.WhiteBackground"></style>
+    <style name="AppTheme" parent="Theme.DLS.Orange.Bright"/>
 
     <style name="tvTitle">
         <item name="android:layout_width">wrap_content</item>

@@ -79,7 +79,10 @@ dependencies {
     compile(group: 'com.philips.cdp', name: 'registrationApi', version: '10.0.0-rc.+', ext: 'aar', changing: true) {
         transitive = true
     }
-
+    compile "org.greenrobot:eventbus:3.0.0"
+    compile("com.jakewharton:butterknife:7.0.1") {
+        exclude module: "com.android.support"
+    }
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'

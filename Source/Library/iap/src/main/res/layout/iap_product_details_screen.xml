@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <ScrollView
@@ -33,7 +34,7 @@
                 android:layout_gravity="center_horizontal"
                 android:padding="@dimen/iap_dots_padding" />
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/product_description"
                 style="@style/iapCentralesansBoldFont"
                 android:layout_width="match_parent"
@@ -45,9 +46,9 @@
                 android:paddingBottom="@dimen/iap_product_detail_bottom_padding"
                 android:paddingTop="@dimen/iap_product_detail_top_padding_top"
                 android:textColor="?attr/uikit_baseColor"
-                android:textSize="@dimen/iap_product_description" />
+                app:uidLabelTextSize="@dimen/iap_product_description" />
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ctn"
                 style="@style/iapCentralesansBoldFont"
                 android:layout_width="wrap_content"
@@ -58,7 +59,7 @@
                 android:includeFontPadding="false"
                 android:paddingEnd="@dimen/iap_product_detail_right_padding"
                 android:textColor="@color/uikit_enricher4"
-                android:textSize="@dimen/iap_product_ctn" />
+                app:uidLabelTextSize="@dimen/iap_product_ctn" />
 
             <LinearLayout
                 android:id="@+id/price_container"
@@ -71,29 +72,29 @@
                 android:layout_marginStart="@dimen/iap_image_bottom_margin"
                 android:orientation="vertical">
 
-                <TextView
+                <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/tv_discounted_price"
                     style="@style/iapCentralesansBoldFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:includeFontPadding="false"
                     android:textColor="?attr/uikit_baseColor"
-                    android:textSize="@dimen/iap_product_ctn" />
+                    app:uidLabelTextSize="@dimen/iap_product_ctn" />
 
-                <TextView
+                <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/individual_price"
-                    fontPath="fonts/centralesansbold.ttf"
+                    style="@style/iapCentralesansBoldFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:includeFontPadding="false"
                     android:textColor="@color/uikit_enricher4"
-                    android:textSize="@dimen/iap_product_original_price" />
+                    app:uidLabelTextSize="@dimen/iap_product_original_price" />
 
             </LinearLayout>
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/product_overview"
-                style="@style/iapCentralesansBookFont"
+                style="@style/UIDLabel"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ctn"
@@ -103,10 +104,11 @@
                 android:includeFontPadding="false"
                 android:paddingTop="@dimen/iap_product_detail_top_padding"
                 android:textColor="?attr/uikit_baseColor"
-                android:textSize="@dimen/iap_product_overview" />
+                app:uidLabelTextSize="@dimen/iap_product_overview" />
 
-            <Button
+            <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/add_to_cart"
+                style="@style/UIDImageTextButton.Center"
                 android:layout_width="fill_parent"
                 android:layout_height="44dp"
                 android:layout_below="@id/product_overview"
@@ -119,9 +121,9 @@
                 android:text="@string/iap_add_to_cart"
                 android:visibility="gone" />
 
-            <Button
+            <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/buy_from_retailor"
-                style="?attr/uikit_outlinedButtonStyle"
+                style="@style/UIDImageTextButton.Center"
                 android:layout_width="fill_parent"
                 android:layout_height="44dp"
                 android:layout_below="@id/add_to_cart"

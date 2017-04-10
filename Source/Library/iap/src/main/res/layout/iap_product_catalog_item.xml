@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/product_catalog_parent_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="4dp"
-    android:paddingStart="@dimen/network_margin_left_right"
-    android:paddingEnd="@dimen/network_margin_left_right">
+    android:paddingEnd="@dimen/network_margin_left_right"
+    android:paddingStart="@dimen/network_margin_left_right">
 
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/image"
@@ -27,38 +28,38 @@
         android:layout_toStartOf="@id/arrow"
         android:orientation="vertical">
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/tv_discounted_price"
             fontPath="fonts/centralesansbold.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="?attr/uikit_baseColor"
-            android:textSize="16sp"
+            app:uidLabelTextSize="16sp"
             android:visibility="gone" />
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/tv_price"
             fontPath="fonts/centralesansbold.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/uikit_enricher4"
-            android:textSize="16sp" />
+            app:uidLabelTextSize="16sp" />
     </LinearLayout>
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/tv_product_name"
         fontPath="fonts/centralesansbold.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
         android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
-        android:layout_toStartOf="@id/price_container"
         android:layout_toEndOf="@id/image"
+        android:layout_toStartOf="@id/price_container"
         android:text="DiamondClean"
         android:textColor="?attr/uikit_baseColor"
-        android:textSize="16sp" />
+        app:uidLabelTextSize="16sp" />
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/tv_ctn"
         fontPath="fonts/centralesansbook.ttf"
         android:layout_width="wrap_content"
@@ -67,7 +68,7 @@
         android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
         android:layout_toEndOf="@id/image"
         android:textColor="?attr/uikit_baseColor"
-        android:textSize="16sp" />
+        app:uidLabelTextSize="16sp" />
 
     <com.shamanland.fonticon.FontIconTextView
         android:id="@+id/arrow"
