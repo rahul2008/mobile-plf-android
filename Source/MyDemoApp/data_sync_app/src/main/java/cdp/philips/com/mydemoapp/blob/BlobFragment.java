@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.uikit.customviews.CircularProgressbar;
 import com.philips.platform.core.listeners.BlobRequestListener;
+import com.philips.platform.core.monitors.FetchingMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.blob.UcoreBlobMetaData;
 
@@ -32,7 +33,7 @@ public class BlobFragment extends Fragment {
     private ProgressBar mProgressBar;
     private static final int REQUEST_PICK_FILE = 1;
 
-    private Button Browse;
+    private Button Browse,Fetch;
     private File selectedFile;
 
     @Nullable
@@ -42,6 +43,30 @@ public class BlobFragment extends Fragment {
         View view = inflater.inflate(R.layout.blob_layout, container, false);
         mBtnUpload = (Button) view.findViewById(R.id.upload);
         mProgressBar = (CircularProgressbar) view.findViewById(R.id.settings_progress_bar);
+        Fetch=(Button) view.findViewById(R.id.fetch);
+
+        Fetch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DataServicesManager.getInstance().FetchMetaDataForBlobID("14b4f366-2c3a-46f0-a870-658ee3eb7eb0", new BlobRequestListener() {
+                    @Override
+                    public void onBlobRequestSuccess(String itemID) {
+
+                    }
+
+                    @Override
+                    public void onBlobRequestFailure(Exception exception) {
+
+                    }
+
+                    @Override
+                    public void onFetchMetaDataSuccess(UcoreBlobMetaData uCoreFetchMetaData) {
+
+                    }
+                });
+            }
+        });
 
         Browse = (Button) view.findViewById(R.id.browse);
         Browse.setOnClickListener(new View.OnClickListener() {

@@ -147,12 +147,15 @@ public class UCoreAdapter {
         return new RequestInterceptor() {
             @Override
             public void intercept(RequestFacade request) {
+                if(blobData!=null)
                 request.addHeader("Content-Type", blobData.getType());
+
                 request.addHeader("Authorization", "bearer " + accessToken);
                 request.addHeader(API_VERSION_CUSTOM_HEADER, String.valueOf(API_VERSION_BLOB));
                 request.addHeader(APP_AGENT_HEADER, getAppAgentHeader());
                 request.addHeader("user",accessProvider.getSubjectId());
                 try {
+                    if(blobData!=null)
                     request.addHeader("Content-MD5",checksum.getMd5OfFile(blobData.getFile()));
                 } catch (Exception e) {
 

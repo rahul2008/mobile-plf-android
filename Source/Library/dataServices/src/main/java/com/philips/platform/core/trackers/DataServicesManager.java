@@ -36,6 +36,7 @@ import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
+import com.philips.platform.core.events.FetchMetaDataRequest;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.FetchInsightsFromDB;
 import com.philips.platform.core.events.LoadMomentsRequest;
@@ -458,7 +459,7 @@ public class DataServicesManager {
     }
 
     public void FetchMetaDataForBlobID(String id, BlobRequestListener blobRequestListener){
-
+        mEventing.post(new FetchMetaDataRequest(id,blobRequestListener));
     }
 
 
@@ -467,4 +468,5 @@ public class DataServicesManager {
         System.out.println("****value*****" + value);
 
     }
+
 }
