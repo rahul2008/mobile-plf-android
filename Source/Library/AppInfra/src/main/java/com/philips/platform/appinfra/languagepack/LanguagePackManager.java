@@ -64,12 +64,7 @@ public class LanguagePackManager implements LanguagePackInterface {
      */
     @Override
 	public void refresh(final OnRefreshListener aILPRefreshResult) {
-	   AppTaggingInterface appTagging = mAppInfra.getTagging().createInstanceForComponent("Language Pack " ,"Lang");
-	    appTagging.trackActionWithInfo("language pack " , "locale" , "en_IN");
-
-	    appTagging.trackVideoEnd("Video Lang Pack");
-
-		AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
+	    AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
 		AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
 		String languagePackServiceId = (String) appConfigurationInterface.getPropertyForKey(LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY, "APPINFRA", configError);
 		if(null==languagePackServiceId){
