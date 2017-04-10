@@ -6,4 +6,5 @@
     <dimen name="pop_up_image_margin_top">20dp</dimen>
     <dimen name="pop_up_dots_margin_left">12dp</dimen>
     <dimen name="header">20sp</dimen>
+    <dimen name="iap_shipping_address_title_size">20sp</dimen>
 </resources>
