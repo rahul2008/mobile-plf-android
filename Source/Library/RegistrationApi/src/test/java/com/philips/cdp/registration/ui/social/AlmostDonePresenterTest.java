@@ -4,12 +4,10 @@ import android.os.Bundle;
 
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.settings.RegistrationSettingsURL;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
-import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.URInterface;
 
@@ -42,17 +40,14 @@ public class AlmostDonePresenterTest {
     private AlmostDoneContract mockContract;
 
     @Mock
-    RegistrationConfiguration registrationConfiguration;
-
-    @Mock
     User mockUser;
 
     @Mock
     FieldsValidator mockFieldsValidator;
 
-    UserRegistrationFailureInfo userRegistrationFailureInfo;
+    private UserRegistrationFailureInfo userRegistrationFailureInfo;
 
-    RegistrationSettingsURL registrationSettingsURL;
+    private RegistrationSettingsURL registrationSettingsURL;
 
     private AlmostDonePresenter presenter;
 
@@ -70,6 +65,9 @@ public class AlmostDonePresenterTest {
         mockRegistrationComponent = null;
         mockContract = null;
         presenter = null;
+        mockUser = null;
+        userRegistrationFailureInfo = null;
+        registrationSettingsURL = null;
     }
 
     @Test
@@ -117,7 +115,7 @@ public class AlmostDonePresenterTest {
             resultJsonObject.put(RegConstants.REGISTER_GIVEN_NAME, "Health care");
             resultJsonObject.put(RegConstants.REGISTER_DISPLAY_NAME, "Philips");
             resultJsonObject.put(RegConstants.REGISTER_FAMILY_NAME, "HSDP");
-            resultJsonObject.put(RegConstants.REGISTER_EMAIL, "maqsood@gmail.com");
+            resultJsonObject.put(RegConstants.REGISTER_EMAIL, "maqsoodkhan@gmail.com");
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -127,7 +125,7 @@ public class AlmostDonePresenterTest {
         assertEquals("Health care",presenter.getGivenName());
         assertEquals("Philips",presenter.getDisplayName());
         assertEquals("HSDP",presenter.getFamilyName());
-        assertEquals("maqsood@gmail.com",presenter.getEmail());
+        assertEquals("maqsoodkhan@gmail.com",presenter.getEmail());
         assertEquals(true,presenter.isEmailExist());
     }
 
