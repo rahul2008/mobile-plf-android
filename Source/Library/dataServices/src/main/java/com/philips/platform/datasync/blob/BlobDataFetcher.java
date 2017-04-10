@@ -47,6 +47,9 @@ public class BlobDataFetcher extends DataFetcher{
     GsonConverter gsonConverter;
 
     @Inject
+    BaseAppDataCreator dataCreator;
+
+    @Inject
     public BlobDataFetcher(@NonNull UCoreAdapter uCoreAdapter) {
         super(uCoreAdapter);
         DataServicesManager.getInstance().getAppComponant().injectblobDataFetcher(this);
@@ -91,7 +94,7 @@ public class BlobDataFetcher extends DataFetcher{
 
         try{
 
-        BlobClient service = uCoreAdapter.getAppFrameworkClient(BlobClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
+        BlobClient service = uCoreAdapter.getAppFrameworkClient(BlobClient.class, accessProvider.getAccessToken(), gsonConverter);
             UcoreBlobMetaData ucoreBlobMetaData = service.fetchMetaData(fetchMetaDataRequest.getBlobID());
 
         if(ucoreBlobMetaData == null){
