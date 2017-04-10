@@ -105,15 +105,15 @@ public class AppInfraLogging implements LoggingInterface {
                 Log.e("appinfra", "  \"logging.debugConfig\" OR \"logging.releaseConfig\" key is missing under 'appinfra' group in AppConfig.json file");
                 return;
             }
-            String logLevel = (String) loggingProperty.get("logLevel");
+            final String logLevel = (String) loggingProperty.get("logLevel");
             Boolean isConsoleLogEnabled = (Boolean) loggingProperty.get("consoleLogEnabled");
             Boolean isFileLogEnabled = (Boolean) loggingProperty.get("fileLogEnabled");
             if (!logLevel.equalsIgnoreCase("Off") && (isConsoleLogEnabled == true || isFileLogEnabled == true)) {
                 javaLogger = Logger.getLogger(pComponentId); // returns new or existing log
-                Boolean isComponentLevelLogEnabled = (Boolean) loggingProperty.get("componentLevelLogEnabled");
+               final Boolean isComponentLevelLogEnabled = (Boolean) loggingProperty.get("componentLevelLogEnabled");
                 if (isComponentLevelLogEnabled) { // if component level filter enabled
                     // Filtering of logging components
-                    ArrayList<String> ComponentToBeLoggedlist = new ArrayList<String>();
+                  final  ArrayList<String> ComponentToBeLoggedlist = new ArrayList<String>();
                     JSONArray jsonArray = (JSONArray) loggingProperty.get("componentIds");
                     if (jsonArray != null) {
                         for (int i = 0; i < jsonArray.length(); i++) {
@@ -283,7 +283,7 @@ public class AppInfraLogging implements LoggingInterface {
             boolean logFileAppendMode = Boolean.parseBoolean(LogManager.getLogManager().getProperty("java.util.logging.FileHandler.append").trim());*/
 
             //////////////////////////
-            HashMap<String, Object> loggingProperty = getLoggingProperties();
+           final HashMap<String, Object> loggingProperty = getLoggingProperties();
             if (null == loggingProperty) {
                 Log.e("AppInfra Log", "Appinfra log file name key 'logging.releaseConfig' not present in app configuration");//
                 return null;
@@ -322,7 +322,7 @@ public class AppInfraLogging implements LoggingInterface {
     HashMap<String, Object> getLoggingProperties() {
         if (null == mLoggingProperties) {
             String AppinfraLoggingPropertKey;
-            boolean isDebuggable = (0 != (mAppInfra.getAppInfraContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
+           final boolean isDebuggable = (0 != (mAppInfra.getAppInfraContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
             if (isDebuggable) { // debug mode
                 AppinfraLoggingPropertKey = "logging.debugConfig";
             } else {
