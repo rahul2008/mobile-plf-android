@@ -42,9 +42,6 @@ public class AlmostDonePresenterTest {
     private AlmostDoneContract mockContract;
 
     @Mock
-    NetworkUtility mockNetworkUtility;
-
-    @Mock
     RegistrationConfiguration registrationConfiguration;
 
     @Mock
@@ -83,7 +80,6 @@ public class AlmostDonePresenterTest {
 
     @Test
     public void testNetworkState_disabled() {
-        when(mockNetworkUtility.isNetworkAvailable()).thenReturn(false);
         presenter.onNetWorkStateReceived(false);
         verify(mockContract).handleOfflineMode();
     }
@@ -173,7 +169,7 @@ public class AlmostDonePresenterTest {
     }
 
     @Test
-    public void testRegister(){
+    public void testRegisterSocialAccount(){
         presenter.setOnline(true);
         presenter.setDisplayName("Maqsood");
         presenter.setEmail("maqsoodkhan89@gmail.com");
