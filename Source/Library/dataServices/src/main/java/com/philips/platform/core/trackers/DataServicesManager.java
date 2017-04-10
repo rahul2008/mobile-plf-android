@@ -35,6 +35,7 @@ import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
+import com.philips.platform.core.events.FetchMetaDataRequest;
 import com.philips.platform.core.events.FetchBlobDataFromServer;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.FetchInsightsFromDB;
@@ -55,6 +56,7 @@ import com.philips.platform.core.injection.ApplicationModule;
 import com.philips.platform.core.injection.BackendModule;
 import com.philips.platform.core.injection.DaggerAppComponent;
 import com.philips.platform.core.listeners.BlobDownloadRequestListener;
+import com.philips.platform.core.listeners.BlobRequestListener;
 import com.philips.platform.core.listeners.BlobUploadRequestListener;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
@@ -454,8 +456,9 @@ public class DataServicesManager {
         mEventing.post(new FetchBlobDataFromServer(id, blobDownloadRequestListener));
     }
 
-    public void FetchMetaDataForBlobID(String id, BlobUploadRequestListener blobRequestListener){
 
+    public void FetchMetaDataForBlobID(String id, BlobRequestListener blobRequestListener){
+        mEventing.post(new FetchMetaDataRequest(id,blobRequestListener));
     }
 
 
@@ -464,4 +467,5 @@ public class DataServicesManager {
         System.out.println("****value*****" + value);
 
     }
+
 }

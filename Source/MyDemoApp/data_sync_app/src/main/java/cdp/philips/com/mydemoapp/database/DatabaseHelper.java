@@ -11,19 +11,15 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.query.In;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
-import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SyncType;
-import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import cdp.philips.com.mydemoapp.consents.ConsentDetailType;
@@ -50,7 +46,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmMomentDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentType;
 import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
-import cdp.philips.com.mydemoapp.database.table.TempBlobTable;
+import cdp.philips.com.mydemoapp.database.table.OrmBlobMetaData;
 
 /**
  * Database helper which creates and upgrades the database and provides the DAOs for the app.
@@ -80,6 +76,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<OrmDCSync, Integer> ormDCSyncDao;
     private Dao<OrmInsight, Integer> ormInsightDao;
     private Dao<OrmInsightMetaData, Integer> ormInsightMetaDataDao;
+
+    private Dao<OrmBlobMetaData, Integer> ormBlobMetaDataDao;
 
     public DatabaseHelper(Context context, final UuidGenerator uuidGenerator) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -216,7 +214,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.createTable(connectionSource, OrmInsight.class);
         TableUtils.createTable(connectionSource, OrmInsightMetaData.class);
         //Temp and will be removed
-        TableUtils.createTable(connectionSource, TempBlobTable.class);
+        TableUtils.createTable(connectionSource, OrmBlobMetaData.class);
     }
 
     @Override
@@ -280,6 +278,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.dropTable(connectionSource, OrmDCSync.class, true);
         TableUtils.dropTable(connectionSource, OrmInsight.class, true);
         TableUtils.dropTable(connectionSource, OrmInsightMetaData.class, true);
+        TableUtils.dropTable(connectionSource, OrmBlobMetaData.class, true);
     }
 
     public Dao<OrmMoment, Integer> getMomentDao() throws SQLException {
@@ -287,6 +286,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             momentDao = getDao(OrmMoment.class);
         }
         return momentDao;
+    }
+
+    public Dao<OrmBlobMetaData, Integer> getBlobDao() throws SQLException {
+        if (ormBlobMetaDataDao == null) {
+            ormBlobMetaDataDao = getDao(OrmBlobMetaData.class);
+        }
+        return ormBlobMetaDataDao;
     }
 
     private Dao<OrmMomentType, Integer> getMomentTypeDao() throws SQLException {

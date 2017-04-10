@@ -8,6 +8,7 @@ import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
+import com.philips.platform.datasync.blob.BlobMetaData;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -64,4 +65,8 @@ public interface DBFetchingInterface {
     Insight fetchInsightById(final int id, DBFetchRequestListner<Insight> dbFetchRequestListner) throws SQLException;
 
     List<?> fetchNonSynchronizedInsights() throws SQLException;
+
+    List<? extends BlobMetaData> fetchAllBlobMetaData() throws SQLException;
+
+    BlobMetaData fetchBlobMetaDataByBlobID(String blobID) throws SQLException;
 }

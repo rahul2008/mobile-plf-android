@@ -21,6 +21,7 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.utils.UuidGenerator;
+import com.philips.platform.datasync.blob.BlobMetaData;
 import com.philips.platform.datasync.insights.UCoreInsight;
 
 import org.joda.time.DateTime;
@@ -34,6 +35,7 @@ import cdp.philips.com.mydemoapp.database.datatypes.MeasurementGroupDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
+import cdp.philips.com.mydemoapp.database.table.OrmBlobMetaData;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmInsight;
@@ -199,6 +201,12 @@ public class OrmCreator implements BaseAppDataCreator {
     @Override
     public InsightMetadata createInsightMetaData(String key, String value, Insight insight) {
         return new OrmInsightMetaData(key, value, (OrmInsight) insight);
+    }
+
+    @NonNull
+    @Override
+    public BlobMetaData createBlobMetaData() {
+        return new OrmBlobMetaData();
     }
 
 }

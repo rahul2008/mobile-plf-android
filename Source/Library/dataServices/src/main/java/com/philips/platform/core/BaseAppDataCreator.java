@@ -20,6 +20,7 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SynchronisationData;
+import com.philips.platform.datasync.blob.BlobMetaData;
 import com.philips.platform.datasync.insights.UCoreInsight;
 
 import org.joda.time.DateTime;
@@ -73,4 +74,7 @@ public interface BaseAppDataCreator {
 
     @NonNull
     InsightMetadata createInsightMetaData(String key, String value, Insight insight);
+
+    @NonNull
+    BlobMetaData createBlobMetaData();
 }

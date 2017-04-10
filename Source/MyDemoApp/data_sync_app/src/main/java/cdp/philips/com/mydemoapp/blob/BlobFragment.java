@@ -1,11 +1,14 @@
 package cdp.philips.com.mydemoapp.blob;
 
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,16 +19,17 @@ import android.widget.Toast;
 
 import com.philips.cdp.uikit.customviews.CircularProgressbar;
 import com.philips.platform.core.listeners.BlobDownloadRequestListener;
+import com.philips.platform.core.listeners.BlobRequestListener;
 import com.philips.platform.core.listeners.BlobUploadRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasync.blob.UcoreBlobMetaData;
+import com.philips.platform.datasync.blob.BlobMetaData;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.activity.FilePicker;
-
 import static android.app.Activity.RESULT_OK;
 
 public class BlobFragment extends Fragment implements View.OnClickListener {
@@ -34,8 +38,11 @@ public class BlobFragment extends Fragment implements View.OnClickListener {
     private ProgressBar mProgressBar;
     private static final int REQUEST_PICK_FILE = 1;
 
-    private Button Browse;
+    private Button Browse,Fetch;
     private File selectedFile;
+    private RecyclerView mRecyclerView;
+    private ArrayList<BlobMetaData> blobMetaDatas;
+    private BlobMetaDataAdapter blobMetaDataAdapter;
     private Button mBtnDownload;
 
     @Nullable
@@ -46,6 +53,30 @@ public class BlobFragment extends Fragment implements View.OnClickListener {
         mBtnUpload = (Button) view.findViewById(R.id.upload);
         mBtnDownload = (Button) view.findViewById(R.id.download);
         mProgressBar = (CircularProgressbar) view.findViewById(R.id.settings_progress_bar);
+        Fetch=(Button) view.findViewById(R.id.fetch);
+
+        Fetch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DataServicesManager.getInstance().FetchMetaDataForBlobID("14b4f366-2c3a-46f0-a870-658ee3eb7eb0", new BlobRequestListener() {
+                    @Override
+                    public void onBlobRequestSuccess(String itemID) {
+
+                    }
+
+                    @Override
+                    public void onBlobRequestFailure(Exception exception) {
+
+                    }
+
+                    @Override
+                    public void onFetchMetaDataSuccess(BlobMetaData uCoreFetchMetaData) {
+
+                    }
+                });
+            }
+        });
 
         Browse = (Button) view.findViewById(R.id.browse);
 
@@ -55,6 +86,12 @@ public class BlobFragment extends Fragment implements View.OnClickListener {
 
         mBtnDownload.setOnClickListener(this);
 
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView=(RecyclerView) view.findViewById(R.id.lv_blob_id) ;
+        mRecyclerView.setLayoutManager(layoutManager);
+        blobMetaDatas=new ArrayList<>();
+        blobMetaDataAdapter = new BlobMetaDataAdapter(getActivity(), blobMetaDatas);
+        mRecyclerView.setAdapter(blobMetaDataAdapter);
         return view;
     }
 
@@ -147,6 +184,22 @@ public class BlobFragment extends Fragment implements View.OnClickListener {
                     public void onBlobRequestSuccess(String itemId) {
                         setProgressBarVisibility(false);
                         showToast("Blob Request Succes and the itemID = " + itemId);
+                        DataServicesManager.getInstance().FetchMetaDataForBlobID(itemId, new BlobRequestListener() {
+                            @Override
+                            public void onBlobRequestSuccess(String itemID) {
+
+                            }
+
+                            @Override
+                            public void onBlobRequestFailure(Exception exception) {
+
+                            }
+
+                            @Override
+                            public void onFetchMetaDataSuccess(BlobMetaData uCoreFetchMetaData) {
+
+                            }
+                        });
                         mBtnUpload.setEnabled(false);
                     }
 

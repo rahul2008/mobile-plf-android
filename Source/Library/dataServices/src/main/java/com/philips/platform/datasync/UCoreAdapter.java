@@ -155,7 +155,8 @@ public class UCoreAdapter {
                 request.addHeader(APP_AGENT_HEADER, getAppAgentHeader());
                 request.addHeader("user", accessProvider.getSubjectId());
                 try {
-                    request.addHeader("Content-MD5", checksum.getMd5OfFile(blobData.getFile()));
+                    if(blobData!=null)
+                    request.addHeader("Content-MD5",checksum.getMd5OfFile(blobData.getFile()));
                 } catch (Exception e) {
 
                 }

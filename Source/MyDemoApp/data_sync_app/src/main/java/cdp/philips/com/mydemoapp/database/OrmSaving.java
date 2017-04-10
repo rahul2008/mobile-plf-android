@@ -13,6 +13,7 @@ import com.j256.ormlite.dao.Dao;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.datasync.blob.BlobMetaData;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import cdp.philips.com.mydemoapp.database.table.OrmBlobMetaData;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmInsight;
@@ -76,6 +78,9 @@ public class OrmSaving {
     @NonNull
     private final Dao<OrmInsightMetaData, Integer> insightMetadataDao;
 
+    @NonNull
+    private final Dao<OrmBlobMetaData, Integer> ormBlobMetaDataDao;
+
     public OrmSaving(@NonNull final Dao<OrmMoment, Integer> momentDao,
                      @NonNull final Dao<OrmMomentDetail, Integer> momentDetailDao,
                      @NonNull final Dao<OrmMeasurement, Integer> measurementDao,
@@ -87,7 +92,7 @@ public class OrmSaving {
                      @NonNull final Dao<OrmCharacteristics, Integer> characteristicsesDao,
                      @NonNull Dao<OrmSettings, Integer> settingsDao,
                      @NonNull Dao<OrmInsight, Integer> insightsDao,
-                     @NonNull Dao<OrmInsightMetaData, Integer> insightMetadataDao) {
+                     @NonNull Dao<OrmInsightMetaData, Integer> insightMetadataDao, @NonNull Dao<OrmBlobMetaData, Integer> ormBlobMetaDataDao) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
@@ -101,6 +106,7 @@ public class OrmSaving {
         this.settingsDao = settingsDao;
         this.insightsDao = insightsDao;
         this.insightMetadataDao = insightMetadataDao;
+        this.ormBlobMetaDataDao = ormBlobMetaDataDao;
     }
 
     public void saveMoment(OrmMoment moment) throws SQLException {
@@ -262,5 +268,16 @@ public class OrmSaving {
 
     public void saveInsightMetaData(OrmInsightMetaData insightMetaData) throws SQLException {
         insightMetadataDao.createOrUpdate(insightMetaData);
+    }
+
+    public void saveBlobMetaData(BlobMetaData blobMetaData) throws SQLException {
+
+        OrmBlobMetaData ormBlobMetaData = null;
+        try {
+            ormBlobMetaData = OrmTypeChecking.checkOrmType(blobMetaData, OrmBlobMetaData.class);
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            e.printStackTrace();
+        }
+        ormBlobMetaDataDao.createOrUpdate(ormBlobMetaData);
     }
 }

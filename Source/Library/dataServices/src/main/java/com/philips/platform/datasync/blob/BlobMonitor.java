@@ -3,6 +3,7 @@ package com.philips.platform.datasync.blob;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.events.CreateBlobRequest;
+import com.philips.platform.core.events.FetchMetaDataRequest;
 import com.philips.platform.core.events.FetchBlobDataFromServer;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -50,6 +51,11 @@ public class BlobMonitor extends EventMonitor {
         list.add(data);
 
         blobDataSender.sendDataToBackend(list);
+    }
+
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void onEventAsync(FetchMetaDataRequest fetchMetaDataRequest) {
+        blobDataFetcher.fetchBlobMetaData(fetchMetaDataRequest);
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)

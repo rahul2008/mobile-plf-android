@@ -21,10 +21,12 @@ import com.philips.platform.core.events.SettingsBackendSaveResponse;
 import com.philips.platform.core.events.SyncBitUpdateRequest;
 import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
 import com.philips.platform.core.events.FetchInsightsResponse;
+import com.philips.platform.core.events.UpdateUcoreMetadataRequest;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
+import com.philips.platform.datasync.blob.BlobMetaData;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSegregator;
 import com.philips.platform.datasync.insights.InsightSegregator;
 import com.philips.platform.datasync.moments.MomentsSegregator;
@@ -225,4 +227,20 @@ public class UpdatingMonitor extends EventMonitor {
             notifyDBFailure(e);
         }
     }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventBackGround(final UpdateUcoreMetadataRequest updateUcoreMetadataRequest) throws SQLException {
+        try {
+            BlobMetaData blobMetaData = dbFetchingInterface.fetchBlobMetaDataByBlobID(updateUcoreMetadataRequest.getBlobMetaData().getBlobID());
+            BlobMetaData uCoreBlobMetaData=updateUcoreMetadataRequest.getBlobMetaData();
+            if(blobMetaData!=null){
+                uCoreBlobMetaData.setId(uCoreBlobMetaData.getId());
+            }
+            dbUpdatingInterface.updateBlobMetaData(uCoreBlobMetaData,updateUcoreMetadataRequest.getBlobRequestListener());
+        } catch (SQLException e) {
+            dbUpdatingInterface.updateFailed(e, null);
+            notifyDBFailure(e);
+        }
+    }
+
 }
