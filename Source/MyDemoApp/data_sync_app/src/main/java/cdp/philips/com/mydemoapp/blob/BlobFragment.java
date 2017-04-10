@@ -72,14 +72,14 @@ public class BlobFragment extends Fragment {
                     public void onBlobRequestSuccess(String itemId) {
                         setProgressBarVisibility(false);
                         showToast("Blob Request Succes and the itemID = " + itemId);
-                        mBtnUpload.setVisibility(View.GONE);
+                        mBtnUpload.setEnabled(false);
                     }
 
                     @Override
                     public void onBlobRequestFailure(Exception exception) {
                         setProgressBarVisibility(false);
                         showToast("Blob Request Failed");
-                        mBtnUpload.setVisibility(View.GONE);
+                        mBtnUpload.setEnabled(false);
                     }
 
                     @Override

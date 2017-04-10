@@ -35,9 +35,38 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:text="Upload"
-        android:visibility="gone"
+        android:enabled="false"
         android:layout_below="@id/selectfile"
         android:layout_toRightOf="@id/browse"
+        />
+    
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:background="?attr/uikit_listDividerColor"
+        android:layout_below="@id/browse"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_height="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/donloadfile"
+        android:text="File Download API"
+        style="@style/tvBoldTitle"
+        android:layout_below="@id/divider"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/download"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="Download"
+        android:layout_below="@id/donloadfile"
         />
 
 

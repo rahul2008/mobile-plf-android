@@ -28,7 +28,6 @@ import retrofit.converter.GsonConverter;
  * All rights reserved.
  */
 public class MomentsDataFetcher extends DataFetcher {
-    public static final String TAG = "MomentsDataFetcher";
 
     @NonNull
     private final MomentsConverter converter;
@@ -91,7 +90,7 @@ public class MomentsDataFetcher extends DataFetcher {
             return null;
         } catch (RetrofitError ex) {
             //TODO: - Veritcals should be forced to call this
-            DSLog.e(TAG, "RetrofitError: " + ex.getMessage() + ex);
+            DSLog.e(DSLog.LOG, "RetrofitError: " + ex.getMessage() + ex);
             eventing.post(new BackendDataRequestFailed(ex));
             onError(ex);
             return ex;

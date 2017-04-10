@@ -60,7 +60,7 @@ public class BlobDataSender extends DataSender {
         TypedFile typedFile = new TypedFile(blobData.type, blobData.file);
 
         try {
-            UcoreBlobResponse response = service.upload(typedFile);
+            UcoreBlobResponse response = service.uploadBlob(typedFile);
 
             if(response == null){
                 blobData.getBlobRequestListener().onBlobRequestFailure(new Exception("Server returned null response"));
