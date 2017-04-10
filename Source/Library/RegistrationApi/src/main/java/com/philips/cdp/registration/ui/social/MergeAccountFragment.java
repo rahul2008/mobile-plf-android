@@ -36,9 +36,9 @@ import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XButton;
-import com.philips.cdp.registration.ui.customviews.XPassword;
+import com.philips.cdp.registration.ui.customviews.PasswordView;
 import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.customviews.onUpdateListener;
+import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
@@ -51,7 +51,7 @@ import com.philips.cdp.registration.ui.utils.URInterface;
 import javax.inject.Inject;
 
 public class MergeAccountFragment extends RegistrationBaseFragment implements EventListener,
-        onUpdateListener, TraditionalLoginHandler, ForgotPasswordHandler, NetworStateListener,
+        OnUpdateListener, TraditionalLoginHandler, ForgotPasswordHandler, NetworStateListener,
         OnClickListener {
 
     @Inject
@@ -73,7 +73,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
     private String mEmailId;
 
-    private XPassword mEtPassword;
+    private PasswordView mEtPassword;
 
     private ProgressBar mPbMergeSpinner;
 
@@ -194,7 +194,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
         mRlSingInOptions = (RelativeLayout) view.findViewById(R.id.rl_reg_btn_container);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
-        mEtPassword = (XPassword) view.findViewById(R.id.rl_reg_password_field);
+        mEtPassword = (PasswordView) view.findViewById(R.id.rl_reg_password_field);
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         mEtPassword.requestFocus();
         mEtPassword.setOnUpdateListener(this);
@@ -335,7 +335,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
     }
 
     @Override
-    public void onUpadte() {
+    public void onUpdate() {
         handleOnUIThread(new Runnable() {
             @Override
             public void run() {

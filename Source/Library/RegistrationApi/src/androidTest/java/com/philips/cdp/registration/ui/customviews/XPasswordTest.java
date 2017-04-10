@@ -12,11 +12,11 @@ import org.junit.Test;
  */
 public class XPasswordTest extends InstrumentationTestCase{
 
-    XPassword xPassword;
+    PasswordView xPassword;
     @Before
     public void setUp() throws Exception {
         MultiDex.install(getInstrumentation().getTargetContext());
-        xPassword= new XPassword(getInstrumentation().getContext());
+        xPassword= new PasswordView(getInstrumentation().getContext());
     }
     @Test
     public void testAssert(){

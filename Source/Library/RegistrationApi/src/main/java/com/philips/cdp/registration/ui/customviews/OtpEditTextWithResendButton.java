@@ -15,7 +15,6 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,37 +23,47 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.philips.cdp.registration.B;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
-public class XVerifyNumber extends RelativeLayout implements TextWatcher,
+import butterfork.Bind;
+import butterfork.ButterFork;
+
+public class OtpEditTextWithResendButton extends RelativeLayout implements TextWatcher,
         OnFocusChangeListener {
+
+    @Bind(B.id.et_reg_verify)
+    EditText mEtVerify;
+
+    @Bind(B.id.btn_reg_resend)
+    Button mBtResend;
+
+    @Bind(B.id.tv_reg_verify_err)
+    TextView mTvErrDescriptionView;
+
+    @Bind(B.id.rl_reg_parent_verified_field)
+    RelativeLayout mRlEtEmail;
+
+    @Bind(B.id.pb_reg_verify_spinner)
+    ProgressBar mProgressBar;
+
+    @Bind(B.id.fl_reg_verify_field_err)
+    FrameLayout mFlInvalidFieldAlert;
 
     private Context mContext;
 
-    private EditText mEtVerify;
-
-    private Button mBtResend;
-
-    private TextView mTvErrDescriptionView;
-
-    private onUpdateListener mUpdateStatusListener;
-
-    private RelativeLayout mRlEtEmail;
-
-    private ProgressBar mProgressBar;
-
-    private FrameLayout mFlInvalidFieldAlert;
+    private OnUpdateListener mUpdateStatusListener;
 
     private String mTimer;
 
-    public XVerifyNumber(Context context) {
+    public OtpEditTextWithResendButton(Context context) {
         super(context);
         this.mContext = context;
         initUi(R.layout.x_verify_mobile);
     }
 
-    public XVerifyNumber(Context context, AttributeSet attrs) {
+    public OtpEditTextWithResendButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.mContext = context;
         initUi(R.layout.x_verify_mobile);
@@ -62,17 +71,11 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher,
 
     public final void initUi(int resourceId) {
         LayoutInflater li = LayoutInflater.from(mContext);
-        li.inflate(resourceId, this, true);
-        mRlEtEmail = (RelativeLayout) findViewById(R.id.rl_reg_parent_verified_field);
-        mEtVerify = (EditText) findViewById(R.id.et_reg_verify);
-        mBtResend = (Button) findViewById(R.id.btn_reg_resend);
-        mProgressBar = (ProgressBar) findViewById(R.id.pb_reg_verify_spinner);
-
+        View view = li.inflate(resourceId, this, true);
+        ButterFork.bind(this, view);
         mEtVerify.setOnFocusChangeListener(this);
         mEtVerify.addTextChangedListener(this);
         mEtVerify.setFocusable(true);
-        mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_verify_err);
-        mFlInvalidFieldAlert = (FrameLayout) findViewById(R.id.fl_reg_verify_field_err);
     }
 
     public void setCountertimer(String timer) {
@@ -96,7 +99,7 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher,
 
     private boolean validateEmail() {
         if (mEtVerify != null) {
-            if (mEtVerify.getText().toString().length() >= RegConstants.VERIFY_CODE_ENTER) {
+            if (mEtVerify.getText().toString().length() >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH) {
                 return true;
             } else {
                 return false;
@@ -135,24 +138,24 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher,
 
     public void showValidEmailAlert() {
         mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_disable);
-        mEtVerify.setTextColor(mContext.getResources().getColor(R.color.reg_edt_text_feild_color));
+        mEtVerify.setTextColor(mContext.getResources().getColor(R.color.reg_edit_text_field_color));
         mFlInvalidFieldAlert.setVisibility(GONE);
         mTvErrDescriptionView.setVisibility(GONE);
     }
 
-    public void setOnUpdateListener(onUpdateListener updateStatusListener) {
+    public void setOnUpdateListener(OnUpdateListener updateStatusListener) {
         mUpdateStatusListener = updateStatusListener;
     }
 
     private void raiseUpdateUIEvent() {
         if (null != mUpdateStatusListener) {
-            mUpdateStatusListener.onUpadte();
+            mUpdateStatusListener.onUpdate();
         }
     }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        mEtVerify.setTextColor(mContext.getResources().getColor(R.color.reg_edt_text_feild_color));
+        mEtVerify.setTextColor(mContext.getResources().getColor(R.color.reg_edit_text_field_color));
         if (v.getId() == R.id.et_reg_verify) {
             handleEmail(hasFocus);
             raiseUpdateUIEvent();
@@ -223,19 +226,19 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher,
         mEtVerify.setImeOptions(option);
     }
 
-    public void showResendSpinner(){
+    public void showResendSpinnerAndDisableResendButton(){
         mBtResend.setEnabled(false);
         mEtVerify.setEnabled(false);
         mProgressBar.setVisibility(VISIBLE);
     }
 
-    public void hideResendSpinner(){
+    public void hideResendSpinnerAndEnableResendButton(){
         mProgressBar.setVisibility(GONE);
         mEtVerify.setEnabled(true);
+        mBtResend.setEnabled(true);
     }
 
     public void disableResendSpinner(){
-        mBtResend.setEnabled(false);
         mProgressBar.setVisibility(GONE);
     }
 
