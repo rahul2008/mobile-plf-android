@@ -38,10 +38,14 @@ public class RequestManager {
 	private AppInfra mAppInfra;
 	private static final String ServiceDiscoveryCacheFile = "SDCacheFile";
 	private Context mContext = null;
+	private SharedPreferences mSharedPreference;
+	private SharedPreferences.Editor mPrefEditor;
 
 	public RequestManager(Context context, AppInfra appInfra) {
 		mContext = context;
 		mAppInfra = appInfra;
+		mSharedPreference = getServiceDiscoverySharedPreferences();
+		mPrefEditor = mSharedPreference.edit();
 	}
 
 	public ServiceDiscovery execute(final String url, ServiceDiscoveryManager.AISDURLType urlType) {
@@ -119,31 +123,28 @@ public class RequestManager {
 	}
 
 	private void cacheServiceDiscovery(JSONObject serviceDiscovery, String url, ServiceDiscoveryManager.AISDURLType urlType) {
-		final SharedPreferences sharedPreferences = getServiceDiscoverySharedPreferences();
-		final SharedPreferences.Editor prefEditor = sharedPreferences.edit();
 		final Date currentDate = new Date();
 		long refreshTimeExpiry = currentDate.getTime() + 24 * 3600 * 1000;  // current time + 24 hour
 		switch (urlType) {
 			case AISDURLTypeProposition:
-				prefEditor.putString("SDPROPOSITION", serviceDiscovery.toString());
-				prefEditor.putString("SDPROPOSITIONURL", url);
+				mPrefEditor.putString("SDPROPOSITION", serviceDiscovery.toString());
+				mPrefEditor.putString("SDPROPOSITIONURL", url);
 				break;
 			case AISDURLTypePlatform:
-				prefEditor.putString("SDPLATFORM", serviceDiscovery.toString());
-				prefEditor.putString("SDPLATFORMURL", url);
+				mPrefEditor.putString("SDPLATFORM", serviceDiscovery.toString());
+				mPrefEditor.putString("SDPLATFORMURL", url);
 				break;
 		}
-		prefEditor.putLong("SDrefreshTime", refreshTimeExpiry);
-		prefEditor.commit();
+		mPrefEditor.putLong("SDrefreshTime", refreshTimeExpiry);
+		mPrefEditor.commit();
 	}
 
 
 	protected AISDResponse getCachedData() {
 		AISDResponse cachedResponse = null;
-		final SharedPreferences prefs = getServiceDiscoverySharedPreferences();
-		if (prefs != null) {
-			final String propositionCache = prefs.getString("SDPROPOSITION", null);
-			final String platformCache = prefs.getString("SDPLATFORM", null);
+		if (mSharedPreference != null) {
+			final String propositionCache = mSharedPreference.getString("SDPROPOSITION", null);
+			final String platformCache = mSharedPreference.getString("SDPLATFORM", null);
 			try {
 				if (propositionCache != null && platformCache != null) {
 					final JSONObject propositionObject = new JSONObject(propositionCache);
@@ -164,25 +165,22 @@ public class RequestManager {
 	}
 
 	String getUrlProposition() {
-		final SharedPreferences prefs = getServiceDiscoverySharedPreferences();
-		if (prefs != null) {
-			return prefs.getString("SDPROPOSITIONURL", null);
+		if (mSharedPreference != null) {
+			return mSharedPreference.getString("SDPROPOSITIONURL", null);
 		}
 		return null;
 	}
 
 	String getUrlPlatform() {
-		final SharedPreferences prefs = getServiceDiscoverySharedPreferences();
-		if (prefs != null) {
-			return prefs.getString("SDPLATFORMURL", null);
+		if (mSharedPreference != null) {
+			return mSharedPreference.getString("SDPLATFORMURL", null);
 		}
 		return null;
 	}
 
 	boolean isServiceDiscoveryDataExpired() {
-		final SharedPreferences prefs = getServiceDiscoverySharedPreferences();
-		if (prefs != null) {
-			final long refreshTimeExpiry = prefs.getLong("SDrefreshTime", 0);
+		if (mSharedPreference != null) {
+			final long refreshTimeExpiry = mSharedPreference.getLong("SDrefreshTime", 0);
 			final Date currentDate = new Date();
 			long currentDateLong = currentDate.getTime();
 			return currentDateLong >= refreshTimeExpiry;
@@ -192,8 +190,7 @@ public class RequestManager {
 
 
 	void clearCacheServiceDiscovery() {
-		final SharedPreferences prefs = getServiceDiscoverySharedPreferences();
-		final SharedPreferences.Editor prefEditor = prefs.edit();
+		final SharedPreferences.Editor prefEditor = mSharedPreference.edit();
 		prefEditor.clear();
 		prefEditor.commit();
 	}

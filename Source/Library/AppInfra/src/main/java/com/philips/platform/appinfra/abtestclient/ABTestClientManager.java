@@ -40,6 +40,7 @@ public class ABTestClientManager implements ABTestClientInterface {
     private SharedPreferences mSharedPreferences;
     private CacheModel mCacheModel;
     private String cacheToPreference;
+    private SharedPreferences.Editor editor;
 
     public ABTestClientManager(AppInfra appInfra) {
         mAppInfra = appInfra;
@@ -51,7 +52,7 @@ public class ABTestClientManager implements ABTestClientInterface {
         loadfromDisk();
         mSharedPreferences = mAppInfra.getAppInfraContext().getSharedPreferences(ABTEST_PRREFERENCE,
                 Context.MODE_PRIVATE);
-
+        editor = mSharedPreferences.edit();
     }
 
     private void loadfromDisk() {
@@ -441,7 +442,6 @@ public class ABTestClientManager implements ABTestClientInterface {
      * @param model cachemodel object
      */
     private void saveCachetoPreference(final CacheModel model) {
-        final SharedPreferences.Editor editor = mSharedPreferences.edit();
         final Gson gson = new Gson();
         new Thread(new Runnable() {
             @Override
@@ -474,7 +474,7 @@ public class ABTestClientManager implements ABTestClientInterface {
     }
 
     private void saveAppVeriontoPref(String mAppVerion) {
-        final SharedPreferences.Editor editor = mSharedPreferences.edit();
+
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ABTESTCLIENT",
                 mAppVerion);
         editor.putString("APPVERSION", mAppVerion);
