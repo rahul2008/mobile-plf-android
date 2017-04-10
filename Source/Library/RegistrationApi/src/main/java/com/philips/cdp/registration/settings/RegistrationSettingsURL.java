@@ -311,7 +311,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         return isChinaFlow;
     }
 
-    private void setChinaFlow(boolean chinaFlow) {
+    public void setChinaFlow(boolean chinaFlow) {
         isChinaFlow = chinaFlow;
     }
 }

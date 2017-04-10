@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.philips.cdp.registration.B;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -123,12 +124,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     private Context mContext;
 
-    private boolean isSavedCBTermsChecked;
-
-    private boolean isSavedCbAcceptTermsChecked;
-
-    private boolean isTermsAndConditionVisible;
-
     private Bundle mBundle;
 
     @Override
@@ -142,6 +137,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         URInterface.getComponent().inject(this);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onCreateView");
         mBundle = getArguments();
+        if (null != mBundle) {
+            trackAbtesting();
+        }
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
         almostDonePresenter = new AlmostDonePresenter(this,mUser);
         RLog.i(RLog.EVENT_LISTENERS,
@@ -156,100 +154,12 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onActivityCreated");
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onStart");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onResume");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onPause");
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onStop");
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onDestroyView");
-    }
-
-    @Override
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onDestroy");
         RLog.i(RLog.EVENT_LISTENERS,
                 "AlmostDoneFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS");
         super.onDestroy();
         almostDonePresenter.cleanUp();
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onDetach");
-    }
-
-    private Bundle mSavedBundle;
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        mSavedBundle = outState;
-        super.onSaveInstanceState(mSavedBundle);
-        if (acceptTermsCheck != null) {
-            if (marketingOptCheck.isChecked()) {
-                isSavedCBTermsChecked = true;
-                mSavedBundle.putBoolean("isSavedCBTermsChecked", isSavedCBTermsChecked);
-                mSavedBundle.putString("savedCBTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
-            }
-        }
-        if (acceptTermsCheck != null) {
-            if (acceptTermsCheck.isChecked()) {
-                isSavedCbAcceptTermsChecked = true;
-                mSavedBundle.putBoolean("isSavedCbAcceptTermsChecked", isSavedCbAcceptTermsChecked);
-                mSavedBundle.putString("savedCbAcceptTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
-            }
-        }
-        if (errorMessage != null) {
-            if (errorMessage.getVisibility() == View.VISIBLE) {
-                isTermsAndConditionVisible = true;
-                mSavedBundle.putBoolean("isTermsAndConditionVisible", isTermsAndConditionVisible);
-                mSavedBundle.putString("saveTermsAndConditionErrText", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
-            }
-        }
-    }
-
-    @Override
-    public void onViewStateRestored(Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState != null) {
-            if (savedInstanceState.getBoolean("isSavedCBTermsChecked")) {
-                marketingOptCheck.setChecked(true);
-            }
-            if (savedInstanceState.getBoolean("isSavedCbAcceptTermsChecked")) {
-                acceptTermsCheck.setChecked(true);
-            }
-            if (savedInstanceState.getString("saveTermsAndConditionErrText") != null && savedInstanceState.getBoolean("isTermsAndConditionVisible")) {
-                errorMessage.setError(savedInstanceState.getString("saveTermsAndConditionErrText"));
-            }
-        }
-        mSavedBundle = null;
     }
 
     @Override
@@ -433,9 +343,14 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void hideMarketingOptSpinner() {
-        marketingOptCheck.setEnabled(true);
-        mPbSpinner.setVisibility(View.INVISIBLE);
-        mBtnContinue.setEnabled(true);
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                marketingOptCheck.setEnabled(true);
+                mPbSpinner.setVisibility(View.INVISIBLE);
+                mBtnContinue.setEnabled(true);
+            }
+        });
     }
 
     @OnClick(B.id.reg_btn_continue)
@@ -479,7 +394,12 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void storePreference(String emailOrMobileNumber){
-        RegPreferenceUtility.storePreference(mContext, emailOrMobileNumber, true);
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                RegPreferenceUtility.storePreference(mContext, emailOrMobileNumber, true);
+            }
+        });
     }
 
     private void trackMultipleActions() {
@@ -538,18 +458,28 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void addMergeAccountFragment() {
-        getRegistrationFragment().addFragment(new MergeAccountFragment());
-        trackPage(AppTaggingPages.MERGE_ACCOUNT);
+    handleOnUIThread(new Runnable() {
+        @Override
+        public void run() {
+            getRegistrationFragment().addFragment(new MergeAccountFragment());
+            trackPage(AppTaggingPages.MERGE_ACCOUNT);
+        }
+     });
     }
 
     @Override
     public void handleContinueSocialProvider() {
-        RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onContinueSocialProviderLoginSuccess");
-        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
-                AppTagingConstants.SUCCESS_USER_CREATION);
-        trackMultipleActions();
-        handleABTestingFlow();
-        hideMarketingOptSpinner();
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onContinueSocialProviderLoginSuccess");
+                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                        AppTagingConstants.SUCCESS_USER_CREATION);
+                trackMultipleActions();
+                handleABTestingFlow();
+                hideMarketingOptSpinner();
+            }
+        });
     }
 
     private void handleABTestingFlow() {
@@ -608,18 +538,28 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void displayNameErrorMessage(UserRegistrationFailureInfo userRegistrationFailureInfo,String displayName){
-        mEtEmail.setErrDescription(userRegistrationFailureInfo.getDisplayNameErrorMessage());
-        mEtEmail.showInvalidAlert();
-        mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + ".\n'"
-                + displayName + "' "
-                + userRegistrationFailureInfo.getDisplayNameErrorMessage());
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                mEtEmail.setErrDescription(userRegistrationFailureInfo.getDisplayNameErrorMessage());
+                mEtEmail.showInvalidAlert();
+                mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + ".\n'"
+                        + displayName + "' "
+                        + userRegistrationFailureInfo.getDisplayNameErrorMessage());
+            }
+        });
     }
 
     @Override
     public void emailErrorMessage(UserRegistrationFailureInfo userRegistrationFailureInfo){
-        mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
-        mEtEmail.showInvalidAlert();
-        mEtEmail.showErrPopUp();
+     handleOnUIThread(new Runnable() {
+        @Override
+        public void run() {
+            mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
+            mEtEmail.showInvalidAlert();
+            mEtEmail.showErrPopUp();
+        }
+    });
     }
 
     @Override
@@ -639,19 +579,29 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void onCheckedChanged(View view, boolean isChecked) {
-        almostDonePresenter.handleUpdate();
+        almostDonePresenter.handleUpdateMarketingOpt();
     }
 
     @Override
     public void failedToConnectToServer(){
-        mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
+            }
+        });
     }
 
     @Override
     public void replaceWithHomeFragment() {
-        if (getRegistrationFragment() != null) {
-            getRegistrationFragment().replaceWithHomeFragment();
+     handleOnUIThread(new Runnable() {
+        @Override
+        public void run() {
+            if (getRegistrationFragment() != null) {
+                getRegistrationFragment().replaceWithHomeFragment();
+            }
         }
+     });
     }
 
     @Override
@@ -666,9 +616,14 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void updateMarketingOptFailedError(){
-        marketingOptCheck.setOnCheckedChangeListener(null);
-        marketingOptCheck.setChecked(!marketingOptCheck.isChecked());
-        marketingOptCheck.setOnCheckedChangeListener(AlmostDoneFragment.this);
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                marketingOptCheck.setOnCheckedChangeListener(null);
+                marketingOptCheck.setChecked(!marketingOptCheck.isChecked());
+                marketingOptCheck.setOnCheckedChangeListener(AlmostDoneFragment.this);
+            }
+        });
     }
 
     @Override
@@ -685,4 +640,27 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         return marketingOptCheck.isChecked();
     }
 
+    private void trackAbtesting() {
+        final UIFlow abTestingFlow = RegUtility.getUiFlow();
+
+        switch (abTestingFlow){
+            case FLOW_A :
+                RLog.d(RLog.AB_TESTING, "UI Flow Type A");
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                        AppTagingConstants.REGISTRATION_CONTROL);
+                break;
+
+            case FLOW_B:
+                RLog.d(RLog.AB_TESTING, "UI Flow Type B");
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                        AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
+                break;
+            case FLOW_C:
+                RLog.d(RLog.AB_TESTING, "UI Flow Type C");
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                        AppTagingConstants.REGISTRATION_SOCIAL_PROOF);
+                break;
+            default:break;
+        }
+    }
 }

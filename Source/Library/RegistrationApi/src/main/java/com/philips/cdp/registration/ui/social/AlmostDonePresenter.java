@@ -31,9 +31,9 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 
 import static com.philips.cdp.registration.ui.traditional.LogoutFragment.BAD_RESPONSE_ERROR_CODE;
+import static com.philips.cdp.registration.ui.utils.RegConstants.EMAIL_ADDRESS_ALREADY_USE_CODE;
 
 public class AlmostDonePresenter implements NetworStateListener,SocialProviderLoginHandler,UpdateUserDetailsHandler {
-
 
     @Inject
     User mUser;
@@ -43,12 +43,6 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
 
     private final AlmostDoneContract almostDoneContract;
 
-    private final Handler mHandler = new Handler(Looper.getMainLooper());
-
-    private Thread mUiThread = Looper.getMainLooper().getThread();
-
-    private final static int EMAIL_ADDRESS_ALREADY_USE_CODE = 390;
-
     private String mGivenName;
 
     private String mDisplayName;
@@ -57,9 +51,9 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
 
     private String mEmail;
 
-    private String mProvider;
-
     private boolean isEmailExist;
+
+    private String mProvider;
 
     private String mRegistrationToken;
 
@@ -71,6 +65,7 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
         URInterface.getComponent().inject(this);
         this.mUser = user;
         this.almostDoneContract = almostDoneContract;
+        this.isOnline = networkUtility.isNetworkAvailable();
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
     }
 
@@ -81,21 +76,26 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        this.isOnline = isOnline;
+        setOnline(isOnline);
         updateUIControls();
     }
 
     public void updateUIControls() {
+        System.out.println("******* updateUIControls");
         if (isEmailExist) {
-            if (isOnline) {
+            System.out.println("******* isEmailExist");
+            if (isOnline()) {
+                System.out.println("******* enableContinueBtn");
                 almostDoneContract.enableContinueBtn();
             } else {
                 almostDoneContract.handleOfflineMode();
             }
         } else {
-            if (isOnline) {
+            if (isOnline()) {
+                System.out.println("******* Online");
                 almostDoneContract.validateEmailFieldUI();
             } else {
+                System.out.println("******* Offline");
                 almostDoneContract.handleOfflineMode();
             }
         }
@@ -129,25 +129,13 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
 
     @Override
     public void onLoginSuccess() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
-                        AppTagingConstants.SUCCESS_LOGIN);
-                almostDoneContract.hideMarketingOptSpinner();
-            }
-        });
+        AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                AppTagingConstants.SUCCESS_LOGIN);
     }
 
     @Override
-    public void onLoginFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                handleLoginFailed(userRegistrationFailureInfo);
-            }
-        });
+    public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+        handleLoginFailed(userRegistrationFailureInfo);
     }
 
     private void handleLoginFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
@@ -165,42 +153,24 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
     @Override
     public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord,
                                               String socialRegistrationToken) {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                almostDoneContract.hideMarketingOptSpinner();
-            }
-        });
+        almostDoneContract.hideMarketingOptSpinner();
     }
 
     @Override
     public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider,
                                                 String conflictingIdentityProvider, String conflictingIdpNameLocalized,
                                                 String existingIdpNameLocalized, String emailId) {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                almostDoneContract.hideMarketingOptSpinner();
-                almostDoneContract.addMergeAccountFragment();
-            }
-        });
+        almostDoneContract.hideMarketingOptSpinner();
+        almostDoneContract.addMergeAccountFragment();
     }
 
 
     @Override
     public void onContinueSocialProviderLoginFailure(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                handleContinueSocialProviderFailed(userRegistrationFailureInfo);
-            }
-        });
-
+        handleContinueSocialProviderFailed(userRegistrationFailureInfo);
     }
 
     private void handleContinueSocialProviderFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
         almostDoneContract.hideMarketingOptSpinner();
         if (null != userRegistrationFailureInfo.getDisplayNameErrorMessage()) {
             almostDoneContract.displayNameErrorMessage(userRegistrationFailureInfo,mDisplayName);
@@ -225,23 +195,8 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
 
     @Override
     public void onContinueSocialProviderLoginSuccess() {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                almostDoneContract.storePreference(mEmail);
-                almostDoneContract.handleContinueSocialProvider();
-            }
-        });
-    }
-
-    private final void handleOnUIThread(Runnable runnable) {
-        runnable.run();
-        if (Thread.currentThread() != mUiThread) {
-            mHandler.post(runnable);
-        } else {
-            runnable.run();
-        }
+        almostDoneContract.storePreference(mEmail);
+        almostDoneContract.handleContinueSocialProvider();
     }
 
     public void parseRegistrationInfo(Bundle bundle) {
@@ -265,9 +220,6 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
 
     private void handleSocialTwoStepError(Bundle bundle) {
         try {
-            if(bundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR)!=null){
-                trackAbtesting();
-            }
             if(bundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR)!=null) {
                 JSONObject mPreRegJson = new JSONObject(bundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR));
                 performSocialTwoStepError(mPreRegJson,bundle);
@@ -290,25 +242,25 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
                 if (!mPreRegJson.isNull(RegConstants.REGISTER_GIVEN_NAME)
                         && !RegConstants.SOCIAL_BLANK_CHARACTER.equals(mPreRegJson
                         .getString(RegConstants.REGISTER_GIVEN_NAME))) {
-                    mGivenName = mPreRegJson.getString(RegConstants.REGISTER_GIVEN_NAME);
+                    setGivenName(mPreRegJson.getString(RegConstants.REGISTER_GIVEN_NAME));
                 }
                 if (!mPreRegJson.isNull(RegConstants.REGISTER_DISPLAY_NAME)
                         && !RegConstants.SOCIAL_BLANK_CHARACTER.equals(mPreRegJson
                         .getString(RegConstants.REGISTER_DISPLAY_NAME))) {
-                    mDisplayName = mPreRegJson.getString(RegConstants.REGISTER_DISPLAY_NAME);
+                    setDisplayName(mPreRegJson.getString(RegConstants.REGISTER_DISPLAY_NAME));
                 }
                 if (!mPreRegJson.isNull(RegConstants.REGISTER_FAMILY_NAME)
                         && !RegConstants.SOCIAL_BLANK_CHARACTER.equals(mPreRegJson
                         .getString(RegConstants.REGISTER_FAMILY_NAME))) {
-                    mFamilyName = mPreRegJson.getString(RegConstants.REGISTER_FAMILY_NAME);
+                    setFamilyName(mPreRegJson.getString(RegConstants.REGISTER_FAMILY_NAME));
                 }
                 if (!mPreRegJson.isNull(RegConstants.REGISTER_EMAIL)
                         && !RegConstants.SOCIAL_BLANK_CHARACTER.equals(mPreRegJson
                         .getString(RegConstants.REGISTER_EMAIL))) {
-                    mEmail = mPreRegJson.getString(RegConstants.REGISTER_EMAIL);
-                    isEmailExist = true;
+                    setEmail(mPreRegJson.getString(RegConstants.REGISTER_EMAIL));
+                    setEmailExist(true);
                 } else {
-                    isEmailExist = false;
+                    setEmailExist(false);
                 }
             }
         }catch (JSONException e){
@@ -316,52 +268,15 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
         }
     }
 
-    private void trackAbtesting() {
-        final UIFlow abTestingFlow = RegUtility.getUiFlow();
-
-        switch (abTestingFlow){
-            case FLOW_A :
-                RLog.d(RLog.AB_TESTING, "UI Flow Type A");
-                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                        AppTagingConstants.REGISTRATION_CONTROL);
-                break;
-
-            case FLOW_B:
-                RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                        AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
-                break;
-            case FLOW_C:
-                RLog.d(RLog.AB_TESTING, "UI Flow Type C");
-                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                        AppTagingConstants.REGISTRATION_SOCIAL_PROOF);
-                break;
-            default:break;
-        }
-    }
-
     @Override
     public void onUpdateSuccess() {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                almostDoneContract.hideMarketingOptSpinner();
-                almostDoneContract.trackMarketingOpt();
-            }
-        });
-
+        almostDoneContract.hideMarketingOptSpinner();
+        almostDoneContract.trackMarketingOpt();
     }
 
     @Override
     public void onUpdateFailedWithError(final int error) {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                handleUpdateReceiveMarket(error);
-            }
-        });
+        handleUpdateReceiveMarket(error);
     }
 
     private void handleUpdateReceiveMarket(int error) {
@@ -382,16 +297,11 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
     }
 
     public void register(boolean isReMarketingOptCheck,String email) {
-        if (networkUtility.isNetworkAvailable()) {
+        if (isOnline()) {
             almostDoneContract.hideErrorMessage();
             almostDoneContract.showMarketingOptSpinner();
-            if (isEmailExist) {
-                mUser.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName, mEmail, true,
+            mUser.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName, isEmailExist?mEmail:email, true,
                         isReMarketingOptCheck, this, mRegistrationToken);
-            } else {
-                mUser.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName,
-                        email, true, isReMarketingOptCheck, this, mRegistrationToken);
-            }
         }
     }
 
@@ -419,8 +329,8 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
          mUser.logout(null);
     }
 
-    public void handleUpdate() {
-        if (networkUtility.isNetworkAvailable()) {
+    public void handleUpdateMarketingOpt() {
+        if (isOnline()) {
             almostDoneContract.handleUpdateUser();
         } else {
             almostDoneContract.marketingOptCheckDisable();
@@ -440,7 +350,6 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
     }
 
     public void handleSocialTermsAndCondition() {
-
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && almostDoneContract.isAcceptTermsContainerVisible()) {
             if (almostDoneContract.isAcceptTermsChecked()) {
                   register(almostDoneContract.isMarketingOptChecked(), almostDoneContract.getMobileNumber());
@@ -450,6 +359,54 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
         } else {
               register(almostDoneContract.isMarketingOptChecked(),almostDoneContract.getMobileNumber());
         }
+    }
+
+    public String getGivenName() {
+        return mGivenName;
+    }
+
+    public void setGivenName(String mGivenName) {
+        this.mGivenName = mGivenName;
+    }
+
+    public String getDisplayName() {
+        return mDisplayName;
+    }
+
+    public void setDisplayName(String mDisplayName) {
+        this.mDisplayName = mDisplayName;
+    }
+
+    public String getFamilyName() {
+        return mFamilyName;
+    }
+
+    public void setFamilyName(String mFamilyName) {
+        this.mFamilyName = mFamilyName;
+    }
+
+    public String getEmail() {
+        return mEmail;
+    }
+
+    public void setEmail(String mEmail) {
+        this.mEmail = mEmail;
+    }
+
+    public boolean isEmailExist() {
+        return isEmailExist;
+    }
+
+    public void setEmailExist(boolean emailExist) {
+        isEmailExist = emailExist;
+    }
+
+    public boolean isOnline() {
+        return isOnline;
+    }
+
+    public void setOnline(boolean online) {
+        isOnline = online;
     }
 }
 

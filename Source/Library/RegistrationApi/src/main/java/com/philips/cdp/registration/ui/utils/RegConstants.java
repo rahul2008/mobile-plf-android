@@ -180,4 +180,5 @@ public class RegConstants {
 
     public static final int FAILURE_TO_CONNECT = -1;
 
+    public final static int EMAIL_ADDRESS_ALREADY_USE_CODE = 390;
 }
