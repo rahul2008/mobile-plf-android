@@ -29,10 +29,10 @@ public class UIDResources extends Resources {
     @NonNull
     @Override
     public CharSequence getText(@StringRes int id) {
-        if (UIDLocaleHelper.getUidLocaleHelper().isLookUp()) {
+        if (UIDLocaleHelper.getInstance().isLookUp()) {
             String resourceName = getResourceEntryName(id);
             if (resourceName != null) {
-                String string = UIDLocaleHelper.getUidLocaleHelper().lookUpString(resourceName);
+                String string = UIDLocaleHelper.getInstance().lookUpString(resourceName);
                 if (string != null) {
                     return string;
                 }
