@@ -50,6 +50,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmMomentDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentType;
 import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
+import cdp.philips.com.mydemoapp.database.table.TempBlobTable;
 
 /**
  * Database helper which creates and upgrades the database and provides the DAOs for the app.
@@ -214,6 +215,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.createTable(connectionSource, OrmDCSync.class);
         TableUtils.createTable(connectionSource, OrmInsight.class);
         TableUtils.createTable(connectionSource, OrmInsightMetaData.class);
+        //Temp and will be removed
+        TableUtils.createTable(connectionSource, TempBlobTable.class);
     }
 
     @Override

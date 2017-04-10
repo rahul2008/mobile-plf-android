@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.widget.Toast;
 
+import com.facebook.stetho.Stetho;
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
@@ -90,6 +91,7 @@ public class DataSyncApplication extends Application {
         fetchDataServicesUrl();
         mScheduleSyncReceiver = new ScheduleSyncReceiver();
         scheduleSync();
+        Stetho.initializeWithDefaults(this);
     }
 
     private void initAppInfra() {

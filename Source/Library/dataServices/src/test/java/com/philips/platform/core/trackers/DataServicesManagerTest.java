@@ -20,6 +20,7 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
+import com.philips.platform.core.events.CreateBlobRequest;
 import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
@@ -31,6 +32,7 @@ import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.injection.AppComponent;
+import com.philips.platform.core.listeners.BlobRequestListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
@@ -53,6 +55,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import static org.mockito.Matchers.any;
@@ -78,6 +81,12 @@ public class DataServicesManagerTest {
     DataFetcher dataFetcherMock;
     @Mock
     private Eventing eventingMock;
+
+    @Mock
+    private File fileMock;
+
+    @Mock
+    private BlobRequestListener blobRequestListenerMock;
 
     @Mock
     SynchronisationManager synchronisationManagerMock;
@@ -321,5 +330,10 @@ public class DataServicesManagerTest {
     @Test
     public void registerDeviceTokenTest() throws Exception {
         tracker.registerDeviceToken("token", "variant", "protocol provider", null);
+    }
+
+    @Test
+    public void should_create_blob_call_createBlobRequest(){
+        tracker.createBlob(fileMock,"/storage",blobRequestListenerMock);
     }
 }

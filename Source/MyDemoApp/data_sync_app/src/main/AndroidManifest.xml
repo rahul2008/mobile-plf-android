@@ -29,6 +29,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".activity.FilePicker"></activity>
+
         <!--
         This activity declaration is merged with the version from the library manifest.
         It demonstrates how an https redirect can be captured, in addition to or instead of

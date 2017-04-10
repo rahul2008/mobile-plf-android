@@ -64,6 +64,9 @@ public class UCoreAdapter {
     private final RestAdapter.Builder restAdapterBuilder;
 
     @Inject
+    UCoreAccessProvider accessProvider;
+
+    @Inject
     public UCoreAdapter(
             @NonNull final OkClientFactory okClientFactory,
             @NonNull final RestAdapter.Builder restAdapterBuilder,
@@ -148,7 +151,7 @@ public class UCoreAdapter {
                 request.addHeader("Authorization", "bearer " + accessToken);
                 request.addHeader(API_VERSION_CUSTOM_HEADER, String.valueOf(API_VERSION_BLOB));
                 request.addHeader(APP_AGENT_HEADER, getAppAgentHeader());
-                request.addHeader("user","spoorti");
+                request.addHeader("user",accessProvider.getSubjectId());
                 try {
                     request.addHeader("Content-MD5",checksum.getMd5OfFile(blobData.getFile()));
                 } catch (Exception e) {
