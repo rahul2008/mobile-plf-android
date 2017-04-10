@@ -52,7 +52,6 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import static com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy.SCAN_WINDOW_MILLIS;
-import static com.philips.pins.shinelib.SHNCapabilityType.DI_COMM;
 import static com.philips.pins.shinelib.SHNDevice.State.Connected;
 import static com.philips.pins.shinelib.SHNDevice.State.Disconnected;
 import static junit.framework.Assert.assertEquals;
@@ -174,7 +173,7 @@ public class BleCommunicationStrategyTestSteps {
 
         when(info.getShnDevice()).thenReturn(device);
         when(device.getAddress()).thenReturn(deviceId);
-        when(device.getCapabilityForType(DI_COMM)).thenReturn(capability);
+        when(device.getCapability(CapabilityDiComm.class)).thenReturn(capability);
         when(device.getState()).thenReturn(Disconnected);
 
         doAnswer(new Answer() {

@@ -35,8 +35,6 @@ class ReferenceNodeDeviceDefinition implements SHNDeviceDefinitionInfo.SHNDevice
         SHNCapabilityDeviceInformation capabilityDeviceInformation = new SHNCapabilityDeviceInformationImpl(shnServiceDeviceInformation);
         shnDevice.registerCapability(SHNCapabilityDeviceInformation.class, capabilityDeviceInformation);
 
-        // Generic Access
-
         return new SHNDeviceWrapper(shnDevice);
     }
 }

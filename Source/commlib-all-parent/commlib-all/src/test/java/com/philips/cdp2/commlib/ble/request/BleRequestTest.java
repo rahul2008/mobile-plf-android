@@ -9,7 +9,6 @@ import android.os.Handler;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
-import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDevice.SHNDeviceListener;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
@@ -79,7 +78,7 @@ public class BleRequestTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        when(mockDevice.getCapabilityForType(SHNCapabilityType.DI_COMM)).thenReturn(mockCapability);
+        when(mockDevice.getCapability(CapabilityDiComm.class)).thenReturn(mockCapability);
         when(mockDevice.getState()).thenReturn(Connected);
 
         when(mockDeviceCache.getCacheData(anyString())).thenReturn(mockCacheData);
