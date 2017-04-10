@@ -35,7 +35,7 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
             try
             {
                 Thread.Sleep(3000);
-                if (!AppHomeScreen.IsVisibleScreenTitleText("Mobile App Home"))
+                if (!AppHomeScreen.IsVisibleScreenTitleText("Mobile App home"))
                 {
                     WelcomeScreen.Click(WelcomeScreen.Button.Skip);
                     Log_In.Click();

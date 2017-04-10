@@ -15,7 +15,7 @@ if (env.triggerBy == "ppc") {
   node_ext = "build_p"
 }
 
-node ('Ubuntu && 23.0.3 &&' + node_ext) {
+node ('android && keystore && ' + node_ext) {
     timestamps {
         stage ('Checkout') {
             checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/rap-android-reference-app']]])
@@ -24,10 +24,10 @@ node ('Ubuntu && 23.0.3 &&' + node_ext) {
 
         try {
             stage ('build') {
-                sh 'cd ./Source/AppFramework && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug assembleLeakCanary'
+                sh 'cd ./Source/AppFramework && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease assembleLeakCanary'
             }
             
-            sh 'cd ./Source/AppFramework && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleDebug assembleLeakCanary'
+            sh 'cd ./Source/AppFramework && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease assembleLeakCanary'
 
             if(env.BRANCH_NAME == 'master') {
                 stage ('Release') {

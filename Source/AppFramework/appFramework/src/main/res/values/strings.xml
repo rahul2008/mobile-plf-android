@@ -123,6 +123,13 @@
         <item>HX6064/33</item>
     </string-array>
 
+    <!-- TODO - As per Raymond communication, we should not go to multiple CTNs because this is going to add one more
+        product selection screen. Which is not considered in for testing by Madan's team. -->
+    <!-- Consumer Care related-->
+    <string-array name="productselection_ctnlist_china" translatable="false">
+        <item>HX9924/12</item>
+    </string-array>
+
 
     <string-array name="iap_productselection_ctnlist" translatable="false">
         <item>HD9240/90</item>

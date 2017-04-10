@@ -28,6 +28,7 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFound
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.pushnotification.PushNotificationManager;
@@ -35,7 +36,11 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
 
@@ -51,6 +56,14 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     private User userObject;
     private FragmentLauncher fragmentLauncher;
     private Context applicationContext;
+
+    private static final String HSDP_CONFIGURATION_APPLICATION_NAME = "HSDPConfiguration.ApplicationName";
+    private static final String HSDP_CONFIGURATION_SECRET = "HSDPConfiguration.Secret";
+    private static final String HSDP_CONFIGURATION_SHARED = "HSDPConfiguration.Shared";
+    private static final String HSDP_CONFIGURATION_BASE_URL = "HSDPConfiguration.BaseURL";
+    private static final String CHINA_CODE = "CN";
+    private static final String DEFAULT = "default";
+    private static final String URL_ENCODING = "UTF-8";
 
     /**
      * AppFlowState constructor
@@ -117,34 +130,40 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     public void initHSDP() {
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
-        ((AppFrameworkApplication)applicationContext).getAppInfra().
-                getConfigInterface().setPropertyForKey(
-                "HSDPConfiguration.ApplicationName",
-                UR,
-                "OneBackend",
-                configError);
+        AppInfraInterface appInfra = ((AppFrameworkApplication)applicationContext).getAppInfra();
 
-        ((AppFrameworkApplication)applicationContext).getAppInfra().
-                getConfigInterface().setPropertyForKey(
-                "HSDPConfiguration.Secret",
-                UR,
-                "f5b62a26d680e5ae8001522a8e3268f966545a1a14a47ea2040793ea825484cd12fce9c46b43e2c2604cb836db64362a0c8b39eb7b162b8b3e83740143337eda",
-                configError);
+        AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
 
-        ((AppFrameworkApplication)applicationContext).getAppInfra().
-                getConfigInterface().setPropertyForKey(
-                "HSDPConfiguration.Shared",
-                UR,
-                "f52cd90d-c955-43e1-8380-999e03d0d4c0",
-                configError);
+        Map<String, String> hsdpAppNames = new HashMap<>();
+        hsdpAppNames.put(CHINA_CODE, "OneBackend");
+        hsdpAppNames.put(DEFAULT, "OneBackend");
 
-        ((AppFrameworkApplication)applicationContext).getAppInfra().
-                getConfigInterface().setPropertyForKey(
-                "HSDPConfiguration.BaseURL",
-                UR,
-                "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com",
-//                "https://user-registration-assembly-staging.eu-west.philips-healthsuite.com",
-                configError);
+        appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_APPLICATION_NAME,
+                UR, hsdpAppNames, configError);
+
+        Map<String, String> hsdpSecrets = new HashMap<>();
+        hsdpSecrets.put(CHINA_CODE, "a3a3d09e2c74b93a409bc242956a6101bd5ff78cfd21473faa7aa21a8ec8493b66fa905dd4916b8ba4325cb988b442f9c6054089b9b36d09bb1538f985b47b22");
+        hsdpSecrets.put(DEFAULT,    "f5b62a26d680e5ae8001522a8e3268f966545a1a14a47ea2040793ea825484cd12fce9c46b43e2c2604cb836db64362a0c8b39eb7b162b8b3e83740143337eda");
+        appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_SECRET,
+                UR, hsdpSecrets, configError);
+
+        Map<String, String> hsdpSharedIds = new HashMap<>();
+        hsdpSharedIds.put(CHINA_CODE, "6036461d-0914-4afe-9e6e-eefe27fb529a");
+        hsdpSharedIds.put(DEFAULT, "f52cd90d-c955-43e1-8380-999e03d0d4c0");
+
+        appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
+                UR, hsdpSharedIds, configError);
+
+        Map<String, String> hsdpBaseUrls = new HashMap<>();
+        try {
+            hsdpBaseUrls.put(CHINA_CODE, URLEncoder.encode("https://user-registration-assembly-staging.cn1.philips-healthsuite.com.cn", URL_ENCODING));
+            hsdpBaseUrls.put(DEFAULT, URLEncoder.encode("https://user-registration-assembly-staging.eu-west.philips-healthsuite.com", URL_ENCODING));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_BASE_URL,
+                UR, hsdpBaseUrls, configError);
     }
 
 
