@@ -43,7 +43,6 @@ import com.philips.platform.baseapp.screens.dataservices.registration.UserRegist
 import com.philips.platform.baseapp.screens.dataservices.temperature.TemperatureTimeLineFragment;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
-import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -90,6 +89,7 @@ public class DataServicesState extends BaseState {
         DSLog.enableLogging(true);
         DSLog.i(DSLog.LOG, "Before Setting up Synchronization Loop");
         scheduleSync(context);
+
         //Stetho.initializeWithDefaults(context);
     }
 

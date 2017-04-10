@@ -40,6 +40,12 @@
             android:name=".homescreen.HamburgerActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|locale|layoutDirection"
             android:theme="@style/Theme.Philips.DarkBlue.Gradient"/>
+
+
+        <activity
+            android:name="com.philips.platform.referenceapp.wxapi.WXEntryActivity"
+            android:exported="true"></activity>
+
         <!--<receiver-->
             <!--android:name="NetworkReceiver"-->
             <!--android:exported="false">-->
@@ -68,6 +74,48 @@
                 <action android:name="android.intent.action.LOCALE_CHANGED"/>
             </intent-filter>
         </receiver>-->
+
+        <!--
+  This activity declaration is merged with the version from the library manifest.
+  It demonstrates how an https redirect can be captured, in addition to or instead of
+  a custom scheme.
+
+  Generally, this should be done in conjunction with an app link declaration for Android M
+  and above, for additional security and an improved user experience. See:
+
+  https://developer.android.com/training/app-links/index.html
+
+  The declaration from the library can be completely replaced by adding
+
+  tools:node="replace"
+
+  To the list of attributes on the activity element.
+  -->
+        <activity
+            android:name="net.openid.appauth.RedirectUriReceiverActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="https"
+                    android:host="com.googleusercontent.apps.346000571262-arpks5qhm771a2mfbm4e829va12olmtf"
+                    android:path="/oauth2redirect"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.janrain.android.engage.OpenIDAppAuthTokenActivity"
+            android:label="SimpleDemoApplication"
+            android:theme="@style/Theme.Janrain.Dialog.Light"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+
+        <activity
+            android:name="com.janrain.android.engage.OpenIDAppAuthCancelledActivity"
+            android:label="SimpleDemoApplication"
+            android:theme="@style/Theme.Janrain.Dialog.Light"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
 
     </application>
 

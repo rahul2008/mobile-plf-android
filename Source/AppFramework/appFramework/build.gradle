@@ -120,7 +120,7 @@ publishing {
             } else {
             } */
 
-            artifact("$buildDir/outputs/apk/${archivesBaseName}-debug.apk")
+            artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
@@ -152,6 +152,12 @@ android {
         testApplicationId "com.philips.platform.appframework.test"
         testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
         multiDexEnabled true
+
+        // replace the below string with your own Google client ID. Make sure this is consistent
+        // with the values used in openid_appauth_idp_configs.xml
+            manifestPlaceholders = [
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-arpks5qhm771a2mfbm4e829va12olmtf'
+            ]
     }
 
     productFlavors {
@@ -307,9 +313,6 @@ configurations.all {
 }
 
 dependencies {
-  //  testCompile('org.mockito:mockito-core:2.7.0')
-   // testCompile "org.robolectric:shadows-multidex:3.0"
-
     compile ('com.android.support:support-annotations:24.0.0') {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
@@ -331,7 +334,7 @@ dependencies {
     compile "com.j256.ormlite:ormlite-core:5.0"
     compile "com.j256.ormlite:ormlite-android:5.0"
 
-    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '2.3.5' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '2.3.6' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive = true
     }
 
@@ -339,7 +342,7 @@ dependencies {
         transitive=true
     }
 
-    compile(group: 'com.philips.cdp', name: 'iap', version: '5.2.5' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'iap', version: '5.2.6' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive=true
     }
 
@@ -354,18 +357,7 @@ dependencies {
     }
 
     testCompile 'junit:junit:4.12'
- //    compile group: 'org.robolectric', name: 'shadows-core', version: '3.0-rc2'
-//    compile 'junit:junit:4.12'
-//    compile 'org.robolectric:robolectric:3.2.2'
-
-
-//    testCompile 'org.mockito:mockito-all:1.10.17'
-//    compile group: 'org.robolectric', name: 'android-all', version: '7.0.0_r1-robolectric-0'
-//    testCompile ('org.robolectric:robolectric:3.2.2')
     testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
-//    testCompile 'junit:junit:4.12'
-//    compile 'com.android.support:multidex:1.0.1'
-
     testCompile ('org.robolectric:robolectric:3.2.2')
     testCompile "org.robolectric:shadows-support-v4:3.0"/*{
         exclude group: 'commons-logging', module: 'commons-logging'
