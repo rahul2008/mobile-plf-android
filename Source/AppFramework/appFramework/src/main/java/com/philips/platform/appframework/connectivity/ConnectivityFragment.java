@@ -42,6 +42,7 @@ import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceApplianceFactory;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
 
 public class ConnectivityFragment extends AppFrameworkBaseFragment implements View.OnClickListener, ConnectivityContract.View {
@@ -49,7 +50,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     private static final int ACCESS_COARSE_LOCATION_REQUEST_CODE = 0x1;
     private EditText editText = null;
     private EditText momentValueEditText = null;
-    private String editTextValue;
+    private String momentValue;
     private String accessTokenValue;
     private User user;
     private ProgressDialog dialog = null;
@@ -63,6 +64,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     private BLEScanDialogFragment bleScanDialogFragment;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1001;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1002;
+    private String dataCoreBaseUrl;
 
 
     /**
@@ -159,81 +161,75 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                 }
                 break;
             case R.id.get_momentumvalue_button:
-                editTextValue = editText.getText().toString();
-                if (accessTokenValue == null || RegistrationConfiguration.getInstance().getHSDPInfo() == null || !ConnectivityUtils.isNetworkAvailable(getActivity())) {
-                    Toast.makeText(getActivity(), "Datacore is not reachable", Toast.LENGTH_SHORT).show();
-                    break;
-                }
-                processMoment(user, editTextValue);
+                processMoment();
                 break;
             default:
         }
     }
 
+
     /**
      * Start scanning nearby devices using given strategy
      */
     private void startDiscovery() {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        bleScanDialogFragment = new BLEScanDialogFragment();
-                        bleScanDialogFragment.show(getActivity().getSupportFragmentManager(), "BleScanDialog");
-                        bleScanDialogFragment.setBLEDialogListener(new BLEScanDialogFragment.BLEScanDialogListener() {
-                            @Override
-                            public void onDeviceSelected(BleReferenceAppliance bleRefAppliance) {
-                                updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Connected));
-                                connectivityPresenter.setUpApplicance(bleRefAppliance);
-                                bleRefAppliance.getDeviceMeasurementPort().getPortProperties();
-                            }
-                        });
-                        commCentral.startDiscovery();
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                if(commCentral!=null){
-                                    commCentral.stopDiscovery();
-                                    if(bleScanDialogFragment!=null) {
-                                        bleScanDialogFragment.hideProgressBar();
-                                        if(bleScanDialogFragment.getDeviceCount()==0)
-                                        {
-                                            bleScanDialogFragment.dismiss();
-                                            Toast.makeText(getActivity(), R.string.no_device_found, Toast.LENGTH_SHORT).show();
-
-                                        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    bleScanDialogFragment = new BLEScanDialogFragment();
+                    bleScanDialogFragment.show(getActivity().getSupportFragmentManager(), "BleScanDialog");
+                    bleScanDialogFragment.setBLEDialogListener(new BLEScanDialogFragment.BLEScanDialogListener() {
+                        @Override
+                        public void onDeviceSelected(BleReferenceAppliance bleRefAppliance) {
+                            updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Connected));
+                            connectivityPresenter.setUpApplicance(bleRefAppliance);
+                            bleRefAppliance.getDeviceMeasurementPort().getPortProperties();
+                        }
+                    });
+                    commCentral.startDiscovery();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (commCentral != null) {
+                                commCentral.stopDiscovery();
+                                if (bleScanDialogFragment != null) {
+                                    bleScanDialogFragment.hideProgressBar();
+                                    if (bleScanDialogFragment.getDeviceCount() == 0) {
+                                        bleScanDialogFragment.dismiss();
+                                        Toast.makeText(getActivity(), R.string.no_device_found, Toast.LENGTH_SHORT).show();
 
                                     }
+
                                 }
                             }
-                        },30000);
-                        updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Disconnected));
-                    } catch (MissingPermissionException e) {
-                        Log.e(TAG,"Permission missing");
-                    }
+                        }
+                    }, 30000);
+                    updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Disconnected));
+                } catch (MissingPermissionException e) {
+                    Log.e(TAG, "Permission missing");
                 }
-            },100);
-//            getActivity().runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//
-//                }
-//            });
+            }
+        }, 100);
 
     }
 
 
-
     /**
      * Send moment value to data core
-     *
-     * @param user
-     * @param momentValue
      */
-    public void processMoment(final User user, String momentValue) {
-        Log.i(TAG, "Moment value" + momentValue);
-        showProgressDialog("Posting data in datacore, Please wait...");
-        connectivityPresenter.postMoment(user, momentValue);
+    public void     processMoment() {
+        momentValue = editText.getText().toString();
+        if (accessTokenValue == null || RegistrationConfiguration.getInstance().getHSDPInfo() == null || !ConnectivityUtils.isNetworkAvailable(getActivity())) {
+            Toast.makeText(getActivity(), "Datacore is not reachable", Toast.LENGTH_SHORT).show();
+        } else {
+            showProgressDialog("Posting data in datacore, Please wait...");
+            if (TextUtils.isEmpty(dataCoreBaseUrl)) {
+                connectivityPresenter.loadDataCoreURLFromServiceDiscovery(getActivity());
+            } else {
+                Log.i(TAG, "Moment value" + momentValue);
+                connectivityPresenter.postMoment(user, dataCoreBaseUrl, momentValue);
+            }
+        }
     }
 
     /**
@@ -245,7 +241,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     public void updateUIOnPostMomentSuccess(final String momentId) {
         Log.i(TAG, "Moment Id" + momentId);
         showProgressDialog("Getting moment from datacore, Please wait...");
-        connectivityPresenter.getMoment(user, momentId);
+        connectivityPresenter.getMoment(user, dataCoreBaseUrl, momentId);
     }
 
     /**
@@ -320,12 +316,25 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(connectionState!=null) {
+                if (connectionState != null) {
                     connectionState.setText(text);
                 }
             }
         });
 
+    }
+
+    @Override
+    public void serviceDiscoveryError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES errorvalues, String errorText) {
+        Log.d(TAG,"Service Discovery:: Failed to fetch datacore base url");
+        dismissProgressDialog();
+        Toast.makeText(getActivity(), "Not able toget base url from service discovery. Error : " + errorText, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDataCoreBasrUrlLoad(String baseUrl) {
+        dataCoreBaseUrl = baseUrl;
+        processMoment();
     }
 
     /**
