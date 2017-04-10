@@ -87,6 +87,7 @@ public class BlobFragment extends Fragment implements View.OnClickListener {
         mBtnDownload.setOnClickListener(this);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView=(RecyclerView) view.findViewById(R.id.lv_blob_id) ;
         mRecyclerView.setLayoutManager(layoutManager);
         blobMetaDatas=new ArrayList<>();
         blobMetaDataAdapter = new BlobMetaDataAdapter(getActivity(), blobMetaDatas);
@@ -183,6 +184,22 @@ public class BlobFragment extends Fragment implements View.OnClickListener {
                     public void onBlobRequestSuccess(String itemId) {
                         setProgressBarVisibility(false);
                         showToast("Blob Request Succes and the itemID = " + itemId);
+                        DataServicesManager.getInstance().FetchMetaDataForBlobID(itemId, new BlobRequestListener() {
+                            @Override
+                            public void onBlobRequestSuccess(String itemID) {
+
+                            }
+
+                            @Override
+                            public void onBlobRequestFailure(Exception exception) {
+
+                            }
+
+                            @Override
+                            public void onFetchMetaDataSuccess(BlobMetaData uCoreFetchMetaData) {
+
+                            }
+                        });
                         mBtnUpload.setEnabled(false);
                     }
 
