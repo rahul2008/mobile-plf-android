@@ -64,11 +64,9 @@ public class AlmostDonePresenterTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         URInterface.setComponent(mockRegistrationComponent);
-        presenter = new AlmostDonePresenter(mockContract,mockUser);
+        presenter = new AlmostDonePresenter(mockContract, mockUser);
         userRegistrationFailureInfo = new UserRegistrationFailureInfo();
         registrationSettingsURL = new RegistrationSettingsURL();
-//        when(mockRegistrationHelper.getInstance()).thenReturn(mockRegistrationHelper);
-        //when(RegistrationConfiguration.getInstance()).thenReturn(registrationConfigurationDummy);
     }
 
     @After
@@ -91,14 +89,6 @@ public class AlmostDonePresenterTest {
         verify(mockContract).handleOfflineMode();
     }
 
-   /* @Test
-    public void testHandleAcceptTermsAndReceiveMarketingOpt(){
-        when(registrationConfiguration.getInstance()).thenReturn(registrationConfiguration);
-        when(registrationConfiguration.isTermsAndConditionsAcceptanceRequired()).thenReturn(false);
-        presenter.handleAcceptTermsAndReceiveMarketingOpt();
-        verify(mockContract).hideAcceptTermsView();
-    }*/
-
     @Test
     public void testUpdateTermsAndReceiveMarketingOpt_true(){
         when(mockUser.isTermsAndConditionAccepted()).thenReturn(true);
@@ -113,7 +103,7 @@ public class AlmostDonePresenterTest {
         when(mockUser.isTermsAndConditionAccepted()).thenReturn(false);
         when(mockUser.getReceiveMarketingEmail()).thenReturn(true);
         presenter.updateTermsAndReceiveMarketingOpt();
-        verify(mockContract).updateReceiveMarktingView();
+        verify(mockContract).updateReceiveMarketingView();
     }
 
     @Test

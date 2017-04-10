@@ -2,17 +2,12 @@ package com.philips.cdp.registration.ui.social;
 
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 
-import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.events.EventHelper;
-import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
@@ -21,8 +16,6 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.URInterface;
 
 import org.json.JSONException;
@@ -81,21 +74,16 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
     }
 
     public void updateUIControls() {
-        System.out.println("******* updateUIControls");
         if (isEmailExist) {
-            System.out.println("******* isEmailExist");
             if (isOnline()) {
-                System.out.println("******* enableContinueBtn");
                 almostDoneContract.enableContinueBtn();
             } else {
                 almostDoneContract.handleOfflineMode();
             }
         } else {
             if (isOnline()) {
-                System.out.println("******* Online");
                 almostDoneContract.validateEmailFieldUI();
             } else {
-                System.out.println("******* Offline");
                 almostDoneContract.handleOfflineMode();
             }
         }
@@ -123,7 +111,7 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
             }
             almostDoneContract.updateTermsAndConditionView();
         } else if (mUser.getReceiveMarketingEmail()) {
-            almostDoneContract.updateReceiveMarktingView();
+            almostDoneContract.updateReceiveMarketingView();
         }
     }
 

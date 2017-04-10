@@ -539,7 +539,6 @@ public class User {
         return false;
     }
 
-
     // For update receive marketing email
     public void updateReceiveMarketingEmail(
             final UpdateUserDetailsHandler updateReceiveMarketingEmail,

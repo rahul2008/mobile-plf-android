@@ -14,7 +14,7 @@ public interface AlmostDoneContract {
 
     void updateTermsAndConditionView();
 
-    void updateReceiveMarktingView();
+    void updateReceiveMarketingView();
 
     void showMarketingOptSpinner();
 
