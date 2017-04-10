@@ -35,7 +35,6 @@ import static org.mockito.Mockito.when;
 @Config(constants = BuildConfig.class)
 public class AlmostDonePresenterTest {
 
-
     @Mock
     private RegistrationComponent mockRegistrationComponent;
 
@@ -145,7 +144,6 @@ public class AlmostDonePresenterTest {
         assertEquals(false,presenter.isEmailExist());
     }
 
-
    @Test
     public void testUpdateReceivingMarketingEmail_success(){
         presenter.updateUser(true);
@@ -186,7 +184,6 @@ public class AlmostDonePresenterTest {
         verify(mockContract).showMarketingOptSpinner();
         verify(mockUser).registerUserInfoForSocial(presenter.getGivenName(),
                presenter.getDisplayName(),presenter.getFamilyName(),presenter.getEmail(),true,true,presenter,null);
-
     }
 
     @Test

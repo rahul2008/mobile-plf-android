@@ -664,7 +664,6 @@ public class User {
 
     // For getting access token
     public String getAccessToken() {
-
         CaptureRecord captureRecord = Jump.getSignedInUser();
 
         if (captureRecord == null) {

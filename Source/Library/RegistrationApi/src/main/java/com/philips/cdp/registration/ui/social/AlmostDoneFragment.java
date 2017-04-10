@@ -553,7 +553,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
             loginIdEditText.showInvalidAlert();
             loginIdEditText.showErrPopUp();
         }
-    });
+      });
     }
 
     @Override

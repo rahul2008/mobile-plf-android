@@ -31,9 +31,6 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
     @Inject
     User mUser;
 
-    @Inject
-    NetworkUtility networkUtility;
-
     private final AlmostDoneContract almostDoneContract;
 
     private String mGivenName;
@@ -52,16 +49,14 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
 
     private Bundle mBundle;
 
-    private boolean isOnline;
+    private boolean isOnline = true;
 
     public AlmostDonePresenter(AlmostDoneContract almostDoneContract, User user) {
         URInterface.getComponent().inject(this);
         this.mUser = user;
         this.almostDoneContract = almostDoneContract;
-        this.isOnline = networkUtility.isNetworkAvailable();
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
     }
-
 
    public void cleanUp(){
        RegistrationHelper.getInstance().unRegisterNetworkListener(this);
