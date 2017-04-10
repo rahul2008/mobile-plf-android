@@ -13,8 +13,10 @@ import com.philips.platform.core.datatypes.Settings;
 
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
+import com.philips.platform.core.listeners.BlobRequestListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.utils.DSLog;
+import com.philips.platform.datasync.blob.BlobMetaData;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -145,5 +147,11 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
         notifyDBRequestListener.notifyDBChange(SyncType.INSIGHT);
         notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.INSIGHT); //Is this line req?
         return isSaved;
+    }
+
+    @Override
+    public boolean saveBlobMetaData(BlobMetaData blobMetaData, BlobRequestListener blobRequestListener) throws SQLException {
+        saving.saveBlobMetaData(blobMetaData);
+        return false;
     }
 }

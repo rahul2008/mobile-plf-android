@@ -42,6 +42,7 @@ import cdp.philips.com.mydemoapp.database.OrmFetchingInterfaceImpl;
 import cdp.philips.com.mydemoapp.database.OrmSaving;
 import cdp.philips.com.mydemoapp.database.OrmUpdating;
 import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
+import cdp.philips.com.mydemoapp.database.table.OrmBlobMetaData;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmDCSync;
@@ -140,16 +141,18 @@ public class DataSyncApplication extends Application {
             Dao<OrmInsight, Integer> insightsDao = databaseHelper.getInsightDao();
             Dao<OrmInsightMetaData, Integer> insightMetaDataDao = databaseHelper.getInsightMetaDataDao();
 
+            Dao<OrmBlobMetaData, Integer> blobDao = databaseHelper.getBlobDao();
+
 
             OrmSaving saving = new OrmSaving(momentDao, momentDetailDao, measurementDao, measurementDetailDao,
                     synchronisationDataDao,consentDetailsDao, measurementGroup, measurementGroupDetails,
-                    characteristicsesDao, settingsDao, insightsDao, insightMetaDataDao);
+                    characteristicsesDao, settingsDao, insightsDao, insightMetaDataDao, blobDao);
 
             Dao<OrmDCSync, Integer> dcSyncDao = databaseHelper.getDCSyncDao();
             OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao, settingsDao,
-                     consentDetailsDao, dcSyncDao, measurementGroup, synchronisationDataDao, measurementGroupDetails);
+                     consentDetailsDao, dcSyncDao, measurementGroup, synchronisationDataDao, measurementGroupDetails, blobDao);
             OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao,consentDetailsDao, characteristicsesDao,
-                    settingsDao, dcSyncDao, insightsDao);
+                    settingsDao, dcSyncDao, insightsDao, blobDao);
             OrmDeleting deleting = new OrmDeleting(momentDao, momentDetailDao, measurementDao,
                     measurementDetailDao, synchronisationDataDao, measurementGroupDetails, measurementGroup, consentDetailsDao, characteristicsesDao, settingsDao, dcSyncDao ,insightsDao, insightMetaDataDao);
 
@@ -160,7 +163,7 @@ public class DataSyncApplication extends Application {
             OrmDeletingInterfaceImpl ORMDeletingInterfaceImpl = new OrmDeletingInterfaceImpl(deleting, saving, fetching);
             ORMUpdatingInterfaceImpl dbInterfaceOrmUpdatingInterface = new ORMUpdatingInterfaceImpl(saving, updating, fetching, deleting);
             OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao,consentDetailsDao,
-                    characteristicsesDao, settingsDao, dcSyncDao, insightsDao);
+                    characteristicsesDao, settingsDao, dcSyncDao, insightsDao, blobDao);
 
             mDataServicesManager.initializeDatabaseMonitor(this, ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
         } catch (SQLException exception) {

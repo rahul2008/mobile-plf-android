@@ -1,17 +1,16 @@
 package com.philips.platform.datasync.blob;
 
 /**
- * Created by philips on 4/5/17.
+ * Created by sangamesh on 10/04/17.
  */
 
 public class UcoreBlobMetaData {
 
-    String userId;
-    String hsdpObjectId;
-    String contentType;
-    String contentLength;
-    String contentChecksum;
-    String blobVersion;
+    String userId ="userId";
+    String hsdpObjectId = "hsdpObjectID";
+    String contentType = "contentType";
+    String contentLength= "contentLength";
+    String contentChecksum = "contentCheckSum";
 
     public String getUserId() {
         return userId;
@@ -77,7 +76,7 @@ public class UcoreBlobMetaData {
         this.lastModifiedTimestamp = lastModifiedTimestamp;
     }
 
-    String creationTimestamp;
-    String lastModifiedTimestamp;
-
+    String blobVersion = "blobVersion";
+    String creationTimestamp = "creationTimeStamp";
+    String lastModifiedTimestamp = "lastModifiedTimestamp";
 }

@@ -13,6 +13,7 @@ import com.j256.ormlite.stmt.UpdateBuilder;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.datasync.blob.BlobMetaData;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import cdp.philips.com.mydemoapp.database.table.OrmBlobMetaData;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmDCSync;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
@@ -61,6 +63,9 @@ public class OrmUpdating {
     @NonNull
     private final Dao<OrmDCSync, Integer> dcSyncDao;
 
+    @NonNull
+    private final Dao<OrmBlobMetaData, Integer> blobMetaDatas;
+
 
 
     public OrmUpdating(@NonNull final Dao<OrmMoment, Integer> momentDao,
@@ -71,7 +76,7 @@ public class OrmUpdating {
                        @NonNull Dao<OrmConsentDetail, Integer> ormConsentDetailDao, @NonNull Dao<OrmDCSync, Integer> dcSyncDao,
                        @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroup,
                        @NonNull final Dao<OrmSynchronisationData, Integer> synchronisationDataDao,
-                       @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails) {
+                       @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails, @NonNull Dao<OrmBlobMetaData, Integer> blobMetaDatas) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
@@ -82,6 +87,7 @@ public class OrmUpdating {
         this.measurementGroupDao = measurementGroup;
         this.measurementGroupDetailsDao = measurementGroupDetails;
         this.synchronisationDataDao = synchronisationDataDao;
+        this.blobMetaDatas = blobMetaDatas;
     }
 
     public void refreshMoment(OrmMoment moment) throws SQLException {
@@ -249,4 +255,17 @@ public class OrmUpdating {
         return true;
     }
 
+    public void updateBlobMetaData(BlobMetaData blobMetaData) {
+        try {
+
+            OrmBlobMetaData ormBlobMetaData=OrmTypeChecking.checkOrmType(blobMetaData,OrmBlobMetaData.class);
+            blobMetaDatas.update(ormBlobMetaData);
+            blobMetaDatas.refresh(ormBlobMetaData);
+
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

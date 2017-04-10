@@ -12,6 +12,7 @@ import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.MomentsSaveRequest;
+import com.philips.platform.core.events.SavingBlobMetaDataRequest;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.utils.DSLog;
 
@@ -89,5 +90,9 @@ public class SavingMonitor extends EventMonitor {
         //}
     }
 
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventBackGround(final SavingBlobMetaDataRequest savingBlobMetaDataRequest) throws SQLException {
+        dbInterface.saveBlobMetaData(savingBlobMetaDataRequest.getBlobMetaData(),null);
+    }
 
 }

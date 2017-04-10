@@ -5,7 +5,9 @@ import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.listeners.BlobRequestListener;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.datasync.blob.BlobMetaData;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -28,4 +30,6 @@ public interface DBSavingInterface {
     boolean saveUserCharacteristics(final List<Characteristics> userCharacteristics, DBRequestListener<Characteristics> dbRequestListener) throws SQLException;
     boolean saveSettings(final Settings settings, DBRequestListener<Settings> dbRequestListener) throws SQLException;
     boolean saveInsights(final List<Insight> insights, DBRequestListener<Insight> dbRequestListener) throws SQLException;
+
+    boolean saveBlobMetaData(final BlobMetaData blobMetaData , BlobRequestListener blobRequestListener) throws SQLException;
 }

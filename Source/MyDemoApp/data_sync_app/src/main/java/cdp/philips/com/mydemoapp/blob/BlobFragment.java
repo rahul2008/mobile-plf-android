@@ -1,11 +1,14 @@
 package cdp.philips.com.mydemoapp.blob;
 
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +19,14 @@ import android.widget.Toast;
 
 import com.philips.cdp.uikit.customviews.CircularProgressbar;
 import com.philips.platform.core.listeners.BlobRequestListener;
-import com.philips.platform.core.monitors.FetchingMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasync.blob.UcoreBlobMetaData;
+import com.philips.platform.datasync.blob.BlobMetaData;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.activity.FilePicker;
-
 import static android.app.Activity.RESULT_OK;
 
 public class BlobFragment extends Fragment {
@@ -35,6 +37,9 @@ public class BlobFragment extends Fragment {
 
     private Button Browse,Fetch;
     private File selectedFile;
+    private RecyclerView mRecyclerView;
+    private ArrayList<BlobMetaData> blobMetaDatas;
+    private BlobMetaDataAdapter blobMetaDataAdapter;
 
     @Nullable
     @Override
@@ -61,7 +66,7 @@ public class BlobFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFetchMetaDataSuccess(UcoreBlobMetaData uCoreFetchMetaData) {
+                    public void onFetchMetaDataSuccess(BlobMetaData uCoreFetchMetaData) {
 
                     }
                 });
@@ -89,27 +94,36 @@ public class BlobFragment extends Fragment {
                 setProgressBarVisibility(true);
 
                 //File file = new File("/storage/3038-3435/619.jpg");
-                DataServicesManager.getInstance().createBlob(selectedFile, MimeTypeMap.getFileExtensionFromUrl(selectedFile.getAbsolutePath()), new BlobRequestListener() {
+                DataServicesManager.getInstance().createBlob(selectedFile, getMimeType(selectedFile.getPath()), new BlobRequestListener() {
                     @Override
                     public void onBlobRequestSuccess(String itemId) {
                         setProgressBarVisibility(false);
                         showToast("Blob Request Succes and the itemID = " + itemId);
+                        mBtnUpload.setEnabled(false);
                     }
 
                     @Override
                     public void onBlobRequestFailure(Exception exception) {
                         setProgressBarVisibility(false);
                         showToast("Blob Request Failed");
+                        mBtnUpload.setEnabled(false);
                     }
 
                     @Override
-                    public void onFetchMetaDataSuccess(UcoreBlobMetaData uCoreFetchMetaData) {
+                    public void onFetchMetaDataSuccess(BlobMetaData uCoreFetchMetaData) {
                         setProgressBarVisibility(false);
                         showToast("Blob Meta Data Request Succes");
                     }
                 });
             }
         });
+
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(layoutManager);
+        blobMetaDatas=new ArrayList<>();
+        blobMetaDataAdapter = new BlobMetaDataAdapter(getActivity(), blobMetaDatas);
+        mRecyclerView.setAdapter(blobMetaDataAdapter);
         return view;
     }
 
@@ -172,4 +186,15 @@ public class BlobFragment extends Fragment {
             }
         }
     }
+
+    public String getMimeType(String url) {
+        String type = null;
+        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (extension != null) {
+            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension.toLowerCase());
+        }
+        return type;
+    }
+
+
 }

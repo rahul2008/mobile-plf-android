@@ -3,25 +3,36 @@ package com.philips.platform.datasync.blob;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.events.FetchMetaDataRequest;
+import com.philips.platform.core.events.UpdateUcoreMetadataRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.UCoreAccessProvider;
+import com.philips.platform.core.Eventing;
+import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 
 import org.joda.time.DateTime;
-
-import java.util.List;
-
 import javax.inject.Inject;
 
 import retrofit.RetrofitError;
-import retrofit.mime.TypedFile;
+import retrofit.converter.GsonConverter;
+
 
 
 public class BlobDataFetcher extends DataFetcher{
+
+    @Inject
+    Eventing eventing;
+
+    @Inject
+    UCoreAccessProvider accessProvider;
+
+    @Inject
+    GsonConverter gsonConverter;
 
     @Inject
     UCoreAccessProvider uCoreAccessProvider;
@@ -30,22 +41,43 @@ public class BlobDataFetcher extends DataFetcher{
     UCoreAdapter uCoreAdapter;
 
     @Inject
+    BaseAppDataCreator dataCreator;
+
+
+    @Inject
     public BlobDataFetcher(@NonNull UCoreAdapter uCoreAdapter, UCoreAccessProvider uCoreAccessProvider, MomentGsonConverter gsonConverter) {
         super(uCoreAdapter);
         this.uCoreAccessProvider = uCoreAccessProvider;
         this.uCoreAdapter = uCoreAdapter;
         this.gsonConverter = gsonConverter;
-        DataServicesManager.getInstance().getAppComponant().injectBlobDataFetcher(this);
+        DataServicesManager.getInstance().getAppComponant().injectblobDataFetcher(this);
     }
-
-    @Inject
-    MomentGsonConverter gsonConverter;
-
 
     @Nullable
     @Override
     public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
-        return null;
+        if (isUserInvalid()) {
+            return null;
+        }
+        try {
+
+            BlobClient client = uCoreAdapter.getAppFrameworkClient(BlobClient.class, accessProvider.getAccessToken(), gsonConverter);
+
+            if (client != null) {
+                client.downloadBlob("14b4f366-2c3a-46f0-a870-658ee3eb7eb0");
+            }
+            return null;
+        } catch (RetrofitError ex) {
+            DSLog.e(DSLog.LOG, "RetrofitError: " + ex.getMessage() + ex);
+            eventing.post(new BackendDataRequestFailed(ex));
+            onError(ex);
+            return ex;
+        }
+    }
+
+    protected boolean isUserInvalid() {
+        final String accessToken = accessProvider.getAccessToken();
+        return !accessProvider.isLoggedIn() || accessToken == null || accessToken.isEmpty();
     }
 
     public void fetchBlobMetaData(FetchMetaDataRequest fetchMetaDataRequest) {
@@ -53,12 +85,14 @@ public class BlobDataFetcher extends DataFetcher{
         try{
 
         BlobClient service = uCoreAdapter.getAppFrameworkClient(BlobClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
-        UcoreBlobMetaData ucoreBlobMetaData = service.fetchMetaData(fetchMetaDataRequest.getBlobID());
+            UcoreBlobMetaData ucoreBlobMetaData = service.fetchMetaData(fetchMetaDataRequest.getBlobID());
 
         if(ucoreBlobMetaData == null){
             fetchMetaDataRequest.getBlobRequestListener().onBlobRequestFailure(new Exception("Server returned null response"));
         }else {
-            fetchMetaDataRequest.getBlobRequestListener().onFetchMetaDataSuccess(ucoreBlobMetaData);
+            BlobMetaData blobMetaData=getAppBlobMetaData(ucoreBlobMetaData,fetchMetaDataRequest.getBlobID());
+            eventing.post(new UpdateUcoreMetadataRequest(blobMetaData,fetchMetaDataRequest.getBlobRequestListener()));
+            fetchMetaDataRequest.getBlobRequestListener().onFetchMetaDataSuccess(blobMetaData);
         }
     }catch (RetrofitError error){
         error.printStackTrace();
@@ -69,5 +103,20 @@ public class BlobDataFetcher extends DataFetcher{
 
     public void fetchBlob(){
 
+    }
+
+    private BlobMetaData getAppBlobMetaData(UcoreBlobMetaData ucoreBlobMetaData ,String blobID){
+
+        BlobMetaData blobMetaData=dataCreator.createBlobMetaData();
+        blobMetaData.setBlobVersion(ucoreBlobMetaData.getBlobVersion());
+        blobMetaData.setContentChecksum(ucoreBlobMetaData.getContentChecksum());
+        blobMetaData.setContentLength(ucoreBlobMetaData.getContentLength());
+        blobMetaData.setCreationTimestamp(ucoreBlobMetaData.getCreationTimestamp());
+        blobMetaData.setLastModifiedTimestamp(ucoreBlobMetaData.getLastModifiedTimestamp());
+        blobMetaData.setContentType(ucoreBlobMetaData.getContentType());
+        blobMetaData.setHsdpObjectId(ucoreBlobMetaData.getHsdpObjectId());
+        blobMetaData.setUserId(ucoreBlobMetaData.getUserId());
+        blobMetaData.setBlobId(blobID);
+        return blobMetaData;
     }
 }

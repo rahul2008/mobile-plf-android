@@ -2,6 +2,9 @@ package com.philips.platform.datasync.blob;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.BaseAppDataCreator;
+import com.philips.platform.core.Eventing;
+import com.philips.platform.core.events.SavingBlobMetaDataRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.MomentGsonConverter;
@@ -28,6 +31,12 @@ public class BlobDataSender extends DataSender {
 
     @Inject
     UCoreAdapter uCoreAdapter;
+
+    @Inject
+    Eventing eventing;
+
+    @Inject
+    BaseAppDataCreator dataCreator;
 
 
     @Inject
@@ -60,12 +69,16 @@ public class BlobDataSender extends DataSender {
         TypedFile typedFile = new TypedFile(blobData.type, blobData.file);
 
         try {
-            UcoreBlobResponse response = service.upload(typedFile);
+            UcoreBlobResponse response = service.uploadBlob(typedFile);
 
             if(response == null){
                 blobData.getBlobRequestListener().onBlobRequestFailure(new Exception("Server returned null response"));
             }else {
                 blobData.getBlobRequestListener().onBlobRequestSuccess(response.getItemId());
+
+                BlobMetaData blobMetaData = dataCreator.createBlobMetaData();
+                blobMetaData.setBlobId(response.getItemId());
+                eventing.post(new SavingBlobMetaDataRequest(blobMetaData));
             }
         }catch (RetrofitError error){
             error.printStackTrace();

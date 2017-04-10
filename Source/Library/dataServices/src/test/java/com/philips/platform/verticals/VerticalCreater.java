@@ -15,6 +15,7 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SynchronisationData;
+import com.philips.platform.datasync.blob.BlobMetaData;
 import com.philips.testing.verticals.OrmTypeCheckingMock;
 import com.philips.testing.verticals.datatyes.MeasurementDetailType;
 import com.philips.testing.verticals.datatyes.MeasurementGroupDetailType;
@@ -170,6 +171,12 @@ public class VerticalCreater implements BaseAppDataCreator {
         } catch (OrmTypeCheckingMock.OrmTypeException e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+    @NonNull
+    @Override
+    public BlobMetaData createBlobMetaData() {
         return null;
     }
 }

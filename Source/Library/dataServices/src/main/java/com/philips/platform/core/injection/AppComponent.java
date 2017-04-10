@@ -141,5 +141,5 @@ public interface AppComponent {
 
     void injectBlobMonitor(BlobMonitor blobMonitor);
 
-    void injectBlobDataFetcher(BlobDataFetcher blobDataFetcher);
+    void injectblobDataFetcher(BlobDataFetcher blobDataFetcher);
 }

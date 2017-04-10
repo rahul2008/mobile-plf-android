@@ -7,8 +7,10 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
+import com.philips.platform.core.listeners.BlobRequestListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.utils.DSLog;
+import com.philips.platform.datasync.blob.BlobMetaData;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -156,5 +158,11 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         else
             notifyDBRequestListener.notifyFailure(new Exception("Update failed"), dbRequestListener);
         return isSaved;
+    }
+
+    @Override
+    public boolean updateBlobMetaData(BlobMetaData blobMetaData, BlobRequestListener blobRequestListener) throws SQLException {
+        updating.updateBlobMetaData(blobMetaData);
+        return false;
     }
 }

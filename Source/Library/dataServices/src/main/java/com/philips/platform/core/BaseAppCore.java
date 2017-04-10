@@ -25,6 +25,7 @@ import com.philips.platform.core.monitors.ErrorMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.Backend;
+import com.philips.platform.datasync.blob.BlobMetaData;
 import com.philips.platform.datasync.insights.UCoreInsight;
 
 import org.joda.time.DateTime;
@@ -151,6 +152,12 @@ public class BaseAppCore implements BaseAppDataCreator {
     @Override
     public InsightMetadata createInsightMetaData(String key, String value ,Insight insight) {
         return database.createInsightMetaData(key,value,insight);
+    }
+
+    @NonNull
+    @Override
+    public BlobMetaData createBlobMetaData() {
+        return database.createBlobMetaData();
     }
 
 

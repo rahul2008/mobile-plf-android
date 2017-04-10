@@ -20,6 +20,7 @@ import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.utils.DSLog;
+import com.philips.platform.datasync.blob.BlobMetaData;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
+import cdp.philips.com.mydemoapp.database.table.OrmBlobMetaData;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmDCSync;
@@ -43,6 +45,8 @@ import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
+
+    static final String blobID = "blobID";
 
     static final String SYNCED_FIELD = "synced";
 
@@ -64,6 +68,8 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
     private final Dao<OrmInsight, Integer> ormInsightDao;
 
+    private final Dao<OrmBlobMetaData, Integer> ormBlobMetaDataDao;
+
 
     private TemperatureMomentHelper mTemperatureMomentHelper;
 
@@ -71,7 +77,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     public OrmFetchingInterfaceImpl(final @NonNull Dao<OrmMoment, Integer> momentDao,
                                     final @NonNull Dao<OrmSynchronisationData, Integer> synchronisationDataDao,
                                     Dao<OrmConsentDetail, Integer> consentDetailsDao, Dao<OrmCharacteristics, Integer> characteristicsDao,
-                                    Dao<OrmSettings, Integer> settingsDao, Dao<OrmDCSync, Integer> ormDCSyncDao, Dao<OrmInsight, Integer> ormInsightDao) {
+                                    Dao<OrmSettings, Integer> settingsDao, Dao<OrmDCSync, Integer> ormDCSyncDao, Dao<OrmInsight, Integer> ormInsightDao, Dao<OrmBlobMetaData, Integer> ormBlobMetaDataDao) {
 
         this.momentDao = momentDao;
         this.synchronisationDataDao = synchronisationDataDao;
@@ -80,6 +86,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         this.settingsDao = settingsDao;
         this.ormDCSyncDao = ormDCSyncDao;
         this.ormInsightDao = ormInsightDao;
+        this.ormBlobMetaDataDao = ormBlobMetaDataDao;
 
         notifyDBRequestListener = new NotifyDBRequestListener();
     }
@@ -356,5 +363,18 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         QueryBuilder<OrmInsight, Integer> insightQueryBuilder = ormInsightDao.queryBuilder();
         insightQueryBuilder.where().eq(SYNCED_FIELD, false);
         return insightQueryBuilder.query();
+    }
+
+    @Override
+    public List<? extends BlobMetaData> fetchAllBlobMetaData() throws SQLException {
+        QueryBuilder<OrmBlobMetaData, Integer> blobQueryBuilder = ormBlobMetaDataDao.queryBuilder();
+        return blobQueryBuilder.query();
+    }
+
+    @Override
+    public BlobMetaData fetchBlobMetaDataByBlobID(String blobID) throws SQLException {
+        QueryBuilder<OrmBlobMetaData, Integer> blobQueryBuilder = ormBlobMetaDataDao.queryBuilder();
+        blobQueryBuilder.where().eq(blobID, blobID);
+        return blobQueryBuilder.queryForFirst();
     }
 }
