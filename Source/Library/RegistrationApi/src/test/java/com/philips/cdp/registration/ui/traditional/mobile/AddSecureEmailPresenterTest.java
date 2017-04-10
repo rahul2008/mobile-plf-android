@@ -14,7 +14,9 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
@@ -59,6 +61,8 @@ public class AddSecureEmailPresenterTest {
         String emailId = "ahkjahsdkjh";
         presenter.addEmailClicked(emailId);
         verify(contractMock).showInvalidEmailError();
+        verify(contractMock, never()).showProgress();
+        verifyNoMoreInteractions(contractMock);
     }
 
     @Test
@@ -66,6 +70,8 @@ public class AddSecureEmailPresenterTest {
         String emailId = "";
         presenter.addEmailClicked(emailId);
         verify(contractMock).showInvalidEmailError();
+        verify(contractMock, never()).showProgress();
+        verifyNoMoreInteractions(contractMock);
     }
 
     @Test
@@ -73,6 +79,8 @@ public class AddSecureEmailPresenterTest {
         String emailId = null;
         presenter.addEmailClicked(emailId);
         verify(contractMock).showInvalidEmailError();
+        verify(contractMock, never()).showProgress();
+        verifyNoMoreInteractions(contractMock);
     }
 
     @Test

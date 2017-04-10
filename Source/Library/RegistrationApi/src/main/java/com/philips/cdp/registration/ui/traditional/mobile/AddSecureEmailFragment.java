@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.philips.cdp.registration.B;
 import com.philips.cdp.registration.R;
@@ -39,6 +40,9 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
 
     @Bind(B.id.reg_error_msg)
     XRegError recoveryErrorTextView;
+
+    @Bind(B.id.add_email_progress)
+    ProgressBar addEmailProgress;
 
     private AddSecureEmailPresenter addSecureEmailPresenter;
 
@@ -142,5 +146,15 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
     public void onDestroy() {
         super.onDestroy();
         addSecureEmailPresenter.cleanUp();
+    }
+
+    @Override
+    public void showProgress() {
+        addEmailProgress.setVisibility(VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        addEmailProgress.setVisibility(GONE);
     }
 }

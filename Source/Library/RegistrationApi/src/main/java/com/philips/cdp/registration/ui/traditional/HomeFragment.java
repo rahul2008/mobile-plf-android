@@ -44,7 +44,6 @@ import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.AppConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
@@ -68,7 +67,6 @@ import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.wechat.WeChatAuthenticationListener;
 import com.philips.cdp.registration.wechat.WeChatAuthenticator;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
@@ -82,8 +80,6 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import javax.inject.Inject;
-
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
 
 
 public class HomeFragment extends RegistrationBaseFragment implements OnClickListener,
@@ -530,7 +526,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private void launchCreateAccountFragment() {
         trackPage(AppTaggingPages.CREATE_ACCOUNT);
         if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-            getRegistrationFragment().addFragment(new CreateAccountFragment());
+            showCreateAccountFragment();
             return;
         }
         if (networkUtility.isNetworkAvailable()) {
@@ -538,6 +534,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             mFlowId = 1;
             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         }
+    }
+
+    private void showCreateAccountFragment() {
+        getRegistrationFragment().addFragment(new CreateAccountFragment());
     }
 
     private void makeProgressVisible() {
@@ -636,7 +636,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
             hideProgressDialog();
             if (mFlowId == 1) {
-                getRegistrationFragment().addFragment(new CreateAccountFragment());
+                showCreateAccountFragment();
                 mFlowId = 0;
                 return;
             }

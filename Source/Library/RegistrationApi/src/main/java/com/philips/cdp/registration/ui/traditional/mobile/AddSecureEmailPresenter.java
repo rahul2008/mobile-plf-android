@@ -42,6 +42,7 @@ public class AddSecureEmailPresenter implements NetworStateListener {
             addSecureEmailContract.showInvalidEmailError();
             return;
         }
+        addSecureEmailContract.showProgress();
         updateUserEmail(emailId);
     }
 
@@ -52,11 +53,13 @@ public class AddSecureEmailPresenter implements NetworStateListener {
                 .subscribeWith(new DisposableCompletableObserver() {
                     @Override
                     public void onComplete() {
+                        addSecureEmailContract.hideProgress();
                         addSecureEmailContract.onAddRecoveryEmailSuccess();
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        addSecureEmailContract.hideProgress();
                         addSecureEmailContract.onAddRecoveryEmailFailure(e.getMessage());
                     }
                 }));

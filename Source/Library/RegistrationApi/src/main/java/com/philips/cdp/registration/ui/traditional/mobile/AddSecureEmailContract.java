@@ -18,5 +18,9 @@ public interface AddSecureEmailContract {
     void showNetworkUnavailableError();
 
     void hideError();
+
+    void showProgress();
+
+    void hideProgress();
 }
 
