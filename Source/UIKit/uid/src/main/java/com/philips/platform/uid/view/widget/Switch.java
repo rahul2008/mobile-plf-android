@@ -38,6 +38,8 @@ public class Switch extends SwitchCompat {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDSwitch, defStyleAttr, R.style.UIDSwitchStyle);
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
 
+        UIDUtils.setTextFromResourceID(context, this, attrs);
+
         applyThumbTint(typedArray, theme);
         applyTrackTint(typedArray, theme);
         applyRippleTint(typedArray, theme);

@@ -18,6 +18,7 @@ import android.util.AttributeSet;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
+import com.philips.platform.uid.utils.UIDUtils;
 
 public class ImageButton extends AppCompatButton {
     private ColorStateList drawableColorlist;
@@ -41,6 +42,8 @@ public class ImageButton extends AppCompatButton {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDImageButton, defStyleAttr, R.style.UIDImageButton);
         assignDrawableProperties(typedArray);
         applyBackgroundTinting(typedArray);
+
+        UIDUtils.setTextFromResourceID(context, this, attrs);
 
         //Apply drawable should be called after getting height and width to set bounds to drawable.
         applyDrawable(typedArray);

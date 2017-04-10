@@ -74,6 +74,8 @@ public class CheckBox extends AppCompatCheckBox {
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
         applyCheckBoxStyling(context, theme);
 
+        UIDUtils.setTextFromResourceID(context, this, attrs);
+
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDCheckBox, defStyleAttr, R.style.UIDCheckBox);
         getCheckBoxPaddingStartFromAttributes(context, typedArray);
         applyRippleTint(theme);

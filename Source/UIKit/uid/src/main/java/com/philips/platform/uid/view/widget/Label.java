@@ -5,11 +5,15 @@
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.View;
+import android.widget.TextView;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.utils.UIDUtils;
@@ -28,9 +32,13 @@ public class Label extends AppCompatTextView {
         processAttributes(context, attrs, defStyleAttr);
     }
 
+
     private void processAttributes(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         TypedArray attrsArray = context.obtainStyledAttributes(attrs, R.styleable.UIDLabel, defStyleAttr, R.style.UIDLabel);
         TypedArray themeArray = context.getTheme().obtainStyledAttributes(R.styleable.UIDLabel);
+
+        UIDUtils.setTextFromResourceID(context, this, attrs);
+
         int textColor = getDefaultLabelColor(attrsArray, themeArray);
         float textAlpha = getDefaultLabelAlpha(attrsArray, themeArray);
         setTextColor(UIDUtils.modulateColorAlpha(textColor, textAlpha));
