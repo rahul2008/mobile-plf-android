@@ -76,13 +76,13 @@ public class AlmostDonePresenterTest {
     }
 
     @Test
-    public void testNetworkState_Enabled() {
+    public void testNetworkState_enabled() {
         presenter.onNetWorkStateReceived(true);
         verify(mockContract).validateEmailFieldUI();
     }
 
     @Test
-    public void testNetworkState_Disabled() {
+    public void testNetworkState_disabled() {
         when(mockNetworkUtility.isNetworkAvailable()).thenReturn(false);
         presenter.onNetWorkStateReceived(false);
         verify(mockContract).handleOfflineMode();
@@ -147,6 +147,7 @@ public class AlmostDonePresenterTest {
    @Test
     public void testUpdateReceivingMarketingEmail_success(){
         presenter.updateUser(true);
+        verify(mockUser).updateReceiveMarketingEmail(presenter,true);
         presenter.onUpdateSuccess();
         verify(mockContract).hideMarketingOptSpinner();
         verify(mockContract).trackMarketingOpt();
