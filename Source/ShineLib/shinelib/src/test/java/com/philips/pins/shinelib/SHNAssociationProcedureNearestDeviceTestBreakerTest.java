@@ -50,17 +50,17 @@ public class SHNAssociationProcedureNearestDeviceTestBreakerTest {
     }
 
     private void discoverMockedDevices(Integer[] locations) {
-            for (Integer location : locations) {
-               if(location!=null) {
-                   assertTrue(location < mockedDevicesAndAssociatedRSSI.size());
-                   AbstractMap.SimpleEntry<SHNDevice, Integer> entry = (AbstractMap.SimpleEntry<SHNDevice, Integer>) mockedDevicesAndAssociatedRSSI.get(location);
-                   SHNDeviceFoundInfo mockedDeviceFoundInfo = mock(SHNDeviceFoundInfo.class);
-                   when(mockedDeviceFoundInfo.getRssi()).thenReturn(entry.getValue());
-                   associationProcedure.deviceDiscovered(entry.getKey(), mockedDeviceFoundInfo);
-
-               }
+        for (Integer location : locations) {
+            if (location != null) {
+                assertTrue(location < mockedDevicesAndAssociatedRSSI.size());
+                AbstractMap.SimpleEntry<SHNDevice, Integer> entry = (AbstractMap.SimpleEntry<SHNDevice, Integer>) mockedDevicesAndAssociatedRSSI.get(location);
+                SHNDeviceFoundInfo mockedDeviceFoundInfo = mock(SHNDeviceFoundInfo.class);
+                when(mockedDeviceFoundInfo.getRssi()).thenReturn(entry.getValue());
+                associationProcedure.deviceDiscovered(entry.getKey(), mockedDeviceFoundInfo);
 
             }
+
+        }
     }
 
     private void discoverMockedDevice(int location) {
