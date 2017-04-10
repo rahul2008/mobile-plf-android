@@ -5,9 +5,9 @@
 
 package com.philips.cdp2.commlibexplorer.fragments;
 
+import android.support.design.widget.TextInputEditText;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.PairingPort;
@@ -65,7 +65,7 @@ public class PairingPortFragment extends BaseFragment {
     }
 
     private String getTextFor(int id, View fragmentView) {
-        return ((EditText) fragmentView.findViewById(id)).getText().toString();
+        return ((TextInputEditText) fragmentView.findViewById(id)).getText().toString();
     }
 
     @Override
