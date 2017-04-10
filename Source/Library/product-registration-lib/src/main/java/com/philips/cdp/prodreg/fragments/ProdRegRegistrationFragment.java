@@ -294,8 +294,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                     }
                     datePickerDialog = new DatePickerDialog(mActivity, myDateListener, mYear, mMonthInt, mDay);
                     final ProdRegUtil prodRegUtil = new ProdRegUtil();
-                    datePickerDialog.getDatePicker().setMaxDate(prodRegUtil.getMaxDate());
                     datePickerDialog.getDatePicker().setMinDate(prodRegUtil.getMinDate());
+                    datePickerDialog.getDatePicker().setMaxDate(prodRegUtil.getMaxDate());
                     datePickerDialog.show();
                     return true;
                 }
