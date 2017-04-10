@@ -92,7 +92,6 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
     protected boolean addContents(List<ContentItem> serverContentItems, String serviceID, long lastUpdatedTime, long expiryDate, boolean isDownloadComplete) {
         boolean SQLitetransaction = true;
         final SQLiteDatabase db = this.getWritableDatabase();
-        List<ContentItem> databaseContentItems;
 
         /////////////////TEST START
         //serverContentItems.remove(0);
@@ -114,10 +113,10 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         ////////////////TEST END
         try {
             // db.beginTransaction();
-            if (null != serverContentItems && serverContentItems.size() > 0)
-                for (ContentItem contentItem : serverContentItems) {
-                    ContentValues values = getContentValues(contentItem);
-                    long rowId = db.replace(CONTENT_TABLE, null, values);
+            if (null != serverContentItems && !serverContentItems.isEmpty()) {
+                for (final ContentItem contentItem : serverContentItems) {
+                    final ContentValues values = getContentValues(contentItem);
+                    final long rowId = db.replace(CONTENT_TABLE, null, values);
                     if (rowId == -1) {
                         SQLitetransaction = false;
                         Log.e("UPDATE FAIL", CONTENT_TABLE);
@@ -125,10 +124,11 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                         Log.i("UPDATE SUC", "row id " + CONTENT_TABLE + " " + rowId);
                     }
                 }
+            }
             if (isDownloadComplete) { // last iteration of recursion
-                databaseContentItems = getContentItems(serviceID);
+                List<ContentItem>   databaseContentItems = getContentItems(serviceID);
                 Log.v("DELEET", "DB SIZE BEFORE DELETE= " + databaseContentItems.size());
-                Date date = new Date(lastUpdatedTime);
+                final Date date = new Date(lastUpdatedTime);
                 db.delete(CONTENT_TABLE, KEY_SERVICE_ID + " = ? AND " + KEY_LAST_UPDATED_TIME + " != " + date.getTime(), new String[]{serviceID});
                 databaseContentItems = getContentItems(serviceID);
                 Log.v("DELETE", "DB SIZE AFTER DELETE= " + databaseContentItems.size());
@@ -144,6 +144,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                 try {
                     db.close();
                 } catch (Exception e) {
+                    Log.e("insertQuery", e.getMessage());
                 }
             }
         }
@@ -160,7 +161,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
             cursor = db.rawQuery(selectQuery, new String[]{serviceId});
             if (cursor != null && cursor.moveToFirst()) {
                 do {
-                    ContentItem contentItem = getContentItemFromCursor(cursor);
+                    final ContentItem contentItem = getContentItemFromCursor(cursor);
                     ContentItemList.add(contentItem);
                 } while (cursor.moveToNext());
             }
@@ -171,6 +172,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                 try {
                     cursor.close();
                 } catch (Exception e) {
+                    Log.e("Content Iteams", e.getMessage());
                 }
             }
 
@@ -182,10 +184,10 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = null;
         final ArrayList<String> Ids = new ArrayList<String>();
         final SQLiteDatabase db = this.getWritableDatabase();
-        String getAllIDQuery = null;
+        String getAllIdQuery = null;
         try {
-            getAllIDQuery = "SELECT " + KEY_ID + " FROM " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = ?";
-            cursor = db.rawQuery(getAllIDQuery, new String[]{serviceID});
+            getAllIdQuery = "SELECT " + KEY_ID + " FROM " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = ?";
+            cursor = db.rawQuery(getAllIdQuery, new String[]{serviceID});
             if (null != cursor && cursor.moveToFirst()) {
                 do {
                     Ids.add(cursor.getString(0));
@@ -193,12 +195,13 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
             }
 
         } catch (Exception e) {
-            Log.e("SELECT FAIL", getAllIDQuery);
+            Log.e("SELECT FAIL", getAllIdQuery);
         } finally {
             if (cursor != null && !cursor.isClosed()) {
                 try {
                     cursor.close();
                 } catch (Exception e) {
+                    Log.e("SELECT FAIL", e.getMessage());
                 }
             }
         }
@@ -219,7 +222,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
             cursor = db.rawQuery(getContentByIdQuery, params);
             if (null != cursor && cursor.moveToFirst()) {
                 do {
-                    ContentItem contentItem = getContentItemFromCursor(cursor);
+                    final ContentItem contentItem = getContentItemFromCursor(cursor);
                     ContentItemList.add(contentItem);
                 } while (cursor.moveToNext());
             }
@@ -231,6 +234,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                 try {
                     cursor.close();
                 } catch (Exception e) {
+                    Log.e("SELECT FAIL", e.getMessage());
                 }
             }
 
@@ -270,6 +274,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                 try {
                     cursor.close();
                 } catch (Exception e) {
+                    Log.e("SELECT FAIL", getContentByIdQuery);
                 }
             }
         }
@@ -305,10 +310,11 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                 try {
                     cursor.close();
                 } catch (Exception e) {
+                    Log.e("ServiceStateExpiry FAIL", e.getMessage());
                 }
             }
         } catch (Exception e) {
-
+            Log.e("ServiceStateExpiry FAIL", e.getMessage());
         }
         return expiryTime;
     }
@@ -340,6 +346,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                 try {
                     db.close();
                 } catch (Exception e) {
+                    Log.e("CacheForContent FAIL", e.getMessage());
                 }
             }
         }
