@@ -18,6 +18,7 @@ import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListen
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
@@ -121,5 +122,30 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
     @Override
     public void onParseSuccess() {
 
+    }
+
+    public boolean isChinaFlow() {
+        final boolean[] isChinaCountry = {false};
+
+        AppInfraInterface appInfraInterface = getAppInfra();
+        ServiceDiscoveryInterface serviceDiscovery = appInfraInterface.getServiceDiscovery();
+
+        serviceDiscovery.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+            @Override
+            public void onSuccess(String s, SOURCE source) {
+                if(s.equals("CN")) {
+                    isChinaCountry[0] = true;
+                } else {
+                    isChinaCountry[0] = false;
+                }
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+                isChinaCountry[0] = false;
+            }
+        });
+
+        return isChinaCountry[0];
     }
 }

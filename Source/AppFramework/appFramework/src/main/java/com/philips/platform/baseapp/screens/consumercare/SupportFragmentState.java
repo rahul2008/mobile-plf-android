@@ -85,7 +85,7 @@ public class SupportFragmentState extends BaseState implements CcListener {
     //TODO - As per Raymond communication, we should not go to multiple CTNs because this is going to add one more
     //product selection screen. Which is not considered in for testing by Madan's team.
     public void updateDataModel() {
-        if(isChinaFlow()) {
+        if(getApplicationContext().isChinaFlow()) {
             String[] ctnList = new String[new ArrayList<>(Arrays.asList(activityContext.getResources().getStringArray(R.array.productselection_ctnlist_china))).size()];
             ctnList = (new ArrayList<>(Arrays.asList(activityContext.getResources().getStringArray(R.array.productselection_ctnlist_china))).toArray(ctnList));
             setCtnList(ctnList);
@@ -102,7 +102,7 @@ public class SupportFragmentState extends BaseState implements CcListener {
     }
 
     public void setCtnList(String[] ctnList) {
-
+        this.ctnList = null;
         this.ctnList = ctnList;
     }
     private void launchCC()
@@ -125,7 +125,7 @@ public class SupportFragmentState extends BaseState implements CcListener {
 
         ccInterface.init(ccDependencies, ccSettings);
 
-        if(isChinaFlow()) {
+        if(getApplicationContext().isChinaFlow()) {
             ccLaunchInput.setLiveChatUrl("http://ph-china.livecom.cn/webapp/index.html?app_openid=ph_6idvd4fj&token=PhilipsTest");
         }
         else{
@@ -175,30 +175,5 @@ public class SupportFragmentState extends BaseState implements CcListener {
     @Override
     public boolean onSocialProviderItemClicked(String s) {
         return false;
-    }
-
-    private boolean isChinaFlow() {
-        final boolean[] isChinaCountry = {false};
-
-        AppInfraInterface appInfraInterface = getApplicationContext().getAppInfra();
-        ServiceDiscoveryInterface serviceDiscovery = appInfraInterface.getServiceDiscovery();
-
-        serviceDiscovery.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
-            @Override
-            public void onSuccess(String s, SOURCE source) {
-                if(s.equals("CN")) {
-                    isChinaCountry[0] = true;
-                } else {
-                    isChinaCountry[0] = false;
-                }
-            }
-
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                isChinaCountry[0] = false;
-            }
-        });
-
-        return isChinaCountry[0];
     }
 }
