@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.pushnotification;
 
 import android.content.Context;
@@ -22,16 +27,16 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * Created by philips on 29/03/17.
+ * Class to manage push notification related operations
  */
-
 public class PushNotificationManager {
 
     private static final String TAG = "PushNotification";
     private static PushNotificationManager pushNotificationManager;
 
-    public interface DeregisterTokenListener{
+    public interface DeregisterTokenListener {
         public void onSuccess();
+
         public void onError();
     }
 
@@ -76,7 +81,7 @@ public class PushNotificationManager {
 
                 @Override
                 public void onError(DataServicesError dataServicesError) {
-                    Log.d(TAG,"Register token error: code::"+dataServicesError.getErrorCode()+"message::"+dataServicesError.getErrorMessage());
+                    Log.d(TAG, "Register token error: code::" + dataServicesError.getErrorCode() + "message::" + dataServicesError.getErrorMessage());
                 }
             });
         }
@@ -97,9 +102,9 @@ public class PushNotificationManager {
                     //TODO:Need to write logic based on auto logout configuration
                     Log.d(TAG, "deregisterTokenWithBackend isDergistered:" + isDeRegistered);
                     saveTokenRegistrationState(applicationContext, !isDeRegistered);
-                    if(isDeRegistered){
+                    if (isDeRegistered) {
                         deregisterTokenListener.onSuccess();
-                    }else{
+                    } else {
                         deregisterTokenListener.onError();
                     }
 
@@ -109,7 +114,7 @@ public class PushNotificationManager {
                 public void onError(DataServicesError dataServicesError) {
                     //TODO:Handle error scenarios and retry logic
                     deregisterTokenListener.onError();
-                    Log.d(TAG,"Register token error: code::"+dataServicesError.getErrorCode()+"message::"+dataServicesError.getErrorMessage());
+                    Log.d(TAG, "Register token error: code::" + dataServicesError.getErrorCode() + "message::" + dataServicesError.getErrorMessage());
                 }
             });
         }
@@ -155,7 +160,7 @@ public class PushNotificationManager {
      */
     public String getToken(Context applicationContext) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
-        Log.d(TAG,"GCM token:"+sharedPreferences.getString(PushNotificationConstants.GCM_TOKEN, ""));
+        Log.d(TAG, "GCM token:" + sharedPreferences.getString(PushNotificationConstants.GCM_TOKEN, ""));
         return sharedPreferences.getString(PushNotificationConstants.GCM_TOKEN, "");
     }
 
@@ -168,7 +173,6 @@ public class PushNotificationManager {
         Log.d(TAG, "Starting GCM registration. Getting token from server");
         //Remove registration state
         saveTokenRegistrationState(context, false);
-
         //Start registration service
         Intent intent = new Intent(context, RegistrationIntentService.class);
         context.startService(intent);
@@ -179,7 +183,7 @@ public class PushNotificationManager {
      *
      * @param data
      */
-    public void sendPayloadToCoCo(Context context,Bundle data){
+    public void sendPayloadToCoCo(Context context, Bundle data) {
         Set<String> set = data.keySet();
         for (String string : set) {
             Log.d(TAG, string + ":" + data.getString(string));
@@ -189,14 +193,14 @@ public class PushNotificationManager {
                     Iterator iterator = jsonObject.keys();
                     while (iterator.hasNext()) {
                         String key = (String) iterator.next();
-                        switch (key){
+                        switch (key) {
                             case PushNotificationConstants.DSC:
                                 JSONObject dscobject = jsonObject.getJSONObject(key);
-                                DataServicesState dataServicesState=((AppFrameworkApplication)context.getApplicationContext()).getDataServiceState();
+                                DataServicesState dataServicesState = ((AppFrameworkApplication) context.getApplicationContext()).getDataServiceState();
                                 dataServicesState.sendPayloadMessageToDSC(dscobject);
                                 break;
                             default:
-                                Log.d(TAG,"Common component is not designed for handling this key");
+                                Log.d(TAG, "Common component is not designed for handling this key");
                         }
                     }
                 } catch (JSONException e) {

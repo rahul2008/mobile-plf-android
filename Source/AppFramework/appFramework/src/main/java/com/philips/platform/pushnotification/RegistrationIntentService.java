@@ -1,8 +1,12 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.pushnotification;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -42,9 +46,9 @@ public class RegistrationIntentService extends IntentService {
         } catch (Exception e) {
             Log.d(TAG, "Failed to complete token refresh", e);
         }
-        // Notify UI that registration has completed, so the progress indicator can be hidden.
-        Intent registrationComplete = new Intent(PushNotificationConstants.REGISTRATION_COMPLETE);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(registrationComplete);
+//        // Notify UI that registration has completed, so the progress indicator can be hidden.
+//        Intent registrationComplete = new Intent(PushNotificationConstants.REGISTRATION_COMPLETE);
+//        LocalBroadcastManager.getInstance(this).sendBroadcast(registrationComplete);
     }
 
 
