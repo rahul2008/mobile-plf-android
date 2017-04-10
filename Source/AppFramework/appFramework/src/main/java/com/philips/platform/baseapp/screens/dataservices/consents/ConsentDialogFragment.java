@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,7 +27,13 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConsentDialogFragment extends DialogFragment implements DBRequestListener<ConsentDetail>,DBFetchRequestListner<ConsentDetail>,DBChangeListener, View.OnClickListener {
+
+
+/**
+ * Created by sangamesh on 08/11/16.
+ */
+
+public class ConsentDialogFragment extends Fragment implements DBRequestListener<ConsentDetail>,DBFetchRequestListner<ConsentDetail>,DBChangeListener, View.OnClickListener {
 
     private RecyclerView mRecyclerView;
     private Button mBtnOk;
@@ -94,19 +101,18 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
         switch (v.getId()) {
             case R.id.btnOK:
                 lConsentAdapter.updateConsent();
-                dismissConsentDialog(getDialog());
+                dismissConsentDialog();
                 break;
             case R.id.btnCancel:
-                dismissConsentDialog(getDialog());
+                dismissConsentDialog();
                 break;
 
         }
     }
 
-    private void dismissConsentDialog(Dialog dialog){
-        if(dialog!=null && dialog.isShowing()){
-            dialog.dismiss();
-        }
+    private void dismissConsentDialog(){
+        getFragmentManager().popBackStack();
+        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
 
     @Override
@@ -130,13 +136,6 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     public void onStart() {
         super.onStart();
         mDataServicesManager.registerDBChangeListener(this);
-        Dialog dialog = getDialog();
-        dialog.setTitle(R.string.consent);
-        if (dialog != null) {
-            int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
-            dialog.getWindow().setLayout(width, height);
-        }
     }
 
     private void showProgressDialog() {
