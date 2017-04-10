@@ -81,7 +81,7 @@ public class UCoreAdapter {
         this.context = context;
     }
 
-    public void setBlobData(BlobData blobData){
+    public void setBlobData(BlobData blobData) {
         this.blobData = blobData;
     }
 
@@ -90,10 +90,9 @@ public class UCoreAdapter {
         if (userRegistrationImpl != null) {
             if (clientClass == InsightClient.class) {
                 baseUrl = "https://platforminfra-cs-platforminfrastaging.cloud.pcftest.com/";
-            }
-            else if(clientClass == BlobClient.class){
+            } else if (clientClass == BlobClient.class) {
                 baseUrl = BlobClient.BASE_URL;
-            }else {
+            } else {
                 baseUrl = userRegistrationImpl.getHSDPUrl();
             }
         }
@@ -110,10 +109,10 @@ public class UCoreAdapter {
 
         RequestInterceptor requestInterceptor;
 
-        if(clientClass == BlobClient.class){
+        if (clientClass == BlobClient.class) {
             requestInterceptor = getRequestInterceptorForBlob(accessToken);
 
-        }else {
+        } else {
             requestInterceptor = getRequestInterceptor(accessToken);
         }
         RestAdapter restAdapter = restAdapterBuilder
@@ -147,13 +146,14 @@ public class UCoreAdapter {
         return new RequestInterceptor() {
             @Override
             public void intercept(RequestFacade request) {
-                if(blobData!=null)
-                request.addHeader("Content-Type", blobData.getType());
-
+                if (blobData != null && blobData.getType() != null)
+                    request.addHeader("Content-Type", blobData.getType());
+                else
+                    request.addHeader("Content-Type", "application/pdf");
                 request.addHeader("Authorization", "bearer " + accessToken);
                 request.addHeader(API_VERSION_CUSTOM_HEADER, String.valueOf(API_VERSION_BLOB));
                 request.addHeader(APP_AGENT_HEADER, getAppAgentHeader());
-                request.addHeader("user",accessProvider.getSubjectId());
+                request.addHeader("user", accessProvider.getSubjectId());
                 try {
                     if(blobData!=null)
                     request.addHeader("Content-MD5",checksum.getMd5OfFile(blobData.getFile()));

@@ -3,6 +3,10 @@ package com.philips.platform.datasync.blob;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.philips.platform.core.Eventing;
+import com.philips.platform.core.events.BackendDataRequestFailed;
+import com.philips.platform.core.listeners.BlobDownloadRequestListener;
+import com.philips.platform.core.listeners.BlobUploadRequestListener;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.events.FetchMetaDataRequest;
 import com.philips.platform.core.events.UpdateUcoreMetadataRequest;
@@ -14,12 +18,20 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
+import com.squareup.okhttp.ResponseBody;
 
 import org.joda.time.DateTime;
+
+import java.io.IOException;
+import java.io.InputStream;
+
 import javax.inject.Inject;
 
 import retrofit.RetrofitError;
+import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
+import retrofit.mime.TypedFile;
+import retrofit.mime.TypedInput;
 
 
 
@@ -35,43 +47,38 @@ public class BlobDataFetcher extends DataFetcher{
     GsonConverter gsonConverter;
 
     @Inject
-    UCoreAccessProvider uCoreAccessProvider;
-
-    @NonNull
-    UCoreAdapter uCoreAdapter;
-
-    @Inject
-    BaseAppDataCreator dataCreator;
-
-
-    @Inject
-    public BlobDataFetcher(@NonNull UCoreAdapter uCoreAdapter, UCoreAccessProvider uCoreAccessProvider, MomentGsonConverter gsonConverter) {
+    public BlobDataFetcher(@NonNull UCoreAdapter uCoreAdapter) {
         super(uCoreAdapter);
-        this.uCoreAccessProvider = uCoreAccessProvider;
-        this.uCoreAdapter = uCoreAdapter;
-        this.gsonConverter = gsonConverter;
         DataServicesManager.getInstance().getAppComponant().injectblobDataFetcher(this);
     }
 
     @Nullable
     @Override
     public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
+        return null;
+    }
+
+    @Nullable
+    public void fetchBlobData(@Nullable String itemId, BlobDownloadRequestListener blobDownloadRequestListener) {
         if (isUserInvalid()) {
-            return null;
+            return;
         }
         try {
 
             BlobClient client = uCoreAdapter.getAppFrameworkClient(BlobClient.class, accessProvider.getAccessToken(), gsonConverter);
-
+            Response downloadResponse = null;
             if (client != null) {
-                client.downloadBlob("14b4f366-2c3a-46f0-a870-658ee3eb7eb0");
+                downloadResponse = client.downloadBlob(itemId);
             }
-            return null;
+            InputStream in = downloadResponse.getBody().in();
+            blobDownloadRequestListener.onBlobDownloadRequestSuccess(in);
         } catch (RetrofitError ex) {
             DSLog.e(DSLog.LOG, "RetrofitError: " + ex.getMessage() + ex);
             eventing.post(new BackendDataRequestFailed(ex));
             onError(ex);
-            return ex;
+            blobDownloadRequestListener.onBlobRequestFailure(ex);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

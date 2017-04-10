@@ -2,14 +2,12 @@ package com.philips.platform.datasync.blob;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.core.events.ConsentBackendSaveRequest;
 import com.philips.platform.core.events.CreateBlobRequest;
 import com.philips.platform.core.events.FetchMetaDataRequest;
+import com.philips.platform.core.events.FetchBlobDataFromServer;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
-import com.philips.platform.datasync.consent.ConsentDataSender;
-import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -58,5 +56,10 @@ public class BlobMonitor extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(FetchMetaDataRequest fetchMetaDataRequest) {
         blobDataFetcher.fetchBlobMetaData(fetchMetaDataRequest);
+    }
+
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void onEventAsync(FetchBlobDataFromServer event) {
+        blobDataFetcher.fetchBlobData(event.getItemId(),event.getBlobDownloadRequestListener());
     }
 }

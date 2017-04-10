@@ -18,18 +18,21 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.philips.cdp.uikit.customviews.CircularProgressbar;
+import com.philips.platform.core.listeners.BlobDownloadRequestListener;
 import com.philips.platform.core.listeners.BlobRequestListener;
+import com.philips.platform.core.listeners.BlobUploadRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.blob.BlobMetaData;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.activity.FilePicker;
 import static android.app.Activity.RESULT_OK;
 
-public class BlobFragment extends Fragment {
+public class BlobFragment extends Fragment implements View.OnClickListener {
 
     Button mBtnUpload;
     private ProgressBar mProgressBar;
@@ -40,6 +43,7 @@ public class BlobFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private ArrayList<BlobMetaData> blobMetaDatas;
     private BlobMetaDataAdapter blobMetaDataAdapter;
+    private Button mBtnDownload;
 
     @Nullable
     @Override
@@ -47,6 +51,7 @@ public class BlobFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.blob_layout, container, false);
         mBtnUpload = (Button) view.findViewById(R.id.upload);
+        mBtnDownload = (Button) view.findViewById(R.id.download);
         mProgressBar = (CircularProgressbar) view.findViewById(R.id.settings_progress_bar);
         Fetch=(Button) view.findViewById(R.id.fetch);
 
@@ -74,50 +79,12 @@ public class BlobFragment extends Fragment {
         });
 
         Browse = (Button) view.findViewById(R.id.browse);
-        Browse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                if (shouldAskPermissions()) {
-                    askPermissions();
-                }
+        Browse.setOnClickListener(this);
 
-                Intent intent = new Intent(getActivity(), FilePicker.class);
-                startActivityForResult(intent, REQUEST_PICK_FILE);
-            }
-        });
+        mBtnUpload.setOnClickListener(this);
 
-        mBtnUpload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                setProgressBarVisibility(true);
-
-                //File file = new File("/storage/3038-3435/619.jpg");
-                DataServicesManager.getInstance().createBlob(selectedFile, getMimeType(selectedFile.getPath()), new BlobRequestListener() {
-                    @Override
-                    public void onBlobRequestSuccess(String itemId) {
-                        setProgressBarVisibility(false);
-                        showToast("Blob Request Succes and the itemID = " + itemId);
-                        mBtnUpload.setEnabled(false);
-                    }
-
-                    @Override
-                    public void onBlobRequestFailure(Exception exception) {
-                        setProgressBarVisibility(false);
-                        showToast("Blob Request Failed");
-                        mBtnUpload.setEnabled(false);
-                    }
-
-                    @Override
-                    public void onFetchMetaDataSuccess(BlobMetaData uCoreFetchMetaData) {
-                        setProgressBarVisibility(false);
-                        showToast("Blob Meta Data Request Succes");
-                    }
-                });
-            }
-        });
-
+        mBtnDownload.setOnClickListener(this);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
@@ -157,11 +124,11 @@ public class BlobFragment extends Fragment {
 
     }
 
-    private void showToast(final String message){
+    private void showToast(final String message) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getContext(),message,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -169,18 +136,18 @@ public class BlobFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if(resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) {
 
-            switch(requestCode) {
+            switch (requestCode) {
 
                 case REQUEST_PICK_FILE:
 
-                    if(data.hasExtra(FilePicker.EXTRA_FILE_PATH)) {
+                    if (data.hasExtra(FilePicker.EXTRA_FILE_PATH)) {
 
                         selectedFile = new File
                                 (data.getStringExtra(FilePicker.EXTRA_FILE_PATH));
                         //filePath.setText(selectedFile.getPath());
-                        mBtnUpload.setVisibility(View.VISIBLE);
+                        mBtnUpload.setEnabled(true);
                     }
                     break;
             }
@@ -197,4 +164,50 @@ public class BlobFragment extends Fragment {
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.browse:
+                if (shouldAskPermissions()) {
+                    askPermissions();
+                }
+
+                Intent intent = new Intent(getActivity(), FilePicker.class);
+                startActivityForResult(intent, REQUEST_PICK_FILE);
+                break;
+            case R.id.upload:
+                setProgressBarVisibility(true);
+
+                DataServicesManager.getInstance().createBlob(selectedFile, getMimeType(selectedFile.getPath()), new BlobUploadRequestListener() {
+                    @Override
+                    public void onBlobRequestSuccess(String itemId) {
+                        setProgressBarVisibility(false);
+                        showToast("Blob Request Succes and the itemID = " + itemId);
+                        mBtnUpload.setEnabled(false);
+                    }
+
+                    @Override
+                    public void onBlobRequestFailure(Exception exception) {
+                        setProgressBarVisibility(false);
+                        showToast("Blob Request Failed");
+                        mBtnUpload.setEnabled(false);
+                    }
+                });
+                break;
+            case R.id.download:
+                DataServicesManager.getInstance().fetchBlob("14b4f366-2c3a-46f0-a870-658ee3eb7eb0", new BlobDownloadRequestListener() {
+
+                    @Override
+                    public void onBlobDownloadRequestSuccess(InputStream file) {
+                        showToast("Blob Download Request Success");
+                    }
+
+                    @Override
+                    public void onBlobRequestFailure(Exception exception) {
+                        showToast("Blob Request Failed");
+                    }
+                });
+                break;
+        }
+    }
 }
