@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * Created by deepakpanigrahi on 5/18/16.
  */
-public class AppInfraApplication extends Application implements AppTaggingInterface.RegisterListener{
+public class AppInfraApplication extends Application {
     public static AppTaggingInterface mAIAppTaggingInterface;
     public static AppInfraInterface gAppInfra;
     private AppInfra mAppInfra;
@@ -73,9 +73,8 @@ public class AppInfraApplication extends Application implements AppTaggingInterf
         gAppInfra.getTime().refreshTime();
         mAppInfra = (AppInfra)gAppInfra;
 
-        mAIAppTaggingInterface = gAppInfra.getTagging().createInstanceForComponent("Component name", "Component ID");
-        mAIAppTaggingInterface.registerListener(this);
-      //  mAIAppTaggingInterface.registerReceiver(rec);
+        mAIAppTaggingInterface = gAppInfra.getTagging();
+        mAIAppTaggingInterface.registerTaggingData(rec);
         mAIAppTaggingInterface.trackPageWithInfo("Main APP" ,"APP " , "APPINFRA");
         mAIAppTaggingInterface.trackVideoEnd("track - demo APP");
         mAIAppTaggingInterface.setPreviousPage("SomePreviousPage");
@@ -88,25 +87,24 @@ public class AppInfraApplication extends Application implements AppTaggingInterf
     private BroadcastReceiver rec = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d("AppInfra APP", "BroadcastReceiver() {...}.onReceive()");
-            Map textExtra = (Map) intent.getSerializableExtra(AppTagging.DATA_EXTRA);
-            System.out.println("LENGTH"+" "+textExtra.toString().length());
-            System.out.println("DATA"+" "+textExtra.toString());
-            Crittercism.leaveBreadcrumb(textExtra.toString());
-            Toast.makeText(getApplicationContext(),
-                    textExtra.toString(), Toast.LENGTH_LONG).show();
+            if(intent != null) {
+                if(intent.getAction() == AppTagging.ACTION_TAGGING_DATA) {
+                    Log.d("AppInfra APP", "BroadcastReceiver() {...}.onReceive()");
+                    Map textExtra = (Map) intent.getSerializableExtra(AppTagging.EXTRA_TAGGING_DATA);
+                    Log.d("APPINFRA-TAGGING" , textExtra.toString());
+                    Crittercism.leaveBreadcrumb(textExtra.toString());
+                    Toast.makeText(getApplicationContext(),
+                            textExtra.toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+
         }
     };
 
     @Override
     public void onTerminate() {
         super.onTerminate();
-      //  mAIAppTaggingInterface.unregisterReceiver(rec);
+       mAIAppTaggingInterface.unregisterTaggingData(rec);
     }
 
-    @Override
-    public void sendEvent(Map data) {
-        Toast.makeText(getApplicationContext(),
-                data.toString(), Toast.LENGTH_LONG).show();
-    }
 }

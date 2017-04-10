@@ -46,14 +46,13 @@ public class AppTagging implements AppTaggingInterface {
 	private final AppInfra mAppInfra;
 	protected String mComponentID;
 	protected String mComponentVersion;
-	private  AppTaggingInterface.RegisterListener registerListener = null;
 
 	private Locale mLocale;
-	private final static String AIL_PRIVACY_CONSENT = "ailPrivacyConsentForSensitiveData";
-	private  final static String PAGE_NAME = "ailPageName";
-	private final static String ACTION_NAME = "ailActionName";
-	private static final String DATA_SENT_ACTION = "ACTION_SEND";
-	public static final String DATA_EXTRA = "TAGGING_DATA";
+	private static final  String AIL_PRIVACY_CONSENT = "ailPrivacyConsentForSensitiveData";
+	public static final  String PAGE_NAME = "ailPageName";
+	public static final  String ACTION_NAME = "ailActionName";
+	public static final String ACTION_TAGGING_DATA = "ACTION_TAGGING_DATA";
+	public static final String EXTRA_TAGGING_DATA = "TAGGING_DATA";
 
 	public AppTagging(AppInfra aAppInfra) {
 		mAppInfra = aAppInfra;
@@ -145,7 +144,7 @@ public class AppTagging implements AppTaggingInterface {
 	}
 
 	/**
-	 * Removes Sensitive data declared in Adobe json
+	 * Removes Sensitive data declared in Adobe json.
 	 **/
 
 	private Map<String, Object> removeSensitiveData(Map<String, Object> data) {
@@ -176,15 +175,7 @@ public class AppTagging implements AppTaggingInterface {
 		return Analytics.getTrackingIdentifier();
 	}
 
-	@Override
-	public void registerListener(RegisterListener listener) {
-		registerListener = listener;
-	}
 
-	@Override
-	public void unregisterListener(RegisterListener listener) {
-		registerListener = null;
-	}
 
 	private String getAppStateFromConfig() {
 
@@ -325,10 +316,10 @@ public class AppTagging implements AppTaggingInterface {
 			Analytics.trackAction(pageName, contextData);
 			contextData.put(ACTION_NAME ,pageName);
 		}
-		//sendBroadcast(contextData);
-        if(registerListener != null) {
-	        registerListener.sendEvent(contextData);
-        }
+		sendBroadcast(contextData);  // sending broadcast
+//        if(registerListener != null) {
+//	        registerListener.sendEvent(contextData);
+//        }
 	}
 
 	@Override
@@ -436,22 +427,27 @@ public class AppTagging implements AppTaggingInterface {
 		trackActionWithInfo("sendData", "fileName", filename);
 	}
 
-	public void sendBroadcast(Map data) {
-		Intent intent = new Intent(DATA_SENT_ACTION);
-		intent.putExtra(DATA_EXTRA, (Serializable) data);
-		LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext()).sendBroadcast(intent);
+	/**
+	 * Sending the broadcast event .
+	 * @param data Map consists of Tagging Data
+	 */
+	private void sendBroadcast(final Map data) {
+		Intent intent = new Intent(ACTION_TAGGING_DATA);
+		intent.putExtra(EXTRA_TAGGING_DATA, (Serializable) data);
+		LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
+				.sendBroadcast(intent);
 	}
 
 	@Override
-	public void unregisterReceiver(BroadcastReceiver receiver) {
+	public void unregisterTaggingData(final BroadcastReceiver receiver) {
 		 LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
 				 .unregisterReceiver(receiver);
 	}
 
 	@Override
-	public void registerReceiver(BroadcastReceiver receiver) {
-		 LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext()).registerReceiver(receiver,
-				 new IntentFilter(DATA_SENT_ACTION));
+	public void registerTaggingData(final BroadcastReceiver receiver) {
+		 LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
+				 .registerReceiver(receiver, new IntentFilter(ACTION_TAGGING_DATA));
 	}
 
 }
