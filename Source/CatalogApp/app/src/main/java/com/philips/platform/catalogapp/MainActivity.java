@@ -65,7 +65,7 @@ public class MainActivity extends UIDActivity {
         themeHelper = new ThemeHelper(defaultSharedPreferences);
 
         UIDHelper.init(getThemeConfig());
-        UIDLocaleHelper.getUidLocaleHelper().setFilePath(getCatalogAppJSONAssetPath());
+        UIDLocaleHelper.getInstance().setFilePath(getCatalogAppJSONAssetPath());
         
         if (BuildConfig.DEBUG) {
             Log.d(MainActivity.class.getName(), String.format("Theme config Tonal Range :%s, Color Range :%s , Navigation Color : %s",
