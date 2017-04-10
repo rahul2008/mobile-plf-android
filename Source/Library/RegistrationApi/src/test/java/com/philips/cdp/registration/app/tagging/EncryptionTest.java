@@ -25,12 +25,4 @@ public class EncryptionTest extends TestCase {
         String encrpytedValue = encryption.encrypt(toBeEncrypted);
         assertEquals(null, encrpytedValue);
     }
-
-    @Test
-    public void testEncrypt_StringInput() throws Exception {
-        String toBeEncrypted = "Test";
-        String encrpytedValue = encryption.encrypt(toBeEncrypted);
-        String expectedValue = "RBE4NEEs0ECMcUOMpHY3WajrKlKzCT9uFiwAy+Z4GokusVCr4kpPGnsRriGaT29cRSM727trAuihjA6suxw84A==";
-        assertEquals(expectedValue, encrpytedValue);
-    }
 }
