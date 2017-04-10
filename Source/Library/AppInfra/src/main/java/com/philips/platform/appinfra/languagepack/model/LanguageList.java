@@ -14,13 +14,13 @@ public class LanguageList {
 
 	@SerializedName("languages")
 	@Expose
-	private ArrayList<LanguageModel> languages;
+	private ArrayList<LanguagePackModel> languages;
 
-	public ArrayList<LanguageModel> getLanguages() {
+	public ArrayList<LanguagePackModel> getLanguages() {
 		return languages;
 	}
 
-	public void setLanguages(ArrayList<LanguageModel> languages) {
+	public void setLanguages(ArrayList<LanguagePackModel> languages) {
 		this.languages = languages;
 	}
 

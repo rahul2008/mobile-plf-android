@@ -2,6 +2,9 @@ package com.philips.platform.appinfra.demo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+
+import java.util.Locale;
 
 public class ResolutionLocaleActivity extends AppCompatActivity {
 
@@ -9,5 +12,6 @@ public class ResolutionLocaleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resolution_locale);
+        Log.d(getClass() + "", Locale.getDefault().toString());
     }
 }
