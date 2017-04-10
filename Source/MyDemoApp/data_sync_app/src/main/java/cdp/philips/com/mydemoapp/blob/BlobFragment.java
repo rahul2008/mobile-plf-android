@@ -1,7 +1,9 @@
 package cdp.philips.com.mydemoapp.blob;
 
 import android.annotation.TargetApi;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,6 +27,7 @@ import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.activity.FilePicker;
 
 import static android.app.Activity.RESULT_OK;
+import static cdp.philips.com.mydemoapp.R.drawable.file;
 
 public class BlobFragment extends Fragment {
 
@@ -64,7 +67,7 @@ public class BlobFragment extends Fragment {
                 setProgressBarVisibility(true);
 
                 //File file = new File("/storage/3038-3435/619.jpg");
-                DataServicesManager.getInstance().createBlob(selectedFile, MimeTypeMap.getFileExtensionFromUrl(selectedFile.getAbsolutePath()), new BlobRequestListener() {
+                DataServicesManager.getInstance().createBlob(selectedFile, getMimeType(selectedFile.getPath()), new BlobRequestListener() {
                     @Override
                     public void onBlobRequestSuccess(String itemId) {
                         setProgressBarVisibility(false);
@@ -147,4 +150,15 @@ public class BlobFragment extends Fragment {
             }
         }
     }
+
+    public String getMimeType(String url) {
+        String type = null;
+        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (extension != null) {
+            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension.toLowerCase());
+        }
+        return type;
+    }
+
+
 }
