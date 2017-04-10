@@ -118,20 +118,20 @@ public class AlmostDonePresenterTest {
         Bundle bundle = new Bundle();
         JSONObject resultJsonObject = new JSONObject();
         try {
-            resultJsonObject.put(RegConstants.REGISTER_GIVEN_NAME, "abc");
-            resultJsonObject.put(RegConstants.REGISTER_DISPLAY_NAME, "def");
-            resultJsonObject.put(RegConstants.REGISTER_FAMILY_NAME, "ghi");
-            resultJsonObject.put(RegConstants.REGISTER_EMAIL, "jkl");
+            resultJsonObject.put(RegConstants.REGISTER_GIVEN_NAME, "Health care");
+            resultJsonObject.put(RegConstants.REGISTER_DISPLAY_NAME, "Philips");
+            resultJsonObject.put(RegConstants.REGISTER_FAMILY_NAME, "HSDP");
+            resultJsonObject.put(RegConstants.REGISTER_EMAIL, "maqsood@gmail.com");
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
         bundle.putString(RegConstants.SOCIAL_TWO_STEP_ERROR,resultJsonObject.toString());
         presenter.parseRegistrationInfo(bundle);
-        assertEquals("abc",presenter.getGivenName());
-        assertEquals("def",presenter.getDisplayName());
-        assertEquals("ghi",presenter.getFamilyName());
-        assertEquals("jkl",presenter.getEmail());
+        assertEquals("Health care",presenter.getGivenName());
+        assertEquals("Philips",presenter.getDisplayName());
+        assertEquals("HSDP",presenter.getFamilyName());
+        assertEquals("maqsood@gmail.com",presenter.getEmail());
         assertEquals(true,presenter.isEmailExist());
     }
 
