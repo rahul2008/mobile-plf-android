@@ -4,26 +4,28 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.BackendDataRequestFailed;
-import com.philips.platform.core.events.BackendMomentListSaveRequest;
+import com.philips.platform.core.listeners.BlobDownloadRequestListener;
+import com.philips.platform.core.listeners.BlobUploadRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
-import com.philips.platform.datasync.moments.MomentsClient;
-import com.philips.platform.datasync.moments.MomentsConverter;
-import com.philips.platform.datasync.moments.UCoreMoment;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
+import com.squareup.okhttp.ResponseBody;
 
 import org.joda.time.DateTime;
 
-import java.util.List;
+import java.io.IOException;
+import java.io.InputStream;
 
 import javax.inject.Inject;
 
 import retrofit.RetrofitError;
+import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
+import retrofit.mime.TypedFile;
+import retrofit.mime.TypedInput;
 
 
 public class BlobDataFetcher extends DataFetcher{
@@ -46,22 +48,30 @@ public class BlobDataFetcher extends DataFetcher{
     @Nullable
     @Override
     public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
+        return null;
+    }
+
+    @Nullable
+    public void fetchBlobData(@Nullable String itemId, BlobDownloadRequestListener blobDownloadRequestListener) {
         if (isUserInvalid()) {
-            return null;
+            return;
         }
         try {
 
             BlobClient client = uCoreAdapter.getAppFrameworkClient(BlobClient.class, accessProvider.getAccessToken(), gsonConverter);
-
+            Response downloadResponse = null;
             if (client != null) {
-                client.downloadBlob("14b4f366-2c3a-46f0-a870-658ee3eb7eb0");
+                downloadResponse = client.downloadBlob(itemId);
             }
-            return null;
+            InputStream in = downloadResponse.getBody().in();
+            blobDownloadRequestListener.onBlobDownloadRequestSuccess(in);
         } catch (RetrofitError ex) {
             DSLog.e(DSLog.LOG, "RetrofitError: " + ex.getMessage() + ex);
             eventing.post(new BackendDataRequestFailed(ex));
             onError(ex);
-            return ex;
+            blobDownloadRequestListener.onBlobRequestFailure(ex);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

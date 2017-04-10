@@ -8,7 +8,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
-import com.google.gson.JsonObject;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
@@ -36,6 +35,7 @@ import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
+import com.philips.platform.core.events.FetchBlobDataFromServer;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.FetchInsightsFromDB;
 import com.philips.platform.core.events.LoadMomentsRequest;
@@ -54,7 +54,8 @@ import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.injection.ApplicationModule;
 import com.philips.platform.core.injection.BackendModule;
 import com.philips.platform.core.injection.DaggerAppComponent;
-import com.philips.platform.core.listeners.BlobRequestListener;
+import com.philips.platform.core.listeners.BlobDownloadRequestListener;
+import com.philips.platform.core.listeners.BlobUploadRequestListener;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -74,16 +75,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.InputStream;
-import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import retrofit.mime.TypedFile;
 
 
 @SuppressWarnings({"rawtypes", "unchecked"})
@@ -449,15 +446,15 @@ public class DataServicesManager {
     }
 
     //Blob Interfaces
-    public void createBlob(File file, String type, BlobRequestListener blobRequestListener){
+    public void createBlob(File file, String type, BlobUploadRequestListener blobRequestListener){
         mEventing.post(new CreateBlobRequest(file,type,blobRequestListener));
     }
 
-    public void FetchBlob(String id, BlobRequestListener blobRequestListener){
-
+    public void fetchBlob(String id, BlobDownloadRequestListener blobDownloadRequestListener){
+        mEventing.post(new FetchBlobDataFromServer(id, blobDownloadRequestListener));
     }
 
-    public void FetchMetaDataForBlobID(String id, BlobRequestListener blobRequestListener){
+    public void FetchMetaDataForBlobID(String id, BlobUploadRequestListener blobRequestListener){
 
     }
 

@@ -20,7 +20,6 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
-import com.philips.platform.core.events.CreateBlobRequest;
 import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
@@ -32,7 +31,7 @@ import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.injection.AppComponent;
-import com.philips.platform.core.listeners.BlobRequestListener;
+import com.philips.platform.core.listeners.BlobUploadRequestListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
@@ -86,7 +85,7 @@ public class DataServicesManagerTest {
     private File fileMock;
 
     @Mock
-    private BlobRequestListener blobRequestListenerMock;
+    private BlobUploadRequestListener blobRequestListenerMock;
 
     @Mock
     SynchronisationManager synchronisationManagerMock;

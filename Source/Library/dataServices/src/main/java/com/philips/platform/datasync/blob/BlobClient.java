@@ -1,6 +1,9 @@
 package com.philips.platform.datasync.blob;
 
+import com.squareup.okhttp.ResponseBody;
+
 import retrofit.Callback;
+import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Multipart;
@@ -22,5 +25,5 @@ public interface BlobClient {
     UcoreBlobResponse uploadBlob(@Body TypedFile file);
 
     @GET("/blob/item/{itemId}")
-    void downloadBlob(@Path("itemId") String itemId);
+    Response downloadBlob(@Path("itemId") String itemId);
 }

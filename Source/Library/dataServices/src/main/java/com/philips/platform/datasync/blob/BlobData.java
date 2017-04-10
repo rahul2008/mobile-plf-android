@@ -1,6 +1,6 @@
 package com.philips.platform.datasync.blob;
 
-import com.philips.platform.core.listeners.BlobRequestListener;
+import com.philips.platform.core.listeners.BlobUploadRequestListener;
 
 import java.io.File;
 
@@ -10,15 +10,15 @@ import java.io.File;
 
 public class BlobData {
 
-    BlobRequestListener blobRequestListener;
+    BlobUploadRequestListener blobRequestListener;
     String type;
     File file;
 
-    public BlobRequestListener getBlobRequestListener() {
+    public BlobUploadRequestListener getBlobRequestListener() {
         return blobRequestListener;
     }
 
-    public void setBlobRequestListener(BlobRequestListener blobRequestListener) {
+    public void setBlobRequestListener(BlobUploadRequestListener blobRequestListener) {
         this.blobRequestListener = blobRequestListener;
     }
 

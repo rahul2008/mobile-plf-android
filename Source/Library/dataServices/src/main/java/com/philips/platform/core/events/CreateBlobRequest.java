@@ -1,9 +1,8 @@
 package com.philips.platform.core.events;
 
-import com.philips.platform.core.listeners.BlobRequestListener;
+import com.philips.platform.core.listeners.BlobUploadRequestListener;
 
 import java.io.File;
-import java.io.InputStream;
 
 /**
  * Created by philips on 4/5/17.
@@ -12,13 +11,13 @@ import java.io.InputStream;
 public class CreateBlobRequest extends Event{
     private File inputStream;
     private String type;
-    private BlobRequestListener blobRequestListener;
+    private BlobUploadRequestListener blobRequestListener;
 
-    public BlobRequestListener getBlobRequestListener() {
+    public BlobUploadRequestListener getBlobRequestListener() {
         return blobRequestListener;
     }
 
-    public void setBlobRequestListener(BlobRequestListener blobRequestListener) {
+    public void setBlobRequestListener(BlobUploadRequestListener blobRequestListener) {
         this.blobRequestListener = blobRequestListener;
     }
 
@@ -31,7 +30,7 @@ public class CreateBlobRequest extends Event{
         this.type = type;
     }
 
-    public CreateBlobRequest(File file, String type, BlobRequestListener blobRequestListener){
+    public CreateBlobRequest(File file, String type, BlobUploadRequestListener blobRequestListener){
         this.inputStream = file;
         this.type = type;
         this.blobRequestListener = blobRequestListener;
