@@ -9,7 +9,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.util.Log;
 
-import com.philips.platform.appinfra.languagepack.model.LanguageModel;
+import com.philips.platform.appinfra.languagepack.model.LanguagePackModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -92,12 +92,12 @@ class LanguagePackUtil {
     }
 
 
-    void saveLocaleMetaData(LanguageModel languageModel) {
+    void saveLocaleMetaData(LanguagePackModel languagePackModel) {
         try {
             final JSONObject metadataJsonObject = new JSONObject();
-            metadataJsonObject.put(LanguagePackConstants.LOCALE,languageModel.getLocale());
-            metadataJsonObject.put(LanguagePackConstants.VERSION, languageModel.getVersion());
-            metadataJsonObject.put(LanguagePackConstants.URL,languageModel.getUrl());
+            metadataJsonObject.put(LanguagePackConstants.LOCALE, languagePackModel.getLocale());
+            metadataJsonObject.put(LanguagePackConstants.VERSION, languagePackModel.getVersion());
+            metadataJsonObject.put(LanguagePackConstants.URL, languagePackModel.getUrl());
             saveFile(metadataJsonObject.toString(),LanguagePackConstants.LOCALE_FILE_INFO);
         } catch (JSONException e) {
             e.printStackTrace();

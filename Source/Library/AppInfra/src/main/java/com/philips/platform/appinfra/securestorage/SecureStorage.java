@@ -14,6 +14,9 @@ import android.util.Base64;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.security.Key;
 import java.security.KeyPair;
@@ -36,6 +39,7 @@ import javax.security.auth.x500.X500Principal;
  * Current Implementation changed to MAIL-161.
  */
 public class SecureStorage implements SecureStorageInterface {
+
     private static final String SINGLE_UNIVERSAL_KEY = "AppInfra.SecureStorage key pair";
     private static final String RSA_ENCRYPTION_ALGORITHM = "RSA/ECB/PKCS1Padding";
     private static final String AES_ENCRYPTION_ALGORITHM = "AES/CTR/NoPadding";
@@ -403,4 +407,45 @@ public class SecureStorage implements SecureStorageInterface {
         }
         return cipher;
     }
+
+	@Override
+	public String getDeviceCapability() {
+
+		final String buildTags = android.os.Build.TAGS;
+		if (buildTags != null && buildTags.contains("test-keys")) {
+			return "true";
+		}
+		final String[] paths = {"/system/app/Superuser.apk", "/sbin/su", "/system/bin/su",
+				"/system/xbin/su", "/data/local/xbin/su", "/data/local/bin/su", "/system/sd/xbin/su",
+				"/system/bin/failsafe/su", "/data/local/su", "/su/bin/su"};
+		for (String path : paths) {
+			if (new File(path).exists()) return "true";
+		}
+		if (checkProcess()) {
+			return "true";
+		}
+
+		return "false";
+
+	}
+
+	/**
+	 * Checks if the device is rooted.
+	 *
+	 * @return <code>true</code> if the device is rooted, <code>false</code> otherwise.
+	 */
+	private static boolean checkProcess() {
+		Process process = null;
+		try {
+			process = Runtime.getRuntime().exec(new String[]{"/system/xbin/which", "/system/bin/which", "su"});
+			final BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			if (in.readLine() != null) return true;
+			return false;
+		} catch (Throwable t) {
+			return false;
+		} finally {
+			if (process != null) process.destroy();
+		}
+	}
+
 }

@@ -34,10 +34,9 @@ import java.util.concurrent.TimeoutException;
 public class RequestManager {
 
 	//    RequestQueue mRequestQueue;
-	private static final String TAG = "RequestManager";//this.class.getSimpleName();
-	private AppInfra mAppInfra;
-	private static final String ServiceDiscoveryCacheFile = "SDCacheFile";
-	private Context mContext = null;
+	private final AppInfra mAppInfra;
+	private static final String SERVICE_DISCOVERY_CACHE_FILE = "SDCacheFile";
+	private final Context mContext;
 	private SharedPreferences mSharedPreference;
 	private SharedPreferences.Editor mPrefEditor;
 
@@ -65,8 +64,8 @@ public class RequestManager {
 			result.setError(err);
 			result.setSuccess(false);
 		} catch (ExecutionException e) {
-			Throwable error = e.getCause();
-			ServiceDiscovery.Error volleyError;
+			final Throwable error = e.getCause();
+			ServiceDiscovery.Error volleyError=null;
 			if (error instanceof TimeoutError) {
 				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
 						error.toString());
@@ -124,7 +123,7 @@ public class RequestManager {
 
 	private void cacheServiceDiscovery(JSONObject serviceDiscovery, String url, ServiceDiscoveryManager.AISDURLType urlType) {
 		final Date currentDate = new Date();
-		long refreshTimeExpiry = currentDate.getTime() + 24 * 3600 * 1000;  // current time + 24 hour
+		final long refreshTimeExpiry = currentDate.getTime() + 24 * 3600 * 1000;  // current time + 24 hour
 		switch (urlType) {
 			case AISDURLTypeProposition:
 				mPrefEditor.putString("SDPROPOSITION", serviceDiscovery.toString());
@@ -196,7 +195,7 @@ public class RequestManager {
 	}
 
 	private SharedPreferences getServiceDiscoverySharedPreferences() {
-		return mContext.getSharedPreferences(ServiceDiscoveryCacheFile, Context.MODE_PRIVATE);
+		return mContext.getSharedPreferences(SERVICE_DISCOVERY_CACHE_FILE, Context.MODE_PRIVATE);
 	}
 
 }

@@ -33,15 +33,14 @@ import static com.philips.platform.appinfra.servicediscovery.model.AISDResponse.
 public class ServiceDiscovery {
 
 	private boolean success = false;
-	String httpStatus;
-	String country;
+	private String httpStatus;
+	private String country;
 	private MatchByCountryOrLanguage matchByCountry;
 	private MatchByCountryOrLanguage matchByLanguage;
 	private AppInfra mAppInfra;
 	private Context mContext;
 	private ServiceDiscoveryManager mServiceDiscoveryManager;
-
-	Error error = null;
+	private Error error = null;
 
 
 	public static class Error {
@@ -265,7 +264,7 @@ public class ServiceDiscovery {
 
 					if (urls != null && urls.size() > 0) {
 						if (urls.get(serviceId) != null) {
-							String serviceUrl = urls.get(serviceId);
+							final String serviceUrl = urls.get(serviceId);
 							try {
 								final URL url = new URL(serviceUrl);
 								return urlDecodeForServiceDiscovery(url, replacement);
@@ -369,12 +368,12 @@ public class ServiceDiscovery {
 								serviceUrlval = serviceUrlval.replace("%22", "\"");
 							}
 							if (replacement != null && replacement.size() > 0) {
-								URL replacedUrl;
 								try {
-									replacedUrl = mServiceDiscoveryManager.applyURLParameters(new URL(serviceUrlval), replacement);
-									if (replacedUrl != null)
+									final URL replacedUrl = mServiceDiscoveryManager.applyURLParameters(new URL(serviceUrlval), replacement);
+									if (replacedUrl != null) {
 										sdService.init(modelLocale, replacedUrl.toString());
-									responseMap.put(serviceIds.get(i), sdService);
+										responseMap.put(serviceIds.get(i), sdService);
+									}
 								} catch (MalformedURLException e) {
 									mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
 											"ServiceDiscovery URL error",

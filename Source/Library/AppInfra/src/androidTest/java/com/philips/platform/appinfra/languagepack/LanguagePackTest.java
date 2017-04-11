@@ -9,15 +9,12 @@ import com.philips.platform.appinfra.MockitoTestCase;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.languagepack.model.LanguageList;
-import com.philips.platform.appinfra.languagepack.model.LanguageModel;
-import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
+import com.philips.platform.appinfra.languagepack.model.LanguagePackModel;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -26,27 +23,20 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 /**
  * Created by philips on 3/14/17.
  */
 
 public class LanguagePackTest extends MockitoTestCase {
 
+    private final String LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY = "LANGUAGEPACK.SERVICEID";
+    private final String LANGUAGE_PACK_CONFIG_SERVICE_ID = "appinfra.languagePack";
+    private final String LANGUAGE_PACK_OVERVIEW_URL = "https://hashim-rest.herokuapp.com/sd/tst/en_IN/appinfra/lp.json";
     Method method;
     AppConfigurationInterface mConfigInterface = null;
     LanguagePackInterface mLanguagePackInterface = null;
     LanguagePackManager mLanguagePackManager = null;
     ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
-    private final String LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY = "LANGUAGEPACK.SERVICEID";
-    private final String LANGUAGE_PACK_CONFIG_SERVICE_ID = "appinfra.languagePack";
-
-    private final String LANGUAGE_PACK_OVERVIEW_URL = "https://hashim-rest.herokuapp.com/sd/tst/en_IN/appinfra/lp.json";
-
     private Context context;
     private AppInfra mAppInfra;
     private LanguagePackUtil languagePackUtil;
@@ -274,9 +264,9 @@ public class LanguagePackTest extends MockitoTestCase {
 
     public void testIsLanguagePackDownloadRequired() {
         try {
-            Method method = mLanguagePackManager.getClass().getDeclaredMethod("isLanguagePackDownloadRequired", LanguageModel.class);
+            Method method = mLanguagePackManager.getClass().getDeclaredMethod("isLanguagePackDownloadRequired", LanguagePackModel.class);
             method.setAccessible(true);
-            LanguageModel defaultLocale = new LanguageModel();
+            LanguagePackModel defaultLocale = new LanguagePackModel();
             defaultLocale.setLocale("en_GB");
             defaultLocale.setUrl("https:\\/\\/hashim-rest.herokuapp.com\\/sd\\/dev\\/en_IN\\/appinfra\\/lp\\/en_GB.json");
             defaultLocale.setVersion("1");
@@ -315,13 +305,13 @@ public class LanguagePackTest extends MockitoTestCase {
 
     public void testLanguagePackUtilSaveLocaleMetaData() {
         try {
-            Method method = languagePackUtil.getClass().getDeclaredMethod("saveLocaleMetaData", LanguageModel.class);
+            Method method = languagePackUtil.getClass().getDeclaredMethod("saveLocaleMetaData", LanguagePackModel.class);
             method.setAccessible(true);
-            LanguageModel defaultLocale = new LanguageModel();
+            LanguagePackModel defaultLocale = new LanguagePackModel();
             defaultLocale.setLocale("en_GB");
             defaultLocale.setUrl("https:\\/\\/hashim-rest.herokuapp.com\\/sd\\/dev\\/en_IN\\/appinfra\\/lp\\/en_GB.json");
             defaultLocale.setVersion("1");
-            ArrayList<LanguageModel> arrayListLanguage = new ArrayList<LanguageModel>();
+            ArrayList<LanguagePackModel> arrayListLanguage = new ArrayList<LanguagePackModel>();
             arrayListLanguage.add(defaultLocale);
             LanguageList list = new LanguageList();
             list.setLanguages(arrayListLanguage);

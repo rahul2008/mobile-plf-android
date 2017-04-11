@@ -16,7 +16,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfra;
 
@@ -27,7 +26,8 @@ public class AppInfraMainActivity extends AppCompatActivity {
     AppInfra mAppInfra;
     ListView listView;
     String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging","AppIdentity",
-            "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client" , " A/B Testing", "Content Loader","WhiteBox API","Internet Check","Language Pack"};
+            "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client", " A/B Testing", "Content Loader", "WhiteBox API", "Internet Check", "Language Pack",
+            "Resolution locale"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -223,6 +223,11 @@ public class AppInfraMainActivity extends AppCompatActivity {
                 Intent languagePackIntent = new Intent(AppInfraMainActivity.this,
                         LanguagePackActivity.class);
                 startActivity(languagePackIntent);
+                break;
+            case 14:
+                Intent resolutionLocaleIntent = new Intent(AppInfraMainActivity.this,
+                        ResolutionLocaleActivity.class);
+                startActivity(resolutionLocaleIntent);
                 break;
         }
 

@@ -32,6 +32,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
+import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.AISDURLType.AISDURLTypeProposition;
+
 /**
  * This class downloads list of URLs from service discovery server,
  * providing the locale and the identity of the application.
@@ -58,10 +60,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private String countryCode;
     private long holdbackTime = 0l;
     private ServiceDiscoveryInterface.OnGetHomeCountryListener.ERRORVALUES errorvalues;
-    //
-    private boolean downloadInProgress;
-    private ArrayDeque<AbstractDownloadItemListener> downloadAwaiters;
-    private ReentrantLock downloadLock;
+    private final ArrayDeque<AbstractDownloadItemListener> downloadAwaiters;
+    private final ReentrantLock downloadLock;
     private String mCountry;
     private String mCountrySourceType;
 
@@ -74,7 +74,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         mAppInfra = aAppInfra;
         context = mAppInfra.getAppInfraContext();
         mRequestItemManager = new RequestManager(context, mAppInfra);
-        downloadInProgress = false;
         downloadAwaiters = new ArrayDeque<>();
         downloadLock = new ReentrantLock();
     }
@@ -86,9 +85,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         }
         downloadAwaiters.add(listener);
 
-        if (!downloadInProgress)
             if (new Date().getTime() > holdbackTime) {// if current time is greater then holdback time
-                downloadInProgress = true;
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -111,18 +108,17 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                             }
                         }
                         while (forceRefresh);
-                        downloadInProgress = false;
                         serviceDiscovery = service;
                         final AISDResponse result = service;
                         downloadLock.unlock();
                         for (final AbstractDownloadItemListener d : stalledAwaiters) {
-                            Thread t = new Thread(new Runnable() {
+                            final Thread mThread = new Thread(new Runnable() {
                                 @Override
                                 public void run() {
                                     d.onDownloadDone(result);
                                 }
                             });
-                            new Handler(Looper.getMainLooper()).post(t);
+                            new Handler(Looper.getMainLooper()).post(mThread);
                         }
                     }
                 }).start();
@@ -143,9 +139,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 if (listener != null)
                     listener.onDownloadDone(serviceDiscoveryError);
             }
-        else {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "Download already in progress, please wait for response");
-        }
         downloadLock.unlock();
     }
 
@@ -196,10 +189,10 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
     private ServiceDiscovery downloadPropositionService() {
-        final String propositionURL = getSDURLForType(AISDURLType.AISDURLTypeProposition);
+        final String propositionURL = getSDURLForType(AISDURLTypeProposition);
         ServiceDiscovery propositionService = new ServiceDiscovery();
         if (propositionURL != null) {
-            propositionService = processRequest(propositionURL, propositionService, AISDURLType.AISDURLTypeProposition);
+            propositionService = processRequest(propositionURL, propositionService, AISDURLTypeProposition);
         }
         return propositionService;
     }
@@ -228,9 +221,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
     private String getSDURLForType(AISDURLType aisdurlType) {
-
-        String sector = null, micrositeid = null, environment = null;
-        String url = null;
+        String sector = null, micrositeid = null, environment = null, url = null;
         final AppConfigurationInterface.AppConfigurationError error = new AppConfigurationInterface
                 .AppConfigurationError();
         final AppIdentityInterface identityManager = mAppInfra.getAppIdentity();
@@ -238,7 +229,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         final String locale = localManager.getUILocaleString();
         final AppIdentityInterface.AppState state = identityManager.getAppState();
         final String service_environment = identityManager.getServiceDiscoveryEnvironment();
-
         final String appState = getAppStateStringFromState(state);
 
         switch (aisdurlType) {
@@ -257,8 +247,9 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                                 error);
 
                 if (defSevicediscoveryEnv != null) {
-                    if (defSevicediscoveryEnv.equalsIgnoreCase("production")) // allow manual override only if static appstate != production
+                    if (defSevicediscoveryEnv.equalsIgnoreCase("production")) { // allow manual override only if static appstate != production
                         environment = defSevicediscoveryEnv;
+                    }
                     else {
                         if (dynServiceDiscoveryEnvironment != null)
                             environment = dynServiceDiscoveryEnvironment.toString();
@@ -268,19 +259,14 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 }
                 appIdentityManager.validateServiceDiscoveryEnv(environment);
                 environment = getSDBaseURLForEnvironment(environment);
-                if (micrositeid == null || micrositeid.isEmpty() || environment == null || environment.isEmpty()) {
-                    throw new IllegalArgumentException("Platform MicrositeId or Platform Service Environment is Missing");
-                }
-
+                checkArgumentException(micrositeid,environment);
                 break;
 
             case AISDURLTypeProposition:
                 sector = identityManager.getSector();
                 micrositeid = identityManager.getMicrositeId();
                 environment = getSDBaseURLForEnvironment(service_environment);
-                if (micrositeid == null || micrositeid.isEmpty() || environment == null || environment.isEmpty()) {
-                    throw new IllegalArgumentException("Proposition MicrositeId or Proposition Service Environment is Missing");
-                }
+                checkArgumentException(micrositeid,environment);
                 break;
         }
         if (sector != null && micrositeid != null &&
@@ -310,6 +296,13 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         }
         return url;
     }
+
+    private void checkArgumentException(String micrositeid,String environment){
+        if (micrositeid == null || micrositeid.isEmpty() || environment == null || environment.isEmpty()) {
+            throw new IllegalArgumentException("Platform MicrositeId or Platform Service Environment is Missing");
+        }
+    }
+
 
     private String getSDBaseURLForEnvironment(String serviceEnv) {
         String baseUrl = null;
@@ -558,11 +551,11 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     @Override
     public URL applyURLParameters(URL inputURL, Map<String, String> parameters) {
         String url = inputURL.toString();
-        URL output;
+        URL output=null;
         if (parameters != null && parameters.size() > 0) {
             for (Map.Entry<String, String> param : parameters.entrySet()) {
-                String key = param.getKey();
-                String value = param.getValue();
+                final String key = param.getKey();
+                final String value = param.getValue();
                 if (key != null && value != null)
                     url = url.replace('%' + key + '%', value);
             }
@@ -590,7 +583,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                         listener.ondataReceived(SDResponse);
                     } else {
                         if (SDResponse != null && SDResponse.getError() != null) {
-                            ServiceDiscovery.Error err = SDResponse.getError();
+                            final ServiceDiscovery.Error err = SDResponse.getError();
                             err.setErrorvalue(err.getErrorvalue());
                             //   listener..onError(err.getErrorvalue(), err.getMessage());
                         } else {
@@ -735,7 +728,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
     private boolean cachedURLsExpired() {
-        final String mURLStringProposition = getSDURLForType(AISDURLType.AISDURLTypeProposition);
+        final String mURLStringProposition = getSDURLForType(AISDURLTypeProposition);
         final String mSavedURLProposition = mRequestItemManager.getUrlProposition();
 
         final String mURLStringPlatform = getSDURLForType(AISDURLType.AISDURLTypePlatform);
