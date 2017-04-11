@@ -62,7 +62,7 @@ public class BlobDataFetcher extends DataFetcher{
     }
 
     @Nullable
-    public void fetchBlobData(@Nullable String itemId,BlobMetaData blobMetaData, BlobDownloadRequestListener blobDownloadRequestListener) {
+    public void fetchBlobData(BlobMetaData blobMetaData, BlobDownloadRequestListener blobDownloadRequestListener) {
         if (isUserInvalid()) {
             return;
         }
@@ -71,7 +71,7 @@ public class BlobDataFetcher extends DataFetcher{
             BlobClient client = uCoreAdapter.getAppFrameworkClient(BlobClient.class, accessProvider.getAccessToken(), gsonConverter);
             Response downloadResponse = null;
             if (client != null) {
-                downloadResponse = client.downloadBlob(itemId);
+                downloadResponse = client.downloadBlob(blobMetaData.getBlobID());
             }
             InputStream in = downloadResponse.getBody().in();
             blobDownloadRequestListener.onBlobDownloadRequestSuccess(in,blobMetaData.getContentType());

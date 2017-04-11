@@ -100,9 +100,9 @@ public class BlobFragment extends Fragment implements View.OnClickListener,DBFet
             case R.id.upload:
                 mBlobPresenter.upload(selectedFile);
                 break;
-            case R.id.download:
-                mBlobPresenter.download("14b4f366-2c3a-46f0-a870-658ee3eb7eb0");
-                break;
+          /*  case R.id.download:
+             //   mBlobPresenter.download("14b4f366-2c3a-46f0-a870-658ee3eb7eb0");
+                break;*/
             case R.id.fetch:
                 mBlobPresenter.fetchMetaDataForBlobID("14b4f366-2c3a-46f0-a870-658ee3eb7eb0");
                 break;

@@ -60,6 +60,6 @@ public class BlobMonitor extends EventMonitor {
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(FetchBlobDataFromServer event) {
-        blobDataFetcher.fetchBlobData(event.getItemId(),event.getBlobMetaData(),event.getBlobDownloadRequestListener());
+        blobDataFetcher.fetchBlobData(event.getBlobMetaData(),event.getBlobDownloadRequestListener());
     }
 }

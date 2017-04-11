@@ -1,9 +1,9 @@
 package cdp.philips.com.mydemoapp.blob;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Intent;
-import android.os.Build;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.Environment;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -18,11 +18,11 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.blob.BlobMetaData;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.OutputStream;
 
-import cdp.philips.com.mydemoapp.activity.FilePicker;
 
 public class BlobPresenter {
 
@@ -44,7 +44,7 @@ public class BlobPresenter {
         final String mimeType = getMimeType(selectedFile.getPath());
 
         if(mimeType == null){
-            showToast("Mime  Type invalid - choose another file");
+            showToast("Mime  Type invalid - choose another file",null);
             setProgressBarVisibility(false);
             return;
         }
@@ -52,22 +52,25 @@ public class BlobPresenter {
         DataServicesManager.getInstance().createBlob(selectedFile, mimeType, new BlobUploadRequestListener() {
             @Override
             public void onBlobRequestSuccess(final String itemId) {
-
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mBtnUpload.setEnabled(false);
-                        setProgressBarVisibility(false);
-                        showToast("Blob Request Succes and the itemID = " + itemId);
-                    }
-                });
+                setUploadButtonState();
+                setProgressBarVisibility(false);
+                showToast("Blob Request Succes and the itemID = " + itemId, null);
                 fetchMetaDataForBlobID(itemId.trim());
             }
 
             @Override
             public void onBlobRequestFailure(Exception exception) {
                 setProgressBarVisibility(false);
-                showToast("Blob Request Failed");
+                showToast("Blob Request Failed",exception);
+                setUploadButtonState();
+            }
+        });
+    }
+
+    private void setUploadButtonState() {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
                 mBtnUpload.setEnabled(false);
             }
         });
@@ -98,39 +101,35 @@ public class BlobPresenter {
         return type;
     }
 
-    private void showToast(final String message) {
+    private void showToast(final String message, final Exception exception) {
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+                if(exception!=null && exception.getMessage()!=null) {
+                    Toast.makeText(activity, message + " and Error -> " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
-    void download(String blobId) {
-        DataServicesManager.getInstance().fetchBlob(blobId, new BlobDownloadRequestListener() {
+
+    void download(BlobMetaData blobMetaData) {
+        setProgressBarVisibility(true);
+        DataServicesManager.getInstance().fetchBlobWithMetaData(blobMetaData, new BlobDownloadRequestListener() {
 
             @Override
-            public void onBlobDownloadRequestSuccess(final InputStream file,final String mime) {
-
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        showToast("Blob Download Request Success");
-                    }
-                });
-
+            public void onBlobDownloadRequestSuccess(InputStream file,final String mime) {
+                showToast("Blob Download Request Success",null);
+                copyInputStreamToFile(file);
+                setProgressBarVisibility(false);
             }
 
             @Override
             public void onBlobRequestFailure(Exception exception) {
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        showToast("Blob Request Failed");
-                    }
-                });
-
+                showToast("Blob Request Failed",exception);
+                setProgressBarVisibility(false);
             }
         });
     }
@@ -149,20 +148,44 @@ public class BlobPresenter {
 
             @Override
             public void onFetchMetaDataSuccess(BlobMetaData uCoreFetchMetaData) {
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateUI();
-                    }
-                });
-
+                updateUI();
             }
         });
     }
 
     void updateUI() {
-        DataServicesManager.getInstance().fetchAllMetaData(dbFetchRequestListner);
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                DataServicesManager.getInstance().fetchAllMetaData(dbFetchRequestListner);
+            }
+        });
     }
 
+    private void copyInputStreamToFile(InputStream inputStream) {
+        try {
+            byte[] buffer = new byte[inputStream.available()];
+            inputStream.read(buffer);
 
+            File targetFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"targetFile"+".pdf");
+            OutputStream outStream = new FileOutputStream(targetFile);
+            outStream.write(buffer);
+            showToast("Stored the file successfully",null);
+        } catch (IOException e) {
+            showToast("File could not be stored",e);
+        }
+    }
+
+    private String getAppDirectory(){
+        PackageManager m = activity.getPackageManager();
+        String s = activity.getPackageName();
+        PackageInfo p = null;
+        try {
+            p = m.getPackageInfo(s, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        s = p.applicationInfo.dataDir;
+        return s;
+    }
 }

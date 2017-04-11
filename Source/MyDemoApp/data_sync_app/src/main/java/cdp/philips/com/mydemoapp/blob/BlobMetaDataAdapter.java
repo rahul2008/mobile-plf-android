@@ -56,7 +56,7 @@ public class BlobMetaDataAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mConsentViewHolder.btn_download.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    blobPresenter.download(blobMetaDatas.get(position).getBlobID());
+                    blobPresenter.download(blobMetaDatas.get(position));
                 }
             });
 
