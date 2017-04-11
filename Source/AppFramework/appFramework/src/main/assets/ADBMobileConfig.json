@@ -5,8 +5,8 @@
   },
   "analytics": {
     "referrerTimeout": 5,
-    "rsids": "philipsmobileappsdev",
-    "server": "philips.112.2o7.net",
+    "rsids": "philipsmobileappsreferencedev",
+    "server": "philips.sc.omtrdc.net",
     "charset": "UTF-8",
     "ssl": true,
     "offlineEnabled": true,
