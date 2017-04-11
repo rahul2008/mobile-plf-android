@@ -9,7 +9,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
-public class LanguageModel {
+public class LanguagePackModel {
 
 	@SerializedName("locale")
 	@Expose
@@ -49,7 +49,7 @@ public class LanguageModel {
 
 	@Override
 	public boolean equals(Object obj) {
-		LanguageModel languageModel = (LanguageModel) obj;
-		return languageModel.getLocale().equals(this.getLocale());
+		LanguagePackModel languagePackModel = (LanguagePackModel) obj;
+		return languagePackModel.getLocale().equals(this.getLocale());
 	}
 }
