@@ -74,11 +74,11 @@ public class BlobDataSender extends DataSender {
             if(response == null){
                 blobData.getBlobRequestListener().onBlobRequestFailure(new Exception("Server returned null response"));
             }else {
-                blobData.getBlobRequestListener().onBlobRequestSuccess(response.getItemId());
-
                 BlobMetaData blobMetaData = dataCreator.createBlobMetaData();
                 blobMetaData.setBlobId(response.getItemId());
                 eventing.post(new SavingBlobMetaDataRequest(blobMetaData));
+
+                blobData.getBlobRequestListener().onBlobRequestSuccess(response.getItemId());
             }
         }catch (RetrofitError error){
             error.printStackTrace();

@@ -35,6 +35,7 @@ import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
+import com.philips.platform.core.events.FetchBlobMetaDataFromDBRequest;
 import com.philips.platform.core.events.FetchMetaDataRequest;
 import com.philips.platform.core.events.FetchBlobDataFromServer;
 import com.philips.platform.core.events.LoadConsentsRequest;
@@ -66,6 +67,7 @@ import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.EventingImpl;
 import com.philips.platform.datasync.UCoreAccessProvider;
+import com.philips.platform.datasync.blob.BlobMetaData;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataSender;
 import com.philips.platform.datasync.synchronisation.SynchronisationManager;
@@ -456,6 +458,10 @@ public class DataServicesManager {
         mEventing.post(new FetchBlobDataFromServer(id, blobDownloadRequestListener));
     }
 
+    public void fetchBlobWithMetaData(BlobMetaData blobMetaData, BlobDownloadRequestListener blobDownloadRequestListener){
+        mEventing.post(new FetchBlobDataFromServer(blobMetaData, blobDownloadRequestListener));
+    }
+
 
     public void fetchMetaDataForBlobID(String id, BlobRequestListener blobRequestListener){
         mEventing.post(new FetchMetaDataRequest(id,blobRequestListener));
@@ -468,4 +474,7 @@ public class DataServicesManager {
 
     }
 
+    public void fetchAllMetaData(DBFetchRequestListner<BlobMetaData> dbFetchRequestListner) {
+        mEventing.post(new FetchBlobMetaDataFromDBRequest(dbFetchRequestListner));
+    }
 }

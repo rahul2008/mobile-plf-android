@@ -1,8 +1,6 @@
 package cdp.philips.com.mydemoapp.blob;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,19 +13,19 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.philips.cdp.uikit.customviews.CircularProgressbar;
-import com.philips.platform.core.listeners.BlobRequestListener;
-import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.datasync.blob.BlobMetaData;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.activity.FilePicker;
 
 import static android.app.Activity.RESULT_OK;
 
-public class BlobFragment extends Fragment implements View.OnClickListener {
+public class BlobFragment extends Fragment implements View.OnClickListener,DBFetchRequestListner<BlobMetaData> {
 
     Button mBtnUpload;
     private ProgressBar mProgressBar;
@@ -57,14 +55,18 @@ public class BlobFragment extends Fragment implements View.OnClickListener {
         mBtnDownload.setOnClickListener(this);
         Fetch.setOnClickListener(this);
 
-        mBlobPresenter = new BlobPresenter(getActivity(),mProgressBar,mBtnUpload);
-
+        blobMetaDatas = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView = (RecyclerView) view.findViewById(R.id.lv_blob_id);
         mRecyclerView.setLayoutManager(layoutManager);
-        blobMetaDatas = new ArrayList<>();
-        blobMetaDataAdapter = new BlobMetaDataAdapter(getActivity(), blobMetaDatas);
+
+        mBlobPresenter = new BlobPresenter(getActivity(),mProgressBar,mBtnUpload, this);
+
+
+        blobMetaDataAdapter = new BlobMetaDataAdapter(getActivity(), blobMetaDatas, mBlobPresenter);
         mRecyclerView.setAdapter(blobMetaDataAdapter);
+        mBlobPresenter.updateUI();
+
         return view;
     }
 
@@ -99,10 +101,10 @@ public class BlobFragment extends Fragment implements View.OnClickListener {
                 mBlobPresenter.upload(selectedFile);
                 break;
             case R.id.download:
-                mBlobPresenter.download();
+                mBlobPresenter.download("14b4f366-2c3a-46f0-a870-658ee3eb7eb0");
                 break;
             case R.id.fetch:
-                mBlobPresenter.fetchMetaDataForBlobID();
+                mBlobPresenter.fetchMetaDataForBlobID("14b4f366-2c3a-46f0-a870-658ee3eb7eb0");
                 break;
         }
     }
@@ -110,5 +112,27 @@ public class BlobFragment extends Fragment implements View.OnClickListener {
     void browse() {
         Intent intent = new Intent(getActivity(), FilePicker.class);
         startActivityForResult(intent, REQUEST_PICK_FILE);
+    }
+
+    @Override
+    public void onFetchSuccess(List<? extends BlobMetaData> data) {
+     setBlobMetaDataList(data);
+    }
+
+    @Override
+    public void onFetchFailure(Exception exception) {
+
+    }
+
+    void setBlobMetaDataList(final List<? extends BlobMetaData> blobMetaDataList){
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                blobMetaDataAdapter.setData((ArrayList<? extends BlobMetaData>) blobMetaDataList);
+                blobMetaDataAdapter.notifyDataSetChanged();
+            }
+        });
+
     }
 }

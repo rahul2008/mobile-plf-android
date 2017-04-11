@@ -124,7 +124,7 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     @Override
-    public List<? extends BlobMetaData> fetchAllBlobMetaData() throws SQLException {
+    public List<? extends BlobMetaData> fetchAllBlobMetaData(DBFetchRequestListner<BlobMetaData> dbFetchRequestListner) throws SQLException {
         return null;
     }
 

@@ -7,18 +7,21 @@
     <TextView
         android:layout_weight="1.5"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:id="@+id/tv_blob_id"
         android:text="blobID"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@android:color/white"
         android:layout_margin="5dp"
         android:gravity="center"
+        android:layout_gravity="center"
         android:padding="2dp"
         />
 
     <Button
         android:layout_weight="0.5"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:id="@+id/btn_downlod"
         android:text="Download"
         android:layout_margin="5dp"

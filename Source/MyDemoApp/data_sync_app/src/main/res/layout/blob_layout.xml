@@ -66,6 +66,7 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:text="Download"
+        android:visibility="gone"
         android:layout_below="@id/donloadfile"
         />
 
