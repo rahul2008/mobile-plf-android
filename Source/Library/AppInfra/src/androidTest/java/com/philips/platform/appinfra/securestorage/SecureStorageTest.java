@@ -860,10 +860,12 @@ public class SecureStorageTest extends MockitoTestCase {
                         "}\n";
     }
 
+    public void testgetDeviceCapability() {
+        assertNotNull(mSecureStorage.getDeviceCapability());
+    }
+
     public void testByteDataEncryptionAndDecryption()throws Exception {
-
         SecureStorageInterface.SecureStorageError sse;
-
         sse = new SecureStorageInterface.SecureStorageError();
         assertNull(mSecureStorage.encryptData( null, sse ));
         assertEquals(SecureStorageInterface.SecureStorageError.secureStorageError.NullData, sse.getErrorCode());
@@ -885,7 +887,5 @@ public class SecureStorageTest extends MockitoTestCase {
         byte[] decBtyes1 = mSecureStorage.decryptData( encBtyes1, sse );
         assertTrue(Arrays.equals(plainByte1,decBtyes1));
         assertNull(sse.getErrorCode());
-
-
     }
 }
