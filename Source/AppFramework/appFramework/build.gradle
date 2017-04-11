@@ -501,7 +501,8 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
                                             '**/*$ViewInjector*.*',
                                             '**/*$ViewBinder*.*',
                                             '**/BuildConfig.*',
-                                            '**/Manifest*.*'
+                                            '**/Manifest*.*',
+                                            '**/com/philips/platform/baseapp/screens/dataservices/**'
                                     ]
                             )
                             def coverageSourceDirs = [
