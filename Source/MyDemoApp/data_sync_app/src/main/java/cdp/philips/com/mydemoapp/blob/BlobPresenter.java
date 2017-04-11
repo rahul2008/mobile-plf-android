@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import retrofit.mime.MimeUtil;
+
 
 public class BlobPresenter {
 
@@ -122,7 +124,7 @@ public class BlobPresenter {
             @Override
             public void onBlobDownloadRequestSuccess(InputStream file,final String mime) {
                 showToast("Blob Download Request Success",null);
-                copyInputStreamToFile(file);
+                copyInputStreamToFile(file, MimeTypeMap.getSingleton().getExtensionFromMimeType(mime));
                 setProgressBarVisibility(false);
             }
 
@@ -162,12 +164,12 @@ public class BlobPresenter {
         });
     }
 
-    private void copyInputStreamToFile(InputStream inputStream) {
+    private void copyInputStreamToFile(InputStream inputStream, String extension) {
         try {
             byte[] buffer = new byte[inputStream.available()];
             inputStream.read(buffer);
 
-            File targetFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"targetFile"+".pdf");
+            File targetFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"targetFile."+extension);
             OutputStream outStream = new FileOutputStream(targetFile);
             outStream.write(buffer);
             showToast("Stored the file successfully",null);
