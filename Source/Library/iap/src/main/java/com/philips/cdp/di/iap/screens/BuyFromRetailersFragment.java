@@ -19,6 +19,7 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.ArrayList;
 
@@ -70,6 +71,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
         if (mStoreEntity != null) {
             BuyFromRetailersAdapter mAdapter = new BuyFromRetailersAdapter(mContext, getFragmentManager(), mStoreEntity, this);
             mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
         }
     }
 
