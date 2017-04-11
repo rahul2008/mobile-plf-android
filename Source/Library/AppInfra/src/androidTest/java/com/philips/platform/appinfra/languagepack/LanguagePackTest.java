@@ -9,14 +9,12 @@ import com.philips.platform.appinfra.MockitoTestCase;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.languagepack.model.LanguageList;
-import com.philips.platform.appinfra.languagepack.model.LanguageModel;
-import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
+import com.philips.platform.appinfra.languagepack.model.LanguagePackModel;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
 
+import org.json.JSONException;
 import org.json.JSONObject;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -25,27 +23,20 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 /**
  * Created by philips on 3/14/17.
  */
 
 public class LanguagePackTest extends MockitoTestCase {
 
+    private final String LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY = "LANGUAGEPACK.SERVICEID";
+    private final String LANGUAGE_PACK_CONFIG_SERVICE_ID = "appinfra.languagePack";
+    private final String LANGUAGE_PACK_OVERVIEW_URL = "https://hashim-rest.herokuapp.com/sd/tst/en_IN/appinfra/lp.json";
     Method method;
     AppConfigurationInterface mConfigInterface = null;
     LanguagePackInterface mLanguagePackInterface = null;
     LanguagePackManager mLanguagePackManager = null;
     ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
-    private final String LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY = "LANGUAGEPACK.SERVICEID";
-    private final String LANGUAGE_PACK_CONFIG_SERVICE_ID = "appinfra.languagePack";
-
-    private final String LANGUAGE_PACK_OVERVIEW_URL = "https://hashim-rest.herokuapp.com/sd/tst/en_IN/appinfra/lp.json";
-
     private Context context;
     private AppInfra mAppInfra;
     private LanguagePackUtil languagePackUtil;
@@ -57,8 +48,8 @@ public class LanguagePackTest extends MockitoTestCase {
         context = getInstrumentation().getContext();
         assertNotNull(context);
         mAppInfra = new AppInfra.Builder().build(context);
-        //mConfigInterface = mAppInfra.getConfigInterface();
-        mLanguagePackManager = new LanguagePackManager(mAppInfra);
+
+
         // overriding ConfigManager to get Test JSON data, as AppInfra library does not have uApp configuration file
         mConfigInterface = new AppConfigurationManager(mAppInfra) {
             @Override
@@ -95,7 +86,9 @@ public class LanguagePackTest extends MockitoTestCase {
         };
         assertNotNull(mServiceDiscoveryInterface);
 
+        mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).setServiceDiscovery(mServiceDiscoveryInterface).build(context);
         mLanguagePackInterface = mAppInfra.getLanguagePack();
+        mLanguagePackManager = new LanguagePackManager(mAppInfra);
         assertNotNull(mLanguagePackInterface);
 
         languagePackUtil = new LanguagePackUtil(mAppInfra.getAppInfraContext());
@@ -143,6 +136,30 @@ public class LanguagePackTest extends MockitoTestCase {
             LanguagePackInterface.OnRefreshListener listener = new LanguagePackInterface.OnRefreshListener() {
                 @Override
                 public void onError(AILPRefreshResult error, String message) {
+                    Log.v("REFRESH ERROR", error.toString() + "  " + message);
+                }
+
+                @Override
+                public void onSuccess(AILPRefreshResult result) {
+                    Log.v("REFRESH SUCCESS", result.toString());
+                }
+            };
+            method.invoke(mLanguagePackInterface, listener);
+            mLanguagePackInterface.refresh(listener);
+
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void testPostRefreshSuccess() {
+        try {
+            Method method = mLanguagePackManager.getClass().getDeclaredMethod("postRefreshSuccess", LanguagePackInterface.OnRefreshListener.class, LanguagePackInterface.OnRefreshListener.AILPRefreshResult.class);
+            method.setAccessible(true);
+
+            LanguagePackInterface.OnRefreshListener listener = new LanguagePackInterface.OnRefreshListener() {
+                @Override
+                public void onError(AILPRefreshResult error, String message) {
 
                 }
 
@@ -151,17 +168,36 @@ public class LanguagePackTest extends MockitoTestCase {
 
                 }
             };
-            method.invoke(mLanguagePackInterface, listener);
-            //////////
-
-            mLanguagePackInterface.refresh(listener);
-
+            LanguagePackInterface.OnRefreshListener.AILPRefreshResult result = LanguagePackInterface.OnRefreshListener.AILPRefreshResult.REFRESHED_FROM_SERVER;
+            method.invoke(mLanguagePackManager, listener, result);
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
+    }
 
+    public void testPostRefreshError() {
+        try {
+            Method method = mLanguagePackManager.getClass().getDeclaredMethod("postRefreshError", LanguagePackInterface.OnRefreshListener.class, LanguagePackInterface.OnRefreshListener.AILPRefreshResult.class, String.class);
+            method.setAccessible(true);
 
+            LanguagePackInterface.OnRefreshListener listener = new LanguagePackInterface.OnRefreshListener() {
+                @Override
+                public void onError(AILPRefreshResult error, String message) {
+
+                }
+
+                @Override
+                public void onSuccess(AILPRefreshResult result) {
+
+                }
+            };
+            LanguagePackInterface.OnRefreshListener.AILPRefreshResult result = LanguagePackInterface.OnRefreshListener.AILPRefreshResult.REFRESH_FAILED;
+            method.invoke(mLanguagePackManager, listener, result, "errorMessage");
+
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -174,6 +210,7 @@ public class LanguagePackTest extends MockitoTestCase {
                 public void onSuccess(String path) {
 
                 }
+
                 @Override
                 public void onError(AILPActivateResult ailpActivateResult, String message) {
                 }
@@ -184,92 +221,97 @@ public class LanguagePackTest extends MockitoTestCase {
         }
     }
 
-    public void testProcessForLanguagePack(){
+    public void testProcessForLanguagePack() {
         try {
-            Method method = mLanguagePackManager.getClass().getDeclaredMethod("processForLanguagePack");
+            Method method = mLanguagePackManager.getClass().getDeclaredMethod("processForLanguagePack", JSONObject.class, LanguagePackInterface.OnRefreshListener.class);
             method.setAccessible(true);
             LanguagePackInterface.OnRefreshListener listener = new LanguagePackInterface.OnRefreshListener() {
                 @Override
                 public void onError(AILPRefreshResult error, String message) {
                 }
+
                 @Override
                 public void onSuccess(AILPRefreshResult result) {
                 }
             };
-            method.invoke(mLanguagePackInterface,listener);
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            JSONObject jobj = new JSONObject(getOverviewJSON());
+            method.invoke(mLanguagePackManager, jobj, listener);
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | JSONException e) {
             e.printStackTrace();
         }
     }
 
 
-    public void testDownloadLanguagePack(){
+    public void testDownloadLanguagePack() {
         try {
-            Method method = mLanguagePackManager.getClass().getDeclaredMethod("downloadLanguagePack");
+            Method method = mLanguagePackManager.getClass().getDeclaredMethod("downloadLanguagePack", String.class, LanguagePackInterface.OnRefreshListener.class);
             method.setAccessible(true);
             LanguagePackInterface.OnRefreshListener listener = new LanguagePackInterface.OnRefreshListener() {
                 @Override
                 public void onError(AILPRefreshResult error, String message) {
                 }
+
                 @Override
                 public void onSuccess(AILPRefreshResult result) {
                 }
             };
-            URL url = new URL("");
-            method.invoke(mLanguagePackInterface,url,listener);
+            //URL url = new URL("https:\\/\\/hashim-rest.herokuapp.com\\/sd\\/dev\\/en_IN\\/appinfra\\/lp\\/en_GB.json");
+            method.invoke(mLanguagePackManager, "https://hashim-rest.herokuapp.com/sd/dev/en_IN/appinfra/lp/en_GB.json", listener);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
     }
 
-    public void testIsLanguagePackDownloadRequired(){
+    public void testIsLanguagePackDownloadRequired() {
         try {
-            Method method = mLanguagePackManager.getClass().getDeclaredMethod("isLanguagePackDownloadRequired");
+            Method method = mLanguagePackManager.getClass().getDeclaredMethod("isLanguagePackDownloadRequired", LanguagePackModel.class);
             method.setAccessible(true);
-            LanguageModel defaultLocale = new LanguageModel();
+            LanguagePackModel defaultLocale = new LanguagePackModel();
             defaultLocale.setLocale("en_GB");
             defaultLocale.setUrl("https:\\/\\/hashim-rest.herokuapp.com\\/sd\\/dev\\/en_IN\\/appinfra\\/lp\\/en_GB.json");
             defaultLocale.setVersion("1");
-            method.invoke(mLanguagePackInterface,defaultLocale);
+            method.invoke(mLanguagePackManager, defaultLocale);
+//
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
     }
 
-    public void testGetPreferredLocaleURL(){
+    public void testGetPreferredLocaleURL() {
         try {
             Method method = mLanguagePackManager.getClass().getDeclaredMethod("getPreferredLocaleURL");
             method.setAccessible(true);
-            method.invoke(mLanguagePackInterface);
+            method.invoke(mLanguagePackManager);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
     }
 
 
+    ////////////////// Language Pack util test
     public void testGetLanguagePackUtilFileOperations() {
 
         languagePackUtil.saveFile(getLanguageResponse(), LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
         File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
         assertNotNull(file);
         assertEquals(getLanguageResponse(), languagePackUtil.readFile(file));
+
+
         languagePackUtil.saveFile(getLanguageResponse(), LanguagePackConstants.LOCALE_FILE_ACTIVATED);
         assertEquals(getLanguageResponse(), languagePackUtil.readFile(file));
 
         assertTrue(languagePackUtil.deleteFile(LanguagePackConstants.LOCALE_FILE_DOWNLOADED));
     }
 
-    public void testLanguagePackUtilSaveLocaleMetaData(){
+    public void testLanguagePackUtilSaveLocaleMetaData() {
         try {
-            Method method = languagePackUtil.getClass().getDeclaredMethod("saveLocaleMetaData", LanguageModel.class);
+            Method method = languagePackUtil.getClass().getDeclaredMethod("saveLocaleMetaData", LanguagePackModel.class);
             method.setAccessible(true);
-            LanguageModel defaultLocale = new LanguageModel();
+            LanguagePackModel defaultLocale = new LanguagePackModel();
             defaultLocale.setLocale("en_GB");
             defaultLocale.setUrl("https:\\/\\/hashim-rest.herokuapp.com\\/sd\\/dev\\/en_IN\\/appinfra\\/lp\\/en_GB.json");
             defaultLocale.setVersion("1");
-            ArrayList<LanguageModel> arrayListLanguage=  new             ArrayList<LanguageModel>();
+            ArrayList<LanguagePackModel> arrayListLanguage = new ArrayList<LanguagePackModel>();
             arrayListLanguage.add(defaultLocale);
             LanguageList list = new LanguageList();
             list.setLanguages(arrayListLanguage);
@@ -277,12 +319,12 @@ public class LanguagePackTest extends MockitoTestCase {
             languagePackUtil.saveLocaleMetaData(list.getLanguages().get(0));
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
-        } catch(Exception e){
+        } catch (Exception e) {
 
         }
     }
 
-    public void testLanguagePackUtilRenameOnActivate(){
+    public void testLanguagePackUtilRenameOnActivate() {
         try {
             Method method = languagePackUtil.getClass().getDeclaredMethod("renameOnActivate");
             method.setAccessible(true);
@@ -293,9 +335,66 @@ public class LanguagePackTest extends MockitoTestCase {
     }
 
 
+    public void testGetDefaultLocale() {
+
+        try {
+            Method method = mLanguagePackManager.getClass().getDeclaredMethod("getDefaultLocale");
+            method.setAccessible(true);
+            method.invoke(mLanguagePackManager);
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private String getLanguageResponse() {
 
         return "{\"AI_testKey\":\"se-testValue-en_GB\",\"AI_sbText\":\"se-sbValue-en_GB\"}";
+    }
+
+    private String getOverviewJSON() {
+
+
+        return "{\n" +
+                "  \"languages\": [\n" +
+                "    {\n" +
+                "      \"url\": \"https://hashim-rest.herokuapp.com/sd/dev/en_IN/appinfra/lp/nl_NL.json\",\n" +
+                "      \"locale\": \"nl_NL\",\n" +
+                "      \"remoteVersion\": \"1\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"url\": \"https://hashim-rest.herokuapp.com/sd/dev/en_IN/appinfra/lp/fr_FR.json\",\n" +
+                "      \"locale\": \"fr_FR\",\n" +
+                "      \"remoteVersion\": \"1\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"url\": \"https://hashim-rest.herokuapp.com/sd/dev/en_IN/appinfra/lp/en_GB.json\",\n" +
+                "      \"locale\": \"en_GB\",\n" +
+                "      \"remoteVersion\": \"3\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"url\": \"https://hashim-rest.herokuapp.com/sd/dev/en_IN/appinfra/lp/en_US.json\",\n" +
+                "      \"locale\": \"en_US\",\n" +
+                "      \"remoteVersion\": \"1\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"url\": \"https://hashim-rest.herokuapp.com/sd/dev/en_IN/appinfra/lp/zh_CN.json\",\n" +
+                "      \"locale\": \"zh_CN\",\n" +
+                "      \"remoteVersion\": \"1\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"url\": \"https://hashim-rest.herokuapp.com/sd/dev/en_IN/appinfra/lp/zh_TW.json\",\n" +
+                "      \"locale\": \"zh_TW\",\n" +
+                "      \"remoteVersion\": \"1\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"url\": \"https://hashim-rest.herokuapp.com/sd/dev/en_IN/appinfra/lp/fr_CA.json\",\n" +
+                "      \"locale\": \"fr_CA\",\n" +
+                "      \"remoteVersion\": \"2\"\n" +
+                "    }\n" +
+                "  ]\n" +
+                "}";
+
+
     }
 }
