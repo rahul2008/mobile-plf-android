@@ -188,6 +188,7 @@ public class ThemeSettingsFragment extends BaseFragment {
                 updateTonalRangeColors();
                 updateNavigationRangeColors();
                 buildAccentColorsList(colorRange);
+
                 EventBus.getDefault().post(new ColorRangeChangedEvent(contentColor.name().toString(), colorRange));
             }
         }, colorPickerWidth);
@@ -261,7 +262,7 @@ public class ThemeSettingsFragment extends BaseFragment {
 
     private void initNavigationColor(final int selectedPosition) {
         NavigationColor[] values = NavigationColor.values();
-        navigationColor = values[values.length - selectedPosition - 1];
+        navigationColor = NavigationColor.values()[values.length - selectedPosition - 1];
     }
 
     private int getSelectedNavigationPosition() {
@@ -271,9 +272,9 @@ public class ThemeSettingsFragment extends BaseFragment {
     private void buildAccentColorsList(final ColorRange colorRange) {
         final ThemeColorAdapter accentThemeAdapter = getAccentColorAdapter(colorRange);
         final int selection = getSelectedPositionFromList();
+        initAccentColor(selection);
         accentThemeAdapter.setSelected(selection);
         accentColorRangeList.setAdapter(accentThemeAdapter);
-
         setLayoutOrientation(accentColorRangeList);
     }
 
@@ -289,14 +290,14 @@ public class ThemeSettingsFragment extends BaseFragment {
                 accentSelectedPosition = selectedPosition;
                 initAccentColor(selectedPosition);
                 updateThemeSettingsLayout();
-                EventBus.getDefault().post(new AccentColorChangedEvent("accentChanged", accentRange));
             }
         }, colorPickerWidth);
     }
 
     private int getSelectedPositionFromList() {
+        final String shortName = themeColorHelper.getShortName(accentRange.name());
         for (ColorModel colorModel : accentColorsList) {
-            if (colorModel.getTitle().equals(accentRange.name())) {
+            if (colorModel.getTitle().equals(shortName)) {
                 return accentColorsList.indexOf(colorModel);
             }
         }
@@ -305,9 +306,8 @@ public class ThemeSettingsFragment extends BaseFragment {
 
     private void initAccentColor(final int selectedPosition) {
         final ColorModel colorModel = accentColorsList.get(selectedPosition);
-
-        final ThemeColorHelper.ColorName rangeByValue = ThemeColorHelper.ColorName.getRangeByValue(colorModel.getTitle());
-        accentRange = AccentRange.values()[rangeByValue.ordinal()];
+        accentRange = AccentRange.valueOf(colorModel.getName());
+        EventBus.getDefault().post(new AccentColorChangedEvent("accentChanged", accentRange));
     }
 
     private void setLayoutOrientation(final RecyclerView recyclerView) {

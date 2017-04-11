@@ -55,13 +55,6 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences defaultSharedPreferences;
     private AccentRange accentColorRange;
 
-    @StyleRes
-    static int getColorResourceId(final Resources resources, final String colorRange, final String tonalRange, final String packageName) {
-        final String themeName = String.format("Theme.DLS.%s.%s", toCamelCase(colorRange), toCamelCase(tonalRange));
-
-        return resources.getIdentifier(themeName, "style", packageName);
-    }
-
     static String toCamelCase(String s) {
         String[] parts = s.split("_");
         String camelCaseString = "";
@@ -181,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(final Menu menu) {
-        navigationController.onPrepareOptionsMenu(menu, this);
+        navigationController.onPrepareOptionsMenu(menu);
 
         return true;
     }

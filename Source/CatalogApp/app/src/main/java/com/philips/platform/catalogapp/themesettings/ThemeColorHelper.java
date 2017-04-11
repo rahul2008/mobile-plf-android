@@ -18,31 +18,6 @@ import java.util.Locale;
 
 public class ThemeColorHelper {
 
-    enum ColorName {
-        GB("group_blue"),
-        Bl("blue"),
-        Aq("aqua"),
-        GR("green"),
-        Or("orange"),
-        Pi("pink"),
-        Pu("purple"),
-        Gr("gray");
-
-        public String color;
-
-        ColorName(final String color) {
-            this.color = color;
-        }
-
-        public static ColorName getRangeByValue(final String title) {
-            for (ColorName colorName : ColorName.values()) {
-                if (colorName.name().equals(title))
-                    return colorName;
-            }
-            return null;
-        }
-    }
-
     public int getColorResourceId(final Resources resources, final String basecolor, final String level, final String packageName) {
         return resources.getIdentifier(String.format(Locale.getDefault(), "uid_%s_level_%s", basecolor, level), "color", packageName);
     }
@@ -61,8 +36,9 @@ public class ThemeColorHelper {
 
     public List<ColorModel> getColorRangeItemsList() {
         final List<ColorModel> colorRangeModelsList = new ArrayList<>();
-        for (ColorName colorName : ColorName.values()) {
-            colorRangeModelsList.add(new ColorModel(colorName.name(), colorName.color, getUidColorWhite(), 50, 35));
+        for (ColorRange name : ColorRange.values()) {
+            final String shortName = getShortName(name.name());
+            colorRangeModelsList.add(new ColorModel(shortName, name.name().toLowerCase(), getUidColorWhite(), 50, 35));
         }
         return colorRangeModelsList;
     }
@@ -103,14 +79,16 @@ public class ThemeColorHelper {
             if (name != colorRange) {
                 final String shortName = getShortName(name.name());
                 int id = getColorResourceId(resources, name.name().toLowerCase(), "45", packageName);
-                colorRangeModelsList.add(new ColorModel(shortName, colorName, id, getUidColorWhite()));
+                colorRangeModelsList.add(new ColorModel(shortName, name.name(), id, getUidColorWhite()));
             }
         }
 
         return colorRangeModelsList;
     }
 
-    private String getShortName(final String name) {
+    public String getShortName(final String name) {
+        if (name.equals(ColorRange.GREEN.name())) return "GR";
+
         final String[] split = name.split("_");
         StringBuilder stringBuilder = new StringBuilder();
         if (split.length > 1) {
