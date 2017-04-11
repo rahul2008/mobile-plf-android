@@ -161,8 +161,9 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public boolean updateBlobMetaData(BlobMetaData blobMetaData, BlobRequestListener blobRequestListener) throws SQLException {
+    public boolean updateUcoreBlobMetaData(BlobMetaData blobMetaData) throws SQLException {
         updating.updateBlobMetaData(blobMetaData);
+        notifyDBRequestListener.notifyDBChange(SyncType.BLOB);
         return false;
     }
 }

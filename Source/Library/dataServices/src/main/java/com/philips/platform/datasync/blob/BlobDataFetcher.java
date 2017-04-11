@@ -101,7 +101,7 @@ public class BlobDataFetcher extends DataFetcher{
             fetchMetaDataRequest.getBlobRequestListener().onBlobRequestFailure(new Exception("Server returned null response"));
         }else {
             BlobMetaData blobMetaData=getAppBlobMetaData(ucoreBlobMetaData,fetchMetaDataRequest.getBlobID());
-            eventing.post(new UpdateUcoreMetadataRequest(blobMetaData,fetchMetaDataRequest.getBlobRequestListener()));
+            eventing.post(new UpdateUcoreMetadataRequest(blobMetaData));
             fetchMetaDataRequest.getBlobRequestListener().onFetchMetaDataSuccess(blobMetaData);
         }
     }catch (RetrofitError error){

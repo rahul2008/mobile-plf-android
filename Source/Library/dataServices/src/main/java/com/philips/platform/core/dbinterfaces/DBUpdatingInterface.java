@@ -34,5 +34,5 @@ public interface DBUpdatingInterface {
 
     boolean updateInsights(final List<? extends Insight> insights ,DBRequestListener<Insight> dbRequestListener) throws SQLException;
 
-    boolean updateBlobMetaData(BlobMetaData blobMetaData, BlobRequestListener blobRequestListener) throws SQLException;
+    boolean updateUcoreBlobMetaData(BlobMetaData blobMetaData) throws SQLException;
 }
