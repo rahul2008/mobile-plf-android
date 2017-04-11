@@ -6,6 +6,7 @@
 package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -118,7 +119,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     products = products.append(",");
                 }
 
-                if(catalogData.getPriceValue() != null)
+                if (catalogData.getPriceValue() != null)
                     productPrice = catalogData.getPriceValue();
 
                 products = products.append("Tuscany_Campaign").append(";")
@@ -151,6 +152,9 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         @Override
         public void onClick(final View v) {
+            boolean isSelected = this.itemView.isSelected();
+            this.itemView.setSelected(!isSelected);
+            this.itemView.setBackgroundColor(isSelected ? Color.TRANSPARENT : ContextCompat.getColor(this.itemView.getContext(), R.color.uid_recyclerview_background_selector));
             setTheProductDataForDisplayingInProductDetailPage(getAdapterPosition());
         }
     }

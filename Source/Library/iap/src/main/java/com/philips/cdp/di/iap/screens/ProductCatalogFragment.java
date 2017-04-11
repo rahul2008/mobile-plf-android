@@ -35,6 +35,7 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -138,7 +139,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
         mShoppingCartAPI = new ShoppingCartPresenter();
         mRecyclerView.setAdapter(mAdapter);
-
+        mRecyclerView.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
         if (!mIsProductsAvailable) {
             mRecyclerView.setVisibility(View.GONE);
             mEmptyCatalogText.setVisibility(View.VISIBLE);

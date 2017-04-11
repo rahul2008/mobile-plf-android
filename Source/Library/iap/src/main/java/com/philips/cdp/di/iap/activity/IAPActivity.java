@@ -5,6 +5,7 @@
 package com.philips.cdp.di.iap.activity;
 
 import android.app.ProgressDialog;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
@@ -42,11 +43,15 @@ import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 import java.util.ArrayList;
 
 public class IAPActivity extends UiKitActivity implements ActionBarListener, IAPListener {
-    private final int DEFAULT_THEME = R.style.Theme_DLS_Orange_Bright;
+    private final int DEFAULT_THEME = R.style.Theme_Philips_LightAqua;
     private TextView mTitleTextView;
     private TextView mCountText;
     private ImageView mBackImage;
@@ -116,7 +121,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         }
     }
 
-
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
@@ -128,11 +132,12 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
     }
 
     private void initTheme() {
-        int themeIndex = getIntent().getIntExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, DEFAULT_THEME);
-        if (themeIndex <= 0) {
-            themeIndex = DEFAULT_THEME;
-        }
-        setTheme(themeIndex);
+//        int themeIndex = getIntent().getIntExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, DEFAULT_THEME);
+//        if (themeIndex <= 0) {
+//            themeIndex = DEFAULT_THEME;
+//        }
+        UIDHelper.init(new ThemeConfiguration(ContentColor.ULTRA_LIGHT, NavigationColor.VERY_DARK, this));
+        getTheme().applyStyle(DEFAULT_THEME, true);
     }
 
     @Override
@@ -335,7 +340,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
                     mProgressDialog.show();
                 }
             });
-
         }
     }
 

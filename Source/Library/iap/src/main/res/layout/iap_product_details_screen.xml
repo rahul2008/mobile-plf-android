@@ -45,7 +45,7 @@
                 android:includeFontPadding="false"
                 android:paddingBottom="@dimen/iap_product_detail_bottom_padding"
                 android:paddingTop="@dimen/iap_product_detail_top_padding_top"
-                android:textColor="?attr/uikit_baseColor"
+                android:textColor="?attr/uidTextPrimary"
                 app:uidLabelTextSize="@dimen/iap_product_description" />
 
             <com.philips.platform.uid.view.widget.Label
@@ -78,7 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:includeFontPadding="false"
-                    android:textColor="?attr/uikit_baseColor"
+                    android:textColor="?attr/uidTextTertiary"
                     app:uidLabelTextSize="@dimen/iap_product_ctn" />
 
                 <com.philips.platform.uid.view.widget.Label
@@ -87,7 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:includeFontPadding="false"
-                    android:textColor="@color/uikit_enricher4"
+                    android:textColor="?attr/uidTextPrimary"
                     app:uidLabelTextSize="@dimen/iap_product_original_price" />
 
             </LinearLayout>
@@ -103,7 +103,7 @@
                 android:layout_marginStart="@dimen/iap_product_detail_left_padding"
                 android:includeFontPadding="false"
                 android:paddingTop="@dimen/iap_product_detail_top_padding"
-                android:textColor="?attr/uikit_baseColor"
+                android:textColor="?attr/uidControlPrimaryText"
                 app:uidLabelTextSize="@dimen/iap_product_overview" />
 
             <com.philips.platform.uid.view.widget.Button
