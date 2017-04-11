@@ -46,7 +46,7 @@ import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
-    static final String blobID = "blobID";
+    static final String blob_ID = "blobID";
 
     static final String SYNCED_FIELD = "synced";
 
@@ -374,7 +374,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     @Override
     public BlobMetaData fetchBlobMetaDataByBlobID(String blobID) throws SQLException {
         QueryBuilder<OrmBlobMetaData, Integer> blobQueryBuilder = ormBlobMetaDataDao.queryBuilder();
-        blobQueryBuilder.where().eq(blobID, blobID);
+        blobQueryBuilder.where().eq(blob_ID, blobID);
         return blobQueryBuilder.queryForFirst();
     }
 }

@@ -108,25 +108,7 @@ public class BlobFragment extends Fragment implements View.OnClickListener {
     }
 
     void browse() {
-        if (shouldAskPermissions()) {
-            askPermissions();
-        }
-
         Intent intent = new Intent(getActivity(), FilePicker.class);
         startActivityForResult(intent, REQUEST_PICK_FILE);
-    }
-
-    protected boolean shouldAskPermissions() {
-        return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
-    }
-
-    @TargetApi(23)
-    protected void askPermissions() {
-        String[] permissions = {
-                "android.permission.READ_EXTERNAL_STORAGE",
-                "android.permission.WRITE_EXTERNAL_STORAGE"
-        };
-        int requestCode = 200;
-        requestPermissions(permissions, requestCode);
     }
 }

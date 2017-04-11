@@ -1,6 +1,8 @@
 package cdp.philips.com.mydemoapp.activity;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
@@ -35,6 +37,11 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.af_user_registration_activity);
         DSLog.enableLogging(true);
+
+        if (shouldAskPermissions()) {
+            askPermissions();
+        }
+
         User user = new User(this);
 
         if (savedInstanceState == null)
@@ -163,5 +170,19 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
             databaseHelper.close();
         }
         //DataServicesManager.getInstance().releaseDataServicesInstances();
+    }
+
+    protected boolean shouldAskPermissions() {
+        return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
+    }
+
+    @TargetApi(23)
+    protected void askPermissions() {
+        String[] permissions = {
+                "android.permission.READ_EXTERNAL_STORAGE",
+                "android.permission.WRITE_EXTERNAL_STORAGE"
+        };
+        int requestCode = 200;
+        requestPermissions(permissions, requestCode);
     }
 }
