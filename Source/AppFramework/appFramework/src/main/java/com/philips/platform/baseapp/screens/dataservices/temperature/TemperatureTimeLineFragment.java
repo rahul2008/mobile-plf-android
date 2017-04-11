@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,6 +22,7 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
 import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.dataservices.characteristics.CharacteristicsDialogFragment;
@@ -186,8 +189,6 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     @Override
     public void onDestroy() {
         super.onDestroy();
-        // EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT, this);
-        //mDataServicesManager.releaseDataServicesInstances();
     }
 
     @Override
@@ -198,25 +199,25 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
                 break;
             case R.id.tv_set_consents:
                 ConsentDialogFragment dFragment = new ConsentDialogFragment();
-                dFragment.show(getFragmentManager(), "Dialog");
+                replaceFragment(dFragment,"consents");
 
                 break;
             case R.id.tv_settings:
                 SettingsFragment settingsFragment = new SettingsFragment();
-                settingsFragment.show(getFragmentManager(), "settings");
+                replaceFragment(settingsFragment,"settings");
 
                 break;
 
             case R.id.tv_set_characteristics:
 
                 CharacteristicsDialogFragment characteristicsDialogFragment = new CharacteristicsDialogFragment();
-                characteristicsDialogFragment.show(getFragmentManager(), "Character");
-
+                replaceFragment(characteristicsDialogFragment,"Character");
                 break;
 
             case R.id.tv_insights:
                 InsightFragment insightFragment = new InsightFragment();
-                insightFragment.show(getFragmentManager(), "Insight");
+
+                replaceFragment(insightFragment,"insights");
         }
     }
 
@@ -309,8 +310,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
                 if (mSharedPreferences.getBoolean("isSynced", false)) {
                     dismissProgressDialog();
                 }
-                //dismissProgressDialog();
-               // Toast.makeText(getActivity(), "Exception :" + exception.getMessage(), Toast.LENGTH_LONG).show();
+
             }
         });
     }
@@ -355,5 +355,25 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     @Override
     public void onFetchFailure(Exception exception) {
         onFailureRefresh(exception);
+    }
+
+
+    private void replaceFragment(Fragment fragment,String tag){
+
+        int containerId = -1 ;
+        if(getActivity() instanceof AppFrameworkBaseActivity){
+            containerId = ((AppFrameworkBaseActivity)getActivity()).getContainerId();
+        }
+
+        try {
+            if(containerId == -1) return;
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(containerId, fragment, tag);
+            fragmentTransaction.addToBackStack(tag);
+            fragmentTransaction.commit();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+
     }
 }

@@ -57,6 +57,7 @@ public class Constants {
     public static final String SERVER_DATAPARSING="server_data_parsing";
     public static final String DEVICE_DATAPARSING="device_data_parsing";
     public static final String UI_RENDERING="uiRendering";
+    public static final String SERVER_SYNC_ERROR="Server_sync_error";
 
 
 

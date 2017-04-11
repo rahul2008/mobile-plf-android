@@ -62,7 +62,7 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
         MultiDex.install(this);
         super.onCreate();
         appInfra = new AppInfra.Builder().build(getApplicationContext());
-        loggingInterface = appInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
+        loggingInterface= appInfra.getLogging();
         setLocale();
         userRegistrationState = new UserRegistrationOnBoardingState();
         userRegistrationState.init(this);

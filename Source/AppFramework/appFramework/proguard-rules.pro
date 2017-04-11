@@ -135,6 +135,23 @@ public static <fields>;
 -dontwarn com.google.android.gms.**
 -dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
 
+# -------------WeChat---------------------------------------------------
+
+-keep class com.tencent.mm.sdk.openapi.WXMediaMessage {*;}
+
+-keep class com.tencent.mm.sdk.openapi.** implements com.tencent.mm.sdk.openapi.WXMediaMessage$IMediaObject {*;}
+
+-keep class com.janrainphilips.philipsregistration.wxapi.** {*;}
+
+-keep class com.philips.platform.baseapp.base.wxapi.** {*;}
+
+-keep class com.philips.platform.referenceapp.wxapi.** {*;}
+
+-keep class com.philips.platform.referenceapp.wxapi.WXEntryActivity
+
+-keep class com.tencent.mm.sdk.** {
+      *;
+  }
 
 #-------------------------Consumer Care Starts -------------------------
 
@@ -174,6 +191,18 @@ public static <fields>;
 -keepclassmembers interface com.j256.** { *; }
 
 -keep @com.j256.ormlite.table.DatabaseTable class * { *; }
+
+
+
+
+-dontwarn org.slf4j.**
+-dontwarn org.apache.log4j.**
+-dontwarn org.apache.commons.logging.**
+-dontwarn org.apache.commons.codec.binary.**
+-dontwarn javax.persistence.**
+-dontwarn javax.lang.**
+-dontwarn javax.annotation.**
+-dontwarn javax.tools.**
 
 
 ##--------------- Eventbus  ----------

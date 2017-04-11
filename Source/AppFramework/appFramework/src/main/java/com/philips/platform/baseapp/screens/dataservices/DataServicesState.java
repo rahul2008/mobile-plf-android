@@ -45,12 +45,13 @@ import com.philips.platform.baseapp.screens.dataservices.registration.UserRegist
 import com.philips.platform.baseapp.screens.dataservices.temperature.TemperatureTimeLineFragment;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
-import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.sql.SQLException;
+
+import static com.philips.platform.baseapp.screens.utility.Constants.SERVER_SYNC_ERROR;
 
 
 /**
@@ -93,6 +94,7 @@ public class DataServicesState extends BaseState {
         DSLog.enableLogging(true);
         DSLog.i(DSLog.LOG, "Before Setting up Synchronization Loop");
         scheduleSync(context);
+
         //Stetho.initializeWithDefaults(context);
     }
 
@@ -105,7 +107,7 @@ public class DataServicesState extends BaseState {
                 try {
                     mScheduleSyncReceiver.onReceive(context);
                 } catch (Exception e) {
-                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SYNC_ERROR,
+                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SERVER_SYNC_ERROR,
                             e.getMessage());                } finally {
                     //also call the same runnable to call it at regular interval
                     handler.postDelayed(this, ScheduleSyncReceiver.DATA_FETCH_FREQUENCY);
