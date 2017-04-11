@@ -14,7 +14,9 @@ import android.util.Base64;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.security.Key;
 import java.security.KeyPair;
@@ -415,10 +417,8 @@ public class SecureStorage implements SecureStorageInterface {
 		for (String path : paths) {
 			if (new File(path).exists()) return "true";
 		}
-		if (checkProcess("/system/xbin/which su")
-				|| checkProcess("/system/bin/which su") || checkProcess("which su")) {
+		if (checkProcess()) {
 			return "true";
-
 		}
 
 		return "false";
@@ -426,20 +426,21 @@ public class SecureStorage implements SecureStorageInterface {
 	}
 
     /**
-	 * Checks if the device is rooted.
-	 *
-	 * @return <code>true</code> if the device is rooted, <code>false</code> otherwise.
-	 */
-	private static boolean checkProcess(String command) {
-		boolean executedSuccesfully;
-		try {
-			Runtime.getRuntime().exec(command);
-			executedSuccesfully = true;
-		} catch (Exception e) {
-			executedSuccesfully = false;
-		}
-
-		return executedSuccesfully;
-	}
-
+     * Checks if the device is rooted.
+     *
+     * @return <code>true</code> if the device is rooted, <code>false</code> otherwise.
+     */
+    private static boolean checkProcess() {
+        Process process = null;
+        try {
+            process = Runtime.getRuntime().exec(new String[] { "/system/xbin/which", "su" });
+            BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            if (in.readLine() != null) return true;
+            return false;
+        } catch (Throwable t) {
+            return false;
+        } finally {
+            if (process != null) process.destroy();
+        }
+    }
 }
