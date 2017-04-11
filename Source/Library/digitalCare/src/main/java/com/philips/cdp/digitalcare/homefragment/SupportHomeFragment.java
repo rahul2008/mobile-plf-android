@@ -1213,7 +1213,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
                 DigiCareLogger.v(TAG,"Error Response from Service Discovery :"+s);
-                DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo(AnalyticsConstants.ACTION_SET_ERROR, AnalyticsConstants.ACTION_KEY_SERVICE_DISCOVERY_ERROR, s);
+                DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo(AnalyticsConstants.ACTION_SET_ERROR, AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR, s);
             }
         }, hm);
     }
