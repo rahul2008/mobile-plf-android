@@ -147,7 +147,6 @@ public class BlobFragment extends Fragment implements View.OnClickListener {
 
                         selectedFile = new File
                                 (data.getStringExtra(FilePicker.EXTRA_FILE_PATH));
-                        //filePath.setText(selectedFile.getPath());
                         mBtnUpload.setEnabled(true);
                     }
                     break;
@@ -169,62 +168,81 @@ public class BlobFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.browse:
-                if (shouldAskPermissions()) {
-                    askPermissions();
-                }
-
-                Intent intent = new Intent(getActivity(), FilePicker.class);
-                startActivityForResult(intent, REQUEST_PICK_FILE);
+                browse();
                 break;
             case R.id.upload:
-                setProgressBarVisibility(true);
-
-                DataServicesManager.getInstance().createBlob(selectedFile, getMimeType(selectedFile.getPath()), new BlobUploadRequestListener() {
-                    @Override
-                    public void onBlobRequestSuccess(String itemId) {
-                        setProgressBarVisibility(false);
-                        showToast("Blob Request Succes and the itemID = " + itemId);
-                        DataServicesManager.getInstance().FetchMetaDataForBlobID(itemId, new BlobRequestListener() {
-                            @Override
-                            public void onBlobRequestSuccess(String itemID) {
-
-                            }
-
-                            @Override
-                            public void onBlobRequestFailure(Exception exception) {
-
-                            }
-
-                            @Override
-                            public void onFetchMetaDataSuccess(BlobMetaData uCoreFetchMetaData) {
-
-                            }
-                        });
-                        mBtnUpload.setEnabled(false);
-                    }
-
-                    @Override
-                    public void onBlobRequestFailure(Exception exception) {
-                        setProgressBarVisibility(false);
-                        showToast("Blob Request Failed");
-                        mBtnUpload.setEnabled(false);
-                    }
-                });
+                upload();
                 break;
             case R.id.download:
-                DataServicesManager.getInstance().fetchBlob("14b4f366-2c3a-46f0-a870-658ee3eb7eb0", new BlobDownloadRequestListener() {
+                download();
+                break;
+        }
+    }
 
+    private void download() {
+        DataServicesManager.getInstance().fetchBlob("14b4f366-2c3a-46f0-a870-658ee3eb7eb0", new BlobDownloadRequestListener() {
+
+            @Override
+            public void onBlobDownloadRequestSuccess(InputStream file) {
+                showToast("Blob Download Request Success");
+            }
+
+            @Override
+            public void onBlobRequestFailure(Exception exception) {
+                showToast("Blob Request Failed");
+            }
+        });
+    }
+
+    private void upload() {
+        setProgressBarVisibility(true);
+        final String mimeType = getMimeType(selectedFile.getPath());
+
+        if(mimeType == null){
+            showToast("Mime  Type invalid - choose another file");
+            setProgressBarVisibility(false);
+            return;
+        }
+
+        DataServicesManager.getInstance().createBlob(selectedFile, mimeType, new BlobUploadRequestListener() {
+            @Override
+            public void onBlobRequestSuccess(String itemId) {
+                setProgressBarVisibility(false);
+                showToast("Blob Request Succes and the itemID = " + itemId);
+                DataServicesManager.getInstance().FetchMetaDataForBlobID(itemId, new BlobRequestListener() {
                     @Override
-                    public void onBlobDownloadRequestSuccess(InputStream file) {
-                        showToast("Blob Download Request Success");
+                    public void onBlobRequestSuccess(String itemID) {
+
                     }
 
                     @Override
                     public void onBlobRequestFailure(Exception exception) {
-                        showToast("Blob Request Failed");
+
+                    }
+
+                    @Override
+                    public void onFetchMetaDataSuccess(BlobMetaData uCoreFetchMetaData) {
+
                     }
                 });
-                break;
+                mBtnUpload.setEnabled(false);
+            }
+
+            @Override
+            public void onBlobRequestFailure(Exception exception) {
+                setProgressBarVisibility(false);
+                showToast("Blob Request Failed");
+                mBtnUpload.setEnabled(false);
+            }
+        });
+    }
+
+    private void browse() {
+        if (shouldAskPermissions()) {
+            askPermissions();
         }
+
+        Intent intent = new Intent(getActivity(), FilePicker.class);
+        startActivityForResult(intent, REQUEST_PICK_FILE);
     }
 }

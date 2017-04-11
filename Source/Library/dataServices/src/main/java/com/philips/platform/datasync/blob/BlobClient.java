@@ -20,11 +20,10 @@ public interface BlobClient {
                 Callback<String> cb);*/
 
     @POST("/blob/item")
-    UcoreBlobResponse upload(@Body TypedFile file);
+    UcoreBlobResponse uploadBlob(@Body TypedFile file);
 
     @GET("/blob/item/{itemId}/metadata")
     UcoreBlobMetaData fetchMetaData(@Path("itemId") String itemID);
-    UcoreBlobResponse uploadBlob(@Body TypedFile file);
 
     @GET("/blob/item/{itemId}")
     Response downloadBlob(@Path("itemId") String itemId);
