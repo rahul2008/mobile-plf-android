@@ -1,8 +1,10 @@
 package cdp.philips.com.mydemoapp.blob;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Environment;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -194,9 +196,42 @@ public class BlobPresenter {
             File targetFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
             OutputStream outStream = new FileOutputStream(targetFile);
             outStream.write(buffer);
+
+            gotoFileLocation(targetFile);
             showToast("Stored the file successfully and file -> " + fileName,null);
         } catch (IOException e) {
             showToast("File could not be stored",e);
+        }
+    }
+
+    private String getAppDirectory(){
+        PackageManager m = activity.getPackageManager();
+        String s = activity.getPackageName();
+        PackageInfo p = null;
+        try {
+            p = m.getPackageInfo(s, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        s = p.applicationInfo.dataDir;
+        return s;
+    }
+
+    void gotoFileLocation(File file){
+
+        Uri selectedUri= Uri.fromFile(file.getParentFile());
+        //Uri selectedUri = Uri.parse(Environment.getExternalStorageDirectory() + "/myFolder/");
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(selectedUri, "resource/folder");
+
+        if (intent.resolveActivityInfo(activity.getPackageManager(), 0) != null)
+        {
+            activity.startActivity(intent);
+        }
+        else
+        {
+            // if you reach this place, it means there is no any file
+            // explorer app installed on your device
         }
     }
 }
