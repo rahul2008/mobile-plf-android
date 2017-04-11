@@ -1,6 +1,7 @@
 package com.philips.cdp.registration.app.infra;
 
 
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
@@ -32,6 +33,7 @@ public class AppInfraWrapper {
 
     private Object getProperty(String key, String group) {
         Object property = appConfigurationInterface.getPropertyForKey(key, group, error);
+        RLog.e("Property Error",error.getErrorCode()+"error desc :"+error.toString());
         return property;
     }
 }

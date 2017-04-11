@@ -110,6 +110,7 @@ public class EncryptionTest extends TestCase {
         assertEquals("", encrpytedValue);
     }
 
+
     @Test
     public void testEncrypt_EmptyInput() throws Exception {
         String toBeEncrypted = "";
@@ -135,4 +136,5 @@ public class EncryptionTest extends TestCase {
         String expectedValue = "RDg1Zm95MTBmZHN3QXdpdW1TbGMwdnJRZ28xbWxhbFg2OWNoZ0JkM2oxYUpEeXkzY0xtMi92VmVKbkxuRW9YYy9KcFhhOXNVYWdjYSs2R2FuNXJyc0RFUDRVajEySEo0Z0pFVVB2NXlwb3ZOcU1lbHRGcGc2ZXN4Nk0rTlFITVBXRm93bzdUK0lhYTlmVVFXUmwzQU9ua054aFN6aVhNMmgxMjdtQU0wVkRMazBkR0NZVGxoMHh5c3VjdXVDK3cxYVpOcStRVi9hakF4SHZ3SEI1Si95aFlMRTRnWlV3N0puQWcvMnh1MXlWMTlJaG9jV2M4VFEvejltdE1iZ1d0aHlKQzR3UzNuMXB3N1AxNWRQVGlHeGlac05MMjl5RisraVhZUHJmL29KTVp3ZTZYUlBaK0xuWUNFcmVzbjhtM2VZdkZ5OHdKeVpITWZrWkxXVXhKaDVBPT0=";
         assertEquals(expectedValue, encrpytedValue);
     }*/
+
 }

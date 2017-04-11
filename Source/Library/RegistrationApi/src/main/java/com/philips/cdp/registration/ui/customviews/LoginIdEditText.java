@@ -23,6 +23,7 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.philips.cdp.registration.B;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
@@ -32,59 +33,60 @@ import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
-public class XEmail extends RelativeLayout implements TextWatcher, OnClickListener,
+import butterfork.Bind;
+import butterfork.ButterFork;
+
+public class LoginIdEditText extends RelativeLayout implements TextWatcher, OnClickListener,
         OnFocusChangeListener {
 
     private Context mContext;
 
-    private EditText mEtEmail;
+    @Bind(B.id.et_reg_email)
+    EditText mEtEmail;
 
-    private TextView mTvErrDescriptionView;
+    @Bind(B.id.tv_reg_email_err)
+    TextView mTvErrDescriptionView;
+
+    @Bind(B.id.rl_reg_parent_verified_field)
+    RelativeLayout mRlEtEmail;
+
+    @Bind(B.id.iv_reg_close)
+    TextView mTvCloseIcon;
+
+    @Bind(B.id.fl_reg_email_field_err)
+    FrameLayout mFlInvalidFieldAlert;
 
     private boolean mValidEmail;
 
-    private onUpdateListener mUpdateStatusListener;
+    private OnUpdateListener mUpdateStatusListener;
 
-    private RelativeLayout mRlEtEmail;
+    private String mSavedEmailError;
 
-    private TextView mTvCloseIcon;
-
-    private FrameLayout mFlInvalidFieldAlert;
-    private String mSavedEmaillError;
-    private String  country;
-    public XEmail(Context context) {
+    public LoginIdEditText(Context context) {
         super(context);
         this.mContext = context;
         initUi(R.layout.reg_email);
-
     }
 
-    public XEmail(Context context, AttributeSet attrs) {
+    public LoginIdEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.mContext = context;
         initUi(R.layout.reg_email);
-        country = RegistrationHelper.getInstance().getCountryCode();
         checkingEmailorMobile();
-
     }
 
     public final void initUi(int resourceId) {
         RLog.d(RLog.SERVICE_DISCOVERY,"China Flow : "+ RegistrationHelper.getInstance().isChinaFlow());
         LayoutInflater li = LayoutInflater.from(mContext);
-        li.inflate(resourceId, this, true);
-        mRlEtEmail = (RelativeLayout) findViewById(R.id.rl_reg_parent_verified_field);
-        mEtEmail = (EditText) findViewById(R.id.et_reg_email);
+        View view = li.inflate(resourceId, this, true);
+        ButterFork.bind(this, view);
         mEtEmail.setOnClickListener(this);
         mEtEmail.setOnFocusChangeListener(this);
         mEtEmail.addTextChangedListener(this);
-        mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_email_err);
-        mFlInvalidFieldAlert = (FrameLayout) findViewById(R.id.fl_reg_email_field_err);
-        mTvCloseIcon = (TextView) findViewById(R.id.iv_reg_close);
         FontLoader.getInstance().setTypeface(mTvCloseIcon, RegConstants.PUIICON_TTF);
     }
 
     private void checkingEmailorMobile() {
-        //need to changed by service discover as 01 or 02
         if (RegistrationHelper.getInstance().isChinaFlow()) {
             mEtEmail.setHint(getResources().getString(R.string.reg_CreateAccount_PhoneNumber));
             mEtEmail.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -149,11 +151,11 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 
     public void setErrDescription(String mErrDescription) {
         mTvErrDescriptionView.setText(mErrDescription);
-        mSavedEmaillError = mErrDescription;
+        mSavedEmailError = mErrDescription;
     }
 
     public String getSavedEmailErrDescription(){
-        return mSavedEmaillError;
+        return mSavedEmailError;
     }
 
     private void handleEmail(boolean hasFocus) {
@@ -182,7 +184,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 
     public void showValidEmailAlert() {
         mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_disable);
-        mEtEmail.setTextColor(ContextCompat.getColor(mContext,R.color.reg_edt_text_feild_color));
+        mEtEmail.setTextColor(ContextCompat.getColor(mContext,R.color.reg_edit_text_field_color));
         mFlInvalidFieldAlert.setVisibility(GONE);
         mTvErrDescriptionView.setVisibility(GONE);
     }
@@ -193,19 +195,19 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
         mFlInvalidFieldAlert.setVisibility(VISIBLE);
     }
 
-    public void setOnUpdateListener(onUpdateListener updateStatusListener) {
+    public void setOnUpdateListener(OnUpdateListener updateStatusListener) {
         mUpdateStatusListener = updateStatusListener;
     }
 
     private void raiseUpdateUIEvent() {
         if (null != mUpdateStatusListener) {
-            mUpdateStatusListener.onUpadte();
+            mUpdateStatusListener.onUpdate();
         }
     }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        mEtEmail.setTextColor(ContextCompat.getColor(mContext,R.color.reg_edt_text_feild_color));
+        mEtEmail.setTextColor(ContextCompat.getColor(mContext,R.color.reg_edit_text_field_color));
         if (v.getId() == R.id.et_reg_email) {
             handleEmail(hasFocus);
             raiseUpdateUIEvent();
@@ -315,6 +317,10 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
         } else {
             return false;
         }
+    }
+
+    public EditText getLoginIdEditText() {
+        return mEtEmail;
     }
 
     public void setImeOptions(int option) {

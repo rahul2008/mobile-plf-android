@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">Pasang</string>
 <string name="reg_Phonenumbernotfound">Nomor telepon tidak ditemukan</string>
 <string name="reg_InvalidMobilenumber">Nomor telepon tidak valid</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Kami akan mengirimkan email atau SMS untuk mengatur ulang kata sandi Anda.</string>
 </resources>

@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">نصب</string>
 <string name="reg_Phonenumbernotfound">شماره تلفن یافت نشد</string>
 <string name="reg_InvalidMobilenumber">شماره تلفن همراه نامعتبر است</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">ما یک ایمیل یا پیامک برای بازنشانی رمز ورودتان ارسال خواهیم کرد.</string>
 </resources>

@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">インストール</string>
 <string name="reg_Phonenumbernotfound">電話番号が見つかりません</string>
 <string name="reg_InvalidMobilenumber">携帯電話番号が無効です</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">パスワードをリセットするためのメールまたは SMS（ショートメッセージ）を送信します。</string>
 </resources>

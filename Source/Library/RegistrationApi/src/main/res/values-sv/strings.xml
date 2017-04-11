@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">Installation</string>
 <string name="reg_Phonenumbernotfound">Telefonnummer hittades inte</string>
 <string name="reg_InvalidMobilenumber">Ogiltigt mobilnummer</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Vi kommer att skicka dig ett e-postmeddelande eller SMS för återställning av ditt lösenord.</string>
 </resources>

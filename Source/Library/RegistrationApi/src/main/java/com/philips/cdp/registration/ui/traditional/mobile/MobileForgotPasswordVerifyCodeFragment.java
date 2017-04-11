@@ -36,7 +36,7 @@ import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XMobileHavingProblems;
 import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.customviews.XVerifyNumber;
+import com.philips.cdp.registration.ui.customviews.OtpEditTextWithResendButton;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.traditional.WelcomeFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
@@ -66,7 +66,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
 
     private Button mBtnVerify;
 
-    private XVerifyNumber mEtCodeNUmber;
+    private OtpEditTextWithResendButton mEtCodeNUmber;
 
     private ProgressBar mPbSpinner;
 
@@ -201,7 +201,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
 
         mBtnVerify = (Button) view.findViewById(R.id.btn_reg_Verify);
         mBtnVerify.setOnClickListener(mobileActivationController);
-        mEtCodeNUmber = (XVerifyNumber) view.findViewById(R.id.rl_reg_name_field);
+        mEtCodeNUmber = (OtpEditTextWithResendButton) view.findViewById(R.id.rl_reg_name_field);
         mEtCodeNUmber.setOnUpdateListener(mobileActivationController);
         mPbSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_activate_spinner);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
@@ -216,7 +216,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
     }
 
     private void updateUiStatus() {
-        if (mEtCodeNUmber.getNumber().length() >= RegConstants.VERIFY_CODE_ENTER) {
+        if (mEtCodeNUmber.getNumber().length() >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH) {
             mBtnVerify.setEnabled(true);
         } else {
             mBtnVerify.setEnabled(false);
@@ -255,7 +255,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
 
         }
         if (response == null) {
-            mEtCodeNUmber.hideResendSpinner();
+            mEtCodeNUmber.hideResendSpinnerAndEnableResendButton();
             mEtCodeNUmber.showEmailIsInvalidAlert();
             mEtCodeNUmber.setErrDescription(mContext.getResources().getString(R.string.reg_URX_SMS_InternalServerError));
             return;
@@ -390,13 +390,13 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
             if (jsonObject.getString("errorCode").toString().equals("0")) {
                 mEtCodeNUmber.setEnabled(true);
                 trackMultipleActionsOnMobileSuccess();
-                mEtCodeNUmber.hideResendSpinner();
+                mEtCodeNUmber.hideResendSpinnerAndEnableResendButton();
                 handleResendVerificationEmailSuccess();
                 resetTimer();
             } else {
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.TECHNICAL_ERROR, AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
                 String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode").toString(), mContext);
-                mEtCodeNUmber.hideResendSpinner();
+                mEtCodeNUmber.hideResendSpinnerAndEnableResendButton();
                 RLog.i("MobileVerifyCodeFragment ", " SMS Resend failure = " + response);
                 mEtCodeNUmber.showEmailIsInvalidAlert();
                 mEtCodeNUmber.setErrDescription(errorMsg);
@@ -421,7 +421,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
 
         @Override
         public void onClick(View view) {
-            mEtCodeNUmber.showResendSpinner();
+            mEtCodeNUmber.showResendSpinnerAndDisableResendButton();
             mEtCodeNUmber.showValidEmailAlert();
             mBtnVerify.setEnabled(false);
             isResendRequested = true;

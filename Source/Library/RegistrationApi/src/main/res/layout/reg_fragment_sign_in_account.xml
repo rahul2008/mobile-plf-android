@@ -38,13 +38,13 @@
                     android:textSize="@dimen/reg_title_text_size"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
 
-                <com.philips.cdp.registration.ui.customviews.XEmail
+                <com.philips.cdp.registration.ui.customviews.LoginIdEditText
                     android:id="@+id/rl_reg_email_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/reg_margin_bottom" />
 
-                <com.philips.cdp.registration.ui.customviews.XPassword
+                <com.philips.cdp.registration.ui.customviews.PasswordView
                     android:id="@+id/rl_reg_password_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

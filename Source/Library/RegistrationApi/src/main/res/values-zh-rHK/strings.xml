@@ -102,7 +102,7 @@
 <string name="reg_LegalNoticeText_With_Terms_And_Conditions" formatted="false">請細閱我們的 %s 及 %s。</string>
 <string name="reg_LegalNoticeText">請細閱我們的 %s</string>
 <string name="reg_AgeLimitText">建立或登入帳戶代表您確認您為  歲或以上。</string>
-<string name="reg_TermsAndConditionsAcceptanceText">我接受應用程式的 %s</string>
+<string name="reg_TermsAndConditionsAcceptanceText">我接受應用程式的</string>
 <string name="reg_TermsAndConditionsAcceptanceText_Error">請接受條款及細則</string>
 <string name="reg_Verification_email_Title">驗證電郵已發送</string>
 <string name="reg_Verification_email_Message">我們已經向您發送了一封用作驗證電郵地址的電郵，稍後您便會收到。</string>
@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">安裝</string>
 <string name="reg_Phonenumbernotfound">找不到電話號碼</string>
 <string name="reg_InvalidMobilenumber">手機號碼無效！</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">我們會向您發送用作重設密碼的電郵或 SMS 訊息。</string>
 </resources>

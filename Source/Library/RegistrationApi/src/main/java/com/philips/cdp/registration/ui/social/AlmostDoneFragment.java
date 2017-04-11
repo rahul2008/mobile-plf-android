@@ -37,9 +37,9 @@ import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.XButton;
 import com.philips.cdp.registration.ui.customviews.XCheckBox;
-import com.philips.cdp.registration.ui.customviews.XEmail;
+import com.philips.cdp.registration.ui.customviews.LoginIdEditText;
 import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.customviews.onUpdateListener;
+import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
 import com.philips.cdp.registration.ui.traditional.MarketingAccountFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
@@ -56,13 +56,10 @@ import com.philips.cdp.registration.ui.utils.URInterface;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.inject.Inject;
 
 public class AlmostDoneFragment extends RegistrationBaseFragment implements EventListener,
-        onUpdateListener, SocialProviderLoginHandler, NetworStateListener, OnClickListener, XCheckBox.OnCheckedChangeListener {
+        OnUpdateListener, SocialProviderLoginHandler, NetworStateListener, OnClickListener, XCheckBox.OnCheckedChangeListener {
 
     @Inject
     NetworkUtility networkUtility;
@@ -89,7 +86,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private XRegError mRegError;
 
-    private XEmail mEtEmail;
+    private LoginIdEditText mEtEmail;
 
     private XButton mBtnContinue;
 
@@ -387,7 +384,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
         mCbAcceptTerms.setOnCheckedChangeListener(this);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
-        mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
+        mEtEmail = (LoginIdEditText) view.findViewById(R.id.rl_reg_email_field);
         mEtEmail.setOnUpdateListener(this);
         mEtEmail.setOnClickListener(this);
 
@@ -530,7 +527,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     }
 
     @Override
-    public void onUpadte() {
+    public void onUpdate() {
         handleOnUIThread(new Runnable() {
             @Override
             public void run() {

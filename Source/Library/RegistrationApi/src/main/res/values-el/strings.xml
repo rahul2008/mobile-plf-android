@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">Εγκατά/ση</string>
 <string name="reg_Phonenumbernotfound">Ο αριθμός τηλεφώνου δεν βρέθηκε</string>
 <string name="reg_InvalidMobilenumber">Μη έγκυρος αριθμός κινητού τηλεφώνου</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Θα σας στείλουμε ένα email ή SMS για να επαναφέρετε τον κωδικό σας.</string>
 </resources>

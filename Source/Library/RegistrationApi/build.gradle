@@ -5,6 +5,7 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.oguzbabaoglu.butterfork-plugin'
+apply plugin: 'me.tatarka.retrolambda'
 
 buildscript {
     repositories {
@@ -23,6 +24,7 @@ buildscript {
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.0', changing: true
         classpath 'com.oguzbabaoglu:butterfork-plugin:1.0.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'me.tatarka:gradle-retrolambda:3.6.0'
     }
 }
 
@@ -173,6 +175,14 @@ android {
 //            proguardFile 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 configurations.all {
@@ -185,7 +195,6 @@ dependencies {
     compile project(':jump')
     compile project(':hsdp')
     compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
-
     compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.4.6' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
             {
                 transitive = true
@@ -204,6 +213,7 @@ dependencies {
     provided 'javax.annotation:jsr250-api:1.0'
 
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:+'
 
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile 'org.mockito:mockito-core:2.0.106-beta'
@@ -212,6 +222,7 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
+    testCompile "org.robolectric:robolectric:3.3.1"
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

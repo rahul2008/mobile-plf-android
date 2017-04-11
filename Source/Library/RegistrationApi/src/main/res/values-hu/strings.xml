@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">Telepítés</string>
 <string name="reg_Phonenumbernotfound">A telefonszám nem található</string>
 <string name="reg_InvalidMobilenumber">Érvénytelen telefonszám</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Jelszava visszaállításához küldünk Önnek e-mailt vagy SMS-üzenetet.</string>
 </resources>
