@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.WindowManager;
 
@@ -23,10 +24,18 @@ import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.utils.UIDActivity;
+import com.philips.platform.uid.utils.UIDLocaleHelper;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class BaseTestActivity extends AppCompatActivity implements DelayerCallback {
+public class BaseTestActivity extends UIDActivity implements DelayerCallback {
     public static final String CONTENT_COLOR_KEY = "ContentColor";
     public static final String NAVIGATION_COLOR_KEY = "NavigationColor";
 
@@ -44,6 +53,7 @@ public class BaseTestActivity extends AppCompatActivity implements DelayerCallba
             contentColor = extras.getInt(CONTENT_COLOR_KEY, 0);
         }
         UIDHelper.injectCalligraphyFonts();
+        UIDLocaleHelper.getInstance().setFilePath(getCatalogAppJSONAssetPath());
         UIDHelper.init(getThemeConfig(navigationColor, contentColor));
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -151,5 +161,26 @@ public class BaseTestActivity extends AppCompatActivity implements DelayerCallba
                 }
             }, DELAY_MILLIS);
         }
+    }
+
+    public String getCatalogAppJSONAssetPath(){
+        try {
+            File f = new File(getCacheDir()+"/catalogapp.json");
+            InputStream is = getAssets().open("catalogapp.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(buffer);
+            fos.close();
+            return f.getPath();
+        } catch (FileNotFoundException e) {
+            Log.e("",e.getMessage());
+        } catch (IOException e) {
+            Log.e("",e.getMessage());
+        }
+        return null;
     }
 }
