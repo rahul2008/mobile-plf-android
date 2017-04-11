@@ -19,6 +19,8 @@ import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.blob.BlobMetaData;
 
+import org.joda.time.DateTime;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -171,11 +173,13 @@ public class BlobPresenter {
             byte[] buffer = new byte[inputStream.available()];
             inputStream.read(buffer);
 
-            File targetFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"targetFile."+extension);
+            String fileName = "targetFile" + DateTime.now() + "." + extension;
+            File targetFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
             OutputStream outStream = new FileOutputStream(targetFile);
             outStream.write(buffer);
-            showToast("Stored the file successfully",null);
+
             gotoFileLocation(targetFile);
+            showToast("Stored the file successfully and file -> " + fileName,null);
         } catch (IOException e) {
             showToast("File could not be stored",e);
         }
