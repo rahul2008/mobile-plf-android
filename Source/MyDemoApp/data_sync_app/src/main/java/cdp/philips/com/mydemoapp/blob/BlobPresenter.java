@@ -24,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.StringTokenizer;
 
 import retrofit.mime.MimeUtil;
 
@@ -45,12 +46,16 @@ public class BlobPresenter {
 
     void upload(File selectedFile) {
         setProgressBarVisibility(true);
-        final String mimeType = getMimeType(selectedFile.getPath());
+        String mimeType = getMimeType(selectedFile.getPath());
 
         if(mimeType == null){
-            showToast("Mime  Type invalid - choose another file",null);
-            setProgressBarVisibility(false);
-            return;
+            showToast("Mime  Type not predefined - adding and sending",null);
+            mimeType = parseMimeType(selectedFile.getPath());
+            if(mimeType == null){
+                showToast("INVALID FILE, please select other one",null);
+                setProgressBarVisibility(false);
+                return;
+            }
         }
 
         DataServicesManager.getInstance().createBlob(selectedFile, mimeType, new BlobUploadRequestListener() {
@@ -69,6 +74,20 @@ public class BlobPresenter {
                 setUploadButtonState();
             }
         });
+    }
+
+    private String parseMimeType(String path) {
+        String mimeType = null;
+        String separator = "";
+        StringTokenizer stringTokenizer = new StringTokenizer(path,"/");
+        while (stringTokenizer.hasMoreElements()){
+            separator = stringTokenizer.nextToken();
+        }
+        stringTokenizer = new StringTokenizer(separator,".");
+        while (stringTokenizer.hasMoreElements()){
+            mimeType = stringTokenizer.nextToken();
+        }
+        return mimeType;
     }
 
     private void setUploadButtonState() {
