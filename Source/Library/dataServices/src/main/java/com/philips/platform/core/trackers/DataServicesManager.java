@@ -457,7 +457,7 @@ public class DataServicesManager {
     }
 
 
-    public void FetchMetaDataForBlobID(String id, BlobRequestListener blobRequestListener){
+    public void fetchMetaDataForBlobID(String id, BlobRequestListener blobRequestListener){
         mEventing.post(new FetchMetaDataRequest(id,blobRequestListener));
     }
 
