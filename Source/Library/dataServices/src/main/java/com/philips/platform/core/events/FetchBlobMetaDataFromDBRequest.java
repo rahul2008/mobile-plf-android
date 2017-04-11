@@ -18,12 +18,19 @@ import com.philips.platform.datasync.blob.BlobMetaData;
 public class FetchBlobMetaDataFromDBRequest extends Event {
 
     private final DBFetchRequestListner<BlobMetaData> dbFetchRequestListner;
+    private final String userID;
 
-    public FetchBlobMetaDataFromDBRequest(DBFetchRequestListner<BlobMetaData> dbFetchRequestListner) {
+    public String getUserID() {
+        return userID;
+    }
+
+    public FetchBlobMetaDataFromDBRequest(DBFetchRequestListner<BlobMetaData> dbFetchRequestListner, String userID) {
         this.dbFetchRequestListner = dbFetchRequestListner;
+        this.userID = userID;
     }
 
     public DBFetchRequestListner<BlobMetaData> getDbFetchRequestListner() {
         return dbFetchRequestListner;
     }
+
 }

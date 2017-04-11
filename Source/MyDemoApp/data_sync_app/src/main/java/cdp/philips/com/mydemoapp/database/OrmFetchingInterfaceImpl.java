@@ -366,8 +366,9 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     @Override
-    public List<? extends BlobMetaData> fetchAllBlobMetaData(DBFetchRequestListner<BlobMetaData> dbFetchRequestListner) throws SQLException {
+    public List<? extends BlobMetaData> fetchAllBlobMetaData(DBFetchRequestListner<BlobMetaData> dbFetchRequestListner ,String userId) throws SQLException {
         QueryBuilder<OrmBlobMetaData, Integer> blobQueryBuilder = ormBlobMetaDataDao.queryBuilder();
+        blobQueryBuilder.where().eq("userId", userId);
         dbFetchRequestListner.onFetchSuccess(blobQueryBuilder.query());
         return blobQueryBuilder.query();
     }

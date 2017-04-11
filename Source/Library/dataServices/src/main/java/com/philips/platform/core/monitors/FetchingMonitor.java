@@ -181,7 +181,7 @@ public class FetchingMonitor extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(FetchBlobMetaDataFromDBRequest fetchBlobMetaDataFromDBRequest) {
         try {
-            dbInterface.fetchAllBlobMetaData(fetchBlobMetaDataFromDBRequest.getDbFetchRequestListner());
+            dbInterface.fetchAllBlobMetaData(fetchBlobMetaDataFromDBRequest.getDbFetchRequestListner(),fetchBlobMetaDataFromDBRequest.getUserID());
         } catch (SQLException e) {
             dbInterface.postError(e, fetchBlobMetaDataFromDBRequest.getDbFetchRequestListner());
         }

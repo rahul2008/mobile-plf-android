@@ -475,6 +475,6 @@ public class DataServicesManager {
     }
 
     public void fetchAllMetaData(DBFetchRequestListner<BlobMetaData> dbFetchRequestListner) {
-        mEventing.post(new FetchBlobMetaDataFromDBRequest(dbFetchRequestListner));
+        mEventing.post(new FetchBlobMetaDataFromDBRequest(dbFetchRequestListner, mBackendIdProvider.getUserId()));
     }
 }
