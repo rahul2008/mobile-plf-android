@@ -30,13 +30,7 @@ public class Encryption {
     private static final String TRANSFORMATION = "RSA/ECB/OAEPwithSHA-256andMGF1Padding";
 
     private static final String PUBLIC_KEY =
-            "MIIBITANBgkqhkiG9w0BAQEFAAOCAQ4AMIIBCQKCAQBsYW88Po6F2yza8jjJAbbI\n" +
-                    "JuAMQRzQbTHrPUcD04iMjlw6hU5KpdYmwTJ5cExMZE43qhUaXSNfhaWiubQRvm45\n" +
-                    "V+8Bs8uGlHpKMTAaTnLX6q2RG1SpFiQcqdUVjezwevIpPrgBGunDLqAotqYtpQ0W\n" +
-                    "1nZ6HfypIOVeZVS09YFdU++eVRMo8I3NzcgxKIRNU1eD3ObA1kTQktBFsVeR+5Rj\n" +
-                    "QWpy/h2HQB4P6ewE50ni2ft6BWvLZePCNLGBGSe9C7ERatlQnZd1AVN/fSpmcn49\n" +
-                    "Y7fzMmBLoBnlLlJJ/UVCL/rgZnACs4egofC1pQbAFgMeE0PcNAVTPhvLmln7YICX\n" +
-                    "AgMBAAE=";
+            "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCYR2mnp+gBnwEUar8LE3N0oyJXtOsoeA9NHMTsdljf2nHWRIl BvHVIB5wt30qSAEfY/lUzXsrcafNPCxfF8E3IsZfkrYw57EJwMQ2qKoMlulekWIXtz13n1tnRSNtT9C0tTZyKB4Q 1EBwbTRH2RCoEBm7JYQVHEm9HLFLw1OaXvQIDAQAB";
 
     private PublicKey getPublicKey(String publicKey) {
         PublicKey key = null;
@@ -67,6 +61,7 @@ public class Encryption {
             cipher.init(Cipher.ENCRYPT_MODE, getPublicKey(PUBLIC_KEY));
             byte[] cipherTextBytes = cipher.doFinal(toBeEncryptedBytes);
             byte[] base64EncodedBytes = Base64.encode(cipherTextBytes, Base64.DEFAULT);
+            RLog.i("ENCRYPTED", "data toBeEncrypted " + toBeEncrypted + " Encrypted + encoded : " + new String(base64EncodedBytes));
             return new String(base64EncodedBytes);
         } catch (NoSuchAlgorithmException |
                 NoSuchPaddingException | BadPaddingException |
