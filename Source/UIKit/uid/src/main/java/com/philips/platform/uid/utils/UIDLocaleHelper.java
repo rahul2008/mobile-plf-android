@@ -1,8 +1,15 @@
 package com.philips.platform.uid.utils;
 
 
+import android.content.Context;
+import android.content.res.TypedArray;
 import android.text.TextUtils;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+
+import com.philips.platform.uid.view.widget.EditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,7 +46,6 @@ public class UIDLocaleHelper {
      * <br>DLS will handle the string value mappings to set the corresponding string in your widgets or controls.
      * <br>Call with null to stop lookup and delegate all calls to native.
      *
-     * <br>Must be called before setContentview.
      *
      * @param pathInput Absolute path of your JSON file in String format
      */
@@ -109,5 +115,26 @@ public class UIDLocaleHelper {
             Log.e(TAG, e.getMessage());
         }
         return jsonString;
+    }
+
+    /**
+     * This method is used by UID widgets to lookup strings in language pack JSON for all the strings which are set in xml layout files of the widgets.
+     *
+     * @param context Absolute path of your JSON file in String format
+     * @param view Absolute path of your JSON file in String format
+     * @param attrs Absolute path of your JSON file in String format
+     */
+    public static void setTextFromResourceID(Context context, View view, AttributeSet attrs) {
+        if (view instanceof TextView) {
+            TypedArray textArray = context.obtainStyledAttributes(attrs, new int[]{android.R.attr.text, android.R.attr.hint});
+            int resourceId = textArray.getResourceId(0, -1);
+            if (resourceId != -1) {
+                ((TextView) view).setText(resourceId);
+            }
+            resourceId = textArray.getResourceId(1, -1);
+            if (resourceId != -1) {
+                ((EditText) view).setHint(resourceId);
+            }
+        }
     }
 }

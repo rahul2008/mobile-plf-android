@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.philips.platform.uid.R;
+import com.philips.platform.uid.utils.UIDLocaleHelper;
 import com.philips.platform.uid.utils.UIDUtils;
 
 public class Label extends AppCompatTextView {
@@ -37,7 +38,7 @@ public class Label extends AppCompatTextView {
         TypedArray attrsArray = context.obtainStyledAttributes(attrs, R.styleable.UIDLabel, defStyleAttr, R.style.UIDLabel);
         TypedArray themeArray = context.getTheme().obtainStyledAttributes(R.styleable.UIDLabel);
 
-        UIDUtils.setTextFromResourceID(context, this, attrs);
+        UIDLocaleHelper.setTextFromResourceID(context, this, attrs);
 
         int textColor = getDefaultLabelColor(attrsArray, themeArray);
         float textAlpha = getDefaultLabelAlpha(attrsArray, themeArray);

@@ -28,6 +28,7 @@ import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.utils.ClearEditTextIconHandler;
 import com.philips.platform.uid.utils.EditTextIconHandler;
 import com.philips.platform.uid.utils.PasswordEditTextIconHandler;
+import com.philips.platform.uid.utils.UIDLocaleHelper;
 import com.philips.platform.uid.utils.UIDUtils;
 
 public class EditText extends AppCompatEditText {
@@ -59,7 +60,7 @@ public class EditText extends AppCompatEditText {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDTextEditBox, defStyleAttr, R.style.UIDEditTextBox);
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
 
-        UIDUtils.setTextFromResourceID(context, this, attrs);
+        UIDLocaleHelper.setTextFromResourceID(context, this, attrs);
 
         Rect paddingRect = new Rect(getPaddingLeft(), getPaddingTop(), getPaddingRight(), getPaddingBottom());
         Drawable backgroundDrawable = getLayeredBackgroundDrawable(typedArray, theme);

@@ -21,6 +21,7 @@ import android.view.Gravity;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
+import com.philips.platform.uid.utils.UIDLocaleHelper;
 import com.philips.platform.uid.utils.UIDUtils;
 
 public class Button extends AppCompatButton {
@@ -48,7 +49,7 @@ public class Button extends AppCompatButton {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDButton, defStyleAttr, R.style.UIDDefaultButton);
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
 
-        UIDUtils.setTextFromResourceID(context, this, attrs);
+        UIDLocaleHelper.setTextFromResourceID(context, this, attrs);
 
         assignDrawableProperties(typedArray, theme, attrs);
         applyBackgroundTinting(typedArray, theme);
