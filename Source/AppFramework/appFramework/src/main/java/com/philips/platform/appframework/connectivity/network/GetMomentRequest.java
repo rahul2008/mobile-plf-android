@@ -14,6 +14,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,6 +25,7 @@ import org.json.JSONObject;
 import java.util.Map;
 
 public class GetMomentRequest extends PlatformRequest {
+    public static final String TAG = GetMomentRequest.class.getSimpleName();
 
     private String url;
 
@@ -92,8 +96,8 @@ public class GetMomentRequest extends PlatformRequest {
                     value = detailsValue.getString("value");
                     getMomentResponseListener.onGetMomentSuccess(value);
                 } catch (JSONException ex) {
-                    ex.printStackTrace();
-                }
+                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,
+                            ex.getMessage());                }
             }
         };
     }

@@ -5,6 +5,8 @@
 
 package com.philips.platform.baseapp.screens.dataservices.database;
 
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.dataservices.database.table.BaseAppDateTime;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
@@ -23,6 +25,8 @@ import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
 import java.util.List;
+
+import static com.philips.platform.baseapp.screens.utility.Constants.ORM_TYPE_EXCEPTION;
 
 public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
@@ -76,7 +80,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
                 OrmConsentDetail ormConsent = OrmTypeChecking.checkOrmType(consentDetail, OrmConsentDetail.class);
                 saving.saveConsentDetail(ormConsent);
             } catch (OrmTypeChecking.OrmTypeException e) {
-                e.printStackTrace();
+                AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, ORM_TYPE_EXCEPTION,e.getMessage());
             }
 
         }
@@ -99,7 +103,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             updateUCUI(characteristicsList, dbRequestListener);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
-            e.printStackTrace();
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, ORM_TYPE_EXCEPTION,e.getMessage());
             return false;
         }
     }
