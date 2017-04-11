@@ -99,14 +99,26 @@ public class ThemeColorHelper {
     public List<ColorModel> getAccentColorsList(final ColorRange colorRange, final Resources resources, final String packageName) {
         final List<ColorModel> colorRangeModelsList = new ArrayList<>();
         final String colorName = colorRange.name().toLowerCase();
-        for (ColorName name : ColorName.values()) {
-            if (name.ordinal() != colorRange.ordinal()) {
-                int id = getColorResourceId(resources, name.color, "45", packageName);
-                colorRangeModelsList.add(new ColorModel(name.name(), colorName, id, getUidColorWhite()));
+        for (ColorRange name : ColorRange.values()) {
+            if (name != colorRange) {
+                final String shortName = getShortName(name.name());
+                int id = getColorResourceId(resources, name.name().toLowerCase(), "45", packageName);
+                colorRangeModelsList.add(new ColorModel(shortName, colorName, id, getUidColorWhite()));
             }
         }
 
         return colorRangeModelsList;
+    }
+
+    private String getShortName(final String name) {
+        final String[] split = name.split("_");
+        StringBuilder stringBuilder = new StringBuilder();
+        if (split.length > 1) {
+            stringBuilder.append(split[0].substring(0, 1)).append(split[1].substring(0, 1));
+        } else {
+            stringBuilder.append(name.substring(0, 1)).append(name.substring(1, 2).toLowerCase());
+        }
+        return stringBuilder.toString();
     }
 }
 

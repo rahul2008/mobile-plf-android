@@ -270,7 +270,7 @@ public class ThemeSettingsFragment extends BaseFragment {
 
     private void buildAccentColorsList(final ColorRange colorRange) {
         final ThemeColorAdapter accentThemeAdapter = getAccentColorAdapter(colorRange);
-        final int selection = accentSelectedPosition == 0 ? (AccentRange.values().length - accentRange.ordinal() - 1) : accentSelectedPosition;
+        final int selection = getSelectedPositionFromList();
         accentThemeAdapter.setSelected(selection);
         accentColorRangeList.setAdapter(accentThemeAdapter);
 
@@ -286,12 +286,21 @@ public class ThemeSettingsFragment extends BaseFragment {
             public void onThemeSettingsChanged(final String changedColorRange) {
                 final ThemeColorAdapter accentColorRangeListAdapter = (ThemeColorAdapter) accentColorRangeList.getAdapter();
                 final int selectedPosition = accentColorRangeListAdapter.getSelectedPosition();
-                initAccentColor(selectedPosition);
                 accentSelectedPosition = selectedPosition;
+                initAccentColor(selectedPosition);
                 updateThemeSettingsLayout();
                 EventBus.getDefault().post(new AccentColorChangedEvent("accentChanged", accentRange));
             }
         }, colorPickerWidth);
+    }
+
+    private int getSelectedPositionFromList() {
+        for (ColorModel colorModel : accentColorsList) {
+            if (colorModel.getTitle().equals(accentRange.name())) {
+                return accentColorsList.indexOf(colorModel);
+            }
+        }
+        return 0;
     }
 
     private void initAccentColor(final int selectedPosition) {

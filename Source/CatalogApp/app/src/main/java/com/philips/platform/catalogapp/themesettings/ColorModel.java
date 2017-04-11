@@ -22,13 +22,6 @@ public class ColorModel {
         this.endColor = endColor;
     }
 
-    public ColorModel(final String title, final int contentColor, final int startColor, final int endColor) {
-        this.title = title;
-        this.contentColor = contentColor;
-        this.startColor = startColor;
-        this.endColor = endColor;
-    }
-
     public ColorModel(final String title, final String colorRange, final int backgroundColor, final int contentColor) {
         this.title = title;
         this.name = colorRange;
