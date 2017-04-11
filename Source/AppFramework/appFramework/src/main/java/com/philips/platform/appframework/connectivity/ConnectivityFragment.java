@@ -30,11 +30,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.VolleyError;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
@@ -42,30 +39,21 @@ import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceApplianceFactory;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
-import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 
 public class ConnectivityFragment extends AppFrameworkBaseFragment implements View.OnClickListener, ConnectivityContract.View {
     public static final String TAG = ConnectivityFragment.class.getSimpleName();
-    private static final int ACCESS_COARSE_LOCATION_REQUEST_CODE = 0x1;
     private EditText editText = null;
     private EditText momentValueEditText = null;
-    private String momentValue;
-    private String accessTokenValue;
-    private User user;
     private ProgressDialog dialog = null;
     private CommCentral commCentral;
     private DICommApplianceFactory applianceFactory;
-    private BleReferenceAppliance bleReferenceAppliance;
-    private Runnable permissionCallback;
     private TextView connectionState;
     private BluetoothAdapter mBluetoothAdapter;
     private static final int REQUEST_ENABLE_BT = 1;
     private BLEScanDialogFragment bleScanDialogFragment;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1001;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1002;
-    private String dataCoreBaseUrl;
 
 
     /**
@@ -110,8 +98,6 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         btnGetMoment.setOnClickListener(this);
         Button btnStartConnectivity = (Button) rootView.findViewById(R.id.start_connectivity_button);
         btnStartConnectivity.setOnClickListener(this);
-        user = new User(getActivity().getApplicationContext());
-        accessTokenValue = user.getHsdpAccessToken();
         connectionState = (TextView) rootView.findViewById(R.id.connectionState);
         setUpCommCentral();
         return rootView;
@@ -162,7 +148,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                 }
                 break;
             case R.id.get_momentumvalue_button:
-                processMoment();
+                connectivityPresenter.processMoment(editText.getText().toString());
                 break;
             default:
         }
@@ -215,71 +201,32 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     }
 
 
-    /**
-     * Send moment value to data core
-     */
-    public void  processMoment() {
-        momentValue = editText.getText().toString();
-        if (accessTokenValue == null || RegistrationConfiguration.getInstance().getHSDPInfo() == null || !BaseAppUtil.isNetworkAvailable(getActivity())) {
-            Toast.makeText(getActivity(), "Datacore is not reachable", Toast.LENGTH_SHORT).show();
-        } else {
-            showProgressDialog("Posting data in datacore, Please wait...");
-            if (TextUtils.isEmpty(dataCoreBaseUrl)) {
-                connectivityPresenter.loadDataCoreURLFromServiceDiscovery(getActivity());
-            } else {
-                Log.i(TAG, "Moment value" + momentValue);
-                connectivityPresenter.postMoment(user, dataCoreBaseUrl, momentValue);
-            }
+    @Override
+    public void onProcessMomentError(String errorText) {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+        Toast.makeText(getActivity(), errorText, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onProcessMomentSuccess(String momentValue) {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+        if(momentValueEditText!=null) {
+            momentValueEditText.setText(momentValue);
         }
     }
 
-    /**
-     * Callnack after post success
-     *
-     * @param momentId
-     */
     @Override
-    public void updateUIOnPostMomentSuccess(final String momentId) {
-        Log.i(TAG, "Moment Id" + momentId);
-        showProgressDialog("Getting moment from datacore, Please wait...");
-        connectivityPresenter.getMoment(user, dataCoreBaseUrl, momentId);
+    public void onProcessMomentProgress(String message) {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+        dialog = ProgressDialog.show(getActivity(), "", message);
     }
 
-    /**
-     * Error while posting moment to data core
-     *
-     * @param volleyError
-     */
-    @Override
-    public void updateUIOnPostMomentError(final VolleyError volleyError) {
-        dismissProgressDialog();
-        Log.d(TAG, "Error while setting moment value");
-    }
-
-
-    /**
-     * Callback after get moment  success
-     */
-    @Override
-    public void updateUIOnGetMomentSuccess(final String momentValue) {
-        getActivity().runOnUiThread(new Runnable() {
-            public void run() {
-                momentValueEditText.setText(momentValue);
-                dialog.dismiss();
-            }
-        });
-    }
-
-    /**
-     * Error while getting moment from data core
-     *
-     * @param volleyError
-     */
-    @Override
-    public void updateUIOnGetMomentError(final VolleyError volleyError) {
-        dismissProgressDialog();
-        Log.d(TAG, "Error while getting moment value");
-    }
 
     @Override
     public void updateDeviceMeasurementValue(final String measurementvalue) {
@@ -323,38 +270,6 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
             }
         });
 
-    }
-
-    @Override
-    public void serviceDiscoveryError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES errorvalues, String errorText) {
-        Log.d(TAG,"Service Discovery:: Failed to fetch datacore base url");
-        dismissProgressDialog();
-        Toast.makeText(getActivity(), "Not able toget base url from service discovery. Error : " + errorText, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onDataCoreBasrUrlLoad(String baseUrl) {
-        dataCoreBaseUrl = baseUrl;
-        processMoment();
-    }
-
-    /**
-     * SHow progress dialog
-     *
-     * @param text
-     */
-    public void showProgressDialog(String text) {
-        dismissProgressDialog();
-        dialog = ProgressDialog.show(getActivity(), "", text);
-    }
-
-    /**
-     * Dismiss progress dialog
-     */
-    public void dismissProgressDialog() {
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
-        }
     }
 
 

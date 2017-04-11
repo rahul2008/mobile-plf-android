@@ -2,11 +2,8 @@ package com.philips.platform.appframework.connectivity;
 
 import android.support.annotation.NonNull;
 
-import com.android.volley.VolleyError;
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -15,13 +12,12 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 public class ConnectivityContract {
 
     interface View {
-        void updateUIOnPostMomentSuccess(String momentId);
 
-        void updateUIOnPostMomentError(VolleyError volleyError);
+        void onProcessMomentError(String errorText);
 
-        void updateUIOnGetMomentSuccess(String momentValue);
+        void onProcessMomentSuccess(String momentValue);
 
-        void updateUIOnGetMomentError(VolleyError volleyError);
+        void onProcessMomentProgress(String message);
 
         void updateDeviceMeasurementValue(String measurementValue);
 
@@ -29,15 +25,10 @@ public class ConnectivityContract {
 
         void updateConnectionStateText(String text);
 
-        void serviceDiscoveryError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES errorvalues, String s);
-
-        void onDataCoreBasrUrlLoad(String baseUrl);
     }
 
     interface UserActionsListener {
-        void postMoment(User user, String baseUrl,String momentValue);
-
-        void getMoment(User user, String baseUrl,String momentId);
+        void processMoment(String momentValue);
 
         void setUpApplicance(@NonNull BleReferenceAppliance appliance);
     }

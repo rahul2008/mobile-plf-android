@@ -61,7 +61,7 @@ public class BaseAppUtil {
     /**
      * Check whether network is available or not
      *
-     * @return
+     * @return true if network available
      */
     public static boolean isNetworkAvailable(Context context) {
         return ((AppFrameworkApplication) context.getApplicationContext()).getAppInfra().getRestClient().isInternetReachable();
