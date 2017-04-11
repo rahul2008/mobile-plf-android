@@ -3223,7 +3223,7 @@
       "value": "quiet-toggle-off-text-disabled"
     },
     "component": "toggle-button"
-  },
+    },
   {
     "state": [
       "pressed"
@@ -3236,7 +3236,7 @@
       "value": "toggle-on-text"
     },
     "component": "toggle-button"
-  },
+    },
   {
     "state": [
       "hover",
@@ -3250,7 +3250,7 @@
       "value": "quiet-toggle-off-text-hover"
     },
     "component": "toggle-button"
-  },
+    },
   {
     "state": [
       "disabled",
@@ -3264,7 +3264,7 @@
       "value": "quiet-toggle-on-disabled"
     },
     "component": "toggle-button"
-  },
+    },
   {
     "state": [
       "normal"
@@ -3277,7 +3277,7 @@
       "value": "text-primary"
     },
     "component": "toggle-switch"
-  },
+    },
   {
     "state": [
       "disabled"
@@ -3290,7 +3290,7 @@
       "value": "text-primary-disabled"
     },
     "component": "toggle-switch"
-  },
+    },
   {
     "state": [
       "focus"
@@ -3303,7 +3303,7 @@
       "value": "control-primary-focus"
     },
     "component": "toggle-switch"
-  },
+    },
   {
     "state": [
       "pressed"
@@ -3316,7 +3316,7 @@
       "value": "control-primary-focus"
     },
     "component": "toggle-switch"
-  },
+    },
   {
     "state": [],
     "parent": [],
@@ -3327,7 +3327,7 @@
       "value": "tooltip-light"
     },
     "component": "tooltip"
-  },
+    },
   {
     "state": [],
     "parent": [],
@@ -3338,7 +3338,7 @@
       "value": "tooltip-text-light"
     },
     "component": "tooltip"
-  },
+    },
   {
     "state": [],
     "parent": [],
@@ -3349,7 +3349,7 @@
       "value": "tooltip-text-light"
     },
     "component": "tooltip"
-  },
+    },
   {
     "state": [],
     "parent": [],
@@ -3360,7 +3360,7 @@
       "value": "tooltip-text-light"
     },
     "component": "tooltip"
-  },
+    },
   {
     "state": [],
     "parent": [],
@@ -3371,7 +3371,7 @@
       "value": "tooltip-text-light"
     },
     "component": "tooltip"
-  },
+    },
   {
     "state": [],
     "parent": [],
@@ -3382,7 +3382,7 @@
       "value": "tooltip-validated"
     },
     "component": "tooltip"
-  },
+    },
   {
     "state": [],
     "parent": [],
@@ -3393,7 +3393,7 @@
       "value": "tooltip-dark"
     },
     "component": "tooltip"
-  },
+    },
   {
     "state": [],
     "parent": [],
@@ -3404,7 +3404,7 @@
       "value": "tooltip-text-dark"
     },
     "component": "tooltip"
-  },
+    },
   {
     "state": [],
     "parent": [],
@@ -3415,7 +3415,7 @@
       "value": "tooltip-text-dark"
     },
     "component": "tooltip"
-  },
+    },
   {
     "state": [
       "normal",
@@ -3429,7 +3429,7 @@
       "value": "control-primary-track-off"
     },
     "component": "track"
-  },
+    },
   {
     "state": [
       "buffer"
@@ -3442,7 +3442,7 @@
       "value": "control-buffer"
     },
     "component": "track"
-  },
+    },
   {
     "state": [
       "disabled"
@@ -3455,7 +3455,7 @@
       "value": "control-track-disabled"
     },
     "component": "track"
-  },
+    },
   {
     "state": [
       "normal",
@@ -3469,7 +3469,7 @@
       "value": "control-track-off"
     },
     "component": "track"
-  },
+    },
   {
     "state": [
       "normal",
@@ -3483,7 +3483,7 @@
       "value": "control-primary"
     },
     "component": "track"
-  },
+    },
   {
     "state": [
       "normal",

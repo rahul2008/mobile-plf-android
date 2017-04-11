@@ -14,7 +14,7 @@
         "verry-dark": {
           "color-code": "#ffffff"
         }
-      },
+        },
       "textbox-validation-border": {
         "ultralight": {
           "color-range": "signal-orange"
@@ -28,49 +28,51 @@
         "verry-dark": {
           "color-range": "no-color"
         }
-      },
+        },
       "textbox-validation-text": {
         "ultralight": {
           "color-range": "signal-orange"
         },
-        "very-light": {
-          "color-range": "signal-orange"
+        "very-light": "signal-orange",
+        "bright": "signal-orange",
+        "verry-dark": "signal-orange"
         },
-        "bright": {
-          "color-range": "signal-orange"
-        },
-        "verry-dark": {
-          "color-range": "signal-orange"
-        }
-      },
       "validation-message-text": {
         "ultralight": {
           "color-range": "signal-orange"
         },
-        "very-light": {
-          "color-range": "signal-red"
+        "very-light": "signal-red",
+        "bright": "signal-orange",
+        "verry-dark": "signal-orange"
         },
-        "bright": {
-          "color-range": "signal-orange"
-        },
-        "verry-dark": {
-          "color-range": "signal-orange"
-        }
-      },
       "validation-message-icon": {
         "ultralight": {
           "color-range": "signal-orange"
         },
-        "very-light": {
-          "color-range": "signal-red"
-        },
-        "bright": {
-          "color-range": "signal-orange"
-        },
-        "verry-dark": {
-          "color-range": "signal-orange"
+        "very-light": "signal-red",
+        "bright": "signal-orange",
+        "verry-dark": "signal-orange"
         }
-      }
+    },
+    "orange": {
+      "component-name-context-name-state-item": {
+        "ultralight": "signal-orange",
+        "very-light": "signal-red",
+        "bright": "signal-orange",
+        "verry-dark": "signal-orange"
+        },
+      "component-name-context-name-state-item": {
+        "ultralight": "signal-orange",
+        "very-light": "signal-red",
+        "bright": "signal-orange",
+        "verry-dark": "signal-orange"
+        },
+      "component-name-context-name-state-item": {
+        "ultralight": "signal-orange",
+        "very-light": "signal-red",
+        "bright": "signal-orange",
+        "verry-dark": "signal-orange"
+        }
     }
   }
 ]
