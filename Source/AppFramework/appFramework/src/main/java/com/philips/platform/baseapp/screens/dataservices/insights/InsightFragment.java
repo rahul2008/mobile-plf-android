@@ -25,7 +25,11 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InsightFragment extends DialogFragment implements DBRequestListener<Insight>, DBFetchRequestListner<Insight>, DBChangeListener {
+import android.support.v4.app.Fragment;
+
+
+
+public class InsightFragment extends Fragment implements DBRequestListener<Insight>, DBFetchRequestListner<Insight>, DBChangeListener {
     InsightAdapter mInsightAdapter;
     RecyclerView mInsightsRecyclerView;
     ArrayList<? extends Insight> mInsightList = new ArrayList();

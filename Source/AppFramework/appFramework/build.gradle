@@ -1,11 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-apply plugin: 'jacoco'
-
-jacoco {
-    toolVersion = "0.7.1.201405082137"
-}
+apply plugin: 'jacoco-everywhere'
 
 buildscript {
     repositories {
@@ -124,7 +120,7 @@ publishing {
             } else {
             } */
 
-            artifact("$buildDir/outputs/apk/${archivesBaseName}-debug.apk")
+            artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
@@ -156,6 +152,12 @@ android {
         testApplicationId "com.philips.platform.appframework.test"
         testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
         multiDexEnabled true
+
+        // replace the below string with your own Google client ID. Make sure this is consistent
+        // with the values used in openid_appauth_idp_configs.xml
+            manifestPlaceholders = [
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-arpks5qhm771a2mfbm4e829va12olmtf'
+            ]
     }
 
     productFlavors {
@@ -311,9 +313,6 @@ configurations.all {
 }
 
 dependencies {
-    //  testCompile('org.mockito:mockito-core:2.7.0')
-    // testCompile "org.robolectric:shadows-multidex:3.0"
-
     compile ('com.android.support:support-annotations:24.0.0') {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
@@ -335,7 +334,7 @@ dependencies {
     compile "com.j256.ormlite:ormlite-core:5.0"
     compile "com.j256.ormlite:ormlite-android:5.0"
 
-    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '2.3.5' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '2.3.6' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive = true
     }
 
@@ -343,7 +342,7 @@ dependencies {
         transitive=true
     }
 
-    compile(group: 'com.philips.cdp', name: 'iap', version: '5.2.5' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'iap', version: '5.2.6' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive=true
     }
 
@@ -358,21 +357,9 @@ dependencies {
     }
 
     testCompile 'junit:junit:4.12'
-    //    compile group: 'org.robolectric', name: 'shadows-core', version: '3.0-rc2'
-//    compile 'junit:junit:4.12'
-//    compile 'org.robolectric:robolectric:3.2.2'
-
-
-//    testCompile 'org.mockito:mockito-all:1.10.17'
-//    compile group: 'org.robolectric', name: 'android-all', version: '7.0.0_r1-robolectric-0'
-//    testCompile ('org.robolectric:robolectric:3.2.2')
     testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
-//    testCompile 'junit:junit:4.12'
-//    compile 'com.android.support:multidex:1.0.1'
-
-    testCompile ('org.robolectric:robolectric:3.3.1')
-    testCompile "org.robolectric:shadows-multidex:3.3.1"
-    testCompile "org.robolectric:shadows-support-v4:3.3.1"/*{
+    testCompile ('org.robolectric:robolectric:3.2.2')
+    testCompile "org.robolectric:shadows-support-v4:3.0"/*{
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }*/
@@ -420,105 +407,3 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
         html.enabled = false
     }
 }
-
-//    task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
-//        group = "Reporting"
-//
-//        description = "Generate Jacoco coverage reports"
-//
-//        classDirectories = fileTree(
-//                dir: '../appFramework/build/intermediates/classes/debug',
-////            excludes: ['**/R.class',
-////                       '**/R$*.class',
-////                       '**/BuildConfig.*',
-////                       '**/response/*/*.class',
-////                       '**/view/*.class',
-////                       '**/adapters/*.class',
-////                       '**/analytics/*.class',
-////                       '**/utils/*.class',
-////                       '**/activity/*.class',
-////                       '**/screens/*.class',
-////                       '**/store/IAPUser.class',
-////                       '**/integration/IAPInterface.class']
-//        )
-//
-//        def coverageSourceDirs = [
-//                "src/main/java",
-//                "src/AppFrameworkHamburger/java",
-//                "src/AppFrameworkTabbed/java"
-//        ]
-//
-//        additionalSourceDirs = files(coverageSourceDirs)
-//        sourceDirectories = files(coverageSourceDirs)
-//        executionData = files('build/jacoco/testDebugUnitTest.exec')
-//
-//        reports {
-//            xml.enabled = true
-//            html.enabled = true
-//        }
-//    }
-//}
-
-    project.afterEvaluate {
-        // Grab all build types and product flavors
-        def buildTypes = android.buildTypes.collect { type ->
-            type.name
-        }
-        def productFlavors = android.productFlavors.collect { flavor ->
-            flavor.name
-        }
-        // When no product flavors defined, use empty
-        if (!productFlavors) productFlavors.add('')
-
-        //iterate over the flavors
-
-        productFlavors.each {
-
-            productFlavorName ->
-//iterate over build types like debug,release,prod etc.
-                buildTypes.each {
-
-                    buildTypeName ->
-                        //sourceName — e.g. freeDebug ,sourcePath — e.g. free/debug
-                        def sourceName, sourcePath
-                        if (!productFlavorName) {
-                            sourceName = sourcePath = "${buildTypeName}"
-                        } else {
-                            sourceName = "${productFlavorName}${buildTypeName.capitalize()}"
-                            sourcePath = "${productFlavorName}/${buildTypeName}"
-                        }
-                        // testTaskName —  e.g. testFreeDebugtest task that the coverage task depends on,
-                        def testTaskName = "test${sourceName.capitalize()}UnitTest"
-                        // Create coverage task of form 'testFlavorTypeCoverage' depending on 'testFlavorTypeUnitTest'
-                        task "${testTaskName}Coverage" (type:JacocoReport, dependsOn: "$testTaskName") {
-                            group = "Reporting"
-                            description = "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
-                            classDirectories = fileTree(
-                                    dir: "${project.buildDir}/intermediates/classes/${sourcePath}",
-                                    excludes: [
-                                            '**/R.class',
-                                            '**/R$*.class',
-                                            '**/*$ViewInjector*.*',
-                                            '**/*$ViewBinder*.*',
-                                            '**/BuildConfig.*',
-                                            '**/Manifest*.*',
-                                            '**/com/philips/platform/baseapp/screens/dataservices/**'
-                                    ]
-                            )
-                            def coverageSourceDirs = [
-                                    "src/main/java",
-                                    "src/$productFlavorName/java",
-                                    "src/$buildTypeName/java"
-                            ]
-                            additionalSourceDirs = files(coverageSourceDirs)
-                            sourceDirectories = files(coverageSourceDirs)
-                            executionData = files("${project.buildDir}/jacoco/${testTaskName}.exec")
-                            reports {
-                                //enables and disable the type of file you need
-                                xml.enabled = false
-                                html.enabled = true
-                            }
-                        }
-                }
-        }
-    }
