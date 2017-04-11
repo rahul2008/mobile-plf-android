@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmDCSync;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurement;
@@ -32,11 +34,15 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 
+import static com.philips.platform.baseapp.screens.utility.Constants.SQLITE_EXCEPTION;
+
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
 public class OrmUpdating {
+    public final String TAG = OrmUpdating.class.getSimpleName();
 
     private final Dao<OrmMoment, Integer> momentDao;
     private final Dao<OrmMomentDetail, Integer> momentDetailDao;
@@ -242,7 +248,7 @@ public class OrmUpdating {
                 }
             });
         } catch (Exception e) {
-            e.printStackTrace();
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SQLITE_EXCEPTION,e.getMessage());
             new NotifyDBRequestListener().notifyFailure(e,dbRequestListener);
             return false;
         }

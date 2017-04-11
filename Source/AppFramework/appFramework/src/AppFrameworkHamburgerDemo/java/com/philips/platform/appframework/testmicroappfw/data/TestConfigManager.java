@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class TestConfigManager {
 
     private static TestConfigManager testConfigManager;
+    public static final String TAG = TestConfigManager.class.getSimpleName();
 
     private TestFwConfig testFwConfig;
 
@@ -61,7 +62,8 @@ public class TestConfigManager {
             is.close();
             json = new String(buffer, "UTF-8");
         } catch (IOException ex) {
-            ex.printStackTrace();
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, FILE_IO,
+                    e.getMessage());
             return null;
         }
         return json;
