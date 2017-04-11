@@ -234,7 +234,7 @@ public class UpdatingMonitor extends EventMonitor {
             BlobMetaData blobMetaData = dbFetchingInterface.fetchBlobMetaDataByBlobID(updateUcoreMetadataRequest.getBlobMetaData().getBlobID());
             BlobMetaData uCoreBlobMetaData=updateUcoreMetadataRequest.getBlobMetaData();
             if(blobMetaData!=null){
-                uCoreBlobMetaData.setId(uCoreBlobMetaData.getId());
+                uCoreBlobMetaData.setId(blobMetaData.getId());
             }
             dbUpdatingInterface.updateBlobMetaData(uCoreBlobMetaData,updateUcoreMetadataRequest.getBlobRequestListener());
         } catch (SQLException e) {

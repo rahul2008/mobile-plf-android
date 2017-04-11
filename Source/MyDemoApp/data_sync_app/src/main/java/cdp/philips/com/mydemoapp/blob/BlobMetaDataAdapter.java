@@ -32,10 +32,12 @@ import cdp.philips.com.mydemoapp.consents.ConsentDialogPresenter;
 public class BlobMetaDataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context mContext;
     private ArrayList<? extends BlobMetaData> blobMetaDatas;
+    private final BlobPresenter blobPresenter;
 
-    public BlobMetaDataAdapter(final Context context, ArrayList<? extends BlobMetaData> blobMetaDatas) {
+    public BlobMetaDataAdapter(final Context context, ArrayList<? extends BlobMetaData> blobMetaDatas, BlobPresenter blobPresenter) {
         mContext = context;
         this.blobMetaDatas = blobMetaDatas;
+        this.blobPresenter = blobPresenter;
     }
 
     @Override
@@ -49,12 +51,12 @@ public class BlobMetaDataAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         if (holder instanceof ConsentDetailViewHolder) {
             ConsentDetailViewHolder mConsentViewHolder = (ConsentDetailViewHolder) holder;
-            mConsentViewHolder.tv_blob_id.setText(blobMetaDatas.get(position).getBlobID());
+            mConsentViewHolder.tv_blob_id.setText("BLOB ID :" +blobMetaDatas.get(position).getBlobID());
 
             mConsentViewHolder.btn_download.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //DataServicesManager.getInstance().
+                    blobPresenter.download(blobMetaDatas.get(position).getBlobID());
                 }
             });
 

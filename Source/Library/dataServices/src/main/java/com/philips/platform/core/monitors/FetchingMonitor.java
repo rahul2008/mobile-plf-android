@@ -10,6 +10,7 @@ import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
+import com.philips.platform.core.events.FetchBlobMetaDataFromDBRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
@@ -176,5 +177,15 @@ public class FetchingMonitor extends EventMonitor {
             dbInterface.postError(e, fetchInsightsFromDB.getDbFetchRequestListner());
         }
     }
+
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void onEventAsync(FetchBlobMetaDataFromDBRequest fetchBlobMetaDataFromDBRequest) {
+        try {
+            dbInterface.fetchAllBlobMetaData(fetchBlobMetaDataFromDBRequest.getDbFetchRequestListner());
+        } catch (SQLException e) {
+            dbInterface.postError(e, fetchBlobMetaDataFromDBRequest.getDbFetchRequestListner());
+        }
+    }
+
 
 }

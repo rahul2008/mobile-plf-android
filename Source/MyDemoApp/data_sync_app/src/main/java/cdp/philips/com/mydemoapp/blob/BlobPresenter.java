@@ -13,11 +13,14 @@ import android.widget.Toast;
 import com.philips.platform.core.listeners.BlobDownloadRequestListener;
 import com.philips.platform.core.listeners.BlobRequestListener;
 import com.philips.platform.core.listeners.BlobUploadRequestListener;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.blob.BlobMetaData;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import cdp.philips.com.mydemoapp.activity.FilePicker;
 
@@ -26,11 +29,14 @@ public class BlobPresenter {
     private Activity activity;
     private Button mBtnUpload;
     private ProgressBar mProgressBar;
+    private final DBFetchRequestListner<BlobMetaData> dbFetchRequestListner;
 
-    BlobPresenter(Activity activity, ProgressBar progressBar, Button upload){
+    BlobPresenter(Activity activity, ProgressBar progressBar, Button upload, DBFetchRequestListner<BlobMetaData> dbFetchRequestListner){
         this.activity = activity;
         this.mProgressBar = progressBar;
         this.mBtnUpload = upload;
+
+        this.dbFetchRequestListner = dbFetchRequestListner;
     }
 
     void upload(File selectedFile) {
@@ -45,26 +51,17 @@ public class BlobPresenter {
 
         DataServicesManager.getInstance().createBlob(selectedFile, mimeType, new BlobUploadRequestListener() {
             @Override
-            public void onBlobRequestSuccess(String itemId) {
-                setProgressBarVisibility(false);
-                showToast("Blob Request Succes and the itemID = " + itemId);
-                DataServicesManager.getInstance().fetchMetaDataForBlobID(itemId, new BlobRequestListener() {
+            public void onBlobRequestSuccess(final String itemId) {
+
+                activity.runOnUiThread(new Runnable() {
                     @Override
-                    public void onBlobRequestSuccess(String itemID) {
-
-                    }
-
-                    @Override
-                    public void onBlobRequestFailure(Exception exception) {
-
-                    }
-
-                    @Override
-                    public void onFetchMetaDataSuccess(BlobMetaData uCoreFetchMetaData) {
-
+                    public void run() {
+                        mBtnUpload.setEnabled(false);
+                        setProgressBarVisibility(false);
+                        showToast("Blob Request Succes and the itemID = " + itemId);
                     }
                 });
-                mBtnUpload.setEnabled(false);
+                fetchMetaDataForBlobID(itemId.trim());
             }
 
             @Override
@@ -110,23 +107,36 @@ public class BlobPresenter {
         });
     }
 
-    void download() {
-        DataServicesManager.getInstance().fetchBlob("14b4f366-2c3a-46f0-a870-658ee3eb7eb0", new BlobDownloadRequestListener() {
+    void download(String blobId) {
+        DataServicesManager.getInstance().fetchBlob(blobId, new BlobDownloadRequestListener() {
 
             @Override
-            public void onBlobDownloadRequestSuccess(InputStream file) {
-                showToast("Blob Download Request Success");
+            public void onBlobDownloadRequestSuccess(final InputStream file,final String mime) {
+
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showToast("Blob Download Request Success");
+                    }
+                });
+
             }
 
             @Override
             public void onBlobRequestFailure(Exception exception) {
-                showToast("Blob Request Failed");
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showToast("Blob Request Failed");
+                    }
+                });
+
             }
         });
     }
 
-    void fetchMetaDataForBlobID(){
-        DataServicesManager.getInstance().fetchMetaDataForBlobID("14b4f366-2c3a-46f0-a870-658ee3eb7eb0", new BlobRequestListener() {
+    void fetchMetaDataForBlobID(String blobID){
+        DataServicesManager.getInstance().fetchMetaDataForBlobID(blobID, new BlobRequestListener() {
             @Override
             public void onBlobRequestSuccess(String itemID) {
 
@@ -139,8 +149,20 @@ public class BlobPresenter {
 
             @Override
             public void onFetchMetaDataSuccess(BlobMetaData uCoreFetchMetaData) {
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateUI();
+                    }
+                });
 
             }
         });
     }
+
+    void updateUI() {
+        DataServicesManager.getInstance().fetchAllMetaData(dbFetchRequestListner);
+    }
+
+
 }

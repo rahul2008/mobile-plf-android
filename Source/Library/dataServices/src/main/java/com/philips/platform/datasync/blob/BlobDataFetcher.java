@@ -62,7 +62,7 @@ public class BlobDataFetcher extends DataFetcher{
     }
 
     @Nullable
-    public void fetchBlobData(@Nullable String itemId, BlobDownloadRequestListener blobDownloadRequestListener) {
+    public void fetchBlobData(@Nullable String itemId,BlobMetaData blobMetaData, BlobDownloadRequestListener blobDownloadRequestListener) {
         if (isUserInvalid()) {
             return;
         }
@@ -74,7 +74,7 @@ public class BlobDataFetcher extends DataFetcher{
                 downloadResponse = client.downloadBlob(itemId);
             }
             InputStream in = downloadResponse.getBody().in();
-            blobDownloadRequestListener.onBlobDownloadRequestSuccess(in);
+            blobDownloadRequestListener.onBlobDownloadRequestSuccess(in,blobMetaData.getContentType());
         } catch (RetrofitError ex) {
             DSLog.e(DSLog.LOG, "RetrofitError: " + ex.getMessage() + ex);
             eventing.post(new BackendDataRequestFailed(ex));
