@@ -8,6 +8,7 @@ import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.datasync.blob.BlobMetaData;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -119,6 +120,16 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface {
 
     @Override
     public List<?> fetchNonSynchronizedInsights() throws SQLException {
+        return null;
+    }
+
+    @Override
+    public List<? extends BlobMetaData> fetchAllBlobMetaData() throws SQLException {
+        return null;
+    }
+
+    @Override
+    public BlobMetaData fetchBlobMetaDataByBlobID(String blobID) throws SQLException {
         return null;
     }
 
