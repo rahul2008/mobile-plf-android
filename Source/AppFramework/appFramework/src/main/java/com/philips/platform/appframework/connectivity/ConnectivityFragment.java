@@ -44,6 +44,7 @@ import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppl
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceApplianceFactory;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
+import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 
 public class ConnectivityFragment extends AppFrameworkBaseFragment implements View.OnClickListener, ConnectivityContract.View {
     public static final String TAG = ConnectivityFragment.class.getSimpleName();
@@ -217,9 +218,9 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     /**
      * Send moment value to data core
      */
-    public void     processMoment() {
+    public void  processMoment() {
         momentValue = editText.getText().toString();
-        if (accessTokenValue == null || RegistrationConfiguration.getInstance().getHSDPInfo() == null || !ConnectivityUtils.isNetworkAvailable(getActivity())) {
+        if (accessTokenValue == null || RegistrationConfiguration.getInstance().getHSDPInfo() == null || !BaseAppUtil.isNetworkAvailable(getActivity())) {
             Toast.makeText(getActivity(), "Datacore is not reachable", Toast.LENGTH_SHORT).show();
         } else {
             showProgressDialog("Posting data in datacore, Please wait...");
