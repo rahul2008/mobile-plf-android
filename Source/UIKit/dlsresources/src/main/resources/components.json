@@ -1,477 +1,30 @@
 [
   {
-    "state": [],
-    "parent": [],
-    "context": "primary",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "content-primary"
-    },
-    "component": "content"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "ios",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "status-bar-ios-text"
-    },
-    "component": "status-bar"
-  },
-  {
-    "state": [
-      "progress"
-    ],
-    "parent": [],
-    "context": "primary",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-primary-disabled"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "secondary",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-secondary"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "accent",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-accent"
-    },
-    "component": "button"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "dark",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "tooltip-dark"
-    },
-    "component": "tooltip"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
-    "property": {
-      "item": "border",
-      "type": "color",
-      "value": "control-primary-focus"
-    },
-    "component": "toggle-switch"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "themed",
-    "property": {
-      "item": "button-text",
-      "type": "color",
-      "value": "light-primary-text"
-    },
-    "component": "notification-bar"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "springboard-pressed"
-    },
-    "component": "spring-board"
-  },
-  {
-    "state": [
-      "hover"
-    ],
-    "parent": [],
-    "context": "accent",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-accent-hover"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "springboard-icon-disabled"
-    },
-    "component": "spring-board"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "secondary-icon",
-      "type": "color",
-      "value": "text-secondary"
-    },
-    "component": "list-view"
-  },
-  {
-    "state": [
-      "disabled",
-      "on"
-    ],
-    "parent": [],
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "toggle-on-text-disabled"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "normal",
-      "off"
-    ],
-    "parent": [],
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "toggle-off-text"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "themed",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "tooltip-dark"
-    },
-    "component": "notification-bar"
-  },
-  {
-    "state": [
-      "disabled",
-      "on"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "quiet-toggle-on-text-disabled"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "dark",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "tooltip-text-light"
-    },
-    "component": "tooltip"
-  },
-  {
     "state": [
       "focus"
     ],
     "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "input-focus"
-    },
-    "component": "text-box"
-  },
-  {
-    "state": [
-      "disabled",
-      "off"
-    ],
-    "parent": [],
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "toggle-off-text-disabled"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "control-primary-pressed"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "clear-icon",
-      "type": "color",
-      "value": "gray-tertiary-text"
-    },
-    "component": "text-box"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "context": "tertiary",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "text-tertiary-disabled"
-    },
-    "component": "list-view"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "social-media-white",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "control-white-text"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "control-primary-text-disabled"
-    },
-    "component": "radio-button"
-  },
-  {
-    "state": [
-      "hover",
-      "off"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "quiet-toggle-off-text-hover"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "springboard-pressed"
-    },
-    "component": "spring-board"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "hint-text",
-      "type": "color",
-      "value": "input-hint-text"
-    },
-    "component": "text-box"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "validated",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "tooltip-text-light"
-    },
-    "component": "tooltip"
-  },
-  {
-    "state": [],
-    "parent": [],
     "context": "secondary",
     "property": {
-      "item": "background",
+      "item": "border",
       "type": "color",
-      "value": "content-secondary"
+      "value": "control-secondary-focus"
     },
-    "component": "content"
-  },
+    "component": "button"
+    },
   {
     "state": [
       "normal"
     ],
     "parent": [],
-    "context": "primary",
+    "context": "quiet",
     "property": {
-      "item": "background",
+      "item": "icon",
       "type": "color",
       "value": "control-primary"
     },
     "component": "button"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "secondary",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "control-secondary-text"
     },
-    "component": "button"
-  },
-  {
-    "state": [
-      "disabled",
-      "on"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "quiet-toggle-on-text-disabled"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "control-primary-pressed"
-    },
-    "component": "button"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "light",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "tooltip-text-dark"
-    },
-    "component": "tooltip"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "property": {
-      "item": "body-text",
-      "type": "color",
-      "value": "text-secondary"
-    },
-    "component": "dialog-alert"
-  },
-  {
-    "state": [
-      "disabled",
-      "off"
-    ],
-    "parent": [],
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "toggle-off-text-disabled"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
-    "context": "accent",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-accent-pressed"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "context": "accent",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "control-primary-text-disabled"
-    },
-    "component": "button"
-  },
   {
     "state": [
       "focus"
@@ -484,79 +37,20 @@
       "value": "control-accent-focus"
     },
     "component": "button"
-  },
+    },
   {
     "state": [
-      "normal"
+      "pressed"
     ],
     "parent": [],
-    "context": "social-media-primary",
+    "context": "primary",
     "property": {
-      "item": "icon",
+      "item": "background",
       "type": "color",
-      "value": "control-primary-text"
+      "value": "control-primary-pressed"
     },
     "component": "button"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "property": {
-      "item": "title-icon",
-      "type": "color",
-      "value": "text-primary"
     },
-    "component": "dialog-alert"
-  },
-  {
-    "state": [
-      "hover"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "springboard-hover"
-    },
-    "component": "spring-board"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "dot"
-    },
-    "component": "dot-navigation"
-  },
-  {
-    "state": [
-      "normal",
-      "off"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "toggle-off"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "light",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "tooltip-light"
-    },
-    "component": "tooltip"
-  },
   {
     "state": [
       "pressed"
@@ -569,745 +63,33 @@
       "value": "control-white-pressed"
     },
     "component": "button"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "property": {
-      "item": "arrow-icon",
-      "type": "color",
-      "value": "input-text-disabled"
     },
-    "component": "dropdown-list"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "input-text-disabled"
-    },
-    "component": "dropdown-list"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "text-primary-disabled"
-    },
-    "component": "radio-button"
-  },
-  {
-    "state": [
-      "hover",
-      "off"
-    ],
-    "parent": [],
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "toggle-off-text-hover"
-    },
-    "component": "toggle-button"
-  },
   {
     "state": [
       "hover"
     ],
     "parent": [],
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "tabs-selected"
-    },
-    "component": "tabs"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "text-primary"
-    },
-    "component": "toggle-switch"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
+    "context": "quiet",
     "property": {
       "item": "icon",
       "type": "color",
-      "value": "control-primary-text"
-    },
-    "component": "check-box"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "on-icon",
-      "type": "color",
-      "value": "control-primary-text"
-    },
-    "component": "check-box"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "tertiary",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "content-tertiary"
-    },
-    "component": "content"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "primary",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "control-primary-text"
+      "value": "control-primary-hover"
     },
     "component": "button"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "secondary",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "control-secondary-text"
     },
-    "component": "button"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "arrow-icon",
-      "type": "color",
-      "value": "input-text"
-    },
-    "component": "dropdown-list"
-  },
   {
     "state": [
       "disabled"
     ],
     "parent": [],
+    "context": "quiet",
     "property": {
-      "item": "background",
+      "item": "text",
       "type": "color",
       "value": "control-primary-disabled"
     },
-    "component": "radio-button"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "context": "secondary",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "text-secondary-disabled"
-    },
-    "component": "list-view"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "accent",
-    "property": {
-      "item": "button-text",
-      "type": "color",
-      "value": "light-primary-text"
-    },
-    "component": "notification-bar"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "regular",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "text-tertiary"
-    },
-    "component": "label"
-  },
-  {
-    "state": [
-      "normal",
-      "on"
-    ],
-    "parent": [],
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "control-primary-text"
-    },
-    "component": "radio-button"
-  },
-  {
-    "state": [
-      "hover"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "control-primary-hover"
-    },
     "component": "button"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "property": {
-      "item": "hint-text",
-      "type": "color",
-      "value": "input-text-disabled"
     },
-    "component": "text-box"
-  },
-  {
-    "state": [
-      "hover"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "springboard-hover"
-    },
-    "component": "spring-board"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
-    "property": {
-      "item": "border",
-      "type": "color",
-      "value": "control-primary-focus"
-    },
-    "component": "check-box"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "accent",
-    "property": {
-      "item": "secondary-text",
-      "type": "color",
-      "value": "light-secondary-text"
-    },
-    "component": "notification-bar"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "property": {
-      "item": "icon-button",
-      "type": "color",
-      "value": "input-text-disabled"
-    },
-    "component": "search-box"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "white",
-    "property": {
-      "item": "secondary-text",
-      "type": "color",
-      "value": "gray-secondary-text"
-    },
-    "component": "notification-bar"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "dark",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "tooltip-text-light"
-    },
-    "component": "tooltip"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "tabs-normal"
-    },
-    "component": "tabs"
-  },
-  {
-    "state": [
-      "normal",
-      "off"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "quiet-toggle-off-text"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "focus"
-    ],
-    "parent": [],
-    "property": {
-      "item": "border",
-      "type": "color",
-      "value": "input-border-focus"
-    },
-    "component": "text-box"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "context": "primary",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "text-primary-disabled"
-    },
-    "component": "list-view"
-  },
-  {
-    "state": [
-      "focus"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "springboard-focus"
-    },
-    "component": "spring-board"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "list-pressed"
-    },
-    "component": "list-view"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-notification"
-    },
-    "component": "notification-badge"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "optiol",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-accent"
-    },
-    "component": "notification-badge"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "validated",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "tooltip-validated"
-    },
-    "component": "tooltip"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "primary",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "navigation-primary"
-    },
-    "component": "navigation"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "primary",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "control-primary-text"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "hover"
-    ],
-    "parent": [],
-    "context": "secondary",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-secondary-hover"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "social-media-white",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "control-white-text"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "control-primary"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "thumb"
-    },
-    "component": "thumb"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "content-background",
-      "type": "color",
-      "value": "content-background"
-    },
-    "component": "spring-board"
-  },
-  {
-    "state": [
-      "disabled",
-      "off"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "quiet-toggle-off-text-disabled"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "context": "accent",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "control-primary-text-disabled"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "content-background",
-      "type": "color",
-      "value": "content-primary"
-    },
-    "component": "spring-board"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "social-media-white",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-white"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "focus"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "control-primary"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "focus"
-    ],
-    "parent": [],
-    "context": "social-media-primary",
-    "property": {
-      "item": "border",
-      "type": "color",
-      "value": "control-primary-focus"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "content-primary-disabled"
-    },
-    "component": "spring-board"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "android",
-    "property": {
-      "item": "days-text",
-      "type": "color",
-      "value": "gray-tertiary-text"
-    },
-    "component": "date-picker"
-  },
-  {
-    "state": [
-      "focus"
-    ],
-    "parent": [],
-    "property": {
-      "item": "border",
-      "type": "color",
-      "value": "control-primary-focus"
-    },
-    "component": "radio-button"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "springboard-icon"
-    },
-    "component": "spring-board"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "shadow",
-      "type": "color",
-      "value": "shadow-level-two"
-    },
-    "component": "shadow-level-two"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "property": {
-      "item": "close-icon",
-      "type": "color",
-      "value": "text-primary"
-    },
-    "component": "dialog-alert"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "popup-text-disabled"
-    },
-    "component": "list-item"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "popup-text"
-    },
-    "component": "list-item"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "text-primary-disabled"
-    },
-    "component": "list-view"
-  },
-  {
-    "state": [
-      "focus"
-    ],
-    "parent": [],
-    "context": "social-media-white",
-    "property": {
-      "item": "border",
-      "type": "color",
-      "value": "control-primary-focus"
-    },
-    "component": "button"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "validated",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "tooltip-text-light"
-    },
-    "component": "tooltip"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "primary",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "navigation-text"
-    },
-    "component": "navigation"
-  },
-  {
-    "state": [
-      "hover"
-    ],
-    "parent": [],
-    "context": "primary",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-primary-hover"
-    },
-    "component": "button"
-  },
   {
     "state": [
       "pressed"
@@ -1320,7 +102,33 @@
       "value": "control-secondary-pressed"
     },
     "component": "button"
-  },
+    },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "primary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-primary-hover"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-secondary"
+    },
+    "component": "button"
+    },
   {
     "state": [
       "normal"
@@ -1328,24 +136,922 @@
     "parent": [],
     "context": "accent",
     "property": {
-      "item": "primary-text",
+      "item": "background",
       "type": "color",
-      "value": "light-primary-text"
+      "value": "control-accent"
     },
-    "component": "notification-bar"
-  },
+    "component": "button"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "primary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-primary-text"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-primary"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "social-media-white",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-white"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "accent",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-primary-text-disabled"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "social-media-primary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-primary"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "accent",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-accent-text"
+    },
+    "component": "button"
+    },
   {
     "state": [
       "hover"
     ],
     "parent": [],
+    "context": "accent",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-accent-hover"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "primary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-primary-text-disabled"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "accent",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-accent-disabled"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-secondary-text-disabled"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "primary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-primary-text-disabled"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-primary-pressed"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-primary-focus"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "social-media-white",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-white-text"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-secondary-text-disabled"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "primary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-primary-disabled"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "social-media-primary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-primary-pressed"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "progress"
+    ],
+    "parent": [],
+    "context": "primary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-primary-disabled"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "primary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-primary"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-primary-pressed"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-secondary-disabled"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "primary",
     "property": {
       "item": "border",
       "type": "color",
-      "value": "input-border-hover"
+      "value": "control-primary-focus"
     },
-    "component": "text-box"
-  },
+    "component": "button"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-primary-disabled"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "accent",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-accent-pressed"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "accent",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-primary-text-disabled"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-primary"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "primary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-primary-text"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-primary-hover"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-primary"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-secondary-hover"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "social-media-primary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-primary-text"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "accent",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-accent-text"
+    },
+    "component": "button"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary-disabled"
+    },
+    "component": "check-box"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "check-box"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-primary-disabled"
+    },
+    "component": "check-box"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-primary-text-disabled"
+    },
+    "component": "check-box"
+    },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-primary-off"
+    },
+    "component": "check-box"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-primary-text"
+    },
+    "component": "check-box"
+    },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "control-primary-focus"
+    },
+    "component": "check-box"
+    },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-primary"
+    },
+    "component": "check-box"
+    },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "control-primary-focus"
+    },
+    "component": "check-box"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "on-icon",
+      "type": "color",
+      "value": "control-primary-text"
+    },
+    "component": "check-box"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "arrow-icon",
+      "type": "color",
+      "value": "input-text-disabled"
+    },
+    "component": "combo-box"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "arrow-icon",
+      "type": "color",
+      "value": "input-text"
+    },
+    "component": "combo-box"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "primary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "content-primary"
+    },
+    "component": "content"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "content-secondary"
+    },
+    "component": "content"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "tertiary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "content-tertiary"
+    },
+    "component": "content"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "charts",
+    "property": {
+      "item": "gridlines",
+      "type": "color",
+      "value": "separator"
+    },
+    "component": "data-visualization"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "status-indicator",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "status-indicator-background"
+    },
+    "component": "data-visualization"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "charts",
+    "property": {
+      "item": "legend-text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "data-visualization"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "subtitle-text",
+      "type": "color",
+      "value": "text-tertiary"
+    },
+    "component": "data-visualization"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "charts",
+    "property": {
+      "item": "value-label-text",
+      "type": "color",
+      "value": "text-tertiary"
+    },
+    "component": "data-visualization"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "axis-scale-text",
+      "type": "color",
+      "value": "text-tertiary"
+    },
+    "component": "data-visualization"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "status-indicator",
+    "property": {
+      "item": "value-label-text",
+      "type": "color",
+      "value": "control-secondary-detail"
+    },
+    "component": "data-visualization"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "title-text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "data-visualization"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "charts",
+    "property": {
+      "item": "axis-label-text",
+      "type": "color",
+      "value": "text-tertiary"
+    },
+    "component": "data-visualization"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "data-color-2",
+      "type": "color",
+      "value": "data-color-2"
+    },
+    "component": "data-visualization"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "charts",
+    "property": {
+      "item": "value-label-icon",
+      "type": "color",
+      "value": "text-tertiary"
+    },
+    "component": "data-visualization"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "charts",
+    "property": {
+      "item": "value-icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "data-visualization"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "data-color-4",
+      "type": "color",
+      "value": "data-color-4"
+    },
+    "component": "data-visualization"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "charts",
+    "property": {
+      "item": "value-text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "data-visualization"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "status-indicator",
+    "property": {
+      "item": "reference-background",
+      "type": "color",
+      "value": "status-indicator-reference-background"
+    },
+    "component": "data-visualization"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "charts",
+    "property": {
+      "item": "target-text",
+      "type": "color",
+      "value": "control-primary-detail"
+    },
+    "component": "data-visualization"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "data-color-1",
+      "type": "color",
+      "value": "data-color-1"
+    },
+    "component": "data-visualization"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "charts",
+    "property": {
+      "item": "target-background",
+      "type": "color",
+      "value": "charts-target-background"
+    },
+    "component": "data-visualization"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "status-indicator",
+    "property": {
+      "item": "value-label-icon",
+      "type": "color",
+      "value": "control-secondary-detail"
+    },
+    "component": "data-visualization"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "charts",
+    "property": {
+      "item": "target-line",
+      "type": "color",
+      "value": "control-primary-detail"
+    },
+    "component": "data-visualization"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "data-color-3",
+      "type": "color",
+      "value": "data-color-3"
+    },
+    "component": "data-visualization"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "status-indicator",
+    "property": {
+      "item": "value-icon",
+      "type": "color",
+      "value": "control-primary-detail"
+    },
+    "component": "data-visualization"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "status-indicator",
+    "property": {
+      "item": "value-indicator-background",
+      "type": "color",
+      "value": "control-primary-detail"
+    },
+    "component": "data-visualization"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "status-indicator",
+    "property": {
+      "item": "value-text",
+      "type": "color",
+      "value": "control-primary-detail"
+    },
+    "component": "data-visualization"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "android",
+    "property": {
+      "item": "days-text",
+      "type": "color",
+      "value": "gray-tertiary-text"
+    },
+    "component": "date-picker"
+    },
   {
     "state": [
       "normal"
@@ -1358,7 +1064,7 @@
       "value": "date-picker-text"
     },
     "component": "date-picker"
-  },
+    },
   {
     "state": [
       "normal",
@@ -1372,239 +1078,46 @@
       "value": "navigation-text"
     },
     "component": "date-picker"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "control-accent-text"
     },
-    "component": "notification-badge"
-  },
   {
     "state": [
       "normal"
     ],
     "parent": [],
+    "context": "android",
     "property": {
-      "item": "tertiary-icon",
+      "item": "header-text",
       "type": "color",
-      "value": "text-tertiary"
+      "value": "date-picker-header"
     },
-    "component": "list-view"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "property": {
-      "item": "title-text",
-      "type": "color",
-      "value": "text-primary"
+    "component": "date-picker"
     },
-    "component": "dialog-alert"
-  },
-  {
-    "state": [
-      "normal",
-      "on"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "toggle-on"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "control-primary-disabled"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "property": {
-      "item": "shadow",
-      "type": "color",
-      "value": "shadow-level-one-disabled"
-    },
-    "component": "shadow-level-one"
-  },
   {
     "state": [
       "normal"
     ],
     "parent": [],
-    "context": "quiet",
+    "context": "android",
     "property": {
-      "item": "text",
+      "item": "header-background",
       "type": "color",
-      "value": "control-primary"
+      "value": "navigation-secondary"
     },
-    "component": "button"
-  },
-  {
-    "state": [
-      "hover",
-      "off"
-    ],
-    "parent": [],
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "toggle-off-text-hover"
+    "component": "date-picker"
     },
-    "component": "toggle-button"
-  },
   {
     "state": [
       "normal"
     ],
     "parent": [],
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "input-text"
-    },
-    "component": "dropdown-list"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "text-primary-disabled"
-    },
-    "component": "toggle-switch"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "property": {
-      "item": "body-icon",
-      "type": "color",
-      "value": "text-secondary"
-    },
-    "component": "dialog-alert"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "quiet-toggle-on"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "value",
+    "context": "ios",
     "property": {
       "item": "text",
       "type": "color",
       "value": "text-primary"
     },
-    "component": "label"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "popup-text"
+    "component": "date-picker"
     },
-    "component": "list-item"
-  },
-  {
-    "state": [
-      "hover"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "control-primary-hover"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "buffer"
-    ],
-    "parent": [],
-    "context": "detail",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-buffer"
-    },
-    "component": "track"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "primary",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "navigation-text"
-    },
-    "component": "navigation"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
-    "context": "primary",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-primary-pressed"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "focus"
-    ],
-    "parent": [],
-    "context": "secondary",
-    "property": {
-      "item": "border",
-      "type": "color",
-      "value": "control-secondary-focus"
-    },
-    "component": "button"
-  },
   {
     "state": [
       "normal"
@@ -1617,7 +1130,663 @@
       "value": "control-bright"
     },
     "component": "date-picker"
-  },
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "title-icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "dialog-alert"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "body-icon",
+      "type": "color",
+      "value": "text-secondary"
+    },
+    "component": "dialog-alert"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "body-text",
+      "type": "color",
+      "value": "text-secondary"
+    },
+    "component": "dialog-alert"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "title-text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "dialog-alert"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "close-icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "dialog-alert"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "strong",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "dim-strong"
+    },
+    "component": "dim-layer"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "subtle",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "dim-subtle"
+    },
+    "component": "dim-layer"
+    },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "dot-hover"
+    },
+    "component": "dot-navigation"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "dot"
+    },
+    "component": "dot-navigation"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "input-text"
+    },
+    "component": "dropdown-list"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "input-text-disabled"
+    },
+    "component": "dropdown-list"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "arrow-icon",
+      "type": "color",
+      "value": "input-text"
+    },
+    "component": "dropdown-list"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "arrow-icon",
+      "type": "color",
+      "value": "input-text-disabled"
+    },
+    "component": "dropdown-list"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "value",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "label"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "regular",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-tertiary"
+    },
+    "component": "label"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "value",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "label"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "regular",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-tertiary"
+    },
+    "component": "label"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "value",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary-disabled"
+    },
+    "component": "label"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text-support",
+      "type": "color",
+      "value": "gray-secondary-text"
+    },
+    "component": "list-item"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "popup-text"
+    },
+    "component": "list-item"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text-results",
+      "type": "color",
+      "value": "gray-primary-text"
+    },
+    "component": "list-item"
+    },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "popup-list-hover"
+    },
+    "component": "list-item"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "popup-text-disabled"
+    },
+    "component": "list-item"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "popup-text-disabled"
+    },
+    "component": "list-item"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "popup-text"
+    },
+    "component": "list-item"
+    },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "popup-list-selected"
+    },
+    "component": "list-item"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-primary-disabled"
+    },
+    "component": "list-view"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "tertiary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-tertiary-disabled"
+    },
+    "component": "list-view"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "primary-text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "list-view"
+    },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "list-pressed"
+    },
+    "component": "list-view"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-secondary-disabled"
+    },
+    "component": "list-view"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "tertiary-text",
+      "type": "color",
+      "value": "text-tertiary"
+    },
+    "component": "list-view"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "avatar",
+      "type": "color",
+      "value": "list-avatar-disabled"
+    },
+    "component": "list-view"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "header-text",
+      "type": "color",
+      "value": "text-tertiary"
+    },
+    "component": "list-view"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "primary-icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "list-view"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "secondary-icon",
+      "type": "color",
+      "value": "text-secondary"
+    },
+    "component": "list-view"
+    },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "list-hover"
+    },
+    "component": "list-view"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "tertiary-icon",
+      "type": "color",
+      "value": "text-tertiary"
+    },
+    "component": "list-view"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "primary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary-disabled"
+    },
+    "component": "list-view"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "header-background",
+      "type": "color",
+      "value": "content-tertiary"
+    },
+    "component": "list-view"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "tertiary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-tertiary-disabled"
+    },
+    "component": "list-view"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-secondary-disabled"
+    },
+    "component": "list-view"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "secondary-text",
+      "type": "color",
+      "value": "text-secondary"
+    },
+    "component": "list-view"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "navigation-text"
+    },
+    "component": "navigation"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "primary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "navigation-text"
+    },
+    "component": "navigation"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "primary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "navigation-primary"
+    },
+    "component": "navigation"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "navigation-secondary"
+    },
+    "component": "navigation"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "navigation-text"
+    },
+    "component": "navigation"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "primary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "navigation-text"
+    },
+    "component": "navigation"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "option",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-accent-text"
+    },
+    "component": "notification-badge"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-accent-text"
+    },
+    "component": "notification-badge"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-notification"
+    },
+    "component": "notification-badge"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "option",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-accent"
+    },
+    "component": "notification-badge"
+    },
   {
     "state": [
       "normal"
@@ -1625,87 +1794,418 @@
     "parent": [],
     "context": "accent",
     "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "control-accent-text"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "hover"
-    ],
-    "parent": [],
-    "property": {
       "item": "background",
       "type": "color",
-      "value": "list-hover"
+      "value": "control-accent"
     },
-    "component": "list-view"
-  },
-  {
-    "state": [
-      "hover"
-    ],
-    "parent": [],
-    "context": "social-media-primary",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-primary-hover"
+    "component": "notification-bar"
     },
-    "component": "button"
-  },
-  {
-    "state": [
-      "focus"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "control-primary"
-    },
-    "component": "button"
-  },
   {
     "state": [
       "normal"
     ],
     "parent": [],
+    "context": "accent",
+    "property": {
+      "item": "primary-text",
+      "type": "color",
+      "value": "light-primary-text"
+    },
+    "component": "notification-bar"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "themed",
+    "property": {
+      "item": "primary-text",
+      "type": "color",
+      "value": "light-primary-text"
+    },
+    "component": "notification-bar"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "white",
+    "property": {
+      "item": "primary-text",
+      "type": "color",
+      "value": "gray-primary-text"
+    },
+    "component": "notification-bar"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "white",
     "property": {
       "item": "background",
       "type": "color",
-      "value": "content-primary"
+      "value": "tooltip-light"
     },
-    "component": "spring-board"
-  },
+    "component": "notification-bar"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "themed",
+    "property": {
+      "item": "secondary-text",
+      "type": "color",
+      "value": "light-secondary-text"
+    },
+    "component": "notification-bar"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "accent",
+    "property": {
+      "item": "button-text",
+      "type": "color",
+      "value": "light-primary-text"
+    },
+    "component": "notification-bar"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "accent",
+    "property": {
+      "item": "secondary-text",
+      "type": "color",
+      "value": "light-secondary-text"
+    },
+    "component": "notification-bar"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "themed",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "tooltip-dark"
+    },
+    "component": "notification-bar"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "white",
+    "property": {
+      "item": "secondary-text",
+      "type": "color",
+      "value": "gray-secondary-text"
+    },
+    "component": "notification-bar"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "white",
+    "property": {
+      "item": "button-text",
+      "type": "color",
+      "value": "control-primary"
+    },
+    "component": "notification-bar"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "themed",
+    "property": {
+      "item": "button-text",
+      "type": "color",
+      "value": "light-primary-text"
+    },
+    "component": "notification-bar"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "popup"
+    },
+    "component": "popup"
+    },
   {
     "state": [
       "normal",
       "on"
     ],
     "parent": [],
+    "context": "default",
     "property": {
-      "item": "text",
+      "item": "icon",
       "type": "color",
-      "value": "toggle-on-text"
+      "value": "control-primary-text"
     },
-    "component": "toggle-button"
-  },
+    "component": "radio-button"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-primary-disabled"
+    },
+    "component": "radio-button"
+    },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-primary"
+    },
+    "component": "radio-button"
+    },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "control-primary-focus"
+    },
+    "component": "radio-button"
+    },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-primary-off"
+    },
+    "component": "radio-button"
+    },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "control-primary-focus"
+    },
+    "component": "radio-button"
+    },
   {
     "state": [
       "normal"
     ],
     "parent": [],
+    "context": "default",
     "property": {
-      "item": "primary-icon",
+      "item": "text",
       "type": "color",
       "value": "text-primary"
     },
-    "component": "list-view"
-  },
+    "component": "radio-button"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary-disabled"
+    },
+    "component": "radio-button"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-primary-text-disabled"
+    },
+    "component": "radio-button"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon-button",
+      "type": "color",
+      "value": "input-text-disabled"
+    },
+    "component": "search-box"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon-button",
+      "type": "color",
+      "value": "gray-primary-text"
+    },
+    "component": "search-box"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "shadow",
+      "type": "color",
+      "value": "shadow-level-one"
+    },
+    "component": "shadow-level-one"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "shadow",
+      "type": "color",
+      "value": "shadow-level-one-disabled"
+    },
+    "component": "shadow-level-one"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "shadow",
+      "type": "color",
+      "value": "shadow-level-three"
+    },
+    "component": "shadow-level-three"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "shadow",
+      "type": "color",
+      "value": "shadow-level-two"
+    },
+    "component": "shadow-level-two"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "content-primary-disabled"
+    },
+    "component": "spring-board"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "content-primary"
+    },
+    "component": "spring-board"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "primary-text"
+    },
+    "component": "spring-board"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "springboard-icon-disabled"
+    },
+    "component": "spring-board"
+    },
   {
     "state": [
       "focus"
@@ -1718,7 +2218,846 @@
       "value": "springboard-focus"
     },
     "component": "spring-board"
-  },
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "springboard-icon"
+    },
+    "component": "spring-board"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "primary-text-disabled"
+    },
+    "component": "spring-board"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "content-background",
+      "type": "color",
+      "value": "content-primary"
+    },
+    "component": "spring-board"
+    },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "springboard-hover"
+    },
+    "component": "spring-board"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "primary-text"
+    },
+    "component": "spring-board"
+    },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "springboard-pressed"
+    },
+    "component": "spring-board"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "springboard-icon"
+    },
+    "component": "spring-board"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "springboard-icon-disabled"
+    },
+    "component": "spring-board"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "primary-text-disabled"
+    },
+    "component": "spring-board"
+    },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "springboard-pressed"
+    },
+    "component": "spring-board"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "content-background",
+      "type": "color",
+      "value": "content-background"
+    },
+    "component": "spring-board"
+    },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "springboard-focus"
+    },
+    "component": "spring-board"
+    },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "springboard-hover"
+    },
+    "component": "spring-board"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "ios",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "status-bar-ios-text"
+    },
+    "component": "status-bar"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "ios",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "status-bar-ios-text"
+    },
+    "component": "status-bar"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "ios",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "status-bar-ios"
+    },
+    "component": "status-bar"
+    },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "tabs-selected"
+    },
+    "component": "tabs"
+    },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "tabs-selected"
+    },
+    "component": "tabs"
+    },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "tabs-selected"
+    },
+    "component": "tabs"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "tabs-normal"
+    },
+    "component": "tabs"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "validation",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-validated"
+    },
+    "component": "text"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "validation",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-validated"
+    },
+    "component": "text"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "clear-icon",
+      "type": "color",
+      "value": "gray-tertiary-text"
+    },
+    "component": "text-box"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "input-disabled"
+    },
+    "component": "text-box"
+    },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "input-focus"
+    },
+    "component": "text-box"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "input"
+    },
+    "component": "text-box"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "hint-text",
+      "type": "color",
+      "value": "input-text-disabled"
+    },
+    "component": "text-box"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-border-disabled"
+    },
+    "component": "text-box"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "input-text"
+    },
+    "component": "text-box"
+    },
+  {
+    "state": [
+      "validated"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "input-validated-text"
+    },
+    "component": "text-box"
+    },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-border-focus"
+    },
+    "component": "text-box"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "input-text-disabled"
+    },
+    "component": "text-box"
+    },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-border-hover"
+    },
+    "component": "text-box"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "clear-icon",
+      "type": "color",
+      "value": "input-text-disabled"
+    },
+    "component": "text-box"
+    },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "input-hover"
+    },
+    "component": "text-box"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "hint-text",
+      "type": "color",
+      "value": "input-hint-text"
+    },
+    "component": "text-box"
+    },
+  {
+    "state": [
+      "validated"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "input-validated-background"
+    },
+    "component": "text-box"
+    },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "focus-border",
+      "type": "color",
+      "value": "input-border-focus"
+    },
+    "component": "text-box"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-border"
+    },
+    "component": "text-box"
+    },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "input-focus"
+    },
+    "component": "text-box"
+    },
+  {
+    "state": [
+      "validated"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-validated-border"
+    },
+    "component": "text-box"
+    },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "thumb"
+    },
+    "component": "thumb"
+    },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "control-primary-focus"
+    },
+    "component": "thumb"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "thumb-disabled"
+    },
+    "component": "thumb"
+    },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "control-primary-focus"
+    },
+    "component": "thumb"
+    },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "toggle-on-text"
+    },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "toggle-off-text"
+    },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "toggle-on-text"
+    },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "disabled",
+      "off"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "quiet-toggle-off-text-disabled"
+    },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "disabled",
+      "on"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "toggle-on-disabled"
+    },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "quiet-toggle-off-text"
+    },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "hover",
+      "off"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "quiet-toggle-off-hover"
+    },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "quiet-toggle-on-text"
+    },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "disabled",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "toggle-off-text-disabled"
+    },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "disabled",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "toggle-off-text-disabled"
+    },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "quiet-toggle-on-text"
+    },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "quiet-toggle-on"
+    },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "toggle-off-text"
+    },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "toggle-on-text"
+    },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "disabled",
+      "on"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "toggle-on-text-disabled"
+    },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "disabled",
+      "on"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "toggle-on-text-disabled"
+    },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "quiet-toggle-on-text"
+    },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "quiet-toggle-on"
+    },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "hover",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "toggle-off-text-hover"
+    },
+    "component": "toggle-button"
+    },
   {
     "state": [
       "normal",
@@ -1732,32 +3071,48 @@
       "value": "quiet-toggle-off-text"
     },
     "component": "toggle-button"
-  },
+    },
   {
     "state": [
-      "disabled"
+      "disabled",
+      "off"
     ],
     "parent": [],
-    "context": "tertiary",
+    "context": "default",
     "property": {
-      "item": "text",
+      "item": "background",
       "type": "color",
-      "value": "text-tertiary-disabled"
+      "value": "toggle-off-disabled"
     },
-    "component": "list-view"
-  },
+    "component": "toggle-button"
+    },
   {
     "state": [
-      "normal"
+      "normal",
+      "on"
     ],
     "parent": [],
+    "context": "default",
     "property": {
-      "item": "text-bullets",
+      "item": "background",
       "type": "color",
-      "value": "input-text"
+      "value": "toggle-on"
     },
-    "component": "text-box"
-  },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "toggle-on"
+    },
+    "component": "toggle-button"
+    },
   {
     "state": [
       "pressed"
@@ -1765,23 +3120,136 @@
     "parent": [],
     "context": "quiet",
     "property": {
-      "item": "icon",
+      "item": "text",
       "type": "color",
       "value": "quiet-toggle-on-text"
+    },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "toggle-off"
+    },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "hover",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "toggle-off-hover"
+    },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "hover",
+      "off"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "quiet-toggle-off-text-hover"
+    },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "disabled",
+      "on"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "quiet-toggle-on-text-disabled"
+    },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "disabled",
+      "on"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "quiet-toggle-on-text-disabled"
+    },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "hover",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "toggle-off-text-hover"
+    },
+    "component": "toggle-button"
+    },
+  {
+    "state": [
+      "disabled",
+      "off"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "quiet-toggle-off-text-disabled"
     },
     "component": "toggle-button"
   },
   {
     "state": [
-      "normal"
+      "pressed"
     ],
     "parent": [],
+    "context": "default",
     "property": {
-      "item": "shadow",
+      "item": "icon",
       "type": "color",
-      "value": "shadow-level-one"
+      "value": "toggle-on-text"
     },
-    "component": "shadow-level-one"
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "off"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "quiet-toggle-off-text-hover"
+    },
+    "component": "toggle-button"
   },
   {
     "state": [
@@ -1799,515 +3267,132 @@
   },
   {
     "state": [
-      "disabled"
+      "normal"
     ],
     "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "control-primary-disabled"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
+    "context": "default",
     "property": {
       "item": "text",
       "type": "color",
-      "value": "primary-text-disabled"
+      "value": "text-primary"
     },
-    "component": "spring-board"
-  },
-  {
-    "state": [
-      "hover"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "popup-list-hover"
-    },
-    "component": "list-item"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "themed",
-    "property": {
-      "item": "secondary-text",
-      "type": "color",
-      "value": "light-secondary-text"
-    },
-    "component": "notification-bar"
+    "component": "toggle-switch"
   },
   {
     "state": [
       "disabled"
     ],
     "parent": [],
+    "context": "default",
     "property": {
-      "item": "clear-icon",
+      "item": "text",
       "type": "color",
-      "value": "input-text-disabled"
+      "value": "text-primary-disabled"
     },
-    "component": "text-box"
-  },
-  {
-    "state": [
-      "disabled",
-      "off"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "toggle-off-disabled"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "text-results",
-      "type": "color",
-      "value": "gray-primary-text"
-    },
-    "component": "list-item"
-  },
-  {
-    "state": [
-      "normal",
-      "on"
-    ],
-    "parent": [],
-    "context": "detail",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-primary-detail"
-    },
-    "component": "track"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "secondary",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "navigation-secondary"
-    },
-    "component": "navigation"
+    "component": "toggle-switch"
   },
   {
     "state": [
       "focus"
     ],
     "parent": [],
-    "context": "primary",
+    "context": "default",
     "property": {
       "item": "border",
       "type": "color",
       "value": "control-primary-focus"
     },
-    "component": "button"
+    "component": "toggle-switch"
   },
   {
     "state": [
-      "disabled"
+      "pressed"
     ],
     "parent": [],
-    "context": "secondary",
+    "context": "default",
     "property": {
-      "item": "background",
+      "item": "border",
       "type": "color",
-      "value": "control-secondary-disabled"
+      "value": "control-primary-focus"
     },
-    "component": "button"
+    "component": "toggle-switch"
   },
   {
-    "state": [
-      "normal"
-    ],
+    "state": [],
     "parent": [],
-    "context": "white",
-    "property": {
-      "item": "primary-text",
-      "type": "color",
-      "value": "gray-primary-text"
-    },
-    "component": "notification-bar"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "white",
-    "property": {
-      "item": "button-text",
-      "type": "color",
-      "value": "control-primary"
-    },
-    "component": "notification-bar"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "primary-text",
-      "type": "color",
-      "value": "text-primary"
-    },
-    "component": "list-view"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "white",
+    "context": "light",
     "property": {
       "item": "background",
       "type": "color",
       "value": "tooltip-light"
     },
-    "component": "notification-bar"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "regular",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "text-tertiary"
-    },
-    "component": "label"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "social-media-primary",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "control-primary-text"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "normal",
-      "off"
-    ],
-    "parent": [],
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "toggle-off-text"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "primary-text"
-    },
-    "component": "spring-board"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "toggle-on"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "header-background",
-      "type": "color",
-      "value": "content-tertiary"
-    },
-    "component": "list-view"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "input-focus"
-    },
-    "component": "text-box"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "popup"
-    },
-    "component": "popup"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "text-primary-disabled"
-    },
-    "component": "check-box"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "header-text",
-      "type": "color",
-      "value": "text-tertiary"
-    },
-    "component": "list-view"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "property": {
-      "item": "border",
-      "type": "color",
-      "value": "input-border-disabled"
-    },
-    "component": "text-box"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
-    "context": "social-media-primary",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-primary-pressed"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "hover"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "dot-hover"
-    },
-    "component": "dot-navigation"
-  },
-  {
-    "state": [
-      "normal",
-      "on"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "quiet-toggle-on-text"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "hover",
-      "off"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "toggle-off-hover"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "text-support",
-      "type": "color",
-      "value": "gray-secondary-text"
-    },
-    "component": "list-item"
-  },
-  {
-    "state": [
-      "normal",
-      "off"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-primary-track-off"
-    },
-    "component": "track"
+    "component": "tooltip"
   },
   {
     "state": [],
     "parent": [],
-    "context": "secondary",
+    "context": "dark",
     "property": {
       "item": "text",
       "type": "color",
-      "value": "navigation-text"
+      "value": "tooltip-text-light"
     },
-    "component": "navigation"
+    "component": "tooltip"
   },
   {
-    "state": [
-      "disabled"
-    ],
+    "state": [],
     "parent": [],
-    "context": "primary",
+    "context": "validated",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "tooltip-text-light"
+    },
+    "component": "tooltip"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "dark",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "tooltip-text-light"
+    },
+    "component": "tooltip"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "validated",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "tooltip-text-light"
+    },
+    "component": "tooltip"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "validated",
     "property": {
       "item": "background",
       "type": "color",
-      "value": "control-primary-disabled"
+      "value": "tooltip-validated"
     },
-    "component": "button"
+    "component": "tooltip"
   },
   {
-    "state": [
-      "disabled"
-    ],
+    "state": [],
     "parent": [],
-    "context": "secondary",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "control-secondary-text-disabled"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "text-primary"
-    },
-    "component": "radio-button"
-  },
-  {
-    "state": [
-      "normal",
-      "on"
-    ],
-    "parent": [],
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "toggle-on-text"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "popup-text-disabled"
-    },
-    "component": "list-item"
-  },
-  {
-    "state": [
-      "normal",
-      "on"
-    ],
-    "parent": [],
+    "context": "dark",
     "property": {
       "item": "background",
       "type": "color",
-      "value": "control-primary"
+      "value": "tooltip-dark"
     },
-    "component": "check-box"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "springboard-icon-disabled"
-    },
-    "component": "spring-board"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
-    "property": {
-      "item": "border",
-      "type": "color",
-      "value": "control-primary-focus"
-    },
-    "component": "radio-button"
+    "component": "tooltip"
   },
   {
     "state": [],
@@ -2321,103 +3406,15 @@
     "component": "tooltip"
   },
   {
-    "state": [
-      "focus"
-    ],
+    "state": [],
     "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-primary-focus"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "normal",
-      "on"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "quiet-toggle-on-text"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "icon-button",
-      "type": "color",
-      "value": "gray-primary-text"
-    },
-    "component": "search-box"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "property": {
-      "item": "avatar",
-      "type": "color",
-      "value": "list-avatar-disabled"
-    },
-    "component": "list-view"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
+    "context": "light",
     "property": {
       "item": "text",
       "type": "color",
-      "value": "toggle-on-text"
+      "value": "tooltip-text-dark"
     },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "border",
-      "type": "color",
-      "value": "input-border"
-    },
-    "component": "text-box"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "subtle",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "dim-subtle"
-    },
-    "component": "dim-layer"
-  },
-  {
-    "state": [
-      "normal",
-      "on"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "popup-list-selected"
-    },
-    "component": "list-item"
+    "component": "tooltip"
   },
   {
     "state": [
@@ -2425,399 +3422,37 @@
       "off"
     ],
     "parent": [],
+    "context": "default",
     "property": {
       "item": "background",
       "type": "color",
-      "value": "control-primary-off"
-    },
-    "component": "check-box"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
-    "property": {
-      "item": "border",
-      "type": "color",
-      "value": "control-primary-focus"
-    },
-    "component": "thumb"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "springboard-icon"
-    },
-    "component": "spring-board"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "text-primary"
-    },
-    "component": "check-box"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "input-disabled"
-    },
-    "component": "text-box"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "secondary-text",
-      "type": "color",
-      "value": "text-secondary"
-    },
-    "component": "list-view"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-track-disabled"
+      "value": "control-primary-track-off"
     },
     "component": "track"
   },
   {
-    "state": [],
+    "state": [
+      "buffer"
+    ],
     "parent": [],
-    "context": "ios",
+    "context": "detail",
     "property": {
       "item": "background",
       "type": "color",
-      "value": "status-bar-ios"
+      "value": "control-buffer"
     },
-    "component": "status-bar"
+    "component": "track"
   },
   {
     "state": [
       "disabled"
     ],
     "parent": [],
-    "context": "primary",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "control-primary-text-disabled"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "context": "secondary",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "control-secondary-text-disabled"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "value",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "text-primary"
-    },
-    "component": "label"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "ios",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "text-primary"
-    },
-    "component": "date-picker"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "quiet-toggle-on-text"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "disabled",
-      "off"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "quiet-toggle-off-text-disabled"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "disabled",
-      "on"
-    ],
-    "parent": [],
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "toggle-on-text-disabled"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "input-text-disabled"
-    },
-    "component": "text-box"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "android",
-    "property": {
-      "item": "header-background",
-      "type": "color",
-      "value": "navigation-secondary"
-    },
-    "component": "date-picker"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "themed",
-    "property": {
-      "item": "primary-text",
-      "type": "color",
-      "value": "light-primary-text"
-    },
-    "component": "notification-bar"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "property": {
-      "item": "arrow-icon",
-      "type": "color",
-      "value": "input-text-disabled"
-    },
-    "component": "combo-box"
-  },
-  {
-    "state": [
-      "disabled",
-      "on"
-    ],
-    "parent": [],
+    "context": "default",
     "property": {
       "item": "background",
       "type": "color",
-      "value": "toggle-on-disabled"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "context": "secondary",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "text-secondary-disabled"
-    },
-    "component": "list-view"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "context": "accent",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-accent-disabled"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "focus"
-    ],
-    "parent": [],
-    "property": {
-      "item": "border",
-      "type": "color",
-      "value": "control-primary-focus"
-    },
-    "component": "check-box"
-  },
-  {
-    "state": [
-      "normal",
-      "off"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-primary-off"
-    },
-    "component": "radio-button"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
-    "property": {
-      "item": "border",
-      "type": "color",
-      "value": "input-border-focus"
-    },
-    "component": "text-box"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "toggle-on-text"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "hover"
-    ],
-    "parent": [],
-    "context": "social-media-white",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-white-hover"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "tertiary-text",
-      "type": "color",
-      "value": "text-tertiary"
-    },
-    "component": "list-view"
-  },
-  {
-    "state": [
-      "normal",
-      "on"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "quiet-toggle-on"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "tabs-selected"
-    },
-    "component": "tabs"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "arrow-icon",
-      "type": "color",
-      "value": "input-text"
-    },
-    "component": "combo-box"
-  },
-  {
-    "state": [
-      "normal",
-      "on"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-primary"
+      "value": "control-track-disabled"
     },
     "component": "track"
   },
@@ -2836,52 +3471,18 @@
     "component": "track"
   },
   {
-    "state": [],
-    "parent": [],
-    "context": "secondary",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "navigation-text"
-    },
-    "component": "navigation"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "ios",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "status-bar-ios-text"
-    },
-    "component": "status-bar"
-  },
-  {
     "state": [
-      "disabled"
+      "normal",
+      "on"
     ],
     "parent": [],
-    "context": "primary",
+    "context": "default",
     "property": {
-      "item": "icon",
+      "item": "background",
       "type": "color",
-      "value": "control-primary-text-disabled"
+      "value": "control-primary"
     },
-    "component": "button"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "accent",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "control-accent-text"
-    },
-    "component": "button"
+    "component": "track"
   },
   {
     "state": [
@@ -2889,248 +3490,12 @@
       "on"
     ],
     "parent": [],
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "tabs-selected"
-    },
-    "component": "tabs"
-  },
-  {
-    "state": [
-      "focus"
-    ],
-    "parent": [],
-    "property": {
-      "item": "border",
-      "type": "color",
-      "value": "control-primary-focus"
-    },
-    "component": "toggle-switch"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "control-primary-text-disabled"
-    },
-    "component": "check-box"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "strong",
+    "context": "detail",
     "property": {
       "item": "background",
       "type": "color",
-      "value": "dim-strong"
+      "value": "control-primary-detail"
     },
-    "component": "dim-layer"
-  },
-  {
-    "state": [
-      "hover",
-      "off"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "quiet-toggle-off-text-hover"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "focus"
-    ],
-    "parent": [],
-    "property": {
-      "item": "border",
-      "type": "color",
-      "value": "control-primary-focus"
-    },
-    "component": "thumb"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "shadow",
-      "type": "color",
-      "value": "shadow-level-three"
-    },
-    "component": "shadow-level-three"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "primary-text"
-    },
-    "component": "spring-board"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "accent",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-accent"
-    },
-    "component": "notification-bar"
-  },
-  {
-    "state": [
-      "hover"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "input-hover"
-    },
-    "component": "text-box"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "input"
-    },
-    "component": "text-box"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "android",
-    "property": {
-      "item": "header-text",
-      "type": "color",
-      "value": "date-picker-header"
-    },
-    "component": "date-picker"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "social-media-primary",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-primary"
-    },
-    "component": "button"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "context": "value",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "text-primary-disabled"
-    },
-    "component": "label"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "optiol",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "control-accent-text"
-    },
-    "component": "notification-badge"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "thumb-disabled"
-    },
-    "component": "thumb"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "primary-text-disabled"
-    },
-    "component": "spring-board"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-primary-disabled"
-    },
-    "component": "check-box"
-  },
-  {
-    "state": [
-      "hover",
-      "off"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "quiet-toggle-off-hover"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "normal",
-      "on"
-    ],
-    "parent": [],
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-primary"
-    },
-    "component": "radio-button"
+    "component": "track"
   }
 ]

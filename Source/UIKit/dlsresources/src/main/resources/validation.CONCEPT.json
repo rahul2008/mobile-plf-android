@@ -1,0 +1,76 @@
+[
+  {
+    "group-blue": {
+      "textbox-validation-background": {
+        "ultralight": {
+          "color-code": "#ffffff"
+        },
+        "very-light": {
+          "color-code": "#ffffff"
+        },
+        "bright": {
+          "color-code": "#ffffff"
+        },
+        "verry-dark": {
+          "color-code": "#ffffff"
+        }
+      },
+      "textbox-validation-border": {
+        "ultralight": {
+          "color-range": "signal-orange"
+        },
+        "very-light": {
+          "color-range": "no-color"
+        },
+        "bright": {
+          "color-range": "no-color"
+        },
+        "verry-dark": {
+          "color-range": "no-color"
+        }
+      },
+      "textbox-validation-text": {
+        "ultralight": {
+          "color-range": "signal-orange"
+        },
+        "very-light": {
+          "color-range": "signal-orange"
+        },
+        "bright": {
+          "color-range": "signal-orange"
+        },
+        "verry-dark": {
+          "color-range": "signal-orange"
+        }
+      },
+      "validation-message-text": {
+        "ultralight": {
+          "color-range": "signal-orange"
+        },
+        "very-light": {
+          "color-range": "signal-red"
+        },
+        "bright": {
+          "color-range": "signal-orange"
+        },
+        "verry-dark": {
+          "color-range": "signal-orange"
+        }
+      },
+      "validation-message-icon": {
+        "ultralight": {
+          "color-range": "signal-orange"
+        },
+        "very-light": {
+          "color-range": "signal-red"
+        },
+        "bright": {
+          "color-range": "signal-orange"
+        },
+        "verry-dark": {
+          "color-range": "signal-orange"
+        }
+      }
+    }
+  }
+]

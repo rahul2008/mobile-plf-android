@@ -29,12 +29,7 @@
 
     <style name="UIDLabelDescription">
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
-        <!--
-        <item name="uidLabelTextColor">?attr/uidTextPrimary</item>
-        <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_100</item>
-        -->
         <item name="android:textColor">?attr/uidLabelRegularNormalTextColor</item>
-
     </style>
 
     <style name="UIDLabelDescription.MarginStart">

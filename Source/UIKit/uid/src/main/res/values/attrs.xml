@@ -54,6 +54,7 @@
         <attr name="uidControlTrackOffAlpha" format="reference|float"/>
         <attr name="uidControlBufferAlpha" format="reference|float"/>
         <attr name="uidGrayTextTertiary" format="reference|color"/>
+        <attr name="uidDefaultDisabledAlpha" format="reference|float"/>
     </declare-styleable>
 
     <!-- <declare-styleable name="DlsColorPallet">

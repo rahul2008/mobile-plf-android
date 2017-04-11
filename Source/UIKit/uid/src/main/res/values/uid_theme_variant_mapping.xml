@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="UIDPrimaryControl">
-    </style>
+    <style name="UIDPrimaryControl"></style>
 
-    <style name="UIDPrimaryControl.AlternatePrimary">
-        <!--<item name="uidButtonPrimaryNormalBackgroundColor">?attr/uidControlPrimary</item>
-        <item name="uidButtonPrimaryPressedBackgroundColor">?attr/uidControlPrimaryPressed</item>
-        <item name="uidButtonPrimaryDisabledBackgroundColor">?attr/uidControlPrimaryDisabled</item>
-        -->
-    </style>
+    <style name="UIDPrimaryControl.AlternatePrimary"></style>
 
     <style name="UIDPrimaryControl.Secondary">
         <item name="uidButtonPrimaryNormalBackgroundColor">
@@ -33,6 +27,7 @@
         <item name="uidButtonPrimaryPressedBackgroundColor">
             ?attr/uidButtonAccentPressedBackgroundColor
         </item>
+        <item name="uidDefaultDisabledAlpha">@dimen/uid_alpha_per_35</item>
         <item name="uidButtonPrimaryDisabledBackgroundColor">
             ?attr/uidButtonAccentDisabledBackgroundColor
         </item>

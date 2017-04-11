@@ -25,9 +25,9 @@ import android.view.MenuItem;
 
 import com.philips.platform.catalogapp.events.AccentColorChangedEvent;
 import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
+import com.philips.platform.catalogapp.events.ContentTonalRangeChangedEvent;
 import com.philips.platform.catalogapp.events.NavigationColorChangedEvent;
 import com.philips.platform.catalogapp.events.OptionMenuClickedEvent;
-import com.philips.platform.catalogapp.events.ContentTonalRangeChangedEvent;
 import com.philips.platform.catalogapp.themesettings.ThemeHelper;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
@@ -76,13 +76,6 @@ public class MainActivity extends AppCompatActivity {
                 s.substring(1).toLowerCase();
     }
 
-    public static
-    @StyleRes
-    int getThemeResourceId(Resources resources, final String packageName, final ColorRange colorRange, final ContentColor contentColor) {
-        int colorResourceId = getColorResourceId(resources, colorRange.name(), contentColor.name(), packageName);
-        return colorResourceId;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -102,12 +95,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void initTheme() {
         final ThemeConfiguration themeConfig = getThemeConfig();
-        final int themeResourceId = getThemeResourceId(themeConfig.getContext().getResources(), themeConfig.getContext().getPackageName(),
-                colorRange, contentColor);
+        final int themeResourceId = getThemeResourceId(getResources(), getPackageName(), colorRange, contentColor);
         themeConfig.add(navigationColor);
         themeConfig.add(accentColorRange);
         setTheme(themeResourceId);
         UIDHelper.init(themeConfig);
+    }
+
+    @StyleRes
+    int getThemeResourceId(Resources resources, final String packageName, final ColorRange colorRange, final ContentColor contentColor) {
+        final String themeName = String.format("Theme.DLS.%s.%s", toCamelCase(colorRange.name()), toCamelCase(contentColor.name()));
+
+        return resources.getIdentifier(themeName, "style", packageName);
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)

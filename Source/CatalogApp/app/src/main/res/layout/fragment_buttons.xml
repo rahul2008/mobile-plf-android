@@ -138,12 +138,13 @@
 
                 <com.philips.platform.uid.view.widget.Button
                     style="@style/UIDImageTextButton.Center"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/layout_margin_left_right"
                     android:layout_marginLeft="@dimen/layout_margin_left_right"
                     android:layout_marginRight="@dimen/layout_margin_left_right"
                     android:layout_marginTop="@dimen/button_gap"
+                    android:enabled="@{frag.isButtonsEnabled}"
                     android:text="@string/accent_button_label"
                     app:uidComponentType="Accent"/>
             </LinearLayout>
@@ -221,6 +222,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/layout_margin_left_right"
                     android:layout_marginTop="@dimen/button_gap"
+                    android:enabled="@{frag.isButtonsEnabled}"
                     android:text="@string/accent_button_label"
                     app:uidComponentType="Accent"/>
             </LinearLayout>

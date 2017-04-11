@@ -28,6 +28,7 @@ class BrushParser {
         def allAttributes = new ArrayList()
 
         Gson gson = new Gson();
+        brushesMap = brushesMap[0]
         brushesMap.each {
             semanticName, colorRange ->
                 def attributeName = "${DLSResourceConstants.LIB_PREFIX}" + semanticName.split("${DLSResourceConstants.HIPHEN}").collect {
