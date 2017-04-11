@@ -69,20 +69,18 @@ public class UCoreAdapter {
         this.context = context;
     }
 
-
     public <T> T getAppFrameworkClient(Class<T> clientClass, @NonNull final String accessToken, GsonConverter gsonConverter) {
-        String baseUrl = null;
-        if (userRegistrationImpl != null) {
-            if (clientClass == InsightClient.class)
-                baseUrl = "https://platforminfra-cs-platforminfrastaging.cloud.pcftest.com/";
-            else
-                baseUrl = userRegistrationImpl.getHSDPUrl();
-        }
-        if (baseUrl == null || baseUrl.isEmpty()) {
+        String url;
+        if (clientClass == InsightClient.class)
+            url = DataServicesManager.getInstance().fetchCoachingServiceUrlFromServiceDiscovery();
+        else
+            url = DataServicesManager.getInstance().fetchBaseUrlFromServiceDiscovery();
+
+        if (url == null || url.isEmpty()) {
             return null;
         }
 
-        return getClient(clientClass, baseUrl, accessToken, gsonConverter);
+        return getClient(clientClass, url, accessToken, gsonConverter);
     }
 
     public <T> T getClient(final Class<T> clientClass, @NonNull final String baseUrl,

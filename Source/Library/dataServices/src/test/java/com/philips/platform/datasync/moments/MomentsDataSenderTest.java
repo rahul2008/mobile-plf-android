@@ -174,7 +174,7 @@ public class MomentsDataSenderTest {
         verify(clientMock, never()).saveMoment(anyString(), anyString(), any(UCoreMoment.class));
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void ShouldNotSendToBE_WhenMomentSubjectIdIsNull() {
         when(momentMock.getSubjectId()).thenReturn(null);
         when(momentMock.getCreatorId()).thenReturn("1");
@@ -184,7 +184,7 @@ public class MomentsDataSenderTest {
         verify(clientMock, never()).saveMoment(anyString(), anyString(), any(UCoreMoment.class));
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void ShouldNotSendToBE_WhenMomentCreatorIdIsNull() {
         when(momentMock.getSubjectId()).thenReturn("2");
         when(momentMock.getCreatorId()).thenReturn(null);
@@ -194,7 +194,7 @@ public class MomentsDataSenderTest {
         verify(clientMock, never()).saveMoment(anyString(), anyString(), any(UCoreMoment.class));
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void ShouldNotSendToBE_WhenMomentSubjectIdIsEmpty() {
         when(momentMock.getSubjectId()).thenReturn("");
         when(momentMock.getCreatorId()).thenReturn("1");
@@ -204,7 +204,7 @@ public class MomentsDataSenderTest {
         verify(clientMock, never()).saveMoment(anyString(), anyString(), any(UCoreMoment.class));
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void ShouldNotSendToBE_WhenMomentCreatorIdIsEmpty() {
         when(momentMock.getSubjectId()).thenReturn("2");
         when(momentMock.getCreatorId()).thenReturn("");

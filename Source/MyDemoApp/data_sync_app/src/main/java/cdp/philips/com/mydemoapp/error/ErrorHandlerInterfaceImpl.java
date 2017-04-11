@@ -14,4 +14,9 @@ public class ErrorHandlerInterfaceImpl implements ErrorHandlingInterface{
     public void syncError(int error) {
         DSLog.e(DataServicesManager.TAG,"error = " + error);
     }
+
+    @Override
+    public void onServiceDiscoveryError(String error) {
+
+    }
 }

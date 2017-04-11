@@ -8,7 +8,9 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
-import com.google.gson.JsonObject;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
@@ -59,6 +61,7 @@ import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.listeners.RegisterDeviceTokenListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.utils.DSLog;
+import com.philips.platform.core.utils.DataServicesConstants;
 import com.philips.platform.core.utils.EventingImpl;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
@@ -71,6 +74,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -78,11 +82,21 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class DataServicesManager {
 
     public static final String TAG = DataServicesManager.class.getName();
+
+    private Context mContext;
+
+    private ServiceDiscoveryInterface mServiceDiscoveryInterface;
+    private AppInfraInterface mAppInfraInterface;
+    private AppConfigurationInterface.AppConfigurationError mAppConfigurationError;
+
+    public String mDataServicesBaseUrl;
+    public String mDataServicesCoachingServiceUrl;
 
     private DBChangeListener dbChangeListener;
 
@@ -143,6 +157,68 @@ public class DataServicesManager {
         return sDataServicesManager;
     }
 
+    public void initializeDataServices(Context context, BaseAppDataCreator creator,
+                                       UserRegistrationInterface facade, ErrorHandlingInterface errorHandlingInterface) {
+        mContext = context;
+        fetchUrlFromServiceDiscovery();
+
+        this.mDataCreater = creator;
+        this.userRegistrationInterface = facade;
+        this.errorHandlingInterface = errorHandlingInterface;
+    }
+
+    @Deprecated
+    @SuppressWarnings("rawtypes")
+    public void initializeSyncMonitors(Context context, ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders, SynchronisationCompleteListener synchronisationCompleteListener) {
+        initSyncMonitors(context, fetchers, senders, synchronisationCompleteListener);
+    }
+
+    @SuppressWarnings("rawtypes")
+    public void initializeSyncMonitors(Context context, ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
+        initSyncMonitors(context, fetchers, senders, null);
+    }
+
+    private void initSyncMonitors(Context context, ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders, SynchronisationCompleteListener synchronisationCompleteListener) {
+        DSLog.i(DSLog.LOG, "In DataServicesManager.initializeSyncMonitors");
+        this.mCustomFetchers = fetchers;
+        this.mCustomSenders = senders;
+        this.mSynchronisationCompleteListener = synchronisationCompleteListener;
+        prepareInjectionsGraph(context);
+        startMonitors();
+    }
+
+    public void initializeDatabaseMonitor(Context context, DBDeletingInterface deletingInterface,
+                                          DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface, DBUpdatingInterface updatingInterface) {
+        this.mDeletingInterface = deletingInterface;
+        this.mFetchingInterface = fetchingInterface;
+        this.mSavingInterface = savingInterface;
+        this.mUpdatingInterface = updatingInterface;
+    }
+
+    public void synchronize() {
+        sendPullDataEvent();
+    }
+
+    private void sendPullDataEvent() {
+        synchronized (this) {
+            startMonitors();
+            mSynchronisationManager.startSync(mSynchronisationCompleteListener);
+        }
+    }
+
+    private void startMonitors() {
+        if (mCore != null) {
+            mCore.start();
+        }
+        if (mSynchronisationMonitor != null) {
+            mSynchronisationMonitor.start(mEventing);
+        }
+    }
+
+    public void configureSyncDataType(Set<String> fetchers) {
+        mSyncDataTypes = fetchers;
+    }
+
     @NonNull
     public void saveMoment(@NonNull final Moment moment, DBRequestListener<Moment> dbRequestListener) {
         DSLog.i(DSLog.LOG, "In DataServicesManager.saveMoment for " + moment.toString());
@@ -172,31 +248,30 @@ public class DataServicesManager {
         mEventing.post(new LoadConsentsRequest(dbFetchRequestListner));
     }
 
-
-    public ConsentDetail createConsentDetail(@NonNull final String detailType, final ConsentDetailStatusType consentDetailStatusType,String documentVersion, final String deviceIdentificationNumber) {
+    public ConsentDetail createConsentDetail(@NonNull final String detailType, final ConsentDetailStatusType consentDetailStatusType, String documentVersion, final String deviceIdentificationNumber) {
         return mDataCreater.createConsentDetail(detailType, consentDetailStatusType.getDescription(), documentVersion, deviceIdentificationNumber);
     }
 
     public void saveConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) {
-        mEventing.post(new DatabaseConsentSaveRequest(consentDetails,dbRequestListener));
+        mEventing.post(new DatabaseConsentSaveRequest(consentDetails, dbRequestListener));
     }
 
     public void updateConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) {
-        mEventing.post(new DatabaseConsentUpdateRequest(consentDetails,dbRequestListener));
+        mEventing.post(new DatabaseConsentUpdateRequest(consentDetails, dbRequestListener));
     }
 
-    public Settings createUserSettings(String locale ,String unit) {
-        Settings settings = mDataCreater.createSettings(unit,locale);
+    public Settings createUserSettings(String locale, String unit) {
+        Settings settings = mDataCreater.createSettings(unit, locale);
         return settings;
     }
 
     public void saveUserSettings(Settings settings, DBRequestListener<Settings> dbRequestListener) {
-        mEventing.post(new DatabaseSettingsSaveRequest(settings,dbRequestListener));
+        mEventing.post(new DatabaseSettingsSaveRequest(settings, dbRequestListener));
     }
 
 
     public void updateUserSettings(Settings settings, DBRequestListener<Settings> dbRequestListener) {
-        mEventing.post(new DatabaseSettingsUpdateRequest(settings,dbRequestListener));
+        mEventing.post(new DatabaseSettingsUpdateRequest(settings, dbRequestListener));
     }
 
 
@@ -222,7 +297,7 @@ public class DataServicesManager {
     public Measurement createMeasurement(@NonNull final String type, String value, String unit, @NonNull final MeasurementGroup measurementGroup) {
         Measurement measurement = mDataCreater.createMeasurement(type, measurementGroup);
         measurement.setValue(value);
-      //  measurement.setDateTime(DateTime.now());
+        //  measurement.setDateTime(DateTime.now());
         measurement.setUnit(unit);
         measurementGroup.addMeasurement(measurement);
         return measurement;
@@ -258,68 +333,6 @@ public class DataServicesManager {
         mEventing.post((new MomentsUpdateRequest(moments, dbRequestListener)));
     }
 
-    public void synchronize() {
-        sendPullDataEvent();
-    }
-
-    @Deprecated
-    @SuppressWarnings("rawtypes")
-    public void initializeSyncMonitors(Context context, ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders, SynchronisationCompleteListener synchronisationCompleteListener) {
-        initSyncMonitors(context, fetchers, senders, synchronisationCompleteListener);
-    }
-
-    @SuppressWarnings("rawtypes")
-    public void initializeSyncMonitors(Context context, ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
-        initSyncMonitors(context, fetchers, senders, null);
-    }
-
-    private void initSyncMonitors(Context context, ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders, SynchronisationCompleteListener synchronisationCompleteListener) {
-        DSLog.i(DSLog.LOG, "In DataServicesManager.initializeSyncMonitors");
-        this.mCustomFetchers = fetchers;
-        this.mCustomSenders = senders;
-        this.mSynchronisationCompleteListener = synchronisationCompleteListener;
-        prepareInjectionsGraph(context);
-        startMonitors();
-    }
-
-    private void sendPullDataEvent() {
-        synchronized (this) {
-            DSLog.i(DSLog.LOG, "In DataServicesManager.sendPullDataEvent");
-            startMonitors();
-            //mEventing.post(new ReadDataFromBackendRequest(null));
-            mSynchronisationManager.startSync(mSynchronisationCompleteListener);
-        }
-    }
-
-    private void startMonitors() {
-        if (mCore != null) {
-            DSLog.i(DSLog.LOG, "mCore not null, hence starting");
-            mCore.start();
-        }
-        if (mSynchronisationMonitor != null) {
-            DSLog.i(DSLog.LOG, "In DataServicesManager.mSynchronisationMonitor.start");
-            mSynchronisationMonitor.start(mEventing);
-        }
-    }
-
-    public void initializeDatabaseMonitor(Context context, DBDeletingInterface deletingInterface, DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface, DBUpdatingInterface updatingInterface) {
-        this.mDeletingInterface = deletingInterface;
-        this.mFetchingInterface = fetchingInterface;
-        this.mSavingInterface = savingInterface;
-        this.mUpdatingInterface = updatingInterface;
-    }
-
-    public void configureSyncDataType(Set<String> fetchers){
-        mSyncDataTypes = fetchers;
-    }
-
-    public void initializeDataServices(Context context, BaseAppDataCreator creator, UserRegistrationInterface facade, ErrorHandlingInterface errorHandlingInterface) {
-        DSLog.i("SPO", "initializeDataServices called");
-        this.mDataCreater = creator;
-        this.userRegistrationInterface = facade;
-        this.errorHandlingInterface = errorHandlingInterface;
-    }
-
     public void deleteAll(DBRequestListener dbRequestListener) {
         mEventing.post(new DataClearRequest(dbRequestListener));
     }
@@ -351,7 +364,6 @@ public class DataServicesManager {
         }
     }
 
-
     public MeasurementGroupDetail createMeasurementGroupDetail(String type, String value, MeasurementGroup mMeasurementGroup) {
         MeasurementGroupDetail measurementGroupDetail = mDataCreater.createMeasurementGroupDetail(type, mMeasurementGroup);
         measurementGroupDetail.setValue(value);
@@ -376,7 +388,7 @@ public class DataServicesManager {
 
         Characteristics chDetail;
         if (characteristics != null) {
-            chDetail = mDataCreater.createCharacteristics(detailType, detailValue,characteristics);
+            chDetail = mDataCreater.createCharacteristics(detailType, detailValue, characteristics);
         } else {
             chDetail = mDataCreater.createCharacteristics(detailType, detailValue);
         }
@@ -400,14 +412,14 @@ public class DataServicesManager {
     }
 
     public void fetchUserSettings(DBFetchRequestListner<Settings> dbFetchRequestListner) {
-      mEventing.post(new LoadSettingsRequest(dbFetchRequestListner));
+        mEventing.post(new LoadSettingsRequest(dbFetchRequestListner));
     }
 
-    public AppComponent getAppComponant(){
+    public AppComponent getAppComponant() {
         return mAppComponent;
     }
 
-    public void setAppComponant(AppComponent appComponent){
+    public void setAppComponant(AppComponent appComponent) {
         mAppComponent = appComponent;
     }
 
@@ -424,12 +436,12 @@ public class DataServicesManager {
     }
 
     //Insight
-    public void fetchInsights(DBFetchRequestListner dbFetchRequestListner){
+    public void fetchInsights(DBFetchRequestListner dbFetchRequestListner) {
         mEventing.post(new FetchInsightsFromDB(dbFetchRequestListner));
     }
 
-    public void deleteInsights(List<? extends Insight> insights, DBRequestListener<Insight> dbRequestListener){
-        mEventing.post(new DeleteInsightFromDB((List<Insight>) insights,dbRequestListener));
+    public void deleteInsights(List<? extends Insight> insights, DBRequestListener<Insight> dbRequestListener) {
+        mEventing.post(new DeleteInsightFromDB((List<Insight>) insights, dbRequestListener));
     }
 
     //Push Notification
@@ -442,7 +454,64 @@ public class DataServicesManager {
     }
 
     public void handlePushNotificationPayload(JSONObject jsonObject) throws JSONException {
-        String value = jsonObject.getString("dataSync");
-        System.out.println("****value*****" + value);
+        synchronize();
     }
+
+    //Service Discovery
+    protected void fetchUrlFromServiceDiscovery() {
+        mAppInfraInterface = new AppInfra.Builder().build(mContext);
+        mServiceDiscoveryInterface = mAppInfraInterface.getServiceDiscovery();
+        mAppConfigurationError = new AppConfigurationInterface.AppConfigurationError();
+
+        fetchBaseUrlFromServiceDiscovery();
+        fetchCoachingServiceUrlFromServiceDiscovery();
+    }
+
+    public String fetchBaseUrlFromServiceDiscovery() {
+
+        if( mDataServicesBaseUrl != null)
+            return mDataServicesBaseUrl;
+
+        mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(DataServicesConstants.BASE_URL_KEY, new
+                ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+                    @Override
+                    public void onError(ERRORVALUES errorvalues, String s) {
+                        errorHandlingInterface.onServiceDiscoveryError(s);
+                    }
+
+                    @Override
+                    public void onSuccess(URL url) {
+                        if (url.toString().isEmpty()) {
+                            errorHandlingInterface.onServiceDiscoveryError("Empty Url from Service discovery");
+                        } else {
+                            mDataServicesBaseUrl = url.toString();
+                        }
+                    }
+                });
+        return mDataServicesBaseUrl;
+    }
+
+    public String fetchCoachingServiceUrlFromServiceDiscovery() {
+        if (mDataServicesCoachingServiceUrl != null)
+            return mDataServicesCoachingServiceUrl;
+
+        mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(DataServicesConstants.COACHING_SERVICE_URL_KEY, new
+                ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+                    @Override
+                    public void onError(ERRORVALUES errorvalues, String s) {
+                        errorHandlingInterface.onServiceDiscoveryError(s);
+                    }
+
+                    @Override
+                    public void onSuccess(URL url) {
+                        if (url.toString().isEmpty()) {
+                            errorHandlingInterface.onServiceDiscoveryError("Empty Url from Service discovery");
+                        } else {
+                            mDataServicesCoachingServiceUrl = url.toString();
+                        }
+                    }
+                });
+        return mDataServicesCoachingServiceUrl;
+    }
+
 }

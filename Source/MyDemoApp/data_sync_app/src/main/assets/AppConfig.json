@@ -44,8 +44,7 @@
     "propositionid": "Tuscany2016"
   },
   "dataservices": {
-    "appname": "OneBackend",
-    "dataCoreUrl": "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com"
+    "appname": "OneBackend"
   },
   "appinfra": {
     "appidentity.micrositeId" : "77000",
