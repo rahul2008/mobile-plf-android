@@ -248,6 +248,8 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     }
 
     private void onFailureRefresh(final Exception e) {
+        //Done merge the below line to reference app
+        e.printStackTrace();
         if (getActivity() == null) return;
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -309,6 +311,8 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void dBChangeFailed(final Exception e) {
         showToastOnUiThread("Exception :" + e.getMessage());
+        //Done merge the below line to reference app
+        e.printStackTrace();
     }
 
     @Override

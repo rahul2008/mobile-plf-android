@@ -14,10 +14,6 @@ import java.io.Serializable;
 import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 @DatabaseTable
 public class OrmMomentType implements Serializable {
     private static final long serialVersionUID = 11L;
@@ -25,7 +21,7 @@ public class OrmMomentType implements Serializable {
     @DatabaseField(id = true, canBeNull = false)
     private int id;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = true)
     private String description;
 
     @DatabaseConstructor

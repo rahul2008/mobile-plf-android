@@ -34,7 +34,7 @@ public class OrmMeasurement implements Measurement, Serializable {
     @DatabaseField(generatedId = true, unique = true,canBeNull = false)
     private int id;
 
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = true)
     private OrmMeasurementType type;
 
     @DatabaseField
@@ -43,7 +43,7 @@ public class OrmMeasurement implements Measurement, Serializable {
     @DatabaseField
     private String unit;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = true)
     private DateTime dateTime = new DateTime();
 
    /* @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = false)

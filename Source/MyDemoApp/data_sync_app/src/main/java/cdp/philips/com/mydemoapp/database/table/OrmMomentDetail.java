@@ -26,10 +26,10 @@ public class OrmMomentDetail implements MomentDetail, Serializable {
     @DatabaseField(generatedId = true, unique = true,canBeNull = false)
     private int id;
 
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = true)
     private OrmMomentDetailType type;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = true)
     private String value;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = false)

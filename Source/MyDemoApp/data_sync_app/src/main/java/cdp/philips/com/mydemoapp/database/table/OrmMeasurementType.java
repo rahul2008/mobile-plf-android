@@ -27,10 +27,10 @@ public class OrmMeasurementType implements Serializable {
     @DatabaseField(id = true, canBeNull = false)
     private int id;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = true)
     private String description;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = true)
     private String unit;
 
     @DatabaseConstructor

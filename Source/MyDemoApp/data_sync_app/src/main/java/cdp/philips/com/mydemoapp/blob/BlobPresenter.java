@@ -50,14 +50,11 @@ public class BlobPresenter {
         setProgressBarVisibility(true);
         String mimeType = getMimeType(selectedFile.getPath());
 
-        if(mimeType == null){
-            showToast("Mime  Type not predefined - adding and sending",null);
-            mimeType = parseMimeType(selectedFile.getPath());
-            if(mimeType == null){
-                showToast("INVALID FILE, please select other one",null);
-                setProgressBarVisibility(false);
-                return;
-            }
+        if (mimeType == null) {
+            showToast("INVALID FILE, please select other one", null);
+            setProgressBarVisibility(false);
+            return;
+
         }
 
         DataServicesManager.getInstance().createBlob(selectedFile, mimeType, new BlobUploadRequestListener() {
@@ -76,20 +73,6 @@ public class BlobPresenter {
                 setUploadButtonState();
             }
         });
-    }
-
-    private String parseMimeType(String path) {
-        String mimeType = null;
-        String separator = "";
-        StringTokenizer stringTokenizer = new StringTokenizer(path,"/");
-        while (stringTokenizer.hasMoreElements()){
-            separator = stringTokenizer.nextToken();
-        }
-        stringTokenizer = new StringTokenizer(separator,".");
-        while (stringTokenizer.hasMoreElements()){
-            mimeType = stringTokenizer.nextToken();
-        }
-        return mimeType;
     }
 
     private void setUploadButtonState() {

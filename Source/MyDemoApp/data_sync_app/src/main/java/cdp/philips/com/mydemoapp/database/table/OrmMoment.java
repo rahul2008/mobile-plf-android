@@ -46,10 +46,10 @@ public class OrmMoment implements Moment, Serializable {
     @DatabaseField(canBeNull = false)
     private String subjectId;
 
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = true)
     private OrmMomentType type;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = true)
     private DateTime dateTime = new DateTime();
 
     @DatabaseField

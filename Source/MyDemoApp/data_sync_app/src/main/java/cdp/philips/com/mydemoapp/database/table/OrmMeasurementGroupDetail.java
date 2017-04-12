@@ -20,10 +20,10 @@ public class OrmMeasurementGroupDetail implements MeasurementGroupDetail, Serial
     private int id;
 
 
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = true)
     private OrmMeasurementGroupDetailType type;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = true)
     private String value;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = false)

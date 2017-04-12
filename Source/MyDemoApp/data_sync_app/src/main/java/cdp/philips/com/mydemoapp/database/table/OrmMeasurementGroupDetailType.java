@@ -16,7 +16,7 @@ public class OrmMeasurementGroupDetailType implements Serializable {
     @DatabaseField(id = true, canBeNull = false)
     private int id;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = true)
     private String description;
 
     @DatabaseConstructor
