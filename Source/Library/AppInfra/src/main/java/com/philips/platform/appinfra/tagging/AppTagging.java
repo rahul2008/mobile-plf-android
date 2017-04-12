@@ -317,9 +317,7 @@ public class AppTagging implements AppTaggingInterface {
 			contextData.put(ACTION_NAME ,pageName);
 		}
 		sendBroadcast(contextData);  // sending broadcast
-//        if(registerListener != null) {
-//	        registerListener.sendEvent(contextData);
-//        }
+
 	}
 
 	@Override
