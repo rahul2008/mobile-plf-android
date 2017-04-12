@@ -1,9 +1,13 @@
+/* following line is mandatory for the platform CI pipeline integration */
+properties([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name: 'triggerBy']]]])
+
 node('Android') {
     stage('Checkout') {
         checkout scm
     }
 
     Slack = load "Source/common/jenkins/Slack.groovy"
+    Pipeline = load "Source/common/jenkins/Pipeline.groovy"
 
     Slack.notify('#conartists') {
         stage('Build') {
@@ -30,4 +34,5 @@ node('Android') {
             archiveArtifacts '**/dependencies.lock'
         }
     }
+    Pipeline.trigger(env.triggerBy, env.BRANCH_NAME, "CloudControllerApi", "cca")
 }
