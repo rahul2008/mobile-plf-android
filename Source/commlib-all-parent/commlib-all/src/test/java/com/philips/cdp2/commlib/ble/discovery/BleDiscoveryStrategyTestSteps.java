@@ -204,16 +204,35 @@ public class BleDiscoveryStrategyTestSteps {
         verify(deviceScanner, times(0)).stopScanning();
     }
 
-    @Then("^the following appliances? (?:are|is) in the list of available appliances:$")
-    public void theFollowingAppliancesAreCreated(final List<String> appliances) {
-        final Set<String> applianceNames = new HashSet<>(appliances);
+    @Then("^(.*?) with cppId (.*?) is in the list of available appliances$")
+    public void theFollowingAppliancesWirhCppIdAreCreated( String applianceName, String cppId) {
         final Set<? extends Appliance> availableAppliances = commCentral.getApplianceManager().getAvailableAppliances();
-
         final Set<String> availableApplianceNames = new HashSet<>();
+        final Set<String> availableCppIds = new HashSet<>();
+
         for (Appliance availableAppliance : availableAppliances) {
             availableApplianceNames.add(availableAppliance.getName());
+            availableCppIds.add(availableAppliance.getNetworkNode().getCppId());
         }
-        assertTrue("Expected appliances " + applianceNames + " must appear in available appliances " + availableApplianceNames, availableApplianceNames.containsAll(applianceNames));
+        assertTrue("Expected appliance " + applianceName + " must appear in available appliances " + availableApplianceNames, availableApplianceNames.contains(applianceName));
+        assertTrue("Expected cppId " + cppId + " must appear in available cppIds " + availableCppIds, availableCppIds.contains(cppId));
+    }
+
+    @Then("^(.*?) with cppId (.*?) and modelId (.*?) is in the filtered list of available appliances$")
+    public void theFollowingAppliancesWithCppIdAndModelIdAreCreated( String applianceName, String cppId, String modelId) {
+        final Set<? extends Appliance> availableAppliances = commCentral.getApplianceManager().getAvailableAppliances();
+        final Set<String> availableApplianceNames = new HashSet<>();
+        final Set<String> availableCppIds = new HashSet<>();
+        final Set<String> availableModelIds = new HashSet<>();
+
+        for (Appliance availableAppliance : availableAppliances) {
+            availableApplianceNames.add(availableAppliance.getName());
+            availableCppIds.add(availableAppliance.getNetworkNode().getCppId());
+            availableModelIds.add(availableAppliance.getNetworkNode().getModelId());
+        }
+        assertTrue("Expected appliance " + applianceName + " must appear in available appliances " + availableApplianceNames, availableApplianceNames.contains(applianceName));
+        assertTrue("Expected cppId " + cppId + " must appear in available cppIds " + availableCppIds, availableCppIds.contains(cppId));
+        assertTrue("Expected modelId " + modelId + " must appear in available modelIds " + availableModelIds, availableModelIds.contains(modelId));
     }
 
     @Then("^the following appliances? (?:are|is) not in the list of available appliances:$")
@@ -231,23 +250,23 @@ public class BleDiscoveryStrategyTestSteps {
         assertTrue("Expected appliances " + applianceNames + " must not appear in available appliances " + availableApplianceNames, availableApplianceNames.isEmpty());
     }
 
-    @When("^(.*?) is discovered (\\d+) times? by BlueLib$")
-    public void applianceIsDiscoveredMultipleTimesByBlueLib(String applianceName, int times) {
+    @When("^(.*?) with cppId (.*?) is discovered (\\d+) times? by BlueLib$")
+    public void applianceIsDiscoveredMultipleTimesByBlueLib(String applianceName, String cppId, int times) {
         byte[] modelIdArray = new byte[]{(byte) 0xDD, 0x01, 80, 70, 49, 51, 51, 55}; // PF1337
-        createShnDeviceMock(applianceName, modelIdArray, times);
+        createShnDeviceMock(applianceName, cppId, modelIdArray, times);
     }
 
-    @When("^(.*?) is discovered (\\d+) times? by BlueLib, matching model id (.*?)$")
-    public void applianceIsDiscoveredMultipleTimesByBlueLibWithModelId(String applianceName, int times, String modelId) {
+    @When("^(.*?) with cppId (.*?) is discovered (\\d+) times? by BlueLib, matching model id (.*?)$")
+    public void applianceIsDiscoveredMultipleTimesByBlueLibWithModelId(String applianceName, String cppId, int times, String modelId) {
         byte[] modelIdArray = new byte[8];
         System.arraycopy(MANUFACTURER_PREAMBLE, 0, modelIdArray, 0, MANUFACTURER_PREAMBLE.length);
         byte[] modelIdBytes = modelId.getBytes();
         System.arraycopy(modelIdBytes, 0, modelIdArray, MANUFACTURER_PREAMBLE.length, modelIdBytes.length);
 
-        createShnDeviceMock(applianceName, modelIdArray, times);
+        createShnDeviceMock(applianceName, cppId, modelIdArray, times);
     }
 
-    private SHNDevice createShnDeviceMock(String applianceName, byte[] modelIdArray, int times) {
+    private SHNDevice createShnDeviceMock(String applianceName, final String cppId, byte[] modelIdArray, int times) {
         final SHNDevice shnDeviceMock = mock(SHNDevice.class);
 
         // Properties
@@ -256,7 +275,7 @@ public class BleDiscoveryStrategyTestSteps {
         when(shnDeviceMock.getName()).thenReturn(applianceName);
         when(shnDeviceMock.getDeviceTypeName()).thenReturn(getApplianceTypeByName(applianceName));
 
-        final String cppId = createCppId();
+//        final String cppId = createCppId();
 
         // DIS -> CPP ID
         when(shnDeviceMock.getCapability(SHNCapabilityDeviceInformation.class)).thenReturn(deviceInformationMock);
@@ -328,7 +347,8 @@ public class BleDiscoveryStrategyTestSteps {
         return String.valueOf(++cppId);
     }
 
-    private static final String createMacAddress() {
+    private static String createMacAddress() {
         return "addr-" + createCppId();
     }
+
 }
