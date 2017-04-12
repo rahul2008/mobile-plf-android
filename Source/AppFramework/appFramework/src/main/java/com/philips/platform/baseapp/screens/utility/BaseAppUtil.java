@@ -3,12 +3,18 @@ package com.philips.platform.baseapp.screens.utility;
 import android.os.Environment;
 import android.util.Log;
 
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import static com.philips.platform.baseapp.screens.utility.Constants.FILE_IO;
+
 public class BaseAppUtil {
+    public final String TAG = BaseAppUtil.class.getSimpleName();
 
     private File jsonFile;
 
@@ -24,8 +30,8 @@ public class BaseAppUtil {
                 try {
                     ret = jsonFile.createNewFile();
                 } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, FILE_IO,
+                            e.getMessage());                }
             }
         }
         return ret;
@@ -50,8 +56,8 @@ public class BaseAppUtil {
             }
             br.close();
         } catch (IOException e) {
-            e.printStackTrace();
-        }
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, FILE_IO,
+                    e.getMessage());        }
         return text.toString();
     }
 }

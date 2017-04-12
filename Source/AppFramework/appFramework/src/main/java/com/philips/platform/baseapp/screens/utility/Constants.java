@@ -47,4 +47,19 @@ public class Constants {
     public static final int CLEAR_TILL_HOME = 200001;
     public static final int ADD_FROM_HAMBURGER = 200002;
     public static final int ADD_FROM_CHILD_FRAGMENT = 200003;
+
+    //Error Loging constants
+    public static final String FILE_IO = "file_IO_error";
+    public static final String SQLITE_EXCEPTION = "sqlite_exception";
+    public static final String ORM_TYPE_EXCEPTION = "ormtype_cast_exception";
+    public static final String JSON_PARSING_EXCEPTION = "json_parsing_exception";
+    public static final String SERVER_DATACREATION="server_data_creation";
+    public static final String SERVER_DATAPARSING="server_data_parsing";
+    public static final String DEVICE_DATAPARSING="device_data_parsing";
+    public static final String UI_RENDERING="uiRendering";
+    public static final String SERVER_SYNC_ERROR="Server_sync_error";
+
+
+
+
 }

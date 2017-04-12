@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.SyncType;
@@ -31,6 +33,8 @@ import java.util.Collection;
 import java.util.List;
 
 import android.support.v4.app.Fragment;
+
+import static com.philips.platform.baseapp.screens.utility.Constants.JSON_PARSING_EXCEPTION;
 
 public class CharacteristicsDialogFragment extends Fragment implements View.OnClickListener, DBFetchRequestListner<Characteristics>,DBRequestListener<Characteristics>,DBChangeListener {
     Button mBtnOk,mBtnEdit;
@@ -168,7 +172,8 @@ public class CharacteristicsDialogFragment extends Fragment implements View.OnCl
                     mEtCharacteristics.setText(jsonObj);
                 } catch (Exception e) {
                     DSLog.i(DSLog.LOG, "Inder Exception onSuccess= " + e.getMessage());
-                    e.printStackTrace();
+                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, JSON_PARSING_EXCEPTION,
+                            e.getMessage());
                 }
             }
 
