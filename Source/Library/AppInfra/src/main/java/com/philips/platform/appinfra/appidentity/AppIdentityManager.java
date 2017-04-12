@@ -28,7 +28,6 @@ public class AppIdentityManager implements AppIdentityInterface {
 	private AppInfra mAppInfra;
 	private Context context;
 
-	private String mAppName;
 	private String mAppVersion;
 	private String mLocalizedAppName;
 	private String sector;
@@ -152,7 +151,7 @@ public class AppIdentityManager implements AppIdentityInterface {
 
 	@Override
 	public String getAppName() {
-		mAppName = context.getApplicationInfo().loadLabel(context.getPackageManager()).toString();
+		String mAppName = context.getApplicationInfo().loadLabel(context.getPackageManager()).toString();
 		return mAppName;
 	}
 

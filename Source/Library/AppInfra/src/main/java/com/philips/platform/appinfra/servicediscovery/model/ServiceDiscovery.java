@@ -33,14 +33,14 @@ import static com.philips.platform.appinfra.servicediscovery.model.AISDResponse.
 public class ServiceDiscovery {
 
 	private boolean success = false;
-	private String httpStatus;
-	private String country;
+	String httpStatus;
+	String country;
 	private MatchByCountryOrLanguage matchByCountry;
 	private MatchByCountryOrLanguage matchByLanguage;
 	private AppInfra mAppInfra;
 	private Context mContext;
 	private ServiceDiscoveryManager mServiceDiscoveryManager;
-	private Error error = null;
+	Error error = null;
 
 
 	public static class Error {

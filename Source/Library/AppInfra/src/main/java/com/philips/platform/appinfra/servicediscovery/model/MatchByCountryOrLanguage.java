@@ -21,7 +21,9 @@ import java.util.Iterator;
 public class MatchByCountryOrLanguage {
 
     ArrayList<Config> configs = new ArrayList<>();
+
     private boolean available;
+
     private String locale;
 
     public boolean isAvailable() {
@@ -51,7 +53,9 @@ public class MatchByCountryOrLanguage {
     public static class Config {
 
         private String micrositeId;
+
         private HashMap<String, String> urls;
+
         private ArrayList<Tag> tags;
 
         public String getMicrositeId() {
@@ -82,19 +86,19 @@ public class MatchByCountryOrLanguage {
             try {
                 this.micrositeId = jsonObject.optString("micrositeId");
                 urls = new HashMap<>();
-                JSONObject urlJSONObject = jsonObject.optJSONObject("urls");
-                Iterator<String> iter = urlJSONObject.keys();
+                final JSONObject urlJSONObject = jsonObject.optJSONObject("urls");
+                final Iterator<String> iter = urlJSONObject.keys();
                 while (iter.hasNext()) {
-                    String key = iter.next();
-                    String value = urlJSONObject.getString(key);
+                    final String key = iter.next();
+                    final String value = urlJSONObject.getString(key);
                     this.urls.put(key, value);
                 }
 
                 this.tags = new ArrayList<>();
 
-                JSONArray tagJSONArray = jsonObject.optJSONArray("tags");
+                final JSONArray tagJSONArray = jsonObject.optJSONArray("tags");
                 for (int tagCount = 0; tagCount < tagJSONArray.length(); tagCount++) {
-                    MatchByCountryOrLanguage.Config.Tag tag = new MatchByCountryOrLanguage.Config.Tag();
+                    final MatchByCountryOrLanguage.Config.Tag tag = new MatchByCountryOrLanguage.Config.Tag();
                     tag.setId(tagJSONArray.optJSONObject(tagCount).optString("id"));
                     tag.setName(tagJSONArray.optJSONObject(tagCount).optString("name"));
                     tag.setKey(tagJSONArray.optJSONObject(tagCount).optString("key"));
@@ -102,9 +106,9 @@ public class MatchByCountryOrLanguage {
                 }
                 //setTags(tags);
             } catch (JSONException e) {
-                ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface.
+                final ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface.
                         OnErrorListener.ERRORVALUES.SERVER_ERROR, "Parsing error");
-                ServiceDiscovery result = new ServiceDiscovery();
+                final ServiceDiscovery result = new ServiceDiscovery();
                 //result.setSuccess(false);
                 result.setError(err);
             }
@@ -112,7 +116,9 @@ public class MatchByCountryOrLanguage {
 
         public static class Tag {
             private String id;
+
             private String name;
+
             private String key;
 
             public String getId() {

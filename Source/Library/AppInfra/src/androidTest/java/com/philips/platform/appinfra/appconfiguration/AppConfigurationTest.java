@@ -28,7 +28,6 @@ public class AppConfigurationTest extends MockitoTestCase {
 
     private Context context;
     private AppInfra mAppInfra;
-    private Method method;
 
     @Override
     protected void setUp() throws Exception {
@@ -404,6 +403,7 @@ public class AppConfigurationTest extends MockitoTestCase {
 
     public void testgetMasterConfigFromApp() {
         mConfigInterface = mAppInfra.getConfigInterface();
+        Method method;
         try {
             method = mConfigInterface.getClass().getDeclaredMethod("getMasterConfigFromApp");
             method.setAccessible(true);

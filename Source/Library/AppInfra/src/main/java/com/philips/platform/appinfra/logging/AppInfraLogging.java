@@ -41,7 +41,6 @@ public class AppInfraLogging implements LoggingInterface {
     private ConsoleHandler consoleHandler;
     private FileHandler fileHandler;
     //private Properties mProperties = new Properties();
-    private InputStream mInputStream = null;
     private AppConfigurationInterface appConfigurationInterface;
 
 
@@ -103,7 +102,7 @@ public class AppInfraLogging implements LoggingInterface {
 
     private void readLogConfigFileFromAppAsset() {
         try {
-            mInputStream = getLoggerPropertiesInputStream();
+            final InputStream  mInputStream = getLoggerPropertiesInputStream();
             if (mInputStream != null) {
                 LogManager.getLogManager().readConfiguration(mInputStream);// reads default logging.properties from AppInfra library asset in first run
             }

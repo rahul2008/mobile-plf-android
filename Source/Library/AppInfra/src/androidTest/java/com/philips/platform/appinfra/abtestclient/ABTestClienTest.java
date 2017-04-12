@@ -27,7 +27,6 @@ public class ABTestClienTest extends MockitoTestCase {
     private Method method;
     private ABTestClientManager abTestClienTestManager;
     private CacheModel cacheModel;
-    private AppConfigurationManager mConfigInterface;
 
 
     @Override
@@ -60,7 +59,7 @@ public class ABTestClienTest extends MockitoTestCase {
 
     public void testConfig() {
 
-        mConfigInterface = new AppConfigurationManager(mAppInfra) {
+        AppConfigurationManager  mConfigInterface = new AppConfigurationManager(mAppInfra) {
             @Override
             protected JSONObject getMasterConfigFromApp() {
                 JSONObject result = null;

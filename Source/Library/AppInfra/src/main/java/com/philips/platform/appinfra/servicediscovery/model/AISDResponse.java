@@ -19,7 +19,7 @@ public class AISDResponse {
 	private ServiceDiscovery platformURLs = null;
 	private ServiceDiscovery propositionURLs = null;
 	private final String SDEmptyURL = "https://delete.delete";
-	private AppInfra mAppInfra;
+	private final AppInfra mAppInfra;
 
 
 	public AISDResponse(AppInfra appInfra) {
@@ -84,7 +84,7 @@ public class AISDResponse {
 			platformResponse = getPlatformURLs().getServicesWithServiceID(serviceIds, preference, replacement);
 		}
 
-		for (String serviceId : serviceIds) {
+		for (final String serviceId : serviceIds) {
 			if (propositionResponse != null && platformResponse != null) {
 				final ServiceDiscoveryService propositionService = propositionResponse.get(serviceId);
 				final ServiceDiscoveryService platformService = platformResponse.get(serviceId);
