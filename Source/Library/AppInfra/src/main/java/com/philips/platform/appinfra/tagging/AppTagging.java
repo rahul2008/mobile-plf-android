@@ -438,14 +438,24 @@ public class AppTagging implements AppTaggingInterface {
 
 	@Override
 	public void unregisterTaggingData(final BroadcastReceiver receiver) {
-		 LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
-				 .unregisterReceiver(receiver);
+		if(receiver != null && mAppInfra.getAppInfraContext() != null)  {
+			LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
+					.unregisterReceiver(receiver);
+		} else {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+					"unregisterTaggingData", "" + "context is null");
+		}
 	}
 
 	@Override
 	public void registerTaggingData(final BroadcastReceiver receiver) {
-		 LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
-				 .registerReceiver(receiver, new IntentFilter(ACTION_TAGGING_DATA));
+		if(receiver != null && mAppInfra.getAppInfraContext() != null)  {
+			LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
+					.registerReceiver(receiver, new IntentFilter(ACTION_TAGGING_DATA));
+		} else {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+					"unregisterTaggingData", "" + "context is null");
+		}
 	}
 
 }
