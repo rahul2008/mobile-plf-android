@@ -86,23 +86,34 @@ public class UCoreAdapter {
     }
 
     public <T> T getAppFrameworkClient(Class<T> clientClass, @NonNull final String accessToken, GsonConverter gsonConverter) {
-        String baseUrl = null;
+
+        String url =null;
+
         if (userRegistrationImpl != null) {
+
             if (clientClass == InsightClient.class) {
-                baseUrl = "https://platforminfra-cs-platforminfrastaging.cloud.pcftest.com/";
-            } else if (clientClass == BlobClient.class) {
-                baseUrl = BlobClient.BASE_URL;
-            } else {
-                baseUrl = userRegistrationImpl.getHSDPUrl();
+                url = DataServicesManager.getInstance().fetchCoachingServiceUrlFromServiceDiscovery();
             }
+            else if (clientClass == BlobClient.class) {
+                url = BlobClient.BASE_URL;
+            }
+            else
+                url = DataServicesManager.getInstance().fetchBaseUrlFromServiceDiscovery();
+
         }
-        if (baseUrl == null || baseUrl.isEmpty()) {
+
+        if (url == null || url.isEmpty()) {
             return null;
         }
 
-        return getClient(clientClass, baseUrl, accessToken, gsonConverter);
+        return getClient(clientClass, url, accessToken, gsonConverter);
     }
 
+    void getUrl(int a){
+        switch (a){
+
+        }
+    }
     public <T> T getClient(final Class<T> clientClass, @NonNull final String baseUrl,
                            @NonNull final String accessToken, @NonNull GsonConverter gsonConverter) {
         OkClient okClient = okClientFactory.create(okHttpClient);

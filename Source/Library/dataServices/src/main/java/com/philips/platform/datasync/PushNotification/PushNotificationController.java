@@ -3,10 +3,10 @@ package com.philips.platform.datasync.PushNotification;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.PushNotificationErrorResponse;
 import com.philips.platform.core.events.PushNotificationResponse;
 import com.philips.platform.core.utils.DataServicesError;
+import com.philips.platform.core.utils.DataServicesErrorConstants;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 
@@ -44,7 +44,8 @@ public class PushNotificationController {
 
     public boolean registerPushNotification(UCorePushNotification uCorePushNotification) {
         if (isUserInvalid()) {
-            postError(1, RetrofitError.unexpectedError("", new IllegalStateException("Please login")));
+            eventing.post(new PushNotificationErrorResponse(createDataServicesError(DataServicesErrorConstants.DS_INVALID_USER_ERROR_CODE,
+                    DataServicesErrorConstants.DS_IVALID_USER_ERROR_MESSAGE)));
             return false;
         }
 
@@ -55,14 +56,15 @@ public class PushNotificationController {
                     uCoreAccessProvider.getUserId(), 13, uCorePushNotification);
             eventing.post(new PushNotificationResponse(isResponseSuccess(response)));
         } catch (RetrofitError error) {
-            eventing.post(new PushNotificationErrorResponse(createDataServicesError(error)));
+            eventing.post(new PushNotificationErrorResponse(createDataServicesError(error.getResponse().getStatus(), error.getMessage())));
         }
         return false;
     }
 
     public boolean unRegisterPushNotification(String appVariant, String token) {
         if (isUserInvalid()) {
-            postError(1, RetrofitError.unexpectedError("", new IllegalStateException("Please login")));
+            eventing.post(new PushNotificationErrorResponse(createDataServicesError(DataServicesErrorConstants.DS_INVALID_USER_ERROR_CODE,
+                    DataServicesErrorConstants.DS_IVALID_USER_ERROR_MESSAGE)));
             return false;
         }
 
@@ -73,7 +75,7 @@ public class PushNotificationController {
                     uCoreAccessProvider.getUserId(), 13, appVariant, token);
             eventing.post(new PushNotificationResponse(isResponseSuccess(response)));
         } catch (RetrofitError error) {
-            eventing.post(new PushNotificationErrorResponse(createDataServicesError(error)));
+            eventing.post(new PushNotificationErrorResponse(createDataServicesError(error.getResponse().getStatus(), error.getMessage())));
         }
         return false;
     }
@@ -91,14 +93,10 @@ public class PushNotificationController {
         return false;
     }
 
-    void postError(int referenceId, final RetrofitError error) {
-        eventing.post(new BackendResponse(referenceId, error));
-    }
-
-    protected DataServicesError createDataServicesError(RetrofitError error) {
+    protected DataServicesError createDataServicesError(int errorCode, String errorMessage) {
         DataServicesError dataServicesError = new DataServicesError();
-        dataServicesError.setErrorCode(error.getResponse().getStatus());
-        dataServicesError.setErrorMessage(error.getMessage());
+        dataServicesError.setErrorCode(errorCode);
+        dataServicesError.setErrorMessage(errorMessage);
         return dataServicesError;
     }
 }

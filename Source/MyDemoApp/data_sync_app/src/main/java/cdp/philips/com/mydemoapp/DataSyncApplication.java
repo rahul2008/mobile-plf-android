@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package cdp.philips.com.mydemoapp;
 
 import android.app.Application;
@@ -20,14 +24,12 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
+import com.philips.platform.core.utils.DataServicesConstants;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.squareup.leakcanary.LeakCanary;
 
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -60,36 +62,26 @@ import cdp.philips.com.mydemoapp.error.ErrorHandlerInterfaceImpl;
 import cdp.philips.com.mydemoapp.reciever.ScheduleSyncReceiver;
 import cdp.philips.com.mydemoapp.registration.UserRegistrationInterfaceImpl;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-
-
 public class DataSyncApplication extends Application {
     public final DatabaseHelper databaseHelper = new DatabaseHelper(this, new UuidGenerator());
     public static AppInfraInterface gAppInfra;
-    ServiceDiscoveryInterface serviceDiscoveryInterface;
     public static LoggingInterface loggingInterface;
     private AppConfigurationInterface.AppConfigurationError configError;
     DataServicesManager mDataServicesManager;
-    String mDataCoreUrl = null;
-    private final String APP_NAME = "appname";
-    private final String DATACORE_FALLBACK_URL = "dataCoreUrl";
-    private final String DATASERVICES_KEY = "dataservices";
     ScheduleSyncReceiver mScheduleSyncReceiver;
+    UserRegistrationInterfaceImpl userRegImple;
+    final String AI = "appinfra";
 
     @Override
     public void onCreate() {
         super.onCreate();
         LeakCanary.install(this);
-        //Stetho.initializeWithDefaults(this);
         mDataServicesManager = DataServicesManager.getInstance();
         initAppInfra();
         setLocale();
         initializeUserRegistrationLibrary(Configuration.STAGING);
+        initHSDP();
         init();
-        fetchDataServicesUrl();
         mScheduleSyncReceiver = new ScheduleSyncReceiver();
         scheduleSync();
         Stetho.initializeWithDefaults(this);
@@ -97,7 +89,6 @@ public class DataSyncApplication extends Application {
 
     private void initAppInfra() {
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
-        serviceDiscoveryInterface = gAppInfra.getServiceDiscovery();
         configError = new
                 AppConfigurationInterface.AppConfigurationError();
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
@@ -107,7 +98,6 @@ public class DataSyncApplication extends Application {
         return userRegImple;
     }
 
-    UserRegistrationInterfaceImpl userRegImple;
     private void init() {
         OrmCreator creator = new OrmCreator(new UuidGenerator());
         userRegImple = new UserRegistrationInterfaceImpl(this, new User(this));
@@ -116,11 +106,6 @@ public class DataSyncApplication extends Application {
         mDataServicesManager.initializeDataServices(this, creator, userRegistrationInterface, errorHandlerInterface);
         injectDBInterfacesToCore();
         mDataServicesManager.initializeSyncMonitors(this, null, null);
-
-
-    /*    Set syncSet = new HashSet();
-        syncSet.add(SyncType.MOMENT.getDescription());
-        mDataServicesManager.configureSyncDataType(syncSet);*/
     }
 
     void injectDBInterfacesToCore() {
@@ -135,7 +120,6 @@ public class DataSyncApplication extends Application {
 
             Dao<OrmConsentDetail, Integer> consentDetailsDao = databaseHelper.getConsentDetailsDao();
             Dao<OrmCharacteristics, Integer> characteristicsesDao = databaseHelper.getCharacteristicsDao();
-            //  Dao<OrmCharacteristics, Integer> characteristicsDetailsDao = databaseHelper.getCharacteristicsDetailsDao();
 
             Dao<OrmSettings, Integer> settingsDao = databaseHelper.getSettingsDao();
             Dao<OrmInsight, Integer> insightsDao = databaseHelper.getInsightDao();
@@ -271,13 +255,7 @@ public class DataSyncApplication extends Application {
         editor.putString("reg_environment", configuration.getValue());
         editor.apply();
 
-
-        String languageCode = Locale.getDefault().getLanguage();
-        String countryCode = Locale.getDefault().getCountry();
-
-        PILLocaleManager localeManager = new PILLocaleManager(this);
-        localeManager.setInputLocale(languageCode, countryCode);
-
+        setLocale();
         initAppIdentity(configuration);
         URDependancies urDependancies = new URDependancies(gAppInfra);
         URSettings urSettings = new URSettings(this);
@@ -285,8 +263,6 @@ public class DataSyncApplication extends Application {
         urInterface.init(urDependancies, urSettings);
 
     }
-
-    final String AI = "appinfra";
 
     private void initAppIdentity(Configuration configuration) {
         AppIdentityInterface mAppIdentityInterface;
@@ -385,62 +361,30 @@ public class DataSyncApplication extends Application {
         gAppInfra.
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.ApplicationName",
-                URConfigurationConstants.UR,
-                loadAppNameFromConfigParams(APP_NAME),
+                "UserRegistration",
+                "OneBackend",
                 configError);
 
         gAppInfra.
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.Secret",
-                URConfigurationConstants.UR,
+                "UserRegistration",
                 "ad3d0618-be4d-4958-adc9-f6bcd01fde16",
                 configError);
 
         gAppInfra.
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.Shared",
-                URConfigurationConstants.UR,
+                "UserRegistration",
                 "ba404af2-ee41-4e7c-9157-fd20663f2a6c",
                 configError);
 
         gAppInfra.
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.BaseURL",
-                URConfigurationConstants.UR,
-                mDataCoreUrl,
+                "UserRegistration",
+                "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com",
                 configError);
-    }
-
-    protected void fetchDataServicesUrl() {
-        serviceDiscoveryInterface.getServiceUrlWithCountryPreference("ds.dataservice", new
-                ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                    @Override
-                    public void onError(ERRORVALUES errorvalues, String s) {
-                        DSLog.e(DSLog.LOG, "Error");
-                        mDataCoreUrl = loadAppNameFromConfigParams(DATACORE_FALLBACK_URL);
-                        initHSDP();
-                    }
-
-                    @Override
-                    public void onSuccess(URL url) {
-                        DSLog.e(DSLog.LOG, "Success = " + url);
-                        if (url.toString().isEmpty()) {
-                            mDataCoreUrl = loadAppNameFromConfigParams(DATACORE_FALLBACK_URL);
-                        } else {
-
-                            mDataCoreUrl = url.toString();
-                        }
-                        initHSDP();
-                    }
-                });
-    }
-
-    private String loadAppNameFromConfigParams(String propertyKey) {
-        String appname = (String) gAppInfra.getConfigInterface().getPropertyForKey(propertyKey, DATASERVICES_KEY, configError);
-        if (configError.getErrorCode() != null) {
-            DSLog.e(DSLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.getErrorCode().toString());
-        }
-        return appname;
     }
 
     void scheduleSync() {
@@ -454,7 +398,6 @@ public class DataSyncApplication extends Application {
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
-                    //also call the same runnable to call it at regular interval
                     handler.postDelayed(this, ScheduleSyncReceiver.DATA_FETCH_FREQUENCY);
                 }
             }
