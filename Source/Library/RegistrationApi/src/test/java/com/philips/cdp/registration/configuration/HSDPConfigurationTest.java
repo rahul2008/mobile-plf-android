@@ -22,7 +22,7 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class HSDPConfigurationTest extends TestCase{
+public class HSDPConfigurationTest extends TestCase {
 
     @Mock
     AppInfraWrapper appInfraWrapperMock;
