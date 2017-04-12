@@ -28,14 +28,14 @@ public class QuietButtonTest {
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
     private Resources testResources;
-    private Context instrumentationContext;
+    private Context context;
 
     @Before
     public void setUp() {
         final BaseTestActivity activity = mActivityTestRule.getActivity();
         activity.switchTo(com.philips.platform.uid.test.R.layout.layout_quiet_buttons);
         testResources = activity.getResources();
-        instrumentationContext = activity;
+        context = activity;
     }
 
     /*****************************************
@@ -114,19 +114,19 @@ public class QuietButtonTest {
 
     @Test
     public void verifyQuietTextOnlyButtonFontColor() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(instrumentationContext, R.attr.uidButtonQuietNormalTextColor);
+        final int expectedColor = UIDTestUtils.getAttributeColor(context, R.attr.uidButtonQuietNormalTextColor);
         getQuietButton().check(matches(TextViewPropertiesMatchers.isSameTextColorWithReflection(2, expectedColor)));
     }
 
     @Test
     public void verifyQuietTextOnlyPressedButtonFontColor() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(instrumentationContext, R.attr.uidButtonQuietPressedTextColor);
+        final int expectedColor = UIDTestUtils.getAttributeColor(context, R.attr.uidButtonQuietPressedTextColor);
         getQuietButton().check(matches(TextViewPropertiesMatchers.isSameTextColorWithReflection(1, expectedColor)));
     }
 
     @Test
     public void verifyQuietTextOnlyDisabledButtonFontColor() {
-        final int disabledTextColor = UIDTestUtils.getAttributeColor(instrumentationContext, R.attr.uidButtonQuietDisabledTextColor);
+        final int disabledTextColor = UIDTestUtils.getAttributeColor(context, R.attr.uidButtonQuietDisabledTextColor);
         getQuietButton().check(matches(TextViewPropertiesMatchers.isSameTextColorWithReflection(0, disabledTextColor)));
     }
 
