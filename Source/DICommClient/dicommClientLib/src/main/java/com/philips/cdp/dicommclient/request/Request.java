@@ -5,8 +5,6 @@
 
 package com.philips.cdp.dicommclient.request;
 
-import com.philips.cdp.dicommclient.util.GsonProvider;
-
 import java.util.Map;
 
 public abstract class Request {
@@ -20,8 +18,4 @@ public abstract class Request {
     }
 
     public abstract Response execute();
-
-    protected static String convertKeyValuesToJson(Map<String, Object> dataMap) {
-        return GsonProvider.get().toJson(dataMap);
-    }
 }
