@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Custom components styles-->
+    <attr name="uidButtonStyle" format="reference"/>
+    <attr name="uidSwitchStyle" format="reference"/>
+    <attr name="uidProgressBarStyle" format="reference"/>
+    <attr name="uidCheckBoxStyle" format="reference"/>
+    <attr name="uidImageButtonStyle" format="reference"/>
+    <attr name="uidEditTextStyle" format="reference"/>
+    <attr name="uidIndeterminateLinearPBStyle" format="reference"/>
+</resources>
+

@@ -37,7 +37,7 @@ public class Button extends AppCompatButton {
     }
 
     public Button(@NonNull Context context, @NonNull AttributeSet attrs) {
-        this(context, attrs, R.attr.buttonStyle);
+        this(context, attrs, R.attr.uidButtonStyle);
     }
 
     public Button(@NonNull Context context, @NonNull AttributeSet attrs, int defStyleAttr) {

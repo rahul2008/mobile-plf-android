@@ -85,6 +85,4 @@ public class UIDHelper {
         }
         throw new RuntimeException("Please include a uid_toolbar_layout in your main activity layout xml");
     }
-
-
 }

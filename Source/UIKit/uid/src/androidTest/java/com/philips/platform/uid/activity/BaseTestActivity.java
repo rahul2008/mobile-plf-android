@@ -5,10 +5,12 @@
 package com.philips.platform.uid.activity;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.core.deps.guava.annotations.VisibleForTesting;
 import android.support.v4.app.Fragment;
@@ -17,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
+import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
@@ -42,6 +45,8 @@ public class BaseTestActivity extends AppCompatActivity implements DelayerCallba
             navigationColor = extras.getInt(NAVIGATION_COLOR_KEY, 1);
             contentColor = extras.getInt(CONTENT_COLOR_KEY, 0);
         }
+
+        setTheme(getThemeResourceId(ContentColor.values()[contentColor], ColorRange.GROUP_BLUE));
         UIDHelper.injectCalligraphyFonts();
         UIDHelper.init(getThemeConfig(navigationColor, contentColor));
 
@@ -149,5 +154,33 @@ public class BaseTestActivity extends AppCompatActivity implements DelayerCallba
                 }
             }, DELAY_MILLIS);
         }
+    }
+
+    @StyleRes
+    static int getColorResourceId(final Resources resources, final String colorRange, final String tonalRange, final String packageName) {
+        final String themeName = String.format("Theme.DLS.%s.%s", toCamelCase(colorRange), toCamelCase(tonalRange));
+
+        return resources.getIdentifier(themeName, "style", packageName);
+    }
+
+    static String toCamelCase(String s) {
+        String[] parts = s.split("_");
+        String camelCaseString = "";
+        for (String part : parts) {
+            camelCaseString = camelCaseString + toProperCase(part);
+        }
+        return camelCaseString;
+    }
+
+    static String toProperCase(String s) {
+        return s.substring(0, 1).toUpperCase() +
+                s.substring(1).toLowerCase();
+    }
+
+    private
+    @StyleRes
+    int getThemeResourceId(ContentColor contentColor, ColorRange colorRange) {
+        int colorResourceId = getColorResourceId(getResources(), colorRange.name(), contentColor.name(), getPackageName());
+        return colorResourceId;
     }
 }

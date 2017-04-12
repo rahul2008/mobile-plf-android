@@ -48,7 +48,7 @@ public class EditText extends AppCompatEditText {
     }
 
     public EditText(@NonNull final Context context, @NonNull final AttributeSet attrs) {
-        this(context, attrs, android.support.v7.appcompat.R.attr.editTextStyle);
+        this(context, attrs, R.attr.uidEditTextStyle);
     }
 
     public EditText(@NonNull final Context context, @NonNull final AttributeSet attrs, final int defStyleAttr) {

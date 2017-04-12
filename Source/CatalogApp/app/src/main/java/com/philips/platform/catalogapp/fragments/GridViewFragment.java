@@ -20,6 +20,7 @@ import com.philips.platform.catalogapp.dataUtils.GridData;
 import com.philips.platform.catalogapp.dataUtils.GridDataHelper;
 import com.philips.platform.uid.drawable.SeparatorDrawable;
 import com.philips.platform.uid.thememanager.ThemeUtils;
+import com.philips.platform.uid.view.widget.ImageButton;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.util.ArrayList;
@@ -49,6 +50,9 @@ public class GridViewFragment extends BaseFragment {
         gridView = (GridView) view.findViewById(R.id.gridView);
         label = (Label) view.findViewById(R.id.uid_gridview_header);
         relativeLayout = (RelativeLayout) view.findViewById(R.id.trigger_gridview_settings);
+
+        ImageButton button = (ImageButton) view.findViewById(R.id.show_more);
+        button.setVectorResource(R.drawable.ic_right_arrow_show_more);
 
         SeparatorDrawable separatorDrawable = new SeparatorDrawable(getContext());
         view.findViewById(R.id.divider).setBackground(separatorDrawable);

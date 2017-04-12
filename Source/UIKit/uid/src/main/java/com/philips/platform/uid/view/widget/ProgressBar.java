@@ -35,7 +35,7 @@ public class ProgressBar extends android.widget.ProgressBar {
     }
 
     public ProgressBar(final Context context, final AttributeSet attrs) {
-        this(context, attrs, R.attr.progressBarStyle);
+        this(context, attrs, R.attr.uidProgressBarStyle);
     }
 
     public ProgressBar(final Context context, final AttributeSet attrs, final int defStyleAttr) {
