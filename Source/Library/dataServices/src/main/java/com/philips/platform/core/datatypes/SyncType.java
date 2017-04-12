@@ -10,7 +10,8 @@ public enum SyncType {
     UNKNOWN(-1, "UNKNOWN"),
     SETTINGS(100, "Settings"),
     CHARACTERISTICS(101, "characteristics"),
-    CONSENT(102, "consent");
+    CONSENT(102, "consent"),
+    BLOB(105,"blob");
 
     private final int id;
     private final String description;

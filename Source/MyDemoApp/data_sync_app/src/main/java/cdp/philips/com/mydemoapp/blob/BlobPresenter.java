@@ -156,7 +156,7 @@ public class BlobPresenter {
 
             @Override
             public void onFetchMetaDataSuccess(BlobMetaData uCoreFetchMetaData) {
-                updateUI();
+               // updateUI();
             }
         });
     }
