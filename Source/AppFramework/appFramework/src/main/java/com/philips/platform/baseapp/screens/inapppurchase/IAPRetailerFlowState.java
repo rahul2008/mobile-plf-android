@@ -17,7 +17,12 @@ public class IAPRetailerFlowState extends IAPState {
     public void updateDataModel() {
         setLaunchType(IAPState.IAP_CATALOG_VIEW);
         try {
-            setCtnList(new ArrayList<>(Arrays.asList(getApplicationContext().getResources().getStringArray(R.array.productselection_ctnlist))));
+            if(getApplicationContext().isChinaFlow()) {
+                setCtnList(new ArrayList<>(Arrays.asList(getApplicationContext().getResources().getStringArray(R.array.productselection_ctnlist_china))));
+            }
+            else {
+                setCtnList(new ArrayList<>(Arrays.asList(getApplicationContext().getResources().getStringArray(R.array.productselection_ctnlist))));
+            }
         } catch (RuntimeException e) {
             Toast.makeText(getApplicationContext(), R.string.RA_CTN_Null, Toast.LENGTH_LONG).show();
         }

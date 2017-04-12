@@ -91,7 +91,12 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
 
     @Override
     public void updateDataModel() {
-        setCtnList(new ArrayList<>(Arrays.asList(getApplicationContext().getResources().getStringArray(R.array.productselection_ctnlist))));
+        if(getApplicationContext().isChinaFlow()) {
+            setCtnList(new ArrayList<>(Arrays.asList(getApplicationContext().getResources().getStringArray(R.array.productselection_ctnlist_china))));
+        }
+        else {
+            setCtnList(new ArrayList<>(Arrays.asList(getApplicationContext().getResources().getStringArray(R.array.productselection_ctnlist))));
+        }
     }
 
     /**
