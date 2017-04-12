@@ -6,9 +6,7 @@
 package com.philips.platform.appinfra.languagepack;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Handler;
-import android.os.LocaleList;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -17,8 +15,8 @@ import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.languagepack.model.LanguageList;
-import com.philips.platform.appinfra.languagepack.model.LanguageModel;
 import com.philips.platform.appinfra.languagepack.model.LanguagePackMetadata;
+import com.philips.platform.appinfra.languagepack.model.LanguagePackModel;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
@@ -29,7 +27,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static com.philips.platform.appinfra.languagepack.LanguagePackConstants.LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY;
 import static com.philips.platform.appinfra.languagepack.LanguagePackConstants.LOCALE_FILE_ACTIVATED;
@@ -40,7 +37,7 @@ public class LanguagePackManager implements LanguagePackInterface {
     private AppInfra mAppInfra;
     private RestInterface mRestInterface;
     private LanguageList mLanguageList;
-    private LanguageModel selectedLanguageModel;
+    private LanguagePackModel selectedLanguageModel;
     private LanguagePackUtil languagePackUtil;
     private Gson gson;
     private Context context;
@@ -158,7 +155,7 @@ public class LanguagePackManager implements LanguagePackInterface {
         }
     }
 
-    private boolean isLanguagePackDownloadRequired(LanguageModel selectedLanguageModel) {
+    private boolean isLanguagePackDownloadRequired(LanguagePackModel selectedLanguageModel) {
         File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_INFO);
         String json = languagePackUtil.readFile(file);
         LanguagePackMetadata languagePackMetadata = gson.fromJson(json, LanguagePackMetadata.class);
@@ -208,50 +205,37 @@ public class LanguagePackManager implements LanguagePackInterface {
         mRestInterface.getRequestQueue().add(jsonObjectRequest);
     }
 
-    private String getLocaleList() {
-        // TODO - Need to handle when applying resolution
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return LocaleList.getDefault().toString();
-        } else {
-            return mAppInfra.getInternationalization().getUILocaleString();
-        }
-    }
-
     private String getPreferredLocaleURL() {
+        ArrayList<LanguagePackModel> languagePackModels = mLanguageList.getLanguages();
+        if (null != languagePackModels) {
+            LanguagePackModel langModel = new LanguagePackModel();
+            String appLocale = mAppInfra.getInternationalization().getUILocaleString();
 
-        ArrayList<LanguageModel> languageModels = mLanguageList.getLanguages();
-        if (null != languageModels) {
-            ArrayList<String> deviceLocaleList = new ArrayList<>(Arrays.asList(getLocaleList().split(",")));
-            LanguageModel langModel = new LanguageModel();
-            for (String deviceLocale : deviceLocaleList) {
-                deviceLocale = deviceLocale.replaceAll("[\\[\\]]", ""); // removing extra [] from locale list
-
-                for (LanguageModel model : languageModels) {
-                    if (model.getLocale().equalsIgnoreCase(deviceLocale)) {
-                        selectedLanguageModel = model;
-                        langModel.setVersion(model.getVersion());
-                        langModel.setLocale(model.getLocale());
-                        langModel.setUrl(model.getUrl());
-                        return model.getUrl();
-                    }
+            for (LanguagePackModel model : languagePackModels) {
+                if (model.getLocale().equalsIgnoreCase(appLocale)) {
+                    selectedLanguageModel = model;
+                    langModel.setVersion(model.getVersion());
+                    langModel.setLocale(model.getLocale());
+                    langModel.setUrl(model.getUrl());
+                    return model.getUrl();
                 }
-                for (LanguageModel model : languageModels) {
-                    if (deviceLocale.contains(model.getLocale().substring(0, 2))) {
-                        selectedLanguageModel = model;
-                        langModel.setVersion(model.getVersion());
-                        langModel.setLocale(model.getLocale());
-                        langModel.setUrl(model.getUrl());
-                        return model.getUrl();
-                    }
-                }
-
-                // TODO - Need to handle fallback scenarios
             }
-            LanguageModel defaultLocale = getDefaultLocale();
-            if (languageModels.contains(defaultLocale)) {
-                int index = languageModels.indexOf(defaultLocale);
-                selectedLanguageModel = languageModels.get(index);
-                return languageModels.get(index).getUrl();
+            for (LanguagePackModel model : languagePackModels) {
+                if (appLocale.contains(model.getLocale().substring(0, 2))) {
+                    selectedLanguageModel = model;
+                    langModel.setVersion(model.getVersion());
+                    langModel.setLocale(model.getLocale());
+                    langModel.setUrl(model.getUrl());
+                    return model.getUrl();
+                }
+            }
+
+            // TODO - Need to handle fallback scenarios
+            LanguagePackModel defaultLocale = getDefaultLocale();
+            if (languagePackModels.contains(defaultLocale)) {
+                int index = languagePackModels.indexOf(defaultLocale);
+                selectedLanguageModel = languagePackModels.get(index);
+                return languagePackModels.get(index).getUrl();
             }
         }
         return null;
@@ -300,8 +284,8 @@ public class LanguagePackManager implements LanguagePackInterface {
         };
     }
 
-    private LanguageModel getDefaultLocale() {
-        LanguageModel defaultLocale = new LanguageModel();
+    private LanguagePackModel getDefaultLocale() {
+        LanguagePackModel defaultLocale = new LanguagePackModel();
         defaultLocale.setLocale("en_US"); // developer default language
         return defaultLocale;
     }
