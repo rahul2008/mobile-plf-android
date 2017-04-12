@@ -80,11 +80,10 @@ public class InsightDataSender extends DataSender {
     }
 
     private boolean sendInsightsToBackend(final List<Insight> insightsToSync) {
+        boolean isFailed = false;
         InsightClient client = uCoreAdapter.getAppFrameworkClient(InsightClient.class,
                 uCoreAccessProvider.getAccessToken(), gsonConverter);
-
-        boolean isFailed = false;
-
+        if(client==null) return isFailed;
         for (Insight insight : insightsToSync) {
             isFailed = isFailed || deleteInsight(client, insight);
 

@@ -67,6 +67,7 @@ public class MomentsDataFetcher extends DataFetcher {
 
             final MomentsClient client = uCoreAdapter.getAppFrameworkClient(MomentsClient.class,
                     accessProvider.getAccessToken(), gsonConverter);
+            if(client==null) return null;
 
             if (client != null) {
                 DSLog.i(DSLog.LOG, "Moments DataFetching started");

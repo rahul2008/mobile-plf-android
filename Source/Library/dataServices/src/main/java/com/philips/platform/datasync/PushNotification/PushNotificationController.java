@@ -51,6 +51,7 @@ public class PushNotificationController {
 
         mPushNotificationClient = mUCoreAdapter.getAppFrameworkClient(PushNotificationClient.class,
                 uCoreAccessProvider.getAccessToken(), mGsonConverter);
+        if(mPushNotificationClient==null) return false;
         try {
             Response response = mPushNotificationClient.registerDeviceToken(uCoreAccessProvider.getUserId(),
                     uCoreAccessProvider.getUserId(), 13, uCorePushNotification);
@@ -70,6 +71,7 @@ public class PushNotificationController {
 
         mPushNotificationClient = mUCoreAdapter.getAppFrameworkClient(PushNotificationClient.class,
                 uCoreAccessProvider.getAccessToken(), mGsonConverter);
+        if(mPushNotificationClient==null) return false;
         try {
             Response response = mPushNotificationClient.unRegisterDeviceToken(uCoreAccessProvider.getUserId(),
                     uCoreAccessProvider.getUserId(), 13, appVariant, token);

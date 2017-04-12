@@ -114,6 +114,7 @@ public class ConsentsDataFetcher extends DataFetcher {
         }
 
         ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
+        if(client==null) return;
         try {
 
             ArrayList<String> consentTypes = new ArrayList<>();
