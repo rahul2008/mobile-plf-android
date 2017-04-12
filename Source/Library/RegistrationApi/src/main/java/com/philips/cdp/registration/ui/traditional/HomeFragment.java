@@ -563,7 +563,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         if (networkUtility.isNetworkAvailable()) {
             trackMultipleActionsLogin(providerName);
             trackSocialProviderPage();
-         if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
+         if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
                 if (providerName.equalsIgnoreCase(WECHAT)) {
                     if (isWeChatAuthenticate()) {
 //                        makeProgressVisible();
