@@ -7,8 +7,11 @@ package com.philips.platform.appinfra.languagepack.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import java.util.Random;
 
-
+/**
+ * The Language Pack Model class
+ */
 public class LanguagePackModel {
 
 	@SerializedName("locale")
@@ -49,7 +52,15 @@ public class LanguagePackModel {
 
 	@Override
 	public boolean equals(Object obj) {
-		LanguagePackModel languagePackModel = (LanguagePackModel) obj;
-		return languagePackModel.getLocale().equals(this.getLocale());
+		if (obj != null && obj instanceof LanguagePackModel) {
+			final LanguagePackModel languagePackModel = (LanguagePackModel) obj;
+			return languagePackModel.getLocale().equals(this.getLocale());
+		} else
+			return super.equals(obj);
+	}
+
+	@Override
+	public int hashCode() {
+		return new Random(5).hashCode();
 	}
 }

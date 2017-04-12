@@ -9,7 +9,7 @@ package com.philips.platform.appinfra.contentloader;
 import java.util.List;
 
 /*
- * Created by 310209604 on 2016-08-10.
+ * The Content Interface.
  */
 public interface ContentInterface {
     /**

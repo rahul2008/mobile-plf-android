@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
- * Created by 310209604 on 2016-08-12.
+ * The Content loader Content Article model class.
  * Article example: https://www.philips.com/wrx/b2c/c/nl/nl/ugrow-app/home.api.v1.offset.(0).limit.(100).json
  */
 public class ContentArticle implements ContentInterface {

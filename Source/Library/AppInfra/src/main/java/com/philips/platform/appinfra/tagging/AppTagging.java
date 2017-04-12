@@ -32,6 +32,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+/**
+ * A Wrapper class for Application Life Cycle.
+ */
 public class AppTagging implements AppTaggingInterface {
 
 	private String mLanguage;

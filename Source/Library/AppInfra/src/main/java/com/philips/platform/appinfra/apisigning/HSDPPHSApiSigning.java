@@ -7,7 +7,7 @@
 package com.philips.platform.appinfra.apisigning;
 
 /*
- * Created by 310190722 on 2017-01-5.
+ * The ApiSigning  WhiteBox Api Implementation  .
  */
 
 import android.util.Base64;

@@ -36,6 +36,9 @@ import javax.security.auth.x500.X500Principal;
 
 
 /**
+ * The class for store the key and value pair using AES Encryption with Cipher and Keystore .
+ * Value will stored in SharedPrefrence in encrypted manner.
+ * And also we can use as Create and store password securly using Create.
  * Current Implementation changed to MAIL-161.
  */
 public class SecureStorage implements SecureStorageInterface {

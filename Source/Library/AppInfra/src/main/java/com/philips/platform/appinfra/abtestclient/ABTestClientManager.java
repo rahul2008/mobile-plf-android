@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 /**
- * Created by 310243577 on 10/4/2016.
+ * The ABTest Client Manager
  */
 
 public class ABTestClientManager implements ABTestClientInterface {
@@ -47,7 +47,6 @@ public class ABTestClientManager implements ABTestClientInterface {
         mContext = appInfra.getAppInfraContext();
         isAppRestarted = true;
         Config.setContext(mContext.getApplicationContext());
-        Config.setDebugLogging(true);
         mCacheModel = new CacheModel();
         loadfromDisk();
         mSharedPreferences = mAppInfra.getAppInfraContext().getSharedPreferences(ABTEST_PRREFERENCE,

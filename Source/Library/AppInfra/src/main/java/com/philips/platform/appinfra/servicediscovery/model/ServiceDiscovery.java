@@ -28,7 +28,7 @@ import static com.philips.platform.appinfra.servicediscovery.model.AISDResponse.
 import static com.philips.platform.appinfra.servicediscovery.model.AISDResponse.AISDPreference.AISDLanguagePreference;
 
 /**
- * Created by 310238114 on 6/7/2016.
+ * The model class of ServiceDiscovery.
  */
 public class ServiceDiscovery {
 

@@ -18,7 +18,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
- 
+
+/**
+ * The Language Pack Util class.
+ */
+
 class LanguagePackUtil {
 
     private Context context;

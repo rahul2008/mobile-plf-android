@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 /**
- * Created by 310238114 on 6/7/2016.
+ * The model class for MatchByCountry or Language.
  */
 public class MatchByCountryOrLanguage {
 

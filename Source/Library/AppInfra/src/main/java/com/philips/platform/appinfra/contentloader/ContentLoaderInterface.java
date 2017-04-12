@@ -9,7 +9,7 @@ package com.philips.platform.appinfra.contentloader;
 import java.util.List;
 
 /*
- * Created by 310209604 on 2016-08-10.
+ * The Content loader Interface.
  * Example of article summary download https://www.philips.com/wrx/b2c/c/nl/nl/ugrow-app/home.api.v1.offset.(0).limit.(100).json
  */
 public interface ContentLoaderInterface<Content extends ContentInterface> {

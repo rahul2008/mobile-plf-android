@@ -22,7 +22,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 /**
- * Created by 310243577 on 11/10/2016.
+ * The Wrapper Base class for all network requests.
  */
 
 public class GsonCustomRequest<T> extends Request<T> {

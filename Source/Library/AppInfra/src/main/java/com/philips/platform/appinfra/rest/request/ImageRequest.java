@@ -17,6 +17,10 @@ import com.philips.platform.appinfra.rest.TokenProviderInterface;
 
 import java.util.Map;
 
+/**
+ * A wrapper class of canned request for getting an image at a given URL and calling
+ * back with a decoded Bitmap.
+ */
 public class ImageRequest extends com.android.volley.toolbox.ImageRequest {
     private Map<String, String> mHeader;
     private TokenProviderInterface mProvider;

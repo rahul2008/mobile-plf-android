@@ -34,7 +34,7 @@ import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 import java.io.Serializable;
 
 /**
- * Created by 310238114 on 5/5/2016.
+ * The AppInfra Base class, here using builder design pattern to create object .
  */
 public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Serializable {
 

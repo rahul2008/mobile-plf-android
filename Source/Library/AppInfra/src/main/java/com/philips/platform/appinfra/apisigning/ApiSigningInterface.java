@@ -7,7 +7,7 @@
 package com.philips.platform.appinfra.apisigning;
 
 /**
- * Created by 310190722 on 04/01/2017.
+ * The ApiSigning Interface for WhiteBox API .
  */
 
 import java.util.Map;

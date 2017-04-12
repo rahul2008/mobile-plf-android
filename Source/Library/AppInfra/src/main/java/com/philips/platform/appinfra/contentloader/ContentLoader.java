@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Created by 310243577 on 11/28/2016.
+ * The Content Loader class.
  */
 
 public class ContentLoader<Content extends ContentInterface> implements ContentLoaderInterface<Content> {

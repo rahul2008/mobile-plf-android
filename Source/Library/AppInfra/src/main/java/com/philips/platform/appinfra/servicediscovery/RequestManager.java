@@ -1,8 +1,6 @@
 package com.philips.platform.appinfra.servicediscovery;
 
-/**
- * Created by 310243577 on 1/10/2017.
- */
+
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -30,10 +28,13 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-
+/**
+ * The RequestManager class for service discovery.
+ */
 public class RequestManager {
 
 	//    RequestQueue mRequestQueue;
+	private static final String TAG = "RequestManager";//this.class.getSimpleName();
 	private final AppInfra mAppInfra;
 	private static final String SERVICE_DISCOVERY_CACHE_FILE = "SDCacheFile";
 	private final Context mContext;

@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by 310238114 on 11/8/2016.
+ * The Content Database Handler Class.
  */
 public class ContentDatabaseHandler extends SQLiteOpenHelper {
 

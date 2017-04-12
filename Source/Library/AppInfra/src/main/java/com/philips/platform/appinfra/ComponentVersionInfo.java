@@ -6,7 +6,7 @@
 package com.philips.platform.appinfra;
 
 /**
- * Created by philips on 3/8/17.
+ * The interface for version Information.
  */
 
 public interface ComponentVersionInfo {

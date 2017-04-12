@@ -15,7 +15,10 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
-
+/**
+ * A wrapper class of request for retrieving a {@link JSONObject} response body at a given URL, allowing for an
+ * optional {@link JSONObject} to be passed in as part of the request body.
+ */
 public class JsonObjectRequest extends com.android.volley.toolbox.JsonObjectRequest {
 
     private Map<String, String> mHeader;

@@ -1,7 +1,7 @@
 package com.philips.platform.appinfra.contentloader.model;
 
 /**
- * Created by 310238114 on 11/8/2016.
+ * The generic class model for all find of content.
  */
 // each ContentItem represent a row in ContentTable
 //this is a generic class model for all find of content ie contentArticle etc

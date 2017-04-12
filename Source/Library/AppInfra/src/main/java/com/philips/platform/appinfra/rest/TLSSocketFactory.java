@@ -12,7 +12,7 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
 /**
- * Created by 310243577 on 11/3/2016.
+ * The wrapper class for SSLSocketFactory
  */
 
 public class TLSSocketFactory extends SSLSocketFactory {

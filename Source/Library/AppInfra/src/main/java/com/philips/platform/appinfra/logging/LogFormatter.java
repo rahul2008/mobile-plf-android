@@ -18,7 +18,10 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
 /**
- * Created by 310238114 on 4/26/2016.
+ * A Formatter provides support for formatting LogRecords.
+ * Typically each logging Handler will have a Formatter associated
+ * with it.  The Formatter takes a LogRecord and converts it to
+ * a string.
  */
 public class LogFormatter extends Formatter {
     private final String componentNameAndVersion;

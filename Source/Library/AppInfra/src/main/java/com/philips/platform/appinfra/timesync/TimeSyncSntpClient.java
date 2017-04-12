@@ -24,8 +24,8 @@ import java.util.Date;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Created by 310243577 on 6/27/2016.
- * * This provides API's to retrieve and refresh the server time .
+ * The UTC time Sync Class.
+ * This provides API's to retrieve and refresh the server time .
  */
 public class TimeSyncSntpClient implements TimeInterface {
     private static final String TAG = "TimeSyncSntpClient";

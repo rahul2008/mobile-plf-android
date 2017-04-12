@@ -12,7 +12,11 @@ import com.android.volley.VolleyError;
 
 
 /**
- * Created by 310243577 on 11/4/2016.
+ * A wrapper clas of request dispatch queue with a thread pool of dispatchers.
+ *
+ * Calling {@link #add(Request)} will enqueue the given Request for dispatch,
+ * resolving from either cache or network on a worker thread, and then delivering
+ * a parsed response on the main thread.
  */
 
 public class RequestQueue extends com.android.volley.RequestQueue {

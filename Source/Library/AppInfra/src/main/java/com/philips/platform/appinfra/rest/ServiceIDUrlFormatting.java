@@ -1,7 +1,7 @@
 package com.philips.platform.appinfra.rest;
 
 /*
- * Created by 310209604 on 2016-10-28.
+ * The Class for ServiceID Url formatting.
  */
 
 public class ServiceIDUrlFormatting {

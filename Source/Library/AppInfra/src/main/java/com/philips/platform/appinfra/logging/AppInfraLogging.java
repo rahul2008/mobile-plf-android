@@ -24,7 +24,9 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-
+/**
+ * The AppInfra Logging implementation class.
+ */
 public class AppInfraLogging implements LoggingInterface {
     private static final String DIRECTORY_FILE_NAME = "AppInfraLogs";
     private static final String PROPERTIES_FILE_NAME = "logging.properties";

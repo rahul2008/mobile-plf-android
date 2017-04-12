@@ -26,7 +26,9 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
-
+/**
+ * The Rest webservice request class .
+ */
 public class RestManager implements RestInterface {
     private RequestQueue mRequestQueue;
     private AppInfra mAppInfra;

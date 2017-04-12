@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by 310243577 on 1/27/2017.
+ * The model class for AISDResponse.
  */
 
 public class AISDResponse {

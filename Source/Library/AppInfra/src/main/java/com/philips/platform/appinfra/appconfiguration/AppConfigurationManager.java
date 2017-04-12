@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by 310238114 on 7/25/2016.
+ * The AppConfiguration Manger Class.
  */
 public class AppConfigurationManager implements AppConfigurationInterface {
 
@@ -52,13 +52,12 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     private JSONObject result = null;
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mPrefEditor;
+
     private SecureStorageInterface mSecureStorageInterface;
 
     public AppConfigurationManager(AppInfra appInfra) {
         mAppInfra = appInfra;
         mContext = appInfra.getAppInfraContext();
-        mSharedPreferences = getCloudConfigSharedPreferences();
-        mPrefEditor = mSharedPreferences.edit();
     }
 
     protected JSONObject getMasterConfigFromApp() {
@@ -110,8 +109,8 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     private JSONObject getDynamicJSONFromDevice() {
         mSecureStorageInterface = mAppInfra.getSecureStorage();
         JSONObject mJsonObject = null;
-        final SecureStorageInterface.SecureStorageError mSecureStorageError = new SecureStorageInterface.SecureStorageError();
-        final String jsonString = mSecureStorageInterface.fetchValueForKey(APPCONFIG_SECURE_STORAGE_KEY_NEW, mSecureStorageError);
+        final SecureStorageInterface.SecureStorageError secureStorageError = new SecureStorageInterface.SecureStorageError();
+        final String jsonString = mSecureStorageInterface.fetchValueForKey(APPCONFIG_SECURE_STORAGE_KEY_NEW, secureStorageError);
         if (null != jsonString ) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", jsonString);
             try {
@@ -134,6 +133,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
     private JSONObject getCloudJSONFromDevice() {
         JSONObject cloudConfigJsonObj = null;
+        mSharedPreferences = getCloudConfigSharedPreferences();
         if (null != mSharedPreferences && mSharedPreferences.contains(CLOUD_APP_CONFIG_JSON)) {
             final String savedCloudConfigJson = mSharedPreferences.getString(CLOUD_APP_CONFIG_JSON, null);
             if (null != savedCloudConfigJson) {
@@ -390,6 +390,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         serviceDiscoveryInterface.getServiceUrlWithCountryPreference(cloudServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onSuccess(URL url) {
+                mSharedPreferences = getCloudConfigSharedPreferences();
                 if (null != mSharedPreferences && mSharedPreferences.contains(CLOUD_APP_CONFIG_URL)) {
                     final String savedURL = mSharedPreferences.getString(CLOUD_APP_CONFIG_URL, null);
                     if (url.toString().trim().equalsIgnoreCase(savedURL)) { // cloud config url has not changed
@@ -439,12 +440,16 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     private void saveCloudConfig(JSONObject cloudConfig, String url) {
         cloudConfig = makeKeyUppercase(cloudConfig); // converting all Group and child key to Uppercase
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Cloud config " + cloudConfig);
+        mSharedPreferences = getCloudConfigSharedPreferences();
+        mPrefEditor = mSharedPreferences.edit();
         mPrefEditor.putString(CLOUD_APP_CONFIG_JSON, cloudConfig.toString());
         mPrefEditor.putString(CLOUD_APP_CONFIG_URL, url);
         mPrefEditor.commit();
     }
 
     void clearCloudConfigFile() {
+        mSharedPreferences = getCloudConfigSharedPreferences();
+        mPrefEditor = mSharedPreferences.edit();
         mPrefEditor.clear();
         mPrefEditor.commit();
     }
@@ -454,6 +459,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     }
 
     public void migrateDynamicData() {
+
                 final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
                 mSecureStorageInterface = mAppInfra.getSecureStorage();
                 JSONObject oldDynamicConfigJson = null;
@@ -505,7 +511,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Migration not required");
                     //Log.v("uAPP_CONFIG","Migration not required" );
                 }
-        }
 
-    }
+            }
 
+}

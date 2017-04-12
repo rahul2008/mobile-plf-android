@@ -31,7 +31,9 @@ import java.util.ArrayList;
 import static com.philips.platform.appinfra.languagepack.LanguagePackConstants.LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY;
 import static com.philips.platform.appinfra.languagepack.LanguagePackConstants.LOCALE_FILE_ACTIVATED;
 
-
+/**
+ * The Language Pack Manager .
+ */
 public class LanguagePackManager implements LanguagePackInterface {
 
 	private AppInfra mAppInfra;
