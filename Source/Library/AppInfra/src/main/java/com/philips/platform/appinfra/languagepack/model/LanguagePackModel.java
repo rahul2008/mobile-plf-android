@@ -8,6 +8,8 @@ package com.philips.platform.appinfra.languagepack.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Random;
+
 
 public class LanguagePackModel {
 
@@ -49,7 +51,15 @@ public class LanguagePackModel {
 
 	@Override
 	public boolean equals(Object obj) {
-		LanguagePackModel languagePackModel = (LanguagePackModel) obj;
-		return languagePackModel.getLocale().equals(this.getLocale());
+		if (obj != null && obj instanceof LanguagePackModel) {
+			LanguagePackModel languagePackModel = (LanguagePackModel) obj;
+			return languagePackModel.getLocale().equals(this.getLocale());
+		} else
+			return super.equals(obj);
+	}
+
+	@Override
+	public int hashCode() {
+		return new Random(5).hashCode();
 	}
 }
