@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.SyncType;
@@ -30,7 +32,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class CharacteristicsDialogFragment extends DialogFragment implements View.OnClickListener, DBFetchRequestListner<Characteristics>,DBRequestListener<Characteristics>,DBChangeListener {
+import android.support.v4.app.Fragment;
+
+import static com.philips.platform.baseapp.screens.utility.Constants.JSON_PARSING_EXCEPTION;
+
+public class CharacteristicsDialogFragment extends Fragment implements View.OnClickListener, DBFetchRequestListner<Characteristics>,DBRequestListener<Characteristics>,DBChangeListener {
     Button mBtnOk,mBtnEdit;
     private Context mContext;
     private EditText mEtCharacteristics;
@@ -99,13 +105,6 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
     public void onStart() {
         super.onStart();
         DataServicesManager.getInstance().registerDBChangeListener(this);
-        Dialog dialog = getDialog();
-        dialog.setTitle(getString(R.string.characteristics));
-        if (dialog != null) {
-            int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
-            dialog.getWindow().setLayout(width, height);
-        }
     }
 
     @Override
@@ -122,10 +121,12 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
                 } else {
                     Toast.makeText(mContext, "Please enter valid input", Toast.LENGTH_SHORT).show();
                 }
-                getDialog().dismiss();
+                getFragmentManager().popBackStack();
+                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                 break;
             case R.id.btnCancel:
-                getDialog().dismiss();
+                getFragmentManager().popBackStack();
+                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                 break;
             case R.id.btnEdit:
                 isEditable = true;
@@ -171,7 +172,8 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
                     mEtCharacteristics.setText(jsonObj);
                 } catch (Exception e) {
                     DSLog.i(DSLog.LOG, "Inder Exception onSuccess= " + e.getMessage());
-                    e.printStackTrace();
+                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, JSON_PARSING_EXCEPTION,
+                            e.getMessage());
                 }
             }
 

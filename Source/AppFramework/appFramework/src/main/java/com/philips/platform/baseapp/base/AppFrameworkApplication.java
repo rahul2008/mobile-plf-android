@@ -37,7 +37,7 @@ import java.util.Locale;
 public class AppFrameworkApplication extends Application implements FlowManagerListener {
     private static final String LEAK_CANARY_BUILD_TYPE = "leakCanary";
     public AppInfraInterface appInfra;
-    public LoggingInterface loggingInterface;
+    public  static LoggingInterface loggingInterface;
     protected FlowManager targetFlowManager;
     private UserRegistrationState userRegistrationState;
     private IAPState iapState;
@@ -45,9 +45,8 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
     private ProductRegistrationState productRegistrationState;
     private boolean isSdCardFileCreated;
     private File tempFile;
-    private final boolean[] isChinaCountry = {false};
+    private static final boolean[] isChinaCountry = {false};
 
-    @SuppressWarnings("deprecation")
     @Override
     public void onCreate() {
         if (BuildConfig.BUILD_TYPE.equalsIgnoreCase(LEAK_CANARY_BUILD_TYPE)) {
@@ -65,9 +64,7 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
         MultiDex.install(this);
         super.onCreate();
         appInfra = new AppInfra.Builder().build(getApplicationContext());
-        loggingInterface = appInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
-        loggingInterface.enableConsoleLog(true);
-        loggingInterface.enableFileLog(true);
+        loggingInterface= appInfra.getLogging();
         setLocale();
         userRegistrationState = new UserRegistrationOnBoardingState();
         userRegistrationState.init(this);
@@ -131,7 +128,6 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
     }
 
     public void determineChinaFlow() {
-
         AppInfraInterface appInfraInterface = getAppInfra();
         ServiceDiscoveryInterface serviceDiscovery = appInfraInterface.getServiceDiscovery();
 
