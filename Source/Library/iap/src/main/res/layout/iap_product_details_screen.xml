@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <ScrollView
@@ -18,28 +18,11 @@
             android:layout_height="wrap_content">
 
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/pager"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/iap_product_detail_image_height"
-                android:layout_marginTop="@dimen/iap_image_top_margin"
-                android:paddingBottom="@dimen/iap_image_bottom_margin" />
-
-            <com.philips.cdp.uikit.customviews.CircleIndicator
-                android:id="@+id/indicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/pager"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center_horizontal"
-                android:padding="@dimen/iap_dots_padding" />
-
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/product_description"
                 style="@style/iapCentralesansBoldFont"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/indicator"
                 android:layout_marginEnd="@dimen/iap_product_detail_right_padding"
                 android:layout_marginStart="@dimen/iap_product_detail_left_padding"
                 android:includeFontPadding="false"
@@ -92,12 +75,29 @@
 
             </LinearLayout>
 
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/iap_product_detail_image_height"
+                android:layout_below="@+id/price_container"
+                android:layout_marginTop="@dimen/iap_image_top_margin"
+                android:paddingBottom="@dimen/iap_image_bottom_margin" />
+
+            <com.philips.cdp.uikit.customviews.CircleIndicator
+                android:id="@+id/indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pager"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:padding="@dimen/iap_dots_padding" />
+
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/product_overview"
                 style="@style/UIDLabel"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ctn"
+                android:layout_below="@id/indicator"
                 android:layout_marginBottom="@dimen/iap_product_detail_bottom_padding"
                 android:layout_marginEnd="@dimen/iap_product_detail_right_padding"
                 android:layout_marginStart="@dimen/iap_product_detail_left_padding"
@@ -134,8 +134,6 @@
                 android:enabled="true"
                 android:text="@string/iap_buy_from_retailers"
                 android:visibility="gone" />
-
         </RelativeLayout>
     </ScrollView>
-
 </RelativeLayout>
