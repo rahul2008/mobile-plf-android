@@ -6,6 +6,7 @@ import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.SavingBlobMetaDataRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.BlobDataCreater;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -74,7 +75,7 @@ public class BlobDataSender extends DataSender {
             if(response == null){
                 blobData.getBlobRequestListener().onBlobRequestFailure(new Exception("Server returned null response"));
             }else {
-                BlobMetaData blobMetaData = dataCreator.createBlobMetaData();
+                BlobMetaData blobMetaData = ((BlobDataCreater)dataCreator).createBlobMetaData();
                 blobMetaData.setBlobId(response.getItemId());
                 eventing.post(new SavingBlobMetaDataRequest(blobMetaData));
 

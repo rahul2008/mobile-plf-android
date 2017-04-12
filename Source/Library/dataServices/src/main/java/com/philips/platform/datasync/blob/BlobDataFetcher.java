@@ -11,6 +11,7 @@ import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.events.FetchMetaDataRequest;
 import com.philips.platform.core.events.UpdateUcoreMetadataRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.BlobDataCreater;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -117,7 +118,7 @@ public class BlobDataFetcher extends DataFetcher{
 
     private BlobMetaData getAppBlobMetaData(UcoreBlobMetaData ucoreBlobMetaData ,String blobID){
 
-        BlobMetaData blobMetaData=dataCreator.createBlobMetaData();
+        BlobMetaData blobMetaData= ((BlobDataCreater)dataCreator).createBlobMetaData();
         blobMetaData.setBlobVersion(ucoreBlobMetaData.getBlobVersion());
         blobMetaData.setContentChecksum(ucoreBlobMetaData.getContentChecksum());
         blobMetaData.setContentLength(ucoreBlobMetaData.getContentLength());

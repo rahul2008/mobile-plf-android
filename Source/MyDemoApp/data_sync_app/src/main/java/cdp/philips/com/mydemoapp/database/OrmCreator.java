@@ -20,6 +20,7 @@ import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.Settings;
+import com.philips.platform.core.utils.BlobDataCreater;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasync.blob.BlobMetaData;
 import com.philips.platform.datasync.insights.UCoreInsight;
@@ -58,7 +59,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class OrmCreator implements BaseAppDataCreator {
+public class OrmCreator implements BaseAppDataCreator, BlobDataCreater {
 
     private final UuidGenerator uuidGenerator;
 

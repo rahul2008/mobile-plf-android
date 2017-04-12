@@ -74,7 +74,4 @@ public interface BaseAppDataCreator {
 
     @NonNull
     InsightMetadata createInsightMetaData(String key, String value, Insight insight);
-
-    @NonNull
-    BlobMetaData createBlobMetaData();
 }

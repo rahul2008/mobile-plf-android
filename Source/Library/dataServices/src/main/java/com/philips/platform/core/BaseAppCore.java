@@ -23,6 +23,7 @@ import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.monitors.ErrorMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.BlobDataCreater;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.Backend;
 import com.philips.platform.datasync.blob.BlobMetaData;
@@ -38,7 +39,7 @@ import javax.inject.Inject;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class BaseAppCore implements BaseAppDataCreator {
+public class BaseAppCore implements BaseAppDataCreator,BlobDataCreater {
     @Inject
     Eventing eventing;
 
@@ -157,7 +158,7 @@ public class BaseAppCore implements BaseAppDataCreator {
     @NonNull
     @Override
     public BlobMetaData createBlobMetaData() {
-        return database.createBlobMetaData();
+        return ((BlobDataCreater) database).createBlobMetaData();
     }
 
 
