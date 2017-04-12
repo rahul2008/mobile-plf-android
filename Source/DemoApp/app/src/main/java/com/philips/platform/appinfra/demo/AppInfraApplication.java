@@ -6,19 +6,25 @@
 package com.philips.platform.appinfra.demo;
 
 import android.app.Application;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.StrictMode;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.crittercism.app.Crittercism;
+import com.crittercism.app.CrittercismConfig;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.tagging.AppTagging;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.appinfra.tagging.ApplicationLifeCycleHandler;
 import com.squareup.leakcanary.LeakCanary;
 
-import java.net.URL;
+import java.util.Map;
 
 /**
  * Created by deepakpanigrahi on 5/18/16.
@@ -27,6 +33,7 @@ public class AppInfraApplication extends Application {
     public static AppTaggingInterface mAIAppTaggingInterface;
     public static AppInfraInterface gAppInfra;
     private AppInfra mAppInfra;
+    private static final String CRITTERCISM_APP_ID = "cba7f25561b444e5b0aa29639669532d00555300";
 
 
     //SecurDb
@@ -39,6 +46,10 @@ public class AppInfraApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Crittercism.initialize(getApplicationContext(), CRITTERCISM_APP_ID);
+        Crittercism.didCrashOnLastLoad();
+        CrittercismConfig config = new CrittercismConfig();
+        config.setLogcatReportingEnabled(true);
 
         //https://developer.android.com/reference/android/os/StrictMode.html
         // to monitor penaltyLog() log output in logcat for ANR or any other performance issue
@@ -61,10 +72,39 @@ public class AppInfraApplication extends Application {
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
         gAppInfra.getTime().refreshTime();
         mAppInfra = (AppInfra)gAppInfra;
-        mAIAppTaggingInterface = gAppInfra.getTagging().createInstanceForComponent("Component name", "Component ID");
+
+        mAIAppTaggingInterface = gAppInfra.getTagging();
+        mAIAppTaggingInterface.registerTaggingData(rec);
+        mAIAppTaggingInterface.trackPageWithInfo("Main APP" ,"APP " , "APPINFRA");
+        mAIAppTaggingInterface.trackVideoEnd("track - demo APP");
         mAIAppTaggingInterface.setPreviousPage("SomePreviousPage");
         ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler(mAppInfra);
         registerActivityLifecycleCallbacks(handler);
         registerComponentCallbacks(handler);
     }
+
+
+    private BroadcastReceiver rec = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent != null) {
+                if(intent.getAction() == AppTagging.ACTION_TAGGING_DATA) {
+                    Log.d("AppInfra APP", "BroadcastReceiver() {...}.onReceive()");
+                    Map textExtra = (Map) intent.getSerializableExtra(AppTagging.EXTRA_TAGGING_DATA);
+                    Log.d("APPINFRA-TAGGING" , textExtra.toString());
+                    Crittercism.leaveBreadcrumb(textExtra.toString());
+                    Toast.makeText(getApplicationContext(),
+                            textExtra.toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+        }
+    };
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+       mAIAppTaggingInterface.unregisterTaggingData(rec);
+    }
+
 }
