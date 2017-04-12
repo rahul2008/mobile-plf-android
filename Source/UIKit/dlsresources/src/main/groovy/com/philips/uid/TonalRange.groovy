@@ -157,7 +157,7 @@ class TonalRange {
         return hexAlpha
     }
 
-    public def getColorValue(def colorsXmlInput, def colorReference) {
+    static def getColorValue(def colorsXmlInput, def colorReference) {
         try {
             return colorsXmlInput.findAll {
                 it.@name == colorReference

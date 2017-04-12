@@ -5,6 +5,7 @@
  */
 
 import com.philips.uid.DLSResourceConstants
+import com.philips.uid.TonalRange
 import groovy.xml.MarkupBuilder
 
 class AccentRangeGenerator {
@@ -22,7 +23,7 @@ class AccentRangeGenerator {
                     xml.style("${DLSResourceConstants.ITEM_NAME}": "Accent" + theme) {
 
                         for (int colorLevel = 5; colorLevel <= 90;) {
-                            def colorValue = getColorValue(colorsXmlInput, getColorName(colorLevel, colorName))
+                            def colorValue = TonalRange.getColorValue(colorsXmlInput, getColorName(colorLevel, colorName))
                             item("${DLSResourceConstants.ITEM_NAME}": "${DLSResourceConstants.LIB_PREFIX}" + "AccentLevel" + colorLevel, colorValue)
                             colorLevel = colorLevel + DLSResourceConstants.COLOR_OFFSET
                         }
@@ -41,16 +42,4 @@ class AccentRangeGenerator {
     private String getColorName(int colorLevel, def colorName) {
         return "${DLSResourceConstants.LIB_PREFIX}_" + colorName + "_level_" + colorLevel
     }
-
-    public def getColorValue(colorsXmlInput, colorReference) {
-        try {
-            return colorsXmlInput.findAll {
-                it.@name == colorReference
-            }*.text().get(0)
-        } catch (IndexOutOfBoundsException exception) {
-//            println("invalid colorCode with colorName: " + colorReference)
-            return "@null"
-        }
-    }
-
 }
