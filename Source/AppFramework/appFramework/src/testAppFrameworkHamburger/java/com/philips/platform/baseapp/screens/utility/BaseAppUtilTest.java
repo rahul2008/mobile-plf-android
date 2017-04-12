@@ -5,12 +5,19 @@
 */
 package com.philips.platform.baseapp.screens.utility;
 
+import com.philips.platform.GradleRunner;
+import com.philips.platform.TestAppFrameworkApplication;
+import com.philips.platform.appframework.BuildConfig;
+
 import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.annotation.Config;
 
-
+@RunWith(GradleRunner.class)
+@Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 24)
 public class BaseAppUtilTest extends TestCase {
     BaseAppUtil baseAppUtil;
 
@@ -21,7 +28,7 @@ public class BaseAppUtilTest extends TestCase {
 
     @Test
     public void testGetJsonFilePath(){
-        assertEquals("/ReferenceApp/appflow.json",baseAppUtil.getJsonFilePath().toString());
+        assertTrue(baseAppUtil.getJsonFilePath().toString().contains("/ReferenceApp/appflow.json"));
     }
 
     @Test
