@@ -100,9 +100,9 @@ public class MomentsDataSender extends DataSender {
             return true;
         }
         boolean conflictHappened = false;
-        String BASE = userRegistrationImpl.getHSDPUrl();
+        String baseUrl = DataServicesManager.getInstance().fetchBaseUrlFromServiceDiscovery();
 
-        MomentsClient client = uCoreAdapter.getClient(MomentsClient.class, BASE,
+        MomentsClient client = uCoreAdapter.getClient(MomentsClient.class, baseUrl,
                 accessProvider.getAccessToken(), momentGsonConverter);
 
         for (Moment moment : moments) {

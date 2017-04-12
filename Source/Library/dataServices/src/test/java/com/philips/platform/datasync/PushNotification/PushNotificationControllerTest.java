@@ -176,7 +176,7 @@ public class PushNotificationControllerTest {
         when(retrofitError.getResponse()).thenReturn(mResponse);
         when(mPushNotificationClient.unRegisterDeviceToken(TEST_USER_ID, TEST_USER_ID, 13, "app variant", "token")).thenThrow(retrofitError);
         mPushNotificationController.unRegisterPushNotification("app variant", "token");
-        mPushNotificationController.createDataServicesError(retrofitError);
+        mPushNotificationController.createDataServicesError(423, "invalid");
     }
 
 }
