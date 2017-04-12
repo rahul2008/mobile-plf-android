@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="localized_commercial_app_name">演示应用程序</string>
-    <string name="ail_locale">zh-TW</string>
+    <string name="ail_locale">zh_TW</string>
 </resources>
