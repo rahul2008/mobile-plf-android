@@ -117,6 +117,9 @@ class TonalRange {
                 def colorWithHex = colorValue.replace("#", "#${hexAlpha}")
                 return colorWithHex;
             }
+            if (colorValue == null) {
+                return color;
+            }
             return "@color/${colorReference}"
         }
 //        println(" Invalid combination " + this.toString())
@@ -154,7 +157,7 @@ class TonalRange {
         return hexAlpha
     }
 
-    def getColorValue(colorsXmlInput, colorReference) {
+    public def getColorValue(def colorsXmlInput, def colorReference) {
         try {
             return colorsXmlInput.findAll {
                 it.@name == colorReference

@@ -22,6 +22,7 @@ class BrushParser {
         new AttributeGenerator().flushAttrsFile(allBrushAttributes, allComponentAttributes)
         new ThemeGenerator().createThemeXml(allBrushAttributes, allComponentAttributes)
         new NavigationStyleCreator().create(allBrushAttributes, allComponentAttributes)
+        new AccentRangeGenerator().generateAccentRanges()
     }
 
     static def generateBrushAttributes(brushesMap) {
@@ -89,5 +90,9 @@ class BrushParser {
             it.capitalize()
         }.join("")
         return capitalizedAttribute;
+    }
+
+    public static boolean isSupportedAction(Object name) {
+        return !name.contains(DLSResourceConstants.HOVER)
     }
 }

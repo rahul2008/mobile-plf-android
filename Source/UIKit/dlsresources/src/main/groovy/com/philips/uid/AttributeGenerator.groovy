@@ -29,11 +29,18 @@ class AttributeGenerator {
                 }
 
                 allBrushAttributes.each {
-                    attr("${DLSResourceConstants.ITEM_NAME}": it.attrName, "${DLSResourceConstants.ITEM_FORMAT}": DLSResourceConstants.FORMAT_REF_OR_COLOR)
+                    if (BrushParser.isSupportedAction(it.attrName)) {
+                        attr("${DLSResourceConstants.ITEM_NAME}": it.attrName, "${DLSResourceConstants.ITEM_FORMAT}": DLSResourceConstants.FORMAT_REF_OR_COLOR)
+                        if (it.attrName.contains("Accent")) {
+                            attr("${DLSResourceConstants.ITEM_NAME}": it.attrName + "Alpha", "${DLSResourceConstants.ITEM_FORMAT}": DLSResourceConstants.FORMAT_REF_OR_COLOR)
+                        }
+                    }
                 }
 
                 allComponentAttributes.each {
-                    attr("${DLSResourceConstants.ITEM_NAME}": it.attrName, "${DLSResourceConstants.ITEM_FORMAT}": DLSResourceConstants.FORMAT_REF_OR_COLOR)
+                    if (BrushParser.isSupportedAction(it.attrName)) {
+                        attr("${DLSResourceConstants.ITEM_NAME}": it.attrName, "${DLSResourceConstants.ITEM_FORMAT}": DLSResourceConstants.FORMAT_REF_OR_COLOR)
+                    }
                 }
 
             }
@@ -47,4 +54,6 @@ class AttributeGenerator {
         attrFile.createNewFile()
         attrFile.write(sw.toString())
     }
+
+
 }
