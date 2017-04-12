@@ -14,7 +14,7 @@ public class UIDActivity extends AppCompatActivity {
         if (uidResources == null) {
             uidResources = new UIDResources(super.getResources());
         }
-        return uidResources == null ? super.getResources() : uidResources;
+        return uidResources;
     }
 
     @Override
