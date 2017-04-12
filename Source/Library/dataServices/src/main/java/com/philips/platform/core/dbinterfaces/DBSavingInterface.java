@@ -30,6 +30,4 @@ public interface DBSavingInterface {
     boolean saveUserCharacteristics(final List<Characteristics> userCharacteristics, DBRequestListener<Characteristics> dbRequestListener) throws SQLException;
     boolean saveSettings(final Settings settings, DBRequestListener<Settings> dbRequestListener) throws SQLException;
     boolean saveInsights(final List<Insight> insights, DBRequestListener<Insight> dbRequestListener) throws SQLException;
-
-    boolean saveBlobMetaData(final BlobMetaData blobMetaData , BlobRequestListener blobRequestListener) throws SQLException;
 }

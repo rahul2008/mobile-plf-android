@@ -66,7 +66,4 @@ public interface DBFetchingInterface {
 
     List<?> fetchNonSynchronizedInsights() throws SQLException;
 
-    List<? extends BlobMetaData> fetchAllBlobMetaData(DBFetchRequestListner<BlobMetaData> dbFetchRequestListner,String userID) throws SQLException;
-
-    BlobMetaData fetchBlobMetaDataByBlobID(String blobID) throws SQLException;
 }

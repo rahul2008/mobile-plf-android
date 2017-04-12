@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SyncType;
+import com.philips.platform.core.dbinterfaces.DBBlobFetchingInterface;
+import com.philips.platform.core.dbinterfaces.DBBlobUpdatingInterface;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
@@ -231,12 +233,12 @@ public class UpdatingMonitor extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final UpdateUcoreMetadataRequest updateUcoreMetadataRequest) throws SQLException {
         try {
-            BlobMetaData blobMetaData = dbFetchingInterface.fetchBlobMetaDataByBlobID(updateUcoreMetadataRequest.getBlobMetaData().getBlobID());
+            BlobMetaData blobMetaData = ((DBBlobFetchingInterface)dbFetchingInterface).fetchBlobMetaDataByBlobID(updateUcoreMetadataRequest.getBlobMetaData().getBlobID());
             BlobMetaData uCoreBlobMetaData=updateUcoreMetadataRequest.getBlobMetaData();
             if(blobMetaData!=null){
                 uCoreBlobMetaData.setId(blobMetaData.getId());
             }
-            dbUpdatingInterface.updateUcoreBlobMetaData(uCoreBlobMetaData);
+            ((DBBlobUpdatingInterface)dbUpdatingInterface).updateUcoreBlobMetaData(uCoreBlobMetaData);
         } catch (SQLException e) {
             dbUpdatingInterface.updateFailed(e, null);
             notifyDBFailure(e);

@@ -33,6 +33,4 @@ public interface DBUpdatingInterface {
     boolean updateSyncBit(int tableID,boolean isSynced) throws SQLException;
 
     boolean updateInsights(final List<? extends Insight> insights ,DBRequestListener<Insight> dbRequestListener) throws SQLException;
-
-    boolean updateUcoreBlobMetaData(BlobMetaData blobMetaData) throws SQLException;
 }

@@ -13,7 +13,10 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.philips.cdp.uikit.customviews.CircularProgressbar;
+import com.philips.platform.core.datatypes.SyncType;
+import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.blob.BlobMetaData;
 
 import java.io.File;
@@ -25,7 +28,7 @@ import cdp.philips.com.mydemoapp.activity.FilePicker;
 
 import static android.app.Activity.RESULT_OK;
 
-public class BlobFragment extends Fragment implements View.OnClickListener,DBFetchRequestListner<BlobMetaData> {
+public class BlobFragment extends Fragment implements View.OnClickListener,DBFetchRequestListner<BlobMetaData> ,DBChangeListener{
 
     Button mBtnUpload;
     private ProgressBar mProgressBar;
@@ -68,6 +71,18 @@ public class BlobFragment extends Fragment implements View.OnClickListener,DBFet
         mBlobPresenter.updateUI();
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        DataServicesManager.getInstance().registerDBChangeListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        DataServicesManager.getInstance().unRegisterDBChangeListener();
     }
 
     @Override
@@ -130,6 +145,16 @@ public class BlobFragment extends Fragment implements View.OnClickListener,DBFet
                 blobMetaDataAdapter.notifyDataSetChanged();
             }
         });
+
+    }
+
+    @Override
+    public void dBChangeSuccess(SyncType type) {
+        mBlobPresenter.updateUI();
+    }
+
+    @Override
+    public void dBChangeFailed(Exception e) {
 
     }
 }

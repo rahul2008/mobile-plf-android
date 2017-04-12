@@ -6,6 +6,7 @@ import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SyncType;
+import com.philips.platform.core.dbinterfaces.DBBlobUpdatingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.listeners.BlobRequestListener;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -20,7 +21,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
 
-public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
+public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface,DBBlobUpdatingInterface {
     private static final String TAG = ORMUpdatingInterfaceImpl.class.getSimpleName();
     private final OrmSaving saving;
     private final OrmUpdating updating;

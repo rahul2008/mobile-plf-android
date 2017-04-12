@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SyncType;
+import com.philips.platform.core.dbinterfaces.DBBlobDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.utils.DSLog;
@@ -26,7 +27,7 @@ import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
+public class OrmDeletingInterfaceImpl implements DBDeletingInterface,DBBlobDeletingInterface {
 
     @NonNull
     private final OrmDeleting ormDeleting;
