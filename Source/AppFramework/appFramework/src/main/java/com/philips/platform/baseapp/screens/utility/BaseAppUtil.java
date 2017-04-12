@@ -1,5 +1,6 @@
 package com.philips.platform.baseapp.screens.utility;
 
+import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
@@ -59,5 +60,14 @@ public class BaseAppUtil {
             AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, FILE_IO,
                     e.getMessage());        }
         return text.toString();
+    }
+
+    /**
+     * Check whether network is available or not
+     *
+     * @return true if network available
+     */
+    public static boolean isNetworkAvailable(Context context) {
+        return ((AppFrameworkApplication) context.getApplicationContext()).getAppInfra().getRestClient().isInternetReachable();
     }
 }
