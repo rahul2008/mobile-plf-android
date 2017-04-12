@@ -46,7 +46,6 @@ public class ABTestClientManager implements ABTestClientInterface {
         mContext = appInfra.getAppInfraContext();
         isAppRestarted = true;
         Config.setContext(mContext.getApplicationContext());
-        Config.setDebugLogging(true);
         mCacheModel = new CacheModel();
         loadfromDisk();
         mSharedPreferences = mAppInfra.getAppInfraContext().getSharedPreferences(ABTEST_PRREFERENCE,
