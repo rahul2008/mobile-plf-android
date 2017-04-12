@@ -1,7 +1,9 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
+/*
+ * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
+ *
  */
+
 package com.philips.platform.uid.view.widget;
 
 import android.annotation.TargetApi;
@@ -27,7 +29,7 @@ public class Switch extends SwitchCompat {
     }
 
     public Switch(Context context, AttributeSet attrs) {
-        this(context, attrs, R.attr.switchStyle);
+        this(context, attrs, R.attr.uidSwitchStyle);
     }
 
     public Switch(Context context, AttributeSet attrs, int defStyleAttr) {

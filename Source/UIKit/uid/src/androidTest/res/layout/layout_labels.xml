@@ -1,62 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
 
+
     <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/label_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="First name*"/>
+        android:text="Calories"
+        android:textColor="?attr/uidTextPrimary"/>
 
-    <com.philips.platform.uid.view.widget.EditText
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/label_text_textsize_overriden"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="text"
-        android:text="John"/>
+        android:text="Calories"
+        android:textColor="?attr/uidTextPrimary"
+        app:uidLabelTextSize="20sp"/>
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/label_numeric"
+        style="@style/UIDLabelDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Gender"/>
+        android:layout_marginLeft="12dp"
+        android:text="1500-2000"/>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Male"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/label_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Calories"/>
-
-        <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/label_numeric"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            style="@style/UIDLabelDescription"
-            android:text="1500-2000"/>
-    </LinearLayout>
-
-    <SeekBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:progress="50"/>
 </LinearLayout>

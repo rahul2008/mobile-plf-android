@@ -6,6 +6,8 @@
 package com.philips.platform.catalogapp.themesettings;
 
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.support.annotation.StyleRes;
 
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -35,5 +37,35 @@ public class ThemeHelper {
         String tonalRange = sharedPreferences.getString(UIDHelper.CONTENT_TONAL_RANGE, ContentColor.ULTRA_LIGHT.name());
         final ContentColor contentColor = ContentColor.valueOf(tonalRange);
         return contentColor;
+    }
+
+    @StyleRes
+    int getColorResourceId(final Resources resources, final String colorRange, final String tonalRange, final String packageName) {
+        final String themeName = String.format("Theme.DLS.%s.%s", toCamelCase(colorRange), toCamelCase(tonalRange));
+
+        return resources.getIdentifier(themeName, "style", packageName);
+    }
+
+    String toCamelCase(String s) {
+        String[] parts = s.split("_");
+        String camelCaseString = "";
+        for (String part : parts) {
+            camelCaseString = camelCaseString + toProperCase(part);
+        }
+        return camelCaseString;
+    }
+
+    String toProperCase(String s) {
+        return s.substring(0, 1).toUpperCase() +
+                s.substring(1).toLowerCase();
+    }
+
+    public
+    @StyleRes
+    int getThemeResourceId(Resources resources, final String packageName) {
+        final ColorRange colorRange = initColorRange();
+        final ContentColor contentColor = initContentTonalRange();
+        int colorResourceId = getColorResourceId(resources, colorRange.name(), contentColor.name(), packageName);
+        return colorResourceId;
     }
 }

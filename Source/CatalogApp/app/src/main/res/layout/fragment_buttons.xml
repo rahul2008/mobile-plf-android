@@ -258,13 +258,17 @@
                     android:paddingStart="0dp"
                     android:text="@string/social_media_icons"/>
 
-                <ImageButton
+                <com.philips.platform.uid.view.widget.ImageButton
+                    android:id="@+id/show_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:clickable="false"
                     android:gravity="center"
+                    app:uidImageButtonDrawableWidth="@dimen/show_more_icon_size"
+                    app:uidImageButtonDrawableHeight="@dimen/show_more_icon_size"
+                    app:uidImageButtonColorList="@null"
                     app:srcCompat="@drawable/ic_right_arrow_show_more"/>
             </RelativeLayout>
 

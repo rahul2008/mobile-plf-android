@@ -15,8 +15,12 @@ import android.support.v4.content.ContextCompat;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
+import com.philips.platform.uid.components.BaseTest;
 import com.philips.platform.uid.matcher.FunctionDrawableMatchers;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.utils.TestConstants;
+import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -30,24 +34,20 @@ import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.isNotChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uid.test.R.color.GroupBlue45;
-import static com.philips.platform.uid.utils.UIDTestUtils.modulateColorAlpha;
 
-public class ToggleSwitchTest {
-
-    private Context activityContext;
-    private Context instrumentationContext;
+public class ToggleSwitchTest extends BaseTest {
 
     @Rule
-    public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
-    private Resources testResources;
+    public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class, false, false);
+    private Context context;
+    private Resources resources;
 
     @Before
     public void setUp() {
-        final BaseTestActivity activity = mActivityTestRule.getActivity();
+        final BaseTestActivity activity = mActivityTestRule.launchActivity(getLaunchIntent(NavigationColor.ULTRA_LIGHT.ordinal(), ContentColor.VERY_DARK.ordinal()));
         activity.switchTo(com.philips.platform.uid.test.R.layout.layout_toggle_switch);
-        testResources = getInstrumentation().getContext().getResources();
-        instrumentationContext = getInstrumentation().getContext();
-        activityContext = activity;
+        resources = getInstrumentation().getContext().getResources();
+        context = activity;
     }
 
     //*********************************Toggle Switch Layout TestScenarios**************************//
@@ -67,16 +67,16 @@ public class ToggleSwitchTest {
 
     @Test
     public void verifyThumbHighlightRadius() {
-        int radius = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.toggleswitch_ripple_radius);
+        int radius = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.toggleswitch_ripple_radius);
         getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameRippleRadius(TestConstants.FUNCTION_GET_BACKGROUND, radius)));
     }
 
     @Test
     public void verifyThumbHighlightColor() {
-        int color = modulateColorAlpha(Color.parseColor("#1474A4"), 0.20f);
+        final int expectedColor = UIDTestUtils.getAttributeColor(context, R.attr.uidToggleSwitchFocusBorderColor);
         getToggleSwitch().
                 check(matches(FunctionDrawableMatchers.
-                        isSameRippleColor(TestConstants.FUNCTION_GET_BACKGROUND, android.R.attr.state_enabled, color)));
+                        isSameRippleColor(TestConstants.FUNCTION_GET_BACKGROUND, android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test
@@ -103,7 +103,7 @@ public class ToggleSwitchTest {
     @Ignore
     @Test
     public void verifyToggleSwitchTrackOnColorTest() {
-        final int expectedTrackEnabledColor = ContextCompat.getColor(instrumentationContext, GroupBlue45);
+        final int expectedTrackEnabledColor = ContextCompat.getColor(context, GroupBlue45);
         getToggleSwitch().check(matches(isChecked()));
         getToggleSwitch().check(matches(FunctionDrawableMatchers
                 .isSameColor(trackFunction(), android.R.attr.state_checked, expectedTrackEnabledColor, trackID())));

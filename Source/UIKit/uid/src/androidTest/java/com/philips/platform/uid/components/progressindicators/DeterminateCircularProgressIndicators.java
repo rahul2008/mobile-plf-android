@@ -21,27 +21,22 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uid.test.R.color.GroupBlue45;
-import static com.philips.platform.uid.utils.UIDTestUtils.modulateColorAlpha;
 
 public class DeterminateCircularProgressIndicators {
-    private Context activityContext;
-    private Context instrumentationContext;
-
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
+    private Context activityContext;
     private Resources testResources;
 
     @Before
     public void setUp() {
         final BaseTestActivity activity = mActivityTestRule.getActivity();
         activity.switchTo(com.philips.platform.uid.test.R.layout.layout_progressbar);
-        testResources = getInstrumentation().getContext().getResources();
-        instrumentationContext = getInstrumentation().getContext();
+        testResources = activity.getResources();
         activityContext = activity;
     }
 
@@ -122,7 +117,7 @@ public class DeterminateCircularProgressIndicators {
 
     @Test
     public void verifyCircularProgressBarSmallProgressColor() {
-        final int expectedProgressBarProgressColor = ContextCompat.getColor(instrumentationContext, GroupBlue45);
+        final int expectedProgressBarProgressColor = ContextCompat.getColor(activityContext, GroupBlue45);
         getSmallCircularProgressBar().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedProgressBarProgressColor, circularprogressID(), true)));
     }
 
@@ -133,14 +128,12 @@ public class DeterminateCircularProgressIndicators {
     }
 
     private int getExpectedProgressBarBackgroundColor() {
-        final int attributeColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidProgressBarBGColor);
-        final float alpha = UIDTestUtils.getAttributeAlpha(activityContext, R.attr.uidProgressBarBGColorAlpha);
-        return modulateColorAlpha(attributeColor, alpha);
+        return UIDTestUtils.getAttributeColor(activityContext, R.attr.uidControlTrackOff);
     }
 
     @Test
     public void verifyCircularProgressBarMediumProgressColor() {
-        final int expectedProgressBarProgressColor = ContextCompat.getColor(instrumentationContext, GroupBlue45);
+        final int expectedProgressBarProgressColor = ContextCompat.getColor(activityContext, GroupBlue45);
         getMiddleCircularProgressBar().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedProgressBarProgressColor, circularprogressID(), true)));
     }
 
@@ -152,7 +145,7 @@ public class DeterminateCircularProgressIndicators {
 
     @Test
     public void verifyCircularProgressBarLargeProgressColor() {
-        final int expectedProgressBarProgressColor = ContextCompat.getColor(instrumentationContext, GroupBlue45);
+        final int expectedProgressBarProgressColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidControlPrimaryDetail);
         getLargeCircularProgressBar().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedProgressBarProgressColor, circularprogressID(), true)));
     }
 

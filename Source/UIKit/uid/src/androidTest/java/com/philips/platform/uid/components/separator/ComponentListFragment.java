@@ -30,8 +30,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class ComponentListFragment extends Fragment {
-    private HashMap<Integer, String> itemsMap = new HashMap<Integer, String>();
     ListView listView;
+    private HashMap<Integer, String> itemsMap = new HashMap<Integer, String>();
     private RecyclerView recyclerView;
 
     @Nullable
@@ -57,15 +57,6 @@ public class ComponentListFragment extends Fragment {
         recyclerView.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
         recyclerView.setAdapter(new SeparatorAdapter());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-    }
-
-    private static class TestViewHolder extends RecyclerView.ViewHolder {
-        TextView textView;
-
-        public TestViewHolder(TextView rowView) {
-            super(rowView);
-            textView = rowView;
-        }
     }
 
     private void setListItems() {
@@ -97,12 +88,13 @@ public class ComponentListFragment extends Fragment {
         return sortedMap;
     }
 
-    private int getKeyFromValue(String value) {
-        for (Map.Entry<Integer, String> entry : itemsMap.entrySet()) {
-            if (entry.getValue().equals(value))
-                return entry.getKey();
+    private static class TestViewHolder extends RecyclerView.ViewHolder {
+        TextView textView;
+
+        public TestViewHolder(TextView rowView) {
+            super(rowView);
+            textView = rowView;
         }
-        return 0;
     }
 
     private static class IntegerComparator implements Comparator<Integer> {

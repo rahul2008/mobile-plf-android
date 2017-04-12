@@ -4,11 +4,6 @@
  *
  */
 
-/*
- * (C) Koninklijke Philips N.V., 2017.
- * All rights reserved.
- *
- */
 
 package com.philips.platform.uid.components.pickers;
 
@@ -69,19 +64,19 @@ public class PickersFragment extends Fragment {
         timePickerDialog.show();
     }
 
-    private class MyOnDateSetListener implements DatePickerDialog.OnDateSetListener {
-        @Override
-        public void onDateSet(final DatePicker view, final int year, final int month, final int dayOfMonth) {
-            calendar.set(year, month, dayOfMonth);
-        }
-    }
-
     private String getFormattedDate(Date date) {
         return new SimpleDateFormat(DATE_FORMATTER, Locale.getDefault()).format(date);
     }
 
     private String getFormattedTime(Date date) {
         return new SimpleDateFormat(TIME_FORMATTER, Locale.getDefault()).format(date);
+    }
+
+    private class MyOnDateSetListener implements DatePickerDialog.OnDateSetListener {
+        @Override
+        public void onDateSet(final DatePicker view, final int year, final int month, final int dayOfMonth) {
+            calendar.set(year, month, dayOfMonth);
+        }
     }
 
     private class MyOnTimeSetListener implements TimePickerDialog.OnTimeSetListener {

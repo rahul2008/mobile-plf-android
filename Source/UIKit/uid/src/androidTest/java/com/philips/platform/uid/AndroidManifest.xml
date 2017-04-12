@@ -4,12 +4,11 @@
 
     <application
         android:allowBackup="true"
-        android:hardwareAccelerated="true"
-        android:theme="@style/Theme.Philips">
+        android:hardwareAccelerated="true">
 
         <activity
             android:name="com.philips.platform.uid.activity.BaseTestActivity"
-            android:theme="@style/Theme.Philips">
+            android:theme="@style/Theme.DLS.GroupBlue.UltraLight">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

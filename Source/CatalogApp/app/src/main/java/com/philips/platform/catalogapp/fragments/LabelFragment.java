@@ -20,10 +20,9 @@ import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentLabelsBinding;
 
 public class LabelFragment extends BaseFragment {
+    private static final int SOUND_PROGRESS_JUMP = 25;
     public ObservableField<String> description = new ObservableField<>("0");
     public ObservableInt soundProgress = new ObservableInt(0);
-
-    private static final int SOUND_PROGRESS_JUMP = 25;
 
     @Nullable
     @Override

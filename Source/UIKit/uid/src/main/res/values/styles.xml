@@ -1,13 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Philips" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">?attr/uidContentPrimary</item>
+    <style name="Theme.DLS" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">?attr/uidContentBackground</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowNoTitle">true</item>
         <item name="colorControlHighlight">@android:color/transparent</item>
 
-        <item name="switchStyle">@style/UIDSwitchStyle</item>
         <item name="android:alertDialogStyle">@style/UIDAlertDialog</item>
         <item name="alertDialogStyle">@style/UIDAlertDialog</item>
 
@@ -24,38 +23,56 @@
         -->
         <item name="android:toolbarStyle" tools:targetApi="lollipop">@style/UIDToolbar</item>
         <item name="toolbarStyle">@style/UIDToolbar</item>
-        <item name="android:statusBarColor" tools:targetApi="lollipop">?attr/uidActionBarBackground</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">
+            ?attr/uidNavigationPrimaryBackgroundColor
+        </item>
 
         <item name="actionOverflowButtonStyle">@style/UIDActionBarOverflowButton</item>
         <!-- Navigation color for lolipop-->
         <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">true</item>
+
+        <item name="android:colorPrimary" tools:targetApi="lollipop">
+            ?attr/uidNavigationPrimaryBackgroundColor
+        </item>
 
         <!--  navigation bar should remain black in all other cases if wants the theme color un-commite it
           <item name="android:navigationBarColor" tools:targetApi="lollipop">
               ?attr/uidActionBarBackground
           </item>
           -->
-        <item name="android:colorPrimary" tools:targetApi="lollipop">?attr/uidActionBarBackground
-        </item>
         <item name="android:colorPrimaryDark" tools:targetApi="lollipop">
-            ?attr/uidActionBarBackground
+            ?attr/uidNavigationSecondaryBackgroundColor
         </item>
         <item name="android:actionMenuTextAppearance">@style/UIDToolbarMenuTextAppearance</item>
         <item name="actionMenuTextAppearance">@style/UIDToolbarMenuTextAppearance</item>
 
         <!-- Below lines are to set the color for options menu items text color -->
-        <item name="actionMenuTextColor">?attr/uidNavigationBarTextColor</item>
-        <item name="android:actionMenuTextColor">?attr/uidNavigationBarTextColor</item>
+        <item name="actionMenuTextColor">?attr/uidNavigationPrimaryTextColor</item>
+        <item name="android:actionMenuTextColor">?attr/uidNavigationPrimaryTextColor</item>
 
         <item name="actionBarStyle">@style/UIDActionBarStyle</item>
-        <item name="progressBarStyle">@style/UIDProgressBarHorizontalDeterminate</item>
-        <item name="checkboxStyle">@style/UIDCheckBox</item>
-        <item name="buttonStyle">@style/UIDDefaultButton</item>
-        <item name="imageButtonStyle">@style/UIDImageButton</item>
-        <item name="editTextStyle">@style/UIDEditTextBox</item>
-        <item name="uidIndeterminateLinearPBStyle">@style/UIDIndeterminateLinearProgress</item>
 
-        <item name="android:listDivider">?attr/uidSeparatorColor</item>
+        <item name="android:listDivider">?attr/uidSeparator</item>
         <item name="android:dividerHeight">@dimen/uid_divider_Height</item>
+
+        <item name="uidButtonStyle">@style/UIDDefaultButton</item>
+        <item name="uidSwitchStyle">@style/UIDSwitchStyle</item>
+        <item name="uidProgressBarStyle">@style/UIDProgressBarHorizontalDeterminate</item>
+        <item name="uidCheckBoxStyle">@style/UIDCheckBox</item>
+        <item name="uidImageButtonStyle">@style/UIDImageButton</item>
+        <item name="uidEditTextStyle">@style/UIDEditTextBox</item>
+        <item name="uidIndeterminateLinearPBStyle">@style/UIDIndeterminateLinearProgress</item>
+        <item name="uidTextBoxValidationBackground">@color/uid_signal_orange_level_15</item>
+        <item name="uidTextBoxValidationBackgroundAlpha">@dimen/uid_alpha_per_50</item>
+        <item name="uidTextBoxValidationBorder">@android:color/transparent</item>
+        <item name="uidTextBoxValidationText">@color/uid_signal_orange_level_75</item>
+        <item name="uidTextBoxValidationErrorColor">@color/uid_signal_orange_level_75</item>
+
+        <!-- Moved to based temporarily to avoid crash-->
+        <!--<item name="uidInputTextTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
+        <item name="uidInputTextHintTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
+        -->
+
+
     </style>
 </resources>

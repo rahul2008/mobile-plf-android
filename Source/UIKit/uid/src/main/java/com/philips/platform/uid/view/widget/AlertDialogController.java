@@ -1,3 +1,9 @@
+/*
+ * (C) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ *
+ */
+
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
@@ -16,6 +22,15 @@ public class AlertDialogController {
     public static class DialogParams {
         private String message;
         private String title;
+        private View.OnClickListener positiveButtonLister;
+        private View.OnClickListener negativeButtonListener;
+        private Context context;
+        @DrawableRes
+        private int iconId;
+        private Drawable iconDrawable;
+        private boolean cancelable;
+        private String negativeButtonText;
+        private String positiveButtonText;
 
         public String getMessage() {
             return message;
@@ -96,15 +111,5 @@ public class AlertDialogController {
         public void setPositiveButtonText(String positiveButtonText) {
             this.positiveButtonText = positiveButtonText;
         }
-
-        private View.OnClickListener positiveButtonLister;
-        private View.OnClickListener negativeButtonListener;
-        private Context context;
-        @DrawableRes
-        private int iconId;
-        private Drawable iconDrawable;
-        private boolean cancelable;
-        private String negativeButtonText;
-        private String positiveButtonText;
     }
 }

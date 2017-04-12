@@ -1,7 +1,9 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
+/*
+ * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
+ *
  */
+
 package com.philips.platform.uid.thememanager;
 
 import android.content.res.Resources;
@@ -31,12 +33,8 @@ public class UIDHelper {
 
     public static void init(@NonNull ThemeConfiguration themeConfiguration) {
         Resources.Theme theme = themeConfiguration.context.getTheme();
-        themeConfiguration.contentColor.injectTonalRange(theme);
-        themeConfiguration.colorRange.injectColorRange(theme);
-        if (themeConfiguration.controlType != null) {
-            themeConfiguration.controlType.injectPrimaryControlColors(theme);
-        }
         themeConfiguration.navigationColor.injectNavigationColor(theme);
+        themeConfiguration.contentColor.injectTonalRange(theme);
     }
 
     /**

@@ -234,7 +234,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_layout_divider"
-                android:background="?attr/uidApplicationBackground"/>
+                android:background="?attr/uidContentPrimaryBackgroundColor"/>
 
             <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
@@ -243,7 +243,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_layout_divider"
-                android:background="?attr/uidApplicationBackground"/>
+                android:background="?attr/uidContentPrimaryBackgroundColor"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"

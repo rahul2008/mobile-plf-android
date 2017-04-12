@@ -20,13 +20,17 @@
             android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
             android:text="@string/page_title_gridview_settings"/>
 
-        <ImageButton
+        <com.philips.platform.uid.view.widget.ImageButton
+            android:id="@+id/show_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:uidImageButtonDrawableWidth="@dimen/show_more_icon_size"
+            app:uidImageButtonDrawableHeight="@dimen/show_more_icon_size"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:clickable="false"
             android:gravity="center"
+            app:uidImageButtonColorList="@null"
             app:srcCompat="@drawable/ic_right_arrow_show_more" />
     </RelativeLayout>
 

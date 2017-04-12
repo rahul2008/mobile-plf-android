@@ -9,11 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.philips.platform.catalogapp.R;
+import com.philips.platform.uid.view.widget.ImageButton;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.util.ArrayList;
@@ -97,10 +97,10 @@ public class GridAdapter extends ArrayAdapter<GridData> {
                 description.setText(gridData.getDescription());
             }
 
-            android.widget.ImageButton star_icon = new ImageButton(mContext);
+            ImageButton star_icon = new ImageButton(mContext);
 
             if (isSecondary) {
-                star_icon = (android.widget.ImageButton) convertView.findViewById(R.id.uid_gridview_icon);
+                star_icon = (ImageButton) convertView.findViewById(R.id.uid_gridview_icon);
                 int icon_drawable = gridData.isFavorite() ? R.drawable.star_filled : R.drawable.star_outlined;
 
                 Drawable drawable = VectorDrawableCompat.create(mContext.getResources(), icon_drawable, mContext.getTheme());

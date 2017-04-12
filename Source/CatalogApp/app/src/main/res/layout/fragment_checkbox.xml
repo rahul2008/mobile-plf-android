@@ -80,8 +80,8 @@
 
                 <com.philips.platform.uid.view.widget.Label
                     style="@style/ButtonsCategoryStyle"
-                    android:text="@string/checkbox_check_multi_line"
-                    android:layout_marginBottom="@dimen/checkbox_list_margin_top_bottom"/>
+                    android:layout_marginBottom="@dimen/checkbox_list_margin_top_bottom"
+                    android:text="@string/checkbox_check_multi_line"/>
 
                 <com.philips.platform.uid.view.widget.CheckBox
                     android:id="@+id/checkbox_4"

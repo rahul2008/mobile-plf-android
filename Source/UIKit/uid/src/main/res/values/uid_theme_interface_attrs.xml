@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="UIDButton">
-        <attr name="uidButtonNormalColor" format="reference|color"/>
-        <attr name="uidButtonPressedColor" format="reference|color"/>
-        <attr name="uidButtonDisabledColor" format="reference|color"/>
-        <attr name="uidButtonDisabledAlpha" format="reference|float|dimension"/>
-        <attr name="uidButtonTextColor" format="reference|color"/>
-        <attr name="uidButtonTextPressedColor" format="reference|color"/>
-        <attr name="uidButtonTextDisabledAlpha" format="reference|float|dimension"/>
+
         <attr name="uidButtonBackgroundColorList" format="reference"/>
         <attr name="uidButtonTextColorList" format="reference"/>
         <attr name="uidButtonDrawableColorList" format="reference"/>
@@ -16,7 +10,6 @@
         <attr name="uidButtonImageDrawableWidth" format="dimension"/>
         <attr name="uidButtonImageDrawableSrc" format="reference"/>
         <attr name="uidButtonCenter" format="boolean"/>
-        <attr name="uidQuietButtonDisabledAlpha" format="reference|float"/>
     </declare-styleable>
 
     <declare-styleable name="UIDImageButton">
@@ -28,63 +21,26 @@
     </declare-styleable>
 
     <declare-styleable name="UIDTextEditBox">
-        <attr name="uidInputTextFillColor" format="reference|color"/>
-        <attr name="uidInputTextFillPressedColor" format="reference|color"/>
-        <attr name="uidInputTextFillDisabledColor" format="reference|color"/>
-        <attr name="uidInputTextFillDisabledAlpha" format="reference|float|dimension"/>
         <attr name="uidInputTextFillColorList" format="reference"/>
-        <attr name="uidInputTextHint" format="reference|color"/>
-        <attr name="uidInputText" format="reference|color"/>
         <attr name="uidInputTextFillBackground" format="reference"/>
         <attr name="uidInputTextFillBackgroundColorList" format="reference"/>
-        <attr name="uidInputTextBorderBackground" format="reference"/>
         <attr name="uidInputTextBorderWidth" format="reference|dimension"/>
-        <attr name="uidInputTextBorderColor" format="reference|color"/>
-        <attr name="uidInputTextBorderPressedColor" format="reference|color"/>
-        <attr name="uidInputTextBorderPressedColorAlpha" format="reference|float"/>
-        <attr name="uidInputTextBorderDisabledColor" format="reference|color"/>
+        <attr name="uidInputTextBorderBackground" format="reference"/>
         <attr name="uidInputTextBorderBackgroundColorList" format="reference"/>
-        <attr name="uidInputTextTextColor" format="reference|color"/>
-        <attr name="uidInputTextTextDisabledColor" format="reference|color"/>
-        <attr name="uidInputTextTextDisabledAlpha" format="reference|float"/>
-        <attr name="uidInputTextHintTextColor" format="reference|color"/>
-        <attr name="uidInputTextHintTextDisabledColor" format="reference|color"/>
-        <attr name="uidInputTextHintTextDisabledAlpha" format="reference|float"/>
         <attr name="uidInputTextTextSelector" format="reference"/>
         <attr name="uidInputTextHintTextSelector" format="reference"/>
         <attr name="uidInputTextWithClearButton" format="reference|boolean"/>
     </declare-styleable>
 
     <declare-styleable name="UIDNavigationBar">
-        <attr name="uidActionBarBackground" format="reference|color"/>
-        <attr name="uidNavigationBarTextColor" format="reference|color"/>
+
         <attr name="uidNavigationShadowLevelOne" format="reference|color"/>
         <attr name="uidNavigationShadowLevelOneAlpha" format="reference|float"/>
         <attr name="uidNavigationShadowLevelTwo" format="reference|color"/>
         <attr name="uidNavigationShadowLevelTwoAlpha" format="reference|float"/>
     </declare-styleable>
 
-    <declare-styleable name="UIDSwitch">
-        <attr name="uidSwitchThumbColor" format="reference|color"/>
-        <attr name="uidSwitchThumbColorList" format="reference|color"/>
-        <attr name="uidSwitchThumbDisabledColor" format="reference|color"/>
-        <attr name="uidSwitchTrackOnColor" format="reference|color"/>
-        <attr name="uidSwitchTrackOffColor" format="reference|color"/>
-        <attr name="uidSwitchTrackOffAlpha" format="reference|float"/>
-        <attr name="uidSwitchTrackColorList" format="reference|color"/>
-        <attr name="uidSwitchTrackDisabledColor" format="reference|color"/>
-        <attr name="uidSwitchTrackDisabledAlpha" format="reference|float"/>
-        <attr name="uidSwitchBorderColor" format="reference|color"/>
-        <attr name="uidSwitchBorderColorAlpha" format="reference|color"/>
-        <attr name="uidSwitchBorderColorList" format="reference|color"/>
-    </declare-styleable>
-
     <declare-styleable name="UIDProgressBar">
-        <attr name="uidProgressBarBGColor" format="reference|color"/>
-        <attr name="uidProgressBarBGColorAlpha" format="reference|float"/>
-        <attr name="uidProgressBarSecondaryColor" format="reference|color"/>
-        <attr name="uidProgressBarSecondaryColorAlpha" format="reference|float"/>
-        <attr name="uidProgressBarProgressColor" format="reference|float"/>
         <attr name="uidIsLinearProgressBar" format="boolean"/>
         <attr name="uidProgressBarCircularEndColor" format="reference|color"/>
         <attr name="uidProgressBarCircularProgressColorList" format="reference|color"/>
@@ -153,47 +109,12 @@
         </attr>
     </declare-styleable>
 
-    <declare-styleable name="UIDPickers">
-        <attr name="uidDatePickerHeaderFillColor" format="reference|color"/>
-        <attr name="uidDatePickerHeaderTextColor" format="reference|color"/>
-        <attr name="uidDatePickerFillColor" format="reference|color"/>
-        <attr name="uidDatePickerTextColor" format="reference|color"/>
-        <attr name="uidDatePickerWeekDayTextColor" format="reference|color"/>
-        <attr name="uidDatePickerDayOfWeekTextColor" format="reference|color"/>
-        <attr name="uidDatePickerSelectedFillColor" format="reference|color"/>
-        <attr name="uidDatePickerButtonTextColor" format="reference|color"/>
-    </declare-styleable>
-
-    <declare-styleable name="UIDSocialMediaButton">
-        <attr name="uidSocialIconPrimaryButtonIconColor" format="reference|color"/>
-        <attr name="uidSocialIconPrimaryButtonNormalFillColor" format="reference|color"/>
-        <attr name="uidSocialIconPrimaryButtonPressedColor" format="reference|color"/>
-        <attr name="uidSocialIconWhiteButtonIconColor" format="reference|color"/>
-        <attr name="uidSocialIconWhiteButtonNormalFillColor" format="reference|color"/>
-        <attr name="uidSocialIconWhitePressedColor" format="reference|color"/>
-
-    </declare-styleable>
 
     <declare-styleable name="UIDCheckBox">
-        <attr name="uidCheckBoxTextEnabledColor" format="reference|color"/>
-        <attr name="uidCheckBoxTextDisabledColor" format="reference|color"/>
-        <attr name="uidCheckBoxTextDisabledAlpha" format="reference|float"/>
-        <attr name="uidCheckBoxBackgroundCheckedEnabledColor" format="reference|color"/>
-        <attr name="uidCheckBoxBackgroundUncheckedEnabledColor" format="reference|color"/>
-        <attr name="uidCheckBoxBackgroundUncheckedEnabledAlpha" format="reference|float"/>
-        <attr name="uidCheckBoxBackgroundDisabledColor" format="reference|color"/>
-        <attr name="uidCheckBoxBackgroundDisabledAlpha" format="reference|float"/>
-        <attr name="uidCheckBoxTickEnabledColor" format="reference|color"/>
-        <attr name="uidCheckBoxTickDisabledColor" format="reference|color"/>
-        <attr name="uidCheckBoxTickDisabledAlpha" format="reference|float"/>
         <attr name="uidCheckBoxPaddingStart" format="dimension"/>
-        <attr name="uidCheckBoxRippleColor" format="reference|color"/>
-        <attr name="uidCheckBoxRippleAlpha" format="reference|float"/>
     </declare-styleable>
 
     <declare-styleable name="UIDSeparator">
-        <attr name="uidSeparatorColor" format="reference|color"/>
-        <attr name="uidSeparatorAlpha" format="float"/>
     </declare-styleable>
 
     <declare-styleable name="UIDNavigationContainer">
@@ -214,7 +135,7 @@
         <attr name="gradientStartColor" format="reference|color"/>
         <attr name="gradientEndColor" format="reference|color"/>
     </declare-styleable>
-    
+
     <declare-styleable name="UIDInputValidation">
         <attr name="uidTextBoxValidationBackground" format="reference|color"/>
         <attr name="uidTextBoxValidationBackgroundAlpha" format="reference|float"/>

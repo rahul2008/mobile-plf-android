@@ -27,14 +27,14 @@
                 style="@style/UIDLabel.MarginTop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/layout_margin_left_right"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
                 android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:text="@string/label_text"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/layout_margin_left_right"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
                 android:orientation="horizontal">
 
                 <RadioButton
@@ -51,7 +51,7 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
                     android:checked="true"/>
 
                 <com.philips.platform.uid.view.widget.Label
@@ -66,7 +66,7 @@
                 style="@style/UIDLabel.MarginTop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/layout_margin_left_right"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
                 android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:text="@string/label_text"/>
 
@@ -83,9 +83,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/label_textbox_margin"
                 android:layout_marginLeft="@dimen/layout_margin_left_right"
-                android:layout_marginRight="@dimen/layout_margin_left_right">
+                android:layout_marginRight="@dimen/layout_margin_left_right"
+                android:layout_marginTop="@dimen/label_textbox_margin">
 
                 <com.philips.platform.uid.view.widget.Label
                     style="@style/UIDLabel.MarginEnd"
@@ -131,9 +131,9 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/component_bottom_spacing"
                 android:layout_marginLeft="@dimen/layout_margin_left_right"
                 android:layout_marginRight="@dimen/layout_margin_left_right"
-                android:layout_marginBottom="@dimen/component_bottom_spacing"
                 android:orientation="horizontal">
 
                 <SeekBar
@@ -176,7 +176,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/layout_margin_left_right"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
                 android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:orientation="horizontal">
 
@@ -190,7 +190,7 @@
                     style="@style/UIDLabelDescription.SliderMarginBottom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
                     android:text="@{labelFrag.description}"/>
             </LinearLayout>
 

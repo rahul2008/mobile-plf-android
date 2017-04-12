@@ -14,11 +14,13 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.StyleRes;
+import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.content.res.Resources;
 
 import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
 import com.philips.platform.catalogapp.events.NavigationColorChangedEvent;
@@ -32,6 +34,7 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
+import com.philips.platform.uid.utils.UIDResources;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -47,12 +50,12 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends UIDActivity {
 
-    static final String THEMESETTINGS_ACTIVITY_RESTART = "THEMESETTINGS_ACTIVITY_RESTART";
     protected static final String TITLE_TEXT = "TITLE_TEXT";
+    static final String THEMESETTINGS_ACTIVITY_RESTART = "THEMESETTINGS_ACTIVITY_RESTART";
 
-    private ContentColor contentColor;
-    private ColorRange colorRange;
-    private NavigationColor navigationColor;
+    ContentColor contentColor;
+    ColorRange colorRange;
+    NavigationColor navigationColor;
     private ThemeHelper themeHelper;
     private SharedPreferences defaultSharedPreferences;
 
@@ -64,9 +67,12 @@ public class MainActivity extends UIDActivity {
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         themeHelper = new ThemeHelper(defaultSharedPreferences);
 
-        UIDHelper.init(getThemeConfig());
+        ThemeConfiguration config = getThemeConfig();
+        setTheme(getThemeResourceId());
+
         UIDLocaleHelper.getInstance().setFilePath(getCatalogAppJSONAssetPath());
-        
+
+        UIDHelper.init(config);
         if (BuildConfig.DEBUG) {
             Log.d(MainActivity.class.getName(), String.format("Theme config Tonal Range :%s, Color Range :%s , Navigation Color : %s",
                     contentColor, colorRange, navigationColor));
@@ -98,11 +104,6 @@ public class MainActivity extends UIDActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
     }
 
     void restartActivity() {
@@ -166,7 +167,7 @@ public class MainActivity extends UIDActivity {
         colorRange = themeHelper.initColorRange();
         navigationColor = themeHelper.initNavigationRange();
         contentColor = themeHelper.initContentTonalRange();
-        return new ThemeConfiguration(colorRange, contentColor, navigationColor, this);
+        return new ThemeConfiguration(contentColor, navigationColor, this);
     }
 
     @SuppressLint("CommitPrefEdits")
@@ -203,9 +204,47 @@ public class MainActivity extends UIDActivity {
         return navigationController;
     }
 
-    public String getCatalogAppJSONAssetPath(){
+    @VisibleForTesting
+    public void setColorRange(final ColorRange colorRange) {
+        this.colorRange = colorRange;
+    }
+
+    @VisibleForTesting
+    public void setContentColor(final ContentColor contentColor) {
+        this.contentColor = contentColor;
+    }
+
+    @StyleRes
+    static int getColorResourceId(final Resources resources, final String colorRange, final String tonalRange, final String packageName) {
+        final String themeName = String.format("Theme.DLS.%s.%s", toCamelCase(colorRange), toCamelCase(tonalRange));
+
+        return resources.getIdentifier(themeName, "style", packageName);
+    }
+
+    static String toCamelCase(String s) {
+        String[] parts = s.split("_");
+        String camelCaseString = "";
+        for (String part : parts) {
+            camelCaseString = camelCaseString + toProperCase(part);
+        }
+        return camelCaseString;
+    }
+
+    static String toProperCase(String s) {
+        return s.substring(0, 1).toUpperCase() +
+                s.substring(1).toLowerCase();
+    }
+
+    private
+    @StyleRes
+    int getThemeResourceId() {
+        int colorResourceId = getColorResourceId(getResources(), colorRange.name(), contentColor.name(), getPackageName());
+        return colorResourceId;
+    }
+
+    public String getCatalogAppJSONAssetPath() {
         try {
-            File f = new File(getCacheDir()+"/catalogapp.json");
+            File f = new File(getCacheDir() + "/catalogapp.json");
             InputStream is = getAssets().open("catalogapp.json");
             int size = is.available();
             byte[] buffer = new byte[size];
@@ -217,9 +256,9 @@ public class MainActivity extends UIDActivity {
             fos.close();
             return f.getPath();
         } catch (FileNotFoundException e) {
-            Log.e("",e.getMessage());
+            Log.e("", e.getMessage());
         } catch (IOException e) {
-            Log.e("",e.getMessage());
+            Log.e("", e.getMessage());
         }
         return null;
     }

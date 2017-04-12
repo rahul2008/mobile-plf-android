@@ -6,7 +6,6 @@
 
 package com.philips.platform.uid.components.separator;
 
-import android.content.Intent;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v4.content.ContextCompat;
@@ -29,13 +28,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 public class SeparatorTest extends BaseTest {
 
     @Rule
-    public ActivityTestRule<BaseTestActivity> testRule = new ActivityTestRule<BaseTestActivity>(BaseTestActivity.class, false, false);
+    public ActivityTestRule<BaseTestActivity> testRule = new ActivityTestRule<BaseTestActivity>(BaseTestActivity.class);
     private BaseTestActivity activity;
 
     @Before
     public void setUp() throws Exception {
-        final Intent launchIntent = getLaunchIntent(1, 4);
-        activity = testRule.launchActivity(launchIntent);
+        activity = testRule.getActivity();
         activity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
         activity.switchFragment(new ComponentListFragment());
     }
@@ -49,12 +47,9 @@ public class SeparatorTest extends BaseTest {
 
     @Test
     public void verifyListViewSeparatorColor() throws Exception {
-        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidSeparatorColor);
-        final float alpha = UIDTestUtils.getAttributeAlpha(activity, R.attr.uidSeparatorAlpha);
-        final int modulateColorAlpha = UIDTestUtils.modulateColorAlpha(color, alpha);
-
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidSeparator);
         onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.componentList))
-                .check(matches(SeparatorMatcher.hasSameColor(modulateColorAlpha)));
+                .check(matches(SeparatorMatcher.hasSameColor(color)));
     }
 
     //TODO below test is ignored because it is failing beacuse of 1 value diffrence e.g expected is 4 but after java converts float to int its coming out 3
@@ -69,12 +64,10 @@ public class SeparatorTest extends BaseTest {
 
     @Test
     public void verifySeparatorColor() throws Exception {
-        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidSeparatorColor);
-        final float alpha = UIDTestUtils.getAttributeAlpha(activity, R.attr.uidSeparatorAlpha);
-        final int modulateColorAlpha = UIDTestUtils.modulateColorAlpha(color, alpha);
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidSeparator);
 
         onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.uid_test_separator))
-                .check(matches(SeparatorMatcher.hasSameColor(modulateColorAlpha)));
+                .check(matches(SeparatorMatcher.hasSameColor(color)));
     }
 
     @Test
@@ -87,12 +80,9 @@ public class SeparatorTest extends BaseTest {
 
     @Test
     public void verifyRecyclerViewSeparatorColor() throws Exception {
-        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidSeparatorColor);
-        final float alpha = UIDTestUtils.getAttributeAlpha(activity, R.attr.uidSeparatorAlpha);
-        final int modulateColorAlpha = UIDTestUtils.modulateColorAlpha(color, alpha);
-
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidSeparator);
         onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.recyclerviewSeparatorItems))
-                .check(matches(SeparatorMatcher.hasSameColor(modulateColorAlpha)));
+                .check(matches(SeparatorMatcher.hasSameColor(color)));
     }
 
     @Test

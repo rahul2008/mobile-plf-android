@@ -49,11 +49,11 @@
                 android:id="@+id/calender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/date_time_picker"
                 android:clickable="true"
+                android:contentDescription="@string/date_time_picker"
                 android:onClick="@{(v) ->fragment.showDatePicker(dateTimePickerDate, false)}"
-                app:srcCompat="@drawable/ic_calender"
-                android:tint="?attr/uidTextPrimaryColor"/>
+                android:tint="?attr/uidTextSecondary"
+                app:srcCompat="@drawable/ic_calender"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/datePicker"
@@ -62,8 +62,7 @@
                 android:layout_marginStart="@dimen/uid_date_margin_start"
                 android:onClick="@{(v) ->fragment.showDatePicker(dateTimePickerDate, false)}"
                 android:text="@{fragment.getFormattedDate(fragment.dateTimePickerDate)}"
-                app:uidLabelTextColor="?attr/uidTextPrimary"
-                app:uidLabelTextAlpha="1.0"/>
+                android:textColor="?attr/uidTextPrimary"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/timePicker"
@@ -73,7 +72,6 @@
                 android:onClick="@{(v) ->fragment.showTimePicker(dateTimePickerDate, false)}"
                 android:text="@{fragment.getFormattedTime(fragment.dateTimePickerDate)}"
                 android:textColor="?attr/uidTextPrimary"
-                app:uidLabelTextAlpha="1.0"
                 android:visibility="@{fragment.disableTimePicker}"/>
         </LinearLayout>
 
@@ -94,11 +92,11 @@
                 android:id="@+id/rangePickerStartCalender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/date_time_picker"
                 android:clickable="true"
+                android:contentDescription="@string/date_time_picker"
                 android:onClick="@{(v) ->fragment.showDatePicker(rangePickerStartDate, true)}"
-                app:srcCompat="@drawable/ic_calender"
-                android:tint="?attr/uidTextPrimaryColor"/>
+                android:tint="?attr/uidTextSecondary"
+                app:srcCompat="@drawable/ic_calender"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/startDatePicker"
@@ -107,8 +105,7 @@
                 android:layout_marginStart="@dimen/uid_date_margin_start"
                 android:onClick="@{(v) ->fragment.showDatePicker(rangePickerStartDate, true)}"
                 android:text="@{fragment.getFormattedDate(fragment.rangePickerStartDate)}"
-                app:uidLabelTextColor="?attr/uidTextPrimary"
-                app:uidLabelTextAlpha="1.0"/>
+                android:textColor="?attr/uidTextSecondary"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/startTimePicker"
@@ -117,8 +114,7 @@
                 android:gravity="end"
                 android:onClick="@{(v) ->fragment.showTimePicker(rangePickerStartDate, true)}"
                 android:text="@{fragment.getFormattedTime(fragment.rangePickerStartDate)}"
-                android:textColor="?attr/uidTextPrimary"
-                app:uidLabelTextAlpha="1.0"
+                android:textColor="?attr/uidTextSecondary"
                 android:visibility="@{fragment.disableTimePicker}"/>
         </LinearLayout>
 
@@ -135,8 +131,8 @@
                 android:id="@+id/rangePickerEndCalender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/date_time_picker"
                 android:clickable="true"
+                android:contentDescription="@string/date_time_picker"
                 android:onClick="@{(v) ->fragment.showDatePicker(rangePickerEndDate, true)}"
                 android:tint="@{fragment.isValidRange? Color.RED: fragment.getTextColor()}"
                 app:srcCompat="@drawable/ic_calender"/>
@@ -162,12 +158,11 @@
         </LinearLayout>
 
         <com.philips.platform.uid.view.widget.Label
-            android:visibility="@{fragment.disableTimePicker}"
             style="@style/ButtonsCategoryStyle"
-            android:text="@string/timeslot_picker"/>
+            android:text="@string/timeslot_picker"
+            android:visibility="@{fragment.disableTimePicker}"/>
 
         <LinearLayout
-            android:visibility="@{fragment.disableTimePicker}"
             android:layout_width="match_parent"
             android:layout_height="@dimen/listview_row_height"
             android:layout_gravity="center"
@@ -175,7 +170,8 @@
             android:onClick="@{(v) ->fragment.showTimePicker(timeslotPickerTime, false)}"
             android:orientation="horizontal"
             android:paddingEnd="@dimen/uid_date_picker_margin_left_right"
-            android:paddingStart="@dimen/uid_date_picker_margin_left_right">
+            android:paddingStart="@dimen/uid_date_picker_margin_left_right"
+            android:visibility="@{fragment.disableTimePicker}">
 
             <ImageView
                 android:id="@+id/timeslotCalender"

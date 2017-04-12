@@ -1,7 +1,9 @@
-/**
+/*
  * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
+ *
  */
+
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
@@ -66,7 +68,7 @@ public class CheckBox extends AppCompatCheckBox {
     }
 
     public CheckBox(final Context context, final AttributeSet attrs) {
-        this(context, attrs, R.attr.checkboxStyle);
+        this(context, attrs, R.attr.uidCheckBoxStyle);
     }
 
     public CheckBox(final Context context, final AttributeSet attrs, final int defStyleAttr) {

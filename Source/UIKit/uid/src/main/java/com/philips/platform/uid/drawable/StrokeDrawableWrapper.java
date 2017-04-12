@@ -66,6 +66,11 @@ public class StrokeDrawableWrapper extends Drawable implements Drawable.Callback
     }
 
     @Override
+    public void setChangingConfigurations(final int configs) {
+        delegateDrawable.setChangingConfigurations(configs);
+    }
+
+    @Override
     public void setDither(final boolean dither) {
         delegateDrawable.setDither(dither);
     }
@@ -98,11 +103,6 @@ public class StrokeDrawableWrapper extends Drawable implements Drawable.Callback
     @Override
     public void setColorFilter(final int color, final PorterDuff.Mode mode) {
         delegateDrawable.setColorFilter(color, mode);
-    }
-
-    @Override
-    public void setChangingConfigurations(final int configs) {
-        delegateDrawable.setChangingConfigurations(configs);
     }
 
     @Override
@@ -201,11 +201,11 @@ public class StrokeDrawableWrapper extends Drawable implements Drawable.Callback
     }
 
     private void updateStrokeWidthAsPerSpec(int[] newState) {
-        if(!Arrays.equals(currentState, newState)) {
+        if (!Arrays.equals(currentState, newState)) {
         }
     }
 
-    private void getWidthAsPerState(int []newState) {
+    private void getWidthAsPerState(int[] newState) {
 
     }
 }

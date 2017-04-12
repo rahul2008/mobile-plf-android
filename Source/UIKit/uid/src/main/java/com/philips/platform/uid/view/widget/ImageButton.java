@@ -1,7 +1,9 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
+/*
+ * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
+ *
  */
+
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
@@ -31,7 +33,7 @@ public class ImageButton extends AppCompatButton {
     }
 
     public ImageButton(@NonNull Context context, @NonNull AttributeSet attrs) {
-        this(context, attrs, android.support.v7.appcompat.R.attr.imageButtonStyle);
+        this(context, attrs, R.attr.uidImageButtonStyle);
     }
 
     public ImageButton(@NonNull Context context, @NonNull AttributeSet attrs, int defStyleAttr) {

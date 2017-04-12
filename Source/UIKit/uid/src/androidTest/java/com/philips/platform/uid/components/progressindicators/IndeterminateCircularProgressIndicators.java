@@ -1,8 +1,9 @@
 /*
- * (C) Koninklijke Philips N.V., 2016.
+ * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  *
  */
+
 package com.philips.platform.uid.components.progressindicators;
 
 import android.content.Context;
@@ -10,39 +11,35 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
-import android.support.v4.content.ContextCompat;
 
+import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uid.matcher.ProgressBarMatcher;
 import com.philips.platform.uid.utils.TestConstants;
+import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.philips.platform.uid.test.R.color.GroupBlue45;
 
 public class IndeterminateCircularProgressIndicators {
 
-    private Context activityContext;
-    private Context instrumentationContext;
-
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
+    private Context instrumentationContext;
     private Resources testResources;
 
     @Before
     public void setUp() {
         final BaseTestActivity activity = mActivityTestRule.getActivity();
         activity.switchTo(com.philips.platform.uid.test.R.layout.layout_progressbar);
-        testResources = getInstrumentation().getContext().getResources();
-        instrumentationContext = getInstrumentation().getContext();
-        activityContext = activity;
+        testResources = activity.getResources();
+        instrumentationContext = activity;
     }
 
     //*********************************Layout TestScenarios**************************//
@@ -147,7 +144,7 @@ public class IndeterminateCircularProgressIndicators {
 
     @Test
     public void verifyIndeterminateSmallCircularPBEndColor() {
-        final int expectedEndColor = ContextCompat.getColor(instrumentationContext, GroupBlue45);
+        final int expectedEndColor = UIDTestUtils.getAttributeColor(instrumentationContext, R.attr.uidControlPrimaryDetail);
         getSmallIndeterminateCircularProgressBar()
                 .check(matches(FunctionDrawableMatchers.isSameColors(TestConstants.FUNCTION_GET_INDETERMINATE_DRAWABALE, circularprogressID(), expectedEndColor, 1)));
     }
@@ -161,7 +158,8 @@ public class IndeterminateCircularProgressIndicators {
 
     @Test
     public void verifyIndeterminateMediumCircularPBEndColor() {
-        final int expectedEndColor = ContextCompat.getColor(instrumentationContext, GroupBlue45);
+        final int expectedEndColor = UIDTestUtils.getAttributeColor(instrumentationContext, R.attr.uidControlPrimaryDetail);
+
         getMediumIndeterminateCircularProgressBar()
                 .check(matches(FunctionDrawableMatchers.isSameColors(TestConstants.FUNCTION_GET_INDETERMINATE_DRAWABALE, circularprogressID(), expectedEndColor, 1)));
     }
@@ -175,7 +173,8 @@ public class IndeterminateCircularProgressIndicators {
 
     @Test
     public void verifyIndeterminateLargeCircularPBEndColor() {
-        final int expectedEndColor = ContextCompat.getColor(instrumentationContext, GroupBlue45);
+        final int expectedEndColor = UIDTestUtils.getAttributeColor(instrumentationContext, R.attr.uidControlPrimaryDetail);
+
         getLargeIndeterminateCircularProgressBar()
                 .check(matches(FunctionDrawableMatchers.isSameColors(TestConstants.FUNCTION_GET_INDETERMINATE_DRAWABALE, circularprogressID(), expectedEndColor, 1)));
     }

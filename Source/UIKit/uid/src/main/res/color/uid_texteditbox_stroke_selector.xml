@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:color="?attr/uidTextBoxValidationBorder" android:state_focused="false" android:state_enabled="true" app:state_error="true" />
-    <item android:alpha="?attr/uidInputTextBorderPressedColorAlpha" android:color="?attr/uidInputTextBorderPressedColor" android:state_focused="true" android:state_pressed="true" />
-    <item android:alpha="?attr/uidInputTextBorderPressedColorAlpha" android:color="?attr/uidInputTextBorderPressedColor" android:state_focused="true" />
-    <item android:color="?attr/uidInputTextBorderDisabledColor" android:state_enabled="false" />
-    <item android:color="?attr/uidInputTextBorderColor" />
+    <item android:color="?attr/uidTextBoxValidationBorder" android:state_enabled="true" android:state_focused="false" app:state_error="true"/>
+    <item android:color="?attr/uidTextBoxPressedBorderColor" android:state_focused="true" android:state_pressed="true"/>
+    <item android:color="?attr/uidTextBoxFocusBorderColor" android:state_focused="true"/>
+    <item android:color="?attr/uidTextBoxDisabledBorderColor" android:state_enabled="false"/>
+    <item android:color="?attr/uidTextBoxNormalBorderColor"/>
 </selector>

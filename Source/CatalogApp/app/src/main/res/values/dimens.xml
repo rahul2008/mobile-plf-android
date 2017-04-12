@@ -61,4 +61,6 @@
     <!-- Radio Button-->
     <dimen name="radio_button_height">48dp</dimen>
     <dimen name="radio_button_text_padding_left_right">16dp</dimen>
+
+    <dimen name="show_more_icon_size">12dp</dimen>
 </resources>

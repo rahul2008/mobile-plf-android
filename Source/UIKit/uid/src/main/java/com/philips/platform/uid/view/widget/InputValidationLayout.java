@@ -1,3 +1,9 @@
+/*
+ * (C) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ *
+ */
+
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
@@ -20,11 +26,11 @@ import com.philips.platform.uid.R;
  * Layout which wraps {@link com.philips.platform.uid.view.widget.ValidationEditText} for showing error messages.
  * It uses {@link com.philips.platform.uid.view.widget.InputValidationLayout.Validator} for auto hide/show error messages.
  * Current implementation follows below <br>
- *     1. On focus change, if validate() returns false, error message is displayed.<br>
- *     2. On text change, if validate() return true, error message is removed.
- *
+ * 1. On focus change, if validate() returns false, error message is displayed.<br>
+ * 2. On text change, if validate() return true, error message is removed.
+ * <p/>
  * <br>
- *      <p>The attributes mapping follows below table.</p>
+ * <p>The attributes mapping follows below table.</p>
  * <table border="2" width="85%" align="center" cellpadding="5">
  * <thead>
  * <tr><th>ResourceID</th> <th>Configuration</th></tr>
@@ -42,10 +48,10 @@ import com.philips.platform.uid.R;
  * </tbody>
  * <p>
  * </table>
- *
+ * <p/>
  * <p>
- *     Sample use can be as follows <br>
- *         <pre>
+ * Sample use can be as follows <br>
+ * <pre>
  *              &lt;android:id="@+id/textbox_input_field"
  *                    android:layout_width="match_parent"
  *                    android:layout_height="wrap_content"
@@ -60,24 +66,20 @@ import com.philips.platform.uid.R;
  */
 public class InputValidationLayout extends LinearLayout {
 
-    private Label errorLabel;
-    private ImageView errorIcon;
-    private ViewGroup errorLayout;
-    private ValidationEditText validationEditText;
-    private boolean isShowingError;
-
-    private int errorDrawableID;
-    private int errorMessageID;
-    private Validator validator;
-
     /**
      * Provides call back with current {@link EditText#getText()} which can be used to validate the input.
      */
     public interface Validator {
         boolean validate(CharSequence msg);
     }
-
-
+    private Label errorLabel;
+    private ImageView errorIcon;
+    private ViewGroup errorLayout;
+    private ValidationEditText validationEditText;
+    private boolean isShowingError;
+    private int errorDrawableID;
+    private int errorMessageID;
+    private Validator validator;
     private OnFocusChangeListener focusChangeListener = new OnFocusChangeListener() {
         @Override
         public void onFocusChange(View view, boolean focussed) {
@@ -116,6 +118,7 @@ public class InputValidationLayout extends LinearLayout {
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, new int[]{R.attr.uidTextBoxValidationErrorDrawable, R.attr.uidTextBoxValidationErrorText});
         errorDrawableID = typedArray.getResourceId(0, -1);
         errorMessageID = typedArray.getResourceId(1, -1);
+        typedArray.recycle();
     }
 
     /**
@@ -170,6 +173,7 @@ public class InputValidationLayout extends LinearLayout {
 
     /**
      * Sets error message based on resourceID.
+     *
      * @param resID
      */
     public void setErrorMessage(int resID) {
@@ -181,6 +185,7 @@ public class InputValidationLayout extends LinearLayout {
 
     /**
      * Sets the error message.
+     *
      * @param errorMsg
      */
     public void setErrorMessage(CharSequence errorMsg) {
@@ -192,6 +197,7 @@ public class InputValidationLayout extends LinearLayout {
 
     /**
      * Sets error drawable.
+     *
      * @param drawable
      */
     public void setErrorDrawable(Drawable drawable) {
@@ -201,6 +207,7 @@ public class InputValidationLayout extends LinearLayout {
 
     /**
      * Sets error drawable from the resourceID
+     *
      * @param resID
      */
     public void setErrorDrawable(int resID) {
@@ -215,7 +222,6 @@ public class InputValidationLayout extends LinearLayout {
         isShowingError = true;
         validationEditText.setError(isShowingError);
         errorLayout.setVisibility(VISIBLE);
-
     }
 
     private void ensureErrorLayout() {
@@ -254,6 +260,7 @@ public class InputValidationLayout extends LinearLayout {
 
     /**
      * Returns current error state.
+     *
      * @return true if the error was displaying
      */
     public boolean isShowingError() {
@@ -262,6 +269,7 @@ public class InputValidationLayout extends LinearLayout {
 
     /**
      * Returns error text view.
+     *
      * @return errortextView
      */
     public Label getErrorLabelView() {
@@ -270,6 +278,7 @@ public class InputValidationLayout extends LinearLayout {
 
     /**
      * Returns error icon view.
+     *
      * @return
      */
     public ImageView getErrorIconView() {
@@ -280,11 +289,7 @@ public class InputValidationLayout extends LinearLayout {
         return errorLayout;
     }
 
-
     private static class SavedState extends BaseSavedState {
-
-        private String errorMsg;
-        private boolean isShowingError;
 
         public static final Parcelable.Creator<SavedState> CREATOR = new Creator<SavedState>() {
 
@@ -296,6 +301,8 @@ public class InputValidationLayout extends LinearLayout {
                 return new SavedState[size];
             }
         };
+        private String errorMsg;
+        private boolean isShowingError;
 
         SavedState(Parcelable superState) {
             super(superState);

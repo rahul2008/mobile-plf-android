@@ -24,10 +24,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uid.utils.UIDTestUtils.waitFor;
 
 public class GridViewItemDoubleLineSolidFooterTest {
-    Resources testResources;
-
     @Rule
     public ActivityTestRule<BaseTestActivity> testRule = new ActivityTestRule<BaseTestActivity>(BaseTestActivity.class, false, false);
+    Resources testResources;
     private BaseTestActivity activity;
 
     @Before
@@ -137,7 +136,7 @@ public class GridViewItemDoubleLineSolidFooterTest {
     @Test
     public void verifySolidFillColor(){
         waitFor(testResources, 750);
-        int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlPrimaryEnabledColor);
+        int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlPrimary);
         getSolidFillHolder().check(matches(ViewPropertiesMatchers.hasSameColorDrawableBackgroundColor(expectedColor)));
     }
 

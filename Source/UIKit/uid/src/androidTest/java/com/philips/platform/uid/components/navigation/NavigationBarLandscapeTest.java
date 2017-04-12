@@ -9,14 +9,12 @@ import android.content.res.Resources;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 
-import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.activity.LandscapeModeActivity;
 import com.philips.platform.uid.components.BaseTest;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.thememanager.NavigationColor;
-import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -27,8 +25,6 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 public class NavigationBarLandscapeTest extends BaseTest {
-    private static final int GRAY_75 = R.color.uid_gray_level_75;
-    private static final int WHITE = R.color.uidColorWhite;
     private static final int NAVIGATION_COLOR_ULTRALIGHT = NavigationColor.ULTRA_LIGHT.ordinal();
     @Rule
     public final ActivityTestRule<LandscapeModeActivity> landscapeModeActivityRule = new ActivityTestRule<>(LandscapeModeActivity.class, false, false);
@@ -45,11 +41,6 @@ public class NavigationBarLandscapeTest extends BaseTest {
         baseTestActivity.switchFragment(new NavigationbarFragment());
     }
 
-    private int getNavigationTextExpectedFromThemeColor() {
-        return UIDTestUtils.getAttributeColor(baseTestActivity, R.attr.uidNavigationTextColor);
-    }
-
-    @Ignore
     @Test
     public void verifyTitleLineHeightInLandscape() throws Exception {
         setupLandscapeModeActivity();
@@ -59,7 +50,6 @@ public class NavigationBarLandscapeTest extends BaseTest {
         getTitle().check(matches(TextViewPropertiesMatchers.isSameLineHeight(lineheight)));
     }
 
-    @Ignore
     @Test
     public void verifyTitleLineSpacingInLandscape() throws Exception {
         setupLandscapeModeActivity();
@@ -69,7 +59,6 @@ public class NavigationBarLandscapeTest extends BaseTest {
         getTitle().check(matches(TextViewPropertiesMatchers.isSameLineSpacing(linespacing)));
     }
 
-    @Ignore
     @Test
     public void verifyTitleTextSizeInLandscape() throws Exception {
         setupLandscapeModeActivity();
@@ -79,7 +68,6 @@ public class NavigationBarLandscapeTest extends BaseTest {
         getTitle().check(matches(TextViewPropertiesMatchers.isSameFontSize(fontSize)));
     }
 
-    @Ignore
     @Test
     public void verifyToolbarHeightOnLandscapeMode() throws Exception {
 
@@ -89,7 +77,6 @@ public class NavigationBarLandscapeTest extends BaseTest {
         getNavigationBar().check(matches(ViewPropertiesMatchers.isSameViewHeight(toolbarHeight)));
     }
 
-    @Ignore
     @Test
     public void verifyOptionsMenuIconTargetAreaInLandscape() throws Exception {
         setupLandscapeModeActivity();

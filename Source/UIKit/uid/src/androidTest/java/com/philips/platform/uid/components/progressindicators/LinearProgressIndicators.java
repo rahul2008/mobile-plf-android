@@ -1,15 +1,15 @@
-package com.philips.platform.uid.components.progressindicators;
 /*
- * (C) Koninklijke Philips N.V., 2016.
+ * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  *
  */
+
+package com.philips.platform.uid.components.progressindicators;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
-import android.support.v4.content.ContextCompat;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
@@ -26,56 +26,52 @@ import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.philips.platform.uid.test.R.color.GroupBlue45;
-import static com.philips.platform.uid.utils.UIDTestUtils.modulateColorAlpha;
 
 public class LinearProgressIndicators {
 
-    private Context activityContext;
-    private Context instrumentationContext;
-
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
-    private Resources testResources;
+    private Context activityContext;
+    private Resources resources;
+    private int GroupBlue45 = R.color.uid_group_blue_level_45;
 
     @Before
     public void setUp() {
         final BaseTestActivity activity = mActivityTestRule.getActivity();
         activity.switchTo(com.philips.platform.uid.test.R.layout.layout_progressbar);
-        testResources = getInstrumentation().getContext().getResources();
-        instrumentationContext = getInstrumentation().getContext();
+        resources = getInstrumentation().getContext().getResources();
         activityContext = activity;
     }
 
     //*********************************Layout TestScenarios**************************//
     @Test
     public void verifyHeightOfProgressBar() {
-        int expectedHeight = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.linearprogressbar_height);
+        int expectedHeight = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.linearprogressbar_height);
         getProgressBar().check(matches(FunctionDrawableMatchers.isMinHeight(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, expectedHeight, progressID())));
     }
 
     @Test
     public void verifyMinWidthOfProgressBar() {
-        int expectedMinWidth = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.linearprogressbar_minwidth);
+        int expectedMinWidth = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.linearprogressbar_minwidth);
         getProgressBar().check(matches(FunctionDrawableMatchers.isMinWidth(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, expectedMinWidth, progressID())));
     }
 
     @Test
     public void verifyLeftMarginOfProgressBar() {
-        int expectedLeftMargin = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.linearprogressbar_leftmargin);
+        int expectedLeftMargin = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.linearprogressbar_leftmargin);
         getProgressBar().check(matches(ViewPropertiesMatchers.isSameLeftMargin(expectedLeftMargin)));
     }
 
     @Test
     public void verifyRightMarginOfProgressBar() {
-        int expectedRightMargin = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.linearprogressbar_leftmargin);
+        int expectedRightMargin = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.linearprogressbar_leftmargin);
         getProgressBar().check(matches(ViewPropertiesMatchers.isSameEndMargin(expectedRightMargin)));
     }
 
     //*********************************Theming Scenarios**************************//
     @Test
     public void verifyProgressBarProgressColor() {
-        final int expectedProgressBarProgressColor = ContextCompat.getColor(instrumentationContext, GroupBlue45);
+        final int expectedProgressBarProgressColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidControlPrimaryDetail);//ContextCompat.getColor(activityContext, GroupBlue45);
         getProgressBar().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedProgressBarProgressColor, progressID(), true)));
     }
 
@@ -87,15 +83,14 @@ public class LinearProgressIndicators {
 
     @Test
     public void verifySecondaryProgressBarProgressColor() {
-        final int expectedSecProgressBarProgressColor = ContextCompat.getColor(instrumentationContext, GroupBlue45);
+        final int expectedSecProgressBarProgressColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidControlPrimaryDetail);
         getProgressBarSecondary().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedSecProgressBarProgressColor, progressID(), true)));
     }
 
     @Test
     public void verifySecondaryProgressBarSecondaryProgressColor() {
-        final int expectedSecProgressBarSecondaryColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.30f);
+        final int expectedSecProgressBarSecondaryColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidControlBuffer);
         getProgressBarSecondary().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedSecProgressBarSecondaryColor, progressSecondaryID(), true)));
-
     }
 
     @Test
@@ -106,9 +101,7 @@ public class LinearProgressIndicators {
     }
 
     private int getExpectedProgressBarBackgroundColor() {
-        final int attributeColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidProgressBarBGColor);
-        final float alpha = UIDTestUtils.getAttributeAlpha(activityContext, R.attr.uidProgressBarBGColorAlpha);
-        return modulateColorAlpha(attributeColor, alpha);
+        return UIDTestUtils.getAttributeColor(activityContext, R.attr.uidControlTrackOff);
     }
 
     private ViewInteraction getProgressBar() {

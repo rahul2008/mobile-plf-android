@@ -4,7 +4,6 @@
  */
 package com.philips.platform.uid.components.buttons;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
@@ -26,19 +25,15 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 public class PrimaryButtonWithIconOnlyTest {
 
-    private Resources testResources;
-    private Context instrumentationContext;
-    private Context activityContext;
-
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
+    private Resources testResources;
 
     @Before
     public void setUp() {
         final BaseTestActivity activity = mActivityTestRule.getActivity();
         activity.switchTo(com.philips.platform.uid.test.R.layout.layout_buttons);
         testResources = getInstrumentation().getContext().getResources();
-        activityContext = activity;
     }
 
     /************************************************

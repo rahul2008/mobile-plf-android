@@ -4,12 +4,6 @@
  *
  */
 
-/*
- * (C) Koninklijke Philips N.V., 2017.
- * All rights reserved.
- *
- */
-
 package com.philips.platform.uid.drawable;
 
 import android.content.Context;
@@ -25,7 +19,6 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
 
 import com.philips.platform.uid.R;
-import com.philips.platform.uid.utils.UIDUtils;
 
 /**
  * The type Divider drawable.
@@ -33,21 +26,17 @@ import com.philips.platform.uid.utils.UIDUtils;
  */
 public class SeparatorDrawable extends Drawable {
 
-    private final Paint paint;
-    private int height;
-    private static final int[] ATTRS = new int[]{android.R.attr.dividerHeight, R.attr.uidSeparatorColor, R.attr.uidSeparatorAlpha};
     public static final int HEIGHT_ATTR_INDEX = 0;
     public static final int SEPARATOR_ATT_INDEX = 1;
-    public static final int SEPARATOR_ALPHA_ATTR_INDEX = 2;
-
+    private static final int[] ATTRS = new int[]{android.R.attr.dividerHeight, R.attr.uidSeparator};
+    private final Paint paint;
+    private int height;
     public SeparatorDrawable(@NonNull final Context context) {
         final TypedArray styledAttributes = context.obtainStyledAttributes(ATTRS);
         this.height = styledAttributes.getDimensionPixelSize(HEIGHT_ATTR_INDEX, 1);
         final int color = styledAttributes.getColor(SEPARATOR_ATT_INDEX, ContextCompat.getColor(context, R.color.uid_gray_level_75));
-        final float alpha = styledAttributes.getFloat(SEPARATOR_ALPHA_ATTR_INDEX, 0);
-        final int modulateColorAlpha = UIDUtils.modulateColorAlpha(color, alpha);
-        paint = new Paint(modulateColorAlpha);
-        paint.setColor(modulateColorAlpha);
+        paint = new Paint();
+        paint.setColor(color);
         styledAttributes.recycle();
     }
 
@@ -65,11 +54,6 @@ public class SeparatorDrawable extends Drawable {
         return paint.getColor();
     }
 
-    @Override
-    public void draw(final Canvas canvas) {
-        canvas.drawRect(getBounds(), paint);
-    }
-
     /**
      * This API can be used to set color for separator
      *
@@ -78,6 +62,11 @@ public class SeparatorDrawable extends Drawable {
     public void setColor(@ColorInt int color) {
         paint.setColor(color);
         invalidateSelf();
+    }
+
+    @Override
+    public void draw(final Canvas canvas) {
+        canvas.drawRect(getBounds(), paint);
     }
 
     @Override

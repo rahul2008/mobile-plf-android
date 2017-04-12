@@ -14,5 +14,6 @@
         android:layout_height="match_parent"
         android:text="@string/checkbox"
         app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
+
 </LinearLayout>
 

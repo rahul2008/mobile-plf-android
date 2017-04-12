@@ -68,7 +68,7 @@ public class GridViewSettingsFragment extends BaseFragment {
         this.isSecondaryActionEnabled.set(isSecondaryActionEnabled);
     }
 
-    public void setDarkBackgroundEnabled(boolean isDarkBackroundEnabled){
+    public void setDarkBackgroundEnabled(boolean isDarkBackroundEnabled) {
         this.isDarkBackroungEnabled.set(isDarkBackroundEnabled);
     }
 

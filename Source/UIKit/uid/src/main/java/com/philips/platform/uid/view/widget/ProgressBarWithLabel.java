@@ -1,7 +1,9 @@
-/**
+/*
  * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
+ *
  */
+
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
@@ -232,6 +234,16 @@ public class ProgressBarWithLabel extends FrameLayout {
     }
 
     static class SavedState extends BaseSavedState {
+        public static final Parcelable.Creator<ProgressBarWithLabel.SavedState> CREATOR
+                = new Parcelable.Creator<ProgressBarWithLabel.SavedState>() {
+            public ProgressBarWithLabel.SavedState createFromParcel(Parcel in) {
+                return new ProgressBarWithLabel.SavedState(in);
+            }
+
+            public ProgressBarWithLabel.SavedState[] newArray(int size) {
+                return new ProgressBarWithLabel.SavedState[size];
+            }
+        };
         String label;
         int progress;
         int secondaryProgress;
@@ -255,16 +267,5 @@ public class ProgressBarWithLabel extends FrameLayout {
             out.writeInt(progress);
             out.writeInt(secondaryProgress);
         }
-
-        public static final Parcelable.Creator<ProgressBarWithLabel.SavedState> CREATOR
-                = new Parcelable.Creator<ProgressBarWithLabel.SavedState>() {
-            public ProgressBarWithLabel.SavedState createFromParcel(Parcel in) {
-                return new ProgressBarWithLabel.SavedState(in);
-            }
-
-            public ProgressBarWithLabel.SavedState[] newArray(int size) {
-                return new ProgressBarWithLabel.SavedState[size];
-            }
-        };
     }
 }

@@ -4,6 +4,7 @@
     <style name="UIDLabel">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="uidLabelTextSize">@dimen/uid_label_text_size</item>
+        <item name="android:textColor">?attr/uidLabelRegularNormalTextColor</item>
     </style>
 
     <style name="UIDLabel.MarginTop">
@@ -28,8 +29,12 @@
 
     <style name="UIDLabelDescription">
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
+        <!--
         <item name="uidLabelTextColor">?attr/uidTextPrimary</item>
         <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_100</item>
+        -->
+        <item name="android:textColor">?attr/uidLabelRegularNormalTextColor</item>
+
     </style>
 
     <style name="UIDLabelDescription.MarginStart">
@@ -43,29 +48,25 @@
     <style name="UIDLabel.RecyclerViewItemOneLineTitleText">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="uidLabelTextSize">@dimen/uid_recyclerview_item_title_text_size</item>
-        <item name="uidLabelTextColor">?attr/uidTextPrimaryColor</item>
-        <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_100</item>
+        <item name="android:textColor">?attr/uidTextPrimary</item>
     </style>
 
     <style name="UIDLabel.RecyclerViewItemMultipleLinesTitleText">
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
         <item name="uidLabelTextSize">@dimen/uid_recyclerview_item_title_text_size</item>
-        <item name="uidLabelTextColor">?attr/uidTextPrimaryColor</item>
-        <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_100</item>
+        <item name="android:textColor">?attr/uidTextPrimary</item>
     </style>
 
     <style name="UIDLabel.RecyclerViewItemSubtitleText">
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
         <item name="uidLabelTextSize">@dimen/uid_recyclerview_item_subtitle_text_size</item>
-        <item name="uidLabelTextColor">?attr/uidTextPrimaryColor</item>
-        <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_100</item>
+        <item name="android:textColor">?attr/uidTextPrimary</item>
     </style>
 
     <style name="UIDLabel.RecyclerViewItemDescriptionText">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="uidLabelTextSize">@dimen/uid_recyclerview_item_description_text_size</item>
-        <item name="uidLabelTextColor">?attr/uidTextSecondary</item>
-        <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_100</item>
+        <item name="android:textColor">?attr/uidTextSecondary</item>
     </style>
 
     <style name="UIDLabel.RecyclerViewHeaderText">
@@ -73,8 +74,7 @@
         <item name="uidLabelTextSize">@dimen/uid_recyclerview_header_text_size</item>
         <item name="android:paddingStart">@dimen/uid_recyclerview_margin_left_right</item>
         <item name="android:minHeight">@dimen/uid_recyclerview_header_height</item>
-        <item name="uidLabelTextColor">?attr/uidTextTertiaryColor</item>
-        <item name="uidLabelTextAlpha">?attr/uidTextTertiaryAlpha</item>
+        <item name="android:textColor">?attr/uidTextTertiary</item>
         <item name="android:background">?attr/uidContentTertiary</item>
     </style>
 
@@ -83,8 +83,7 @@
         <item name="uidLabelTextSize">@dimen/uid_recyclerview_header_text_size</item>
         <item name="android:paddingStart">@dimen/uid_recyclerview_margin_left_right</item>
         <item name="android:minHeight">@dimen/uid_recyclerview_lable_height</item>
-        <item name="uidLabelTextColor">?attr/uidTextTertiaryColor</item>
-        <item name="uidLabelTextAlpha">?attr/uidTextTertiaryAlpha</item>
+        <item name="android:textColor">?attr/uidTextTertiary</item>
         <item name="android:paddingTop">@dimen/uid_recyclerview_lable_top</item>
         <item name="android:paddingBottom">@dimen/uid_recyclerview_lable_bottom</item>
     </style>
@@ -94,8 +93,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="uidLabelTextSize">@dimen/uid_label_text_size</item>
-        <item name="uidLabelTextColor">?attr/uidTextTertiaryColor</item>
-        <item name="uidLabelTextAlpha">?attr/uidTextTertiaryAlpha</item>
+        <item name="android:textColor">?attr/uidTextTertiary</item>
     </style>
 
     <style name="UIDLabel.GridViewHeaderText">
@@ -103,8 +101,7 @@
         <item name="uidLabelTextSize">@dimen/uid_gridview_header_text_size</item>
         <item name="android:paddingStart">@dimen/uid_gridview_margin_left_right</item>
         <item name="android:minHeight">@dimen/uid_gridview_header_height</item>
-        <item name="uidLabelTextColor">?attr/uidTextTertiaryColor</item>
-        <item name="uidLabelTextAlpha">?attr/uidTextTertiaryAlpha</item>
+        <item name="android:textColor">?attr/uidTextTertiary</item>
     </style>
 
     <style name="UIDLabel.GridViewTitleText">
@@ -118,8 +115,7 @@
         <item name="android:ellipsize">end</item>
         <item name="android:scrollHorizontally">true</item>
         <item name="uidLabelTextSize">@dimen/uid_grid_title_size</item>
-        <item name="uidLabelTextColor">@color/uidColorWhite</item>
-        <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_100</item>
+        <item name="android:textColor">@color/uidColorWhite</item>
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
     </style>
 
@@ -134,14 +130,13 @@
         <item name="android:ellipsize">end</item>
         <item name="android:scrollHorizontally">true</item>
         <item name="uidLabelTextSize">@dimen/uid_grid_descrption_size</item>
-        <item name="uidLabelTextColor">@color/uidColorWhite</item>
-        <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_100</item>
+        <item name="android:textColor">@color/uidColorWhite</item>
+
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
 
     <style name="UIDLabel.GridViewSettingsText">
         <item name="uidLabelTextSize">@dimen/uid_recyclerview_item_title_text_size</item>
-        <item name="uidLabelTextColor">?attr/uidTextPrimaryColor</item>
-        <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_100</item>
+        <item name="android:textColor">?attr/uidTextPrimary</item>
     </style>
 </resources>
