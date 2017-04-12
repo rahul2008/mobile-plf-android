@@ -27,10 +27,6 @@ import org.joda.time.DateTime;
 
 import java.util.Map;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public interface BaseAppDataCreator {
 
     @NonNull

@@ -52,12 +52,6 @@ public class VerticalDBSavingInterface implements DBSavingInterface {
     }
 
     @Override
-    public boolean saveBlobMetaData(BlobMetaData blobMetaData, BlobRequestListener blobRequestListener) throws SQLException {
-        return false;
-    }
-
-
-    @Override
     public boolean saveSettings(Settings settings, DBRequestListener dbRequestListener) throws SQLException {
         return false;
     }

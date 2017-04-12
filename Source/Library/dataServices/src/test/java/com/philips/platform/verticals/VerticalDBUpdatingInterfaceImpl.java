@@ -59,9 +59,4 @@ public class VerticalDBUpdatingInterfaceImpl implements DBUpdatingInterface {
         return false;
     }
 
-    @Override
-    public boolean updateUcoreBlobMetaData(BlobMetaData blobMetaData) throws SQLException {
-        return false;
-    }
-
 }

@@ -86,6 +86,9 @@ public class DataServicesManagerTest {
     private Eventing eventingMock;
 
     @Mock
+    JSONObject jsonObject;
+
+    @Mock
     private File fileMock;
 
     @Mock
@@ -342,6 +345,6 @@ public class DataServicesManagerTest {
 
     @Test
     public void handlePushNotificationPayloadTest() throws Exception {
-        tracker.handlePushNotificationPayload(null);
+        tracker.handlePushNotificationPayload(jsonObject);
     }
 }
