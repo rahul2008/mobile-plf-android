@@ -18,7 +18,7 @@ import nl.rwslinkman.presentable.PresentableAdapter;
 import nl.rwslinkman.presentable.Presenter;
 import nl.rwslinkman.presentable.interaction.PresentableItemClickListener;
 
-abstract public class DiCommTestAppFragment<T> extends BaseFragment {
+abstract public class CommLibExplorerAppFragment<T> extends BaseFragment {
     private PresentableAdapter<T> adapter;
     protected TextView titleView;
     protected TextView subtitleView;

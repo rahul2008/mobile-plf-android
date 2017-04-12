@@ -11,7 +11,7 @@ public class DiscoveredDevicePresenter extends TwoLinePresenter<GenericAppliance
     @Override
     public void onBindViewHolder(TwoLinePresenter.ViewHolder viewHolder, GenericAppliance item) {
         String title = item.getName() == null ? "[Unnnamed device]" : item.getDeviceName();
-        String subtitle = item.getNetworkNode().getIpAddress() == null ? "[Address unknown]" : item.getModelNumber();
+        String subtitle = item.getNetworkNode().getIpAddress() == null ? "[Address unknown]" : item.getModelId();
 
         viewHolder.titleView.setText(title);
         viewHolder.subtitleView.setText(subtitle);

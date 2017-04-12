@@ -7,7 +7,6 @@ package com.philips.cdp2.commlibexplorer.appliance;
 
 import com.philips.cdp.dicommclient.port.DICommPort;
 
-
 public class NativePort implements SupportedPort {
 
     private DICommPort port;

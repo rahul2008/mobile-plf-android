@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 import com.philips.cdp2.commlibexplorer.appliance.SupportedPort;
 
 import static android.support.v4.content.ContextCompat.getColor;
+import static android.text.TextUtils.isEmpty;
 
 public class PortOverviewPresenter extends TwoLinePresenter<SupportedPort> {
     private int redColor;
     private int blackColor;
-
 
     @Override
     public TwoLinePresenter.ViewHolder onCreateViewHolder(ViewGroup parent) {
@@ -27,12 +27,11 @@ public class PortOverviewPresenter extends TwoLinePresenter<SupportedPort> {
     public void onBindViewHolder(TwoLinePresenter.ViewHolder viewHolder, SupportedPort item) {
         String subTitle = "Loading...";
         int textColor = blackColor;
-        if (!item.getErrorText().isEmpty()) {
+        if (!isEmpty(item.getErrorText())) {
             subTitle = item.getErrorText();
             textColor = redColor;
-        } else if (!item.getStatusText().isEmpty()) {
+        } else if (!isEmpty(item.getStatusText())) {
             subTitle = item.getStatusText();
-            textColor = blackColor;
         }
 
         viewHolder.titleView.setText(item.getPortName());

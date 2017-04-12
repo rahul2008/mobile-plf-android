@@ -19,12 +19,12 @@ import java.util.ArrayList;
 
 import nl.rwslinkman.presentable.Presenter;
 
-public class PortDetailFragment extends DiCommTestAppFragment<Property> {
+public class PortDetailFragment extends CommLibExplorerAppFragment<Property> {
     private static final String TAG = "PortDetailFragment";
     private DICommPortListener<PropertyPort> portListener = new DICommPortListener<PropertyPort>() {
         @Override
         public void onPortUpdate(PropertyPort propertyPort) {
-            Log.e(TAG, "onPortUpdate on " + propertyPort.getPortName() + ": " + propertyPort.toString());
+            Log.d(TAG, "onPortUpdate on " + propertyPort.getPortName() + ": " + propertyPort.toString());
             notifyListUpdated();
         }
 

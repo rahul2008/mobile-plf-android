@@ -19,7 +19,7 @@ import com.philips.cdp2.commlibexplorer.appliance.GenericApplianceFactory;
 import com.philips.cdp2.commlibexplorer.background.BackgroundConnectionService;
 import com.philips.cdp2.commlibexplorer.strategy.BleCommStrategy;
 import com.philips.cdp2.commlibexplorer.strategy.CommStrategy;
-import com.philips.cdp2.commlibexplorer.strategy.WlanCommStrategy;
+import com.philips.cdp2.commlibexplorer.strategy.LanCommStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +60,7 @@ public class CommlibExplorerApp extends Application {
         BleCommStrategy bleStrategy = new BleCommStrategy(bleTransportContext);
         contexts.add(bleStrategy);
 
-        WlanCommStrategy wifiStrategy = new WlanCommStrategy(lanTransportContext);
+        LanCommStrategy wifiStrategy = new LanCommStrategy(lanTransportContext);
         contexts.add(wifiStrategy);
 
         return contexts;

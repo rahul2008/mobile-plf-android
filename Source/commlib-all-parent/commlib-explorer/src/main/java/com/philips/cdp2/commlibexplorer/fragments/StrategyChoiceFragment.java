@@ -16,7 +16,7 @@ import java.util.List;
 import nl.rwslinkman.presentable.Presenter;
 import nl.rwslinkman.presentable.interaction.PresentableItemClickListener;
 
-public class StrategyChoiceFragment extends DiCommTestAppFragment<CommStrategy> implements PresentableItemClickListener<CommStrategy> {
+public class StrategyChoiceFragment extends CommLibExplorerAppFragment<CommStrategy> implements PresentableItemClickListener<CommStrategy> {
     private static final String TAG = "StrategyChoiceFragment";
 
     public StrategyChoiceFragment() {

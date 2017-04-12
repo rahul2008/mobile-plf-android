@@ -17,7 +17,6 @@ import nl.rwslinkman.presentable.Presenter;
 public class CommStrategyPresenter implements Presenter<CommStrategy, CommStrategyPresenter.ViewHolder> {
     @Override
     public CommStrategyPresenter.ViewHolder onCreateViewHolder(ViewGroup parent) {
-        // Inflate your custom XML layout representing a list item in the RecyclerView
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(android.R.layout.simple_list_item_1, parent, false);
 

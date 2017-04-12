@@ -25,7 +25,7 @@ public class PairingPortFragment extends BaseFragment {
     private DICommPortListener<PairingPort> portListener = new DICommPortListener<PairingPort>() {
         @Override
         public void onPortUpdate(PairingPort propertyPort) {
-            Log.e(TAG, "onPortUpdate on " + propertyPort.getDICommPortName() + ": " + propertyPort.toString());
+            Log.d(TAG, "onPortUpdate on " + propertyPort.getDICommPortName() + ": " + propertyPort.toString());
         }
 
         @Override

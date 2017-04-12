@@ -18,7 +18,7 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 public class GenericAppliance extends Appliance {
-    private String modelNumber;
+    private String modelId;
     private String deviceName;
     private SupportedPorts supportedPorts = new SupportedPorts();
 
@@ -28,8 +28,8 @@ public class GenericAppliance extends Appliance {
         addPort(mPairingPort);
     }
 
-    public String getModelNumber() {
-        return modelNumber;
+    public String getModelId() {
+        return modelId;
     }
 
     public String getDeviceName() {
@@ -38,7 +38,6 @@ public class GenericAppliance extends Appliance {
 
     @Override
     public String getDeviceType() {
-        // TODO Ask ConArtists what is the purpose of this method?
         return "";
     }
 
@@ -56,7 +55,7 @@ public class GenericAppliance extends Appliance {
 
     void readApplianceSpecification(ApplianceSpecification applianceSpec, CommunicationStrategy strategy) {
         this.addSpecificationPorts(applianceSpec, strategy);
-        this.modelNumber = applianceSpec.getModelId();
+        this.modelId = applianceSpec.getModelId();
         this.deviceName = applianceSpec.getDeviceName();
     }
 

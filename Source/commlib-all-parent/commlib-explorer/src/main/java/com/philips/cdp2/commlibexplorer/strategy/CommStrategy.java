@@ -6,8 +6,7 @@ package com.philips.cdp2.commlibexplorer.strategy;
 
 import com.philips.cdp2.commlib.core.context.TransportContext;
 
-public interface CommStrategy
-{
+public interface CommStrategy {
     enum CommStrategyType {
         LAN("LAN"), BLE("BLE");
 
@@ -23,5 +22,6 @@ public interface CommStrategy
     }
 
     CommStrategyType getType();
+
     TransportContext getTransportContext();
 }

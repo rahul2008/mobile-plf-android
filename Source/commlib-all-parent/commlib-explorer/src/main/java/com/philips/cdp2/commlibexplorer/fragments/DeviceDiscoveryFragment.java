@@ -25,11 +25,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import nl.rwslinkman.presentable.Presenter;
 import nl.rwslinkman.presentable.interaction.PresentableItemClickListener;
 
-public class DeviceDiscoveryFragment extends DiCommTestAppFragment<GenericAppliance> implements PresentableItemClickListener<GenericAppliance> {
+public class DeviceDiscoveryFragment extends CommLibExplorerAppFragment<GenericAppliance> implements PresentableItemClickListener<GenericAppliance> {
     private static final String TAG = "DeviceDiscoveryFragment";
 
     private DiscoveryEventListener discoveryListener = new DiscoveryEventListener() {
@@ -136,7 +137,7 @@ public class DeviceDiscoveryFragment extends DiCommTestAppFragment<GenericApplia
         try {
             central.startDiscovery();
         } catch (MissingPermissionException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Missing permission, trying to acquire");
             activity.acquirePermission(new Runnable() {
                 @Override
                 public void run() {
@@ -150,17 +151,17 @@ public class DeviceDiscoveryFragment extends DiCommTestAppFragment<GenericApplia
         getMainActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                List<? extends Appliance> availableAppliances;
+                Set<Appliance> availableAppliances;
                 switch (usedStrategy.getType()) {
                     case BLE:
                         // BLE devices in CommCentral
                         CommCentral central = getConnectionService().getCommCentral();
-                        Set<? extends Appliance> bleAppliances = central.getApplianceManager().getAvailableAppliances();
-                        availableAppliances = convertToList(bleAppliances);
+                        availableAppliances = central.getApplianceManager().getAvailableAppliances();
                         break;
                     case LAN:
                         // LAN devices in DiscoveryManager
-                        availableAppliances = DiscoveryManager.getInstance().getAllDiscoveredAppliances();
+                        availableAppliances = new CopyOnWriteArraySet<>();
+                        availableAppliances.addAll(DiscoveryManager.getInstance().getAllDiscoveredAppliances());
                         break;
                     default:
                         availableAppliances = null;
@@ -192,7 +193,7 @@ public class DeviceDiscoveryFragment extends DiCommTestAppFragment<GenericApplia
     }
 
     @NonNull
-    private List<GenericAppliance> convertToList(Collection<? extends Appliance> availableAppliances) {
+    private List<GenericAppliance> convertToList(Collection<Appliance> availableAppliances) {
         List<GenericAppliance> applianceList = new ArrayList<>();
         for (Appliance appl : availableAppliances) {
             if (appl instanceof GenericAppliance) {

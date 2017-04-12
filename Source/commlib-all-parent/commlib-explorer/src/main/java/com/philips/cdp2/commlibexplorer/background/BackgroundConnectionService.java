@@ -50,7 +50,6 @@ public class BackgroundConnectionService extends Service {
         if (commCentral != null) {
             // Remove existing one
             commCentral.stopDiscovery();
-            commCentral = null;
         }
 
         // Create new factory

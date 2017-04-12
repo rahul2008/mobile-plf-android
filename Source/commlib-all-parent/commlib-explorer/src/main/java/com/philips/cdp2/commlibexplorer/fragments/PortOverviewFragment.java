@@ -31,14 +31,14 @@ import java.util.Set;
 import nl.rwslinkman.presentable.Presenter;
 import nl.rwslinkman.presentable.interaction.PresentableItemClickListener;
 
-public class PortOverviewFragment extends DiCommTestAppFragment<SupportedPort> implements PresentableItemClickListener<SupportedPort> {
+public class PortOverviewFragment extends CommLibExplorerAppFragment<SupportedPort> implements PresentableItemClickListener<SupportedPort> {
     private static final String TAG = "PortOverviewFragment";
     private SupportedPorts supportedPorts = new SupportedPorts();
 
     private DICommPortListener<PropertyPort> portListener = new DICommPortListener<PropertyPort>() {
         @Override
         public void onPortUpdate(PropertyPort propertyPort) {
-            Log.e(TAG, "onPortUpdate on " + propertyPort.getPortName() + ": " + propertyPort.toString());
+            Log.d(TAG, "onPortUpdate on " + propertyPort.getPortName() + ": " + propertyPort.toString());
             propertyPort.setErrorText("");
             propertyPort.setStatusText("Online");
             propertyPort.setEnabled(true);
@@ -58,6 +58,7 @@ public class PortOverviewFragment extends DiCommTestAppFragment<SupportedPort> i
             notifyListUpdated();
         }
     };
+
     private ApplianceManager.ApplianceListener<Appliance> applianceListener = new ApplianceManager.ApplianceListener<Appliance>() {
         @Override
         public void onApplianceFound(@NonNull Appliance appliance) {
@@ -114,7 +115,7 @@ public class PortOverviewFragment extends DiCommTestAppFragment<SupportedPort> i
         updateList(new ArrayList<>(portList));
 
         titleView.setText(getString(R.string.ports_overview_title_message));
-        String subtitleText = String.format("Available on %s", currentAppliance.getModelNumber());
+        String subtitleText = String.format("Available on %s", currentAppliance.getModelId());
         subtitleView.setText(subtitleText);
 
         for (SupportedPort port : portList) {
@@ -152,7 +153,6 @@ public class PortOverviewFragment extends DiCommTestAppFragment<SupportedPort> i
             }
             return;
         }
-
 
         DICommPort port;
         if (item instanceof PropertyPort) {

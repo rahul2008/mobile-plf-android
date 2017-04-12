@@ -4,17 +4,17 @@
  */
 package com.philips.cdp2.commlibexplorer.appliance.property;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public class ApplianceSpecification {
     private String deviceName;
     private String modelId;
     private String modelName;
-    private List<PortSpecification> portSpecifications;
+    private Set<PortSpecification> portSpecifications;
 
     public ApplianceSpecification() {
-        portSpecifications = new ArrayList<>();
+        portSpecifications = new CopyOnWriteArraySet<>();
     }
 
     public void setModelId(String modelId) {
@@ -25,7 +25,7 @@ public class ApplianceSpecification {
         this.deviceName = deviceName;
     }
 
-    public void setPortSpecifications(List<PortSpecification> portSpecifications) {
+    public void setPortSpecifications(Set<PortSpecification> portSpecifications) {
         this.portSpecifications = portSpecifications;
     }
 
@@ -33,7 +33,7 @@ public class ApplianceSpecification {
         return deviceName;
     }
 
-    public List<PortSpecification> getPortSpecifications() {
+    public Set<PortSpecification> getPortSpecifications() {
         return portSpecifications;
     }
 
