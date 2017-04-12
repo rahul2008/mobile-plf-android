@@ -79,7 +79,16 @@ public class SupportFragmentState extends BaseState implements CcListener {
 
     @Override
     public void init(Context context) {
-
+        /*
+        * This method call is required for the scenario, when UR screen launched
+        * but login is not done.
+        * UR screen itself sets Home country.
+        *
+        * Lets say UR screen, country is changed to China, but login not done,
+        * and user will go to ConsumerCare scree. So this case features should belongs to
+        * China only.
+        */
+        getApplicationContext().determineChinaFlow();
     }
 
     //TODO - As per Raymond communication, we should not go to multiple CTNs because this is going to add one more

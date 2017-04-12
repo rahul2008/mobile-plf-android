@@ -45,6 +45,7 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
     private ProductRegistrationState productRegistrationState;
     private boolean isSdCardFileCreated;
     private File tempFile;
+    private final boolean[] isChinaCountry = {false};
 
     @SuppressWarnings("deprecation")
     @Override
@@ -70,6 +71,7 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
         setLocale();
         userRegistrationState = new UserRegistrationOnBoardingState();
         userRegistrationState.init(this);
+        determineChinaFlow();
         productRegistrationState = new ProductRegistrationState();
         productRegistrationState.init(this);
         iapState = new IAPRetailerFlowState();
@@ -125,7 +127,10 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
     }
 
     public boolean isChinaFlow() {
-        final boolean[] isChinaCountry = {false};
+        return isChinaCountry[0];
+    }
+
+    public void determineChinaFlow() {
 
         AppInfraInterface appInfraInterface = getAppInfra();
         ServiceDiscoveryInterface serviceDiscovery = appInfraInterface.getServiceDiscovery();
@@ -145,7 +150,5 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
                 isChinaCountry[0] = false;
             }
         });
-
-        return isChinaCountry[0];
     }
 }
