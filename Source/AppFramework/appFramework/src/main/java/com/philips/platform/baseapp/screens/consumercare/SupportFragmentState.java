@@ -61,7 +61,9 @@ public class SupportFragmentState extends BaseState implements CcListener {
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        /*
+        fragmentLauncher = (FragmentLauncher) uiLauncher;
+        this.activityContext = getFragmentActivity();
+                /*
         * This method call is required for the scenario, when UR screen launched
         * but login is not done.
         * UR screen itself sets Home country.
@@ -71,8 +73,7 @@ public class SupportFragmentState extends BaseState implements CcListener {
         * China only.
         */
         getApplicationContext().determineChinaFlow();
-        fragmentLauncher = (FragmentLauncher) uiLauncher;
-        this.activityContext = getFragmentActivity();
+
         DigitalCareConfigManager.getInstance().registerCcListener(this);
         ((AppFrameworkBaseActivity)activityContext).handleFragmentBackStack(null,null,getUiStateData().getFragmentLaunchState());
         updateDataModel();
