@@ -7,7 +7,6 @@ package com.philips.platform.baseapp.screens.userregistration;
 
 import android.support.v4.app.FragmentManager;
 
-import com.philips.platform.GradleRunner;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
@@ -21,9 +20,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-@RunWith(GradleRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 24)
 public class UserRegistrationStateTest extends TestCase {
     public AppInfraInterface appInfra;

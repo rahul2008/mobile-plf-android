@@ -8,7 +8,6 @@ package com.philips.platform.baseapp.screens.splash;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import com.philips.platform.GradleRunner;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
@@ -18,11 +17,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertNotNull;
 
-@RunWith(GradleRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 24)
 public class SplashFragmentTest {
     private LaunchActivityMock launchActivity;

@@ -21,6 +21,7 @@ import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnB
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.io.File;
@@ -28,7 +29,7 @@ import java.util.Locale;
 
 import static junit.framework.Assert.assertTrue;
 
-@RunWith(GradleRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 24)
 public class TestAppFrameworkApplication extends AppFrameworkApplication {
 

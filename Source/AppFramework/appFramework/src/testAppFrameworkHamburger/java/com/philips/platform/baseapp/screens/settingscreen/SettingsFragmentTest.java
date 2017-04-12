@@ -7,7 +7,6 @@ package com.philips.platform.baseapp.screens.settingscreen;
 
 import android.support.v4.app.Fragment;
 
-import com.philips.platform.GradleRunner;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
@@ -16,13 +15,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 
-@RunWith(GradleRunner.class)
-@Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 21)
+@RunWith(RobolectricTestRunner.class)
+@Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 24)
 public class SettingsFragmentTest {
     private HamburgerActivity hamburgerActivity = null;
     private SettingsFragment settingsFragment;
