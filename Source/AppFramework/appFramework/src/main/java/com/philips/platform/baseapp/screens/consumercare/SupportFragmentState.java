@@ -118,9 +118,7 @@ public class SupportFragmentState extends BaseState implements CcListener {
         ccLaunchInput.setProductModelSelectionType(productsSelection);
         ccLaunchInput.setConsumerCareListener(this);
 
-        AppInfraInterface appInfraInterface = ((AppFrameworkApplication)getApplicationContext()).getAppInfra();
-        ServiceDiscoveryInterface serviceDiscovery = appInfraInterface.getServiceDiscovery();
-
+        AppInfraInterface appInfraInterface = getApplicationContext().getAppInfra();
         CcDependencies ccDependencies = new CcDependencies(appInfraInterface);
 
         ccInterface.init(ccDependencies, ccSettings);
