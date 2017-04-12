@@ -76,6 +76,12 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_cards_spike">CardsSpike</string>
     <string name="title_activity_controls">controles Activity</string>
+    <string name="spinneronbuttontext">Compte Philips</string>
+    <string name="finishloading">Terminer de charger</string>
+    <string name="title_activity_tab_bar_demo_bottom">Démo de la barre de tabulation en bas</string>
+    <string name="title_activity_tab_bar_demo_top">Top de démo de barre de tabulation</string>
+    <string name="main_page_list_action_bar_up">Action Bar Up</string>
+    <string name="main_page_list_action_buttons">Action Buttons</string>
 
     <array name="control_icons">
         <item>@drawable/uikit_arrow_up</item>

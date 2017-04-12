@@ -78,6 +78,8 @@
     <string name="hello_world">Ciao, mondo</string>
     <string name="title_activity_cards_spike">CardsSpike</string>
     <string name="title_activity_controls">Controlla attività</string>
+    <string name="main_page_list_action_bar_up">Action Bar Up</string>
+    <string name="main_page_list_action_buttons">Action Buttons</string>
 
     <array name="control_icons">
         <item>@drawable/uikit_arrow_up</item>

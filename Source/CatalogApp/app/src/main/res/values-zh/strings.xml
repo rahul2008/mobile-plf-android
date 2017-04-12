@@ -76,6 +76,12 @@
     <string name="hello_world">你好世界</string>
     <string name="title_activity_cards_spike">CardsSpike</string>
     <string name="title_activity_controls">控制活动</string>
+    <string name="spinneronbuttontext">飞利浦帐号</string>
+    <string name="finishloading">完成加载</string>
+    <string name="title_activity_tab_bar_demo_bottom">标签栏演示底部</string>
+    <string name="title_activity_tab_bar_demo_top">标签栏演示顶部</string>
+    <string name="main_page_list_action_bar_up">Action Bar Up</string>
+    <string name="main_page_list_action_buttons">Action Buttons</string>
 
     <array name="control_icons">
         <item>@drawable/uikit_arrow_up</item>

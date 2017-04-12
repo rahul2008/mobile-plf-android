@@ -208,7 +208,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(4, "Dot Navigation");
         itemsMap.put(5, "Image Navigation");
         itemsMap.put(6, "Input Text Fields");
-        itemsMap.put(7, getResources().getString(R.string.main_page_list_about_screen));
+        itemsMap.put(7, "About Screen");
         itemsMap.put(8, "Tab Bar");
         itemsMap.put(9, "Sliders");
         itemsMap.put(10, "Rating Bar");
