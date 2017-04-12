@@ -45,13 +45,13 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
     private ProductRegistrationState productRegistrationState;
     private boolean isSdCardFileCreated;
     private File tempFile;
-    private static final boolean[] isChinaCountry = {false};
+    private static boolean isChinaCountry = false;
 
     @Override
     public void onCreate() {
         if (BuildConfig.BUILD_TYPE.equalsIgnoreCase(LEAK_CANARY_BUILD_TYPE)) {
             if (LeakCanary.isInAnalyzerProcess(this)) {
-                // This process is dedicated to LeakCanary for heap analysis.
+                // This proisChinaCountrycess is dedicated to LeakCanary for heap analysis.
                 // You should not init your app in this process.
                 return;
             }
@@ -124,7 +124,7 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
     }
 
     public boolean isChinaFlow() {
-        return isChinaCountry[0];
+        return isChinaCountry;
     }
 
     public void determineChinaFlow() {
@@ -135,15 +135,15 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
             @Override
             public void onSuccess(String s, SOURCE source) {
                 if(s.equals("CN")) {
-                    isChinaCountry[0] = true;
+                    isChinaCountry = true;
                 } else {
-                    isChinaCountry[0] = false;
+                    isChinaCountry = false;
                 }
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-                isChinaCountry[0] = false;
+                isChinaCountry = false;
             }
         });
     }

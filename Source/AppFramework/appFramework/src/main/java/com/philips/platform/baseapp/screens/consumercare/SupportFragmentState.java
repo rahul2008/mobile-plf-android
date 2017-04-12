@@ -63,7 +63,7 @@ public class SupportFragmentState extends BaseState implements CcListener {
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         this.activityContext = getFragmentActivity();
-                /*
+        /*
         * This method call is required for the scenario, when UR screen launched
         * but login is not done.
         * UR screen itself sets Home country.
