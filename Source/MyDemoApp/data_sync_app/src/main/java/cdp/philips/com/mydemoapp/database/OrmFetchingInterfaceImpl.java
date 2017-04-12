@@ -17,6 +17,7 @@ import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SyncType;
+import com.philips.platform.core.dbinterfaces.DBBlobFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.utils.DSLog;
@@ -44,7 +45,7 @@ import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
  * All rights reserved.
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
+public class OrmFetchingInterfaceImpl implements DBFetchingInterface ,DBBlobFetchingInterface{
 
     static final String blob_ID = "blobID";
 

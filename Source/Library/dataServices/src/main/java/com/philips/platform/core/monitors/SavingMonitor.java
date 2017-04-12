@@ -6,6 +6,7 @@ package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.dbinterfaces.DBBlobSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.events.CharacteristicsBackendSaveRequest;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
@@ -92,7 +93,7 @@ public class SavingMonitor extends EventMonitor {
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final SavingBlobMetaDataRequest savingBlobMetaDataRequest) throws SQLException {
-        dbInterface.saveBlobMetaData(savingBlobMetaDataRequest.getBlobMetaData(),null);
+        ((DBBlobSavingInterface)dbInterface).saveBlobMetaData(savingBlobMetaDataRequest.getBlobMetaData(),null);
     }
 
 }

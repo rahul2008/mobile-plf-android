@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.dbinterfaces.DBBlobFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.events.FetchBlobMetaDataFromDBRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
@@ -181,7 +182,7 @@ public class FetchingMonitor extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(FetchBlobMetaDataFromDBRequest fetchBlobMetaDataFromDBRequest) {
         try {
-            dbInterface.fetchAllBlobMetaData(fetchBlobMetaDataFromDBRequest.getDbFetchRequestListner(),fetchBlobMetaDataFromDBRequest.getUserID());
+            ((DBBlobFetchingInterface)dbInterface).fetchAllBlobMetaData(fetchBlobMetaDataFromDBRequest.getDbFetchRequestListner(),fetchBlobMetaDataFromDBRequest.getUserID());
         } catch (SQLException e) {
             dbInterface.postError(e, fetchBlobMetaDataFromDBRequest.getDbFetchRequestListner());
         }

@@ -102,7 +102,7 @@ public class BlobDataFetcher extends DataFetcher{
         }else {
             BlobMetaData blobMetaData=getAppBlobMetaData(ucoreBlobMetaData,fetchMetaDataRequest.getBlobID());
             eventing.post(new UpdateUcoreMetadataRequest(blobMetaData));
-            fetchMetaDataRequest.getBlobRequestListener().onFetchMetaDataSuccess(blobMetaData);
+           // fetchMetaDataRequest.getBlobRequestListener().onFetchMetaDataSuccess(blobMetaData);
         }
     }catch (RetrofitError error){
         error.printStackTrace();

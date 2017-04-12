@@ -14,12 +14,7 @@
         android:textSize="18sp" />
 
 
-    <com.philips.cdp.uikit.customviews.CircularProgressbar
-        android:id="@+id/settings_progress_bar"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_centerInParent="true"
-        android:visibility="gone"/>
+
 
 
     <Button
@@ -98,5 +93,12 @@
 
     </android.support.v7.widget.RecyclerView>
 
+    <com.philips.cdp.uikit.customviews.CircularProgressbar
+        android:id="@+id/settings_progress_bar"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="@+id/lv_blob_id"
+        android:visibility="gone"/>
 
 </RelativeLayout>

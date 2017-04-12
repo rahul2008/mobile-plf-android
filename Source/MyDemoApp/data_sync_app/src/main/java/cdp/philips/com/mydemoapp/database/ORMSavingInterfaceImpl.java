@@ -12,6 +12,7 @@ import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.datatypes.Settings;
 
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.dbinterfaces.DBBlobSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.listeners.BlobRequestListener;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -29,7 +30,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
 
-public class ORMSavingInterfaceImpl implements DBSavingInterface {
+public class ORMSavingInterfaceImpl implements DBSavingInterface,DBBlobSavingInterface {
 
     private static final String TAG = ORMSavingInterfaceImpl.class.getSimpleName();
     private final OrmSaving saving;
