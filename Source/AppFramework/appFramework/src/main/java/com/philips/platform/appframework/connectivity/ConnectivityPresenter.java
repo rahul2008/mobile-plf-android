@@ -37,10 +37,10 @@ public class ConnectivityPresenter implements ConnectivityContract.UserActionsLi
     private User user;
     private String momentValue;
 
-    public ConnectivityPresenter(final ConnectivityContract.View connectivityViewListener, Context context) {
+    public ConnectivityPresenter(final ConnectivityContract.View connectivityViewListener, User user,Context context) {
         this.connectivityViewListener = connectivityViewListener;
         this.context = context;
-        this.user=new User(context.getApplicationContext());
+        this.user=user;
     }
 
     /**

@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp.registration.User;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
@@ -87,7 +88,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        connectivityPresenter = new ConnectivityPresenter(this, getActivity());
+        connectivityPresenter = new ConnectivityPresenter(this, new User(getActivity().getApplicationContext()),getActivity());
         View rootView = inflater.inflate(R.layout.af_connectivity_fragment, container, false);
         rootView.setOnTouchListener(new View.OnTouchListener() {
             @Override
