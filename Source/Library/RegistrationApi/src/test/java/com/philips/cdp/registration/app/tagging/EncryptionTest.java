@@ -58,7 +58,7 @@ public class EncryptionTest extends TestCase {
 
     private static final String ALGORITHM = "RSA";
     private static final String PROVIDER = "BC";
-    private static final String TRANSFORMATION = "RSA/ECB/OAEPwithSHA-256andMGF1Padding";
+    private static final String TRANSFORMATION = "RSA/ECB/OAEPwithSHA-1andMGF1Padding";
 
 
 
@@ -118,7 +118,7 @@ public class EncryptionTest extends TestCase {
         assertEquals("", encrpytedValue);
     }
 
- /*   @Test
+    @Test
     public void testEncrypt_StringInput() throws Exception {
         String toBeEncrypted = "Test";
         String encrpytedValue = encryption.encrypt(toBeEncrypted);
@@ -127,14 +127,5 @@ public class EncryptionTest extends TestCase {
                 "+sv/sM3FGah1PfgsFaujk4ibMDSi4v43IR445DFFvn7jeWtgjAa4aBcHmwMVzrGdHChErSHCnBzcO3O3zD6wbZstvzkacsEdLAeaaF12fLSw9Fzlt6vf/fYoYVfr+PJdpAYHXKE/jnYgLzKYeqPxovsu\n" +
                 "4eOamXgDqUrXpf+AWNOSl5kOQYQe3ANZkIREVA==";
         assertEquals(decrypt(expectedValue), encrpytedValue);
-    }*/
-
-/*    @Test
-    public void testEncrypt_StringInput_Test() throws Exception {
-        String toBeEncrypted = "Test";
-        String encrpytedValue = encryption.encrypt(toBeEncrypted);
-        String expectedValue = "RDg1Zm95MTBmZHN3QXdpdW1TbGMwdnJRZ28xbWxhbFg2OWNoZ0JkM2oxYUpEeXkzY0xtMi92VmVKbkxuRW9YYy9KcFhhOXNVYWdjYSs2R2FuNXJyc0RFUDRVajEySEo0Z0pFVVB2NXlwb3ZOcU1lbHRGcGc2ZXN4Nk0rTlFITVBXRm93bzdUK0lhYTlmVVFXUmwzQU9ua054aFN6aVhNMmgxMjdtQU0wVkRMazBkR0NZVGxoMHh5c3VjdXVDK3cxYVpOcStRVi9hakF4SHZ3SEI1Si95aFlMRTRnWlV3N0puQWcvMnh1MXlWMTlJaG9jV2M4VFEvejltdE1iZ1d0aHlKQzR3UzNuMXB3N1AxNWRQVGlHeGlac05MMjl5RisraVhZUHJmL29KTVp3ZTZYUlBaK0xuWUNFcmVzbjhtM2VZdkZ5OHdKeVpITWZrWkxXVXhKaDVBPT0=";
-        assertEquals(expectedValue, encrpytedValue);
-    }*/
-
+    }
 }

@@ -27,7 +27,7 @@ public class Encryption {
 
     private static final String PROVIDER = "BC";
 
-    private static final String TRANSFORMATION = "RSA/ECB/OAEPwithSHA-256andMGF1Padding";
+    private static final String TRANSFORMATION = "RSA/ECB/OAEPwithSHA-1andMGF1Padding";
 
     private static final String PUBLIC_KEY =
             "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCYR2mnp+gBnwEUar8LE3N0oyJXtOsoeA9NHMTsdljf2nHWRIl BvHVIB5wt30qSAEfY/lUzXsrcafNPCxfF8E3IsZfkrYw57EJwMQ2qKoMlulekWIXtz13n1tnRSNtT9C0tTZyKB4Q 1EBwbTRH2RCoEBm7JYQVHEm9HLFLw1OaXvQIDAQAB";
