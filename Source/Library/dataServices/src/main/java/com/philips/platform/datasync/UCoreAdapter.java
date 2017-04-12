@@ -109,11 +109,6 @@ public class UCoreAdapter {
         return getClient(clientClass, url, accessToken, gsonConverter);
     }
 
-    void getUrl(int a){
-        switch (a){
-
-        }
-    }
     public <T> T getClient(final Class<T> clientClass, @NonNull final String baseUrl,
                            @NonNull final String accessToken, @NonNull GsonConverter gsonConverter) {
         OkClient okClient = okClientFactory.create(okHttpClient);

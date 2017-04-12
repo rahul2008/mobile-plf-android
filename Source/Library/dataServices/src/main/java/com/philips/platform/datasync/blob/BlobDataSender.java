@@ -67,7 +67,7 @@ public class BlobDataSender extends DataSender {
     private void uploadBlob(final BlobData blobData) {
         uCoreAdapter.setBlobData(blobData);
         BlobClient service = uCoreAdapter.getAppFrameworkClient(BlobClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
-        TypedFile typedFile = new TypedFile(blobData.type, blobData.file);
+        TypedFile typedFile = new TypedFile(blobData.getType(), blobData.getFile());
 
         try {
             UcoreBlobResponse response = service.uploadBlob(typedFile);

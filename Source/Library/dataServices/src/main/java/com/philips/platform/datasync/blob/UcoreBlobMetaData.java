@@ -1,9 +1,5 @@
 package com.philips.platform.datasync.blob;
 
-/**
- * Created by sangamesh on 10/04/17.
- */
-
 public class UcoreBlobMetaData {
 
     String userId ="userId";

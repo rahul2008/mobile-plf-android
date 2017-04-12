@@ -1,8 +1,5 @@
 package com.philips.platform.datasync.blob;
 
-import com.squareup.okhttp.ResponseBody;
-
-import retrofit.Callback;
 import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.GET;
@@ -11,8 +8,9 @@ import retrofit.http.Path;
 import retrofit.mime.TypedFile;
 
 public interface BlobClient {
-    public static final String BASE_URL = "https://binaryhosting-dsstandalone.cloud.pcftest.com";
+    String BASE_URL = "https://binaryhosting-dsstandalone.cloud.pcftest.com";
 
+    // Keeping this commented as it will be required when multipart data support will be provided by backened
   /*  @Multipart
     @POST("/blob/item")
     void uploadBlob(@Part("myfile") TypedFile file,

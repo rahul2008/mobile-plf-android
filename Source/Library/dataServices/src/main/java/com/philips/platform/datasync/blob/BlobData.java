@@ -4,19 +4,11 @@ import com.philips.platform.core.listeners.BlobUploadRequestListener;
 
 import java.io.File;
 
-/**
- * Created by philips on 4/6/17.
- */
-
 public class BlobData {
 
-    BlobUploadRequestListener blobRequestListener;
-    String type;
-    File file;
-
-    public BlobUploadRequestListener getBlobRequestListener() {
-        return blobRequestListener;
-    }
+    private BlobUploadRequestListener blobRequestListener;
+    private String type;
+    private File file;
 
     public void setBlobRequestListener(BlobUploadRequestListener blobRequestListener) {
         this.blobRequestListener = blobRequestListener;
@@ -36,5 +28,8 @@ public class BlobData {
 
     public void setFile(File file) {
         this.file = file;
+    }
+    public BlobUploadRequestListener getBlobRequestListener() {
+        return blobRequestListener;
     }
 }

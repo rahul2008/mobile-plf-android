@@ -35,10 +35,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class BaseAppCore implements BaseAppDataCreator,BlobDataCreater {
     @Inject
     Eventing eventing;

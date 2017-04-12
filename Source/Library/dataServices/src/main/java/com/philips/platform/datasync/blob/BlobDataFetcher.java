@@ -3,23 +3,18 @@ package com.philips.platform.datasync.blob;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendDataRequestFailed;
-import com.philips.platform.core.listeners.BlobDownloadRequestListener;
-import com.philips.platform.core.listeners.BlobUploadRequestListener;
-import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.events.FetchMetaDataRequest;
 import com.philips.platform.core.events.UpdateUcoreMetadataRequest;
+import com.philips.platform.core.listeners.BlobDownloadRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.BlobDataCreater;
 import com.philips.platform.core.utils.DSLog;
-import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.UCoreAccessProvider;
-import com.philips.platform.core.Eventing;
-import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
-import com.squareup.okhttp.ResponseBody;
 
 import org.joda.time.DateTime;
 
@@ -31,8 +26,6 @@ import javax.inject.Inject;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
-import retrofit.mime.TypedFile;
-import retrofit.mime.TypedInput;
 
 
 
@@ -62,8 +55,7 @@ public class BlobDataFetcher extends DataFetcher{
         return null;
     }
 
-    @Nullable
-    public void fetchBlobData(BlobMetaData blobMetaData, BlobDownloadRequestListener blobDownloadRequestListener) {
+    void fetchBlobData(BlobMetaData blobMetaData, BlobDownloadRequestListener blobDownloadRequestListener) {
         if (isUserInvalid()) {
             return;
         }
@@ -74,15 +66,19 @@ public class BlobDataFetcher extends DataFetcher{
             if (client != null) {
                 downloadResponse = client.downloadBlob(blobMetaData.getBlobID());
             }
-            InputStream in = downloadResponse.getBody().in();
-            blobDownloadRequestListener.onBlobDownloadRequestSuccess(in,blobMetaData.getContentType());
+            if(downloadResponse!=null && downloadResponse.getBody()!=null) {
+                InputStream in = downloadResponse.getBody().in();
+                blobDownloadRequestListener.onBlobDownloadRequestSuccess(in, blobMetaData.getContentType());
+            }else {
+                blobDownloadRequestListener.onBlobRequestFailure(new Exception("response null while fetching blob"));
+            }
         } catch (RetrofitError ex) {
             DSLog.e(DSLog.LOG, "RetrofitError: " + ex.getMessage() + ex);
             eventing.post(new BackendDataRequestFailed(ex));
             onError(ex);
             blobDownloadRequestListener.onBlobRequestFailure(ex);
         } catch (IOException e) {
-            e.printStackTrace();
+            blobDownloadRequestListener.onBlobRequestFailure(e);
         }
     }
 
@@ -91,7 +87,7 @@ public class BlobDataFetcher extends DataFetcher{
         return !accessProvider.isLoggedIn() || accessToken == null || accessToken.isEmpty();
     }
 
-    public void fetchBlobMetaData(FetchMetaDataRequest fetchMetaDataRequest) {
+    void fetchBlobMetaData(FetchMetaDataRequest fetchMetaDataRequest) {
 
         try{
 
@@ -109,10 +105,6 @@ public class BlobDataFetcher extends DataFetcher{
         error.printStackTrace();
             fetchMetaDataRequest.getBlobRequestListener().onBlobRequestFailure(error);
     }
-
-    }
-
-    public void fetchBlob(){
 
     }
 

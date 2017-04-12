@@ -3,8 +3,8 @@ package com.philips.platform.datasync.blob;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.events.CreateBlobRequest;
-import com.philips.platform.core.events.FetchMetaDataRequest;
 import com.philips.platform.core.events.FetchBlobDataFromServer;
+import com.philips.platform.core.events.FetchMetaDataRequest;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -13,13 +13,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
-
-/**
- * Created by philips on 4/5/17.
- */
 
 public class BlobMonitor extends EventMonitor {
 
@@ -47,7 +42,7 @@ public class BlobMonitor extends EventMonitor {
         data.setFile(event.getInputStream());
         data.setBlobRequestListener(event.getBlobRequestListener());
 
-        List list = new ArrayList();
+        ArrayList<BlobData> list = new ArrayList<>();
         list.add(data);
 
         blobDataSender.sendDataToBackend(list);
