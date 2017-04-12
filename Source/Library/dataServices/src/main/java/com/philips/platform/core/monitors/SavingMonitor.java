@@ -66,6 +66,7 @@ public class SavingMonitor extends EventMonitor {
     public void onEventBackGround(final DatabaseConsentSaveRequest consentSaveRequest) throws SQLException {
 
         boolean saved = dbInterface.saveConsentDetails(consentSaveRequest.getConsentDetails(),consentSaveRequest.getDbRequestListener());
+        dbDeletingInterface.deleteSyncBit(SyncType.CONSENT);
         dbInterface.saveSyncBit(SyncType.CONSENT, true);
         if (!saved) {
             dbInterface.postError(new Exception("Failed to insert"), consentSaveRequest.getDbRequestListener());
