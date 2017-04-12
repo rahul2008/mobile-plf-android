@@ -36,6 +36,27 @@ public class BaseTestActivity extends AppCompatActivity implements DelayerCallba
     @Nullable
     private UidIdlingResource mIdlingResource;
 
+    @StyleRes
+    static int getColorResourceId(final Resources resources, final String colorRange, final String tonalRange, final String packageName) {
+        final String themeName = String.format("Theme.DLS.%s.%s", toCamelCase(colorRange), toCamelCase(tonalRange));
+
+        return resources.getIdentifier(themeName, "style", packageName);
+    }
+
+    static String toCamelCase(String s) {
+        String[] parts = s.split("_");
+        String camelCaseString = "";
+        for (String part : parts) {
+            camelCaseString = camelCaseString + toProperCase(part);
+        }
+        return camelCaseString;
+    }
+
+    static String toProperCase(String s) {
+        return s.substring(0, 1).toUpperCase() +
+                s.substring(1).toLowerCase();
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         int navigationColor = NavigationColor.BRIGHT.ordinal();
@@ -130,6 +151,13 @@ public class BaseTestActivity extends AppCompatActivity implements DelayerCallba
         //Do nothing
     }
 
+    private
+    @StyleRes
+    int getThemeResourceId(ContentColor contentColor, ColorRange colorRange) {
+        int colorResourceId = getColorResourceId(getResources(), colorRange.name(), contentColor.name(), getPackageName());
+        return colorResourceId;
+    }
+
     static class MessageDelayer {
 
         private static final long DELAY_MILLIS = 300;
@@ -154,33 +182,5 @@ public class BaseTestActivity extends AppCompatActivity implements DelayerCallba
                 }
             }, DELAY_MILLIS);
         }
-    }
-
-    @StyleRes
-    static int getColorResourceId(final Resources resources, final String colorRange, final String tonalRange, final String packageName) {
-        final String themeName = String.format("Theme.DLS.%s.%s", toCamelCase(colorRange), toCamelCase(tonalRange));
-
-        return resources.getIdentifier(themeName, "style", packageName);
-    }
-
-    static String toCamelCase(String s) {
-        String[] parts = s.split("_");
-        String camelCaseString = "";
-        for (String part : parts) {
-            camelCaseString = camelCaseString + toProperCase(part);
-        }
-        return camelCaseString;
-    }
-
-    static String toProperCase(String s) {
-        return s.substring(0, 1).toUpperCase() +
-                s.substring(1).toLowerCase();
-    }
-
-    private
-    @StyleRes
-    int getThemeResourceId(ContentColor contentColor, ColorRange colorRange) {
-        int colorResourceId = getColorResourceId(getResources(), colorRange.name(), contentColor.name(), getPackageName());
-        return colorResourceId;
     }
 }

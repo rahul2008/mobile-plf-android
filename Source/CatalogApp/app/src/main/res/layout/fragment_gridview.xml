@@ -24,14 +24,14 @@
             android:id="@+id/show_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:uidImageButtonDrawableWidth="@dimen/show_more_icon_size"
-            app:uidImageButtonDrawableHeight="@dimen/show_more_icon_size"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:clickable="false"
             android:gravity="center"
+            app:srcCompat="@drawable/ic_right_arrow_show_more"
             app:uidImageButtonColorList="@null"
-            app:srcCompat="@drawable/ic_right_arrow_show_more" />
+            app:uidImageButtonDrawableHeight="@dimen/show_more_icon_size"
+            app:uidImageButtonDrawableWidth="@dimen/show_more_icon_size"/>
     </RelativeLayout>
 
     <include

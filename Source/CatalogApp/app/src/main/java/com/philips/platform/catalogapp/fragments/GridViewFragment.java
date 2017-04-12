@@ -27,11 +27,11 @@ import java.util.ArrayList;
 
 public class GridViewFragment extends BaseFragment {
 
+    GridAdapter adapter;
     private GridView gridView;
     private Label label;
     private RelativeLayout relativeLayout;
     private ArrayList<GridData> cardList;
-    GridAdapter adapter;
 
     @Override
     public int getPageTitle() {

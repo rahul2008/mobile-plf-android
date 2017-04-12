@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="Philipsuid">
+        <attr name="uidIndeterminateLinearPBStyle" format="reference"/>
+        <attr name="uidButtonDisabledAlpha" format="reference|float"/>
         <attr name="uidProgressIndicatorButtonBackgroundColor" format="reference|color"/>
         <attr name="uidProgressIndicatorButtonBackgroundAlpha" format="reference|float"/>
     </declare-styleable>

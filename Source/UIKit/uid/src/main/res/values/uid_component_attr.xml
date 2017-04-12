@@ -7,6 +7,5 @@
     <attr name="uidCheckBoxStyle" format="reference"/>
     <attr name="uidImageButtonStyle" format="reference"/>
     <attr name="uidEditTextStyle" format="reference"/>
-    <attr name="uidIndeterminateLinearPBStyle" format="reference"/>
 </resources>
 

@@ -12,6 +12,7 @@
         <item name="android:focusableInTouchMode">false</item>
         <item name="android:scaleType">center</item>
     </style>
+
     <style name="UIDGridViewImageButton" parent="UIDImageButton">
         <item name="uidImageButtonDrawableWidth">@dimen/uid_grid_icon_size</item>
         <item name="uidImageButtonDrawableHeight">@dimen/uid_grid_icon_size</item>
