@@ -50,7 +50,6 @@ public class AppTagging implements AppTaggingInterface {
 	private Locale mLocale;
 	private static final  String AIL_PRIVACY_CONSENT = "ailPrivacyConsentForSensitiveData";
 	public static final  String PAGE_NAME = "ailPageName";
-	public static final  String ACTION_NAME = "ailActionName";
 	public static final String ACTION_TAGGING_DATA = "ACTION_TAGGING_DATA";
 	public static final String EXTRA_TAGGING_DATA = "TAGGING_DATA";
 
@@ -314,7 +313,7 @@ public class AppTagging implements AppTaggingInterface {
 			prevPage = pageName;
 		} else {
 			Analytics.trackAction(pageName, contextData);
-			contextData.put(ACTION_NAME ,pageName);
+			contextData.put(PAGE_NAME ,pageName);
 		}
 		sendBroadcast(contextData);  // sending broadcast
 
