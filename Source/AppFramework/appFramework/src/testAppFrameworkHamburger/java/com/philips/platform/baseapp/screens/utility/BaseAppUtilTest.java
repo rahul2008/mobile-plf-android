@@ -14,6 +14,7 @@ import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 @RunWith(GradleRunner.class)
@@ -34,5 +35,10 @@ public class BaseAppUtilTest extends TestCase {
     @Test
     public void testReadJsonFileFromSdCard(){
         assertNotNull(baseAppUtil.readJsonFileFromSdCard());
+    }
+
+    @Test
+    public void testIsNetworkAvailable(){
+        assertTrue(BaseAppUtil.isNetworkAvailable(RuntimeEnvironment.application));
     }
 }
