@@ -14,49 +14,49 @@ public enum ColorRange implements ThemeConfig {
     GROUP_BLUE {
         @Override
         public void injectStyle(final Resources.Theme theme) {
-            theme.applyStyle(R.style.GroupBlue, true);
+            theme.applyStyle(R.style.Theme_DLS_GroupBlue, true);
         }
     },
     BLUE {
         @Override
         public void injectStyle(final Resources.Theme theme) {
-            theme.applyStyle(R.style.Blue, true);
+            theme.applyStyle(R.style.Theme_DLS_Blue, true);
         }
     },
     AQUA {
         @Override
         public void injectStyle(final Resources.Theme theme) {
-            theme.applyStyle(R.style.Aqua, true);
+            theme.applyStyle(R.style.Theme_DLS_Aqua, true);
         }
     },
     GREEN {
         @Override
         public void injectStyle(final Resources.Theme theme) {
-            theme.applyStyle(R.style.Green, true);
+            theme.applyStyle(R.style.Theme_DLS_Green, true);
         }
     },
     ORANGE {
         @Override
         public void injectStyle(final Resources.Theme theme) {
-            theme.applyStyle(R.style.Orange, true);
+            theme.applyStyle(R.style.Theme_DLS_Orange, true);
         }
     },
     PINK {
         @Override
         public void injectStyle(final Resources.Theme theme) {
-            theme.applyStyle(R.style.Pink, true);
+            theme.applyStyle(R.style.Theme_DLS_Pink, true);
         }
     },
     PURPLE {
         @Override
         public void injectStyle(final Resources.Theme theme) {
-            theme.applyStyle(R.style.Purple, true);
+            theme.applyStyle(R.style.Theme_DLS_Purple, true);
         }
     },
     GRAY {
         @Override
         public void injectStyle(final Resources.Theme theme) {
-            theme.applyStyle(R.style.Gray, true);
+            theme.applyStyle(R.style.Theme_DLS_Gray, true);
         }
     };
 

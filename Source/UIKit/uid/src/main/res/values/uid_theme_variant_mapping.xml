@@ -27,7 +27,7 @@
         <item name="uidButtonPrimaryPressedBackgroundColor">
             ?attr/uidButtonAccentPressedBackgroundColor
         </item>
-        <item name="uidDefaultDisabledAlpha">@dimen/uid_alpha_per_35</item>
+        <item name="uidButtonDisabledAlpha">?attr/uidControlAccentDisabledAlpha</item>
         <item name="uidButtonPrimaryDisabledBackgroundColor">
             ?attr/uidButtonAccentDisabledBackgroundColor
         </item>

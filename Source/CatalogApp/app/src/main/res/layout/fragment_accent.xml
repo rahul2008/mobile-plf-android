@@ -5,30 +5,6 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <!--<FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.philips.platform.uid.view.widget.Button
-            style="@style/UIDImageTextButton.Center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="#ff0"
-            android:text="@string/buttons_text_secondary"
-            app:uidComponentType="Accent"/>
-
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/socialIconFacebook"
-            style="@style/UIDSocialIconPrimary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginEnd="@dimen/layout_margin_left_right"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/shape"/>
-
-    </FrameLayout>-->
 
     <com.philips.platform.uid.view.widget.Label
         style="@style/UIDLabel.MarginTop"
@@ -41,6 +17,7 @@
         style="@style/UIDLabel.MarginTop"
         android:layout_width="match_parent"
         android:layout_height="@dimen/layout_margin_top"
+        android:alpha="?attr/uidControlAccentDisabledAlpha"
         android:background="?attr/uidControlAccentDisabled"
         android:text="Control accent disabled"/>
 
@@ -57,13 +34,6 @@
         android:layout_height="@dimen/layout_margin_top"
         android:background="?attr/uidControlPrimary"
         android:text="Control accent primary"/>
-
-    <com.philips.platform.uid.view.widget.Label
-        style="@style/UIDLabel.MarginTop"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/layout_margin_top"
-        android:background="?attr/uidControlAccentHover"
-        android:text="Control accent hover"/>
 
     <com.philips.platform.uid.view.widget.Label
         style="@style/UIDLabel.MarginTop"
