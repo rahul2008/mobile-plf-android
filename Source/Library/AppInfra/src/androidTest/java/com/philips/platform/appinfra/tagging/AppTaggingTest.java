@@ -2,10 +2,13 @@ package com.philips.platform.appinfra.tagging;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
@@ -554,4 +557,34 @@ public class AppTaggingTest extends MockitoTestCase {
 	public void testgetTrackingIdentifier() {
 		assertNotNull(mAppTagging.getTrackingIdentifier());
 	}
+
+	public void testTaggingData () {
+		mAIAppTaggingInterface.createInstanceForComponent("Testin Tagging" , "Testing Ver");
+		mAIAppTaggingInterface.registerTaggingData(rec);
+		mAIAppTaggingInterface.trackPageWithInfo(AppTagging.PAGE_NAME ,"Test Page" ,"Test Name");
+		mAIAppTaggingInterface.trackActionWithInfo(AppTagging.ACTION_NAME , "Test Action" , "Test Action");
+		mAIAppTaggingInterface.unregisterTaggingData(rec);
+	}
+
+	public void testTaggingDataNeagtiveCase() {
+		mAIAppTaggingInterface.createInstanceForComponent("Testin Tagging" , "Testing Ver");
+		mAIAppTaggingInterface.registerTaggingData(null);
+		mAIAppTaggingInterface.trackPageWithInfo(AppTagging.PAGE_NAME ,"Test Page" ,"Test Name");
+		mAIAppTaggingInterface.trackActionWithInfo(AppTagging.ACTION_NAME , "Test Action" , "Test Action");
+		mAIAppTaggingInterface.unregisterTaggingData(null);
+	}
+
+
+	private BroadcastReceiver rec = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if(intent != null) {
+				if(intent.getAction() == AppTagging.ACTION_TAGGING_DATA) {
+					Map textExtra = (Map) intent.getSerializableExtra(AppTagging.EXTRA_TAGGING_DATA);
+					assertNotNull(textExtra);
+				}
+			}
+
+		}
+	};
 }

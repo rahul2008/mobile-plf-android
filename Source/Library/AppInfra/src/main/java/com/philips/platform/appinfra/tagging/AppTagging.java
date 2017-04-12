@@ -6,7 +6,10 @@
 package com.philips.platform.appinfra.tagging;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.util.Log;
 
 import com.adobe.mobile.Analytics;
@@ -24,6 +27,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,6 +35,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
+import android.support.v4.content.LocalBroadcastManager;
+
 
 public class AppTagging implements AppTaggingInterface {
 
@@ -42,8 +48,11 @@ public class AppTagging implements AppTaggingInterface {
 	protected String mComponentVersion;
 
 	private Locale mLocale;
-	private final static String AIL_PRIVACY_CONSENT = "ailPrivacyConsentForSensitiveData";
-
+	private static final  String AIL_PRIVACY_CONSENT = "ailPrivacyConsentForSensitiveData";
+	public static final  String PAGE_NAME = "ailPageName";
+	public static final  String ACTION_NAME = "ailActionName";
+	public static final String ACTION_TAGGING_DATA = "ACTION_TAGGING_DATA";
+	public static final String EXTRA_TAGGING_DATA = "TAGGING_DATA";
 
 	public AppTagging(AppInfra aAppInfra) {
 		mAppInfra = aAppInfra;
@@ -52,15 +61,14 @@ public class AppTagging implements AppTaggingInterface {
 		// At any call after the constructor, appInfra can be presumed to be complete.
 	}
 
+
     /*
     * Checks for SSL connection value from Adobe json
     * */
 
 	private boolean checkForSslConnection() {
 		boolean sslValue = false;
-
 		JSONObject jSONObject = getMasterADBMobileConfig();
-
 		try {
 			if (jSONObject != null) {
 				sslValue = jSONObject.getJSONObject("analytics").optBoolean("ssl");
@@ -136,7 +144,7 @@ public class AppTagging implements AppTaggingInterface {
 	}
 
 	/**
-	 * Removes Sensitive data declared in Adobe json
+	 * Removes Sensitive data declared in Adobe json.
 	 **/
 
 	private Map<String, Object> removeSensitiveData(Map<String, Object> data) {
@@ -166,6 +174,8 @@ public class AppTagging implements AppTaggingInterface {
 	public String getTrackingIdentifier() {
 		return Analytics.getTrackingIdentifier();
 	}
+
+
 
 	private String getAppStateFromConfig() {
 
@@ -300,10 +310,14 @@ public class AppTagging implements AppTaggingInterface {
 		}
 		if (isTrackPage) {
 			Analytics.trackState(pageName, contextData);
+			contextData.put(PAGE_NAME ,pageName);
 			prevPage = pageName;
 		} else {
 			Analytics.trackAction(pageName, contextData);
+			contextData.put(ACTION_NAME ,pageName);
 		}
+		sendBroadcast(contextData);  // sending broadcast
+
 	}
 
 	@Override
@@ -409,6 +423,39 @@ public class AppTagging implements AppTaggingInterface {
 	@Override
 	public void trackFileDownload(String filename) {
 		trackActionWithInfo("sendData", "fileName", filename);
+	}
+
+	/**
+	 * Sending the broadcast event .
+	 * @param data Map consists of Tagging Data
+	 */
+	private void sendBroadcast(final Map data) {
+		Intent intent = new Intent(ACTION_TAGGING_DATA);
+		intent.putExtra(EXTRA_TAGGING_DATA, (Serializable) data);
+		LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
+				.sendBroadcast(intent);
+	}
+
+	@Override
+	public void unregisterTaggingData(final BroadcastReceiver receiver) {
+		if(receiver != null && mAppInfra.getAppInfraContext() != null)  {
+			LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
+					.unregisterReceiver(receiver);
+		} else {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+					"unregisterTaggingData", "" + "context is null");
+		}
+	}
+
+	@Override
+	public void registerTaggingData(final BroadcastReceiver receiver) {
+		if(receiver != null && mAppInfra.getAppInfraContext() != null)  {
+			LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
+					.registerReceiver(receiver, new IntentFilter(ACTION_TAGGING_DATA));
+		} else {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+					"unregisterTaggingData", "" + "context is null");
+		}
 	}
 
 }

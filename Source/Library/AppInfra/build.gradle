@@ -222,4 +222,5 @@ dependencies {
 
     testCompile 'org.robolectric:robolectric:3.0'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
+    compile 'com.android.support:support-v4:24.2.1'
 }
