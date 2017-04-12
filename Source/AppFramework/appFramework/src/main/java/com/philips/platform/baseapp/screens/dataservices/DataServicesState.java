@@ -14,6 +14,8 @@ import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.screens.dataservices.database.DatabaseHelper;
 import com.philips.platform.baseapp.screens.dataservices.database.ORMSavingInterfaceImpl;
@@ -52,6 +54,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.SQLException;
+
+import static com.philips.platform.baseapp.screens.utility.Constants.SERVER_SYNC_ERROR;
+
 
 /**
  * This class has UI extended from UIKIT about screen , It shows the current version of the app
@@ -106,8 +111,8 @@ public class DataServicesState extends BaseState {
                 try {
                     mScheduleSyncReceiver.onReceive(context);
                 } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
+                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SERVER_SYNC_ERROR,
+                            e.getMessage());                } finally {
                     //also call the same runnable to call it at regular interval
                     handler.postDelayed(this, ScheduleSyncReceiver.DATA_FETCH_FREQUENCY);
                 }

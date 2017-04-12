@@ -14,19 +14,24 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.platform.appframework.connectivity.models.Measurement;
 import com.philips.platform.appframework.connectivity.models.MomentDetail;
 import com.philips.platform.appframework.connectivity.models.UserMoment;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.Map;
 
+import static com.philips.platform.baseapp.screens.utility.Constants.SERVER_DATACREATION;
+import static com.philips.platform.baseapp.screens.utility.Constants.SERVER_DATAPARSING;
+
+
 public class PostMomentRquest extends PlatformRequest {
+    public static final String TAG = PostMomentRquest.class.getSimpleName();
 
     private UserMoment userMoment;
 
@@ -34,15 +39,18 @@ public class PostMomentRquest extends PlatformRequest {
 
     private User user;
 
+    private String baseUrl;
+
     public interface PostMomentResponseListener {
         void onPostMomentSuccess(String momentId);
 
         void onPostMomentError(VolleyError error);
     }
 
-    public PostMomentRquest(final UserMoment userMoment, User user, final PostMomentResponseListener postMomentResponseListener) {
+    public PostMomentRquest(final UserMoment userMoment, String baseUrl,User user, final PostMomentResponseListener postMomentResponseListener) {
         this.userMoment = userMoment;
         this.postMomentResponseListener = postMomentResponseListener;
+        this.baseUrl=baseUrl;
         this.user = user;
     }
 
@@ -73,12 +81,7 @@ public class PostMomentRquest extends PlatformRequest {
     //TODO:Need to remove this. DOnt use hard coded url. Check with Deepthi.
     @Override
     public String getUrl() {
-        if (RegistrationConfiguration.getInstance().getHSDPInfo() != null) {
-            String baseUrl = RegistrationConfiguration.getInstance().getHSDPInfo().getBaseURL();
             return baseUrl + "/api/users/" + user.getHsdpUUID() + "/moments";
-        } else {
-            return "";
-        }
     }
 
     public JSONObject getParams() {
@@ -116,8 +119,8 @@ public class PostMomentRquest extends PlatformRequest {
             parent.put(UserMoment.TYPE, "Example");
             return parent;
         } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SERVER_DATAPARSING,
+                    e.getMessage());            return null;
         }
     }
 
@@ -130,8 +133,8 @@ public class PostMomentRquest extends PlatformRequest {
                 try {
                     postMomentResponseListener.onPostMomentSuccess(response.getString("momentId"));
                 } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SERVER_DATACREATION,
+                            e.getMessage());                }
             }
         };
     }

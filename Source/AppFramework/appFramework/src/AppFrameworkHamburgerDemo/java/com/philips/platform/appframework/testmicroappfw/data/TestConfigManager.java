@@ -7,10 +7,14 @@ import com.google.gson.GsonBuilder;
 import com.philips.platform.appframework.testmicroappfw.models.Chapter;
 import com.philips.platform.appframework.testmicroappfw.models.CommonComponent;
 import com.philips.platform.appframework.testmicroappfw.models.TestFwConfig;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+
+import static com.philips.platform.baseapp.screens.utility.Constants.FILE_IO;
 
 /**
  * Created by philips on 13/02/17.
@@ -19,6 +23,7 @@ import java.util.ArrayList;
 public class TestConfigManager {
 
     private static TestConfigManager testConfigManager;
+    public static final String TAG = TestConfigManager.class.getSimpleName();
 
     private TestFwConfig testFwConfig;
 
@@ -61,7 +66,8 @@ public class TestConfigManager {
             is.close();
             json = new String(buffer, "UTF-8");
         } catch (IOException ex) {
-            ex.printStackTrace();
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, FILE_IO,
+                    ex.getMessage());
             return null;
         }
         return json;

@@ -21,6 +21,7 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFound
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.base.UIBasePresenter;
@@ -28,12 +29,14 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import static com.philips.platform.baseapp.screens.utility.Constants.UI_RENDERING;
 
 /**
  * This class id used for loading various fragments that are supported by home activity ,
  * based on user selection this class loads the next state of the application.
  */
 public class TabbedActivityPresenter extends UIBasePresenter implements UIStateListener{
+    public static final String TAG = TabbedActivityPresenter.class.getSimpleName();
 
     private FragmentView fragmentView;
     private AppFrameworkApplication appFrameworkApplication;
@@ -77,8 +80,8 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             //Logger.e(TAG, "IllegalStateException" + e.getMessage());
-            e.printStackTrace();
-        }
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, UI_RENDERING,
+                    e.getMessage());        }
     }
 
     @NonNull

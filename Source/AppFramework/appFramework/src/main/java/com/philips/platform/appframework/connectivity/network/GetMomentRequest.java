@@ -15,15 +15,17 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class GetMomentRequest extends PlatformRequest {
+    public static final String TAG = GetMomentRequest.class.getSimpleName();
 
     private String url;
 
@@ -33,10 +35,13 @@ public class GetMomentRequest extends PlatformRequest {
 
     private User user;
 
-    public GetMomentRequest(final GetMomentResponseListener getMomentResponseListener, final User user, final String momentId) {
+    private String baseUrl;
+
+    public GetMomentRequest(final GetMomentResponseListener getMomentResponseListener,String baseUrl, final User user, final String momentId) {
         this.getMomentResponseListener = getMomentResponseListener;
         this.user = user;
         this.momentId = momentId;
+        this.baseUrl=baseUrl;
     }
 
     public interface GetMomentResponseListener {
@@ -71,7 +76,6 @@ public class GetMomentRequest extends PlatformRequest {
 
     @Override
     public String getUrl() {
-        String baseUrl = RegistrationConfiguration.getInstance().getHSDPInfo().getBaseURL();
         return baseUrl + "/api/users/" + user.getHsdpUUID() + "/moments/" + momentId;
     }
 
@@ -92,8 +96,8 @@ public class GetMomentRequest extends PlatformRequest {
                     value = detailsValue.getString("value");
                     getMomentResponseListener.onGetMomentSuccess(value);
                 } catch (JSONException ex) {
-                    ex.printStackTrace();
-                }
+                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,
+                            ex.getMessage());                }
             }
         };
     }
