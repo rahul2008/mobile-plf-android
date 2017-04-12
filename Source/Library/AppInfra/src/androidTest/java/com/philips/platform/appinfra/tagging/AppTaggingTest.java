@@ -566,6 +566,14 @@ public class AppTaggingTest extends MockitoTestCase {
 		mAIAppTaggingInterface.unregisterTaggingData(rec);
 	}
 
+	public void testTaggingDataNeagtiveCase() {
+		mAIAppTaggingInterface.createInstanceForComponent("Testin Tagging" , "Testing Ver");
+		mAIAppTaggingInterface.registerTaggingData(null);
+		mAIAppTaggingInterface.trackPageWithInfo(AppTagging.PAGE_NAME ,"Test Page" ,"Test Name");
+		mAIAppTaggingInterface.trackActionWithInfo(AppTagging.ACTION_NAME , "Test Action" , "Test Action");
+		mAIAppTaggingInterface.unregisterTaggingData(null);
+	}
+
 
 	private BroadcastReceiver rec = new BroadcastReceiver() {
 		@Override
