@@ -5,6 +5,7 @@
 
 package com.philips.cdp2.commlibexplorer.fragments;
 
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.philips.cdp2.commlibexplorer.R;
 public class PairingPortFragment extends BaseFragment {
 
     private static final String TAG = "PairingPort";
+    private View snackbarLayout;
 
     public PairingPortFragment() {
         // Required empty public constructor
@@ -26,11 +28,17 @@ public class PairingPortFragment extends BaseFragment {
         @Override
         public void onPortUpdate(PairingPort propertyPort) {
             Log.d(TAG, "onPortUpdate on " + propertyPort.getDICommPortName() + ": " + propertyPort.toString());
+            if (snackbarLayout != null) {
+                Snackbar.make(snackbarLayout, propertyPort.toString(), Snackbar.LENGTH_LONG).show();
+            }
         }
 
         @Override
         public void onPortError(PairingPort propertyPort, Error error, String s) {
             Log.e(TAG, "onPortError on " + propertyPort.getDICommPortName() + ": " + error.getErrorMessage());
+            if (snackbarLayout != null) {
+                Snackbar.make(snackbarLayout, "Error: " + error.getErrorMessage(), Snackbar.LENGTH_LONG).show();
+            }
         }
     };
 
@@ -38,6 +46,7 @@ public class PairingPortFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         getMainActivity().getPort().addPortListener(portListener);
+
     }
 
     @Override
@@ -62,6 +71,8 @@ public class PairingPortFragment extends BaseFragment {
                 );
             }
         });
+
+        snackbarLayout = fragmentView;
     }
 
     private String getTextFor(int id, View fragmentView) {
