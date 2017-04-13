@@ -1,15 +1,14 @@
 package cdp.philips.com.mydemoapp.blob;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
-import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.philips.platform.core.listeners.BlobDownloadRequestListener;
@@ -26,19 +25,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.StringTokenizer;
-
-import retrofit.mime.MimeUtil;
 
 
 public class BlobPresenter {
 
     private Activity activity;
     private Button mBtnUpload;
-    private ProgressBar mProgressBar;
+    private ProgressDialog mProgressBar;
     private final DBFetchRequestListner<BlobMetaData> dbFetchRequestListner;
 
-    BlobPresenter(Activity activity, ProgressBar progressBar, Button upload, DBFetchRequestListner<BlobMetaData> dbFetchRequestListner){
+    BlobPresenter(Activity activity, ProgressDialog progressBar, Button upload, DBFetchRequestListner<BlobMetaData> dbFetchRequestListner){
         this.activity = activity;
         this.mProgressBar = progressBar;
         this.mBtnUpload = upload;
@@ -47,12 +43,12 @@ public class BlobPresenter {
     }
 
     void upload(File selectedFile) {
-        setProgressBarVisibility(true);
+        setProgressBarVisibility(true,"Uploading Please wait!!!");
         String mimeType = getMimeType(selectedFile.getPath());
 
         if (mimeType == null) {
             showToast("INVALID FILE, please select other one", null);
-            setProgressBarVisibility(false);
+            setProgressBarVisibility(false,"Mime Type is null");
             return;
 
         }
@@ -61,14 +57,14 @@ public class BlobPresenter {
             @Override
             public void onBlobRequestSuccess(final String itemId) {
                 setUploadButtonState();
-                setProgressBarVisibility(false);
+                setProgressBarVisibility(false,"On Upload Success");
                 showToast("Blob Request Succes and the itemID = " + itemId, null);
                 fetchMetaDataForBlobID(itemId.trim());
             }
 
             @Override
             public void onBlobRequestFailure(Exception exception) {
-                setProgressBarVisibility(false);
+                setProgressBarVisibility(false,"On Upload failed");
                 showToast("Blob Request Failed",exception);
                 setUploadButtonState();
             }
@@ -84,16 +80,16 @@ public class BlobPresenter {
         });
     }
 
-    public void setProgressBarVisibility(final boolean isVisible) {
+    public void setProgressBarVisibility(final boolean isVisible, final String message) {
 
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
 
                 if (isVisible) {
-                    mProgressBar.setVisibility(View.VISIBLE);
+                    showProgressDialog(message);
                 } else {
-                    mProgressBar.setVisibility(View.GONE);
+                   dismissProgressDialog();
                 }
             }
         });
@@ -124,20 +120,20 @@ public class BlobPresenter {
 
 
     void download(BlobMetaData blobMetaData) {
-        setProgressBarVisibility(true);
+        setProgressBarVisibility(true,"Downloading Please wait!!");
         DataServicesManager.getInstance().fetchBlobWithMetaData(blobMetaData, new BlobDownloadRequestListener() {
 
             @Override
             public void onBlobDownloadRequestSuccess(InputStream file,final String mime) {
                 showToast("Blob Download Request Success",null);
                 copyInputStreamToFile(file, MimeTypeMap.getSingleton().getExtensionFromMimeType(mime));
-                setProgressBarVisibility(false);
+                setProgressBarVisibility(false,"On DownloadSuccess");
             }
 
             @Override
             public void onBlobRequestFailure(Exception exception) {
                 showToast("Blob Request Failed",exception);
-                setProgressBarVisibility(false);
+                setProgressBarVisibility(false,"OnDownload Failed");
             }
         });
     }
@@ -215,6 +211,19 @@ public class BlobPresenter {
         {
             // if you reach this place, it means there is no any file
             // explorer app installed on your device
+        }
+    }
+
+    private void showProgressDialog(String message) {
+        if (mProgressBar != null && !mProgressBar.isShowing()) {
+            mProgressBar.setMessage(message);
+            mProgressBar.show();
+        }
+    }
+
+    private void dismissProgressDialog() {
+        if (mProgressBar != null && mProgressBar.isShowing()) {
+            mProgressBar.dismiss();
         }
     }
 }

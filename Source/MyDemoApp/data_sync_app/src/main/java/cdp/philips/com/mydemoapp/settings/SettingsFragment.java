@@ -137,12 +137,10 @@ public class SettingsFragment extends Fragment implements DBFetchRequestListner<
                 settings.setLocale(mSpinner_Local.getSelectedItem().toString());
                 settingsFragmentPresenter.updateSettings(settings);
 
-               // dismissConsentDialog(getDialog());
                 getFragmentManager().popBackStack();
                 getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                 break;
             case R.id.btnCancel:
-                //dismissConsentDialog(getDialog());
                 getFragmentManager().popBackStack();
                 getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                 break;
@@ -150,11 +148,6 @@ public class SettingsFragment extends Fragment implements DBFetchRequestListner<
         }
     }
 
-    private void dismissConsentDialog(Dialog dialog) {
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
-        }
-    }
 
     @Override
     public void onStop() {
@@ -177,13 +170,6 @@ public class SettingsFragment extends Fragment implements DBFetchRequestListner<
     public void onStart() {
         super.onStart();
         mDataServicesManager.registerDBChangeListener(this);
-       /* Dialog dialog = getDialog();
-        dialog.setTitle(R.string.settings);
-        if (dialog != null) {
-            int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
-            dialog.getWindow().setLayout(width, height);
-        }*/
     }
 
     private void showProgressDialog() {

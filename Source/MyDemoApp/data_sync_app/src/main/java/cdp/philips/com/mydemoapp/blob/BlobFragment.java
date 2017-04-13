@@ -1,5 +1,6 @@
 package cdp.philips.com.mydemoapp.blob;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,9 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 
-import com.philips.cdp.uikit.customviews.CircularProgressbar;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
@@ -31,7 +30,7 @@ import static android.app.Activity.RESULT_OK;
 public class BlobFragment extends Fragment implements View.OnClickListener,DBFetchRequestListner<BlobMetaData> ,DBChangeListener{
 
     Button mBtnUpload;
-    private ProgressBar mProgressBar;
+    private ProgressDialog mProgressBar;
 
 
     private Button Browse, Fetch;
@@ -49,7 +48,9 @@ public class BlobFragment extends Fragment implements View.OnClickListener,DBFet
         View view = inflater.inflate(R.layout.blob_layout, container, false);
         mBtnUpload = (Button) view.findViewById(R.id.upload);
         mBtnDownload = (Button) view.findViewById(R.id.download);
-        mProgressBar = (CircularProgressbar) view.findViewById(R.id.settings_progress_bar);
+       // mProgressBar = (CircularProgressbar) view.findViewById(R.id.settings_progress_bar);
+        mProgressBar = new ProgressDialog(getContext());
+        mProgressBar.setCancelable(false);
         Fetch = (Button) view.findViewById(R.id.fetch);
         Browse = (Button) view.findViewById(R.id.browse);
 

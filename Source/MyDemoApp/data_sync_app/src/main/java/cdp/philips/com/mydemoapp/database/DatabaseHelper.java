@@ -278,7 +278,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.dropTable(connectionSource, OrmDCSync.class, true);
         TableUtils.dropTable(connectionSource, OrmInsight.class, true);
         TableUtils.dropTable(connectionSource, OrmInsightMetaData.class, true);
-        TableUtils.dropTable(connectionSource, OrmBlobMetaData.class, true);
+        //TableUtils.dropTable(connectionSource, OrmBlobMetaData.class, true);
     }
 
     public Dao<OrmMoment, Integer> getMomentDao() throws SQLException {

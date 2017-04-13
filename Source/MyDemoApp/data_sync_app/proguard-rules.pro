@@ -175,6 +175,8 @@ public static <fields>;
 -keep class com.philips.platform.datasync.settings.UCoreInsight { *; }
 -keep class com.philips.platform.datasync.settings.UCoreInsightList { *; }
 -keep class com.philips.platform.datasync.PushNotification.UCorePushNotification { *; }
+-keep class com.philips.platform.datasync.blob.UcoreBlobMetaData {*;}
+-keep class com.philips.platform.datasync.blob.UcoreBlobResponse {*;}
 
 #HSDP Lib
 -keep  class com.philips.dhpclient.** {*;}
