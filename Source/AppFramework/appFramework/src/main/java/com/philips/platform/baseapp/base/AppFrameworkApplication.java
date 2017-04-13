@@ -104,11 +104,10 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
     }
 
     public void setTargetFlowManager() {
-
-            if (tempFile != null) {
-                this.targetFlowManager = new FlowManager();
-                this.targetFlowManager.initialize(getApplicationContext(), tempFile.getPath(), this);
-            }
+        if (tempFile != null) {
+            this.targetFlowManager = new FlowManager();
+            this.targetFlowManager.initialize(getApplicationContext(), tempFile.getPath(), this);
+        }
 
     }
 
