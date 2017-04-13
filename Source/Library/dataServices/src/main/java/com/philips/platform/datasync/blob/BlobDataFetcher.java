@@ -115,6 +115,7 @@ public class BlobDataFetcher extends DataFetcher{
         blobMetaData.setContentChecksum(ucoreBlobMetaData.getContentChecksum());
         blobMetaData.setContentLength(ucoreBlobMetaData.getContentLength());
         blobMetaData.setCreationTimestamp(ucoreBlobMetaData.getCreationTimestamp());
+
         blobMetaData.setLastModifiedTimestamp(ucoreBlobMetaData.getLastModifiedTimestamp());
         blobMetaData.setContentType(ucoreBlobMetaData.getContentType());
         blobMetaData.setHsdpObjectId(ucoreBlobMetaData.getHsdpObjectId());
