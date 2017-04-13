@@ -83,9 +83,9 @@
         <item>@drawable/uikit_arrow_up</item>
         <item>@drawable/uikit_arrow_down</item>
     </array>
-    <string name="title_activity_tab_bar_demo_bottom">TabBarDemoBottom</string>
-    <string name="title_activity_tab_bar_demo_top">TabBarDemoTop</string>
+    <string name="title_activity_tab_bar_demo_bottom" translatable="false">TabBarDemoBottom</string>
+    <string name="title_activity_tab_bar_demo_top" translatable="false">TabBarDemoTop</string>
 
-    <string name="main_page_list_action_bar_up">Action Bar Up</string>
-    <string name="main_page_list_action_buttons">Action Buttons</string>
+    <string name="main_page_list_action_bar_up" translatable="false">Action Bar Up</string>
+    <string name="main_page_list_action_buttons" translatable="false">Action Buttons</string>
 </resources>

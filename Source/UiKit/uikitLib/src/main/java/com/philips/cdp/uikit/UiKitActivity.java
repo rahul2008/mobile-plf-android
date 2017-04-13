@@ -39,7 +39,7 @@ public class UiKitActivity extends AppCompatActivity {
         if (uikitResources == null) {
             uikitResources = new UikitResources(super.getResources());
         }
-        return uikitResources == null ? super.getResources() : uikitResources;
+        return uikitResources;
     }
 
     @Override
