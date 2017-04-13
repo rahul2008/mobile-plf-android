@@ -115,4 +115,10 @@ public interface SecureStorageInterface {
      * @return <code>true</code> if the device is rooted, <code>false</code> otherwise.
      */
     String getDeviceCapability();
+
+    /**
+     *  checks if device is secured with pin/password/pattern.
+     * @return <code>true</code> if the device is secured with pin/pattern/password
+     */
+    boolean deviceHasPasscode();
 }
