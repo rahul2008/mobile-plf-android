@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.support.annotation.StyleRes;
 
+import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
@@ -37,6 +38,12 @@ public class ThemeHelper {
         String tonalRange = sharedPreferences.getString(UIDHelper.CONTENT_TONAL_RANGE, ContentColor.ULTRA_LIGHT.name());
         final ContentColor contentColor = ContentColor.valueOf(tonalRange);
         return contentColor;
+    }
+
+    public AccentRange initAccentRange() {
+        String accentRangeString = sharedPreferences.getString(UIDHelper.ACCENT_RANGE, AccentRange.GROUP_BLUE.name());
+        final AccentRange accentRange = AccentRange.valueOf(accentRangeString);
+        return accentRange;
     }
 
     @StyleRes

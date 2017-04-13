@@ -10,56 +10,69 @@ import android.content.res.Resources;
 
 import com.philips.platform.uid.R;
 
-public enum ColorRange {
+/**
+ * This is the configuration which indicates which color you app is running into this will be used as base to use coloring
+ * <br>
+ * This will initialized the color levels used in the controls
+ * </br>
+ * e.g if you use color range as GroupBlue then
+ * <br>
+ * color level 5(uidColorLevel5) will be uid_group_blue_color_level_5
+ * <br>
+ * Mapping is done as as below
+ * <item name="uidColorLevel5">@color/uid_group_blue_level_5</item>
+ * </br>
+ */
+public enum ColorRange implements ThemeConfig {
     GROUP_BLUE {
         @Override
-        public void injectColorRange(final Resources.Theme theme) {
-            theme.applyStyle(R.style.GroupBlue, true);
+        public void injectStyle(final Resources.Theme theme) {
+            theme.applyStyle(R.style.Theme_DLS_GroupBlue, true);
         }
     },
     BLUE {
         @Override
-        public void injectColorRange(final Resources.Theme theme) {
-            theme.applyStyle(R.style.Blue, true);
+        public void injectStyle(final Resources.Theme theme) {
+            theme.applyStyle(R.style.Theme_DLS_Blue, true);
         }
     },
     AQUA {
         @Override
-        public void injectColorRange(final Resources.Theme theme) {
-            theme.applyStyle(R.style.Aqua, true);
+        public void injectStyle(final Resources.Theme theme) {
+            theme.applyStyle(R.style.Theme_DLS_Aqua, true);
         }
     },
     GREEN {
         @Override
-        public void injectColorRange(final Resources.Theme theme) {
-            theme.applyStyle(R.style.Green, true);
+        public void injectStyle(final Resources.Theme theme) {
+            theme.applyStyle(R.style.Theme_DLS_Green, true);
         }
     },
     ORANGE {
         @Override
-        public void injectColorRange(final Resources.Theme theme) {
-            theme.applyStyle(R.style.Orange, true);
+        public void injectStyle(final Resources.Theme theme) {
+            theme.applyStyle(R.style.Theme_DLS_Orange, true);
         }
     },
     PINK {
         @Override
-        public void injectColorRange(final Resources.Theme theme) {
-            theme.applyStyle(R.style.Pink, true);
+        public void injectStyle(final Resources.Theme theme) {
+            theme.applyStyle(R.style.Theme_DLS_Pink, true);
         }
     },
     PURPLE {
         @Override
-        public void injectColorRange(final Resources.Theme theme) {
-            theme.applyStyle(R.style.Purple, true);
+        public void injectStyle(final Resources.Theme theme) {
+            theme.applyStyle(R.style.Theme_DLS_Purple, true);
         }
     },
     GRAY {
         @Override
-        public void injectColorRange(final Resources.Theme theme) {
-            theme.applyStyle(R.style.Gray, true);
+        public void injectStyle(final Resources.Theme theme) {
+            theme.applyStyle(R.style.Theme_DLS_Gray, true);
         }
     };
 
-    public abstract void injectColorRange(Resources.Theme theme);
-
+    @Override
+    abstract public void injectStyle(final Resources.Theme theme);
 }

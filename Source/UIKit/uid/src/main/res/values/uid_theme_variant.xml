@@ -334,8 +334,6 @@
     </style>
 
     <style name="Base.Bright">
-        <item name="uidApplicationBackground">?attr/uidColorLevel55</item>
-
         <!--  <item name="uidContentPrimary">?attr/uidColorLevel50</item>
           <item name="uidControlPrimaryDetail">@color/uidColorWhite</item>
           <item name="uidContentSecondary">?attr/uidColorLevel45</item>

@@ -1,6 +1,5 @@
 package com.philips.platform.uid.utils;
 
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.TextUtils;
@@ -42,10 +41,30 @@ public class UIDLocaleHelper {
     }
 
     /**
+     * This method is used by UID widgets to lookup strings in language pack JSON for all the strings which are set in xml layout files of the widgets.
+     *
+     * @param context Absolute path of your JSON file in String format
+     * @param view    Absolute path of your JSON file in String format
+     * @param attrs   Absolute path of your JSON file in String format
+     */
+    public static void setTextFromResourceID(Context context, View view, AttributeSet attrs) {
+        if (view instanceof TextView) {
+            TypedArray textArray = context.obtainStyledAttributes(attrs, new int[]{android.R.attr.text, android.R.attr.hint});
+            int resourceId = textArray.getResourceId(0, -1);
+            if (resourceId != -1) {
+                ((TextView) view).setText(resourceId);
+            }
+            resourceId = textArray.getResourceId(1, -1);
+            if (resourceId != -1) {
+                ((EditText) view).setHint(resourceId);
+            }
+        }
+    }
+
+    /**
      * This API will help you to set the path of your Language pack JSON.<br> This path would be used by UIDLocaleHelper to parse the JSON.
      * <br>DLS will handle the string value mappings to set the corresponding string in your widgets or controls.
      * <br>Call with null to stop lookup and delegate all calls to native.
-     *
      *
      * @param pathInput Absolute path of your JSON file in String format
      */
@@ -115,26 +134,5 @@ public class UIDLocaleHelper {
             Log.e(TAG, e.getMessage());
         }
         return jsonString;
-    }
-
-    /**
-     * This method is used by UID widgets to lookup strings in language pack JSON for all the strings which are set in xml layout files of the widgets.
-     *
-     * @param context Absolute path of your JSON file in String format
-     * @param view Absolute path of your JSON file in String format
-     * @param attrs Absolute path of your JSON file in String format
-     */
-    public static void setTextFromResourceID(Context context, View view, AttributeSet attrs) {
-        if (view instanceof TextView) {
-            TypedArray textArray = context.obtainStyledAttributes(attrs, new int[]{android.R.attr.text, android.R.attr.hint});
-            int resourceId = textArray.getResourceId(0, -1);
-            if (resourceId != -1) {
-                ((TextView) view).setText(resourceId);
-            }
-            resourceId = textArray.getResourceId(1, -1);
-            if (resourceId != -1) {
-                ((EditText) view).setHint(resourceId);
-            }
-        }
     }
 }

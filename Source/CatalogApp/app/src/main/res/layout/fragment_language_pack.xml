@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
-        <import type="android.view.View" />
+        <import type="android.view.View"/>
 
         <variable
             name="frag"
-            type="com.philips.platform.catalogapp.fragments.LanguagePackFragment" />
+            type="com.philips.platform.catalogapp.fragments.LanguagePackFragment"/>
     </data>
 
     <ScrollView
@@ -22,7 +22,7 @@
 
             <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
-                android:text="@string/language_pack_label" />
+                android:text="@string/language_pack_label"/>
 
             <com.philips.platform.uid.view.widget.CheckBox
                 android:id="@+id/checkbox_1"
@@ -31,7 +31,7 @@
                 android:layout_marginStart="@dimen/grid_spacing_enlarged"
                 android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:gravity="left|center_vertical"
-                android:text="@string/language_pack_checkbox" />
+                android:text="@string/language_pack_checkbox"/>
 
             <com.philips.platform.uid.view.widget.ValidationEditText
                 android:id="@+id/field_email"
@@ -43,17 +43,17 @@
                 android:hint="@string/language_pack_hint"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-                app:uidInputTextWithClearButton="true" />
+                app:uidInputTextWithClearButton="true"/>
 
             <com.philips.platform.uid.view.widget.Button
                 style="@style/UIDImageTextButton.Center"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/layout_height"
+                android:layout_marginBottom="@dimen/button_first_last_element_gap"
                 android:layout_marginEnd="@dimen/layout_margin_left_right"
                 android:layout_marginStart="@dimen/layout_margin_left_right"
                 android:layout_marginTop="@dimen/button_first_last_element_gap"
-                android:layout_marginBottom="@dimen/button_first_last_element_gap"
-                android:text="@string/language_pack_button" />
+                android:text="@string/language_pack_button"/>
 
         </LinearLayout>
     </ScrollView>

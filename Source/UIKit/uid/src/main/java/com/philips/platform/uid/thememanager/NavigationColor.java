@@ -10,41 +10,41 @@ import android.content.res.Resources;
 
 import com.philips.platform.uid.R;
 
-public enum NavigationColor {
+public enum NavigationColor implements ThemeConfig{
     ULTRA_LIGHT {
         @Override
-        public void injectNavigationColor(final Resources.Theme theme) {
-            injectColor(theme, R.style.UIDNavigationbarUltraLight);
+        public void injectStyle(final Resources.Theme theme) {
+            injectNavigationColor(theme, R.style.UIDNavigationbarUltraLight);
         }
     },
     VERY_LIGHT {
         @Override
-        public void injectNavigationColor(final Resources.Theme theme) {
-            injectColor(theme, R.style.UIDNavigationbarVeryLight);
+        public void injectStyle(final Resources.Theme theme) {
+            injectNavigationColor(theme, R.style.UIDNavigationbarVeryLight);
         }
     },
     LIGHT {
         @Override
-        public void injectNavigationColor(final Resources.Theme theme) {
-            injectColor(theme, R.style.UIDNavigationbarLight);
+        public void injectStyle(final Resources.Theme theme) {
+            injectNavigationColor(theme, R.style.UIDNavigationbarLight);
         }
     },
     BRIGHT {
         @Override
-        public void injectNavigationColor(final Resources.Theme theme) {
-            injectColor(theme, R.style.UIDNavigationbarBright);
+        public void injectStyle(final Resources.Theme theme) {
+            injectNavigationColor(theme, R.style.UIDNavigationbarBright);
         }
     },
     VERY_DARK {
         @Override
-        public void injectNavigationColor(final Resources.Theme theme) {
-            injectColor(theme, R.style.UIDNavigationbarVeryDark);
+        public void injectStyle(final Resources.Theme theme) {
+            injectNavigationColor(theme, R.style.UIDNavigationbarVeryDark);
         }
     };
 
-    private static void injectColor(final Resources.Theme theme, final int style) {
+    private static void injectNavigationColor(final Resources.Theme theme, final int style) {
         theme.applyStyle(style, true);
     }
 
-    public abstract void injectNavigationColor(Resources.Theme theme);
+    public abstract void injectStyle(Resources.Theme theme);
 }

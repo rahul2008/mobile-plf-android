@@ -40,7 +40,7 @@ class NavigationStyleCreator {
                                     }
 
                                 } else {
-                                    println("themeAttr  " + themeAttribute + " not found")
+//                                    println("themeAttr  " + themeAttribute + " not found")
                                 }
                         }
                     }

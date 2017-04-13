@@ -12,7 +12,6 @@ import android.view.inputmethod.InputMethodManager;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentLanguagePackBinding;
 
-
 public class LanguagePackFragment extends BaseFragment {
 
     private FragmentLanguagePackBinding fragmentLanguagePackBinding;

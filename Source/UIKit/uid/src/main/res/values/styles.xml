@@ -67,6 +67,7 @@
         <item name="uidTextBoxValidationBorder">@android:color/transparent</item>
         <item name="uidTextBoxValidationText">@color/uid_signal_orange_level_75</item>
         <item name="uidTextBoxValidationErrorColor">@color/uid_signal_orange_level_75</item>
+        <item name="uidButtonDisabledAlpha">@dimen/uid_alpha_per_100</item>
 
         <!-- Moved to based temporarily to avoid crash-->
         <!--<item name="uidInputTextTextDisabledAlpha">@dimen/uid_alpha_per_35</item>

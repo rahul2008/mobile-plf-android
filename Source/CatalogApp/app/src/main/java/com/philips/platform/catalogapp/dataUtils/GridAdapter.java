@@ -20,11 +20,11 @@ import java.util.ArrayList;
 
 public class GridAdapter extends ArrayAdapter<GridData> {
 
-    private Context mContext;
-    private ArrayList<GridData> cardList;
     GridDataHelper gridDataHelper;
     boolean isdisabled, isSecondary;
     int templateSelection;
+    private Context mContext;
+    private ArrayList<GridData> cardList;
 
     public GridAdapter(Context context, ArrayList<GridData> cardList) {
         super(context, 0, cardList);
@@ -137,6 +137,12 @@ public class GridAdapter extends ArrayAdapter<GridData> {
         return convertView;
     }
 
+    public void updateGrid(ArrayList<GridData> newList) {
+        this.cardList.clear();
+        this.cardList = new ArrayList<>(newList);
+        this.notifyDataSetChanged();
+    }
+
     static class ViewHolder {
         private Label title;
         private Label description;
@@ -149,11 +155,5 @@ public class GridAdapter extends ArrayAdapter<GridData> {
             this.thumbnail = thumbnail;
             this.star_icon = star_icon;
         }
-    }
-
-    public void updateGrid(ArrayList<GridData> newList) {
-        this.cardList.clear();
-        this.cardList = new ArrayList<>(newList);
-        this.notifyDataSetChanged();
     }
 }

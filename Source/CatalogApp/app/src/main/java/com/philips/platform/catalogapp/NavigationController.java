@@ -27,15 +27,14 @@ public class NavigationController {
     public static final String ACTIVE_FRAGMENTS = "activeFragments";
     protected static final String HAMBURGER_BUTTON_DISPLAYED = "HAMBURGER_BUTTON_DISPLAYED";
     protected static final String THEMESETTINGS_BUTTON_DISPLAYED = "THEMESETTINGS_BUTTON_DISPLAYED";
-
+    SharedPreferences fragmentPreference;
+    boolean hamburgerIconVisible;
+    boolean themeSettingsIconVisible;
     private FragmentManager supportFragmentManager;
     private MainActivity mainActivity;
     private MenuItem themeSetting;
     private MenuItem setTheme;
-    SharedPreferences fragmentPreference;
     private ViewDataBinding activityMainBinding;
-    boolean hamburgerIconVisible;
-    boolean themeSettingsIconVisible;
     private int titleResource;
     private Toolbar toolbar;
 
@@ -179,7 +178,7 @@ public class NavigationController {
         mainActivity.getMenuInflater().inflate(R.menu.catalog_menu, menu);
     }
 
-    public void onPrepareOptionsMenu(final Menu menu, final MainActivity mainActivity) {
+    public void onPrepareOptionsMenu(final Menu menu) {
         themeSetting = menu.findItem(R.id.menu_theme_settings);
         setTheme = menu.findItem(R.id.menu_set_theme_settings);
     }

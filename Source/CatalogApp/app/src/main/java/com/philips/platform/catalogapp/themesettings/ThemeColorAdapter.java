@@ -159,8 +159,8 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
         notifyDataSetChanged();
     }
 
-    public void setSelected(final int ordinal) {
-        selectedPosition = ordinal;
+    public void setSelected(final int position) {
+        selectedPosition = position;
         notifyDataSetChanged();
     }
 

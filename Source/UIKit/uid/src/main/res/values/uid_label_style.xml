@@ -8,7 +8,7 @@
     </style>
 
     <style name="UIDLabel.MarginTop">
-        <item name="android:layout_marginBottom">@dimen/uid_label_margin_bottom</item>
+        <item name="android:layout_marginTop">@dimen/uid_label_margin_bottom</item>
     </style>
 
     <style name="UIDLabel.MarginEnd">
@@ -29,12 +29,7 @@
 
     <style name="UIDLabelDescription">
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
-        <!--
-        <item name="uidLabelTextColor">?attr/uidTextPrimary</item>
-        <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_100</item>
-        -->
         <item name="android:textColor">?attr/uidLabelRegularNormalTextColor</item>
-
     </style>
 
     <style name="UIDLabelDescription.MarginStart">

@@ -129,13 +129,25 @@
                     style="@style/UIDExtraWideIconQuietButton.Center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/button_first_last_element_gap"
                     android:layout_marginLeft="@dimen/layout_margin_left_right"
                     android:layout_marginRight="@dimen/layout_margin_left_right"
                     android:layout_marginTop="@dimen/button_gap"
                     android:enabled="@{frag.isButtonsEnabled}"
                     android:gravity="center"
                     android:text="@string/buttons_text_quiet"/>
+
+                <com.philips.platform.uid.view.widget.Button
+                    style="@style/UIDImageTextButton.Center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/layout_margin_left_right"
+                    android:layout_marginLeft="@dimen/layout_margin_left_right"
+                    android:layout_marginRight="@dimen/layout_margin_left_right"
+                    android:layout_marginTop="@dimen/button_gap"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    android:text="@string/accent_button_label"
+                    android:visibility="gone"
+                    app:uidComponentType="Accent"/>
             </LinearLayout>
 
             <!--Left aligned extra wide buttons[start]-->
@@ -200,11 +212,21 @@
                     style="@style/UIDQuietButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/button_first_last_element_gap"
                     android:layout_marginTop="@dimen/button_gap"
                     android:enabled="@{frag.isButtonsEnabled}"
                     android:gravity="center"
                     android:text="@string/buttons_text_quiet"/>
+
+                <com.philips.platform.uid.view.widget.Button
+                    style="@style/UIDDefaultButton.UIDImageTextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/layout_margin_left_right"
+                    android:layout_marginTop="@dimen/button_gap"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    android:text="@string/accent_button_label"
+                    android:visibility="gone"
+                    app:uidComponentType="Accent"/>
             </LinearLayout>
 
             <include layout="@layout/divider_layout"/>
@@ -247,8 +269,8 @@
 
             <RelativeLayout
                 style="@style/ButtonsCategoryStyle"
-                android:visibility="@{frag.isButtonsEnabled? View.VISIBLE: View.GONE}"
-                android:onClick="@{(v) -> frag.showGridFragment()}">
+                android:onClick="@{(v) -> frag.showGridFragment()}"
+                android:visibility="@{frag.isButtonsEnabled? View.VISIBLE: View.GONE}">
 
                 <com.philips.platform.uid.view.widget.Label
                     style="@style/ButtonsCategoryStyle"
@@ -266,10 +288,10 @@
                     android:layout_centerVertical="true"
                     android:clickable="false"
                     android:gravity="center"
-                    app:uidImageButtonDrawableWidth="@dimen/show_more_icon_size"
-                    app:uidImageButtonDrawableHeight="@dimen/show_more_icon_size"
+                    app:srcCompat="@drawable/ic_right_arrow_show_more"
                     app:uidImageButtonColorList="@null"
-                    app:srcCompat="@drawable/ic_right_arrow_show_more"/>
+                    app:uidImageButtonDrawableHeight="@dimen/show_more_icon_size"
+                    app:uidImageButtonDrawableWidth="@dimen/show_more_icon_size"/>
             </RelativeLayout>
 
             <LinearLayout

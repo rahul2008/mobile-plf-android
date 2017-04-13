@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ public class UIDHelper {
     public static final String CONTENT_TONAL_RANGE = "CONTENT_TONAL_RANGE";
     public static final String COLOR_RANGE = "COLOR_RANGE";
     public static final String NAVIGATION_RANGE = "NAVIGATION_RANGE";
+    public static final String ACCENT_RANGE = "ACCENT_RANGE";
 
     public static void injectCalligraphyFonts() {
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
@@ -32,9 +34,13 @@ public class UIDHelper {
     }
 
     public static void init(@NonNull ThemeConfiguration themeConfiguration) {
-        Resources.Theme theme = themeConfiguration.context.getTheme();
-        themeConfiguration.navigationColor.injectNavigationColor(theme);
-        themeConfiguration.contentColor.injectTonalRange(theme);
+        Resources.Theme theme = themeConfiguration.getContext().getTheme();
+        Log.d(UIDHelper.class.getName(), " init ");
+
+        for (ThemeConfig config : themeConfiguration.getConfigurations()) {
+            Log.d(UIDHelper.class.getName(), " config " + config);
+            config.injectStyle(theme);
+        }
     }
 
     /**

@@ -10,6 +10,7 @@ import groovy.xml.MarkupBuilder
 
 class ThemeGenerator {
 
+
     def createThemeXml(def allBrushAttributes, def allComponentAttributes) {
         def colorsXmlInput = new XmlParser().parseText(new File(DLSResourceConstants.PATH_OUT_COLORS_FILE).text)
         DLSResourceConstants.COLOR_RANGES.each {
@@ -59,7 +60,7 @@ class ThemeGenerator {
             allBrushAttributes.each {
                 def tr = tonalRange.toString()
                 def value = "null"
-                def themeValue = null;
+                TonalRange themeValue = null;
                 if (it.attributeMap.containsKey(tr)) {
                     themeValue = it.attributeMap.get(tr)
                     value = themeValue.getValue("${colorName}", colorsXmlInput, allBrushAttributes)
@@ -70,13 +71,27 @@ class ThemeGenerator {
                 if (value == "@null") {
                     println(" Invalid combination Tonal Range " + tr + " Brush " + it.attrName + " Theme values " + themeValue.toString())
                 }
-                item("${DLSResourceConstants.ITEM_NAME}": it.attrName, value)
+                if (BrushParser.isSupportedAction(it.attrName)) {
+                    item("${DLSResourceConstants.ITEM_NAME}": it.attrName, value)
+                    if (it.attrName.contains("Accent")) {
+                        if (themeValue.opacity != null) {
+                            item("${DLSResourceConstants.ITEM_NAME}": it.attrName + "Alpha", getDimenName(themeValue.opacity))
+                        }
+
+                    }
+                }
             }
 
             allComponentAttributes.each {
-                item("${DLSResourceConstants.ITEM_NAME}": it.attrName, it.attributeMap.get(it.attrName).getAttributeValue(allBrushAttributes))
+                if (BrushParser.isSupportedAction(it.attrName)) {
+                    item("${DLSResourceConstants.ITEM_NAME}": it.attrName, it.attributeMap.get(it.attrName).getAttributeValue(allBrushAttributes))
+                }
             }
         }
     }
 
+    def getDimenName(opacity) {
+        opacity = (int) Math.round((Float.valueOf(opacity) * 100));
+        return "@dimen/uid_alpha_per_" + opacity
+    }
 }

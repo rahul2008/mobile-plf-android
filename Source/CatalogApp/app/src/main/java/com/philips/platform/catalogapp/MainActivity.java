@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
@@ -20,13 +21,14 @@ import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.content.res.Resources;
 
+import com.philips.platform.catalogapp.events.AccentColorChangedEvent;
 import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
+import com.philips.platform.catalogapp.events.ContentTonalRangeChangedEvent;
 import com.philips.platform.catalogapp.events.NavigationColorChangedEvent;
 import com.philips.platform.catalogapp.events.OptionMenuClickedEvent;
-import com.philips.platform.catalogapp.events.TonalRangeChangedEvent;
 import com.philips.platform.catalogapp.themesettings.ThemeHelper;
+import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
@@ -34,7 +36,6 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
-import com.philips.platform.uid.utils.UIDResources;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -56,23 +57,30 @@ public class MainActivity extends UIDActivity {
     ContentColor contentColor;
     ColorRange colorRange;
     NavigationColor navigationColor;
-    private ThemeHelper themeHelper;
-    private SharedPreferences defaultSharedPreferences;
-
     private NavigationController navigationController;
     private ViewDataBinding activityMainBinding;
+    private SharedPreferences defaultSharedPreferences;
+    private AccentRange accentColorRange;
+
+    static String toCamelCase(String s) {
+        String[] parts = s.split("_");
+        String camelCaseString = "";
+        for (String part : parts) {
+            camelCaseString = camelCaseString + toProperCase(part);
+        }
+        return camelCaseString;
+    }
+
+    static String toProperCase(String s) {
+        return s.substring(0, 1).toUpperCase() +
+                s.substring(1).toLowerCase();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        themeHelper = new ThemeHelper(defaultSharedPreferences);
 
-        ThemeConfiguration config = getThemeConfig();
-        setTheme(getThemeResourceId());
-
-        UIDLocaleHelper.getInstance().setFilePath(getCatalogAppJSONAssetPath());
-
-        UIDHelper.init(config);
+        initTheme();
         if (BuildConfig.DEBUG) {
             Log.d(MainActivity.class.getName(), String.format("Theme config Tonal Range :%s, Color Range :%s , Navigation Color : %s",
                     contentColor, colorRange, navigationColor));
@@ -85,8 +93,26 @@ public class MainActivity extends UIDActivity {
         navigationController.init(savedInstanceState);
     }
 
+    private void initTheme() {
+        final ThemeConfiguration themeConfig = getThemeConfig();
+        final int themeResourceId = getThemeResourceId(getResources(), getPackageName(), colorRange, contentColor);
+        themeConfig.add(navigationColor);
+        themeConfig.add(accentColorRange);
+        setTheme(themeResourceId);
+        UIDLocaleHelper.getInstance().setFilePath(getCatalogAppJSONAssetPath());
+
+        UIDHelper.init(themeConfig);
+    }
+
+    @StyleRes
+    int getThemeResourceId(Resources resources, final String packageName, final ColorRange colorRange, final ContentColor contentColor) {
+        final String themeName = String.format("Theme.DLS.%s.%s", toCamelCase(colorRange.name()), toCamelCase(contentColor.name()));
+
+        return resources.getIdentifier(themeName, "style", packageName);
+    }
+
     @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void onMessage(TonalRangeChangedEvent event) {
+    public void onMessage(ContentTonalRangeChangedEvent event) {
         contentColor = event.getContentColor();
     }
 
@@ -98,6 +124,11 @@ public class MainActivity extends UIDActivity {
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onMessage(NavigationColorChangedEvent event) {
         navigationColor = event.getNavigationColor();
+    }
+
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void onMessage(AccentColorChangedEvent event) {
+        accentColorRange = event.getAccentRange();
     }
 
     @Override
@@ -152,7 +183,7 @@ public class MainActivity extends UIDActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(final Menu menu) {
-        navigationController.onPrepareOptionsMenu(menu, this);
+        navigationController.onPrepareOptionsMenu(menu);
 
         return true;
     }
@@ -164,10 +195,12 @@ public class MainActivity extends UIDActivity {
     }
 
     public ThemeConfiguration getThemeConfig() {
+        final ThemeHelper themeHelper = new ThemeHelper(defaultSharedPreferences);
         colorRange = themeHelper.initColorRange();
         navigationColor = themeHelper.initNavigationRange();
         contentColor = themeHelper.initContentTonalRange();
-        return new ThemeConfiguration(contentColor, navigationColor, this);
+        accentColorRange = themeHelper.initAccentRange();
+        return new ThemeConfiguration(this, colorRange, navigationColor, contentColor, accentColorRange);
     }
 
     @SuppressLint("CommitPrefEdits")
@@ -191,6 +224,7 @@ public class MainActivity extends UIDActivity {
         saveThemeValues(UIDHelper.COLOR_RANGE, colorRange.name());
         saveThemeValues(UIDHelper.NAVIGATION_RANGE, navigationColor.name());
         saveThemeValues(UIDHelper.CONTENT_TONAL_RANGE, contentColor.name());
+        saveThemeValues(UIDHelper.ACCENT_RANGE, accentColorRange.name());
     }
 
     @Override
@@ -214,34 +248,6 @@ public class MainActivity extends UIDActivity {
         this.contentColor = contentColor;
     }
 
-    @StyleRes
-    static int getColorResourceId(final Resources resources, final String colorRange, final String tonalRange, final String packageName) {
-        final String themeName = String.format("Theme.DLS.%s.%s", toCamelCase(colorRange), toCamelCase(tonalRange));
-
-        return resources.getIdentifier(themeName, "style", packageName);
-    }
-
-    static String toCamelCase(String s) {
-        String[] parts = s.split("_");
-        String camelCaseString = "";
-        for (String part : parts) {
-            camelCaseString = camelCaseString + toProperCase(part);
-        }
-        return camelCaseString;
-    }
-
-    static String toProperCase(String s) {
-        return s.substring(0, 1).toUpperCase() +
-                s.substring(1).toLowerCase();
-    }
-
-    private
-    @StyleRes
-    int getThemeResourceId() {
-        int colorResourceId = getColorResourceId(getResources(), colorRange.name(), contentColor.name(), getPackageName());
-        return colorResourceId;
-    }
-
     public String getCatalogAppJSONAssetPath() {
         try {
             File f = new File(getCacheDir() + "/catalogapp.json");
@@ -256,9 +262,9 @@ public class MainActivity extends UIDActivity {
             fos.close();
             return f.getPath();
         } catch (FileNotFoundException e) {
-            Log.e("", e.getMessage());
+            Log.e(MainActivity.class.getName(), e.getMessage());
         } catch (IOException e) {
-            Log.e("", e.getMessage());
+            Log.e(MainActivity.class.getName(), e.getMessage());
         }
         return null;
     }

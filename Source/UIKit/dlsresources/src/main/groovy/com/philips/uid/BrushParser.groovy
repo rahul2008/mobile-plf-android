@@ -15,34 +15,38 @@ class BrushParser {
         def jsonSlurper = new JsonSlurper()
         def brushesMap = jsonSlurper.parseText(new File(DLSResourceConstants.PATH_SEMANTIC_BRUSH_JSON).text)
         def componentMap = jsonSlurper.parse(new File(DLSResourceConstants.PATH_COMPONENT_JSON))
+        def datavalidationMap = jsonSlurper.parse(new File(DLSResourceConstants.PATH_VALIDATION_JSON))
 
         def allBrushAttributes = generateBrushAttributes(brushesMap)
         def allComponentAttributes = generateComponentAttributes(componentMap)
+        def dataValidationThemeValues = new DataValidation().getAllAttributes(datavalidationMap)
 
-        new AttributeGenerator().flushAttrsFile(allBrushAttributes, allComponentAttributes)
+        new AttributeGenerator().flushAttrsFile(allBrushAttributes, allComponentAttributes, dataValidationThemeValues)
         new ThemeGenerator().createThemeXml(allBrushAttributes, allComponentAttributes)
         new NavigationStyleCreator().create(allBrushAttributes, allComponentAttributes)
+        new AccentRangeGenerator().generateAccentRanges()
     }
 
     static def generateBrushAttributes(brushesMap) {
         def allAttributes = new ArrayList()
 
         Gson gson = new Gson();
+        brushesMap = brushesMap[0]
         brushesMap.each {
             semanticName, colorRange ->
                 def attributeName = "${DLSResourceConstants.LIB_PREFIX}" + semanticName.split("${DLSResourceConstants.HIPHEN}").collect {
                     it.capitalize()
                 }.join("")
                 def themeAttr = new ThemeAttribute(attributeName)
-                colorRange.each {
-                    theme ->
-                        def name = getCapitalizedValue(theme.key)
-                        def themeValue = theme.value;
-                        ThemeValue themValueObject = gson.fromJson(themeValue.toString(), ThemeValue.class)
-                        if (themValueObject.reference != null) {
-                            themValueObject.reference = "${DLSResourceConstants.LIB_PREFIX}${themValueObject.reference.split("${DLSResourceConstants.HIPHEN}").collect { it.capitalize() }.join("")}"
-                        }
-                        themeAttr.addTonalRange(name, themValueObject)
+                colorRange.each { theme ->
+                    def name = getCapitalizedValue(theme.key)
+                    def themeValue = theme.value;
+                    ThemeValue themValueObject = gson.fromJson(themeValue.toString(), ThemeValue.class)
+                    if (themValueObject.reference != null) {
+                        themValueObject.reference =
+                                "${DLSResourceConstants.LIB_PREFIX}${themValueObject.reference.split("${DLSResourceConstants.HIPHEN}").collect { it.capitalize() }.join("")}"
+                    }
+                    themeAttr.addTonalRange(name, themValueObject)
                 }
                 allAttributes.add(themeAttr)
         }
@@ -88,5 +92,9 @@ class BrushParser {
             it.capitalize()
         }.join("")
         return capitalizedAttribute;
+    }
+
+    public static boolean isSupportedAction(def name) {
+        return !name.contains(DLSResourceConstants.HOVER)
     }
 }

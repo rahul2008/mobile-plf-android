@@ -13,17 +13,15 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-
 public class LanguagePackTest {
 
-    Resources testResources;
-
     @Rule
-    public ActivityTestRule<BaseTestActivity> testRule = new ActivityTestRule<BaseTestActivity>(BaseTestActivity.class,false,false);
+    public ActivityTestRule<BaseTestActivity> testRule = new ActivityTestRule<BaseTestActivity>(BaseTestActivity.class, false, false);
+    Resources testResources;
     private BaseTestActivity activity;
 
     @Before
-    public void setUp() throws Exception{
+    public void setUp() throws Exception {
         final Intent launchIntent = new Intent(Intent.ACTION_MAIN);
         activity = testRule.launchActivity(launchIntent);
         activity.switchTo(com.philips.platform.uid.test.R.layout.layout_language_pack);
@@ -31,17 +29,16 @@ public class LanguagePackTest {
     }
 
     @Test
-    public void verifyUIDResource(){
-        if(BuildConfig.DEBUG && !(testResources instanceof UIDResources)){
+    public void verifyUIDResource() {
+        if (BuildConfig.DEBUG && !(testResources instanceof UIDResources)) {
             throw new AssertionError();
         }
     }
 
     @Test
-    public void verifyGetText(){
-        if(BuildConfig.DEBUG && !("Taalpakket label".equals(testResources.getText(com.philips.platform.uid.test.R.string.language_pack_label)))){
+    public void verifyGetText() {
+        if (BuildConfig.DEBUG && !("Taalpakket label".equals(testResources.getText(com.philips.platform.uid.test.R.string.language_pack_label)))) {
             throw new AssertionError();
         }
     }
-
 }

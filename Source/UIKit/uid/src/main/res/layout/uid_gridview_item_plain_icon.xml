@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@id/uid_gridview"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/uid_grid_item_size"
-    android:descendantFocusability="blocksDescendants">
+<FrameLayout android:id="@id/uid_gridview"
+             xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="@dimen/uid_grid_item_size"
+             android:descendantFocusability="blocksDescendants">
 
     <ImageView
-        style="@style/UIDGridViewImage"
         android:id="@id/uid_gridview_thumbnail"
+        style="@style/UIDGridViewImage"
         android:layout_height="@dimen/uid_grid_item_size"
         android:layout_gravity="bottom"/>
     <FrameLayout
@@ -18,8 +18,8 @@
         >
 
         <com.philips.platform.uid.view.widget.ImageButton
-            style="@style/UIDGridViewImageButton"
-            android:id="@id/uid_gridview_icon"/>
+            android:id="@id/uid_gridview_icon"
+            style="@style/UIDGridViewImageButton"/>
     </FrameLayout>
 
 </FrameLayout>

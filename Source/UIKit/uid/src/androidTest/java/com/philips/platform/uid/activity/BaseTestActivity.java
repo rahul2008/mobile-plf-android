@@ -43,6 +43,27 @@ public class BaseTestActivity extends UIDActivity implements DelayerCallback {
     @Nullable
     private UidIdlingResource mIdlingResource;
 
+    @StyleRes
+    static int getColorResourceId(final Resources resources, final String colorRange, final String tonalRange, final String packageName) {
+        final String themeName = String.format("Theme.DLS.%s.%s", toCamelCase(colorRange), toCamelCase(tonalRange));
+
+        return resources.getIdentifier(themeName, "style", packageName);
+    }
+
+    static String toCamelCase(String s) {
+        String[] parts = s.split("_");
+        String camelCaseString = "";
+        for (String part : parts) {
+            camelCaseString = camelCaseString + toProperCase(part);
+        }
+        return camelCaseString;
+    }
+
+    static String toProperCase(String s) {
+        return s.substring(0, 1).toUpperCase() +
+                s.substring(1).toLowerCase();
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         int navigationColor = NavigationColor.BRIGHT.ordinal();
@@ -62,7 +83,7 @@ public class BaseTestActivity extends UIDActivity implements DelayerCallback {
     }
 
     private ThemeConfiguration getThemeConfig(final int navigationColor, final int contentColor) {
-        return new ThemeConfiguration(ContentColor.values()[contentColor], NavigationColor.values()[navigationColor], this);
+        return new ThemeConfiguration(this, ContentColor.values()[contentColor], NavigationColor.values()[navigationColor]);
     }
 
     public void switchTo(final int layout) {
@@ -138,53 +159,6 @@ public class BaseTestActivity extends UIDActivity implements DelayerCallback {
         //Do nothing
     }
 
-    static class MessageDelayer {
-
-        private static final long DELAY_MILLIS = 300;
-
-        static void sendMessage(final String message, final DelayerCallback callback,
-                                @Nullable final UidIdlingResource idlingResource) {
-            if (idlingResource != null) {
-                idlingResource.setIdleState(false);
-            }
-
-            // Delay the execution, return message via callback.
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (callback != null) {
-                        callback.onDone(message);
-                        if (idlingResource != null) {
-                            idlingResource.setIdleState(true);
-                        }
-                    }
-                }
-            }, DELAY_MILLIS);
-        }
-    }
-
-    @StyleRes
-    static int getColorResourceId(final Resources resources, final String colorRange, final String tonalRange, final String packageName) {
-        final String themeName = String.format("Theme.DLS.%s.%s", toCamelCase(colorRange), toCamelCase(tonalRange));
-
-        return resources.getIdentifier(themeName, "style", packageName);
-    }
-
-    static String toCamelCase(String s) {
-        String[] parts = s.split("_");
-        String camelCaseString = "";
-        for (String part : parts) {
-            camelCaseString = camelCaseString + toProperCase(part);
-        }
-        return camelCaseString;
-    }
-
-    static String toProperCase(String s) {
-        return s.substring(0, 1).toUpperCase() +
-                s.substring(1).toLowerCase();
-    }
-
     private
     @StyleRes
     int getThemeResourceId(ContentColor contentColor, ColorRange colorRange) {
@@ -211,5 +185,31 @@ public class BaseTestActivity extends UIDActivity implements DelayerCallback {
             Log.e("", e.getMessage());
         }
         return null;
+    }
+
+    static class MessageDelayer {
+
+        private static final long DELAY_MILLIS = 300;
+
+        static void sendMessage(final String message, final DelayerCallback callback,
+                                @Nullable final UidIdlingResource idlingResource) {
+            if (idlingResource != null) {
+                idlingResource.setIdleState(false);
+            }
+
+            // Delay the execution, return message via callback.
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (callback != null) {
+                        callback.onDone(message);
+                        if (idlingResource != null) {
+                            idlingResource.setIdleState(true);
+                        }
+                    }
+                }
+            }, DELAY_MILLIS);
+        }
     }
 }

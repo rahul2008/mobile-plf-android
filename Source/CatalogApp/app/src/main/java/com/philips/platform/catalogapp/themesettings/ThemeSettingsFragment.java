@@ -20,17 +20,21 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
 import com.philips.platform.catalogapp.R;
+import com.philips.platform.catalogapp.events.AccentColorChangedEvent;
 import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
+import com.philips.platform.catalogapp.events.ContentTonalRangeChangedEvent;
 import com.philips.platform.catalogapp.events.NavigationColorChangedEvent;
-import com.philips.platform.catalogapp.events.TonalRangeChangedEvent;
 import com.philips.platform.catalogapp.fragments.BaseFragment;
 import com.philips.platform.uid.drawable.SeparatorDrawable;
+import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.UIDHelper;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -57,7 +61,7 @@ public class ThemeSettingsFragment extends BaseFragment {
     private int colorPickerWidth = 48;
 
     private ThemeColorAdapter colorRangeAdapter;
-    private ThemeColorAdapter tonalRangeAdapter;
+    private ThemeColorAdapter contentTonalRangeAdapter;
     private ThemeColorAdapter navigationListAdapter;
     private ContentColor contentColor = ContentColor.ULTRA_LIGHT;
 
@@ -67,6 +71,9 @@ public class ThemeSettingsFragment extends BaseFragment {
     private int contentSelectedPosition;
     private int navigationSelectedPosition;
     private NavigationColor navigationColor;
+    private AccentRange accentRange;
+    private List<ColorModel> accentColorsList;
+    private int accentSelectedPosition;
 
     @Nullable
     @Override
@@ -79,18 +86,21 @@ public class ThemeSettingsFragment extends BaseFragment {
 
         if (savedInstanceState != null) {
             colorRangeSelectedPosition = savedInstanceState.getInt(UIDHelper.COLOR_RANGE, getColorRangeAdapter().getSelectedPosition());
-            contentSelectedPosition = savedInstanceState.getInt(UIDHelper.CONTENT_TONAL_RANGE, getTonalRangeAdapter(colorRange).getSelectedPosition());
+            contentSelectedPosition = savedInstanceState.getInt(UIDHelper.CONTENT_TONAL_RANGE, getContentTonalRangeAdapter(colorRange).getSelectedPosition());
             navigationSelectedPosition = savedInstanceState.getInt(UIDHelper.NAVIGATION_RANGE, getNavigationListAdapter(colorRange).getSelectedPosition());
+            accentSelectedPosition = savedInstanceState.getInt(UIDHelper.ACCENT_RANGE, getAccentColorAdapter(colorRange).getSelectedPosition());
             colorRange = ColorRange.values()[colorRangeSelectedPosition];
             EventBus.getDefault().post(new ColorRangeChangedEvent(contentColor.name().toString(), colorRange));
 
             initNavigationColor(navigationSelectedPosition);
             initContentColor(contentSelectedPosition);
+            initAccentColor(accentSelectedPosition);
             notifyNavigationSettingsChanged();
         } else {
             colorRange = themeHelper.initColorRange();
             navigationColor = themeHelper.initNavigationRange();
             contentColor = themeHelper.initContentTonalRange();
+            accentRange = themeHelper.initAccentRange();
 //            setSeparatorBackground(view);
         }
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -102,7 +112,7 @@ public class ThemeSettingsFragment extends BaseFragment {
                 buildColorRangeList();
                 buildContentTonalRangeList(colorRange);
                 buildNavigationList(colorRange);
-
+                buildAccentColorsList(colorRange);
                 view.setVisibility(View.VISIBLE);
             }
         });
@@ -126,7 +136,7 @@ public class ThemeSettingsFragment extends BaseFragment {
 
     private void initContentColor(final int colorRangeSelectedPosition) {
         contentColor = ContentColor.values()[colorRangeSelectedPosition];
-        EventBus.getDefault().post(new TonalRangeChangedEvent(contentColor.name(), contentColor));
+        EventBus.getDefault().post(new ContentTonalRangeChangedEvent(contentColor.name(), contentColor));
     }
 
     @Override
@@ -134,7 +144,12 @@ public class ThemeSettingsFragment extends BaseFragment {
         outState.putInt(UIDHelper.COLOR_RANGE, colorRange.ordinal());
         outState.putInt(UIDHelper.CONTENT_TONAL_RANGE, getSelectedContentTonalRangePosition());
         outState.putInt(UIDHelper.NAVIGATION_RANGE, getSelectedNavigationPosition());
+        outState.putInt(UIDHelper.ACCENT_RANGE, getSelectedAccentPosition());
         super.onSaveInstanceState(outState);
+    }
+
+    private int getSelectedAccentPosition() {
+        return accentSelectedPosition == 0 ? AccentRange.values().length - accentRange.ordinal() - 1 : accentSelectedPosition;
     }
 
     private void initColorPickerWidth() {
@@ -172,6 +187,8 @@ public class ThemeSettingsFragment extends BaseFragment {
 
                 updateTonalRangeColors();
                 updateNavigationRangeColors();
+                buildAccentColorsList(colorRange);
+
                 EventBus.getDefault().post(new ColorRangeChangedEvent(contentColor.name().toString(), colorRange));
             }
         }, colorPickerWidth);
@@ -180,7 +197,7 @@ public class ThemeSettingsFragment extends BaseFragment {
     }
 
     private void updateNavigationRangeColors() {
-        tonalRangeAdapter.setColorModels(themeColorHelper.getContentColorModelList(colorRange, getContext()));
+        contentTonalRangeAdapter.setColorModels(themeColorHelper.getContentColorModelList(colorRange, getContext()));
     }
 
     private void updateTonalRangeColors() {
@@ -188,22 +205,22 @@ public class ThemeSettingsFragment extends BaseFragment {
     }
 
     private void buildContentTonalRangeList(final ColorRange changedColorRange) {
-        tonalRangeListview.setAdapter(getTonalRangeAdapter(changedColorRange));
+        tonalRangeListview.setAdapter(getContentTonalRangeAdapter(changedColorRange));
 
         setLayoutOrientation(tonalRangeListview);
     }
 
     @NonNull
-    private ThemeColorAdapter getTonalRangeAdapter(final ColorRange changedColorRange) {
-        tonalRangeAdapter = new ThemeColorAdapter(themeColorHelper.getContentColorModelList(changedColorRange, getContext()), new ThemeChangedListener() {
+    private ThemeColorAdapter getContentTonalRangeAdapter(final ColorRange changedColorRange) {
+        contentTonalRangeAdapter = new ThemeColorAdapter(themeColorHelper.getContentColorModelList(changedColorRange, getContext()), new ThemeChangedListener() {
             @Override
             public void onThemeSettingsChanged(final String tonalRangeChanged) {
                 contentColor = getContentTonalRangeByPosition();
-                EventBus.getDefault().post(new TonalRangeChangedEvent(contentColor.name().toString(), contentColor));
+                EventBus.getDefault().post(new ContentTonalRangeChangedEvent(contentColor.name().toString(), contentColor));
             }
         }, colorPickerWidth);
-        tonalRangeAdapter.setSelected(getSelectedContentTonalRangePosition());
-        return tonalRangeAdapter;
+        contentTonalRangeAdapter.setSelected(getSelectedContentTonalRangePosition());
+        return contentTonalRangeAdapter;
     }
 
     private ContentColor getContentTonalRangeByPosition() {
@@ -214,7 +231,7 @@ public class ThemeSettingsFragment extends BaseFragment {
     }
 
     private int getSelectedContentTonalRangePosition() {
-        return contentSelectedPosition == 0 ? (contentColor.values().length - contentColor.ordinal() - 1) : contentSelectedPosition;
+        return contentSelectedPosition == 0 ? (ContentColor.values().length - contentColor.ordinal() - 1) : contentSelectedPosition;
     }
 
     private void buildNavigationList(final ColorRange colorRange) {
@@ -245,22 +262,52 @@ public class ThemeSettingsFragment extends BaseFragment {
 
     private void initNavigationColor(final int selectedPosition) {
         NavigationColor[] values = NavigationColor.values();
-        navigationColor = values[values.length - selectedPosition - 1];
+        navigationColor = NavigationColor.values()[values.length - selectedPosition - 1];
     }
 
     private int getSelectedNavigationPosition() {
-        return navigationSelectedPosition == 0 ? NavigationColor.values().length - navigationColor.ordinal() - 1 : navigationSelectedPosition;
+        return navigationSelectedPosition == 0 ? NavigationColor.values().length - (navigationColor != null ? navigationColor.ordinal() : 0) - 1 : navigationSelectedPosition;
     }
 
     private void buildAccentColorsList(final ColorRange colorRange) {
-        accentColorRangeList.setAdapter(new ThemeColorAdapter(themeColorHelper.getAccentColorsList(getContext(), colorRange), new ThemeChangedListener() {
+        final ThemeColorAdapter accentThemeAdapter = getAccentColorAdapter(colorRange);
+        final int selection = getSelectedPositionFromList();
+        initAccentColor(selection);
+        accentThemeAdapter.setSelected(selection);
+        accentColorRangeList.setAdapter(accentThemeAdapter);
+        setLayoutOrientation(accentColorRangeList);
+    }
+
+    @NonNull
+    private ThemeColorAdapter getAccentColorAdapter(ColorRange colorRange) {
+        accentColorsList = themeColorHelper.getAccentColorsList(colorRange, getResources(), getContext().getPackageName());
+
+        return new ThemeColorAdapter(accentColorsList, new ThemeChangedListener() {
             @Override
             public void onThemeSettingsChanged(final String changedColorRange) {
+                final ThemeColorAdapter accentColorRangeListAdapter = (ThemeColorAdapter) accentColorRangeList.getAdapter();
+                final int selectedPosition = accentColorRangeListAdapter.getSelectedPosition();
+                accentSelectedPosition = selectedPosition;
+                initAccentColor(selectedPosition);
                 updateThemeSettingsLayout();
             }
-        }, colorPickerWidth));
+        }, colorPickerWidth);
+    }
 
-        setLayoutOrientation(accentColorRangeList);
+    private int getSelectedPositionFromList() {
+        final String shortName = themeColorHelper.getShortName(accentRange.name());
+        for (ColorModel colorModel : accentColorsList) {
+            if (colorModel.getTitle().equals(shortName)) {
+                return accentColorsList.indexOf(colorModel);
+            }
+        }
+        return 0;
+    }
+
+    private void initAccentColor(final int selectedPosition) {
+        final ColorModel colorModel = accentColorsList.get(selectedPosition);
+        accentRange = AccentRange.valueOf(colorModel.getName());
+        EventBus.getDefault().post(new AccentColorChangedEvent("accentChanged", accentRange));
     }
 
     private void setLayoutOrientation(final RecyclerView recyclerView) {

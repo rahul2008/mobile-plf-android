@@ -59,7 +59,7 @@
     </style>
     <style name="TestButtonSecondaryText">
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">?attr/uidCheckBoxDisabledTextColor</item>
+        <item name="android:textColor">?attr/uidCheckBoxDefaultDisabledTextColor</item>
         <item name="android:textSize">@dimen/button_category_text_size</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/layout_margin_left_right</item>
