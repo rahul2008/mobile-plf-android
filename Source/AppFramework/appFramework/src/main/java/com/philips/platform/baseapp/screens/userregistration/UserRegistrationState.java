@@ -141,13 +141,13 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
         Map<String, String> hsdpSecrets = new HashMap<>();
         hsdpSecrets.put(CHINA_CODE, "a3a3d09e2c74b93a409bc242956a6101bd5ff78cfd21473faa7aa21a8ec8493b66fa905dd4916b8ba4325cb988b442f9c6054089b9b36d09bb1538f985b47b22");
-        hsdpSecrets.put(DEFAULT,    "f5b62a26d680e5ae8001522a8e3268f966545a1a14a47ea2040793ea825484cd12fce9c46b43e2c2604cb836db64362a0c8b39eb7b162b8b3e83740143337eda");
+        hsdpSecrets.put(DEFAULT,    "fef56143b07f748441862bcc395606bac36a8120279787740d173ebf4b7c31be125ca4478aae2265881ffb97cbe08d4765646edcad8c339a024a16104e25b60d");
         appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_SECRET,
                 UR, hsdpSecrets, configError);
 
         Map<String, String> hsdpSharedIds = new HashMap<>();
         hsdpSharedIds.put(CHINA_CODE, "6036461d-0914-4afe-9e6e-eefe27fb529a");
-        hsdpSharedIds.put(DEFAULT, "f52cd90d-c955-43e1-8380-999e03d0d4c0");
+        hsdpSharedIds.put(DEFAULT, "a76448bf-b2d9-4a88-b435-8135f5b3d0b0");
 
         appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
                 UR, hsdpSharedIds, configError);
@@ -155,7 +155,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         Map<String, String> hsdpBaseUrls = new HashMap<>();
         try {
             hsdpBaseUrls.put(CHINA_CODE, URLEncoder.encode("https://user-registration-assembly-staging.cn1.philips-healthsuite.com.cn", URL_ENCODING));
-            hsdpBaseUrls.put(DEFAULT, URLEncoder.encode("https://user-registration-assembly-staging.eu-west.philips-healthsuite.com", URL_ENCODING));
+            hsdpBaseUrls.put(DEFAULT, URLEncoder.encode("https://user-registration-assembly-testing.us-east.philips-healthsuite.com", URL_ENCODING));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
