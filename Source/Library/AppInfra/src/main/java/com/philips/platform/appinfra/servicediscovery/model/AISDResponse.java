@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by 310243577 on 1/27/2017.
+ * The model class for AISDResponse.
  */
 
 public class AISDResponse {
@@ -19,7 +19,7 @@ public class AISDResponse {
 	private ServiceDiscovery platformURLs = null;
 	private ServiceDiscovery propositionURLs = null;
 	private final String SDEmptyURL = "https://delete.delete";
-	private AppInfra mAppInfra;
+	private final AppInfra mAppInfra;
 
 
 	public AISDResponse(AppInfra appInfra) {
@@ -73,7 +73,7 @@ public class AISDResponse {
 	public HashMap<String, ServiceDiscoveryService> getServicesUrl(ArrayList<String> serviceIds,
 	                                                               AISDResponse.AISDPreference preference,
 	                                                               Map<String, String> replacement) {
-		HashMap<String, ServiceDiscoveryService> response = new HashMap<>();
+		final HashMap<String, ServiceDiscoveryService> response = new HashMap<>();
 		HashMap<String, ServiceDiscoveryService> propositionResponse = null, platformResponse = null;
 
 		if (getPropositionURLs() != null) {
@@ -84,10 +84,10 @@ public class AISDResponse {
 			platformResponse = getPlatformURLs().getServicesWithServiceID(serviceIds, preference, replacement);
 		}
 
-		for (String serviceId : serviceIds) {
+		for (final String serviceId : serviceIds) {
 			if (propositionResponse != null && platformResponse != null) {
-				ServiceDiscoveryService propositionService = propositionResponse.get(serviceId);
-				ServiceDiscoveryService platformService = platformResponse.get(serviceId);
+				final ServiceDiscoveryService propositionService = propositionResponse.get(serviceId);
+				final ServiceDiscoveryService platformService = platformResponse.get(serviceId);
 
 				if (propositionService != null && platformService != null) {
 					if (propositionService.getConfigUrls() != null && platformService.getConfigUrls() != null) {

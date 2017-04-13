@@ -22,7 +22,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 /**
- * Created by 310243577 on 11/10/2016.
+ * The Wrapper Base class for all network requests.
  */
 
 public class GsonCustomRequest<T> extends Request<T> {
@@ -67,7 +67,7 @@ public class GsonCustomRequest<T> extends Request<T> {
     public Map<String, String> getHeaders() throws AuthFailureError {
         if (mHeader != null) {
             if (mProvider != null) {
-                Map<String, String> tokenHeader = RestManager.setTokenProvider(mProvider);
+                final Map<String, String> tokenHeader = RestManager.setTokenProvider(mProvider);
                 mHeader.putAll(tokenHeader);
             }
             return mHeader;
@@ -92,7 +92,7 @@ public class GsonCustomRequest<T> extends Request<T> {
     @Override
     protected Response<T> parseNetworkResponse(NetworkResponse response) {
         try {
-            String json = new String(
+            final String json = new String(
                     response.data,
                     HttpHeaderParser.parseCharset(response.headers));
             return Response.success(

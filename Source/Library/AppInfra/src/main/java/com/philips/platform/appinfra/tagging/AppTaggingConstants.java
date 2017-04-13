@@ -5,6 +5,9 @@
  */
 package com.philips.platform.appinfra.tagging;
 
+/**
+ *  The AppTagging Constants Class.
+ */
 public class AppTaggingConstants {
 
 

@@ -12,6 +12,9 @@ import com.philips.platform.appinfra.R;
 
 import java.util.Locale;
 
+/**
+ * The Class Local Internationalization Manager.
+ */
 
 public class InternationalizationManager implements InternationalizationInterface {
 

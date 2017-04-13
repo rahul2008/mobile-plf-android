@@ -6,6 +6,7 @@
 package com.philips.platform.appinfra.tagging;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 
 import java.util.Map;
 
@@ -38,7 +39,6 @@ public interface AppTaggingInterface {
 			return this.socialMedium;
 		}
 	}
-
 
 	/**
 	 * Create instance for component ai app tagging interface.
@@ -185,18 +185,31 @@ public interface AppTaggingInterface {
 
 	/**
 	 * get Privacy Consent For SensitiveData.
-     *
-     * @return returns consent value true or false
+	 *
+	 * @return returns consent value true or false
 	 */
 	boolean getPrivacyConsentForSensitiveData();
 
 
 	/**
-	 *	@brief Retrieves the analytics tracking identifier
-	 *	@return an NSString value containing the tracking identifier
-	 *	@note This method can cause a blocking network call and should not be used from a UI thread.
+	 * @return an NSString value containing the tracking identifier
+	 * @brief Retrieves the analytics tracking identifier
+	 * @note This method can cause a blocking network call and should not be used from a UI thread.
 	 */
 	String getTrackingIdentifier();
+
+	/**
+	 * UnRegister for the Tagging data .
+	 * @param receiver BroadcastReceiver
+	 */
+	void unregisterTaggingData(BroadcastReceiver receiver);
+
+	/**
+	 * Register for the Tagging data.
+	 *
+	 * @param receiver BroadcastReceiver
+	 */
+	void registerTaggingData(BroadcastReceiver receiver);
 }
 
 

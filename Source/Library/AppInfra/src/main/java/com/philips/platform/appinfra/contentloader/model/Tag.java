@@ -1,7 +1,7 @@
 package com.philips.platform.appinfra.contentloader.model;
 
 /**
- * Created by 310238114 on 12/13/2016.
+ * The Content loader Tag model class.
  */
 
 public class Tag {

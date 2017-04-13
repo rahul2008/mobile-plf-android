@@ -5,7 +5,9 @@
  */
 package com.philips.platform.appinfra.appidentity;
 
-
+/**
+ * The Identify of App interface .
+ */
 public interface AppIdentityInterface {
 
     enum AppState {DEVELOPMENT,TEST,STAGING,ACCEPTANCE,PRODUCTION};

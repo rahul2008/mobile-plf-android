@@ -28,15 +28,14 @@ public class AppIdentityManager implements AppIdentityInterface {
 	private AppInfra mAppInfra;
 	private Context context;
 
-	private String mAppName;
 	private String mAppVersion;
 	private String mLocalizedAppName;
 	private String sector;
 	private String mAppState;
 
-	private List<String> mSectorValuesList = Arrays.asList("b2b", "b2c", "b2b_Li", "b2b_HC");
-	private List<String> mServiceDiscoveryEnvList = Arrays.asList("STAGING", "PRODUCTION");
-	private List<String> mAppStateValuesList = Arrays.asList("DEVELOPMENT", "TEST", "STAGING", "ACCEPTANCE", "PRODUCTION");
+	private final List<String> mSectorValuesList = Arrays.asList("b2b", "b2c", "b2b_Li", "b2b_HC");
+	private final List<String> mServiceDiscoveryEnvList = Arrays.asList("STAGING", "PRODUCTION");
+	private final List<String> mAppStateValuesList = Arrays.asList("DEVELOPMENT", "TEST", "STAGING", "ACCEPTANCE", "PRODUCTION");
 	private AppConfigurationInterface.AppConfigurationError configError;
 
 
@@ -71,13 +70,13 @@ public class AppIdentityManager implements AppIdentityInterface {
 
 	private void validateAppState() {
 
-		String defAppState = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
+		final String defAppState = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
 				("appidentity.appState", "appinfra", configError);
 		if (defAppState != null) {
 			if (defAppState.equalsIgnoreCase("production")) // allow manual override only if static appstate != production
 				mAppState = defAppState;
 			else {
-				Object dynAppState = mAppInfra.getConfigInterface().getPropertyForKey("appidentity.appState", "appinfra", configError);
+				final Object dynAppState = mAppInfra.getConfigInterface().getPropertyForKey("appidentity.appState", "appinfra", configError);
 				if (dynAppState != null)
 					mAppState = dynAppState.toString();
 				else
@@ -85,7 +84,7 @@ public class AppIdentityManager implements AppIdentityInterface {
 			}
 		}
 
-		Set<String> set = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+		final Set<String> set = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
 		set.addAll(mAppStateValuesList);
 
 		if (mAppState != null && !mAppState.isEmpty()) {
@@ -100,7 +99,7 @@ public class AppIdentityManager implements AppIdentityInterface {
 
 	public void validateServiceDiscoveryEnv(String serviceDiscoveryEnvironment) {
 
-		Set<String> set = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+		final Set<String> set = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
 		set.addAll(mServiceDiscoveryEnvList);
 		if (serviceDiscoveryEnvironment != null && !serviceDiscoveryEnvironment.isEmpty()) {
 			if (!set.contains(serviceDiscoveryEnvironment)) {
@@ -120,7 +119,7 @@ public class AppIdentityManager implements AppIdentityInterface {
 		sector = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
 				("appidentity.sector", "appinfra", configError);
 
-		Set<String> set = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+		final Set<String> set = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
 		set.addAll(mSectorValuesList);
 		if (sector != null && !sector.isEmpty()) {
 			if (!set.contains(sector)) {
@@ -152,7 +151,7 @@ public class AppIdentityManager implements AppIdentityInterface {
 
 	@Override
 	public String getAppName() {
-		mAppName = context.getApplicationInfo().loadLabel(context.getPackageManager()).toString();
+		String mAppName = context.getApplicationInfo().loadLabel(context.getPackageManager()).toString();
 		return mAppName;
 	}
 
@@ -197,9 +196,9 @@ public class AppIdentityManager implements AppIdentityInterface {
 	public String getServiceDiscoveryEnvironment() {
 		String serviceDiscoveryEnvironment = null;
 
-		String defSevicediscoveryEnv = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
+		final String defSevicediscoveryEnv = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
 				("appidentity.serviceDiscoveryEnvironment", "appinfra", configError);
-		Object dynServiceDiscoveryEnvironment = mAppInfra.getConfigInterface()
+		final Object dynServiceDiscoveryEnvironment = mAppInfra.getConfigInterface()
 				.getPropertyForKey("appidentity.serviceDiscoveryEnvironment", "appinfra",
 						configError);
 		if (defSevicediscoveryEnv != null) {
@@ -243,7 +242,7 @@ public class AppIdentityManager implements AppIdentityInterface {
 
 	@Override
 	public String getMicrositeId() {
-		String micrositeId = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
+		final String micrositeId = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
 				("appidentity.micrositeId", "appinfra", configError);
 		validateMicrositeId(micrositeId);
 		return micrositeId;

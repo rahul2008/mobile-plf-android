@@ -6,7 +6,9 @@
 
 package com.philips.platform.appinfra.logging;
 
-
+/**
+ * The Logging Interface
+ */
 public interface LoggingInterface {
     /**
      * The enum Log level.

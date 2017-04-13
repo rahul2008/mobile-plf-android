@@ -8,7 +8,7 @@ package com.philips.platform.appinfra.abtestclient;
 import java.util.HashMap;
 
 /**
- * Created by 310243577 on 10/6/2016.
+ * The Cache Model for ABTest
  */
 
 class CacheModel {

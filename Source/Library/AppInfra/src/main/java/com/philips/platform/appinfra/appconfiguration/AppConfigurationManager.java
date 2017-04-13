@@ -35,22 +35,25 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by 310238114 on 7/25/2016.
+ * The AppConfiguration Manger Class.
  */
 public class AppConfigurationManager implements AppConfigurationInterface {
 
-    private AppInfra mAppInfra;
-    private Context mContext;
+    private final AppInfra mAppInfra;
+    private final Context mContext;
     private JSONObject dynamicConfigJsonCache;
     private JSONObject cloudConfigJsonCache;
     private JSONObject staticConfigJsonCache;
-    private static final String mAppConfig_SecureStoreKey = "ail.app_config";
-    private static final String mAppConfig_SecureStoreKey_new = "ailNew.app_config";
+    private static final String  APPCONFIG_SECURE_STORAGE_KEY = "ail.app_config";
+    private static final String APPCONFIG_SECURE_STORAGE_KEY_NEW = "ailNew.app_config";
     private static final String CLOUD_APP_CONFIG_FILE = "CloudConfig";
     private static final String CLOUD_APP_CONFIG_JSON = "cloudConfigJson";
     private static final String CLOUD_APP_CONFIG_URL = "cloudConfigUrl";
+    private JSONObject result = null;
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mPrefEditor;
 
-    private SecureStorageInterface ssi;
+    private SecureStorageInterface mSecureStorageInterface;
 
     public AppConfigurationManager(AppInfra appInfra) {
         mAppInfra = appInfra;
@@ -58,26 +61,34 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     }
 
     protected JSONObject getMasterConfigFromApp() {
-        JSONObject result = null;
-        try {
-            InputStream mInputStream = mContext.getAssets().open("AppConfig.json");
-            BufferedReader r = new BufferedReader(new InputStreamReader(mInputStream));
-            StringBuilder total = new StringBuilder();
-            String line;
-            while ((line = r.readLine()) != null) {
-                total.append(line).append('\n');
-            }
-            result = new JSONObject(total.toString());
-            result = makeKeyUppercase(result); // converting all Group and child key Uppercase
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "Json",
-                    result.toString());
 
-        } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppConfiguration exception",
-                    Log.getStackTraceString(e));
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final InputStream mInputStream = mContext.getAssets().open("AppConfig.json");
+                    final BufferedReader r = new BufferedReader(new InputStreamReader(mInputStream));
+                    final StringBuilder total = new StringBuilder();
+                    String line;
+                         while ((line = r.readLine()) != null) {
+                        total.append(line).append('\n');
+                    }
+                    result = new JSONObject(total.toString());
+                    result = makeKeyUppercase(result); // converting all Group and child key Uppercase
+
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "Json",
+                            result.toString());
+
+                } catch (Exception e) {
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppConfiguration exception",
+                            Log.getStackTraceString(e));
+                }
+            }
+        }).start();
+
         return result;
     }
+
 
     private JSONObject getDynamicConfigJsonCache() {
         if (null == dynamicConfigJsonCache) {
@@ -96,24 +107,21 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
 
     private JSONObject getDynamicJSONFromDevice() {
-        ssi = mAppInfra.getSecureStorage();
-        JSONObject jObj = null;
-        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        String jsonString = ssi.fetchValueForKey(mAppConfig_SecureStoreKey_new, sse);
-        if (null == jsonString || null == sse) {
-            //jObj = getMasterConfigFromApp();// reads from Application asset
-        } else {
-
+        mSecureStorageInterface = mAppInfra.getSecureStorage();
+        JSONObject mJsonObject = null;
+        final SecureStorageInterface.SecureStorageError secureStorageError = new SecureStorageInterface.SecureStorageError();
+        final String jsonString = mSecureStorageInterface.fetchValueForKey(APPCONFIG_SECURE_STORAGE_KEY_NEW, secureStorageError);
+        if (null != jsonString ) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", jsonString);
             try {
-                jObj = new JSONObject(jsonString);
-                jObj = makeKeyUppercase(jObj); // converting all Group and child key Uppercase
+                mJsonObject = new JSONObject(jsonString);
+                mJsonObject = makeKeyUppercase(mJsonObject); // converting all Group and child key Uppercase
             } catch (Exception e) {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppConfiguration exception",
                         Log.getStackTraceString(e));
             }
         }
-        return jObj;
+        return mJsonObject;
     }
 
     private JSONObject getCloudConfigJsonCache() {
@@ -125,9 +133,9 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
     private JSONObject getCloudJSONFromDevice() {
         JSONObject cloudConfigJsonObj = null;
-        SharedPreferences sharedPreferences = getCloudConfigSharedPreferences();
-        if (null != sharedPreferences && sharedPreferences.contains(CLOUD_APP_CONFIG_JSON)) {
-            final String savedCloudConfigJson = sharedPreferences.getString(CLOUD_APP_CONFIG_JSON, null);
+        mSharedPreferences = getCloudConfigSharedPreferences();
+        if (null != mSharedPreferences && mSharedPreferences.contains(CLOUD_APP_CONFIG_JSON)) {
+            final String savedCloudConfigJson = mSharedPreferences.getString(CLOUD_APP_CONFIG_JSON, null);
             if (null != savedCloudConfigJson) {
                 try {
                     cloudConfigJsonObj = new JSONObject(savedCloudConfigJson);
@@ -200,7 +208,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
             key = key.toUpperCase();
             group = group.toUpperCase();
             try {
-                boolean isCocoPresent = dynamicConfigJsonCache.has(group);
+                final boolean isCocoPresent = dynamicConfigJsonCache.has(group);
                 JSONObject cocoJSONobject;
                 if (!isCocoPresent) { // if request coco  does not exist
                     // configError.setErrorCode(ConfigError.ConfigErrorEnum.GroupNotExists);
@@ -214,33 +222,28 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                 } else {
                     // boolean isKeyPresent = cocoJSONobject.has(key);
                     if (object instanceof ArrayList) {
-                        if (((ArrayList) object).get(0) instanceof ArrayList) {
-                            throw new IllegalArgumentException("Invalid Argument Exception");
-                        } else if (((ArrayList) object).get(0) instanceof Integer || ((ArrayList) object).get(0) instanceof String) {
 
-                            JSONArray jsonArray = new JSONArray(((ArrayList) object).toArray());
+                         if (((ArrayList) object).get(0) instanceof Integer || ((ArrayList) object).get(0) instanceof String) {
+
+                            final JSONArray jsonArray = new JSONArray(((ArrayList) object).toArray());
                             cocoJSONobject.put(key, jsonArray);
 
                         } else {
                             throw new IllegalArgumentException("Invalid Argument Exception");
                         }
                     } else if (object instanceof HashMap) { // if object is MAP
-                        Map<?, ?> map = (Map) object;
-                        Set<?> keyset = map.keySet();
-                        Iterator<?> keyItr = keyset.iterator();
-                        Object objectKey = keyItr.next();
-                        Object value = map.get(objectKey); // value for key:objectKey
+                        final Map<?, ?> map = (Map) object;
+                        final Set<?> keyset = map.keySet();
+                        final Iterator<?> keyItr = keyset.iterator();
+                        final Object objectKey = keyItr.next();
+                        final Object value = map.get(objectKey); // value for key:objectKey
                         if (null == value) {
                             throw new IllegalArgumentException("Invalid Argument Exception");
                         } else {
 
-                            if (objectKey instanceof String) { // if keys are String
-                                if (value instanceof String || value instanceof Integer) { // if value are Integer OR String
-                                    JSONObject jsonObject = new JSONObject(object.toString());
+                            if (objectKey instanceof String && (value instanceof String || value instanceof Integer)) { // if keys are String and value are Integer OR String
+                                    final JSONObject jsonObject = new JSONObject(object.toString());
                                     cocoJSONobject.put(key, jsonObject);
-                                } else {
-                                    throw new IllegalArgumentException("Invalid Argument Exception");
-                                }
                             } else {
                                 throw new IllegalArgumentException("Invalid Argument Exception");
                             }
@@ -251,9 +254,9 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                     } else {
                         throw new IllegalArgumentException("Invalid Argument Exception");
                     }
-                    SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-                    ssi.storeValueForKey(mAppConfig_SecureStoreKey_new, dynamicConfigJsonCache.toString(), sse);
-                    if (null == sse.getErrorCode()) {
+                    final SecureStorageInterface.SecureStorageError mSecureStorageError = new SecureStorageInterface.SecureStorageError();
+                    mSecureStorageInterface.storeValueForKey(APPCONFIG_SECURE_STORAGE_KEY_NEW, dynamicConfigJsonCache.toString(), mSecureStorageError);
+                    if (null == mSecureStorageError.getErrorCode()) {
                         setOperation = true;
                     } else {
                         configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.SecureStorageError);
@@ -297,11 +300,11 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         if (null == jsonObject) {
             configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.NoDataFoundForKey);
         } else {
-            boolean isCocoPresent = jsonObject.has(group);
+            final boolean isCocoPresent = jsonObject.has(group);
             if (!isCocoPresent) { // if request coco does not exist
                 configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.GroupNotExists);
             } else {
-                JSONObject cocoJSONobject = jsonObject.optJSONObject(group);
+                final JSONObject cocoJSONobject = jsonObject.optJSONObject(group);
                 if (null == cocoJSONobject) { // invalid Coco JSON
                     configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.FatalError);
                 } else {
@@ -310,14 +313,12 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                         configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.KeyNotExists);
                     } else {
                         object = cocoJSONobject.opt(key); // Returns the value mapped by name, or null if no such mapping exists
-                        if (null == object) {
-
-                        } else {
+                        if (null != object) {
                             //  KEY FOUND SUCCESS
                             configError.setErrorCode(AppConfigurationError.AppConfigErrorEnum.NoError);
                             if (cocoJSONobject.opt(key) instanceof JSONArray) {
-                                JSONArray jsonArray = cocoJSONobject.optJSONArray(key);
-                                List<Object> list = new ArrayList<Object>();
+                                final JSONArray jsonArray = cocoJSONobject.optJSONArray(key);
+                                final List<Object> list = new ArrayList<Object>();
                                 for (int iCount = 0; iCount < jsonArray.length(); iCount++) {
                                     list.add(jsonArray.opt(iCount));
                                 }
@@ -339,36 +340,35 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     }
 
     private Map<String, ?> jsonToMap(Object JSON) throws JSONException {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        JSONObject jObject = new JSONObject(JSON.toString());
-        Iterator<?> keys = jObject.keys();
+        final HashMap<String, Object> map = new HashMap<String, Object>();
+        final JSONObject jObject = new JSONObject(JSON.toString());
+        final Iterator<?> keys = jObject.keys();
 
         while (keys.hasNext()) {
-            String key = (String) keys.next();
-            Object value = jObject.get(key);
+            final String key = (String) keys.next();
+            final Object value = jObject.get(key);
             map.put(key, value);
         }
         return map;
     }
 
     private JSONObject makeKeyUppercase(JSONObject json) {
-        JSONObject newJsonGroup = new JSONObject();
-        Iterator<String> iteratorGroup = json.keys();
+        final JSONObject newJsonGroup = new JSONObject();
+        final Iterator<String> iteratorGroup = json.keys();
         while (iteratorGroup.hasNext()) {
-            String keyGroup = iteratorGroup.next();
+            final String keyGroup = iteratorGroup.next();
             try {
-                JSONObject objectGroup = json.optJSONObject(keyGroup);
-
-
-                JSONObject newJsonChildObject = new JSONObject();
-                Iterator<String> iteratorKey = objectGroup.keys();
+                final JSONObject objectGroup = json.optJSONObject(keyGroup);
+                final JSONObject newJsonChildObject = new JSONObject();
+                final Iterator<String> iteratorKey = objectGroup.keys();
                 while (iteratorKey.hasNext()) {
-                    String key = iteratorKey.next();
+                    final String key = iteratorKey.next();
                     try {
-                        Object objectKey = objectGroup.opt(key);
+                        final Object objectKey = objectGroup.opt(key);
                         newJsonChildObject.put(key.toUpperCase(), objectKey);
                     } catch (JSONException e) {
                         // Something went wrong!
+                        throw new RuntimeException(e);
                     }
 
                 }
@@ -376,6 +376,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
             } catch (JSONException e) {
                 // Something went wrong!
+                throw new RuntimeException(e);
             }
         }
         return newJsonGroup;
@@ -383,15 +384,15 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
     @Override
     public void refreshCloudConfig(final OnRefreshListener onRefreshListener) {
-        AppConfigurationError configError = new AppConfigurationError();
-        String cloudServiceId = (String) getPropertyForKey("appconfig.cloudServiceId", "APPINFRA", configError);
-        ServiceDiscoveryInterface serviceDiscoveryInterface = mAppInfra.getServiceDiscovery();
+        final AppConfigurationError mAppConfigError = new AppConfigurationError();
+        final String cloudServiceId = (String) getPropertyForKey("appconfig.cloudServiceId", "APPINFRA", mAppConfigError);
+        final ServiceDiscoveryInterface serviceDiscoveryInterface = mAppInfra.getServiceDiscovery();
         serviceDiscoveryInterface.getServiceUrlWithCountryPreference(cloudServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onSuccess(URL url) {
-                SharedPreferences sharedPreferences = getCloudConfigSharedPreferences();
-                if (null != sharedPreferences && sharedPreferences.contains(CLOUD_APP_CONFIG_URL)) {
-                    final String savedURL = sharedPreferences.getString(CLOUD_APP_CONFIG_URL, null);
+                mSharedPreferences = getCloudConfigSharedPreferences();
+                if (null != mSharedPreferences && mSharedPreferences.contains(CLOUD_APP_CONFIG_URL)) {
+                    final String savedURL = mSharedPreferences.getString(CLOUD_APP_CONFIG_URL, null);
                     if (url.toString().trim().equalsIgnoreCase(savedURL)) { // cloud config url has not changed
                         onRefreshListener.onSuccess(OnRefreshListener.REFRESH_RESULT.NO_REFRESH_REQUIRED);
                     } else { // cloud config url has  changed
@@ -415,7 +416,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
     void fetchCloudConfig(final String url, final OnRefreshListener onRefreshListener) {
         try {
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "fetchCloudConfig", response.toString());
@@ -439,18 +440,18 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     private void saveCloudConfig(JSONObject cloudConfig, String url) {
         cloudConfig = makeKeyUppercase(cloudConfig); // converting all Group and child key to Uppercase
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Cloud config " + cloudConfig);
-        SharedPreferences sharedPreferences = getCloudConfigSharedPreferences();
-        SharedPreferences.Editor prefEditor = sharedPreferences.edit();
-        prefEditor.putString(CLOUD_APP_CONFIG_JSON, cloudConfig.toString());
-        prefEditor.putString(CLOUD_APP_CONFIG_URL, url);
-        prefEditor.commit();
+        mSharedPreferences = getCloudConfigSharedPreferences();
+        mPrefEditor = mSharedPreferences.edit();
+        mPrefEditor.putString(CLOUD_APP_CONFIG_JSON, cloudConfig.toString());
+        mPrefEditor.putString(CLOUD_APP_CONFIG_URL, url);
+        mPrefEditor.commit();
     }
 
     void clearCloudConfigFile() {
-        SharedPreferences prefs = getCloudConfigSharedPreferences();
-        SharedPreferences.Editor prefEditor = prefs.edit();
-        prefEditor.clear();
-        prefEditor.commit();
+        mSharedPreferences = getCloudConfigSharedPreferences();
+        mPrefEditor = mSharedPreferences.edit();
+        mPrefEditor.clear();
+        mPrefEditor.commit();
     }
 
     private SharedPreferences getCloudConfigSharedPreferences() {
@@ -458,57 +459,59 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     }
 
     public void migrateDynamicData() {
-        AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
-        ssi = mAppInfra.getSecureStorage();
-        JSONObject oldDynamicConfigJson = null;
-        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        String jsonString = ssi.fetchValueForKey(mAppConfig_SecureStoreKey, sse);
-        if (sse.getErrorCode() != SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey && null != jsonString || null != dynamicConfigJsonCache) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Migration starts for old dyanmic data > " + jsonString);
-            //dynamicConfigJsonCache =  null;// reset cache
-            try {
-                if (null != jsonString) {
-                    oldDynamicConfigJson = new JSONObject(jsonString);
+
+                final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+                mSecureStorageInterface = mAppInfra.getSecureStorage();
+                JSONObject oldDynamicConfigJson = null;
+                final SecureStorageInterface.SecureStorageError mSecureStorageError = new SecureStorageInterface.SecureStorageError();
+                final String jsonString = mSecureStorageInterface.fetchValueForKey(APPCONFIG_SECURE_STORAGE_KEY, mSecureStorageError);
+                if (mSecureStorageError.getErrorCode() != SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey && null != jsonString || null != dynamicConfigJsonCache) {
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Migration starts for old dyanmic data > " + jsonString);
-                } else if (null != dynamicConfigJsonCache) {
-                    oldDynamicConfigJson = dynamicConfigJsonCache;
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Migration starts for old dyanmic data > " + dynamicConfigJsonCache);
-                }
-                dynamicConfigJsonCache = null;
-                oldDynamicConfigJson = makeKeyUppercase(oldDynamicConfigJson); // converting all Group and child key Uppercase
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            Iterator<String> iteratorGroup = oldDynamicConfigJson.keys();
-            while (iteratorGroup.hasNext()) {
-                String keyGroup = iteratorGroup.next();
-                try {
-                    JSONObject objectGroup = oldDynamicConfigJson.optJSONObject(keyGroup);
-                    Iterator<String> iteratorKey = objectGroup.keys();
-                    while (iteratorKey.hasNext()) {
-                        String key = iteratorKey.next();
-                        Object value = getDefaultPropertyForKey(key, keyGroup, configError);
-                        if (null != value && configError.getErrorCode() == AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.NoError) {
-                            Object dynamicValue = objectGroup.opt(key);
-                            if (!value.equals(dynamicValue)) { // check if values are NOT equal
-                                AppConfigurationInterface.AppConfigurationError configErrorForNewKey = new AppConfigurationInterface.AppConfigurationError();
-                                setPropertyForKey(key.toUpperCase(), keyGroup, dynamicValue, configErrorForNewKey); // add only changed value to dynamic migrated json
+                    //dynamicConfigJsonCache =  null;// reset cache
+                    try {
+                        if (null != jsonString) {
+                            oldDynamicConfigJson = new JSONObject(jsonString);
+                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Migration starts for old dyanmic data > " + jsonString);
+                        } else if (null != dynamicConfigJsonCache) {
+                            oldDynamicConfigJson = dynamicConfigJsonCache;
+                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Migration starts for old dyanmic data > " + dynamicConfigJsonCache);
+                        }
+                        dynamicConfigJsonCache = null;
+                        oldDynamicConfigJson = makeKeyUppercase(oldDynamicConfigJson); // converting all Group and child key Uppercase
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    final Iterator<String> iteratorGroup = oldDynamicConfigJson.keys();
+                    while (iteratorGroup.hasNext()) {
+                        final String keyGroup = iteratorGroup.next();
+                        try {
+                            final JSONObject objectGroup = oldDynamicConfigJson.optJSONObject(keyGroup);
+                            final Iterator<String> iteratorKey = objectGroup.keys();
+                            while (iteratorKey.hasNext()) {
+                                final String key = iteratorKey.next();
+                                final Object value = getDefaultPropertyForKey(key, keyGroup, configError);
+                                if (null != value && configError.getErrorCode() == AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.NoError) {
+                                    final Object dynamicValue = objectGroup.opt(key);
+                                    if (!value.equals(dynamicValue)) { // check if values are NOT equal
+                                        final AppConfigurationInterface.AppConfigurationError configErrorForNewKey = new AppConfigurationInterface.AppConfigurationError();
+                                        setPropertyForKey(key.toUpperCase(), keyGroup, dynamicValue, configErrorForNewKey); // add only changed value to dynamic migrated json
+                                    }
+                                }
                             }
+
+                        } catch (Exception e) {
+                            // Something went wrong!
                         }
                     }
-
-                } catch (Exception e) {
-                    // Something went wrong!
+                    mSecureStorageInterface.removeValueForKey(APPCONFIG_SECURE_STORAGE_KEY);
+                    final String migratedDynamicData = mSecureStorageInterface.fetchValueForKey(APPCONFIG_SECURE_STORAGE_KEY_NEW, mSecureStorageError);
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Dynamic data  > " + migratedDynamicData);
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Migration completes for  > " + jsonString);
+                } else {
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Migration not required");
+                    //Log.v("uAPP_CONFIG","Migration not required" );
                 }
-            }
-            ssi.removeValueForKey(mAppConfig_SecureStoreKey);
-            String migratedDynamicData = ssi.fetchValueForKey(mAppConfig_SecureStoreKey_new, sse);
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Dynamic data  > " + migratedDynamicData);
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Migration completes for  > " + jsonString);
-        } else {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "uAPP_CONFIG", "Migration not required");
-            //Log.v("uAPP_CONFIG","Migration not required" );
-        }
 
-    }
+            }
+
 }

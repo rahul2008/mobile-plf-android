@@ -5,7 +5,9 @@
  */
 package com.philips.platform.appinfra.rest;
 
-
+/**
+ * The interface for Token Type and Token .
+ */
 public interface TokenProviderInterface {
 
     /**

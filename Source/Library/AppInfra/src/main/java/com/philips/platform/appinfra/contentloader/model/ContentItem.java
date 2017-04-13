@@ -1,10 +1,10 @@
 package com.philips.platform.appinfra.contentloader.model;
 
 /**
- * Created by 310238114 on 11/8/2016.
+ * The generic class model for all find of content.
  */
 // each ContentItem represent a row in ContentTable
-    //this is a generic class model for all find of content ie contentArticle etc
+//this is a generic class model for all find of content ie contentArticle etc
 public class ContentItem {
 
     String Id;
@@ -15,9 +15,10 @@ public class ContentItem {
     long versionNumber;
     long lastUpdatedTime;
 
-   public ContentItem(){
+    public ContentItem() {
 
-}
+    }
+
     public String getId() {
         return Id;
     }
@@ -35,7 +36,6 @@ public class ContentItem {
     }
 
 
-
     public String getTags() {
         return tags;
     }
@@ -50,6 +50,7 @@ public class ContentItem {
     public void setRawData(String rawData) {
         this.rawData = rawData;
     }
+
     public long getVersionNumber() {
         return versionNumber;
     }

@@ -12,7 +12,7 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
 /**
- * Created by 310243577 on 11/3/2016.
+ * The wrapper class for SSLSocketFactory
  */
 
 public class TLSSocketFactory extends SSLSocketFactory {
@@ -20,7 +20,7 @@ public class TLSSocketFactory extends SSLSocketFactory {
     private SSLSocketFactory internalSSLSocketFactory;
 
     public TLSSocketFactory() throws KeyManagementException, NoSuchAlgorithmException {
-        SSLContext context = SSLContext.getInstance("TLS");
+        final SSLContext context = SSLContext.getInstance("TLS");
         context.init(null, null, null);
         internalSSLSocketFactory = context.getSocketFactory();
     }

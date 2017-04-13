@@ -8,6 +8,9 @@ package com.philips.platform.appinfra.tagging;
 
 import com.philips.platform.appinfra.AppInfra;
 
+/**
+ *  The Wrapper class for AppTagging.
+ */
 public class AppTaggingWrapper extends AppTagging {
 
 	public AppTaggingWrapper(AppInfra aAppInfra, String componentId, String componentVersion) {

@@ -1,7 +1,7 @@
 package com.philips.platform.appinfra.servicediscovery.model;
 
 /**
- * Created by 310243577 on 1/2/2017.
+ * The model class of ServiceDiscoveryService.
  */
 
 public class ServiceDiscoveryService {

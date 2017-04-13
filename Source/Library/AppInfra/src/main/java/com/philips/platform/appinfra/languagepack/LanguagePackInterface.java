@@ -5,6 +5,9 @@
  */
 package com.philips.platform.appinfra.languagepack;
 
+/**
+ * The Language Pack Interface.
+ */
 public interface LanguagePackInterface {
 
 	/**
