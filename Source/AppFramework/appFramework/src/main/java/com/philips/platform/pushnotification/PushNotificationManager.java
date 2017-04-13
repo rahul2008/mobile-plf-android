@@ -207,9 +207,6 @@ public class PushNotificationManager {
      */
     public void sendPayloadToCoCo(Context context, Bundle data) {
         Set<String> set = data.keySet();
-//        for (String string : set) {
-//            Log.d(TAG, string + ":" + data.getString(string));
-//            if (string.equalsIgnoreCase(PushNotificationConstants.PLATFORM_KEY)) {
         if (set.contains(PushNotificationConstants.PLATFORM_KEY)) {
             try {
                 JSONObject jsonObject = new JSONObject(data.getString(PushNotificationConstants.PLATFORM_KEY));
@@ -232,7 +229,5 @@ public class PushNotificationManager {
         }else{
             Log.d(TAG,"Data sync key is absent in payload");
         }
-//            }
-//        }
     }
 }
