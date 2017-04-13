@@ -156,7 +156,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-     //   settingsFragmentWeakReference = null;
+        settingsFragmentWeakReference = null;
         adapter = null;
     }
 
