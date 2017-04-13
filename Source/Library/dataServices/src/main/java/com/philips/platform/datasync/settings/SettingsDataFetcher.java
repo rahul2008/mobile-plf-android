@@ -79,6 +79,7 @@ public class SettingsDataFetcher extends DataFetcher {
         }
 
         SettingsClient client = uCoreAdapter.getAppFrameworkClient(SettingsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
+        if(client == null) return;
 
         try {
             UCoreSettings settings = client.getSettings(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId(), UCoreAdapter.API_VERSION);

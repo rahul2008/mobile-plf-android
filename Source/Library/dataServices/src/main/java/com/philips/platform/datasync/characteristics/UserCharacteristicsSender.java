@@ -75,7 +75,7 @@ public class UserCharacteristicsSender extends DataSender {
             UserCharacteristicsClient uClient =
                     mUCoreAdapter.getAppFrameworkClient(UserCharacteristicsClient.class,
                             mUCoreAccessProvider.getAccessToken(), mGsonConverter);
-
+            if(uClient == null) return false;
             Response response = uClient.createOrUpdateUserCharacteristics(mUCoreAccessProvider.getUserId(),
                     mUCoreAccessProvider.getUserId(),
                     mUserCharacteristicsConverter.convertToUCoreUserCharacteristics(userUserCharacteristicsList),

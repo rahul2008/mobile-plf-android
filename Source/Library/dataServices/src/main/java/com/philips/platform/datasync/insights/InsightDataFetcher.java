@@ -82,7 +82,7 @@ public class InsightDataFetcher extends DataFetcher {
     public void getInsights() {
 
         InsightClient client = uCoreAdapter.getAppFrameworkClient(InsightClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
-
+        if(client==null) return;
         try {
             UCoreInsightList insightList = client.fetchInsights(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId(),
                     UCoreAdapter.API_VERSION, uCoreAccessProvider.getInsightLastSyncTimestamp());
