@@ -7,6 +7,7 @@ import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,9 +17,9 @@ import java.util.List;
 public class ConsentDialogPresenter {
 
     private final Context mContext;
-    private final DBRequestListener dbRequestListener;
+    private final DBRequestListener<ConsentDetail> dbRequestListener;
 
-    ConsentDialogPresenter(Context mContext, DBRequestListener dbRequestListener) {
+    ConsentDialogPresenter(Context mContext, DBRequestListener<ConsentDetail> dbRequestListener) {
         this.mContext = mContext;
         this.dbRequestListener = dbRequestListener;
     }
@@ -33,5 +34,18 @@ public class ConsentDialogPresenter {
 
     public void updateConsent(List<ConsentDetail> consentDetails) {
         DataServicesManager.getInstance().updateConsentDetails(consentDetails,dbRequestListener);
+    }
+
+    public void saveDefaultConsentDetails(){
+
+        DataServicesManager dataServicesManager=DataServicesManager.getInstance();
+        List<ConsentDetail> consentDetails=new ArrayList<>();
+        consentDetails.add(dataServicesManager.createConsentDetail(ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED,ConsentDetail.DEFAULT_DOCUMENT_VERSION,
+                ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
+        consentDetails.add(dataServicesManager.createConsentDetail(ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED,ConsentDetail.DEFAULT_DOCUMENT_VERSION,
+                ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
+        consentDetails.add(dataServicesManager.createConsentDetail(ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED,ConsentDetail.DEFAULT_DOCUMENT_VERSION,
+                ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
+        dataServicesManager.saveConsentDetails(consentDetails,dbRequestListener);
     }
 }
