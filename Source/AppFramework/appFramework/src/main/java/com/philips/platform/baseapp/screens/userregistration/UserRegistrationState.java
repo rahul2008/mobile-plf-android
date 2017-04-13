@@ -32,6 +32,8 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.pushnotification.PushNotificationManager;
+import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
+import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -99,10 +101,16 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         initHSDP();
     }
 
-
     @Override
     public void onUserRegistrationComplete(Activity activity) {
+        IAPState iapState = new IAPRetailerFlowState();
+        getApplicationContext().setIapState(iapState);
+        iapState.init(getApplicationContext());
+
         if (null != activity) {
+
+            getApplicationContext().determineChinaFlow();
+
             //Register GCM token with data services on login success
             Log.d(TAG,"Registering token with data services");
             PushNotificationManager.getInstance().registerTokenWithBackend(activity.getApplicationContext());
