@@ -25,6 +25,7 @@ import android.view.Gravity;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
+import com.philips.platform.uid.utils.UIDLocaleHelper;
 import com.philips.platform.uid.utils.UIDUtils;
 
 /**
@@ -75,6 +76,8 @@ public class CheckBox extends AppCompatCheckBox {
 
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
         applyCheckBoxStyling(context, theme);
+
+        UIDLocaleHelper.setTextFromResourceID(context, this, attrs);
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDCheckBox, defStyleAttr, R.style.UIDCheckBox);
         getCheckBoxPaddingStartFromAttributes(context, typedArray);

@@ -10,7 +10,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
@@ -18,10 +17,10 @@ import android.preference.PreferenceManager;
 import android.support.annotation.StyleRes;
 import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.content.res.Resources;
 
 import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
 import com.philips.platform.catalogapp.events.NavigationColorChangedEvent;
@@ -33,14 +32,23 @@ import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.utils.UIDActivity;
+import com.philips.platform.uid.utils.UIDLocaleHelper;
+import com.philips.platform.uid.utils.UIDResources;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends UIDActivity {
 
     protected static final String TITLE_TEXT = "TITLE_TEXT";
     static final String THEMESETTINGS_ACTIVITY_RESTART = "THEMESETTINGS_ACTIVITY_RESTART";
@@ -61,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
 
         ThemeConfiguration config = getThemeConfig();
         setTheme(getThemeResourceId());
+
+        UIDLocaleHelper.getInstance().setFilePath(getCatalogAppJSONAssetPath());
+
         UIDHelper.init(config);
         if (BuildConfig.DEBUG) {
             Log.d(MainActivity.class.getName(), String.format("Theme config Tonal Range :%s, Color Range :%s , Navigation Color : %s",
@@ -136,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showSnackBar() {
-        Snackbar.make(navigationController.getToolbar(), "Hamburger is not ready yet", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(navigationController.getToolbar(), R.string.hamburger_not_ready, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -229,5 +240,26 @@ public class MainActivity extends AppCompatActivity {
     int getThemeResourceId() {
         int colorResourceId = getColorResourceId(getResources(), colorRange.name(), contentColor.name(), getPackageName());
         return colorResourceId;
+    }
+
+    public String getCatalogAppJSONAssetPath() {
+        try {
+            File f = new File(getCacheDir() + "/catalogapp.json");
+            InputStream is = getAssets().open("catalogapp.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(buffer);
+            fos.close();
+            return f.getPath();
+        } catch (FileNotFoundException e) {
+            Log.e("", e.getMessage());
+        } catch (IOException e) {
+            Log.e("", e.getMessage());
+        }
+        return null;
     }
 }

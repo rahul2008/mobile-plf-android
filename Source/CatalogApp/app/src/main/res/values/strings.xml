@@ -43,6 +43,7 @@
 
     <string name="hint_text">Frits Philips</string>
     <string name="hamburger_menu">Hamburger</string>
+    <string name="hamburger_not_ready">Hamburger is not ready yet</string>
     <string name="hint_text_multi_lines">Hint text multi lines</string>
     <string name="filled_text">Filled text</string>
     <string name="content_desc_back">back</string>
@@ -180,6 +181,13 @@
     <string name="notification_bar_action_2">Action 2</string>
     <string name="notification_bar_notification_show">Show notification</string>
     <string name="notification_bar_notification_hide">Hide notification</string>
+
+    <string name="page_title_language_pack">Language Pack</string>
+    <string name="language_pack_button">Primary Button</string>
+    <string name="language_pack_label">Language Pack Label</string>
+    <string name="language_pack_checkbox">Check Box item</string>
+    <string name="language_pack_switch">Switch</string>
+    <string name="language_pack_hint">Enter Text</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

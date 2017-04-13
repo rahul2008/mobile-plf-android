@@ -6,9 +6,9 @@
 
 package com.philips.platform.uid.utils;
 
-import android.content.Context;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
