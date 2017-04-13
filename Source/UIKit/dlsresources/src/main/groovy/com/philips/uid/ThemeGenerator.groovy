@@ -63,10 +63,10 @@ class ThemeGenerator {
                 TonalRange themeValue = null;
                 if (it.attributeMap.containsKey(tr)) {
                     themeValue = it.attributeMap.get(tr)
-                    value = themeValue.getValue("${colorName}", colorsXmlInput, allBrushAttributes)
+                    value = themeValue.getValue("${colorName}", colorsXmlInput, allBrushAttributes, 3)
                 } else {
                     themeValue = it.attributeMap.get(defaultTonalRange)
-                    value = themeValue.getValue("${colorName}", colorsXmlInput, allBrushAttributes)
+                    value = themeValue.getValue("${colorName}", colorsXmlInput, allBrushAttributes, 3)
                 }
                 if (value == "@null") {
                     println(" Invalid combination Tonal Range " + tr + " Brush " + it.attrName + " Theme values " + themeValue.toString())

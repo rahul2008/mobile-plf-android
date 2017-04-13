@@ -36,9 +36,7 @@ class TonalRange {
     def getValue(color_range, colorsXmlInput, allAttributes) {
         if (reference != null) {
             def index = allAttributes.indexOf(new ThemeAttribute(reference))
-
 //                println("all attr: " + allAttributes.toListString() + " index: " + index)
-
             if (index > -1) {
                 ThemeAttribute referenceValue = allAttributes.get(index)
                 if (referenceValue != null) {
@@ -47,33 +45,7 @@ class TonalRange {
 //                            println("###  222 referenceValue " + name + " Att " + referenceValue.attrName + " " + themeReferenceValue.color + " " + themeReferenceValue.colorCode + " "
 //                                    + themeReferenceValue.colorRange + " " + themeReferenceValue.offset + " " + themeReferenceValue.opacity + " " + themeReferenceValue.reference +
 //                                    " value " + themeReferenceValue.getValue(color_range, colorsXmlInput, allAttributes))
-                        if (color == null) {
-                            color = themeReferenceValue.color
-                        }
-                        if (offset == null) {
-                            offset = themeReferenceValue.offset
-                        }
-                        if (colorCode == null) {
-                            colorCode = themeReferenceValue.colorCode
-
-                            if (offset != null && colorCode != null) {
-                                colorCode = Integer.valueOf(colorCode) + Integer.valueOf(offset)
-                            }
-                            if (offset != null && colorCode == null) {
-                                colorCode = Integer.valueOf(offset)
-                            }
-                        }
-                        if (colorRange == null) {
-                            colorRange = themeReferenceValue.colorRange
-                        }
-                        if (opacity == null) {
-                            opacity = themeReferenceValue.opacity
-                        }
-                        if (themeReferenceValue.reference != null) {
-                            reference = themeReferenceValue.reference
-                        } else {
-                            reference = null
-                        }
+                        updateTonalRangeWithReferenceValues(themeReferenceValue)
                         return getValue(color_range, colorsXmlInput, allAttributes)
                     }
                 }
@@ -85,12 +57,8 @@ class TonalRange {
                 return "?attr/uidAccentLevel" + colorCode
             }
             if (colorRange == "validation")
-                return "@null"
 
-            def hexAlpha = ""
-            if (opacity != null) {
-                hexAlpha = alphaToHex(Float.valueOf(opacity))
-            }
+                return "@null"
 
             def colorReference = "${DLSResourceConstants.LIB_PREFIX}_" + color_range + "_${DLSResourceConstants.LEVEL}_" + colorCode
             if (colorRange != null) {
@@ -101,21 +69,18 @@ class TonalRange {
             if (colorValue == "@null") {
                 return "?attr/" + BrushParser.getAttributeName("Color_${DLSResourceConstants.LEVEL}_" + colorCode)
             }
-            if (hexAlpha.isEmpty() && colorValue != null) {
+            if (opacity == null && colorValue != null) {
 //                println("colorReference: #" + colorReference + "#" + " colorValue " + colorValue)
                 return "@color/${colorReference}";
             }
-            def colorWithHex = colorValue.replace("#", "#${hexAlpha}")
-            return colorWithHex
+            return applyOpacityOnColor(colorValue)
         } else if (color != null) {
             def colorReference = "${DLSResourceConstants.LIB_PREFIX}_level_${color}";
 //            println("colorReference: #" + colorReference +"#" +" name " + name)
 
             def colorValue = getColorValue(colorsXmlInput, colorReference)
             if (opacity != null) {
-                def hexAlpha = alphaToHex(Float.valueOf(opacity))
-                def colorWithHex = colorValue.replace("#", "#${hexAlpha}")
-                return colorWithHex;
+                return applyOpacityOnColor(colorValue);
             }
             if (colorValue == null) {
                 return color;
@@ -124,6 +89,41 @@ class TonalRange {
         }
 //        println(" Invalid combination " + this.toString())
         return "@null"
+    }
+
+    private String applyOpacityOnColor(String colorValue) {
+        def hexAlpha = alphaToHex(Float.valueOf(opacity))
+        return colorValue.replace("#", "#${hexAlpha}")
+    }
+
+    private void updateTonalRangeWithReferenceValues(TonalRange themeReferenceValue) {
+        if (color == null) {
+            color = themeReferenceValue.color
+        }
+        if (offset == null) {
+            offset = themeReferenceValue.offset
+        }
+        if (colorCode == null) {
+            colorCode = themeReferenceValue.colorCode
+
+            if (offset != null && colorCode != null) {
+                colorCode = Integer.valueOf(colorCode) + Integer.valueOf(offset)
+            }
+            if (offset != null && colorCode == null) {
+                colorCode = Integer.valueOf(offset)
+            }
+        }
+        if (colorRange == null) {
+            colorRange = themeReferenceValue.colorRange
+        }
+        if (opacity == null) {
+            opacity = themeReferenceValue.opacity
+        }
+        if (themeReferenceValue.reference != null) {
+            reference = themeReferenceValue.reference
+        } else {
+            reference = null
+        }
     }
 
     def getAttributeValue(allAttributes) {
