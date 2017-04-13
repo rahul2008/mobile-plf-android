@@ -24,14 +24,28 @@ public class ThemeConfiguration {
         }
     }
 
+    /**
+     * Add configs to the list if missed in constructor
+     *
+     * @param config
+     */
     public void add(ThemeConfig config) {
         configurations.add(config);
     }
 
+    /**
+     * Returns the context set
+     *
+     * @return context
+     */
     public Context getContext() {
         return context;
     }
 
+    /**
+     * Returns the list of configuration set through constructor or using add API
+     * @return
+     */
     public List<ThemeConfig> getConfigurations() {
         return configurations;
     }

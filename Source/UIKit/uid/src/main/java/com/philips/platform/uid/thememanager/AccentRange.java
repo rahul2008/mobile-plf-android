@@ -10,6 +10,9 @@ import android.content.res.Resources;
 
 import com.philips.platform.uid.R;
 
+/**
+ * This is the theme configuration which indicate which accent flavour your application should support
+ */
 public enum AccentRange implements ThemeConfig {
     GROUP_BLUE {
         @Override

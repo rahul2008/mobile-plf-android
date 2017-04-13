@@ -11,7 +11,7 @@ import android.content.res.Resources;
 import com.philips.platform.uid.R;
 
 /**
- * This class is used to set the theme type of application
+ * This class will initialize the theme with some specific configuration as per specified tonal range
  */
 public enum ContentColor implements ThemeConfig {
 

@@ -43,6 +43,26 @@ public class BaseTestActivity extends UIDActivity implements DelayerCallback {
     @Nullable
     private UidIdlingResource mIdlingResource;
 
+    @StyleRes
+    static int getColorResourceId(final Resources resources, final String colorRange, final String tonalRange, final String packageName) {
+        final String themeName = String.format("Theme.DLS.%s.%s", toCamelCase(colorRange), toCamelCase(tonalRange));
+
+        return resources.getIdentifier(themeName, "style", packageName);
+    }
+
+    static String toCamelCase(String s) {
+        String[] parts = s.split("_");
+        String camelCaseString = "";
+        for (String part : parts) {
+            camelCaseString = camelCaseString + toProperCase(part);
+        }
+        return camelCaseString;
+    }
+
+    static String toProperCase(String s) {
+        return s.substring(0, 1).toUpperCase() +
+                s.substring(1).toLowerCase();
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -146,6 +166,27 @@ public class BaseTestActivity extends UIDActivity implements DelayerCallback {
         return colorResourceId;
     }
 
+    public String getCatalogAppJSONAssetPath() {
+        try {
+            File f = new File(getCacheDir() + "/catalogapp.json");
+            InputStream is = getAssets().open("catalogapp.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(buffer);
+            fos.close();
+            return f.getPath();
+        } catch (FileNotFoundException e) {
+            Log.e("", e.getMessage());
+        } catch (IOException e) {
+            Log.e("", e.getMessage());
+        }
+        return null;
+    }
+
     static class MessageDelayer {
 
         private static final long DELAY_MILLIS = 300;
@@ -170,54 +211,5 @@ public class BaseTestActivity extends UIDActivity implements DelayerCallback {
                 }
             }, DELAY_MILLIS);
         }
-    }
-
-    @StyleRes
-    static int getColorResourceId(final Resources resources, final String colorRange, final String tonalRange, final String packageName) {
-        final String themeName = String.format("Theme.DLS.%s.%s", toCamelCase(colorRange), toCamelCase(tonalRange));
-
-        return resources.getIdentifier(themeName, "style", packageName);
-    }
-
-    static String toCamelCase(String s) {
-        String[] parts = s.split("_");
-        String camelCaseString = "";
-        for (String part : parts) {
-            camelCaseString = camelCaseString + toProperCase(part);
-        }
-        return camelCaseString;
-    }
-
-    static String toProperCase(String s) {
-        return s.substring(0, 1).toUpperCase() +
-                s.substring(1).toLowerCase();
-    }
-
-    private
-    @StyleRes
-    int getThemeResourceId(ContentColor contentColor, ColorRange colorRange) {
-        int colorResourceId = getColorResourceId(getResources(), colorRange.name(), contentColor.name(), getPackageName());
-        return colorResourceId;
-    }
-
-    public String getCatalogAppJSONAssetPath() {
-        try {
-            File f = new File(getCacheDir() + "/catalogapp.json");
-            InputStream is = getAssets().open("catalogapp.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-
-            FileOutputStream fos = new FileOutputStream(f);
-            fos.write(buffer);
-            fos.close();
-            return f.getPath();
-        } catch (FileNotFoundException e) {
-            Log.e("", e.getMessage());
-        } catch (IOException e) {
-            Log.e("", e.getMessage());
-        }
-        return null;
     }
 }

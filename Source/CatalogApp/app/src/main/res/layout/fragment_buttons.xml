@@ -146,6 +146,7 @@
                     android:layout_marginTop="@dimen/button_gap"
                     android:enabled="@{frag.isButtonsEnabled}"
                     android:text="@string/accent_button_label"
+                    android:visibility="gone"
                     app:uidComponentType="Accent"/>
             </LinearLayout>
 
@@ -224,6 +225,7 @@
                     android:layout_marginTop="@dimen/button_gap"
                     android:enabled="@{frag.isButtonsEnabled}"
                     android:text="@string/accent_button_label"
+                    android:visibility="gone"
                     app:uidComponentType="Accent"/>
             </LinearLayout>
 
