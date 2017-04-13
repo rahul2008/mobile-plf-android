@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016.
+ * © Koninklijke Philips N.V., 2015-2017.
  *   All rights reserved.
  */
 
@@ -11,6 +11,7 @@ import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.cloudcontroller.listener.DcsResponseListener;
 import com.philips.cdp.cloudcontroller.listener.PublishEventListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp.dicommclient.util.GsonProvider;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,7 +49,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     }
 
     private String createDataToSend(String portName, int productId, Map<String, Object> dataMap) {
-        String data = Request.convertKeyValuesToJson(dataMap);
+        String data = GsonProvider.get().toJson(dataMap);
         String dataToSend = String.format(BASEDATA_PORTS, productId, portName, data);
 
         DICommLog.i(DICommLog.REMOTEREQUEST, "Data to send: " + dataToSend);

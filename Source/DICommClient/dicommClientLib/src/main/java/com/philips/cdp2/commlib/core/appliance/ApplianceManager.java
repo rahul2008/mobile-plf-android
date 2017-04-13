@@ -112,7 +112,7 @@ public class ApplianceManager {
      *
      * @return The currently available appliances
      */
-    public Set<? extends Appliance> getAvailableAppliances() {
+    public Set<Appliance> getAvailableAppliances() {
         return availableAppliances;
     }
 
