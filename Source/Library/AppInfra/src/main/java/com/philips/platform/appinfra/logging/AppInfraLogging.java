@@ -118,10 +118,10 @@ public class AppInfraLogging implements LoggingInterface {
                 final String logLevel = (null != (String) loggingProperty.get(LOG_LEVEL_KEY)) ? (String) loggingProperty.get(LOG_LEVEL_KEY) : "All";
 
                 final Boolean isConsoleLogEnabled = (null != (Boolean) loggingProperty.get(CONSOLE_LOG_ENABLED_KEY)) ? (Boolean) loggingProperty.get(CONSOLE_LOG_ENABLED_KEY) : true;
-                final Boolean isFileLogEnabled = (null !=(Boolean) loggingProperty.get(FILE_LOG_ENABLED_KEY))?(Boolean) loggingProperty.get(FILE_LOG_ENABLED_KEY):false;
+                final Boolean isFileLogEnabled = (null != (Boolean) loggingProperty.get(FILE_LOG_ENABLED_KEY)) ? (Boolean) loggingProperty.get(FILE_LOG_ENABLED_KEY) : false;
                 if (!logLevel.equalsIgnoreCase("Off") && (isConsoleLogEnabled == true || isFileLogEnabled == true)) {
                     javaLogger = Logger.getLogger(pComponentId); // returns new or existing log
-                    final Boolean isComponentLevelLogEnabled = (null != (Boolean) loggingProperty.get(COMPONENT_LEVEL_LOG_ENABLED_KEY))?(Boolean) loggingProperty.get(COMPONENT_LEVEL_LOG_ENABLED_KEY):false;
+                    final Boolean isComponentLevelLogEnabled = (null != (Boolean) loggingProperty.get(COMPONENT_LEVEL_LOG_ENABLED_KEY)) ? (Boolean) loggingProperty.get(COMPONENT_LEVEL_LOG_ENABLED_KEY) : false;
                     if (isComponentLevelLogEnabled) { // if component level filter enabled
                         // Filtering of logging components
                         final ArrayList<String> ComponentToBeLoggedlist = new ArrayList<String>();
@@ -140,6 +140,7 @@ public class AppInfraLogging implements LoggingInterface {
                         }
                     } else { // no component level filter
                         javaLogger.setLevel(getJavaLoggerLogLevel(logLevel));
+
                         activateLogger();
                         enableConsoleAndFileLog(isConsoleLogEnabled, isFileLogEnabled);
                         javaLogger.log(Level.INFO, "Logger created"); //R-AI-LOG-6
@@ -169,6 +170,7 @@ public class AppInfraLogging implements LoggingInterface {
     }
 
     private void activateLogger() {
+
         LogManager.getLogManager().addLogger(javaLogger);
 
     }
@@ -211,6 +213,8 @@ public class AppInfraLogging implements LoggingInterface {
             case "off":
                 javaLevel = Level.OFF;
                 break;
+            default:
+                javaLevel = Level.FINE;
         }
 
         return javaLevel;
@@ -250,6 +254,12 @@ public class AppInfraLogging implements LoggingInterface {
         if (isEnabled) {
             if (null == consoleHandler) {
                 consoleHandler = new ConsoleHandler();
+                if (null != javaLogger && null != javaLogger.getLevel()) {
+                    consoleHandler.setLevel(javaLogger.getLevel());
+                } else {
+                    // for appinfra internal log javaLogger will be null
+                    consoleHandler.setLevel(Level.FINE);
+                }
                 consoleHandler.setFormatter(new LogFormatter(mComponentID, mComponentVersion, mAppInfra));
                 // consoleHandler.setFilter(new LogFilter(null,"ev1"));
                 javaLogger.addHandler(consoleHandler);
@@ -277,6 +287,13 @@ public class AppInfraLogging implements LoggingInterface {
         if (pFileLogEnabled) {
             if (null == fileHandler) {// add file log
                 fileHandler = getFileHandler();
+                if (null != javaLogger && null != javaLogger.getLevel()) {
+                    fileHandler.setLevel(javaLogger.getLevel());
+                } else {
+                    // for appinfra internal log javaLogger will be null
+                    fileHandler.setLevel(Level.FINE);
+                }
+                fileHandler.setLevel(javaLogger.getLevel());
                 fileHandler.setFormatter(new LogFormatter(mComponentID, mComponentVersion, mAppInfra));
                 javaLogger.addHandler(fileHandler);
 
