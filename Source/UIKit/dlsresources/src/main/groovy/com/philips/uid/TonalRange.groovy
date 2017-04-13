@@ -36,7 +36,7 @@ class TonalRange {
     def getValue(color_range, colorsXmlInput, allAttributes) {
         if (reference != null) {
             def index = allAttributes.indexOf(new ThemeAttribute(reference))
-//                println("all attr: " + allAttributes.toListString() + " index: " + index)
+//                println("all attr: " + allAttributes.toListString() + " index: " + index  +" reference "+ reference)
             if (index > -1) {
                 ThemeAttribute referenceValue = allAttributes.get(index)
                 if (referenceValue != null) {

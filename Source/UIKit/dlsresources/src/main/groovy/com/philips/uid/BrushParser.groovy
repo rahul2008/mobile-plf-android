@@ -38,20 +38,15 @@ class BrushParser {
                     it.capitalize()
                 }.join("")
                 def themeAttr = new ThemeAttribute(attributeName)
-                colorRange.each {
-                    theme ->
-                        def name = getCapitalizedValue(theme.key)
-                        def themeValue = theme.value;
-                        ThemeValue themValueObject = gson.fromJson(themeValue.toString(), ThemeValue.class)
-                        if (themValueObject.reference != null) {
-                            themValueObject.reference = """${DLSResourceConstants.LIB_PREFIX}
-                            ${
-                                themValueObject.reference.split("${DLSResourceConstants.HIPHEN}").collect {
-                                    it.capitalize()
-                                }.join("")
-                            }"""
-                        }
-                        themeAttr.addTonalRange(name, themValueObject)
+                colorRange.each { theme ->
+                    def name = getCapitalizedValue(theme.key)
+                    def themeValue = theme.value;
+                    ThemeValue themValueObject = gson.fromJson(themeValue.toString(), ThemeValue.class)
+                    if (themValueObject.reference != null) {
+                        themValueObject.reference =
+                                "${DLSResourceConstants.LIB_PREFIX}${themValueObject.reference.split("${DLSResourceConstants.HIPHEN}").collect { it.capitalize() }.join("")}"
+                    }
+                    themeAttr.addTonalRange(name, themValueObject)
                 }
                 allAttributes.add(themeAttr)
         }

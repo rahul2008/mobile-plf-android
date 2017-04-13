@@ -2,6 +2,8 @@ Steps to generate theme using JSON
 1. Copy the jsons from
 https://bitbucket.atlas.philips.com/projects/DLSUIT/repos/dls-resources/browse/json-source/colors
 into <Repo>/uid-android/Source/UIKit/dlsresources/src/main/resources
+This will be added as a submodule later so as to avoid manual copy paste work
+
 2. Run below command from your Source/CatalogApp folder
    ./gradlew dlsresources:generateThemesAndCopyXmls
 
