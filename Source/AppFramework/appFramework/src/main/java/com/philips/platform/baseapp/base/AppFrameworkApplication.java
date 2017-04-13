@@ -18,6 +18,7 @@ import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListen
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
@@ -44,12 +45,13 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
     private ProductRegistrationState productRegistrationState;
     private boolean isSdCardFileCreated;
     private File tempFile;
+    private static boolean isChinaCountry = false;
 
     @Override
     public void onCreate() {
         if (BuildConfig.BUILD_TYPE.equalsIgnoreCase(LEAK_CANARY_BUILD_TYPE)) {
             if (LeakCanary.isInAnalyzerProcess(this)) {
-                // This process is dedicated to LeakCanary for heap analysis.
+                // This proisChinaCountrycess is dedicated to LeakCanary for heap analysis.
                 // You should not init your app in this process.
                 return;
             }
@@ -66,6 +68,7 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
         setLocale();
         userRegistrationState = new UserRegistrationOnBoardingState();
         userRegistrationState.init(this);
+        determineChinaFlow();
         productRegistrationState = new ProductRegistrationState();
         productRegistrationState.init(this);
         iapState = new IAPRetailerFlowState();
@@ -116,4 +119,28 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
 
     }
 
+    public boolean isChinaFlow() {
+        return isChinaCountry;
+    }
+
+    public void determineChinaFlow() {
+        AppInfraInterface appInfraInterface = getAppInfra();
+        ServiceDiscoveryInterface serviceDiscovery = appInfraInterface.getServiceDiscovery();
+
+        serviceDiscovery.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+            @Override
+            public void onSuccess(String s, SOURCE source) {
+                if(s.equals("CN")) {
+                    isChinaCountry = true;
+                } else {
+                    isChinaCountry = false;
+                }
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+                isChinaCountry = false;
+            }
+        });
+    }
 }

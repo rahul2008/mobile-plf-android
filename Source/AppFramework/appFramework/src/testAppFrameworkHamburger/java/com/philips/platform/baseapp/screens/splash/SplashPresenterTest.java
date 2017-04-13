@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.baseapp.screens.splash;
 
 import android.support.annotation.NonNull;
@@ -6,28 +11,20 @@ import android.support.v4.app.FragmentActivity;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
-import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.introscreen.LaunchView;
-import com.philips.platform.baseapp.screens.introscreen.welcomefragment.WelcomeFragmentPresenter;
 import com.philips.platform.baseapp.screens.introscreen.welcomefragment.WelcomeState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import junit.framework.TestCase;
 
-import org.apache.tools.ant.taskdefs.Length;
 import org.junit.Before;
 
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockingDetails;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-/**
- * Created by philips on 3/21/17.
- */
 
 public class SplashPresenterTest extends TestCase{
     private SplashPresenter splashPresenter;

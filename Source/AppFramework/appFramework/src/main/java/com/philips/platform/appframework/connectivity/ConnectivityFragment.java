@@ -30,11 +30,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.VolleyError;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
@@ -50,17 +48,11 @@ import static com.philips.platform.baseapp.screens.utility.Constants.DEVICE_DATA
 
 public class ConnectivityFragment extends AppFrameworkBaseFragment implements View.OnClickListener, ConnectivityContract.View {
     public static final String TAG = ConnectivityFragment.class.getSimpleName();
-    private static final int ACCESS_COARSE_LOCATION_REQUEST_CODE = 0x1;
     private EditText editText = null;
     private EditText momentValueEditText = null;
-    private String editTextValue;
-    private String accessTokenValue;
-    private User user;
     private ProgressDialog dialog = null;
     private CommCentral commCentral;
     private DICommApplianceFactory applianceFactory;
-    private BleReferenceAppliance bleReferenceAppliance;
-    private Runnable permissionCallback;
     private TextView connectionState;
     private BluetoothAdapter mBluetoothAdapter;
     private static final int REQUEST_ENABLE_BT = 1;
@@ -96,7 +88,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        connectivityPresenter = new ConnectivityPresenter(this, getActivity());
+        connectivityPresenter = new ConnectivityPresenter(this, new User(getActivity().getApplicationContext()),getActivity());
         View rootView = inflater.inflate(R.layout.af_connectivity_fragment, container, false);
         rootView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -111,8 +103,6 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         btnGetMoment.setOnClickListener(this);
         Button btnStartConnectivity = (Button) rootView.findViewById(R.id.start_connectivity_button);
         btnStartConnectivity.setOnClickListener(this);
-        user = new User(getActivity().getApplicationContext());
-        accessTokenValue = user.getHsdpAccessToken();
         connectionState = (TextView) rootView.findViewById(R.id.connectionState);
         setUpCommCentral();
         return rootView;
@@ -163,130 +153,85 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                 }
                 break;
             case R.id.get_momentumvalue_button:
-                editTextValue = editText.getText().toString();
-                if (accessTokenValue == null || RegistrationConfiguration.getInstance().getHSDPInfo() == null || !ConnectivityUtils.isNetworkAvailable(getActivity())) {
-                    Toast.makeText(getActivity(), "Datacore is not reachable", Toast.LENGTH_SHORT).show();
-                    break;
-                }
-                processMoment(user, editTextValue);
+                connectivityPresenter.processMoment(editText.getText().toString());
                 break;
             default:
         }
     }
 
+
     /**
      * Start scanning nearby devices using given strategy
      */
     private void startDiscovery() {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        bleScanDialogFragment = new BLEScanDialogFragment();
-                        bleScanDialogFragment.show(getActivity().getSupportFragmentManager(), "BleScanDialog");
-                        bleScanDialogFragment.setBLEDialogListener(new BLEScanDialogFragment.BLEScanDialogListener() {
-                            @Override
-                            public void onDeviceSelected(BleReferenceAppliance bleRefAppliance) {
-                                updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Connected));
-                                connectivityPresenter.setUpApplicance(bleRefAppliance);
-                                bleRefAppliance.getDeviceMeasurementPort().getPortProperties();
-                            }
-                        });
-                        commCentral.startDiscovery();
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                if(commCentral!=null){
-                                    commCentral.stopDiscovery();
-                                    if(bleScanDialogFragment!=null) {
-                                        bleScanDialogFragment.hideProgressBar();
-                                        if(bleScanDialogFragment.getDeviceCount()==0)
-                                        {
-                                            bleScanDialogFragment.dismiss();
-                                            Toast.makeText(getActivity(), R.string.no_device_found, Toast.LENGTH_SHORT).show();
-
-                                        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    bleScanDialogFragment = new BLEScanDialogFragment();
+                    bleScanDialogFragment.show(getActivity().getSupportFragmentManager(), "BleScanDialog");
+                    bleScanDialogFragment.setBLEDialogListener(new BLEScanDialogFragment.BLEScanDialogListener() {
+                        @Override
+                        public void onDeviceSelected(BleReferenceAppliance bleRefAppliance) {
+                            updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Connected));
+                            connectivityPresenter.setUpApplicance(bleRefAppliance);
+                            bleRefAppliance.getDeviceMeasurementPort().getPortProperties();
+                        }
+                    });
+                    commCentral.startDiscovery();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (commCentral != null) {
+                                commCentral.stopDiscovery();
+                                if (bleScanDialogFragment != null) {
+                                    bleScanDialogFragment.hideProgressBar();
+                                    if (bleScanDialogFragment.getDeviceCount() == 0) {
+                                        bleScanDialogFragment.dismiss();
+                                        Toast.makeText(getActivity(), R.string.no_device_found, Toast.LENGTH_SHORT).show();
 
                                     }
+
                                 }
                             }
-                        },30000);
-                        updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Disconnected));
-                    } catch (MissingPermissionException e) {
-                        Log.e(TAG,"Permission missing");
-                    }
+                        }
+                    }, 30000);
+                    updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Disconnected));
+                } catch (MissingPermissionException e) {
+                    Log.e(TAG, "Permission missing");
                 }
-            },100);
-//            getActivity().runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//
-//                }
-//            });
-
-    }
-
-
-
-    /**
-     * Send moment value to data core
-     *
-     * @param user
-     * @param momentValue
-     */
-    public void processMoment(final User user, String momentValue) {
-        Log.i(TAG, "Moment value" + momentValue);
-        showProgressDialog("Posting data in datacore, Please wait...");
-        connectivityPresenter.postMoment(user, momentValue);
-    }
-
-    /**
-     * Callnack after post success
-     *
-     * @param momentId
-     */
-    @Override
-    public void updateUIOnPostMomentSuccess(final String momentId) {
-        Log.i(TAG, "Moment Id" + momentId);
-        showProgressDialog("Getting moment from datacore, Please wait...");
-        connectivityPresenter.getMoment(user, momentId);
-    }
-
-    /**
-     * Error while posting moment to data core
-     *
-     * @param volleyError
-     */
-    @Override
-    public void updateUIOnPostMomentError(final VolleyError volleyError) {
-        dismissProgressDialog();
-        Log.d(TAG, "Error while setting moment value");
-    }
-
-
-    /**
-     * Callback after get moment  success
-     */
-    @Override
-    public void updateUIOnGetMomentSuccess(final String momentValue) {
-        getActivity().runOnUiThread(new Runnable() {
-            public void run() {
-                momentValueEditText.setText(momentValue);
-                dialog.dismiss();
             }
-        });
+        }, 100);
+
     }
 
-    /**
-     * Error while getting moment from data core
-     *
-     * @param volleyError
-     */
+
     @Override
-    public void updateUIOnGetMomentError(final VolleyError volleyError) {
-        dismissProgressDialog();
-        Log.d(TAG, "Error while getting moment value");
+    public void onProcessMomentError(String errorText) {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+        Toast.makeText(getActivity(), errorText, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onProcessMomentSuccess(String momentValue) {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+        if(momentValueEditText!=null) {
+            momentValueEditText.setText(momentValue);
+        }
+    }
+
+    @Override
+    public void onProcessMomentProgress(String message) {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+        dialog = ProgressDialog.show(getActivity(), "", message);
+    }
+
 
     @Override
     public void updateDeviceMeasurementValue(final String measurementvalue) {
@@ -324,31 +269,12 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(connectionState!=null) {
+                if (connectionState != null) {
                     connectionState.setText(text);
                 }
             }
         });
 
-    }
-
-    /**
-     * SHow progress dialog
-     *
-     * @param text
-     */
-    public void showProgressDialog(String text) {
-        dismissProgressDialog();
-        dialog = ProgressDialog.show(getActivity(), "", text);
-    }
-
-    /**
-     * Dismiss progress dialog
-     */
-    public void dismissProgressDialog() {
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
-        }
     }
 
 
