@@ -44,8 +44,6 @@ public class RequestManager {
 	public RequestManager(Context context, AppInfra appInfra) {
 		mContext = context;
 		mAppInfra = appInfra;
-		mSharedPreference = getServiceDiscoverySharedPreferences();
-		mPrefEditor = mSharedPreference.edit();
 	}
 
 	public ServiceDiscovery execute(final String url, ServiceDiscoveryManager.AISDURLType urlType) {
@@ -123,6 +121,8 @@ public class RequestManager {
 	}
 
 	private void cacheServiceDiscovery(JSONObject serviceDiscovery, String url, ServiceDiscoveryManager.AISDURLType urlType) {
+		mSharedPreference = getServiceDiscoverySharedPreferences();
+		mPrefEditor = mSharedPreference.edit();
 		final Date currentDate = new Date();
 		final long refreshTimeExpiry = currentDate.getTime() + 24 * 3600 * 1000;  // current time + 24 hour
 		switch (urlType) {
@@ -142,6 +142,7 @@ public class RequestManager {
 
 	protected AISDResponse getCachedData() {
 		AISDResponse cachedResponse = null;
+		mSharedPreference = getServiceDiscoverySharedPreferences();
 		if (mSharedPreference != null) {
 			final String propositionCache = mSharedPreference.getString("SDPROPOSITION", null);
 			final String platformCache = mSharedPreference.getString("SDPLATFORM", null);
@@ -165,6 +166,7 @@ public class RequestManager {
 	}
 
 	String getUrlProposition() {
+		mSharedPreference = getServiceDiscoverySharedPreferences();
 		if (mSharedPreference != null) {
 			return mSharedPreference.getString("SDPROPOSITIONURL", null);
 		}
@@ -172,6 +174,7 @@ public class RequestManager {
 	}
 
 	String getUrlPlatform() {
+		mSharedPreference = getServiceDiscoverySharedPreferences();
 		if (mSharedPreference != null) {
 			return mSharedPreference.getString("SDPLATFORMURL", null);
 		}
@@ -179,6 +182,7 @@ public class RequestManager {
 	}
 
 	boolean isServiceDiscoveryDataExpired() {
+		mSharedPreference = getServiceDiscoverySharedPreferences();
 		if (mSharedPreference != null) {
 			final long refreshTimeExpiry = mSharedPreference.getLong("SDrefreshTime", 0);
 			final Date currentDate = new Date();
@@ -190,9 +194,10 @@ public class RequestManager {
 
 
 	void clearCacheServiceDiscovery() {
-		final SharedPreferences.Editor prefEditor = mSharedPreference.edit();
-		prefEditor.clear();
-		prefEditor.commit();
+		mSharedPreference = getServiceDiscoverySharedPreferences();
+		mPrefEditor = mSharedPreference.edit();
+		mPrefEditor.clear();
+		mPrefEditor.commit();
 	}
 
 	private SharedPreferences getServiceDiscoverySharedPreferences() {

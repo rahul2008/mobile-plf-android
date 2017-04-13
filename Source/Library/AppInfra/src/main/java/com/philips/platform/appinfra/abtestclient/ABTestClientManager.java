@@ -155,10 +155,9 @@ public class ABTestClientManager implements ABTestClientInterface {
     public String getTestValue(final String testName, final String defaultValue,
                                final UPDATETYPES updateType, Map<String, Object> parameters) {
 
-        String testValue;
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ABTESTCLIENT",
                 "testName" + testName);
-        testValue = getTestValueFromMemoryCache(testName);
+        String testValue = getTestValueFromMemoryCache(testName);
 
         if (testValue == null) {
             if (getCachefromPreference() != null && updateType.name().equals
