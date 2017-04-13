@@ -89,6 +89,7 @@ public class ConsentDataSender extends DataSender {
             return;
         }
         client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
+        if(client==null) return;
         try {
             List<UCoreConsentDetail> consentDetailList = consentsConverter.convertToUCoreConsentDetails(consentDetails);
 

@@ -90,6 +90,7 @@ public class SettingsDataSender extends DataSender {
         try {
             UCoreSettings uCoreSettings = settingsConverter.convertAppToUcoreSettings(settings);
             SettingsClient appFrameworkClient = uCoreAdapter.getAppFrameworkClient(SettingsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
+            if(appFrameworkClient==null) return;
             Response response = appFrameworkClient.updateSettings(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId(), uCoreSettings);
 
             if (isResponseSuccess(response)) {
