@@ -40,6 +40,7 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
 import com.philips.dhpclient.BuildConfig;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -58,6 +59,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     private ActionBarListener mActionBarListener;
 
     private RegistrationLaunchMode mRegistrationLaunchMode = RegistrationLaunchMode.DEFAULT;
+
+    RegistrationContentConfiguration registrationContentConfiguration;
 
     private int titleResourceID = -99;
 
@@ -87,9 +90,16 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         Bundle bundle = getArguments();
         if (bundle != null) {
             mRegistrationLaunchMode = (RegistrationLaunchMode) bundle.get(RegConstants.REGISTRATION_LAUNCH_MODE);
+
+            registrationContentConfiguration = (RegistrationContentConfiguration) bundle.get(RegConstants.REGISTRATION_CONTENT_CONFIG);
         }
         RLog.d("RegistrationFragment", "mRegistrationLaunchMode : " + mRegistrationLaunchMode);
+
         super.onCreate(savedInstanceState);
+    }
+
+    public RegistrationContentConfiguration getContentConfiguration(){
+        return registrationContentConfiguration;
     }
 
     @Override

@@ -21,6 +21,8 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
+import java.io.Serializable;
+
 public class URInterface implements UappInterface {
 
     @Override
@@ -48,6 +50,10 @@ public class URInterface implements UappInterface {
             if(((URLaunchInput)uappLaunchInput).getEndPointScreen()!=null){
                 registrationLaunchMode = ((URLaunchInput)uappLaunchInput).getEndPointScreen();
             }
+            RegistrationContentConfiguration registrationContentConfiguration = ((URLaunchInput) uappLaunchInput).
+                    getRegistrationContentConfiguration();
+            bundle.putSerializable(RegConstants.REGISTRATION_CONTENT_CONFIG, registrationContentConfiguration);
+
             bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, registrationLaunchMode);
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((URLaunchInput)
                     uappLaunchInput).isAccountSettings());
@@ -88,6 +94,10 @@ public class URInterface implements UappInterface {
                 RegistrationConfiguration.getInstance().setPrioritisedFunction
                         (registrationFunction);
             }
+
+            RegistrationContentConfiguration registrationContentConfiguration = ((URLaunchInput) uappLaunchInput).
+                    getRegistrationContentConfiguration();
+
             RegistrationActivity.setUserRegistrationUIEventListener(((URLaunchInput) uappLaunchInput).
                     getUserRegistrationUIEventListener());
             Intent registrationIntent = new Intent(RegistrationHelper.getInstance().
@@ -104,7 +114,7 @@ public class URInterface implements UappInterface {
                 registrationLaunchMode = ((URLaunchInput)uappLaunchInput).getEndPointScreen();
             }
             bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, registrationLaunchMode);
-
+            bundle.putSerializable(RegConstants.REGISTRATION_CONTENT_CONFIG, registrationContentConfiguration);
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((URLaunchInput)
                     uappLaunchInput).isAccountSettings());
             bundle.putInt(RegConstants.ORIENTAION, uiLauncher.getScreenOrientation().

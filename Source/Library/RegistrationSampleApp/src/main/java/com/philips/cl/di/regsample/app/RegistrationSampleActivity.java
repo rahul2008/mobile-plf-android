@@ -48,6 +48,7 @@ import com.philips.cdp.registration.ui.utils.Gender;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
 import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
@@ -328,6 +329,8 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 urLaunchInput.setEndPointScreen(RegistrationLaunchMode.MARKETING_OPT);
                 urLaunchInput.setAccountSettings(false);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+                urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
+
                 urLaunchInput.setUserRegistrationUIEventListener(this);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
                         ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
@@ -602,4 +605,24 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     public void onRefreshLoginSessionInProgress(String message) {
         showToast(message);
     }
-}
+
+    RegistrationContentConfiguration registrationContentConfiguration ;
+
+    public RegistrationContentConfiguration getRegistrationContentConfiguration() {
+        String valueForRegistration= "sample";
+        String valueForEmailVerification="sample";
+        String optInTitleText="Be the first to know!";
+        String optInQuessionaryText="What are you going to get?";
+        String optInDetailDescription="Special offers, promotions and first hand information about new product releases. Tailored for you!";
+        String optInBannerText="Join now %s";
+        String optInTitleBarText="Create account";
+        registrationContentConfiguration = new RegistrationContentConfiguration();
+        registrationContentConfiguration.setValueForRegistration(valueForRegistration);
+        registrationContentConfiguration.setValueForEmailVerification(valueForEmailVerification);
+        registrationContentConfiguration.setOptInTitleText(optInTitleText);
+        registrationContentConfiguration.setOptInQuessionaryText(optInQuessionaryText);
+        registrationContentConfiguration.setOptInDetailDescription(optInDetailDescription);
+        registrationContentConfiguration.setOptInBannerText(optInBannerText);
+        registrationContentConfiguration.setOptInActionBarText(optInTitleBarText);
+        return registrationContentConfiguration;
+    }}

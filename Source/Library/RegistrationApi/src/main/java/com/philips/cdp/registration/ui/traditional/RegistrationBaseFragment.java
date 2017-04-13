@@ -47,6 +47,10 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
     public abstract int getTitleResourceId();
 
+    public String getTitleResourceText(){
+        return null;
+    }
+
     private int mPrevTitleResourceId = -99;
 
     protected static int mWidth = 0;
@@ -189,16 +193,22 @@ public abstract class RegistrationBaseFragment extends Fragment {
                             getTitleResourceId(),false);
                    /* fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());*/
                 } else {
-                    if(null!=fragment.getUpdateTitleListener())
+                    if (null != fragment.getUpdateTitleListener())
                         fragment.getUpdateTitleListener().updateActionBar(
-                                getTitleResourceId(),true);
-               /*     fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
+                                getTitleResourceId(), true);
+                    if (getTitleResourceText() != null || getTitleResourceText().length() > 1) {
+                        fragment.getUpdateTitleListener().updateActionBar(getTitleResourceText(), true);
+                    }
+                /*     fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
                             getTitleResourceId());*/
                 }
             } else {
                 if(null!=fragment.getUpdateTitleListener())
                     fragment.getUpdateTitleListener().updateActionBar(
                             getTitleResourceId(),false);
+                if (getTitleResourceText() != null && getTitleResourceText().length() > 0) {
+                    fragment.getUpdateTitleListener().updateActionBar(getTitleResourceText(), false);
+                }
                 /*fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());*/
             }
             fragment.setResourceID(getTitleResourceId());
