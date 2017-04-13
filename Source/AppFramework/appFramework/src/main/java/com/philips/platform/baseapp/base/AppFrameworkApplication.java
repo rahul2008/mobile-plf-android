@@ -60,7 +60,7 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
         isSdCardFileCreated = new BaseAppUtil().createDirIfNotExists();
         final int resId = R.string.com_philips_app_fmwk_app_flow_url;
         FileUtility fileUtility = new FileUtility(this);
-        tempFile = fileUtility.createFileFromInputStream(resId, isSdCardFileCreated);
+        tempFile = fileUtility.createFileFromInputStream(resId);
         MultiDex.install(this);
         super.onCreate();
         appInfra = new AppInfra.Builder().build(getApplicationContext());
@@ -107,15 +107,11 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
     }
 
     public void setTargetFlowManager() {
-        try {
+        if (tempFile != null) {
             this.targetFlowManager = new FlowManager();
-            this.targetFlowManager.initialize(getApplicationContext(), new BaseAppUtil().getJsonFilePath().getPath(), this);
-        } catch (JsonFileNotFoundException e) {
-            if (tempFile != null) {
-                this.targetFlowManager = new FlowManager();
-                this.targetFlowManager.initialize(getApplicationContext(), tempFile.getPath(), this);
-            }
+            this.targetFlowManager.initialize(getApplicationContext(), tempFile.getPath(), this);
         }
+
     }
 
     @Override
