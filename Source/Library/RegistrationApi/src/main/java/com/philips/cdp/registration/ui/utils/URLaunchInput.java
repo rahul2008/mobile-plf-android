@@ -10,6 +10,8 @@ public class URLaunchInput extends UappLaunchInput {
 
     private RegistrationLaunchMode registrationLaunchMode;
 
+    private RegistrationContentConfiguration registrationContentConfiguration;
+
     public boolean isAddtoBackStack() {
         return isAddToBackStack;
     }
@@ -52,17 +54,14 @@ public class URLaunchInput extends UappLaunchInput {
         this.registrationLaunchMode = registrationLaunchMode;
     }
 
-    RegistrationContentConfiguration registrationContentConfiguration;
-
     public void setRegistrationContentConfiguration(RegistrationContentConfiguration registrationContentConfiguration){
         this.registrationContentConfiguration = registrationContentConfiguration;
-
     }
 
     public RegistrationContentConfiguration getRegistrationContentConfiguration(){
         return this.registrationContentConfiguration;
-
     }
+
     @Deprecated
     public void setAccountSettings(boolean isAccountSettings) {
         this.isAccountSettings = isAccountSettings;

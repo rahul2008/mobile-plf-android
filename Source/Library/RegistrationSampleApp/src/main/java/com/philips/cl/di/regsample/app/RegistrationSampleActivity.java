@@ -611,11 +611,11 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     public RegistrationContentConfiguration getRegistrationContentConfiguration() {
         String valueForRegistration= "sample";
         String valueForEmailVerification="sample";
-        String optInTitleText="Be the first to know!";
-        String optInQuessionaryText="What are you going to get?";
-        String optInDetailDescription="Special offers, promotions and first hand information about new product releases. Tailored for you!";
-        String optInBannerText="Join now %s";
-        String optInTitleBarText="Create account";
+        String optInTitleText=getResources().getString(R.string.reg_Opt_In_Be_The_First);
+        String optInQuessionaryText=getResources().getString(R.string.reg_Opt_In_What_Are_You_Going_To_Get);
+        String optInDetailDescription=getResources().getString(R.string.reg_Opt_In_Special_Offers);
+        String optInBannerText=getResources().getString(R.string.reg_Opt_In_Join_Now);
+        String optInTitleBarText=getResources().getString(R.string.reg_RegCreateAccount_NavTitle);
         registrationContentConfiguration = new RegistrationContentConfiguration();
         registrationContentConfiguration.setValueForRegistration(valueForRegistration);
         registrationContentConfiguration.setValueForEmailVerification(valueForEmailVerification);
