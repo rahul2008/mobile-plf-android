@@ -29,7 +29,7 @@ public class PairingPortFragment extends BaseFragment {
         public void onPortUpdate(PairingPort propertyPort) {
             Log.d(TAG, "onPortUpdate on " + propertyPort.getDICommPortName() + ": " + propertyPort.toString());
             if (snackbarLayout != null) {
-                Snackbar.make(snackbarLayout, propertyPort.toString(), Snackbar.LENGTH_LONG).show();
+                Snackbar.make(snackbarLayout, "Done", Snackbar.LENGTH_LONG).show();
             }
         }
 
