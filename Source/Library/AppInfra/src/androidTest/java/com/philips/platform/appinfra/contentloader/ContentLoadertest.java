@@ -40,7 +40,6 @@ public class ContentLoadertest extends MockitoTestCase {
     private JsonObject jsonObject;
     private List downloadedContents;
     ContentDatabaseHandler contentDatabaseHandler;
-    private AppConfigurationManager mConfigInterface;
 
 
 
@@ -180,7 +179,7 @@ public class ContentLoadertest extends MockitoTestCase {
 
     public void testConfig() {
 
-        mConfigInterface = new AppConfigurationManager(mAppInfra) {
+        final AppConfigurationManager mConfigInterface = new AppConfigurationManager(mAppInfra) {
             @Override
             protected JSONObject getMasterConfigFromApp() {
                 JSONObject result = null;

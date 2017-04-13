@@ -27,7 +27,6 @@ public class ABTestClienTest extends MockitoTestCase {
     private Method method;
     private ABTestClientManager abTestClienTestManager;
     private CacheModel cacheModel;
-    private AppConfigurationManager mConfigInterface;
 
 
     @Override
@@ -60,7 +59,7 @@ public class ABTestClienTest extends MockitoTestCase {
 
     public void testConfig() {
 
-        mConfigInterface = new AppConfigurationManager(mAppInfra) {
+        final AppConfigurationManager  configInterface = new AppConfigurationManager(mAppInfra) {
             @Override
             protected JSONObject getMasterConfigFromApp() {
                 JSONObject result = null;
@@ -74,7 +73,7 @@ public class ABTestClienTest extends MockitoTestCase {
             }
 
         };
-        mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(mContext);
+        mAppInfra = new AppInfra.Builder().setConfig(configInterface).build(mContext);
     }
 
 
@@ -94,7 +93,7 @@ public class ABTestClienTest extends MockitoTestCase {
     public void testgetTestValue() {
         try {
             method = abTestClienTestManager.getClass().getDeclaredMethod("getTestValue", Object[].class);
-            String s = (String) method.invoke(abTestClienTestManager, new Object[]{new Object[]
+            final String s = (String) method.invoke(abTestClienTestManager, new Object[]{new Object[]
                     {"philipsmobileappabtest1content", "defaultValue", "ABTestClientInterface" +
                             ".UPDATETYPES.EVERY_APP_START", null}});
             method.setAccessible(true);
@@ -105,7 +104,7 @@ public class ABTestClienTest extends MockitoTestCase {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTestClient",
                     e.getMessage());
         }
-        String exp = mAbTestClientInterface.getTestValue("philipsmobileappabtest1content", "defaultValue",
+        final String exp = mAbTestClientInterface.getTestValue("philipsmobileappabtest1content", "defaultValue",
                 ABTestClientInterface.UPDATETYPES.EVERY_APP_START, null);
         assertNotNull(exp);
     }
@@ -165,7 +164,7 @@ public class ABTestClienTest extends MockitoTestCase {
     public void testgetTestNameFromConfig() {
         try {
             method = abTestClienTestManager.getClass().getDeclaredMethod("getTestNameFromConfig");
-            ArrayList<String> s = (ArrayList) method.invoke(abTestClienTestManager);
+            final ArrayList<String> s = (ArrayList) method.invoke(abTestClienTestManager);
             method.setAccessible(true);
             method.invoke(mAbTestClientInterface);
             assertNotNull(s);
@@ -178,7 +177,7 @@ public class ABTestClienTest extends MockitoTestCase {
     public void testgetTestValueFromServer() {
         try {
             method = abTestClienTestManager.getClass().getDeclaredMethod("getTestValueFromServer", Object[].class);
-            String s = (String) method.invoke(abTestClienTestManager, new Object[]{new Object[]
+            final String s = (String) method.invoke(abTestClienTestManager, new Object[]{new Object[]
                     {"philipsmobileappabtest1content", "defaultValue", "ABTestClientInterface" +
                             ".UPDATETYPES.EVERY_APP_START", null}});
             method.setAccessible(true);
@@ -219,11 +218,11 @@ public class ABTestClienTest extends MockitoTestCase {
     }
 
     private CacheModel loadCacheModel() {
-        CacheModel.ValueModel valueModel = new CacheModel.ValueModel();
+        final CacheModel.ValueModel valueModel = new CacheModel.ValueModel();
         valueModel.setTestValue("default");
         valueModel.setUpdateType(ABTestClientInterface.UPDATETYPES.EVERY_APP_START.name());
         valueModel.setAppVersion("1.1.0");
-        HashMap<String, CacheModel.ValueModel> cacheValue = new HashMap<>();
+        final HashMap<String, CacheModel.ValueModel> cacheValue = new HashMap<>();
         cacheValue.put("philipsmobileappabtest1content", valueModel);
         cacheModel.setTestValues(cacheValue);
         return cacheModel;

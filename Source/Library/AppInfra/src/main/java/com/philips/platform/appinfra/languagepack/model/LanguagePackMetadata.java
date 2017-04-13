@@ -5,6 +5,9 @@
  */
 package com.philips.platform.appinfra.languagepack.model;
 
+/**
+ * The Language Pack Metadata class.
+ */
 public class LanguagePackMetadata {
 
     private String locale;

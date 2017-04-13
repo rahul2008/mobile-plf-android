@@ -33,27 +33,27 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Created by 310243577 on 11/28/2016.
+ * The Content Loader class.
  */
 
 public class ContentLoader<Content extends ContentInterface> implements ContentLoaderInterface<Content> {
 
-    private int offset = 0;
-    private final int downloadLimit ;
-    private int contentDownloadedCount;
+    private final int downloadLimit;
     private final ContentDatabaseHandler mContentDatabaseHandler;
     private final String mServiceId;
     //   private URL mServiceURL;
     private final Class<Content> mClassType;
     private final String mContentType;
     private final int mMaxAgeInHours;
-
     private final AppInfraInterface mAppInfra;
     private final RestInterface mRestInterface;
     private final AtomicBoolean downloadInProgress;
+    private int offset = 0;
+    private int contentDownloadedCount;
     //   private boolean isRefreshing = false;
     private long mLastUpdatedTime;
     private STATE mContentLoaderState = STATE.NOT_INITIALIZED;
+
     /**
      * Create a content loader of type Content,
      * loading content from the given service using the given Content class type.
@@ -73,9 +73,9 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         mAppInfra = appInfra;
         mRestInterface = mAppInfra.getRestClient();
         downloadInProgress = new AtomicBoolean(false);
-        if(downloadLimit>0) { // if a positive down load limit is set
+        if (downloadLimit > 0) { // if a positive down load limit is set
             this.downloadLimit = downloadLimit;
-        }else{  // if  down load limit is set as 0 or any negative value
+        } else {  // if  down load limit is set as 0 or any negative value
             this.downloadLimit = getDownloadLimitFromConfig();
         }
         mContentDatabaseHandler = ContentDatabaseHandler.getInstance(context);
@@ -87,8 +87,8 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
     public void refresh(OnRefreshListener refreshListener) {
         updateContentLoaderState();
         if (downloadInProgress.compareAndSet(false, true)) {
-             final STATE state = getStatus();
-            if (!state.equals(STATE.CACHED_DATA_AVAILABLE) ) { // if data outdated
+            final STATE state = getStatus();
+            if (!state.equals(STATE.CACHED_DATA_AVAILABLE)) { // if data outdated
                 mLastUpdatedTime = new Date().getTime();
                 downloadContent(refreshListener);
             } else { // if data already cached
@@ -97,7 +97,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                 Log.i("CL REFRSH NA", "" + "content loader already uptodate");
             }
         } else {
-            mContentLoaderState=STATE.REFRESHING;
+            mContentLoaderState = STATE.REFRESHING;
             downloadInProgress.set(false);
             Log.i("CL REFRSH ERR", "" + "download already in progress");
             refreshListener.onError(ERROR.DOWNLOAD_IN_PROGRESS, "download already in progress");
@@ -125,9 +125,9 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                     JsonArray contentList = null;
                     if (jsonObjectTree != null) {
                         final JsonElement content = jsonObjectTree.get(mContentType);
-                        if(null==content){
+                        if (null == content) {
                             Log.i("CL REFRSH Error:", "" + "Content type mismatch");
-                            mContentLoaderState=STATE.CONFIGURATION_ERROR;
+                            mContentLoaderState = STATE.CONFIGURATION_ERROR;
                             downloadInProgress.set(false);
                             contentDownloadedCount = 0;
                             downloadedContents.clear();
@@ -154,7 +154,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                                 contentItem.setLastUpdatedTime(mLastUpdatedTime); // last updated time
                                 String tags = "";
 
-                               final  List<String> tagList = contentInterface.getTags();
+                                final List<String> tagList = contentInterface.getTags();
                                 if (null != tagList && !tagList.isEmpty()) {
                                     for (String tagId : tagList) {
                                         tags += tagId + " ";
@@ -172,8 +172,8 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                     if (contentDownloadedCount < downloadLimit) { // download is over
                         Log.i("CL REFRSH RESP", "download completed");
                         Log.e("DOWNLOADED CONTENTS", downloadedContents.toString());
-                        mContentDatabaseHandler.addContents(downloadedContents, mServiceId,mLastUpdatedTime, expiryTimeforUserInputTime(mMaxAgeInHours),true);
-                        mContentLoaderState=STATE.CACHED_DATA_AVAILABLE;
+                        mContentDatabaseHandler.addContents(downloadedContents, mServiceId, mLastUpdatedTime, expiryTimeforUserInputTime(mMaxAgeInHours), true);
+                        mContentLoaderState = STATE.CACHED_DATA_AVAILABLE;
                         downloadInProgress.set(false);
                         offset = 0;
                         contentDownloadedCount = 0;
@@ -183,7 +183,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                         offset += downloadLimit;// next offset
                         //Saving contents page by page
                         //passing maxAge as 0 becasue we need to expire the contents if it is not fully downloaded.
-                        mContentDatabaseHandler.addContents(downloadedContents, mServiceId,mLastUpdatedTime, 0,false);
+                        mContentDatabaseHandler.addContents(downloadedContents, mServiceId, mLastUpdatedTime, 0, false);
                         downloadContent(refreshListener); // recursive call for next download
                     }
                 }
@@ -191,7 +191,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.i("CL REFRSH Error:", "" + error);
-                    mContentLoaderState=STATE.CACHED_DATA_OUTDATED; // if data download is interrupted
+                    mContentLoaderState = STATE.CACHED_DATA_OUTDATED; // if data download is interrupted
                     downloadInProgress.set(false);
                     contentDownloadedCount = 0;
                     downloadedContents.clear();
@@ -213,15 +213,15 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
 
     @Override
     public void clearCache() {
-       final boolean isDeleted = mContentDatabaseHandler.clearCacheForContentLoader(mServiceId);
-        if(isDeleted){
-            mContentLoaderState=STATE.NOT_INITIALIZED;
+        final boolean isDeleted = mContentDatabaseHandler.clearCacheForContentLoader(mServiceId);
+        if (isDeleted) {
+            mContentLoaderState = STATE.NOT_INITIALIZED;
         }
     }
 
     @Override
     public STATE getStatus() {
-        if(mContentLoaderState.equals(STATE.CACHED_DATA_AVAILABLE)){
+        if (mContentLoaderState.equals(STATE.CACHED_DATA_AVAILABLE)) {
             updateContentLoaderState();
         }
         return mContentLoaderState;
@@ -254,18 +254,18 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
 
     @Override
     public void getContentById(String id, OnResultListener<Content> listener) {
-        String[] IDs = new String[1];
+        final String[] IDs = new String[1];
         IDs[0] = id;
-        getContentBySingleOrMultipleID(IDs,listener);
+        getContentBySingleOrMultipleID(IDs, listener);
     }
 
     @Override
     public void getContentById(String[] ids, OnResultListener<Content> listener) {
-        getContentBySingleOrMultipleID(ids,listener);
+        getContentBySingleOrMultipleID(ids, listener);
     }
 
-    private void getContentBySingleOrMultipleID(String[] ids, OnResultListener<Content> listener){
-        List<ContentItem> contentItems = mContentDatabaseHandler.getContentById(mServiceId, ids);
+    private void getContentBySingleOrMultipleID(String[] ids, OnResultListener<Content> listener) {
+        final List<ContentItem> contentItems = mContentDatabaseHandler.getContentById(mServiceId, ids);
         if (null != contentItems && !contentItems.isEmpty()) {
             contentItems(contentItems, listener);
         } else {
@@ -275,22 +275,22 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
 
     @Override
     public void getContentByTag(String tagID, OnResultListener<Content> listener) {
-        String[] tag = new String[1];
+        final String[] tag = new String[1];
         tag[0] = tagID;
-        getContentBySingleOrMultipleTag(tag,null,listener);
+        getContentBySingleOrMultipleTag(tag, null, listener);
     }
 
     @Override
     public void getContentByTag(String[] tagIDs, OPERATOR andOr, OnResultListener<Content> listener) {
-        getContentBySingleOrMultipleTag(tagIDs,andOr,listener);
+        getContentBySingleOrMultipleTag(tagIDs, andOr, listener);
     }
 
-    private void getContentBySingleOrMultipleTag(String[] tagIDs, OPERATOR andOr, OnResultListener<Content> listener){
-        String logicalOperator=null;
-        if(null!=andOr){
-            logicalOperator=andOr.toString();
+    private void getContentBySingleOrMultipleTag(String[] tagIDs, OPERATOR andOr, OnResultListener<Content> listener) {
+        String logicalOperator = null;
+        if (null != andOr) {
+            logicalOperator = andOr.toString();
         }
-        final List<ContentItem> contentItems = mContentDatabaseHandler.getContentByTagId(mServiceId, tagIDs,logicalOperator );
+        final List<ContentItem> contentItems = mContentDatabaseHandler.getContentByTagId(mServiceId, tagIDs, logicalOperator);
         if (null != contentItems && !contentItems.isEmpty()) {
             contentItems(contentItems, listener);
         } else {
@@ -300,7 +300,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
 
 
     private void contentItems(List<ContentItem> contentItems, OnResultListener<Content> listener) {
-        List<Content> result = new ArrayList<>();
+        final List<Content> result = new ArrayList<>();
         try {
             for (ContentItem ci : contentItems) {
                 Content c = mClassType.newInstance();
@@ -314,12 +314,12 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
     }
 
     private int getDownloadLimitFromConfig() {
-        AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+        final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
         if (mAppInfra.getConfigInterface() != null) {
             try {
                 Object contentLoaderLimit = mAppInfra.getConfigInterface().getPropertyForKey("contentLoader.limitSize",
                         "appinfra", configError);
-                if ( contentLoaderLimit instanceof Integer) {
+                if (contentLoaderLimit instanceof Integer) {
                     return (Integer) contentLoaderLimit;
                 }
 
@@ -347,13 +347,13 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         return expiryTime;
     }
 
-    private void updateContentLoaderState(){
+    private void updateContentLoaderState() {
         final long contentLoaderExpiryTime = mContentDatabaseHandler.getContentLoaderServiceStateExpiry(mServiceId);
         final Calendar calendar = Calendar.getInstance();
         final long currentTime = calendar.getTime().getTime();
         if (contentLoaderExpiryTime != 0) {
             if (contentLoaderExpiryTime < currentTime) { // if content loader is expired then refresh
-                mContentLoaderState=  STATE.CACHED_DATA_OUTDATED;
+                mContentLoaderState = STATE.CACHED_DATA_OUTDATED;
                 clearCache();
             } else {
                 mContentLoaderState = STATE.CACHED_DATA_AVAILABLE;

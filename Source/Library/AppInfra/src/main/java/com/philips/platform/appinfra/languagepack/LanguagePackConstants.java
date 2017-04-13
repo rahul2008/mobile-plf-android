@@ -5,7 +5,9 @@
  */
 package com.philips.platform.appinfra.languagepack;
 
-
+/**
+ * The Language Pack Constants class.
+ */
 public class LanguagePackConstants {
 
     static final String LOCALE = "locale";

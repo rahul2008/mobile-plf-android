@@ -7,7 +7,9 @@ package com.philips.platform.appinfra.rest;
 
 import com.philips.platform.appinfra.rest.request.RequestQueue;
 
-
+/**
+ * The Interface for Request and NetWorkType
+ */
 public interface RestInterface {
 
     /**

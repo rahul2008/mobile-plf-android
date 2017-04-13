@@ -9,7 +9,7 @@ package com.philips.platform.appinfra.logging;
 import com.philips.platform.appinfra.AppInfra;
 
 /**
- * Created by 310238114 on 4/26/2016.
+ * The Wrapper class for AppInfraLogging.
  */
 public class LoggingWrapper extends AppInfraLogging {
 

@@ -8,7 +8,7 @@ package com.philips.platform.appinfra.timesync;
 import java.util.Date;
 
 /**
- * Created by 310238655 on 6/30/2016.
+ * The UTC Time Sync Interface
  */
 public interface TimeInterface {
     /**

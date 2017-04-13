@@ -10,7 +10,7 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 /**
- * Created by 310200764 on 9/1/2015.
+ * A Wrapper class for Application Life Cycle.
  */
 
 public class ApplicationLifeCycleHandler implements Application.ActivityLifecycleCallbacks, ComponentCallbacks2 {

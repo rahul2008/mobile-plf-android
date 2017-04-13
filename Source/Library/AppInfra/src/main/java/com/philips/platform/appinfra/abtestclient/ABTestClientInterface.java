@@ -8,7 +8,7 @@ package com.philips.platform.appinfra.abtestclient;
 import java.util.Map;
 
 /**
- * Created by 310243577 on 10/4/2016.
+ * The ABTest client Interface
  */
 
 public interface ABTestClientInterface {

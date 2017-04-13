@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by 310238114 on 11/8/2016.
+ * The Content Database Handler Class.
  */
 public class ContentDatabaseHandler extends SQLiteOpenHelper {
 
@@ -91,8 +91,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
 
     protected boolean addContents(List<ContentItem> serverContentItems, String serviceID, long lastUpdatedTime, long expiryDate, boolean isDownloadComplete) {
         boolean SQLitetransaction = true;
-        SQLiteDatabase db = this.getWritableDatabase();
-        List<ContentItem> databaseContentItems;
+        final SQLiteDatabase db = this.getWritableDatabase();
 
         /////////////////TEST START
         //serverContentItems.remove(0);
@@ -114,10 +113,10 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         ////////////////TEST END
         try {
             // db.beginTransaction();
-            if (null != serverContentItems && serverContentItems.size() > 0)
-                for (ContentItem contentItem : serverContentItems) {
-                    ContentValues values = getContentValues(contentItem);
-                    long rowId = db.replace(CONTENT_TABLE, null, values);
+            if (null != serverContentItems && !serverContentItems.isEmpty()) {
+                for (final ContentItem contentItem : serverContentItems) {
+                    final ContentValues values = getContentValues(contentItem);
+                    final long rowId = db.replace(CONTENT_TABLE, null, values);
                     if (rowId == -1) {
                         SQLitetransaction = false;
                         Log.e("UPDATE FAIL", CONTENT_TABLE);
@@ -125,10 +124,11 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                         Log.i("UPDATE SUC", "row id " + CONTENT_TABLE + " " + rowId);
                     }
                 }
+            }
             if (isDownloadComplete) { // last iteration of recursion
-                databaseContentItems = getContentItems(serviceID);
+                List<ContentItem>   databaseContentItems = getContentItems(serviceID);
                 Log.v("DELEET", "DB SIZE BEFORE DELETE= " + databaseContentItems.size());
-                Date date = new Date(lastUpdatedTime);
+                final Date date = new Date(lastUpdatedTime);
                 db.delete(CONTENT_TABLE, KEY_SERVICE_ID + " = ? AND " + KEY_LAST_UPDATED_TIME + " != " + date.getTime(), new String[]{serviceID});
                 databaseContentItems = getContentItems(serviceID);
                 Log.v("DELETE", "DB SIZE AFTER DELETE= " + databaseContentItems.size());
@@ -144,6 +144,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                 try {
                     db.close();
                 } catch (Exception e) {
+                    Log.e("insertQuery", e.getMessage());
                 }
             }
         }
@@ -153,14 +154,14 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
 
     private List<ContentItem> getContentItems(String serviceId) {
         Cursor cursor = null;
-        SQLiteDatabase db = this.getWritableDatabase();
-        List<ContentItem> ContentItemList = new ArrayList<ContentItem>();
+        final SQLiteDatabase db = this.getWritableDatabase();
+        final List<ContentItem> ContentItemList = new ArrayList<ContentItem>();
         try {
-            String selectQuery = "SELECT  * FROM " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = ?";
+            final String selectQuery = "SELECT  * FROM " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = ?";
             cursor = db.rawQuery(selectQuery, new String[]{serviceId});
             if (cursor != null && cursor.moveToFirst()) {
                 do {
-                    ContentItem contentItem = getContentItemFromCursor(cursor);
+                    final ContentItem contentItem = getContentItemFromCursor(cursor);
                     ContentItemList.add(contentItem);
                 } while (cursor.moveToNext());
             }
@@ -171,6 +172,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                 try {
                     cursor.close();
                 } catch (Exception e) {
+                    Log.e("Content Iteams", e.getMessage());
                 }
             }
 
@@ -180,12 +182,12 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
 
     protected List<String> getAllContentIds(String serviceID) {
         Cursor cursor = null;
-        ArrayList<String> Ids = new ArrayList<String>();
-        SQLiteDatabase db = this.getWritableDatabase();
-        String getAllIDQuery = null;
+        final ArrayList<String> Ids = new ArrayList<String>();
+        final SQLiteDatabase db = this.getWritableDatabase();
+        String getAllIdQuery = null;
         try {
-            getAllIDQuery = "SELECT " + KEY_ID + " FROM " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = ?";
-            cursor = db.rawQuery(getAllIDQuery, new String[]{serviceID});
+            getAllIdQuery = "SELECT " + KEY_ID + " FROM " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = ?";
+            cursor = db.rawQuery(getAllIdQuery, new String[]{serviceID});
             if (null != cursor && cursor.moveToFirst()) {
                 do {
                     Ids.add(cursor.getString(0));
@@ -193,12 +195,13 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
             }
 
         } catch (Exception e) {
-            Log.e("SELECT FAIL", getAllIDQuery);
+            Log.e("SELECT FAIL", getAllIdQuery);
         } finally {
             if (cursor != null && !cursor.isClosed()) {
                 try {
                     cursor.close();
                 } catch (Exception e) {
+                    Log.e("SELECT FAIL", e.getMessage());
                 }
             }
         }
@@ -207,19 +210,19 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
 
     protected List<ContentItem> getContentById(String serviceID, String[] contentIDs) {
         Cursor cursor = null;
-        List<ContentItem> ContentItemList = new ArrayList<ContentItem>();
-        SQLiteDatabase db = this.getWritableDatabase();
+        final List<ContentItem> ContentItemList = new ArrayList<ContentItem>();
+        final SQLiteDatabase db = this.getWritableDatabase();
         String getContentByIdQuery = null;
         try {
 
             getContentByIdQuery = "SELECT * FROM " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = ? AND " + KEY_ID + " IN (" + makePlaceholders(contentIDs.length) + ")";
-            String[] params = new String[contentIDs.length + 1];
+            final String[] params = new String[contentIDs.length + 1];
             params[0] = serviceID;
             System.arraycopy(contentIDs, 0, params, 1, contentIDs.length);
             cursor = db.rawQuery(getContentByIdQuery, params);
             if (null != cursor && cursor.moveToFirst()) {
                 do {
-                    ContentItem contentItem = getContentItemFromCursor(cursor);
+                    final ContentItem contentItem = getContentItemFromCursor(cursor);
                     ContentItemList.add(contentItem);
                 } while (cursor.moveToNext());
             }
@@ -231,6 +234,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                 try {
                     cursor.close();
                 } catch (Exception e) {
+                    Log.e("SELECT FAIL", e.getMessage());
                 }
             }
 
@@ -241,14 +245,14 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
 
     protected List<ContentItem> getContentByTagId(String serviceID, String[] tagIDs, String logicalGate) {
         Cursor cursor = null;
-        List<ContentItem> ContentItemList = new ArrayList<ContentItem>();
-        SQLiteDatabase db = this.getWritableDatabase();
+        final List<ContentItem> ContentItemList = new ArrayList<ContentItem>();
+        final SQLiteDatabase db = this.getWritableDatabase();
         String getContentByIdQuery = null;
         try {
             if (tagIDs.length == 1) {
                 getContentByIdQuery = "SELECT * FROM " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = ? AND " + KEY_TAG_IDS + " LIKE \'%" + tagIDs[0] + "%\'";
             } else if (tagIDs.length > 1) {
-                String[] whereClause = new String[tagIDs.length];
+                final String[] whereClause = new String[tagIDs.length];
                 int idCount = 0;
                 for (String id : tagIDs) {
                     whereClause[idCount++] = KEY_TAG_IDS + " LIKE \'%" + id + "%\'";
@@ -270,6 +274,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                 try {
                     cursor.close();
                 } catch (Exception e) {
+                    Log.e("SELECT FAIL", getContentByIdQuery);
                 }
             }
         }
@@ -278,12 +283,12 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
 
 
     private boolean updateContentLoaderStateTable(SQLiteDatabase db, long mLastUpdatedTime, String serviceID, long expiryDate) {
-        ContentValues values = new ContentValues();
+        final ContentValues values = new ContentValues();
         values.put(KEY_SERVICE_ID, serviceID);
         values.put(KEY_EXPIRE_TIMESTAMP, expiryDate);
         values.put(KEY_LAST_UPDATED_TIME, mLastUpdatedTime);
 
-        long rowId = db.replace(CONTENT_LOADER_STATES, null, values);
+        final long rowId = db.replace(CONTENT_LOADER_STATES, null, values);
         if (rowId == -1) {
             Log.e("INS FAIL", CONTENT_LOADER_STATES);
         } else {
@@ -295,9 +300,9 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
     protected long getContentLoaderServiceStateExpiry(String serviceID) {
         long expiryTime = 0l;
         try {
-            SQLiteDatabase db = this.getWritableDatabase();
-            String getContentLoaderServiceStateExpiryQuery = "SELECT " + KEY_EXPIRE_TIMESTAMP + " FROM " + CONTENT_LOADER_STATES + " WHERE " + KEY_SERVICE_ID + " = ?";
-            Cursor cursor = db.rawQuery(getContentLoaderServiceStateExpiryQuery, new String[]{serviceID});
+            final SQLiteDatabase db = this.getWritableDatabase();
+            final String getContentLoaderServiceStateExpiryQuery = "SELECT " + KEY_EXPIRE_TIMESTAMP + " FROM " + CONTENT_LOADER_STATES + " WHERE " + KEY_SERVICE_ID + " = ?";
+            final Cursor cursor = db.rawQuery(getContentLoaderServiceStateExpiryQuery, new String[]{serviceID});
             if (null != cursor && cursor.moveToFirst()) {
                 expiryTime = cursor.getLong(0);
             }
@@ -305,16 +310,17 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                 try {
                     cursor.close();
                 } catch (Exception e) {
+                    Log.e("ServiceStateExpiry FAIL", e.getMessage());
                 }
             }
         } catch (Exception e) {
-
+            Log.e("ServiceStateExpiry FAIL", e.getMessage());
         }
         return expiryTime;
     }
 
     private ContentValues getContentValues(ContentItem pContentItem) {
-        ContentValues values = new ContentValues();
+        final ContentValues values = new ContentValues();
         values.put(KEY_ID, pContentItem.getId());
         values.put(KEY_SERVICE_ID, pContentItem.getServiceId());
         values.put(KEY_RAW_CONTENT, pContentItem.getRawData()); // Json String
@@ -327,7 +333,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
     protected boolean clearCacheForContentLoader(String serviceID) {
         boolean result = true;
         try {
-            SQLiteDatabase db = this.getWritableDatabase();
+            final SQLiteDatabase db = this.getWritableDatabase();
             db.delete(CONTENT_TABLE, KEY_SERVICE_ID + " = ?", new String[]{serviceID});
             db.delete(CONTENT_LOADER_STATES, KEY_SERVICE_ID + " = ?", new String[]{serviceID});
             Log.d("DEL SUC", "" + CONTENT_LOADER_STATES + " & " + CONTENT_TABLE);
@@ -340,6 +346,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                 try {
                     db.close();
                 } catch (Exception e) {
+                    Log.e("CacheForContent FAIL", e.getMessage());
                 }
             }
         }
@@ -352,7 +359,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
             // It will lead to an invalid query anyway ..
             throw new RuntimeException("No placeholders");
         } else {
-            StringBuilder sb = new StringBuilder(len * 2 - 1);
+            final StringBuilder sb = new StringBuilder(len * 2 - 1);
             sb.append("?");
             for (int i = 1; i < len; i++) {
                 sb.append(",?");
@@ -362,7 +369,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
     }
 
     private ContentItem getContentItemFromCursor(Cursor cursor) {
-        ContentItem contentItem = new ContentItem();
+        final ContentItem contentItem = new ContentItem();
         contentItem.setId(cursor.getString(0));
         contentItem.setServiceId(cursor.getString(1));
         contentItem.setRawData(cursor.getString(2));

@@ -10,6 +10,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.adobe.mobile.Analytics;
@@ -35,9 +36,11 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
-import android.support.v4.content.LocalBroadcastManager;
 
 
+/**
+ * A Wrapper class for Application Life Cycle.
+ */
 public class AppTagging implements AppTaggingInterface {
 
 	private String mLanguage;
@@ -68,7 +71,7 @@ public class AppTagging implements AppTaggingInterface {
 
 	private boolean checkForSslConnection() {
 		boolean sslValue = false;
-		JSONObject jSONObject = getMasterADBMobileConfig();
+		final JSONObject jSONObject = getMasterADBMobileConfig();
 		try {
 			if (jSONObject != null) {
 				sslValue = jSONObject.getJSONObject("analytics").optBoolean("ssl");

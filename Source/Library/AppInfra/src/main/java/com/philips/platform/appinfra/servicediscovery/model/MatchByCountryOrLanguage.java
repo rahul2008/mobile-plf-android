@@ -16,48 +16,46 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 /**
- * Created by 310238114 on 6/7/2016.
+ * The model class for MatchByCountry or Language.
  */
 public class MatchByCountryOrLanguage {
 
-    private boolean available;
-    private String locale;
     ArrayList<Config> configs = new ArrayList<>();
+
+    private boolean available;
+
+    private String locale;
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    public String getLocale() {
+        return locale;
+    }
+
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
+
+    public ArrayList<Config> getConfigs() {
+        return configs;
+    }
+
+    public void setConfigs(ArrayList<Config> configs) {
+        this.configs = configs;
+    }
 
     public static class Config {
 
-        public static class Tag {
-            private String id;
-            private String name;
-            private String key;
-
-            public String getId() {
-                return id;
-            }
-
-            public void setId(String id) {
-                this.id = id;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public void setName(String name) {
-                this.name = name;
-            }
-
-            public String getKey() {
-                return key;
-            }
-
-            public void setKey(String key) {
-                this.key = key;
-            }
-        }
-
         private String micrositeId;
+
         private HashMap<String, String> urls;
+
         private ArrayList<Tag> tags;
 
         public String getMicrositeId() {
@@ -88,19 +86,19 @@ public class MatchByCountryOrLanguage {
             try {
                 this.micrositeId = jsonObject.optString("micrositeId");
                 urls = new HashMap<>();
-                JSONObject urlJSONObject = jsonObject.optJSONObject("urls");
-                Iterator<String> iter = urlJSONObject.keys();
+                final JSONObject urlJSONObject = jsonObject.optJSONObject("urls");
+                final Iterator<String> iter = urlJSONObject.keys();
                 while (iter.hasNext()) {
-                    String key = iter.next();
-                    String value = urlJSONObject.getString(key);
+                    final String key = iter.next();
+                    final String value = urlJSONObject.getString(key);
                     this.urls.put(key, value);
                 }
 
                 this.tags = new ArrayList<>();
 
-                JSONArray tagJSONArray = jsonObject.optJSONArray("tags");
+                final JSONArray tagJSONArray = jsonObject.optJSONArray("tags");
                 for (int tagCount = 0; tagCount < tagJSONArray.length(); tagCount++) {
-                    MatchByCountryOrLanguage.Config.Tag tag = new MatchByCountryOrLanguage.Config.Tag();
+                    final MatchByCountryOrLanguage.Config.Tag tag = new MatchByCountryOrLanguage.Config.Tag();
                     tag.setId(tagJSONArray.optJSONObject(tagCount).optString("id"));
                     tag.setName(tagJSONArray.optJSONObject(tagCount).optString("name"));
                     tag.setKey(tagJSONArray.optJSONObject(tagCount).optString("key"));
@@ -108,40 +106,45 @@ public class MatchByCountryOrLanguage {
                 }
                 //setTags(tags);
             } catch (JSONException e) {
-                ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface.
+                final ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface.
                         OnErrorListener.ERRORVALUES.SERVER_ERROR, "Parsing error");
-                ServiceDiscovery result = new ServiceDiscovery();
+                final ServiceDiscovery result = new ServiceDiscovery();
                 //result.setSuccess(false);
                 result.setError(err);
             }
         }
-    }
 
+        public static class Tag {
+            private String id;
 
-    public boolean isAvailable() {
-        return available;
-    }
+            private String name;
 
-    public void setAvailable(boolean available) {
-        this.available = available;
-    }
+            private String key;
 
+            public String getId() {
+                return id;
+            }
 
-    public String getLocale() {
-        return locale;
-    }
+            public void setId(String id) {
+                this.id = id;
+            }
 
-    public void setLocale(String locale) {
-        this.locale = locale;
-    }
+            public String getName() {
+                return name;
+            }
 
+            public void setName(String name) {
+                this.name = name;
+            }
 
-    public ArrayList<Config> getConfigs() {
-        return configs;
-    }
+            public String getKey() {
+                return key;
+            }
 
-    public void setConfigs(ArrayList<Config> configs) {
-        this.configs = configs;
+            public void setKey(String key) {
+                this.key = key;
+            }
+        }
     }
 
 }

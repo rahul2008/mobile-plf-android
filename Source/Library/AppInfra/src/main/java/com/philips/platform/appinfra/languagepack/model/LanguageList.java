@@ -10,6 +10,10 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
+/**
+ * The List of Language setter and getter class.
+ */
+
 public class LanguageList {
 
 	@SerializedName("languages")

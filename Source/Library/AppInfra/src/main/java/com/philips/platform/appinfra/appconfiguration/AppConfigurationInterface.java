@@ -7,7 +7,7 @@
 package com.philips.platform.appinfra.appconfiguration;
 
 /**
- * Created by 310238114 on 7/25/2016.
+ * The App Configuration Interface .
  */
 public interface AppConfigurationInterface {
 

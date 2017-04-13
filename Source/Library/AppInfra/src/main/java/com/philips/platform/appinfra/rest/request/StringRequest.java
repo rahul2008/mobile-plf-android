@@ -9,7 +9,7 @@ import com.philips.platform.appinfra.rest.TokenProviderInterface;
 import java.util.Map;
 
 /**
- * Created by 310243577 on 11/3/2016.
+ * A wrapper class of canned request for retrieving the response body at a given URL as a String.
  */
 
 public class StringRequest extends com.android.volley.toolbox.StringRequest {
@@ -38,7 +38,7 @@ public class StringRequest extends com.android.volley.toolbox.StringRequest {
     public Map<String, String> getHeaders() throws AuthFailureError {
         if (mHeader != null) {
             if (mProvider != null) {
-                Map<String, String> tokenHeader = RestManager.setTokenProvider(mProvider);
+                final Map<String, String> tokenHeader = RestManager.setTokenProvider(mProvider);
                 mHeader.putAll(tokenHeader);
                 return mHeader;
             } else {

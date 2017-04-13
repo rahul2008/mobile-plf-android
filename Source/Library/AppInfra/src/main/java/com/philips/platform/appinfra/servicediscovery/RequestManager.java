@@ -1,8 +1,6 @@
 package com.philips.platform.appinfra.servicediscovery;
 
-/**
- * Created by 310243577 on 1/10/2017.
- */
+
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -30,14 +28,18 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-
+/**
+ * The RequestManager class for service discovery.
+ */
 public class RequestManager {
 
 	//    RequestQueue mRequestQueue;
 	private static final String TAG = "RequestManager";//this.class.getSimpleName();
-	private AppInfra mAppInfra;
-	private static final String ServiceDiscoveryCacheFile = "SDCacheFile";
-	private Context mContext = null;
+	private final AppInfra mAppInfra;
+	private static final String SERVICE_DISCOVERY_CACHE_FILE = "SDCacheFile";
+	private final Context mContext;
+	private SharedPreferences mSharedPreference;
+	private SharedPreferences.Editor mPrefEditor;
 
 	public RequestManager(Context context, AppInfra appInfra) {
 		mContext = context;
@@ -45,24 +47,24 @@ public class RequestManager {
 	}
 
 	public ServiceDiscovery execute(final String url, ServiceDiscoveryManager.AISDURLType urlType) {
-		RequestFuture<JSONObject> future = RequestFuture.newFuture();
-		JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, future, future, null, null, null);
+		final RequestFuture<JSONObject> future = RequestFuture.newFuture();
+		final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, future, future, null, null, null);
 		request.setShouldCache(true);
 		mAppInfra.getRestClient().getRequestQueue().add(request);
 
-		ServiceDiscovery result = new ServiceDiscovery();
+		final ServiceDiscovery result = new ServiceDiscovery();
 		try {
-			JSONObject response = future.get(10, TimeUnit.SECONDS);
+			final JSONObject response = future.get(10, TimeUnit.SECONDS);
 			cacheServiceDiscovery(response, url, urlType);
 			return parseResponse(response);
 		} catch (InterruptedException | TimeoutException e) {
-			ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface
+			final ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface
 					.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "Timed out or interrupted");
 			result.setError(err);
 			result.setSuccess(false);
 		} catch (ExecutionException e) {
-			Throwable error = e.getCause();
-			ServiceDiscovery.Error volleyError;
+			final Throwable error = e.getCause();
+			ServiceDiscovery.Error volleyError=null;
 			if (error instanceof TimeoutError) {
 				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
 						error.toString());
@@ -96,10 +98,10 @@ public class RequestManager {
 	}
 
 	private ServiceDiscovery parseResponse(JSONObject response) {
-		ServiceDiscovery result = new ServiceDiscovery();
+		final ServiceDiscovery result = new ServiceDiscovery();
 		result.setSuccess(response.optBoolean("success"));
 		if (!result.isSuccess()) {
-			ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server reports failure");
+			final ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server reports failure");
 			result.setError(err);
 		} else { // no sense in further processing if server reports error
 			// START setting match by country
@@ -119,38 +121,38 @@ public class RequestManager {
 	}
 
 	private void cacheServiceDiscovery(JSONObject serviceDiscovery, String url, ServiceDiscoveryManager.AISDURLType urlType) {
-		SharedPreferences sharedPreferences = getServiceDiscoverySharedPreferences();
-		SharedPreferences.Editor prefEditor = sharedPreferences.edit();
-		Date currentDate = new Date();
-		long refreshTimeExpiry = currentDate.getTime() + 24 * 3600 * 1000;  // current time + 24 hour
+		mSharedPreference = getServiceDiscoverySharedPreferences();
+		mPrefEditor = mSharedPreference.edit();
+		final Date currentDate = new Date();
+		final long refreshTimeExpiry = currentDate.getTime() + 24 * 3600 * 1000;  // current time + 24 hour
 		switch (urlType) {
 			case AISDURLTypeProposition:
-				prefEditor.putString("SDPROPOSITION", serviceDiscovery.toString());
-				prefEditor.putString("SDPROPOSITIONURL", url);
+				mPrefEditor.putString("SDPROPOSITION", serviceDiscovery.toString());
+				mPrefEditor.putString("SDPROPOSITIONURL", url);
 				break;
 			case AISDURLTypePlatform:
-				prefEditor.putString("SDPLATFORM", serviceDiscovery.toString());
-				prefEditor.putString("SDPLATFORMURL", url);
+				mPrefEditor.putString("SDPLATFORM", serviceDiscovery.toString());
+				mPrefEditor.putString("SDPLATFORMURL", url);
 				break;
 		}
-		prefEditor.putLong("SDrefreshTime", refreshTimeExpiry);
-		prefEditor.commit();
+		mPrefEditor.putLong("SDrefreshTime", refreshTimeExpiry);
+		mPrefEditor.commit();
 	}
 
 
 	protected AISDResponse getCachedData() {
 		AISDResponse cachedResponse = null;
-		SharedPreferences prefs = getServiceDiscoverySharedPreferences();
-		if (prefs != null) {
-			String propositionCache = prefs.getString("SDPROPOSITION", null);
-			String platformCache = prefs.getString("SDPLATFORM", null);
+		mSharedPreference = getServiceDiscoverySharedPreferences();
+		if (mSharedPreference != null) {
+			final String propositionCache = mSharedPreference.getString("SDPROPOSITION", null);
+			final String platformCache = mSharedPreference.getString("SDPLATFORM", null);
 			try {
 				if (propositionCache != null && platformCache != null) {
-					JSONObject propositionObject = new JSONObject(propositionCache);
-					ServiceDiscovery propostionService = parseResponse(propositionObject);
+					final JSONObject propositionObject = new JSONObject(propositionCache);
+					final ServiceDiscovery propostionService = parseResponse(propositionObject);
 
-					JSONObject platformObject = new JSONObject(platformCache);
-					ServiceDiscovery platformService = parseResponse(platformObject);
+					final JSONObject platformObject = new JSONObject(platformCache);
+					final ServiceDiscovery platformService = parseResponse(platformObject);
 					cachedResponse = new AISDResponse(mAppInfra);
 					cachedResponse.setPropositionURLs(propostionService);
 					cachedResponse.setPlatformURLs(platformService);
@@ -164,26 +166,26 @@ public class RequestManager {
 	}
 
 	String getUrlProposition() {
-		SharedPreferences prefs = getServiceDiscoverySharedPreferences();
-		if (prefs != null) {
-			return prefs.getString("SDPROPOSITIONURL", null);
+		mSharedPreference = getServiceDiscoverySharedPreferences();
+		if (mSharedPreference != null) {
+			return mSharedPreference.getString("SDPROPOSITIONURL", null);
 		}
 		return null;
 	}
 
 	String getUrlPlatform() {
-		SharedPreferences prefs = getServiceDiscoverySharedPreferences();
-		if (prefs != null) {
-			return prefs.getString("SDPLATFORMURL", null);
+		mSharedPreference = getServiceDiscoverySharedPreferences();
+		if (mSharedPreference != null) {
+			return mSharedPreference.getString("SDPLATFORMURL", null);
 		}
 		return null;
 	}
 
 	boolean isServiceDiscoveryDataExpired() {
-		SharedPreferences prefs = getServiceDiscoverySharedPreferences();
-		if (prefs != null) {
-			final long refreshTimeExpiry = prefs.getLong("SDrefreshTime", 0);
-			Date currentDate = new Date();
+		mSharedPreference = getServiceDiscoverySharedPreferences();
+		if (mSharedPreference != null) {
+			final long refreshTimeExpiry = mSharedPreference.getLong("SDrefreshTime", 0);
+			final Date currentDate = new Date();
 			long currentDateLong = currentDate.getTime();
 			return currentDateLong >= refreshTimeExpiry;
 		}
@@ -192,14 +194,14 @@ public class RequestManager {
 
 
 	void clearCacheServiceDiscovery() {
-		SharedPreferences prefs = getServiceDiscoverySharedPreferences();
-		SharedPreferences.Editor prefEditor = prefs.edit();
-		prefEditor.clear();
-		prefEditor.commit();
+		mSharedPreference = getServiceDiscoverySharedPreferences();
+		mPrefEditor = mSharedPreference.edit();
+		mPrefEditor.clear();
+		mPrefEditor.commit();
 	}
 
 	private SharedPreferences getServiceDiscoverySharedPreferences() {
-		return mContext.getSharedPreferences(ServiceDiscoveryCacheFile, Context.MODE_PRIVATE);
+		return mContext.getSharedPreferences(SERVICE_DISCOVERY_CACHE_FILE, Context.MODE_PRIVATE);
 	}
 
 }

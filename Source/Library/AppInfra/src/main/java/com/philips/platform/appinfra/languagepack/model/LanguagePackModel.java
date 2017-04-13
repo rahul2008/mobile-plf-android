@@ -10,6 +10,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Random;
 
+/**
+ * The Language Pack Model class
+ */
 
 public class LanguagePackModel {
 
@@ -52,7 +55,7 @@ public class LanguagePackModel {
 	@Override
 	public boolean equals(Object obj) {
 		if (obj != null && obj instanceof LanguagePackModel) {
-			LanguagePackModel languagePackModel = (LanguagePackModel) obj;
+			final LanguagePackModel languagePackModel = (LanguagePackModel) obj;
 			return languagePackModel.getLocale().equals(this.getLocale());
 		} else
 			return super.equals(obj);
