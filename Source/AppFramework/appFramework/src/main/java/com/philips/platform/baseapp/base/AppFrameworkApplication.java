@@ -71,8 +71,6 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
         determineChinaFlow();
         productRegistrationState = new ProductRegistrationState();
         productRegistrationState.init(this);
-        iapState = new IAPRetailerFlowState();
-        iapState.init(this);
         dataSyncScreenState = new DataServicesState();
         dataSyncScreenState.init(this);
         /*
@@ -92,6 +90,10 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
 
     public IAPState getIap() {
         return iapState;
+    }
+
+    public  void setIapState(IAPState state) {
+        iapState = state;
     }
 
     private void setLocale() {
