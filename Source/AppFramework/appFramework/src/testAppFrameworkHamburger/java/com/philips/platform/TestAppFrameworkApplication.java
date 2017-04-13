@@ -40,7 +40,7 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
     public void onCreate() {
         final int resId = R.string.com_philips_app_fmwk_app_flow_url;
         FileUtility fileUtility = new FileUtility(this);
-        tempFile = fileUtility.createFileFromInputStream(resId, false);
+        tempFile = fileUtility.createFileFromInputStream(resId);
         setTargetFlowManager();
 
     }
