@@ -6,6 +6,7 @@ import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
+import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.SynchronisationData;
@@ -54,24 +55,26 @@ public class MomentsConverterTest {
     public static final int TEST_VERSION = 111;
     public static final String TEST_VALUE_DOUBLE = "222.333";
     private final String LEFT = "LEFT";
-
+    private final String LOCATION = "BANGALORE";
     private MomentsConverter momentsConverter;
     private UCoreMoment uCoreMoment;
     private UCoreDetail uCoreMomentDetail;
     private UCoreDetail uCoreMeasurementDetail;
     private UCoreMeasurement uCoreMeasurement;
     private UCoreMeasurementGroups uCoreMeasurementGroup;
+    private UCoreMeasurementGroups uCoreMeasurementGroupInside;
     private UCoreMeasurementGroupDetail uCoreMeasurementGroupDetail;
 
     private OrmCreatorTest ormCreatorTest;
 
     private Moment moment;
     private MeasurementGroup measurementGroup;
+    private MeasurementGroup measurementGroupInside;
     private MomentType momentTypeMap;
     private MeasurementDetailType measurementDetailValueMap;
     private final DateTime TEST_MOMENT_DATETIME = DateTime.now().minusDays(0);
     private final DateTime TEST_MEASUREMENT_DATETIME = DateTime.now();
-    private MeasurementDetail measurementGroupDetail;
+    private MeasurementGroupDetail measurementGroupDetail;
     private Application context;
     private DataServicesManager dataServicesManager;
     private ErrorHandlerImplTest errorHandler;
@@ -113,6 +116,10 @@ public class MomentsConverterTest {
         moment = ormCreatorTest.createMoment(TEST_CREATOR_ID, TEST_SUBJECT_ID, MomentType.TEMPERATURE);
         moment.setDateTime(TEST_TIMESTAMP);
 
+        MomentDetail momentDetail = ormCreatorTest.createMomentDetail(MomentDetailType.PHASE,moment);
+        momentDetail.setValue(LOCATION);
+
+        moment.addMomentDetail(momentDetail);
 
         Measurement measurement = ormCreatorTest.createMeasurement(MeasurementType.DURATION, measurementGroup);
         measurement.setDateTime(TEST_TIMESTAMP);
@@ -121,12 +128,19 @@ public class MomentsConverterTest {
         measurementGroup = ormCreatorTest.createMeasurementGroup(moment);
         measurementGroup.addMeasurement(measurement);
 
-        measurementGroupDetail = ormCreatorTest.createMeasurementDetail(MeasurementDetailType.LOCATION, measurement);
+        measurementGroupInside = ormCreatorTest.createMeasurementGroup(measurementGroup);
+        measurementGroupInside.addMeasurement(measurement);
+
+      //  measurementGroup.addMeasurement(measurementGroupInside);
+
+        measurementGroupDetail = ormCreatorTest.createMeasurementGroupDetail(MeasurementDetailType.LOCATION, measurementGroupInside);
         measurementGroupDetail.setValue(TEST_MEASUREMENT_DETAIL_TYPE);
 
         MeasurementDetail measurementDetail = ormCreatorTest.createMeasurementDetail(MeasurementDetailType.LOCATION, measurement);
         measurementDetail.setValue(LEFT);
         measurement.addMeasurementDetail(measurementDetail);
+
+        measurementGroup.addMeasurementGroupDetail(measurementGroupDetail);
 
         moment.addMeasurementGroup(measurementGroup);
     }
@@ -146,6 +160,8 @@ public class MomentsConverterTest {
         uCoreMomentDetail.setType(MomentType.TEMPERATURE);
         uCoreMomentDetail.setValue(TEST_VALUE_STRING);
 
+        uCoreMoment.setDetails(Collections.singletonList(uCoreMomentDetail));
+
         uCoreMeasurement = new UCoreMeasurement();
         uCoreMeasurement.setType(MeasurementDetailType.LOCATION);
         uCoreMeasurement.setValue(TEST_VALUE_DOUBLE);
@@ -154,6 +170,7 @@ public class MomentsConverterTest {
         uCoreMeasurementDetail = new UCoreDetail();
         uCoreMeasurementDetail.setType(MeasurementDetailType.LOCATION);
         uCoreMeasurementDetail.setValue(MeasurementDetailType.LOCATION);
+        uCoreMeasurement.setDetails(Collections.singletonList(uCoreMeasurementDetail));
 
         uCoreMeasurementGroupDetail = new UCoreMeasurementGroupDetail();
         uCoreMeasurementGroupDetail.setType(MeasurementGroupDetailType.TEMP_OF_DAY);
@@ -164,6 +181,13 @@ public class MomentsConverterTest {
     //    uCoreMeasurementGroup.setMeasurementGroups(Collections.singletonList(uCoreMeasurementGroup));
         uCoreMeasurementGroup.setMeasurements(Collections.singletonList(uCoreMeasurement));
         uCoreMeasurementGroup.setDetails(Collections.singletonList(uCoreMeasurementGroupDetail));
+
+        uCoreMeasurementGroupInside = new UCoreMeasurementGroups();
+        //    uCoreMeasurementGroup.setMeasurementGroups(Collections.singletonList(uCoreMeasurementGroup));
+        uCoreMeasurementGroupInside.setMeasurements(Collections.singletonList(uCoreMeasurement));
+        uCoreMeasurementGroupInside.setDetails(Collections.singletonList(uCoreMeasurementGroupDetail));
+
+        uCoreMeasurementGroup.addMeasurementGroups(uCoreMeasurementGroupInside);
 
         uCoreMoment.setMeasurementGroups(Collections.singletonList(uCoreMeasurementGroup));
     }
@@ -405,7 +429,7 @@ public class MomentsConverterTest {
     @Test
     public void ShouldThrowExceptionWhenConvertIsCalled(){
         List<Moment> moments = momentsConverter.convert(null);
-        //TODO: How to add verify exception is thrown
+        assertThat(moments.size()).isEqualTo(0);
     }
 
     @Test
@@ -452,7 +476,7 @@ public class MomentsConverterTest {
     public void ShouldSetProperNumberOfMomentDetails_WhenTemperatureMomentIsConvertedToUCoreMoment() {
         UCoreMoment uCoreMoment = momentsConverter.convertToUCoreMoment(moment);
 
-        assertThat(uCoreMoment.getDetails()).hasSize(0);
+        assertThat(uCoreMoment.getDetails()).hasSize(1);
     }
 
     @Test
@@ -556,7 +580,7 @@ public class MomentsConverterTest {
         final UCoreMoment uCoreMoment = momentsConverter.convertToUCoreMoment(moment);
 
         final List<UCoreDetail> details = uCoreMoment.getDetails();
-        assertThat(details).hasSize(0);
+        assertThat(details).hasSize(1);
     }
 
 //    @Test
@@ -583,6 +607,12 @@ public class MomentsConverterTest {
                 assertThat(measurement.getDateTime()).isEqualTo(momentDatetime);
             }
         }
+    }
+
+    @Test
+    public void ShouldThrowExceptionWhileconvertToUCoreMomentIsCalled(){
+        UCoreMoment uCoreMoment = momentsConverter.convertToUCoreMoment(null);
+        assertThat(uCoreMoment.getMeasurementGroups()).isEqualTo(null);
     }
 
 }
