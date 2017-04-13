@@ -15,20 +15,27 @@ import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.core.deps.guava.annotations.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 
-import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.utils.UIDActivity;
+import com.philips.platform.uid.utils.UIDLocaleHelper;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class BaseTestActivity extends AppCompatActivity implements DelayerCallback {
+public class BaseTestActivity extends UIDActivity implements DelayerCallback {
     public static final String CONTENT_COLOR_KEY = "ContentColor";
     public static final String NAVIGATION_COLOR_KEY = "NavigationColor";
 
@@ -36,26 +43,6 @@ public class BaseTestActivity extends AppCompatActivity implements DelayerCallba
     @Nullable
     private UidIdlingResource mIdlingResource;
 
-    @StyleRes
-    static int getColorResourceId(final Resources resources, final String colorRange, final String tonalRange, final String packageName) {
-        final String themeName = String.format("Theme.DLS.%s.%s", toCamelCase(colorRange), toCamelCase(tonalRange));
-
-        return resources.getIdentifier(themeName, "style", packageName);
-    }
-
-    static String toCamelCase(String s) {
-        String[] parts = s.split("_");
-        String camelCaseString = "";
-        for (String part : parts) {
-            camelCaseString = camelCaseString + toProperCase(part);
-        }
-        return camelCaseString;
-    }
-
-    static String toProperCase(String s) {
-        return s.substring(0, 1).toUpperCase() +
-                s.substring(1).toLowerCase();
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,13 +56,14 @@ public class BaseTestActivity extends AppCompatActivity implements DelayerCallba
 
         setTheme(getThemeResourceId(ContentColor.values()[contentColor], ColorRange.GROUP_BLUE));
         UIDHelper.injectCalligraphyFonts();
+        UIDLocaleHelper.getInstance().setFilePath(getCatalogAppJSONAssetPath());
         UIDHelper.init(getThemeConfig(navigationColor, contentColor));
 
         super.onCreate(savedInstanceState);
     }
 
     private ThemeConfiguration getThemeConfig(final int navigationColor, final int contentColor) {
-        return new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.values()[contentColor], NavigationColor.values()[navigationColor]);
+        return new ThemeConfiguration(this, ContentColor.values()[contentColor], NavigationColor.values()[navigationColor]);
     }
 
     public void switchTo(final int layout) {
@@ -182,5 +170,54 @@ public class BaseTestActivity extends AppCompatActivity implements DelayerCallba
                 }
             }, DELAY_MILLIS);
         }
+    }
+
+    @StyleRes
+    static int getColorResourceId(final Resources resources, final String colorRange, final String tonalRange, final String packageName) {
+        final String themeName = String.format("Theme.DLS.%s.%s", toCamelCase(colorRange), toCamelCase(tonalRange));
+
+        return resources.getIdentifier(themeName, "style", packageName);
+    }
+
+    static String toCamelCase(String s) {
+        String[] parts = s.split("_");
+        String camelCaseString = "";
+        for (String part : parts) {
+            camelCaseString = camelCaseString + toProperCase(part);
+        }
+        return camelCaseString;
+    }
+
+    static String toProperCase(String s) {
+        return s.substring(0, 1).toUpperCase() +
+                s.substring(1).toLowerCase();
+    }
+
+    private
+    @StyleRes
+    int getThemeResourceId(ContentColor contentColor, ColorRange colorRange) {
+        int colorResourceId = getColorResourceId(getResources(), colorRange.name(), contentColor.name(), getPackageName());
+        return colorResourceId;
+    }
+
+    public String getCatalogAppJSONAssetPath() {
+        try {
+            File f = new File(getCacheDir() + "/catalogapp.json");
+            InputStream is = getAssets().open("catalogapp.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(buffer);
+            fos.close();
+            return f.getPath();
+        } catch (FileNotFoundException e) {
+            Log.e("", e.getMessage());
+        } catch (IOException e) {
+            Log.e("", e.getMessage());
+        }
+        return null;
     }
 }
