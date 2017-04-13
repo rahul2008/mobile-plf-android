@@ -31,5 +31,8 @@
     "servicediscovery.platformMicrositeId":"70000",
     "servicediscovery.platformEnvironment":"production",
     "appconfig.cloudServiceId":" appinfra.appconfigdownload"
+  },
+  "ReferenceApp":{
+    "PushNotification.autoLogout":"true"
   }
 }

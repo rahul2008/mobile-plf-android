@@ -51,6 +51,28 @@ public class PushNotificationManager {
     }
 
     /**
+     * Check status of GCM token and registration with data core
+     * @param context
+     */
+    public void initPushNotification(Context context){
+        if(TextUtils.isEmpty(pushNotificationManager.getToken(context))){
+            Log.d(TAG,"Token is empty. Starting GCM registration....");
+            pushNotificationManager.startGCMRegistrationService(context);
+        }else if(new User(context).isUserSignIn()){
+            Log.d(TAG,"User is signed in");
+            if(!isTokenRegistered(context)){
+                Log.d(TAG,"Token is not registered. Registering with datacore");
+                registerTokenWithBackend(context);
+            }else{
+                Log.d(TAG,"User is signed in and token is registered");
+            }
+        }else{
+            Log.d(TAG,"user is not signed in.");
+            saveTokenRegistrationState(context,false);
+        }
+    }
+
+    /**
      * This method will return true if token is registered with backend/app server
      *
      * @param applicationContext
@@ -185,28 +207,32 @@ public class PushNotificationManager {
      */
     public void sendPayloadToCoCo(Context context, Bundle data) {
         Set<String> set = data.keySet();
-        for (String string : set) {
-            Log.d(TAG, string + ":" + data.getString(string));
-            if (string.equalsIgnoreCase(PushNotificationConstants.PLATFORM_KEY)) {
-                try {
-                    JSONObject jsonObject = new JSONObject(data.getString(string));
-                    Iterator iterator = jsonObject.keys();
-                    while (iterator.hasNext()) {
-                        String key = (String) iterator.next();
-                        switch (key) {
-                            case PushNotificationConstants.DSC:
-                                JSONObject dscobject = jsonObject.getJSONObject(key);
-                                DataServicesState dataServicesState = ((AppFrameworkApplication) context.getApplicationContext()).getDataServiceState();
-                                dataServicesState.sendPayloadMessageToDSC(dscobject);
-                                break;
-                            default:
-                                Log.d(TAG, "Common component is not designed for handling this key");
-                        }
+//        for (String string : set) {
+//            Log.d(TAG, string + ":" + data.getString(string));
+//            if (string.equalsIgnoreCase(PushNotificationConstants.PLATFORM_KEY)) {
+        if (set.contains(PushNotificationConstants.PLATFORM_KEY)) {
+            try {
+                JSONObject jsonObject = new JSONObject(data.getString(PushNotificationConstants.PLATFORM_KEY));
+                Iterator iterator = jsonObject.keys();
+                while (iterator.hasNext()) {
+                    String key = (String) iterator.next();
+                    switch (key) {
+                        case PushNotificationConstants.DSC:
+                            JSONObject dscobject = jsonObject.getJSONObject(key);
+                            DataServicesState dataServicesState = ((AppFrameworkApplication) context.getApplicationContext()).getDataServiceState();
+                            dataServicesState.sendPayloadMessageToDSC(dscobject);
+                            break;
+                        default:
+                            Log.d(TAG, "Common component is not designed for handling this key");
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+        }else{
+            Log.d(TAG,"Data sync key is absent in payload");
         }
+//            }
+//        }
     }
 }

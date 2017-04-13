@@ -24,7 +24,6 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
-import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.dataservices.characteristics.CharacteristicsDialogFragment;
 import com.philips.platform.baseapp.screens.dataservices.consents.ConsentDialogFragment;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentType;
@@ -225,6 +224,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     public void onSuccess(final List<? extends Moment> data) {
         DSLog.i(DSLog.LOG, "on Success Temperature");
         mTemperaturePresenter.fetchData(this);
+        mDataServicesManager.synchronize();
     }
 
     @Override
@@ -330,7 +330,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     public void onFetchSuccess(final List<? extends Moment> data) {
         DSLog.i(DSLog.LOG,"On Sucess ArrayList TemperatureTimeLineFragment");
         if (getActivity() == null) return;
-
+        mDataServicesManager.synchronize();
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {

@@ -7,7 +7,6 @@ package com.philips.platform.baseapp.base;
 
 import android.app.Application;
 import android.support.multidex.MultiDex;
-import android.text.TextUtils;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.platform.appframework.BuildConfig;
@@ -79,7 +78,8 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
          * context to gets started.
          */
         AppFrameworkTagging.getInstance().initAppTaggingInterface(this);
-        initPushNotification();
+        pushNotificationManager= PushNotificationManager.getInstance();
+        pushNotificationManager.initPushNotification(getApplicationContext());
     }
 
     public LoggingInterface getLoggingInterface() {
@@ -121,20 +121,6 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
     @Override
     public void onParseSuccess() {
 
-    }
-
-    /**
-     *Intialize push notification
-     */
-    public void initPushNotification(){
-        pushNotificationManager= PushNotificationManager.getInstance();
-        if(TextUtils.isEmpty(pushNotificationManager.getToken(getApplicationContext()))){
-            pushNotificationManager.startGCMRegistrationService(getApplicationContext());
-        }
-        //TODO:Need to remove this after PN feature implementation. Used for testing JSON parsing
-//        Bundle bundle=new Bundle();
-//        bundle.putString("platform","{ \"dsc\": { \"dataSync\": \"moment\" } }");
-//        pushNotificationManager.sendPayloadToCoCo(getApplicationContext(),bundle);
     }
 
     public DataServicesState getDataServiceState(){

@@ -97,7 +97,7 @@ public class DataServicesState extends BaseState {
         DataServicesManager.getInstance().initializeSyncMonitors(context, null, null);
         DSLog.enableLogging(true);
         DSLog.i(DSLog.LOG, "Before Setting up Synchronization Loop");
-        scheduleSync(context);
+//        scheduleSync(context);
 
         //Stetho.initializeWithDefaults(context);
     }
