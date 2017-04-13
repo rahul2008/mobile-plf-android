@@ -17,4 +17,19 @@
             <enum name="Secondary" value="2"/>
         </attr>
     </declare-styleable>
+   <!-- Notification Badge-->
+    <declare-styleable name="NotificationBadge">
+        <attr name="nbTextSize" format="dimension"/>
+        <attr name="nbTextColor" format="color" />
+        <attr name="nbBackground" format="reference" />
+        <attr name="nbAnimationEnabled" format="boolean" />
+        <attr name="nbAnimationDuration" format="integer" />
+        <attr name="nbMaxTextLength" format="integer" />
+        <attr name="nbEllipsizeText" format="string" />
+    </declare-styleable>
+    <declare-styleable name="notification_badge">
+        <attr name="uid_notification_badge_small" format="boolean" />
+    </declare-styleable>
 </resources>
+
+

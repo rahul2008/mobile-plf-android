@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.philips.platform.catalogapp.fragments.NotificationBadgeFragment" />
+    </data>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/ll_number"
+            android:layout_alignParentTop="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <!--With Icon layout-->
+                <LinearLayout
+                    style="@style/BaseLayoutMargins.Dimens"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TestButtonTexts"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|start"
+                        android:text="@string/accent_color" />
+
+                    <com.philips.platform.uid.view.widget.Switch
+                        android:id="@+id/toggleicon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/layout_margin_left_right"
+                        android:gravity="center_vertical|end" />
+                </LinearLayout>
+
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/ButtonsCategoryStyle"
+                    android:text="@string/normal_size" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/notifaction_badge_margin_top_bottom"
+                    android:orientation="vertical">
+
+                    <include
+                        layout="@layout/default_notification_badge"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <com.philips.platform.uid.view.widget.Label
+                        style="@style/ButtonsCategoryStyle"
+                        android:layout_marginBottom="@dimen/notifaction_badge_margin_top_bottom"
+                        android:text="@string/small_size" />
+
+                    <include
+                        layout="@layout/small_notification_badge"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/ll_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/ButtonsCategoryStyle"
+                android:layout_height="@dimen/notifaction_badge_lable_height" />
+
+            <com.philips.platform.uid.view.widget.EditText
+                android:id="@+id/edit_input_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/notifaction_badge_edit_text_margin_top_bottom"
+                android:layout_marginLeft="@dimen/notifaction_badge_edit_text_margin_left_right"
+                android:layout_marginRight="@dimen/notifaction_badge_edit_text_margin_left_right"
+                android:layout_marginTop="@dimen/notifaction_badge_edit_text_margin_top_bottom"
+                android:freezesText="true"
+                android:hint="@string/hint_enter_number"
+                android:inputType="number"
+                android:maxLines="1" />
+
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</layout>
