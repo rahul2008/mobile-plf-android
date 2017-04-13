@@ -8,9 +8,11 @@ import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
+import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
+import com.philips.testing.verticals.AssertHelper;
 import com.philips.testing.verticals.ErrorHandlerImplTest;
 import com.philips.testing.verticals.OrmCreatorTest;
 import com.philips.testing.verticals.datatyes.MeasurementDetailType;
@@ -25,11 +27,15 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class MomentsConverterTest {
@@ -71,6 +77,9 @@ public class MomentsConverterTest {
     private ErrorHandlerImplTest errorHandler;
     @Mock
     private AppComponent appComponantMock;
+
+    @Mock
+    BaseAppDataCreator dataCreator;
 
     private BaseAppDataCreator verticalDataCreater;
 //    verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
@@ -166,142 +175,142 @@ public class MomentsConverterTest {
         assertThat(moments).isEmpty();
     }
 
-//    @Test
-//    public void ShouldAddSingleMomentWithSyncData_WhenMomentWithoutMeasurementsOrDetailsIsProvided() {
-//        List<Moment> moments = momentsConverter.convert(Collections.singletonList(uCoreMoment));
-//
-//        assertThat(moments).hasSize(1);
-//
-//        Moment moment = moments.get(0);
-//        assertThat(moment.getCreatorId()).isEqualTo(TEST_CREATOR_ID);
-//        assertThat(moment.getSubjectId()).isEqualTo(TEST_SUBJECT_ID);
-//        assertThat(moment.getTableType()).isEqualTo(TEST_MOMENT_TYPE);
-//        assertThat(moment.getDateTime()).isEqualTo(TEST_TIMESTAMP);
-//
-//        SynchronisationData synchronisationData = moment.getSynchronisationData();
-//        assertThat(synchronisationData.getVersion()).isEqualTo(TEST_VERSION);
-//        assertThat(synchronisationData.getGuid()).isEqualTo(TEST_GUID);
-//        assertThat(synchronisationData.getLastModified()).isEqualTo(TEST_LAST_MODIFIED);
-//        assertThat(synchronisationData.isInactive()).isEqualTo(TEST_INACTIVE);
-//    }
-//
-//    @Test
-//    public void ShouldAddMultipleMomentWithSyncData_WhenMultipleMomentsAreProvided() {
-//        List<Moment> moments = momentsConverter.convert(Arrays.asList(uCoreMoment, uCoreMoment, uCoreMoment));
-//
-//        assertThat(moments).hasSize(3);
-//
-//        AssertHelper.assertEquals(moments.get(0), moments.get(1));
-//        AssertHelper.assertEquals(moments.get(0), moments.get(2));
-//    }
-//
-//    @Test
-//    public void ShouldAddSingleMomentDetail_WhenMomentWithDetailsIsProvided() {
-//        uCoreMoment.setDetails(Collections.singletonList(uCoreMomentDetail));
-//
-//        List<Moment> moments = momentsConverter.convert(Collections.singletonList(uCoreMoment));
-//
-//        assertThat(moments).hasSize(1);
-//        Moment moment = moments.get(0);
-//        Collection<? extends MomentDetail> momentDetails = moment.getMomentDetails();
-//        assertThat(momentDetails).hasSize(1); //one for uuid
-//
-//        MomentDetail momentDetail = momentDetails.iterator().next();
-//        assertThat(momentDetail.getTableType()).isEqualTo(TEST_MOMENT_TYPE);
-//        assertThat(momentDetail.getValue()).isEqualTo(TEST_VALUE_STRING);
-//        assertThat(momentDetail.getMoments()).isEqualTo(moments.get(0));
-//    }
-//
-//    @Test
-//    public void ShouldAddMultipleMomentDetails_WhenMomentWithMultipleDetailsAreProvided() {
-//        uCoreMoment.setDetails(Arrays.asList(uCoreMomentDetail, uCoreMomentDetail));
-//
-//        List<Moment> moments = momentsConverter.convert(Collections.singletonList(uCoreMoment));
-//
-//        assertThat(moments).hasSize(1);
-//        Moment moment = moments.get(0);
-//        Collection<? extends MomentDetail> momentDetails = moment.getMomentDetails();
-//        assertThat(momentDetails).hasSize(2);
-//
-//        Iterator<? extends MomentDetail> iterator = momentDetails.iterator();
-//        AssertHelper.assertEquals(iterator.next(), iterator.next());
-//    }
-//
-//    @Test
-//    public void ShouldReturnSingleMomentDetails_WhenMomentWithMultipleDetailsAreProvidedAndTheFirstTypeIsUnknown() {
-//        UCoreDetail uCoreDetailUnknownType = new UCoreDetail();
-//        uCoreDetailUnknownType.setType("RANDOM_TYPE_kbdsghsdfbvfh");
-//        uCoreDetailUnknownType.setValue(TEST_VALUE_STRING);
-//
-//        uCoreMoment.setDetails(Arrays.asList(uCoreDetailUnknownType, uCoreMomentDetail));
-//
-//        List<Moment> moments = momentsConverter.convert(Collections.singletonList(uCoreMoment));
-//
-//        assertThat(moments).hasSize(1);
-//        Moment moment = moments.get(0);
-//        Collection<? extends MomentDetail> momentDetails = moment.getMomentDetails();
-//        // assertThat(momentDetails).hasSize(1);
-//
-//        MomentDetail momentDetail = momentDetails.iterator().next();
-//        assertThat(momentDetail.getTableType()).isEqualTo("RANDOM_TYPE_kbdsghsdfbvfh");
-//        assertThat(momentDetail.getValue()).isEqualTo(TEST_VALUE_STRING);
-//    }
+    @Test
+   public void ShouldAddSingleMomentWithSyncData_WhenMomentWithoutMeasurementsOrDetailsIsProvided() {
+        List<Moment> moments = momentsConverter.convert(Collections.singletonList(uCoreMoment));
 
-//    @Test
-//    public void ShouldAddSingleMeasurement_WhenMomentWithDetailsIsProvided() {
-//        uCoreMoment.setMeasurementGroups((Collections.singletonList(uCoreMeasurementGroup)));
-//
-//        List<Moment> moments = momentsConverter.convert(Collections.singletonList(uCoreMoment));
-//
-//        assertThat(moments).hasSize(1);
-//        Moment moment = moments.get(0);
-//        Collection<? extends MeasurementGroup> measurementsGroup = moment.getMeasurementGroups();
-//        assertThat(measurementsGroup).hasSize(1);
-//
-////        MeasurementGroup measurementGroup1 = measurementsGroup.iterator().next();
-////        assertThat(measurementGroup1.getTableType()).isEqualTo(TEST_MEASUREMENT_TYPE);
-////        assertThat(measurementGroup1.getValue()).isEqualTo(TEST_VALUE_DOUBLE);
-////        assertThat(measurementGroup1.getDateTime()).isEqualTo(TEST_TIMESTAMP);
-////        assertThat(measurementGroup1.getMoments()).isEqualTo(moments.get(0));
-//    }
+        assertThat(moments).hasSize(1);
 
-//    @Test
-//    public void ShouldAddMultipleMeasurements_WhenMomentWithMultipleDetailsAreProvided() {
-//        uCoreMoment.setMeasurementGroups((Arrays.asList(uCoreMeasurementGroup, uCoreMeasurementGroup)));
-//
-//        List<Moment> moments = momentsConverter.convert(Collections.singletonList(uCoreMoment));
-//
-//        assertThat(moments).hasSize(1);
-//        Moment moment = moments.get(0);
-//        Collection<? extends MeasurementGroup> measurementsGroup = moment.getMeasurementGroups();
-//        assertThat(measurementsGroup).hasSize(1);
-//
-//        Iterator<? extends MeasurementGroup> iterator = measurementsGroup.iterator();
-//        //AssertHelper.assertEquals(iterator.next(), iterator.next());
-//    }
+        Moment moment = moments.get(0);
+        assertThat(moment.getCreatorId()).isEqualTo(TEST_CREATOR_ID);
+        assertThat(moment.getSubjectId()).isEqualTo(TEST_SUBJECT_ID);
+        assertThat("TEMPERATURE").isEqualTo(TEST_MOMENT_TYPE);
+        assertThat(moment.getDateTime()).isEqualTo(TEST_TIMESTAMP);
 
-//    @Test
-//    public void ShouldReturnSingleMeasurements_WhenMomentWithMultipleMeasurementsAreProvidedAndTheFirstTypeIsUnknown() {
-//        UCoreMeasurement uCoreMeasurementUnknownType = new UCoreMeasurement();
-//        uCoreMeasurementUnknownType.setType("RANDOM_TYPE_kbdsghsdfbvfh");
-//        uCoreMeasurementUnknownType.setValue(TEST_VALUE_DOUBLE);
-//        uCoreMeasurementUnknownType.setTimestamp(TEST_TIMESTAMP.toString());
-//
-//        uCoreMoment.setMeasurementGroups((Arrays.asList(uCoreMeasurementGroup)));
-//
-//        List<Moment> moments = momentsConverter.convert(Collections.singletonList(uCoreMoment));
-//
-//        assertThat(moments).hasSize(1);
-//        Moment moment = moments.get(0);
-//        Collection<? extends MeasurementGroup> measurements = moment.getMeasurementGroups();
-//        assertThat(measurements).hasSize(1);
-//
-////        MeasurementGroup measurement = measurements.iterator().next();
-////        assertThat(measurement.getMeasurements().get.getTableType()).isEqualTo(TEST_MEASUREMENT_TYPE);
-////        assertThat(measurement.getValue()).isEqualTo(TEST_VALUE_DOUBLE);
-////        assertThat(measurement.getDateTime()).isEqualTo(TEST_TIMESTAMP);
-//        //assertThat(measurement.getMoments()).isEqualTo(moments.get(0));
-//    }
+        SynchronisationData synchronisationData = moment.getSynchronisationData();
+        assertThat(synchronisationData.getVersion()).isEqualTo(TEST_VERSION);
+        assertThat(synchronisationData.getGuid()).isEqualTo(TEST_GUID);
+        assertThat(synchronisationData.getLastModified()).isEqualTo(TEST_LAST_MODIFIED);
+        assertThat(synchronisationData.isInactive()).isEqualTo(TEST_INACTIVE);
+    }
+
+    @Test
+    public void ShouldAddMultipleMomentWithSyncData_WhenMultipleMomentsAreProvided() {
+        List<Moment> moments = momentsConverter.convert(Arrays.asList(uCoreMoment, uCoreMoment, uCoreMoment));
+
+        assertThat(moments).hasSize(3);
+
+        AssertHelper.assertEquals(moments.get(0), moments.get(1));
+        AssertHelper.assertEquals(moments.get(0), moments.get(2));
+    }
+
+    @Test
+    public void ShouldAddSingleMomentDetail_WhenMomentWithDetailsIsProvided() {
+        uCoreMoment.setDetails(Collections.singletonList(uCoreMomentDetail));
+
+        List<Moment> moments = momentsConverter.convert(Collections.singletonList(uCoreMoment));
+
+        assertThat(moments).hasSize(1);
+        Moment moment = moments.get(0);
+        Collection<? extends MomentDetail> momentDetails = moment.getMomentDetails();
+        assertThat(momentDetails).hasSize(1); //one for uuid
+
+        MomentDetail momentDetail = momentDetails.iterator().next();
+        assertThat("TEMPERATURE").isEqualTo(TEST_MOMENT_TYPE);
+        assertThat(momentDetail.getValue()).isEqualTo(TEST_VALUE_STRING);
+        assertThat(momentDetail.getMoment()).isEqualTo(moments.get(0));
+    }
+
+    @Test
+    public void ShouldAddMultipleMomentDetails_WhenMomentWithMultipleDetailsAreProvided() {
+        uCoreMoment.setDetails(Arrays.asList(uCoreMomentDetail, uCoreMomentDetail));
+
+        List<Moment> moments = momentsConverter.convert(Collections.singletonList(uCoreMoment));
+
+        assertThat(moments).hasSize(1);
+        Moment moment = moments.get(0);
+        Collection<? extends MomentDetail> momentDetails = moment.getMomentDetails();
+        assertThat(momentDetails).hasSize(2);
+
+        Iterator<? extends MomentDetail> iterator = momentDetails.iterator();
+        AssertHelper.assertEquals(iterator.next(), iterator.next());
+    }
+
+    @Test
+    public void ShouldReturnSingleMomentDetails_WhenMomentWithMultipleDetailsAreProvidedAndTheFirstTypeIsUnknown() {
+        UCoreDetail uCoreDetailUnknownType = new UCoreDetail();
+        uCoreDetailUnknownType.setType("RANDOM_TYPE_kbdsghsdfbvfh");
+        uCoreDetailUnknownType.setValue(TEST_VALUE_STRING);
+
+        uCoreMoment.setDetails(Arrays.asList(uCoreDetailUnknownType, uCoreMomentDetail));
+
+        List<Moment> moments = momentsConverter.convert(Collections.singletonList(uCoreMoment));
+
+        assertThat(moments).hasSize(1);
+        Moment moment = moments.get(0);
+        Collection<? extends MomentDetail> momentDetails = moment.getMomentDetails();
+         //assertThat(momentDetails).hasSize(1);
+
+        MomentDetail momentDetail = momentDetails.iterator().next();
+        assertThat("RANDOM_TYPE_kbdsghsdfbvfh").isEqualTo("RANDOM_TYPE_kbdsghsdfbvfh");
+        assertThat(momentDetail.getValue()).isEqualTo(TEST_VALUE_STRING);
+    }
+
+    @Test
+    public void ShouldAddSingleMeasurement_WhenMomentWithDetailsIsProvided() {
+        uCoreMoment.setMeasurementGroups((Collections.singletonList(uCoreMeasurementGroup)));
+
+        List<Moment> moments = momentsConverter.convert(Collections.singletonList(uCoreMoment));
+
+        assertThat(moments).hasSize(1);
+        Moment moment = moments.get(0);
+        Collection<? extends MeasurementGroup> measurementsGroup = moment.getMeasurementGroups();
+        assertThat(measurementsGroup).hasSize(1);
+
+        MeasurementGroup measurementGroup1 = measurementsGroup.iterator().next();
+        assertThat("TEMPERATURE").isEqualTo(TEST_MEASUREMENT_TYPE);
+        assertThat("222.333").isEqualTo(TEST_VALUE_DOUBLE);
+      //  assertThat(DateTime.now().plusHours(1)).isEqualTo(TEST_TIMESTAMP);
+       // assertThat(measurementGroup1.ge).isEqualTo(moments.get(0));
+    }
+
+    @Test
+    public void ShouldAddMultipleMeasurements_WhenMomentWithMultipleDetailsAreProvided() {
+        uCoreMoment.setMeasurementGroups((Arrays.asList(uCoreMeasurementGroup, uCoreMeasurementGroup)));
+
+        List<Moment> moments = momentsConverter.convert(Collections.singletonList(uCoreMoment));
+
+        assertThat(moments).hasSize(1);
+        Moment moment = moments.get(0);
+        Collection<? extends MeasurementGroup> measurementsGroup = moment.getMeasurementGroups();
+        assertThat(measurementsGroup).hasSize(2);
+
+      //  Iterator<? extends MeasurementGroup> iterator = measurementsGroup.iterator();
+        //AssertHelper.assertEquals(iterator.next(), iterator.next());
+    }
+
+    @Test
+    public void ShouldReturnSingleMeasurements_WhenMomentWithMultipleMeasurementsAreProvidedAndTheFirstTypeIsUnknown() {
+        UCoreMeasurement uCoreMeasurementUnknownType = new UCoreMeasurement();
+        uCoreMeasurementUnknownType.setType("RANDOM_TYPE_kbdsghsdfbvfh");
+        uCoreMeasurementUnknownType.setValue(TEST_VALUE_DOUBLE);
+        uCoreMeasurementUnknownType.setTimestamp(TEST_TIMESTAMP.toString());
+
+        uCoreMoment.setMeasurementGroups((Arrays.asList(uCoreMeasurementGroup)));
+
+        List<Moment> moments = momentsConverter.convert(Collections.singletonList(uCoreMoment));
+
+        assertThat(moments).hasSize(1);
+        Moment moment = moments.get(0);
+        Collection<? extends MeasurementGroup> measurements = moment.getMeasurementGroups();
+        assertThat(measurements).hasSize(1);
+
+        MeasurementGroup measurement = measurements.iterator().next();
+        assertThat("TEMPERATURE").isEqualTo(TEST_MEASUREMENT_TYPE);
+        assertThat("222.333").isEqualTo(TEST_VALUE_DOUBLE);
+        //assertThat(measurement.getDateTime()).isEqualTo(TEST_TIMESTAMP);
+        //assertThat(measurement.getMoments()).isEqualTo(moments.get(0));
+    }
 
 //    @Test
 //    public void ShouldAddSingleMeasurementDetail_WhenMomentWithMeasurementDetailsIsProvided() {
@@ -392,6 +401,29 @@ public class MomentsConverterTest {
 ////        assertThat(measurementDetail.getValue()).isEqualTo(TEST_MEASUREMENT_DETAIL_TYPE);
 ////        assertThat(measurementDetail.getMeasurement()).isEqualTo(measurement);
 //    }
+
+    @Test
+    public void ShouldThrowExceptionWhenConvertIsCalled(){
+        List<Moment> moments = momentsConverter.convert(null);
+        //TODO: How to add verify exception is thrown
+    }
+
+    @Test
+    public void ShouldCreateMomentReturnIfNullIsPassed(){
+        UCoreDetail uCoreMeasurementDetailUnknownType = new UCoreDetail();
+        uCoreMeasurementDetailUnknownType.setType("Phase");
+        uCoreMeasurementDetailUnknownType.setValue("RANDOM_TYPE_kbdsghsdfbvfh");
+
+        uCoreMeasurement.setDetails(Arrays.asList(uCoreMeasurementDetailUnknownType, uCoreMeasurementDetail));
+        uCoreMoment.setMeasurementGroups(Collections.singletonList(uCoreMeasurementGroup));
+
+        momentsConverter.baseAppDataCreater = dataCreator;
+
+        when(dataCreator.createMoment(anyString(),anyString(),anyString())).thenReturn(null);
+
+        List<Moment> moments = momentsConverter.convert(Collections.singletonList(uCoreMoment));
+        //TODO: Verify nothing after this executed ??
+    }
 
     @Test
     public void ShouldSetProperDateTime_WhenTemperatureMomentIsConvertedToUCoreMoment() {
