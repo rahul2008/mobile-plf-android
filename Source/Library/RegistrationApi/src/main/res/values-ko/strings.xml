@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">설치</string>
 <string name="reg_Phonenumbernotfound">전화 번호를 찾을 수 없음</string>
 <string name="reg_InvalidMobilenumber">잘못된 휴대 전화 번호</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">암호 재설정을 위해 이메일 또는 SMS를 발송합니다.</string>
 </resources>

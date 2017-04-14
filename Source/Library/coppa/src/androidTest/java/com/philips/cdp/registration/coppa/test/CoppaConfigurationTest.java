@@ -15,9 +15,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import com.janrain.android.Jump;
 import com.janrain.android.utils.ThreadUtils;
 import com.philips.cdp.registration.coppa.ui.activity.RegistrationCoppaActivity;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
@@ -500,20 +498,9 @@ public class CoppaConfigurationTest extends ActivityInstrumentationTestCase2<Reg
         protected void setUp() throws Exception {
                 MultiDex.install(getInstrumentation().getTargetContext());
                 super.setUp();
-
-                context = getInstrumentation().getContext();
-                if(RegistrationHelper.getInstance().getAppInfraInstance() == null){
-                        RegistrationHelper.getInstance().setAppInfraInstance(new AppInfra.Builder().build(context));
-                }
                 RLog.init();
-
-
-
-
                 System.setProperty("dexmaker.dexcache", context.getCacheDir().getPath());
                 //Configure PIL
-
-
         }
 
 
@@ -531,47 +518,8 @@ public class CoppaConfigurationTest extends ActivityInstrumentationTestCase2<Reg
                 });
         }
 
-       /* public void test_ConfirmationStatus(){
-                //deleteFromDisk();
-
-                try {
-                        saveToDisk(COPPA_CONFIRMED_SIGNED_USER);
-                        SecureStorage.init(context);
-                        Jump.loadUserFromDiskInternal(context);
-                        CoppaExtension coppaExtension = new CoppaExtension(context);
-                        coppaExtension.buildConfiguration();
-
-                        assertNotNull(coppaExtension.getCoppaEmailConsentStatus());
-                        assertEquals(CoppaStatus.kDICOPPAConfirmationGiven, coppaExtension.getCoppaEmailConsentStatus());
-                        Jump.signOutCaptureUser(context);
-                }catch (ConcurrentModificationException e){
-
-                }
-
-
-        }*/
-
         private void deleteFromDisk(){
                 context.deleteFile("jr_capture_signed_in_user");
                 Jump.getSecureStorageInterface().removeValueForKey("jr_capture_signed_in_user");
         }
-
-        /*public void test_ConsentStatus(){
-                try {
-                //deleteFromDisk();
-                Jump.signOutCaptureUser(context);
-               saveToDisk(COPPA_CONSENT_SIGNED_USER);
-                SecureStorage.init(context);
-                Jump.loadUserFromDiskInternal(context);
-                CoppaExtension coppaExtension = new CoppaExtension(context);
-                coppaExtension.resetConfiguration();
-                coppaExtension.buildConfiguration();
-
-                assertNotNull(coppaExtension.getCoppaEmailConsentStatus());
-                assertEquals(CoppaStatus.kDICOPPAConfirmationPending, coppaExtension.getCoppaEmailConsentStatus());
-                }catch (ConcurrentModificationException e){
-
-                }
-
-        }*/
 }

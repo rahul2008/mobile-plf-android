@@ -15,6 +15,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.ui.utils.FontLoader;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 
 public class XRegError extends RelativeLayout {
 
@@ -23,6 +25,8 @@ public class XRegError extends RelativeLayout {
     private TextView mTvError;
 
     private String mSigninErrMsg;
+
+    private TextView mTvCloseIcon;
 
     public XRegError(Context context) {
         super(context);
@@ -43,6 +47,8 @@ public class XRegError extends RelativeLayout {
         LayoutInflater li = LayoutInflater.from(mContext);
         li.inflate(resourceId, this, true);
         mTvError = (XTextView) findViewById(R.id.tv_reg_error_message);
+        mTvCloseIcon = (TextView) findViewById(R.id.iv_reg_close);
+        FontLoader.getInstance().setTypeface(mTvCloseIcon, RegConstants.PUIICON_TTF);
     }
 
     public void setError(String errorMsg) {

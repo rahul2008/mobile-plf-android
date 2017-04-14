@@ -16,12 +16,9 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 import com.janrain.android.Jump;
-import com.janrain.android.JumpConfig;
 import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.EventHelper;
@@ -29,14 +26,17 @@ import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 public class UserRegistrationInitializer {
+
+    @Inject
+    ServiceDiscoveryInterface serviceDiscoveryInterface;
 
     private boolean mIsJumpInitializationInProgress;
 
@@ -51,6 +51,7 @@ public class UserRegistrationInitializer {
     private static volatile UserRegistrationInitializer mUserRegistrationInitializer;
 
     private UserRegistrationInitializer() {
+        URInterface.getComponent().inject(this);
         mHandler = new Handler();
     }
 
@@ -60,7 +61,7 @@ public class UserRegistrationInitializer {
         mReceivedProviderFlowSuccess = false;
     }
 
-    private final int CALL_AFTER_DELAY = 500;
+    private final int CALL_AFTER_DELAY = 1000;
     private Handler mHandler;
 
     public boolean isJumpInitializationInProgress() {
@@ -120,19 +121,17 @@ public class UserRegistrationInitializer {
                         mIsJumpInitializationInProgress = false;
                         mReceivedDownloadFlowSuccess = false;
                         mReceivedProviderFlowSuccess = false;
-                        if (mJumpFlowDownloadStatusListener != null) {
-                            mHandler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (mJumpFlowDownloadStatusListener != null) {
-                                        mJumpFlowDownloadStatusListener.onFlowDownloadSuccess();
-                                    }
+                        mHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (mJumpFlowDownloadStatusListener != null) {
+                                    mJumpFlowDownloadStatusListener.onFlowDownloadSuccess();
                                 }
-                            }, CALL_AFTER_DELAY);
+                                EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_SUCCESS);
+                            }
 
+                        }, CALL_AFTER_DELAY);
 
-                        }
-                        EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_SUCCESS);
 
                     }
 
@@ -166,28 +165,21 @@ public class UserRegistrationInitializer {
 
         mRegistrationSettings = new RegistrationSettingsURL();
 
-
-        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
-        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
-
         serviceDiscoveryInterface.getServiceLocaleWithCountryPreference("userreg.janrain.api", new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
-           @Override
+            @Override
             public void onSuccess(String s) {
-                System.out.println("STRING S : " + s);
                 String localeArr[] = s.split("_");
                 serviceDiscoveryInterface.setHomeCountry(localeArr[1].trim().toUpperCase());
-                
                 RegistrationHelper.getInstance().setCountryCode(localeArr[1].trim().toUpperCase());
-                System.out.println("STRING Change : " + localeArr[0].trim()+"-"+localeArr[1].trim());
-               PILLocaleManager localeManager = new PILLocaleManager(context);
-               localeManager.setInputLocale(localeArr[0].trim(), localeArr[1].trim());
-                mRegistrationSettings.intializeRegistrationSettings(context, RegistrationConfiguration.getInstance().getRegistrationClientId(registrationType), localeArr[0].trim()+"-"+localeArr[1].trim());
+                PILLocaleManager localeManager = new PILLocaleManager(context);
+                localeManager.setInputLocale(localeArr[0].trim(), localeArr[1].trim());
+                mRegistrationSettings.intializeRegistrationSettings(context, RegistrationConfiguration.getInstance().getRegistrationClientId(registrationType), localeArr[0].trim() + "-" + localeArr[1].trim());
 
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-                 EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+                EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
             }
         });
 
@@ -230,7 +222,6 @@ public class UserRegistrationInitializer {
 
     private void registerJumpInitializationListener(Context context) {
         IntentFilter flowFilter = new IntentFilter(Jump.JR_DOWNLOAD_FLOW_SUCCESS);
-
         flowFilter.addAction(Jump.JR_FAILED_TO_DOWNLOAD_FLOW);
         flowFilter.addAction("com.janrain.android.Jump.PROVIDER_FLOW_SUCCESS");
         if (UserRegistrationInitializer.getInstance().janrainStatusReceiver != null) {

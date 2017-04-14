@@ -28,8 +28,8 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.apptagging.AppTaggingPages;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
+import com.philips.cdp.registration.app.tagging.AppTaggingPages;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
@@ -42,12 +42,16 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.URInterface;
+
+import javax.inject.Inject;
 
 public class LogoutFragment extends RegistrationBaseFragment implements OnClickListener,
         UpdateUserDetailsHandler, NetworStateListener, LogoutHandler,
         XCheckBox.OnCheckedChangeListener {
 
-    private static final int FAILURE_TO_CONNECT = -1;
+    @Inject
+    NetworkUtility networkUtility;
 
     private TextView mTvWelcome;
 
@@ -89,6 +93,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        URInterface.getComponent().inject(this);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onCreateView");
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
 
@@ -240,7 +245,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     }
 
     private void handleUpdate() {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
+        if (networkUtility.isNetworkAvailable()) {
             mRegError.hideError();
             showProgressBar();
             updateUser();
@@ -305,7 +310,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
             }
             return;
         }
-        if (error == FAILURE_TO_CONNECT || error == BAD_RESPONSE_ERROR_CODE) {
+        if (error == RegConstants.FAILURE_TO_CONNECT || error == BAD_RESPONSE_ERROR_CODE) {
             mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
             return;
         }
@@ -369,7 +374,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     }
 
     private void handleUiStates() {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
+        if (networkUtility.isNetworkAvailable()) {
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
             } else {

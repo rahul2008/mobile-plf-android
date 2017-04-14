@@ -21,17 +21,20 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.janrain.android.Jump;
 import com.janrain.android.engage.session.JRSession;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.apptagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
+import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.coppa.base.CoppaResendError;
 import com.philips.cdp.registration.coppa.base.ResendCoppaEmailConsentHandler;
 import com.philips.cdp.registration.coppa.utils.CoppaInterface;
@@ -41,12 +44,12 @@ import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
 public class RegistrationCoppaSampleActivity extends Activity implements OnClickListener,
@@ -69,6 +72,8 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
 
     private RadioGroup mRadioGroup;
     private User mUser;
+    private Switch mCountrySelectionSwitch;
+    private boolean isCountrySelection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,11 +89,11 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
         mBtnRegistrationWithAccountSettings.setOnClickListener(this);
         mBtnRegistrationMarketingOptIn = (Button) findViewById(R.id.btn_marketing_opt_in);
         mBtnRegistrationMarketingOptIn.setOnClickListener(this);
-        mBtnParentalConsent = (Button)findViewById(R.id.btn_parental_consent);
+        mBtnParentalConsent = (Button) findViewById(R.id.btn_parental_consent);
         mBtnParentalConsent.setOnClickListener(this);
         mBtnRegistrationWithOutAccountSettings = (Button) findViewById(R.id.btn_registration_without_account);
         mBtnRegistrationWithOutAccountSettings.setOnClickListener(this);
-
+        mCountrySelectionSwitch = (Switch) findViewById(R.id.county_selection_switch);
         mProgressDialog = new ProgressDialog(RegistrationCoppaSampleActivity.this);
         mProgressDialog.setCancelable(false);
 
@@ -130,6 +135,15 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
                 mLlConfiguration.setVisibility(View.VISIBLE);
             }
         });
+
+        mCountrySelectionSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isCountrySelection = isChecked;
+            }
+        });
+
         mBtnApply = (Button) findViewById(R.id.Apply);
         mBtnApply.setOnClickListener(new OnClickListener() {
             @Override
@@ -230,11 +244,12 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
         CoppaLaunchInput urLaunchInput;
         ActivityLauncher activityLauncher;
         CoppaInterface urInterface;
+        initCountrySelection();
         switch (v.getId()) {
 
             case R.id.btn_registration_with_account:
                 RLog.d(RLog.ONCLICK, "RegistrationCoppaSampleActivity : Registration");
-                RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
+                RegistrationCoppaApplication.getInstance().getAppInfra().getTagging().setPreviousPage("demoapp:home");
                 urLaunchInput = new CoppaLaunchInput();
                 urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
                 urLaunchInput.setAccountSettings(true);
@@ -249,7 +264,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
 
             case R.id.btn_marketing_opt_in:
                 RLog.d(RLog.ONCLICK, "RegistrationCoppaSampleActivity : Registration");
-                RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
+                RegistrationCoppaApplication.getInstance().getAppInfra().getTagging().setPreviousPage("demoapp:home");
                 urLaunchInput = new CoppaLaunchInput();
                 urLaunchInput.setEndPointScreen(RegistrationLaunchMode.MARKETING_OPT);
                 urLaunchInput.setAccountSettings(false);
@@ -265,7 +280,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
 
             case R.id.btn_registration_without_account:
                 RLog.d(RLog.ONCLICK, "RegistrationCoppaSampleActivity : Registration");
-                RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
+                RegistrationCoppaApplication.getInstance().getAppInfra().getTagging().setPreviousPage("demoapp:home");
                 urLaunchInput = new CoppaLaunchInput();
                 urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
                 urLaunchInput.setAccountSettings(false);
@@ -298,7 +313,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
 
             case R.id.btn_parental_consent:
                 User user = new User(mContext);
-                if(user.isUserSignIn()){
+                if (user.isUserSignIn()) {
                     urLaunchInput = new CoppaLaunchInput();
                     urLaunchInput.setParentalFragment(true);
                     urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
@@ -309,7 +324,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
 
                     urInterface = new CoppaInterface();
                     urInterface.launch(activityLauncher, urLaunchInput);
-                }else{
+                } else {
                     Toast.makeText(this, "Please login before accessing parental consent", Toast.LENGTH_LONG).show();
                 }
 
@@ -350,7 +365,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
     @Override
     public void onUserRegistrationComplete(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationCoppaSampleActivity : onUserRegistrationComplete");
-        if(activity != null) {
+        if (activity != null) {
             activity.finish();
         }
     }
@@ -410,6 +425,17 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
 
     final Handler handler = new Handler();
 
+    private void initCountrySelection() {
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        String countrySelection = isCountrySelection ? "true" : "false";
+        RegistrationCoppaApplication.getInstance().getAppInfra().getConfigInterface().setPropertyForKey(
+                URConfigurationConstants.SHOW_COUNTRY_SELECTION,
+                URConfigurationConstants.UR,
+                countrySelection,
+                configError);
+    }
+
     private void showToast(final String msg) {
         handler.post(new Runnable() {
             @Override
@@ -442,16 +468,17 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
     public void onRefreshLoginSessionInProgress(String message) {
         showToast(message);
     }
-    RegistrationContentConfiguration registrationContentConfiguration ;
+
+    RegistrationContentConfiguration registrationContentConfiguration;
 
     public RegistrationContentConfiguration getRegistrationContentConfiguration() {
-        String valueForRegistration= "sample";
-        String valueForEmailVerification="sample";
-        String optInTitleText=getResources().getString(R.string.reg_Opt_In_Be_The_First);
-        String optInQuessionaryText=getResources().getString(R.string.reg_Opt_In_What_Are_You_Going_To_Get);
-        String optInDetailDescription=getResources().getString(R.string.reg_Opt_In_Special_Offers);
-        String optInBannerText=getResources().getString(R.string.reg_Opt_In_Join_Now);
-        String optInTitleBarText=getResources().getString(R.string.reg_RegCreateAccount_NavTitle);
+        String valueForRegistration = "sample";
+        String valueForEmailVerification = "sample";
+        String optInTitleText = getResources().getString(R.string.reg_Opt_In_Be_The_First);
+        String optInQuessionaryText = getResources().getString(R.string.reg_Opt_In_What_Are_You_Going_To_Get);
+        String optInDetailDescription = getResources().getString(R.string.reg_Opt_In_Special_Offers);
+        String optInBannerText = getResources().getString(R.string.reg_Opt_In_Join_Now);
+        String optInTitleBarText = getResources().getString(R.string.reg_RegCreateAccount_NavTitle);
         registrationContentConfiguration = new RegistrationContentConfiguration();
         registrationContentConfiguration.setValueForRegistration(valueForRegistration);
         registrationContentConfiguration.setValueForEmailVerification(valueForEmailVerification);
@@ -461,4 +488,5 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
         registrationContentConfiguration.setOptInBannerText(optInBannerText);
         registrationContentConfiguration.setOptInActionBarText(optInTitleBarText);
         return registrationContentConfiguration;
-    }}
+    }
+}

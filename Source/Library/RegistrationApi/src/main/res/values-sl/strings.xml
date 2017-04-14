@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">Namestitev</string>
 <string name="reg_Phonenumbernotfound">Telefonske številke ni mogoče najti</string>
 <string name="reg_InvalidMobilenumber">Neveljavna številka mobilnega telefona</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Poslali vam bomo e-poštno sporočilo ali sporočilo SMS za ponastavitev gesla.</string>
 </resources>

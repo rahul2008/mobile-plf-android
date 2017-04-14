@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">Pasang</string>
 <string name="reg_Phonenumbernotfound">Nombor telefon tidak ditemui</string>
 <string name="reg_InvalidMobilenumber">Nombor Telefon Bimbit tidak sah</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Kami akan menghantar e-mel atau SMS kepada anda untuk menetapkan semula kata laluan anda.</string>
 </resources>

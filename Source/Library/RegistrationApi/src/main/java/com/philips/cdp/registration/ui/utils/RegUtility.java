@@ -24,7 +24,6 @@ import android.widget.TextView;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.events.SocialProvider;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 
 import java.util.ArrayList;
@@ -195,18 +194,15 @@ public class RegUtility {
     }
 
     public static UIFlow getUiFlow() {
-        String flowType =
-                RegistrationHelper.getInstance().getAppInfraInstance().getAbTesting().
-                        getTestValue(RegConstants.DOT_RECEIVE_MARKETING_OPT_IN, UIFlow.FLOW_A.getValue(),
+        ABTestClientInterface abTestClientInterface = URInterface.getComponent().getAbTestClientInterface();
+        String flowType = abTestClientInterface.getTestValue(RegConstants.DOT_RECEIVE_MARKETING_OPT_IN, UIFlow.FLOW_A.getValue(),
                                 ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE, null);
-        if(flowType.equalsIgnoreCase(UIFlow.FLOW_A.getValue())){
-            return UIFlow.FLOW_A;
-        }else if(flowType.equalsIgnoreCase(UIFlow.FLOW_B.getValue())){
+      if(flowType.equalsIgnoreCase(UIFlow.FLOW_B.getValue())){
             return UIFlow.FLOW_B;
         }else if(flowType.equalsIgnoreCase(UIFlow.FLOW_C.getValue())){
             return UIFlow.FLOW_C;
         }
-        return UIFlow.FLOW_C;
+        return UIFlow.FLOW_A;
     }
     public static void checkIsValidSignInProviders(HashMap<String, ArrayList<String>> providers) {
         if(providers!=null){

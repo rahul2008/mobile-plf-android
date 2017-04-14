@@ -22,11 +22,11 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.philips.cdp.registration.apptagging.AppTaggingErrors;
-import com.philips.cdp.registration.apptagging.AppTaggingPages;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
+import com.philips.cdp.registration.app.tagging.AppTaggingPages;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
@@ -36,9 +36,9 @@ import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XButton;
-import com.philips.cdp.registration.ui.customviews.XPassword;
+import com.philips.cdp.registration.ui.customviews.PasswordView;
 import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.customviews.onUpdateListener;
+import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
@@ -46,10 +46,16 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.URInterface;
+
+import javax.inject.Inject;
 
 public class MergeAccountFragment extends RegistrationBaseFragment implements EventListener,
-        onUpdateListener, TraditionalLoginHandler, ForgotPasswordHandler, NetworStateListener,
+        OnUpdateListener, TraditionalLoginHandler, ForgotPasswordHandler, NetworStateListener,
         OnClickListener {
+
+    @Inject
+    NetworkUtility networkUtility;
 
     private TextView mTvAccountMergeSignIn;
 
@@ -67,7 +73,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
     private String mEmailId;
 
-    private XPassword mEtPassword;
+    private PasswordView mEtPassword;
 
     private ProgressBar mPbMergeSpinner;
 
@@ -92,6 +98,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        URInterface.getComponent().inject(this);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onCreateView");
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         EventHelper.getInstance()
@@ -187,7 +194,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
         mRlSingInOptions = (RelativeLayout) view.findViewById(R.id.rl_reg_btn_container);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
-        mEtPassword = (XPassword) view.findViewById(R.id.rl_reg_password_field);
+        mEtPassword = (PasswordView) view.findViewById(R.id.rl_reg_password_field);
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         mEtPassword.requestFocus();
         mEtPassword.setOnUpdateListener(this);
@@ -233,7 +240,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
     }
 
     private void mergeAccount() {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
+        if (networkUtility.isNetworkAvailable()) {
             mUser.mergeToTraditionalAccount(mEmailId, mEtPassword.getPassword(), mMergeToken, this);
             showMergeSpinner();
         } else {
@@ -245,7 +252,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
         boolean validatorResult = FieldsValidator.isValidEmail(mEmailId);
         if (!validatorResult) {
         } else {
-            if (NetworkUtility.isNetworkAvailable(mContext)) {
+            if (networkUtility.isNetworkAvailable()) {
                 if (mUser != null) {
                     showForgotPasswordSpinner();
                     mEtPassword.clearFocus();
@@ -280,7 +287,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
     }
 
     private void handleUiErrorState() {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
+        if (networkUtility.isNetworkAvailable()) {
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
             } else {
@@ -295,7 +302,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
     private void updateUiStatus() {
         RLog.i("MergeAccountFragment", "updateUiStatus");
         if (mEtPassword.isValidPassword()
-                && NetworkUtility.isNetworkAvailable(mContext)
+                && networkUtility.isNetworkAvailable()
                 && UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
             mBtnMerge.setEnabled(true);
             mBtnForgotPassword.setEnabled(true);
@@ -328,7 +335,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
     }
 
     @Override
-    public void onUpadte() {
+    public void onUpdate() {
         handleOnUIThread(new Runnable() {
             @Override
             public void run() {
@@ -357,7 +364,16 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
         });
     }
 
+    private void launchAlmostDoneScreen() {
+        getRegistrationFragment().addAlmostDoneFragmentforTermsAcceptance();
+        trackPage(AppTaggingPages.ALMOST_DONE);
+    }
+
     private void launchWelcomeFragment() {
+        if(!mUser.getReceiveMarketingEmail()){
+            launchAlmostDoneScreen();
+            return;
+        }
         getRegistrationFragment().addWelcomeFragmentOnVerification();
         trackPage(AppTaggingPages.WELCOME);
     }

@@ -25,10 +25,9 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.apptagging.AppTagging;
-import com.philips.cdp.registration.apptagging.AppTaggingErrors;
-import com.philips.cdp.registration.apptagging.AppTaggingPages;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
+import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
+import com.philips.cdp.registration.app.tagging.AppTaggingPages;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
@@ -42,13 +41,19 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.URInterface;
 
 import org.json.JSONException;
 
 import java.util.HashMap;
 
+import javax.inject.Inject;
+
 public class AccountActivationFragment extends RegistrationBaseFragment implements OnClickListener,
         RefreshUserHandler, ResendVerificationEmailHandler, NetworStateListener, TraditionalLoginHandler {
+
+    @Inject
+    NetworkUtility networkUtility;
 
     private Button mBtnActivate;
 
@@ -93,6 +98,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        URInterface.getComponent().inject(this);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onCreateView");
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
@@ -250,7 +256,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     }
 
     private void handleUiState() {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
+        if (networkUtility.isNetworkAvailable()) {
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
                 mBtnActivate.setEnabled(true);

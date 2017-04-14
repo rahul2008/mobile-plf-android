@@ -322,7 +322,8 @@ public class HsdpUserRecord implements Serializable {
         String accessToken = MapUtils.extract(rawResponse, "exchange.accessCredential.accessToken");
         accessCredential.setAccessToken(accessToken);
 
-        Integer expiresIn = Integer.parseInt(String.valueOf(MapUtils.extract(rawResponse, "exchange.accessCredential.expiresIn"))) ;
+        String expiresInString = MapUtils.extract(rawResponse, "exchange.accessCredential.expiresIn");
+        Integer expiresIn = Integer.parseInt(String.valueOf(expiresInString)) ;
         accessCredential.setExpiresIn(expiresIn.intValue());
 
         return this;

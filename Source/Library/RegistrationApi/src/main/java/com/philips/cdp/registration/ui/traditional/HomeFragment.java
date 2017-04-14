@@ -40,10 +40,10 @@ import android.widget.Toast;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.apptagging.AppTaggingPages;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
+import com.philips.cdp.registration.app.tagging.AppTaggingPages;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.configuration.AppConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
@@ -64,10 +64,9 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
+import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.wechat.WeChatAuthenticationListener;
 import com.philips.cdp.registration.wechat.WeChatAuthenticator;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
@@ -80,13 +79,24 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
+import javax.inject.Inject;
 
 
 public class HomeFragment extends RegistrationBaseFragment implements OnClickListener,
         NetworStateListener, SocialProviderLoginHandler, EventListener {
+
+    @Inject
+    NetworkUtility networkUtility;
+
+    @Inject
+    AppConfiguration appConfiguration;
+
+    @Inject
+    ServiceDiscoveryInterface serviceDiscoveryInterface;
+
     public static final String WECHAT = "wechat";
-    public static final int AUTHENTICATION_DENIED = 203;
+    private static final int AUTHENTICATION_FAILED = -30;
+    private static final int LOGIN_FAILURE = -1;
     private Button mBtnCreateAccount;
     private XProviderButton mBtnMyPhilips;
     private TextView mTvWelcome;
@@ -120,6 +130,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        URInterface.getComponent().inject(this);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onCreateView");
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         EventHelper.getInstance()
@@ -273,7 +284,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void handleSocialProviders(final String countryCode) {
         RLog.d("HomeFragment : ", "handleSocialProviders method country code : " + countryCode);
-        //TOdo
         if (null != RegistrationConfiguration.getInstance().getProvidersForCountry(countryCode)) {
             mLlSocialProviderBtnContainer.post(new Runnable() {
 
@@ -325,7 +335,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         providerBtn.setTag(providerName);
 
         providerBtn.setEnabled(true);
-        if (NetworkUtility.isNetworkAvailable(mContext)
+        if (networkUtility.isNetworkAvailable()
                 && UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
             providerBtn.setEnabled(true);
         } else {
@@ -337,7 +347,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             public void onClick(View v) {
                 RLog.d(RLog.ONCLICK, "HomeFragment : " + providerName);
                 if(mRegError.isShown())mRegError.hideError();
-                if (NetworkUtility.isNetworkAvailable(mContext)) {
+                if (networkUtility.isNetworkAvailable()) {
                     if(!providerName.equalsIgnoreCase(WECHAT)) {
                         providerBtn.showProgressBar();
                     } else {
@@ -385,6 +395,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mBtnMyPhilips = (XProviderButton) view.findViewById(R.id.btn_reg_my_philips);
         mBtnMyPhilips.setOnClickListener(this);
         mCountryDisplayy = (XTextView) view.findViewById(R.id.tv_country_displat);
+        mCountryDisplayy.setText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
         mCountryDisplayy.setOnClickListener(this);
 
         mTvWelcomeNeedAccount = (TextView) view.findViewById(R.id.tv_reg_create_account);
@@ -403,8 +414,11 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mUser = new User(mContext);
         linkifyTermAndPolicy(mTvWelcomeDesc);
         handleUiState(false);
-        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
-        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
+        initServiceDiscovery();
+        showCountrySelection();
+    }
+
+    private void initServiceDiscovery() {
         serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {
@@ -420,15 +434,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 mCountryDisplayy.setText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
             }
         });
-        showCountrySelection();
     }
+
     private void showCountrySelection() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        mShowCountrySelection = (String) RegistrationHelper.getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.SHOW_COUNTRY_SELECTION, UR,
-                        configError);
+        mShowCountrySelection = appConfiguration.getShowCountrySelection();
         RLog.d(RLog.SERVICE_DISCOVERY, " Country Show Country Selection :" + mShowCountrySelection);
         if (mShowCountrySelection!=null)
         {
@@ -473,9 +482,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void changeCountry(String countryCode) {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
-            AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
-            final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
+        if (networkUtility.isNetworkAvailable()) {
             serviceDiscoveryInterface.setHomeCountry(countryCode);
             RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + countryCode.length());
             showProgressDialog();
@@ -509,7 +516,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             getRegistrationFragment().addFragment(new SignInAccountFragment());
             return;
         }
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
+        if (networkUtility.isNetworkAvailable()) {
             showProgressDialog();
             mFlowId = 2;
             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
@@ -519,14 +526,18 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private void launchCreateAccountFragment() {
         trackPage(AppTaggingPages.CREATE_ACCOUNT);
         if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-            getRegistrationFragment().addFragment(new CreateAccountFragment());
+            showCreateAccountFragment();
             return;
         }
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
+        if (networkUtility.isNetworkAvailable()) {
             showProgressDialog();
             mFlowId = 1;
             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         }
+    }
+
+    private void showCreateAccountFragment() {
+        getRegistrationFragment().addFragment(new CreateAccountFragment());
     }
 
     private void makeProgressVisible() {
@@ -549,10 +560,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             return;
         }
         mProvider = providerName;
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
+        if (networkUtility.isNetworkAvailable()) {
             trackMultipleActionsLogin(providerName);
             trackSocialProviderPage();
-         if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
+         if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
                 if (providerName.equalsIgnoreCase(WECHAT)) {
                     if (isWeChatAuthenticate()) {
 //                        makeProgressVisible();
@@ -625,7 +636,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
             hideProgressDialog();
             if (mFlowId == 1) {
-                getRegistrationFragment().addFragment(new CreateAccountFragment());
+                showCreateAccountFragment();
                 mFlowId = 0;
                 return;
             }
@@ -637,6 +648,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             if (mFlowId == 3) {
                 if (mProvider.equalsIgnoreCase("wechat")) {
                     if (isWeChatAuthenticate()) {
+//                        makeProgressVisible();
                         makeProgressInvisible();
                         hideProgressDialog();
                         hideProviderProgress();
@@ -669,7 +681,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void handleUiState(boolean isNetwork) {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
+        if (networkUtility.isNetworkAvailable()) {
             mRegError.hideError();
             enableControls(true);
         } else {
@@ -873,11 +885,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         }
         if (emailorMobile != null && RegistrationConfiguration.getInstance().
                 isTermsAndConditionsAcceptanceRequired() &&
-                !RegPreferenceUtility.getStoredState(mContext, emailorMobile)) {
+                !RegPreferenceUtility.getStoredState(mContext, emailorMobile) || !mUser.getReceiveMarketingEmail()) {
             launchAlmostDoneForTermsAcceptanceFragment();
             return;
         }
-
         trackPage(AppTaggingPages.WELCOME);
         getRegistrationFragment().addWelcomeFragmentOnVerification();
     }
@@ -921,7 +932,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         hideProviderProgress();
         enableControls(true);
            //Temp fix need to be changed
-        if(userRegistrationFailureInfo.getErrorCode() == AUTHENTICATION_DENIED){
+        if(userRegistrationFailureInfo.getErrorCode() == AUTHENTICATION_FAILED){
             mRegError.setError(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
             scrollViewAutomatically(mRegError,mSvRootLayout);
         }
@@ -1091,16 +1102,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     };
 
     private void registerWeChatApp() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        mWeChatAppId = (String) RegistrationHelper.getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey("weChatAppId", UR,
-                        configError);
-        mWeChatAppSecret = (String) RegistrationHelper.getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey("weChatAppSecret", UR,
-                        configError);
+        mWeChatAppId = appConfiguration.getWeChatAppId();
+        mWeChatAppSecret = appConfiguration.getWeChatAppSecret();
         RLog.d("WECHAT", "weChatId " + mWeChatAppId + " WechatSecrete " + mWeChatAppSecret);
 
         if (mWeChatAppId != null && mWeChatAppSecret != null) {

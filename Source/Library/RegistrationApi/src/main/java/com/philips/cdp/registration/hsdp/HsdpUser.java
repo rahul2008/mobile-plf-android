@@ -14,6 +14,9 @@ import android.os.Looper;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.app.tagging.Encryption;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
@@ -23,6 +26,7 @@ import com.philips.cdp.registration.handlers.SocialLoginHandler;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.dhpclient.DhpApiClientConfiguration;
 import com.philips.dhpclient.DhpAuthenticationManagementClient;
@@ -35,15 +39,18 @@ import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 
 /**
  * class hsdp user
  */
 public class HsdpUser {
 
+    @Inject
+    NetworkUtility networkUtility;
+
     private Context mContext;
-
-
 
     private final String SUCCESS_CODE = "200";
 
@@ -57,6 +64,7 @@ public class HsdpUser {
      */
     public HsdpUser(Context context) {
         this.mContext = context;
+        URInterface.getComponent().inject(this);
     }
 
     private DhpResponse dhpResponse = null;
@@ -67,7 +75,7 @@ public class HsdpUser {
      * @param logoutHandler logout handler
      */
     public void logOut(final LogoutHandler logoutHandler) {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
+        if (networkUtility.isNetworkAvailable()) {
             final Handler handler = new Handler(Looper.getMainLooper());
             new Thread(new Runnable() {
                 @Override
@@ -150,7 +158,7 @@ public class HsdpUser {
      */
     public void refreshToken(final RefreshLoginSessionHandler refreshHandler) {
         final Handler handler = new Handler(Looper.getMainLooper());
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
+        if (networkUtility.isNetworkAvailable()) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -334,7 +342,7 @@ public class HsdpUser {
     public void socialLogin(final String email, final String accessToken,
                             final String refreshSecret,final SocialLoginHandler loginHandler) {
 
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
+        if (networkUtility.isNetworkAvailable()) {
             final Handler handler = new Handler(Looper.getMainLooper());
             new Thread(new Runnable() {
                 @Override
@@ -367,6 +375,8 @@ public class HsdpUser {
                         hsdpUserRecord = hsdpUserRecord.parseHsdpUserInfo(rawResponse);
                         hsdpUserRecord.setRefreshSecret(refreshSecret);
                         HsdpUserInstance.getInstance().setHsdpUserRecord(hsdpUserRecord);
+                        Encryption encryption = new Encryption();
+                        final String userUID = encryption.encrypt(hsdpUserRecord.getUserUUID());
                         saveToDisk(new UserFileWriteListener() {
 
                             @Override
@@ -378,6 +388,12 @@ public class HsdpUser {
                                                 + rawResponse.toString());
                                         HsdpUser hsdpUser = new HsdpUser(mContext);
                                         if (hsdpUser.getHsdpUserRecord() != null)
+                                            if(null!= userUID) {
+                                                AppTagging.trackAction(AppTagingConstants.SEND_DATA,
+                                                        "evar2", userUID);
+                                            }
+
+                                            hsdpUser.getHsdpUserRecord().getUserUUID();
                                             loginHandler.onLoginSuccess();
                                     }
                                 });

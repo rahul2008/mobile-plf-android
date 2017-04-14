@@ -1019,19 +1019,20 @@ public class Jump {
             public void run(JSONObject jsonObject) {
                 if (jsonObject == null) {
                     LogUtils.logd("Error downloading flow");
-                    Intent intent = new Intent(JR_FAILED_TO_DOWNLOAD_FLOW);
-                    intent.putExtra("message", "Error downloading flow");
-                    LocalBroadcastManager.getInstance(state.context).sendBroadcast(intent);
+                    triggerDownloadFlowStatus(JR_FAILED_TO_DOWNLOAD_FLOW,"Error downloading flow");
                 } else {
                     state.captureFlow = JsonUtils.jsonToCollection(jsonObject);
                     LogUtils.logd("Parsed flow, version: " + CaptureFlowUtils.getFlowVersion(state.captureFlow));
-                    Intent intent = new Intent(JR_DOWNLOAD_FLOW_SUCCESS);
-                    intent.putExtra("message", "Download flow Success!!");
-                    LocalBroadcastManager.getInstance(state.context).sendBroadcast(intent);
                     storeCaptureFlow();
                 }
             }
         });
+    }
+
+    private static void triggerDownloadFlowStatus(String flowStatus, String msg) {
+        Intent intent = new Intent(flowStatus);
+        intent.putExtra("message", msg);
+        LocalBroadcastManager.getInstance(state.context).sendBroadcast(intent);
     }
 
     private static void storeCaptureFlow() {
@@ -1041,8 +1042,10 @@ public class Jump {
                 try {
                     mSecureStorageInterface.storeValueForKey(JR_CAPTURE_FLOW,state.captureFlow.toString(), new SecureStorageInterface.SecureStorageError());
                     state.context.deleteFile("jr_capture_signed_in_user");
+                    triggerDownloadFlowStatus(JR_DOWNLOAD_FLOW_SUCCESS,"Download flow Success!!");
                 }  catch (Exception e) {
                     throwDebugException(new RuntimeException(e));
+                    triggerDownloadFlowStatus(JR_FAILED_TO_DOWNLOAD_FLOW,"Error downloading flow");
                 }
             }
         });
