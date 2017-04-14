@@ -17,8 +17,8 @@ import com.janrain.android.Jump;
 import com.janrain.android.capture.Capture.InvalidApidChangeException;
 import com.janrain.android.capture.CaptureRecord;
 import com.janrain.android.engage.session.JRSession;
-import com.philips.cdp.registration.apptagging.AppTagging;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
+import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.controller.AddConsumerInterest;
 import com.philips.cdp.registration.controller.ForgotPassword;
@@ -56,12 +56,10 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.Gender;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
-import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.security.SecureStorage;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.cdp.registration.ui.utils.URInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -73,11 +71,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 /**
  * {@code User} class represents information related to a logged in user of User Registration component.
  * Additionally, it exposes APIs to login, logout and refresh operations for traditional and social accounts.
  */
 public class User {
+
+    @Inject
+    NetworkUtility networkUtility;
 
     private boolean mEmailVerified;
 
@@ -129,6 +132,7 @@ public class User {
      * @param context
      */
     public User(Context context) {
+        URInterface.getComponent().inject(this);
         mContext = context;
         mUpdateUserRecordHandler = new UpdateUserRecord(mContext);
     }
@@ -422,7 +426,7 @@ public class User {
             try{
                 diUserProfile.setMobile(captureRecord.getString(USER_MOBILE));
             }catch (Exception ignored){
-                
+
             }
 
             String gender = captureRecord.getString(UpdateGender.USER_GENDER);
@@ -439,7 +443,7 @@ public class User {
                 DateFormat formatter = new SimpleDateFormat(UpdateDateOfBirth.DATE_FORMAT_FOR_DOB, Locale.ROOT);
                 Date date = formatter.parse(dob);
                 diUserProfile.setDateOfBirth(date);
-              }
+            }
         } catch (JSONException e) {
             Log.e(LOG_TAG, "On getUserInstance,Caught JSON Exception : " +e);
         } catch (ParseException e) {
@@ -463,7 +467,7 @@ public class User {
                 return true;
             }
         } catch (JSONException e) {
-            Log.e(LOG_TAG, "On getEmailVerificationStatus,Caught JSON Exception");
+            Log.e(LOG_TAG, "On isEmailVerificationStatus,Caught JSON Exception");
         }
         return false;
     }
@@ -474,7 +478,6 @@ public class User {
      * @return boolean
      */
     public boolean isUserSignIn() {
-        long start  = System.nanoTime();
         CaptureRecord capturedRecord = Jump.getSignedInUser();
         if (capturedRecord == null) {
             capturedRecord = CaptureRecord.loadFromDisk(mContext);
@@ -503,23 +506,12 @@ public class User {
         }
         if (RegistrationConfiguration.getInstance().getRegistrationClientId(RegUtility.
                 getConfiguration(
-                RegistrationConfiguration.getInstance().getRegistrationEnvironment())) != null) {
+                        RegistrationConfiguration.getInstance().getRegistrationEnvironment())) != null) {
             signedIn = signedIn && capturedRecord.getAccessToken() != null;
         }
 
         if (isAcceptTerms) {
-            boolean isTermAccepted = false;
-
-            String mobileNo = getMobile();
-
-            String email  = getEmail();
-
-            if(FieldsValidator.isValidMobileNumber(mobileNo)){
-                isTermAccepted = RegPreferenceUtility.getStoredState(mContext, mobileNo);
-            }else if(FieldsValidator.isValidEmail(email)){
-                isTermAccepted = RegPreferenceUtility.getStoredState(mContext, email);
-            }
-            if (!isTermAccepted) {
+            if (!isTermsAndConditionAccepted()) {
                 signedIn = false;
                 clearData();
             }
@@ -527,18 +519,17 @@ public class User {
         return signedIn;
     }
 
-
-
-
-
-
-//    private boolean isJanrainUserRecord() {
-//        CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
-//        if (captured != null) {
-//            return true;
-//        }
-//        return false;
-//    }
+    public boolean isTermsAndConditionAccepted(){
+        boolean isTermAccepted = false;
+        String mobileNo = getMobile();
+        String email  = getEmail();
+        if(FieldsValidator.isValidMobileNumber(mobileNo)){
+            isTermAccepted = RegPreferenceUtility.getStoredState(mContext, mobileNo);
+        }else if(FieldsValidator.isValidEmail(email)){
+            isTermAccepted = RegPreferenceUtility.getStoredState(mContext, email);
+        }
+        return isTermAccepted;
+    }
 
     // check merge flow error for capture
     public boolean handleMergeFlowError(String existingProvider) {
@@ -547,7 +538,6 @@ public class User {
         }
         return false;
     }
-
 
     // For update receive marketing email
     public void updateReceiveMarketingEmail(
@@ -674,7 +664,6 @@ public class User {
 
     // For getting access token
     public String getAccessToken() {
-
         CaptureRecord captureRecord = Jump.getSignedInUser();
 
         if (captureRecord == null) {
@@ -690,9 +679,8 @@ public class User {
      * @param handler Callback mHandler
      */
     public void refreshUser(final RefreshUserHandler handler) {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
+        if (networkUtility.isNetworkAvailable()) {
             new RefreshandUpdateUserHandler(mUpdateUserRecordHandler, mContext).refreshAndUpdateUser(handler, this, ABCD.getInstance().getmP());
-            //ABCD.getInstance().setmP(null);
         } else {
             handler.onRefreshUserFailed(-1);
         }

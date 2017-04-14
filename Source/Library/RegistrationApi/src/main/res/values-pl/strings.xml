@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">Zainstaluj</string>
 <string name="reg_Phonenumbernotfound">Nie znaleziono numeru telefonu</string>
 <string name="reg_InvalidMobilenumber">Nieprawidłowy numer telefonu komórkowego</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Wyślemy do Ciebie wiadomość e-mail lub SMS, aby umożliwić zresetowanie hasła.</string>
 </resources>

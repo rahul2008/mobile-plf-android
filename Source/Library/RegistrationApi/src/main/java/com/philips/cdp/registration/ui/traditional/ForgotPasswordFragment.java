@@ -29,21 +29,23 @@ import com.philips.cdp.registration.HttpClientService;
 import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.apptagging.AppTaggingErrors;
-import com.philips.cdp.registration.apptagging.AppTaggingPages;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
+import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
+import com.philips.cdp.registration.app.tagging.AppTaggingPages;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.configuration.ClientIDConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
-import com.philips.cdp.registration.configuration.ClientIDConfiguration;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.RegistrationSettingsURL;
+import com.philips.cdp.registration.ui.customviews.LoginIdEditText;
+import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.customviews.XButton;
-import com.philips.cdp.registration.ui.customviews.XEmail;
 import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.customviews.onUpdateListener;
+import com.philips.cdp.registration.ui.customviews.XTextView;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileForgotPasswordVerifyCodeFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
@@ -51,7 +53,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegChinaUtil;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import org.json.JSONException;
@@ -60,11 +62,16 @@ import org.json.JSONObject;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-/**
- * Created by 310190722 on 10/7/2015.
- */
+import javax.inject.Inject;
+
 public class ForgotPasswordFragment extends RegistrationBaseFragment implements EventListener,
-        onUpdateListener, NetworStateListener, View.OnClickListener, ForgotPasswordHandler, HttpClientServiceReceiver.Listener {
+        OnUpdateListener, NetworStateListener, View.OnClickListener, ForgotPasswordHandler, HttpClientServiceReceiver.Listener {
+
+    @Inject
+    NetworkUtility networkUtility;
+
+    @Inject
+    ServiceDiscoveryInterface serviceDiscoveryInterface;
 
     private static final int FAILURE_TO_CONNECT = -1;
     public static final String USER_REQUEST_PASSWORD_RESET_SMS_CODE = "/api/v1/user/requestPasswordResetSmsCode";
@@ -76,7 +83,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
     private TextView mTvForgotPassword;
 
-    private XEmail mEtEmail;
+    private LoginIdEditText mEtEmail;
 
     private XButton mBtnContinue;
 
@@ -102,6 +109,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        URInterface.getComponent().inject(this);
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "ResetPasswordFragment : onCreateView");
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
@@ -120,7 +128,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
     private void initUI(View view) {
         consumeTouch(view);
-        mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
+        mEtEmail = (LoginIdEditText) view.findViewById(R.id.rl_reg_email_field);
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         mEtEmail.requestFocus();
         mEtEmail.setOnUpdateListener(this);
@@ -136,6 +144,13 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
                 .findViewById(R.id.rl_reg_btn_continue_container);
 
         mEtEmail.checkingEmailorMobileSignIn();
+
+        RegistrationSettingsURL registrationSettingsURL = new RegistrationSettingsURL();
+        if(registrationSettingsURL.isChinaFlow()){
+            XTextView tv_reg_email_reset = (XTextView) view.findViewById(R.id.tv_reg_email_reset);
+            tv_reg_email_reset.setText(R.string.reg_Forgot_Password_Email_Or_PhoneNumber_description);
+        }
+
     }
 
     @Override
@@ -231,7 +246,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     }
 
     private void handleUiState() {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
+        if (networkUtility.isNetworkAvailable()) {
             mRegError.hideError();
         } else {
             mRegError.setError(getString(R.string.reg_NoNetworkConnection));
@@ -240,7 +255,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     }
 
     private void updateUiStatus() {
-        if (mEtEmail.isValidEmail()  && NetworkUtility.isNetworkAvailable(mContext)) {
+        if (mEtEmail.isValidEmail()  && networkUtility.isNetworkAvailable()) {
             mBtnContinue.setEnabled(true);
             mRegError.hideError();
         }  else {
@@ -287,7 +302,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
         if (!validatorResult) {
             mEtEmail.showInvalidAlert();
         } else {
-            if (NetworkUtility.isNetworkAvailable(mContext)) {
+            if (networkUtility.isNetworkAvailable()) {
 
                 if (mUser != null) {
                     mEtEmail.clearFocus();
@@ -316,7 +331,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     }
 
     @Override
-    public void onUpadte() {
+    public void onUpdate() {
         handleOnUIThread(new Runnable() {
             @Override
             public void run() {
@@ -371,10 +386,12 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
                 mEtEmail.showInvalidAlert();
                 mEtEmail.setErrDescription(getString(R.string.reg_TraditionalSignIn_ForgotPwdSocialError_lbltxt));
                 mEtEmail.showErrPopUp();
+                mBtnContinue.setEnabled(false);
             } else {
                 mEtEmail.showErrPopUp();
-                mEtEmail.setErrDescription(userRegistrationFailureInfo.getSocialOnlyError());
+                mEtEmail.setErrDescription(userRegistrationFailureInfo.getErrorDescription());
                 mEtEmail.showInvalidAlert();
+                mBtnContinue.setEnabled(false);
             }
 
             if (null != userRegistrationFailureInfo.getSocialOnlyError()) {
@@ -422,11 +439,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     String resetPasswordSmsRedirectUri;
 
     private void serviceDiscovery()  {
-
-        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
-        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
         RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
-
         //Temp: will be updated once actual URX received for reset sms
         serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.urx.verificationsmscode", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 

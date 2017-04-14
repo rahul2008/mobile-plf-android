@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">ติดตั้ง</string>
 <string name="reg_Phonenumbernotfound">ไม่พบหมายเลขโทรศัพท์</string>
 <string name="reg_InvalidMobilenumber">หมายเลขโทรศัพท์มือถือไม่ถูกต้อง</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">เราจะส่งอีเมล์หรือ SMS ไปให้คุณเพื่อรีเซ็ตรหัสผ่าน</string>
 </resources>

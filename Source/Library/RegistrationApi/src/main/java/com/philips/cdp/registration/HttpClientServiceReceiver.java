@@ -26,7 +26,7 @@ public class HttpClientServiceReceiver extends ResultReceiver {
     }
 
 
-    public static interface Listener {
+    public interface Listener {
         void onReceiveResult(int resultCode, Bundle resultData);
     }
 

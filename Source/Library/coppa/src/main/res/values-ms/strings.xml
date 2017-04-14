@@ -22,7 +22,7 @@
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Saya bersetuju</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Saya tidak bersetuju</string>
 <string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Terima kasih kerana memberikan keizinan ibu bapa anda </string>
-<string name="reg_Coppa_US_Parental_Access_Content_Txt">Anda akan menerima permintaan pengesahan keizinan apabila anda pergi ke bahagian ibu bapa sekali lagi selepas tempoh minimum 24 jam dari sekarang.</string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">Anda akan menerima permintaan pengesahan keizinan apabila anda pergi ke bahagian ibu bapa sekali lagi sekurang-kurangnya 24 jam selepas Permintaan awal anda dibuat</string>
 <string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Terima kasih atas keprihatinan dan perkongsian anda!</string>
 <string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Anda telah membenarkan Philips mengumpulkan maklumat tentang masa memberus, tempoh dan kekerapan yang dikumpulkan daripada pemegang berus dan Aplikasi. \n \n Philips amat mementingkan privasi dan data peribadi anda. Kami akan hanya menggunakan data ini untuk menambah baik pengalaman Sonicare for Kids.</string>
 <string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Keizinan ibu bapa anda telah diberikan kepada Philips untuk mengumpulkan maklumat tertentu daripada Aplikasi Philips Sonicare Kids.\n\nPhilips sangat berhati-hati dalam perlindungan privasi anda. Untuk benar-benar mengesahkan identiti anda, sila sahkan semula.\n\n</string>

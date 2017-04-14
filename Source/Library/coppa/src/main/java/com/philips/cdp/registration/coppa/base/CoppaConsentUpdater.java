@@ -16,9 +16,10 @@ import com.janrain.android.capture.Capture;
 import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.coppa.interfaces.CoppaConsentUpdateCallback;
-import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.coppa.utils.CoppaInterface;
 import com.philips.ntputils.ServerTime;
 import com.philips.ntputils.constants.ServerTimeConstants;
+import com.philips.platform.appinfra.timesync.TimeInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,8 +29,11 @@ class CoppaConsentUpdater {
 
     private Context mContext;
 
+    private TimeInterface timeInterface;
+
     CoppaConsentUpdater(final Context context) {
         mContext = context;
+        timeInterface = CoppaInterface.getComponent().getTimeInterface();
     }
 
     /**
@@ -41,8 +45,7 @@ class CoppaConsentUpdater {
     public void updateCoppaConsentStatus(
             final boolean coppaConsentStatus,final String locale,
             final CoppaConsentUpdateCallback coppaConsentUpdateCallback) {
-        //  if(Jump.getSignedInUser() != null){
-        ServerTime.init(RegistrationHelper.getInstance().getAppInfraInstance().getTime());
+        ServerTime.init(timeInterface);
         CaptureRecord updatedUser = Jump.getSignedInUser();
         JSONObject originalUserInfo = getCurrentUserAsJsonObject();
         JSONObject consentsObject = new JSONObject();
@@ -115,7 +118,7 @@ class CoppaConsentUpdater {
     public void updateCoppaConsentConfirmationStatus(
             final boolean coppaConsentStatus,
             final CoppaConsentUpdateCallback coppaConsentUpdateCallback) {
-        ServerTime.init(RegistrationHelper.getInstance().getAppInfraInstance().getTime());
+        ServerTime.init(timeInterface);
         CaptureRecord updatedUser = Jump.getSignedInUser();
         JSONObject originalUserInfo = getCurrentUserAsJsonObject();
         JSONObject consentsObject = new JSONObject();

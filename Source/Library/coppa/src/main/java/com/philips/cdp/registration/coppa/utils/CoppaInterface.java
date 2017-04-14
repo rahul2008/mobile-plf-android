@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.janrain.android.Jump;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.coppa.ui.activity.RegistrationCoppaActivity;
@@ -16,16 +15,13 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
-import com.philips.cdp.registration.ui.utils.URLaunchInput;
-import com.philips.platform.uappframework.UappInterface;
+import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
-import com.philips.platform.uappframework.uappinput.UappSettings;
 
-public class CoppaInterface implements UappInterface {
+public class CoppaInterface extends URInterface {
 
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
@@ -45,13 +41,13 @@ public class CoppaInterface implements UappInterface {
             final RegistrationCoppaFragment registrationFragment = new RegistrationCoppaFragment();
             final Bundle bundle = new Bundle();
 
-            RegistrationLaunchMode registrationLaunchMode =  RegistrationLaunchMode.DEFAULT;
+            RegistrationLaunchMode registrationLaunchMode = RegistrationLaunchMode.DEFAULT;
 
-            if(((CoppaLaunchInput) uappLaunchInput).isAccountSettings()){
-                registrationLaunchMode= RegistrationLaunchMode.ACCOUNT_SETTINGS;
+            if (((CoppaLaunchInput) uappLaunchInput).isAccountSettings()) {
+                registrationLaunchMode = RegistrationLaunchMode.ACCOUNT_SETTINGS;
             }
 
-            if(((CoppaLaunchInput)uappLaunchInput).getEndPointScreen() !=null){
+            if (((CoppaLaunchInput) uappLaunchInput).getEndPointScreen() != null) {
                 registrationLaunchMode = ((CoppaLaunchInput)
                         uappLaunchInput).getEndPointScreen();
             }
@@ -105,13 +101,13 @@ public class CoppaInterface implements UappInterface {
                     getUrSettings().getContext(), RegistrationCoppaActivity.class);
             Bundle bundle = new Bundle();
 
-            RegistrationLaunchMode registrationLaunchMode =  RegistrationLaunchMode.DEFAULT;
+            RegistrationLaunchMode registrationLaunchMode = RegistrationLaunchMode.DEFAULT;
 
-            if(((CoppaLaunchInput) uappLaunchInput).isAccountSettings()){
-                registrationLaunchMode= RegistrationLaunchMode.ACCOUNT_SETTINGS;
+            if (((CoppaLaunchInput) uappLaunchInput).isAccountSettings()) {
+                registrationLaunchMode = RegistrationLaunchMode.ACCOUNT_SETTINGS;
             }
 
-            if(((CoppaLaunchInput)uappLaunchInput).getEndPointScreen() !=null){
+            if (((CoppaLaunchInput) uappLaunchInput).getEndPointScreen() != null) {
                 registrationLaunchMode = ((CoppaLaunchInput)
                         uappLaunchInput).getEndPointScreen();
             }
@@ -133,13 +129,5 @@ public class CoppaInterface implements UappInterface {
                     getUrSettings().getContext().startActivity(registrationIntent);
         }
 
-    }
-
-    @Override
-    public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        Jump.init(uappSettings.getContext(), uappDependencies.getAppInfra().getSecureStorage());
-        RegistrationHelper.getInstance().setAppInfraInstance(uappDependencies.getAppInfra());
-        RegistrationHelper.getInstance().setUrSettings(uappSettings);
-        RegistrationHelper.getInstance().initializeUserRegistration(uappSettings.getContext());
     }
 }

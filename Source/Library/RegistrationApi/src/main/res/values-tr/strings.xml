@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">Kurulum</string>
 <string name="reg_Phonenumbernotfound">Telefon numarası bulunamadı</string>
 <string name="reg_InvalidMobilenumber">Geçersiz Cep Telefonu Numarası</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Size, parolanızı sıfırlayabilmeniz için bir e-posta veya SMS göndereceğiz.</string>
 </resources>

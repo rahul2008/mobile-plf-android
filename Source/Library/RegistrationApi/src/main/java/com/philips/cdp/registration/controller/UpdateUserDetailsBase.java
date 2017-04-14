@@ -109,12 +109,15 @@ public class UpdateUserDetailsBase implements
         //PerformNothing
     }
 
-
     @Nullable
     protected JSONObject getCurrentUserAsJsonObject() {
         JSONObject userData = null;
         try {
-            userData = new JSONObject(Jump.getSignedInUser().toString());
+            CaptureRecord capturedRecord = Jump.getSignedInUser();
+            if (capturedRecord == null) {
+                capturedRecord = CaptureRecord.loadFromDisk(mContext);
+            }
+            userData = new JSONObject(capturedRecord.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }

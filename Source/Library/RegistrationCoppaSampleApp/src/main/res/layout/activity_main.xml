@@ -87,6 +87,14 @@
                     android:text="Change Configuartion"
                     android:visibility="visible" />
 
+                <Switch
+                    android:id="@+id/county_selection_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dip"
+                    android:layout_marginLeft="5dip"
+                    android:text="Show country selection" />
+
             </LinearLayout>
 
             <LinearLayout

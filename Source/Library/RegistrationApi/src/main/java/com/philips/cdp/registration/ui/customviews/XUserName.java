@@ -23,8 +23,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.apptagging.AppTagging;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
+import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -38,7 +38,7 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 
 	private boolean mValidName;
 
-	private onUpdateListener mUpdateStatusListener;
+	private OnUpdateListener mUpdateStatusListener;
 
 	private RelativeLayout mRlEtName;
 
@@ -81,13 +81,13 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 	public void onClick(View v) {
 	}
 
-	public void setOnUpdateListener(onUpdateListener updateStatusListener) {
+	public void setOnUpdateListener(OnUpdateListener updateStatusListener) {
 		mUpdateStatusListener = updateStatusListener;
 	}
 
 	private void raiseUpdateUIEvent() {
 		if (null != mUpdateStatusListener) {
-			mUpdateStatusListener.onUpadte();
+			mUpdateStatusListener.onUpdate();
 		}
 	}
 
@@ -147,7 +147,7 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 
 	@Override
 	public void onFocusChange(View v, boolean hasFocus) {
-		mEtUserName.setTextColor( ContextCompat.getColor(mContext,R.color.reg_edt_text_feild_color));
+		mEtUserName.setTextColor( ContextCompat.getColor(mContext,R.color.reg_edit_text_field_color));
 		if (v.getId() == R.id.et_reg_fname) {
 			handleName(hasFocus);
 			raiseUpdateUIEvent();

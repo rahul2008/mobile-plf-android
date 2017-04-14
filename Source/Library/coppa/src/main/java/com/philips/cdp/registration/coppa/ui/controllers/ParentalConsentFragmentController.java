@@ -7,7 +7,7 @@
  */
 package com.philips.cdp.registration.coppa.ui.controllers;
 
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
 import com.philips.cdp.registration.coppa.ui.fragment.ParentalConsentFragment;
 import com.philips.cdp.registration.coppa.utils.AppCoppaTaggingConstants;

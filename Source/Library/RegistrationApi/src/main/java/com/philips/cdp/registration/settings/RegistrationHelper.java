@@ -22,20 +22,31 @@ import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.ntputils.ServerTime;
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
-import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.Locale;
+
+import javax.inject.Inject;
 
 /**
  * {@code RegistrationHelper} class represents the entry point for User Registration component.
  * It exposes APIs to be used when User Registration is intended to be integrated by any application.
  */
 public class RegistrationHelper {
+
+    @Inject
+    NetworkUtility networkUtility;
+
+    @Inject
+    TimeInterface timeInterface;
+
+    @Inject
+    ABTestClientInterface abTestClientInterface;
 
     private String countryCode;
 
@@ -56,6 +67,7 @@ public class RegistrationHelper {
     private UappSettings urSettings;
 
     private RegistrationHelper() {
+        URInterface.getComponent().inject(this);
     }
     /**
      * @return instance of this class
@@ -71,26 +83,6 @@ public class RegistrationHelper {
         return mRegistrationHelper;
     }
 
-    private AppInfraInterface appInfra;
-
-    public void setAppInfraInstance(AppInfraInterface appInfra) {
-        this.appInfra = appInfra;
-    }
-
-    public AppInfraInterface getAppInfraInstance() {
-        return appInfra;
-    }
-
-    private AppTaggingInterface mAppTaggingInterface;
-
-    public AppTaggingInterface getAppTaggingInterface() {
-        if (mAppTaggingInterface == null) {
-            mAppTaggingInterface = getAppInfraInstance().getTagging().
-                    createInstanceForComponent(RegConstants.COMPONENT_TAGS_ID, getRegistrationApiVersion());
-            mAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
-        }
-        return mAppTaggingInterface;
-    }
     /*
      * Initialize Janrain
      * {code @initializeUserRegistration} method represents endpoint for integrating
@@ -98,8 +90,9 @@ public class RegistrationHelper {
       * to initialize User Registration component and use its features.
      *
      */
-    public synchronized void initializeUserRegistration(final Context context) {
+    public void initializeUserRegistration(final Context context) {
         RLog.init();
+
         PILLocaleManager localeManager = new PILLocaleManager(context);
         if (localeManager.getLanguageCode() != null && localeManager.getCountryCode() != null) {
             mLocale = new Locale(localeManager.getLanguageCode(), localeManager.getCountryCode());
@@ -113,22 +106,21 @@ public class RegistrationHelper {
         UserRegistrationInitializer.getInstance().resetInitializationState();
         UserRegistrationInitializer.getInstance().setJanrainIntialized(false);
         generateKeyAndMigrateData(context);
+        refreshNTPOffset();
         final Runnable runnable = new Runnable() {
 
             @Override
             public void run() {
                 deleteLegacyDIProfileFile(context);
-                if (NetworkUtility.isNetworkAvailable(context)) {
-                    refreshNTPOffset();
-                    UserRegistrationInitializer.getInstance().initializeEnvironment(
+                if (networkUtility.isNetworkAvailable()) {
 
-                            context, mLocale);
+                    UserRegistrationInitializer.getInstance().initializeEnvironment(context, mLocale);
                     //AB Testing initialization
-                    getAppInfraInstance().getAbTesting().updateCache(new ABTestClientInterface.
+                    abTestClientInterface.updateCache(new ABTestClientInterface.
                             OnRefreshListener() {
                         @Override
                         public void onSuccess() {
-                            RLog.d(RLog.AB_TESTING, "SUCESS ");
+                            RLog.d(RLog.AB_TESTING, "SUCCESS ");
                         }
 
                         @Override
@@ -159,14 +151,13 @@ public class RegistrationHelper {
         context.deleteFile(RegConstants.DI_PROFILE_FILE);
         Jump.getSecureStorageInterface().removeValueForKey(RegConstants.DI_PROFILE_FILE);
     }
-
     private void generateKeyAndMigrateData(final Context context) {
         SecureStorage.generateSecretKey();
         new DataMigration(context).checkFileEncryptionStatus();
     }
 
     private void refreshNTPOffset() {
-        ServerTime.init(getAppInfraInstance().getTime());
+        ServerTime.init(timeInterface);
         ServerTime.refreshOffset();
     }
 

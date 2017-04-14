@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">Встановлення</string>
 <string name="reg_Phonenumbernotfound">Номер телефону не знайдено</string>
 <string name="reg_InvalidMobilenumber">Невірний номер мобільного телефону</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Ми надішлемо Вам ел. листа або SMS для скидання пароля.</string>
 </resources>

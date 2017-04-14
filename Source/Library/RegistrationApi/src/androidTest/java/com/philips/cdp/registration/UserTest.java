@@ -12,14 +12,10 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
-import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 
 import org.json.JSONObject;
-import org.junit.Test;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -611,76 +607,10 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
 //        public void test_getEmailVerificationStatus(){
 //                Jump.signOutCaptureUser(context);
 //                User user = new User(context);
-//                assertFalse(user.getEmailVerificationStatus());
+//                assertFalse(user.isEmailVerificationStatus());
 //                saveToDisk(COPPA_CONFIRMED_SIGNED_USER);
 //                Jump.loadUserFromDiskInternal(context);
-//                assertTrue(user.getEmailVerificationStatus());
+//                assertTrue(user.isEmailVerificationStatus());
 //
 //        }
-
-        public void test_LoginUsingSocialProvider(){
-               // ClassPool objClassPool = ClassPool.getDefault();
-
-                        SocialProviderLoginHandler socialProviderLoginHandler = new SocialProviderLoginHandler() {
-                                @Override
-                                public void onLoginSuccess() {
-                                        System.out.println("SocialProviderLoginHandler success");
-                                }
-
-                                @Override
-                                public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
-                                }
-
-                                @Override
-                                public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
-
-                                }
-
-                                @Override
-                                public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
-
-                                }
-
-                                @Override
-                                public void onContinueSocialProviderLoginSuccess() {
-
-                                }
-
-                                @Override
-                                public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
-                                }
-                        };
-
-
-
-        }
-
-
-        @Test
-        public void testUserRegisttationListener(){
-                User   user = new User(getInstrumentation().getContext());
-               UserRegistrationListener userRegistrationListener =  new UserRegistrationListener() {
-                        @Override
-                        public void onUserLogoutSuccess() {
-
-                        }
-
-                        @Override
-                        public void onUserLogoutFailure() {
-
-                        }
-
-                        @Override
-                        public void onUserLogoutSuccessWithInvalidAccessToken() {
-
-                        }
-                };
-                user.registerUserRegistrationListener(userRegistrationListener);
-                user.unRegisterUserRegistrationListener(userRegistrationListener);
-        }
-
-
-
 }

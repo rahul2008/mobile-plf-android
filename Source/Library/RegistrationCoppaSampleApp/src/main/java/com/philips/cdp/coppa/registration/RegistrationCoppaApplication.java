@@ -11,6 +11,7 @@ import android.util.Log;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.coppa.utils.CoppaInterface;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -34,7 +35,6 @@ public class RegistrationCoppaApplication extends Application {
      */
     public synchronized static RegistrationCoppaApplication getInstance() {
         return mRegistrationHelper;
-
     }
 
     @Override
@@ -57,14 +57,12 @@ public class RegistrationCoppaApplication extends Application {
         }
     }
 
-
     public void initRegistration(Configuration configuration) {
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
         if(mAppInfraInterface == null){
             mAppInfraInterface = new AppInfra.Builder().build(this);
         }
-
 
         SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
         editor.putString("reg_environment", configuration.getValue());
@@ -87,9 +85,8 @@ public class RegistrationCoppaApplication extends Application {
         initAppIdentity(configuration);
         URDependancies urDependancies = new URDependancies(mAppInfraInterface);
         URSettings urSettings = new URSettings(this);
-        URInterface urInterface = new URInterface();
+        URInterface urInterface = new CoppaInterface();
         urInterface.init(urDependancies, urSettings);
-
 
         mAppInfraInterface.getConfigInterface().setPropertyForKey("appidentity.micrositeId",
                 "appinfra",
@@ -97,7 +94,6 @@ public class RegistrationCoppaApplication extends Application {
                 configError);
 
     }
-
 
     public static final String SERVICE_DISCOVERY_TAG = "ServiceDiscovery";
     final String AI = "appinfra";
@@ -197,5 +193,9 @@ public class RegistrationCoppaApplication extends Application {
         Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity AppState : " + appIdentityInfo.getAppState().toString());
         Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity AppVersion : " + appIdentityInfo.getAppVersion());
         Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity ServiceDiscoveryEnvironment : " + appIdentityInfo.getServiceDiscoveryEnvironment());
+    }
+
+    public AppInfraInterface getAppInfra() {
+        return mAppInfraInterface;
     }
 }
