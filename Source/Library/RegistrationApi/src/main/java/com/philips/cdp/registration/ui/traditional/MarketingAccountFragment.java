@@ -110,12 +110,10 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
             marketWhatAreYouTextView.setText(getRegistrationFragment().getContentConfiguration().getOptInQuessionaryText());
             TextView marketSpecialOfferTextView = (TextView) view.findViewById(R.id.reg_special_officer_txt);
             marketSpecialOfferTextView.setText(getRegistrationFragment().getContentConfiguration().getOptInDetailDescription());
-            String updateJoinNowText = mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers);
-            String joinNow = String.format(getRegistrationFragment().getContentConfiguration().getOptInBannerText(), updateJoinNowText);
-            mTvJoinNow.setText(joinNow);
+            mTvJoinNow.setText(getRegistrationFragment().getContentConfiguration().getOptInBannerText());
         } else{
             String joinNow = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now);
-            String updateJoinNowText = mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers);
+            String updateJoinNowText =  " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
             joinNow = String.format(joinNow, updateJoinNowText);
             mTvJoinNow.setText(joinNow);
         }
