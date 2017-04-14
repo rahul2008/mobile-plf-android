@@ -25,14 +25,11 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.ScrollView;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.apptagging.AppTagging;
-import com.philips.cdp.registration.apptagging.AppTaggingErrors;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
-import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public abstract class RegistrationBaseFragment extends Fragment {
@@ -46,6 +43,10 @@ public abstract class RegistrationBaseFragment extends Fragment {
     protected abstract void handleOrientation(final View view);
 
     public abstract int getTitleResourceId();
+
+    public String getTitleResourceText(){
+        return null;
+    }
 
     private int mPrevTitleResourceId = -99;
 
@@ -189,16 +190,22 @@ public abstract class RegistrationBaseFragment extends Fragment {
                             getTitleResourceId(),false);
                    /* fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());*/
                 } else {
-                    if(null!=fragment.getUpdateTitleListener())
+                    if (null != fragment.getUpdateTitleListener())
                         fragment.getUpdateTitleListener().updateActionBar(
-                                getTitleResourceId(),true);
-               /*     fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
+                                getTitleResourceId(), true);
+                    if (getTitleResourceText() != null || getTitleResourceText().length() > 1) {
+                        fragment.getUpdateTitleListener().updateActionBar(getTitleResourceText(), true);
+                    }
+                /*     fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
                             getTitleResourceId());*/
                 }
             } else {
                 if(null!=fragment.getUpdateTitleListener())
                     fragment.getUpdateTitleListener().updateActionBar(
                             getTitleResourceId(),false);
+                if (getTitleResourceText() != null && getTitleResourceText().length() > 0) {
+                    fragment.getUpdateTitleListener().updateActionBar(getTitleResourceText(), false);
+                }
                 /*fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());*/
             }
             fragment.setResourceID(getTitleResourceId());

@@ -12,7 +12,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,11 +24,12 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.apptagging.AppTaggingPages;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
+import com.philips.cdp.registration.app.tagging.AppTaggingPages;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
+import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XRegError;
@@ -38,9 +38,15 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.URInterface;
+
+import javax.inject.Inject;
 
 public class MarketingAccountFragment extends RegistrationBaseFragment implements
         View.OnClickListener, NetworStateListener, UpdateUserDetailsHandler {
+
+    @Inject
+    NetworkUtility networkUtility;
 
     private LinearLayout mLlCreateAccountFields;
 
@@ -78,6 +84,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        URInterface.getComponent().inject(this);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onCreateView");
         RLog.d(RLog.EVENT_LISTENERS,
                 "CreateAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
@@ -85,9 +92,23 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         View view = inflater.inflate(R.layout.reg_fragment_marketing_opt, container, false);
+        initUI(view);
+
+        if (getRegistrationFragment().getContentConfiguration()!= null) {
+
+            TextView marketBeTheFirstTextView = (TextView) view.findViewById(R.id.reg_be_the_first_txt);
+            marketBeTheFirstTextView.setText(getRegistrationFragment().getContentConfiguration().getOptInTitleText());
+            TextView marketWhatAreYouTextView = (TextView) view.findViewById(R.id.reg_what_are_you_txt);
+            marketWhatAreYouTextView.setText(getRegistrationFragment().getContentConfiguration().getOptInQuessionaryText());
+            TextView marketSpecialOfferTextView = (TextView) view.findViewById(R.id.reg_special_officer_txt);
+            marketSpecialOfferTextView.setText(getRegistrationFragment().getContentConfiguration().getOptInDetailDescription());
+            TextView marketJoinNowView = (TextView) view.findViewById(R.id.tv_reg_Join_now);
+            marketJoinNowView.setText(getRegistrationFragment().getContentConfiguration().getOptInBannerText());
+
+        }
+
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
 
-        initUI(view);
         handleOrientation(view);
         mTrackCreateAccountTime = System.currentTimeMillis();
         return view;
@@ -279,6 +300,15 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     }
 
     @Override
+    public String getTitleResourceText() {
+        if (getRegistrationFragment().getContentConfiguration() != null) {
+            return getRegistrationFragment().getContentConfiguration().getOptInActionBarText();
+        }
+        return null;
+    }
+
+
+    @Override
     public void onNetWorkStateReceived(boolean isOnline) {
         RLog.i(RLog.NETWORK_STATE, "CreateAccoutFragment :onNetWorkStateReceived : " + isOnline);
         handleUiState();
@@ -325,7 +355,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     }
 
     private void handleUiState() {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
+        if (networkUtility.isNetworkAvailable()) {
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
                 mBtnCountMe.setEnabled(true);

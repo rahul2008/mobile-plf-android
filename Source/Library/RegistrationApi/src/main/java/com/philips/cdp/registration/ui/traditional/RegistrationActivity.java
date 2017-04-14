@@ -21,12 +21,13 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.apptagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -38,6 +39,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
 
     private TextView ivBack;
     private RegistrationLaunchMode mRegistrationLaunchMode = RegistrationLaunchMode.DEFAULT;
+    private RegistrationContentConfiguration registrationContentConfiguration;
     private Handler mSiteCatalistHandler = new Handler();
     private Runnable mPauseSiteCatalystRunnable = new Runnable() {
 
@@ -73,6 +75,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         super.onCreate(savedInstanceState);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
+
             mRegistrationLaunchMode = (RegistrationLaunchMode) bundle.get(RegConstants.REGISTRATION_LAUNCH_MODE);
             int orientation = bundle.getInt(RegConstants.ORIENTAION, -1);
             if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
@@ -84,6 +87,8 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
             } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
             }
+            setRegistrationContentConfiguration((RegistrationContentConfiguration) bundle.get(RegConstants.REGISTRATION_CONTENT_CONFIG));
+
         }
 
         int alwaysFinishActivity = 0;
@@ -184,6 +189,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         URLaunchInput urLaunchInput = new URLaunchInput();
         urLaunchInput.setEndPointScreen(registrationLaunchMode);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+        urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
         urLaunchInput.setUserRegistrationUIEventListener(userRegistrationUIEventListener);
         FragmentLauncher fragmentLauncher = new FragmentLauncher
                 (this,R.id.fl_reg_fragment_container,this);
@@ -213,8 +219,21 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
     }
 
     @Override
-    public void updateActionBar(String s, boolean b) {
-
+    public void updateActionBar(String titleResourceText, boolean isShowBack) {
+        TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
+        tvTitle.setText(titleResourceText);
+        ivBack.setVisibility(View.VISIBLE);
+        if (!isShowBack) {
+            ivBack.setVisibility(View.INVISIBLE);
+        }
     }
 
+
+    private void setRegistrationContentConfiguration(RegistrationContentConfiguration regContentConfig){
+        registrationContentConfiguration = regContentConfig;
+    }
+    private RegistrationContentConfiguration getRegistrationContentConfiguration() {
+
+        return registrationContentConfiguration;
+    }
 }

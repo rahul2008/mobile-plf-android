@@ -3,12 +3,19 @@ package com.philips.cdp.registration.ui.utils;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
+import com.philips.cdp.registration.injection.AppInfraModule;
+import com.philips.cdp.registration.injection.DaggerRegistrationComponent;
+import com.philips.cdp.registration.injection.NetworkModule;
+import com.philips.cdp.registration.injection.RegistrationComponent;
+import com.philips.cdp.registration.injection.UserModule;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
@@ -21,7 +28,11 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
+import java.io.Serializable;
+
 public class URInterface implements UappInterface {
+
+    private static RegistrationComponent component;
 
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
@@ -48,6 +59,10 @@ public class URInterface implements UappInterface {
             if(((URLaunchInput)uappLaunchInput).getEndPointScreen()!=null){
                 registrationLaunchMode = ((URLaunchInput)uappLaunchInput).getEndPointScreen();
             }
+            RegistrationContentConfiguration registrationContentConfiguration = ((URLaunchInput) uappLaunchInput).
+                    getRegistrationContentConfiguration();
+            bundle.putSerializable(RegConstants.REGISTRATION_CONTENT_CONFIG, registrationContentConfiguration);
+
             bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, registrationLaunchMode);
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((URLaunchInput)
                     uappLaunchInput).isAccountSettings());
@@ -88,6 +103,10 @@ public class URInterface implements UappInterface {
                 RegistrationConfiguration.getInstance().setPrioritisedFunction
                         (registrationFunction);
             }
+
+            RegistrationContentConfiguration registrationContentConfiguration = ((URLaunchInput) uappLaunchInput).
+                    getRegistrationContentConfiguration();
+
             RegistrationActivity.setUserRegistrationUIEventListener(((URLaunchInput) uappLaunchInput).
                     getUserRegistrationUIEventListener());
             Intent registrationIntent = new Intent(RegistrationHelper.getInstance().
@@ -104,7 +123,7 @@ public class URInterface implements UappInterface {
                 registrationLaunchMode = ((URLaunchInput)uappLaunchInput).getEndPointScreen();
             }
             bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, registrationLaunchMode);
-
+            bundle.putSerializable(RegConstants.REGISTRATION_CONTENT_CONFIG, registrationContentConfiguration);
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((URLaunchInput)
                     uappLaunchInput).isAccountSettings());
             bundle.putInt(RegConstants.ORIENTAION, uiLauncher.getScreenOrientation().
@@ -120,9 +139,28 @@ public class URInterface implements UappInterface {
 
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
+        component = initDaggerComponents(uappDependencies, uappSettings);
         Jump.init(uappSettings.getContext(), uappDependencies.getAppInfra().getSecureStorage());
-        RegistrationHelper.getInstance().setAppInfraInstance(uappDependencies.getAppInfra());
         RegistrationHelper.getInstance().setUrSettings(uappSettings);
         RegistrationHelper.getInstance().initializeUserRegistration(uappSettings.getContext());
+    }
+
+    public static RegistrationComponent getComponent() {
+        return component;
+    }
+
+    @NonNull
+    private RegistrationComponent initDaggerComponents(UappDependencies uappDependencies, UappSettings uappSettings) {
+        return DaggerRegistrationComponent.builder()
+                    .networkModule(new NetworkModule(uappSettings.getContext()))
+                    .appInfraModule(new AppInfraModule(uappDependencies.getAppInfra()))
+                    .userModule(new UserModule(uappSettings.getContext()))
+                    .build();
+    }
+
+    @Deprecated
+    @VisibleForTesting
+    public static void setComponent(RegistrationComponent componentMock) {
+        component = componentMock;
     }
 }

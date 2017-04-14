@@ -30,10 +30,11 @@ import com.philips.cdp.registration.HttpClientService;
 import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.apptagging.AppTagging;
-import com.philips.cdp.registration.apptagging.AppTaggingErrors;
-import com.philips.cdp.registration.apptagging.AppTaggingPages;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
+import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
+import com.philips.cdp.registration.app.tagging.AppTaggingPages;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.configuration.ClientIDConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
@@ -42,15 +43,14 @@ import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
-import com.philips.cdp.registration.configuration.ClientIDConfiguration;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.RegistrationSettingsURL;
+import com.philips.cdp.registration.ui.customviews.LoginIdEditText;
+import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
+import com.philips.cdp.registration.ui.customviews.PasswordView;
 import com.philips.cdp.registration.ui.customviews.XButton;
-import com.philips.cdp.registration.ui.customviews.XEmail;
 import com.philips.cdp.registration.ui.customviews.XHavingProblems;
-import com.philips.cdp.registration.ui.customviews.XPassword;
 import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.customviews.onUpdateListener;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileForgotPasswordVerifyCodeFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
@@ -59,7 +59,7 @@ import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegChinaUtil;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
-import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.squareup.okhttp.RequestBody;
 
@@ -71,11 +71,19 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 
 public class SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
-        TraditionalLoginHandler, ForgotPasswordHandler, onUpdateListener,
+        TraditionalLoginHandler, ForgotPasswordHandler, OnUpdateListener,
         EventListener, ResendVerificationEmailHandler,
         NetworStateListener, HttpClientServiceReceiver.Listener {
+
+    @Inject
+    NetworkUtility networkUtility;
+
+    @Inject
+    ServiceDiscoveryInterface serviceDiscoveryInterface;
 
     public static final String USER_REQUEST_PASSWORD_RESET_SMS_CODE = "/api/v1/user/requestPasswordResetSmsCode";
     public static final String USER_REQUEST_RESET_PASSWORD_REDIRECT_URI_SMS = "/c-w/user-registration/apps/reset-password.html";
@@ -90,9 +98,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private XButton mBtnResend;
 
-    private XEmail mEtEmail;
+    private LoginIdEditText mEtEmail;
 
-    private XPassword mEtPassword;
+    private PasswordView mEtPassword;
 
     private User mUser;
 
@@ -150,6 +158,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        URInterface.getComponent().inject(this);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onCreateView");
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
@@ -344,7 +353,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 //        if (registrationSettingsURL.isChinaFlow()) {
 //            getRegistrationFragment().addFragment(new ResetPasswordWebView());
 //        } else {
-            getRegistrationFragment().addResetPasswordFragment();
+        getRegistrationFragment().addResetPasswordFragment();
 
         //}
         trackPage(AppTaggingPages.FORGOT_PASSWORD);
@@ -368,7 +377,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 .findViewById(R.id.ll_reg_create_account_fields);
         mRlSignInBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_welcome_container);
 
-        mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
+        mEtEmail = (LoginIdEditText) view.findViewById(R.id.rl_reg_email_field);
         mEtEmail.checkingEmailorMobileSignIn();
         mEtEmail.setOnClickListener(this);
         mEtEmail.setOnUpdateListener(this);
@@ -376,7 +385,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         mEtEmail.requestFocus();
 
-        mEtPassword = (XPassword) view.findViewById(R.id.rl_reg_password_field);
+        mEtPassword = (PasswordView) view.findViewById(R.id.rl_reg_password_field);
         mEtPassword.setOnClickListener(this);
         mEtPassword.setOnUpdateListener(this);
         mEtPassword.isValidatePassword(false);
@@ -407,9 +416,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         if (mUser != null) {
             showSignInSpinner();
         }
-        if(FieldsValidator.isValidEmail(mEtEmail.getEmailId())){
+        if (FieldsValidator.isValidEmail(mEtEmail.getEmailId())) {
             mEmail = mEtEmail.getEmailId();
-        }else{
+        } else {
             mEmail = FieldsValidator.getMobileNumber(mEtEmail.getEmailId());
         }
 
@@ -420,7 +429,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private String mEmail;
 
     private void handleUiState() {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
+        if (networkUtility.isNetworkAvailable()) {
             mRegError.hideError();
         } else {
             mRegError.setError(getString(R.string.reg_NoNetworkConnection));
@@ -481,7 +490,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                         mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
                     }
                 }
-              }
+            }
         }
     }
 
@@ -539,7 +548,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mEtEmail.showErrPopUp();
             trackActionStatus(AppTagingConstants.SEND_DATA,
                     AppTagingConstants.USER_ERROR, AppTagingConstants.ALREADY_SIGN_IN_SOCIAL);
-            AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo,AppTagingConstants.JANRAIN);
+            AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
             mBtnForgot.setEnabled(false);
             return;
         } else {
@@ -553,7 +562,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mEtEmail.showErrPopUp();
             mEtEmail.setErrDescription(userRegistrationFailureInfo.getSocialOnlyError());
             mEtEmail.showInvalidAlert();
-            AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo,AppTagingConstants.JANRAIN);
+            AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
             return;
         }
 
@@ -562,7 +571,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mEtEmail.showInvalidAlert();
             mEtEmail.showErrPopUp();
         }
-        AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo,AppTagingConstants.JANRAIN);
+        AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
     }
 
     private void showSignInSpinner() {
@@ -595,15 +604,15 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private void resetPassword() {
         boolean validatorResult;
-        if(FieldsValidator.isValidEmail(mEtEmail.getEmailId())){
+        if (FieldsValidator.isValidEmail(mEtEmail.getEmailId())) {
             validatorResult = true;
-        }else{
+        } else {
             validatorResult = FieldsValidator.isValidMobileNumber(mEtEmail.getEmailId());
         }
         if (!validatorResult) {
             mEtEmail.showInvalidAlert();
         } else {
-            if (NetworkUtility.isNetworkAvailable(mContext)) {
+            if (networkUtility.isNetworkAvailable()) {
                 if (mUser != null) {
                     showForgotPasswordSpinner();
                     mEtEmail.clearFocus();
@@ -611,10 +620,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                     mBtnSignInAccount.setEnabled(false);
                     mBtnResend.setEnabled(false);
                     //mUser.forgotPassword(mEtEmail.getEmailId(), this);
-                    if(FieldsValidator.isValidEmail(mEtEmail.getEmailId())){
+                    if (FieldsValidator.isValidEmail(mEtEmail.getEmailId())) {
                         mUser.forgotPassword(mEtEmail.getEmailId(), this);
-                    }else {
-                    serviceDiscovery();
+                    } else {
+                        serviceDiscovery();
                     }
                 }
 
@@ -626,13 +635,13 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private void updateUiStatus() {
         if (mEtEmail.isValidEmail() && mEtPassword.isValidPassword()
-                && NetworkUtility.isNetworkAvailable(mContext)) {
+                && networkUtility.isNetworkAvailable()) {
             mLlattentionBox.setVisibility(View.GONE);
             mBtnSignInAccount.setEnabled(true);
             mBtnForgot.setEnabled(true);
             mBtnResend.setEnabled(true);
             mRegError.hideError();
-        } else if (mEtEmail.isValidEmail() && NetworkUtility.isNetworkAvailable(mContext)) {
+        } else if (mEtEmail.isValidEmail() && networkUtility.isNetworkAvailable()) {
             mBtnForgot.setEnabled(true);
             mBtnSignInAccount.setEnabled(false);
             mBtnResend.setEnabled(false);
@@ -648,7 +657,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     @Override
-    public void onUpadte() {
+    public void onUpdate() {
         handleOnUIThread(new Runnable() {
             @Override
             public void run() {
@@ -691,11 +700,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         updateResendUIState();
     }
 
-    private void trackMultipleActionResendEmailStatus(){
+    private void trackMultipleActionResendEmailStatus() {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
         map.put(AppTagingConstants.STATUS_NOTIFICATION, AppTagingConstants.RESEND_VERIFICATION_MAIL_LINK_SENT);
-        trackMultipleActionsMap(AppTagingConstants.SEND_DATA,map);
+        trackMultipleActionsMap(AppTagingConstants.SEND_DATA, map);
     }
 
     @Override
@@ -713,7 +722,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         RLog.i(RLog.CALLBACK,
                 "SignInAccountFragment : onResendVerificationEmailFailedWithError");
         updateResendUIState();
-        AppTaggingErrors.trackActionResendNetworkFailure(userRegistrationFailureInfo,AppTagingConstants.JANRAIN);
+        AppTaggingErrors.trackActionResendNetworkFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
         mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + "\n"
                 + userRegistrationFailureInfo.getEmailErrorMessage());
         mBtnResend.setEnabled(true);
@@ -809,7 +818,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBtnSignInAccount.setEnabled(false);
         mBtnForgot.setEnabled(false);
         if (registrationSettingsURL.isChinaFlow()) {
-                serviceDiscovery();
+            serviceDiscovery();
         } else {
             mUser.resendVerificationMail(mEtEmail.getEmailId(), this);
         }
@@ -867,9 +876,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     String verificationSmsCodeURL;
 
     private void serviceDiscovery() {
-
-        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
-        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
         RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
 
         //Temp: will be updated once actual URX received for reset sms
@@ -902,7 +908,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         });
 
 
-
     }
 
     @NonNull
@@ -924,10 +929,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private void handleResendSMSRespone(String response) {
 
-        final String  mobileNumberKey= "mobileNumber";
-        final String tokenKey= "token";
-        final String redirectUriKey= "redirectUri";
-        final String verificationSmsCodeURLKey="verificationSmsCodeURL";
+        final String mobileNumberKey = "mobileNumber";
+        final String tokenKey = "token";
+        final String redirectUriKey = "redirectUri";
+        final String verificationSmsCodeURLKey = "verificationSmsCodeURL";
         updateResendUIState();
 
         try {
@@ -949,8 +954,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 MobileForgotPasswordVerifyCodeFragment mobileForgotPasswordVerifyCodeFragment = new MobileForgotPasswordVerifyCodeFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString(mobileNumberKey, mEtEmail.getEmailId());
-                bundle.putString(tokenKey,token);
-                bundle.putString(redirectUriKey,getRedirectUri());
+                bundle.putString(tokenKey, token);
+                bundle.putString(redirectUriKey, getRedirectUri());
                 bundle.putString(verificationSmsCodeURLKey, verificationSmsCodeURL);
                 mobileForgotPasswordVerifyCodeFragment.setArguments(bundle);
                 getRegistrationFragment().addFragment(mobileForgotPasswordVerifyCodeFragment);
@@ -970,9 +975,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private Intent createResendSMSIntent(String url) {
-        final String receiverKey="receiver";
-        final String bodyContentKey= "bodyContent";
-        final String urlKey= "url";
+        final String receiverKey = "receiver";
+        final String bodyContentKey = "bodyContent";
+        final String urlKey = "url";
 
         RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER *** : " + mEtEmail.getEmailId());
         RLog.d("Configration : ", " envir :" + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
@@ -994,7 +999,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private String getClientId() {
         ClientIDConfiguration clientIDConfiguration = new ClientIDConfiguration();
-        return clientIDConfiguration.getResetPasswordClientId(RegConstants.HTTPS_CONST+Jump.getCaptureDomain());
+        return clientIDConfiguration.getResetPasswordClientId(RegConstants.HTTPS_CONST + Jump.getCaptureDomain());
     }
 
     private String getRedirectUri() {

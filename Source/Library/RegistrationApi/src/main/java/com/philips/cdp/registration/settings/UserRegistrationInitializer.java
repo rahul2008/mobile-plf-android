@@ -16,12 +16,9 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 import com.janrain.android.Jump;
-import com.janrain.android.JumpConfig;
 import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.EventHelper;
@@ -29,14 +26,17 @@ import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 public class UserRegistrationInitializer {
+
+    @Inject
+    ServiceDiscoveryInterface serviceDiscoveryInterface;
 
     private boolean mIsJumpInitializationInProgress;
 
@@ -51,6 +51,7 @@ public class UserRegistrationInitializer {
     private static volatile UserRegistrationInitializer mUserRegistrationInitializer;
 
     private UserRegistrationInitializer() {
+        URInterface.getComponent().inject(this);
         mHandler = new Handler();
     }
 
@@ -165,10 +166,6 @@ public class UserRegistrationInitializer {
     public void initializeConfiguredEnvironment(final Context context, final Configuration registrationType, final String initLocale) {
 
         mRegistrationSettings = new RegistrationSettingsURL();
-
-
-        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
-        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
 
         serviceDiscoveryInterface.getServiceLocaleWithCountryPreference("userreg.janrain.api", new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
            @Override

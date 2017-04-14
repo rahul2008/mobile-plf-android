@@ -27,10 +27,9 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.apptagging.AppTagging;
-import com.philips.cdp.registration.apptagging.AppTaggingErrors;
-import com.philips.cdp.registration.apptagging.AppTaggingPages;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
+import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
+import com.philips.cdp.registration.app.tagging.AppTaggingPages;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
@@ -39,23 +38,29 @@ import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.XCheckBox;
-import com.philips.cdp.registration.ui.customviews.XEmail;
-import com.philips.cdp.registration.ui.customviews.XPassword;
+import com.philips.cdp.registration.ui.customviews.LoginIdEditText;
+import com.philips.cdp.registration.ui.customviews.PasswordView;
 import com.philips.cdp.registration.ui.customviews.XPasswordHint;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.XUserName;
-import com.philips.cdp.registration.ui.customviews.onUpdateListener;
+import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
-import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.UIFlow;
+import com.philips.cdp.registration.ui.utils.URInterface;
+
+import javax.inject.Inject;
 
 public class CreateAccountFragment extends RegistrationBaseFragment implements OnClickListener,
-        TraditionalRegistrationHandler, onUpdateListener, NetworStateListener, EventListener, XCheckBox.OnCheckedChangeListener {
+        TraditionalRegistrationHandler, OnUpdateListener, NetworStateListener, EventListener, XCheckBox.OnCheckedChangeListener {
+
+    @Inject
+    NetworkUtility networkUtility;
 
     private static final int FAILURE_TO_CONNECT = -1;
 
@@ -69,7 +74,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     private Button mBtnCreateAccount;
 
-    private XCheckBox mCbTerms;
+    private XCheckBox mCbMarketingOpt;
 
     private XCheckBox mCbAcceptTerms;
 
@@ -77,9 +82,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     private XUserName mEtName;
 
-    private XEmail mEtEmail;
+    private LoginIdEditText mEtEmail;
 
-    private XPassword mEtPassword;
+    private PasswordView mEtPassword;
 
     private XRegError mRegError;
 
@@ -123,6 +128,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        URInterface.getComponent().inject(this);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onCreateView");
         RLog.d(RLog.EVENT_LISTENERS,
                 "CreateAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
@@ -215,7 +221,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
             mBundle.putBoolean("isTermsAndConditionVisible", isTermsAndConditionVisible);
             mBundle.putString("saveTermsAndConditionErrText", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
         }
-        if(mCbTerms.isChecked()){
+        if(mCbMarketingOpt.isChecked()){
             isSavedCBTermsChecked = true;
             mBundle.putBoolean("isSavedCBTermsChecked", isSavedCBTermsChecked);
             mBundle.putString("savedCBTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
@@ -244,7 +250,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
                 mRegAccptTermsError.setError(savedInstanceState.getString("saveTermsAndConditionErrText"));
             }
             if(savedInstanceState.getBoolean("isSavedCBTermsChecked")){
-                mCbTerms.setChecked(true);
+                mCbMarketingOpt.setChecked(true);
             }
             if(savedInstanceState.getBoolean("isSavedCbAcceptTermsChecked")){
                 mCbAcceptTerms.setChecked(true);
@@ -308,38 +314,15 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         mJoinnow = (TextView) view.findViewById(R.id.tv_join_now);
         mTvFirstToKnow = (TextView)view.findViewById(R.id.tv_reg_first_to_know);
 
-        final UIFlow abStrings=RegUtility.getUiFlow();
-        if (abStrings.equals(UIFlow.FLOW_A)){
-            RLog.d(RLog.AB_TESTING,"UI Flow Type A");
-            mLlCreateAccountContainer.setVisibility(View.VISIBLE);
-            mJoinnow.setVisibility(View.GONE);
-            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                    AppTagingConstants.REGISTRATION_CONTROL);
+        handleABTestingFlow();
 
-        }else if (abStrings.equals(UIFlow.FLOW_B)){
-            RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-            mLlCreateAccountContainer.setVisibility(View.GONE);
-            mJoinnow.setVisibility(View.GONE);
-            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                    AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
-
-        }else if (abStrings.equals(UIFlow.FLOW_C)){
-            RLog.d(RLog.AB_TESTING,"UI Flow Type C");
-            mLlCreateAccountContainer.setVisibility(View.VISIBLE);
-            mJoinnow.setVisibility(View.VISIBLE);
-            mTvFirstToKnow.setVisibility(View.VISIBLE);
-            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                    AppTagingConstants.REGISTRATION_SOCIAL_PROOF);
-
-
-        }
         mLlAcceptTermsContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_accept_terms);
         mRlCreateActtBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_singin_options);
 
         mBtnCreateAccount = (Button) view.findViewById(R.id.btn_reg_register);
-        mCbTerms = (XCheckBox) view.findViewById(R.id.cb_reg_register_terms);
-        mCbTerms.setOnClickListener(this);
+        mCbMarketingOpt = (XCheckBox) view.findViewById(R.id.cb_reg_register_terms);
+        mCbMarketingOpt.setOnClickListener(this);
         mCbAcceptTerms = (XCheckBox) view.findViewById(R.id.cb_reg_accept_terms);
         mCbAcceptTerms.setOnClickListener(this);
         mTvEmailExist = (TextView) view.findViewById(R.id.tv_reg_email_exist);
@@ -363,9 +346,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         mEtName.requestFocus();
         mEtName.setOnUpdateListener(this);
-        mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
+        mEtEmail = (LoginIdEditText) view.findViewById(R.id.rl_reg_email_field);
         mEtEmail.setOnUpdateListener(this);
-        mEtPassword = (XPassword) view.findViewById(R.id.rl_reg_password_field);
+        mEtPassword = (PasswordView) view.findViewById(R.id.rl_reg_password_field);
         mEtPassword.setOnUpdateListener(this);
         mPbSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_activate_spinner);
         mPbSpinner.setClickable(false);
@@ -377,6 +360,38 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         handleUiAcceptTerms();
         handleUiState();
         mUser = new User(mContext);
+    }
+
+    private void handleABTestingFlow() {
+        final UIFlow abTestingUIFlow = RegUtility.getUiFlow();
+        switch (abTestingUIFlow){
+
+            case FLOW_A:
+                RLog.d(RLog.AB_TESTING,"UI Flow Type A");
+                mLlCreateAccountContainer.setVisibility(View.VISIBLE);
+                mJoinnow.setVisibility(View.GONE);
+                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                        AppTagingConstants.REGISTRATION_CONTROL);
+                break;
+            case FLOW_B:
+
+                RLog.d(RLog.AB_TESTING, "UI Flow Type B");
+                mLlCreateAccountContainer.setVisibility(View.GONE);
+                mJoinnow.setVisibility(View.GONE);
+                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                        AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
+                break;
+            case FLOW_C:
+                RLog.d(RLog.AB_TESTING,"UI Flow Type C");
+                mLlCreateAccountContainer.setVisibility(View.VISIBLE);
+                mJoinnow.setVisibility(View.VISIBLE);
+                mTvFirstToKnow.setVisibility(View.VISIBLE);
+                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                        AppTagingConstants.REGISTRATION_SOCIAL_PROOF);
+                break;
+
+            default:break;
+        }
     }
 
     private void register() {
@@ -391,7 +406,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
             mEmail = FieldsValidator.getMobileNumber(mEtEmail.getEmailId());
         }
         mUser.registerUserInfoForTraditional(mEtName.getName().toString(), mEmail
-                , mEtPassword.getPassword().toString(), true, mCbTerms.isChecked(), this);
+                , mEtPassword.getPassword().toString(), true, mCbMarketingOpt.isChecked(), this);
     }
 
     private String mEmail;
@@ -424,9 +439,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void trackRemarketing() {
-        final UIFlow abStrings = RegUtility.getUiFlow();
-        if (!abStrings.equals(UIFlow.FLOW_B)) {
-            if (mCbTerms.isChecked()) {
+        final UIFlow abTestingUIFlow = RegUtility.getUiFlow();
+        if (!abTestingUIFlow.equals(UIFlow.FLOW_B)) {
+            if (mCbMarketingOpt.isChecked()) {
                 trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
             } else {
                 trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
@@ -445,32 +460,34 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void handleUiState() {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
-
+        if (networkUtility.isNetworkAvailable()) {
             mRegError.hideError();
 
         } else {
             mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             scrollViewAutomatically(mRegError, mSvRootLayout);
-
-
         }
     }
 
     private void handleUiAcceptTerms() {
-        final UIFlow abStrings=RegUtility.getUiFlow();
+        final UIFlow abTestingUIFlow=RegUtility.getUiFlow();
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
-            if (abStrings.equals(UIFlow.FLOW_A)){
-                RLog.d(RLog.AB_TESTING,"UI Flow Type A");
-                mViewLine.setVisibility(View.VISIBLE);
-               }else if (abStrings.equals(UIFlow.FLOW_B)){
-                RLog.d(RLog.AB_TESTING,"UI Flow Type B");
-                mViewLine.setVisibility(View.GONE);
-              }else if (abStrings.equals(UIFlow.FLOW_C)){
-                RLog.d(RLog.AB_TESTING,"UI Flow Type C");
-                mViewLine.setVisibility(View.VISIBLE);
-                            }
+            switch (abTestingUIFlow){
+                case FLOW_A:
+                    RLog.d(RLog.AB_TESTING,"UI Flow Type A");
+                    mViewLine.setVisibility(View.VISIBLE);
+                    break;
+                case FLOW_B:
+                    RLog.d(RLog.AB_TESTING,"UI Flow Type B");
+                    mViewLine.setVisibility(View.GONE);
+                    break;
+                case FLOW_C:
+                    RLog.d(RLog.AB_TESTING,"UI Flow Type C");
+                    mViewLine.setVisibility(View.VISIBLE);
+                    break;
+                default:break;
+            }
         } else {
             mLlAcceptTermsContainer.setVisibility(View.GONE);
             mViewLine.setVisibility(View.GONE);
@@ -494,36 +511,41 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         }
         hideSpinner();
         trackCheckMarketing();
-        final UIFlow abStrings=RegUtility.getUiFlow();
+        final UIFlow abTestingUIFlow=RegUtility.getUiFlow();
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_USER_CREATION);
 
-        if (abStrings.equals(UIFlow.FLOW_A)) {
-            RLog.d(RLog.AB_TESTING, "UI Flow Type A ");
-            if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
-                if (FieldsValidator.isValidEmail(mUser.getEmail().toString())) {
-                    launchAccountActivateFragment();
+        switch (abTestingUIFlow){
+            case FLOW_A:
+                RLog.d(RLog.AB_TESTING, "UI Flow Type A ");
+                if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
+                    if (FieldsValidator.isValidEmail(mUser.getEmail().toString())) {
+                        launchAccountActivateFragment();
+                    } else {
+                        launchMobileVerifyCodeFragment();
+                    }
                 } else {
-                    launchMobileVerifyCodeFragment();
+                    launchWelcomeFragment();
                 }
-            } else {
-                launchWelcomeFragment();
-            }
-        } else if (abStrings.equals(UIFlow.FLOW_B)) {
-            RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-            launchMarketingAccountFragment();
-        } else if (abStrings.equals(UIFlow.FLOW_C)) {
-            RLog.d(RLog.AB_TESTING, "UI Flow Type  C");
-            if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
-                if (FieldsValidator.isValidEmail(mUser.getEmail().toString())) {
-                    launchAccountActivateFragment();
+                break;
+            case FLOW_B:
+                RLog.d(RLog.AB_TESTING, "UI Flow Type B");
+                launchMarketingAccountFragment();
+                break;
+            case FLOW_C:
+                RLog.d(RLog.AB_TESTING, "UI Flow Type  C");
+                if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
+                    if (FieldsValidator.isValidEmail(mUser.getEmail().toString())) {
+                        launchAccountActivateFragment();
+                    } else {
+                        launchMobileVerifyCodeFragment();
+                    }
                 } else {
-                    launchMobileVerifyCodeFragment();
+                    launchWelcomeFragment();
                 }
-            } else {
-                launchWelcomeFragment();
-            }
+                break;
         }
+
         if(mTrackCreateAccountTime == 0 && RegUtility.getCreateAccountStartTime() > 0){
             mTrackCreateAccountTime =  (System.currentTimeMillis() - RegUtility.getCreateAccountStartTime())/1000;
         }else{
@@ -597,7 +619,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     }
 
     @Override
-    public void onUpadte() {
+    public void onUpdate() {
         handleOnUIThread(new Runnable() {
             @Override
             public void run() {
@@ -615,7 +637,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         }
         mPasswordHintView.updateValidationStatus(mEtPassword.getPassword());
         if (mEtName.isValidName() && mEtEmail.isValidEmail() && mEtPassword.isValidPassword()
-                && NetworkUtility.isNetworkAvailable(mContext)) {
+                && networkUtility.isNetworkAvailable()) {
             mBtnCreateAccount.setEnabled(true);
             mRegError.hideError();
         } else {

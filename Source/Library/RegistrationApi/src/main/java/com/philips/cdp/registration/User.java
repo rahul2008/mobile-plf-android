@@ -17,8 +17,8 @@ import com.janrain.android.Jump;
 import com.janrain.android.capture.Capture.InvalidApidChangeException;
 import com.janrain.android.capture.CaptureRecord;
 import com.janrain.android.engage.session.JRSession;
-import com.philips.cdp.registration.apptagging.AppTagging;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
+import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.controller.AddConsumerInterest;
 import com.philips.cdp.registration.controller.ForgotPassword;
@@ -56,12 +56,10 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.Gender;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
-import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.security.SecureStorage;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.cdp.registration.ui.utils.URInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -73,11 +71,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 /**
  * {@code User} class represents information related to a logged in user of User Registration component.
  * Additionally, it exposes APIs to login, logout and refresh operations for traditional and social accounts.
  */
 public class User {
+
+    @Inject
+    NetworkUtility networkUtility;
 
     private boolean mEmailVerified;
 
@@ -129,6 +132,7 @@ public class User {
      * @param context
      */
     public User(Context context) {
+        URInterface.getComponent().inject(this);
         mContext = context;
         mUpdateUserRecordHandler = new UpdateUserRecord(mContext);
     }
@@ -474,7 +478,6 @@ public class User {
      * @return boolean
      */
     public boolean isUserSignIn() {
-        long start  = System.nanoTime();
         CaptureRecord capturedRecord = Jump.getSignedInUser();
         if (capturedRecord == null) {
             capturedRecord = CaptureRecord.loadFromDisk(mContext);
@@ -526,19 +529,6 @@ public class User {
         }
         return signedIn;
     }
-
-
-
-
-
-
-//    private boolean isJanrainUserRecord() {
-//        CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
-//        if (captured != null) {
-//            return true;
-//        }
-//        return false;
-//    }
 
     // check merge flow error for capture
     public boolean handleMergeFlowError(String existingProvider) {
@@ -690,9 +680,8 @@ public class User {
      * @param handler Callback mHandler
      */
     public void refreshUser(final RefreshUserHandler handler) {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
+        if (networkUtility.isNetworkAvailable()) {
             new RefreshandUpdateUserHandler(mUpdateUserRecordHandler, mContext).refreshAndUpdateUser(handler, this, ABCD.getInstance().getmP());
-            //ABCD.getInstance().setmP(null);
         } else {
             handler.onRefreshUserFailed(-1);
         }

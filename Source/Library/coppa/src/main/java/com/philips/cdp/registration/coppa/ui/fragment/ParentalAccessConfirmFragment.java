@@ -19,22 +19,28 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.listener.NumberPickerListener;
 import com.philips.cdp.registration.coppa.ui.customviews.RegCoppaAlertDialog;
 import com.philips.cdp.registration.coppa.ui.customviews.XNumberPickerDialog;
 import com.philips.cdp.registration.coppa.utils.AppCoppaTaggingConstants;
+import com.philips.cdp.registration.coppa.utils.CoppaInterface;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.ntputils.ServerTime;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.appinfra.timesync.TimeInterface;
 
 import java.util.Calendar;
 
 public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
         implements OnClickListener {
+
+    private TimeInterface timeInterface;
+
+    private AppTaggingInterface appTaggingInterface;
 
     private static final int MAX_AGE_VAL = 116;
     private static final int MIN_AGE_VAL = 0;
@@ -54,6 +60,8 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
 
         MAX_YEAR_VAL = Calendar.getInstance().get(Calendar.YEAR);
         MIN_YEAR_VAL = MAX_YEAR_VAL - MAX_AGE_VAL + 1;
+        timeInterface = CoppaInterface.getComponent().getTimeInterface();
+        appTaggingInterface = CoppaInterface.getComponent().getAppTaggingInterface();
 
     }
 
@@ -203,7 +211,7 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
     }
 
     private void validateInputs() {
-        ServerTime.init(RegistrationHelper.getInstance().getAppInfraInstance().getTime());
+        ServerTime.init(timeInterface);
         String currentTime = ServerTime.getCurrentTime();
         int currentYear = Integer.parseInt(currentTime.substring(0, 4));
         int selectedYear = Integer.parseInt(mTvSelectedYear.getText().toString().trim());
@@ -220,9 +228,7 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
 
         if (howMuchOld == caluculateAge || howMuchOld == caluculateAge - 1) {
 
-            AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.
-                    getInstance().getAppTaggingInterface();
-            aiAppTaggingInterface.setPreviousPage("coppa:ageverification");
+            appTaggingInterface.setPreviousPage("coppa:ageverification");
             getRegistrationFragment().launchRegistrationFragment();
             mBtnContinue.setEnabled(true);
             return;
