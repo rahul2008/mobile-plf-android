@@ -12,6 +12,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -115,7 +116,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
             String joinNow = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now);
             String updateJoinNowText =  " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
             joinNow = String.format(joinNow, updateJoinNowText);
-            mTvJoinNow.setText(joinNow);
+            mTvJoinNow.setText(Html.fromHtml(joinNow));
         }
     }
 
