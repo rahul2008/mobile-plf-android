@@ -40,8 +40,15 @@ public class UikitLocaleHelper {
      * @param pathInput Absolute path of your JSON file in String format
      */
     public void setFilePath(String pathInput) {
-        uikitLocaleHelper.filePath = pathInput;
-        uikitLocaleHelper.isLookUp = parseJSON();
+
+        if (pathInput == null || pathInput.length() == 0){
+            uikitLocaleHelper.stringHashMap = null;
+            uikitLocaleHelper.isLookUp = false;
+        }
+        else{
+            uikitLocaleHelper.filePath = pathInput;
+            uikitLocaleHelper.isLookUp = parseJSON();
+        }
     }
 
     /**
@@ -82,12 +89,12 @@ public class UikitLocaleHelper {
 
     private String getJSONStringFromPath() {
 
-        File file = new File(uikitLocaleHelper.filePath);
-        int length = (int) file.length();
-        byte[] bytes = new byte[length];
         String jsonString = null;
 
         try {
+            File file = new File(uikitLocaleHelper.filePath);
+            int length = (int) file.length();
+            byte[] bytes = new byte[length];
             FileInputStream in = new FileInputStream(file);
             in.read(bytes);
             in.close();
