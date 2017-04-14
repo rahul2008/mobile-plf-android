@@ -199,14 +199,14 @@ public class RegUtility {
                 RegistrationHelper.getInstance().getAppInfraInstance().getAbTesting().
                         getTestValue(RegConstants.DOT_RECEIVE_MARKETING_OPT_IN, UIFlow.FLOW_A.getValue(),
                                 ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE, null);
-//        if(flowType.equalsIgnoreCase(UIFlow.FLOW_A.getValue())){
-//            return UIFlow.FLOW_A;
-//        }else if(flowType.equalsIgnoreCase(UIFlow.FLOW_B.getValue())){
+        if(flowType.equalsIgnoreCase(UIFlow.FLOW_A.getValue())){
+            return UIFlow.FLOW_A;
+        }else if(flowType.equalsIgnoreCase(UIFlow.FLOW_B.getValue())){
             return UIFlow.FLOW_B;
-//        }else if(flowType.equalsIgnoreCase(UIFlow.FLOW_C.getValue())){
-//            return UIFlow.FLOW_C;
-//        }
-//        return UIFlow.FLOW_C;
+        }else if(flowType.equalsIgnoreCase(UIFlow.FLOW_C.getValue())){
+            return UIFlow.FLOW_C;
+        }
+        return UIFlow.FLOW_C;
     }
     public static void checkIsValidSignInProviders(HashMap<String, ArrayList<String>> providers) {
         if(providers!=null){
