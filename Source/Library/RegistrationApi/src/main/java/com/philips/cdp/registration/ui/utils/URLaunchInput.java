@@ -52,6 +52,17 @@ public class URLaunchInput extends UappLaunchInput {
         this.registrationLaunchMode = registrationLaunchMode;
     }
 
+    RegistrationContentConfiguration registrationContentConfiguration;
+
+    public void setRegistrationContentConfiguration(RegistrationContentConfiguration registrationContentConfiguration){
+        this.registrationContentConfiguration = registrationContentConfiguration;
+
+    }
+
+    public RegistrationContentConfiguration getRegistrationContentConfiguration(){
+        return this.registrationContentConfiguration;
+
+    }
     @Deprecated
     public void setAccountSettings(boolean isAccountSettings) {
         this.isAccountSettings = isAccountSettings;

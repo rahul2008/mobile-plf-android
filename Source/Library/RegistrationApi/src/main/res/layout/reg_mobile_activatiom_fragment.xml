@@ -34,7 +34,7 @@
                     android:text="@string/reg_Account_ActivationCode_Title_lbltxt"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
 
-                <com.philips.cdp.registration.ui.customviews.XVerifyNumber
+                <com.philips.cdp.registration.ui.customviews.OtpEditTextWithResendButton
                     android:id="@+id/rl_reg_name_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">Suiteáil</string>
 <string name="reg_Phonenumbernotfound">Níl ann don Uimhir Theileafóin</string>
 <string name="reg_InvalidMobilenumber">Uimhir Theileafóin Póca neamhbhailí</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Seolfaimid ríomhphost nó teachtaireacht téacs chugat chun do phasfhocal a athshocrú.</string>
 </resources>

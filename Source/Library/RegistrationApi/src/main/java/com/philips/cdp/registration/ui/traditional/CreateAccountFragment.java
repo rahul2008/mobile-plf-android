@@ -39,7 +39,7 @@ import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.XCheckBox;
 import com.philips.cdp.registration.ui.customviews.LoginIdEditText;
-import com.philips.cdp.registration.ui.customviews.XPassword;
+import com.philips.cdp.registration.ui.customviews.PasswordView;
 import com.philips.cdp.registration.ui.customviews.XPasswordHint;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.XUserName;
@@ -84,7 +84,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     private LoginIdEditText mEtEmail;
 
-    private XPassword mEtPassword;
+    private PasswordView mEtPassword;
 
     private XRegError mRegError;
 
@@ -348,7 +348,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         mEtName.setOnUpdateListener(this);
         mEtEmail = (LoginIdEditText) view.findViewById(R.id.rl_reg_email_field);
         mEtEmail.setOnUpdateListener(this);
-        mEtPassword = (XPassword) view.findViewById(R.id.rl_reg_password_field);
+        mEtPassword = (PasswordView) view.findViewById(R.id.rl_reg_password_field);
         mEtPassword.setOnUpdateListener(this);
         mPbSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_activate_spinner);
         mPbSpinner.setClickable(false);

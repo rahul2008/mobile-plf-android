@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">Орнату</string>
 <string name="reg_Phonenumbernotfound">Телефон нөмірі табылмады</string>
 <string name="reg_InvalidMobilenumber">Телефон нөмірі дұрыс емес</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Құпия сөзді қайта орнату үшін электрондық хат немесе SMS жіберіледі.</string>
 </resources>

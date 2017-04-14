@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">تثبيت</string>
 <string name="reg_Phonenumbernotfound">لم يتم العثور على رقم الهاتف</string>
 <string name="reg_InvalidMobilenumber">رقم الهاتف غير صالح</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">سنرسل إليك بريدًا إلكترونيًا أو رسالة SMS لإعادة تعيين كلمة المرور.</string>
 </resources>

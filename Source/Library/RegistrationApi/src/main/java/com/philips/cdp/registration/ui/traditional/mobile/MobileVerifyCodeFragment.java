@@ -33,7 +33,7 @@ import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.customviews.XMobileHavingProblems;
 import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.customviews.XVerifyNumber;
+import com.philips.cdp.registration.ui.customviews.OtpEditTextWithResendButton;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegAlertDialog;
@@ -80,7 +80,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     Button verifyButton;
 
     @Bind(B.id.rl_reg_name_field)
-    XVerifyNumber otpEditTextAndResendButton;
+    OtpEditTextWithResendButton otpEditTextAndResendButton;
 
     @Bind(B.id.pb_reg_activate_spinner)
     ProgressBar spinnerProgress;
@@ -269,8 +269,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void refreshUserOnSmsVerificationSuccess() {
-        trackActionStatus(SEND_DATA, SPECIAL_EVENTS,
-                SUCCESS_USER_REGISTRATION);
+        trackActionStatus(SEND_DATA, SPECIAL_EVENTS, SUCCESS_USER_REGISTRATION);
         user.refreshUser(this);
     }
 

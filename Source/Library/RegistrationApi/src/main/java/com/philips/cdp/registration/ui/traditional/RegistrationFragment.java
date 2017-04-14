@@ -40,6 +40,7 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.dhpclient.BuildConfig;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -63,6 +64,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     private ActionBarListener mActionBarListener;
 
     private RegistrationLaunchMode mRegistrationLaunchMode = RegistrationLaunchMode.DEFAULT;
+
+    RegistrationContentConfiguration registrationContentConfiguration;
 
     private int titleResourceID = -99;
 
@@ -92,9 +95,16 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         Bundle bundle = getArguments();
         if (bundle != null) {
             mRegistrationLaunchMode = (RegistrationLaunchMode) bundle.get(RegConstants.REGISTRATION_LAUNCH_MODE);
+
+            registrationContentConfiguration = (RegistrationContentConfiguration) bundle.get(RegConstants.REGISTRATION_CONTENT_CONFIG);
         }
         RLog.d("RegistrationFragment", "mRegistrationLaunchMode : " + mRegistrationLaunchMode);
+
         super.onCreate(savedInstanceState);
+    }
+
+    public RegistrationContentConfiguration getContentConfiguration() {
+        return registrationContentConfiguration;
     }
 
     @Override
@@ -238,9 +248,9 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         } else if (fragment instanceof AlmostDoneFragment) {
             return AppTaggingPages.ALMOST_DONE;
 
-        }else if (fragment instanceof MarketingAccountFragment) {
+        } else if (fragment instanceof MarketingAccountFragment) {
             return AppTaggingPages.MARKETING_OPT_IN;
-        }else {
+        } else {
             return AppTaggingPages.MERGE_ACCOUNT;
         }
     }
@@ -263,10 +273,10 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         User mUser = new User(mActivity.getApplicationContext());
         boolean isUserSignIn = mUser.isUserSignIn();
         boolean isEmailVerified = mUser.getEmailVerificationStatus();
-        boolean isEmailVerificationRequired  =RegistrationConfiguration.
+        boolean isEmailVerificationRequired = RegistrationConfiguration.
                 getInstance().isEmailVerificationRequired();
 
-        if (RegistrationLaunchMode.MARKETING_OPT.equals(mRegistrationLaunchMode)){
+        if (RegistrationLaunchMode.MARKETING_OPT.equals(mRegistrationLaunchMode)) {
             if (isUserSignIn && isEmailVerified) {
                 launchMarketingAccountFragment();
                 return;
@@ -278,8 +288,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             }
             AppTagging.trackFirstPage(AppTaggingPages.HOME);
             replaceWithHomeFragment();
-        }else if (RegistrationLaunchMode.ACCOUNT_SETTINGS.equals(mRegistrationLaunchMode)) {
-            if (isUserSignIn&& isEmailVerified) {
+        } else if (RegistrationLaunchMode.ACCOUNT_SETTINGS.equals(mRegistrationLaunchMode)) {
+            if (isUserSignIn && isEmailVerified) {
                 AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
                 replaceWithLogoutFragment();
                 return;

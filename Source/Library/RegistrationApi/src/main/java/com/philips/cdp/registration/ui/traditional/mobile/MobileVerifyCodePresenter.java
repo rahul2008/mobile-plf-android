@@ -182,14 +182,14 @@ public class MobileVerifyCodePresenter implements HttpClientServiceReceiver.List
             } else {
                 mobileVerifyCodeContract.hideProgressSpinner();
                 mobileVerifyCodeContract.enableVerifyButton();
-                smsActivtionFailed(jsonObject);
+                smsActivationFailed(jsonObject);
             }
         } catch (JSONException e) {
             mobileVerifyCodeContract.smsVerificationResponseError();
         }
     }
 
-    private void smsActivtionFailed(JSONObject jsonObject) throws JSONException {
+    private void smsActivationFailed(JSONObject jsonObject) throws JSONException {
         if (isResponseCodeValid(jsonObject)) {
             mobileVerifyCodeContract.setOtpInvalidErrorMessage();
         } else {

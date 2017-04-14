@@ -33,25 +33,30 @@
 package com.janrain.android.engage;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+
 import com.janrain.android.engage.session.JRProvider;
 import com.janrain.android.engage.session.JRSession;
 import com.janrain.android.engage.types.JRDictionary;
-import com.janrain.android.engage.ui.JRUiFragment;
 import com.janrain.android.utils.ApiConnection;
 import com.janrain.android.utils.LogUtils;
 
 import net.openid.appauth.AuthorizationService;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.Charset;
+
+import okio.Okio;
 
 public class JROpenIDAppAuth {
 
@@ -59,7 +64,10 @@ public class JROpenIDAppAuth {
     /*package*/ JRSession mSession;
     /*package*/ JRProvider mProvider;
     /*package*/ final String TAG = getLogTag();
-    /*package*/ String getLogTag() { return getClass().getSimpleName(); }
+
+    /*package*/ String getLogTag() {
+        return getClass().getSimpleName();
+    }
 
 
     public static boolean canHandleProvider(Context context, JRProvider provider) {
@@ -156,7 +164,8 @@ public class JROpenIDAppAuth {
             mAuthService = authorizationService;
         }
 
-        /*package*/ static boolean canHandleAuthentication() {
+        /*package*/
+        static boolean canHandleAuthentication() {
             return false;
         }
 
@@ -174,7 +183,7 @@ public class JROpenIDAppAuth {
 
         public abstract void onActivityResult(int requestCode, int resultCode, Intent data);
 
-        /*package*/ void getAuthInfoTokenForAccessToken(String accessToken) {
+        /*package*/ void getAuthInfoTokenForAccessToken(final Uri userinfoEndpoint, final String token, String accessToken) {
 
             ApiConnection.FetchJsonCallback handler = new ApiConnection.FetchJsonCallback() {
                 public void run(JSONObject json) {
@@ -183,8 +192,6 @@ public class JROpenIDAppAuth {
                         triggerOnFailure("Bad Response", OpenIDAppAuthError.ENGAGE_ERROR);
                         return;
                     }
-
-                    String status = json.optString("stat");
 
                     if (json.optString("stat") == null || !json.optString("stat").equals("ok")) {
                         triggerOnFailure("Bad Json: " + json, OpenIDAppAuthError.ENGAGE_ERROR);
@@ -195,17 +202,68 @@ public class JROpenIDAppAuth {
 
                     JRDictionary payload = new JRDictionary();
                     payload.put("token", auth_token);
-                    payload.put("auth_info", new JRDictionary());
-
-                    triggerOnSuccess(payload);
+                    fetchUserInfo(userinfoEndpoint, token, payload);
                 }
             };
 
             ApiConnection connection =
                     new ApiConnection(JRSession.getInstance().getRpBaseUrl() + "/signin/oauth_token");
-
             connection.addAllToParams("token", accessToken, "provider", provider());
             connection.fetchResponseAsJson(handler);
+        }
+
+
+        private void fetchUserInfo(Uri puserinfoEndpoint, final String accessToken, final JRDictionary payload) {
+            final URL userInfoEndpoint;
+            try {
+                userInfoEndpoint = new URL(puserinfoEndpoint.toString());
+            } catch (MalformedURLException urlEx) {
+                Log.e("log", "Failed to construct user info endpoint URL", urlEx);
+                triggerOnFailure("Bad Response", OpenIDAppAuthError.ENGAGE_ERROR);
+                return;
+            }
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        HttpURLConnection conn =
+                                (HttpURLConnection) userInfoEndpoint.openConnection();
+                        conn.setRequestProperty("Authorization", "Bearer " + accessToken);
+                        conn.setInstanceFollowRedirects(false);
+                        String response = Okio.buffer(Okio.source(conn.getInputStream()))
+                                .readString(Charset.forName("UTF-8"));
+
+                        JSONObject responseJson = new JSONObject(response);
+
+                        JSONObject profileJson = new JSONObject();
+                        profileJson.put("email", responseJson.optString("email"));
+                        profileJson.put("email_verified", 1);
+                        profileJson.put("family_name", responseJson.optString("family_name"));
+                        profileJson.put("gender", responseJson.optString("gender"));
+                        profileJson.put("given_name", responseJson.optString("given_name"));
+                        profileJson.put("locale", responseJson.optString("locale"));
+                        profileJson.put("name", responseJson.optString("name"));
+                        profileJson.put("picture", responseJson.optString("picture"));
+                        profileJson.put("profile", responseJson.optString("profile"));
+                        profileJson.put("sub", responseJson.optString("sub"));
+
+                        JSONObject authInfoJson = new JSONObject();
+                        authInfoJson.put("profile", profileJson);
+
+                        payload.put("auth_info", JRDictionary.fromJsonString(authInfoJson.toString()));
+
+                        triggerOnSuccess(payload);
+                    } catch (IOException ioEx) {
+                        Log.e("log", "Network error when querying userinfo endpoint", ioEx);
+                        triggerOnFailure("Bad Response", OpenIDAppAuthError.ENGAGE_ERROR);
+                    } catch (JSONException e) {
+                        Log.e("log",e.getMessage());
+                        triggerOnFailure("Bad Response", OpenIDAppAuthError.ENGAGE_ERROR);
+                    }
+
+                }
+            }).start();
+
 
         }
 
@@ -245,7 +303,7 @@ public class JROpenIDAppAuth {
                 new JROpenIDAppAuth.OpenIDAppAuthCallback() {
                     @Override
                     public void onSuccess(JRDictionary payload) {
-                        if(mSession.getCurrentlyAuthenticatingJrUiFragment() != null) {
+                        if (mSession.getCurrentlyAuthenticatingJrUiFragment() != null) {
                             mSession.getCurrentlyAuthenticatingJrUiFragment().finishFragmentWithResult(Activity.RESULT_OK);
                         }
                         mSession.saveLastUsedAuthProvider();
@@ -258,7 +316,7 @@ public class JROpenIDAppAuth {
                     public void onFailure(final String message, JROpenIDAppAuth.OpenIDAppAuthError errorCode,
                                           Exception exception, boolean shouldTryWebViewAuthentication) {
                         super.onFailure(message, errorCode, exception, shouldTryWebViewAuthentication);
-                        if(mSession.getCurrentlyAuthenticatingJrUiFragment() != null) {
+                        if (mSession.getCurrentlyAuthenticatingJrUiFragment() != null) {
                             mSession.getCurrentlyAuthenticatingJrUiFragment().finishFragment();
                         }
                     }
@@ -271,7 +329,7 @@ public class JROpenIDAppAuth {
                     @Override
                     public void tryWebViewAuthentication() {
                         mProvider = mSession.getCurrentlyAuthenticatingProvider();
-                        if(mSession.getCurrentlyAuthenticatingJrUiFragment() != null) {
+                        if (mSession.getCurrentlyAuthenticatingJrUiFragment() != null) {
                             mSession.getCurrentlyAuthenticatingJrUiFragment().startWebViewAuthForProvider(mProvider);
                         }
                     }

@@ -29,6 +29,7 @@ import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
+import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XRegError;
@@ -91,9 +92,23 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         View view = inflater.inflate(R.layout.reg_fragment_marketing_opt, container, false);
+        initUI(view);
+
+        if (getRegistrationFragment().getContentConfiguration()!= null) {
+
+            TextView marketBeTheFirstTextView = (TextView) view.findViewById(R.id.reg_be_the_first_txt);
+            marketBeTheFirstTextView.setText(getRegistrationFragment().getContentConfiguration().getOptInTitleText());
+            TextView marketWhatAreYouTextView = (TextView) view.findViewById(R.id.reg_what_are_you_txt);
+            marketWhatAreYouTextView.setText(getRegistrationFragment().getContentConfiguration().getOptInQuessionaryText());
+            TextView marketSpecialOfferTextView = (TextView) view.findViewById(R.id.reg_special_officer_txt);
+            marketSpecialOfferTextView.setText(getRegistrationFragment().getContentConfiguration().getOptInDetailDescription());
+            TextView marketJoinNowView = (TextView) view.findViewById(R.id.tv_reg_Join_now);
+            marketJoinNowView.setText(getRegistrationFragment().getContentConfiguration().getOptInBannerText());
+
+        }
+
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
 
-        initUI(view);
         handleOrientation(view);
         mTrackCreateAccountTime = System.currentTimeMillis();
         return view;
@@ -283,6 +298,15 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     public int getTitleResourceId() {
         return R.string.reg_RegCreateAccount_NavTitle;
     }
+
+    @Override
+    public String getTitleResourceText() {
+        if (getRegistrationFragment().getContentConfiguration() != null) {
+            return getRegistrationFragment().getContentConfiguration().getOptInActionBarText();
+        }
+        return null;
+    }
+
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {

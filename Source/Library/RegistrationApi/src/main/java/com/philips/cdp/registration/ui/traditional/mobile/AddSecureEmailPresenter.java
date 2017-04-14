@@ -2,8 +2,6 @@ package com.philips.cdp.registration.ui.traditional.mobile;
 
 import android.support.annotation.VisibleForTesting;
 
-import com.janrain.android.capture.Capture.CaptureApiRequestCallback;
-import com.janrain.android.capture.CaptureApiError;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
@@ -12,12 +10,19 @@ import com.philips.cdp.registration.update.UpdateUserProfile;
 
 import javax.inject.Inject;
 
-public class AddSecureEmailPresenter implements CaptureApiRequestCallback, NetworStateListener {
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableCompletableObserver;
+import io.reactivex.schedulers.Schedulers;
+
+public class AddSecureEmailPresenter implements NetworStateListener {
 
     @Inject
     UpdateUserProfile updateUserProfile;
 
-    AddSecureEmailContract addSecureEmailContract;
+    private final AddSecureEmailContract addSecureEmailContract;
+
+    private final CompositeDisposable disposables = new CompositeDisposable();
 
     public AddSecureEmailPresenter(AddSecureEmailContract addSecureEmailContract) {
         URInterface.getComponent().inject(this);
@@ -37,21 +42,27 @@ public class AddSecureEmailPresenter implements CaptureApiRequestCallback, Netwo
             addSecureEmailContract.showInvalidEmailError();
             return;
         }
+        addSecureEmailContract.showProgress();
         updateUserEmail(emailId);
     }
 
     private void updateUserEmail(String emailId) {
-        updateUserProfile.updateUserEmail(emailId, this);
-    }
+        disposables.add(updateUserProfile.updateUserEmail(emailId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableCompletableObserver() {
+                    @Override
+                    public void onComplete() {
+                        addSecureEmailContract.hideProgress();
+                        addSecureEmailContract.onAddRecoveryEmailSuccess();
+                    }
 
-    @Override
-    public void onSuccess() {
-        addSecureEmailContract.onAddRecoveryEmailSuccess();
-    }
-
-    @Override
-    public void onFailure(CaptureApiError e) {
-        addSecureEmailContract.onAddRecoveryEmailFailure(e.error);
+                    @Override
+                    public void onError(Throwable e) {
+                        addSecureEmailContract.hideProgress();
+                        addSecureEmailContract.onAddRecoveryEmailFailure(e.getMessage());
+                    }
+                }));
     }
 
     @Override
@@ -65,7 +76,8 @@ public class AddSecureEmailPresenter implements CaptureApiRequestCallback, Netwo
         }
     }
 
-    public void unRegisterNetworkListener() {
+    public void cleanUp() {
+        disposables.clear();
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
     }
 

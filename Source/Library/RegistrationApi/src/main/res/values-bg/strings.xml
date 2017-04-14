@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">Инсталир.</string>
 <string name="reg_Phonenumbernotfound">Телефонният номер не е намерен</string>
 <string name="reg_InvalidMobilenumber">Невалиден мобилен номер</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Ще ви изпратим имейл или SMS за подновяване на паролата.</string>
 </resources>

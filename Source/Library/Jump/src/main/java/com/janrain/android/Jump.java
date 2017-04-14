@@ -60,7 +60,13 @@ import com.janrain.android.utils.ThreadUtils;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+
+import net.openid.appauth.AppAuthConfiguration;
 import net.openid.appauth.AuthorizationService;
+import net.openid.appauth.browser.BrowserBlacklist;
+import net.openid.appauth.browser.Browsers;
+import net.openid.appauth.browser.VersionRange;
+import net.openid.appauth.browser.VersionedBrowserMatcher;
 
 import org.json.JSONObject;
 
@@ -494,7 +500,17 @@ public class Jump {
                 Jump.fireHandlerOnFailure(err);
             }
         });
-        AuthorizationService authorizationService = new AuthorizationService(fromActivity);
+
+
+        BrowserBlacklist blacklist = new BrowserBlacklist(
+                new VersionedBrowserMatcher(
+                        Browsers.SBrowser.PACKAGE_NAME,
+                        Browsers.SBrowser.SIGNATURE_SET,
+                        true, // custom tab
+                        VersionRange.ANY_VERSION));
+        AuthorizationService authorizationService = new AuthorizationService(fromActivity,   new AppAuthConfiguration.Builder()
+                .setBrowserMatcher(blacklist)
+                .build());
         state.jrEngage.setAuthorizationService(authorizationService);
         state.jrEngage.setAuthorizationActivity(fromActivity);
         if (providerName != null) {
@@ -892,13 +908,13 @@ public class Jump {
         FileInputStream fis = null;
         ObjectInputStream ois = null;
         try {
-            fis = state.context.openFileInput(Capture.JR_REFRESH_SECRET);
+            fis = context.openFileInput(Capture.JR_REFRESH_SECRET);
             ois = new ObjectInputStream(fis);
             byte[] encryptedText = (byte[])ois.readObject();
             byte[] decrtext = SecureStorage.decrypt(encryptedText);
             //  state.refreshSecret = (String) ois.readObject();
             state.refreshSecret = new String(decrtext);
-            state.context.deleteFile(Capture.JR_REFRESH_SECRET);
+            context.deleteFile(Capture.JR_REFRESH_SECRET);
             mSecureStorageInterface.storeValueForKey(Capture.JR_REFRESH_SECRET,
                     state.refreshSecret ,new SecureStorageInterface.SecureStorageError());
 

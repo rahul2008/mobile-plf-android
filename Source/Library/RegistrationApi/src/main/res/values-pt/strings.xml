@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">Instalar</string>
 <string name="reg_Phonenumbernotfound">Número de telemóvel não encontrado</string>
 <string name="reg_InvalidMobilenumber">Número de telemóvel inválido</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Enviar-lhe-emos uma mensagem de correio electrónico ou SMS para repor a sua palavra passe.</string>
 </resources>

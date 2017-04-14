@@ -23,6 +23,7 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.philips.cdp.registration.B;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
@@ -32,31 +33,39 @@ import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
+import butterfork.Bind;
+import butterfork.ButterFork;
+
 public class LoginIdEditText extends RelativeLayout implements TextWatcher, OnClickListener,
         OnFocusChangeListener {
 
     private Context mContext;
 
-    private EditText mEtEmail;
+    @Bind(B.id.et_reg_email)
+    EditText mEtEmail;
 
-    private TextView mTvErrDescriptionView;
+    @Bind(B.id.tv_reg_email_err)
+    TextView mTvErrDescriptionView;
+
+    @Bind(B.id.rl_reg_parent_verified_field)
+    RelativeLayout mRlEtEmail;
+
+    @Bind(B.id.iv_reg_close)
+    TextView mTvCloseIcon;
+
+    @Bind(B.id.fl_reg_email_field_err)
+    FrameLayout mFlInvalidFieldAlert;
 
     private boolean mValidEmail;
 
     private OnUpdateListener mUpdateStatusListener;
 
-    private RelativeLayout mRlEtEmail;
-
-    private TextView mTvCloseIcon;
-
-    private FrameLayout mFlInvalidFieldAlert;
-    private String mSavedEmaillError;
+    private String mSavedEmailError;
 
     public LoginIdEditText(Context context) {
         super(context);
         this.mContext = context;
         initUi(R.layout.reg_email);
-
     }
 
     public LoginIdEditText(Context context, AttributeSet attrs) {
@@ -69,15 +78,11 @@ public class LoginIdEditText extends RelativeLayout implements TextWatcher, OnCl
     public final void initUi(int resourceId) {
         RLog.d(RLog.SERVICE_DISCOVERY,"China Flow : "+ RegistrationHelper.getInstance().isChinaFlow());
         LayoutInflater li = LayoutInflater.from(mContext);
-        li.inflate(resourceId, this, true);
-        mRlEtEmail = (RelativeLayout) findViewById(R.id.rl_reg_parent_verified_field);
-        mEtEmail = (EditText) findViewById(R.id.et_reg_email);
+        View view = li.inflate(resourceId, this, true);
+        ButterFork.bind(this, view);
         mEtEmail.setOnClickListener(this);
         mEtEmail.setOnFocusChangeListener(this);
         mEtEmail.addTextChangedListener(this);
-        mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_email_err);
-        mFlInvalidFieldAlert = (FrameLayout) findViewById(R.id.fl_reg_email_field_err);
-        mTvCloseIcon = (TextView) findViewById(R.id.iv_reg_close);
         FontLoader.getInstance().setTypeface(mTvCloseIcon, RegConstants.PUIICON_TTF);
     }
 
@@ -125,8 +130,6 @@ public class LoginIdEditText extends RelativeLayout implements TextWatcher, OnCl
         return false;
     }
 
-
-
     private boolean isEmail() {
         if (FieldsValidator.isValidEmail(mEtEmail.getText().toString().trim())) {
             setValidEmail(true);
@@ -148,11 +151,11 @@ public class LoginIdEditText extends RelativeLayout implements TextWatcher, OnCl
 
     public void setErrDescription(String mErrDescription) {
         mTvErrDescriptionView.setText(mErrDescription);
-        mSavedEmaillError = mErrDescription;
+        mSavedEmailError = mErrDescription;
     }
 
     public String getSavedEmailErrDescription(){
-        return mSavedEmaillError;
+        return mSavedEmailError;
     }
 
     private void handleEmail(boolean hasFocus) {

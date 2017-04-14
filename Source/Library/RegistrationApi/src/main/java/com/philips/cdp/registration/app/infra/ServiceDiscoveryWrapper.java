@@ -29,11 +29,7 @@ public class ServiceDiscoveryWrapper {
                     emitter.onError(null);
                 }
             };
-            startGetServiceUrl(listener, serviceId);
+            serviceDiscoveryInterface.getServiceUrlWithCountryPreference(serviceId, listener);
         });
-    }
-
-    private void startGetServiceUrl(OnGetServiceUrlListener listener, String serviceId) {
-        serviceDiscoveryInterface.getServiceUrlWithCountryPreference(serviceId, listener);
     }
 }

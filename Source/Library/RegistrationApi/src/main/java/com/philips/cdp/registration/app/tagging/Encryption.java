@@ -3,65 +3,69 @@ package com.philips.cdp.registration.app.tagging;
 
 import android.util.Base64;
 
+import com.philips.cdp.registration.ui.utils.RLog;
+
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.Signature;
-import java.security.SignatureException;
+import java.security.NoSuchProviderException;
+import java.security.Provider;
+import java.security.PublicKey;
+import java.security.Security;
 import java.security.spec.InvalidKeySpecException;
-import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 public class Encryption {
 
-    private static final String privateKey = "MIIBOgIBAAJBAIsEvFpH2SleHYc0EyytGHEtIcF2vKLavrfS1zEKItwPdN17sLnO\n" +
-            "oO6FROHLyaKobEi8WQhhiB6GOGkW/+brjP8CAwEAAQJAHBSqzzmwHfEK2eKk9ONK\n" +
-            "CqJpLSEE3Yh9+be3DArWG8ket+rGdQQ1N1tA9hyCM4Qc+e1kOvrQotyqyF5gvO/O\n" +
-            "EQIhANTLL16xweissyaetHzCmGYympE/IJ09hUeudoPUfYkLAiEApz7JMyIHB6E6\n" +
-            "CTIVZitSMJdX2N++PKW53Bgpue3UzF0CIDfAwLmL02V2Ej5VKK7jgXCNY6gYpR/t\n" +
-            "pYUBdfXWb8m/AiB5Vrgq/PkUtAijO08DPVL4JhV6J3qiDar24CEF4GOPkQIhAJ8V\n" +
-            "Nvv53QbCsUNlq9WJaQtpYomOS0CdJ/pxrKjNsvRB";
+    private static final String ALGORITHM = "RSA";
+
+    private static final String PROVIDER = "BC";
+
+    private static final String TRANSFORMATION = "RSA/ECB/OAEPWITHSHA1ANDMGF1PADDING";
+
+    private static final String PUBLIC_KEY =
+            "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCYR2mnp+gBnwEUar8LE3N0oyJXtOsoeA9NHMTsdljf2nHWRIl BvHVIB5wt30qSAEfY/lUzXsrcafNPCxfF8E3IsZfkrYw57EJwMQ2qKoMlulekWIXtz13n1tnRSNtT9C0tTZyKB4Q 1EBwbTRH2RCoEBm7JYQVHEm9HLFLw1OaXvQIDAQAB";
+
+    private PublicKey getPublicKey(String publicKey) {
+        PublicKey key = null;
+        byte[] keyBytes = new byte[0];
+        try {
+            keyBytes = Base64.decode(publicKey.getBytes(StandardCharsets.UTF_8), Base64.DEFAULT);
+            X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
+            KeyFactory keyFactory = KeyFactory.getInstance(ALGORITHM);
+            key = keyFactory.generatePublic(spec);
+        } catch (InvalidKeySpecException |
+                NoSuchAlgorithmException expection) {
+            RLog.e("Exception", expection.toString());
+        }
+        return key;
+    }
+
 
     public String encrypt(String toBeEncrypted) {
-        if(toBeEncrypted == null) return null;
-        //compute SHA256withRSA as a single step
-        Signature rsaSha256Signature = null;
+        if (null == toBeEncrypted || toBeEncrypted.isEmpty()) {
+            return String.valueOf("");
+        }
         try {
-            rsaSha256Signature = Signature.getInstance("SHA256withRSA");
-
-
-            byte[] pkcs8EncodedBytes = Base64.decode(privateKey, Base64.DEFAULT);
-
-            // extract the private key
-
-            PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(pkcs8EncodedBytes);
-            KeyFactory kf = KeyFactory.getInstance("SHA256withRSA");
-            PrivateKey privKey = kf.generatePrivate(keySpec);
-
-
-            rsaSha256Signature.initSign(privKey);
-            rsaSha256Signature.update(toBeEncrypted.getBytes());
-            byte[] signed2 = rsaSha256Signature.sign();
-            System.out.println(bytesToHex(signed2));
-            String encrypted = bytesToHex(signed2);
-            return encrypted;
-        } catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException | InvalidKeySpecException e) {
-            e.printStackTrace();
+            Provider[] providers = Security.getProviders();
+            byte[] toBeEncryptedBytes = toBeEncrypted.getBytes(StandardCharsets.UTF_8);
+            Cipher cipher = Cipher.getInstance(TRANSFORMATION, PROVIDER);
+            cipher.init(Cipher.ENCRYPT_MODE, getPublicKey(PUBLIC_KEY));
+            byte[] cipherTextBytes = cipher.doFinal(toBeEncryptedBytes);
+            byte[] base64EncodedBytes = Base64.encode(cipherTextBytes, Base64.DEFAULT);
+            return new String(base64EncodedBytes);
+        } catch (NoSuchAlgorithmException |
+                NoSuchPaddingException | BadPaddingException |
+                IllegalBlockSizeException | NoSuchProviderException | InvalidKeyException
+                expection) {
+            RLog.e("Exception", expection.toString());
         }
         return null;
-
-
     }
-
-    private String bytesToHex(byte[] bytes) {
-        final char[] hexArray = "0123456789ABCDEF".toCharArray();
-        char[] hexChars = new char[bytes.length * 2];
-        for (int j = 0; j < bytes.length; j++) {
-            int v = bytes[j] & 0xFF;
-            hexChars[j * 2] = hexArray[v >>> 4];
-            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
-        }
-        return new String(hexChars);
-    }
-
 }

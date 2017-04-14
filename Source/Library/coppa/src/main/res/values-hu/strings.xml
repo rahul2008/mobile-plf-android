@@ -22,7 +22,7 @@
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Egyetértek</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Nem értek egyet</string>
 <string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Köszönjük szülői beleegyezését </string>
-<string name="reg_Coppa_US_Parental_Access_Content_Txt">A hozzájárulására vonatkozóan megerősítő kérelmet kap, ha ezt követően legalább 24 órán belül ismét belép a szülői részbe.</string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">A hozzájárulására vonatkozóan megerősítő kérelmet kap, ha az Eredeti kérelmétől számított legalább 24 órán belül ismét belép a szülői részbe</string>
 <string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Köszönjük odafigyelését és megosztását!</string>
 <string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Ön hozzájárult ahhoz, hogy a Philips összegyűjtse a fogkefenyél és az Alkalmazás által nyújtott információkat a fogmosás idejére, időtartamára és gyakoriságára vonatkozóan. \n \n A Philips nagyon komolyan veszi az adatvédelmet és -biztonságot. Adatait kizárólag a Sonicare for Kids élmény fejlesztése céljából használjuk fel.</string>
 <string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Szülői beleegyezésével már hozzájárult ahhoz, hogy a Philips bizonyos adatokat gyűjtsön és használjon fel a Philips Sonicare Kids alkalmazásból.\n\nA Philips a lehető legkörültekintőbben védi az Ön adatait. Kérjük, erősítse meg, hogy valóban Ön küldte a hozzájárulását.\n\n</string>

@@ -23,37 +23,47 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.philips.cdp.registration.B;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
-public class XVerifyNumber extends RelativeLayout implements TextWatcher,
+import butterfork.Bind;
+import butterfork.ButterFork;
+
+public class OtpEditTextWithResendButton extends RelativeLayout implements TextWatcher,
         OnFocusChangeListener {
+
+    @Bind(B.id.et_reg_verify)
+    EditText mEtVerify;
+
+    @Bind(B.id.btn_reg_resend)
+    Button mBtResend;
+
+    @Bind(B.id.tv_reg_verify_err)
+    TextView mTvErrDescriptionView;
+
+    @Bind(B.id.rl_reg_parent_verified_field)
+    RelativeLayout mRlEtEmail;
+
+    @Bind(B.id.pb_reg_verify_spinner)
+    ProgressBar mProgressBar;
+
+    @Bind(B.id.fl_reg_verify_field_err)
+    FrameLayout mFlInvalidFieldAlert;
 
     private Context mContext;
 
-    private EditText mEtVerify;
-
-    private Button mBtResend;
-
-    private TextView mTvErrDescriptionView;
-
     private OnUpdateListener mUpdateStatusListener;
-
-    private RelativeLayout mRlEtEmail;
-
-    private ProgressBar mProgressBar;
-
-    private FrameLayout mFlInvalidFieldAlert;
 
     private String mTimer;
 
-    public XVerifyNumber(Context context) {
+    public OtpEditTextWithResendButton(Context context) {
         super(context);
         this.mContext = context;
         initUi(R.layout.x_verify_mobile);
     }
 
-    public XVerifyNumber(Context context, AttributeSet attrs) {
+    public OtpEditTextWithResendButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.mContext = context;
         initUi(R.layout.x_verify_mobile);
@@ -61,17 +71,11 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher,
 
     public final void initUi(int resourceId) {
         LayoutInflater li = LayoutInflater.from(mContext);
-        li.inflate(resourceId, this, true);
-        mRlEtEmail = (RelativeLayout) findViewById(R.id.rl_reg_parent_verified_field);
-        mEtVerify = (EditText) findViewById(R.id.et_reg_verify);
-        mBtResend = (Button) findViewById(R.id.btn_reg_resend);
-        mProgressBar = (ProgressBar) findViewById(R.id.pb_reg_verify_spinner);
-
+        View view = li.inflate(resourceId, this, true);
+        ButterFork.bind(this, view);
         mEtVerify.setOnFocusChangeListener(this);
         mEtVerify.addTextChangedListener(this);
         mEtVerify.setFocusable(true);
-        mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_verify_err);
-        mFlInvalidFieldAlert = (FrameLayout) findViewById(R.id.fl_reg_verify_field_err);
     }
 
     public void setCountertimer(String timer) {

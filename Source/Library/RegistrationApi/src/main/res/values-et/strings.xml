@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">Installimine</string>
 <string name="reg_Phonenumbernotfound">Telefoninumbrit ei leitud</string>
 <string name="reg_InvalidMobilenumber">Vigane mobiiltelefoni number</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Saadame teile e-kirja või SMSi parooli lähtestamiseks.</string>
 </resources>
