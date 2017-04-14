@@ -1,7 +1,6 @@
 package com.philips.cdp.registration.app.infra;
 
 
-import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
