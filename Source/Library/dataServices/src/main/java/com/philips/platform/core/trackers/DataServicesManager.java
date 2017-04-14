@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
@@ -38,11 +39,11 @@ import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
-import com.philips.platform.core.events.FetchBlobMetaDataFromDBRequest;
-import com.philips.platform.core.events.FetchMetaDataRequest;
 import com.philips.platform.core.events.FetchBlobDataFromServer;
-import com.philips.platform.core.events.LoadConsentsRequest;
+import com.philips.platform.core.events.FetchBlobMetaDataFromDBRequest;
 import com.philips.platform.core.events.FetchInsightsFromDB;
+import com.philips.platform.core.events.FetchMetaDataRequest;
+import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
 import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
@@ -82,8 +83,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URL;
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -91,14 +92,16 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class DataServicesManager {
 
     public static final String TAG = DataServicesManager.class.getName();
 
     private Context mContext;
+
+    public void setServiceDiscoveryInterface(final ServiceDiscoveryInterface mServiceDiscoveryInterface) {
+        this.mServiceDiscoveryInterface = mServiceDiscoveryInterface;
+    }
 
     private ServiceDiscoveryInterface mServiceDiscoveryInterface;
     private AppInfraInterface mAppInfraInterface;

@@ -22,9 +22,6 @@ import com.squareup.okhttp.OkHttpClient;
 
 import org.joda.time.DateTime;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -102,6 +99,7 @@ public class UCoreAdapter {
 
         }
 
+        //Todo: Spoorti - Can this be removed ? If a null is passed to retrofit, it will fail before even reaching server and return a retrofit error
         if (url == null || url.isEmpty()) {
             return null;
         }

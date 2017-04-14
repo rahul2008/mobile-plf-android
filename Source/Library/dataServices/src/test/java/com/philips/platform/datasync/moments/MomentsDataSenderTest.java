@@ -1,17 +1,22 @@
 package com.philips.platform.datasync.moments;
 
+import android.text.TextUtils;
+
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
+import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
+import com.philips.platform.datasync.synchronisation.SynchronisationManager;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.philips.testing.verticals.ErrorHandlerImplTest;
 import com.philips.testing.verticals.OrmCreatorTest;
@@ -40,9 +45,6 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * Created by indrajitkumar on 12/12/16.
- */
 public class MomentsDataSenderTest {
 
     public static final String ACCESS_TOKEN = "ACCESS_TOKEN";
@@ -50,11 +52,15 @@ public class MomentsDataSenderTest {
     public static final String BABY_ID = "BABY_ID";
     public static final DateTime DATE_TIME = DateTime.now();
     private final String TEST_MOMENT_UD = "TEST_MOMENT_ID";
+    private final String TEST_MOMENT_URL = "http://xyx";
 
     private MomentsDataSender momentsDataSender;
 
     @Mock
     private UCoreAccessProvider accessProviderMock;
+
+    @Mock
+    private ServiceDiscoveryInterface serviceDiscoveryInterface;
 
     @Mock
     private UCoreAdapter uCoreAdapterMock;
@@ -67,6 +73,9 @@ public class MomentsDataSenderTest {
 
     @Mock
     private MomentsClient clientMock;
+
+    @Mock
+    TextUtils textUtilsMock;
 
     @Captor
     private ArgumentCaptor<BackendResponse> errorEventCaptor;
@@ -84,6 +93,9 @@ public class MomentsDataSenderTest {
     private SynchronisationData synchronisationDataMock;
 
     @Mock
+    SynchronisationManager synchronisationManagerMock;
+
+    @Mock
     private MomentGsonConverter momentGsonConverterMock;
 
     @Mock
@@ -97,6 +109,8 @@ public class MomentsDataSenderTest {
 
     @Mock
     private RetrofitError retrofitErrorMock;
+
+
     ErrorHandlerImplTest errorHandler;
     //Context context;
     DataServicesManager dataServicesManager;
@@ -105,6 +119,9 @@ public class MomentsDataSenderTest {
     @Mock
     private AppComponent appComponantMock;
 
+    @Mock
+    ServiceDiscoveryInterface.OnGetServiceUrlListener listenerMock;
+
     @Before
     public void setUp() {
         initMocks(this);
@@ -112,11 +129,14 @@ public class MomentsDataSenderTest {
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
         errorHandler = new ErrorHandlerImplTest();
         DataServicesManager.getInstance().setAppComponant(appComponantMock);
-
+        DataServicesManager.getInstance().setServiceDiscoveryInterface(serviceDiscoveryInterface);
+        DataServicesManager.getInstance().mDataServicesBaseUrl = TEST_MOMENT_URL;
         when(accessProviderMock.getAccessToken()).thenReturn(ACCESS_TOKEN);
         when(accessProviderMock.getUserId()).thenReturn(USER_ID);
         when(accessProviderMock.getSubjectId()).thenReturn(BABY_ID);
         when(uCoreAdapterMock.getAppFrameworkClient(MomentsClient.class, ACCESS_TOKEN, momentGsonConverterMock)).thenReturn(clientMock);
+        when(uCoreAdapterMock.getClient(MomentsClient.class,TEST_MOMENT_URL,ACCESS_TOKEN,momentGsonConverterMock)).thenReturn(clientMock);
+        when(clientMock.saveMoment(USER_ID,USER_ID,uCoreMomentMock)).thenReturn(uCoreMomentSaveResponseMock);
 
         momentsDataSender = new MomentsDataSender(momentsConverterMock, momentGsonConverterMock);
         momentsDataSender.accessProvider = accessProviderMock;
@@ -124,10 +144,12 @@ public class MomentsDataSenderTest {
         momentsDataSender.baseAppDataCreater = verticalDataCreater;
         momentsDataSender.eventing = eventingMock;
         momentsDataSender.userRegistrationImpl = userRegistrationInterfaceMock;
+        momentsDataSender.synchronisationManager = synchronisationManagerMock;
 
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(momentMock.getCreatorId()).thenReturn(USER_ID);
         when(momentMock.getSubjectId()).thenReturn(BABY_ID);
+
     }
 
     @Test
@@ -140,25 +162,37 @@ public class MomentsDataSenderTest {
         assertThat(sendDataToBackend).isFalse();
     }
 
-    @Test(expected = NullPointerException.class)
-    public void ShouldNotCallSendMoments_WhenUserAccessTokenIsNull() throws Exception {
+    @Test
+    public void ShouldNotCallSendMoments_When_Moments_isNull() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
-        when(accessProviderMock.getAccessToken()).thenReturn(null);
 
-        boolean sendDataToBackend = momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
+        boolean sendDataToBackend = momentsDataSender.sendDataToBackend(null);
 
         verifyZeroInteractions(clientMock);
         assertThat(sendDataToBackend).isFalse();
     }
 
-    @Test(expected = NullPointerException.class)
-    public void ShouldNotCallSendMoments_WhenUserAccessTokenIsEmpty() throws Exception {
+    @Test
+    public void ShouldNotCallSendMoments_WhenUserAccessTokenIsNull() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
-        when(accessProviderMock.getAccessToken()).thenReturn("");
+        when(accessProviderMock.getAccessToken()).thenReturn(null);
+
+        when(uCoreAdapterMock.getAppFrameworkClient(MomentsClient.class, null, momentGsonConverterMock)).thenReturn(clientMock);
+        when(uCoreAdapterMock.getClient(MomentsClient.class,TEST_MOMENT_URL,null,momentGsonConverterMock)).thenReturn(clientMock);
 
         boolean sendDataToBackend = momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
 
-        verifyZeroInteractions(clientMock);
+       // verifyZeroInteractions(clientMock);
+        assertThat(sendDataToBackend).isFalse();
+    }
+
+    @Test
+    public void ShouldNotCallSendMoments_WhenUserAccessTokenIsEmpty() throws Exception {
+        when(accessProviderMock.isLoggedIn()).thenReturn(true);
+        when(accessProviderMock.getAccessToken()).thenReturn("");
+        when(uCoreAdapterMock.getAppFrameworkClient(MomentsClient.class, "", momentGsonConverterMock)).thenReturn(clientMock);
+        when(uCoreAdapterMock.getClient(MomentsClient.class,TEST_MOMENT_URL,"",momentGsonConverterMock)).thenReturn(clientMock);
+        boolean sendDataToBackend = momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
         assertThat(sendDataToBackend).isFalse();
     }
 
@@ -174,7 +208,7 @@ public class MomentsDataSenderTest {
         verify(clientMock, never()).saveMoment(anyString(), anyString(), any(UCoreMoment.class));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void ShouldNotSendToBE_WhenMomentSubjectIdIsNull() {
         when(momentMock.getSubjectId()).thenReturn(null);
         when(momentMock.getCreatorId()).thenReturn("1");
@@ -184,7 +218,7 @@ public class MomentsDataSenderTest {
         verify(clientMock, never()).saveMoment(anyString(), anyString(), any(UCoreMoment.class));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void ShouldNotSendToBE_WhenMomentCreatorIdIsNull() {
         when(momentMock.getSubjectId()).thenReturn("2");
         when(momentMock.getCreatorId()).thenReturn(null);
@@ -194,7 +228,7 @@ public class MomentsDataSenderTest {
         verify(clientMock, never()).saveMoment(anyString(), anyString(), any(UCoreMoment.class));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void ShouldNotSendToBE_WhenMomentSubjectIdIsEmpty() {
         when(momentMock.getSubjectId()).thenReturn("");
         when(momentMock.getCreatorId()).thenReturn("1");
@@ -204,7 +238,7 @@ public class MomentsDataSenderTest {
         verify(clientMock, never()).saveMoment(anyString(), anyString(), any(UCoreMoment.class));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void ShouldNotSendToBE_WhenMomentCreatorIdIsEmpty() {
         when(momentMock.getSubjectId()).thenReturn("2");
         when(momentMock.getCreatorId()).thenReturn("");
@@ -214,8 +248,8 @@ public class MomentsDataSenderTest {
         verify(clientMock, never()).saveMoment(anyString(), anyString(), any(UCoreMoment.class));
     }
 
-    @Test(expected = NullPointerException.class)
-    public void ShouldSendSaveMoment_WhenMomentSyncDataIsNull() {
+    @Test
+    public void ShouldSendSaveMoment_WhenMomentSyncDataIsOK() {
         when(momentMock.getDateTime()).thenReturn(DATE_TIME);
         when(momentsConverterMock.convertToUCoreMoment(momentMock)).thenReturn(uCoreMomentMock);
         when(clientMock.saveMoment(BABY_ID, USER_ID, uCoreMomentMock)).thenReturn(uCoreMomentSaveResponseMock);
@@ -223,11 +257,10 @@ public class MomentsDataSenderTest {
         when(uGrowDataCreatorMock.createSynchronisationData(TEST_MOMENT_UD, false, momentMock.getDateTime(), 1)).thenReturn(synchronisationDataMock);
 
         momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
-
-        verify(eventingMock).post(isA(MomentBackendDeleteResponse.class));
+        verify(eventingMock).post(isA(MomentDataSenderCreatedRequest.class));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void ShouldSendSaveMoment_WhenMomentSyncDataIsNotNullButGuidIsMinusOne() {
         when(momentMock.getDateTime()).thenReturn(DATE_TIME);
         when(momentMock.getSynchronisationData()).thenReturn(synchronisationDataMock);
@@ -239,10 +272,10 @@ public class MomentsDataSenderTest {
 
         momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
 
-        verify(eventingMock).post(isA(MomentBackendDeleteResponse.class));
+        verify(eventingMock).post(isA(MomentDataSenderCreatedRequest.class));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void ShouldSetMomentSyncDataE_WhenBEResponseIsNotNull() {
         when(momentMock.getCreatorId()).thenReturn(USER_ID);
         when(momentMock.getSubjectId()).thenReturn(BABY_ID);
@@ -254,10 +287,10 @@ public class MomentsDataSenderTest {
 
         momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
 
-        verify(momentMock).setSynchronisationData(synchronisationDataMock);
+        verify(eventingMock).post(isA(MomentDataSenderCreatedRequest.class));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void ShouldPostNetworkErrorEvent_WhenRetrofitHttpErrorHappens() throws Exception {
         when(retrofitErrorMock.getKind()).thenReturn(RetrofitError.Kind.HTTP);
         when(clientMock.saveMoment(anyString(), anyString(), any(UCoreMoment.class))).
@@ -270,7 +303,7 @@ public class MomentsDataSenderTest {
         assertThat(errorEvent.getCallException()).isEqualTo(retrofitErrorMock);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void ShouldPostExceptionEvent_WhenRetrofitUnexpectedErrorHappens() throws Exception {
         when(retrofitErrorMock.getKind()).thenReturn(RetrofitError.Kind.UNEXPECTED);
         when(clientMock.saveMoment(anyString(), anyString(), any(UCoreMoment.class))).
@@ -283,7 +316,7 @@ public class MomentsDataSenderTest {
         assertThat(errorEvent.getCallException()).isEqualTo(retrofitErrorMock);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void ShouldPostExceptionEvent_WhenRetrofitConversionErrorHappens() throws Exception {
         when(retrofitErrorMock.getKind()).thenReturn(RetrofitError.Kind.CONVERSION);
         when(clientMock.saveMoment(anyString(), anyString(), any(UCoreMoment.class))).
@@ -296,9 +329,14 @@ public class MomentsDataSenderTest {
         assertThat(errorEvent.getCallException()).isEqualTo(retrofitErrorMock);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void ShouldCallUpdate_WhenMomentHasSyncDataAndResponseCodeHttpOk() {
-        Response response = new Response("", 200, "OK", new ArrayList<Header>(), null);
+        final ArrayList<Header> headers = new ArrayList<>(10);
+        Header etag = new Header("etag","2");
+        headers.add(0,new Header("dummy","1"));
+        headers.add(1,new Header("dummy1","12"));
+        headers.add(2,etag);
+        Response response = new Response("", 200, "OK", headers, null);
 
         when(momentMock.getDateTime()).thenReturn(DATE_TIME);
         when(momentMock.getSynchronisationData()).thenReturn(synchronisationDataMock);
@@ -308,12 +346,17 @@ public class MomentsDataSenderTest {
 
         momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
 
-        verify(eventingMock).post(isA(MomentBackendDeleteResponse.class));
+        verify(eventingMock).post(isA(MomentDataSenderCreatedRequest.class));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void ShouldCallUpdate_WhenMomentHasSyncDataAndResponseCodeHttpAccepted() {
-        Response response = new Response("", 201, "CREATED", new ArrayList<Header>(), null);
+        final ArrayList<Header> headers = new ArrayList<>(10);
+        Header etag = new Header("etag","2");
+        headers.add(0,new Header("dummy","1"));
+        headers.add(1,new Header("dummy1","12"));
+        headers.add(2,etag);
+        Response response = new Response("", 201, "CREATED", headers, null);
 
         when(momentMock.getDateTime()).thenReturn(DATE_TIME);
         when(momentMock.getSynchronisationData()).thenReturn(synchronisationDataMock);
@@ -323,10 +366,10 @@ public class MomentsDataSenderTest {
 
         momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
 
-        verify(eventingMock).post(isA(MomentBackendDeleteResponse.class));
+        verify(eventingMock).post(isA(MomentDataSenderCreatedRequest.class));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void ShouldPostExceptionEventDuringUpdate_WhenRetrofitErrorHappens() throws Exception {
         Response response = new Response("", 409, "CONFLICT", new ArrayList<Header>(), null);
 
@@ -342,13 +385,10 @@ public class MomentsDataSenderTest {
 
         boolean conflict = momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
 
-        verify(eventingMock).post(errorEventCaptor.capture());
-        final BackendResponse errorEvent = errorEventCaptor.getValue();
-        assertThat(errorEvent.getCallException()).isEqualTo(retrofitErrorMock);
         assertThat(conflict).isTrue();
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void ShouldCallDeleteMoment_WhenMomentSynchronizationDataHasInactiveSetToTrue() {
         Response response = new Response("", 204, "NO_CONTENT", new ArrayList<Header>(), null);
 
@@ -363,7 +403,7 @@ public class MomentsDataSenderTest {
         verify(eventingMock).post(any(MomentBackendDeleteResponse.class));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void ShouldPostExceptionEventDuringDelete_WhenRetrofitErrorHappens() throws Exception {
         when(retrofitErrorMock.getKind()).thenReturn(RetrofitError.Kind.CONVERSION);
         when(momentMock.getDateTime()).thenReturn(DATE_TIME);
@@ -403,4 +443,10 @@ public class MomentsDataSenderTest {
         assertThat(errorEvent.getCallException()).isEqualTo(retrofitErrorMock);
         verify(analyticsErrorHandlingMock).TrackError(string);
     }*/
+
+    @Test
+    public void testgetClassForSyncData(){
+        Class<? extends Moment> classType = momentsDataSender.getClassForSyncData();
+
+    }
 }

@@ -5,7 +5,6 @@
 package com.philips.platform.datasync.moments;
 
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
@@ -43,7 +42,6 @@ public class MomentsDataSender extends DataSender {
     @Inject
     UCoreAdapter uCoreAdapter;
 
-
     @NonNull
     private final MomentsConverter momentsConverter;
 
@@ -62,7 +60,7 @@ public class MomentsDataSender extends DataSender {
     protected final Set<Integer> momentIds = new HashSet<>();
 
     DataServicesManager mDataServicesManager;
-    private int eTagIndex=2;
+
 
     @Inject
     public MomentsDataSender(
@@ -77,15 +75,15 @@ public class MomentsDataSender extends DataSender {
     @Override
     public boolean sendDataToBackend(@NonNull final List dataToSend) {
 
-        if(dataToSend==null && dataToSend.size()!=0) return false;
-        DSLog.i(DSLog.LOG,"sendDataToBackend MomentsDataSender sendDataToBackend data = " + dataToSend.toString());
+        if (dataToSend == null || dataToSend.size() == 0) return false;
+        DSLog.i(DSLog.LOG, "sendDataToBackend MomentsDataSender sendDataToBackend data = " + dataToSend.toString());
         if (!accessProvider.isLoggedIn()) {
             return false;
         }
 
         List<Moment> momentToSync = new ArrayList<>();
         synchronized (momentIds) {
-            for (Moment moment : (List<Moment>)dataToSend) {
+            for (Moment moment : (List<Moment>) dataToSend) {
                 if (momentIds.add(moment.getId())) {
                     momentToSync.add(moment);
                 }
@@ -95,8 +93,8 @@ public class MomentsDataSender extends DataSender {
     }
 
     private boolean sendMoments(List<? extends Moment> moments) {
-        DSLog.i(DSLog.LOG,"MomentsDataSender sendMoments and momets = " + moments.toString());
-        if(moments == null || moments.isEmpty()) {
+        DSLog.i(DSLog.LOG, "MomentsDataSender sendMoments and momets = " + moments.toString());
+        if (moments == null || moments.isEmpty()) {
             return true;
         }
         boolean conflictHappened = false;
@@ -119,15 +117,15 @@ public class MomentsDataSender extends DataSender {
     }
 
     private boolean sendMomentToBackend(MomentsClient client, final Moment moment) {
-        DSLog.i(DSLog.LOG,"MomentsDataSender sendDataToBackend");
+        DSLog.i(DSLog.LOG, "MomentsDataSender sendDataToBackend");
         if (shouldCreateMoment(moment)) {
-            DSLog.i(DSLog.LOG,"MomentsDataSender CREATE");
+            DSLog.i(DSLog.LOG, "MomentsDataSender CREATE");
             return createMoment(client, moment);
-        } else if(shouldDeleteMoment(moment)) {
-            DSLog.i(DSLog.LOG,"MomentsDataSender DELETE");
+        } else if (shouldDeleteMoment(moment)) {
+            DSLog.i(DSLog.LOG, "MomentsDataSender DELETE");
             return deleteMoment(client, moment);
         } else {
-            DSLog.i(DSLog.LOG,"MomentsDataSender UPDATE");
+            DSLog.i(DSLog.LOG, "MomentsDataSender UPDATE");
             return updateMoment(client, moment);
         }
     }
@@ -168,6 +166,7 @@ public class MomentsDataSender extends DataSender {
     }
 
     private boolean updateMoment(MomentsClient client, final Moment moment) {
+        int eTagIndex = 2;
         try {
             String momentGuid = getMomentGuid(moment.getSynchronisationData());
             Response response = client.updateMoment(moment.getSubjectId(), momentGuid, moment.getCreatorId(),
@@ -175,20 +174,20 @@ public class MomentsDataSender extends DataSender {
             List<Header> responseHeaders = response.getHeaders();
 
             if (isResponseSuccess(response)) {
-                Header eTag=responseHeaders.get(eTagIndex);
+                Header eTag = responseHeaders.get(eTagIndex);
                 //int currentVersion = moment.getSynchronisationData().getVersion();
-                if(!TextUtils.isEmpty(eTag.getValue())) {
+                if (!eTag.getValue().isEmpty()) {
                     moment.getSynchronisationData().setVersion(Integer.parseInt(eTag.getValue()));
                 }
                 postUpdatedOk(Collections.singletonList(moment));
-            }else if(isConflict(response)){
-                DSLog.i(DSLog.LOG,"Exception - 409");
+            } else if (isConflict(response)) {
+                DSLog.i(DSLog.LOG, "Exception - 409");
             }
             return false;
         } catch (RetrofitError error) {
-            if(error!=null || isConflict(error.getResponse())){
-                DSLog.i(DSLog.LOG,"Exception - 409");
-            }else {
+            if (error != null || isConflict(error.getResponse())) {
+                DSLog.i(DSLog.LOG, "Exception - 409");
+            } else {
                 eventing.post(new BackendResponse(1, error));
                 onError(error);
             }
@@ -221,9 +220,9 @@ public class MomentsDataSender extends DataSender {
                 || response.getStatus() == HttpURLConnection.HTTP_NO_CONTENT);
     }
 
-    private boolean isConflict(final Response response){
-        boolean isconflict = response!=null && response.getStatus() == HttpURLConnection.HTTP_CONFLICT;
-        DSLog.i(DSLog.LOG,"isConflict = " + isconflict);
+    private boolean isConflict(final Response response) {
+        boolean isconflict = response != null && response.getStatus() == HttpURLConnection.HTTP_CONFLICT;
+        DSLog.i(DSLog.LOG, "isConflict = " + isconflict);
         return isconflict;
     }
 
