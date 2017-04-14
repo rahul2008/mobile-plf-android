@@ -6,7 +6,9 @@ import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
+import com.philips.platform.core.listeners.BlobRequestListener;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.datasync.blob.BlobMetaData;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -48,7 +50,6 @@ public class VerticalDBSavingInterface implements DBSavingInterface {
     public boolean saveInsights(List<Insight> insights, DBRequestListener<Insight> dbRequestListener) throws SQLException {
         return false;
     }
-
 
     @Override
     public boolean saveSettings(Settings settings, DBRequestListener dbRequestListener) throws SQLException {

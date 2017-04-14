@@ -32,6 +32,7 @@ import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.injection.AppComponent;
+import com.philips.platform.core.listeners.BlobUploadRequestListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
@@ -57,6 +58,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import static org.mockito.Matchers.any;
@@ -82,6 +84,15 @@ public class DataServicesManagerTest {
     DataFetcher dataFetcherMock;
     @Mock
     private Eventing eventingMock;
+
+    @Mock
+    JSONObject jsonObject;
+
+    @Mock
+    private File fileMock;
+
+    @Mock
+    private BlobUploadRequestListener blobRequestListenerMock;
 
     @Mock
     SynchronisationManager synchronisationManagerMock;
@@ -328,7 +339,12 @@ public class DataServicesManagerTest {
     }
 
     @Test
+    public void should_create_blob_call_createBlobRequest(){
+        tracker.createBlob(fileMock,"/storage",blobRequestListenerMock);
+    }
+
+    @Test
     public void handlePushNotificationPayloadTest() throws Exception {
-        tracker.handlePushNotificationPayload(null);
+        tracker.handlePushNotificationPayload(jsonObject);
     }
 }

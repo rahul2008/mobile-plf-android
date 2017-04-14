@@ -15,7 +15,9 @@ import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.SynchronisationData;
+import com.philips.platform.core.utils.BlobDataCreater;
 import com.philips.platform.core.utils.UuidGenerator;
+import com.philips.platform.datasync.blob.BlobMetaData;
 import com.philips.platform.verticals.OrmCharacteristics;
 import com.philips.testing.verticals.datatyes.MeasurementDetailType;
 import com.philips.testing.verticals.datatyes.MeasurementGroupDetailType;
@@ -43,7 +45,7 @@ import org.joda.time.DateTime;
 
 import javax.inject.Singleton;
 
-public class OrmCreatorTest implements BaseAppDataCreator {
+public class OrmCreatorTest implements BaseAppDataCreator, BlobDataCreater {
 
     private final UuidGenerator uuidGenerator;
 
@@ -178,5 +180,11 @@ public class OrmCreatorTest implements BaseAppDataCreator {
     @Override
     public InsightMetadata createInsightMetaData(String key, String value, Insight insight) {
         return new OrmInsightMetaData(key, value, (OrmInsight) insight);
+    }
+
+    @NonNull
+    @Override
+    public BlobMetaData createBlobMetaData() {
+        return null;
     }
 }
