@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">Instalēt</string>
 <string name="reg_Phonenumbernotfound">Tālruņa numurs nav atrasts</string>
 <string name="reg_InvalidMobilenumber">Nederīgs mobilā tālruņa numurs</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Mēs nosūtīsim jums e-pasta ziņojumu vai īsziņu, lai atiestatītu paroli.</string>
 </resources>

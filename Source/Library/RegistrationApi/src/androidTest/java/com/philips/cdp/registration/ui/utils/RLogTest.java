@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 
@@ -25,31 +24,11 @@ public class RLogTest extends InstrumentationTestCase{
         super.setUp();
         rLog = new RLog();
         AppInfraInterface appInfraInterface = new AppInfra.Builder().build(getInstrumentation().getTargetContext());
-        RegistrationHelper.getInstance().setAppInfraInstance(appInfraInterface);
         RLog.init();
         context = getInstrumentation().getTargetContext();
         synchronized(this){//synchronized block
-
-            try{
-                RegistrationHelper.getInstance().setAppInfraInstance(new AppInfra.Builder().build(context));
-
-
-            }catch(Exception e){System.out.println(e);}
         }
         RLog.init();
+    }
 
-    }
-    public void testRLog(){
-        RLog.isLoggingEnabled();
-        RLog.enableLogging();
-        assertTrue(RLog.isLoggingEnabled());
-        RLog.d("tag","message");
-        RLog.e("tag","message");
-        RLog.i("tag","message");
-        RLog.v("tag","message");
-        try{RLog.init();}
-        catch(Exception e){}
-        RLog.disableLogging();
-        assertTrue(true);
-    }
 }

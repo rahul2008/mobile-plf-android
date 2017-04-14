@@ -13,16 +13,9 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.Locale;
 
-//import com.philips.cdp.tagging.Tagging;
-
-/**
- * Created by 310202337 on 10/13/2015.
- */
 public class ParseConfigurationTest extends ActivityInstrumentationTestCase2<RegistrationActivity> {
 
     private RegistrationHelper mRegistrationHelper;
@@ -41,11 +34,6 @@ public class ParseConfigurationTest extends ActivityInstrumentationTestCase2<Reg
 //        Tagging.enableAppTagging(true);
 //        Tagging.setTrackingIdentifier("integratingApplicationAppsId");
 //        Tagging.setLaunchingPageName("demoapp:home");
-       RegistrationHelper.getInstance().setAppInfraInstance(new AppInfra.Builder().build(getActivity().getApplicationContext()));
-        AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().getAppTaggingInterface();
-        aiAppTaggingInterface.createInstanceForComponent("User Registration", RegistrationHelper.getRegistrationApiVersion());
-        aiAppTaggingInterface.setPreviousPage("demoapp:home");
-        aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
         mRegistrationHelper = RegistrationHelper.getInstance();
        // mRegistrationHelper.initializeUserRegistration(getInstrumentation().getTargetContext(), locale);
         //mEmailValidator = mock(EmailValidator.class);

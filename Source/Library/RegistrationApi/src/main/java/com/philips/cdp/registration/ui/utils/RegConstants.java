@@ -154,7 +154,7 @@ public class RegConstants {
 
     public static final String COPPA_STATUS = "CoppaStatus";
 
-    public static final int VERIFY_CODE_ENTER = 6;
+    public static final int VERIFY_CODE_MINIMUM_LENGTH = 6;
 
     public static final String IS_FROM_PARENTAL_CONSENT = "ParentalConsent";
 
@@ -175,5 +175,11 @@ public class RegConstants {
     public static final String HTTPS_CONST ="https://";
 
     public static final String COMPONENT_TAGS_ID ="PhilipsRegistration";
+
+    public static final String SUCCESS_STATE_RESPONSE ="stat";
+
+    public static final String SUCCESS_STATE_RESPONSE_OK ="ok";
+
+
 
 }

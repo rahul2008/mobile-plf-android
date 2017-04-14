@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.coppa.registration.RegistrationCoppaApplication;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -42,7 +42,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
-        String weChatAppId = (String) RegistrationHelper.getInstance().getAppInfraInstance().
+        String weChatAppId = (String) RegistrationCoppaApplication.getInstance().getAppInfra().
                 getConfigInterface().
                 getPropertyForKey("weChatAppId", UR,
                         configError);

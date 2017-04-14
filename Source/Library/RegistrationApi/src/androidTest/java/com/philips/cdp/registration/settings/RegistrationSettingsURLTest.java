@@ -4,9 +4,6 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
-import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.platform.appinfra.AppInfra;
-
 import org.junit.Before;
 
 /**
@@ -26,22 +23,5 @@ public class RegistrationSettingsURLTest extends InstrumentationTestCase{
         mContext = getInstrumentation().getTargetContext();
     }
 
-    public void testInitialiseConfigParameters(){
-        synchronized(this){//synchronized block
 
-            try{
-                RegistrationHelper.getInstance().
-                        setAppInfraInstance(new AppInfra.Builder().build(mContext));
-            }catch(Exception e){
-                System.out.println(e);}
-        }
-        RLog.init();
-        try{
-            registrationSettingsURL.initialiseConfigParameters("en-US");}
-        catch(Exception e){
-
-        }
-
-        assertNotNull(registrationSettingsURL);
-    }
 }

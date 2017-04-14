@@ -13,24 +13,33 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.cdp.registration.ui.utils.URInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
 
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.DEFAULT;
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
 
 public class RegistrationConfiguration {
+
+    @Inject
+    HSDPConfiguration hsdpConfiguration;
+
+    @Inject
+    AppConfiguration appConfiguration;
 
     private RegistrationFunction prioritisedFunction = RegistrationFunction.Registration;
 
     private static volatile RegistrationConfiguration registrationConfiguration;
 
     private RegistrationConfiguration() {
+        URInterface.getComponent().inject(this);
     }
 
     public static synchronized RegistrationConfiguration getInstance() {
@@ -45,18 +54,8 @@ public class RegistrationConfiguration {
     }
 
     public String getRegistrationClientId(@NonNull Configuration environment) {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-
-        Object obj = RegistrationHelper.getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey("JanRainConfiguration." +
-                        "RegistrationClientID." +
-                        environment.getValue(), UR, configError);
-        String registrationClient = null;
-        if (obj != null) {
-            if(obj instanceof String){
-                registrationClient = (String) obj;
+        String registrationClient = appConfiguration.getClientId(environment.getValue());
+        if (registrationClient != null) {
                 if(isJSONValid(registrationClient)){
                     try {
                         JSONObject jsonObject = new JSONObject(registrationClient);
@@ -74,11 +73,8 @@ public class RegistrationConfiguration {
                         e.printStackTrace();
                     }
                 }
-            }
-
         } else {
-            RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
-                    "Error Message : " + configError.toString());
+            RLog.e("RegistrationConfiguration", "Registration client is null");
         }
 
         return registrationClient;
@@ -88,8 +84,6 @@ public class RegistrationConfiguration {
         try {
             new JSONObject(test);
         } catch (JSONException ex) {
-            // edited, to include @Arthur's comment
-            // e.g. in case JSONArray is valid as well...
             try {
                 new JSONArray(test);
             } catch (JSONException ex1) {
@@ -105,15 +99,9 @@ public class RegistrationConfiguration {
      * @return String
      */
     public String getMicrositeId() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        String micrositeId = (String) RegistrationHelper.getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey("appidentity.micrositeId",
-                        "appinfra", configError);
+        String micrositeId = appConfiguration.getMicrositeId();
         if (null == micrositeId) {
-            RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
-                    "Error Message : " + configError.toString());
+            RLog.e("RegistrationConfiguration", "Microsite ID is null");
         }
         return micrositeId;
     }
@@ -125,15 +113,9 @@ public class RegistrationConfiguration {
      * @return String
      */
     public String getCampaignId() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        String campaignId = (String) RegistrationHelper.getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.PIL_CONFIGURATION_CAMPAIGN_ID, UR,
-                        configError);
+        String campaignId = appConfiguration.getCampaignId();
         if (null == campaignId) {
-            RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
-                    "Error Message : " + configError.toString());
+            RLog.e("RegistrationConfiguration", "Campaign ID is null");
         }
         return campaignId;
     }
@@ -144,15 +126,9 @@ public class RegistrationConfiguration {
      * @return String
      */
     public String getRegistrationEnvironment() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        String registrationEnvironment = (String) RegistrationHelper.getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey("appidentity.appState"
-                        , "appinfra", configError);
+        String registrationEnvironment = appConfiguration.getRegistrationEnvironment();
         if (null == registrationEnvironment) {
-            RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
-                    "Error Message : " + configError.toString());
+            RLog.e("RegistrationConfiguration", "Registration environment is null");
         }
         if (registrationEnvironment.equalsIgnoreCase("TEST"))
             return Configuration.TESTING.getValue();
@@ -169,13 +145,7 @@ public class RegistrationConfiguration {
      * @return boolean
      */
     public boolean isEmailVerificationRequired() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        Object obj = RegistrationHelper.
-                getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.FLOW_EMAIL_VERIFICATION_REQUIRED
-                        , UR, configError);
+        Object obj = appConfiguration.getEmailVerificationRequired();
         if (obj != null) {
             return Boolean.parseBoolean((String) obj);
         }
@@ -189,14 +159,7 @@ public class RegistrationConfiguration {
      * @return boolean
      */
     public boolean isTermsAndConditionsAcceptanceRequired() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-
-        Object obj = RegistrationHelper.
-                getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.
-                        FLOW_TERMS_AND_CONDITIONS_ACCEPTANCE_REQUIRED, UR, configError);
+        Object obj = appConfiguration.getTermsAndConditionsAcceptanceRequired();
         if (obj != null) {
             return Boolean.parseBoolean((String) obj);
         }
@@ -211,13 +174,7 @@ public class RegistrationConfiguration {
      */
     public int getMinAgeLimitByCountry(String countryCode) {
         try {
-            AppConfigurationInterface.AppConfigurationError configError = new
-                    AppConfigurationInterface.AppConfigurationError();
-            Object obj = RegistrationHelper.
-                    getInstance().getAppInfraInstance().
-                    getConfigInterface().
-                    getPropertyForKey(URConfigurationConstants.FLOW_MINIMUM_AGE_LIMIT
-                            , UR, configError);
+            Object obj = appConfiguration.getMinimunAgeObject();
             if (obj != null) {
                 JSONObject jsonObject = new JSONObject((String)obj);
                 if(!jsonObject.isNull(countryCode)){
@@ -239,27 +196,21 @@ public class RegistrationConfiguration {
      * @return HSDPInfo Object
      */
     public HSDPInfo getHSDPInfo() {
-        HSDPInfo hsdpInfo = new HSDPInfo();
 
-        String appName = HSDPConfiguration.getHsdpAppName();
+        String sharedId = hsdpConfiguration.getHsdpSharedId();
 
-        String sharedId = HSDPConfiguration.getHsdpSharedId();
+        String secreteId = hsdpConfiguration.getHsdpSecretId();
 
-        String secreteId = HSDPConfiguration.getHsdpSecretId();
+        String baseUrl = hsdpConfiguration.getHsdpBaseUrl();
 
-        String baseUrl = HSDPConfiguration.getHsdpBaseUrl();
+        String appName = hsdpConfiguration.getHsdpAppName();
 
         RLog.i("HSDP_TEST", "sharedId" + sharedId + "Secret " + secreteId + " baseUrl " + baseUrl);
-
-        hsdpInfo.setApplicationName(appName);
-        hsdpInfo.setSharedId(sharedId);
-        hsdpInfo.setSecreteId(secreteId);
-        hsdpInfo.setBaseURL(baseUrl);
 
         if (appName == null && sharedId == null && secreteId == null && baseUrl == null) {
             return null;
         }
-
+        HSDPInfo hsdpInfo = new HSDPInfo(sharedId, secreteId, baseUrl, appName);
         return hsdpInfo;
     }
 
@@ -270,30 +221,8 @@ public class RegistrationConfiguration {
      * @return List of providers
      */
     public ArrayList<String> getProvidersForCountry(String countryCode) {
-
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-
-
-        Object obj = RegistrationHelper.
-                getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.SIGNIN_PROVIDERS +
-                        countryCode, UR, configError);
-
-        if (obj != null) {
-            return (ArrayList<String>) obj;
-        }
-
-        obj = RegistrationHelper.
-                getInstance().getAppInfraInstance().
-                getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.SIGNIN_PROVIDERS +
-                        DEFAULT, UR, configError);
-        if (obj != null) {
-            return (ArrayList<String>) obj;
-        }
-        return null;
+        List<String> providers = appConfiguration.getProvidersForCountry(countryCode);
+        return (ArrayList<String>) providers;
     }
 
 

@@ -245,4 +245,5 @@
 <string name="reg_App_NotInstalled_InstallButton">Instalirajte</string>
 <string name="reg_Phonenumbernotfound">Telefonski broj nije nađen</string>
 <string name="reg_InvalidMobilenumber">Pogrešan broj mobilnog telefona</string>
+<string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Poslaćemo Vam imejl ili poruku kako bi poništili lozinku.</string>
 </resources>

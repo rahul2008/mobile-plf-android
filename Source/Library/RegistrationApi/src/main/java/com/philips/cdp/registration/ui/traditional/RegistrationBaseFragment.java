@@ -25,14 +25,11 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.ScrollView;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.apptagging.AppTagging;
-import com.philips.cdp.registration.apptagging.AppTaggingErrors;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
-import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public abstract class RegistrationBaseFragment extends Fragment {
