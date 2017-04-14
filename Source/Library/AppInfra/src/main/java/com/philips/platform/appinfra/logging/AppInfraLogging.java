@@ -244,12 +244,8 @@ public class AppInfraLogging implements LoggingInterface {
     }
 
 
-    /**
-     * @param isEnabled
-     * @deprecated
-     */
-    @Deprecated
-    public void enableConsoleLog(boolean isEnabled) {
+
+    private void enableConsoleLog(boolean isEnabled) {
 
         if (isEnabled) {
             if (null == consoleHandler) {
@@ -281,9 +277,8 @@ public class AppInfraLogging implements LoggingInterface {
     }
 
 
-    @Override
-    @Deprecated
-    public void enableFileLog(boolean pFileLogEnabled) {
+
+    private void enableFileLog(boolean pFileLogEnabled) {
         if (pFileLogEnabled) {
             if (null == fileHandler) {// add file log
                 fileHandler = getFileHandler();
@@ -293,7 +288,6 @@ public class AppInfraLogging implements LoggingInterface {
                     // for appinfra internal log javaLogger will be null
                     fileHandler.setLevel(Level.FINE);
                 }
-                fileHandler.setLevel(javaLogger.getLevel());
                 fileHandler.setFormatter(new LogFormatter(mComponentID, mComponentVersion, mAppInfra));
                 javaLogger.addHandler(fileHandler);
 

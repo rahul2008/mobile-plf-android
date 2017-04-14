@@ -32,18 +32,6 @@ public interface LoggingInterface {
      */
     public void log(LogLevel level, String eventId, String message);
 
-    /**
-     * Enable file log of application.
-     * @param enable File
-     */
-    @Deprecated
-    public void enableFileLog(boolean enable);
 
-    /**
-     * Enable console log of application.
-     * @param enable Console
-     */
-    @Deprecated
-    public void enableConsoleLog(boolean enable );
 
 }
