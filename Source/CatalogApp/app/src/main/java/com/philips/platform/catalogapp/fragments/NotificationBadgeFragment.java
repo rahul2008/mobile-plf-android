@@ -36,6 +36,9 @@ public class NotificationBadgeFragment extends BaseFragment {
         mDefaultText= (NotificationBadge) notificationBadgeBinding.getRoot().findViewById(R.id.uid_text_deafult);
         mSmallText= (NotificationBadge) notificationBadgeBinding.getRoot().findViewById(R.id.uid_text_small);
         mEnterNumber= (EditText) notificationBadgeBinding.getRoot().findViewById(R.id.edit_input_number);
+        mDefaultText.setVisibility(View.INVISIBLE);
+        mSmallText.setVisibility(View.INVISIBLE);
+
         mEnterNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -44,10 +47,16 @@ public class NotificationBadgeFragment extends BaseFragment {
                     mSmallText.setVisibility(View.INVISIBLE);
 
                 }else {
-                    mSmallText.setVisibility(View.VISIBLE);
-                    mDefaultText.setVisibility(View.VISIBLE);
-                    mDefaultText.setText(mEnterNumber.getText().toString());
-                    mSmallText.setText(mEnterNumber.getText().toString());
+                    if(s.length()>=4){
+                        mDefaultText.setText("9999+");
+                        mSmallText.setText("9999+");
+                    }
+                    else {
+                        mSmallText.setVisibility(View.VISIBLE);
+                        mDefaultText.setVisibility(View.VISIBLE);
+                        mDefaultText.setText(mEnterNumber.getText().toString());
+                        mSmallText.setText(mEnterNumber.getText().toString());
+                    }
                 }
 
             }
