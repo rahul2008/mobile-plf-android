@@ -152,7 +152,7 @@ public class MomentsDataSender extends DataSender {
 
     private boolean createMoment(MomentsClient client, final Moment moment) {
         try {
-            com.philips.platform.datasync.moments.UCoreMomentSaveResponse response = client.saveMoment(moment.getSubjectId(), moment.getCreatorId(),
+            UCoreMomentSaveResponse response = client.saveMoment(moment.getSubjectId(), moment.getCreatorId(),
                     momentsConverter.convertToUCoreMoment(moment));
             if (response != null) {
                 addSynchronizationData(moment, response);
@@ -175,7 +175,6 @@ public class MomentsDataSender extends DataSender {
 
             if (isResponseSuccess(response)) {
                 Header eTag = responseHeaders.get(eTagIndex);
-                //int currentVersion = moment.getSynchronisationData().getVersion();
                 if (!eTag.getValue().isEmpty()) {
                     moment.getSynchronisationData().setVersion(Integer.parseInt(eTag.getValue()));
                 }
@@ -185,7 +184,7 @@ public class MomentsDataSender extends DataSender {
             }
             return false;
         } catch (RetrofitError error) {
-            if (error != null || isConflict(error.getResponse())) {
+            if (error != null && isConflict(error.getResponse())) {
                 DSLog.i(DSLog.LOG, "Exception - 409");
             } else {
                 eventing.post(new BackendResponse(1, error));

@@ -39,9 +39,9 @@ public class UCoreMeasurementGroups {
         return measurementGroups;
     }
 
-    public void setMeasurementGroups(@Nullable List<UCoreMeasurementGroups> measurementGroups) {
+   /* public void setMeasurementGroups(@Nullable List<UCoreMeasurementGroups> measurementGroups) {
         this.measurementGroups = measurementGroups;
-    }
+    }*/
 
     @Nullable
     public List<UCoreMeasurement> getMeasurements() {
