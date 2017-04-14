@@ -33,7 +33,6 @@ public class AppInfraWrapper {
 
     private Object getProperty(String key, String group) {
         Object property = appConfigurationInterface.getPropertyForKey(key, group, error);
-        RLog.e("Property Error",error.getErrorCode()+"error desc :"+error.toString());
         return property;
     }
 }
