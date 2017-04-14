@@ -16,12 +16,9 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 import com.janrain.android.Jump;
-import com.janrain.android.JumpConfig;
 import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.EventHelper;
@@ -30,8 +27,6 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.util.Locale;
@@ -60,7 +55,7 @@ public class UserRegistrationInitializer {
         mReceivedProviderFlowSuccess = false;
     }
 
-    private final int CALL_AFTER_DELAY = 500;
+    private final int CALL_AFTER_DELAY = 1000;
     private Handler mHandler;
 
     public boolean isJumpInitializationInProgress() {
@@ -120,19 +115,19 @@ public class UserRegistrationInitializer {
                         mIsJumpInitializationInProgress = false;
                         mReceivedDownloadFlowSuccess = false;
                         mReceivedProviderFlowSuccess = false;
-                        if (mJumpFlowDownloadStatusListener != null) {
                             mHandler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     if (mJumpFlowDownloadStatusListener != null) {
                                         mJumpFlowDownloadStatusListener.onFlowDownloadSuccess();
                                     }
+                                    EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_SUCCESS);
                                 }
+
                             }, CALL_AFTER_DELAY);
 
 
-                        }
-                        EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_SUCCESS);
+
 
                     }
 
