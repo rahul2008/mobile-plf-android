@@ -106,12 +106,12 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     private void setContentConfig(View view) {
         if (getRegistrationFragment().getContentConfiguration()!= null) {
             TextView marketBeTheFirstTextView = (TextView) view.findViewById(R.id.reg_be_the_first_txt);
-            marketBeTheFirstTextView.setText(getRegistrationFragment().getContentConfiguration().getOptInTitleText());
+            marketBeTheFirstTextView.setText(Html.fromHtml(getRegistrationFragment().getContentConfiguration().getOptInTitleText()));
             TextView marketWhatAreYouTextView = (TextView) view.findViewById(R.id.reg_what_are_you_txt);
-            marketWhatAreYouTextView.setText(getRegistrationFragment().getContentConfiguration().getOptInQuessionaryText());
+            marketWhatAreYouTextView.setText(Html.fromHtml(getRegistrationFragment().getContentConfiguration().getOptInQuessionaryText()));
             TextView marketSpecialOfferTextView = (TextView) view.findViewById(R.id.reg_special_officer_txt);
-            marketSpecialOfferTextView.setText(getRegistrationFragment().getContentConfiguration().getOptInDetailDescription());
-            mTvJoinNow.setText(getRegistrationFragment().getContentConfiguration().getOptInBannerText());
+            marketSpecialOfferTextView.setText(Html.fromHtml(getRegistrationFragment().getContentConfiguration().getOptInDetailDescription()));
+            mTvJoinNow.setText(Html.fromHtml(getRegistrationFragment().getContentConfiguration().getOptInBannerText()));
         } else{
             String joinNow = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now);
             String updateJoinNowText =  " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
