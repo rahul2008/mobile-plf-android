@@ -76,6 +76,8 @@
     <string name="hello_world">你好世界</string>
     <string name="title_activity_cards_spike">CardsSpike</string>
     <string name="title_activity_controls">控制活动</string>
+    <string name="spinneronbuttontext">飞利浦帐号</string>
+    <string name="finishloading">完成加载</string>
 
     <array name="control_icons">
         <item>@drawable/uikit_arrow_up</item>

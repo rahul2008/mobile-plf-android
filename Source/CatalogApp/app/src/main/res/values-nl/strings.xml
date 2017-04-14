@@ -76,6 +76,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_cards_spike">CardsSpike</string>
     <string name="title_activity_controls">Contrôles d\'activité</string>
+    <string name="spinneronbuttontext">Philips account</string>
+    <string name="finishloading">Finish loading</string>
 
     <array name="control_icons">
         <item>@drawable/uikit_arrow_up</item>

@@ -18,22 +18,26 @@ if (env.triggerBy == "ppc") {
 node ('Ubuntu && 24.0.3 &&' + node_ext) {
 	timestamps {
 		stage ('Checkout') {
-			checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'bbd4d9e8-2a6c-4970-b856-4e4cf901e857', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/uit-android']]])
+			checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: false, reference: '', shallow: true, timeout: 30], [$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'bbd4d9e8-2a6c-4970-b856-4e4cf901e857', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/uit-android']]])
 			step([$class: 'StashNotifier'])
 		}
 		try {
-			stage ('build') {
-                sh 'chmod -R 775 . && cd ./Source/CatalogApp && chmod -R 775 ./gradlew && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease zipDocuments artifactoryPublish'
-
-			}
+            if (BranchName =~ /master|develop|release.*/) {
+                stage ('build') {
+                    sh 'chmod -R 775 . && cd ./Source/CatalogApp && chmod -R 775 ./gradlew && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease zipDocuments artifactoryPublish'
+                }
+            } else {
+                stage ('build') {
+                    sh 'chmod -R 775 . && cd ./Source/CatalogApp && chmod -R 775 ./gradlew && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease'
+                }
+            }
 			stage ('save dependencies list') {
             	sh 'chmod -R 775 . && cd ./Source/CatalogApp && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
+            	sh 'chmod -R 775 . && cd ./Source/UiKit && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
             }
             archiveArtifacts '**/dependencies.lock'
             currentBuild.result = 'SUCCESS'
-        }
-
-        catch(err) {
+        } catch(err) {
             currentBuild.result = 'FAILURE'
             error ("Someone just broke the build")
         }        
@@ -50,9 +54,7 @@ node ('Ubuntu && 24.0.3 &&' + node_ext) {
             	}            
             }
             
-		} //end try
-		
-        catch(err) {
+		} catch(err) {
             currentBuild.result = 'UNSTABLE'
         }
 

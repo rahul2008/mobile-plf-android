@@ -1,6 +1,11 @@
 PhilipsUIKit for Android Release Notes
 ======================================
 
+Version -3.4.0								Date: 13-04-2017
+-------------------------------------------------------------
+1.	Added Language pack update - provides text lookup functions for the downloaded language pack.
+-------------------------------------------------------------
+
 Version -3.3.0								Date: 26-08-2016
 -------------------------------------------------------------
 1.	Renderscript blurring removed to blur the background of Modal alert.
