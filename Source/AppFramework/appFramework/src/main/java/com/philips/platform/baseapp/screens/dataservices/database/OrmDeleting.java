@@ -128,6 +128,8 @@ public class OrmDeleting {
         settingsDao.executeRawNoArgs("DELETE FROM `ormsettings`");
         ormInsightDao.executeRawNoArgs("DELETE FROM `orminsight`");
         ormInsightMetadataDao.executeRawNoArgs("DELETE FROM `orminsightmetaData`");
+        syncDao.executeRawNoArgs("DELETE FROM `ormdcsync`"); //OrmDCSync
+
 
         insertDefaultConsentAndSyncBit();
         insertDefaultSettingsAndSyncBit();
