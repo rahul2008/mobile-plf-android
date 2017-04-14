@@ -3,6 +3,7 @@ package com.philips.cdp.registration.coppa.utils;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
+import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 
@@ -72,4 +73,15 @@ public class CoppaLaunchInput extends UappLaunchInput {
     public boolean isAccountSettings() {
         return isAccountSettings;
     }
+
+    private RegistrationContentConfiguration registrationContentConfiguration;
+
+    public void setRegistrationContentConfiguration(RegistrationContentConfiguration registrationContentConfiguration){
+        this.registrationContentConfiguration = registrationContentConfiguration;
+    }
+
+    public RegistrationContentConfiguration getRegistrationContentConfiguration(){
+        return this.registrationContentConfiguration;
+    }
+
 }

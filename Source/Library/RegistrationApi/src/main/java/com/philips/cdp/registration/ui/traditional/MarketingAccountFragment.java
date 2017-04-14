@@ -88,24 +88,32 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         View view = inflater.inflate(R.layout.reg_fragment_marketing_opt, container, false);
         initUI(view);
 
-        if (getRegistrationFragment().getContentConfiguration()!= null) {
-
-            TextView marketBeTheFirstTextView = (TextView) view.findViewById(R.id.reg_be_the_first_txt);
-            marketBeTheFirstTextView.setText(getRegistrationFragment().getContentConfiguration().getOptInTitleText());
-            TextView marketWhatAreYouTextView = (TextView) view.findViewById(R.id.reg_what_are_you_txt);
-            marketWhatAreYouTextView.setText(getRegistrationFragment().getContentConfiguration().getOptInQuessionaryText());
-            TextView marketSpecialOfferTextView = (TextView) view.findViewById(R.id.reg_special_officer_txt);
-            marketSpecialOfferTextView.setText(getRegistrationFragment().getContentConfiguration().getOptInDetailDescription());
-            TextView marketJoinNowView = (TextView) view.findViewById(R.id.tv_reg_Join_now);
-            marketJoinNowView.setText(getRegistrationFragment().getContentConfiguration().getOptInBannerText());
-
-        }
+        setContentConfig(view);
 
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
 
         handleOrientation(view);
         mTrackCreateAccountTime = System.currentTimeMillis();
         return view;
+    }
+
+    private void setContentConfig(View view) {
+        if (getRegistrationFragment().getContentConfiguration()!= null) {
+            TextView marketBeTheFirstTextView = (TextView) view.findViewById(R.id.reg_be_the_first_txt);
+            marketBeTheFirstTextView.setText(getRegistrationFragment().getContentConfiguration().getOptInTitleText());
+            TextView marketWhatAreYouTextView = (TextView) view.findViewById(R.id.reg_what_are_you_txt);
+            marketWhatAreYouTextView.setText(getRegistrationFragment().getContentConfiguration().getOptInQuessionaryText());
+            TextView marketSpecialOfferTextView = (TextView) view.findViewById(R.id.reg_special_officer_txt);
+            marketSpecialOfferTextView.setText(getRegistrationFragment().getContentConfiguration().getOptInDetailDescription());
+            String updateJoinNowText = mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers);
+            String joinNow = String.format(getRegistrationFragment().getContentConfiguration().getOptInBannerText(), updateJoinNowText);
+            mTvJoinNow.setText(joinNow);
+        } else{
+            String joinNow = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now);
+            String updateJoinNowText = mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers);
+            joinNow = String.format(joinNow, updateJoinNowText);
+            mTvJoinNow.setText(joinNow);
+        }
     }
 
     @Override
@@ -223,11 +231,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         mBtnCountMe.setOnClickListener(this);
         mBtnNoThanks.setOnClickListener(this);
         mViewLine = view.findViewById(R.id.reg_accept_terms_line);
-
-        String joinNow = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now);
-        String updateJoinNowText = mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers);
-        joinNow = String.format(joinNow, updateJoinNowText);
-        mTvJoinNow.setText(joinNow);
+;
         handleUiAcceptTerms();
         handleUiState();
         mUser = new User(mContext);

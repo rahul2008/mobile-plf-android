@@ -15,6 +15,8 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
+import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -54,6 +56,12 @@ public class CoppaInterface implements UappInterface {
                         uappLaunchInput).getEndPointScreen();
             }
             bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, registrationLaunchMode);
+
+            RegistrationContentConfiguration registrationContentConfiguration = ((CoppaLaunchInput) uappLaunchInput).
+                    getRegistrationContentConfiguration();
+
+            bundle.putSerializable(RegConstants.REGISTRATION_CONTENT_CONFIG, registrationContentConfiguration);
+
             bundle.putBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, ((CoppaLaunchInput)
                     uappLaunchInput).isParentalFragment());
             registrationFragment.setArguments(bundle);
@@ -108,6 +116,11 @@ public class CoppaInterface implements UappInterface {
                         uappLaunchInput).getEndPointScreen();
             }
             bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, registrationLaunchMode);
+
+            RegistrationContentConfiguration registrationContentConfiguration = ((CoppaLaunchInput) uappLaunchInput).
+                    getRegistrationContentConfiguration();
+            bundle.putSerializable(RegConstants.REGISTRATION_CONTENT_CONFIG, registrationContentConfiguration);
+
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((CoppaLaunchInput)
                     uappLaunchInput).isAccountSettings());
             bundle.putInt(RegConstants.ORIENTAION, uiLauncher.getScreenOrientation().
