@@ -85,7 +85,7 @@ public class MomentsSegregator {
         }
     }
 
-    private void deleteMomentsInDatabaseIfExists(final List<Moment> momentsInDatabase, DBRequestListener<Moment> dbRequestListener)
+    protected void deleteMomentsInDatabaseIfExists(final List<Moment> momentsInDatabase, DBRequestListener<Moment> dbRequestListener)
             throws SQLException {
         dbDeletingInterface.deleteMoments(momentsInDatabase, dbRequestListener);
     }
@@ -147,7 +147,7 @@ public class MomentsSegregator {
         dbSavingInterface.saveMoment(ormMoment, dbRequestListener);
     }
 
-    private void deleteAndSaveMoments(final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException {
+    protected void deleteAndSaveMoments(final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException {
 
         for (Moment moment : moments) {
             final Moment momentInDatabase = getOrmMomentFromDatabase(moment, dbRequestListener);

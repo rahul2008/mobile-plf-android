@@ -7,17 +7,15 @@ import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.InsightMetadata;
-import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SynchronisationData;
-import com.philips.platform.core.utils.BlobDataCreater;
 import com.philips.platform.core.utils.UuidGenerator;
-import com.philips.platform.datasync.blob.BlobMetaData;
 import com.philips.platform.verticals.OrmCharacteristics;
 import com.philips.testing.verticals.datatyes.MeasurementDetailType;
 import com.philips.testing.verticals.datatyes.MeasurementGroupDetailType;
@@ -25,6 +23,7 @@ import com.philips.testing.verticals.datatyes.MeasurementType;
 import com.philips.testing.verticals.datatyes.MomentDetailType;
 import com.philips.testing.verticals.datatyes.MomentType;
 import com.philips.testing.verticals.table.OrmConsentDetail;
+import com.philips.testing.verticals.table.OrmInsight;
 import com.philips.testing.verticals.table.OrmInsightMetaData;
 import com.philips.testing.verticals.table.OrmMeasurement;
 import com.philips.testing.verticals.table.OrmMeasurementDetail;
@@ -39,13 +38,12 @@ import com.philips.testing.verticals.table.OrmMomentDetailType;
 import com.philips.testing.verticals.table.OrmMomentType;
 import com.philips.testing.verticals.table.OrmSettings;
 import com.philips.testing.verticals.table.OrmSynchronisationData;
-import com.philips.testing.verticals.table.OrmInsight;
 
 import org.joda.time.DateTime;
 
 import javax.inject.Singleton;
 
-public class OrmCreatorTest implements BaseAppDataCreator, BlobDataCreater {
+public class OrmCreatorTest implements BaseAppDataCreator{
 
     private final UuidGenerator uuidGenerator;
 
@@ -180,11 +178,5 @@ public class OrmCreatorTest implements BaseAppDataCreator, BlobDataCreater {
     @Override
     public InsightMetadata createInsightMetaData(String key, String value, Insight insight) {
         return new OrmInsightMetaData(key, value, (OrmInsight) insight);
-    }
-
-    @NonNull
-    @Override
-    public BlobMetaData createBlobMetaData() {
-        return null;
     }
 }

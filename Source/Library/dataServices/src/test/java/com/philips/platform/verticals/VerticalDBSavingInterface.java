@@ -6,16 +6,10 @@ import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
-import com.philips.platform.core.listeners.BlobRequestListener;
 import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.datasync.blob.BlobMetaData;
 
 import java.sql.SQLException;
 import java.util.List;
-
-/**
- * Created by 310218660 on 1/2/2017.
- */
 
 public class VerticalDBSavingInterface implements DBSavingInterface {
 

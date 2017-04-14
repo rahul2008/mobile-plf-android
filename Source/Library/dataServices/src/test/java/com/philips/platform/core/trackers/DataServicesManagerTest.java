@@ -2,7 +2,6 @@ package com.philips.platform.core.trackers;
 
 import android.content.Context;
 
-import com.google.gson.JsonObject;
 import com.philips.platform.core.BackendIdProvider;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
@@ -32,11 +31,9 @@ import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.injection.AppComponent;
-import com.philips.platform.core.listeners.BlobUploadRequestListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
-import com.philips.platform.core.utils.DataServicesConstants;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataSender;
@@ -48,7 +45,6 @@ import com.philips.platform.verticals.VerticalUCoreAccessProvider;
 import com.philips.platform.verticals.VerticalUserRegistrationInterface;
 import com.philips.testing.verticals.datatyes.MomentType;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -90,9 +86,6 @@ public class DataServicesManagerTest {
 
     @Mock
     private File fileMock;
-
-    @Mock
-    private BlobUploadRequestListener blobRequestListenerMock;
 
     @Mock
     SynchronisationManager synchronisationManagerMock;
@@ -336,11 +329,6 @@ public class DataServicesManagerTest {
     @Test
     public void registerDeviceTokenTest() throws Exception {
         tracker.registerDeviceToken("token", "variant", "protocol provider", null);
-    }
-
-    @Test
-    public void should_create_blob_call_createBlobRequest(){
-        tracker.createBlob(fileMock,"/storage",blobRequestListenerMock);
     }
 
     @Test
