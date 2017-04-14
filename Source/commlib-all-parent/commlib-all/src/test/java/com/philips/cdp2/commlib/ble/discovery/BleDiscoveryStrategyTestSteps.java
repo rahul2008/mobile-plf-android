@@ -252,8 +252,7 @@ public class BleDiscoveryStrategyTestSteps {
 
     @When("^(.*?) with cppId (.*?) is discovered (\\d+) times? by BlueLib$")
     public void applianceIsDiscoveredMultipleTimesByBlueLib(String applianceName, String cppId, int times) {
-        byte[] modelIdArray = new byte[]{(byte) 0xDD, 0x01, 80, 70, 49, 51, 51, 55}; // PF1337
-        createShnDeviceMock(applianceName, cppId, modelIdArray, times);
+        createShnDeviceMock(applianceName, cppId, null, times);
     }
 
     @When("^(.*?) with cppId (.*?) is discovered (\\d+) times? by BlueLib, matching model id (.*?)$")
@@ -274,8 +273,6 @@ public class BleDiscoveryStrategyTestSteps {
         when(shnDeviceMock.getAddress()).thenReturn(createMacAddress());
         when(shnDeviceMock.getName()).thenReturn(applianceName);
         when(shnDeviceMock.getDeviceTypeName()).thenReturn(getApplianceTypeByName(applianceName));
-
-//        final String cppId = createCppId();
 
         // DIS -> CPP ID
         when(shnDeviceMock.getCapability(SHNCapabilityDeviceInformation.class)).thenReturn(deviceInformationMock);
