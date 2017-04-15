@@ -8,6 +8,10 @@ package com.philips.uid
 
 class DataValidation {
 
+    private final static COLOR = "COLOR";
+    private final static COLOR_CODE = "COLOR_CODE";
+    private final static COLOR_RANGE = "COLOR_RANGE";
+    private final static REFERENCE = "REFERENCE";
     def getAllAttributes(datavalidationMap) {
         def attributes = new HashMap()
         datavalidationMap = datavalidationMap[0]
@@ -48,23 +52,28 @@ class DataValidation {
     }
 
     def decorateValidations(theme, validationMap, attrname, colorRange, tonalRange) {
+        if (theme.color == "validation") {
+            assignValidationValues(theme, validationMap, attrname, colorRange, tonalRange, COLOR)
+        }
         if (theme.colorRange == "validation") {
-            return getColorRange(theme, validationMap, attrname, colorRange, tonalRange)
-        } else if (theme.colorCode == "validation") {
-            return getColorCode(theme, validationMap, attrname, colorRange, tonalRange)
-        } else if (theme.reference == "validation") {
-            return getReference(theme, validationMap, attrname, colorRange, tonalRange)
+            assignValidationValues(theme, validationMap, attrname, colorRange, tonalRange, COLOR_RANGE)
+        }
+        if (theme.colorCode == "validation") {
+            assignValidationValues(theme, validationMap, attrname, colorRange, tonalRange, COLOR_CODE)
+        }
+        if (theme.reference == "validation") {
+            assignValidationValues(theme, validationMap, attrname, colorRange, tonalRange, REFERENCE)
         }
     }
 
-    void getColorRange(themeValue, validationMap, attrname, colorRange, tonalRange) {
+    void assignValidationValues(themeValue, validationMap, attrname, colorRange, tonalRange, type) {
         List attrsList = validationMap.get(BrushParser.getCapitalizedValue(colorRange))
         for (ThemeAttribute attr : attrsList) {
             if (attr.attrName == attrname) {
                 for (Map.Entry entry : attr.attributeMap.entrySet()) {
                     if (entry.getKey() == tonalRange) {
 //                        println(attrname + "\t"+  colorRange+":"+tonalRange+ "\t" +entry.value.colorRange )
-                        themeValue.colorRange = entry.value.colorRange
+                        getValueFromType(entry, themeValue, type)
                     }
                 }
             }
@@ -72,35 +81,18 @@ class DataValidation {
         }
     }
 
-    def getColorCode(themeValue, validationMap, attrname, colorRange, tonalRange) {
-        List attrsList = validationMap.get(BrushParser.getCapitalizedValue(colorRange))
-        for (ThemeAttribute attr : attrsList) {
-            if (attr.attrName == attrname) {
-                for (Map.Entry entry : attr.attributeMap.entrySet()) {
-                    if (entry.getKey() == tonalRange) {
-//                        println(attrname+ "\t"+ colorRange+":"+tonalRange+ "\t" +entry.value.colorCode )
-                        themeValue.colorCode = entry.value.colorCode
-                    }
-                }
-            }
-
+    private void getValueFromType(Map.Entry entry, themeValue, type) {
+        if (type == COLOR) {
+            themeValue.color = entry.value.color
+        } else if (type == COLOR_RANGE) {
+            themeValue.colorRange = entry.value.colorRange
+        } else if (type == COLOR_CODE) {
+            themeValue.colorCode = entry.value.colorCode
+        } else if (type == REFERENCE) {
+            themeValue.reference = entry.value.reference
         }
     }
 
-    def getReference(themeValue, validationMap, attrname, colorRange, tonalRange) {
-        List attrsList = validationMap.get(BrushParser.getCapitalizedValue(colorRange))
-        for (ThemeAttribute attr : attrsList) {
-            if (attr.attrName == attrname) {
-                for (Map.Entry entry : attr.attributeMap.entrySet()) {
-                    if (entry.getKey() == tonalRange) {
-//                        println(attrname+ "\t"+ colorRange+":"+tonalRange+ "\t" +entry.value.reference )
-                        themeValue.reference = entry.value.reference
-                    }
-                }
-            }
-
-        }
-    }
 
     def getAttributeNames(datavalidationMap) {
         Set attributes = new HashSet()
