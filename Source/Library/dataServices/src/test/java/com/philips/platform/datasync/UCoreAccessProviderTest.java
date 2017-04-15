@@ -19,9 +19,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * Created by sangamesh on 06/12/16.
- */
 public class UCoreAccessProviderTest {
 
 
@@ -86,15 +83,6 @@ public class UCoreAccessProviderTest {
         assertThat(userId).isEqualTo(TEST_USER_ID);
     }
 
-    /*@Test
-    public void ShouldReturnValueFromFacade_WhenInjectSaredPrefsIsCalled() {
-//        when(sharedPreferencesMock.g()).thenReturn(TEST_ACCESS_TOKEN);
-
-        uCoreAccessProvider.injectSaredPrefs(sharedPreferencesMock);
-
-        //assertThat(accessToken).isInstanceOf(SharedPreferences.class);
-    }*/
-
     @Test
     public void ShouldReturnValueFromUserProfile_WhengetSubjectIdIsCalled() {
         when(userRegistrationFacadeMock.getUserProfile()).thenReturn(userProfileMock);
@@ -104,17 +92,6 @@ public class UCoreAccessProviderTest {
 
         assertThat(userId).isEqualTo(TEST_BABY_ID);
     }
-
-
-//    @Test
-//    public void ShouldReturnValueFromPreferences_WhenGetBabyIdIsCalled() {
-//        uCoreAccessProvider.injectSaredPrefs(sharedPreferencesMock);
-//        when(sharedPreferencesMock.getString(eq(UCoreAccessProvider.ACTIVE_BABY_ID_KEY), anyString())).thenReturn(TEST_BABY_ID);
-//
-//        String babyId = uCoreAccessProvider.getSubjectId();
-//
-//        assertThat(babyId).isEqualTo(TEST_BABY_ID);
-//    }
 
     @Test
     public void ShouldReturnValue_WhenGetMomentLastSyncTimestampIsCalled() {
