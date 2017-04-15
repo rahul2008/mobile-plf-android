@@ -70,7 +70,7 @@ class TonalRange {
             }
             colorReference = colorReference.replaceAll("${DLSResourceConstants.HIPHEN}", "${DLSResourceConstants.UNDERSCORE}")
             def colorValue = getColorValue(colorsXmlInput, colorReference)
-            if (colorValue == null) {
+            if (colorValue == "@null") {
                 return "?attr/" + BrushParser.getAttributeName("Color_${DLSResourceConstants.LEVEL}_" + colorCode)
             }
             if (opacity == null && colorValue != null) {
@@ -79,16 +79,20 @@ class TonalRange {
             }
             return applyOpacityOnColor(colorValue)
         } else if (color != null) {
+            if (color.startsWith("#")) {
+                if (opacity != null) {
+                    return applyOpacityOnColor(colorValue);
+                }
+                return color;
+            }
             def colorReference = "${DLSResourceConstants.LIB_PREFIX}_level_${color}";
 //            println("colorReference: #" + colorReference +"#" +" name " + name)
 
             def colorValue = getColorValue(colorsXmlInput, colorReference)
-            colorValue = colorValue == null ? color : colorValue
             if (opacity != null) {
                 return applyOpacityOnColor(colorValue);
             }
-            //For hardcoded colors with #xxx. We don't return @color/level_#xxx
-            if (colorValue == color) {
+            if (colorValue == null) {
                 return color;
             }
             return "@color/${colorReference}"
@@ -170,9 +174,8 @@ class TonalRange {
             }*.text().get(0)
         } catch (IndexOutOfBoundsException exception) {
 //            println("invalid colorCode with colorName: " + colorReference)
-
+            return "@null"
         }
-        return null;
     }
 
     @Override

@@ -24,7 +24,6 @@ class AccentRangeGenerator {
 
                         for (int colorLevel = 5; colorLevel <= 90;) {
                             def colorValue = TonalRange.getColorValue(colorsXmlInput, getColorName(colorLevel, colorName))
-                            colorValue = colorValue == null ? "@null" : colorValue
                             item("${DLSResourceConstants.ITEM_NAME}": "${DLSResourceConstants.LIB_PREFIX}" + "AccentLevel" + colorLevel, colorValue)
                             colorLevel = colorLevel + DLSResourceConstants.COLOR_OFFSET
                         }
