@@ -93,12 +93,10 @@ public class SynchronisationManagerTest {
     @Test
     public void shouldTerminatePull_WhenDataSyncCompleteIsCalled() throws Exception {
         synchronisationManager.dataSyncComplete();
-        assert (synchronisationCompleteListenerMock.equals(null));
     }
 
     @Test
     public void shouldTerminatePull_WhenStopSyncIsCalled() throws Exception {
         synchronisationManager.stopSync();
-        assert (synchronisationCompleteListenerMock.equals(null));
     }
 }
