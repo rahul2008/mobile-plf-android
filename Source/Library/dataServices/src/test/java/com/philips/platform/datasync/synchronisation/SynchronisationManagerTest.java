@@ -1,7 +1,6 @@
 package com.philips.platform.datasync.synchronisation;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.events.SettingsBackendSaveResponse;
 import com.philips.platform.core.events.WriteDataToBackendRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
@@ -16,20 +15,19 @@ import org.mockito.Mock;
 
 import java.util.concurrent.ExecutorService;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * Created by sangamesh on 17/03/17.
- */
 public class SynchronisationManagerTest {
 
     @Mock
     private AppComponent appComponantMock;
     private OrmCreatorTest verticalDataCreater;
     private ErrorHandlerImplTest errorHandlerImpl;
+
+    @Mock
+    SynchronisationCompleteListener synchronisationCompleteListner;
 
     @Mock
     SynchronisationCompleteListener synchronisationCompleteListenerMock;
@@ -53,6 +51,7 @@ public class SynchronisationManagerTest {
 
         synchronisationManager=new SynchronisationManager();
         synchronisationManager.mEventing=eventingMock;
+        synchronisationManager.mSynchronisationCompleteListner = synchronisationCompleteListenerMock;
 
     }
 
@@ -89,5 +88,17 @@ public class SynchronisationManagerTest {
     public void shouldTerminatePull_WhenShutdownAndAwaitTerminationIsCalled() throws Exception {
 
       synchronisationManager.shutdownAndAwaitTermination(executorServiceMock);
+    }
+
+    @Test
+    public void shouldTerminatePull_WhenDataSyncCompleteIsCalled() throws Exception {
+        synchronisationManager.dataSyncComplete();
+        assert (synchronisationCompleteListenerMock.equals(null));
+    }
+
+    @Test
+    public void shouldTerminatePull_WhenStopSyncIsCalled() throws Exception {
+        synchronisationManager.stopSync();
+        assert (synchronisationCompleteListenerMock.equals(null));
     }
 }
