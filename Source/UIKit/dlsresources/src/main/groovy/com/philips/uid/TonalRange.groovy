@@ -7,6 +7,9 @@
 
 package com.philips.uid
 
+import groovy.transform.AutoClone
+
+@AutoClone
 class TonalRange {
     def name
     def colorCode
@@ -27,6 +30,7 @@ class TonalRange {
         this.opacity = opacity
         this.offset = offset
     }
+
 
     TonalRange(name, referenceValue) {
         this.name = name
@@ -166,6 +170,11 @@ class TonalRange {
 //            println("invalid colorCode with colorName: " + colorReference)
             return "@null"
         }
+    }
+
+    @Override
+    protected TonalRange clone() throws CloneNotSupportedException {
+        return (TonalRange) super.clone();
     }
 
     @Override

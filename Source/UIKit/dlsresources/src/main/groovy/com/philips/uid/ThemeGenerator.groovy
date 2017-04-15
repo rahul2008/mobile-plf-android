@@ -11,7 +11,8 @@ import groovy.xml.MarkupBuilder
 class ThemeGenerator {
 
 
-    def createThemeXml(def allBrushAttributes, def allComponentAttributes) {
+    def createThemeXml(
+            def allBrushAttributes, def allComponentAttributes, def dataValidationThemeValues) {
         def colorsXmlInput = new XmlParser().parseText(new File(DLSResourceConstants.PATH_OUT_COLORS_FILE).text)
         DLSResourceConstants.COLOR_RANGES.each {
             theme, colorName ->
@@ -23,7 +24,7 @@ class ThemeGenerator {
                 xml.resources() {
                     buildThemeColorLevelMapping(xml, colorName)
                     DLSResourceConstants.TONAL_RANGES.each {
-                        buildBrushesAndComponentAttributes(xml, allBrushAttributes, allComponentAttributes, it, colorName, colorsXmlInput)
+                        buildBrushesAndComponentAttributes(xml, allBrushAttributes, allComponentAttributes, it, colorName, colorsXmlInput, dataValidationThemeValues)
                     }
                 }
                 def themeFile = new File(DLSResourceConstants.getThemeFilePath(colorName))
@@ -50,11 +51,12 @@ class ThemeGenerator {
         }
     }
 
-    def buildBrushesAndComponentAttributes(xml, List allBrushAttributes, List allComponentAttributes, it, colorName, colorsXmlInput) {
+    def buildBrushesAndComponentAttributes(xml, List allBrushAttributes, List allComponentAttributes, it, colorName, colorsXmlInput, dataValidationThemeValues) {
         def defaultTonalRange = "$it".toString()
         def tonalRange = BrushParser.getCapitalizedValue("$it")
         def styleThemeName = "${DLSResourceConstants.THEME_PREFIX}." + BrushParser.getCapitalizedValue("${colorName}._${it}")
 
+        DataValidation dataValidation = new DataValidation();
         xml.style("${DLSResourceConstants.ITEM_NAME}": "${styleThemeName}") {
 
             allBrushAttributes.each {
@@ -62,10 +64,8 @@ class ThemeGenerator {
                 def value = "null"
                 TonalRange themeValue = null;
                 if (it.attributeMap.containsKey(tr)) {
-                    themeValue = it.attributeMap.get(tr)
-                    value = themeValue.getValue("${colorName}", colorsXmlInput, allBrushAttributes)
-                } else {
-                    themeValue = it.attributeMap.get(defaultTonalRange)
+                    themeValue = it.attributeMap.get(tr).clone()
+                    dataValidation.decorateValidations(themeValue, dataValidationThemeValues, it.attrName, colorName, tr)
                     value = themeValue.getValue("${colorName}", colorsXmlInput, allBrushAttributes)
                 }
                 if (value == "@null") {
