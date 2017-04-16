@@ -22,9 +22,9 @@ class ThemeGenerator {
                 xml.setDoubleQuotes(true)
 
                 xml.resources() {
-                    buildThemeColorLevelMapping(xml, colorName)
+                    buildColorAndComponentsMapping(xml, colorName, allBrushAttributes, allComponentAttributes)
                     DLSResourceConstants.TONAL_RANGES.each {
-                        buildBrushesAndComponentAttributes(xml, allBrushAttributes, allComponentAttributes, it, colorName, colorsXmlInput, dataValidationThemeValues)
+                        buildBrushesAttributes(xml, allBrushAttributes, it, colorName, colorsXmlInput, dataValidationThemeValues)
                     }
                 }
                 def themeFile = new File(DLSResourceConstants.getThemeFilePath(colorName))
@@ -38,7 +38,7 @@ class ThemeGenerator {
         println("Invalid component reference for " + invalidComponentRefList.toSet())
     }
 
-    def buildThemeColorLevelMapping(xml, colorName) {
+    def buildColorAndComponentsMapping(xml, colorName, allBrushAttributes, allComponentAttributes) {
         def baseTheme = "${DLSResourceConstants.THEME_PREFIX}." + new BrushParser().getCapitalizedValue("${colorName}")
 
         xml.style("${DLSResourceConstants.ITEM_NAME}": "${baseTheme}") {
@@ -48,10 +48,20 @@ class ThemeGenerator {
                         "${DLSResourceConstants.COLOR_REFERENCE}${DLSResourceConstants.LIB_PREFIX}_${colorName}_${DLSResourceConstants.LEVEL}_" + colorLevel)
                 colorLevel = colorLevel + DLSResourceConstants.COLOR_OFFSET
             }
+
+            allComponentAttributes.each {
+                if (BrushParser.isSupportedAction(it.attrName)) {
+                    def reference = it.attributeMap.get(it.attrName).getAttributeValue(allBrushAttributes)
+                    if (reference == "@null") {
+                        invalidComponentRefList.add(it.attrName)
+                    }
+                    item("${DLSResourceConstants.ITEM_NAME}": it.attrName, reference)
+                }
+            }
         }
     }
 
-    def buildBrushesAndComponentAttributes(xml, List allBrushAttributes, List allComponentAttributes, it, colorName, colorsXmlInput, dataValidationThemeValues) {
+    def buildBrushesAttributes(xml, List allBrushAttributes, it, colorName, colorsXmlInput, dataValidationThemeValues) {
         def defaultTonalRange = "$it".toString()
         def tonalRange = BrushParser.getCapitalizedValue("$it")
         def styleThemeName = "${DLSResourceConstants.THEME_PREFIX}." + BrushParser.getCapitalizedValue("${colorName}._${it}")
@@ -79,17 +89,6 @@ class ThemeGenerator {
                         }
 
                     }
-                }
-            }
-
-
-            allComponentAttributes.each {
-                if (BrushParser.isSupportedAction(it.attrName)) {
-                    def reference = it.attributeMap.get(it.attrName).getAttributeValue(allBrushAttributes)
-                    if (reference == "@null") {
-                        invalidComponentRefList.add(it.attrName)
-                    }
-                    item("${DLSResourceConstants.ITEM_NAME}": it.attrName, reference)
                 }
             }
         }
