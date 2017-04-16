@@ -31,6 +31,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -200,6 +201,15 @@ public class UCoreAdapterTest {
 
     @Test
     public void ShouldGetAppAgentHeader_WhenRequestIsIntercepted() throws Exception {
+        String agentHeader = uCoreAdapter.getAppAgentHeader();
+        assertThat(agentHeader).isNotEmpty();
+    }
+
+    @Test
+    public void ShouldGetAppAgentHeader_When_Fails_with_Exception() throws Exception {
+        String test_package_name = "TEST_PACKAGE_NAME";
+        PackageManager.NameNotFoundException exception = new PackageManager.NameNotFoundException();
+        doThrow(exception).when(packageManagerMock).getPackageInfo(test_package_name, 0);
         String agentHeader = uCoreAdapter.getAppAgentHeader();
         assertThat(agentHeader).isNotEmpty();
     }
