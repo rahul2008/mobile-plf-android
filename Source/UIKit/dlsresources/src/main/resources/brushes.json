@@ -1344,7 +1344,7 @@
         "opacity": 0.5
       }
     },
-    "ç": {
+    "input-validated-background": {
       "very-light": {
         "color": "validation"
       },
