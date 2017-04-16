@@ -38,6 +38,11 @@ class TonalRange {
     }
     //color range in format of group_blue or blue or aqua , having match with uid_colors.xml
     def getValue(color_range, colorsXmlInput, allAttributes) {
+        //All validation must be resolved before processing it
+        if (isValidation()) {
+            return "@null"
+        }
+
         if (reference != null) {
             def index = allAttributes.indexOf(new ThemeAttribute(reference))
 //                println("all attr: " + allAttributes.toListString() + " index: " + index  +" reference "+ reference)
@@ -176,6 +181,10 @@ class TonalRange {
 //            println("invalid colorCode with colorName: " + colorReference)
             return "@null"
         }
+    }
+
+    def isValidation() {
+        return color == "validation" || colorRange == "validation" || reference == "validation" || colorCode == "validation"
     }
 
     @Override
