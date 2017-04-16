@@ -762,8 +762,8 @@
         "reference": "no-color"
       },
       "very-dark": {
-        "color": "10",
-        "color-code": "control-white"
+        "offset": "10",
+        "reference": "control-white"
       },
       "bright": {
         "offset": "10",
