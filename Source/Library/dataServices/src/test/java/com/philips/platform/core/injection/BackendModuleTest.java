@@ -31,6 +31,7 @@ import com.philips.platform.datasync.consent.ConsentsSegregator;
 import com.philips.platform.datasync.insights.InsightDataFetcher;
 import com.philips.platform.datasync.insights.InsightDataSender;
 import com.philips.platform.datasync.insights.InsightMonitor;
+import com.philips.platform.datasync.insights.InsightSegregator;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.moments.MomentsSegregator;
@@ -92,6 +93,7 @@ public class BackendModuleTest {
 
     @Mock
     MomentsDataFetcher momentsDataFetcher;
+
     @Mock
     UserCharacteristicsFetcher userCharacteristicsFetcher;
     @Mock
@@ -103,6 +105,7 @@ public class BackendModuleTest {
 
     @Mock
     MomentsDataSender momentsDataSender;
+
     @Mock
     ConsentDataSender consentDataSender;
     @Mock
@@ -352,5 +355,12 @@ public class BackendModuleTest {
         SynchronisationManager synchronisationManager = backendModule.providesSynchronisationManager();
         assertThat(synchronisationManager).isNotNull();
         assertThat(synchronisationManager).isInstanceOf(SynchronisationManager.class);
+    }
+
+    @Test
+    public void ShouldReturnEventing_WhenprovidesInsightSegregaterIsCalled() throws Exception {
+        InsightSegregator insightSegregator = backendModule.providesInsightSegregater();
+        assertThat(insightSegregator).isNotNull();
+        assertThat(insightSegregator).isInstanceOf(InsightSegregator.class);
     }
 }

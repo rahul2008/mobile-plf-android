@@ -1,14 +1,12 @@
 package com.philips.platform.datasync.synchronisation;
 
 import android.app.Application;
-import android.support.annotation.NonNull;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.Event;
-import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
@@ -26,25 +24,26 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Executor;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.ExecutorService;
 
+import static com.philips.platform.datasync.moments.MomentsDataSenderTest.DATE_TIME;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * Created by indrajitkumar on 13/12/16.
- */
 public class DataPullSynchroniseTest {
-    public static final DateTime DATE_TIME = DateTime.now();
+//    DateTime DATE_TIME = new DateTime();
     private static final int EVENT_ID = 2344;
 
     @Mock
@@ -74,7 +73,7 @@ public class DataPullSynchroniseTest {
     private DataFetcher firstFetcherMock;
 
     @Mock
-    private Executor executorMock;
+    private ExecutorService executorMock;
 
     @Mock
     private Eventing eventingMock;
@@ -121,6 +120,7 @@ public class DataPullSynchroniseTest {
         set.add("consent");
 
         DataServicesManager.getInstance().configureSyncDataType(set);
+        Set<String> dataTypeList = DataServicesManager.getInstance().getSyncTypes();
 
         //  when(accessProviderMock.isLoggedIn()).thenReturn(true);
         synchronise = new DataPullSynchronise(
@@ -129,6 +129,12 @@ public class DataPullSynchroniseTest {
         synchronise.accessProvider = accessProviderMock;
         synchronise.eventing = eventingMock;
         synchronise.synchronisationManager=synchronisationManagerMock;
+        synchronise.executor = executorMock;
+        ArrayList list = new ArrayList();
+        list.add(firstFetcherMock);
+        list.add(secondFetcherMock);
+        synchronise.fetchers = list;
+        synchronise.configurableFetchers = list;
     }
 
     @Test
@@ -145,7 +151,7 @@ public class DataPullSynchroniseTest {
     public void ShouldPostError_WhenUserIsNotLoggedIn() {
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
         synchronise.startSynchronise(DATE_TIME, EVENT_ID);
-
+        verify(eventingMock).post(isA(BackendResponse.class));
     }
 
 
@@ -217,19 +223,49 @@ public class DataPullSynchroniseTest {
         return null;
     }
 
-    /*@Test
-    public void ShouldSendEvent_OnEventReceived() throws Exception {
+    @Test
+    public void Should_Call_performFetch(){
+        when(accessProviderMock.isLoggedIn()).thenReturn(true);
+        synchronise.startSynchronise(new DateTime(),2);
+        runExecutor();
+        verify(synchronisationManagerMock).shutdownAndAwaitTermination(executorMock);
+    }
 
-        synchronise.onEventAsync(new GetNonSynchronizedMomentsResponse(Collections.singletonList(momentMock), Collections.singletonList(consentDetailMock)));
+    @Test
+    public void Should_Call_synchronize_when_user_logged_out(){
+        when(accessProviderMock.isLoggedIn()).thenReturn(false);
+        synchronise.startSynchronise(new DateTime(),2);
+      //  verify(synchronisationManagerMock).shutdownAndAwaitTermination(executorMock);
+        verify(eventingMock).post(isA(BackendResponse.class));
+    }
 
-        synchronise.startSynchronise(DATE_TIME, EVENT_ID);
-//        verify(executorMock, atLeastOnce()).execute(runnableCaptor.capture());
-//
-//        Runnable runnable = runnableCaptor.getValue();
-//        runnable.run();
-//
-//        verify(eventingMock, never()).post(any(Event.class));
+    @Test
+    public void Should_Call_synchronize_when_no_sync_type_configured(){
+        when(accessProviderMock.isLoggedIn()).thenReturn(true);
+        synchronise.configurableFetchers = new ArrayList<>();
+        synchronise.startSynchronise(new DateTime(),2);
+        verifyNoMoreInteractions(executorMock);
+    }
+
+    //TODO: Spoort -  Not sure Y its giving error, uncomment and check it later
+ /*   @Test
+    public void Should_Call_synchronize_when_fetchResult_isError(){
+        when(accessProviderMock.isLoggedIn()).thenReturn(true);
+
+        when(retrofitErrorMock.getKind()).thenReturn(RetrofitError.Kind.HTTP);
+        when(firstFetcherMock.fetchDataSince(null)).thenThrow(retrofitErrorMock);
+
+        synchronise.startSynchronise(null,2);
+        runExecutor();
+
     }*/
 
+    @Test
+    public void ShouldRunSyncInDifferentThreads() throws Exception {
+        when(accessProviderMock.isLoggedIn()).thenReturn(true);
+        synchronise.startSynchronise(DATE_TIME, EVENT_ID);
+        runExecutor();
+        verify(executorMock, times(2)).execute(any(Runnable.class));
+    }
 
 }

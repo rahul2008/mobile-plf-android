@@ -40,7 +40,7 @@ import com.philips.testing.verticals.table.OrmSynchronisationData;
 
 import org.joda.time.DateTime;
 
-public class VerticalCreater implements BaseAppDataCreator {
+public class VerticalCreater implements BaseAppDataCreator{
     @NonNull
     @Override
     public OrmMoment createMoment(@NonNull String creatorId, @NonNull String subjectId, @NonNull String type) {

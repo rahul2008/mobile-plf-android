@@ -3,16 +3,14 @@ package com.philips.platform.datasync.moments;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.BaseAppData;
 import com.philips.platform.core.datatypes.Moment;
-import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
 import com.philips.platform.core.events.ListEvent;
-import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
-import com.philips.platform.datasync.characteristics.UserCharacteristicsClient;
 import com.philips.platform.datasync.synchronisation.SynchronisationManager;
+import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -22,7 +20,6 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,6 +101,8 @@ public class MomentsDataFetcherTest {
     @Mock
     SynchronisationManager synchronisationManagerMock;
 
+    @Mock
+    UserRegistrationInterface userRegistrationInterfaceMock;
 
     @Before
     public void setUp() throws Exception {
@@ -121,7 +120,7 @@ public class MomentsDataFetcherTest {
         fetcher.eventing = eventingMock;
         fetcher.accessProvider = accessProviderMock;
         fetcher.synchronisationManager = synchronisationManagerMock;
-
+        fetcher.userRegistrationInterface = userRegistrationInterfaceMock;
     }
 
     @Test
@@ -231,21 +230,6 @@ public class MomentsDataFetcherTest {
         verify(eventingMock).post(isA(BackendMomentListSaveRequest.class));
     }
 
-/*    @Test
-    public void ShouldPostExceptionEvent_WhenRetrofitError_For_getMomentsHistory() throws Exception {
-        when(momentsClientMock.getMomentsHistory(accessProviderMock.getUserId(),
-                accessProviderMock.getUserId(), "")).thenThrow(retrofitErrorMock);
-        *//*UCoreMomentsHistory momentsHistory = momentsClientMock.getMomentsHistory(accessProviderMock.getUserId(),
-                accessProviderMock.getUserId(), "");*//*
-        when(momentsClientMock.getMomentsHistory(accessProviderMock.getUserId(),
-                accessProviderMock.getUserId(), "")).thenThrow(retrofitErrorMock);
-        RetrofitError retrofitError = fetcher.fetchDataSince(null);
-
-        assertThat(retrofitError).isNotNull();
-    //    fetcher.fetchDataSince(null);
-
-    }*/
-
     @Test
     public void ShouldThrowRetrofitError_WhenFetchDataFails() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
@@ -284,6 +268,33 @@ public class MomentsDataFetcherTest {
         when(retrofitError.getResponse()).thenReturn(response);
 
         doThrow(RetrofitError.class).when(momentsClientMock).getMomentsHistory(TEST_USER_ID, TEST_USER_ID, "url");
+
+        RetrofitError retrofitError1 = fetcher.fetchDataSince(null);
+
+        verify(momentsClientMock).getMomentsHistory(TEST_USER_ID, TEST_USER_ID, "url");
+    }
+
+
+    @Test
+    public void ShouldPostError_On_Error_UNAUTHORIZED() throws Exception {
+
+        when(accessProviderMock.isLoggedIn()).thenReturn(true);
+        when(accessProviderMock.getAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
+        when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
+        when(accessProviderMock.getMomentLastSyncTimestamp()).thenReturn("url");
+        when(coreAdapterMock.getAppFrameworkClient(MomentsClient.class,
+                TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(momentsClientMock);
+
+        String string = "not able to connect";
+        ArrayList<Header> headers = new ArrayList<>();
+        headers.add(new Header("test", "test"));
+
+        when((typedByteArrayMock).getBytes()).thenReturn(string.getBytes());
+        Response response = new Response("http://localhost", 401, string, headers, typedByteArrayMock);
+        final RetrofitError retrofitError = mock(RetrofitError.class);
+        when(retrofitError.getResponse()).thenReturn(response);
+
+        doThrow(retrofitError).when(momentsClientMock).getMomentsHistory(TEST_USER_ID, TEST_USER_ID, "url");
 
         RetrofitError retrofitError1 = fetcher.fetchDataSince(null);
 

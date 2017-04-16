@@ -2,6 +2,7 @@ package com.philips.platform.core.monitors;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SyncType;
@@ -13,12 +14,13 @@ import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
-import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
+import com.philips.platform.core.events.FetchInsightsResponse;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.MomentsUpdateRequest;
+import com.philips.platform.core.events.SettingsBackendSaveResponse;
 import com.philips.platform.core.events.SyncBitUpdateRequest;
 import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
 import com.philips.platform.core.injection.AppComponent;
@@ -26,9 +28,9 @@ import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSegregator;
+import com.philips.platform.datasync.insights.InsightSegregator;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 import com.philips.testing.verticals.datatyes.MomentType;
-import com.philips.testing.verticals.table.OrmConsentDetail;
 import com.philips.testing.verticals.table.OrmMoment;
 import com.philips.testing.verticals.table.OrmMomentType;
 
@@ -47,9 +49,6 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * Created by sangamesh on 01/12/16.
- */
 public class UpdatingMonitorTest {
 
     @Mock
@@ -120,6 +119,12 @@ public class UpdatingMonitorTest {
     @Mock
     private SyncBitUpdateRequest synBitUpdateRequest;
 
+    @Mock
+    Insight insightMock;
+
+    @Mock
+    InsightSegregator insightSegregatorMock;
+
     @Before
     public void setUp() {
         initMocks(this);
@@ -128,6 +133,7 @@ public class UpdatingMonitorTest {
         mDataServices.registerDBChangeListener(dbChangeListener);
         updatingMonitor = new UpdatingMonitor(dbUpdatingInterface, dbDeletingInterface, dbFetchingInterface);
         updatingMonitor.momentsSegregator = momentsSegregatorMock;
+        updatingMonitor.insightSegregator = insightSegregatorMock;
         updatingMonitor.mUserCharacteristicsSegregator = userCharacteristicsSegregator;
         updatingMonitor.start(eventingMock);
     }
@@ -296,4 +302,65 @@ public class UpdatingMonitorTest {
         verify(dbUpdatingInterface).updateSettings(settingsMock, null);
     }
 
+    @Test
+    public void shouldUpdateSettings_whenupdateSyncBitFailedWithException() throws Exception {
+        when(databaseSettingsUpdateRequestMock.getSettings()).thenReturn(settingsMock);
+        doThrow(SQLException.class).when(dbUpdatingInterface).updateSyncBit(SyncType.CHARACTERISTICS.getId(), true);
+        updatingMonitor.onEventBackGround(new SyncBitUpdateRequest(SyncType.CHARACTERISTICS,true));
+        verify(dbUpdatingInterface).updateSyncBit(SyncType.CHARACTERISTICS.getId(), true);
+    }
+
+    @Test
+    public void shouldUpdateSettings_whenupdateSyncBit_success() throws Exception {
+        when(databaseSettingsUpdateRequestMock.getSettings()).thenReturn(settingsMock);
+       // doThrow(SQLException.class).when(dbUpdatingInterface).updateSyncBit(SyncType.CHARACTERISTICS.getId(), true);
+        updatingMonitor.onEventBackGround(new SyncBitUpdateRequest(SyncType.CHARACTERISTICS,true));
+        verify(dbUpdatingInterface).updateSyncBit(SyncType.CHARACTERISTICS.getId(), true);
+    }
+
+    @Test
+    public void shouldUpdateSettings_whenIsSyncedFailedWithException() throws Exception {
+        when(databaseSettingsUpdateRequestMock.getSettings()).thenReturn(settingsMock);
+        when(dbFetchingInterface.isSynced(SyncType.SETTINGS.getId())).thenReturn(true);
+        doThrow(SQLException.class).when(dbUpdatingInterface).updateSettings(settingsMock,null);
+        updatingMonitor.onEventBackGround(new SettingsBackendSaveResponse(settingsMock));
+        verify(dbUpdatingInterface).updateSettings(settingsMock, null);
+    }
+
+    @Test
+    public void shouldUpdateSettings_whenIsSyncedSuccess() throws Exception {
+        when(databaseSettingsUpdateRequestMock.getSettings()).thenReturn(settingsMock);
+        when(dbFetchingInterface.isSynced(SyncType.SETTINGS.getId())).thenReturn(true);
+      //  doThrow(SQLException.class).when(dbUpdatingInterface).updateSettings(settingsMock,null);
+        updatingMonitor.onEventBackGround(new SettingsBackendSaveResponse(settingsMock));
+        verify(dbUpdatingInterface).updateSettings(settingsMock, null);
+    }
+
+    @Test
+    public void shouldUpdateSettings_whenprocessInsightsFailsWithException() throws Exception {
+        List<Insight> insights = new ArrayList<>();
+        insights.add(insightMock);
+        doThrow(SQLException.class).when(insightSegregatorMock).processInsights(insights,dbRequestListener);
+        updatingMonitor.onEventBackGround(new FetchInsightsResponse(insights,dbRequestListener));
+        verify(insightSegregatorMock).processInsights(insights,dbRequestListener);
+    }
+
+    @Test
+    public void shouldUpdateSettings_whenprocessInsightsSuccess() throws Exception {
+        List<Insight> insights = new ArrayList<>();
+        insights.add(insightMock);
+       // doThrow(SQLException.class).when(insightSegregatorMock).processInsights(insights,dbRequestListener);
+        updatingMonitor.onEventBackGround(new FetchInsightsResponse(insights,dbRequestListener));
+        verify(insightSegregatorMock).processInsights(insights,dbRequestListener);
+    }
+
+    @Test
+    public void shouldUpdateSettings_whenprocessInsightsSuccessWithRequestListenerNull() throws Exception {
+        DataServicesManager.getInstance().registerDBChangeListener(null);
+        List<Insight> insights = new ArrayList<>();
+        insights.add(insightMock);
+        // doThrow(SQLException.class).when(insightSegregatorMock).processInsights(insights,dbRequestListener);
+        updatingMonitor.onEventBackGround(new FetchInsightsResponse(insights,dbRequestListener));
+        verify(insightSegregatorMock).processInsights(insights,dbRequestListener);
+    }
 }

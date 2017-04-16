@@ -17,7 +17,6 @@ import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSender;
 import com.philips.platform.datasync.consent.ConsentDataSender;
-import com.philips.platform.datasync.insights.InsightClient;
 import com.philips.platform.datasync.insights.InsightDataSender;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.settings.SettingsDataSender;
@@ -47,10 +46,10 @@ public class DataPushSynchronise extends EventMonitor {
     UCoreAccessProvider accessProvider;
 
     @NonNull
-    private final List<? extends DataSender> senders;
+    protected List<? extends DataSender> senders;
 
     @NonNull
-    private Executor executor;
+    protected Executor executor;
 
     @Inject
     Eventing eventing;
@@ -76,12 +75,16 @@ public class DataPushSynchronise extends EventMonitor {
     @Inject
     UserCharacteristicsSender userCharacteristicsSender;
 
+    List<? extends DataSender> configurableSenders;
+
     DataServicesManager mDataServicesManager;
 
     public DataPushSynchronise(@NonNull final List<? extends DataSender> senders) {
         mDataServicesManager = DataServicesManager.getInstance();
         mDataServicesManager.getAppComponant().injectDataPushSynchronize(this);
         this.senders = senders;
+        executor = Executors.newFixedThreadPool(20);
+        configurableSenders = getSenders();
     }
 
     public void startSynchronise(final int eventId) {
@@ -133,8 +136,6 @@ public class DataPushSynchronise extends EventMonitor {
     private void startAllSenders(final GetNonSynchronizedDataResponse nonSynchronizedData) {
         DSLog.i(DSLog.LOG, "DataPushSynchronize startAllSenders");
 
-        List<? extends DataSender> configurableSenders = getSenders();
-
         if(configurableSenders.size()<=0){
             DSLog.i(DSLog.LOG, "In Data Push synchronize Zero Senders configured");
             synchronisationManager.dataSyncComplete();
@@ -142,7 +143,6 @@ public class DataPushSynchronise extends EventMonitor {
         }
 
         initPush(configurableSenders.size());
-        executor = Executors.newFixedThreadPool(20);
         for (final DataSender sender : configurableSenders) {
             executor.execute(new Runnable() {
                 @Override

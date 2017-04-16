@@ -44,12 +44,12 @@ public class UCoreAdapter {
     UserRegistrationInterface userRegistrationImpl;
 
     @NonNull
-    private final OkHttpClient okHttpClient;
+    protected OkHttpClient okHttpClient;
     private Context context;
     private String buildType;
 
     @NonNull
-    private final OkClientFactory okClientFactory;
+    protected OkClientFactory okClientFactory;
 
     @NonNull
     private final RestAdapter.Builder restAdapterBuilder;
@@ -128,7 +128,7 @@ public class UCoreAdapter {
         return String.format(APP_AGENT_HEADER_VALUE, versionName, buildType, getBuildTime());
     }
 
-    private String getBuildTime() {
+    protected String getBuildTime() {
         String buildTime;
         try {
             ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), 0);

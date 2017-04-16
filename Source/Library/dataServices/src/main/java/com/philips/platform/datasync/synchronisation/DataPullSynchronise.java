@@ -47,10 +47,10 @@ public class DataPullSynchronise {
     SynchronisationManager synchronisationManager;
 
     @NonNull
-    private Executor executor;
+    protected Executor executor;
 
     @NonNull
-    private final List<? extends DataFetcher> fetchers;
+    protected List<? extends DataFetcher> fetchers;
 
     @Inject
     MomentsDataFetcher momentsDataFetcher;
@@ -72,6 +72,7 @@ public class DataPullSynchronise {
 
     private volatile RetrofitError fetchResult;
 
+    List<? extends DataFetcher> configurableFetchers;
     @NonNull
     private final AtomicInteger numberOfRunningFetches = new AtomicInteger(0);
 
@@ -81,7 +82,9 @@ public class DataPullSynchronise {
     public DataPullSynchronise(@NonNull final List<? extends DataFetcher> fetchers) {
         mDataServicesManager = DataServicesManager.getInstance();
         mDataServicesManager.getAppComponant().injectDataPullSynchronize(this);
+        executor = Executors.newFixedThreadPool(20);
         this.fetchers = fetchers;
+        configurableFetchers = getFetchers();
     }
 
 
@@ -127,7 +130,7 @@ public class DataPullSynchronise {
         }
     }*/
 
-    private void preformFetch(final DataFetcher fetcher, final DateTime lastSyncDateTime, final int referenceId) {
+    protected void preformFetch(final DataFetcher fetcher, final DateTime lastSyncDateTime, final int referenceId) {
         DSLog.i(DSLog.LOG,"In Data Pull synchronize preformFetch");
         RetrofitError resultError = fetcher.fetchDataSince(lastSyncDateTime);
         updateResult(resultError);
@@ -180,7 +183,6 @@ public class DataPullSynchronise {
 
     private void fetchData(final DateTime lastSyncDateTime, final int referenceId) {
         DSLog.i(DSLog.LOG, "In Data Pull synchronize fetchData");
-        List<? extends DataFetcher> configurableFetchers = getFetchers();
 
         if(configurableFetchers.size()<=0){
             DSLog.i(DSLog.LOG, "In Data Pull synchronize Zero fetchers configured");
@@ -189,7 +191,6 @@ public class DataPullSynchronise {
         }
 
         initFetch(configurableFetchers.size());
-        executor = Executors.newFixedThreadPool(20);
         for (DataFetcher fetcher : configurableFetchers) {
             startFetching(lastSyncDateTime, referenceId, fetcher);
         }

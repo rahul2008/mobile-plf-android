@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
@@ -37,8 +38,8 @@ import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
-import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.FetchInsightsFromDB;
+import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
 import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
@@ -82,8 +83,6 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class DataServicesManager {
 
@@ -100,7 +99,7 @@ public class DataServicesManager {
 
     private DBChangeListener dbChangeListener;
 
-    private SynchronisationCompleteListener mSynchronisationCompleteListener;
+    protected SynchronisationCompleteListener mSynchronisationCompleteListener;
 
     public DBChangeListener getDbChangeListener() {
         return dbChangeListener;
@@ -269,11 +268,9 @@ public class DataServicesManager {
         mEventing.post(new DatabaseSettingsSaveRequest(settings, dbRequestListener));
     }
 
-
     public void updateUserSettings(Settings settings, DBRequestListener<Settings> dbRequestListener) {
         mEventing.post(new DatabaseSettingsUpdateRequest(settings, dbRequestListener));
     }
-
 
     @NonNull
     public Moment createMoment(@NonNull final String type) {
@@ -341,7 +338,6 @@ public class DataServicesManager {
         mEventing.post(new DeleteAllMomentsRequest(dbRequestListener));
     }
 
-
     private void prepareInjectionsGraph(Context context) {
         BackendModule backendModule = new BackendModule(new EventingImpl(new EventBus(), new Handler()), mDataCreater, userRegistrationInterface,
                 mDeletingInterface, mFetchingInterface, mSavingInterface, mUpdatingInterface,
@@ -378,7 +374,6 @@ public class DataServicesManager {
     public void saveUserCharacteristics(List<Characteristics> characteristicses, DBRequestListener<Characteristics> dbRequestListener) {
         mEventing.post(new UserCharacteristicsSaveRequest(characteristicses, dbRequestListener));
     }
-
 
     public void fetchUserCharacteristics(DBFetchRequestListner<Characteristics> dbFetchRequestListner) {
         mEventing.post(new LoadUserCharacteristicsRequest(dbFetchRequestListner));
@@ -469,7 +464,7 @@ public class DataServicesManager {
 
     public String fetchBaseUrlFromServiceDiscovery() {
 
-        if( mDataServicesBaseUrl != null)
+        if (mDataServicesBaseUrl != null)
             return mDataServicesBaseUrl;
 
         mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(DataServicesConstants.BASE_URL_KEY, new
@@ -514,4 +509,7 @@ public class DataServicesManager {
         return mDataServicesCoachingServiceUrl;
     }
 
+    public void setServiceDiscoveryInterface(final ServiceDiscoveryInterface serviceDiscoveryInterface) {
+        this.mServiceDiscoveryInterface = serviceDiscoveryInterface;
+    }
 }
