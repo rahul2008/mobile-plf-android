@@ -65,6 +65,46 @@ public class UCoreAccessProviderTest {
     }
 
     @Test
+    public void ShouldReturnValueFromFacade_WhenIsLoggedInIsCalled_User_null() {
+        uCoreAccessProvider.userRegistrationInterface = null;
+
+        boolean loggedIn = uCoreAccessProvider.isLoggedIn();
+
+        //verify(userRegistrationFacadeMock).isUserLoggedIn();
+        assertThat(loggedIn).isFalse();
+    }
+
+    @Test
+    public void ShouldReturnValueFromFacade_WhengetAccessTokenIsCalled_User_null() {
+        uCoreAccessProvider.userRegistrationInterface = null;
+
+        String token = uCoreAccessProvider.getAccessToken();
+
+        //verify(userRegistrationFacadeMock).isUserLoggedIn();
+        assertThat(token).isNull();
+    }
+
+    @Test
+    public void ShouldReturnValueFromFacade_WhengetUserIdIsCalled_User_null() {
+        uCoreAccessProvider.userRegistrationInterface = null;
+
+        String id = uCoreAccessProvider.getUserId();
+
+        //verify(userRegistrationFacadeMock).isUserLoggedIn();
+        assertThat(id).isNull();
+    }
+
+    @Test
+    public void ShouldReturnValueFromFacade_WhengetSubjectIdIsCalled_User_null() {
+        uCoreAccessProvider.userRegistrationInterface = null;
+
+        String id = uCoreAccessProvider.getSubjectId();
+
+        //verify(userRegistrationFacadeMock).isUserLoggedIn();
+        assertThat(id).isNull();
+    }
+
+    @Test
     public void ShouldReturnValueFromFacade_WhenGetAccessTokenIsCalled() {
         when(userRegistrationFacadeMock.getHSDPAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
 

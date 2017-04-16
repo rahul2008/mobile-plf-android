@@ -2,14 +2,9 @@ package com.philips.platform.core.datatypes;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Created by indrajitkumar on 09/12/16.
- */
 public class UserProfileTest {
 
 
