@@ -99,7 +99,7 @@ public class DataServicesManager {
 
     private DBChangeListener dbChangeListener;
 
-    private SynchronisationCompleteListener mSynchronisationCompleteListener;
+    protected SynchronisationCompleteListener mSynchronisationCompleteListener;
 
     public DBChangeListener getDbChangeListener() {
         return dbChangeListener;

@@ -10,9 +10,11 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
+import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
+import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.Settings;
@@ -22,15 +24,22 @@ import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
+import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
+import com.philips.platform.core.events.DeleteInsightFromDB;
 import com.philips.platform.core.events.Event;
+import com.philips.platform.core.events.FetchInsightsFromDB;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
+import com.philips.platform.core.events.MomentsDeleteRequest;
+import com.philips.platform.core.events.MomentsUpdateRequest;
+import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.injection.AppComponent;
+import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
@@ -56,7 +65,9 @@ import org.mockito.Spy;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.mock;
@@ -75,6 +86,9 @@ public class DataServicesManagerTest {
 
     @Mock
     DataSender dataSenderMock;
+
+    @Mock
+    SynchronisationCompleteListener synchronisationCompleteListenerMock;
 
     @Mock
     DataFetcher dataFetcherMock;
@@ -104,6 +118,9 @@ public class DataServicesManagerTest {
     private Event requestEventMock;
 
     @Mock
+    Insight insightMock;
+
+    @Mock
     private Moment momentMock;
 
     @Mock
@@ -116,6 +133,9 @@ public class DataServicesManagerTest {
 
     @Mock
     private MeasurementDetail measurementDetailMock;
+
+    @Mock
+    private MeasurementGroupDetail measurementGroupDetailMock;
 
     @Captor
     private ArgumentCaptor<MomentSaveRequest> momentSaveRequestCaptor;
@@ -139,7 +159,6 @@ public class DataServicesManagerTest {
     @Mock
     private ConsentDetail consentDetailMock;
 
-
     UCoreAccessProvider uCoreAccessProvider;
 
     @Mock
@@ -155,13 +174,22 @@ public class DataServicesManagerTest {
     DBRequestListener dbRequestListener;
 
     @Mock
+    Characteristics CharacteristicsMock;
+
+    @Mock
     DBFetchRequestListner dbFetchRequestListner;
 
     @Mock
     private AppComponent appComponantMock;
 
     @Mock
+    BaseAppDataCreator dataCreatorMock;
+
+    @Mock
     SynchronisationCompleteListener synchronisationCompleteListener;
+
+    @Mock
+    Settings settingsMock;
 
     @Before
     public void setUp() {
@@ -234,11 +262,10 @@ public class DataServicesManagerTest {
         verify(consentMock).addConsentDetails(consentDetail);
     }*/
 
-    //TODO: Spoorti -- Fix it later
-    /*@Test
+    @Test
     public void ShouldAddConcentDetail_WhenConsentIsNull() throws Exception {
-        tracker.createConsentDetail(null, TEST_CONSENT_DETAIL_TYPE, ConsentDetailStatusType.ACCEPTED, "fsdfsdf");
-    }*/
+        tracker.createConsentDetail("Phase", ConsentDetailStatusType.ACCEPTED, "2", "fsdfsdf");
+    }
 
     @Test
     public void ShouldPostSaveConsentEvent_WhenSaveConsentIsCalled() throws Exception {
@@ -334,5 +361,141 @@ public class DataServicesManagerTest {
     @Test
     public void handlePushNotificationPayloadTest() throws Exception {
         tracker.handlePushNotificationPayload(jsonObject);
+    }
+
+    @Test
+    public void Should_fetchAllMoment_called() throws Exception {
+        tracker.fetchAllMoment(dbFetchRequestListner);
+        verify(eventingMock).post(any(LoadMomentsRequest.class));
+    }
+
+    @Test
+    public void Should_createUserSettings_called() throws Exception {
+        Settings settings = tracker.createUserSettings("en_us", "metric");
+        assertThat(settings).isNotNull();
+        assertThat(settings).isInstanceOf(Settings.class);
+    }
+
+    @Test
+    public void Should_createsaveUserSettings_called() throws Exception {
+        tracker.saveUserSettings(settingsMock,dbRequestListener);
+        verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
+    }
+
+    @Test
+    public void Should_createMomentDetail_called() throws Exception {
+        tracker.mDataCreater = dataCreatorMock;
+        when(dataCreatorMock.createMomentDetail("Temperature",momentMock)).thenReturn(momentDetailMock);
+        MomentDetail detail = tracker.createMomentDetail("Temperature","23",momentMock);
+        //verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
+        assertThat(detail).isInstanceOf(MomentDetail.class);
+        assertThat(detail).isNotNull();
+    }
+
+    @Test
+    public void Should_createMeasurement_called() throws Exception {
+        tracker.mDataCreater = dataCreatorMock;
+        when(dataCreatorMock.createMeasurement("Temperature",measurementGroupMock)).thenReturn(measurementMock);
+        Measurement measurement = tracker.createMeasurement("Temperature","23","celcius",measurementGroupMock);
+        //verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
+        assertThat(measurement).isInstanceOf(Measurement.class);
+        assertThat(measurement).isNotNull();
+    }
+
+    @Test
+    public void Should_createMeasurementDetail_called() throws Exception {
+        tracker.mDataCreater = dataCreatorMock;
+        when(dataCreatorMock.createMeasurementDetail("Temperature",measurementMock)).thenReturn(measurementDetailMock);
+        MeasurementDetail measurementDetail = tracker.createMeasurementDetail("Temperature","23",measurementMock);
+        //verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
+        assertThat(measurementDetail).isInstanceOf(MeasurementDetail.class);
+        assertThat(measurementDetail).isNotNull();
+    }
+
+    @Test
+    public void Should_deleteMoment_called() throws Exception {
+        tracker.deleteMoment(momentMock,dbRequestListener);
+        verify(eventingMock).post(any(MomentDeleteRequest.class));
+    }
+
+    @Test
+    public void Should_deleteMoments_called() throws Exception {
+        List list = new ArrayList();
+        list.add(momentMock);
+        tracker.deleteMoments(list,dbRequestListener);
+        verify(eventingMock).post(any(MomentsDeleteRequest.class));
+    }
+
+    @Test
+    public void Should_updateMoments_called() throws Exception {
+        List list = new ArrayList();
+        list.add(momentMock);
+        tracker.updateMoments(list,dbRequestListener);
+        verify(eventingMock).post(any(MomentsUpdateRequest.class));
+    }
+
+    @Test
+    public void Should_deleteAll_called() throws Exception {
+        tracker.deleteAll(dbRequestListener);
+        verify(eventingMock).post(any(DataClearRequest.class));
+    }
+
+    @Test
+    public void Should_createMeasurementGroupDetail_called() throws Exception {
+        tracker.mDataCreater = dataCreatorMock;
+        when(dataCreatorMock.createMeasurementGroupDetail("Temperature",measurementGroupMock)).thenReturn(measurementGroupDetailMock);
+        MeasurementGroupDetail measurementGroupDetail = tracker.createMeasurementGroupDetail("Temperature","23",measurementGroupMock);
+        //verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
+        assertThat(measurementGroupDetail).isInstanceOf(MeasurementGroupDetail.class);
+        assertThat(measurementGroupDetail).isNotNull();
+    }
+
+    @Test
+    public void Should_saveUserCharacteristics_called() throws Exception {
+        List list = new ArrayList();
+        list.add(consentDetailMock);
+        tracker.saveUserCharacteristics(list,dbRequestListener);
+        verify(eventingMock).post(any(UserCharacteristicsSaveRequest.class));
+    }
+
+    @Test
+    public void Should_unRegisterDBChangeListener_called() throws Exception {
+        tracker.unRegisterDBChangeListener();
+        DBChangeListener dbChangeListener = DataServicesManager.getInstance().getDbChangeListener();
+        assertThat(dbChangeListener).isNull();
+    }
+
+    @Test
+    public void Should_registerSynchronisationCompleteListener_called() throws Exception {
+        tracker.registerSynchronisationCompleteListener(synchronisationCompleteListenerMock);
+        assertThat(DataServicesManager.getInstance().mSynchronisationCompleteListener).isInstanceOf(SynchronisationCompleteListener.class);
+    }
+
+    @Test
+    public void Should_saveMoments_called() throws Exception {
+        List list = new ArrayList();
+        list.add(momentMock);
+        tracker.saveMoments(list,dbRequestListener);
+        verify(eventingMock).post(any(UserCharacteristicsSaveRequest.class));
+    }
+
+    @Test
+    public void Should_unRegisterSynchronisationCosmpleteListener_called() throws Exception {
+        tracker.unRegisterSynchronisationCosmpleteListener();
+        assertThat(DataServicesManager.getInstance().mSynchronisationCompleteListener).isNull();
+    }
+
+    @Test
+    public void Should_fetchInsights_called() throws Exception {
+        tracker.fetchInsights(dbFetchRequestListner);
+        verify(eventingMock).post(any(FetchInsightsFromDB.class));
+    }
+
+    @Test
+    public void Should_deleteInsights_called() throws Exception {
+        List list = new ArrayList();
+        list.add(insightMock);
+        tracker.deleteInsights(list,dbRequestListener);
+        verify(eventingMock).post(any(DeleteInsightFromDB.class));
     }
 }
