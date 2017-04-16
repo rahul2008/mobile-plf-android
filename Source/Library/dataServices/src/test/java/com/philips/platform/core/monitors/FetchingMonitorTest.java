@@ -6,6 +6,7 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.events.Event;
+import com.philips.platform.core.events.FetchInsightsFromDB;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
@@ -280,5 +281,19 @@ public class FetchingMonitorTest {
         doThrow(SQLException.class).when(fetching).fetchConsentDetails(dbFetchRequestListner);
         fetchingMonitor.onEventAsync(new LoadConsentsRequest(dbFetchRequestListner));
         verify(fetching).fetchConsentDetails(dbFetchRequestListner);
+    }
+
+    @Test
+    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchActiveInsights() throws Exception {
+        doThrow(SQLException.class).when(fetching).fetchActiveInsights(dbFetchRequestListner);
+        fetchingMonitor.onEventAsync(new FetchInsightsFromDB(dbFetchRequestListner));
+        verify(fetching).fetchActiveInsights(dbFetchRequestListner);
+    }
+
+    @Test
+    public void ShouldPostExceptionEvent_When_fetchActiveInsights_success() throws Exception {
+       // doThrow(SQLException.class).when(fetching).fetchActiveInsights(dbFetchRequestListner);
+        fetchingMonitor.onEventAsync(new FetchInsightsFromDB(dbFetchRequestListner));
+        verify(fetching).fetchActiveInsights(dbFetchRequestListner);
     }
 }
