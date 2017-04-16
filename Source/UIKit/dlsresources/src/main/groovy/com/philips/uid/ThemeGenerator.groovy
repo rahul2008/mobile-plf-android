@@ -10,7 +10,7 @@ import groovy.xml.MarkupBuilder
 
 class ThemeGenerator {
 
-
+    def invalidComponentRefList = new ArrayList()
     def createThemeXml(
             def allBrushAttributes, def allComponentAttributes, def dataValidationThemeValues) {
         def colorsXmlInput = new XmlParser().parseText(new File(DLSResourceConstants.PATH_OUT_COLORS_FILE).text)
@@ -35,7 +35,7 @@ class ThemeGenerator {
                 themeFile.createNewFile()
                 themeFile.write(writer.toString())
         }
-
+        println("Invalid component reference for " + invalidComponentRefList.toSet())
     }
 
     def buildThemeColorLevelMapping(xml, colorName) {
@@ -82,9 +82,14 @@ class ThemeGenerator {
                 }
             }
 
+
             allComponentAttributes.each {
                 if (BrushParser.isSupportedAction(it.attrName)) {
-                    item("${DLSResourceConstants.ITEM_NAME}": it.attrName, it.attributeMap.get(it.attrName).getAttributeValue(allBrushAttributes))
+                    def reference = it.attributeMap.get(it.attrName).getAttributeValue(allBrushAttributes)
+                    if (reference == "@null") {
+                        invalidComponentRefList.add(it.attrName)
+                    }
+                    item("${DLSResourceConstants.ITEM_NAME}": it.attrName, reference)
                 }
             }
         }
