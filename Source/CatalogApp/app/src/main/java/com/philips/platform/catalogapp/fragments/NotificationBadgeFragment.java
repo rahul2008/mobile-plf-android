@@ -33,7 +33,7 @@ public class NotificationBadgeFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         notificationBadgeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_notification_badge, container, false);
         notificationBadgeBinding.setFragment(this);
-        mDefaultText= (NotificationBadge) notificationBadgeBinding.getRoot().findViewById(R.id.uid_text_deafult);
+        mDefaultText= (NotificationBadge) notificationBadgeBinding.getRoot().findViewById(R.id.uid_text_default);
         mSmallText= (NotificationBadge) notificationBadgeBinding.getRoot().findViewById(R.id.uid_text_small);
         mEnterNumber= (EditText) notificationBadgeBinding.getRoot().findViewById(R.id.edit_input_number);
         mDefaultText.setVisibility(View.INVISIBLE);

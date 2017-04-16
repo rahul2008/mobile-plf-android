@@ -6,24 +6,26 @@
     android:layout_height="wrap_content">
 
 
-    <ImageView
-        android:id="@+id/imageView2"
+    <com.philips.platform.uid.view.widget.ImageButton
+        android:id="@+id/uid_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="12dp"
         android:layout_marginTop="12dp"
-        android:background="@drawable/mail"
+        android:gravity="center|center_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_constraintLeft_creator="1" />
+        android:text="E-mail"/>
+
 
     <com.philips.platform.uid.view.widget.NotificationBadge
-        android:id="@+id/uid_text_deafult"
-        style="@style/NotificationLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/uid_text_default"
+        style="@style/NotificationLabel"
         android:gravity="center|center_horizontal"
         android:textColor="@color/uidColorWhite"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+  />
 </android.support.constraint.ConstraintLayout>

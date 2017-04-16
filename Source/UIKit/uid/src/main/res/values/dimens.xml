@@ -220,4 +220,9 @@
     <integer name="uid_notification_badge_view_small_size_radius">10</integer>
     <integer name="uid_notification_badge_view_default_size_radius">12</integer>
 
+    <dimen name="uid_notification_badge_default_view_margin_top">12dp</dimen>
+    <dimen name="uid_notification_badge_default_view_margin_right">12dp</dimen>
+    <dimen name="uid_notification_badge_small_view_margin_top">10dp</dimen>
+    <dimen name="uid_notification_badge_small_view_margin_right">10dp</dimen>
+
 </resources>

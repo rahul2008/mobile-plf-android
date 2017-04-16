@@ -14,6 +14,7 @@ import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.internal.util.Checks;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.philips.platform.uid.utils.UIDTestUtils;
@@ -299,4 +300,25 @@ public class TextViewPropertiesMatchers {
             }
         };
     }
+    public static Matcher<View> isSameTopMargin(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+                setValues(lp.topMargin, expectedValue);
+                return areEqual();
+            }
+        };
+    }
+    public static Matcher<View> isSameRightMargin(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+                setValues(lp.getMarginEnd(), expectedValue);
+                return areEqual();
+            }
+        };
+    }
+
 }

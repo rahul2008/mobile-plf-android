@@ -6,13 +6,12 @@
     android:layout_height="wrap_content">
 
 
-    <com.philips.platform.uid.view.widget.ImageButton
-        android:id="@+id/uid_email"
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/uid_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="12dp"
         android:layout_marginTop="12dp"
-        android:gravity="center|center_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -22,8 +21,8 @@
     <com.philips.platform.uid.view.widget.NotificationBadge
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/uid_text_small"
-        style="@style/NotificationLabel.Small"
+        android:id="@+id/uid_text_default"
+        style="@style/NotificationLabel"
         android:gravity="center|center_horizontal"
         android:textColor="@color/uidColorWhite"
         app:layout_constraintRight_toRightOf="parent"
