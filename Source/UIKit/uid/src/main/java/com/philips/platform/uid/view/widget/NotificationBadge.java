@@ -161,7 +161,7 @@ public class NotificationBadge extends AppCompatTextView {
             if (badgeNumber.equals("0")||badgeNumber.equals("")) {
                 setVisibility(INVISIBLE);
             } else {
-                if (badgeNumber.length() >= 4) {
+                if (badgeNumber.length() >= 5) {
                     setVisibility(VISIBLE);
                     setText("9999+");
                 } else {
