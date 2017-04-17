@@ -445,23 +445,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 View acceptTermsLine = view.findViewById(R.id.reg_view_accep_terms_line);
                 acceptTermsLine.setVisibility(View.GONE);
                 mLlAcceptTermsContainer.setVisibility(View.GONE);
+                setAcceptanceUI(view);
             } else {
-                final UIFlow abStrings = RegUtility.getUiFlow();
-                if (abStrings.equals(UIFlow.FLOW_A)) {
-                    RLog.d(RLog.AB_TESTING, "UI Flow Type A");
-                    mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
-                    mJoinNow.setVisibility(View.GONE);
-                 } else if (abStrings.equals(UIFlow.FLOW_B)) {
-                    RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-                    mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
-                    mLlPeriodicOffersCheck.setVisibility(View.GONE);
-                    view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.GONE);
-                    mJoinNow.setVisibility(View.GONE);
-                   } else if (abStrings.equals(UIFlow.FLOW_C)) {
-                    RLog.d(RLog.AB_TESTING, "UI Flow Type C");
-                    mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
-                    mJoinNow.setVisibility(View.VISIBLE);
-                   }
+                setAcceptanceUI(view);
             }
         } else {
             View acceptTermsLine = view.findViewById(R.id.reg_view_accep_terms_line);
@@ -475,6 +461,23 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             view.findViewById(R.id.tv_join_now).setVisibility(View.GONE);
 
         }
+    }
+
+    private void setAcceptanceUI(View view) {
+        final UIFlow abStrings = RegUtility.getUiFlow();
+        if (abStrings.equals(UIFlow.FLOW_A)) {
+            RLog.d(RLog.AB_TESTING, "UI Flow Type A");
+            mJoinNow.setVisibility(View.GONE);
+        } else if (abStrings.equals(UIFlow.FLOW_B)) {
+            RLog.d(RLog.AB_TESTING, "UI Flow Type B");
+            mLlPeriodicOffersCheck.setVisibility(View.GONE);
+            view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.GONE);
+            mJoinNow.setVisibility(View.GONE);
+        } else if (abStrings.equals(UIFlow.FLOW_C)) {
+            RLog.d(RLog.AB_TESTING, "UI Flow Type C");
+            mJoinNow.setVisibility(View.VISIBLE);
+        }
+        mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
     }
 
     private void updateUiStatus(Boolean isNetwork) {

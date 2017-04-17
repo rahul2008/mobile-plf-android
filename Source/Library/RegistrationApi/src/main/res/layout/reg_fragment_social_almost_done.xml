@@ -136,6 +136,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/reg_btn_height"
                 android:orientation="horizontal"
+                android:paddingTop="@dimen/reg_btn_padding_top"
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin">
 
