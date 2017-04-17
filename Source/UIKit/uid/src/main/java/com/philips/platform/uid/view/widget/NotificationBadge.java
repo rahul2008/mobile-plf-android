@@ -9,82 +9,71 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatTextView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TabWidget;
-import android.widget.TextView;
 
 import com.philips.platform.uid.R;
 
-public class NotificationBadge extends TextView {
+public class NotificationBadge extends AppCompatTextView {
 
     private final Resources resources;
-    private int DEFAULT_BADGE_COLOR;
-    private boolean isSmallSize;
+    private int badgeBackgroundColor;
+    private Drawable roundRectDrawable;
+    private Drawable circleDrawable;
 
     public NotificationBadge(Context context) {
-        this(context, (AttributeSet) null, android.R.attr.textViewStyle);
+        this(context, null);
     }
 
     public NotificationBadge(Context context, AttributeSet attrs) {
         this(context, attrs, android.R.attr.textViewStyle);
     }
 
-    public NotificationBadge(Context context, View target) {
-        this(context, null, android.R.attr.textViewStyle, target, 0);
-    }
-
-    public NotificationBadge(Context context, TabWidget target, int index) {
-        this(context, null, android.R.attr.textViewStyle, target, index);
-    }
-
     public NotificationBadge(Context context, AttributeSet attrs, int defStyle) {
-        this(context, attrs, defStyle, null, 0);
-    }
-
-    @SuppressWarnings("deprecation")
-    //we need to support API lvl 14+, so cannot change to context.getColor(): sticking with deprecated API for now
-    public NotificationBadge(Context context, AttributeSet attrs, int defStyle, View target, int tabIndex) {
         super(context, attrs, defStyle);
-        validateIsSmallView(attrs, getContext());
-        resources = getResources();
-        DEFAULT_BADGE_COLOR = resources.getColor(R.color.uidColorRed);
+
+        resources = context.getResources();
+        badgeBackgroundColor = ContextCompat.getColor(getContext(), R.color.uidColorRed);
+        roundRectDrawable = getSquareRoundBackground(isSmallBadge(attrs, getContext()));
+        circleDrawable = getCircleBackground(isSmallBadge(attrs, getContext()));
 
         if (getText().length() > 2)
-            setBackgroundDrawable(getSquareRoundBackground());
+            setBackgroundDrawable(roundRectDrawable);
         else
-            setBackgroundDrawable(getCircleBackground());
+            setBackgroundDrawable(circleDrawable);
 
         setGravity(Gravity.CENTER);
         handleTextChangeListener();
-        setTextColor(resources.getColor(android.R.color.white));
+        setTextColor(ContextCompat.getColor(getContext(), android.R.color.white));
     }
 
-    private void applyTo(View target, int width, int height) {
-        ViewGroup.LayoutParams lp = target.getLayoutParams();
+    private void applyLayoutParams(int width, int height) {
+        ViewGroup.LayoutParams lp = getLayoutParams();
         if (lp == null)
             lp = new ViewGroup.LayoutParams(width, height);
 
-        target.setMinimumHeight(height);
-        target.setMinimumWidth(width);
-        target.setLayoutParams(lp);
+        setMinimumHeight(height);
+        setMinimumWidth(width);
+        setLayoutParams(lp);
     }
 
 
-    private void validateIsSmallView(AttributeSet attrs, Context context) {
-        final TypedArray a = context.obtainStyledAttributes(
-                attrs, R.styleable.notification_badge, 0, 0);
-        isSmallSize = a.getBoolean(R.styleable.notification_badge_uid_notification_badge_small, false);
+    private boolean isSmallBadge(AttributeSet attrs, Context context) {
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.notification_badge, 0, 0);
+        boolean smallBadge = a.getBoolean(R.styleable.notification_badge_uid_notification_badge_small, false);
         a.recycle();
+        return smallBadge;
     }
 
 
@@ -107,53 +96,44 @@ public class NotificationBadge extends TextView {
         });
     }
 
-    @SuppressWarnings("deprecation")
-    //we need to support API lvl 14+, so cannot change to setBackgroundDrawable(): sticking with deprecated API for now
     private void validateView(CharSequence s) {
         if (s.length() > 2) {
-            setBackgroundDrawable(getSquareRoundBackground());
+            setBackgroundDrawable(roundRectDrawable);
         } else {
-            setBackgroundDrawable(getCircleBackground());
+            setBackgroundDrawable(circleDrawable);
         }
     }
 
     @NonNull
-    private ShapeDrawable getSquareRoundBackground() {
-        int r;
-        if (isSmallSize)
-            r = dipToPixels(resources.getInteger(R.integer.uid_notification_badge_view_small_size_radius));
+    private ShapeDrawable getSquareRoundBackground(boolean smallBadge) {
+        int radius;
+        if (smallBadge)
+            radius = dipToPixels(resources.getInteger(R.integer.uid_notification_badge_view_small_size_radius));
         else
-            r = dipToPixels(resources.getInteger(R.integer.uid_notification_badge_view_default_size_radius));
+            radius = dipToPixels(resources.getInteger(R.integer.uid_notification_badge_view_default_size_radius));
 
-        float[] outerR = new float[]{r, r, r, r, r, r, r, r};
+        float[] outerR = new float[]{radius, radius, radius, radius, radius, radius, radius, radius};
         RoundRectShape roundRectShape = new RoundRectShape(outerR, null, null);
-        ShapeDrawable shapeDrawable = setSquareParams(roundRectShape);
-        return shapeDrawable;
-    }
 
-    @NonNull
-    private ShapeDrawable setSquareParams(RoundRectShape roundRectShape) {
         ShapeDrawable shapeDrawable = new ShapeDrawable(roundRectShape);
-        shapeDrawable.getPaint().setColor(DEFAULT_BADGE_COLOR);
-                applyTo(this, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                int padding = (int) resources.getDimension(R.dimen.uid_notification_badge_square_round_padding);
-                setPadding(padding
-                        , 0, padding, 0);
+        shapeDrawable.getPaint().setColor(badgeBackgroundColor);
+        applyLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
+        int padding = (int) resources.getDimension(R.dimen.uid_notification_badge_square_round_padding);
+        setPadding(padding, 0, padding, 0);
 
         return shapeDrawable;
     }
 
     @NonNull
-    private ShapeDrawable getCircleBackground() {
+    private ShapeDrawable getCircleBackground(boolean smallBadge) {
         ShapeDrawable shapeDrawable = new ShapeDrawable(new OvalShape());
         shapeDrawable.setPadding(0, 0, 0, 0);
         final Paint paint = shapeDrawable.getPaint();
-        paint.setColor(DEFAULT_BADGE_COLOR);
+        paint.setColor(badgeBackgroundColor);
         paint.setAntiAlias(true);
-        int defaultWidth;
-        int defaultHeight;
-        if (isSmallSize) {
+        int defaultWidth, defaultHeight;
+        if (smallBadge) {
             defaultWidth = (int) resources.getDimension(R.dimen.uid_notification_badeg_small_circle_radius);
             defaultHeight = (int) resources.getDimension(R.dimen.uid_notification_badeg_small_circle_radius);
 
@@ -161,7 +141,7 @@ public class NotificationBadge extends TextView {
             defaultWidth = (int) resources.getDimension(R.dimen.uid_notification_badge_default_radius);
             defaultHeight = (int) resources.getDimension(R.dimen.uid_notification_badge_default_radius);
         }
-        applyTo(this, defaultWidth, defaultHeight);
+        applyLayoutParams(defaultWidth, defaultHeight);
         return shapeDrawable;
     }
 
@@ -169,5 +149,4 @@ public class NotificationBadge extends TextView {
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dip, resources.getDisplayMetrics());
         return (int) px;
     }
-
 }
