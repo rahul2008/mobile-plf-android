@@ -130,13 +130,13 @@ android {
         release
     }
     compileSdkVersion 24
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '25.0.2'
 
 
     defaultConfig {
         applicationId "com.philips.cdp.registration"
         minSdkVersion 19
-        targetSdkVersion 24
+        targetSdkVersion 25
 
         multiDexEnabled true
         testApplicationId "com.philips.cdp.registration.test"
