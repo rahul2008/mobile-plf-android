@@ -71,6 +71,9 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
 
     private static UserRegistrationUIEventListener userRegistrationUIEventListener;
 
+    RegistrationContentConfiguration registrationContentConfiguration ;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -78,6 +81,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         final Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             mRegistrationLaunchMode = (RegistrationLaunchMode) bundle.get(RegConstants.REGISTRATION_LAUNCH_MODE);
+            registrationContentConfiguration = (RegistrationContentConfiguration) bundle.get(RegConstants.REGISTRATION_CONTENT_CONFIG);
             isParentalConsent = bundle.getBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, false);
             final int sOrientation = bundle.getInt(RegConstants.ORIENTAION, -1);
             setOrientation(sOrientation);
@@ -191,7 +195,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         urLaunchInput = new CoppaLaunchInput();
         urLaunchInput.setEndPointScreen(launchMode);
         urLaunchInput.setParentalFragment(isParentalConsent);
-        urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
+        urLaunchInput.setRegistrationContentConfiguration(registrationContentConfiguration);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         urLaunchInput.setUserRegistrationUIEventListener(RegistrationCoppaActivity.
                 getUserRegistrationUIEventListener());
@@ -259,25 +263,5 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
     @Override
     public void updateActionBar(String s, boolean b) {
 
-    }
-    RegistrationContentConfiguration registrationContentConfiguration ;
-
-    public RegistrationContentConfiguration getRegistrationContentConfiguration() {
-        String valueForRegistration= "sample";
-        String valueForEmailVerification="sample";
-        String optInTitleText=getResources().getString(R.string.reg_Opt_In_Be_The_First);
-        String optInQuessionaryText=getResources().getString(R.string.reg_Opt_In_What_Are_You_Going_To_Get);
-        String optInDetailDescription=getResources().getString(R.string.reg_Opt_In_Special_Offers);
-        String optInBannerText=getResources().getString(R.string.reg_Opt_In_Join_Now);
-        String optInTitleBarText=getResources().getString(R.string.reg_RegCreateAccount_NavTitle);
-        registrationContentConfiguration = new RegistrationContentConfiguration();
-        registrationContentConfiguration.setValueForRegistration(valueForRegistration);
-        registrationContentConfiguration.setValueForEmailVerification(valueForEmailVerification);
-        registrationContentConfiguration.setOptInTitleText(optInTitleText);
-        registrationContentConfiguration.setOptInQuessionaryText(optInQuessionaryText);
-        registrationContentConfiguration.setOptInDetailDescription(optInDetailDescription);
-        registrationContentConfiguration.setOptInBannerText(optInBannerText);
-        registrationContentConfiguration.setOptInActionBarText(optInTitleBarText);
-        return registrationContentConfiguration;
     }
 }

@@ -312,10 +312,11 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     @Override
     public String getTitleResourceText() {
+        String titleResourceText = null;
         if (getRegistrationFragment().getContentConfiguration() != null) {
-            return getRegistrationFragment().getContentConfiguration().getOptInActionBarText();
+            titleResourceText = getRegistrationFragment().getContentConfiguration().getOptInActionBarText();
         }
-        return null;
+        return titleResourceText;
     }
 
 
