@@ -42,8 +42,7 @@ public class AppConfiguration extends BaseConfiguration {
     }
 
     public String getRegistrationEnvironment() {
-        Object registrationEnvironmentObject = appInfraWrapper.getAppInfraProperty(REGISTRATION_ENVIRONMENT);
-        return getConfigPropertyValue(registrationEnvironmentObject);
+        return appInfraWrapper.getAppState().toString();
     }
 
     public String getClientId(String environment) {
@@ -70,7 +69,7 @@ public class AppConfiguration extends BaseConfiguration {
 
     public List<String> getProvidersForCountry(String countryCode) {
         Object providersObject = appInfraWrapper.getURProperty(SIGNIN_PROVIDERS + countryCode);
-        if(providersObject != null) {
+        if (providersObject != null) {
             return (List<String>) providersObject;
         }
 

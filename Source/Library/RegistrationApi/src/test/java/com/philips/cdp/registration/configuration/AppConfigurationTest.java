@@ -4,6 +4,7 @@ import com.philips.cdp.registration.app.infra.AppInfraWrapper;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 
 import junit.framework.TestCase;
 
@@ -131,10 +132,20 @@ public class AppConfigurationTest extends TestCase {
     }
 
     @Test
-    public void testGetRegistrationEnvironment() throws Exception {
-        when(mockAppInfraWrapper.getAppInfraProperty(REGISTRATION_ENVIRONMENT)).thenReturn("environment");
+    public void testGetRegistrationEnvironment_Development() throws Exception {
+        when(mockAppInfraWrapper.getAppState()).thenReturn(AppIdentityInterface.AppState.DEVELOPMENT);
         String registrationEnvironment = appConfiguration.getRegistrationEnvironment();
-        assertEquals(registrationEnvironment, "environment");
+        assertEquals(registrationEnvironment, "DEVELOPMENT");
+    }
+
+    @Test
+    public void testGetRegistrationEnvironment_ThrowException() throws Exception {
+        when(mockAppInfraWrapper.getAppState()).thenThrow(new IllegalArgumentException("App state not configured"));
+        try {
+            String registrationEnvironment = appConfiguration.getRegistrationEnvironment();
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "App state not configured");
+        }
     }
 
     @Test
