@@ -22,6 +22,7 @@ import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.utils.UIDTestUtils;
+import com.philips.platform.uid.utils.UIDUtils;
 
 import org.junit.After;
 import org.junit.Ignore;
@@ -131,6 +132,7 @@ public class NavigationBarTest {
         setupUltralightTonalRangeActivity();
 
         int toolbarHeight = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.navigation_height);
+        UIDTestUtils.waitFor(resources, UIDTestUtils.UI_LOAD_WAIT_TIME_EXTRA);
 
         getNavigationBar().check(matches(ViewPropertiesMatchers.isSameViewHeight(toolbarHeight)));
     }

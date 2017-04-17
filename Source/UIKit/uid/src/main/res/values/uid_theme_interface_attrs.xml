@@ -136,11 +136,6 @@
     </declare-styleable>
 
     <declare-styleable name="UIDInputValidation">
-        <attr name="uidTextBoxValidationBackground" format="reference|color"/>
-        <attr name="uidTextBoxValidationBackgroundAlpha" format="reference|float"/>
-        <attr name="uidTextBoxValidationBorder" format="reference|color"/>
-        <attr name="uidTextBoxValidationText" format="reference|color"/>
-        <attr name="uidTextBoxValidationErrorColor" format="reference|color"/>
         <attr name="uidTextBoxValidationErrorDrawable" format="reference"/>
         <attr name="uidTextBoxValidationErrorText" format="reference|string"/>
     </declare-styleable>

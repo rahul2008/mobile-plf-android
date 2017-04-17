@@ -22,7 +22,7 @@ class BrushParser {
         def dataValidationThemeValues = new DataValidation().getAllAttributes(datavalidationMap)
 
         new AttributeGenerator().flushAttrsFile(allBrushAttributes, allComponentAttributes, dataValidationThemeValues)
-        new ThemeGenerator().createThemeXml(allBrushAttributes, allComponentAttributes)
+        new ThemeGenerator().createThemeXml(allBrushAttributes, allComponentAttributes, dataValidationThemeValues)
         new NavigationStyleCreator().create(allBrushAttributes, allComponentAttributes)
         new AccentRangeGenerator().generateAccentRanges()
     }
