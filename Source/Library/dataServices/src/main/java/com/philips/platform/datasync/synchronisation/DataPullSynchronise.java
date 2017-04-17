@@ -189,7 +189,7 @@ public class DataPullSynchronise {
             synchronisationManager.dataSyncComplete();
             return;
         }
-
+        executor = Executors.newFixedThreadPool(20);
         initFetch(configurableFetchers.size());
         for (DataFetcher fetcher : configurableFetchers) {
             startFetching(lastSyncDateTime, referenceId, fetcher);
