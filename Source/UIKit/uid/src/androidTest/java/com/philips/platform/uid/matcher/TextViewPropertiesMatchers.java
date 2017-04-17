@@ -320,5 +320,22 @@ public class TextViewPropertiesMatchers {
             }
         };
     }
-
+    public static Matcher<View> isSameStartPadding(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                setValues(view.getPaddingStart(), expectedValue);
+                return areEqual();
+            }
+        };
+    }
+    public static Matcher<View> isSameEndPadding(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                setValues(view.getPaddingEnd(), expectedValue);
+                return areEqual();
+            }
+        };
+    }
 }
