@@ -38,7 +38,7 @@ public class ValidationEditTextTest extends BaseTest{
 
     @Test
     public void verifyErrorTextBoxBoderColor() {
-        int expectedTextColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidTextBoxValidationBorder);
+        int expectedTextColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidTextBoxDefaultValidatedBorderColor);
         ValidationEditText validationEditText = new ValidationEditText(activity);
         validationEditText.setError(true);
         int[] attrs = {R.attr.state_error, android.R.attr.state_enabled, -android.R.attr.state_focused};
@@ -47,7 +47,7 @@ public class ValidationEditTextTest extends BaseTest{
 
     @Test
     public void verifyErrorTextBackgroundColor() {
-        int expectedTextColor = UIDTestUtils.getColorWithAlphaFromAttrs(activity, R.attr.uidTextBoxValidationBackground, R.attr.uidTextBoxValidationBackgroundAlpha);
+        int expectedTextColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidTextBoxDefaultValidatedBackgroundColor);
         ValidationEditText validationEditText = new ValidationEditText(activity);
         validationEditText.setError(true);
         int[] attrs = {R.attr.state_error, android.R.attr.state_enabled, -android.R.attr.state_focused};
@@ -56,7 +56,7 @@ public class ValidationEditTextTest extends BaseTest{
 
     @Test
     public void verifyEditErrorTextColor() {
-        int expectedTextColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidTextBoxValidationText);
+        int expectedTextColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidTextBoxDefaultValidatedTextColor);
         ValidationEditText validationEditText = new ValidationEditText(activity);
         validationEditText.setError(true);
         int[] attrs = {R.attr.state_error, android.R.attr.state_enabled, -android.R.attr.state_focused};
