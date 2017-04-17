@@ -3,6 +3,7 @@ package com.philips.cdp.registration.app.infra;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.appidentity.AppIdentityInterface.AppState;
 
 import static com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface.AppConfigurationError;
 
@@ -33,5 +34,14 @@ public class AppInfraWrapper {
     private Object getProperty(String key, String group) {
         Object property = appConfigurationInterface.getPropertyForKey(key, group, error);
         return property;
+    }
+
+    public AppState getAppState() {
+        try {
+            return appInfra.getAppIdentity().getAppState();
+        } catch (IllegalArgumentException illegalAppStateException) {
+            throw illegalAppStateException;
+        }
+
     }
 }
