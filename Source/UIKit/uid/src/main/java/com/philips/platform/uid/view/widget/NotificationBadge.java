@@ -134,8 +134,8 @@ public class NotificationBadge extends AppCompatTextView {
         paint.setAntiAlias(true);
         int defaultWidth, defaultHeight;
         if (smallBadge) {
-            defaultWidth = (int) resources.getDimension(R.dimen.uid_notification_badeg_small_circle_radius);
-            defaultHeight = (int) resources.getDimension(R.dimen.uid_notification_badeg_small_circle_radius);
+            defaultWidth = (int) resources.getDimension(R.dimen.uid_notification_badge_small_circle_radius);
+            defaultHeight = (int) resources.getDimension(R.dimen.uid_notification_badge_small_circle_radius);
 
         } else {
             defaultWidth = (int) resources.getDimension(R.dimen.uid_notification_badge_default_radius);
@@ -148,5 +148,31 @@ public class NotificationBadge extends AppCompatTextView {
     private int dipToPixels(int dip) {
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dip, resources.getDisplayMetrics());
         return (int) px;
+    }
+
+    /**
+     * Sets the number to Notification Badge.
+     *
+     * @param badgeNumber
+     */
+    public void setErrorMessage(CharSequence badgeNumber) {
+
+        if (badgeNumber != null) {
+            if (badgeNumber.equals("0")||badgeNumber.equals("")) {
+                setVisibility(INVISIBLE);
+            } else {
+                if (badgeNumber.length() >= 4) {
+                    setVisibility(VISIBLE);
+                    setText("9999+");
+                } else {
+                    setVisibility(VISIBLE);
+                    setText(badgeNumber);
+                }
+            }
+
+        } else {
+            setVisibility(INVISIBLE);
+        }
+
     }
 }

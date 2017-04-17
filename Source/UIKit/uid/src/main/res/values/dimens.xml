@@ -211,18 +211,14 @@
     <integer name="uid_notification_bar_line_space_multiplier">1</integer>
 
     <!--Notification Badge-->
+    <dimen name="uid_notification_badge_small_circle_radius">20dp</dimen>
     <dimen name="uid_notification_badge_default_radius">24dp</dimen>
     <dimen name="uid_notification_badge_square_round_padding">4dp</dimen>
-    <dimen name="uid_notification_badeg_small_circle_radius">20dp</dimen>
-    <dimen name="uid_notification_badge_small_square_round_textSize">10sp</dimen>
-    <dimen name="uid_notification_badge_default_square_round_textSize">12sp</dimen>
-    <dimen name="uid_notification_badge_default_circle_radius">24dp</dimen>
     <integer name="uid_notification_badge_view_small_size_radius">10</integer>
     <integer name="uid_notification_badge_view_default_size_radius">12</integer>
-
-    <dimen name="uid_notification_badge_default_view_margin_top">12dp</dimen>
-    <dimen name="uid_notification_badge_default_view_margin_right">12dp</dimen>
-    <dimen name="uid_notification_badge_small_view_margin_top">10dp</dimen>
-    <dimen name="uid_notification_badge_small_view_margin_right">10dp</dimen>
+    <dimen name="uid_notification_badge_small_square_round_textSize">10sp</dimen>
+    <dimen name="uid_notification_badge_default_square_round_textSize">12sp</dimen>
+    <dimen name="uid_notification_badge_default_view_margin_top_right">12dp</dimen>
+    <dimen name="uid_notification_badge_small_view_margin_top_right">10dp</dimen>
 
 </resources>

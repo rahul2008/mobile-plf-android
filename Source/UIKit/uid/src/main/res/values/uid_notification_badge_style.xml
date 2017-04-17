@@ -7,12 +7,12 @@
 
 <resources>
     <style name="NotificationLabel">
-        <item name="android:minHeight">@dimen/uid_notification_badge_default_circle_radius</item>
+        <item name="android:minHeight">@dimen/uid_notification_badge_default_radius</item>
         <item name="android:textSize">@dimen/uid_notification_badge_default_square_round_textSize</item>
     </style>
 
     <style name="NotificationLabel.Small">
-        <item name="android:minHeight">@dimen/uid_notification_badeg_small_circle_radius</item>
+        <item name="android:minHeight">@dimen/uid_notification_badge_small_circle_radius</item>
         <item name="android:textSize">@dimen/uid_notification_badge_small_square_round_textSize</item>
         <item name="uid_notification_badge_small">true</item>
     </style>
