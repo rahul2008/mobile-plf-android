@@ -91,8 +91,7 @@ public class LoggingActivity extends AppCompatActivity {
             }
         });
 
-        final CheckBox consoleLogEnabled =(CheckBox) findViewById(R.id.appInfraLogConsole);
-        final CheckBox fileLogEnabled =(CheckBox) findViewById(R.id.appInfraLogFile);
+
         final EditText eventText= (EditText) findViewById(R.id.appInfraLogEvent);
         final EditText msgText= (EditText) findViewById(R.id.appInfraLogMessage);
         final EditText logCount= (EditText) findViewById(R.id.appInfraLogCount);
@@ -111,16 +110,7 @@ public class LoggingActivity extends AppCompatActivity {
                         Toast.makeText(LoggingActivity.this, "Event name or message is not valid",
                                 Toast.LENGTH_SHORT).show();
                     } else {
-                        if (consoleLogEnabled.isChecked()) {
-                            AILoggingInterface.enableConsoleLog(true);
-                        } else {
-                            AILoggingInterface.enableConsoleLog(false);
-                        }
-                        if (fileLogEnabled.isChecked()) {
-                            AILoggingInterface.enableFileLog(true);
-                        } else {
-                            AILoggingInterface.enableFileLog(false);
-                        }
+
                         int totalLogCount = 1;
 
                         try {
