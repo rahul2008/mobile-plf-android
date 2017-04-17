@@ -41,7 +41,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/layout_margin_left_right"
-                        android:gravity="center_vertical|end" />
+                        android:gravity="center_vertical|end"
+                        android:onCheckedChanged="@{(v, isChecked) -> fragment.disabledAccentColor(isChecked)}"/>
                 </LinearLayout>
 
                 <com.philips.platform.uid.view.widget.Label
@@ -60,6 +61,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="50dp"
+                        android:enabled="@{fragment.disableEditBoxes? false: true}"
+
                         />
 
 
