@@ -32,8 +32,6 @@ public class AppInfraWrapper {
     }
 
     private Object getProperty(String key, String group) {
-       appInfra.getAppIdentity().getAppState();
-
         Object property = appConfigurationInterface.getPropertyForKey(key, group, error);
         return property;
     }
