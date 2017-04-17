@@ -5,6 +5,7 @@
  */
 package com.philips.platform.appinfra.securestorage;
 
+import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
@@ -432,7 +433,17 @@ public class SecureStorage implements SecureStorageInterface {
 
 	}
 
-	/**
+    @Override
+    public boolean deviceHasPasscode() {
+        if(mContext != null) {
+            KeyguardManager manager = (KeyguardManager)
+                    mContext.getSystemService(Context.KEYGUARD_SERVICE);
+            return manager.isKeyguardSecure();
+        }
+        return false;
+    }
+
+    /**
 	 * Checks if the device is rooted.
 	 *
 	 * @return <code>true</code> if the device is rooted, <code>false</code> otherwise.
