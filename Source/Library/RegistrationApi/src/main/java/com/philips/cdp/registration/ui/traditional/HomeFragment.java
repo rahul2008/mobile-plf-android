@@ -503,6 +503,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                         @Override
                         public void onError(ERRORVALUES errorvalues, String s) {
                             RLog.d(RLog.SERVICE_DISCOVERY,"errorvalues : " + errorvalues);
+                            hideProgressDialog();
                         }
                     });
         }
