@@ -151,6 +151,7 @@ public class DataPushSynchroniseTest {
         when(responseEventMock.getReferenceId()).thenReturn(TEST_REFERENCE_ID);
         dataPushSynchronise.onEventAsync(responseEventMock);
         runExecutor();
+        //TODO: Spoorti - Fix it and see what has to be verified
        // verify(synchronisationManagerMock).shutdownAndAwaitTermination(executorMock);
     }
 

@@ -225,6 +225,7 @@ public class DataPullSynchroniseTest {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         synchronise.startSynchronise(new DateTime(),2);
         runExecutor();
+        //TODO: Spoorti - Fix it and see what has to be verified
 //        verify(synchronisationManagerMock).shutdownAndAwaitTermination(executorMock);
     }
 
