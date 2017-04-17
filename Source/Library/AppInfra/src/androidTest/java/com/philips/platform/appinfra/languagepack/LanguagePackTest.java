@@ -262,20 +262,6 @@ public class LanguagePackTest extends MockitoTestCase {
         }
     }
 
-    public void testIsLanguagePackDownloadRequired() {
-        try {
-            Method method = mLanguagePackManager.getClass().getDeclaredMethod("isLanguagePackDownloadRequired", LanguagePackModel.class);
-            method.setAccessible(true);
-            LanguagePackModel defaultLocale = new LanguagePackModel();
-            defaultLocale.setLocale("en_GB");
-            defaultLocale.setUrl("https:\\/\\/hashim-rest.herokuapp.com\\/sd\\/dev\\/en_IN\\/appinfra\\/lp\\/en_GB.json");
-            defaultLocale.setVersion("1");
-            method.invoke(mLanguagePackManager, defaultLocale);
-//
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void testGetPreferredLocaleURL() {
         try {
