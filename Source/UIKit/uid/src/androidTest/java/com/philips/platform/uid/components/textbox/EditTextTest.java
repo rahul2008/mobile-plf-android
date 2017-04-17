@@ -108,7 +108,7 @@ public class EditTextTest {
 
     @Test
     public void verifyTextEditBoxHeight() {
-        waitFor(testResources, 750);
+        waitFor(testResources, UIDTestUtils.UI_LOAD_WAIT_TIME_EXTRA);
         int expectedHeight = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.edittext_height));
         getTextBox().check(matches(FunctionDrawableMatchers.isMinHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight, R.id.uid_texteditbox_fill_drawable)));
     }

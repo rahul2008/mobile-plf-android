@@ -12,6 +12,7 @@ import android.graphics.drawable.RippleDrawable;
 import com.philips.platform.uid.utils.UIDTestUtils;
 
 public class LollipopStateColors extends KitKatStateColors {
+    private static final String TINT_COLOR_FIELD = "mTint";
     private static final String COLOR_STATE_LIST = "mColorStateList";
     private static final String STROKE_COLOR_STATE_LIST = "mStrokeColorStateList";
 
@@ -22,6 +23,9 @@ public class LollipopStateColors extends KitKatStateColors {
     @Override
     public int getDefaultColor() {
         ColorStateList solidColors = (ColorStateList) GradientDrawableUtils.getField(constantState, getSolidColorStateListFiledName());
+        if (solidColors == null) {
+            solidColors = (ColorStateList) GradientDrawableUtils.getField(constantState, TINT_COLOR_FIELD);
+        }
         return solidColors.getDefaultColor();
     }
 
