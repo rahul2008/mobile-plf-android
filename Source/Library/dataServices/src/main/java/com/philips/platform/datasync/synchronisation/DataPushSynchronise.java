@@ -143,6 +143,7 @@ public class DataPushSynchronise extends EventMonitor {
         }
 
         initPush(configurableSenders.size());
+        executor = Executors.newFixedThreadPool(20);
         for (final DataSender sender : configurableSenders) {
             executor.execute(new Runnable() {
                 @Override
