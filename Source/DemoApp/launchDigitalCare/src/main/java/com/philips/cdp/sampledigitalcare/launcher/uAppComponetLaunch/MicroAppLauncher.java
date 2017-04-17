@@ -33,16 +33,22 @@ import com.philips.cdp.sampledigitalcare.DummyScreen;
 import com.philips.cdp.sampledigitalcare.adapter.Listener;
 import com.philips.cdp.sampledigitalcare.adapter.SampleAdapter;
 import com.philips.cdp.sampledigitalcare.adapter.SimpleItemTouchHelperCallback;
+import com.philips.cdp.sampledigitalcare.util.ThemeHelper;
 import com.philips.cdp.sampledigitalcare.util.ThemeUtil;
 import com.philips.cdp.sampledigitalcare.view.CustomDialog;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
+import com.shamanland.fonticon.FontIconTypefaceHolder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 //import com.philips.platform.appinfra.AppInfraSingleton;
 
@@ -73,9 +79,11 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
     private CcLaunchInput ccLaunchInput;
     private AppInfraInterface mAppInfraInterface;
     private ThemeUtil mThemeUtil;
+    private ThemeHelper themeHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        initTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_digital_care);
 
@@ -356,8 +364,9 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                 startActivity(new Intent(getApplicationContext(), MicroAppFragmentActivity.class));
                 break;
             case R.id.change_theme:
-                Resources.Theme theme = super.getTheme();
-                theme.applyStyle(mThemeUtil.getNextTheme(), true);
+                //Resources.Theme theme = super.getTheme();
+                //theme.applyStyle(mThemeUtil.getNextTheme(), true);
+                changeTheme();
                 relaunchActivity();
                 break;
 
@@ -384,12 +393,22 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         finish();
     }
 
-   /* private void setDigitalCareLocale(String language, String country) {
 
-        DigitalCareConfigManager.getInstance().setLocale(language, country);
+    protected  void initTheme(){
+        UIDHelper.injectCalligraphyFonts();
+        themeHelper = new ThemeHelper(this);
+        ThemeConfiguration config = themeHelper.getThemeConfig();
+        setTheme(themeHelper.getThemeResourceId());
+        UIDHelper.init(config);
+        FontIconTypefaceHolder.init(getAssets(),"digitalcarefonts/CCIcon.ttf");
+    }
 
+    protected void changeTheme(){
+        themeHelper.changeTheme();
+    }
 
-    }*/
-
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 }

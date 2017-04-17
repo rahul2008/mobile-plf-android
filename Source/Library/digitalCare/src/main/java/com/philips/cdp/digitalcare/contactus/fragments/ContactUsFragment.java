@@ -97,7 +97,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     private TextView mContactUsOpeningHours = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
-    private TextView mLeaveUsMsg = null;
+    //private TextView mLeaveUsMsg = null;
     private String mCdlsResponseStr = null;
     private ProgressDialog mPostProgress = null;
     private final Runnable mTwitteroAuthRunnable = new Runnable() {
@@ -132,7 +132,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         }
     };
     private Configuration config = null;
-    private View mSocialDivider = null;
+    //private View mSocialDivider = null;
     private int mSdkVersion;
     private Utils mUtils = null;
     private AlertDialog mAlertDialog = null;
@@ -172,7 +172,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         } catch (InflateException e) {
             DigiCareLogger.e(TAG, "UI Inflation error : " + e);
         }
-        mSocialDivider = mView.findViewById(R.id.socialDivider);
+        //mSocialDivider = mView.findViewById(R.id.socialDivider);
 
         return mView;
     }
@@ -200,8 +200,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 .findViewById(R.id.firstRowText);
         mSocialProviderParent = (LinearLayout) getActivity().findViewById(
                 R.id.contactUsSocialParent);
-        mLeaveUsMsg = (TextView) getActivity().findViewById(
-                R.id.leaveMsgTitle);
+        //mLeaveUsMsg = (TextView) getActivity().findViewById(
+          //      R.id.leaveMsgTitle);
 
                 // mFacebook.setOnClickListener(this);
 
@@ -213,8 +213,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         if(!Utils.isCountryChina()){
             createSocialProviderMenu();
         } else{
-            mSocialDivider.setVisibility(View.GONE);
-            mLeaveUsMsg.setVisibility(View.GONE);
+           // mSocialDivider.setVisibility(View.GONE);
+            //mLeaveUsMsg.setVisibility(View.GONE);
         }
 
 
@@ -306,7 +306,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
         if (titles.length() == 0) {
             mSocialProviderParent.setVisibility(View.GONE);
-            mSocialDivider.setVisibility(View.GONE);
+            //mSocialDivider.setVisibility(View.GONE);
         } else {
             for (int i = 0; i < titles.length(); i++) {
                 createButtonLayout(titles.getResourceId(i, 0), resources.getResourceId(i, 0));

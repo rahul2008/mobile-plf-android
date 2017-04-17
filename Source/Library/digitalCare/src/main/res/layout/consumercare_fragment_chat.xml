@@ -2,7 +2,7 @@
     android:id="@+id/chatScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent">
+    android:background="?attr/uidContentBackground">
 
     <LinearLayout
         android:id="@+id/chatNowParent"
@@ -24,13 +24,12 @@
                 <ImageView
                     android:id="@+id/chatnow_bg"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/chat_bg_height"
-                    android:contentDescription="@string/chat_desc" />
-
+                    android:layout_height="@dimen/chat_bg_height" />
+<!--
                 <TextView
                     android:id="@+id/helpText"
                     style="@style/chatNowHelpText"
-                    fontPath="digitalcarefonts/CentraleSans-Book.otf" />
+                    fontPath="digitalcarefonts/CentraleSans-Book.otf" />-->
             </FrameLayout>
         </LinearLayout>
 
@@ -40,10 +39,10 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/chatDesc"
-                style="@style/chatNowDesc"
-                fontPath="digitalcarefonts/CentraleSans-Book.otf"
+                style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+
                 android:text="@string/chat_desc" />
 
             <LinearLayout
@@ -54,16 +53,16 @@
                 android:orientation="vertical"
                 android:weightSum="1">
 
-                <Button
+                <com.philips.platform.uid.view.widget.Button
                     android:id="@+id/chatNow"
-                    style="@style/fontButton"
-                    fontPath="digitalcarefonts/CentraleSans-Bold.otf"
+                    style="@style/UIDImageTextButton.Center"
+
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
                     android:layout_weight="1"
                     android:text="@string/chat_now" />
 
-                <RelativeLayout
+                <!--<RelativeLayout
                     android:id="@+id/chatNoThanksParent"
                     style="@style/fontButton"
                     android:layout_marginLeft="@dimen/activity_margin"
@@ -78,7 +77,7 @@
                         android:layout_height="@dimen/support_btn_height"
                         android:layout_marginTop="0dp"
                         android:text="@string/cancel" />
-                </RelativeLayout>
+                </RelativeLayout>-->
 
             </LinearLayout>
 
@@ -90,6 +89,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:weightSum="2">
+<!--
 
                 <RelativeLayout
                     android:id="@+id/chatNoThanksParentLand"
@@ -108,11 +108,12 @@
                         android:layout_marginTop="0dp"
                         android:text="@string/cancel" />
                 </RelativeLayout>
+-->
 
-                <Button
+                <com.philips.platform.uid.view.widget.Button
                     android:id="@+id/chatNowLand"
-                    style="@style/fontButton"
-                    fontPath="digitalcarefonts/CentraleSans-Bold.otf"
+                    style="@style/UIDImageTextButton.Center"
+
                     android:layout_marginLeft="@dimen/activity_margin"
                     android:layout_marginRight="@dimen/activity_margin"
                     android:layout_weight="1"
