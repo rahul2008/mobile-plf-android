@@ -234,7 +234,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                             throw new IllegalArgumentException("Invalid Argument Exception");
                         } else {
 
-                            if (objectKey instanceof String && (value instanceof String || value instanceof Integer)) { // if keys are String and value are Integer OR String
+                            if (objectKey instanceof String && (value instanceof String || value instanceof Integer || value instanceof Boolean)) { // if keys are String and value are Integer OR String
                                 final JSONObject jsonObject = new JSONObject(object.toString());
                                 cocoJSONobject.put(key, jsonObject);
                             } else {
