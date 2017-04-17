@@ -864,6 +864,10 @@ public class SecureStorageTest extends MockitoTestCase {
         assertNotNull(mSecureStorage.getDeviceCapability());
     }
 
+    public void testdevicehaspasscode() {
+        assertNotNull(mSecureStorage.deviceHasPasscode());
+    }
+
     public void testByteDataEncryptionAndDecryption()throws Exception {
         SecureStorageInterface.SecureStorageError sse;
         sse = new SecureStorageInterface.SecureStorageError();

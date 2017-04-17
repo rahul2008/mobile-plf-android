@@ -45,4 +45,20 @@
         android:layout_below="@+id/createPaaasword"
         android:layout_margin="10dp"
         android:layout_toRightOf="@+id/devicecapable"/>
+
+    <TextView
+        android:id="@+id/devicelock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/devicecapable"
+        android:layout_margin="10dp"
+        android:text="Device Secured by Lock :"/>
+
+    <TextView
+        android:id="@+id/devicelockStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/devicecapable"
+        android:layout_margin="10dp"
+        android:layout_toRightOf="@+id/devicelock"/>
 </RelativeLayout>
