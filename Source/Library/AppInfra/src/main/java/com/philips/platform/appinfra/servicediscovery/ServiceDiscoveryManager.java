@@ -149,32 +149,53 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         final AISDResponse response = new AISDResponse(mAppInfra);
         ServiceDiscovery platformService = null, propositionService = null;
 
-        propositionService = downloadPropositionService();
-        if (propositionService != null && propositionService.isSuccess()) {
-            final String country = fetchFromSecureStorage(COUNTRY);
-            final String countrySource = fetchFromSecureStorage(COUNTRY_SOURCE);
-            if (country == null) {
-                if (countrySource == null) {
-                    countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
-                    saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
-                }
-                saveToSecureStore(propositionService.getCountry(), COUNTRY);
-            }
+        final AppConfigurationInterface.AppConfigurationError appConfigurationError = new AppConfigurationInterface
+                .AppConfigurationError();
+
+        final Object defPropositionEnabled = mAppInfra.getConfigInterface().getDefaultPropertyForKey
+                ("servicediscovery.propositionEnabled", "appinfra", appConfigurationError);
+
+
+        final Boolean propositionEnabled = (Boolean) mAppInfra.getConfigInterface()
+                .getPropertyForKey("servicediscovery.propositionEnabled", "appinfra",
+                        appConfigurationError);
+
+        if (defPropositionEnabled != null && !propositionEnabled) {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD Call", "Downloading from platform microsite id  and should return the URL's for Service id.  ");
             platformService = downloadPlatformService();
-        }
-        if (platformService != null && propositionService != null) {
-            if (propositionService.isSuccess() && platformService.isSuccess()) {
+            if (platformService.isSuccess()) {
                 response.setPlatformURLs(platformService);
-                response.setPropositionURLs(propositionService);
-            } else {
-                final ServiceDiscovery error = new ServiceDiscovery();
-                error.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "DOWNLOAD FAILED"));
-                error.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.SERVER_ERROR, "DOWNLOAD FAILED"));
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "DOWNLOAD FAILED");
+
             }
         } else {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call",
-                    "Download failed");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD Call", "Downloading from  both proposition microsite id and platform microsite id ");
+            propositionService = downloadPropositionService();
+            if (propositionService != null && propositionService.isSuccess()) {
+                final String country = fetchFromSecureStorage(COUNTRY);
+                final String countrySource = fetchFromSecureStorage(COUNTRY_SOURCE);
+                if (country == null) {
+                    if (countrySource == null) {
+                        countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
+                        saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
+                    }
+                    saveToSecureStore(propositionService.getCountry(), COUNTRY);
+                }
+                platformService = downloadPlatformService();
+            }
+            if (platformService != null && propositionService != null) {
+                if (propositionService.isSuccess() && platformService.isSuccess()) {
+                    response.setPlatformURLs(platformService);
+                    response.setPropositionURLs(propositionService);
+                } else {
+                    final ServiceDiscovery error = new ServiceDiscovery();
+                    error.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "DOWNLOAD FAILED"));
+                    error.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.SERVER_ERROR, "DOWNLOAD FAILED"));
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "DOWNLOAD FAILED");
+                }
+            } else {
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call",
+                        "Download failed");
+            }
         }
         return response;
     }
