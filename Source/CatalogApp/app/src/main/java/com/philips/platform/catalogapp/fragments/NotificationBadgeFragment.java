@@ -30,7 +30,7 @@ public class NotificationBadgeFragment extends BaseFragment {
     private NotificationBadge mSmallText;
     private EditText mEnterNumber;
     private FragmentNotificationBadgeBinding notificationBadgeBinding;
-    public ObservableBoolean accentColorSwitch = new ObservableBoolean(Boolean.FALSE);
+    public ObservableBoolean isAccentColorSwitch = new ObservableBoolean(Boolean.FALSE);
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,8 +68,7 @@ public class NotificationBadgeFragment extends BaseFragment {
 
     private void restoreStates(Bundle savedInstance) {
         if (savedInstance != null) {
-            disabledAccentColor(savedInstance.getBoolean("accentColorSwitch"));
-
+            setAccentColor(savedInstance.getBoolean("accentColorSwitch"));
         }
     }
 
@@ -82,16 +81,9 @@ public class NotificationBadgeFragment extends BaseFragment {
 
     @Override
     public void onSaveInstanceState(final Bundle outState) {
-        outState.putBoolean("accentColorSwitch", accentColorSwitch.get());
+        outState.putBoolean("accentColorSwitch", isAccentColorSwitch.get());
         super.onSaveInstanceState(outState);
     }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-    }
-
 
     @Override
     public void onDestroy() {
@@ -104,8 +96,8 @@ public class NotificationBadgeFragment extends BaseFragment {
         return R.string.page_title_notification_badge;
     }
 
-    public void disabledAccentColor(boolean toggle) {
-        accentColorSwitch.set(toggle);
+    public void setAccentColor(boolean toggle) {
+        isAccentColorSwitch.set(toggle);
         mDefaultText.setBackgroundResource(R.color.design_snackbar_background_color);
 
 
