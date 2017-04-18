@@ -29,7 +29,7 @@ public class SHNDeviceWrapper implements SHNDevice {
     private static Handler tempUserHandler;
     private final Handler internalHandler;
     private final Handler userHandler;
-    private final Set<SHNDeviceListener> shnDeviceListeners;
+    protected final Set<SHNDeviceListener> shnDeviceListeners;
     private final Set<DiscoveryListener> discoveryListeners;
 
     private final SHNDevice.SHNDeviceListener shnDeviceListener = new SHNDeviceListener() {
@@ -245,6 +245,7 @@ public class SHNDeviceWrapper implements SHNDevice {
     }
 
     @Override
+    @Deprecated
     public Set<SHNCapabilityType> getSupportedCapabilityTypes() {
         return shnDevice.getSupportedCapabilityTypes();
     }
@@ -255,6 +256,7 @@ public class SHNDeviceWrapper implements SHNDevice {
     }
 
     @Override
+    @Deprecated
     public SHNCapability getCapabilityForType(SHNCapabilityType type) {
         return shnDevice.getCapabilityForType(type);
     }
@@ -263,5 +265,9 @@ public class SHNDeviceWrapper implements SHNDevice {
     @Override
     public <T extends SHNCapability> T getCapability(@NonNull Class<T> type) {
         return shnDevice.getCapability(type);
+    }
+
+    public SHNDevice getInternalDevice() {
+        return shnDevice;
     }
 }
