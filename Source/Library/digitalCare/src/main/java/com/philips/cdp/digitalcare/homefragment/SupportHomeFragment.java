@@ -19,6 +19,8 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Looper;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -30,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.philips.cdp.digitalcare.ConsumerProductInfo;
@@ -49,8 +52,10 @@ import com.philips.cdp.digitalcare.prx.subcategorymodel.SubcategoryModel;
 import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cdp.digitalcare.request.RequestData;
 import com.philips.cdp.digitalcare.request.ResponseCallback;
+import com.philips.cdp.digitalcare.util.CommonRecyclerViewAdapter;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
+import com.philips.cdp.digitalcare.util.MenuItem;
 import com.philips.cdp.digitalcare.util.Utils;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
@@ -64,6 +69,8 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.cdp.uikit.UikitSpringBoardLayout;
+import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -91,8 +98,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     // private static boolean isProductSelectionFirstTime;
     private SharedPreferences prefs = null;
     private LinearLayout mOptionParent = null;
-    private UikitSpringBoardLayout mOptionContainer = null;
-    private FrameLayout.LayoutParams mParams = null;
+    private RecyclerView mOptionContainer = null;
+    private LinearLayout.LayoutParams mParams = null;
     private int ButtonMarginTop = 0;
     private int RegisterButtonMarginTop = 0;
     private boolean mIsFirstScreenLaunch = false;
@@ -289,9 +296,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
 
         mOptionParent = (LinearLayout) getActivity().findViewById(
                 R.id.optionParent);
-        mOptionContainer = (UikitSpringBoardLayout) getActivity().findViewById(
+        mOptionContainer = (RecyclerView) getActivity().findViewById(
                 R.id.optionContainer);
-        mParams = (FrameLayout.LayoutParams) mOptionParent.getLayoutParams();
+        mParams = (LinearLayout.LayoutParams) mOptionParent.getLayoutParams();
 
         if (getActivity() != null) {
             mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
@@ -986,22 +993,29 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     private void createMainMenu() {
         DigiCareLogger.i(TAG, "Dynamically creating the SupportScreen Buttons");
 
-        //Android OS issue so adding in try/catch control to this code snippet(Issue
-        // reproduce is very rare).
-        // java.lang.IllegalStateException:
-        //at android.support.v4.app.Fragment.getResources(Fragment.java:644)
-        try {
-            TypedArray titles = getResources().obtainTypedArray(R.array.main_menu_title);
-            TypedArray resources = getResources().obtainTypedArray(R.array.main_menu_resources);
-
-            for (int i = 0; i < titles.length(); i++) {
-                createButtonLayout(titles.getResourceId(i, 0), resources.getResourceId(i, 0));
-            }
-        } catch (IllegalStateException ie) {
-            Log.e(TAG, "Exception while generating SupportScreenButton : " + ie);
-        } finally {
-            setConfigurableButton();
+        final SupportHomeFragment context = this;
+        TypedArray titles = getResources().obtainTypedArray(R.array.main_menu_title);
+        TypedArray resources = getResources().obtainTypedArray(R.array.main_menu_resources);
+        ArrayList<MenuItem> menus = new ArrayList<>();
+        for (int i = 0; i < titles.length(); i++) {
+            menus.add(new MenuItem(resources.getResourceId(i, 0), titles.getResourceId(i, 0)));
         }
+
+        RecyclerView recyclerView = mOptionContainer;
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
+        recyclerView.setAdapter(new CommonRecyclerViewAdapter<MenuItem>(menus, R.layout.consumercare_icon_button) {
+            @Override
+            public void bindData(RecyclerView.ViewHolder holder, MenuItem item) {
+                View container = holder.itemView.findViewById(R.id.icon_button);
+                Label label = (Label) container.findViewById(R.id.icon_button_text);
+                label.setText(item.mText);
+                TextView icon = (TextView) container.findViewById(R.id.icon_button_icon);
+                icon.setText(item.mIcon);
+                container.setTag(getResources().getResourceEntryName(item.mText));
+                container.setOnClickListener(context);
+            }
+        });
     }
 
     @Override

@@ -16,7 +16,6 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -42,6 +41,8 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.view.widget.ImageButton;
+import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.shamanland.fonticon.FontIconTypefaceHolder;
 
 import java.util.ArrayList;
@@ -78,7 +79,6 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
     private CcSettings ccSettings;
     private CcLaunchInput ccLaunchInput;
     private AppInfraInterface mAppInfraInterface;
-    private ThemeUtil mThemeUtil;
     private ThemeHelper themeHelper;
 
     @Override
@@ -99,9 +99,6 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         mLaunchDigitalCare.setOnClickListener(this);
         mLaunchAsFragment.setOnClickListener(this);
         mChangeTheme.setOnClickListener(this);
-        mThemeUtil = new ThemeUtil(getApplicationContext().getSharedPreferences(
-                this.getString(R.string.app_name), Context.MODE_PRIVATE));
-
         // setting country spinner
         mCountry_spinner = (Spinner) findViewById(R.id.spinner2);
         mCountry = getResources().getStringArray(R.array.country);
@@ -191,9 +188,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         mRecyclerView.setAdapter(adapter);
         LinearLayoutManager layoutManager =new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
-        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
-                layoutManager.getOrientation());
-        mRecyclerView.addItemDecoration(mDividerItemDecoration);
+        mRecyclerView.addItemDecoration(new RecyclerViewSeparatorItemDecoration(mRecyclerView.getContext()));
         return adapter;
     }
 
@@ -320,7 +315,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                                 (com.philips.platform.uappframework.
                                         launcher.ActivityLauncher.
                                         ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
-                                        mThemeUtil.getCurrentTheme());
+                                        themeHelper.getThemeResourceId());
 
                 activityLauncher.setCustomAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
 
@@ -371,17 +366,6 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                 break;
 
         }
-    }
-
-    @Override
-    public Resources.Theme getTheme() {
-        Resources.Theme theme = super.getTheme();
-        if(mThemeUtil ==null){
-            mThemeUtil = new ThemeUtil(getApplicationContext().getSharedPreferences(
-                    this.getString(R.string.app_name), Context.MODE_PRIVATE));
-        }
-        theme.applyStyle(mThemeUtil.getCurrentTheme(), true);
-        return theme;
     }
 
     private void relaunchActivity() {

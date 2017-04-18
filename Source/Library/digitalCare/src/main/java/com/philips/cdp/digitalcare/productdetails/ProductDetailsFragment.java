@@ -26,6 +26,8 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -50,13 +52,21 @@ import com.android.volley.toolbox.Volley;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cdp.digitalcare.faq.fragments.FaqFragment;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
+import com.philips.cdp.digitalcare.listeners.PrxFaqCallback;
 import com.philips.cdp.digitalcare.listeners.PrxSummaryListener;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.prx.PrxWrapper;
+import com.philips.cdp.digitalcare.util.CommonRecyclerViewAdapter;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.digitalcare.util.MenuItem;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.datamodels.support.SupportModel;
+import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -75,7 +85,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private RelativeLayout mFirstContainer = null;
     private LinearLayout.LayoutParams mFirstContainerParams = null;
     private LinearLayout.LayoutParams mSecondContainerParams = null;
-    private LinearLayout mProdButtonsParent = null;
+    private RecyclerView mProdButtonsParent = null;
     private LinearLayout mProdVideoContainer = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
@@ -124,7 +134,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         super.onActivityCreated(savedInstanceState);
         mFirstContainer = (RelativeLayout) mActivity.findViewById(
                 R.id.toplayout);
-        mProdButtonsParent = (LinearLayout) mActivity.findViewById(
+        mProdButtonsParent = (RecyclerView) mActivity.findViewById(
                 R.id.prodbuttonsParent);
 
         mProdVideoContainer = (LinearLayout) mActivity.findViewById(
@@ -354,11 +364,31 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     }
 
     private void createProductDetailsMenu() {
-        TypedArray titles = getResources().obtainTypedArray(R.array.product_menu_title);
+        final ProductDetailsFragment context = this;
 
+        TypedArray titles = getResources().obtainTypedArray(R.array.product_menu_title);
+        ArrayList<MenuItem> menus = new ArrayList<>();
         for (int i = 0; i < titles.length(); i++) {
-            createButtonLayout(titles.getResourceId(i, 0));
+            menus.add(new MenuItem(R.drawable.consumercare_viewproduct_videorightarrow, titles.getResourceId(i, 0)));
         }
+
+        RecyclerView recyclerView = mProdButtonsParent;
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
+        recyclerView.setAdapter(new CommonRecyclerViewAdapter<MenuItem>(menus, R.layout.consumercare_icon_right_button) {
+            @Override
+            public void bindData(RecyclerView.ViewHolder holder, MenuItem item) {
+                View container = holder.itemView.findViewById(R.id.icon_button);
+                Label label = (Label) container.findViewById(R.id.icon_button_text);
+                label.setText(item.mText);
+                ImageView icon = (ImageView) container.findViewById(R.id.icon_button_icon);
+                icon.setImageResource(item.mIcon);
+//                TextView icon = (TextView) container.findViewById(R.id.icon_button_icon);
+//                icon.setText(item.mIcon);
+                container.setTag(getResources().getResourceEntryName(item.mText));
+                container.setOnClickListener(context);
+            }
+        });
     }
 
     @Override
@@ -583,7 +613,25 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             if (isConnectionAvailable()) {
                 showFragment(new ProductInformationFragment());
             }
+        }else if (tag.equals(getResources().getResourceEntryName(R.string.view_faq))) {
+            launchFaqScreen();
         }
+    }
+
+    private void launchFaqScreen() {
+        PrxWrapper mPrxWrapper = new PrxWrapper(getActivity(), new PrxFaqCallback() {
+            @Override
+            public void onResponseReceived(SupportModel supportModel) {
+                if (supportModel == null && getActivity() != null) {
+                    showAlert(getString(R.string.NO_SUPPORT_KEY));
+                } else {
+                    FaqFragment faqFragment = new FaqFragment();
+                    faqFragment.setSupportModel(supportModel);
+                    showFragment(faqFragment);
+                }
+            }
+        });
+        mPrxWrapper.executeFaqSupportRequest();
     }
 
     private void callDownloadPDFMethod(String filePath, String pdfName){

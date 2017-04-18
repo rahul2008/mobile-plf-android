@@ -26,18 +26,18 @@
         &lt;!&ndash; List of main menu image names, please follow naming conventions &ndash;&gt;
     -->
     <array name="main_menu_resources">
-        <item>@drawable/consumercare_view_product_details</item>
-        <item>@drawable/consumercare_view_faq</item>
-        <item>@drawable/consumercare_contact_us</item>
-        <item>@drawable/consumercare_find_philips_near_you</item>
-        <item>@drawable/consumercare_feedback</item>
-        <item>@drawable/consumercare_philips_logo</item>
-        <item>@drawable/consumercare_product_selection</item>
+        <item>@string/icon_dls_capture_outline</item>
+        <item>@string/icon_dls_questionmark</item>
+        <item>@string/icon_dls_balloonspeech</item>
+        <item>@string/icon_dls_location</item>
+        <item>@string/icon_dls_conversationspeech</item>
+        <item>@string/icon_dls_rotatecw</item>
+        <item>@string/icon_dls_rotatecw</item>
     </array>
 
     <!-- List of product menu localised resource keys, please follow naming conventions -->
     <string-array name="product_menu_title" translatable="false">
-        <!--  <item>@string/product_open_manual</item>-->
+        <item>@string/view_faq</item>
         <item>@string/product_download_manual</item>
         <item>@string/product_information</item>
     </string-array>

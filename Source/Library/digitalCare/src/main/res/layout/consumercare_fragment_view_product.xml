@@ -1,8 +1,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/transparent">
+    android:layout_height="fill_parent">
 
     <LinearLayout
         android:id="@+id/products_layout"
@@ -13,27 +11,43 @@
         <RelativeLayout
             android:id="@+id/toplayout"
             style="@style/viewProductDetails_TopContainer"
-            android:paddingLeft="@dimen/activity_margin"
-            android:paddingRight="@dimen/activity_margin">
+            android:layout_marginTop="24dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
 
             <ImageView
                 android:id="@+id/productimage"
                 style="@style/viewProductDetails_ProdImage"
-                android:layout_width="110dp"
-                android:layout_height="120dp"
+                android:layout_width="84dp"
+                android:layout_height="84dp"
+
                 android:visibility="gone" />
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:id="@+id/name"
-                style="@style/viewProductDetails_Product_Header"
-                fontPath="digitalcarefonts/CentraleSans-Bold.otf" />
+                android:layout_marginTop="10dp"
+                android:layout_gravity="left"
+                android:paddingLeft="12dp"
+                android:layout_toRightOf="@id/productimage"
+                android:layout_alignParentTop="true"
+                android:textSize="@dimen/uid_navigation_bar_text_size"/>
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel"
+                android:textColor="?attr/uidTextTertiary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:id="@+id/variant"
-                style="@style/viewProductDetails_Product_Variant"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="left"
+                android:paddingLeft="12dp"
                 android:layout_below="@id/name"
                 android:layout_toRightOf="@id/productimage"
-                fontPath="digitalcarefonts/CentraleSans-Book.otf" />
+                android:textSize="@dimen/uid_label_text_size"
+                android:lines="1" />
 
             <ImageView
                 android:id="@+id/productImageTablet"
@@ -47,40 +61,32 @@
 
         <View
             android:id="@+id/topline"
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="#cccccc" />
+            android:layout_width="match_parent"
+            android:layout_marginTop="24dp"
+            android:layout_height="@dimen/uid_divider_Height"
+            android:background="?attr/uidSeparator"/>
 
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/prodbuttonsParent"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/activity_margin"
-            android:paddingRight="@dimen/activity_margin">
+            />
 
-        </LinearLayout>
-
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel.RecyclerViewHeaderText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id="@+id/productVideoText"
-            style="@style/viewProductDetails_Product_Header"
-            android:layout_marginBottom="0dp"
-            android:layout_marginTop="10dp"
+            android:gravity="center"
             android:paddingLeft="@dimen/activity_margin"
             android:paddingRight="@dimen/activity_margin"
             android:text="@string/product_view_videos"
             android:visibility="gone" />
-
         <HorizontalScrollView
             android:id="@+id/videoScrollView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="15dp">
-
+            android:layout_gravity="center_horizontal">
             <LinearLayout
                 android:id="@+id/videoContainerParent"
                 android:layout_width="wrap_content"

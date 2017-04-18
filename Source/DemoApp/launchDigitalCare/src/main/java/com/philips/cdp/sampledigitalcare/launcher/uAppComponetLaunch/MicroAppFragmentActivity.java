@@ -266,7 +266,6 @@ public class MicroAppFragmentActivity extends AppCompatActivity implements View.
 
     @Override
     protected void attachBaseContext(final Context newBase) {
-        //DlsDigitalCareConfigManager.getInstance(); // init DLS digital care config first.
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

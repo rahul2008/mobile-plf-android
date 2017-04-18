@@ -6,6 +6,7 @@ package com.philips.cdp.sampledigitalcare.util;/*
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -21,7 +22,7 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 import java.util.Random;
 
 public class ThemeHelper {
-     SharedPreferences sharedPreferences;
+    SharedPreferences sharedPreferences;
     final Context mContext;
     public ThemeHelper(final Activity context) {
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
@@ -29,7 +30,7 @@ public class ThemeHelper {
     }
 
     public NavigationColor initNavigationRange() {
-        String navigation = sharedPreferences.getString(UIDHelper.NAVIGATION_RANGE, NavigationColor.ULTRA_LIGHT.name());
+        String navigation = sharedPreferences.getString(UIDHelper.NAVIGATION_RANGE, NavigationColor.BRIGHT.name());
         final NavigationColor navigationColor = NavigationColor.valueOf(navigation);
         return navigationColor;
     }
@@ -41,7 +42,7 @@ public class ThemeHelper {
     }
 
     public ContentColor initContentTonalRange() {
-        String tonalRange = sharedPreferences.getString(UIDHelper.CONTENT_TONAL_RANGE, ContentColor.VERY_LIGHT.name());
+        String tonalRange = sharedPreferences.getString(UIDHelper.CONTENT_TONAL_RANGE, ContentColor.ULTRA_LIGHT.name());
         final ContentColor contentColor = ContentColor.valueOf(tonalRange);
         return contentColor;
     }
@@ -88,8 +89,8 @@ public class ThemeHelper {
 
     public void saveThemeSettings() {
         saveThemeValues(UIDHelper.COLOR_RANGE, randomEnum(ColorRange.class).name());
-        saveThemeValues(UIDHelper.NAVIGATION_RANGE, NavigationColor.VERY_LIGHT.name());
-        saveThemeValues(UIDHelper.CONTENT_TONAL_RANGE, ContentColor.BRIGHT.name());
+        saveThemeValues(UIDHelper.NAVIGATION_RANGE, NavigationColor.LIGHT.name());
+        saveThemeValues(UIDHelper.CONTENT_TONAL_RANGE,ContentColor.VERY_LIGHT.name());
     }
 
     @SuppressLint("CommitPrefEdits")

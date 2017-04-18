@@ -1,6 +1,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/uidContentBackground"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:id="@+id/parentActivity"
@@ -8,7 +10,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel"
             android:id="@+id/TextView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -17,14 +20,12 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="20dp"
             android:text="@string/app_description"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="20sp"
-            android:textColor="?attr/uikit_baseColor"
             android:textStyle="bold" />
 
-        <Button
+        <com.philips.platform.uid.view.widget.Button
+            style="@style/UIDDefaultButton"
             android:id="@+id/launchDigitalCare"
-            style="@style/fontButton"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_below="@+id/TextView1"
@@ -34,9 +35,9 @@
             android:text="@string/launch_button_as_activity"
             android:textStyle="bold" />
 
-        <Button
+        <com.philips.platform.uid.view.widget.Button
+            style="@style/UIDDefaultButton"
             android:id="@+id/launchAsFragment"
-            style="@style/fontButton"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_below="@+id/launchDigitalCare"
@@ -48,9 +49,9 @@
             android:text="@string/launch_button_as_fragment"
             android:textStyle="bold" />
 
-        <Button
+        <com.philips.platform.uid.view.widget.Button
+            style="@style/UIDDefaultButton"
             android:id="@+id/change_theme"
-            style="@style/fontButton"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_below="@+id/launchAsFragment"
@@ -61,7 +62,8 @@
             android:text="@string/change_theme"
             android:textStyle="bold" />
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel"
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -74,11 +76,12 @@
             android:freezesText="true"
             android:marqueeRepeatLimit="marquee_forever"
             android:scrollHorizontally="true"
-            android:singleLine="true"
+            android:maxLines="1"
             android:text="@string/app_not_description"
-            android:textColor="?attr/uikit_baseColor" />
+            />
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel"
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -87,18 +90,16 @@
             android:layout_marginTop="14dp"
             android:text="@string/app_note"
             android:visibility="gone"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold" />
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel"
             android:id="@+id/textViewCurrentCountry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/textView3"
             android:layout_marginTop="14dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="?attr/uikit_baseColor"
             android:textStyle="bold" />
 
         <GridLayout
@@ -111,27 +112,25 @@
             android:orientation="horizontal"
             android:rowCount="2">
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel"
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/lanuauge"
                 android:visibility="gone"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textSize="18sp"
-                android:textColor="?attr/uikit_baseColor"
                 android:textStyle="bold" />
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel"
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:text="@string/country"
                 android:visibility="visible"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textSize="18sp"
-                android:textColor="?attr/uikit_baseColor"
                 android:textStyle="bold" />
             <Spinner
                 android:id="@+id/spinner1"
@@ -147,7 +146,8 @@
                 android:layout_marginTop="5dp" />
         </GridLayout>
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel"
             android:id="@+id/textviewCountryPref"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -155,22 +155,20 @@
             android:layout_below="@+id/gridlayout1"
             android:layout_marginTop="5dp"
             android:text="Country Preference  :\n 1.SIM card\n 2.geo-IP\n 3.User Selection"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="15sp"
             android:textStyle="italic"
             android:visibility="visible" />
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel"
             android:id="@+id/textview6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textviewCountryPref"
             android:layout_marginTop="20dp"
             android:text="Add Ctn's"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="?attr/uikit_baseColor"
             android:visibility="visible" />
 
 
@@ -187,19 +185,19 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/add_product"
-                android:listSelector="?attr/uikit_listSelectorBackground" />
+                android:layout_below="@+id/add_product" />
 
-            <com.philips.cdp.uikit.customviews.ActionButton
+            <com.philips.platform.uid.view.widget.ImageButton
+                style="@style/UIDImageButton"
                 android:id="@+id/addimageButton"
-                style="@style/Philips.ActionButton.Circle.Float.Plus"
                 android:layout_width="@dimen/savedscreen_top_container_height"
                 android:layout_height="@dimen/savedscreen_top_container_height"
                 android:layout_alignBottom="@+id/recycler_view"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="5dp"
-                android:scaleType="fitXY" />
+                android:scaleType="fitXY"
+                app:uidImageButtonDrawableSrc="@drawable/action_icon_plus"/>
         </RelativeLayout>
 
     </RelativeLayout>

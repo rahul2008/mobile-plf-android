@@ -1,32 +1,27 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/transparent">
+    android:background="?attr/uidContentBackground">
 
     <LinearLayout
         android:id="@+id/optionParent"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/transparent"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/activity_margin"
-        android:paddingLeft="@dimen/activity_margin"
-        android:paddingRight="@dimen/activity_margin">
+        android:orientation="vertical">
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/optionHelp"
-            style="@style/supportHomeHelpText"
-            android:text="@string/how_can_we_help"
-            fontPath="digitalcarefonts/CentraleSans-Light.otf" />
+            style="@style/UIDLabel.RecyclerViewHeaderText"
+            android:background="?attr/uidContentSecondaryBackgroundColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/how_can_we_help"/>
 
-        <com.philips.cdp.uikit.UikitSpringBoardLayout
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/optionContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:uikit_opacityStyle="darker_color" />
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
-</ScrollView>
+</LinearLayout>

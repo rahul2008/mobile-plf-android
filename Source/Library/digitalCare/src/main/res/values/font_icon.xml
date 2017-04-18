@@ -2,4 +2,11 @@
 <resources>
     <string name="icon_marker" translatable="false">\ue904</string>
     <string name="icon_magnifier" translatable="false">\ue901</string>
+    <string name="icon_dls_balloonspeech" translatable="false">\ue800</string>
+    <string name="icon_dls_capture_outline" translatable="false">\ue801</string>
+    <string name="icon_dls_conversationspeech" translatable="false">\ue803</string>
+    <string name="icon_dls_location" translatable="false">\ue805</string>
+    <string name="icon_dls_questionmark" translatable="false">\ue808</string>
+    <string name="icon_dls_rotatecw" translatable="false">\ue809</string>
+
 </resources>
