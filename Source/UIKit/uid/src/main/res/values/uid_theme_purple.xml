@@ -43,8 +43,9 @@
     <item name="uidButtonSocialMediaWhiteNormalIconColor">?attr/uidControlWhiteText</item>
     <item name="uidButtonSecondaryDisabledTextColor">?attr/uidControlSecondaryTextDisabled</item>
     <item name="uidButtonPrimaryDisabledBackgroundColor">?attr/uidControlPrimaryDisabled</item>
-    <item name="uidButtonSocialMediaPrimaryPressedBackgroundColor">?attr/uidControlPrimaryPressed
-    </item>
+      <item name="uidButtonSocialMediaPrimaryPressedBackgroundColor">
+          ?attr/uidControlPrimaryPressed
+      </item>
     <item name="uidButtonPrimaryProgressBackgroundColor">?attr/uidControlPrimaryDisabled</item>
     <item name="uidButtonPrimaryNormalBackgroundColor">?attr/uidControlPrimary</item>
     <item name="uidButtonSecondaryNormalTextColor">?attr/uidControlSecondaryText</item>
@@ -75,16 +76,16 @@
     <item name="uidContentSecondaryBackgroundColor">?attr/uidContentSecondary</item>
     <item name="uidContentTertiaryBackgroundColor">?attr/uidContentTertiary</item>
     <item name="uidDataVisualizationChartsGridlinesColor">?attr/uidSeparator</item>
-    <item name="uidDataVisualizationStatusIndicatorBackgroundColor">
-      ?attr/uidStatusIndicatorBackground
-    </item>
+      <item name="uidDataVisualizationStatusIndicatorBackgroundColor">
+          ?attr/uidStatusIndicatorBackground
+      </item>
     <item name="uidDataVisualizationChartsLegendTextColor">?attr/uidTextPrimary</item>
     <item name="uidDataVisualizationDefaultSubtitleTextColor">?attr/uidTextTertiary</item>
     <item name="uidDataVisualizationChartsValueLabelTextColor">?attr/uidTextTertiary</item>
     <item name="uidDataVisualizationDefaultAxisScaleTextColor">?attr/uidTextTertiary</item>
-    <item name="uidDataVisualizationStatusIndicatorValueLabelTextColor">
-      ?attr/uidControlSecondaryDetail
-    </item>
+      <item name="uidDataVisualizationStatusIndicatorValueLabelTextColor">
+          ?attr/uidControlSecondaryDetail
+      </item>
     <item name="uidDataVisualizationDefaultTitleTextColor">?attr/uidTextPrimary</item>
     <item name="uidDataVisualizationChartsAxisLabelTextColor">?attr/uidTextTertiary</item>
     <item name="uidDataVisualizationDefaultDataColor2Color">?attr/uidDataColor2</item>
@@ -92,25 +93,25 @@
     <item name="uidDataVisualizationChartsValueIconColor">?attr/uidTextPrimary</item>
     <item name="uidDataVisualizationDefaultDataColor4Color">?attr/uidDataColor4</item>
     <item name="uidDataVisualizationChartsValueTextColor">?attr/uidTextPrimary</item>
-    <item name="uidDataVisualizationStatusIndicatorReferenceBackgroundColor">
-      ?attr/uidStatusIndicatorReferenceBackground
-    </item>
+      <item name="uidDataVisualizationStatusIndicatorReferenceBackgroundColor">
+          ?attr/uidStatusIndicatorReferenceBackground
+      </item>
     <item name="uidDataVisualizationChartsTargetTextColor">?attr/uidControlPrimaryDetail</item>
     <item name="uidDataVisualizationDefaultDataColor1Color">?attr/uidDataColor1</item>
-    <item name="uidDataVisualizationChartsTargetBackgroundColor">?attr/uidChartsTargetBackground
-    </item>
-    <item name="uidDataVisualizationStatusIndicatorValueLabelIconColor">
-      ?attr/uidControlSecondaryDetail
-    </item>
+      <item name="uidDataVisualizationChartsTargetBackgroundColor">?attr/uidChartsTargetBackground
+      </item>
+      <item name="uidDataVisualizationStatusIndicatorValueLabelIconColor">
+          ?attr/uidControlSecondaryDetail
+      </item>
     <item name="uidDataVisualizationChartsTargetLineColor">?attr/uidControlPrimaryDetail</item>
     <item name="uidDataVisualizationDefaultDataColor3Color">?attr/uidDataColor3</item>
-    <item name="uidDataVisualizationStatusIndicatorValueIconColor">?attr/uidControlPrimaryDetail
-    </item>
-    <item name="uidDataVisualizationStatusIndicatorValueIndicatorBackgroundColor">
-      ?attr/uidControlPrimaryDetail
-    </item>
-    <item name="uidDataVisualizationStatusIndicatorValueTextColor">?attr/uidControlPrimaryDetail
-    </item>
+      <item name="uidDataVisualizationStatusIndicatorValueIconColor">?attr/uidControlPrimaryDetail
+      </item>
+      <item name="uidDataVisualizationStatusIndicatorValueIndicatorBackgroundColor">
+          ?attr/uidControlPrimaryDetail
+      </item>
+      <item name="uidDataVisualizationStatusIndicatorValueTextColor">?attr/uidControlPrimaryDetail
+      </item>
     <item name="uidDatePickerAndroidNormalDaysTextColor">?attr/uidGrayTertiaryText</item>
     <item name="uidDatePickerAndroidNormalContentTextColor">?attr/uidDatePickerText</item>
     <item name="uidDatePickerAndroidNormalOnHeaderTextColor">?attr/uidNavigationText</item>

@@ -8,10 +8,6 @@ package com.philips.uid
 
 class DataValidation {
 
-    private final static COLOR = "COLOR";
-    private final static COLOR_CODE = "COLOR_CODE";
-    private final static COLOR_RANGE = "COLOR_RANGE";
-    private final static REFERENCE = "REFERENCE";
     def getAllAttributes(datavalidationMap) {
         def attributes = new HashMap()
         datavalidationMap = datavalidationMap[0]
@@ -52,28 +48,19 @@ class DataValidation {
     }
 
     def decorateValidations(theme, validationMap, attrname, colorRange, tonalRange) {
-        if (theme.color == "validation") {
-            assignValidationValues(theme, validationMap, attrname, colorRange, tonalRange, COLOR)
-        }
         if (theme.colorRange == "validation") {
-            assignValidationValues(theme, validationMap, attrname, colorRange, tonalRange, COLOR_RANGE)
-        }
-        if (theme.colorCode == "validation") {
-            assignValidationValues(theme, validationMap, attrname, colorRange, tonalRange, COLOR_CODE)
-        }
-        if (theme.reference == "validation") {
-            assignValidationValues(theme, validationMap, attrname, colorRange, tonalRange, REFERENCE)
+            assignValidationValues(theme, validationMap, attrname, colorRange, tonalRange)
         }
     }
 
-    void assignValidationValues(themeValue, validationMap, attrname, colorRange, tonalRange, type) {
+    void assignValidationValues(themeValue, validationMap, attrname, colorRange, tonalRange) {
         List attrsList = validationMap.get(BrushParser.getCapitalizedValue(colorRange))
         for (ThemeAttribute attr : attrsList) {
             if (attr.attrName == attrname) {
                 for (Map.Entry entry : attr.attributeMap.entrySet()) {
                     if (entry.getKey() == tonalRange) {
 //                        println(attrname + "\t"+  colorRange+":"+tonalRange+ "\t" +entry.value.colorRange )
-                        getValueFromType(entry, themeValue, type)
+                        getValueFromType(entry, themeValue)
                     }
                 }
             }
@@ -81,18 +68,22 @@ class DataValidation {
         }
     }
 
-    private void getValueFromType(Map.Entry entry, themeValue, type) {
-        if (type == COLOR) {
+    private void getValueFromType(Map.Entry entry, themeValue) {
+        //We overwrite colorRange to avoid lookup again in getValue function
+        themeValue.colorRange = entry.value.colorRange
+
+        if (entry.value.color != null) {
             themeValue.color = entry.value.color
-        } else if (type == COLOR_RANGE) {
-            themeValue.colorRange = entry.value.colorRange
-        } else if (type == COLOR_CODE) {
+        } else if (entry.value.colorCode != null) {
             themeValue.colorCode = entry.value.colorCode
-        } else if (type == REFERENCE) {
+        } else if (entry.value.reference != null) {
             themeValue.reference = entry.value.reference
+        } else if (entry.value.opacity != null) {
+            themeValue.opacity = entry.value.opacity
+        } else if (entry.value.offset != null) {
+            themeValue.offset = entry.value.offset
         }
     }
-
 
     def getAttributeNames(datavalidationMap) {
         Set attributes = new HashSet()
