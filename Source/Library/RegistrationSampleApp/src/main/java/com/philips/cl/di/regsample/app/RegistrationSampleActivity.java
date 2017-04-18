@@ -330,7 +330,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 urLaunchInput.setAccountSettings(false);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                 urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
-
+                setRegistrationUiFlow();
                 urLaunchInput.setUserRegistrationUIEventListener(this);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
                         ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
@@ -359,7 +359,6 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
                 urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
-                urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
                 urLaunchInput.setAccountSettings(false);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
                         ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
@@ -626,4 +625,10 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         registrationContentConfiguration.setOptInBannerText(optInBannerText);
         registrationContentConfiguration.setOptInActionBarText(optInTitleBarText);
         return registrationContentConfiguration;
-    }}
+
+    }
+
+    void setRegistrationUiFlow(){
+        RegUtility.setUiFlow(UIFlow.FLOW_B);
+    }
+}
