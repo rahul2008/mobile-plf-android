@@ -113,7 +113,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
             //Register GCM token with data services on login success
             Log.d(TAG,"Registering token with data services");
-            PushNotificationManager.getInstance().registerTokenWithBackend(activity.getApplicationContext());
+            PushNotificationManager.getInstance().startPushNotificationRegistration(activity.getApplicationContext());
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
             BaseState baseState = null;
             try {

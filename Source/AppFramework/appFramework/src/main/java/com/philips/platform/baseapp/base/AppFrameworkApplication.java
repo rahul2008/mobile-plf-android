@@ -80,7 +80,7 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
          */
         AppFrameworkTagging.getInstance().initAppTaggingInterface(this);
         pushNotificationManager= PushNotificationManager.getInstance();
-        pushNotificationManager.initPushNotification(getApplicationContext());
+        pushNotificationManager.startPushNotificationRegistration(getApplicationContext());
     }
 
     public LoggingInterface getLoggingInterface() {

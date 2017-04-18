@@ -3,10 +3,10 @@ package com.philips.platform.retryhandler;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
+import com.philips.platform.referenceapp.PushNotificationManager;
 
 
 /**
@@ -21,14 +21,7 @@ public class ConnectivityChangeReceiver extends BroadcastReceiver {
         Log.d(TAG,"Network changed occur");
         if(BaseAppUtil.isNetworkAvailable(context)){
             Log.d(TAG,"Network available");
-            Bundle extras = intent.getExtras();
-            if (extras != null) {
-                for (String key: extras.keySet()) {
-                    Log.d(TAG, "key [" + key + "]: " +
-                            extras.get(key));
-                }
-            }
-
+            PushNotificationManager.getInstance().startPushNotificationRegistration(context);
         }
 
     }

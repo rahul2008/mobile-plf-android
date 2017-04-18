@@ -33,6 +33,7 @@
     "appconfig.cloudServiceId":" appinfra.appconfigdownload"
   },
   "ReferenceApp":{
-    "PushNotification.autoLogout":"true"
+    "PushNotification.autoLogout":"true",
+    "PushNotification.polling":"false"
   }
 }

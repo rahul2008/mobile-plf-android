@@ -7,13 +7,14 @@ package com.philips.platform.baseapp.screens.dataservices;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
@@ -49,9 +50,6 @@ import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.sql.SQLException;
 
@@ -97,7 +95,10 @@ public class DataServicesState extends BaseState {
         DataServicesManager.getInstance().initializeSyncMonitors(context, null, null);
         DSLog.enableLogging(true);
         DSLog.i(DSLog.LOG, "Before Setting up Synchronization Loop");
-//        scheduleSync(context);
+        String isPollingEnabled= (String) ((AppFrameworkApplication)context.getApplicationContext()).getAppInfra().getConfigInterface().getPropertyForKey("PushNotification.polling","ReferenceApp",new AppConfigurationInterface.AppConfigurationError());
+        if(!TextUtils.isEmpty(isPollingEnabled) && Boolean.parseBoolean(isPollingEnabled)) {
+            scheduleSync(context);
+        }
 
         //Stetho.initializeWithDefaults(context);
     }
@@ -174,14 +175,5 @@ public class DataServicesState extends BaseState {
 
     }
 
-    public void sendPayloadMessageToDSC(JSONObject payloadMesssage){
-        Log.d(TAG,"Sending payload to Data services component....");
-        try {
-            DataServicesManager.getInstance().handlePushNotificationPayload(payloadMesssage);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        //TODO: Need to hadover payload to dsc component
-    }
 }
 

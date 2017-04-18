@@ -33,9 +33,9 @@ public class PushNotificationManager {
     private static PushNotificationManager pushNotificationManager;
 
     public interface DeregisterTokenListener {
-        public void onSuccess();
+        void onSuccess();
 
-        public void onError();
+        void onError();
     }
 
     private PushNotificationManager() {
@@ -52,7 +52,7 @@ public class PushNotificationManager {
      * Check status of GCM token and registration with data core
      * @param context
      */
-    public void initPushNotification(Context context){
+    public void startPushNotificationRegistration(Context context){
         if(TextUtils.isEmpty(pushNotificationManager.getToken(context))){
             Log.d(TAG,"Token is empty. Starting GCM registration....");
             pushNotificationManager.startGCMRegistrationService(context);
@@ -62,6 +62,7 @@ public class PushNotificationManager {
                 Log.d(TAG,"Token is not registered. Registering with datacore");
                 registerTokenWithBackend(context);
             }else{
+                //No need to do any registration stuff.
                 Log.d(TAG,"User is signed in and token is registered");
             }
         }else{
@@ -85,7 +86,7 @@ public class PushNotificationManager {
     /**
      * Registration of token with datacore or backend
      */
-    public void registerTokenWithBackend(final Context applicationContext) {
+    private void registerTokenWithBackend(final Context applicationContext) {
         Log.d(TAG, "registerTokenWithBackend");
         if (TextUtils.isEmpty(getToken(applicationContext))) {
             Log.d(TAG, "Token is empty. Trying to regiter device with GCM server.....");
@@ -119,7 +120,6 @@ public class PushNotificationManager {
             DataServicesManager.getInstance().unRegisterDeviceToken(getToken(applicationContext), PushNotificationConstants.APP_VARIANT, new RegisterDeviceTokenListener() {
                 @Override
                 public void onResponse(boolean isDeRegistered) {
-                    //TODO:Need to write logic based on auto logout configuration
                     Log.d(TAG, "deregisterTokenWithBackend isDergistered:" + isDeRegistered);
                     saveTokenRegistrationState(applicationContext, !isDeRegistered);
                     if (isDeRegistered) {
@@ -132,7 +132,6 @@ public class PushNotificationManager {
 
                 @Override
                 public void onError(DataServicesError dataServicesError) {
-                    //TODO:Handle error scenarios and retry logic
                     deregisterTokenListener.onError();
                     Log.d(TAG, "Register token error: code::" + dataServicesError.getErrorCode() + "message::" + dataServicesError.getErrorMessage());
                 }
@@ -153,10 +152,6 @@ public class PushNotificationManager {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(PushNotificationConstants.GCM_TOKEN, token);
         editor.commit();
-        if (new User(applicationContext).isUserSignIn()) {
-            Log.d(TAG, "User is already signed in. Registering token with data core");
-            registerTokenWithBackend(applicationContext);
-        }
     }
 
     /**
