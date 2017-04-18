@@ -81,7 +81,7 @@ public class BleRequestTest {
         when(mockDevice.getCapability(CapabilityDiComm.class)).thenReturn(mockCapability);
         when(mockDevice.getState()).thenReturn(Connected);
 
-        when(mockDeviceCache.getCacheData(anyString())).thenReturn(mockCacheData);
+        when(mockDeviceCache.findByCppId(anyString())).thenReturn(mockCacheData);
         when(mockCacheData.getDevice()).thenReturn(mockDevice);
 
         doAnswer(new Answer() {

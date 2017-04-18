@@ -9,22 +9,31 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.bluelib.plugindefinition.StreamingCapability;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.BleDeviceCache.CacheData;
 import com.philips.cdp2.commlib.ble.BleDeviceCache.ExpirationCallback;
 import com.philips.cdp2.commlib.core.discovery.ObservableDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
+import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
+import com.philips.pins.shinelib.SHNDeviceImpl;
 import com.philips.pins.shinelib.SHNDeviceScanner;
 import com.philips.pins.shinelib.SHNResult;
+import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation.SHNDeviceInformationType;
+import com.philips.pins.shinelib.protocols.moonshinestreaming.SHNProtocolByteStreamingVersionSwitcher;
+import com.philips.pins.shinelib.protocols.moonshinestreaming.SHNProtocolMoonshineStreaming;
+import com.philips.pins.shinelib.services.SHNServiceDiCommStreaming;
+import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -62,6 +71,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
     private final Context context;
     private final BleDeviceCache bleDeviceCache;
     private final SHNDeviceScanner deviceScanner;
+    private final SHNCentral shnCentral;
     private Set<String> modelIds;
     private ScheduledExecutorService executor;
     private ScheduledFuture discoveryFuture;
@@ -70,7 +80,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
     private ExpirationCallback expirationCallback = new ExpirationCallback() {
         @Override
         public void onCacheExpired(NetworkNode networkNode) {
-            final CacheData cacheData = bleDeviceCache.getCacheData(networkNode.getCppId());
+            final CacheData cacheData = bleDeviceCache.findByCppId(networkNode.getCppId());
             if (cacheData == null) {
                 return;
             }
@@ -83,10 +93,11 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         }
     };
 
-    public BleDiscoveryStrategy(@NonNull Context context, @NonNull BleDeviceCache bleDeviceCache, @NonNull SHNDeviceScanner deviceScanner) {
+    public BleDiscoveryStrategy(@NonNull Context context, @NonNull BleDeviceCache bleDeviceCache, @NonNull SHNDeviceScanner deviceScanner, @NonNull SHNCentral shnCentral) {
         this.context = context;
         this.bleDeviceCache = bleDeviceCache;
         this.deviceScanner = deviceScanner;
+        this.shnCentral = shnCentral;
         this.modelIds = new HashSet<>();
         this.executor = Executors.newSingleThreadScheduledExecutor();
     }
@@ -137,33 +148,49 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
 
     @Override
     public void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull SHNDeviceFoundInfo shnDeviceFoundInfo) {
-        final SHNDevice device = shnDeviceFoundInfo.getShnDevice();
-        final SHNCapabilityDeviceInformation deviceInformation = device.getCapability(SHNCapabilityDeviceInformation.class);
-        if (deviceInformation == null) {
-            throw new IllegalArgumentException("BLE device doesn't expose device information.");
-        }
-
-        String address = device.getAddress();
-
-        if (discoveredMacAddresses.contains(address)) {
+        // TODO temporary filter
+//        if (!shnDeviceFoundInfo.getDeviceAddress().equals("22:22:22:04:04:18")) {
+        if (!shnDeviceFoundInfo.getDeviceAddress().equals("AA:AA:AA:AA:AA:AA")) {
             return;
         }
 
-        final String modelId = createModelId(shnDeviceFoundInfo);
+        // If device already in cache, don't care
+        CacheData cacheData = bleDeviceCache.findByAddress(shnDeviceFoundInfo.getDeviceAddress());
+        if (cacheData == null) {
+            // Check for DIS
+            final SHNDevice device = shnDeviceFoundInfo.getShnDevice();
+            final SHNCapabilityDeviceInformation deviceInformation = device.getCapability(SHNCapabilityDeviceInformation.class);
+            if (deviceInformation == null) {
+                throw new IllegalArgumentException("BLE device doesn't expose device information.");
+            }
 
-        if (modelIds.isEmpty() || modelIds.contains(modelId)) {
-            discoveredMacAddresses.add(device.getAddress());
+            String address = device.getAddress();
 
-            final NetworkNode networkNode = new NetworkNode();
-            networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
-            networkNode.setModelId(modelId);
-            networkNode.setModelName(device.getDeviceTypeName());
+            // Note MAC address during discovery
+            if (discoveredMacAddresses.contains(address)) {
+                DICommLog.d(TAG, "Device " + address + " already discovering.");
+                return;
+            }
 
-            networkNode.setBleAddress(device.getAddress());
-            networkNode.setName(device.getName());
+            final String modelId = createModelId(shnDeviceFoundInfo);
 
-            device.registerSHNDeviceListener(new DeviceListener(device, deviceInformation, networkNode));
-            device.connect();
+            if (modelIds.isEmpty() || modelIds.contains(modelId)) {
+                discoveredMacAddresses.add(device.getAddress());
+
+                final NetworkNode networkNode = new NetworkNode();
+                networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+                networkNode.setModelId(modelId);
+                networkNode.setModelName(device.getDeviceTypeName());
+
+                networkNode.setBleAddress(device.getAddress());
+                networkNode.setName(device.getName());
+
+                device.registerSHNDeviceListener(new DeviceListener(device, deviceInformation, networkNode));
+                Log.w(TAG, "Connecting device");
+                device.connect();
+            }
+        } else {
+            bleDeviceCache.add(cacheData.getDevice(), cacheData.getNetworkNode(), expirationCallback, SCAN_WINDOW_MILLIS);
         }
     }
 
@@ -184,11 +211,28 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
             @Override
             public void onDeviceInformation(@NonNull SHNDeviceInformationType deviceInformationType, @NonNull String value, @NonNull Date dateWhenAcquired) {
                 networkNode.setCppId(value);
-                bleDeviceCache.addDevice(device, networkNode, expirationCallback, SCAN_WINDOW_MILLIS);
-                discoveredMacAddresses.remove(networkNode.getBleAddress());
+                bleDeviceCache.add(addDiCommStreamingToDevice(device), networkNode, expirationCallback, SCAN_WINDOW_MILLIS);
                 notifyNetworkNodeDiscovered(networkNode);
 
                 onDeviceResponse();
+            }
+
+            private SHNDevice addDiCommStreamingToDevice(SHNDevice discoveredDevice) {
+                SHNDeviceWrapper wrapper = (SHNDeviceWrapper) discoveredDevice;
+                SHNDeviceImpl shnDevice = (SHNDeviceImpl) wrapper.getInternalDevice();
+
+                if (shnDevice.getCapability(CapabilityDiComm.class) == null) {
+                    final SHNServiceDiCommStreaming shnServiceDiCommStreaming = new SHNServiceDiCommStreaming();
+                    shnDevice.registerService(shnServiceDiCommStreaming);
+
+                    final SHNProtocolMoonshineStreaming shnProtocolMoonshineStreaming = new SHNProtocolByteStreamingVersionSwitcher(shnServiceDiCommStreaming, shnCentral.getInternalHandler());
+                    shnServiceDiCommStreaming.setShnServiceMoonshineStreamingListener(shnProtocolMoonshineStreaming);
+
+                    CapabilityDiComm capabilityDiComm = new StreamingCapability(shnProtocolMoonshineStreaming);
+                    shnDevice.registerCapability(CapabilityDiComm.class, capabilityDiComm);
+                }
+
+                return discoveredDevice;
             }
 
             @Override
@@ -228,6 +272,8 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         private void onDeviceResponse() {
             if (counter.decrementAndGet() == 0) {
                 device.unregisterSHNDeviceListener(this);
+                discoveredMacAddresses.remove(networkNode.getBleAddress());
+                Log.w(TAG, "Disconnecting device");
                 device.disconnect();
             }
         }

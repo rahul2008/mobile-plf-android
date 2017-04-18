@@ -209,7 +209,7 @@ public class BleCommunicationStrategyTestSteps {
 
         when(mockNetworkNode.getCppId()).thenReturn(deviceId);
 
-        mDeviceCache.addDevice(device, mockNetworkNode, new BleDeviceCache.ExpirationCallback() {
+        mDeviceCache.add(device, mockNetworkNode, new BleDeviceCache.ExpirationCallback() {
             @Override
             public void onCacheExpired(NetworkNode networkNode) {
                 // Ignored

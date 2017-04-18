@@ -7,6 +7,7 @@ package com.philips.cdp2.commlib.ble.request;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import android.util.Log;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
@@ -58,6 +59,7 @@ public abstract class BleRequest implements Runnable {
     public static final int MAX_PAYLOAD_LENGTH = (1 << 16) - 1;
 
     private static final long REQUEST_TIMEOUT_MS = 30000L;
+    private static final String TAG = "BleRequest";
 
     enum State {
         CREATED,
@@ -195,7 +197,7 @@ public abstract class BleRequest implements Runnable {
             return;
         }
 
-        final BleDeviceCache.CacheData cacheData = deviceCache.getCacheData(cppId);
+        final BleDeviceCache.CacheData cacheData = deviceCache.findByCppId(cppId);
 
         if (cacheData == null) {
             onError(Error.NOT_AVAILABLE, "Communication is not available");
@@ -204,11 +206,11 @@ public abstract class BleRequest implements Runnable {
 
         bleDevice = cacheData.getDevice();
         bleDevice.registerSHNDeviceListener(bleDeviceListener);
-        if (bleDevice.getState() == Connected) {
-            onConnected();
-        } else {
+//        if (bleDevice.getState() == Connected) {
+//            onConnected();
+//        } else {
             connectToDevice();
-        }
+//        }
     }
 
     private SHNDevice.SHNDeviceListener bleDeviceListener = new SHNDevice.SHNDeviceListener() {
@@ -237,6 +239,7 @@ public abstract class BleRequest implements Runnable {
     };
 
     private void connectToDevice() {
+        Log.w(TAG, "Connecting device");
         bleDevice.connect();
     }
 
@@ -309,11 +312,12 @@ public abstract class BleRequest implements Runnable {
     }
 
     private void finishRequest() {
-        if (bleDevice != null && bleDevice.getState() != Disconnected && disconnectAfterRequest.get()) {
+        //if (bleDevice != null && bleDevice.getState() != Disconnected && disconnectAfterRequest.get()) {
+        Log.w(TAG, "Disconnecting device");
             bleDevice.disconnect();
-        } else {
-            completeRequest();
-        }
+        //} else {
+        //    completeRequest();
+        //}
     }
 
     private void completeRequest() {

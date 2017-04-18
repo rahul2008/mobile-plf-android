@@ -20,6 +20,7 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
+import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
@@ -85,6 +86,9 @@ public class BleDiscoveryStrategyTestSteps {
     @Mock
     private SHNCapabilityDeviceInformation deviceInformationMock;
 
+    @Mock
+    private SHNCentral shnCentral;
+
     @Captor
     private ArgumentCaptor<Runnable> runnableCaptor;
 
@@ -104,7 +108,7 @@ public class BleDiscoveryStrategyTestSteps {
 
         bleDeviceCache = new BleDeviceCache(Executors.newSingleThreadScheduledExecutor());
 
-        bleDiscoveryStrategy = new BleDiscoveryStrategy(mockContext, bleDeviceCache, deviceScanner) {
+        bleDiscoveryStrategy = new BleDiscoveryStrategy(mockContext, bleDeviceCache, deviceScanner, shnCentral) {
             @Override
             int checkAndroidPermission(Context context, String permission) {
                 return PERMISSION_GRANTED;
@@ -318,7 +322,7 @@ public class BleDiscoveryStrategyTestSteps {
         for (String applianceName : appliances) {
             for (Appliance appliance : availableAppliances) {
                 if (applianceName.equals(appliance.getName())) {
-                    final CacheData cacheData = bleDeviceCache.getCacheData(appliance.getNetworkNode().getCppId());
+                    final CacheData cacheData = bleDeviceCache.findByCppId(appliance.getNetworkNode().getCppId());
                     if (cacheData == null) {
                         continue;
                     }
