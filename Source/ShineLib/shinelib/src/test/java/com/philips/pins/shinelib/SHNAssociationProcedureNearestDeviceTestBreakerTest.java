@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
 
@@ -57,7 +57,6 @@ public class SHNAssociationProcedureNearestDeviceTestBreakerTest {
                 SHNDeviceFoundInfo mockedDeviceFoundInfo = mock(SHNDeviceFoundInfo.class);
                 when(mockedDeviceFoundInfo.getRssi()).thenReturn(entry.getValue());
                 associationProcedure.deviceDiscovered(entry.getKey(), mockedDeviceFoundInfo);
-
             }
 
         }
@@ -198,6 +197,7 @@ public class SHNAssociationProcedureNearestDeviceTestBreakerTest {
     @Test
     public void shouldStopTimerWhenStopIsCalled() {
         associationProcedure.stop();
+
         verify(mockedIterationTimeoutTimer).stop();
     }
 }
