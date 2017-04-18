@@ -22,8 +22,8 @@
     </style>
     <!-- Notification Badge-->
     <declare-styleable name="NotificationBadge">
-        <attr name="uidNotificationTextColorList" format="reference" />
-        <attr name="uidNotificationBackground" format="reference" />
+        <attr name="uidNotificationTextColorList" format="reference|color" />
+        <attr name="uidNotificationBackground" format="reference|color" />
         <attr name="uid_notification_badge_small" format="boolean" />
     </declare-styleable>
 </resources>

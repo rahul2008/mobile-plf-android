@@ -6,6 +6,7 @@
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
@@ -29,6 +30,7 @@ public class NotificationBadge extends AppCompatTextView {
     private int badgeBackgroundColor;
     private Drawable roundRectDrawable;
     private Drawable circleDrawable;
+   // private ColorStateList drawableColorlist;
 
     public NotificationBadge(Context context) {
         this(context, null);
@@ -42,26 +44,32 @@ public class NotificationBadge extends AppCompatTextView {
         super(context, attrs, defStyle);
         final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NotificationBadge, defStyle, 0);
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
-        applyTextColorTinting(typedArray, theme);
-        badgeBackgroundColor = ContextCompat.getColor(getContext(), R.color.uidColorRed);
-        roundRectDrawable = getSquareRoundBackground(isSmallBadge(typedArray));
-        circleDrawable = getCircleBackground(isSmallBadge(typedArray));
+        applyTextColor(typedArray, theme);
+        applyBackGroundColor(typedArray, theme);
+
+        //badgeBackgroundColor = ContextCompat.getColor(getContext(), R.color.uidColorRed);
+
+        roundRectDrawable = getSquareRoundBackground(isSmallBadge(typedArray),badgeBackgroundColor);
+        circleDrawable = getCircleBackground(isSmallBadge(typedArray),badgeBackgroundColor);
 
         if (getText().length() > 2)
             setBackgroundDrawable(roundRectDrawable);
         else
             setBackgroundDrawable(circleDrawable);
         handleTextChangeListener();
-        // setTextColor(ContextCompat.getColor(getContext(), android.R.color.white));
-
         typedArray.recycle();
     }
 
-    private void applyTextColorTinting(@NonNull TypedArray typedArray, @NonNull final Resources.Theme theme) {
-        int textColorStateID = typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationTextColorList, -1);
+    private void applyTextColor(@NonNull TypedArray typedArray, @NonNull final Resources.Theme theme) {
+        /*int textColorStateID = typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationTextColorList, -1);
         if (textColorStateID != -1) {
             setTextColor(ThemeUtils.buildColorStateList(getResources(), theme, textColorStateID));
-        }
+        }*/
+        setTextColor(ContextCompat.getColor(getContext(), R.color.uidColorWhite));
+    }
+    private void applyBackGroundColor(@NonNull TypedArray typedArray, @NonNull final Resources.Theme theme) {
+      //  badgeBackgroundColor = typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationBackground, -1);
+        badgeBackgroundColor=  ContextCompat.getColor(getContext(), R.color.uidColorRed);
     }
 
 
@@ -110,7 +118,7 @@ public class NotificationBadge extends AppCompatTextView {
     }
 
     @NonNull
-    private ShapeDrawable getSquareRoundBackground(boolean smallBadge) {
+    private ShapeDrawable getSquareRoundBackground(boolean smallBadge,int badgeBackgroundColor) {
         int radius;
         if (smallBadge)
             radius = dipToPixels(getContext().getResources().getInteger(R.integer.uid_notification_badge_view_small_size_radius));
@@ -130,8 +138,10 @@ public class NotificationBadge extends AppCompatTextView {
         return shapeDrawable;
     }
 
+
+
     @NonNull
-    private ShapeDrawable getCircleBackground(boolean smallBadge) {
+    private ShapeDrawable getCircleBackground(boolean smallBadge,int badgeBackgroundColor) {
         ShapeDrawable shapeDrawable = new ShapeDrawable(new OvalShape());
         shapeDrawable.getPaint().setColor(badgeBackgroundColor);
         int defaultWidth, defaultHeight;
@@ -152,9 +162,6 @@ public class NotificationBadge extends AppCompatTextView {
         return (int) px;
     }
 
-    private void applyNotificationBadgeStyling(Context context, Resources.Theme theme) {
-
-    }
 
     /**
      * Sets the number to Notification Badge.

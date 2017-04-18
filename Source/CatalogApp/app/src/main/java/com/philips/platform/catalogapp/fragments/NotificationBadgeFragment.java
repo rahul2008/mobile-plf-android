@@ -98,7 +98,7 @@ public class NotificationBadgeFragment extends BaseFragment {
 
     public void setAccentColor(boolean toggle) {
         isAccentColorSwitch.set(toggle);
-        mDefaultText.setBackgroundResource(R.color.design_snackbar_background_color);
+       // mDefaultText.setBackgroundResource(R.color.design_snackbar_background_color);
 
 
     }

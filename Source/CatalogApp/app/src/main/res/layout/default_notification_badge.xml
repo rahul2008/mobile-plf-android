@@ -24,7 +24,6 @@
         android:id="@+id/uid_text_default"
         style="@style/NotificationLabel"
         android:gravity="center|center_horizontal"
-        android:textColor="@color/uidColorWhite"
         app:layout_constraintRight_toRightOf="parent"
         android:visibility="invisible"
   />
