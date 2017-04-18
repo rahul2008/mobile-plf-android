@@ -83,7 +83,10 @@ public class SmallNotificationBadgeTest extends BaseTest {
         int expectedEndPadding = testResources.getDimensionPixelSize(R.dimen.uid_notification_badge_square_round_padding);
         getNotificationBadgeTextLayout().check(matches(TextViewPropertiesMatchers.isSameEndPadding(expectedEndPadding)));
     }
-
+    @Test
+    public void verifyClearText(){
+        getNotificationBadgeTextLayout().check(matches(TextViewPropertiesMatchers.hasNoText()));
+    }
 
     private ViewInteraction getNotificationBadgeTextLayout() {
         return onView(withId(com.philips.platform.uid.test.R.id.uid_text_small));

@@ -15,6 +15,11 @@ package com.philips.platform.uid.components.notificationbadge;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.action.GeneralClickAction;
+import android.support.test.espresso.action.GeneralLocation;
+import android.support.test.espresso.action.Press;
+import android.support.test.espresso.action.Tap;
+import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v4.content.ContextCompat;
 
@@ -76,7 +81,10 @@ public class DefaultNotificationBadgeTest extends BaseTest {
         int expectedEndPadding = testResources.getDimensionPixelSize(R.dimen.uid_notification_badge_square_round_padding);
         getNotificationBadgeTextLayout().check(matches(TextViewPropertiesMatchers.isSameEndPadding(expectedEndPadding)));
     }
-
+    @Test
+    public void verifyClearText(){
+          getNotificationBadgeTextLayout().check(matches(TextViewPropertiesMatchers.hasNoText()));
+    }
 
     private ViewInteraction getNotificationBadgeTextLayout() {
         return onView(withId(com.philips.platform.uid.test.R.id.uid_text_default));
