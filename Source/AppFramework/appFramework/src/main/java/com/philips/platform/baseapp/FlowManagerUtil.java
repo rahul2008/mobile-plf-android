@@ -9,6 +9,7 @@ package com.philips.platform.baseapp;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.screens.aboutscreen.AboutScreenState;
+import com.philips.platform.baseapp.screens.cocoversion.CocoVersionState;
 import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
 import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.debugtest.DebugTestFragmentState;
@@ -40,5 +41,6 @@ public class FlowManagerUtil {
         uiStateMap.put(AppStates.SPLASH, new SplashState());
         uiStateMap.put(AppStates.DATA_SYNC, new DataServicesState());
         uiStateMap.put(AppStates.CONNECTIVITY, new ConnectivityFragmentState());
+        uiStateMap.put(AppStates.COCO_VERSION_INFO, new CocoVersionState());
     }
 }

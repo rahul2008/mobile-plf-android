@@ -146,6 +146,8 @@
         <item>@string/RA_About_Menu_Title</item>
         <item>@string/RA_DataServices_Menu_Title</item>
         <item>@string/RA_ConnectivityScreen_Menu_Title</item>
+        <item>@string/RA_Coco_Version</item>
+
     </string-array>
 
     <string-array name="demo_drawer_items">
@@ -156,6 +158,7 @@
         <item>@string/RA_About_Menu_Title</item>
         <item>@string/RA_DataServices_Menu_Title</item>
         <item>@string/RA_ConnectivityScreen_Menu_Title</item>
+        <item>@string/RA_Coco_Version</item>
         <item>@string/RA_Demo_Menu_Title</item>
     </string-array>
 
@@ -209,6 +212,7 @@ Receive free product accessories</string>
     <string name="RA_Setting_Philips_Promo_PartTwo">Promotional communications based on my preferences and online behavior</string>
     <string name="insights">Insights</string>
     <string name="logout">logout</string>
+    <string name="RA_Coco_Version">Coco Versions</string>
     <!--<array name="hamburger_drawer_icons">-->
     <!--<item>@drawable/uikit_cart</item>-->
     <!--<item>@drawable/uikit_cart</item>-->

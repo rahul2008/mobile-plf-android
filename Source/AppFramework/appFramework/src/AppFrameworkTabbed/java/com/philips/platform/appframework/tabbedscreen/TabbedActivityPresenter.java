@@ -122,6 +122,8 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
                 return  HOME_DATA_SYNC;
             case MENU_OPTION_CONNECTIVITY:
                 return CONNECTIVITY;
+            case MENU_OPTION_COCOVERSION:
+                return COCO_VERSION_INFO;
             default:
                 return HOME_FRAGMENT;
         }

@@ -23,4 +23,6 @@ public class AppStates {
     public static final String DATA_SYNC = "data_sync";
     public static final String TAB_HOME = "home";
     public static final String CONNECTIVITY = "connectivity";
+    public static final String COCO_VERSION_INFO="coco_version_info";
+
 }
