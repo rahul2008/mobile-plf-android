@@ -129,7 +129,7 @@ android {
     signingConfigs {
         release
     }
-    compileSdkVersion 24
+    compileSdkVersion 25
     buildToolsVersion '25.0.2'
 
 
