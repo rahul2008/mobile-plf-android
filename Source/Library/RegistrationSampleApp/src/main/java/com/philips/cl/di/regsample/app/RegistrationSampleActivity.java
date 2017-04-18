@@ -359,6 +359,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
                 urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
+                urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
                 urLaunchInput.setAccountSettings(false);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
                         ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
