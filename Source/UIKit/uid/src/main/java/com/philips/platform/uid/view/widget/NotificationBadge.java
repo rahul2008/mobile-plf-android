@@ -8,7 +8,6 @@ package com.philips.platform.uid.view.widget;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
@@ -20,14 +19,13 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.ViewGroup;
 
 import com.philips.platform.uid.R;
+import com.philips.platform.uid.thememanager.ThemeUtils;
 
 public class NotificationBadge extends AppCompatTextView {
 
-    private final Resources resources;
     private int badgeBackgroundColor;
     private Drawable roundRectDrawable;
     private Drawable circleDrawable;
@@ -42,21 +40,30 @@ public class NotificationBadge extends AppCompatTextView {
 
     public NotificationBadge(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-
-        resources = context.getResources();
+        final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NotificationBadge, defStyle, 0);
+        final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
+        applyTextColorTinting(typedArray, theme);
         badgeBackgroundColor = ContextCompat.getColor(getContext(), R.color.uidColorRed);
-        roundRectDrawable = getSquareRoundBackground(isSmallBadge(attrs, getContext()));
-        circleDrawable = getCircleBackground(isSmallBadge(attrs, getContext()));
+        roundRectDrawable = getSquareRoundBackground(isSmallBadge(typedArray));
+        circleDrawable = getCircleBackground(isSmallBadge(typedArray));
 
         if (getText().length() > 2)
             setBackgroundDrawable(roundRectDrawable);
         else
             setBackgroundDrawable(circleDrawable);
-
-        setGravity(Gravity.CENTER);
         handleTextChangeListener();
-        setTextColor(ContextCompat.getColor(getContext(), android.R.color.white));
+        // setTextColor(ContextCompat.getColor(getContext(), android.R.color.white));
+
+        typedArray.recycle();
     }
+
+    private void applyTextColorTinting(@NonNull TypedArray typedArray, @NonNull final Resources.Theme theme) {
+        int textColorStateID = typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationTextColorList, -1);
+        if (textColorStateID != -1) {
+            setTextColor(ThemeUtils.buildColorStateList(getResources(), theme, textColorStateID));
+        }
+    }
+
 
     private void applyLayoutParams(int width, int height) {
         ViewGroup.LayoutParams lp = getLayoutParams();
@@ -69,10 +76,8 @@ public class NotificationBadge extends AppCompatTextView {
     }
 
 
-    private boolean isSmallBadge(AttributeSet attrs, Context context) {
-        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.notification_badge, 0, 0);
-        boolean smallBadge = a.getBoolean(R.styleable.notification_badge_uid_notification_badge_small, false);
-        a.recycle();
+    private boolean isSmallBadge(TypedArray typedArray) {
+        boolean smallBadge = typedArray.getBoolean(R.styleable.NotificationBadge_uid_notification_badge_small, false);
         return smallBadge;
     }
 
@@ -108,9 +113,9 @@ public class NotificationBadge extends AppCompatTextView {
     private ShapeDrawable getSquareRoundBackground(boolean smallBadge) {
         int radius;
         if (smallBadge)
-            radius = dipToPixels(resources.getInteger(R.integer.uid_notification_badge_view_small_size_radius));
+            radius = dipToPixels(getContext().getResources().getInteger(R.integer.uid_notification_badge_view_small_size_radius));
         else
-            radius = dipToPixels(resources.getInteger(R.integer.uid_notification_badge_view_default_size_radius));
+            radius = dipToPixels(getContext().getResources().getInteger(R.integer.uid_notification_badge_view_default_size_radius));
 
         float[] outerR = new float[]{radius, radius, radius, radius, radius, radius, radius, radius};
         RoundRectShape roundRectShape = new RoundRectShape(outerR, null, null);
@@ -119,7 +124,7 @@ public class NotificationBadge extends AppCompatTextView {
         shapeDrawable.getPaint().setColor(badgeBackgroundColor);
         applyLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        int padding = (int) resources.getDimension(R.dimen.uid_notification_badge_square_round_padding);
+        int padding = (int) getContext().getResources().getDimension(R.dimen.uid_notification_badge_square_round_padding);
         setPadding(padding, 0, padding, 0);
 
         return shapeDrawable;
@@ -128,26 +133,27 @@ public class NotificationBadge extends AppCompatTextView {
     @NonNull
     private ShapeDrawable getCircleBackground(boolean smallBadge) {
         ShapeDrawable shapeDrawable = new ShapeDrawable(new OvalShape());
-        shapeDrawable.setPadding(0, 0, 0, 0);
-        final Paint paint = shapeDrawable.getPaint();
-        paint.setColor(badgeBackgroundColor);
-        paint.setAntiAlias(true);
+        shapeDrawable.getPaint().setColor(badgeBackgroundColor);
         int defaultWidth, defaultHeight;
         if (smallBadge) {
-            defaultWidth = (int) resources.getDimension(R.dimen.uid_notification_badge_small_circle_radius);
-            defaultHeight = (int) resources.getDimension(R.dimen.uid_notification_badge_small_circle_radius);
+            defaultWidth = (int) getContext().getResources().getDimension(R.dimen.uid_notification_badge_small_circle_radius);
+            defaultHeight = (int) getContext().getResources().getDimension(R.dimen.uid_notification_badge_small_circle_radius);
 
         } else {
-            defaultWidth = (int) resources.getDimension(R.dimen.uid_notification_badge_default_radius);
-            defaultHeight = (int) resources.getDimension(R.dimen.uid_notification_badge_default_radius);
+            defaultWidth = (int) getContext().getResources().getDimension(R.dimen.uid_notification_badge_default_radius);
+            defaultHeight = (int) getContext().getResources().getDimension(R.dimen.uid_notification_badge_default_radius);
         }
         applyLayoutParams(defaultWidth, defaultHeight);
         return shapeDrawable;
     }
 
     private int dipToPixels(int dip) {
-        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dip, resources.getDisplayMetrics());
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dip, getContext().getResources().getDisplayMetrics());
         return (int) px;
+    }
+
+    private void applyNotificationBadgeStyling(Context context, Resources.Theme theme) {
+
     }
 
     /**
@@ -158,7 +164,7 @@ public class NotificationBadge extends AppCompatTextView {
     public void setErrorMessage(CharSequence badgeNumber) {
 
         if (badgeNumber != null) {
-            if (badgeNumber.equals("0")||badgeNumber.equals("")) {
+            if (badgeNumber.equals("0") || badgeNumber.equals("")) {
                 setVisibility(INVISIBLE);
             } else {
                 if (badgeNumber.length() >= 5) {
