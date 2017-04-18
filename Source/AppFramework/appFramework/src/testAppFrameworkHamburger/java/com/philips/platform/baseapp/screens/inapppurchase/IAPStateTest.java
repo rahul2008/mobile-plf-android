@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
@@ -35,6 +36,8 @@ public class IAPStateTest extends TestCase {
     public void setUp() throws Exception{
         super.setUp();
         iapRetailerFlowState = new IAPRetailerFlowState();
+        getApplicationContext().setIapState(iapRetailerFlowState);
+        iapRetailerFlowState.init(RuntimeEnvironment.application);
         UIStateData iapStateData = new UIStateData();
         iapStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
         iapRetailerFlowState.setUiStateData(iapStateData);
@@ -42,7 +45,9 @@ public class IAPStateTest extends TestCase {
         launchActivity = Robolectric.buildActivity(HamburgerActivity.class).create().start().get();
         fragmentLauncher = new FragmentLauncher(launchActivity, R.id.frame_container, launchActivity);
     }
-
+    public TestAppFrameworkApplication getApplicationContext(){
+        return (TestAppFrameworkApplication) RuntimeEnvironment.application;
+    }
     @Test
     public void launchIAP(){
         iapRetailerFlowState.navigate(fragmentLauncher);
