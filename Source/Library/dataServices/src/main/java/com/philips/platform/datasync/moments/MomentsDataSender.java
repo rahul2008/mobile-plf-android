@@ -103,6 +103,7 @@ public class MomentsDataSender extends DataSender {
         MomentsClient client = uCoreAdapter.getClient(MomentsClient.class, baseUrl,
                 accessProvider.getAccessToken(), momentGsonConverter);
 
+        if(client==null) return false;
         for (Moment moment : moments) {
             if (shouldMomentContainCreatorIdAndSubjectId(moment)) {
                 conflictHappened = conflictHappened || sendMomentToBackend(client, moment);
