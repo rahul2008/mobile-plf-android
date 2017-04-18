@@ -16,6 +16,7 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 public class SecureStorageMenuActivity extends AppCompatActivity {
 
 	TextView deviceCapable;
+	TextView deviceLock;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,9 @@ public class SecureStorageMenuActivity extends AppCompatActivity {
 
 		deviceCapable = (TextView) findViewById(R.id.devicecapableStatus);
 		deviceCapable.setText(mSecureStorage.getDeviceCapability());
+
+		deviceLock = (TextView) findViewById(R.id.devicelockStatus);
+		deviceLock.setText(Boolean.toString(mSecureStorage.deviceHasPasscode()));
 
 		Button secureStorageButton = (Button) findViewById(R.id.secureStorage);
 		secureStorageButton.setOnClickListener(new View.OnClickListener() {
