@@ -152,15 +152,17 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         final AppConfigurationInterface.AppConfigurationError appConfigurationError = new AppConfigurationInterface
                 .AppConfigurationError();
 
-        final Object defPropositionEnabled = mAppInfra.getConfigInterface().getDefaultPropertyForKey
+        final Object defPropositionEnabled = mAppInfra.getConfigInterface().getPropertyForKey
                 ("servicediscovery.propositionEnabled", "appinfra", appConfigurationError);
 
+        Boolean propositionEnabled = true;
+        if(defPropositionEnabled != null)
+        {
+            propositionEnabled = ((Boolean) defPropositionEnabled).booleanValue();
+        }
 
-        final Boolean propositionEnabled = (Boolean) mAppInfra.getConfigInterface()
-                .getPropertyForKey("servicediscovery.propositionEnabled", "appinfra",
-                        appConfigurationError);
 
-        if (defPropositionEnabled != null && !propositionEnabled) {
+        if (!propositionEnabled) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD Call", "Downloading from platform microsite id  and should return the URL's for Service id.  ");
             platformService = downloadPlatformService();
             if (platformService.isSuccess()) {
