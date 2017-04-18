@@ -15,7 +15,6 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FileUtility;
-import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 
@@ -65,9 +64,15 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
         FileUtility fileUtility = new FileUtility(this);
         tempFile = fileUtility.createFileFromInputStream(resId);
         setTargetFlowManager();
-        iapState = new IAPRetailerFlowState();
-        iapState.init(this);
 
+    }
+
+    public IAPState getIap() {
+        return iapState;
+    }
+
+    public  void setIapState(IAPState state) {
+        iapState = state;
     }
 
     private void setLocale() {
