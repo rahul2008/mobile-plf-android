@@ -3,7 +3,7 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.pushnotification;
+package com.philips.platform.referenceapp;
 
 import android.content.Intent;
 import android.util.Log;

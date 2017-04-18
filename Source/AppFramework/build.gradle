@@ -18,6 +18,14 @@ allprojects {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
         maven { url "https://mvnrepository.com/artifact/org.robolectric/shadows-core" }
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android'}
+        maven {
+            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "readonly"
+            }
+        }
     }
 
     tasks.withType(Test) {

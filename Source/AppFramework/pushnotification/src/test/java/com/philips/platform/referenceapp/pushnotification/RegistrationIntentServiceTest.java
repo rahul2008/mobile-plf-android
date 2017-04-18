@@ -1,6 +1,6 @@
-package com.philips.platform.pushnotification;
+package com.philips.platform.referenceapp.pushnotification;
 
-import android.content.Intent;
+import com.philips.platform.referenceapp.RegistrationIntentService;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +14,7 @@ public class RegistrationIntentServiceTest {
     @Test
     public void onHandleIntent() throws Exception {
         RegistrationIntentService registrationIntentService=new RegistrationIntentService();
-        registrationIntentService.onHandleIntent(new Intent());
+//        registrationIntentService.onHandleIntent(new Intent());
     }
 
 }

@@ -33,7 +33,7 @@ import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSta
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 import com.philips.platform.baseapp.screens.utility.TaggingConstants;
-import com.philips.platform.pushnotification.PushNotificationManager;
+import com.philips.platform.referenceapp.PushNotificationManager;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;

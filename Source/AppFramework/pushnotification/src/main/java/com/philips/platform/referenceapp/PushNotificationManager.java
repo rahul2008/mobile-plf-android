@@ -3,7 +3,7 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.pushnotification;
+package com.philips.platform.referenceapp;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,8 +14,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.philips.cdp.registration.User;
-import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.core.listeners.RegisterDeviceTokenListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DataServicesError;
@@ -216,8 +214,9 @@ public class PushNotificationManager {
                     switch (key) {
                         case PushNotificationConstants.DSC:
                             JSONObject dscobject = jsonObject.getJSONObject(key);
-                            DataServicesState dataServicesState = ((AppFrameworkApplication) context.getApplicationContext()).getDataServiceState();
-                            dataServicesState.sendPayloadMessageToDSC(dscobject);
+                            DataServicesManager.getInstance().handlePushNotificationPayload(dscobject);
+//                            DataServicesState dataServicesState = ((AppFrameworkApplication) context.getApplicationContext()).getDataServiceState();
+//                            dataServicesState.sendPayloadMessageToDSC(dscobject);
                             break;
                         default:
                             Log.d(TAG, "Common component is not designed for handling this key");

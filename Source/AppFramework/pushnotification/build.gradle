@@ -1,0 +1,76 @@
+apply plugin: 'com.android.library'
+buildscript {
+    repositories {
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
+        maven {
+            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "readonly"
+            }
+        }
+    }
+
+    dependencies {
+        classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
+        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12"
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.0', changing: true
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
+        apply plugin: 'com.jfrog.artifactory'
+        group = 'com.philips.cdp'
+    }
+}
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.2.0'
+    testCompile 'junit:junit:4.12'
+    compile 'com.google.android.gms:play-services-gcm:10.2.0'
+    compile(group: 'com.philips.cdp', name: 'dataServices', version: '1.0.1-SNAPSHOT.20170417091203' , ext: 'aar') {
+        exclude group: 'com.android.support'
+        transitive = true
+    }
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '10.1.0-SNAPSHOT.20170417173418', ext: 'aar'){
+        exclude group: 'com.android.support'
+        transitive = true
+    }
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
+    testCompile 'org.robolectric:robolectric:3.3.1'
+    testCompile 'org.robolectric:shadows-multidex:3.3.1'
+    testCompile 'org.robolectric:shadows-support-v4:3.3.1'
+    testCompile 'org.mockito:mockito-all:1.10.17'
+}
+apply plugin: 'com.google.gms.google-services'

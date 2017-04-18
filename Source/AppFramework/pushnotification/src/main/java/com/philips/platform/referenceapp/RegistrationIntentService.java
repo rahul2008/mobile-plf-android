@@ -3,7 +3,7 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.pushnotification;
+package com.philips.platform.referenceapp;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -11,7 +11,6 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
-import com.philips.platform.appframework.R;
 
 public class RegistrationIntentService extends IntentService {
 

@@ -1,2 +1,2 @@
 rootProject.setName 'referenceApp'
-include ':appFramework'
+include ':appFramework', ':pushnotification'

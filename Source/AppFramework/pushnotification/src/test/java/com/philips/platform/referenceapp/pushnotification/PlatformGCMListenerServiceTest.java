@@ -1,6 +1,7 @@
-package com.philips.platform.pushnotification;
+package com.philips.platform.referenceapp.pushnotification;
 
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.philips.platform.appframework.BuildConfig;
 
@@ -19,18 +20,18 @@ import org.robolectric.annotation.Config;
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 24)
-public class PlatformInstanceIDListenerServiceTest {
-    private PlatformInstanceIDListenerService service;
-    private ServiceController<PlatformInstanceIDListenerService> controller;
+public class PlatformGCMListenerServiceTest {
+    private PlatformGCMListenerService service;
+    private ServiceController<PlatformGCMListenerService> controller;
     @Before
     public void setUp() {
-        controller = Robolectric.buildService(PlatformInstanceIDListenerService.class);
+        controller = Robolectric.buildService(PlatformGCMListenerService.class);
         service = controller.attach().create().get();
     }
 
     @Test
     public void testWithIntent() {
-        Intent intent = new Intent(RuntimeEnvironment.application, PLatformInstanceIDListenerServiceOveriden.class);
+        Intent intent = new Intent(RuntimeEnvironment.application, PlatformGCMListenerServiceOveriden.class);
         // add extras to intent
         controller.withIntent(intent).startCommand(0, 0);
         // assert here
@@ -41,14 +42,15 @@ public class PlatformInstanceIDListenerServiceTest {
         controller.destroy();
     }
 
-    public static class PLatformInstanceIDListenerServiceOveriden extends PlatformInstanceIDListenerService {
+    public static class PlatformGCMListenerServiceOveriden extends PlatformGCMListenerService {
         public boolean enabled = true;
 
         @Override
         public void onStart(Intent intent, int startId) {
             // same logic as in internal ServiceHandler.handleMessage()
             // but runs on same thread as Service
-            onTokenRefresh();
+            onMessageReceived("",new Bundle());
         }
     }
+
 }
