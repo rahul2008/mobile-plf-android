@@ -7,10 +7,10 @@ package com.philips.cdp2.commlib.ble.request;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-import android.util.Log;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy;
 import com.philips.pins.shinelib.ResultListener;
@@ -239,7 +239,7 @@ public abstract class BleRequest implements Runnable {
     };
 
     private void connectToDevice() {
-        Log.w(TAG, "Connecting device");
+        DICommLog.w(TAG, "Connecting device");
         bleDevice.connect();
     }
 
@@ -313,7 +313,7 @@ public abstract class BleRequest implements Runnable {
 
     private void finishRequest() {
         //if (bleDevice != null && bleDevice.getState() != Disconnected && disconnectAfterRequest.get()) {
-        Log.w(TAG, "Disconnecting device");
+        DICommLog.w(TAG, "Disconnecting device");
             bleDevice.disconnect();
         //} else {
         //    completeRequest();

@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
@@ -150,9 +149,9 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
     public void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull SHNDeviceFoundInfo shnDeviceFoundInfo) {
         // TODO temporary filter
 //        if (!shnDeviceFoundInfo.getDeviceAddress().equals("22:22:22:04:04:18")) {
-        if (!shnDeviceFoundInfo.getDeviceAddress().equals("AA:AA:AA:AA:AA:AA")) {
-            return;
-        }
+//        if (!shnDeviceFoundInfo.getDeviceAddress().equals("AA:AA:AA:AA:AA:AA")) {
+//            return;
+//        }
 
         // If device already in cache, don't care
         CacheData cacheData = bleDeviceCache.findByAddress(shnDeviceFoundInfo.getDeviceAddress());
@@ -273,7 +272,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
             if (counter.decrementAndGet() == 0) {
                 device.unregisterSHNDeviceListener(this);
                 discoveredMacAddresses.remove(networkNode.getBleAddress());
-                Log.w(TAG, "Disconnecting device");
+                DICommLog.w(TAG, "Disconnecting device");
                 device.disconnect();
             }
         }
