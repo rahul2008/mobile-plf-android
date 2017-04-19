@@ -50,9 +50,15 @@ public class URInterface implements UappInterface {
             if(((URLaunchInput)uappLaunchInput).getEndPointScreen()!=null){
                 registrationLaunchMode = ((URLaunchInput)uappLaunchInput).getEndPointScreen();
             }
+
+            UIFlow uiFlow =((URLaunchInput) uappLaunchInput).getUIflow();
+            RegUtility.setUiFlow(uiFlow);
+
+
             RegistrationContentConfiguration registrationContentConfiguration = ((URLaunchInput) uappLaunchInput).
                     getRegistrationContentConfiguration();
             bundle.putSerializable(RegConstants.REGISTRATION_CONTENT_CONFIG, registrationContentConfiguration);
+
 
             bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, registrationLaunchMode);
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((URLaunchInput)
@@ -98,6 +104,10 @@ public class URInterface implements UappInterface {
             RegistrationContentConfiguration registrationContentConfiguration = ((URLaunchInput) uappLaunchInput).
                     getRegistrationContentConfiguration();
 
+            UIFlow uiFlow =((URLaunchInput) uappLaunchInput).getUIflow();
+            RegUtility.setUiFlow(uiFlow);
+
+
             RegistrationActivity.setUserRegistrationUIEventListener(((URLaunchInput) uappLaunchInput).
                     getUserRegistrationUIEventListener());
             Intent registrationIntent = new Intent(RegistrationHelper.getInstance().
@@ -113,6 +123,8 @@ public class URInterface implements UappInterface {
             if(((URLaunchInput)uappLaunchInput).getEndPointScreen()!=null){
                 registrationLaunchMode = ((URLaunchInput)uappLaunchInput).getEndPointScreen();
             }
+
+            bundle.putSerializable(RegConstants.REGISTRATION_UI_FLOW, uiFlow);
             bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, registrationLaunchMode);
             bundle.putSerializable(RegConstants.REGISTRATION_CONTENT_CONFIG, registrationContentConfiguration);
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((URLaunchInput)

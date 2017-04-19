@@ -31,6 +31,7 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
+import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -40,6 +41,8 @@ import com.philips.platform.uappframework.listener.BackEventListener;
  */
 public class RegistrationCoppaActivity extends FragmentActivity implements OnClickListener,
         ActionBarListener {
+
+    private UIFlow uiFlow;
 
     final private Handler mSiteCatalistHandler = new Handler();
     final private Runnable mPauseSiteCatalystRunnable = new Runnable() {
@@ -83,6 +86,8 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
             mRegistrationLaunchMode = (RegistrationLaunchMode) bundle.get(RegConstants.REGISTRATION_LAUNCH_MODE);
             registrationContentConfiguration = (RegistrationContentConfiguration) bundle.get(RegConstants.REGISTRATION_CONTENT_CONFIG);
             isParentalConsent = bundle.getBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, false);
+            uiFlow = (UIFlow) bundle.get(RegConstants.REGISTRATION_UI_FLOW);
+
             final int sOrientation = bundle.getInt(RegConstants.ORIENTAION, -1);
             setOrientation(sOrientation);
         }
@@ -197,6 +202,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         urLaunchInput.setParentalFragment(isParentalConsent);
         urLaunchInput.setRegistrationContentConfiguration(registrationContentConfiguration);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+        urLaunchInput.setUIFlow(uiFlow);
         urLaunchInput.setUserRegistrationUIEventListener(RegistrationCoppaActivity.
                 getUserRegistrationUIEventListener());
         FragmentLauncher fragmentLauncher = new FragmentLauncher

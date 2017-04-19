@@ -304,6 +304,8 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
                 urLaunchInput.setAccountSettings(true);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+                urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
+                urLaunchInput.setUIFlow(UIFlow.FLOW_B);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
                         ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
@@ -330,7 +332,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 urLaunchInput.setAccountSettings(false);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                 urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
-                setRegistrationUiFlow();
+                urLaunchInput.setUIFlow(UIFlow.FLOW_B);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
                         ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
@@ -359,6 +361,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
                 urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
+                urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
                 urLaunchInput.setAccountSettings(false);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
                         ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
@@ -628,7 +631,5 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
     }
 
-    void setRegistrationUiFlow(){
-        RegUtility.setUiFlow(UIFlow.FLOW_B);
-    }
+
 }

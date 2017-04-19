@@ -15,7 +15,9 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
+import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -55,8 +57,10 @@ public class CoppaInterface implements UappInterface {
                 registrationLaunchMode = ((CoppaLaunchInput)
                         uappLaunchInput).getEndPointScreen();
             }
+            UIFlow uiFlow =((CoppaLaunchInput) uappLaunchInput).getUIflow();
+            RegUtility.setUiFlow(uiFlow);
             bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, registrationLaunchMode);
-
+            bundle.putSerializable(RegConstants.REGISTRATION_UI_FLOW, uiFlow);
             RegistrationContentConfiguration registrationContentConfiguration = ((CoppaLaunchInput) uappLaunchInput).
                     getRegistrationContentConfiguration();
 
@@ -111,6 +115,9 @@ public class CoppaInterface implements UappInterface {
                 registrationLaunchMode= RegistrationLaunchMode.ACCOUNT_SETTINGS;
             }
 
+            UIFlow uiFlow =((CoppaLaunchInput) uappLaunchInput).getUIflow();
+            RegUtility.setUiFlow(uiFlow);
+
             if(((CoppaLaunchInput)uappLaunchInput).getEndPointScreen() !=null){
                 registrationLaunchMode = ((CoppaLaunchInput)
                         uappLaunchInput).getEndPointScreen();
@@ -120,6 +127,7 @@ public class CoppaInterface implements UappInterface {
             RegistrationContentConfiguration registrationContentConfiguration = ((CoppaLaunchInput) uappLaunchInput).
                     getRegistrationContentConfiguration();
             bundle.putSerializable(RegConstants.REGISTRATION_CONTENT_CONFIG, registrationContentConfiguration);
+            bundle.putSerializable(RegConstants.REGISTRATION_UI_FLOW, uiFlow);
 
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((CoppaLaunchInput)
                     uappLaunchInput).isAccountSettings());
