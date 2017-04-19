@@ -220,16 +220,14 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
                 SHNDeviceWrapper wrapper = (SHNDeviceWrapper) discoveredDevice;
                 SHNDeviceImpl shnDevice = (SHNDeviceImpl) wrapper.getInternalDevice();
 
-                if (shnDevice.getCapability(CapabilityDiComm.class) == null) {
-                    final SHNServiceDiCommStreaming shnServiceDiCommStreaming = new SHNServiceDiCommStreaming();
-                    shnDevice.registerService(shnServiceDiCommStreaming);
+                final SHNServiceDiCommStreaming shnServiceDiCommStreaming = new SHNServiceDiCommStreaming();
+                shnDevice.registerService(shnServiceDiCommStreaming);
 
-                    final SHNProtocolMoonshineStreaming shnProtocolMoonshineStreaming = new SHNProtocolByteStreamingVersionSwitcher(shnServiceDiCommStreaming, shnCentral.getInternalHandler());
-                    shnServiceDiCommStreaming.setShnServiceMoonshineStreamingListener(shnProtocolMoonshineStreaming);
+                final SHNProtocolMoonshineStreaming shnProtocolMoonshineStreaming = new SHNProtocolByteStreamingVersionSwitcher(shnServiceDiCommStreaming, shnCentral.getInternalHandler());
+                shnServiceDiCommStreaming.setShnServiceMoonshineStreamingListener(shnProtocolMoonshineStreaming);
 
-                    CapabilityDiComm capabilityDiComm = new StreamingCapability(shnProtocolMoonshineStreaming);
-                    shnDevice.registerCapability(CapabilityDiComm.class, capabilityDiComm);
-                }
+                CapabilityDiComm capabilityDiComm = new StreamingCapability(shnProtocolMoonshineStreaming);
+                shnDevice.registerCapability(CapabilityDiComm.class, capabilityDiComm);
 
                 return discoveredDevice;
             }

@@ -23,10 +23,12 @@ import com.philips.cdp2.commlib.core.util.HandlerProvider;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
+import com.philips.pins.shinelib.SHNDeviceImpl;
 import com.philips.pins.shinelib.SHNDeviceScanner;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.utility.BleScanRecord;
+import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
 
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -270,13 +272,15 @@ public class BleDiscoveryStrategyTestSteps {
     }
 
     private SHNDevice createShnDeviceMock(String applianceName, final String cppId, byte[] modelIdArray, int times) {
-        final SHNDevice shnDeviceMock = mock(SHNDevice.class);
+        final SHNDeviceWrapper shnDeviceMock = mock(SHNDeviceWrapper.class);
+        final SHNDeviceImpl shnDeviceImplMock = mock(SHNDeviceImpl.class);
 
         // Properties
         when(shnDeviceMock.getState()).thenReturn(SHNDevice.State.Connected);
         when(shnDeviceMock.getAddress()).thenReturn(createMacAddress());
         when(shnDeviceMock.getName()).thenReturn(applianceName);
         when(shnDeviceMock.getDeviceTypeName()).thenReturn(getApplianceTypeByName(applianceName));
+        when(shnDeviceMock.getInternalDevice()).thenReturn(shnDeviceImplMock);
 
         // DIS -> CPP ID
         when(shnDeviceMock.getCapability(SHNCapabilityDeviceInformation.class)).thenReturn(deviceInformationMock);
