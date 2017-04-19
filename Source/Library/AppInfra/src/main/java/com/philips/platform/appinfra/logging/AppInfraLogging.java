@@ -97,7 +97,7 @@ public class AppInfraLogging implements LoggingInterface {
                     javaLogger.log(Level.FINE, eventId, message);
                     break;
             }
-        }ß
+        }
 
     }
 
