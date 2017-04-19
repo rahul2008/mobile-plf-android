@@ -90,6 +90,14 @@
                     android:layout_marginStart="@dimen/layout_margin_left_right"
                     android:enabled="@{frag.isCheckBoxEnabled}"
                     android:text="@string/checkbox_check_item_4"/>
+                <com.philips.platform.uid.view.widget.RatingStar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="false"
+                    android:numStars="5"
+                    android:stepSize="0.1"
+                    android:rating="4.2"
+                    />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
