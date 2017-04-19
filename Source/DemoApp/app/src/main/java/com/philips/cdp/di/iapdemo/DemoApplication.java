@@ -11,7 +11,6 @@ import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URSettings;
@@ -31,17 +30,53 @@ public class DemoApplication extends Application {
         super.onCreate();
         LeakCanary.install(this);
         mAppInfra = new AppInfra.Builder().build(getApplicationContext());
-        SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
-        String restoredText = prefs.getString("reg_environment", null);
-        if (restoredText != null) {
-            String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
-            if (restoredHSDPText != null && restoredHSDPText.equals(restoredText)) {
-                initHSDP(RegUtility.getConfiguration(restoredHSDPText));
-            }
-            initRegistration(RegUtility.getConfiguration(restoredText));
-        } else {
-            initRegistration(Configuration.STAGING);
-        }
+        HSDPConfiguration();
+        initRegistration(Configuration.STAGING);
+//        SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
+//        String restoredText = prefs.getString("reg_environment", null);
+//        if (restoredText != null) {
+//            String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
+//            if (restoredHSDPText != null && restoredHSDPText.equals(restoredText)) {
+//                initHSDP(RegUtility.getConfiguration(restoredHSDPText));
+//            }
+//            initRegistration(RegUtility.getConfiguration(restoredText));
+//        } else {
+
+        //}
+    }
+
+    private void HSDPConfiguration() {
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+
+        mAppInfra.
+                getConfigInterface().setPropertyForKey(
+                URConfigurationConstants.
+                        HSDP_CONFIGURATION_APPLICATION_NAME,
+                URConfigurationConstants.UR,
+                "uGrow",
+                configError);
+        mAppInfra.
+                getConfigInterface().setPropertyForKey(
+                URConfigurationConstants.
+                        HSDP_CONFIGURATION_SECRET,
+                URConfigurationConstants.UR,
+                "e33a4d97-6ada-491f-84e4-a2f7006625e2",
+                configError);
+        mAppInfra.
+                getConfigInterface().setPropertyForKey(
+                URConfigurationConstants.
+                        HSDP_CONFIGURATION_SHARED,
+                URConfigurationConstants.UR,
+                "e95f5e71-c3c0-4b52-8b12-ec297d8ae960",
+                configError);
+        mAppInfra.
+                getConfigInterface().setPropertyForKey(
+                URConfigurationConstants.
+                        HSDP_CONFIGURATION_BASE_URL,
+                URConfigurationConstants.UR,
+                "https://ugrow-ds-staging.eu-west.philips-healthsuite.com",
+                configError);
     }
 
     public AppInfra getAppInfra() {
