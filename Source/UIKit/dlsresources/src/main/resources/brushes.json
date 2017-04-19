@@ -1346,19 +1346,19 @@
     },
     "input-validated-background": {
       "very-light": {
-        "color": "validation"
+        "color-range": "validation"
       },
       "ultra-light": {
-        "color": "validation"
+        "color-range": "validation"
       },
       "bright": {
-        "color": "validation"
+        "color-range": "validation"
       },
       "very-dark": {
-        "color": "validation"
+        "color-range": "validation"
       },
       "light": {
-        "color": "validation"
+        "color-range": "validation"
       }
     },
     "input-validated-border": {
