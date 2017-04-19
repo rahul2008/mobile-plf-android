@@ -8,8 +8,8 @@ import android.app.Application;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
-import com.philips.cdp2.commlib.example.appliance.BleReferenceApplianceFactory;
 import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.example.appliance.BleReferenceApplianceFactory;
 
 public final class App extends Application {
     private CommCentral commCentral;
