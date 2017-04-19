@@ -2,7 +2,8 @@ package com.philips.platform.referenceapp.pushnotification;
 
 import android.content.Intent;
 
-import com.philips.platform.appframework.BuildConfig;
+import com.philips.platform.referenceapp.BuildConfig;
+import com.philips.platform.referenceapp.PlatformInstanceIDListenerService;
 
 import org.junit.After;
 import org.junit.Before;

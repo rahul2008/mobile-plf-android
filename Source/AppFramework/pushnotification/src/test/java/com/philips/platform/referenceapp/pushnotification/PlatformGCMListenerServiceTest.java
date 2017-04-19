@@ -3,7 +3,8 @@ package com.philips.platform.referenceapp.pushnotification;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.philips.platform.appframework.BuildConfig;
+import com.philips.platform.referenceapp.BuildConfig;
+import com.philips.platform.referenceapp.PlatformGCMListenerService;
 
 import org.junit.After;
 import org.junit.Before;
@@ -43,7 +44,6 @@ public class PlatformGCMListenerServiceTest {
     }
 
     public static class PlatformGCMListenerServiceOveriden extends PlatformGCMListenerService {
-        public boolean enabled = true;
 
         @Override
         public void onStart(Intent intent, int startId) {

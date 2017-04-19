@@ -1,5 +1,7 @@
 package com.philips.platform.referenceapp.pushnotification;
 
+import android.content.Intent;
+
 import com.philips.platform.referenceapp.RegistrationIntentService;
 
 import org.junit.Test;
@@ -12,9 +14,16 @@ import org.robolectric.RobolectricTestRunner;
 @RunWith(RobolectricTestRunner.class)
 public class RegistrationIntentServiceTest {
     @Test
-    public void onHandleIntent() throws Exception {
-        RegistrationIntentService registrationIntentService=new RegistrationIntentService();
-//        registrationIntentService.onHandleIntent(new Intent());
+    public void testHandleIntent() throws Exception {
+        RegistrationIntentServiceOveriden registrationIntentService=new RegistrationIntentServiceOveriden();
+        registrationIntentService.onHandleIntent(new Intent());
+    }
+
+    public static class  RegistrationIntentServiceOveriden extends RegistrationIntentService{
+        @Override
+        protected void onHandleIntent(Intent intent) {
+            super.onHandleIntent(intent);
+        }
     }
 
 }
