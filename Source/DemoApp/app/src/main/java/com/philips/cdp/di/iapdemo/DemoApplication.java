@@ -31,50 +31,17 @@ public class DemoApplication extends Application {
         super.onCreate();
         LeakCanary.install(this);
         mAppInfra = new AppInfra.Builder().build(getApplicationContext());
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-
-        mAppInfra.
-                getConfigInterface().setPropertyForKey(
-                URConfigurationConstants.
-                        HSDP_CONFIGURATION_APPLICATION_NAME,
-                URConfigurationConstants.UR,
-                "uGrow",
-                configError);
-        mAppInfra.
-                getConfigInterface().setPropertyForKey(
-                URConfigurationConstants.
-                        HSDP_CONFIGURATION_SECRET,
-                URConfigurationConstants.UR,
-                "e33a4d97-6ada-491f-84e4-a2f7006625e2",
-                configError);
-        mAppInfra.
-                getConfigInterface().setPropertyForKey(
-                URConfigurationConstants.
-                        HSDP_CONFIGURATION_SHARED,
-                URConfigurationConstants.UR,
-                "e95f5e71-c3c0-4b52-8b12-ec297d8ae960",
-                configError);
-        mAppInfra.
-                getConfigInterface().setPropertyForKey(
-                URConfigurationConstants.
-                        HSDP_CONFIGURATION_BASE_URL,
-                URConfigurationConstants.UR,
-                "https://ugrow-ds-staging.eu-west.philips-healthsuite.com",
-                configError);
-
-        initRegistration(Configuration.STAGING);
-//        SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
-//        String restoredText = prefs.getString("reg_environment", null);
-//        if (restoredText != null) {
-//            String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
-//            if (restoredHSDPText != null && restoredHSDPText.equals(restoredText)) {
-//                initHSDP(RegUtility.getConfiguration(restoredHSDPText));
-//            }
-//            initRegistration(RegUtility.getConfiguration(restoredText));
-//        } else {
-//            initRegistration(Configuration.STAGING);
-//        }
+        SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
+        String restoredText = prefs.getString("reg_environment", null);
+        if (restoredText != null) {
+            String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
+            if (restoredHSDPText != null && restoredHSDPText.equals(restoredText)) {
+                initHSDP(RegUtility.getConfiguration(restoredHSDPText));
+            }
+            initRegistration(RegUtility.getConfiguration(restoredText));
+        } else {
+            initRegistration(Configuration.STAGING);
+        }
     }
 
     public AppInfra getAppInfra() {

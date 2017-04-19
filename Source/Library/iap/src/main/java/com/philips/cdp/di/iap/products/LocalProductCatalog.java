@@ -8,8 +8,6 @@ import android.content.Context;
 import android.os.Message;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.analytics.IAPAnalytics;
-import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.response.products.Products;
@@ -75,11 +73,8 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
         if (msg.obj instanceof IAPNetworkError)
             mProductCatalogListener.onLoadError((IAPNetworkError) msg.obj);
         else {
-            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.PRX + IAPAnalyticsConstant.NO_PRODUCT_FOUND);
-
             mProductCatalogListener.onLoadError(NetworkUtility.getInstance()
-                    .createIAPErrorMessage(IAPAnalyticsConstant.PRX, mContext.getString(R.string.iap_no_product_available)));
+                    .createIAPErrorMessage(mContext.getString(R.string.iap_no_product_available)));
         }
     }
 }

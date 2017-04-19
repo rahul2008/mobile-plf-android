@@ -55,18 +55,10 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ProductCatalogViewHolder productHolder = (ProductCatalogViewHolder) holder;
 
         String imageURL = productCatalogData.getImageURL();
-        if(imageURL==null){
-            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.PRX + productCatalogData.getCtnNumber() + "_" + IAPAnalyticsConstant.NO_THUMB_NAIL_IMAGE);
-        }
         String discountedPrice = productCatalogData.getDiscountedPrice();
         String formattedPrice = productCatalogData.getFormattedPrice();
 
         productHolder.mProductName.setText(productCatalogData.getProductTitle());
-        if(imageURL==null){
-            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.PRX + productCatalogData.getCtnNumber() + "_" +IAPAnalyticsConstant.PRODUCT_TITLE_MISSING);
-        }
         productHolder.mProductImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.no_icon));
         productHolder.mPrice.setText(formattedPrice);
         productHolder.mCTN.setText(productCatalogData.getCtnNumber());

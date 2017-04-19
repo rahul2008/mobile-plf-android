@@ -10,8 +10,6 @@ import android.os.Message;
 import com.android.volley.NoConnectionError;
 import com.android.volley.TimeoutError;
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.analytics.IAPAnalytics;
-import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
@@ -158,16 +156,14 @@ public class PRXAssetExecutor {
         }
     }
 
-    protected void notifyError(final PrxError prxError) {
+    protected void notifyError(final PrxError errorCode) {
         Message result = Message.obtain();
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.PRX + prxError.getStatusCode() + "_" + prxError.getDescription());
-        if (PrxError.PrxErrorType.NO_INTERNET_CONNECTION.getId() == prxError.getStatusCode()) {
+        if (PrxError.PrxErrorType.NO_INTERNET_CONNECTION.getId() == errorCode.getStatusCode()) {
             result.obj = new IAPNetworkError(new NoConnectionError(), 0, null);
-        } else if (PrxError.PrxErrorType.TIME_OUT.getId() == prxError.getStatusCode()) {
+        } else if (PrxError.PrxErrorType.TIME_OUT.getId() == errorCode.getStatusCode()) {
             result.obj = new IAPNetworkError(new TimeoutError(), 0, null);
         } else {
-            result.obj = prxError.getStatusCode();
+            result.obj = errorCode.getStatusCode();
         }
         if (mAssetListener != null) {
             mAssetListener.onFetchAssetFailure(result);

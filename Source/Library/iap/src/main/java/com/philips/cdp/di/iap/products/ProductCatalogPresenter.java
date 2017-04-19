@@ -9,8 +9,6 @@ import android.content.Context;
 import android.os.Message;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.analytics.IAPAnalytics;
-import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.model.AbstractModel;
@@ -151,9 +149,8 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
             mProducts = (Products) msg.obj;
 
             if (mProducts.getPagination().getTotalResults() < 1) {
-                trackNoProductFoundInPRX();
                 mProductCatalogListener.onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
-                        ("", mContext.getString(R.string.iap_no_product_available)));
+                        (mContext.getString(R.string.iap_no_product_available)));
             } else {
                 mProductCatalogHelper.sendPRXRequest(mProducts);
             }
@@ -167,15 +164,9 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
         if (msg.obj instanceof IAPNetworkError)
             mProductCatalogListener.onLoadError((IAPNetworkError) msg.obj);
         else {
-            trackNoProductFoundInPRX();
             mProductCatalogListener.onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
-                    ("", mContext.getString(R.string.iap_no_product_available)));
+                    (mContext.getString(R.string.iap_no_product_available)));
         }
-    }
-
-    private void trackNoProductFoundInPRX() {
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.PRX + IAPAnalyticsConstant.NO_PRODUCT_FOUND);
     }
 
     public void setHybrisDelegate(HybrisDelegate delegate) {

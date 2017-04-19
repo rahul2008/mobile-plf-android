@@ -8,8 +8,6 @@ import android.content.Context;
 import android.os.Message;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.analytics.IAPAnalytics;
-import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.controller.ControllerFactory;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.GetRetailersInfoRequest;
@@ -21,7 +19,6 @@ import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 
-import java.security.cert.TrustAnchor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -59,7 +56,7 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
     }
 
     @Override
-    public void getRetailersInformation(final String ctn) {
+    public void getRetailersInformation(String ctn) {
         Map<String, String> query = new HashMap<>();
         query.put(ModelConstants.PRODUCT_CODE, String.valueOf(ctn));
 
@@ -74,9 +71,8 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
                         }
 
                         if (webResults == null) {
-                            trackRetailer(ctn);
                             mLoadListener.onRetailerError(NetworkUtility.getInstance().
-                                    createIAPErrorMessage("", mContext.getString(R.string.iap_no_retailer_message)));
+                                    createIAPErrorMessage(mContext.getString(R.string.iap_no_retailer_message)));
                             return;
                         }
 
@@ -84,9 +80,8 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
                                 webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore() == null ||
                                 webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore().size() == 0) {
                             if (mLoadListener != null) {
-                                trackRetailer(ctn);
                                 mLoadListener.onRetailerError(NetworkUtility.getInstance().
-                                        createIAPErrorMessage("", mContext.getString(R.string.iap_no_retailer_message)));
+                                        createIAPErrorMessage(mContext.getString(R.string.iap_no_retailer_message)));
                             }
                             return;
                         }
@@ -103,12 +98,6 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
                     }
                 });
         getHybrisDelegate().sendRequest(0, model, model);
-    }
-
-
-    private void trackRetailer(String pCtn) {
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.WTB + String.valueOf(pCtn) + "_" + IAPAnalyticsConstant.NO_RETAILER_FOUND);
     }
 
     private void handlePhilipsFlagShipStore() {

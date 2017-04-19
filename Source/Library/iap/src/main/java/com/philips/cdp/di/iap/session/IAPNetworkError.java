@@ -11,7 +11,6 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
-import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.response.error.ServerError;
@@ -24,7 +23,6 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
     private VolleyError mVolleyError;
     private int mIAPErrorCode = IAPConstant.IAP_SUCCESS;
     private String mCustomErrorMessage;
-    private String mServerName;
 
     public IAPNetworkError(VolleyError error, int requestCode,
                            RequestListener requestListener) {
@@ -35,7 +33,10 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
             mVolleyError = error;
         }
 
-
+        if (getMessage() != null) {
+            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                    IAPAnalyticsConstant.ERROR, getMessage());
+        }
         initMessage(requestCode, requestListener);
 
     }
@@ -73,17 +74,12 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
             }
             return mServerError.getErrors().get(0).getMessage();
         } else if (mVolleyError != null) {
-            if (getMessage() != null) {
-                IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                        IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.SERVER + mIAPErrorCode + "_" + mVolleyError.getMessage());
-            }
             return mVolleyError.getMessage();
         }
         return null;
     }
 
-    public void setCustomErrorMessage(String server, String errorMessage) {
-        mServerName = server;
+    public void setCustomErrorMessage(String errorMessage) {
         mCustomErrorMessage = errorMessage;
     }
 
@@ -104,10 +100,6 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
             if (error.networkResponse != null) {
                 String errorString = new String(error.networkResponse.data);
                 mServerError = new Gson().fromJson(errorString, ServerError.class);
-                if (getMessage() != null) {
-                    IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                            IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.HYBRIS + getMessage());
-                }
                 checkInsufficientStockError(mServerError);
             }
         } catch (Exception e) {

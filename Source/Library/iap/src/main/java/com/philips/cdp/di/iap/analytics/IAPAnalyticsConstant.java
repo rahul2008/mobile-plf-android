@@ -66,16 +66,6 @@ public class IAPAnalyticsConstant {
     public static final String REDEEM_VOUCHER_SELECTED = "redeemVoucherSelected";
 
     public static final String ERROR = "error";
-    public static final String SERVER = "Server_";
-    public static final String HYBRIS = "Hybris_";
-    public static final String WTB = "WTB_";
-    public static final String PRX = "PRX_";
-    public static final String PRODUCT_TITLE_MISSING = "ProductTitleMissing";
-    public static final String NO_THUMB_NAIL_IMAGE = "NoThumbnailImageFound";
-    public static final String NO_RETAILER_FOUND = "NoRetailersFound";
-    public static final String NO_PRODUCT_FOUND = "NoProductFound";
-    public static final String No_IMAGES_FOUND = "NoImagesFound";
-    public static final String PRODUCT_DESCRIPTION_MISSING = "ProductDescriptionMissing";
 //    public static final String INSUFFICIENT_STOCK_ERROR = "InsufficientStockError";
 }
 

@@ -211,8 +211,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 }
             }
             mImageAdapter = new ImageAdapter(mContext, mAsset);
-            if (mAsset == null)
-                trackErrorTag(IAPAnalyticsConstant.PRX + mCTNValue + "_" + IAPAnalyticsConstant.No_IMAGES_FOUND);
             mViewPager.setAdapter(mImageAdapter);
             mImageAdapter.notifyDataSetChanged();
             if (isProgressDialogShowing())
@@ -437,13 +435,11 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             if (mProductSummary != null) {
                 mProductTitle = mProductSummary.getData().getProductTitle();
                 setTitleAndBackButtonVisibility(mProductTitle, false);
-                if (mProductTitle == null) {
-                    trackErrorTag(IAPAnalyticsConstant.PRX + mCTNValue + "_" + IAPAnalyticsConstant.PRODUCT_TITLE_MISSING);
-                }
+
                 mProductDescription.setText(mProductTitle);
                 mCTN.setText(mCTNValue);
                 mProductOverview.setText(mProductSummary.getData().getMarketingTextHeader());
-                trackErrorTag(IAPAnalyticsConstant.PRX + mCTNValue + "_" + IAPAnalyticsConstant.PRODUCT_DESCRIPTION_MISSING);
+
                 if (mProductDetail != null) {
                     actualPrice = mProductDetail.getPrice().getFormattedValue();
                     discountedPrice = mProductDetail.getDiscountPrice().getFormattedValue();
@@ -461,13 +457,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             mCTN.setText(mBundle.getString(IAPConstant.PRODUCT_CTN));
             mProductOverview.setText(mBundle.getString(IAPConstant.PRODUCT_OVERVIEW));
 
-            if (mBundle.getString(IAPConstant.PRODUCT_TITLE) == null) {
-                trackErrorTag(IAPAnalyticsConstant.PRX + mCTNValue + "_" + IAPAnalyticsConstant.PRODUCT_TITLE_MISSING);
-            }
-            if (mBundle.getString(IAPConstant.PRODUCT_OVERVIEW) == null) {
-                trackErrorTag(IAPAnalyticsConstant.PRX + mCTNValue + "_" + IAPAnalyticsConstant.PRODUCT_DESCRIPTION_MISSING);
-            }
-
             if (mLaunchedFromProductCatalog) {
                 setPrice(actualPrice, discountedPrice);
             } else {
@@ -475,11 +464,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 mProductDiscountedPrice.setText(actualPrice);
             }
         }
-    }
-
-    private void trackErrorTag(String value) {
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.ERROR, value);
     }
 
     private void setPrice(String actualPrice, String discountedPrice) {

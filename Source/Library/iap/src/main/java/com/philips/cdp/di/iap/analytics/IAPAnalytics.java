@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.analytics;
 import android.app.Activity;
 
 import com.philips.cdp.di.iap.integration.IAPDependencies;
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
@@ -32,7 +31,6 @@ public class IAPAnalytics {
 
     public static void trackAction(String state, String key, Object value) {
         String valueObject = (String) value;
-        IAPLog.i(IAPLog.LOG, "trackAction" + valueObject);
         if (sAppTaggingInterface != null)
             sAppTaggingInterface.
                     trackActionWithInfo(state, key, valueObject);

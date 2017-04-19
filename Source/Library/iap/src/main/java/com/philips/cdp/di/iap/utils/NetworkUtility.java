@@ -94,8 +94,6 @@ public class NetworkUtility {
                                                           IAPNetworkError error) {
         if (error.getIAPErrorCode() != IAPConstant.IAP_ERROR_NO_CONNECTION
                 && !TextUtils.isEmpty(error.getMessage())) {
-            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.SERVER + error.getIAPErrorCode() + "_" + error.getMessage());
             return error.getMessage();
         }
 
@@ -110,8 +108,6 @@ public class NetworkUtility {
         } else {
             errorMessage = context.getString(R.string.iap_something_went_wrong);
         }
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.SERVER + errorCode + "_" + errorMessage);
         return errorMessage;
     }
 
@@ -122,10 +118,10 @@ public class NetworkUtility {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    public IAPNetworkError createIAPErrorMessage(String pServer,String errorMessage) {
+    public IAPNetworkError createIAPErrorMessage(String errorMessage) {
         VolleyError volleyError = new ServerError();
         IAPNetworkError error = new IAPNetworkError(volleyError, -1, null);
-        error.setCustomErrorMessage(pServer,errorMessage);
+        error.setCustomErrorMessage(errorMessage);
         return error;
     }
 }
