@@ -62,6 +62,15 @@ public class URLaunchInput extends UappLaunchInput {
         return this.registrationContentConfiguration;
     }
 
+    UIFlow uiFlow;
+
+    public void setUIFlow(UIFlow uiFlow){
+        this.uiFlow = uiFlow;
+    }
+
+    public UIFlow getUIflow(){
+        return  uiFlow;
+    }
     @Deprecated
     public void setAccountSettings(boolean isAccountSettings) {
         this.isAccountSettings = isAccountSettings;

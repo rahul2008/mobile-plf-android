@@ -50,6 +50,7 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
 public class RegistrationCoppaSampleActivity extends Activity implements OnClickListener,
@@ -270,6 +271,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
                 urLaunchInput.setAccountSettings(false);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
+                urLaunchInput.setUIFlow(UIFlow.FLOW_B);
                 urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
                         ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
@@ -285,6 +287,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
                 urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
                 urLaunchInput.setAccountSettings(false);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+                urLaunchInput.setUIFlow(UIFlow.FLOW_B);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
                         ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);

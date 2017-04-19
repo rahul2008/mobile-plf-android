@@ -190,21 +190,25 @@ public abstract class RegistrationBaseFragment extends Fragment {
                             getTitleResourceId(),false);
                    /* fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());*/
                 } else {
-                    if (null != fragment.getUpdateTitleListener())
+                    if (null != fragment.getUpdateTitleListener()) {
                         fragment.getUpdateTitleListener().updateActionBar(
                                 getTitleResourceId(), true);
-                    if (getTitleResourceText() != null && getTitleResourceText().length() > 0) {
-                        fragment.getUpdateTitleListener().updateActionBar(getTitleResourceText(), true);
+                        String titleText = getTitleResourceText();
+                        if (titleText != null && titleText.length() > 0) {
+                            fragment.getUpdateTitleListener().updateActionBar(titleText, false);
+                        }
                     }
                 /*     fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
                             getTitleResourceId());*/
                 }
             } else {
-                if(null!=fragment.getUpdateTitleListener())
+                if(null!=fragment.getUpdateTitleListener()) {
                     fragment.getUpdateTitleListener().updateActionBar(
-                            getTitleResourceId(),false);
-                if (getTitleResourceText() != null && getTitleResourceText().length() > 0) {
-                    fragment.getUpdateTitleListener().updateActionBar(getTitleResourceText(), false);
+                            getTitleResourceId(), false);
+                    String titleText = getTitleResourceText();
+                    if (titleText != null && titleText.length() > 0) {
+                        fragment.getUpdateTitleListener().updateActionBar(titleText, false);
+                    }
                 }
                 /*fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());*/
             }

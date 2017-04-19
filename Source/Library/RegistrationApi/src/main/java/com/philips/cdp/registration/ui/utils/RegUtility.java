@@ -34,6 +34,12 @@ import java.util.Map;
 public class RegUtility {
     private static long createAccountStartTime;
 
+    private static UIFlow uiFlow;
+
+    public static void setUiFlow(UIFlow uiFlowOverride) {
+        uiFlow = uiFlowOverride;
+    }
+
     public static int getCheckBoxPadding(Context context) {
         float scale = context.getResources().getDisplayMetrics().density;
         int padding;
@@ -194,6 +200,11 @@ public class RegUtility {
     }
 
     public static UIFlow getUiFlow() {
+
+        if(uiFlow != null) {
+            return uiFlow;
+        }
+
         ABTestClientInterface abTestClientInterface = URInterface.getComponent().getAbTestClientInterface();
         String flowType = abTestClientInterface.getTestValue(RegConstants.DOT_RECEIVE_MARKETING_OPT_IN, UIFlow.FLOW_A.getValue(),
                                 ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE, null);
