@@ -96,6 +96,7 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface{
 
     @Override
     public boolean isUserLoggedIn() {
+        if(user==null)return false;
         return user.isUserSignIn();
     }
 
