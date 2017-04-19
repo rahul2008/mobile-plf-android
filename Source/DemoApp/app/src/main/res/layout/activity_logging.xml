@@ -48,7 +48,7 @@
         />
 
 
-    <CheckBox
+    <!--<CheckBox
         android:checked="true"
         android:id="@+id/appInfraLogConsole"
         android:text="Console Output"
@@ -60,7 +60,7 @@
         android:text="File Output"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
+-->
 
 
 

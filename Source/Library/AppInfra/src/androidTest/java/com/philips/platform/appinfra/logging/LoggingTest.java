@@ -3,14 +3,20 @@ package com.philips.platform.appinfra.logging;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 
+import org.json.JSONObject;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
@@ -21,7 +27,7 @@ import static org.mockito.Mockito.mock;
 public class LoggingTest extends MockitoTestCase {
     LoggingInterface loggingInterface ;
     LoggingInterface loggingInterfaceMock;
-
+    AppConfigurationInterface mConfigInterface = null;
     private Context context;
     private AppInfra mAppInfra;
 
@@ -31,32 +37,39 @@ public class LoggingTest extends MockitoTestCase {
         context = getInstrumentation().getContext();
         assertNotNull(context);
 
-        mAppInfra = new AppInfra.Builder().setLogging(null).build(context);
-        loggingInterface =  new AppInfraLogging(mAppInfra){
-            // public void setAppInfra(AppInfra ai) { mAppInfra = ai; }
+        mAppInfra = new AppInfra.Builder().build(context);
+        mConfigInterface = new AppConfigurationManager(mAppInfra) {
             @Override
-            protected InputStream getLoggerPropertiesInputStream() throws IOException {
-                InputStream inputStream=null;
-                String loggerProperties = ".level=FINE\n" +
-                        "java.util.logging.ConsoleHandler.level=FINE\n" +
-                        "java.util.logging.ConsoleHandler.formatter=java.util.logging.SimpleFormatter\n" +
-                        "java.util.logging.FileHandler.pattern = AppInfra%u.log\n" +
-                        "java.util.logging.FileHandler.limit =2097152\n" +
-                        "java.util.logging.FileHandler.count = 5\n" +
-                        "java.util.logging.FileHandler.append =true\n" +
-                        "java.util.logging.FileHandler.level = FINE";
-                StringBuffer stringBuffer = new StringBuffer(loggerProperties);
-                byte[] bytes = stringBuffer.toString().getBytes();
-                inputStream = new ByteArrayInputStream(bytes);
-                return inputStream;
+            protected JSONObject getMasterConfigFromApp() {
+                JSONObject result = null;
+                try {
+                  /*  InputStream mInputStream = mContext.getAssets().open("configuration.json");
+                    BufferedReader r = new BufferedReader(new InputStreamReader(mInputStream));
+                    StringBuilder total = new StringBuilder();
+                    String line;
+                    while ((line = r.readLine()) != null) {
+                        total.append(line).append('\n');
+                    }
+                    result = new JSONObject(total.toString());*/
+                    String testJson = ConfigValues.testJson();
+                    result = new JSONObject(testJson);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return result;
             }
+
         };
+        assertNotNull(mConfigInterface);
+
+        mAppInfra= new AppInfra.Builder().setConfig(mConfigInterface).build(context);
+        loggingInterface = mAppInfra.getLogging().createInstanceForComponent("ail","1.5");
 
 //       testLogger.setAppInfra(mAppInfra);
 //        loggingInterface = mAppInfra.getLogging();
         assertNotNull(mAppInfra);
         assertNotNull(loggingInterface);
-        assertNotNull(loggingInterface.createInstanceForComponent("Component Name","Component version"));
+
         loggingInterface.log(LoggingInterface.LogLevel.INFO,"Event","Message");
         loggingInterfaceMock = mock(AppInfraLogging.class);
        /* loggingInterface = mock(AppInfraLogging.class);
@@ -100,10 +113,7 @@ public class LoggingTest extends MockitoTestCase {
 
 
     public void testLogwithConsole(){
-        loggingInterface.enableConsoleLog(true);
-        loggingInterface.enableConsoleLog(true);
-        loggingInterfaceMock.enableConsoleLog(true);
-        loggingInterfaceMock.enableConsoleLog(true);
+
         for (LoggingInterface.LogLevel logLevel : LoggingInterface.LogLevel.values()) {
             loggingInterface.log(logLevel, null,"message");
             loggingInterface.log(logLevel, "Event","Message");
@@ -117,12 +127,6 @@ public class LoggingTest extends MockitoTestCase {
         }
 
 
-        doAnswer(new Answer<Object>() {
-            public Object answer(InvocationOnMock invocation) {
-                Object[] args = invocation.getArguments();
-                return null;
-            }
-        }).when(loggingInterfaceMock).enableConsoleLog(true);
 
         for (LoggingInterface.LogLevel loglevel : LoggingInterface.LogLevel.values()) {
             doAnswer(new Answer<Object>() {
@@ -145,10 +149,6 @@ public class LoggingTest extends MockitoTestCase {
         }
 
 
-        loggingInterface.enableConsoleLog(false);
-        loggingInterface.enableConsoleLog(false);
-        loggingInterfaceMock.enableConsoleLog(false);
-        loggingInterfaceMock.enableConsoleLog(false);
 
         for (LoggingInterface.LogLevel logLevel : LoggingInterface.LogLevel.values()) {
             loggingInterface.log(logLevel, null,"message");
@@ -184,11 +184,7 @@ public class LoggingTest extends MockitoTestCase {
     }
 
     public void testLogwithFile() {
-        loggingInterface.enableFileLog(true);
-        loggingInterface.enableFileLog(false);
-        loggingInterface.enableFileLog(false);
-        loggingInterface.enableFileLog(true);
-        loggingInterface.enableFileLog(true);
+
         for (LoggingInterface.LogLevel logLevel : LoggingInterface.LogLevel.values()) {
             loggingInterface.log(logLevel, null,"message");
             loggingInterface.log(logLevel, "Event","Message");
@@ -196,9 +192,7 @@ public class LoggingTest extends MockitoTestCase {
         }
 
 
-        loggingInterfaceMock.enableFileLog(true);
-        loggingInterfaceMock.enableFileLog(false);
-        loggingInterfaceMock.enableFileLog(true);
+
         for (LoggingInterface.LogLevel logLevel : LoggingInterface.LogLevel.values()) {
             loggingInterfaceMock.log(logLevel, null, "message");
             loggingInterfaceMock.log(logLevel, "Event", "Message");
@@ -211,18 +205,6 @@ public class LoggingTest extends MockitoTestCase {
 
         }
 
-        doAnswer(new Answer<Object>() {
-            public Object answer(InvocationOnMock invocation) {
-                Object[] args = invocation.getArguments();
-                return null;
-            }
-        }).when(loggingInterfaceMock).enableFileLog(false);
-        doAnswer(new Answer<Object>() {
-            public Object answer(InvocationOnMock invocation) {
-                Object[] args = invocation.getArguments();
-                return null;
-            }
-        }).when(loggingInterfaceMock).enableFileLog(true);
         for (LoggingInterface.LogLevel loglevel : LoggingInterface.LogLevel.values()) {
             doAnswer(new Answer<Object>() {
                 public Object answer(InvocationOnMock invocation) {
@@ -240,10 +222,7 @@ public class LoggingTest extends MockitoTestCase {
                     return null;
                 }
             }).when(loggingInterfaceMock).log(loglevel, "Event", "Message");
-            ////////////////////////test disabling file log
-            loggingInterfaceMock.enableFileLog(false);
-            loggingInterfaceMock.enableFileLog(true);
-            loggingInterfaceMock.enableFileLog(false);
+
             for (LoggingInterface.LogLevel logLevel : LoggingInterface.LogLevel.values()) {
                 loggingInterfaceMock.log(logLevel, null, "message");
                 loggingInterfaceMock.log(logLevel, "Event", "Message");
@@ -256,18 +235,7 @@ public class LoggingTest extends MockitoTestCase {
 
             }
 
-            doAnswer(new Answer<Object>() {
-                public Object answer(InvocationOnMock invocation) {
-                    Object[] args = invocation.getArguments();
-                    return null;
-                }
-            }).when(loggingInterfaceMock).enableFileLog(true);
-            doAnswer(new Answer<Object>() {
-                public Object answer(InvocationOnMock invocation) {
-                    Object[] args = invocation.getArguments();
-                    return null;
-                }
-            }).when(loggingInterfaceMock).enableFileLog(false);
+
 
             for (LoggingInterface.LogLevel loglevel1 : LoggingInterface.LogLevel.values()) {
                 doAnswer(new Answer<Object>() {
@@ -287,5 +255,34 @@ public class LoggingTest extends MockitoTestCase {
         }
 
     }
+
+    public void testEnableConsoleLog() {
+        try {
+            Method method = loggingInterface.getClass().getDeclaredMethod("enableConsoleLog", boolean.class);
+            method.setAccessible(true);
+            method.invoke(loggingInterface, true);
+            method.invoke(loggingInterface, true);
+            method.invoke(loggingInterface, false);
+            method.invoke(loggingInterface, false);
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void testEnableFileLog() {
+        try {
+            Method method = loggingInterface.getClass().getDeclaredMethod("enableFileLog", boolean.class);
+            method.setAccessible(true);
+            method.invoke(loggingInterface, true);
+            method.invoke(loggingInterface, true);
+            method.invoke(loggingInterface, false);
+            method.invoke(loggingInterface, false);
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
 }

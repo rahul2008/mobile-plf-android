@@ -16,9 +16,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.logging.Logger;
+
+import package1.component1.Component1;
+import package2.component2.Component2;
 
 public class LoggingActivity extends AppCompatActivity {
 
@@ -87,8 +91,7 @@ public class LoggingActivity extends AppCompatActivity {
             }
         });
 
-        final CheckBox consoleLogEnabled =(CheckBox) findViewById(R.id.appInfraLogConsole);
-        final CheckBox fileLogEnabled =(CheckBox) findViewById(R.id.appInfraLogFile);
+
         final EditText eventText= (EditText) findViewById(R.id.appInfraLogEvent);
         final EditText msgText= (EditText) findViewById(R.id.appInfraLogMessage);
         final EditText logCount= (EditText) findViewById(R.id.appInfraLogCount);
@@ -107,16 +110,7 @@ public class LoggingActivity extends AppCompatActivity {
                         Toast.makeText(LoggingActivity.this, "Event name or message is not valid",
                                 Toast.LENGTH_SHORT).show();
                     } else {
-                        if (consoleLogEnabled.isChecked()) {
-                            AILoggingInterface.enableConsoleLog(true);
-                        } else {
-                            AILoggingInterface.enableConsoleLog(false);
-                        }
-                        if (fileLogEnabled.isChecked()) {
-                            AILoggingInterface.enableFileLog(true);
-                        } else {
-                            AILoggingInterface.enableFileLog(false);
-                        }
+
                         int totalLogCount = 1;
 
                         try {
@@ -131,7 +125,15 @@ public class LoggingActivity extends AppCompatActivity {
                             // Component1 component1= new Component1(AppInfraApplication.gAppInfra);
                             // AILoggingInterface.log(currentLogLevel, "back", "back");
                         }
+                     /*   /////////////
+                       AppInfra ai = (AppInfra)AppInfraApplication.gAppInfra;
+                        Component1 c1 = new Component1(ai);
+
+                                Component2 c2 = new Component2(ai);*/
+                        ////////////
                     }
+
+
                 }
             }
         });

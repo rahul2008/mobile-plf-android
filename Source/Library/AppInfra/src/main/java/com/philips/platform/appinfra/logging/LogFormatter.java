@@ -62,7 +62,7 @@ public class LogFormatter extends Formatter {
             builder.append(dateFormat.format(mappInfra.getTime().getUTCTime())).append("]");
         }
 
-        builder.append("[").append(componentNameAndVersion).append("]");
+
         final Level logLevel = record.getLevel();
         String logLevelPrettyName = logLevel.toString();
         if (logLevel == Level.SEVERE) {
@@ -73,6 +73,7 @@ public class LogFormatter extends Formatter {
             logLevelPrettyName = "VERBOSE";
         }
         builder.append("[").append(logLevelPrettyName).append("]");
+        builder.append("[").append(componentNameAndVersion).append("]");
         builder.append("[").append(formatMessage(record)).append("]"); // this we assume as event
         //builder.append("[").append(record.getSourceClassName()).append("] ");
         //builder.append("[").append(record.getSourceMethodName()).append("] ");
