@@ -8,5 +8,6 @@
     <string name="icon_dls_location" translatable="false">\ue805</string>
     <string name="icon_dls_questionmark" translatable="false">\ue808</string>
     <string name="icon_dls_rotatecw" translatable="false">\ue809</string>
-
+    <string name="icon_dls_twitter" translatable="false">\ue808</string>
+    <string name="icon_dls_facebook" translatable="false">\ue808</string>
 </resources>

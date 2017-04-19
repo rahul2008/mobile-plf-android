@@ -1026,23 +1026,20 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         TypedArray resources = getResources().obtainTypedArray(R.array.social_service_provider_menu_resources);
         ArrayList<MenuItem> menus = new ArrayList<>();
         for (int i = 0; i < titles.length(); i++) {
-            //menus.add(new MenuItem(R.drawable.consumercare_viewproduct_videorightarrow, titles.getResourceId(i, 0)));
             menus.add(new MenuItem(resources.getResourceId(i,0), titles.getResourceId(i, 0)));
         }
 
         RecyclerView recyclerView = mContactUsSocilaProviderButtonsParent;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
-        recyclerView.setAdapter(new CommonRecyclerViewAdapter<MenuItem>(menus, R.layout.consumercare_icon_right_button) {
+        recyclerView.setAdapter(new CommonRecyclerViewAdapter<MenuItem>(menus, R.layout.consumercare_icon_button) {
             @Override
             public void bindData(RecyclerView.ViewHolder holder, MenuItem item) {
                 View container = holder.itemView.findViewById(R.id.icon_button);
                 Label label = (Label) container.findViewById(R.id.icon_button_text);
                 label.setText(item.mText);
-                ImageView icon = (ImageView) container.findViewById(R.id.icon_button_icon);
-                icon.setImageResource(item.mIcon);
-               //TextView icon = (TextView) container.findViewById(R.id.icon_button_icon);
-               // icon.setText(item.mIcon);
+                TextView icon = (TextView) container.findViewById(R.id.icon_button_icon);
+                icon.setText(item.mIcon);
                 container.setTag(getResources().getResourceEntryName(item.mText));
                 container.setOnClickListener(context);
             }
