@@ -275,9 +275,11 @@ public class BleDiscoveryStrategyTestSteps {
         final SHNDeviceWrapper shnDeviceMock = mock(SHNDeviceWrapper.class);
         final SHNDeviceImpl shnDeviceImplMock = mock(SHNDeviceImpl.class);
 
+        final String deviceMacAddress = createMacAddress();
+
         // Properties
         when(shnDeviceMock.getState()).thenReturn(SHNDevice.State.Connected);
-        when(shnDeviceMock.getAddress()).thenReturn(createMacAddress());
+        when(shnDeviceMock.getAddress()).thenReturn(deviceMacAddress);
         when(shnDeviceMock.getName()).thenReturn(applianceName);
         when(shnDeviceMock.getDeviceTypeName()).thenReturn(getApplianceTypeByName(applianceName));
         when(shnDeviceMock.getInternalDevice()).thenReturn(shnDeviceImplMock);
@@ -297,6 +299,7 @@ public class BleDiscoveryStrategyTestSteps {
         // Device found info (advertisement)
         SHNDeviceFoundInfo shnDeviceFoundInfoMock = mock(SHNDeviceFoundInfo.class);
         when(shnDeviceFoundInfoMock.getShnDevice()).thenReturn(shnDeviceMock);
+        when(shnDeviceFoundInfoMock.getDeviceAddress()).thenReturn(deviceMacAddress);
 
         // Model id
         when(shnDeviceFoundInfoMock.getBleScanRecord()).thenReturn(bleScanRecordMock);
