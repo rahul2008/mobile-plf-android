@@ -79,23 +79,25 @@ public class AppInfraLogging implements LoggingInterface {
         if (null == javaLogger) {
             createLogger("");
         }
-        switch (level) {
-            case ERROR:
-                javaLogger.log(Level.SEVERE, eventId, message);
-                break;
-            case WARNING:
-                javaLogger.log(Level.WARNING, eventId, message);
-                break;
-            case INFO:
-                javaLogger.log(Level.INFO, eventId, message);
-                break;
-            case DEBUG:
-                javaLogger.log(Level.CONFIG, eventId, message);
-                break;
-            case VERBOSE:
-                javaLogger.log(Level.FINE, eventId, message);
-                break;
-        }
+        if (null != javaLogger) {
+            switch (level) {
+                case ERROR:
+                    javaLogger.log(Level.SEVERE, eventId, message);
+                    break;
+                case WARNING:
+                    javaLogger.log(Level.WARNING, eventId, message);
+                    break;
+                case INFO:
+                    javaLogger.log(Level.INFO, eventId, message);
+                    break;
+                case DEBUG:
+                    javaLogger.log(Level.CONFIG, eventId, message);
+                    break;
+                case VERBOSE:
+                    javaLogger.log(Level.FINE, eventId, message);
+                    break;
+            }
+        }ß
 
     }
 
@@ -244,7 +246,6 @@ public class AppInfraLogging implements LoggingInterface {
     }
 
 
-
     private void enableConsoleLog(boolean isEnabled) {
 
         if (isEnabled) {
@@ -275,7 +276,6 @@ public class AppInfraLogging implements LoggingInterface {
             }
         }
     }
-
 
 
     private void enableFileLog(boolean pFileLogEnabled) {
