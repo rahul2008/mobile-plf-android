@@ -18,11 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
@@ -33,33 +29,16 @@ import com.philips.cdp.digitalcare.rateandreview.fragments.ProductReviewFragment
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.Utils;
 
-/*import com.philips.cdp.digitalcare.rateandreview.fragments.ProductReviewGuideFragment;
-import com.philips.cdp.digitalcare.rateandreview.productreview.BazaarVoiceWrapper;*/
-
-
 public class RateThisAppFragment extends DigitalCareBaseFragment {
-
-
-    public static String mProductReviewProductImage = null;
-    public static String mProductReviewProductName = null;
-    public static String mProductReviewProductCtn = null;
     private static String TAG = RateThisAppFragment.class.getSimpleName();
     private final String APPRATER_PLAYSTORE_BROWSER_BASEURL = "http://play.google.com/store/apps/details?id=";
     private final String APPRATER_PLAYSTORE_APP_BASEURL = "market://details?id=";
-    private String mProductReviewPage = null;
     private Button mRatePlayStoreBtn = null;
     private Button mRatePhilipsBtn = null;
-    private TextView mRatePlayStoreText = null;
-    private LinearLayout mLayoutParent = null;
-    private LinearLayout mProductReviewView = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
-    private View mDividerView = null;
-    private FrameLayout.LayoutParams mLayoutParams = null;
     private Uri mStoreUri = null;
     private Uri mTagUrl = null;
-    // private boolean mBazaarVoiceReviewRequired = false;
-    //  private BazaarVoiceWrapper mBazaarVoiceWrapper;
     private ViewProductDetailsModel mProductData = null;
 
     @Override
@@ -71,7 +50,6 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
         mStoreUri = Uri.parse(APPRATER_PLAYSTORE_BROWSER_BASEURL
                 + DigitalCareConfigManager.getInstance().getContext()
                 .getPackageName());
-        //   mBazaarVoiceReviewRequired = DigitalCareConfigManager.getInstance().isBazaarVoiceRequired();
         return mView;
     }
 
@@ -79,62 +57,34 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mRatePlayStoreText = (TextView) getActivity().findViewById(R.id.tellus_philips_submitreview_text);
         mRatePlayStoreBtn = (Button) getActivity().findViewById(
                 R.id.tellus_PlayStoreReviewButton);
         mRatePhilipsBtn = (Button) getActivity().findViewById(
                 R.id.tellus_PhilipsReviewButton);
-        mLayoutParent = (LinearLayout) getActivity().findViewById(
-                R.id.parentLayout);
-        mProductReviewView = (LinearLayout) getActivity().findViewById(
-                R.id.secondParent);
 
         mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
 
-        mDividerView = getActivity().findViewById(R.id.divider);
         mRatePlayStoreBtn.setOnClickListener(this);
         mRatePhilipsBtn.setTransformationMethod(null);
         mRatePlayStoreBtn.setTransformationMethod(null);
         mRatePhilipsBtn.setOnClickListener(this);
-
-        mLayoutParams = (FrameLayout.LayoutParams) mLayoutParent
-                .getLayoutParams();
-        Configuration config = getResources().getConfiguration();
-        setViewParams(config);
-        float density = getResources().getDisplayMetrics().density;
-        setButtonParams(density);
 
         mProductData = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
         if (mProductData != null)
             onPRXProductPageReceived(mProductData);
 
         if(Utils.isCountryChina())
-            hideAppReviewView();
+        {
+            mRatePlayStoreBtn.setVisibility(View.GONE);
+        }
 
         /*AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_RATE_THIS_APP,
                 getPreviousName());*/
         DigitalCareConfigManager.getInstance().getTaggingInterface().
                 trackPageWithInfo(AnalyticsConstants.PAGE_RATE_THIS_APP,
                         getPreviousName(), getPreviousName());
-    }
-
-
-    protected void hideProductReviewView() {
-        mProductReviewView.setVisibility(View.GONE);
-        mDividerView.setVisibility(View.GONE);
-    }
-
-    protected void showProductReviewView() {
-        mProductReviewView.setVisibility(View.VISIBLE);
-        mDividerView.setVisibility(View.VISIBLE);
-    }
-
-    protected void hideAppReviewView(){
-        mRatePlayStoreText.setVisibility(View.GONE);
-        mRatePlayStoreBtn.setVisibility(View.GONE);
-        mDividerView.setVisibility(View.GONE);
     }
 
     @Override
@@ -201,12 +151,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 
     @Override
     public void setViewParams(Configuration config) {
-        if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            mLayoutParams.leftMargin = mLayoutParams.rightMargin = mLeftRightMarginPort;
-        } else {
-            mLayoutParams.leftMargin = mLayoutParams.rightMargin = mLeftRightMarginLand;
-        }
-        mLayoutParent.setLayoutParams(mLayoutParams);
+
     }
 
     @Override
@@ -221,25 +166,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
         return AnalyticsConstants.PAGE_RATE_THIS_APP;
     }
 
-    private void setButtonParams(float density) {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
-                .getDimension(R.dimen.support_btn_height) * density));
-
-        params.topMargin = (int) getActivity().getResources().getDimension(R.dimen.marginTopButton);
-
-        mRatePlayStoreBtn.setLayoutParams(params);
-        mRatePhilipsBtn.setLayoutParams(params);
-    }
-
-
     public void onPRXProductPageReceived(ViewProductDetailsModel data) {
-
-        String productlink = data.getProductInfoLink();
-        if (productlink != null /*&& mBazaarVoiceReviewRequired*/) {
-            showProductReviewView();
-        } else {
-            hideProductReviewView();
-        }
+        mRatePhilipsBtn.setVisibility(data.getProductInfoLink() ==null? View.GONE: View.VISIBLE);
     }
 }

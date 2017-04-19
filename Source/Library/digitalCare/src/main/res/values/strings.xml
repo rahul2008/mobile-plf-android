@@ -54,11 +54,10 @@
     <string name="product_information"> Product information(on Philips.com) </string>
 
     <!-- Rate This Application   null -->
-    <string name="rate_playstore_headertext"> How would you rate this app? </string>
-    <string name="rate_playstore_buttontext"> Write an app-review </string>
-    <string name="rate_philips_headertext"> Submit a product review </string>
-    <string name="rate_philips_description"> Write a review and help other people make the right choice for them </string>
-    <string name="rate_philips_buttontext"> Sign into My Philips </string>
+    <string name="rate_header_text"> Share your experience </string>
+    <string name="rate_desc_text"> We welcome your feedback. Why not write a review or rate this app? </string>
+    <string name="rate_playstore_buttontext"> Rate this app </string>
+    <string name="rate_philips_buttontext"> Write a review </string>
     <string name="reviewandrewards"> reviewandawards </string>
 
     <!-- Twitter Screen   null -->

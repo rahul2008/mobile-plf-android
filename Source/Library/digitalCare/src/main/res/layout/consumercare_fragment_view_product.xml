@@ -79,7 +79,6 @@
             android:layout_height="match_parent"
             android:id="@+id/productVideoText"
             android:gravity="center_vertical"
-            android:layout_marginLeft="20dp"
             android:paddingRight="@dimen/activity_margin"
             android:text="@string/product_view_videos"
             android:visibility="gone" />

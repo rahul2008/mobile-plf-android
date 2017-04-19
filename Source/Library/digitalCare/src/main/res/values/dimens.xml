@@ -2,6 +2,9 @@
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_margin">30dp</dimen>
+    <dimen name="activity_margin_top">24dp</dimen>
+    <dimen name="activity_margin_left">16dp</dimen>
+    <dimen name="activity_margin_right">16dp</dimen>
     <dimen name="activity_margin_port">0dp</dimen>
     <dimen name="activity_margin_land">100dp</dimen>
     <dimen name="btn_text_size_large">16sp</dimen>
@@ -40,6 +43,8 @@
     <dimen name="chatnowhelptext_padding_right_land">150dp</dimen>
     <dimen name="chat_bg_height">300dp</dimen>
     <dimen name="chat_bg_height_land">200dp</dimen>
+
+    <dimen name="tellus_bg_height">200dp</dimen>
 
     <dimen name="bazzarvoice_guidlines_icon_size">25px</dimen>
     <dimen name="err_alert_width">28dp</dimen>

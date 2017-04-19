@@ -383,10 +383,10 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
     private ArrayList<MenuItem> getMenuItems() {
         TypedArray titles = getResources().obtainTypedArray(R.array.product_menu_title);
-        TypedArray icons = getResources().obtainTypedArray(R.array.social_service_provider_menu_resources);
+        //TypedArray icons = getResources().obtainTypedArray(R.array.product_menu_resource);
         ArrayList<MenuItem> menus = new ArrayList<>();
         for (int i = 0; i < titles.length(); i++) {
-            menus.add(new MenuItem(icons.getResourceId(i,0), titles.getResourceId(i, 0)));
+            menus.add(new MenuItem(R.drawable.consumercare_viewproduct_videorightarrow, titles.getResourceId(i, 0)));
         }
         return menus;
     }
