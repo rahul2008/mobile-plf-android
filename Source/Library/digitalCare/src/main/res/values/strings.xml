@@ -154,7 +154,6 @@
     <string name="no_call_functionality">No call facility available</string>
 
 
-
     <!-- DLS Contact US -->
 
     <string name="twitter">  Twitter</string>
@@ -164,6 +163,7 @@
     <string name="callus_help">We\'re here to help and answer any questions you may have</string>
     <string name="send_email">  Email</string>
     <string name="call_number">  Call us</string>
+    <string name="chat_to_us">Chat to us</string>
 
     <string name="linkedin">  LinkedIn </string>
     <string name="googleplus">  Google Plus </string>

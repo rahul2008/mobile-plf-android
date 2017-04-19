@@ -25,6 +25,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.InflateException;
@@ -50,14 +52,20 @@ import com.philips.cdp.digitalcare.contactus.parser.CdlsParsingCallback;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsResponseParser;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandlerObserver;
+import com.philips.cdp.digitalcare.productdetails.ProductDetailsFragment;
 import com.philips.cdp.digitalcare.request.RequestData;
 import com.philips.cdp.digitalcare.request.ResponseCallback;
 import com.philips.cdp.digitalcare.social.facebook.FacebookWebFragment;
 import com.philips.cdp.digitalcare.social.twitter.TwitterWebFragment;
+import com.philips.cdp.digitalcare.util.CommonRecyclerViewAdapter;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.digitalcare.util.MenuItem;
 import com.philips.cdp.digitalcare.util.Utils;
+import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.shamanland.fonticon.FontIconDrawable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,6 +108,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     //private TextView mLeaveUsMsg = null;
     private String mCdlsResponseStr = null;
     private ProgressDialog mPostProgress = null;
+    RecyclerView mContactUsSocilaProviderButtonsParent = null;
+    private LinearLayout.LayoutParams mSecondContainerParams = null;
     private final Runnable mTwitteroAuthRunnable = new Runnable() {
 
         @Override
@@ -185,6 +195,11 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                         + mContactUsParent);*/
         // if (mContactUsParent == null) {
         // mTwitterProgresshandler = new Handler();
+        mContactUsSocilaProviderButtonsParent = (RecyclerView) getActivity().findViewById(
+                R.id.contactUsSocialProvideButtonsParent);
+
+        mSecondContainerParams = (LinearLayout.LayoutParams) mContactUsSocilaProviderButtonsParent
+                .getLayoutParams();
 
         mContactUsParent = (LinearLayout) getActivity().findViewById(
                 R.id.contactUsParent);
@@ -271,6 +286,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             DigiCareLogger.e(TAG, "IllegaleArgumentException : " + e);
         }
         config = getResources().getConfiguration();
+
+        createContactUsSocialProvideMenu();
+        setViewParams(config);
     }
 
 
@@ -777,10 +795,13 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
             // if (mLeftRightMarginPort != 0)
             mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
+            mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginPort;
         } else {
             // if (mLeftRightMarginLand != 0)
             mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
+            mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginPort;
         }
+        mContactUsSocilaProviderButtonsParent.setLayoutParams(mSecondContainerParams);
         mContactUsParent.setLayoutParams(mParams);
     }
 
@@ -997,4 +1018,34 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                             }).show();
 
         }
+
+    private void createContactUsSocialProvideMenu() {
+        final ContactUsFragment context = this;
+
+        TypedArray titles = getResources().obtainTypedArray(R.array.social_service_provider_menu_title);
+        TypedArray resources = getResources().obtainTypedArray(R.array.social_service_provider_menu_resources);
+        ArrayList<MenuItem> menus = new ArrayList<>();
+        for (int i = 0; i < titles.length(); i++) {
+            //menus.add(new MenuItem(R.drawable.consumercare_viewproduct_videorightarrow, titles.getResourceId(i, 0)));
+            menus.add(new MenuItem(resources.getResourceId(i,0), titles.getResourceId(i, 0)));
+        }
+
+        RecyclerView recyclerView = mContactUsSocilaProviderButtonsParent;
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
+        recyclerView.setAdapter(new CommonRecyclerViewAdapter<MenuItem>(menus, R.layout.consumercare_icon_right_button) {
+            @Override
+            public void bindData(RecyclerView.ViewHolder holder, MenuItem item) {
+                View container = holder.itemView.findViewById(R.id.icon_button);
+                Label label = (Label) container.findViewById(R.id.icon_button_text);
+                label.setText(item.mText);
+                ImageView icon = (ImageView) container.findViewById(R.id.icon_button_icon);
+                icon.setImageResource(item.mIcon);
+               //TextView icon = (TextView) container.findViewById(R.id.icon_button_icon);
+               // icon.setText(item.mIcon);
+                container.setTag(getResources().getResourceEntryName(item.mText));
+                container.setOnClickListener(context);
+            }
+        });
+    }
 }

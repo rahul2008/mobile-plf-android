@@ -16,16 +16,16 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp"
             android:visibility="visible"
             android:orientation="vertical">
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/dummyladfdbl"
+                android:id="@+id/lbl_getintouch"
                 style="@style/UIDLabel.RecyclerViewItemDescriptionText"
-
                 android:layout_width="match_parent"
+                fontPath="fonts/centralesansbold.ttf"
                 android:layout_height="wrap_content"
                 android:text="@string/get_in_touch"/>
 
@@ -34,7 +34,8 @@
                 style="@style/UIDLabel.RecyclerViewItemDescriptionText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:visibility="gone"
                 android:text="@string/callus_help"/>
 
@@ -51,6 +52,7 @@
                 style="@style/UIDImageTextButton.Center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:visibility="gone"
                 android:gravity="center"
                 android:text="@string/call_number"/>
@@ -60,6 +62,7 @@
                 style="@style/UIDImageTextButton.Center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
                 android:gravity="center"
                 android:text="@string/live_chat"
                 app:uidComponentType="Secondary"/>
@@ -69,26 +72,33 @@
         <View
             android:id="@+id/topline"
             android:layout_width="match_parent"
-            android:layout_marginTop="24dp"
+
             android:layout_height="@dimen/uid_divider_Height"
             android:background="?attr/uidSeparator"/>
 
-    <LinearLayout
-        android:id="@+id/contactUsSocialParent"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:visibility="visible"
-        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/contactUsSocialParent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
 
-        <TextView
-            android:id="@+id/contactUsTitle"
-            style="@style/contactUsHelpText"
-            android:text="@string/contact_us_text"
-            fontPath="digitalcarefonts/CentraleSans-Book.otf" />
+            android:visibility="visible"
+            android:orientation="vertical">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/contactUsTitle"
+                style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/send_us_message" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/contactUsSocialProvideButtonsParent"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                />
+
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/contactUsEmail"
@@ -99,20 +109,28 @@
                 android:gravity="center"
                 android:text="@string/send_email"/>
 
-    </LinearLayout>
             <!--
-                        <com.philips.platform.uid.view.widget.Button
-                            android:id="@+id/contactUsChat"
-                            style="@style/UIDImageTextButton.Center"
-                            android:text="@string/live_chat"
-                            android:visibility="gone" />-->
+                    <include
+                        android:id="@+id/recyclerview_recyclerview"
+                        layout="@layout/uid_recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+            -->
 
-<!--
-            <TextView
-                android:id="@+id/leaveMsgTitle"
-                style="@style/contactUsHelpText"
-                android:text="@string/leave_us_a_message"
-                fontPath="digitalcarefonts/CentraleSans-Book.otf" />-->
+        </LinearLayout>
+        <!--
+                    <com.philips.platform.uid.view.widget.Button
+                        android:id="@+id/contactUsChat"
+                        style="@style/UIDImageTextButton.Center"
+                        android:text="@string/live_chat"
+                        android:visibility="gone" />-->
+
+        <!--
+                    <TextView
+                        android:id="@+id/leaveMsgTitle"
+                        style="@style/contactUsHelpText"
+                        android:text="@string/leave_us_a_message"
+                        fontPath="digitalcarefonts/CentraleSans-Book.otf" />-->
 
 
         <!--<View
@@ -130,47 +148,47 @@
             android:text="@string/contact_us_text"
             fontPath="digitalcarefonts/CentraleSans-Book.otf" />-->
 
-<!--
-        <Button
-            android:id="@+id/contactUsChat"
-            style="@style/fontButton"
-            android:text="@string/live_chat"
-            android:visibility="gone"
-            fontPath="digitalcarefonts/CentraleSans-Book.otf" />-->
+        <!--
+                <Button
+                    android:id="@+id/contactUsChat"
+                    style="@style/fontButton"
+                    android:text="@string/live_chat"
+                    android:visibility="gone"
+                    fontPath="digitalcarefonts/CentraleSans-Book.otf" />-->
 
-<!--
-        <Button
-            android:id="@+id/contactUsEmail"
-            style="@style/fontButton"
-            android:text="@string/send_email"
-            fontPath="digitalcarefonts/CentraleSans-Book.otf" />
--->
+        <!--
+                <Button
+                    android:id="@+id/contactUsEmail"
+                    style="@style/fontButton"
+                    android:text="@string/send_email"
+                    fontPath="digitalcarefonts/CentraleSans-Book.otf" />
+        -->
 
-       <!-- <Button
-            android:id="@+id/contactUsCall"
-            style="@style/fontButton"
-            android:layout_marginBottom="@dimen/marginTopButton"
-            android:text="@string/call_number"
-            android:visibility="gone"
-            fontPath="digitalcarefonts/CentraleSans-Book.otf" />-->
+        <!-- <Button
+             android:id="@+id/contactUsCall"
+             style="@style/fontButton"
+             android:layout_marginBottom="@dimen/marginTopButton"
+             android:text="@string/call_number"
+             android:visibility="gone"
+             fontPath="digitalcarefonts/CentraleSans-Book.otf" />-->
 
-     <!--   <TextView
-            android:id="@+id/contactUsOpeningHours"
-            style="@style/contactUsOpeningHoursText"
-            android:layout_marginBottom="0dp"
-            android:text="@string/opening_hours"
-            android:textStyle="bold"
-            android:visibility="gone"
-            fontPath="digitalcarefonts/CentraleSans-Bold.otf" />-->
+        <!--   <TextView
+               android:id="@+id/contactUsOpeningHours"
+               style="@style/contactUsOpeningHoursText"
+               android:layout_marginBottom="0dp"
+               android:text="@string/opening_hours"
+               android:textStyle="bold"
+               android:visibility="gone"
+               fontPath="digitalcarefonts/CentraleSans-Bold.otf" />-->
 
-<!--
-        <TextView
-            android:id="@+id/firstRowText"
-            style="@style/contactUsBottomText"
-            android:text="@string/opening_hours_first_row"
-            android:visibility="gone"
-            fontPath="digitalcarefonts/CentraleSans-Book.otf" />
--->
+        <!--
+                <TextView
+                    android:id="@+id/firstRowText"
+                    style="@style/contactUsBottomText"
+                    android:text="@string/opening_hours_first_row"
+                    android:visibility="gone"
+                    fontPath="digitalcarefonts/CentraleSans-Book.otf" />
+        -->
 
 
 

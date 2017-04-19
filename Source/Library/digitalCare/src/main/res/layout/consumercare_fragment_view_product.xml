@@ -28,6 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/name"
+                fontPath="fonts/centralesansbold.ttf"
                 android:layout_marginTop="10dp"
                 android:layout_gravity="left"
                 android:paddingLeft="12dp"
@@ -77,8 +78,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/productVideoText"
-            android:gravity="center"
-            android:paddingLeft="@dimen/activity_margin"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="20dp"
             android:paddingRight="@dimen/activity_margin"
             android:text="@string/product_view_videos"
             android:visibility="gone" />
