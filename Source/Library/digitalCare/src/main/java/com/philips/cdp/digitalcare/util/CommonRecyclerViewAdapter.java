@@ -29,6 +29,12 @@ public abstract class CommonRecyclerViewAdapter<T> extends RecyclerView.Adapter 
 
     public abstract void bindData(RecyclerView.ViewHolder holder, T item);
 
+    public void swap(ArrayList<T> data){
+        mItems.clear();
+        mItems.addAll(data);
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         final T item = mItems.get(position);

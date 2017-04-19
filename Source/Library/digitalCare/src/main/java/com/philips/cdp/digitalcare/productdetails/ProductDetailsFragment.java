@@ -68,6 +68,7 @@ import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -103,8 +104,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private LinearLayout.LayoutParams mProductVideoHeaderParams = null;
     private PrxWrapper mPrxWrapper = null;
     private int mSdkVersion = 0;
-    private RelativeLayout mManualRelativeLayout = null;
-    private String mManualButtonTitle = null;
+    private CommonRecyclerViewAdapter<MenuItem> mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -296,16 +296,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         return imageBitmap;
     }
 
-    /*private View.OnClickListener videoModel = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(strMyVideo));
-            intent.setDataAndType(Uri.parse(strMyVideo), "video/mp4");
-            activity.startActivity(intent);
-        }
-    };*/
-
     private void addNewVideo(int counter, final String video, View child, ImageView videoThumbnail, ImageView videoPlay,
                              ImageView videoLeftArrow, ImageView videoRightArrow) {
         String tag = counter + "";
@@ -366,16 +356,15 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private void createProductDetailsMenu() {
         final ProductDetailsFragment context = this;
 
-        TypedArray titles = getResources().obtainTypedArray(R.array.product_menu_title);
-        ArrayList<MenuItem> menus = new ArrayList<>();
-        for (int i = 0; i < titles.length(); i++) {
-            menus.add(new MenuItem(R.drawable.consumercare_viewproduct_videorightarrow, titles.getResourceId(i, 0)));
+        mViewProductDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
+        if (mViewProductDetailsModel != null && mViewProductDetailsModel.getManualLink() == null) {
+
         }
 
         RecyclerView recyclerView = mProdButtonsParent;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
-        recyclerView.setAdapter(new CommonRecyclerViewAdapter<MenuItem>(menus, R.layout.consumercare_icon_right_button) {
+        mAdapter = new CommonRecyclerViewAdapter<MenuItem>(getMenuItems(), R.layout.consumercare_icon_right_button) {
             @Override
             public void bindData(RecyclerView.ViewHolder holder, MenuItem item) {
                 View container = holder.itemView.findViewById(R.id.icon_button);
@@ -388,7 +377,31 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                 container.setTag(getResources().getResourceEntryName(item.mText));
                 container.setOnClickListener(context);
             }
-        });
+        };
+        recyclerView.setAdapter(mAdapter);
+    }
+
+    private ArrayList<MenuItem> getMenuItems() {
+        TypedArray titles = getResources().obtainTypedArray(R.array.product_menu_title);
+        TypedArray icons = getResources().obtainTypedArray(R.array.social_service_provider_menu_resources);
+        ArrayList<MenuItem> menus = new ArrayList<>();
+        for (int i = 0; i < titles.length(); i++) {
+            menus.add(new MenuItem(icons.getResourceId(i,0), titles.getResourceId(i, 0)));
+        }
+        return menus;
+    }
+
+    private void updateMenus(ArrayList<Integer> disabledButtons) {
+        ArrayList<MenuItem> menus = getMenuItems();
+        if (disabledButtons != null) {
+            for (Iterator<MenuItem> iterator = menus.iterator(); iterator.hasNext(); ) {
+                MenuItem item = iterator.next();
+                if (disabledButtons.contains(item.mText)) {
+                    iterator.remove();
+                }
+            }
+        }
+        mAdapter.swap(menus);
     }
 
     @Override
@@ -430,132 +443,37 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
     @Override
     public void setViewParams(Configuration config) {
-        if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            mFirstContainerParams.leftMargin = mFirstContainerParams.rightMargin = mLeftRightMarginPort;
-            mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginPort;
-            mProductVideoHeaderParams.leftMargin = mProductVideoHeaderParams.rightMargin = mLeftRightMarginPort;
-            if (isTablet) {
-                mVideoScrollView.setPadding(mProdButtonsParent.getPaddingLeft(), 0, mProdButtonsParent.getPaddingRight(), 0);
-                mScrollerLayoutParams.leftMargin = mScrollerLayoutParams.rightMargin = mLeftRightMarginPort;
-                mScrollerLayoutParams.bottomMargin = 0;
-            }
-        } else {
-            mFirstContainerParams.leftMargin = mFirstContainerParams.rightMargin = mLeftRightMarginLand;
-            mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginLand;
-            mProductVideoHeaderParams.leftMargin = mProductVideoHeaderParams.rightMargin = mLeftRightMarginLand;
-
-            if (isTablet) {
-                mVideoScrollView.setPadding(mProdButtonsParent.getPaddingLeft(), 0, mProdButtonsParent.getPaddingRight(), 0);
-                mScrollerLayoutParams.leftMargin = mScrollerLayoutParams.rightMargin = mLeftRightMarginLand;
-                mScrollerLayoutParams.bottomMargin = 0;
-            }
-        }
-
-        mFirstContainer.setLayoutParams(mFirstContainerParams);
-        mProdButtonsParent.setLayoutParams(mSecondContainerParams);
-        mVideoScrollView.setLayoutParams(mScrollerLayoutParams);
-        mProductVideoHeader.setLayoutParams(mProductVideoHeaderParams);
+//        if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+//            mFirstContainerParams.leftMargin = mFirstContainerParams.rightMargin = mLeftRightMarginPort;
+//            mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginPort;
+//            mProductVideoHeaderParams.leftMargin = mProductVideoHeaderParams.rightMargin = mLeftRightMarginPort;
+//            if (isTablet) {
+//                mVideoScrollView.setPadding(mProdButtonsParent.getPaddingLeft(), 0, mProdButtonsParent.getPaddingRight(), 0);
+//                mScrollerLayoutParams.leftMargin = mScrollerLayoutParams.rightMargin = mLeftRightMarginPort;
+//                mScrollerLayoutParams.bottomMargin = 0;
+//            }
+//        } else {
+//            mFirstContainerParams.leftMargin = mFirstContainerParams.rightMargin = mLeftRightMarginLand;
+//            mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginLand;
+//            mProductVideoHeaderParams.leftMargin = mProductVideoHeaderParams.rightMargin = mLeftRightMarginLand;
+//
+//            if (isTablet) {
+//                mVideoScrollView.setPadding(mProdButtonsParent.getPaddingLeft(), 0, mProdButtonsParent.getPaddingRight(), 0);
+//                mScrollerLayoutParams.leftMargin = mScrollerLayoutParams.rightMargin = mLeftRightMarginLand;
+//                mScrollerLayoutParams.bottomMargin = 0;
+//            }
+//        }
+//
+//        mFirstContainer.setLayoutParams(mFirstContainerParams);
+//        mProdButtonsParent.setLayoutParams(mSecondContainerParams);
+//        mVideoScrollView.setLayoutParams(mScrollerLayoutParams);
+//        mProductVideoHeader.setLayoutParams(mProductVideoHeaderParams);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
-    }
-
-
-    /**
-     * Create RelativeLayout at runTime. RelativeLayout will have button and
-     * image together.
-     */
-    private void createButtonLayout(int buttonTitleResId) {
-        String buttonTitle = getResources().getResourceEntryName(buttonTitleResId);
-
-        float density = getResources().getDisplayMetrics().density;
-        String packageName = mActivity.getPackageName();
-
-        int title = getResources().getIdentifier(
-                packageName + ":string/" + buttonTitle, null, null);
-
-        RelativeLayout relativeLayout = createRelativeLayout(buttonTitle, density);
-        Button button = createButton(density, title);
-        relativeLayout.addView(button);
-        setButtonParams(button);
-        mProdButtonsParent.addView(relativeLayout);
-        setRelativeLayoutParams(relativeLayout, density);
-        /*
-         * Setting tag because we need to get String title for this view which
-		 * needs to be handled at button click.
-		 */
-        relativeLayout.setTag(buttonTitle);
-        relativeLayout.setOnClickListener(this);
-
-        mViewProductDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
-        String mFilePath = null;
-
-        if (mViewProductDetailsModel != null) {
-            mFilePath = mViewProductDetailsModel.getManualLink();
-        }
-
-        if (mFilePath == null && buttonTitle.equalsIgnoreCase(
-                getResources().getResourceEntryName(R.string.product_download_manual))) {
-            relativeLayout.setVisibility(View.GONE);
-            mManualRelativeLayout = relativeLayout;
-            mManualButtonTitle = buttonTitle;
-        }
-    }
-
-    @SuppressLint("NewApi")
-    private RelativeLayout createRelativeLayout(String buttonTitle, float density) {
-        RelativeLayout relativeLayout = new RelativeLayout(mActivity);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                LayoutParams.MATCH_PARENT, (int) (mActivity.getResources()
-                .getDimension(R.dimen.support_btn_height) * density));
-        relativeLayout.setLayoutParams(params);
-        relativeLayout
-                .setBackgroundResource(R.drawable.consumercare_selector_option_button_bg);
-        return relativeLayout;
-    }
-
-    private void setRelativeLayoutParams(RelativeLayout relativeLayout,
-                                         float density) {
-        LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) relativeLayout
-                .getLayoutParams();
-        param.topMargin = (int) (15 * density);
-        relativeLayout.setLayoutParams(param);
-    }
-
-    @SuppressLint("NewApi")
-    @SuppressWarnings("deprecation")
-    private Button createButton(float density, int title) {
-        Button button = new Button(mActivity, null, R.style.fontButton);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                LayoutParams.MATCH_PARENT, (int) (mActivity.getResources()
-                .getDimension(R.dimen.support_btn_height) * density));
-        button.setLayoutParams(params);
-
-//        button.setGravity(Gravity.START | Gravity.CENTER);
-        button.setPadding((int) (20 * density), 0, 0, 0);
-        if (Build.VERSION.SDK_INT < 23) {
-            button.setTextAppearance(getActivity(), R.style.fontButton);
-        } else {
-            button.setTextAppearance(R.style.fontButton);
-        }
-        Typeface buttonTypeface = Typeface.createFromAsset(mActivity.getAssets(), "digitalcarefonts/CentraleSans-Book.otf");
-        button.setTypeface(buttonTypeface);
-        button.setGravity(Gravity.CENTER);
-        button.setText(title);
-        return button;
-    }
-
-    private void setButtonParams(Button button) {
-        RelativeLayout.LayoutParams buttonParams = (LayoutParams) button
-                .getLayoutParams();
-        buttonParams.addRule(RelativeLayout.CENTER_VERTICAL,
-                RelativeLayout.TRUE);
-        buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
-                RelativeLayout.TRUE);
-        button.setLayoutParams(buttonParams);
     }
 
     @Override
@@ -583,21 +501,19 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             if ((mFilePath != null) && (mFilePath != "")) {
                 if (isConnectionAvailable()) {
 
-                    if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1){
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
                         int hasPermission = getActivity().checkSelfPermission(Manifest.permission.
                                 WRITE_EXTERNAL_STORAGE);
                         if (hasPermission != PackageManager.PERMISSION_GRANTED) {
                             requestPermissions(new String[]{Manifest.permission.
                                             WRITE_EXTERNAL_STORAGE},
                                     123);
-                        }
-                        else {
+                        } else {
                             callDownloadPDFMethod(mFilePath, pdfName);
                             //DownloadAndShowPDFHelper downloadAndShowPDFHelper = new DownloadAndShowPDFHelper();
                             //downloadAndShowPDFHelper.downloadAndOpenPDFManual(getActivity(), mFilePath, pdfName, isConnectionAvailable());
                         }
-                    }
-                    else {
+                    } else {
                         callDownloadPDFMethod(mFilePath, pdfName);
                         //DownloadAndShowPDFHelper downloadAndShowPDFHelper = new DownloadAndShowPDFHelper();
                         //downloadAndShowPDFHelper.downloadAndOpenPDFManual(getActivity(), mFilePath, pdfName, isConnectionAvailable());
@@ -613,7 +529,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             if (isConnectionAvailable()) {
                 showFragment(new ProductInformationFragment());
             }
-        }else if (tag.equals(getResources().getResourceEntryName(R.string.view_faq))) {
+        } else if (tag.equals(getResources().getResourceEntryName(R.string.view_faq))) {
             launchFaqScreen();
         }
     }
@@ -634,7 +550,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         mPrxWrapper.executeFaqSupportRequest();
     }
 
-    private void callDownloadPDFMethod(String filePath, String pdfName){
+    private void callDownloadPDFMethod(String filePath, String pdfName) {
         DownloadAndShowPDFHelper downloadAndShowPDFHelper = new DownloadAndShowPDFHelper();
         downloadAndShowPDFHelper.downloadAndOpenPDFManual(getActivity(), filePath, pdfName, isConnectionAvailable());
     }
@@ -650,7 +566,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     public String setPreviousPageName() {
         return AnalyticsConstants.PAGE_VIEW_PRODUCT_DETAILS;
     }
-
 
     public void onUpdateSummaryData() {
 
@@ -699,13 +614,18 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     public void onUpdateAssetData() {
         ViewProductDetailsModel viewProductDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
         mManualPdf = viewProductDetailsModel.getManualLink();
-        if (mManualPdf != null)
+        if (mManualPdf != null) {
             viewProductDetailsModel.setManualLink(mManualPdf);
+        } else {
+            ArrayList<Integer> disabledButtons = new ArrayList<>();
+            disabledButtons.add(R.string.product_download_manual);
+            updateMenus(disabledButtons);
+        }
         mProductPage = viewProductDetailsModel.getProductInfoLink();
         if (mProductPage != null)
             viewProductDetailsModel.setProductInfoLink(mProductPage);
         mDomain = viewProductDetailsModel.getDomain();
-        if(mDomain != null )
+        if (mDomain != null)
             viewProductDetailsModel.setDomain(mDomain);
         DigiCareLogger.i(TAG, "Manual Link : " + mManualPdf);
         DigiCareLogger.i(TAG, "Philips Page Link : " + mProductPage);
@@ -713,12 +633,5 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         if (productVideos != null)
             initView(viewProductDetailsModel.getVideoLinks());
         DigitalCareConfigManager.getInstance().setViewProductDetailsData(viewProductDetailsModel);
-
-        if (mManualPdf != null && mManualButtonTitle != null) {
-            if (mManualButtonTitle.equalsIgnoreCase(
-                    getResources().getResourceEntryName(R.string.product_download_manual))) {
-                mManualRelativeLayout.setVisibility(View.VISIBLE);
-            }
-        }
     }
 }
