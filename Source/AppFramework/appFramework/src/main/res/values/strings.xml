@@ -221,5 +221,13 @@ Receive free product accessories</string>
     <!--<item>@drawable/uikit_radio</item>-->
     <!--<item>@drawable/uikit_factory</item>-->
     <!--</array>-->
+    <string name="RA_COCO_APPINFRA">AppInfra </string>
+    <string name="RA_COCO_UR">User Registration</string>
+    <string name="RA_COCO_PR">Product Registration </string>
+    <string name="RA_COCO_IAP">In app Purchase</string>
+    <string name="RA_COCO_CC">Consumer Care </string>
+    <string name="RA_COCO_Connectivity">Connectivity</string>
+    <string name="RA_COCO_UIKIT">Uikit</string>
+
 
 </resources>
