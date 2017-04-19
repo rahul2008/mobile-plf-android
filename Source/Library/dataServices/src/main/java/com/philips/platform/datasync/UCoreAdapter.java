@@ -87,6 +87,7 @@ public class UCoreAdapter {
                            @NonNull final String accessToken, @NonNull GsonConverter gsonConverter) {
         OkClient okClient = okClientFactory.create(okHttpClient);
 
+        if(baseUrl==null) return null;
         RestAdapter restAdapter = restAdapterBuilder
                 .setEndpoint(baseUrl)
                 .setRequestInterceptor(getRequestInterceptor(accessToken))
