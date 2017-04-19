@@ -186,7 +186,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
                 networkNode.setName(device.getName());
 
                 device.registerSHNDeviceListener(new DeviceListener(device, deviceInformation, networkNode));
-                Log.w(TAG, "Connecting device");
+                DICommLog.w(TAG, "Connecting device");
                 device.connect();
             }
         } else {
