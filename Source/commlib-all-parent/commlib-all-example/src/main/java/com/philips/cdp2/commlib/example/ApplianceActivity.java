@@ -158,10 +158,7 @@ public final class ApplianceActivity extends AppCompatActivity {
                 String dateTimeString = DATETIME_FORMATTER.print(dt);
 
                 updateResult(dateTimeString);
-
-                if (switchLoopGet.isChecked()) {
-                    timePort.reloadProperties();
-                }
+                onPortEvent(timePort);
             }
 
             @Override
@@ -169,6 +166,13 @@ public final class ApplianceActivity extends AppCompatActivity {
                 Log.e(TAG, "Time port error: " + error.getErrorMessage() + " (" + s + ")");
 
                 updateResult(getString(R.string.lblResultPortError, s));
+                onPortEvent(timePort);
+            }
+
+            private void onPortEvent(TimePort timePort) {
+                if (switchLoopGet.isChecked()) {
+                    timePort.reloadProperties();
+                }
             }
         });
     }
