@@ -83,9 +83,14 @@
                 android:layout_marginStart="@dimen/layout_margin_left_right"
                 android:orientation="vertical">
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/label_margin_top" />
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/label_email"
                     style="@style/ItemLabel"
+                    android:layout_marginTop="0dp"
                     android:text="@string/label_email"
                     android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}" />
 
@@ -107,9 +112,15 @@
                         app:uidInputTextWithClearButton="true" />
                 </com.philips.platform.uid.view.widget.InputValidationLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/label_margin_top" />
+
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/label_number"
                     style="@style/ItemLabel"
+                    android:layout_marginTop="0dp"
                     android:text="@string/label_number"
                     android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}" />
 
@@ -123,9 +134,15 @@
                     android:inputType="number"
                     android:maxLines="1" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/label_margin_top" />
+
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/label_input_password"
                     style="@style/ItemLabel"
+                    android:layout_marginTop="0dp"
                     android:text="@string/label_password"
                     android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}" />
 
@@ -139,9 +156,15 @@
                     android:inputType="textPassword"
                     android:maxLines="1" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/label_margin_top" />
+
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/label_multiline_input"
                     style="@style/ItemLabel"
+                    android:layout_marginTop="0dp"
                     android:text="@string/label_multiline_input_field"
                     android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}" />
 
