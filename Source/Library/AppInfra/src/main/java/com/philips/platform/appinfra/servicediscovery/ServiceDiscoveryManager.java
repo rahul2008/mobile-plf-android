@@ -149,20 +149,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         final AISDResponse response = new AISDResponse(mAppInfra);
         ServiceDiscovery platformService = null, propositionService = null;
 
-        final AppConfigurationInterface.AppConfigurationError appConfigurationError = new AppConfigurationInterface
-                .AppConfigurationError();
+        if (mRequestItemManager.getPropositionEnabled(mAppInfra)) {
 
-        final Object defPropositionEnabled = mAppInfra.getConfigInterface().getPropertyForKey
-                ("servicediscovery.propositionEnabled", "appinfra", appConfigurationError);
-
-        Boolean propositionEnabled = true;
-        if(defPropositionEnabled != null)
-        {
-            propositionEnabled = ((Boolean) defPropositionEnabled).booleanValue();
-        }
-
-
-        if (!propositionEnabled) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD Call", "Downloading from platform microsite id  and should return the URL's for Service id.  ");
             platformService = downloadPlatformService();
             if (platformService.isSuccess()) {
@@ -751,28 +739,44 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
     private boolean cachedURLsExpired() {
-        final String mURLStringProposition = getSDURLForType(AISDURLTypeProposition);
-        final String mSavedURLProposition = mRequestItemManager.getUrlProposition();
 
-        final String mURLStringPlatform = getSDURLForType(AISDURLType.AISDURLTypePlatform);
-        final String mSavedURLPlatform = mRequestItemManager.getUrlPlatform();
+        if (mRequestItemManager.getPropositionEnabled(mAppInfra)) {
+            final String mURLStringPlatform = getSDURLForType(AISDURLType.AISDURLTypePlatform);
+            final String mSavedURLPlatform = mRequestItemManager.getUrlPlatform();
 
-        if (mSavedURLProposition != null && mURLStringProposition != null) {
-            //if previously saved URL differs from current proposition URL, URLs are expired
-            if (!mSavedURLProposition.equals(mURLStringProposition)) {
+            if (mSavedURLPlatform != null && mURLStringPlatform != null) {
+                //if previously saved URL differs from current platform URL, URLs are expired
+                if (!mSavedURLPlatform.equals(mURLStringPlatform)) {
+                    return true;
+                }
+            } else {
                 return true;
             }
-        } else {
-            return true;
-        }
 
-        if (mSavedURLPlatform != null && mURLStringPlatform != null) {
-            //if previously saved URL differs from current platform URL, URLs are expired
-            if (!mSavedURLPlatform.equals(mURLStringPlatform)) {
+        } else {
+            final String mURLStringPlatform = getSDURLForType(AISDURLType.AISDURLTypePlatform);
+            final String mSavedURLPlatform = mRequestItemManager.getUrlPlatform();
+
+            final String mURLStringProposition = getSDURLForType(AISDURLTypeProposition);
+            final String mSavedURLProposition = mRequestItemManager.getUrlProposition();
+
+            if (mSavedURLProposition != null && mURLStringProposition != null) {
+                //if previously saved URL differs from current proposition URL, URLs are expired
+                if (!mSavedURLProposition.equals(mURLStringProposition)) {
+                    return true;
+                }
+            } else {
                 return true;
             }
-        } else {
-            return true;
+
+            if (mSavedURLPlatform != null && mURLStringPlatform != null) {
+                //if previously saved URL differs from current platform URL, URLs are expired
+                if (!mSavedURLPlatform.equals(mURLStringPlatform)) {
+                    return true;
+                }
+            } else {
+                return true;
+            }
         }
 
         if (mRequestItemManager.isServiceDiscoveryDataExpired()) {

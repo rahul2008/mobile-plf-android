@@ -16,6 +16,7 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.toolbox.RequestFuture;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
@@ -144,22 +145,40 @@ public class RequestManager {
 		AISDResponse cachedResponse = null;
 		mSharedPreference = getServiceDiscoverySharedPreferences();
 		if (mSharedPreference != null) {
-			final String propositionCache = mSharedPreference.getString("SDPROPOSITION", null);
-			final String platformCache = mSharedPreference.getString("SDPLATFORM", null);
-			try {
-				if (propositionCache != null && platformCache != null) {
-					final JSONObject propositionObject = new JSONObject(propositionCache);
-					final ServiceDiscovery propostionService = parseResponse(propositionObject);
+			if(getPropositionEnabled(mAppInfra))
+			{
+				final String platformCache = mSharedPreference.getString("SDPLATFORM", null);
+				try {
+					if (platformCache != null) {
 
-					final JSONObject platformObject = new JSONObject(platformCache);
-					final ServiceDiscovery platformService = parseResponse(platformObject);
-					cachedResponse = new AISDResponse(mAppInfra);
-					cachedResponse.setPropositionURLs(propostionService);
-					cachedResponse.setPlatformURLs(platformService);
-					return cachedResponse;
+						final JSONObject platformObject = new JSONObject(platformCache);
+						final ServiceDiscovery platformService = parseResponse(platformObject);
+						cachedResponse = new AISDResponse(mAppInfra);
+						cachedResponse.setPlatformURLs(platformService);
+						return cachedResponse;
+					}
+				} catch (Exception exception) {
+					exception.printStackTrace();
 				}
-			} catch (Exception exception) {
-				exception.printStackTrace();
+			}
+			else {
+				final String propositionCache = mSharedPreference.getString("SDPROPOSITION", null);
+				final String platformCache = mSharedPreference.getString("SDPLATFORM", null);
+				try {
+					if (propositionCache != null && platformCache != null) {
+						final JSONObject propositionObject = new JSONObject(propositionCache);
+						final ServiceDiscovery propostionService = parseResponse(propositionObject);
+
+						final JSONObject platformObject = new JSONObject(platformCache);
+						final ServiceDiscovery platformService = parseResponse(platformObject);
+						cachedResponse = new AISDResponse(mAppInfra);
+						cachedResponse.setPropositionURLs(propostionService);
+						cachedResponse.setPlatformURLs(platformService);
+						return cachedResponse;
+					}
+				} catch (Exception exception) {
+					exception.printStackTrace();
+				}
 			}
 		}
 		return cachedResponse;
@@ -202,6 +221,30 @@ public class RequestManager {
 
 	private SharedPreferences getServiceDiscoverySharedPreferences() {
 		return mContext.getSharedPreferences(SERVICE_DISCOVERY_CACHE_FILE, Context.MODE_PRIVATE);
+	}
+
+	boolean getPropositionEnabled(AppInfra appInfra) {
+		final AppConfigurationInterface.AppConfigurationError appConfigurationError = new AppConfigurationInterface
+				.AppConfigurationError();
+
+		try {
+			final Object propositionEnabledObject =  appInfra.getConfigInterface()
+					.getPropertyForKey("servicediscovery.propositionEnabled", "appinfra",
+          							appConfigurationError);
+           if(propositionEnabledObject!=null) {
+			   if(propositionEnabledObject instanceof Boolean) {
+				   final Boolean propositionEnabled = ((Boolean) propositionEnabledObject).booleanValue();
+				   if (appConfigurationError.getErrorCode() == AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.NoError && !propositionEnabled) {
+					   return true;
+				   }
+			   }else {
+				   mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD Call", "servicediscovery.propositionEnabled instance should be boolean value true or false");
+			   }
+		   }
+		} catch (IllegalArgumentException illegalArgumentException) {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SD Call", "IllegalArgumentException :"+illegalArgumentException.toString());
+		}
+		return false;
 	}
 
 }
