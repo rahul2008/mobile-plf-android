@@ -30,7 +30,7 @@ import java.util.ArrayList;
 public class LanguagePackTest extends MockitoTestCase {
 
     private final String LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY = "LANGUAGEPACK.SERVICEID";
-    private final String LANGUAGE_PACK_CONFIG_SERVICE_ID = "appinfra.languagePack";
+    private final String LANGUAGE_PACK_CONFIG_SERVICE_ID = "appinfra.languagepack";
     private final String LANGUAGE_PACK_OVERVIEW_URL = "https://hashim-rest.herokuapp.com/sd/tst/en_IN/appinfra/lp.json";
     Method method;
     AppConfigurationInterface mConfigInterface = null;
