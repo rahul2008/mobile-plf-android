@@ -74,13 +74,17 @@ class DataValidation {
 
         if (entry.value.color != null) {
             themeValue.color = entry.value.color
-        } else if (entry.value.colorCode != null) {
+        }
+        if (entry.value.colorCode != null) {
             themeValue.colorCode = entry.value.colorCode
-        } else if (entry.value.reference != null) {
+        }
+        if (entry.value.reference != null) {
             themeValue.reference = entry.value.reference
-        } else if (entry.value.opacity != null) {
+        }
+        if (entry.value.opacity != null) {
             themeValue.opacity = entry.value.opacity
-        } else if (entry.value.offset != null) {
+        }
+        if (entry.value.offset != null) {
             themeValue.offset = entry.value.offset
         }
     }
