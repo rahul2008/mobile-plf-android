@@ -186,6 +186,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     public void onResume() {
         super.onResume();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onResume");
+        makeProviderButtonsClickable();
+    }
+
+    private void makeProviderButtonsClickable() {
         ViewGroup providerButtonGroup = mLlSocialProviderBtnContainer;
         for(int i = 0; i < providerButtonGroup.getChildCount(); i++) {
             View childView = providerButtonGroup.getChildAt(i);
@@ -587,6 +591,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private boolean isWeChatAuthenticate() {
         if (!mWeChatApi.isWXAppInstalled()) {
+            makeProviderButtonsClickable();
             final String formatedString = String.format(mContext.getText(R.string.reg_App_NotInstalled_AlertMessage).toString(),
                     mContext.getText(R.string.reg_wechat));
             Toast.makeText(mContext, formatedString
@@ -594,6 +599,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             return false;
         }
         if (!mWeChatApi.isWXAppSupportAPI()) {
+            makeProviderButtonsClickable();
             Toast.makeText(mContext,  mContext.getText(R.string.reg_Reg_Provider_Not_Supported)
                     , Toast.LENGTH_SHORT).show();
             return false;
