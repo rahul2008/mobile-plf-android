@@ -24,6 +24,7 @@ import com.philips.platform.baseapp.screens.productregistration.ProductRegistrat
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.squareup.leakcanary.LeakCanary;
 
@@ -36,7 +37,7 @@ import java.util.Locale;
 public class AppFrameworkApplication extends Application implements FlowManagerListener {
     private static final String LEAK_CANARY_BUILD_TYPE = "leakCanary";
     public AppInfraInterface appInfra;
-    public  static LoggingInterface loggingInterface;
+    public static LoggingInterface loggingInterface;
     protected FlowManager targetFlowManager;
     private UserRegistrationState userRegistrationState;
     private IAPState iapState;
@@ -64,7 +65,9 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
         MultiDex.install(this);
         super.onCreate();
         appInfra = new AppInfra.Builder().build(getApplicationContext());
-        loggingInterface= appInfra.getLogging();
+        loggingInterface = appInfra.getLogging();
+        RALog.init(appInfra);
+        RALog.enableLogging();
         setLocale();
         userRegistrationState = new UserRegistrationOnBoardingState();
         userRegistrationState.init(this);
@@ -79,8 +82,14 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
          * context to gets started.
          */
         AppFrameworkTagging.getInstance().initAppTaggingInterface(this);
-        pushNotificationManager= PushNotificationManager.getInstance();
-        pushNotificationManager.startPushNotificationRegistration(getApplicationContext());
+        if (BaseAppUtil.isDSPollingEnabled(getApplicationContext())) {
+            RALog.d(PushNotificationManager.TAG,"Polling is enabled");
+        }else{
+            RALog.d(PushNotificationManager.TAG,"Push notification is enabled");
+            pushNotificationManager=PushNotificationManager.getInstance();
+            pushNotificationManager.init(appInfra);
+            pushNotificationManager.startPushNotificationRegistration(getApplicationContext());
+        }
     }
 
     public LoggingInterface getLoggingInterface() {
@@ -95,7 +104,7 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
         return iapState;
     }
 
-    public  void setIapState(IAPState state) {
+    public void setIapState(IAPState state) {
         iapState = state;
     }
 
@@ -135,7 +144,7 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
         serviceDiscovery.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {
-                if(s.equals("CN")) {
+                if (s.equals("CN")) {
                     isChinaCountry = true;
                 } else {
                     isChinaCountry = false;
@@ -148,8 +157,9 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
             }
         });
     }
-    public DataServicesState getDataServiceState(){
-        if(dataSyncScreenState==null){
+
+    public DataServicesState getDataServiceState() {
+        if (dataSyncScreenState == null) {
             dataSyncScreenState = new DataServicesState();
             dataSyncScreenState.init(this);
         }

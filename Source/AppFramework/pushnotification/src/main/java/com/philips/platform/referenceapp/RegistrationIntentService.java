@@ -7,10 +7,10 @@ package com.philips.platform.referenceapp;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
+import com.philips.platform.referenceapp.utils.PNLog;
 
 public class RegistrationIntentService extends IntentService {
 
@@ -29,10 +29,10 @@ public class RegistrationIntentService extends IntentService {
                     GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
             PushNotificationManager.getInstance().saveToken(token,getApplicationContext());
             PushNotificationManager.getInstance().startPushNotificationRegistration(getApplicationContext());
-            Log.i(TAG, "GCM Registration Token: " + token);
+            PNLog.i(TAG, "GCM Registration Token: " + token);
 
         } catch (Exception e) {
-            Log.d(TAG, "Failed to complete token refresh", e);
+            PNLog.d(TAG, "Failed to complete token refresh"+e.getMessage());
         }
     }
 

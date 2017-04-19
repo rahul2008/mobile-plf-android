@@ -10,8 +10,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
+import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragment;
+import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
+import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.List;
@@ -21,7 +26,7 @@ import java.util.List;
  */
 public abstract class AppFrameworkBaseActivity extends UiKitActivity implements ActionBarListener {
     public UIBasePresenter presenter;
-  //  private int cartItemCount = 0;
+    //  private int cartItemCount = 0;
     int containerId;
     private FragmentTransaction fragmentTransaction;
 
@@ -44,7 +49,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
                 case Constants.ADD_FROM_HAMBURGER:
 
                     getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    addToBackStack(containerId,new HomeFragment(),HomeFragment.TAG);
+                    addToBackStack(containerId, new HomeFragment(), HomeFragment.TAG);
                     fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     addToBackStack(containerId, fragment, fragmentTag);
 
@@ -52,24 +57,25 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
                 case Constants.CLEAR_TILL_HOME:
 
                     getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    addToBackStack(containerId,new HomeFragment(),HomeFragment.TAG);
+                    addToBackStack(containerId, new HomeFragment(), HomeFragment.TAG);
 
                     break;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
 
-    public void addFragment(Fragment fragment, String fragmentTag){
+    public void addFragment(Fragment fragment, String fragmentTag) {
         containerId = getContainerId();
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(containerId,fragment,fragmentTag);
+        fragmentTransaction.replace(containerId, fragment, fragmentTag);
         fragmentTransaction.addToBackStack(fragmentTag);
         fragmentTransaction.commit();
     }
-    private void addToBackStack(int containerID, Fragment fragment,String fragmentTag){
-        fragmentTransaction.replace(containerID,fragment,fragmentTag);
+
+    private void addToBackStack(int containerID, Fragment fragment, String fragmentTag) {
+        fragmentTransaction.replace(containerID, fragment, fragmentTag);
         fragmentTransaction.addToBackStack(fragmentTag);
         fragmentTransaction.commit();
     }
@@ -102,6 +108,16 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
     protected void onResume() {
         super.onResume();
         AppFrameworkTagging.getInstance().collectLifecycleData(this);
+        if (!BaseAppUtil.isDSPollingEnabled(this)) {
+            BaseFlowManager baseFlowManager = ((AppFrameworkApplication) getApplicationContext()).getTargetFlowManager();
+            if (baseFlowManager != null) {
+                BaseState currentState = baseFlowManager.getCurrentState();
+                if (currentState instanceof DataServicesState) {
+                    PushNotificationManager.getInstance().startPushNotificationRegistration(this);
+                }
+            }
+        }
+
     }
 
     @Override
@@ -109,4 +125,5 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
         super.onPause();
         AppFrameworkTagging.getInstance().pauseCollectingLifecycleData();
     }
+
 }

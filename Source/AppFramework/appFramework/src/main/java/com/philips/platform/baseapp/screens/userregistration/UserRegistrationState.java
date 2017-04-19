@@ -33,6 +33,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
+import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -112,7 +113,13 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
             getApplicationContext().determineChinaFlow();
 
             //Register GCM token with data services on login success
-            Log.d(TAG,"Registering token with data services");
+            if (BaseAppUtil.isDSPollingEnabled(activity.getApplicationContext())) {
+                Log.d(PushNotificationManager.TAG,"Polling is enabled");
+
+            }else{
+                Log.d(PushNotificationManager.TAG,"Push notification is enabled");
+                PushNotificationManager.getInstance().startPushNotificationRegistration(activity.getApplicationContext());
+            }
             PushNotificationManager.getInstance().startPushNotificationRegistration(activity.getApplicationContext());
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
             BaseState baseState = null;

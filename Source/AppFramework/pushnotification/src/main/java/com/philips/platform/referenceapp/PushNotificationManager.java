@@ -11,12 +11,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.philips.cdp.registration.User;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.core.listeners.RegisterDeviceTokenListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DataServicesError;
+import com.philips.platform.referenceapp.utils.PNLog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,7 +30,7 @@ import java.util.Set;
  */
 public class PushNotificationManager {
 
-    private static final String TAG = "PushNotification";
+    public static final String TAG = "PushNotification";
     private static PushNotificationManager pushNotificationManager;
 
     public interface DeregisterTokenListener {
@@ -48,25 +49,30 @@ public class PushNotificationManager {
         return pushNotificationManager;
     }
 
+    public void init(AppInfraInterface appInfra){
+        PNLog.init(appInfra);
+        PNLog.enableLogging();
+    }
+
     /**
      * Check status of GCM token and registration with data core
      * @param context
      */
     public void startPushNotificationRegistration(Context context){
         if(TextUtils.isEmpty(pushNotificationManager.getToken(context))){
-            Log.d(TAG,"Token is empty. Starting GCM registration....");
+            PNLog.d(TAG,"Token is empty. Starting GCM registration....");
             pushNotificationManager.startGCMRegistrationService(context);
         }else if(new User(context).isUserSignIn()){
-            Log.d(TAG,"User is signed in");
+            PNLog.d(TAG,"User is signed in");
             if(!isTokenRegistered(context)){
-                Log.d(TAG,"Token is not registered. Registering with datacore");
+                PNLog.d(TAG,"Token is not registered. Registering with datacore");
                 registerTokenWithBackend(context);
             }else{
                 //No need to do any registration stuff.
-                Log.d(TAG,"User is signed in and token is registered");
+                PNLog.d(TAG,"User is signed in and token is registered");
             }
         }else{
-            Log.d(TAG,"user is not signed in.");
+            PNLog.d(TAG,"user is not signed in.");
             saveTokenRegistrationState(context,false);
         }
     }
@@ -87,22 +93,22 @@ public class PushNotificationManager {
      * Registration of token with datacore or backend
      */
     private void registerTokenWithBackend(final Context applicationContext) {
-        Log.d(TAG, "registerTokenWithBackend");
+        PNLog.d(TAG, "registerTokenWithBackend");
         if (TextUtils.isEmpty(getToken(applicationContext))) {
-            Log.d(TAG, "Token is empty. Trying to regiter device with GCM server.....");
+            PNLog.d(TAG, "Token is empty. Trying to regiter device with GCM server.....");
             startGCMRegistrationService(applicationContext);
         } else {
-            Log.d(TAG, "Registering token with backend");
+            PNLog.d(TAG, "Registering token with backend");
             DataServicesManager.getInstance().registerDeviceToken(getToken(applicationContext), PushNotificationConstants.APP_VARIANT, PushNotificationConstants.PUSH_GCMA, new RegisterDeviceTokenListener() {
                 @Override
                 public void onResponse(boolean isRegistered) {
-                    Log.d(TAG, "registerTokenWithBackend reponse isregistered:" + isRegistered);
+                    PNLog.d(TAG, "registerTokenWithBackend reponse isregistered:" + isRegistered);
                     saveTokenRegistrationState(applicationContext, isRegistered);
                 }
 
                 @Override
                 public void onError(DataServicesError dataServicesError) {
-                    Log.d(TAG, "Register token error: code::" + dataServicesError.getErrorCode() + "message::" + dataServicesError.getErrorMessage());
+                    PNLog.d(TAG, "Register token error: code::" + dataServicesError.getErrorCode() + "message::" + dataServicesError.getErrorMessage());
                 }
             });
         }
@@ -113,14 +119,14 @@ public class PushNotificationManager {
      * Registration of token with datacore or backend
      */
     public void deregisterTokenWithBackend(final Context applicationContext, final DeregisterTokenListener deregisterTokenListener) {
-        Log.d(TAG, "deregistering token with data core");
+        PNLog.d(TAG, "deregistering token with data core");
         if (TextUtils.isEmpty(getToken(applicationContext))) {
-            Log.d(TAG, "Something went wrong. Token should not be empty");
+            PNLog.d(TAG, "Something went wrong. Token should not be empty");
         } else {
             DataServicesManager.getInstance().unRegisterDeviceToken(getToken(applicationContext), PushNotificationConstants.APP_VARIANT, new RegisterDeviceTokenListener() {
                 @Override
                 public void onResponse(boolean isDeRegistered) {
-                    Log.d(TAG, "deregisterTokenWithBackend isDergistered:" + isDeRegistered);
+                    PNLog.d(TAG, "deregisterTokenWithBackend isDergistered:" + isDeRegistered);
                     saveTokenRegistrationState(applicationContext, !isDeRegistered);
                     if (isDeRegistered) {
                         deregisterTokenListener.onSuccess();
@@ -133,7 +139,7 @@ public class PushNotificationManager {
                 @Override
                 public void onError(DataServicesError dataServicesError) {
                     deregisterTokenListener.onError();
-                    Log.d(TAG, "Register token error: code::" + dataServicesError.getErrorCode() + "message::" + dataServicesError.getErrorMessage());
+                    PNLog.d(TAG, "Register token error: code::" + dataServicesError.getErrorCode() + "message::" + dataServicesError.getErrorMessage());
                 }
             });
         }
@@ -147,7 +153,7 @@ public class PushNotificationManager {
      * @param applicationContext
      */
     public void saveToken(String token, Context applicationContext) {
-        Log.d(TAG, "Saving token in preferences");
+        PNLog.d(TAG, "Saving token in preferences");
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(PushNotificationConstants.GCM_TOKEN, token);
@@ -161,6 +167,7 @@ public class PushNotificationManager {
      * @param state
      */
     public void saveTokenRegistrationState(Context applicationContext, boolean state) {
+        PNLog.d(TAG, "Saving token registration state in preferences");
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(PushNotificationConstants.IS_TOKEN_REGISTERED, state);
@@ -175,7 +182,7 @@ public class PushNotificationManager {
      */
     public String getToken(Context applicationContext) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
-        Log.d(TAG, "GCM token:" + sharedPreferences.getString(PushNotificationConstants.GCM_TOKEN, ""));
+        PNLog.d(TAG, "GCM token:" + sharedPreferences.getString(PushNotificationConstants.GCM_TOKEN, ""));
         return sharedPreferences.getString(PushNotificationConstants.GCM_TOKEN, "");
     }
 
@@ -185,7 +192,7 @@ public class PushNotificationManager {
      * @param context
      */
     public void startGCMRegistrationService(Context context) {
-        Log.d(TAG, "Starting GCM registration. Getting token from server");
+        PNLog.d(TAG, "Starting GCM registration. Getting token from server");
         //Remove registration state
         saveTokenRegistrationState(context, false);
         //Start registration service
@@ -210,18 +217,16 @@ public class PushNotificationManager {
                         case PushNotificationConstants.DSC:
                             JSONObject dscobject = jsonObject.getJSONObject(key);
                             DataServicesManager.getInstance().handlePushNotificationPayload(dscobject);
-//                            DataServicesState dataServicesState = ((AppFrameworkApplication) context.getApplicationContext()).getDataServiceState();
-//                            dataServicesState.sendPayloadMessageToDSC(dscobject);
                             break;
                         default:
-                            Log.d(TAG, "Common component is not designed for handling this key");
+                            PNLog.d(TAG, "Common component is not designed for handling this key");
                     }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }else{
-            Log.d(TAG,"Data sync key is absent in payload");
+            PNLog.d(TAG,"Data sync key is absent in payload");
         }
     }
 }

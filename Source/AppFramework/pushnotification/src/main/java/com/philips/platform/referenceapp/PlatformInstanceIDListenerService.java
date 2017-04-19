@@ -6,9 +6,9 @@
 package com.philips.platform.referenceapp;
 
 import android.content.Intent;
-import android.util.Log;
 
 import com.google.android.gms.iid.InstanceIDListenerService;
+import com.philips.platform.referenceapp.utils.PNLog;
 
 /**
  * Created by philips on 08/03/17.
@@ -20,7 +20,7 @@ public class PlatformInstanceIDListenerService extends InstanceIDListenerService
     @Override
     public void onTokenRefresh() {
         // Fetch updated Instance ID token and notify our app's server of any changes (if applicable).
-        Log.d(TAG,"On token referesh");
+        PNLog.d(TAG,"On token referesh");
         Intent intent = new Intent(this, RegistrationIntentService.class);
         startService(intent);
     }

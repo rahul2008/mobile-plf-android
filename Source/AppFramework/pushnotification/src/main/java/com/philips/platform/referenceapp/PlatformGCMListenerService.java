@@ -6,9 +6,9 @@
 package com.philips.platform.referenceapp;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
+import com.philips.platform.referenceapp.utils.PNLog;
 
 public class PlatformGCMListenerService extends GcmListenerService {
 
@@ -24,7 +24,7 @@ public class PlatformGCMListenerService extends GcmListenerService {
     // [START receive_message]
     @Override
     public void onMessageReceived(String from, Bundle data) {
-        Log.d(TAG,"Push Notification received");
+        PNLog.d(TAG,"Push Notification received");
         PushNotificationManager.getInstance().sendPayloadToCoCo(getApplicationContext(),data);
     }
 }
