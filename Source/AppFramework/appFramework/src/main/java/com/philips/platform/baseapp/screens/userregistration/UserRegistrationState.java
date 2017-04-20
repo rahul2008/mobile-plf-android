@@ -16,6 +16,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
@@ -239,5 +240,10 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
+    }
+
+    public String getVersion()
+    {
+       return RegistrationHelper.getRegistrationApiVersion();
     }
 }

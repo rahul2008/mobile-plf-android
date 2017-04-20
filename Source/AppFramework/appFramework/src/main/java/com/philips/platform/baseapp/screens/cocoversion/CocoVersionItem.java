@@ -9,6 +9,6 @@ import com.philips.platform.baseapp.screens.settingscreen.SettingListItemType;
  */
 
 public class CocoVersionItem {
-    public Spanned title = null;
-    public CocoVersionItemType type = null;
+    public String title = null;
+    public String Version=null;
 }

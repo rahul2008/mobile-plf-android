@@ -184,4 +184,10 @@ public class SupportFragmentState extends BaseState implements CcListener {
     public boolean onSocialProviderItemClicked(String s) {
         return false;
     }
+
+    public String getVersion()
+    {
+        return  DigitalCareConfigManager.getInstance().getDigitalCareLibVersion();
+
+    }
 }
