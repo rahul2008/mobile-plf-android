@@ -6,7 +6,6 @@
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
@@ -30,7 +29,6 @@ public class NotificationBadge extends AppCompatTextView {
     private int badgeBackgroundColor;
     private Drawable roundRectDrawable;
     private Drawable circleDrawable;
-   // private ColorStateList drawableColorlist;
 
     public NotificationBadge(Context context) {
         this(context, null);
@@ -42,17 +40,13 @@ public class NotificationBadge extends AppCompatTextView {
 
     public NotificationBadge(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NotificationBadge, defStyle, 0);
+        final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NotificationBadge, defStyle, R.style.NotificationLabel);
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
         applyTextColor(typedArray, theme);
         applyBackGroundColor(typedArray, theme);
-
-        //badgeBackgroundColor = ContextCompat.getColor(getContext(), R.color.uidColorRed);
-
         roundRectDrawable = getSquareRoundBackground(isSmallBadge(typedArray),badgeBackgroundColor);
         circleDrawable = getCircleBackground(isSmallBadge(typedArray),badgeBackgroundColor);
-
-        if (getText().length() > 2)
+         if (getText().length() > 2)
             setBackgroundDrawable(roundRectDrawable);
         else
             setBackgroundDrawable(circleDrawable);
@@ -61,17 +55,12 @@ public class NotificationBadge extends AppCompatTextView {
     }
 
     private void applyTextColor(@NonNull TypedArray typedArray, @NonNull final Resources.Theme theme) {
-        /*int textColorStateID = typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationTextColorList, -1);
-        if (textColorStateID != -1) {
-            setTextColor(ThemeUtils.buildColorStateList(getResources(), theme, textColorStateID));
-        }*/
-        setTextColor(ContextCompat.getColor(getContext(), R.color.uidColorWhite));
+        setTextColor(ContextCompat.getColor(getContext(),typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationTextColorList, -1)));
     }
     private void applyBackGroundColor(@NonNull TypedArray typedArray, @NonNull final Resources.Theme theme) {
-      //  badgeBackgroundColor = typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationBackground, -1);
-        badgeBackgroundColor=  ContextCompat.getColor(getContext(), R.color.uidColorRed);
+       int badgeResourceColor = typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationBackground, -1);
+       badgeBackgroundColor=  ContextCompat.getColor(getContext(),badgeResourceColor);
     }
-
 
     private void applyLayoutParams(int width, int height) {
         ViewGroup.LayoutParams lp = getLayoutParams();
@@ -83,28 +72,22 @@ public class NotificationBadge extends AppCompatTextView {
         setLayoutParams(lp);
     }
 
-
     private boolean isSmallBadge(TypedArray typedArray) {
         boolean smallBadge = typedArray.getBoolean(R.styleable.NotificationBadge_uid_notification_badge_small, false);
         return smallBadge;
     }
 
-
     private void handleTextChangeListener() {
         addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 validateView(s);
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
     }
@@ -127,18 +110,13 @@ public class NotificationBadge extends AppCompatTextView {
 
         float[] outerR = new float[]{radius, radius, radius, radius, radius, radius, radius, radius};
         RoundRectShape roundRectShape = new RoundRectShape(outerR, null, null);
-
         ShapeDrawable shapeDrawable = new ShapeDrawable(roundRectShape);
         shapeDrawable.getPaint().setColor(badgeBackgroundColor);
         applyLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
         int padding = (int) getContext().getResources().getDimension(R.dimen.uid_notification_badge_square_round_padding);
         setPadding(padding, 0, padding, 0);
-
         return shapeDrawable;
     }
-
-
 
     @NonNull
     private ShapeDrawable getCircleBackground(boolean smallBadge,int badgeBackgroundColor) {
@@ -148,7 +126,6 @@ public class NotificationBadge extends AppCompatTextView {
         if (smallBadge) {
             defaultWidth = (int) getContext().getResources().getDimension(R.dimen.uid_notification_badge_small_circle_radius);
             defaultHeight = (int) getContext().getResources().getDimension(R.dimen.uid_notification_badge_small_circle_radius);
-
         } else {
             defaultWidth = (int) getContext().getResources().getDimension(R.dimen.uid_notification_badge_default_radius);
             defaultHeight = (int) getContext().getResources().getDimension(R.dimen.uid_notification_badge_default_radius);
@@ -162,14 +139,12 @@ public class NotificationBadge extends AppCompatTextView {
         return (int) px;
     }
 
-
     /**
      * Sets the number to Notification Badge.
      *
      * @param badgeNumber
      */
     public void setErrorMessage(CharSequence badgeNumber) {
-
         if (badgeNumber != null) {
             if (badgeNumber.equals("0") || badgeNumber.equals("")) {
                 setVisibility(INVISIBLE);
@@ -182,10 +157,8 @@ public class NotificationBadge extends AppCompatTextView {
                     setText(badgeNumber);
                 }
             }
-
         } else {
             setVisibility(INVISIBLE);
         }
-
     }
 }
