@@ -23,7 +23,7 @@ public class MockPRXSummaryExecutor extends PRXSummaryExecutor {
     }
 
     @Override
-    protected void executeRequest(final String ctn,final ProductSummaryRequest productSummaryBuilder) {
+    protected void executeRequest(final String ctn, final ProductSummaryRequest productSummaryBuilder) {
         //simulate
     }
 
@@ -35,7 +35,7 @@ public class MockPRXSummaryExecutor extends PRXSummaryExecutor {
 
     public void sendFailure(final PrxError prxError) {
         mProductUpdateCount++;
-        notifyError(prxError.getDescription());
+        notifyError("HX8332/11", prxError.getStatusCode(), prxError.getDescription());
     }
 
 }

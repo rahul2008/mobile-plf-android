@@ -8,6 +8,8 @@ package com.philips.cdp.di.iap.prx;
 import android.content.Context;
 import android.os.Message;
 
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
@@ -80,16 +82,20 @@ public class PRXSummaryExecutor {
             public void onResponseError(final PrxError prxError) {
                 mProductUpdateCount++;
                 if (prxError.getStatusCode() == 404) {
-                    notifyError("Product not found in your store");
+                    notifyError(ctn, prxError.getStatusCode(), "Product not found in your store");
                 } else
-                    notifyError(prxError.getDescription());
+                    notifyError(ctn, prxError.getStatusCode(), prxError.getDescription());
             }
         });
     }
 
-    protected void notifyError(final String error) {
+    protected void notifyError(final String ctn, final int errorCode, final String error) {
         Message result = Message.obtain();
         result.obj = error;
+
+        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.PRX + ctn + "_" + errorCode + error);
+
         if (mDataLoadListener != null && mProductUpdateCount == mCtns.size()) {
             if (mProductPresentInPRX > 0) {
                 result.obj = mPRXSummaryData;
