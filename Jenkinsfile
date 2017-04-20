@@ -8,11 +8,11 @@ node('Android') {
 
     Pipeline = load "Source/common/jenkins/Pipeline.groovy"
     Slack = load "Source/common/jenkins/Slack.groovy"
-    def gradle = 'cd ./Source/ShineLib && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV}'
+    def gradle = 'cd ./Source/ShineLib && ./gradlew -PenvCode=${JENKINS_ENV}'
 
     Slack.notify('#conartists') {
         stage('Build') {
-            sh "$gradle assembleRelease assembleDebug saveResDep"
+            sh "$gradle --refresh-dependencies assembleRelease assembleDebug saveResDep"
         }
 
         stage('Unit test') {
