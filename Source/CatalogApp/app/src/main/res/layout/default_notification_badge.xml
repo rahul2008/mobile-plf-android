@@ -26,5 +26,6 @@
         android:gravity="center|center_horizontal"
         app:layout_constraintRight_toRightOf="parent"
         android:visibility="invisible"
+        app:uidNotificationBadgeTheme="true"
   />
 </android.support.constraint.ConstraintLayout>

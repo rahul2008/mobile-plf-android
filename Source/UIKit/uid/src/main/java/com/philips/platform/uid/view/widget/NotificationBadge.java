@@ -29,6 +29,7 @@ public class NotificationBadge extends AppCompatTextView {
     private int badgeBackgroundColor;
     private Drawable roundRectDrawable;
     private Drawable circleDrawable;
+    private boolean isTextViewThemeRequest;
 
     public NotificationBadge(Context context) {
         this(context, null);
@@ -41,12 +42,12 @@ public class NotificationBadge extends AppCompatTextView {
     public NotificationBadge(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NotificationBadge, defStyle, R.style.NotificationLabel);
-        final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
-        applyTextColor(typedArray, theme);
-        applyBackGroundColor(typedArray, theme);
-        roundRectDrawable = getSquareRoundBackground(isSmallBadge(typedArray),badgeBackgroundColor);
-        circleDrawable = getCircleBackground(isSmallBadge(typedArray),badgeBackgroundColor);
-         if (getText().length() > 2)
+        isTextViewThemeRequest = typedArray.getBoolean(R.styleable.NotificationBadge_uidNotificationBadgeTheme, false);
+        applyTextColor(typedArray);
+        applyBackGroundColor(typedArray);
+        roundRectDrawable = getSquareRoundBackground(isSmallBadge(typedArray), badgeBackgroundColor);
+        circleDrawable = getCircleBackground(isSmallBadge(typedArray), badgeBackgroundColor);
+        if (getText().length() > 2)
             setBackgroundDrawable(roundRectDrawable);
         else
             setBackgroundDrawable(circleDrawable);
@@ -54,12 +55,21 @@ public class NotificationBadge extends AppCompatTextView {
         typedArray.recycle();
     }
 
-    private void applyTextColor(@NonNull TypedArray typedArray, @NonNull final Resources.Theme theme) {
-        setTextColor(ContextCompat.getColor(getContext(),typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationTextColorList, -1)));
+    private void applyTextColor(@NonNull TypedArray typedArray) {
+        if (isTextViewThemeRequest) {
+            setTextColor(ContextCompat.getColor(getContext(), typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationDefaultTextColor, -1)));
+        }else{
+            setTextColor(ContextCompat.getColor(getContext(), typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationOptiolTextColor, -1)));
+        }
     }
-    private void applyBackGroundColor(@NonNull TypedArray typedArray, @NonNull final Resources.Theme theme) {
-       int badgeResourceColor = typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationBackground, -1);
-       badgeBackgroundColor=  ContextCompat.getColor(getContext(),badgeResourceColor);
+
+    private void applyBackGroundColor(@NonNull TypedArray typedArray) {
+        if (isTextViewThemeRequest) {
+            badgeBackgroundColor = ContextCompat.getColor(getContext(), typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationDefaultBackground, -1));
+        }else{
+            badgeBackgroundColor = ContextCompat.getColor(getContext(), typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationOptioltBackground, -1));
+        }
+
     }
 
     private void applyLayoutParams(int width, int height) {
@@ -101,7 +111,7 @@ public class NotificationBadge extends AppCompatTextView {
     }
 
     @NonNull
-    private ShapeDrawable getSquareRoundBackground(boolean smallBadge,int badgeBackgroundColor) {
+    private ShapeDrawable getSquareRoundBackground(boolean smallBadge, int badgeBackgroundColor) {
         int radius;
         if (smallBadge)
             radius = dipToPixels(getContext().getResources().getInteger(R.integer.uid_notification_badge_view_small_size_radius));
@@ -119,7 +129,7 @@ public class NotificationBadge extends AppCompatTextView {
     }
 
     @NonNull
-    private ShapeDrawable getCircleBackground(boolean smallBadge,int badgeBackgroundColor) {
+    private ShapeDrawable getCircleBackground(boolean smallBadge, int badgeBackgroundColor) {
         ShapeDrawable shapeDrawable = new ShapeDrawable(new OvalShape());
         shapeDrawable.getPaint().setColor(badgeBackgroundColor);
         int defaultWidth, defaultHeight;
