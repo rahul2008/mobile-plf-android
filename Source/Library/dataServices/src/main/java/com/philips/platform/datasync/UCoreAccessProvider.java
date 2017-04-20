@@ -24,7 +24,7 @@ public class UCoreAccessProvider implements BackendIdProvider {
     SharedPreferences sharedPreferences;
 
     @NonNull
-    private final UserRegistrationInterface userRegistrationInterface;
+    protected UserRegistrationInterface userRegistrationInterface;
 
     @Inject
     public UCoreAccessProvider(@NonNull final UserRegistrationInterface userRegistrationInterface) {

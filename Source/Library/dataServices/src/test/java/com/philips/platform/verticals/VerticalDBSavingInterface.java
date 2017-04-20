@@ -11,10 +11,6 @@ import com.philips.platform.core.listeners.DBRequestListener;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- * Created by 310218660 on 1/2/2017.
- */
-
 public class VerticalDBSavingInterface implements DBSavingInterface {
 
 
@@ -48,7 +44,6 @@ public class VerticalDBSavingInterface implements DBSavingInterface {
     public boolean saveInsights(List<Insight> insights, DBRequestListener<Insight> dbRequestListener) throws SQLException {
         return false;
     }
-
 
     @Override
     public boolean saveSettings(Settings settings, DBRequestListener dbRequestListener) throws SQLException {

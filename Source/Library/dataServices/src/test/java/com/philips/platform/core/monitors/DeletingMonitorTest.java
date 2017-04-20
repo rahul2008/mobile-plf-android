@@ -1,12 +1,15 @@
 package com.philips.platform.core.monitors;
 
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
+import com.philips.platform.core.events.DeleteInsightFromDB;
+import com.philips.platform.core.events.DeleteInsightResponse;
 import com.philips.platform.core.events.Event;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.events.MomentDeleteRequest;
@@ -42,6 +45,9 @@ public class DeletingMonitorTest {
 
     @Mock
     private Moment momentMock;
+
+    @Mock
+    private Insight insightMock;
 
     @Mock
     private DBSavingInterface savingMock;
@@ -265,5 +271,37 @@ public class DeletingMonitorTest {
         doThrow(SQLException.class).when(deletingMock).deleteMoment(momentMock,dbRequestListener);
         monitor.onEventBackGround(new MomentBackendDeleteResponse(momentMock,dbRequestListener));
         verify(deletingMock).deleteMoment(momentMock,dbRequestListener);
+    }
+
+    @Test
+    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_deleteInsights() throws Exception {
+        List<Insight> insights = new ArrayList<>();
+        insights.add(insightMock);
+        doThrow(SQLException.class).when(deletingMock).markInsightsAsInActive(insights,dbRequestListener);
+        monitor.onEventBackGround(new DeleteInsightFromDB(insights,dbRequestListener));
+        verify(deletingMock).markInsightsAsInActive(insights,dbRequestListener);
+    }
+
+    @Test
+    public void ShouldPostExceptionEvent_WhendeleteInsights_success() throws Exception {
+        List<Insight> insights = new ArrayList<>();
+        insights.add(insightMock);
+       // doThrow(SQLException.class).when(deletingMock).markInsightsAsInActive(insights,dbRequestListener);
+        monitor.onEventBackGround(new DeleteInsightFromDB(insights,dbRequestListener));
+        verify(deletingMock).markInsightsAsInActive(insights,dbRequestListener);
+    }
+
+    @Test
+    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_deleteInsight() throws Exception {
+        doThrow(SQLException.class).when(deletingMock).deleteInsight(insightMock,dbRequestListener);
+        monitor.onEventBackGround(new DeleteInsightResponse(insightMock,dbRequestListener));
+        verify(deletingMock).deleteInsight(insightMock,dbRequestListener);
+    }
+
+    @Test
+    public void ShouldPostExceptionEvent_WhendeleteInsight_success() throws Exception {
+       // doThrow(SQLException.class).when(deletingMock).deleteInsight(insightMock,dbRequestListener);
+        monitor.onEventBackGround(new DeleteInsightResponse(insightMock,dbRequestListener));
+        verify(deletingMock).deleteInsight(insightMock,dbRequestListener);
     }
 }

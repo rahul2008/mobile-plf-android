@@ -1,9 +1,5 @@
 package com.philips.platform.core.datatypes;
 
-/**
- * Created by sangamesh on 23/01/17.
- */
-
 public enum SyncType {
     INSIGHT(104,"insight"),
     MOMENT(103,"moment"),

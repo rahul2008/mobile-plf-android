@@ -19,6 +19,7 @@ import retrofit.client.Header;
 import retrofit.client.Response;
 import retrofit.mime.TypedByteArray;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -41,9 +42,6 @@ public class ErrorMonitorTest {
     private UserRegistrationInterface userRegistrationInterfaceMock;
 
     @Mock
-    BackendDataRequestFailed backendDataRequestFailed;
-
-    @Mock
     SynchronisationManager synchronisationManager;
 
     @Mock
@@ -60,7 +58,11 @@ public class ErrorMonitorTest {
 
     @Test
     public void ShouldStart_WhenonEventBackgroundThread() throws Exception {
-        errorMonitor.onEventAsync(backendDataRequestFailed);
+        final BackendDataRequestFailed momentSaveRequestFailed = new BackendDataRequestFailed(retrofitError);
+        errorMonitor.onEventAsync(momentSaveRequestFailed);
+        RetrofitError error = momentSaveRequestFailed.getException();
+        assertThat(error).isNotNull();
+        assertThat(error).isInstanceOf(RetrofitError.class);
         verify(errorHandlingInterface).syncError(-1);
     }
 

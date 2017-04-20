@@ -38,7 +38,7 @@ public abstract class DataFetcher {
     public SynchronisationManager synchronisationManager;
 
     @Inject
-    UserRegistrationInterface userRegistrationInterface;
+    public UserRegistrationInterface userRegistrationInterface;
 
     @Inject
     ErrorHandlingInterface errorHandlingInterface;

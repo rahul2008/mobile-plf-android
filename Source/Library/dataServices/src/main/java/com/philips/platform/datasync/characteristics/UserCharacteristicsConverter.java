@@ -31,18 +31,20 @@ public class UserCharacteristicsConverter {
 
         List<Characteristics> characteristicsList = new ArrayList<>();
 
-        for (int i = 0; i < uCoreUserCharacteristics.getCharacteristics().size(); i++) {
-            String type = uCoreUserCharacteristics.getCharacteristics().get(i).getType();
-            String value = uCoreUserCharacteristics.getCharacteristics().get(i).getValue();
+        if (uCoreUserCharacteristics != null && uCoreUserCharacteristics.getCharacteristics() != null) {
+            for (int i = 0; i < uCoreUserCharacteristics.getCharacteristics().size(); i++) {
+                String type = uCoreUserCharacteristics.getCharacteristics().get(i).getType();
+                String value = uCoreUserCharacteristics.getCharacteristics().get(i).getValue();
 
-            Characteristics characteristics = dataCreator.createCharacteristics(type, value);
+                Characteristics characteristics = dataCreator.createCharacteristics(type, value);
 
-            if(characteristics==null) return null;
-            characteristicsList.add(characteristics);
+                if (characteristics == null) return null;
+                characteristicsList.add(characteristics);
 
-            convertUCoreCharacteristicsToCharacteristicsDetailRecursively(characteristicsList, characteristics,
-                    uCoreUserCharacteristics.getCharacteristics().get(i).getCharacteristics());
+                convertUCoreCharacteristicsToCharacteristicsDetailRecursively(characteristicsList, characteristics,
+                        uCoreUserCharacteristics.getCharacteristics().get(i).getCharacteristics());
 
+            }
         }
 
         return characteristicsList;

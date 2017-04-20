@@ -11,10 +11,6 @@ import com.philips.platform.core.listeners.DBRequestListener;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- * Created by 310218660 on 1/2/2017.
- */
-
 public class VerticalDBUpdatingInterfaceImpl implements DBUpdatingInterface {
 
     @Override
