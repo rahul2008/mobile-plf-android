@@ -56,23 +56,21 @@ public class RegistrationConfiguration {
     public String getRegistrationClientId(@NonNull Configuration environment) {
         String registrationClient = appConfiguration.getClientId(environment.getValue());
         if (registrationClient != null) {
-                if(isJSONValid(registrationClient)){
-                    try {
-                        JSONObject jsonObject = new JSONObject(registrationClient);
-                        System.out.println("jsonObject : "+jsonObject);
-                        if(!jsonObject.isNull(RegistrationHelper.getInstance().getCountryCode())){
-                            registrationClient =  (String) jsonObject.get(RegistrationHelper.
-                                    getInstance().getCountryCode());
-                            System.out.println("registrationClient : "+registrationClient);
-                            return registrationClient;
-                        }else if(!jsonObject.isNull(DEFAULT)){
-                            registrationClient = (String) jsonObject.get(DEFAULT);
-                            return registrationClient;
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+            if (isJSONValid(registrationClient)) {
+                try {
+                    JSONObject jsonObject = new JSONObject(registrationClient);
+                    if (!jsonObject.isNull(RegistrationHelper.getInstance().getCountryCode())) {
+                        registrationClient = (String) jsonObject.get(RegistrationHelper.
+                                getInstance().getCountryCode());
+                        return registrationClient;
+                    } else if (!jsonObject.isNull(DEFAULT)) {
+                        registrationClient = (String) jsonObject.get(DEFAULT);
+                        return registrationClient;
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+            }
         } else {
             RLog.e("RegistrationConfiguration", "Registration client is null");
         }
@@ -138,7 +136,6 @@ public class RegistrationConfiguration {
     }
 
 
-
     /**
      * Status of email verification required
      *
@@ -176,10 +173,10 @@ public class RegistrationConfiguration {
         try {
             Object obj = appConfiguration.getMinimunAgeObject();
             if (obj != null) {
-                JSONObject jsonObject = new JSONObject((String)obj);
-                if(!jsonObject.isNull(countryCode)){
+                JSONObject jsonObject = new JSONObject((String) obj);
+                if (!jsonObject.isNull(countryCode)) {
                     return (int) jsonObject.get(countryCode);
-                }else if(!jsonObject.isNull(DEFAULT)){
+                } else if (!jsonObject.isNull(DEFAULT)) {
                     return (int) jsonObject.get(DEFAULT);
                 }
             }
@@ -210,8 +207,7 @@ public class RegistrationConfiguration {
         if (appName == null && sharedId == null && secreteId == null && baseUrl == null) {
             return null;
         }
-        HSDPInfo hsdpInfo = new HSDPInfo(sharedId, secreteId, baseUrl, appName);
-        return hsdpInfo;
+        return new HSDPInfo(sharedId, secreteId, baseUrl, appName);
     }
 
     /**
@@ -235,26 +231,17 @@ public class RegistrationConfiguration {
     }
 
     private boolean isEnvironementSet() {
-        String environment = getRegistrationEnvironment();
-        if (environment == null) {
-            return false;
-        }
-        return true;
+        return getRegistrationEnvironment() != null;
     }
 
     public boolean isHsdpFlow() {
-
-        if(!isEnvironementSet()) {
-            return false;
-        }
-
-        return isHsdpInfo(getHSDPInfo());
+        return isEnvironementSet() && isHsdpInfoAvailable();
     }
 
-    private boolean isHsdpInfo(HSDPInfo hsdpInfo) {
-        if(hsdpInfo!=null){
-            return hsdpInfo.getSecreteId()!= null && hsdpInfo.getSharedId()!=null && hsdpInfo.getBaseURL()!=null;
-        }
-       return false;
+    private boolean isHsdpInfoAvailable() {
+        HSDPInfo hsdpInfo = getHSDPInfo();
+        return hsdpInfo != null
+                && hsdpInfo.getSecreteId() != null
+                && hsdpInfo.getSharedId() != null;
     }
 }
