@@ -42,7 +42,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/layout_margin_left_right"
                         android:gravity="center_vertical|end"
-                        android:onCheckedChanged="@{(v, isChecked) -> fragment.setAccentColor(isChecked)}"/>
+                        android:checked="@={fragment.isAccentColor}"
+                        android:onCheckedChanged="@{(v, isChecked) -> fragment.setNotificationBadge(isChecked)}"
+                        />
                 </LinearLayout>
 
                 <com.philips.platform.uid.view.widget.Label
@@ -61,7 +63,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="50dp"
-                        android:enabled="@{fragment.accentColorSwitch? false: true}"
 
                         />
 

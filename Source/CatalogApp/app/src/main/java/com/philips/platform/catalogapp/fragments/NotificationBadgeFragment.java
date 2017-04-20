@@ -6,17 +6,14 @@
 
 package com.philips.platform.catalogapp.fragments;
 
-import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.philips.platform.catalogapp.R;
@@ -30,7 +27,7 @@ public class NotificationBadgeFragment extends BaseFragment {
     private NotificationBadge mSmallText;
     private EditText mEnterNumber;
     private FragmentNotificationBadgeBinding notificationBadgeBinding;
-    public ObservableBoolean isAccentColorSwitch = new ObservableBoolean(Boolean.FALSE);
+    public ObservableBoolean isAccentColor = new ObservableBoolean(Boolean.TRUE);
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,24 +63,6 @@ public class NotificationBadgeFragment extends BaseFragment {
         return notificationBadgeBinding.getRoot();
     }
 
-    private void restoreStates(Bundle savedInstance) {
-        if (savedInstance != null) {
-            setAccentColor(savedInstance.getBoolean("accentColorSwitch"));
-        }
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable final Bundle savedInstanceState) {
-        restoreStates(savedInstanceState);
-        super.onViewStateRestored(savedInstanceState);
-    }
-
-
-    @Override
-    public void onSaveInstanceState(final Bundle outState) {
-        outState.putBoolean("accentColorSwitch", isAccentColorSwitch.get());
-        super.onSaveInstanceState(outState);
-    }
 
     @Override
     public void onDestroy() {
@@ -96,10 +75,19 @@ public class NotificationBadgeFragment extends BaseFragment {
         return R.string.page_title_notification_badge;
     }
 
-    public void setAccentColor(boolean toggle) {
-        isAccentColorSwitch.set(toggle);
-       // mDefaultText.setBackgroundResource(R.color.design_snackbar_background_color);
+    private void enableRecyclerViewSeparator() {
+        if (isAccentColor.get()) {
+            mDefaultText.setVisibility(View.VISIBLE);
 
+        } else {
+            mDefaultText.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void setNotificationBadge(boolean isSeparatorEnabled) {
+        this.isAccentColor.set(isSeparatorEnabled);
+        enableRecyclerViewSeparator();
 
     }
+
 }
