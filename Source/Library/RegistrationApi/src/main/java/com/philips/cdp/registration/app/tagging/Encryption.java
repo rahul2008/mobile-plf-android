@@ -10,9 +10,7 @@ import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.security.Provider;
 import java.security.PublicKey;
-import java.security.Security;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 
@@ -53,7 +51,6 @@ public class Encryption {
             return String.valueOf("");
         }
         try {
-            Provider[] providers = Security.getProviders();
             byte[] toBeEncryptedBytes = toBeEncrypted.getBytes(StandardCharsets.UTF_8);
             Cipher cipher = Cipher.getInstance(TRANSFORMATION, PROVIDER);
             cipher.init(Cipher.ENCRYPT_MODE, getPublicKey(PUBLIC_KEY));
