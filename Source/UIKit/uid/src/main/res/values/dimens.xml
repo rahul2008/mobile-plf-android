@@ -211,8 +211,8 @@
     <integer name="uid_notification_bar_line_space_multiplier">1</integer>
 
     <!--Inline Vaidation-->
-    <dimen name="uid_rating_bar_text">14sp</dimen>
-    <dimen name="uid_rating_bar_display_padding">6dp</dimen>
+    <dimen name="uid_rating_bar_text">14dp</dimen>
+    <dimen name="uid_rating_bar_display_padding">10dp</dimen>
     <dimen name="uid_rating_bar_input_width">48dp</dimen>
     <dimen name="uid_rating_bar_input_height">48dp</dimen>
     <dimen name="uid_rating_bar_display_width">20dp</dimen>

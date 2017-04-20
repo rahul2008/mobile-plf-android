@@ -8,12 +8,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatRatingBar;
 import android.util.AttributeSet;
 
@@ -36,12 +34,11 @@ public class RatingStar extends AppCompatRatingBar {
     }
 
     public RatingStar(Context context, AttributeSet attrs) {
-        super(context, attrs);//, R.attr.ratingBarStyle);
+        this(context, attrs, R.attr.ratingBarStyle);
     }
 
     public RatingStar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setBackground(new ColorDrawable(Color.YELLOW));
         if (isIndicator()) {
             width = (int) (getContext().getResources().getDimension(R.dimen.uid_rating_bar_display_width));
             height = (int) (getContext().getResources().getDimension(R.dimen.uid_rating_bar_display_height));
@@ -57,7 +54,7 @@ public class RatingStar extends AppCompatRatingBar {
     @Override
     protected synchronized void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(ViewCompat.getMeasuredWidthAndState(this),48);
+        setMeasuredDimension(resolveSizeAndState(width * getNumStars(), widthMeasureSpec, 0)+widthOffset, height);
     }
 
     @Override
@@ -65,19 +62,15 @@ public class RatingStar extends AppCompatRatingBar {
         super.onDraw(canvas);
         initializePaint();
         label = String.valueOf(getRating());            //Change to new String attribute
-        Rect bounds = new Rect();
-        paint.getTextBounds(label, 0, label.length(), bounds);
         paint.setTextAlign(Paint.Align.CENTER);
-//        int yPos = (int) ((canvas.getHeight() / 2) + ((paint.descent() + paint.ascent()) / 2)) ;
-//        canvas.drawText(label,0,yPos,paint);
-        drawTextCentred(canvas, paint, label,canvas.getWidth(),canvas.getHeight()/2);
+        drawTextCentred(canvas, paint, label,0,canvas.getHeight()/2);
     }
 
 
     public void drawTextCentred(Canvas canvas, Paint paint, String text, float cx, float cy){
         Rect textBounds = new Rect();
         paint.getTextBounds(text, 0, text.length(), textBounds);
-        canvas.drawText(text, 0, cy- textBounds.exactCenterY(), paint);
+        canvas.drawText(text, cx+ textBounds.centerX(), cy- textBounds.exactCenterY(), paint);
     }
 
     private void initializePaint(){
