@@ -87,6 +87,16 @@ public static <fields>;
 #notification (Registration)
 -dontwarn android.app.Notification
 
+#Ormlite
+-dontwarn org.slf4j.**
+-dontwarn org.apache.log4j.**
+-dontwarn org.apache.commons.logging.**
+-dontwarn org.apache.commons.codec.binary.**
+-dontwarn javax.persistence.**
+-dontwarn javax.lang.**
+-dontwarn javax.annotation.**
+-dontwarn javax.tools.**
+
 -keepclasseswithmembernames class * {
     native <methods>;
 }
@@ -172,8 +182,8 @@ public static <fields>;
 -keep class com.philips.platform.datasync.moments.UCoreMeasurementGroups { *; }
 -keep class com.philips.platform.datasync.consent.UCoreConsentDetail { *; }
 -keep class com.philips.platform.datasync.settings.UCoreSettings { *; }
--keep class com.philips.platform.datasync.settings.UCoreInsight { *; }
--keep class com.philips.platform.datasync.settings.UCoreInsightList { *; }
+-keep class com.philips.platform.datasync.insights.UCoreInsight { *; }
+-keep class com.philips.platform.datasync.insights.UCoreInsightList { *; }
 -keep class com.philips.platform.datasync.PushNotification.UCorePushNotification { *; }
 
 #HSDP Lib
