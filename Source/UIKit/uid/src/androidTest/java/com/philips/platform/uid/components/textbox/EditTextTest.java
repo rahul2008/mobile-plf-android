@@ -18,6 +18,7 @@ import android.support.test.espresso.action.Press;
 import android.support.test.espresso.action.Tap;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
+import android.view.View;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
@@ -39,6 +40,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.philips.platform.uid.utils.UIDTestUtils.waitFor;
+import static junit.framework.Assert.assertTrue;
 
 public class EditTextTest {
 
@@ -70,6 +72,12 @@ public class EditTextTest {
     public void verifyTextBoxTextFontSize() {
         float expectedFontSize = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.edittext_fontsize);
         getTextBox().check(matches(TextViewPropertiesMatchers.isSameFontSize((int) expectedFontSize)));
+    }
+
+    @Test
+    public void verifyTextBoxTextTypeface() {
+        EditText editText = (EditText) View.inflate(activityContext, com.philips.platform.uid.test.R.layout.edit_text, null);
+        assertTrue(TextViewPropertiesMatchers.isSameTypeface(activityContext, editText.getTypeface(), TestConstants.FONT_PATH_CS_BOOK).matches(editText));
     }
 
     @Test

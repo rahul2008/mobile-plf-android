@@ -5,8 +5,10 @@
 package com.philips.platform.uid.matcher;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -21,6 +23,8 @@ import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+
+import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 public class TextViewPropertiesMatchers {
 
@@ -279,6 +283,7 @@ public class TextViewPropertiesMatchers {
             public boolean matchesSafely(TextView view) {
                 return color == ((ColorDrawable) view.getBackground()).getColor();
             }
+
             @Override
             public void describeTo(Description description) {
             }
@@ -300,6 +305,7 @@ public class TextViewPropertiesMatchers {
             }
         };
     }
+
     public static Matcher<View> isSameTopMargin(final int expectedValue) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
@@ -310,6 +316,7 @@ public class TextViewPropertiesMatchers {
             }
         };
     }
+
     public static Matcher<View> isSameRightMargin(final int expectedValue) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
@@ -320,6 +327,7 @@ public class TextViewPropertiesMatchers {
             }
         };
     }
+
     public static Matcher<View> isSameStartPadding(final int expectedValue) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
@@ -329,11 +337,22 @@ public class TextViewPropertiesMatchers {
             }
         };
     }
+
     public static Matcher<View> isSameEndPadding(final int expectedValue) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
                 setValues(view.getPaddingEnd(), expectedValue);
+                return areEqual();
+            }
+        };
+    }
+
+    public static Matcher<View> isSameTypeface(final Context activity, final Typeface typeface, final String fontPath) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                setValues(typeface, TypefaceUtils.load(activity.getAssets(), fontPath));
                 return areEqual();
             }
         };
