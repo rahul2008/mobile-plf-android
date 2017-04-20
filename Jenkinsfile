@@ -1,6 +1,8 @@
 #!/usr/bin/env groovy
 
 def triggers = []
+BranchName = env.BRANCH_NAME
+JENKINS_ENV = env.JENKINS_ENV
 
 @NonCPS
 def isJobStartedByTimer() {
@@ -21,17 +23,22 @@ def isJobStartedByTimer() {
     return startedByTimer
 }
 
-if (env.BRANCH_NAME == "develop") {
+if (BranchName == "develop") {
     triggers << cron('H H(18-20) * * *')
 }
 
 properties([
+    [$class: 'ParametersDefinitionProperty', parameterDefinitions: [
+        [$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy'],
+        [$class: 'StringParameterDefinition', defaultValue: 'false', description: 'verbose logging [true|false]', name : 'verbose']
+    ]],
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']],
     pipelineTriggers(triggers),
 ])
 
+def MailRecipient = 'DL_CDP2_callisto@philips.com'
 def getBuildConfig() {
-  return ( env.BRANCH_NAME == 'master' ) ? 'Release' : 'Debug'
+  return ( BranchName == 'master' ) ? 'Release' : 'Debug'
 }
 
 stage('Espresso testing') {
@@ -69,7 +76,7 @@ node('Android && 25.0.0 && Ubuntu') {
           """
 
           // Determine version
-          if (env.BRANCH_NAME =~ /release\/.*/) {
+          if (BranchName =~ /release\/.*/) {
               VERSION = sh(returnStdout: true, script: './git_version.sh rc').trim()
           } else {
               VERSION = sh(returnStdout: true, script: './git_version.sh snapshot').trim()
@@ -110,7 +117,7 @@ node('Android && 25.0.0 && Ubuntu') {
         step([$class: 'ArtifactArchiver', artifacts: 'Source/UIKit/uid/build/outputs/aar/uid-debug.aar', excludes: null, fingerprint: true, onlyIfSuccessful: true])
       }
 
-      if(env.BRANCH_NAME == "develop") {
+      if(BranchName == "develop") {
         stage('HockeyApp Upload') {
           sh """#!/bin/bash -l
             cp Documentation/External/ReleaseNotes.md ${APP_ROOT}/app/build/outputs/apk
@@ -120,6 +127,18 @@ node('Android && 25.0.0 && Ubuntu') {
         }
       }
 
+      if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
+        stage ('callIntegrationPipeline') {
+            if (BranchName =~ "/") {
+                  BranchName = BranchName.replaceAll('/','%2F')
+                  echo "BranchName changed to ${BranchName}"
+              }
+          build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'uid'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
+
+        }            
+      }  
+
+
       currentBuild.result = 'SUCCESS'
     } catch(err) {
       currentBuild.result = 'FAILED'
@@ -127,6 +146,7 @@ node('Android && 25.0.0 && Ubuntu') {
 
     stage('Send Notifications') {
       step([$class: 'StashNotifier'])
+      step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
       if(STARTED_BY_TIMER) {
             echo "Started by timer!"
             step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: emailextrecipients([[$class: 'CulpritsRecipientProvider'], [$class: 'RequesterRecipientProvider']])])
