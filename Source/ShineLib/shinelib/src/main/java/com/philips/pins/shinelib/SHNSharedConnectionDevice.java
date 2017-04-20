@@ -6,8 +6,9 @@ import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SHNSharedConnectionDevice extends SHNDeviceWrapper {
-    private AtomicInteger numberOfConnectsOutstanding = new AtomicInteger(0);
-    private String TAG = SHNSharedConnectionDevice.class.getSimpleName();
+    private static final String TAG = "SHNSharedConnectionDevice";
+
+    private final AtomicInteger numberOfConnectsOutstanding = new AtomicInteger(0);
 
     public SHNSharedConnectionDevice(SHNDevice shnDevice) {
         super(shnDevice);
@@ -42,13 +43,11 @@ public class SHNSharedConnectionDevice extends SHNDeviceWrapper {
         if (numberOfConnectsOutstanding.decrementAndGet() == 0) {
             super.disconnect();
         } else {
+            if (numberOfConnectsOutstanding.get() < 0) {
+                throw new IllegalStateException("Number of disconnect calls exceed the number of connect calls.");
+            }
             notifyStateUpdated();
         }
-
-        if (numberOfConnectsOutstanding.get() < 0) {
-            throw new IllegalStateException("Number of disconnect calls exceed the number of connect calls.");
-        }
-
         SHNLogger.d(TAG, "Number of connections outstanding: " + numberOfConnectsOutstanding.get());
     }
 

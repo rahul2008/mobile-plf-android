@@ -318,6 +318,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         }
     }
 
+    @Deprecated
     public void connect(final boolean withTimeout, final long timeoutInMS) {
         SHNLogger.d(TAG, "Connect call in state " + internalState + " withTimeout: " + withTimeout + " timeoutInMS:" + timeoutInMS);
 
