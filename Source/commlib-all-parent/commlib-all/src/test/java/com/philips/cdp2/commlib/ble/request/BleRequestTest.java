@@ -8,6 +8,7 @@ import android.os.Handler;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDevice.SHNDeviceListener;
@@ -76,6 +77,8 @@ public class BleRequestTest {
 
     @Before
     public void setUp() throws Exception {
+        DICommLog.disableLogging();
+
         initMocks(this);
 
         when(mockDevice.getCapability(CapabilityDiComm.class)).thenReturn(mockCapability);

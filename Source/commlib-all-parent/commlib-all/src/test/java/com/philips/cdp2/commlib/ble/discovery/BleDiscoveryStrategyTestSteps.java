@@ -95,7 +95,7 @@ public class BleDiscoveryStrategyTestSteps {
     private ArgumentCaptor<Runnable> runnableCaptor;
 
     @Captor
-    private ArgumentCaptor<BleDiscoveryStrategy.DeviceListener> deviceListenerCaptor;
+    private ArgumentCaptor<BleDiscoveryStrategy.DiscoveryTask> discoveryTaskCaptor;
 
     @Before
     public void setup() throws SHNBluetoothHardwareUnavailableException {
@@ -211,7 +211,7 @@ public class BleDiscoveryStrategyTestSteps {
     }
 
     @Then("^(.*?) with cppId (.*?) is in the list of available appliances$")
-    public void theFollowingAppliancesWirhCppIdAreCreated( String applianceName, String cppId) {
+    public void theFollowingAppliancesWirhCppIdAreCreated(String applianceName, String cppId) {
         final Set<? extends Appliance> availableAppliances = commCentral.getApplianceManager().getAvailableAppliances();
         final Set<String> availableApplianceNames = new HashSet<>();
         final Set<String> availableCppIds = new HashSet<>();
@@ -225,7 +225,7 @@ public class BleDiscoveryStrategyTestSteps {
     }
 
     @Then("^(.*?) with cppId (.*?) and modelId (.*?) is in the filtered list of available appliances$")
-    public void theFollowingAppliancesWithCppIdAndModelIdAreCreated( String applianceName, String cppId, String modelId) {
+    public void theFollowingAppliancesWithCppIdAndModelIdAreCreated(String applianceName, String cppId, String modelId) {
         final Set<? extends Appliance> availableAppliances = commCentral.getApplianceManager().getAvailableAppliances();
         final Set<String> availableApplianceNames = new HashSet<>();
         final Set<String> availableCppIds = new HashSet<>();
@@ -305,12 +305,12 @@ public class BleDiscoveryStrategyTestSteps {
         when(shnDeviceFoundInfoMock.getBleScanRecord()).thenReturn(bleScanRecordMock);
         when(bleScanRecordMock.getManufacturerSpecificData()).thenReturn(modelIdArray);
 
-        doNothing().when(shnDeviceMock).registerSHNDeviceListener(deviceListenerCaptor.capture());
+        doNothing().when(shnDeviceMock).registerSHNDeviceListener(discoveryTaskCaptor.capture());
 
         doAnswer(new Answer() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
-                deviceListenerCaptor.getValue().onStateUpdated(shnDeviceMock);
+                discoveryTaskCaptor.getValue().onStateUpdated(shnDeviceMock);
                 return null;
             }
         }).when(shnDeviceMock).connect();

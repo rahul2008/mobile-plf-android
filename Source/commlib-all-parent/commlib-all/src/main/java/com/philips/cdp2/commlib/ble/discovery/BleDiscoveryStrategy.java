@@ -20,6 +20,7 @@ import com.philips.cdp2.commlib.ble.BleDeviceCache.ExpirationCallback;
 import com.philips.cdp2.commlib.core.discovery.ObservableDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
+import com.philips.cdp2.commlib.core.util.VerboseRunnable;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
@@ -38,13 +39,16 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
@@ -72,11 +76,14 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
     private final SHNDeviceScanner deviceScanner;
     private final SHNCentral shnCentral;
     private Set<String> modelIds;
-    private ScheduledExecutorService executor;
-    private ScheduledFuture discoveryFuture;
+
+    private ScheduledExecutorService scanExecutor;
+    private ScheduledThreadPoolExecutor discoveryExecutor;
+
+    private ScheduledFuture scanFuture;
     private Set<String> discoveredMacAddresses = new CopyOnWriteArraySet<>();
 
-    private ExpirationCallback expirationCallback = new ExpirationCallback() {
+    private final ExpirationCallback expirationCallback = new ExpirationCallback() {
         @Override
         public void onCacheExpired(NetworkNode networkNode) {
             final CacheData cacheData = bleDeviceCache.findByCppId(networkNode.getCppId());
@@ -98,7 +105,22 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         this.deviceScanner = deviceScanner;
         this.shnCentral = shnCentral;
         this.modelIds = new HashSet<>();
-        this.executor = Executors.newSingleThreadScheduledExecutor();
+        this.scanExecutor = Executors.newSingleThreadScheduledExecutor();
+    }
+
+    @Override
+    public void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull SHNDeviceFoundInfo shnDeviceFoundInfo) {
+        final CacheData cacheData = bleDeviceCache.findByAddress(shnDeviceFoundInfo.getDeviceAddress());
+        if (cacheData == null) {
+            onDeviceFound(shnDeviceFoundInfo);
+        } else {
+            bleDeviceCache.add(cacheData.getDevice(), cacheData.getNetworkNode(), expirationCallback, SCAN_WINDOW_MILLIS);
+        }
+    }
+
+    @Override
+    public void scanStopped(SHNDeviceScanner shnDeviceScanner) {
+        // Ignored
     }
 
     @Override
@@ -113,14 +135,25 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
 
     @Override
     public void start(@NonNull Set<String> deviceTypes, @NonNull Set<String> modelIds) throws MissingPermissionException, TransportUnavailableException {
-        this.discoveredMacAddresses.clear();
         this.modelIds = modelIds;
 
-        if (checkAndroidPermission(this.context, ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {
-            throw new MissingPermissionException("Discovery via BLE is missing permission: " + ACCESS_COARSE_LOCATION);
-        }
+        startDiscovery();
+        startBleScan();
+    }
 
-        discoveryFuture = executor.scheduleAtFixedRate(new Runnable() {
+    @Override
+    public void stop() {
+        stopBleScan();
+        stopDiscovery();
+    }
+
+    @VisibleForTesting
+    int checkAndroidPermission(Context context, String permission) {
+        return ContextCompat.checkSelfPermission(context, permission);
+    }
+
+    private void startBleScan() {
+        scanFuture = scanExecutor.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
                 if (!deviceScanner.startScanning(BleDiscoveryStrategy.this, DuplicatesAllowed, SCAN_WINDOW_MILLIS)) {
@@ -130,150 +163,71 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         }, 0L, 30, TimeUnit.SECONDS);
     }
 
-    @Override
-    public void stop() {
+    private void stopBleScan() {
         deviceScanner.stopScanning();
+        if (scanFuture != null) {
+            scanFuture.cancel(true);
+        }
+    }
+
+    private void startDiscovery() throws MissingPermissionException {
+        if (checkAndroidPermission(this.context, ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {
+            throw new MissingPermissionException("Discovery via BLE is missing permission: " + ACCESS_COARSE_LOCATION);
+        }
+        this.discoveredMacAddresses.clear();
+        discoveryExecutor = new ScheduledThreadPoolExecutor(1);
+    }
+
+    private void stopDiscovery() {
+        if (discoveryExecutor != null) {
+            List<Runnable> tasks = discoveryExecutor.shutdownNow();
+            DICommLog.w(TAG, "Rejected discovery tasks: " + tasks.size());
+        }
         discoveredMacAddresses.clear();
+    }
 
-        if (discoveryFuture != null) {
-            discoveryFuture.cancel(true);
+    private void onDeviceFound(@NonNull SHNDeviceFoundInfo shnDeviceFoundInfo) {
+        final SHNDevice device = shnDeviceFoundInfo.getShnDevice();
+
+        // Check for DIS
+        final SHNCapabilityDeviceInformation deviceInformation = device.getCapability(SHNCapabilityDeviceInformation.class);
+        if (deviceInformation == null) {
+            throw new IllegalArgumentException("BLE device doesn't expose device information.");
         }
-    }
 
-    @Override
-    public void scanStopped(SHNDeviceScanner shnDeviceScanner) {
-        // Ignored
-    }
+        // Store MAC address to prevent duplicates
+        final String address = device.getAddress();
+        if (discoveredMacAddresses.contains(address)) {
+            return;
+        }
 
-    @Override
-    public void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull SHNDeviceFoundInfo shnDeviceFoundInfo) {
-        // TODO temporary filter
-//        if (!shnDeviceFoundInfo.getDeviceAddress().equals("22:22:22:04:04:18")) {
-//        if (!shnDeviceFoundInfo.getDeviceAddress().equals("AA:AA:AA:AA:AA:AA")) {
-//            return;
-//        }
+        // Apply model id filter
+        final String modelId = createModelId(shnDeviceFoundInfo);
+        if (modelIds.isEmpty() || modelIds.contains(modelId)) {
+            DICommLog.d(TAG, String.format(Locale.US, "Device found: [%s], signal strength: [%d dBm]", shnDeviceFoundInfo.getDeviceAddress(), shnDeviceFoundInfo.getRssi()));
+            discoveredMacAddresses.add(device.getAddress());
 
-        // If device already in cache, don't care
-        CacheData cacheData = bleDeviceCache.findByAddress(shnDeviceFoundInfo.getDeviceAddress());
-        if (cacheData == null) {
-            // Check for DIS
-            final SHNDevice device = shnDeviceFoundInfo.getShnDevice();
-            final SHNCapabilityDeviceInformation deviceInformation = device.getCapability(SHNCapabilityDeviceInformation.class);
-            if (deviceInformation == null) {
-                throw new IllegalArgumentException("BLE device doesn't expose device information.");
-            }
-
-            String address = device.getAddress();
-
-            // Note MAC address during discovery
-            if (discoveredMacAddresses.contains(address)) {
-                DICommLog.d(TAG, "Device " + address + " already discovering.");
-                return;
-            }
-
-            final String modelId = createModelId(shnDeviceFoundInfo);
-
-            if (modelIds.isEmpty() || modelIds.contains(modelId)) {
-                discoveredMacAddresses.add(device.getAddress());
-
-                final NetworkNode networkNode = new NetworkNode();
-                networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
-                networkNode.setModelId(modelId);
-                networkNode.setModelName(device.getDeviceTypeName());
-
-                networkNode.setBleAddress(device.getAddress());
-                networkNode.setName(device.getName());
-
-                device.registerSHNDeviceListener(new DeviceListener(device, deviceInformation, networkNode));
-                DICommLog.w(TAG, "Connecting device");
-                device.connect();
-            }
+            discoveryExecutor.execute(new VerboseRunnable(new DiscoveryTask(device, deviceInformation, modelId)));
         } else {
-            bleDeviceCache.add(cacheData.getDevice(), cacheData.getNetworkNode(), expirationCallback, SCAN_WINDOW_MILLIS);
+            DICommLog.w(TAG, "Unhandled model id: " + modelId);
         }
     }
 
-    @VisibleForTesting
-    int checkAndroidPermission(Context context, String permission) {
-        return ContextCompat.checkSelfPermission(context, permission);
-    }
+    private SHNDevice addDiCommStreamingToDevice(final @NonNull SHNDevice device) {
+        SHNDeviceWrapper wrapper = (SHNDeviceWrapper) device;
+        SHNDeviceImpl shnDevice = (SHNDeviceImpl) wrapper.getInternalDevice();
 
-    @VisibleForTesting
-    public class DeviceListener implements SHNDevice.SHNDeviceListener {
-        final AtomicInteger counter = new AtomicInteger(1);
-        @NonNull
-        private final SHNDevice device;
-        private final SHNCapabilityDeviceInformation deviceInformation;
-        private final NetworkNode networkNode;
+        if (shnDevice.getCapability(CapabilityDiComm.class) == null) {
+            final SHNServiceDiCommStreaming shnServiceDiCommStreaming = new SHNServiceDiCommStreaming();
+            shnDevice.registerService(shnServiceDiCommStreaming);
 
-        private final SHNCapabilityDeviceInformation.Listener deviceInformationListener = new SHNCapabilityDeviceInformation.Listener() {
-            @Override
-            public void onDeviceInformation(@NonNull SHNDeviceInformationType deviceInformationType, @NonNull String value, @NonNull Date dateWhenAcquired) {
-                networkNode.setCppId(value);
-                bleDeviceCache.add(addDiCommStreamingToDevice(device), networkNode, expirationCallback, SCAN_WINDOW_MILLIS);
-                notifyNetworkNodeDiscovered(networkNode);
+            final SHNProtocolMoonshineStreaming shnProtocolMoonshineStreaming = new SHNProtocolByteStreamingVersionSwitcher(shnServiceDiCommStreaming, shnCentral.getInternalHandler());
+            shnServiceDiCommStreaming.setShnServiceMoonshineStreamingListener(shnProtocolMoonshineStreaming);
 
-                onDeviceResponse();
-            }
-
-            private SHNDevice addDiCommStreamingToDevice(SHNDevice discoveredDevice) {
-                SHNDeviceWrapper wrapper = (SHNDeviceWrapper) discoveredDevice;
-                SHNDeviceImpl shnDevice = (SHNDeviceImpl) wrapper.getInternalDevice();
-
-                final SHNServiceDiCommStreaming shnServiceDiCommStreaming = new SHNServiceDiCommStreaming();
-                shnDevice.registerService(shnServiceDiCommStreaming);
-
-                final SHNProtocolMoonshineStreaming shnProtocolMoonshineStreaming = new SHNProtocolByteStreamingVersionSwitcher(shnServiceDiCommStreaming, shnCentral.getInternalHandler());
-                shnServiceDiCommStreaming.setShnServiceMoonshineStreamingListener(shnProtocolMoonshineStreaming);
-
-                CapabilityDiComm capabilityDiComm = new StreamingCapability(shnProtocolMoonshineStreaming);
-                shnDevice.registerCapability(CapabilityDiComm.class, capabilityDiComm);
-
-                return discoveredDevice;
-            }
-
-            @Override
-            public void onError(@NonNull SHNDeviceInformationType deviceInformationType, @NonNull SHNResult error) {
-                DICommLog.e(TAG, "Device [" + device.getAddress() + "] error: " + error.toString());
-
-                onDeviceResponse();
-            }
-        };
-
-        DeviceListener(final @NonNull SHNDevice device, SHNCapabilityDeviceInformation deviceInformation, NetworkNode networkNode) {
-            this.device = device;
-            this.deviceInformation = deviceInformation;
-            this.networkNode = networkNode;
+            CapabilityDiComm capabilityDiComm = new StreamingCapability(shnProtocolMoonshineStreaming);
+            shnDevice.registerCapability(CapabilityDiComm.class, capabilityDiComm);
         }
-
-        @Override
-        public void onStateUpdated(final SHNDevice shnDevice) {
-            if (shnDevice.getState() == Connected) {
-                deviceInformation.readDeviceInformation(SerialNumber, deviceInformationListener);
-            }
-        }
-
-        @Override
-        public void onFailedToConnect(SHNDevice shnDevice, SHNResult result) {
-            DICommLog.e(TAG, "Device [" + shnDevice.getAddress() + "] failed to connect: " + result.toString());
-
-            device.unregisterSHNDeviceListener(this);
-            discoveredMacAddresses.remove(shnDevice.getAddress());
-        }
-
-        @Override
-        public void onReadRSSI(int rssi) {
-            // Ignored
-        }
-
-        private void onDeviceResponse() {
-            if (counter.decrementAndGet() == 0) {
-                device.unregisterSHNDeviceListener(this);
-                discoveredMacAddresses.remove(networkNode.getBleAddress());
-                DICommLog.w(TAG, "Disconnecting device");
-                device.disconnect();
-            }
-        }
+        return device;
     }
 
     @Nullable
@@ -283,5 +237,86 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
             return new String(Arrays.copyOfRange(manufacturerData, 2, manufacturerData.length));
         }
         return null;
+    }
+
+    @VisibleForTesting
+    class DiscoveryTask implements Runnable, SHNDevice.SHNDeviceListener {
+        private final CountDownLatch latch = new CountDownLatch(1);
+
+        private final NetworkNode networkNode;
+
+        @NonNull
+        private final SHNDevice device;
+        private final SHNCapabilityDeviceInformation deviceInformation;
+
+        private final SHNCapabilityDeviceInformation.Listener deviceInformationListener = new SHNCapabilityDeviceInformation.Listener() {
+            @Override
+            public void onDeviceInformation(@NonNull SHNDeviceInformationType deviceInformationType, @NonNull String value, @NonNull Date dateWhenAcquired) {
+                networkNode.setCppId(value);
+                bleDeviceCache.add(addDiCommStreamingToDevice(device), networkNode, expirationCallback, SCAN_WINDOW_MILLIS);
+                notifyNetworkNodeDiscovered(networkNode);
+
+                finish();
+            }
+
+            @Override
+            public void onError(@NonNull SHNDeviceInformationType deviceInformationType, @NonNull SHNResult error) {
+                DICommLog.e(TAG, String.format(Locale.US, "Device [%s] error: %s", device.getAddress(), error.toString()));
+
+                finish();
+            }
+        };
+
+        DiscoveryTask(final @NonNull SHNDevice device, final @NonNull SHNCapabilityDeviceInformation deviceInformation, final @Nullable String modelId) {
+            this.device = device;
+            this.deviceInformation = deviceInformation;
+
+            final NetworkNode networkNode = new NetworkNode();
+            networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+            networkNode.setModelId(modelId);
+            networkNode.setModelName(device.getDeviceTypeName());
+            networkNode.setBleAddress(device.getAddress());
+            networkNode.setName(device.getName());
+
+            this.networkNode = networkNode;
+        }
+
+        @Override
+        public void onStateUpdated(final SHNDevice ignored) {
+            if (device.getState() == Connected) {
+                deviceInformation.readDeviceInformation(SerialNumber, deviceInformationListener);
+            }
+        }
+
+        @Override
+        public void onFailedToConnect(SHNDevice device, SHNResult result) {
+            DICommLog.e(TAG, String.format(Locale.US, "Device [%s] failed to connect: %s", device.getAddress(), result.toString()));
+
+            finish();
+        }
+
+        @Override
+        public void onReadRSSI(int ignored) {
+        }
+
+        @Override
+        public void run() {
+            device.registerSHNDeviceListener(this);
+            device.connect();
+
+            try {
+                latch.await();
+            } catch (InterruptedException e) {
+                finish();
+            }
+        }
+
+        private void finish() {
+            device.unregisterSHNDeviceListener(this);
+            device.disconnect();
+
+            discoveredMacAddresses.remove(device.getAddress());
+            latch.countDown();
+        }
     }
 }

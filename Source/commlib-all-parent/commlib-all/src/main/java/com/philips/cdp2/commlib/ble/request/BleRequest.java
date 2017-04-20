@@ -28,6 +28,7 @@ import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidStatusCodeExcep
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
@@ -130,16 +131,30 @@ public abstract class BleRequest implements Runnable {
         }
     };
 
-    @VisibleForTesting
-    void processDiCommResponse(final DiCommResponse res) {
-        final StatusCode statusCode = res.getStatus();
-
-        if (statusCode == NoError) {
-            onSuccess(res.getPropertiesAsString());
-        } else {
-            onError(getErrorByStatusCode(statusCode), res.getPropertiesAsString());
+    private final SHNDevice.SHNDeviceListener bleDeviceListener = new SHNDevice.SHNDeviceListener() {
+        @Override
+        public void onStateUpdated(final SHNDevice shnDevice) {
+            if (shnDevice.getState() == Connected) {
+                onConnected();
+            } else if (shnDevice.getState() == Disconnected) {
+                if (stateIs(COMPLETED)) {
+                    completeRequest();
+                } else {
+                    onError(Error.REQUEST_FAILED, "device disconnected");
+                }
+            }
         }
-    }
+
+        @Override
+        public void onFailedToConnect(final SHNDevice shnDevice, final SHNResult shnResult) {
+            onError(Error.NOT_AVAILABLE, "Communication is not available");
+        }
+
+        @Override
+        public void onReadRSSI(final int rssi) {
+            DICommLog.d(TAG, String.format(Locale.US, "Device [%s], RSSI: %d dBm", bleDevice.getAddress(), rssi));
+        }
+    };
 
     /**
      * Instantiates a new BleRequest.
@@ -167,6 +182,8 @@ public abstract class BleRequest implements Runnable {
         this.disconnectAfterRequest = disconnectAfterRequest;
     }
 
+    protected abstract void execute(CapabilityDiComm capability);
+
     @Override
     public void run() {
         if (setStateIfStateIs(STARTED, CREATED)) {
@@ -179,6 +196,28 @@ public abstract class BleRequest implements Runnable {
                 onError(UNKNOWN, "Thread interrupted");
             }
             cleanup();
+        }
+    }
+
+    /**
+     * Cancel.
+     * <p>
+     * This cancels the current request and notifies the {@link ResponseHandler} for this request.
+     *
+     * @param reason the reason
+     */
+    public void cancel(String reason) {
+        onError(Error.TIMED_OUT, reason);
+    }
+
+    @VisibleForTesting
+    void processDiCommResponse(final DiCommResponse res) {
+        final StatusCode statusCode = res.getStatus();
+
+        if (statusCode == NoError) {
+            onSuccess(res.getPropertiesAsString());
+        } else {
+            onError(getErrorByStatusCode(statusCode), res.getPropertiesAsString());
         }
     }
 
@@ -206,37 +245,12 @@ public abstract class BleRequest implements Runnable {
 
         bleDevice = cacheData.getDevice();
         bleDevice.registerSHNDeviceListener(bleDeviceListener);
-//        if (bleDevice.getState() == Connected) {
-//            onConnected();
-//        } else {
-            connectToDevice();
-//        }
+        ///if (bleDevice.getState() == Connected) {
+        //    onConnected();
+        // } else {
+        connectToDevice();
+        // }
     }
-
-    private SHNDevice.SHNDeviceListener bleDeviceListener = new SHNDevice.SHNDeviceListener() {
-        @Override
-        public void onStateUpdated(final SHNDevice shnDevice) {
-            if (shnDevice.getState() == Connected) {
-                onConnected();
-            } else if (shnDevice.getState() == Disconnected) {
-                if (stateIs(COMPLETED)) {
-                    completeRequest();
-                } else {
-                    onError(Error.REQUEST_FAILED, "device disconnected");
-                }
-            }
-        }
-
-        @Override
-        public void onFailedToConnect(final SHNDevice shnDevice, final SHNResult shnResult) {
-            onError(Error.NOT_AVAILABLE, "Communication is not available");
-        }
-
-        @Override
-        public void onReadRSSI(final int i) {
-            // Don't care
-        }
-    };
 
     private void connectToDevice() {
         DICommLog.w(TAG, "Connecting device");
@@ -254,19 +268,6 @@ public abstract class BleRequest implements Runnable {
             capability.addDataListener(resultListener);
             execute(capability);
         }
-    }
-
-    protected abstract void execute(CapabilityDiComm capability);
-
-    /**
-     * Cancel.
-     * <p>
-     * This cancels the current request and notifies the {@link ResponseHandler} for this request.
-     *
-     * @param reason the reason
-     */
-    public void cancel(String reason) {
-        onError(Error.TIMED_OUT, reason);
     }
 
     private boolean stateIs(State state) {
@@ -330,7 +331,7 @@ public abstract class BleRequest implements Runnable {
 
     private void cleanup() {
         if (bleDevice != null) {
-            bleDevice.registerSHNDeviceListener(null);
+            bleDevice.unregisterSHNDeviceListener(bleDeviceListener);
             bleDevice = null;
 
             if (capability != null) {
