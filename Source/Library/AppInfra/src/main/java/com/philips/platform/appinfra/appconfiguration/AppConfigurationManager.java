@@ -216,7 +216,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                     // boolean isKeyPresent = cocoJSONobject.has(key);
                     if (object instanceof ArrayList) {
 
-                         if (((ArrayList) object).get(0) instanceof Integer || ((ArrayList) object).get(0) instanceof String || ((ArrayList) object).get(0) instanceof Boolean) {
+                         if (((ArrayList) object).get(0) instanceof Integer || ((ArrayList) object).get(0) instanceof String ) {
 
                             final JSONArray jsonArray = new JSONArray(((ArrayList) object).toArray());
                             cocoJSONobject.put(key, jsonArray);
