@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.janrain.android.Jump;
 import com.philips.cdp.registration.B;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
@@ -147,6 +148,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         initUI(view);
         almostDonePresenter.parseRegistrationInfo(mBundle);
         almostDonePresenter.updateUIControls();
+        handleUiAcceptTerms();
         handleOrientation(view);
         return view;
     }
@@ -189,7 +191,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         RegUtility.linkifyTermsandCondition(acceptTermsView, getRegistrationFragment().getParentActivity(), mTermsAndConditionClick);
         updateReceiveMarketingViewStyle();
         initListener();
-        handleUiAcceptTerms();
     }
 
     private void initListener() {
@@ -567,8 +568,11 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     @Override
     public void handleUpdateUser() {
         errorMessage.hideError();
-        showMarketingOptSpinner();
-        almostDonePresenter.updateUser(marketingOptCheck.isChecked());
+        if(Jump.getSignedInUser()!=null){
+            showMarketingOptSpinner();
+            almostDonePresenter.updateUser(marketingOptCheck.isChecked());
+            showMarketingOptSpinner();
+        }
     }
 
     @Override
