@@ -2,6 +2,8 @@ package com.philips.platform.uid.view.widget;
 
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -16,12 +18,13 @@ import android.support.v7.widget.AppCompatRatingBar;
 import android.util.AttributeSet;
 
 import com.philips.platform.uid.R;
+import com.philips.platform.uid.thememanager.ThemeUtils;
 
 import java.lang.reflect.Method;
 
 import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
-public class RatingStar extends AppCompatRatingBar {
+public class RatingBar extends AppCompatRatingBar {
 
     private int widthOffset;
     private Paint paint;
@@ -29,26 +32,33 @@ public class RatingStar extends AppCompatRatingBar {
     private int height;
     private int width;
 
-    public RatingStar(Context context) {
+    public RatingBar(Context context) {
         super(context);
     }
 
-    public RatingStar(Context context, AttributeSet attrs) {
-        this(context, attrs, R.attr.ratingBarStyle);
+    public RatingBar(Context context, AttributeSet attrs) {
+        this(context, attrs, R.attr.uidRatingBarStyle);
     }
 
-    public RatingStar(Context context, AttributeSet attrs, int defStyleAttr) {
+    public RatingBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        processAttributes(context, attrs, defStyleAttr);
         if (isIndicator()) {
             width = (int) (getContext().getResources().getDimension(R.dimen.uid_rating_bar_display_width));
             height = (int) (getContext().getResources().getDimension(R.dimen.uid_rating_bar_display_height));
+            widthOffset = getResources().getDimensionPixelSize(R.dimen.uid_rating_bar_text) + getResources().getDimensionPixelSize(R.dimen.uid_rating_bar_display_padding);
+            setPadding(widthOffset,0,0,0);
         } else {
             width = (int) (getContext().getResources().getDimension(R.dimen.uid_rating_bar_input_width));
             height = (int) (getContext().getResources().getDimension(R.dimen.uid_rating_bar_input_height));
+            widthOffset = 0;
         }
         setProgressDrawableCustom();
-        widthOffset = getResources().getDimensionPixelSize(R.dimen.uid_rating_bar_text) + getResources().getDimensionPixelSize(R.dimen.uid_rating_bar_display_padding);
-        setPadding(widthOffset,0,0,0);
+    }
+
+    private void processAttributes(Context context, AttributeSet attrs, int defStyleAttr) {
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDTextEditBox, defStyleAttr, R.style.UIDEditTextBox);
+        final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
     }
 
     @Override
@@ -60,14 +70,16 @@ public class RatingStar extends AppCompatRatingBar {
     @Override
     protected synchronized void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        initializePaint();
-        label = String.valueOf(getRating());            //Change to new String attribute
-        paint.setTextAlign(Paint.Align.CENTER);
-        drawTextCentred(canvas, paint, label,0,canvas.getHeight()/2);
+        if(isIndicator()){
+            initializePaint();
+            label = String.valueOf(getRating());            //Change to new String attribute
+            paint.setTextAlign(Paint.Align.CENTER);
+            drawTextCentred(canvas, paint, label,0,canvas.getHeight()/2);
+        }
     }
 
 
-    public void drawTextCentred(Canvas canvas, Paint paint, String text, float cx, float cy){
+    private void drawTextCentred(Canvas canvas, Paint paint, String text, float cx, float cy){
         Rect textBounds = new Rect();
         paint.getTextBounds(text, 0, text.length(), textBounds);
         canvas.drawText(text, cx+ textBounds.centerX(), cy- textBounds.exactCenterY(), paint);
@@ -80,7 +92,7 @@ public class RatingStar extends AppCompatRatingBar {
         paint.setTextSize(getResources().getDimensionPixelSize(R.dimen.uid_rating_bar_text));
     }
 
-    public void setProgressDrawableCustom() {
+    private void setProgressDrawableCustom() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setProgressDrawableTiled(getStarDrawable());
         } else {
@@ -113,7 +125,7 @@ public class RatingStar extends AppCompatRatingBar {
                 drawableToBitmap(VectorDrawableCompat.create(getContext().getResources(), resID, getContext().getTheme())));
     }
 
-    public static Bitmap drawableToBitmap(Drawable drawable) {
+    private Bitmap drawableToBitmap(Drawable drawable) {
         Bitmap bitmap = null;
 
         if (drawable instanceof BitmapDrawable) {
