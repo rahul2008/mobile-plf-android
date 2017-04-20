@@ -2,6 +2,7 @@ package com.philips.platform.appframework.testmicroappfw.ui;
 
 
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -68,13 +69,14 @@ public class TestFragmentTest extends TestCase implements TestConfigManager.Test
     public void testShowCoCoList(){
         testConfigManager.loadChapterList(hamburgerActivity,new Handler(),this);
         FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
-        int fragmentCount = fragmentManager.getBackStackEntryCount();
-        fragmentManager.beginTransaction().add(testFragment,"TestFragment").commit();
+
+        fragmentManager.beginTransaction().add(testFragment,"TestCoCoListFragment").commit();
         testFragment.showCoCoList(createChapterObject());
-        assertEquals(1,fragmentCount);
+        Fragment fragment = fragmentManager.findFragmentByTag("CoCoListFragment");
+        assertTrue(fragment instanceof COCOListFragment);
     }
 
-    private Chapter createChapterObject() {
+    protected static  Chapter createChapterObject() {
         CommonComponent commonComponent = new CommonComponent();
         commonComponent.setCocoName("Blue Lib");
         ArrayList<CommonComponent> arrayListCommonComponent = new ArrayList<>();

@@ -48,6 +48,10 @@ public class CoCoAdapter extends RecyclerView.Adapter<CoCoAdapter.ChapterViewHol
         return 0;
     }
 
+    protected CommonComponent getItemAtPosition(int i){
+        return commonComponentsList.get(i);
+    }
+
     public class ChapterViewHolder extends RecyclerView.ViewHolder {
         public TextView chapterTextView;
 
