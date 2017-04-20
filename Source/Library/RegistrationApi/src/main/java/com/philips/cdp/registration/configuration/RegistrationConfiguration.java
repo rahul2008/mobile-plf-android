@@ -248,12 +248,13 @@ public class RegistrationConfiguration {
             return false;
         }
 
-        HSDPInfo hsdpInfo = getHSDPInfo();
+        return isHsdpInfo(getHSDPInfo());
+    }
 
-        if (hsdpInfo == null || hsdpInfo.getSecreteId() == null || hsdpInfo.getSharedId() ==null || hsdpInfo.getBaseURL() ==null) {
-            return false;
+    private boolean isHsdpInfo(HSDPInfo hsdpInfo) {
+        if(hsdpInfo!=null){
+            return hsdpInfo.getSecreteId()!= null && hsdpInfo.getSharedId()!=null && hsdpInfo.getBaseURL()!=null;
         }
-
-        return true;
+       return false;
     }
 }
