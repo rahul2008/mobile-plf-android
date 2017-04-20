@@ -4,6 +4,7 @@ import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
+import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 
@@ -84,4 +85,13 @@ public class CoppaLaunchInput extends UappLaunchInput {
         return this.registrationContentConfiguration;
     }
 
+    UIFlow uiFlow;
+
+    public void setUIFlow(UIFlow uiFlow){
+        this.uiFlow = uiFlow;
+    }
+
+    public UIFlow getUIflow(){
+        return  uiFlow;
+    }
 }

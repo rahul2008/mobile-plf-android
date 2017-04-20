@@ -28,6 +28,7 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
+import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -40,6 +41,8 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
     private TextView ivBack;
     private RegistrationLaunchMode mRegistrationLaunchMode = RegistrationLaunchMode.DEFAULT;
     private RegistrationContentConfiguration registrationContentConfiguration;
+
+    private UIFlow uiFlow;
     private Handler mSiteCatalistHandler = new Handler();
     private Runnable mPauseSiteCatalystRunnable = new Runnable() {
 
@@ -88,6 +91,8 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
             }
             setRegistrationContentConfiguration((RegistrationContentConfiguration) bundle.get(RegConstants.REGISTRATION_CONTENT_CONFIG));
+
+            uiFlow = (UIFlow) bundle.get(RegConstants.REGISTRATION_UI_FLOW);
 
         }
 
@@ -191,6 +196,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
         urLaunchInput.setUserRegistrationUIEventListener(userRegistrationUIEventListener);
+        urLaunchInput.setUIFlow(uiFlow);
         FragmentLauncher fragmentLauncher = new FragmentLauncher
                 (this,R.id.fl_reg_fragment_container,this);
         URInterface urInterface = new URInterface();
@@ -236,4 +242,6 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
 
         return registrationContentConfiguration;
     }
+
+
 }
