@@ -242,85 +242,19 @@ public class RegistrationConfiguration {
         return true;
     }
 
-    public boolean isHsdpFlowWithoutBaseUrl() {
-        if(!isEnvironementSet()) {
-            return false;
-        }
-
-        HSDPInfo hsdpInfo = getHSDPInfo();
-
-        if (hsdpInfo == null) {
-            return false;
-        }
-        return isHsdpConfigurationExists(hsdpInfo);
-    }
-
-    private boolean isHsdpConfigurationExists(HSDPInfo hsdpInfo) {
-        return null != hsdpInfo.getApplicationName() && null != hsdpInfo.getSharedId()
-                && null != hsdpInfo.getSecreteId();
-    }
-
     public boolean isHsdpFlow() {
 
         if(!isEnvironementSet()) {
             return false;
         }
 
-        HSDPInfo hsdpInfo = getHSDPInfo();
-
-        if (hsdpInfo == null) {
-            return false;
-        }
-        if (null != hsdpInfo) {
-
-            String exception = buildException(hsdpInfo);
-
-            if (null != exception) {
-                throw new RuntimeException("HSDP configuration is not configured for " +
-                        getRegistrationEnvironment() + " environment for " + exception.toString().substring(4));
-            }
-        }
-
-        return isHsdpConfigurationComplete(hsdpInfo);
+        return isHsdpInfo(getHSDPInfo());
     }
 
-    private boolean isHsdpConfigurationComplete(HSDPInfo hsdpInfo) {
-        return null != hsdpInfo.getApplicationName() && null != hsdpInfo.getSharedId()
-                && null != hsdpInfo.getSecreteId()
-                && null != hsdpInfo.getBaseURL();
+    private boolean isHsdpInfo(HSDPInfo hsdpInfo) {
+        if(hsdpInfo!=null){
+            return hsdpInfo.getSecreteId()!= null && hsdpInfo.getSharedId()!=null && hsdpInfo.getBaseURL()!=null;
+        }
+       return false;
     }
-
-    private String buildException(HSDPInfo hsdpInfo) {
-        String exception = null;
-
-        if (hsdpInfo.getApplicationName() == null) {
-            exception += "Application Name";
-        }
-
-        if (hsdpInfo.getSharedId() == null) {
-            if (null != exception) {
-                exception += ",shared key ";
-            } else {
-                exception += "shared key ";
-            }
-        }
-        if (hsdpInfo.getSecreteId() == null) {
-            if (null != exception) {
-                exception += ",Secret key ";
-            } else {
-                exception += "Secret key ";
-            }
-        }
-
-        if (hsdpInfo.getBaseURL() == null) {
-            if (null != exception) {
-                exception += ",Base Url ";
-            } else {
-                exception += "Base Url ";
-            }
-        }
-        return exception;
-    }
-
-
 }
