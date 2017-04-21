@@ -153,16 +153,9 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD Call", "Downloading from platform microsite id  and should return the URL's for Service id.  ");
             platformService = downloadPlatformService();
-            if (platformService.isSuccess()) {
-                response.setPlatformURLs(platformService);
-
-            }
-        } else {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD Call", "Downloading from  both proposition microsite id and platform microsite id ");
-            propositionService = downloadPropositionService();
-            if (propositionService != null && propositionService.isSuccess()) {
-                final String country = fetchFromSecureStorage(COUNTRY);
-                final String countrySource = fetchFromSecureStorage(COUNTRY_SOURCE);
+            if (platformService != null && platformService.isSuccess()) {
+                String country = fetchFromSecureStorage(COUNTRY);
+                String countrySource = fetchFromSecureStorage(COUNTRY_SOURCE);
                 if (country == null) {
                     if (countrySource == null) {
                         countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
@@ -170,6 +163,22 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                     }
                     saveToSecureStore(propositionService.getCountry(), COUNTRY);
                 }
+                response.setPlatformURLs(platformService);
+            }
+        } else {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD Call", "Downloading from  both proposition microsite id and platform microsite id ");
+            propositionService = downloadPropositionService();
+            if (propositionService != null && propositionService.isSuccess()) {
+                 String country = fetchFromSecureStorage(COUNTRY);
+                 String countrySource = fetchFromSecureStorage(COUNTRY_SOURCE);
+                if (country == null) {
+                    if (countrySource == null) {
+                        countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
+                        saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
+                    }
+                    saveToSecureStore(propositionService.getCountry(), COUNTRY);
+                }
+
                 platformService = downloadPlatformService();
             }
             if (platformService != null && propositionService != null) {
