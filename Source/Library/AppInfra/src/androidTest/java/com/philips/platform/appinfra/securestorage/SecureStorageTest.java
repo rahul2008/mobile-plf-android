@@ -99,9 +99,10 @@ public class SecureStorageTest extends MockitoTestCase {
     public void testGetKey() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         assertTrue(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, "KeyName", sse));
-        Key key =mSecureStorage.getKey("KeyName", sse);
+        assertNotNull(mSecureStorage.getKey("KeyName", sse));
+      /*  Key key =mSecureStorage.getKey("KeyName", sse);
         String keyString = Base64.encodeToString(key.getEncoded(), Base64.DEFAULT);
-        Log.v("SqlCipher Data Key" , keyString );
+        Log.v("SqlCipher Data Key" , keyString );*/
     }
 
     public void testClearKey() {
