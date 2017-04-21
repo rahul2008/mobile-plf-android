@@ -29,6 +29,7 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundExce
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
@@ -44,6 +45,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
+import static com.philips.platform.baseapp.screens.utility.Constants.SQLITE_EXCEPTION;
+import static com.philips.platform.baseapp.screens.utility.Constants.UNSUPPORTED_ENCODING_EXCEPTION;
 
 /**
  * This class contains all initialization & Launching details of UR
@@ -162,7 +165,8 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
             hsdpBaseUrls.put(CHINA_CODE, URLEncoder.encode("https://user-registration-assembly-staging.cn1.philips-healthsuite.com.cn", URL_ENCODING));
             hsdpBaseUrls.put(DEFAULT, URLEncoder.encode("https://user-registration-assembly-staging.eu-west.philips-healthsuite.com", URL_ENCODING));
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, UNSUPPORTED_ENCODING_EXCEPTION,e.getMessage());
+
         }
 
         appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_BASE_URL,
