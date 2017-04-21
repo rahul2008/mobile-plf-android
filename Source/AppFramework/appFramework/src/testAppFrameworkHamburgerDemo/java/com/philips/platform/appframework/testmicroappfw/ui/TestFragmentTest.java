@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.FrameLayout;
 
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
@@ -21,6 +22,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
@@ -74,6 +76,18 @@ public class TestFragmentTest extends TestCase implements TestConfigManager.Test
         testFragment.showCoCoList(createChapterObject());
         Fragment fragment = fragmentManager.findFragmentByTag("CoCoListFragment");
         assertTrue(fragment instanceof COCOListFragment);
+    }
+
+    @Test
+    public void testCoCoName() {
+        testConfigManager.loadChapterList(hamburgerActivity,new Handler(),this);
+        SupportFragmentTestUtil.startFragment(testFragment);
+        testFragment.displayChapterList(chapterArrayList);
+        RecyclerView recyclerView = (RecyclerView) testFragment.getView().findViewById(R.id.chapter_recyclerview);
+        ChapterAdapter chapterAdapter = (ChapterAdapter) recyclerView.getAdapter();
+        ChapterAdapter.ChapterViewHolder viewHolder = chapterAdapter.onCreateViewHolder(new FrameLayout(RuntimeEnvironment.application), 0);
+        chapterAdapter.onBindViewHolder(viewHolder,1);
+        assertEquals("Connectivity",viewHolder.chapterTextView.getText().toString());
     }
 
     protected static  Chapter createChapterObject() {

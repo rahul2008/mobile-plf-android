@@ -7,6 +7,7 @@ import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
+import com.philips.platform.appframework.testmicroappfw.ui.TestFragment;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -43,7 +44,7 @@ public class TestFragmentStateTest extends TestCase{
         testFragmentState.navigate(fragmentLauncher);
         FragmentManager fragmentManager = launchActivity.getSupportFragmentManager();
         int fragmentCount = fragmentManager.getBackStackEntryCount();
-        assertTrue(fragmentCount > 0);
+        assertTrue(fragmentCount > 0 && fragmentManager.findFragmentByTag(TestFragment.class.getSimpleName()) instanceof TestFragment);
 
     }
 }

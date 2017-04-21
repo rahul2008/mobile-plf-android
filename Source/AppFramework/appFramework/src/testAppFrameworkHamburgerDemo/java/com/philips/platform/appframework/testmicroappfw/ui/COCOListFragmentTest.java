@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
@@ -22,6 +23,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
@@ -30,8 +32,7 @@ import java.util.ArrayList;
 @Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 24)
 public class COCOListFragmentTest extends TestCase {
     private HamburgerActivity hamburgerActivity = null;
-    private COCOListFragment cocoListFragment;
-    private CoCoAdapter.ChapterViewHolder viewHolder;
+    private COCOListFragmentMock cocoListFragment;
 
 
     @Before
@@ -39,43 +40,45 @@ public class COCOListFragmentTest extends TestCase {
         super.setUp();
         hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().start().get();
         cocoListFragment = setUpCoCoListFragmentBundle();
+        hamburgerActivity.getSupportFragmentManager().beginTransaction().add(cocoListFragment,"CoCoListFragmentMock").commit();
     }
 
-    private COCOListFragment setUpCoCoListFragmentBundle() {
+    private COCOListFragmentMock setUpCoCoListFragmentBundle() {
         Bundle bundle=new Bundle();
         bundle.putSerializable(COCOListFragment.SELECTED_CHAPTER,TestFragmentTest.createChapterObject());
-        COCOListFragment cocoListFragment=new COCOListFragment();
+        COCOListFragmentMock cocoListFragment=new COCOListFragmentMock();
         cocoListFragment.setArguments(bundle);
         return cocoListFragment;
     }
 
     @Test
     public void testCOCOListFragment(){
-        Fragment cocoListFragment = addCoCoListFragment();
-        assertTrue(cocoListFragment instanceof COCOListFragment);
-    }
-
-    protected Fragment addCoCoListFragment() {
-        hamburgerActivity.getSupportFragmentManager().beginTransaction().add(cocoListFragment,"CoCoListFragment").commit();
-        return hamburgerActivity.getSupportFragmentManager().findFragmentByTag("CoCoListFragment");
+        Fragment cocoListFragment = hamburgerActivity.getSupportFragmentManager().findFragmentByTag("CoCoListFragmentMock");
+        assertTrue(cocoListFragment instanceof COCOListFragmentMock);
     }
 
     @Test
     public void testCoCoAdapterItems(){
-        Bundle bundle=new Bundle();
-        bundle.putSerializable(COCOListFragment.SELECTED_CHAPTER,TestFragmentTest.createChapterObject());
-        COCOListFragmentMock cocoListFragmentMock=new COCOListFragmentMock();
-        cocoListFragmentMock.setArguments(bundle);
-        hamburgerActivity.getSupportFragmentManager().beginTransaction().add(cocoListFragmentMock,"CoCoListFragmentMock").commit();
-        Fragment fragment = hamburgerActivity.getSupportFragmentManager().findFragmentByTag("CoCoListFragmentMock");
-        RecyclerView recyclerView = (RecyclerView) fragment.getView().findViewById(R.id.coco_recyclerview);
+        Fragment cocoListFragment = hamburgerActivity.getSupportFragmentManager().findFragmentByTag("CoCoListFragmentMock");
+        RecyclerView recyclerView = (RecyclerView) cocoListFragment.getView().findViewById(R.id.coco_recyclerview);
+        assertNotNull(recyclerView);
         CoCoAdapter cocoAdapter = (CoCoAdapter) recyclerView.getAdapter();
-        assertTrue(cocoAdapter.getItemAtPosition(0) instanceof CommonComponent);
-
+        CoCoAdapter.ChapterViewHolder viewHolder = cocoAdapter.onCreateViewHolder(new FrameLayout(RuntimeEnvironment.application), 0);
+        cocoAdapter.onBindViewHolder(viewHolder,0);
+        assertTrue(cocoAdapter.getItemCount() > 0);
     }
 
+    @Test
+    public void testCoCoListItem(){
+        Fragment cocoListFragment = hamburgerActivity.getSupportFragmentManager().findFragmentByTag("CoCoListFragmentMock");
+        RecyclerView recyclerView = (RecyclerView) cocoListFragment.getView().findViewById(R.id.coco_recyclerview);
+        CoCoAdapter cocoAdapter = (CoCoAdapter) recyclerView.getAdapter();
+        CoCoAdapter.ChapterViewHolder viewHolder = cocoAdapter.onCreateViewHolder(new FrameLayout(RuntimeEnvironment.application), 0);
+        cocoAdapter.onBindViewHolder(viewHolder,0);
+        assertEquals("Blue Lib",viewHolder.chapterTextView.getText().toString());
+    }
 
-    public static class COCOListFragmentMock extends COCOListFragment{
+    public static class COCOListFragmentMock extends Fragment{
         private RecyclerView cocoRecyclerView;
 
         @Nullable
