@@ -61,7 +61,6 @@ public class MomentsDataSender extends DataSender {
 
     DataServicesManager mDataServicesManager;
 
-
     @Inject
     public MomentsDataSender(
             @NonNull final MomentsConverter momentsConverter,
@@ -103,7 +102,7 @@ public class MomentsDataSender extends DataSender {
         MomentsClient client = uCoreAdapter.getClient(MomentsClient.class, baseUrl,
                 accessProvider.getAccessToken(), momentGsonConverter);
 
-        if(client==null) return false;
+        if (client == null) return false;
         for (Moment moment : moments) {
             if (shouldMomentContainCreatorIdAndSubjectId(moment)) {
                 conflictHappened = conflictHappened || sendMomentToBackend(client, moment);
@@ -204,6 +203,8 @@ public class MomentsDataSender extends DataSender {
     private boolean deleteMoment(final MomentsClient client, final Moment moment) {
         try {
             String momentGuid = getMomentGuid(moment.getSynchronisationData());
+            if (momentGuid.equals("-1"))
+                postDeletedOk(moment);
             Response response = client.deleteMoment(moment.getSubjectId(), momentGuid, moment.getCreatorId());
             if (isResponseSuccess(response)) {
                 postDeletedOk(moment);
