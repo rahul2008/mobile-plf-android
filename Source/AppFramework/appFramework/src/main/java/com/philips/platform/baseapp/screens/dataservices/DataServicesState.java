@@ -44,11 +44,21 @@ import com.philips.platform.baseapp.screens.dataservices.reciever.ScheduleSyncRe
 import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationInterfaceImpl;
 import com.philips.platform.baseapp.screens.dataservices.temperature.TemperatureTimeLineFragment;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
+import com.philips.platform.core.listeners.RegisterDeviceTokenListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
+import com.philips.platform.core.utils.DataServicesError;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
+import com.philips.platform.referenceapp.PushNotificationManager;
+import com.philips.platform.referenceapp.PushNotificationUserRegistationWrapperInterface;
+import com.philips.platform.referenceapp.interfaces.HandleNotificationPayloadInterface;
+import com.philips.platform.referenceapp.interfaces.PushNotificationTokenRegistrationInterface;
+import com.philips.platform.referenceapp.interfaces.RegistrationCallbacks;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.sql.SQLException;
 
@@ -58,7 +68,7 @@ import static com.philips.platform.baseapp.screens.utility.Constants.SERVER_SYNC
 /**
  * This class has UI extended from UIKIT about screen , It shows the current version of the app
  */
-public class DataServicesState extends BaseState {
+public class DataServicesState extends BaseState implements HandleNotificationPayloadInterface,PushNotificationTokenRegistrationInterface,PushNotificationUserRegistationWrapperInterface{
     public static final String TAG = DataServicesState.class.getSimpleName();
     FragmentLauncher fragmentLauncher;
     ScheduleSyncReceiver mScheduleSyncReceiver;
@@ -96,6 +106,9 @@ public class DataServicesState extends BaseState {
         DSLog.i(DSLog.LOG, "Before Setting up Synchronization Loop");
         if(BaseAppUtil.isDSPollingEnabled(context)) {
             scheduleSync(context);
+        }else{
+            PushNotificationManager.getInstance().registerForPayload(this);
+            PushNotificationManager.getInstance().registerForTokenRegistration(this);
         }
     }
 
@@ -171,5 +184,44 @@ public class DataServicesState extends BaseState {
 
     }
 
+    @Override
+    public void handlePayload(JSONObject payloadObject) throws JSONException {
+        DataServicesManager.getInstance().handlePushNotificationPayload(payloadObject);
+    }
+
+    @Override
+    public void registerToken(String deviceToken, String appVariant, String protocolProvider, final RegistrationCallbacks.RegisterCallbackListener registerCallbackListener) {
+        DataServicesManager.getInstance().registerDeviceToken(deviceToken, appVariant, protocolProvider, new RegisterDeviceTokenListener() {
+            @Override
+            public void onResponse(boolean b) {
+                registerCallbackListener.onResponse(b);
+            }
+
+            @Override
+            public void onError(DataServicesError dataServicesError) {
+                registerCallbackListener.onError(dataServicesError.getErrorCode(),dataServicesError.getErrorMessage());
+            }
+        });
+    }
+
+    @Override
+    public void deregisterToken(String appToken, String appVariant, final RegistrationCallbacks.DergisterCallbackListener dergisterCallbackListener) {
+        DataServicesManager.getInstance().unRegisterDeviceToken(appToken, appVariant, new RegisterDeviceTokenListener() {
+            @Override
+            public void onResponse(boolean isDregistered) {
+                dergisterCallbackListener.onResponse(isDregistered);
+            }
+
+            @Override
+            public void onError(DataServicesError dataServicesError) {
+                dergisterCallbackListener.onError(dataServicesError.getErrorCode(),dataServicesError.getErrorMessage());
+            }
+        });
+    }
+
+    @Override
+    public boolean isUserSignedIn(Context appContext) {
+        return new User(appContext).isUserSignIn();
+    }
 }
 

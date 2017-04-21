@@ -12,12 +12,13 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
-import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.core.listeners.RegisterDeviceTokenListener;
-import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DataServicesError;
+import com.philips.platform.referenceapp.interfaces.HandleNotificationPayloadInterface;
+import com.philips.platform.referenceapp.interfaces.PushNotificationTokenRegistrationInterface;
+import com.philips.platform.referenceapp.interfaces.RegistrationCallbacks;
+import com.philips.platform.referenceapp.services.RegistrationIntentService;
 import com.philips.platform.referenceapp.utils.PNLog;
+import com.philips.platform.referenceapp.utils.PushNotificationConstants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,6 +33,9 @@ public class PushNotificationManager {
 
     public static final String TAG = "PushNotification";
     private static PushNotificationManager pushNotificationManager;
+    private HandleNotificationPayloadInterface payloadListener;
+    private PushNotificationTokenRegistrationInterface tokenRegistrationListener;
+    private PushNotificationUserRegistationWrapperInterface pushNotificationUserRegistationWrapperInterface;
 
     public interface DeregisterTokenListener {
         void onSuccess();
@@ -49,9 +53,41 @@ public class PushNotificationManager {
         return pushNotificationManager;
     }
 
-    public void init(AppInfraInterface appInfra){
+
+    public void init(AppInfraInterface appInfra,PushNotificationUserRegistationWrapperInterface pushNotificationUserRegistationWrapperInterface){
         PNLog.init(appInfra);
         PNLog.enableLogging();
+        this.pushNotificationUserRegistationWrapperInterface=pushNotificationUserRegistationWrapperInterface;
+    }
+
+    /**
+     * Register common component for payload
+     * @param handleNotificationPayloadInterface
+     */
+    public void registerForPayload(HandleNotificationPayloadInterface handleNotificationPayloadInterface){
+        payloadListener=handleNotificationPayloadInterface;
+    }
+
+    /**
+     * Dergister common component for payload
+     * @param handleNotificationPayloadInterface
+     */
+    public void deRegisterForPayload(HandleNotificationPayloadInterface handleNotificationPayloadInterface){
+        payloadListener=null;
+    }
+    /**
+     * Register common component for payload
+     * @param pushNotificationTokenRegistrationInterface
+     */
+    public void registerForTokenRegistration(PushNotificationTokenRegistrationInterface pushNotificationTokenRegistrationInterface){
+        tokenRegistrationListener=pushNotificationTokenRegistrationInterface;
+    }
+
+    /**
+     * Dergister common component for payload
+     */
+    public void deregisterForTokenRegistration(){
+        tokenRegistrationListener=null;
     }
 
     /**
@@ -62,7 +98,7 @@ public class PushNotificationManager {
         if(TextUtils.isEmpty(pushNotificationManager.getToken(context))){
             PNLog.d(TAG,"Token is empty. Starting GCM registration....");
             pushNotificationManager.startGCMRegistrationService(context);
-        }else if(new User(context).isUserSignIn()){
+        }else if(pushNotificationUserRegistationWrapperInterface.isUserSignedIn(context)){
             PNLog.d(TAG,"User is signed in");
             if(!isTokenRegistered(context)){
                 PNLog.d(TAG,"Token is not registered. Registering with datacore");
@@ -99,7 +135,7 @@ public class PushNotificationManager {
             startGCMRegistrationService(applicationContext);
         } else {
             PNLog.d(TAG, "Registering token with backend");
-            DataServicesManager.getInstance().registerDeviceToken(getToken(applicationContext), PushNotificationConstants.APP_VARIANT, PushNotificationConstants.PUSH_GCMA, new RegisterDeviceTokenListener() {
+            tokenRegistrationListener.registerToken(getToken(applicationContext), PushNotificationConstants.APP_VARIANT, PushNotificationConstants.PUSH_GCMA, new RegistrationCallbacks.RegisterCallbackListener() {
                 @Override
                 public void onResponse(boolean isRegistered) {
                     PNLog.d(TAG, "registerTokenWithBackend reponse isregistered:" + isRegistered);
@@ -107,8 +143,8 @@ public class PushNotificationManager {
                 }
 
                 @Override
-                public void onError(DataServicesError dataServicesError) {
-                    PNLog.d(TAG, "Register token error: code::" + dataServicesError.getErrorCode() + "message::" + dataServicesError.getErrorMessage());
+                public void onError(int errorCode, String errorMessage) {
+                    PNLog.d(TAG, "Register token error: code::" + errorCode + "message::" +errorMessage);
                 }
             });
         }
@@ -116,14 +152,14 @@ public class PushNotificationManager {
 
 
     /**
-     * Registration of token with datacore or backend
+     * Deregistration of token with datacore or backend
      */
     public void deregisterTokenWithBackend(final Context applicationContext, final DeregisterTokenListener deregisterTokenListener) {
         PNLog.d(TAG, "deregistering token with data core");
         if (TextUtils.isEmpty(getToken(applicationContext))) {
             PNLog.d(TAG, "Something went wrong. Token should not be empty");
         } else {
-            DataServicesManager.getInstance().unRegisterDeviceToken(getToken(applicationContext), PushNotificationConstants.APP_VARIANT, new RegisterDeviceTokenListener() {
+            tokenRegistrationListener.deregisterToken(getToken(applicationContext), PushNotificationConstants.APP_VARIANT, new RegistrationCallbacks.DergisterCallbackListener() {
                 @Override
                 public void onResponse(boolean isDeRegistered) {
                     PNLog.d(TAG, "deregisterTokenWithBackend isDergistered:" + isDeRegistered);
@@ -133,13 +169,12 @@ public class PushNotificationManager {
                     } else {
                         deregisterTokenListener.onError();
                     }
-
                 }
 
                 @Override
-                public void onError(DataServicesError dataServicesError) {
+                public void onError(int errorCode, String errorMessage) {
                     deregisterTokenListener.onError();
-                    PNLog.d(TAG, "Register token error: code::" + dataServicesError.getErrorCode() + "message::" + dataServicesError.getErrorMessage());
+                    PNLog.d(TAG, "Register token error: code::" + errorCode+ "message::" + errorMessage);
                 }
             });
         }
@@ -205,7 +240,7 @@ public class PushNotificationManager {
      *
      * @param data
      */
-    public void sendPayloadToCoCo(Context context, Bundle data) {
+    public void sendPayloadToCoCo(Bundle data) {
         Set<String> set = data.keySet();
         if (set.contains(PushNotificationConstants.PLATFORM_KEY)) {
             try {
@@ -216,7 +251,7 @@ public class PushNotificationManager {
                     switch (key) {
                         case PushNotificationConstants.DSC:
                             JSONObject dscobject = jsonObject.getJSONObject(key);
-                            DataServicesManager.getInstance().handlePushNotificationPayload(dscobject);
+                            payloadListener.handlePayload(dscobject);
                             break;
                         default:
                             PNLog.d(TAG, "Common component is not designed for handling this key");

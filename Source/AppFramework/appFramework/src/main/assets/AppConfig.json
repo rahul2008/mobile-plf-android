@@ -60,10 +60,10 @@
         "DemoAppInfra",
         "Registration","component1"
       ]
-    },
-    "ReferenceApp":{
-      "PushNotification.autoLogout":"true",
-      "PushNotification.polling":"false"
     }
+  },
+  "ReferenceApp":{
+    "PushNotification.autoLogout":"true",
+    "PushNotification.polling":"false"
   }
 }

@@ -120,7 +120,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
                 Log.d(PushNotificationManager.TAG,"Push notification is enabled");
                 PushNotificationManager.getInstance().startPushNotificationRegistration(activity.getApplicationContext());
             }
-            PushNotificationManager.getInstance().startPushNotificationRegistration(activity.getApplicationContext());
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
             BaseState baseState = null;
             try {

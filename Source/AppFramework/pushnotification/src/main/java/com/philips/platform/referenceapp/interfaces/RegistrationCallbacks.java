@@ -5,4 +5,15 @@ package com.philips.platform.referenceapp.interfaces;
  */
 
 public class RegistrationCallbacks {
+    public interface RegisterCallbackListener{
+        void onResponse(boolean isRegistered);
+
+        void onError(int errorCode,String errorMessage);
+    }
+
+    public interface DergisterCallbackListener{
+        void onResponse(boolean isDeRegistered);
+
+        void onError(int errorCode,String errorMessage);
+    }
 }

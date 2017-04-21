@@ -5,4 +5,7 @@ package com.philips.platform.referenceapp.interfaces;
  */
 
 public interface PushNotificationTokenRegistrationInterface {
+    void registerToken(String deviceToken, String appVariant, String protocolProvider, RegistrationCallbacks.RegisterCallbackListener registerCallbackListener);
+
+    void deregisterToken(String appToken, String appVariant, RegistrationCallbacks.DergisterCallbackListener dergisterCallbackListener);
 }

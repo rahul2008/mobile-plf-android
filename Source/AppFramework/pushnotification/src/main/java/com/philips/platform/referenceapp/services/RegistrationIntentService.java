@@ -3,13 +3,15 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.referenceapp;
+package com.philips.platform.referenceapp.services;
 
 import android.app.IntentService;
 import android.content.Intent;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
+import com.philips.platform.referenceapp.PushNotificationManager;
+import com.philips.platform.referenceapp.R;
 import com.philips.platform.referenceapp.utils.PNLog;
 
 public class RegistrationIntentService extends IntentService {

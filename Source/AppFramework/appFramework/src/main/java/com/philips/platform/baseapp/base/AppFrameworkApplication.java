@@ -6,6 +6,8 @@
 package com.philips.platform.baseapp.base;
 
 import android.app.Application;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.support.multidex.MultiDex;
 
 import com.philips.cdp.localematch.PILLocaleManager;
@@ -25,6 +27,7 @@ import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnB
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.receivers.ConnectivityChangeReceiver;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.squareup.leakcanary.LeakCanary;
 
@@ -47,6 +50,7 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
     private File tempFile;
     private static boolean isChinaCountry = false;
     private PushNotificationManager pushNotificationManager;
+    private ConnectivityChangeReceiver connectivityChangeReceiver;
 
     @Override
     public void onCreate() {
@@ -83,13 +87,18 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
          */
         AppFrameworkTagging.getInstance().initAppTaggingInterface(this);
         if (BaseAppUtil.isDSPollingEnabled(getApplicationContext())) {
-            RALog.d(PushNotificationManager.TAG,"Polling is enabled");
-        }else{
-            RALog.d(PushNotificationManager.TAG,"Push notification is enabled");
-            pushNotificationManager=PushNotificationManager.getInstance();
-            pushNotificationManager.init(appInfra);
+            RALog.d(PushNotificationManager.TAG, "Polling is enabled");
+        } else {
+            RALog.d(PushNotificationManager.TAG, "Push notification is enabled");
+            pushNotificationManager = PushNotificationManager.getInstance();
+            pushNotificationManager.init(appInfra, getDataServiceState());
             pushNotificationManager.startPushNotificationRegistration(getApplicationContext());
+            connectivityChangeReceiver = new ConnectivityChangeReceiver();
+            registerReceiver(connectivityChangeReceiver,
+                    new IntentFilter(
+                            ConnectivityManager.CONNECTIVITY_ACTION));
         }
+
     }
 
     public LoggingInterface getLoggingInterface() {
@@ -166,4 +175,11 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
         return dataSyncScreenState;
     }
 
+    @Override
+    public void onTerminate() {
+        if(connectivityChangeReceiver!= null) {
+            unregisterReceiver(connectivityChangeReceiver);
+        }
+        super.onTerminate();
+    }
 }

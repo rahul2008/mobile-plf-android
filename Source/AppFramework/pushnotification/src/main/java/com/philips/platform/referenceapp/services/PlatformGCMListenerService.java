@@ -3,11 +3,12 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.referenceapp;
+package com.philips.platform.referenceapp.services;
 
 import android.os.Bundle;
 
 import com.google.android.gms.gcm.GcmListenerService;
+import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.referenceapp.utils.PNLog;
 
 public class PlatformGCMListenerService extends GcmListenerService {
@@ -25,6 +26,6 @@ public class PlatformGCMListenerService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
         PNLog.d(TAG,"Push Notification received");
-        PushNotificationManager.getInstance().sendPayloadToCoCo(getApplicationContext(),data);
+        PushNotificationManager.getInstance().sendPayloadToCoCo(data);
     }
 }

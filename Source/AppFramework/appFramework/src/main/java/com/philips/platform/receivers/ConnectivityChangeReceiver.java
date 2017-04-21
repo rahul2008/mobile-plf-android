@@ -1,4 +1,4 @@
-package com.philips.platform.retryhandler;
+package com.philips.platform.receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
