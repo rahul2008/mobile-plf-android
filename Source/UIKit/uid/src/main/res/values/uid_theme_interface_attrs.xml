@@ -146,7 +146,6 @@
     </declare-styleable>
     <declare-styleable name="UIDRatingBar">
         <attr name="android:text"/>
-        <attr name="uidRatingBarProgressBackgroundColor" format="reference|color"/>
-        <attr name="uidRatingBarProgressColor" format="reference|color"/>
+        <attr name="uidRatingBarProgressColor" format="color|reference"/>
     </declare-styleable>
 </resources>

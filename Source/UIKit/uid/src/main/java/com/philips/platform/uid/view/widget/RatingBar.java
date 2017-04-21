@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
@@ -30,7 +29,6 @@ public class RatingBar extends AppCompatRatingBar {
     private int height;
     private int width;
     private int progressColor;
-    private int progressBackgroundColor;
 
     public RatingBar(Context context) {
         super(context);
@@ -61,7 +59,6 @@ public class RatingBar extends AppCompatRatingBar {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDRatingBar, defStyleAttr, R.style.UIDRatingBarStyle);
         text = typedArray.getString(R.styleable.UIDRatingBar_android_text);
         progressColor = typedArray.getColor(R.styleable.UIDRatingBar_uidRatingBarProgressColor, -1);
-        progressBackgroundColor = typedArray.getColor(R.styleable.UIDRatingBar_uidRatingBarProgressBackgroundColor, -1);
         typedArray.recycle();
 
     }
@@ -82,7 +79,6 @@ public class RatingBar extends AppCompatRatingBar {
         }
     }
 
-
     private void drawTextCentred(Canvas canvas, Paint paint, String text, float cx, float cy){
         Rect textBounds = new Rect();
         paint.getTextBounds(text, 0, text.length(), textBounds);
@@ -91,7 +87,9 @@ public class RatingBar extends AppCompatRatingBar {
 
     private void initializePaint(){
         paint = new Paint();
-        paint.setColor(progressColor);
+        if(progressColor != -1){
+            paint.setColor(progressColor);
+        }
         paint.setTypeface(TypefaceUtils.load(getContext().getAssets(),"fonts/centralesansbook.ttf"));
         paint.setTextSize(getResources().getDimensionPixelSize(R.dimen.uid_rating_bar_text));
     }
@@ -165,6 +163,13 @@ public class RatingBar extends AppCompatRatingBar {
         return d;
     }
 
-    
+    public void setText(String text){
+        this.text = text;
+        invalidate();
+    }
 
+    public void setText(int resID){
+        text = getResources().getString(resID);
+        invalidate();
+    }
 }
