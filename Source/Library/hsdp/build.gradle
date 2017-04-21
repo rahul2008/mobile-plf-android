@@ -103,12 +103,12 @@ publishing {
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    compileSdkVersion 24
+    buildToolsVersion "24.0.3"
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 25
+        targetSdkVersion 24
         versionName "1.0.5"
         testApplicationId "com.philips.dhpclient.test"
 
@@ -148,11 +148,6 @@ android {
             debuggable true
             testCoverageEnabled false
         }
-    }
-
-    dexOptions {
-        preDexLibraries = false
-        javaMaxHeapSize "4g"
     }
 }
 
