@@ -16,7 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="E-mail"/>
+        app:srcCompat="@drawable/ic_email_icon"/>
 
 
     <com.philips.platform.uid.view.widget.NotificationBadge
