@@ -3,6 +3,7 @@ package com.philips.cdp.registration.ui.social;
 
 import android.os.Bundle;
 
+import com.janrain.android.Jump;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
@@ -276,7 +277,10 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
     }
 
     public void updateUser(boolean isReMarketingOptCheck) {
-        mUser.updateReceiveMarketingEmail(this, isReMarketingOptCheck);
+        if(Jump.getSignedInUser()!=null){
+            almostDoneContract.showMarketingOptSpinner();
+            mUser.updateReceiveMarketingEmail(this, isReMarketingOptCheck);
+        }
     }
 
     public void register(boolean isReMarketingOptCheck,String email) {
