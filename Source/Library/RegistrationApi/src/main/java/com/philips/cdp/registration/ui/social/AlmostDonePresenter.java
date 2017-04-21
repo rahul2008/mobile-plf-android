@@ -278,6 +278,7 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
 
     public void updateUser(boolean isReMarketingOptCheck) {
         if(Jump.getSignedInUser()!=null){
+            almostDoneContract.showMarketingOptSpinner();
             mUser.updateReceiveMarketingEmail(this, isReMarketingOptCheck);
         }
     }

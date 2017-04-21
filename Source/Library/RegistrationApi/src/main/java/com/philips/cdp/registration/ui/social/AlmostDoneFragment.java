@@ -568,11 +568,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     @Override
     public void handleUpdateUser() {
         errorMessage.hideError();
-        if(Jump.getSignedInUser()!=null){
-            showMarketingOptSpinner();
-            almostDonePresenter.updateUser(marketingOptCheck.isChecked());
-            showMarketingOptSpinner();
-        }
+        almostDonePresenter.updateUser(marketingOptCheck.isChecked());
     }
 
     @Override

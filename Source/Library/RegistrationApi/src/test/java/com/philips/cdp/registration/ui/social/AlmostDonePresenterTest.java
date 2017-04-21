@@ -141,7 +141,6 @@ public class AlmostDonePresenterTest {
    @Test
     public void testUpdateReceivingMarketingEmail_success(){
         presenter.updateUser(true);
-        //verify(mockUser).updateReceiveMarketingEmail(presenter,true);
         presenter.onUpdateSuccess();
         verify(mockContract).hideMarketingOptSpinner();
         verify(mockContract).trackMarketingOpt();
