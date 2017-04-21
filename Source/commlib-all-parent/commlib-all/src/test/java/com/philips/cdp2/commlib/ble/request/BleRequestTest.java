@@ -186,7 +186,7 @@ public class BleRequestTest {
 
         request.run();
 
-        verify(mockDevice).registerSHNDeviceListener(null);
+        verify(mockDevice).unregisterSHNDeviceListener((SHNDeviceListener) any());
     }
 
     @Test

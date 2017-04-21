@@ -315,7 +315,7 @@ public abstract class BleRequest implements Runnable {
     private void finishRequest() {
         //if (bleDevice != null && bleDevice.getState() != Disconnected && disconnectAfterRequest.get()) {
         DICommLog.w(TAG, "Disconnecting device");
-        if (bleDevice != null && bleDevice.getState() != Disconnected) {
+        if (bleDevice != null) {
             bleDevice.disconnect();
         }
         //} else {
