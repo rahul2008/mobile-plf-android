@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.components.BaseTest;
+import com.philips.platform.uid.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.view.widget.NotificationBadge;
@@ -52,48 +53,93 @@ public class DefaultNotificationBadgeTest extends BaseTest {
     }
 
     @Test
-    public void verifyIconTextSize() {
+    public void verifyIconDefaultTextSize() {
         int expectedTextSize = testResources.getDimensionPixelSize(R.dimen.uid_notification_badge_default_square_round_textSize);
         getNotificationBadgeTextLayout().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedTextSize)));
     }
 
     @Test
-    public void verifyIconTextColor() {
+    public void verifyIconDefaultTextColor() {
         final int expectedColor = ContextCompat.getColor(activity, White);
         getNotificationBadgeTextLayout().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test
-    public void verifyViewTopMargin() {
+    public void verifyViewDefaultTopMargin() {
         int expectedTopMargin = testResources.getDimensionPixelSize(R.dimen.uid_notification_badge_default_view_margin_top_right);
         getNotificationBadgeViewLayout().check(matches(TextViewPropertiesMatchers.isSameTopMargin(expectedTopMargin)));
     }
 
     @Test
-    public void verifyViewRightMargin() {
+    public void verifyViewDefaultRightMargin() {
         int expectedRightMargin = testResources.getDimensionPixelSize(R.dimen.uid_notification_badge_default_view_margin_top_right);
         getNotificationBadgeViewLayout().check(matches(TextViewPropertiesMatchers.isSameRightMargin(expectedRightMargin)));
     }
 
     @Test
-    public void verifyTextRightPadding() {
+    public void verifyTextDefaultRightPadding() {
         int expectedStartPadding = testResources.getDimensionPixelSize(R.dimen.uid_notification_badge_square_round_padding);
         getNotificationBadgeTextLayout().check(matches(TextViewPropertiesMatchers.isSameStartPadding(expectedStartPadding)));
     }
 
     @Test
-    public void verifyTextLeftPadding() {
+    public void verifyTextDefaultLeftPadding() {
         int expectedEndPadding = testResources.getDimensionPixelSize(R.dimen.uid_notification_badge_square_round_padding);
         getNotificationBadgeTextLayout().check(matches(TextViewPropertiesMatchers.isSameEndPadding(expectedEndPadding)));
     }
 
     @Test
-    public void verifyClearText() {
+    public void verifyDefaultClearText() {
         getNotificationBadgeTextLayout().check(matches(TextViewPropertiesMatchers.hasNoText()));
     }
 
     @Test
-    public void verifyBadgeTextTypeface() {
+    public void verifyDefaultBadgeTextTypeface() {
+        ViewGroup parent = (ViewGroup) View.inflate(activity, com.philips.platform.uid.test.R.layout.layout_notification_default_badge, null);
+        NotificationBadge badge = (NotificationBadge) parent.findViewById(com.philips.platform.uid.test.R.id.uid_text_default);
+        assertTrue(TextViewPropertiesMatchers.isSameTypeface(activity, badge.getTypeface(), TestConstants.FONT_PATH_CS_BOOK).matches(badge));
+    }
+
+// below are the small notification Badge test case
+
+    @Test
+    public void verifyIconSmallTextSize() {
+        int expectedTextSize = testResources.getDimensionPixelSize(R.dimen.uid_notification_badge_small_square_round_textSize);
+        getNotificationSmallBadgeTextLayout().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedTextSize)));
+    }
+    @Test
+    public void verifyIconSmallTextColor() {
+        final int expectedColor = ContextCompat.getColor(activity, White);
+        getNotificationSmallBadgeTextLayout().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
+    }
+
+    @Test
+    public void verifyViewSmallTopMargin() {
+        int expectedTopMargin = testResources.getDimensionPixelSize(R.dimen.uid_notification_badge_small_view_margin_top_right);
+        getNotificationSmallBadgeViewLayout().check(matches(TextViewPropertiesMatchers.isSameTopMargin(expectedTopMargin)));
+    }
+
+    @Test
+    public void verifyViewSmallRightMargin() {
+        int expectedRightMargin = testResources.getDimensionPixelSize(R.dimen.uid_notification_badge_small_view_margin_top_right);
+        getNotificationSmallBadgeViewLayout().check(matches(TextViewPropertiesMatchers.isSameRightMargin(expectedRightMargin)));
+    }
+    @Test
+    public void verifyTextSmallRightPadding() {
+        int expectedStartPadding = testResources.getDimensionPixelSize(R.dimen.uid_notification_badge_square_round_padding);
+        getNotificationSmallBadgeTextLayout().check(matches(TextViewPropertiesMatchers.isSameStartPadding(expectedStartPadding)));
+    }
+    @Test
+    public void verifyTextSmallLeftPadding() {
+        int expectedEndPadding = testResources.getDimensionPixelSize(R.dimen.uid_notification_badge_square_round_padding);
+        getNotificationSmallBadgeTextLayout().check(matches(TextViewPropertiesMatchers.isSameEndPadding(expectedEndPadding)));
+    }
+    @Test
+    public void verifySmallClearText(){
+        getNotificationSmallBadgeTextLayout().check(matches(TextViewPropertiesMatchers.hasNoText()));
+    }
+    @Test
+    public void verifySmallBadgeTextTypeface() {
         ViewGroup parent = (ViewGroup) View.inflate(activity, com.philips.platform.uid.test.R.layout.layout_notification_default_badge, null);
         NotificationBadge badge = (NotificationBadge) parent.findViewById(com.philips.platform.uid.test.R.id.uid_text_default);
         assertTrue(TextViewPropertiesMatchers.isSameTypeface(activity, badge.getTypeface(), TestConstants.FONT_PATH_CS_BOOK).matches(badge));
@@ -105,5 +151,11 @@ public class DefaultNotificationBadgeTest extends BaseTest {
 
     private ViewInteraction getNotificationBadgeViewLayout() {
         return onView(withId(com.philips.platform.uid.test.R.id.uid_email));
+    }
+    private ViewInteraction getNotificationSmallBadgeTextLayout() {
+        return onView(withId(com.philips.platform.uid.test.R.id.uid_text_small));
+    }
+    private ViewInteraction getNotificationSmallBadgeViewLayout() {
+        return onView(withId(com.philips.platform.uid.test.R.id.uid_imageview));
     }
 }
