@@ -6,7 +6,6 @@ package cdp.philips.com.mydemoapp;
 
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.os.Handler;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
@@ -14,7 +13,6 @@ import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URSettings;
@@ -24,7 +22,6 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DataServicesConstants;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.squareup.leakcanary.LeakCanary;
@@ -57,8 +54,8 @@ import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.error.ErrorHandlerInterfaceImpl;
-import cdp.philips.com.mydemoapp.reciever.ScheduleSyncReceiver;
 import cdp.philips.com.mydemoapp.registration.UserRegistrationInterfaceImpl;
+import cdp.philips.com.mydemoapp.utility.SyncScheduler;
 
 public class DataSyncApplication extends Application {
     public final DatabaseHelper databaseHelper = new DatabaseHelper(this, new UuidGenerator());
@@ -66,7 +63,7 @@ public class DataSyncApplication extends Application {
     public static LoggingInterface loggingInterface;
     private AppConfigurationInterface.AppConfigurationError configError;
     DataServicesManager mDataServicesManager;
-    ScheduleSyncReceiver mScheduleSyncReceiver;
+    //ScheduleSyncReceiver mScheduleSyncReceiver;
     UserRegistrationInterfaceImpl userRegImple;
     final String AI = "appinfra";
 
@@ -80,8 +77,10 @@ public class DataSyncApplication extends Application {
         initializeUserRegistrationLibrary(Configuration.STAGING);
         initHSDP();
         init();
-        mScheduleSyncReceiver = new ScheduleSyncReceiver();
-        scheduleSync();
+        //mScheduleSyncReceiver = new ScheduleSyncReceiver();
+        if(new User(this).isUserSignIn()) {
+            SyncScheduler.getInstance().scheduleSync();
+        }
     }
 
     private void initAppInfra() {
@@ -381,7 +380,7 @@ public class DataSyncApplication extends Application {
                 configError);
     }
 
-    void scheduleSync() {
+   /* void scheduleSync() {
         final Handler handler = new Handler();
         Runnable runnable = new Runnable() {
 
@@ -397,5 +396,5 @@ public class DataSyncApplication extends Application {
             }
         };
         runnable.run();
-    }
+    }*/
 }

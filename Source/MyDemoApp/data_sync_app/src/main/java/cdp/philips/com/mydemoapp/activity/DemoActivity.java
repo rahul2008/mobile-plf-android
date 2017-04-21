@@ -24,6 +24,7 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.database.DatabaseHelper;
 import cdp.philips.com.mydemoapp.temperature.TemperatureTimeLineFragment;
+import cdp.philips.com.mydemoapp.utility.SyncScheduler;
 
 public class DemoActivity extends AppCompatActivity implements UserRegistrationListener, UserRegistrationUIEventListener, ActionBarListener {
 
@@ -39,6 +40,7 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
 
         if (savedInstanceState == null)
             if (user.isUserSignIn()) {
+                SyncScheduler.getInstance().scheduleSync();
                 showFragment(new TemperatureTimeLineFragment(), TemperatureTimeLineFragment.TAG);
                 databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
                 databaseHelper.getWritableDatabase();
@@ -95,6 +97,7 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
 
     @Override
     public void onUserLogoutSuccess() {
+        SyncScheduler.getInstance().stopSync();
     }
 
     @Override
@@ -105,10 +108,12 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
         DSLog.i(DSLog.LOG, "CALLBACK FROM UR RECIEVED");
+        SyncScheduler.getInstance().stopSync();
     }
 
     @Override
     public void onUserRegistrationComplete(final Activity activity) {
+        SyncScheduler.getInstance().scheduleSync();
         showFragment(new TemperatureTimeLineFragment(), TemperatureTimeLineFragment.TAG);
     }
 
