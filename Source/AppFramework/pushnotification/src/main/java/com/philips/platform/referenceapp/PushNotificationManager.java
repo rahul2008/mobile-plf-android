@@ -258,7 +258,7 @@ public class PushNotificationManager {
                     }
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                PNLog.d(TAG,"Exception while parsing payload:"+e.getMessage());
             }
         }else{
             PNLog.d(TAG,"Data sync key is absent in payload");
