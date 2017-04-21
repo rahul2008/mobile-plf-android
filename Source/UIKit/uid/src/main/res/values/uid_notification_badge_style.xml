@@ -11,12 +11,8 @@
         <item name="android:textSize">@dimen/uid_notification_badge_default_square_round_textSize</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="uidNotificationDefaultTextColor">?attr/uidNotificationBadgeDefaultTextColor</item>
-        <item name="uidNotificationOptionTextColor">?attr/uidNotificationBadgeOptionTextColor</item>
         <item name="uidNotificationDefaultBackground">?attr/uidNotificationBadgeDefaultBackgroundColor</item>
-        <item name="uidNotificationOptionBackground">?attr/uidNotificationBadgeOptionBackgroundColor</item>
-        <item name="uidNotificationBadgeTheme">true</item>
-
-    </style>
+     </style>
 
     <style name="NotificationLabel.Small">
         <item name="android:minHeight">@dimen/uid_notification_badge_small_circle_radius</item>
@@ -24,19 +20,12 @@
         <item name="uid_notification_badge_small">true</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="uidNotificationDefaultTextColor">?attr/uidNotificationBadgeDefaultTextColor</item>
-        <item name="uidNotificationOptionTextColor">?attr/uidNotificationBadgeOptionTextColor</item>
         <item name="uidNotificationDefaultBackground">?attr/uidNotificationBadgeDefaultBackgroundColor</item>
-        <item name="uidNotificationOptionBackground">?attr/uidNotificationBadgeOptionBackgroundColor</item>
-        <item name="uidNotificationBadgeTheme">true</item>
-
     </style>
     <!-- Notification Badge-->
     <declare-styleable name="NotificationBadge">
         <attr name="uidNotificationDefaultTextColor" format="reference|color" />
-        <attr name="uidNotificationOptionTextColor" format="reference|color" />
         <attr name="uidNotificationDefaultBackground" format="reference|color" />
-        <attr name="uidNotificationOptionBackground" format="reference|color" />
         <attr name="uid_notification_badge_small" format="boolean" />
-        <attr name="uidNotificationBadgeTheme" format="boolean"/>
-    </declare-styleable>
+     </declare-styleable>
 </resources>

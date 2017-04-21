@@ -28,7 +28,6 @@ public class NotificationBadge extends AppCompatTextView {
     private int badgeBackgroundColor;
     private Drawable roundRectDrawable;
     private Drawable circleDrawable;
-    private boolean isTextViewThemeRequest;
 
     public NotificationBadge(Context context) {
         this(context, null);
@@ -41,7 +40,6 @@ public class NotificationBadge extends AppCompatTextView {
     public NotificationBadge(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NotificationBadge, defStyle, R.style.NotificationLabel);
-        isTextViewThemeRequest = typedArray.getBoolean(R.styleable.NotificationBadge_uidNotificationBadgeTheme, false);
         applyTextColor(typedArray);
         applyBackGroundColor(typedArray);
         roundRectDrawable = getSquareRoundBackground(isSmallBadge(typedArray), badgeBackgroundColor);
@@ -55,20 +53,18 @@ public class NotificationBadge extends AppCompatTextView {
     }
 
     private void applyTextColor(@NonNull TypedArray typedArray) {
-        if (isTextViewThemeRequest) {
+
+        int badgeTextColor= typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationDefaultTextColor, -1);
+        if (badgeTextColor != -1) {
             setTextColor(ContextCompat.getColor(getContext(), typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationDefaultTextColor, -1)));
-        }else{
-            setTextColor(ContextCompat.getColor(getContext(), typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationOptionTextColor, -1)));
         }
     }
 
     private void applyBackGroundColor(@NonNull TypedArray typedArray) {
-        if (isTextViewThemeRequest) {
-            badgeBackgroundColor = ContextCompat.getColor(getContext(), typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationDefaultBackground, -1));
-        }else{
-            badgeBackgroundColor = ContextCompat.getColor(getContext(), typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationOptionBackground, -1));
+       int BackgroundColor=typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationDefaultBackground, -1);
+        if (BackgroundColor != -1) {
+            badgeBackgroundColor = ContextCompat.getColor(getContext(), BackgroundColor);
         }
-
     }
 
     private void applyLayoutParams(int width, int height) {
