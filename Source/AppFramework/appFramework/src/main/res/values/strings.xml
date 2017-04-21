@@ -212,7 +212,7 @@ Receive free product accessories</string>
     <string name="RA_Setting_Philips_Promo_PartTwo">Promotional communications based on my preferences and online behavior</string>
     <string name="insights">Insights</string>
     <string name="logout">logout</string>
-    <string name="RA_Coco_Version">Coco Versions</string>
+    <string name="RA_Coco_Version">App Info</string>
     <!--<array name="hamburger_drawer_icons">-->
     <!--<item>@drawable/uikit_cart</item>-->
     <!--<item>@drawable/uikit_cart</item>-->
@@ -221,7 +221,6 @@ Receive free product accessories</string>
     <!--<item>@drawable/uikit_radio</item>-->
     <!--<item>@drawable/uikit_factory</item>-->
     <!--</array>-->
-    <string name="RA_COCO_APPINFRA">AppInfra </string>
     <string name="RA_COCO_UR">User Registration</string>
     <string name="RA_COCO_PR">Product Registration </string>
     <string name="RA_COCO_PR_VERSION">2.3.7-SNAPSHOT </string>

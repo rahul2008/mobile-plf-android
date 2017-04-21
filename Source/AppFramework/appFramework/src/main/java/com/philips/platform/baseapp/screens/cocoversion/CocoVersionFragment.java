@@ -16,8 +16,14 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
+import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
+import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
+import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
+import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
+import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
+import com.philips.platform.modularui.stateimpl.ConnectivityFragmentState;
 
 import java.util.ArrayList;
 
@@ -29,9 +35,13 @@ import java.util.ArrayList;
 public class CocoVersionFragment extends AppFrameworkBaseFragment {
     public static final String TAG = CocoVersionFragment.class.getSimpleName();
     private RecyclerView  recyclerViewCoco ;
+    IAPState iapState;
+    SupportFragmentState supportFragmentState;
+    ProductRegistrationState productRegistrationState;
+    DataServicesState dataServicesState;
+    AppInfraInterface appInfra;
+    ConnectivityFragmentState connectivityFragmentState;
     UserRegistrationState userRegistrationState ;
-
-
     private ArrayList<CocoVersionItem> cocoVersionItemList = new ArrayList<CocoVersionItem>();
 
     private CocoVersionAdapter adapter;
@@ -74,13 +84,13 @@ public class CocoVersionFragment extends AppFrameworkBaseFragment {
     public void getCOCOVersion()
     {
         CocoVersionItem ai = new CocoVersionItem();
-        AppInfraInterface appInfra = ((AppFrameworkApplication) getActivity().getApplicationContext()).getAppInfra();
-        ai.title =getResources().getString(R.string.RA_COCO_APPINFRA);
+        appInfra = ((AppFrameworkApplication) getActivity().getApplicationContext()).getAppInfra();
+        ai.title = ((AppInfra)appInfra).getComponentId();
         ai.Version = ((AppInfra)appInfra).getVersion();
 
         CocoVersionItem UserReg = new CocoVersionItem();
-        UserReg.title=getResources().getString(R.string.RA_COCO_UR);
         userRegistrationState= new UserRegistrationSettingsState();
+        UserReg.title=userRegistrationState.getComponentID(getActivity());
         UserReg.Version=userRegistrationState.getVersion();
 
         CocoVersionItem uikit  = new CocoVersionItem();
@@ -88,25 +98,30 @@ public class CocoVersionFragment extends AppFrameworkBaseFragment {
         uikit.Version=getResources().getString(R.string.RA_COCO_UIKIT_VERSION);
 
         CocoVersionItem connectivity  = new CocoVersionItem();
-        connectivity.title=getResources().getString(R.string.RA_COCO_Connectivity);
-        connectivity.Version=getResources().getString(R.string.RA_COCO_Connectivity_version);;
+        connectivityFragmentState = new ConnectivityFragmentState();
+        connectivity.title=connectivityFragmentState.getComponentID(getActivity());
+        connectivity.Version=connectivityFragmentState.getVersion(getActivity());
 
         CocoVersionItem iap  = new CocoVersionItem();
-        iap.title=getResources().getString(R.string.RA_COCO_IAP);
-        iap.Version=getResources().getString(R.string.RA_COCO_IAP_VERSION);;
+        iapState = new IAPRetailerFlowState();
+        iap.title=iapState.getComponentID(getActivity());
+        iap.Version=iapState.getVersion(getActivity());;
 
         CocoVersionItem digitalCare  = new CocoVersionItem();
-        digitalCare.title=getResources().getString(R.string.RA_COCO_CC);
-        digitalCare.Version=getResources().getString(R.string.RA_COCO_CC_VERSION);
+        supportFragmentState= new SupportFragmentState();
+        digitalCare.title=supportFragmentState.getComponentID(getActivity());
+        digitalCare.Version=supportFragmentState.getVersion(getActivity());
 
 
         CocoVersionItem prodReg  = new CocoVersionItem();
-        prodReg.title=getResources().getString(R.string.RA_COCO_PR);
-        prodReg.Version=getResources().getString(R.string.RA_COCO_PR_VERSION);
+        productRegistrationState= new ProductRegistrationState();
+        prodReg.title=productRegistrationState.getComponentID(getActivity());
+        prodReg.Version=productRegistrationState.getVersion(getActivity());
 
         CocoVersionItem dataService  = new CocoVersionItem();
-        dataService.title=getResources().getString(R.string.RA_COCO_DS);
-        dataService.Version=getResources().getString(R.string.RA_COCO_DS_VERSION);
+        dataServicesState= new DataServicesState();
+        dataService.title=dataServicesState.getComponentID(getActivity());
+        dataService.Version=dataServicesState.getVersion(getActivity());
 
 
         cocoVersionItemList.add(ai);

@@ -113,7 +113,7 @@ public class TabbedActivity extends AppFrameworkBaseActivity implements Fragment
         topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, android.R.drawable.btn_star_big_off, 0);
-        utils.setTitle(tab, "CoCo Version");
+        utils.setTitle(tab, R.string.RA_Coco_Version);
         topLayout.addTab(tab);
     }
 

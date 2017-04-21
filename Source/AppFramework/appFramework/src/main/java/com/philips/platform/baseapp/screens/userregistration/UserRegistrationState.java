@@ -246,4 +246,9 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     {
        return RegistrationHelper.getRegistrationApiVersion();
     }
+
+    public String getComponentID(Context c)
+    {
+        return c.getResources().getString(R.string.RA_COCO_UR);
+    }
 }

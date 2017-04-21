@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
+import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -61,7 +62,7 @@ public class DataServicesState extends BaseState {
     public static final String TAG = DataServicesState.class.getSimpleName();
     FragmentLauncher fragmentLauncher;
     ScheduleSyncReceiver mScheduleSyncReceiver;
-
+    Context mcontext;
     private DatabaseHelper databaseHelper;
 
     public DataServicesState() {
@@ -82,6 +83,7 @@ public class DataServicesState extends BaseState {
 
     @Override
     public void init(Context context) {
+        mcontext=context;
         mScheduleSyncReceiver = new ScheduleSyncReceiver();
         //OrmCreator creator = new OrmCreator(new UuidGenerator());
 
@@ -169,5 +171,17 @@ public class DataServicesState extends BaseState {
     public void updateDataModel() {
 
     }
+
+    public String getVersion(Context c){
+        return c.getResources().getString(R.string.RA_COCO_DS_VERSION);
+
+    }
+
+    public String getComponentID(Context c)
+    {
+        return c.getResources().getString(R.string.RA_COCO_DS);
+
+    }
 }
+
 
