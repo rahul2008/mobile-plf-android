@@ -21,7 +21,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.0', changing: true
@@ -30,7 +30,7 @@ buildscript {
 }
 
 
-apply from: 'localization.gradle'
+//apply from: 'localization.gradle'
 
 def environment = 'production'
 if (project.hasProperty('envCode')) {
@@ -134,12 +134,12 @@ publishing {
 }
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 1
         versionName objcdp.getVersionWithHash()
         testApplicationId "com.philips.cdp.test"
@@ -148,16 +148,40 @@ android {
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
         ]
     }
+
+    signingConfigs {
+               release
+           }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
         debug {
             debuggable true
             minifyEnabled false
             testCoverageEnabled true
         }
+    }
+    def Properties props = new Properties()
+    def propFile = new File('signing.properties')
+    if (propFile.canRead()){
+        props.load(new FileInputStream(propFile))
+
+        if (props!=null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') && props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+            android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
+            android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+            android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+            android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+        } else {
+            println 'signing.properties found but some entries are missing'
+            android.buildTypes.release.signingConfig = null
+        }
+    }else {
+        println 'signing.properties not found'
+        android.buildTypes.release.signingConfig = null
     }
 
     dexOptions {
