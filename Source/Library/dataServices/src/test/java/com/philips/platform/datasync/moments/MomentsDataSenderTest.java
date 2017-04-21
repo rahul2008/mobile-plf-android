@@ -269,10 +269,10 @@ public class MomentsDataSenderTest {
         when(clientMock.saveMoment(BABY_ID, USER_ID, uCoreMomentMock)).thenReturn(uCoreMomentSaveResponse);
     //    when(uCoreMomentSaveResponse.getMomentId()).thenReturn(TEST_MOMENT_UD);
         when(uGrowDataCreatorMock.createSynchronisationData(TEST_MOMENT_UD, false, momentMock.getDateTime(), 1)).thenReturn(synchronisationDataMock);
-
+        when(momentMock.getSynchronisationData().isInactive()).thenReturn(true);
         momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
 
-        verify(eventingMock).post(isA(MomentDataSenderCreatedRequest.class));
+        verify(eventingMock).post(isA(MomentBackendDeleteResponse.class));
     }
 
     @Test
