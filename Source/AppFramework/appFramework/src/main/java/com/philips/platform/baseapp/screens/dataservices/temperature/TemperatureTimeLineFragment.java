@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
@@ -45,6 +46,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.ALARM_SERVICE;
+import static com.philips.platform.baseapp.screens.utility.Constants.ILLEGAL_STATE_EXCEPTION;
+import static com.philips.platform.baseapp.screens.utility.Constants.SQLITE_EXCEPTION;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -398,7 +401,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
             fragmentTransaction.addToBackStack(tag);
             fragmentTransaction.commit();
         } catch (IllegalStateException e) {
-            e.printStackTrace();
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, ILLEGAL_STATE_EXCEPTION,e.getMessage());
         }
 
     }
