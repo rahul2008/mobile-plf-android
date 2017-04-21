@@ -72,7 +72,7 @@ public class TestFragment extends AppFrameworkBaseFragment implements TestContra
         bundle.putSerializable(COCOListFragment.SELECTED_CHAPTER,chapter);
         COCOListFragment cocoListFragment=new COCOListFragment();
         cocoListFragment.setArguments(bundle);
-        ((AppFrameworkBaseActivity)getActivity()).addFragment(cocoListFragment,"");
+        ((AppFrameworkBaseActivity)getActivity()).addFragment(cocoListFragment,"CoCoListFragment");
     }
 
 }
