@@ -56,9 +56,9 @@ public class RatingBar extends AppCompatRatingBar {
     }
 
     private void processAttributes(Context context, AttributeSet attrs, int defStyleAttr) {
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDRatingBar, defStyleAttr, R.style.UIDRatingBarStyle);
-        text = typedArray.getString(R.styleable.UIDRatingBar_android_text);
-        progressColor = typedArray.getColor(R.styleable.UIDRatingBar_uidRatingBarProgressColor, -1);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, new int[]{R.attr.uidControlNotification, android.R.attr.text});   //Replace with ratingbarColor
+        progressColor = typedArray.getColor(0, -1);
+        text = typedArray.getString(1);
         typedArray.recycle();
 
     }
