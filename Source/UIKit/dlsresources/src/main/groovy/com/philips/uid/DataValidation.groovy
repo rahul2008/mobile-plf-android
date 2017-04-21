@@ -21,11 +21,11 @@ class DataValidation {
                         colorRange.value.each {
                             attribute ->
 //                                println(" attribute " + attribute.value)
+                                def attributeName = "${DLSResourceConstants.LIB_PREFIX}" + BrushParser.getCapitalizedValue(attribute.key)
+                                def themeAttr = new ThemeAttribute(attributeName)
                                 attribute.value.each {
                                     theme ->
-                                        def attributeName = "${DLSResourceConstants.LIB_PREFIX}" + BrushParser.getCapitalizedValue(attribute.key)
-                                        def themeAttr = new ThemeAttribute(attributeName)
-                                        def name = theme.key
+                                        def name = BrushParser.getCapitalizedValue(theme.key)
                                         def themeValue = theme.value;
                                         ThemeValue themValueObject = new ThemeValue()
                                         themValueObject.color = themeValue.get("color")
@@ -37,15 +37,56 @@ class DataValidation {
 //                                        println(" color " + themValueObject)
                                         themeAttr.addTonalRange(name, themValueObject)
 //                                        println(themeAttr)
-                                        allAttrs.add(themeAttr)
                                 }
-
+                                allAttrs.add(themeAttr)
                         }
                         attributes.put(BrushParser.getCapitalizedValue(colorRange.key), allAttrs)
                 }
         }
 //        println(" attributes " + attributes)
         return attributes;
+    }
+
+    def decorateValidations(theme, validationMap, attrname, colorRange, tonalRange) {
+        if (theme.colorRange == "validation") {
+            assignValidationValues(theme, validationMap, attrname, colorRange, tonalRange)
+        }
+    }
+
+    void assignValidationValues(themeValue, validationMap, attrname, colorRange, tonalRange) {
+        List attrsList = validationMap.get(BrushParser.getCapitalizedValue(colorRange))
+        for (ThemeAttribute attr : attrsList) {
+            if (attr.attrName == attrname) {
+                for (Map.Entry entry : attr.attributeMap.entrySet()) {
+                    if (entry.getKey() == tonalRange) {
+//                        println(attrname + "\t"+  colorRange+":"+tonalRange+ "\t" +entry.value.colorRange )
+                        getValueFromType(entry, themeValue)
+                    }
+                }
+            }
+
+        }
+    }
+
+    private void getValueFromType(Map.Entry entry, themeValue) {
+        //We overwrite colorRange to avoid lookup again in getValue function
+        themeValue.colorRange = entry.value.colorRange
+
+        if (entry.value.color != null) {
+            themeValue.color = entry.value.color
+        }
+        if (entry.value.colorCode != null) {
+            themeValue.colorCode = entry.value.colorCode
+        }
+        if (entry.value.reference != null) {
+            themeValue.reference = entry.value.reference
+        }
+        if (entry.value.opacity != null) {
+            themeValue.opacity = entry.value.opacity
+        }
+        if (entry.value.offset != null) {
+            themeValue.offset = entry.value.offset
+        }
     }
 
     def getAttributeNames(datavalidationMap) {

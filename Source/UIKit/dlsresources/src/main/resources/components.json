@@ -11,7 +11,7 @@
       "value": "control-secondary-focus"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "normal"
@@ -24,7 +24,7 @@
       "value": "control-primary"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "focus"
@@ -37,7 +37,7 @@
       "value": "control-accent-focus"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "pressed"
@@ -50,7 +50,7 @@
       "value": "control-primary-pressed"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "pressed"
@@ -63,7 +63,7 @@
       "value": "control-white-pressed"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "hover"
@@ -76,7 +76,7 @@
       "value": "control-primary-hover"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -89,7 +89,7 @@
       "value": "control-primary-disabled"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "pressed"
@@ -102,7 +102,7 @@
       "value": "control-secondary-pressed"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "hover"
@@ -115,7 +115,7 @@
       "value": "control-primary-hover"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "normal"
@@ -128,7 +128,7 @@
       "value": "control-secondary"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "normal"
@@ -141,7 +141,7 @@
       "value": "control-accent"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "normal"
@@ -154,7 +154,7 @@
       "value": "control-primary-text"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "normal"
@@ -167,7 +167,7 @@
       "value": "control-secondary-text"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "focus"
@@ -180,7 +180,7 @@
       "value": "control-primary"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "normal"
@@ -193,7 +193,7 @@
       "value": "control-white"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -206,7 +206,7 @@
       "value": "control-primary-text-disabled"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "normal"
@@ -219,7 +219,7 @@
       "value": "control-primary"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "normal"
@@ -232,7 +232,7 @@
       "value": "control-accent-text"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "hover"
@@ -245,7 +245,7 @@
       "value": "control-accent-hover"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -258,7 +258,7 @@
       "value": "control-primary-text-disabled"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -271,7 +271,7 @@
       "value": "control-accent-disabled"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -284,7 +284,7 @@
       "value": "control-secondary-text-disabled"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -297,7 +297,7 @@
       "value": "control-primary-text-disabled"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "pressed"
@@ -310,7 +310,7 @@
       "value": "control-primary-pressed"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "focus"
@@ -323,7 +323,7 @@
       "value": "control-primary-focus"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "normal"
@@ -336,7 +336,7 @@
       "value": "control-white-text"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -349,7 +349,7 @@
       "value": "control-secondary-text-disabled"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -362,7 +362,7 @@
       "value": "control-primary-disabled"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "pressed"
@@ -375,7 +375,7 @@
       "value": "control-primary-pressed"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "progress"
@@ -388,7 +388,7 @@
       "value": "control-primary-disabled"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "normal"
@@ -401,7 +401,7 @@
       "value": "control-primary"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "normal"
@@ -414,7 +414,7 @@
       "value": "control-secondary-text"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "pressed"
@@ -427,7 +427,7 @@
       "value": "control-primary-pressed"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -440,7 +440,7 @@
       "value": "control-secondary-disabled"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "focus"
@@ -453,7 +453,7 @@
       "value": "control-primary-focus"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -466,7 +466,7 @@
       "value": "control-primary-disabled"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "pressed"
@@ -479,7 +479,7 @@
       "value": "control-accent-pressed"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -492,7 +492,7 @@
       "value": "control-primary-text-disabled"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "focus"
@@ -505,7 +505,7 @@
       "value": "control-primary"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "normal"
@@ -518,7 +518,7 @@
       "value": "control-primary-text"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "hover"
@@ -531,7 +531,7 @@
       "value": "control-primary-hover"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "normal"
@@ -544,7 +544,7 @@
       "value": "control-primary"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "hover"
@@ -557,7 +557,7 @@
       "value": "control-secondary-hover"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "normal"
@@ -570,7 +570,7 @@
       "value": "control-primary-text"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "normal"
@@ -583,7 +583,7 @@
       "value": "control-accent-text"
     },
     "component": "button"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -596,7 +596,7 @@
       "value": "text-primary-disabled"
     },
     "component": "check-box"
-    },
+  },
   {
     "state": [
       "normal"
@@ -609,7 +609,7 @@
       "value": "text-primary"
     },
     "component": "check-box"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -622,7 +622,7 @@
       "value": "control-primary-disabled"
     },
     "component": "check-box"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -635,7 +635,7 @@
       "value": "control-primary-text-disabled"
     },
     "component": "check-box"
-    },
+  },
   {
     "state": [
       "normal",
@@ -649,7 +649,7 @@
       "value": "control-primary-off"
     },
     "component": "check-box"
-    },
+  },
   {
     "state": [
       "normal"
@@ -662,7 +662,7 @@
       "value": "control-primary-text"
     },
     "component": "check-box"
-    },
+  },
   {
     "state": [
       "pressed"
@@ -675,7 +675,7 @@
       "value": "control-primary-focus"
     },
     "component": "check-box"
-    },
+  },
   {
     "state": [
       "normal",
@@ -689,7 +689,7 @@
       "value": "control-primary"
     },
     "component": "check-box"
-    },
+  },
   {
     "state": [
       "focus"
@@ -702,7 +702,7 @@
       "value": "control-primary-focus"
     },
     "component": "check-box"
-    },
+  },
   {
     "state": [
       "normal"
@@ -715,7 +715,7 @@
       "value": "control-primary-text"
     },
     "component": "check-box"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -728,7 +728,7 @@
       "value": "input-text-disabled"
     },
     "component": "combo-box"
-    },
+  },
   {
     "state": [
       "normal"
@@ -741,7 +741,7 @@
       "value": "input-text"
     },
     "component": "combo-box"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -752,7 +752,7 @@
       "value": "content-primary"
     },
     "component": "content"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -763,7 +763,7 @@
       "value": "content-secondary"
     },
     "component": "content"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -774,7 +774,7 @@
       "value": "content-tertiary"
     },
     "component": "content"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -785,7 +785,7 @@
       "value": "separator"
     },
     "component": "data-visualization"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -796,7 +796,7 @@
       "value": "status-indicator-background"
     },
     "component": "data-visualization"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -807,7 +807,7 @@
       "value": "text-primary"
     },
     "component": "data-visualization"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -818,7 +818,7 @@
       "value": "text-tertiary"
     },
     "component": "data-visualization"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -829,7 +829,7 @@
       "value": "text-tertiary"
     },
     "component": "data-visualization"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -840,7 +840,7 @@
       "value": "text-tertiary"
     },
     "component": "data-visualization"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -851,7 +851,7 @@
       "value": "control-secondary-detail"
     },
     "component": "data-visualization"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -862,7 +862,7 @@
       "value": "text-primary"
     },
     "component": "data-visualization"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -873,7 +873,7 @@
       "value": "text-tertiary"
     },
     "component": "data-visualization"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -884,7 +884,7 @@
       "value": "data-color-2"
     },
     "component": "data-visualization"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -895,7 +895,7 @@
       "value": "text-tertiary"
     },
     "component": "data-visualization"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -906,7 +906,7 @@
       "value": "text-primary"
     },
     "component": "data-visualization"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -917,7 +917,7 @@
       "value": "data-color-4"
     },
     "component": "data-visualization"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -928,7 +928,7 @@
       "value": "text-primary"
     },
     "component": "data-visualization"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -939,7 +939,7 @@
       "value": "status-indicator-reference-background"
     },
     "component": "data-visualization"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -950,7 +950,7 @@
       "value": "control-primary-detail"
     },
     "component": "data-visualization"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -961,7 +961,7 @@
       "value": "data-color-1"
     },
     "component": "data-visualization"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -972,7 +972,7 @@
       "value": "charts-target-background"
     },
     "component": "data-visualization"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -983,7 +983,7 @@
       "value": "control-secondary-detail"
     },
     "component": "data-visualization"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -994,7 +994,7 @@
       "value": "control-primary-detail"
     },
     "component": "data-visualization"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -1005,7 +1005,7 @@
       "value": "data-color-3"
     },
     "component": "data-visualization"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -1016,7 +1016,7 @@
       "value": "control-primary-detail"
     },
     "component": "data-visualization"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -1027,7 +1027,7 @@
       "value": "control-primary-detail"
     },
     "component": "data-visualization"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -1038,7 +1038,7 @@
       "value": "control-primary-detail"
     },
     "component": "data-visualization"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1051,7 +1051,7 @@
       "value": "gray-tertiary-text"
     },
     "component": "date-picker"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1064,7 +1064,7 @@
       "value": "date-picker-text"
     },
     "component": "date-picker"
-    },
+  },
   {
     "state": [
       "normal",
@@ -1078,7 +1078,7 @@
       "value": "navigation-text"
     },
     "component": "date-picker"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1091,7 +1091,7 @@
       "value": "date-picker-header"
     },
     "component": "date-picker"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1104,7 +1104,7 @@
       "value": "navigation-secondary"
     },
     "component": "date-picker"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1117,7 +1117,7 @@
       "value": "text-primary"
     },
     "component": "date-picker"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1130,7 +1130,7 @@
       "value": "control-bright"
     },
     "component": "date-picker"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -1141,7 +1141,7 @@
       "value": "text-primary"
     },
     "component": "dialog-alert"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -1152,7 +1152,7 @@
       "value": "text-secondary"
     },
     "component": "dialog-alert"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -1163,7 +1163,7 @@
       "value": "text-secondary"
     },
     "component": "dialog-alert"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -1174,7 +1174,7 @@
       "value": "text-primary"
     },
     "component": "dialog-alert"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -1185,7 +1185,7 @@
       "value": "text-primary"
     },
     "component": "dialog-alert"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -1196,7 +1196,7 @@
       "value": "dim-strong"
     },
     "component": "dim-layer"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -1207,7 +1207,7 @@
       "value": "dim-subtle"
     },
     "component": "dim-layer"
-    },
+  },
   {
     "state": [
       "hover"
@@ -1220,7 +1220,7 @@
       "value": "dot-hover"
     },
     "component": "dot-navigation"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1233,7 +1233,7 @@
       "value": "dot"
     },
     "component": "dot-navigation"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1246,7 +1246,7 @@
       "value": "input-text"
     },
     "component": "dropdown-list"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -1259,7 +1259,7 @@
       "value": "input-text-disabled"
     },
     "component": "dropdown-list"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1272,7 +1272,7 @@
       "value": "input-text"
     },
     "component": "dropdown-list"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -1285,7 +1285,20 @@
       "value": "input-text-disabled"
     },
     "component": "dropdown-list"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "regular",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-tertiary-disabled"
     },
+    "component": "label"
+  },
   {
     "state": [
       "normal"
@@ -1298,7 +1311,7 @@
       "value": "text-primary"
     },
     "component": "label"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1311,7 +1324,7 @@
       "value": "text-tertiary"
     },
     "component": "label"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1324,7 +1337,7 @@
       "value": "text-primary"
     },
     "component": "label"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1337,7 +1350,7 @@
       "value": "text-tertiary"
     },
     "component": "label"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -1350,7 +1363,7 @@
       "value": "text-primary-disabled"
     },
     "component": "label"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1363,7 +1376,7 @@
       "value": "gray-secondary-text"
     },
     "component": "list-item"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1376,7 +1389,7 @@
       "value": "popup-text"
     },
     "component": "list-item"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1389,7 +1402,7 @@
       "value": "gray-primary-text"
     },
     "component": "list-item"
-    },
+  },
   {
     "state": [
       "hover"
@@ -1402,7 +1415,7 @@
       "value": "popup-list-hover"
     },
     "component": "list-item"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -1415,7 +1428,7 @@
       "value": "popup-text-disabled"
     },
     "component": "list-item"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -1428,7 +1441,7 @@
       "value": "popup-text-disabled"
     },
     "component": "list-item"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1441,7 +1454,7 @@
       "value": "popup-text"
     },
     "component": "list-item"
-    },
+  },
   {
     "state": [
       "normal",
@@ -1455,7 +1468,7 @@
       "value": "popup-list-selected"
     },
     "component": "list-item"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -1468,7 +1481,7 @@
       "value": "text-primary-disabled"
     },
     "component": "list-view"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -1481,7 +1494,7 @@
       "value": "text-tertiary-disabled"
     },
     "component": "list-view"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1494,7 +1507,7 @@
       "value": "text-primary"
     },
     "component": "list-view"
-    },
+  },
   {
     "state": [
       "pressed"
@@ -1507,7 +1520,7 @@
       "value": "list-pressed"
     },
     "component": "list-view"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -1520,7 +1533,7 @@
       "value": "text-secondary-disabled"
     },
     "component": "list-view"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1533,7 +1546,7 @@
       "value": "text-tertiary"
     },
     "component": "list-view"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -1546,7 +1559,7 @@
       "value": "list-avatar-disabled"
     },
     "component": "list-view"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1559,7 +1572,7 @@
       "value": "text-tertiary"
     },
     "component": "list-view"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1572,7 +1585,7 @@
       "value": "text-primary"
     },
     "component": "list-view"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1585,7 +1598,7 @@
       "value": "text-secondary"
     },
     "component": "list-view"
-    },
+  },
   {
     "state": [
       "hover"
@@ -1598,7 +1611,7 @@
       "value": "list-hover"
     },
     "component": "list-view"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1611,7 +1624,7 @@
       "value": "text-tertiary"
     },
     "component": "list-view"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -1624,7 +1637,7 @@
       "value": "text-primary-disabled"
     },
     "component": "list-view"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1637,7 +1650,7 @@
       "value": "content-tertiary"
     },
     "component": "list-view"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -1650,7 +1663,7 @@
       "value": "text-tertiary-disabled"
     },
     "component": "list-view"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -1663,7 +1676,7 @@
       "value": "text-secondary-disabled"
     },
     "component": "list-view"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1676,7 +1689,7 @@
       "value": "text-secondary"
     },
     "component": "list-view"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -1687,7 +1700,7 @@
       "value": "navigation-text"
     },
     "component": "navigation"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -1698,7 +1711,7 @@
       "value": "navigation-text"
     },
     "component": "navigation"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -1709,7 +1722,7 @@
       "value": "navigation-primary"
     },
     "component": "navigation"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -1720,7 +1733,7 @@
       "value": "navigation-secondary"
     },
     "component": "navigation"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -1731,7 +1744,7 @@
       "value": "navigation-text"
     },
     "component": "navigation"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -1742,7 +1755,7 @@
       "value": "navigation-text"
     },
     "component": "navigation"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -1753,7 +1766,7 @@
       "value": "control-accent-text"
     },
     "component": "notification-badge"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -1764,7 +1777,7 @@
       "value": "control-accent-text"
     },
     "component": "notification-badge"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -1775,7 +1788,7 @@
       "value": "control-notification"
     },
     "component": "notification-badge"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -1786,7 +1799,7 @@
       "value": "control-accent"
     },
     "component": "notification-badge"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1799,7 +1812,7 @@
       "value": "control-accent"
     },
     "component": "notification-bar"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1812,7 +1825,7 @@
       "value": "light-primary-text"
     },
     "component": "notification-bar"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1825,7 +1838,7 @@
       "value": "light-primary-text"
     },
     "component": "notification-bar"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1838,7 +1851,7 @@
       "value": "gray-primary-text"
     },
     "component": "notification-bar"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1851,7 +1864,7 @@
       "value": "tooltip-light"
     },
     "component": "notification-bar"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1864,7 +1877,7 @@
       "value": "light-secondary-text"
     },
     "component": "notification-bar"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1877,7 +1890,7 @@
       "value": "light-primary-text"
     },
     "component": "notification-bar"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1890,7 +1903,7 @@
       "value": "light-secondary-text"
     },
     "component": "notification-bar"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1903,7 +1916,7 @@
       "value": "tooltip-dark"
     },
     "component": "notification-bar"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1916,7 +1929,7 @@
       "value": "gray-secondary-text"
     },
     "component": "notification-bar"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1929,7 +1942,7 @@
       "value": "control-primary"
     },
     "component": "notification-bar"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1942,7 +1955,7 @@
       "value": "light-primary-text"
     },
     "component": "notification-bar"
-    },
+  },
   {
     "state": [
       "normal"
@@ -1955,7 +1968,7 @@
       "value": "popup"
     },
     "component": "popup"
-    },
+  },
   {
     "state": [
       "normal",
@@ -1969,7 +1982,7 @@
       "value": "control-primary-text"
     },
     "component": "radio-button"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -1982,7 +1995,7 @@
       "value": "control-primary-disabled"
     },
     "component": "radio-button"
-    },
+  },
   {
     "state": [
       "normal",
@@ -1996,7 +2009,7 @@
       "value": "control-primary"
     },
     "component": "radio-button"
-    },
+  },
   {
     "state": [
       "focus"
@@ -2009,7 +2022,7 @@
       "value": "control-primary-focus"
     },
     "component": "radio-button"
-    },
+  },
   {
     "state": [
       "normal",
@@ -2023,7 +2036,7 @@
       "value": "control-primary-off"
     },
     "component": "radio-button"
-    },
+  },
   {
     "state": [
       "pressed"
@@ -2036,7 +2049,7 @@
       "value": "control-primary-focus"
     },
     "component": "radio-button"
-    },
+  },
   {
     "state": [
       "normal"
@@ -2049,7 +2062,7 @@
       "value": "text-primary"
     },
     "component": "radio-button"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -2062,7 +2075,7 @@
       "value": "text-primary-disabled"
     },
     "component": "radio-button"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -2075,7 +2088,7 @@
       "value": "control-primary-text-disabled"
     },
     "component": "radio-button"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -2088,7 +2101,7 @@
       "value": "input-text-disabled"
     },
     "component": "search-box"
-    },
+  },
   {
     "state": [
       "normal"
@@ -2101,7 +2114,7 @@
       "value": "gray-primary-text"
     },
     "component": "search-box"
-    },
+  },
   {
     "state": [
       "normal"
@@ -2114,7 +2127,7 @@
       "value": "shadow-level-one"
     },
     "component": "shadow-level-one"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -2127,7 +2140,7 @@
       "value": "shadow-level-one-disabled"
     },
     "component": "shadow-level-one"
-    },
+  },
   {
     "state": [
       "normal"
@@ -2140,7 +2153,7 @@
       "value": "shadow-level-three"
     },
     "component": "shadow-level-three"
-    },
+  },
   {
     "state": [
       "normal"
@@ -2153,7 +2166,7 @@
       "value": "shadow-level-two"
     },
     "component": "shadow-level-two"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -2166,7 +2179,7 @@
       "value": "content-primary-disabled"
     },
     "component": "spring-board"
-    },
+  },
   {
     "state": [
       "normal"
@@ -2179,7 +2192,7 @@
       "value": "content-primary"
     },
     "component": "spring-board"
-    },
+  },
   {
     "state": [
       "normal"
@@ -2192,7 +2205,7 @@
       "value": "primary-text"
     },
     "component": "spring-board"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -2205,7 +2218,7 @@
       "value": "springboard-icon-disabled"
     },
     "component": "spring-board"
-    },
+  },
   {
     "state": [
       "focus"
@@ -2218,7 +2231,7 @@
       "value": "springboard-focus"
     },
     "component": "spring-board"
-    },
+  },
   {
     "state": [
       "normal"
@@ -2231,7 +2244,7 @@
       "value": "springboard-icon"
     },
     "component": "spring-board"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -2244,7 +2257,7 @@
       "value": "primary-text-disabled"
     },
     "component": "spring-board"
-    },
+  },
   {
     "state": [
       "normal"
@@ -2257,7 +2270,7 @@
       "value": "content-primary"
     },
     "component": "spring-board"
-    },
+  },
   {
     "state": [
       "hover"
@@ -2270,7 +2283,7 @@
       "value": "springboard-hover"
     },
     "component": "spring-board"
-    },
+  },
   {
     "state": [
       "normal"
@@ -2283,7 +2296,7 @@
       "value": "primary-text"
     },
     "component": "spring-board"
-    },
+  },
   {
     "state": [
       "pressed"
@@ -2296,7 +2309,7 @@
       "value": "springboard-pressed"
     },
     "component": "spring-board"
-    },
+  },
   {
     "state": [
       "normal"
@@ -2309,7 +2322,7 @@
       "value": "springboard-icon"
     },
     "component": "spring-board"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -2322,7 +2335,7 @@
       "value": "springboard-icon-disabled"
     },
     "component": "spring-board"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -2335,7 +2348,7 @@
       "value": "primary-text-disabled"
     },
     "component": "spring-board"
-    },
+  },
   {
     "state": [
       "pressed"
@@ -2348,7 +2361,7 @@
       "value": "springboard-pressed"
     },
     "component": "spring-board"
-    },
+  },
   {
     "state": [
       "normal"
@@ -2361,7 +2374,7 @@
       "value": "content-background"
     },
     "component": "spring-board"
-    },
+  },
   {
     "state": [
       "focus"
@@ -2374,7 +2387,7 @@
       "value": "springboard-focus"
     },
     "component": "spring-board"
-    },
+  },
   {
     "state": [
       "hover"
@@ -2387,7 +2400,7 @@
       "value": "springboard-hover"
     },
     "component": "spring-board"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -2398,7 +2411,7 @@
       "value": "status-bar-ios-text"
     },
     "component": "status-bar"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -2409,7 +2422,7 @@
       "value": "status-bar-ios-text"
     },
     "component": "status-bar"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -2420,7 +2433,7 @@
       "value": "status-bar-ios"
     },
     "component": "status-bar"
-    },
+  },
   {
     "state": [
       "pressed"
@@ -2433,7 +2446,7 @@
       "value": "tabs-selected"
     },
     "component": "tabs"
-    },
+  },
   {
     "state": [
       "normal",
@@ -2447,7 +2460,7 @@
       "value": "tabs-selected"
     },
     "component": "tabs"
-    },
+  },
   {
     "state": [
       "hover"
@@ -2460,7 +2473,7 @@
       "value": "tabs-selected"
     },
     "component": "tabs"
-    },
+  },
   {
     "state": [
       "normal"
@@ -2473,7 +2486,7 @@
       "value": "tabs-normal"
     },
     "component": "tabs"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -2481,10 +2494,10 @@
     "property": {
       "item": "text",
       "type": "color",
-      "value": "text-validated"
+      "value": "validated-message-text"
     },
     "component": "text"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -2492,10 +2505,10 @@
     "property": {
       "item": "icon",
       "type": "color",
-      "value": "text-validated"
+      "value": "validated-message-text"
     },
     "component": "text"
-    },
+  },
   {
     "state": [
       "normal"
@@ -2508,7 +2521,7 @@
       "value": "gray-tertiary-text"
     },
     "component": "text-box"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -2521,7 +2534,7 @@
       "value": "input-disabled"
     },
     "component": "text-box"
-    },
+  },
   {
     "state": [
       "focus"
@@ -2534,7 +2547,7 @@
       "value": "input-focus"
     },
     "component": "text-box"
-    },
+  },
   {
     "state": [
       "normal"
@@ -2547,7 +2560,7 @@
       "value": "input"
     },
     "component": "text-box"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -2560,7 +2573,7 @@
       "value": "input-text-disabled"
     },
     "component": "text-box"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -2573,7 +2586,7 @@
       "value": "input-border-disabled"
     },
     "component": "text-box"
-    },
+  },
   {
     "state": [
       "normal"
@@ -2586,7 +2599,7 @@
       "value": "input-text"
     },
     "component": "text-box"
-    },
+  },
   {
     "state": [
       "validated"
@@ -2599,7 +2612,7 @@
       "value": "input-validated-text"
     },
     "component": "text-box"
-    },
+  },
   {
     "state": [
       "pressed"
@@ -2612,7 +2625,7 @@
       "value": "input-border-focus"
     },
     "component": "text-box"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -2625,7 +2638,7 @@
       "value": "input-text-disabled"
     },
     "component": "text-box"
-    },
+  },
   {
     "state": [
       "hover"
@@ -2638,7 +2651,7 @@
       "value": "input-border-hover"
     },
     "component": "text-box"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -2651,7 +2664,7 @@
       "value": "input-text-disabled"
     },
     "component": "text-box"
-    },
+  },
   {
     "state": [
       "hover"
@@ -2664,7 +2677,7 @@
       "value": "input-hover"
     },
     "component": "text-box"
-    },
+  },
   {
     "state": [
       "normal"
@@ -2677,7 +2690,7 @@
       "value": "input-hint-text"
     },
     "component": "text-box"
-    },
+  },
   {
     "state": [
       "validated"
@@ -2690,7 +2703,7 @@
       "value": "input-validated-background"
     },
     "component": "text-box"
-    },
+  },
   {
     "state": [
       "focus"
@@ -2703,7 +2716,7 @@
       "value": "input-border-focus"
     },
     "component": "text-box"
-    },
+  },
   {
     "state": [
       "normal"
@@ -2716,7 +2729,7 @@
       "value": "input-border"
     },
     "component": "text-box"
-    },
+  },
   {
     "state": [
       "pressed"
@@ -2729,7 +2742,7 @@
       "value": "input-focus"
     },
     "component": "text-box"
-    },
+  },
   {
     "state": [
       "validated"
@@ -2742,7 +2755,7 @@
       "value": "input-validated-border"
     },
     "component": "text-box"
-    },
+  },
   {
     "state": [
       "normal"
@@ -2755,7 +2768,7 @@
       "value": "thumb"
     },
     "component": "thumb"
-    },
+  },
   {
     "state": [
       "pressed"
@@ -2768,7 +2781,7 @@
       "value": "control-primary-focus"
     },
     "component": "thumb"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -2781,7 +2794,7 @@
       "value": "thumb-disabled"
     },
     "component": "thumb"
-    },
+  },
   {
     "state": [
       "focus"
@@ -2794,7 +2807,7 @@
       "value": "control-primary-focus"
     },
     "component": "thumb"
-    },
+  },
   {
     "state": [
       "normal",
@@ -2808,7 +2821,7 @@
       "value": "toggle-on-text"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "normal",
@@ -2822,7 +2835,7 @@
       "value": "toggle-off-text"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "normal",
@@ -2836,7 +2849,7 @@
       "value": "toggle-on-text"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "disabled",
@@ -2850,7 +2863,7 @@
       "value": "quiet-toggle-off-text-disabled"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "disabled",
@@ -2864,7 +2877,7 @@
       "value": "toggle-on-disabled"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "normal",
@@ -2878,7 +2891,7 @@
       "value": "quiet-toggle-off-text"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "hover",
@@ -2892,7 +2905,7 @@
       "value": "quiet-toggle-off-hover"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "normal",
@@ -2906,7 +2919,7 @@
       "value": "quiet-toggle-on-text"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "disabled",
@@ -2920,7 +2933,7 @@
       "value": "toggle-off-text-disabled"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "disabled",
@@ -2934,7 +2947,7 @@
       "value": "toggle-off-text-disabled"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "normal",
@@ -2948,7 +2961,7 @@
       "value": "quiet-toggle-on-text"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "normal",
@@ -2962,7 +2975,7 @@
       "value": "quiet-toggle-on"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "normal",
@@ -2976,7 +2989,7 @@
       "value": "toggle-off-text"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "pressed"
@@ -2989,7 +3002,7 @@
       "value": "toggle-on-text"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "disabled",
@@ -3003,7 +3016,7 @@
       "value": "toggle-on-text-disabled"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "disabled",
@@ -3017,7 +3030,7 @@
       "value": "toggle-on-text-disabled"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "pressed"
@@ -3030,7 +3043,7 @@
       "value": "quiet-toggle-on-text"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "pressed"
@@ -3043,7 +3056,7 @@
       "value": "quiet-toggle-on"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "hover",
@@ -3057,7 +3070,7 @@
       "value": "toggle-off-text-hover"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "normal",
@@ -3071,7 +3084,7 @@
       "value": "quiet-toggle-off-text"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "disabled",
@@ -3085,7 +3098,7 @@
       "value": "toggle-off-disabled"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "normal",
@@ -3099,7 +3112,7 @@
       "value": "toggle-on"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "pressed"
@@ -3112,7 +3125,7 @@
       "value": "toggle-on"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "pressed"
@@ -3125,7 +3138,7 @@
       "value": "quiet-toggle-on-text"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "normal",
@@ -3139,7 +3152,7 @@
       "value": "toggle-off"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "hover",
@@ -3153,7 +3166,7 @@
       "value": "toggle-off-hover"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "hover",
@@ -3167,7 +3180,7 @@
       "value": "quiet-toggle-off-text-hover"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "disabled",
@@ -3181,7 +3194,7 @@
       "value": "quiet-toggle-on-text-disabled"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "disabled",
@@ -3195,7 +3208,7 @@
       "value": "quiet-toggle-on-text-disabled"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "hover",
@@ -3209,7 +3222,7 @@
       "value": "toggle-off-text-hover"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "disabled",
@@ -3223,7 +3236,7 @@
       "value": "quiet-toggle-off-text-disabled"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "pressed"
@@ -3236,7 +3249,7 @@
       "value": "toggle-on-text"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "hover",
@@ -3250,7 +3263,7 @@
       "value": "quiet-toggle-off-text-hover"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "disabled",
@@ -3264,7 +3277,7 @@
       "value": "quiet-toggle-on-disabled"
     },
     "component": "toggle-button"
-    },
+  },
   {
     "state": [
       "normal"
@@ -3277,7 +3290,7 @@
       "value": "text-primary"
     },
     "component": "toggle-switch"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -3290,7 +3303,7 @@
       "value": "text-primary-disabled"
     },
     "component": "toggle-switch"
-    },
+  },
   {
     "state": [
       "focus"
@@ -3303,7 +3316,7 @@
       "value": "control-primary-focus"
     },
     "component": "toggle-switch"
-    },
+  },
   {
     "state": [
       "pressed"
@@ -3316,7 +3329,7 @@
       "value": "control-primary-focus"
     },
     "component": "toggle-switch"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -3327,7 +3340,7 @@
       "value": "tooltip-light"
     },
     "component": "tooltip"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -3338,7 +3351,7 @@
       "value": "tooltip-text-light"
     },
     "component": "tooltip"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -3349,7 +3362,7 @@
       "value": "tooltip-text-light"
     },
     "component": "tooltip"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -3360,7 +3373,7 @@
       "value": "tooltip-text-light"
     },
     "component": "tooltip"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -3371,7 +3384,7 @@
       "value": "tooltip-text-light"
     },
     "component": "tooltip"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -3382,7 +3395,7 @@
       "value": "tooltip-validated"
     },
     "component": "tooltip"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -3393,7 +3406,7 @@
       "value": "tooltip-dark"
     },
     "component": "tooltip"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -3404,7 +3417,7 @@
       "value": "tooltip-text-dark"
     },
     "component": "tooltip"
-    },
+  },
   {
     "state": [],
     "parent": [],
@@ -3415,7 +3428,7 @@
       "value": "tooltip-text-dark"
     },
     "component": "tooltip"
-    },
+  },
   {
     "state": [
       "normal",
@@ -3429,7 +3442,7 @@
       "value": "control-primary-track-off"
     },
     "component": "track"
-    },
+  },
   {
     "state": [
       "buffer"
@@ -3442,7 +3455,7 @@
       "value": "control-buffer"
     },
     "component": "track"
-    },
+  },
   {
     "state": [
       "disabled"
@@ -3455,7 +3468,7 @@
       "value": "control-track-disabled"
     },
     "component": "track"
-    },
+  },
   {
     "state": [
       "normal",
@@ -3469,7 +3482,7 @@
       "value": "control-track-off"
     },
     "component": "track"
-    },
+  },
   {
     "state": [
       "normal",
@@ -3483,7 +3496,7 @@
       "value": "control-primary"
     },
     "component": "track"
-    },
+  },
   {
     "state": [
       "normal",

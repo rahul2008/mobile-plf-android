@@ -4,6 +4,6 @@
     <item android:color="?attr/uidTextBoxDefaultPressedBackgroundColor" android:state_focused="true" android:state_pressed="true"/>
     <item android:color="?attr/uidTextBoxDefaultPressedBackgroundColor" android:state_focused="true"/>
     <item android:color="#fff" android:state_focused="true" app:state_error="true"/>
-    <item android:alpha="?attr/uidTextBoxValidationBackgroundAlpha" android:color="?attr/uidTextBoxValidationBackground" android:state_focused="false" app:state_error="true"/>
+    <item android:color="?attr/uidTextBoxDefaultValidatedBackgroundColor" android:state_focused="false" app:state_error="true" />
     <item android:color="?attr/uidTextBoxDefaultNormalBackgroundColor"/>
 </selector>

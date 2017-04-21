@@ -7,6 +7,9 @@
 
 package com.philips.uid
 
+import groovy.transform.AutoClone
+
+@AutoClone
 class TonalRange {
     def name
     def colorCode
@@ -28,12 +31,18 @@ class TonalRange {
         this.offset = offset
     }
 
+
     TonalRange(name, referenceValue) {
         this.name = name
         this.reference = referenceValue
     }
     //color range in format of group_blue or blue or aqua , having match with uid_colors.xml
     def getValue(color_range, colorsXmlInput, allAttributes) {
+        //All validation must be resolved before processing it
+        if (isValidation()) {
+            return "@null"
+        }
+
         if (reference != null) {
             def index = allAttributes.indexOf(new ThemeAttribute(reference))
 //                println("all attr: " + allAttributes.toListString() + " index: " + index  +" reference "+ reference)
@@ -75,6 +84,12 @@ class TonalRange {
             }
             return applyOpacityOnColor(colorValue)
         } else if (color != null) {
+            if (color.startsWith("#")) {
+                if (opacity != null) {
+                    return applyOpacityOnColor(colorValue);
+                }
+                return color;
+            }
             def colorReference = "${DLSResourceConstants.LIB_PREFIX}_level_${color}";
 //            println("colorReference: #" + colorReference +"#" +" name " + name)
 
@@ -166,6 +181,15 @@ class TonalRange {
 //            println("invalid colorCode with colorName: " + colorReference)
             return "@null"
         }
+    }
+
+    def isValidation() {
+        return color == "validation" || colorRange == "validation" || reference == "validation" || colorCode == "validation"
+    }
+
+    @Override
+    protected TonalRange clone() throws CloneNotSupportedException {
+        return (TonalRange) super.clone();
     }
 
     @Override

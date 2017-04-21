@@ -94,7 +94,7 @@ public class SeparatorTest extends BaseTest {
     public void verifyRecyclerViewSeparatorHeight() throws Exception {
         final int height = activity.getResources().getDimensionPixelSize(R.dimen.uid_divider_Height);
 
-        UIDTestUtils.waitFor(height, 700);
+        UIDTestUtils.waitFor(height, 1000);
 
         onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.recyclerviewSeparatorItems))
                 .check(matches(SeparatorMatcher.hasSameHeight(height)));
