@@ -138,14 +138,22 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
             return;
         }
 
-        if (!isSameEmail()) {
+        if (!isSameHsdpId()) {
             userRegistrationInterface.clearUserData(this);
         }
-        storeLastEmail();
+        //storeLastEmail();
+        storeHSDPID();
     }
 
     private boolean isSameEmail() {
         if (getLastStoredEmail().equalsIgnoreCase(mUser.getEmail()))
+            return true;
+        return false;
+    }
+
+    private boolean isSameHsdpId(){
+        if(getLastStoredHdpUuid() == null || mUser == null || mUser.getHsdpUUID()==null) return false;
+        if (getLastStoredHdpUuid().equalsIgnoreCase(mUser.getHsdpUUID().trim()))
             return true;
         return false;
     }
@@ -280,6 +288,24 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
         SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
         ssInterface.storeValueForKey("last_email", mUser.getEmail(), ssError);
+    }
+
+    String getLastStoredHdpUuid() {
+        AppInfraInterface gAppInfra = ((AppFrameworkApplication) getContext().getApplicationContext()).getAppInfra();
+        SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
+        SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
+        String decryptedData = ssInterface.fetchValueForKey("last_hsdpuuid", ssError);
+        return decryptedData;
+    }
+
+
+    void storeHSDPID(){
+        if(mUser!=null){
+            AppInfraInterface gAppInfra = ((AppFrameworkApplication) getContext().getApplicationContext()).getAppInfra();
+            SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
+            SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
+            ssInterface.storeValueForKey("last_hsdpuuid", mUser.getHsdpUUID(), ssError);
+        }
     }
 
     @Override
