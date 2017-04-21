@@ -2,13 +2,13 @@ apply plugin: 'com.android.library'
 
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.3"
 
     defaultConfig {
 
         minSdkVersion 19
-        targetSdkVersion 25
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
 
@@ -20,8 +20,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:design:25.1.0'
+    compile 'com.android.support:appcompat-v7:24.0.3'
+    compile 'com.android.support:design:24.0.3'
     compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '2.3.5-SNAPSHOT.+' , ext: 'aar', changing: true) {
         transitive = true
     }
