@@ -2,7 +2,6 @@ package com.philips.platform.uid.view.widget;
 
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -18,7 +17,6 @@ import android.support.v7.widget.AppCompatRatingBar;
 import android.util.AttributeSet;
 
 import com.philips.platform.uid.R;
-import com.philips.platform.uid.thememanager.ThemeUtils;
 
 import java.lang.reflect.Method;
 
@@ -26,11 +24,13 @@ import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 public class RatingBar extends AppCompatRatingBar {
 
-    private int widthOffset;
+    private int widthOffset = 0;
     private Paint paint;
-    private String label;
+    private String text = null;
     private int height;
     private int width;
+    private int progressColor;
+    private int progressBackgroundColor;
 
     public RatingBar(Context context) {
         super(context);
@@ -46,19 +46,24 @@ public class RatingBar extends AppCompatRatingBar {
         if (isIndicator()) {
             width = (int) (getContext().getResources().getDimension(R.dimen.uid_rating_bar_display_width));
             height = (int) (getContext().getResources().getDimension(R.dimen.uid_rating_bar_display_height));
-            widthOffset = getResources().getDimensionPixelSize(R.dimen.uid_rating_bar_text) + getResources().getDimensionPixelSize(R.dimen.uid_rating_bar_display_padding);
-            setPadding(widthOffset,0,0,0);
+            if(text!=null){
+                widthOffset = getResources().getDimensionPixelSize(R.dimen.uid_rating_bar_text) + getResources().getDimensionPixelSize(R.dimen.uid_rating_bar_display_padding);
+                setPadding(widthOffset,0,0,0);
+            }
         } else {
             width = (int) (getContext().getResources().getDimension(R.dimen.uid_rating_bar_input_width));
             height = (int) (getContext().getResources().getDimension(R.dimen.uid_rating_bar_input_height));
-            widthOffset = 0;
         }
         setProgressDrawableCustom();
     }
 
     private void processAttributes(Context context, AttributeSet attrs, int defStyleAttr) {
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDTextEditBox, defStyleAttr, R.style.UIDEditTextBox);
-        final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDRatingBar, defStyleAttr, R.style.UIDRatingBarStyle);
+        text = typedArray.getString(R.styleable.UIDRatingBar_android_text);
+        progressColor = typedArray.getColor(R.styleable.UIDRatingBar_uidRatingBarProgressColor, -1);
+        progressBackgroundColor = typedArray.getColor(R.styleable.UIDRatingBar_uidRatingBarProgressBackgroundColor, -1);
+        typedArray.recycle();
+
     }
 
     @Override
@@ -70,11 +75,10 @@ public class RatingBar extends AppCompatRatingBar {
     @Override
     protected synchronized void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if(isIndicator()){
+        if(isIndicator() && text!=null){
             initializePaint();
-            label = String.valueOf(getRating());            //Change to new String attribute
             paint.setTextAlign(Paint.Align.CENTER);
-            drawTextCentred(canvas, paint, label,0,canvas.getHeight()/2);
+            drawTextCentred(canvas, paint, text,0,canvas.getHeight()/2);
         }
     }
 
@@ -87,7 +91,7 @@ public class RatingBar extends AppCompatRatingBar {
 
     private void initializePaint(){
         paint = new Paint();
-        paint.setColor(Color.RED);
+        paint.setColor(progressColor);
         paint.setTypeface(TypefaceUtils.load(getContext().getAssets(),"fonts/centralesansbook.ttf"));
         paint.setTextSize(getResources().getDimensionPixelSize(R.dimen.uid_rating_bar_text));
     }
@@ -160,5 +164,7 @@ public class RatingBar extends AppCompatRatingBar {
         }
         return d;
     }
+
+    
 
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="UIDRatingBarStyle">
+        <item name="uidRatingBarProgressBackgroundColor">?attr/uidColorLevel15</item>
+        <item name="uidRatingBarProgressColor">?attr/uidColorLevel90</item>
+    </style>
+</resources>
