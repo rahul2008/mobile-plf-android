@@ -86,12 +86,7 @@ public abstract class IAPState extends BaseState {
     }
 
     private void launchIAP() {
-        IAPState iapState = getApplicationContext().getIap();
-        if(iapState == null) {
-            ((IndexSelectionListener)activityContext).updateSelectionIndex(0);
-            return;
-        }
-        IAPInterface iapInterface = iapState.getIapInterface();
+        IAPInterface iapInterface = getApplicationContext().getIap().getIapInterface();
         IAPFlowInput iapFlowInput = new IAPFlowInput(getCtnList());
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(getLaunchType(), iapFlowInput);
