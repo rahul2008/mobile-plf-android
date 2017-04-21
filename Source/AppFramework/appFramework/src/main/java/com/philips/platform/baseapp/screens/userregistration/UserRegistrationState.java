@@ -31,6 +31,7 @@ import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetExc
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.screens.dataservices.utility.SyncScheduler;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -101,6 +102,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onUserRegistrationComplete(Activity activity) {
+        SyncScheduler.getInstance().scheduleSync();
         IAPState iapState = new IAPRetailerFlowState();
         getApplicationContext().setIapState(iapState);
         iapState.init(getApplicationContext());
@@ -231,6 +233,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onUserLogoutSuccess() {
+        SyncScheduler.getInstance().stopSync();
     }
 
     @Override
@@ -239,5 +242,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
+        SyncScheduler.getInstance().stopSync();
     }
 }
