@@ -23,9 +23,9 @@ import android.view.ViewGroup;
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.components.BaseTest;
-import com.philips.platform.uid.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.utils.TestConstants;
+import com.philips.platform.uid.utils.UIDTestUtils;
 import com.philips.platform.uid.view.widget.NotificationBadge;
 
 import org.junit.Before;
@@ -64,6 +64,15 @@ public class DefaultNotificationBadgeTest extends BaseTest {
         getNotificationBadgeTextLayout().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
+/*
+
+    @Test
+    public void verifyViewDefaultBackgroundColor() {
+        int expectedTextColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidNotificationBadgeDefaultBackgroundColor);
+        getNotificationSmallBadgeTextLayout().check(matches(TextViewPropertiesMatchers.sameBackgroundColor(expectedTextColor))); }
+
+*/
+
     @Test
     public void verifyViewDefaultTopMargin() {
         int expectedTopMargin = testResources.getDimensionPixelSize(R.dimen.uid_notification_badge_default_view_margin_top_right);
@@ -100,6 +109,7 @@ public class DefaultNotificationBadgeTest extends BaseTest {
         assertTrue(TextViewPropertiesMatchers.isSameTypeface(activity, badge.getTypeface(), TestConstants.FONT_PATH_CS_BOOK).matches(badge));
     }
 
+
 // below are the small notification Badge test case
 
     @Test
@@ -109,7 +119,7 @@ public class DefaultNotificationBadgeTest extends BaseTest {
     }
     @Test
     public void verifyIconSmallTextColor() {
-        final int expectedColor = ContextCompat.getColor(activity, White);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidNotificationBadgeDefaultTextColor);
         getNotificationSmallBadgeTextLayout().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
@@ -118,7 +128,12 @@ public class DefaultNotificationBadgeTest extends BaseTest {
         int expectedTopMargin = testResources.getDimensionPixelSize(R.dimen.uid_notification_badge_small_view_margin_top_right);
         getNotificationSmallBadgeViewLayout().check(matches(TextViewPropertiesMatchers.isSameTopMargin(expectedTopMargin)));
     }
+    /*@Test
+    public void verifyViewSmallBackgroundColor() {
+        int expectedTextColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidNotificationBadgeDefaultBackgroundColor);
+        getNotificationSmallBadgeViewLayout().check(matches(TextViewPropertiesMatchers.sameBackgroundColor(expectedTextColor))); }
 
+   */
     @Test
     public void verifyViewSmallRightMargin() {
         int expectedRightMargin = testResources.getDimensionPixelSize(R.dimen.uid_notification_badge_small_view_margin_top_right);
