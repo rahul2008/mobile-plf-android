@@ -77,10 +77,10 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     }
 
     private void showProgressDialog(boolean show) {
-        if (show && !getFragmentActivity().isFinishing())
-            progressDialog.show();
-        else if (progressDialog.isShowing())
+        if (progressDialog.isShowing())
             progressDialog.dismiss();
+        else if (show && !getFragmentActivity().isFinishing())
+            progressDialog.show();
     }
 
     private void initializeFlowManager() {
