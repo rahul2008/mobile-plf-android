@@ -149,6 +149,11 @@ android {
             testCoverageEnabled false
         }
     }
+
+    dexOptions {
+        preDexLibraries = false
+        javaMaxHeapSize "4g"
+    }
 }
 
 

@@ -175,6 +175,12 @@ android {
 //            proguardFile 'proguard-rules.pro'
         }
     }
+
+    dexOptions {
+        preDexLibraries = false
+        javaMaxHeapSize "4g"
+    }
+
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
