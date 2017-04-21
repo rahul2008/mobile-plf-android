@@ -23,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant.PRX;
 import static junit.framework.Assert.assertEquals;
 
 public class IAPNetworkErrorTest {
@@ -96,7 +97,7 @@ public class IAPNetworkErrorTest {
     @Test
     public void testSetCustomErrorMessage(){
         MockIAPNetworkError error = new MockIAPNetworkError(new TimeoutError(), 0, null);
-        error.setCustomErrorMessage("Custom message");
+        error.setCustomErrorMessage(PRX,"Custom message");
         assertEquals(error.getMessage(), "Custom message");
     }
 

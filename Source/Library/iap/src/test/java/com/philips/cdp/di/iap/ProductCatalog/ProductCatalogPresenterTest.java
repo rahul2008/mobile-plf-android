@@ -38,6 +38,7 @@ import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
 
+import static com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant.PRX;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -66,7 +67,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
     }
 
     @Test
-    public void testGetLocalProductCatalogSuccessResponse(){
+    public void testGetLocalProductCatalogSuccessResponse() {
         LocalProductCatalog localCatalog = new LocalProductCatalog(mContext, this);
         assertFalse(localCatalog.getProductCatalog(0, 20, null));
     }
@@ -99,7 +100,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
 
     @Test
     public void testCreateIAPErrorMessage() {
-        IAPNetworkError error = NetworkUtility.getInstance().createIAPErrorMessage("Apologies");
+        IAPNetworkError error = NetworkUtility.getInstance().createIAPErrorMessage(PRX, "Apologies");
         assertTrue(error != null);
     }
 

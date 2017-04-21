@@ -26,6 +26,7 @@ import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
 
+import static com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant.PRX;
 import static junit.framework.Assert.assertFalse;
 
 @RunWith(RobolectricTestRunner.class)
@@ -95,7 +96,7 @@ public class LocalProductCatalogTest {
 
     @Test
     public void testCreateIAPErrorMessage() throws Exception {
-        NetworkUtility.getInstance().createIAPErrorMessage("No product found in your Store.");
+        NetworkUtility.getInstance().createIAPErrorMessage(PRX, "No product found in your Store.");
     }
 
     @Test
