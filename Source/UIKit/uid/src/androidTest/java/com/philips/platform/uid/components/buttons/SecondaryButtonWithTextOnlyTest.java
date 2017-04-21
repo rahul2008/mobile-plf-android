@@ -42,7 +42,7 @@ public class SecondaryButtonWithTextOnlyTest {
      ******************************************************/
 
     @Test
-    public void verifyTextOnlySecondaryButtonEnabledBacgroundColor() {
+    public void verifyTextOnlySecondaryButtonEnabledBackgroundColor() {
         final int expectedColor = UIDTestUtils.getAttributeColor(context, R.attr.uidButtonSecondaryNormalBackgroundColor);
 
         getSecondaryButton().check(matches(FunctionDrawableMatchers

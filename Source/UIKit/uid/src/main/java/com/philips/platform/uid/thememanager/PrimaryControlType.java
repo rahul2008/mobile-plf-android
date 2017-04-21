@@ -10,19 +10,24 @@ import android.content.res.Resources;
 
 import com.philips.platform.uid.R;
 
-public enum PrimaryControlType {
+public enum PrimaryControlType implements ThemeConfig {
     ALTERNATE_PRIMARY {
         @Override
-        void injectPrimaryControlColors(Resources.Theme theme) {
+        public void injectStyle(Resources.Theme theme) {
             theme.applyStyle(R.style.UIDPrimaryControl_AlternatePrimary, true);
         }
     },
     SECONDARY {
         @Override
-        void injectPrimaryControlColors(final Resources.Theme theme) {
+        public void injectStyle(final Resources.Theme theme) {
             theme.applyStyle(R.style.UIDPrimaryControl_Secondary, true);
+        }
+    }, ACCENT {
+        @Override
+        public void injectStyle(final Resources.Theme theme) {
+            theme.applyStyle(R.style.UIDPrimaryControl_Accent, true);
         }
     };
 
-    abstract void injectPrimaryControlColors(Resources.Theme theme);
+    abstract public void injectStyle(Resources.Theme theme);
 }

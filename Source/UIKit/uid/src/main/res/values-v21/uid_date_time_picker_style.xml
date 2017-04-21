@@ -56,7 +56,7 @@
 
     <style name="UIDDayOfWeekTextAppearance" parent="android:TextAppearance.Material">
         <item name="android:includeFontPadding">false</item>
-        <item name="android:textColor">?attr/uidDatePickerAndroidNormalContentTextColor</item>
+        <item name="android:textColor">?attr/uidDatePickerAndroidNormalOnHeaderTextColor</item>
         <item name="android:textSize">@dimen/uid_date_picker_header_dayofweek_size</item>
     </style>
 

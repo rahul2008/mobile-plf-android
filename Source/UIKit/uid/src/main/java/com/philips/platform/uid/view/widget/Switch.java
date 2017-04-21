@@ -20,6 +20,7 @@ import android.util.AttributeSet;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
+import com.philips.platform.uid.utils.UIDLocaleHelper;
 import com.philips.platform.uid.utils.UIDUtils;
 
 public class Switch extends SwitchCompat {
@@ -39,6 +40,8 @@ public class Switch extends SwitchCompat {
     private void processAttributes(@NonNull Context context, @NonNull AttributeSet attrs, int defStyleAttr) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDSwitch, defStyleAttr, R.style.UIDSwitchStyle);
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
+
+        UIDLocaleHelper.setTextFromResourceID(context, this, attrs);
 
         applyThumbTint(typedArray, theme);
         applyTrackTint(typedArray, theme);

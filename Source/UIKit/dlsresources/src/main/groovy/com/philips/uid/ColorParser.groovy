@@ -19,7 +19,7 @@ class ColorParser {
         def jsonSlurper = new JsonSlurper()
 
         def colorRangeMappings = jsonSlurper.parseText(new File(DLSResourceConstants.PATH_COLOR_RANGES_JSON).text)
-
+        colorRangeMappings = colorRangeMappings[0]
         def writer = new StringWriter()
         def colorXML = new MarkupBuilder(writer)
         colorXML.setDoubleQuotes(true)

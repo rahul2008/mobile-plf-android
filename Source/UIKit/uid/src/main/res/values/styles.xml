@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.DLS" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">?attr/uidContentBackground</item>
+        <item name="android:windowBackground">?attr/uidContentPrimaryBackgroundColor</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowNoTitle">true</item>
@@ -62,11 +62,7 @@
         <item name="uidImageButtonStyle">@style/UIDImageButton</item>
         <item name="uidEditTextStyle">@style/UIDEditTextBox</item>
         <item name="uidIndeterminateLinearPBStyle">@style/UIDIndeterminateLinearProgress</item>
-        <item name="uidTextBoxValidationBackground">@color/uid_signal_orange_level_15</item>
-        <item name="uidTextBoxValidationBackgroundAlpha">@dimen/uid_alpha_per_50</item>
-        <item name="uidTextBoxValidationBorder">@android:color/transparent</item>
-        <item name="uidTextBoxValidationText">@color/uid_signal_orange_level_75</item>
-        <item name="uidTextBoxValidationErrorColor">@color/uid_signal_orange_level_75</item>
+        <item name="uidButtonDisabledAlpha">@dimen/uid_alpha_per_100</item>
 
         <!-- Moved to based temporarily to avoid crash-->
         <!--<item name="uidInputTextTextDisabledAlpha">@dimen/uid_alpha_per_35</item>

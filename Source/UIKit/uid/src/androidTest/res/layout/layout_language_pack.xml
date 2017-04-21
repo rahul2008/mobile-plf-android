@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/test_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/language_pack_label"
+        />
+
+    <com.philips.platform.uid.view.widget.CheckBox
+        android:id="@+id/test_checkbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/language_pack_checkbox"/>
+
+    <com.philips.platform.uid.view.widget.ValidationEditText
+        android:id="@+id/test_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/language_pack_hint"/>
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/test_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

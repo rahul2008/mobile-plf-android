@@ -1,5 +1,12 @@
 apply plugin: 'com.android.library'
 
+def supportLibraryVer = '24.2.0';
+def minSdkVer = 19
+def compileSdkVer = 24
+def targetSdkVer = 24
+def buildToolsVer = '24.0.0'
+def jUnitVer = 4.12
+
 buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
@@ -11,12 +18,12 @@ buildscript {
     }
 }
 android {
-    compileSdkVersion 24
-    buildToolsVersion "${buildToolsVer}"
+    compileSdkVersion compileSdkVer
+    buildToolsVersion buildToolsVer
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 24
+        minSdkVersion minSdkVer
+        targetSdkVersion targetSdkVer
         versionCode 1
         versionName "1.0"
 

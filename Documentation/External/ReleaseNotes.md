@@ -1,7 +1,14 @@
 # Release Notes MobileUitoolkit Android
 
+SPRINT - MUITK.PI17.2.Sprint4
+Story 16723: Android Apply the latest theme on Data validation
+
+
 SPRINT - MUITK.PI17.2.Sprint3
 Story 18842:(Android)DLS and NON DLS UI KIT controls working in conjunction.
+Story 9686:(Android)Language pack (DLS)- provides text lookup functions
+Story 9709:(Android) build slave setup for Espresso tests 
+Story 18889:(Android) Theme Automation to support accent
 
 SPRINT - MUITK.PI17.2.Sprint2
 Story 16488:(Android)Notification Bar

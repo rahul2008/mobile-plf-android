@@ -49,7 +49,7 @@ public class PrimaryButtonWithTextOnlyTest {
 
     @Test
     public void verifyButtonHeight() {
-        UIDTestUtils.waitFor(testResources, 750);
+        UIDTestUtils.waitFor(testResources, UIDTestUtils.UI_LOAD_WAIT_TIME_EXTRA);
         int expectedHeight = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.button_height);
 
         getPrimaryButton()

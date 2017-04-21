@@ -29,13 +29,4 @@ public abstract class BaseTypeSafteyMatcher<T> extends TypeSafeMatcher<T> {
     protected boolean areEqual() {
         return actual.equals(expected);
     }
-
-    private boolean isOnePixelDifference() {
-        final int actual = Integer.parseInt(this.actual.toString());
-        final int expected = Integer.parseInt(this.expected.toString());
-        if ((actual - expected) == 1 || (expected - actual == 1)) {
-            return true;
-        }
-        return false;
-    }
 }

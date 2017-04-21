@@ -25,6 +25,7 @@ public class NotificationBadgeFragment extends BaseFragment {
 
     private NotificationBadge mDefaultText;
     private NotificationBadge mSmallText;
+    private NotificationBadge mOptionText;
     private EditText mEnterNumber;
     private FragmentNotificationBadgeBinding notificationBadgeBinding;
     public ObservableBoolean isAccentColor = new ObservableBoolean(Boolean.TRUE);
@@ -36,15 +37,16 @@ public class NotificationBadgeFragment extends BaseFragment {
         notificationBadgeBinding.setFragment(this);
         mDefaultText = (NotificationBadge) notificationBadgeBinding.getRoot().findViewById(R.id.uid_text_default);
         mSmallText = (NotificationBadge) notificationBadgeBinding.getRoot().findViewById(R.id.uid_text_small);
+        mOptionText=(NotificationBadge)notificationBadgeBinding.getRoot().findViewById(R.id.uid_text_Option);
         mEnterNumber = (EditText) notificationBadgeBinding.getRoot().findViewById(R.id.edit_input_number);
-
+        mOptionText.setErrorMessage("abc");
+        mOptionText.setVisibility(View.INVISIBLE);
         mEnterNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 mDefaultText.setErrorMessage(mEnterNumber.getText().toString());
                 mSmallText.setErrorMessage(mEnterNumber.getText().toString());
-
 
             }
 
@@ -78,9 +80,11 @@ public class NotificationBadgeFragment extends BaseFragment {
     private void enableRecyclerViewSeparator() {
         if (isAccentColor.get()) {
             mDefaultText.setVisibility(View.VISIBLE);
+            mOptionText.setVisibility(View.INVISIBLE);
 
         } else {
             mDefaultText.setVisibility(View.INVISIBLE);
+            mOptionText.setVisibility(View.VISIBLE);
         }
     }
 

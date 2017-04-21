@@ -13,6 +13,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 
 import com.philips.platform.uid.R;
+import com.philips.platform.uid.utils.UIDLocaleHelper;
 
 public class Label extends AppCompatTextView {
     public Label(final Context context) {
@@ -28,9 +29,13 @@ public class Label extends AppCompatTextView {
         processAttributes(context, attrs, defStyleAttr);
     }
 
+
     private void processAttributes(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         TypedArray attrsArray = context.obtainStyledAttributes(attrs, R.styleable.UIDLabel, defStyleAttr, R.style.UIDLabel);
         TypedArray themeArray = context.getTheme().obtainStyledAttributes(R.styleable.UIDLabel);
+
+        UIDLocaleHelper.setTextFromResourceID(context, this, attrs);
+
         setLabelTextSize(context, attrsArray);
         attrsArray.recycle();
         themeArray.recycle();

@@ -22,7 +22,6 @@ import android.util.TypedValue;
 import android.view.ViewGroup;
 
 import com.philips.platform.uid.R;
-import com.philips.platform.uid.thememanager.ThemeUtils;
 
 public class NotificationBadge extends AppCompatTextView {
 
@@ -59,7 +58,7 @@ public class NotificationBadge extends AppCompatTextView {
         if (isTextViewThemeRequest) {
             setTextColor(ContextCompat.getColor(getContext(), typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationDefaultTextColor, -1)));
         }else{
-            setTextColor(ContextCompat.getColor(getContext(), typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationOptiolTextColor, -1)));
+            setTextColor(ContextCompat.getColor(getContext(), typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationOptionTextColor, -1)));
         }
     }
 
@@ -67,7 +66,7 @@ public class NotificationBadge extends AppCompatTextView {
         if (isTextViewThemeRequest) {
             badgeBackgroundColor = ContextCompat.getColor(getContext(), typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationDefaultBackground, -1));
         }else{
-            badgeBackgroundColor = ContextCompat.getColor(getContext(), typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationOptioltBackground, -1));
+            badgeBackgroundColor = ContextCompat.getColor(getContext(), typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationOptionBackground, -1));
         }
 
     }

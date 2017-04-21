@@ -180,6 +180,6 @@
   <color name="uid_signal_yellow_level_45">#FFDB1F</color>
   <color name="uid_signal_yellow_level_60">#F2BE00</color>
   <color name="uid_signal_yellow_level_75">#FFB640</color>
-    <color name="uid_level_white">#FFFFFF</color>
-    <color name="uid_level_black">#000000</color>
+  <color name="uid_level_white">#FFFFFF</color>
+  <color name="uid_level_black">#000000</color>
 </resources>

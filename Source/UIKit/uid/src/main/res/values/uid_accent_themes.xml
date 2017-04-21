@@ -1,0 +1,170 @@
+<resources>
+
+    <style name="AccentGroupBlue">
+        <item name="uidAccentLevel5">#F0F8FA</item>
+        <item name="uidAccentLevel10">#DAF1F7</item>
+        <item name="uidAccentLevel15">#BFE2EB</item>
+        <item name="uidAccentLevel20">#9DD3E3</item>
+        <item name="uidAccentLevel25">#7CC0D9</item>
+        <item name="uidAccentLevel30">#5DAFD1</item>
+        <item name="uidAccentLevel35">#439AC1</item>
+        <item name="uidAccentLevel40">#2B86B2</item>
+        <item name="uidAccentLevel45">#1474A4</item>
+        <item name="uidAccentLevel50">#176498</item>
+        <item name="uidAccentLevel55">#1B578E</item>
+        <item name="uidAccentLevel60">#1D4C84</item>
+        <item name="uidAccentLevel65">#1C417A</item>
+        <item name="uidAccentLevel70">#1A3670</item>
+        <item name="uidAccentLevel75">#1C2D66</item>
+        <item name="uidAccentLevel80">#1C255C</item>
+        <item name="uidAccentLevel85">#191D4F</item>
+        <item name="uidAccentLevel90">#0A0C1E</item>
+    </style>
+
+    <style name="AccentBlue">
+        <item name="uidAccentLevel5">#F2F6FF</item>
+        <item name="uidAccentLevel10">#DEEAFF</item>
+        <item name="uidAccentLevel15">#C5DAFB</item>
+        <item name="uidAccentLevel20">#ABCBF7</item>
+        <item name="uidAccentLevel25">#8DB9EF</item>
+        <item name="uidAccentLevel30">#72ABEB</item>
+        <item name="uidAccentLevel35">#5A9ADA</item>
+        <item name="uidAccentLevel40">#438BCC</item>
+        <item name="uidAccentLevel45">#337FBF</item>
+        <item name="uidAccentLevel50">#296FAB</item>
+        <item name="uidAccentLevel55">#236197</item>
+        <item name="uidAccentLevel60">#1C5385</item>
+        <item name="uidAccentLevel65">#164776</item>
+        <item name="uidAccentLevel70">#123E68</item>
+        <item name="uidAccentLevel75">#0D3459</item>
+        <item name="uidAccentLevel80">#092F52</item>
+        <item name="uidAccentLevel85">#05294A</item>
+        <item name="uidAccentLevel90">#02101B</item>
+    </style>
+
+    <style name="AccentAqua">
+        <item name="uidAccentLevel5">#F0F9FA</item>
+        <item name="uidAccentLevel10">#DAF1F2</item>
+        <item name="uidAccentLevel15">#C1E4E6</item>
+        <item name="uidAccentLevel20">#9BD5D6</item>
+        <item name="uidAccentLevel25">#79C8C6</item>
+        <item name="uidAccentLevel30">#5CBCB7</item>
+        <item name="uidAccentLevel35">#42ADA1</item>
+        <item name="uidAccentLevel40">#299F8F</item>
+        <item name="uidAccentLevel45">#189383</item>
+        <item name="uidAccentLevel50">#158275</item>
+        <item name="uidAccentLevel55">#14726C</item>
+        <item name="uidAccentLevel60">#136363</item>
+        <item name="uidAccentLevel65">#15555A</item>
+        <item name="uidAccentLevel70">#174A52</item>
+        <item name="uidAccentLevel75">#18414B</item>
+        <item name="uidAccentLevel80">#183842</item>
+        <item name="uidAccentLevel85">#0F303B</item>
+        <item name="uidAccentLevel90">#061316</item>
+    </style>
+
+    <style name="AccentGreen">
+        <item name="uidAccentLevel5">#F7FAD4</item>
+        <item name="uidAccentLevel10">#ECF2AC</item>
+        <item name="uidAccentLevel15">#DEE784</item>
+        <item name="uidAccentLevel20">#CED95F</item>
+        <item name="uidAccentLevel25">#BECC44</item>
+        <item name="uidAccentLevel30">#B0BD31</item>
+        <item name="uidAccentLevel35">#97B326</item>
+        <item name="uidAccentLevel40">#77A422</item>
+        <item name="uidAccentLevel45">#5F9920</item>
+        <item name="uidAccentLevel50">#3E8A29</item>
+        <item name="uidAccentLevel55">#1E782E</item>
+        <item name="uidAccentLevel60">#006B34</item>
+        <item name="uidAccentLevel65">#005B33</item>
+        <item name="uidAccentLevel70">#004E30</item>
+        <item name="uidAccentLevel75">#06422D</item>
+        <item name="uidAccentLevel80">#0C382B</item>
+        <item name="uidAccentLevel85">#102E26</item>
+        <item name="uidAccentLevel90">#06120E</item>
+    </style>
+
+    <style name="AccentOrange">
+        <item name="uidAccentLevel5">#FDF5D7</item>
+        <item name="uidAccentLevel10">#FCEDBA</item>
+        <item name="uidAccentLevel15">#FCE290</item>
+        <item name="uidAccentLevel20">#F7D368</item>
+        <item name="uidAccentLevel25">#F2C544</item>
+        <item name="uidAccentLevel30">#EBB626</item>
+        <item name="uidAccentLevel35">#E6A219</item>
+        <item name="uidAccentLevel40">#E38B10</item>
+        <item name="uidAccentLevel45">#DE7510</item>
+        <item name="uidAccentLevel50">#CC6116</item>
+        <item name="uidAccentLevel55">#BA4C1E</item>
+        <item name="uidAccentLevel60">#A63D21</item>
+        <item name="uidAccentLevel65">#923323</item>
+        <item name="uidAccentLevel70">#802726</item>
+        <item name="uidAccentLevel75">#6E202D</item>
+        <item name="uidAccentLevel80">#5C1B2E</item>
+        <item name="uidAccentLevel85">#4D192B</item>
+        <item name="uidAccentLevel90">#1E0910</item>
+    </style>
+
+    <style name="AccentPink">
+        <item name="uidAccentLevel5">#FBF5F6</item>
+        <item name="uidAccentLevel10">#FAE6EA</item>
+        <item name="uidAccentLevel15">#F6D0D7</item>
+        <item name="uidAccentLevel20">#F2BAC6</item>
+        <item name="uidAccentLevel25">#EEA4B5</item>
+        <item name="uidAccentLevel30">#EC8BA1</item>
+        <item name="uidAccentLevel35">#E8728E</item>
+        <item name="uidAccentLevel40">#E85D80</item>
+        <item name="uidAccentLevel45">#E04A71</item>
+        <item name="uidAccentLevel50">#D13B66</item>
+        <item name="uidAccentLevel55">#BE2A5D</item>
+        <item name="uidAccentLevel60">#AD1C57</item>
+        <item name="uidAccentLevel65">#97144C</item>
+        <item name="uidAccentLevel70">#801145</item>
+        <item name="uidAccentLevel75">#6B0E3F</item>
+        <item name="uidAccentLevel80">#5C0C3C</item>
+        <item name="uidAccentLevel85">#4D0A34</item>
+        <item name="uidAccentLevel90">#1E0414</item>
+    </style>
+
+    <style name="AccentPurple">
+        <item name="uidAccentLevel5">#F7F5FF</item>
+        <item name="uidAccentLevel10">#EEE6FC</item>
+        <item name="uidAccentLevel15">#E0D1F1</item>
+        <item name="uidAccentLevel20">#D6B9E6</item>
+        <item name="uidAccentLevel25">#CDA2DC</item>
+        <item name="uidAccentLevel30">#C48CD4</item>
+        <item name="uidAccentLevel35">#B972BF</item>
+        <item name="uidAccentLevel40">#B35BB2</item>
+        <item name="uidAccentLevel45">#AB46A4</item>
+        <item name="uidAccentLevel50">#9C3790</item>
+        <item name="uidAccentLevel55">#902C7E</item>
+        <item name="uidAccentLevel60">#82236F</item>
+        <item name="uidAccentLevel65">#6F1E5F</item>
+        <item name="uidAccentLevel70">#5E1A54</item>
+        <item name="uidAccentLevel75">#4D174A</item>
+        <item name="uidAccentLevel80">#401442</item>
+        <item name="uidAccentLevel85">#331138</item>
+        <item name="uidAccentLevel90">#160718</item>
+    </style>
+
+    <style name="AccentGray">
+        <item name="uidAccentLevel5">#F5F5F5</item>
+        <item name="uidAccentLevel10">#E8E8E8</item>
+        <item name="uidAccentLevel15">#D6D6D6</item>
+        <item name="uidAccentLevel20">#C4C4C4</item>
+        <item name="uidAccentLevel25">#B0B0B0</item>
+        <item name="uidAccentLevel30">#9E9E9E</item>
+        <item name="uidAccentLevel35">#8C8C8C</item>
+        <item name="uidAccentLevel40">#787878</item>
+        <item name="uidAccentLevel45">#696969</item>
+        <item name="uidAccentLevel50">#595959</item>
+        <item name="uidAccentLevel55">#4D4D4D</item>
+        <item name="uidAccentLevel60">#454545</item>
+        <item name="uidAccentLevel65">#383838</item>
+        <item name="uidAccentLevel70">#2B2B2B</item>
+        <item name="uidAccentLevel75">#212121</item>
+        <item name="uidAccentLevel80">#171717</item>
+        <item name="uidAccentLevel85">#0E0E0E</item>
+        <item name="uidAccentLevel90">#050505</item>
+    </style>
+</resources>

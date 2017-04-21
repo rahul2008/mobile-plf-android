@@ -12,20 +12,30 @@
         android:layout_marginRight="@dimen/notification_badge_default_view_margin_top_right"
         android:layout_marginTop="@dimen/notification_badge_default_view_margin_top_right"
         android:gravity="center|center_horizontal"
+        android:text="E-mail"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="E-mail"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <com.philips.platform.uid.view.widget.NotificationBadge
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/uid_text_default"
         style="@style/NotificationLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center|center_horizontal"
-        app:layout_constraintRight_toRightOf="parent"
         android:visibility="invisible"
-        app:uidNotificationBadgeTheme="true"
-  />
+        app:layout_constraintRight_toRightOf="parent"
+        app:uidNotificationBadgeTheme="true" />
+
+    <com.philips.platform.uid.view.widget.NotificationBadge
+        android:id="@+id/uid_text_Option"
+        style="@style/NotificationLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center|center_horizontal"
+        android:visibility="invisible"
+        app:layout_constraintRight_toRightOf="parent"
+        app:uidNotificationBadgeTheme="false" />
 </android.support.constraint.ConstraintLayout>

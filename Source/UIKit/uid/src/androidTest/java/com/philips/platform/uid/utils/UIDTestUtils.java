@@ -26,6 +26,7 @@ import java.util.List;
 
 public class UIDTestUtils {
     public final static int UI_LOAD_WAIT_TIME = 750;
+    public final static int UI_LOAD_WAIT_TIME_EXTRA = 1000;
 
     public static int getAttributeColor(Context context, int attribute) {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{attribute});
@@ -144,8 +145,9 @@ public class UIDTestUtils {
     }
 
     public static Drawable extractGradientFromRotateDrawable(Drawable drawable) {
-        if (drawable instanceof RotateDrawable) {
-            return ((RotateDrawable) drawable).getDrawable();
+        Drawable d = DrawableCompat.unwrap(drawable);
+        if (d instanceof RotateDrawable) {
+            return ((RotateDrawable) d).getDrawable();
         }
         return drawable;
     }

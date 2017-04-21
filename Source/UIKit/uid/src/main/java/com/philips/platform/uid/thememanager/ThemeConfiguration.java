@@ -9,20 +9,44 @@ package com.philips.platform.uid.thememanager;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-public class ThemeConfiguration {
-    final ContentColor contentColor;
-    final NavigationColor navigationColor;
-    PrimaryControlType controlType;
-    Context context;
+import java.util.ArrayList;
+import java.util.List;
 
-    public ThemeConfiguration(@NonNull final ContentColor contentColor,
-                              final NavigationColor navigationColor, @NonNull final Context context) {
+public class ThemeConfiguration {
+    private List<ThemeConfig> configurations;
+    private Context context;
+
+    public ThemeConfiguration(@NonNull final Context context, @NonNull final ThemeConfig... themeConfigs) {
+        configurations = new ArrayList<>();
         this.context = context;
-        this.contentColor = contentColor;
-        this.navigationColor = navigationColor;
+        for (ThemeConfig themeConfig : themeConfigs) {
+            configurations.add(themeConfig);
+        }
     }
 
-    public void setPrimaryControlType(PrimaryControlType controlType) {
-        this.controlType = controlType;
+    /**
+     * Add configs to the list if missed in constructor
+     *
+     * @param config
+     */
+    public void add(ThemeConfig config) {
+        configurations.add(config);
+    }
+
+    /**
+     * Returns the context set
+     *
+     * @return context
+     */
+    public Context getContext() {
+        return context;
+    }
+
+    /**
+     * Returns the list of configuration set through constructor or using add API
+     * @return
+     */
+    public List<ThemeConfig> getConfigurations() {
+        return configurations;
     }
 }

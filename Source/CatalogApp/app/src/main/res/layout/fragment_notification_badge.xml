@@ -62,7 +62,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_margin="50dp"
+                        android:layout_margin="@dimen/notification_margin"
 
                         />
 
@@ -77,7 +77,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_margin="50dp"/>
+                        android:layout_margin="@dimen/notification_margin"/>
                 </LinearLayout>
 
             </LinearLayout>

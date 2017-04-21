@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="Philipsuid">
-        <attr name="uidTextTertiaryColor" format="reference|color"/>
-        <attr name="uidApplicationBackground" format="reference|color"/>
+        <attr name="uidIndeterminateLinearPBStyle" format="reference"/>
+        <attr name="uidButtonDisabledAlpha" format="reference|float"/>
         <attr name="uidProgressIndicatorButtonBackgroundColor" format="reference|color"/>
         <attr name="uidProgressIndicatorButtonBackgroundAlpha" format="reference|float"/>
-        <attr name="uidControlTrackOffAlpha" format="reference|float"/>
-        <attr name="uidControlBufferAlpha" format="reference|float"/>
-        <attr name="uidGrayTextTertiary" format="reference|color"/>
     </declare-styleable>
 
     <declare-styleable name="UIDComponentType">
@@ -15,6 +12,7 @@
             <enum name="Primary" value="0"/>
             <enum name="AltPrimary" value="1"/>
             <enum name="Secondary" value="2"/>
+            <enum name="Accent" value="3"/>
         </attr>
     </declare-styleable>
 </resources>
