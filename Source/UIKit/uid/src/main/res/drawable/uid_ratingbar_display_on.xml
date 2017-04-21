@@ -5,6 +5,6 @@
     android:viewportHeight="16.0"
     android:viewportWidth="20.0">
     <path
-        android:fillColor="@color/uid_signal_orange_level_75"
+        android:fillColor="?attr/uidRatingBarDefaultNormalOnIconColor"
         android:pathData="M14,10.1l4,-3.9l-5.5,-0.8l-2.5,-5l-2.5,5l-5.5,0.8l3.9,3.9l-0.9,5.5l5,-2.6l4.9,2.6z" />
 </vector>

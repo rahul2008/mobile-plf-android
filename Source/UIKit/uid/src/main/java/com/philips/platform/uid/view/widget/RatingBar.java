@@ -28,7 +28,7 @@ public class RatingBar extends AppCompatRatingBar {
     private String text = null;
     private int height;
     private int width;
-    private int progressColor;
+    private int textColor;
 
     public RatingBar(Context context) {
         super(context);
@@ -56,8 +56,8 @@ public class RatingBar extends AppCompatRatingBar {
     }
 
     private void processAttributes(Context context, AttributeSet attrs, int defStyleAttr) {
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, new int[]{R.attr.uidControlNotification, android.R.attr.text});   //Replace with ratingbarColor
-        progressColor = typedArray.getColor(0, -1);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, new int[]{R.attr.uidRatingBarDefaultNormalOffTextColor, android.R.attr.text});
+        textColor = typedArray.getColor(0, -1);
         text = typedArray.getString(1);
         typedArray.recycle();
 
@@ -87,8 +87,8 @@ public class RatingBar extends AppCompatRatingBar {
 
     private void initializePaint(){
         paint = new Paint();
-        if(progressColor != -1){
-            paint.setColor(progressColor);
+        if(textColor != -1){
+            paint.setColor(textColor);
         }
         paint.setTypeface(TypefaceUtils.load(getContext().getAssets(),"fonts/centralesansbook.ttf"));
         paint.setTextSize(getResources().getDimensionPixelSize(R.dimen.uid_rating_bar_text));

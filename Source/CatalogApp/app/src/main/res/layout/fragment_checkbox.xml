@@ -94,10 +94,11 @@
                     android:layout_marginStart="16dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:isIndicator="true"
+                    android:isIndicator="false"
                     android:numStars="5"
                     android:stepSize="0.1"
                     android:rating="4.2"
+                    android:text="@string/buttons"
                     />
             </LinearLayout>
         </LinearLayout>
