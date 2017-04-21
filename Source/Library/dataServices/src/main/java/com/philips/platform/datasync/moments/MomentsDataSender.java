@@ -140,7 +140,7 @@ public class MomentsDataSender extends DataSender {
     }
 
     private boolean isMomentNeverSyncedAndDeleted(final SynchronisationData synchronisationData) {
-        return synchronisationData.getGuid().equals(Moment.MOMENT_NEVER_SYNCED_AND_DELETED_GUID);
+        return synchronisationData.getGuid().equals(-1);
     }
 
     private boolean isMomentNeverSynced(final SynchronisationData synchronisationData) {
