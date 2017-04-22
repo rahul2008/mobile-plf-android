@@ -32,6 +32,7 @@ public class RatingBarFragment extends BaseFragment {
         fragmentRatingbarBinding.ratingDisplayDefault.setText(String.valueOf(fragmentRatingbarBinding.ratingInput.getRating()));
         fragmentRatingbarBinding.ratingDisplayStarOnly.setRating(fragmentRatingbarBinding.ratingInput.getRating());
         fragmentRatingbarBinding.ratingDisplayMini.setText(String.valueOf(fragmentRatingbarBinding.ratingInput.getRating()));
+        fragmentRatingbarBinding.ratingDisplayMini.setRating(fragmentRatingbarBinding.ratingInput.getRating());
         fragmentRatingbarBinding.ratingInput.setRating(0);
 
     }
