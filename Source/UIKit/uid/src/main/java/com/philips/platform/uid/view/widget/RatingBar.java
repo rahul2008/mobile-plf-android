@@ -44,10 +44,6 @@ public class RatingBar extends AppCompatRatingBar {
         if (isIndicator()) {
             width = (int) (getContext().getResources().getDimension(R.dimen.uid_rating_bar_display_width));
             height = (int) (getContext().getResources().getDimension(R.dimen.uid_rating_bar_display_height));
-            if(text!=null){
-                widthOffset = getResources().getDimensionPixelSize(R.dimen.uid_rating_bar_text) + getResources().getDimensionPixelSize(R.dimen.uid_rating_bar_display_padding);
-                setPadding(widthOffset,0,0,0);
-            }
         } else {
             width = (int) (getContext().getResources().getDimension(R.dimen.uid_rating_bar_input_width));
             height = (int) (getContext().getResources().getDimension(R.dimen.uid_rating_bar_input_height));
@@ -56,7 +52,7 @@ public class RatingBar extends AppCompatRatingBar {
     }
 
     private void processAttributes(Context context, AttributeSet attrs, int defStyleAttr) {
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, new int[]{R.attr.uidRatingBarDefaultNormalOffTextColor, android.R.attr.text});
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, new int[]{R.attr.uidRatingTextOn, android.R.attr.text});
         textColor = typedArray.getColor(0, -1);
         text = typedArray.getString(1);
         typedArray.recycle();
@@ -66,6 +62,10 @@ public class RatingBar extends AppCompatRatingBar {
     @Override
     protected synchronized void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if(isIndicator() && text!=null){
+            widthOffset = getResources().getDimensionPixelSize(R.dimen.uid_rating_bar_text) + getResources().getDimensionPixelSize(R.dimen.uid_rating_bar_display_padding);
+        }
+        setPadding(widthOffset,0,0,0);
         setMeasuredDimension(resolveSizeAndState(width * getNumStars(), widthMeasureSpec, 0)+widthOffset, height);
     }
 
@@ -165,11 +165,13 @@ public class RatingBar extends AppCompatRatingBar {
 
     public void setText(String text){
         this.text = text;
+        requestLayout();
         invalidate();
     }
 
     public void setText(int resID){
         text = getResources().getString(resID);
+        requestLayout();
         invalidate();
     }
 }
