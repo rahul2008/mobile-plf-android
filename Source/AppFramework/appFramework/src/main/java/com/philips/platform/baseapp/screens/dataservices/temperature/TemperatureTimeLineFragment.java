@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
@@ -45,6 +46,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.ALARM_SERVICE;
+import static com.philips.platform.baseapp.screens.utility.Constants.ILLEGAL_STATE_EXCEPTION;
+import static com.philips.platform.baseapp.screens.utility.Constants.SQLITE_EXCEPTION;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -138,14 +141,22 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
             return;
         }
 
-        if (!isSameEmail()) {
+        if (!isSameHsdpId()) {
             userRegistrationInterface.clearUserData(this);
         }
-        storeLastEmail();
+        //storeLastEmail();
+        storeHSDPID();
     }
 
     private boolean isSameEmail() {
         if (getLastStoredEmail().equalsIgnoreCase(mUser.getEmail()))
+            return true;
+        return false;
+    }
+
+    private boolean isSameHsdpId(){
+        if(getLastStoredHdpUuid() == null || mUser == null || mUser.getHsdpUUID()==null) return false;
+        if (getLastStoredHdpUuid().equalsIgnoreCase(mUser.getHsdpUUID().trim()))
             return true;
         return false;
     }
@@ -282,6 +293,24 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         ssInterface.storeValueForKey("last_email", mUser.getEmail(), ssError);
     }
 
+    String getLastStoredHdpUuid() {
+        AppInfraInterface gAppInfra = ((AppFrameworkApplication) getContext().getApplicationContext()).getAppInfra();
+        SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
+        SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
+        String decryptedData = ssInterface.fetchValueForKey("last_hsdpuuid", ssError);
+        return decryptedData;
+    }
+
+
+    void storeHSDPID(){
+        if(mUser!=null){
+            AppInfraInterface gAppInfra = ((AppFrameworkApplication) getContext().getApplicationContext()).getAppInfra();
+            SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
+            SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
+            ssInterface.storeValueForKey("last_hsdpuuid", mUser.getHsdpUUID(), ssError);
+        }
+    }
+
     @Override
     public void dBChangeSuccess(SyncType type) {
         DSLog.i(DSLog.LOG, "In Temperature TimeLine Fragment DB OnSuccess");
@@ -372,7 +401,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
             fragmentTransaction.addToBackStack(tag);
             fragmentTransaction.commit();
         } catch (IllegalStateException e) {
-            e.printStackTrace();
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, ILLEGAL_STATE_EXCEPTION,e.getMessage());
         }
 
     }
