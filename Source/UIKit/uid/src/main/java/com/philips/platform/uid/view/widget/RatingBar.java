@@ -12,7 +12,6 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatRatingBar;
 import android.util.AttributeSet;
 
@@ -53,10 +52,11 @@ public class RatingBar extends AppCompatRatingBar {
     }
 
     private void processAttributes(Context context, AttributeSet attrs, int defStyleAttr) {
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, new int[]{R.attr.uidRatingTextOn, android.R.attr.text});
-        textColor = typedArray.getColor(0, -1);
-        text = typedArray.getString(1);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDRatingBar, defStyleAttr, R.style.UIDRatingBarStyle);
+        textColor = typedArray.getColor(R.styleable.UIDRatingBar_uidRatingBarStarOnColor, -1);
+        text = typedArray.getString(R.styleable.UIDRatingBar_android_text);
         typedArray.recycle();
+        initializePaint();
 
     }
 
@@ -74,8 +74,6 @@ public class RatingBar extends AppCompatRatingBar {
     protected synchronized void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if(isIndicator() && text!=null){
-            initializePaint();
-            paint.setTextAlign(Paint.Align.CENTER);
             drawTextCentred(canvas, paint, text,0,canvas.getHeight()/2);
         }
     }
@@ -91,8 +89,9 @@ public class RatingBar extends AppCompatRatingBar {
         if(textColor != -1){
             paint.setColor(textColor);
         }
-        paint.setTypeface(TypefaceUtils.load(getContext().getAssets(),"fonts/centralesansbook.ttf"));
+        paint.setTypeface(TypefaceUtils.load(getContext().getAssets(),"fonts/centralesansmedium.ttf"));
         paint.setTextSize(getResources().getDimensionPixelSize(R.dimen.uid_rating_bar_text));
+        paint.setTextAlign(Paint.Align.CENTER);
     }
 
     private void setProgressDrawableCustom() {

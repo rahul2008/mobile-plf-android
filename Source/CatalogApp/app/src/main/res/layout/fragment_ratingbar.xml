@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -27,7 +26,7 @@
             <com.philips.platform.uid.view.widget.RatingBar
                 android:id="@+id/rating_input"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/layout_margin_top_bottom"
+                android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:isIndicator="false"
@@ -36,36 +35,37 @@
                 />
 
             <com.philips.platform.uid.view.widget.Button
-                android:id="@+id/submit_rating"
-                android:layout_marginTop="@dimen/layout_margin_top_bottom"
+                android:id="@+id/reset_rating"
+                android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/ratingbar_reset"
                 android:enabled="@{!frag.isRatingZero}"
+                android:onClick="@{(v) -> frag.inputRatingBar.setRating(0)}"
                 />
 
             <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
-                android:layout_marginTop="@dimen/layout_margin_top_bottom"
+                android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:text="@string/ratingbar_display"/>
 
             <com.philips.platform.uid.view.widget.RatingBar
                 android:id="@+id/rating_display_default"
                 android:layout_marginStart="@dimen/layout_margin_left_right"
-                android:layout_marginTop="@dimen/layout_margin_top_bottom"
+                android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:isIndicator="true"
                 android:numStars="5"
                 android:stepSize="0.1"
-                android:text="@string/ratingbar_rating_text"
                 android:rating="4.5"
+                android:text="@string/ratingbar_rating_text"
                 />
             <com.philips.platform.uid.view.widget.RatingBar
                 android:id="@+id/rating_display_star_only"
                 android:layout_marginStart="@dimen/layout_margin_left_right"
-                android:layout_marginTop="@dimen/layout_margin_top_bottom"
+                android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:isIndicator="true"
@@ -76,21 +76,21 @@
 
             <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
-                android:layout_marginTop="@dimen/layout_margin_top_bottom"
+                android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:text="@string/ratingbar_mini_display"/>
 
             <com.philips.platform.uid.view.widget.RatingBar
                 android:id="@+id/rating_display_mini"
                 android:layout_marginStart="@dimen/layout_margin_left_right"
-                android:layout_marginTop="@dimen/layout_margin_top_bottom"
-                android:layout_marginBottom="@dimen/layout_margin_top_bottom"
+                android:layout_marginTop="@dimen/layout_margin_left_right"
+                android:layout_marginBottom="@dimen/layout_margin_left_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:isIndicator="true"
                 android:numStars="1"
                 android:stepSize="0.1"
+                android:rating="1"
                 android:text="4.5"
-                android:rating="4.5"
                 />
 
             <include
