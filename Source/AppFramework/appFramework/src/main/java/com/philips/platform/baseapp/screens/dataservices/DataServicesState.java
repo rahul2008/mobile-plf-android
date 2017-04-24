@@ -6,15 +6,12 @@
 package com.philips.platform.baseapp.screens.dataservices;
 
 import android.content.Context;
-import android.os.Handler;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.screens.dataservices.database.DatabaseHelper;
 import com.philips.platform.baseapp.screens.dataservices.database.ORMSavingInterfaceImpl;
@@ -66,7 +63,7 @@ import java.sql.SQLException;
 /**
  * This class has UI extended from UIKIT about screen , It shows the current version of the app
  */
-public class DataServicesState extends BaseState implements HandleNotificationPayloadInterface,PushNotificationTokenRegistrationInterface,PushNotificationUserRegistationWrapperInterface{
+public class DataServicesState extends BaseState implements HandleNotificationPayloadInterface, PushNotificationTokenRegistrationInterface, PushNotificationUserRegistationWrapperInterface {
     public static final String TAG = DataServicesState.class.getSimpleName();
     FragmentLauncher fragmentLauncher;
 
@@ -97,15 +94,20 @@ public class DataServicesState extends BaseState implements HandleNotificationPa
         injectDBInterfacesToCore(context);
         DataServicesManager.getInstance().initializeSyncMonitors(context, null, null);
         DSLog.enableLogging(true);
-        if(BaseAppUtil.isDSPollingEnabled(context)) {
+        if (BaseAppUtil.isDSPollingEnabled(context)) {
             DSLog.i(DSLog.LOG, "Before Setting up Synchronization Loop");
             User user = new User(context);
-            if(user!=null && user.isUserSignIn()) {
+            if (user != null && user.isUserSignIn()) {
                 SyncScheduler.getInstance().scheduleSync();
             }
-        }else{
-            PushNotificationManager.getInstance().registerForPayload(this);
-            PushNotificationManager.getInstance().registerForTokenRegistration(this);
+        } else {
+            if (new User(context).isUserSignIn()) {
+                registerDSForRegisteringToken();
+                registerForReceivingPayload();
+            }else{
+                deregisterDSForRegisteringToken();
+                deregisterForReceivingPayload();
+            }
         }
     }
 
@@ -161,6 +163,22 @@ public class DataServicesState extends BaseState implements HandleNotificationPa
 
     }
 
+    public void registerForReceivingPayload() {
+        PushNotificationManager.getInstance().registerForPayload(this);
+    }
+
+    public void deregisterForReceivingPayload() {
+        PushNotificationManager.getInstance().deRegisterForPayload();
+    }
+
+    public void registerDSForRegisteringToken() {
+        PushNotificationManager.getInstance().registerForTokenRegistration(this);
+    }
+
+    public void deregisterDSForRegisteringToken() {
+        PushNotificationManager.getInstance().deregisterForTokenRegistration();
+    }
+
     @Override
     public void handlePayload(JSONObject payloadObject) throws JSONException {
         DataServicesManager.getInstance().handlePushNotificationPayload(payloadObject);
@@ -176,7 +194,7 @@ public class DataServicesState extends BaseState implements HandleNotificationPa
 
             @Override
             public void onError(DataServicesError dataServicesError) {
-                registerCallbackListener.onError(dataServicesError.getErrorCode(),dataServicesError.getErrorMessage());
+                registerCallbackListener.onError(dataServicesError.getErrorCode(), dataServicesError.getErrorMessage());
             }
         });
     }
@@ -191,7 +209,7 @@ public class DataServicesState extends BaseState implements HandleNotificationPa
 
             @Override
             public void onError(DataServicesError dataServicesError) {
-                dergisterCallbackListener.onError(dataServicesError.getErrorCode(),dataServicesError.getErrorMessage());
+                dergisterCallbackListener.onError(dataServicesError.getErrorCode(), dataServicesError.getErrorMessage());
             }
         });
     }

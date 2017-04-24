@@ -85,4 +85,13 @@ public class BaseAppUtil {
         }
         return false;
     }
+
+    public static boolean isAutoLogoutEnabled(Context context){
+        String isAutoLogoutEnabled= (String) ((AppFrameworkApplication)context.getApplicationContext()).getAppInfra().getConfigInterface().getPropertyForKey("PushNotification.autoLogout","ReferenceApp",new AppConfigurationInterface.AppConfigurationError());
+        if(!TextUtils.isEmpty(isAutoLogoutEnabled) && Boolean.parseBoolean(isAutoLogoutEnabled)) {
+            return true;
+        }
+        return false;
+    }
+
 }

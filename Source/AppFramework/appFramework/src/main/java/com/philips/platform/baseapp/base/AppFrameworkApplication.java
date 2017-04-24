@@ -52,6 +52,7 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
     private PushNotificationManager pushNotificationManager;
     private ConnectivityChangeReceiver connectivityChangeReceiver;
 
+
     @Override
     public void onCreate() {
         if (BuildConfig.BUILD_TYPE.equalsIgnoreCase(LEAK_CANARY_BUILD_TYPE)) {
@@ -73,14 +74,11 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
         RALog.init(appInfra);
         RALog.enableLogging();
         setLocale();
-        userRegistrationState = new UserRegistrationOnBoardingState();
-        userRegistrationState.init(this);
+        initUserRegistrationState();
         determineChinaFlow();
         productRegistrationState = new ProductRegistrationState();
         productRegistrationState.init(this);
-        dataSyncScreenState = new DataServicesState();
-        dataSyncScreenState.init(this);
-        getDataServiceState();
+        initDataServiceState();
         /*
          * Initializing tagging class and its interface. Interface initialization needs
          * context to gets started.
@@ -99,6 +97,16 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
                             ConnectivityManager.CONNECTIVITY_ACTION));
         }
 
+    }
+
+    public void initUserRegistrationState() {
+        userRegistrationState = new UserRegistrationOnBoardingState();
+        userRegistrationState.init(this);
+    }
+
+    public void initDataServiceState() {
+        dataSyncScreenState = new DataServicesState();
+        dataSyncScreenState.init(this);
     }
 
     public LoggingInterface getLoggingInterface() {
@@ -169,11 +177,18 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
 
     public DataServicesState getDataServiceState() {
         if (dataSyncScreenState == null) {
-            dataSyncScreenState = new DataServicesState();
-            dataSyncScreenState.init(this);
+            initDataServiceState();
         }
         return dataSyncScreenState;
     }
+
+    public UserRegistrationState getUserRegistrationState(){
+        if(userRegistrationState==null){
+            initUserRegistrationState();
+        }
+        return userRegistrationState;
+    }
+
 
     @Override
     public void onTerminate() {

@@ -11,7 +11,6 @@ import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,6 @@ import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.cdp.uikit.customviews.UIKitButton;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.base.UIBasePresenter;
@@ -302,8 +300,8 @@ public class SettingsAdapter extends BaseAdapter {
                                 progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                                 progressDialog.setCancelable(false);
                                 progressDialog.show();
-                                String isAutoLogoutEnabled= (String) ((AppFrameworkApplication)activityContext.getApplicationContext()).getAppInfra().getConfigInterface().getPropertyForKey("PushNotification.autoLogout","ReferenceApp",new AppConfigurationInterface.AppConfigurationError());
-                                if(!BaseAppUtil.isDSPollingEnabled(activityContext.getApplicationContext())&&!TextUtils.isEmpty(isAutoLogoutEnabled) && Boolean.parseBoolean(isAutoLogoutEnabled)){
+
+                                if (!BaseAppUtil.isDSPollingEnabled(activityContext.getApplicationContext()) && BaseAppUtil.isAutoLogoutEnabled(activityContext.getApplicationContext())) {
                                     PushNotificationManager.getInstance().deregisterTokenWithBackend(activityContext.getApplicationContext(), new PushNotificationManager.DeregisterTokenListener() {
                                         @Override
                                         public void onSuccess() {
@@ -315,7 +313,7 @@ public class SettingsAdapter extends BaseAdapter {
                                             doLogout();
                                         }
                                     });
-                                }else{
+                                } else {
                                     doLogout();
                                 }
 
@@ -352,6 +350,11 @@ public class SettingsAdapter extends BaseAdapter {
                     ((IndexSelectionListener) activityContext).updateSelectionIndex(0);
                 }
                 fragmentPresenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
+                if (!BaseAppUtil.isDSPollingEnabled(activityContext)) {
+                    PushNotificationManager.getInstance().saveTokenRegistrationState(activityContext.getApplicationContext(),false);
+                    ((AppFrameworkApplication) activityContext.getApplicationContext()).getDataServiceState().deregisterDSForRegisteringToken();
+                    ((AppFrameworkApplication) activityContext.getApplicationContext()).getDataServiceState().deregisterForReceivingPayload();
+                }
 
             }
 

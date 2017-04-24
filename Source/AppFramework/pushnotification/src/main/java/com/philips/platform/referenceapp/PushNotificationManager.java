@@ -66,14 +66,15 @@ public class PushNotificationManager {
      */
     public void registerForPayload(HandleNotificationPayloadInterface handleNotificationPayloadInterface){
         payloadListener=handleNotificationPayloadInterface;
+        PNLog.d(TAG,"Registering component for handling payload");
     }
 
     /**
      * Dergister common component for payload
-     * @param handleNotificationPayloadInterface
      */
-    public void deRegisterForPayload(HandleNotificationPayloadInterface handleNotificationPayloadInterface){
+    public void deRegisterForPayload(){
         payloadListener=null;
+        PNLog.d(TAG,"Removing component from handling payload");
     }
     /**
      * Register common component for payload
@@ -81,6 +82,7 @@ public class PushNotificationManager {
      */
     public void registerForTokenRegistration(PushNotificationTokenRegistrationInterface pushNotificationTokenRegistrationInterface){
         tokenRegistrationListener=pushNotificationTokenRegistrationInterface;
+        PNLog.d(TAG,"Registering component for token registration with backend");
     }
 
     /**
@@ -88,6 +90,7 @@ public class PushNotificationManager {
      */
     public void deregisterForTokenRegistration(){
         tokenRegistrationListener=null;
+        PNLog.d(TAG,"Deregistering component for token registration with backend");
     }
 
     /**
@@ -131,9 +134,9 @@ public class PushNotificationManager {
     private void registerTokenWithBackend(final Context applicationContext) {
         PNLog.d(TAG, "registerTokenWithBackend");
         if (TextUtils.isEmpty(getToken(applicationContext))) {
-            PNLog.d(TAG, "Token is empty. Trying to regiter device with GCM server.....");
+            PNLog.d(TAG, "Token is empty. Trying to register device with GCM server.....");
             startGCMRegistrationService(applicationContext);
-        } else {
+        } else if(tokenRegistrationListener!=null){
             PNLog.d(TAG, "Registering token with backend");
             tokenRegistrationListener.registerToken(getToken(applicationContext), PushNotificationConstants.APP_VARIANT, PushNotificationConstants.PUSH_GCMA, new RegistrationCallbacks.RegisterCallbackListener() {
                 @Override
@@ -147,6 +150,8 @@ public class PushNotificationManager {
                     PNLog.d(TAG, "Register token error: code::" + errorCode + "message::" +errorMessage);
                 }
             });
+        }else{
+            PNLog.d(TAG,"No component registered for registering token with backend");
         }
     }
 
@@ -158,7 +163,7 @@ public class PushNotificationManager {
         PNLog.d(TAG, "deregistering token with data core");
         if (TextUtils.isEmpty(getToken(applicationContext))) {
             PNLog.d(TAG, "Something went wrong. Token should not be empty");
-        } else {
+        } else if(tokenRegistrationListener!=null){
             tokenRegistrationListener.deregisterToken(getToken(applicationContext), PushNotificationConstants.APP_VARIANT, new RegistrationCallbacks.DergisterCallbackListener() {
                 @Override
                 public void onResponse(boolean isDeRegistered) {
@@ -177,6 +182,8 @@ public class PushNotificationManager {
                     PNLog.d(TAG, "Register token error: code::" + errorCode+ "message::" + errorMessage);
                 }
             });
+        }else{
+            PNLog.d(TAG,"No component registered for deregistering component with backend");
         }
 
     }
@@ -241,27 +248,32 @@ public class PushNotificationManager {
      * @param data
      */
     public void sendPayloadToCoCo(Bundle data) {
-        Set<String> set = data.keySet();
-        if (set.contains(PushNotificationConstants.PLATFORM_KEY)) {
-            try {
-                JSONObject jsonObject = new JSONObject(data.getString(PushNotificationConstants.PLATFORM_KEY));
-                Iterator iterator = jsonObject.keys();
-                while (iterator.hasNext()) {
-                    String key = (String) iterator.next();
-                    switch (key) {
-                        case PushNotificationConstants.DSC:
-                            JSONObject dscobject = jsonObject.getJSONObject(key);
-                            payloadListener.handlePayload(dscobject);
-                            break;
-                        default:
-                            PNLog.d(TAG, "Common component is not designed for handling this key");
+        if (payloadListener != null) {
+            Set<String> set = data.keySet();
+            if (set.contains(PushNotificationConstants.PLATFORM_KEY)) {
+                try {
+                    JSONObject jsonObject = new JSONObject(data.getString(PushNotificationConstants.PLATFORM_KEY));
+                    Iterator iterator = jsonObject.keys();
+                    while (iterator.hasNext()) {
+                        String key = (String) iterator.next();
+                        switch (key) {
+                            case PushNotificationConstants.DSC:
+                                JSONObject dscobject = jsonObject.getJSONObject(key);
+                                payloadListener.handlePayload(dscobject);
+                                break;
+                            default:
+                                PNLog.d(TAG, "Common component is not designed for handling this key");
+                        }
                     }
+                } catch (JSONException e) {
+                    PNLog.d(TAG, "Exception while parsing payload:" + e.getMessage());
                 }
-            } catch (JSONException e) {
-                PNLog.d(TAG,"Exception while parsing payload:"+e.getMessage());
+            } else {
+                PNLog.d(TAG, "Data sync key is absent in payload");
             }
         }else{
-            PNLog.d(TAG,"Data sync key is absent in payload");
+            PNLog.d(TAG, "No component registered for receiving push notification");
         }
     }
+
 }

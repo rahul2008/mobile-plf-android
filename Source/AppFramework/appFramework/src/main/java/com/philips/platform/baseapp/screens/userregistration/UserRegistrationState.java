@@ -29,8 +29,8 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundExce
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.dataservices.utility.SyncScheduler;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
@@ -48,7 +48,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
-import static com.philips.platform.baseapp.screens.utility.Constants.SQLITE_EXCEPTION;
 import static com.philips.platform.baseapp.screens.utility.Constants.UNSUPPORTED_ENCODING_EXCEPTION;
 
 /**
@@ -108,7 +107,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onUserRegistrationComplete(Activity activity) {
-        SyncScheduler.getInstance().scheduleSync();
         IAPState iapState = new IAPRetailerFlowState();
         getApplicationContext().setIapState(iapState);
         iapState.init(getApplicationContext());
@@ -120,9 +118,12 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
             //Register GCM token with data services on login success
             if (BaseAppUtil.isDSPollingEnabled(activity.getApplicationContext())) {
                 Log.d(PushNotificationManager.TAG,"Polling is enabled");
+                SyncScheduler.getInstance().scheduleSync();
 
             }else{
                 Log.d(PushNotificationManager.TAG,"Push notification is enabled");
+                ((AppFrameworkApplication)activity.getApplicationContext()).getDataServiceState().registerForReceivingPayload();
+                ((AppFrameworkApplication)activity.getApplicationContext()).getDataServiceState().registerDSForRegisteringToken();
                 PushNotificationManager.getInstance().startPushNotificationRegistration(activity.getApplicationContext());
             }
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
