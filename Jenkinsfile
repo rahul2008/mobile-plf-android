@@ -24,25 +24,29 @@ node ('android_pipeline &&' + node_ext) {
 		try {
 		if (BranchName =~ /master|develop|release.*/) {
 			stage ('build') {
-                sh 'chmod -R 755 . && cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} lint assembleRelease zipDocuments artifactoryPublish'
+                sh """#!/bin/bash -l
+                    chmod -R 775 .
+                    cd ./Source/Library
+                    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug
+                    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} lint assembleRelease zipDocuments artifactoryPublish
+                """
 			}
 			}
 			else
 			{
 			stage ('build') {
-				sh '
+        sh """#!/bin/bash -l
 				    chmod -R 775 .
 				    cd ./Source/Library
 				    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug assembleRelease
-				'
+				"""
 			}
 			}
 			stage ('save dependencies list') {
-            	sh '
-            	    chmod -R 775 .
+            	sh """#!/bin/bash -l
             	    cd ./Source/Library
             	    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
-            	'
+            	"""
             }
             archiveArtifacts '**/dependencies.lock'
             currentBuild.result = 'SUCCESS'
