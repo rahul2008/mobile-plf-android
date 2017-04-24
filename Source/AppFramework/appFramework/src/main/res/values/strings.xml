@@ -146,6 +146,8 @@
         <item>@string/RA_About_Menu_Title</item>
         <item>@string/RA_DataServices_Menu_Title</item>
         <item>@string/RA_ConnectivityScreen_Menu_Title</item>
+        <item>@string/RA_Coco_Version</item>
+
     </string-array>
 
     <string-array name="demo_drawer_items">
@@ -156,6 +158,7 @@
         <item>@string/RA_About_Menu_Title</item>
         <item>@string/RA_DataServices_Menu_Title</item>
         <item>@string/RA_ConnectivityScreen_Menu_Title</item>
+        <item>@string/RA_Coco_Version</item>
         <item>@string/RA_Demo_Menu_Title</item>
     </string-array>
 
@@ -209,6 +212,7 @@ Receive free product accessories</string>
     <string name="RA_Setting_Philips_Promo_PartTwo">Promotional communications based on my preferences and online behavior</string>
     <string name="insights">Insights</string>
     <string name="logout">logout</string>
+    <string name="RA_Coco_Version">App Info</string>
     <!--<array name="hamburger_drawer_icons">-->
     <!--<item>@drawable/uikit_cart</item>-->
     <!--<item>@drawable/uikit_cart</item>-->
@@ -217,5 +221,19 @@ Receive free product accessories</string>
     <!--<item>@drawable/uikit_radio</item>-->
     <!--<item>@drawable/uikit_factory</item>-->
     <!--</array>-->
+    <string name="RA_COCO_UR">User Registration</string>
+    <string name="RA_COCO_PR">Product Registration </string>
+    <string name="RA_COCO_PR_VERSION">2.3.7-SNAPSHOT </string>
+    <string name="RA_COCO_IAP">In app Purchase</string>
+    <string name="RA_COCO_IAP_VERSION">5.2.7-SNAPSHOT</string>
+    <string name="RA_COCO_CC">Consumer Care </string>
+    <string name="RA_COCO_CC_VERSION">7.3.7-SNAPSHOT </string>
+    <string name="RA_COCO_Connectivity">Connectivity</string>
+    <string name="RA_COCO_Connectivity_version">1.3.0-SNAPSHOT</string>
+    <string name="RA_COCO_UIKIT">Uikit</string>
+    <string name="RA_COCO_UIKIT_VERSION">3.7.5-SNAPSHOT</string>
+    <string name="RA_COCO_DS">Data Services </string>
+    <string name="RA_COCO_DS_VERSION">7.3.7-SNAPSHOT </string>
+
 
 </resources>

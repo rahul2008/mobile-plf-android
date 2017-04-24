@@ -108,6 +108,8 @@ public class HamburgerActivityPresenter extends UIBasePresenter {
                 return HOME_DATA_SYNC;
             case MENU_OPTION_CONNECTIVITY:
                 return CONNECTIVITY;
+            case MENU_OPTION_COCOVERSION:
+                return COCO_VERSION_INFO;
             case MENU_OPTION_TEST:
                 return TESTMICROAPP;
             default:
@@ -154,6 +156,10 @@ public class HamburgerActivityPresenter extends UIBasePresenter {
                 UIStateData connectivityStateData = new UIStateData();
                 connectivityStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return connectivityStateData;
+            case AppStates.COCO_VERSION_INFO:
+                UIStateData CocoVersioStateData = new UIStateData();
+                CocoVersioStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
+                return CocoVersioStateData;
             case AppStates.TESTMICROAPP:
                 UIStateData testStateData=new UIStateData();
                 testStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);

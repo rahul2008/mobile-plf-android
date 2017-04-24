@@ -138,4 +138,15 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
 
 
     }
+
+    public String getVersion(Context c)
+    {
+        return c.getResources().getString(R.string.RA_COCO_PR_VERSION);
+
+    }
+    public String getComponentID(Context c)
+    {
+        return c.getResources().getString(R.string.RA_COCO_PR);
+
+    }
 }
