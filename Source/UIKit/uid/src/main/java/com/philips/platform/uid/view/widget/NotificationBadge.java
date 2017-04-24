@@ -119,8 +119,6 @@ public class NotificationBadge extends AppCompatTextView {
         ShapeDrawable shapeDrawable = new ShapeDrawable(roundRectShape);
         shapeDrawable.getPaint().setColor(badgeBackgroundColor);
         applyLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        int padding = (int) getContext().getResources().getDimension(R.dimen.uid_notification_badge_square_round_padding);
-        setPadding(padding, 0, padding, 0);
         return shapeDrawable;
     }
 

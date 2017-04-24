@@ -10,6 +10,9 @@
         <item name="android:minHeight">@dimen/uid_notification_badge_default_radius</item>
         <item name="android:textSize">@dimen/uid_notification_badge_default_square_round_textSize</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:paddingStart">@dimen/uid_notification_badge_square_round_padding</item>
+        <item name="android:paddingEnd">@dimen/uid_notification_badge_square_round_padding</item>
+
         <item name="uidNotificationDefaultTextColor">?attr/uidNotificationBadgeDefaultTextColor</item>
         <item name="uidNotificationDefaultBackground">?attr/uidNotificationBadgeDefaultBackgroundColor</item>
      </style>
@@ -19,8 +22,12 @@
         <item name="android:textSize">@dimen/uid_notification_badge_small_square_round_textSize</item>
         <item name="uid_notification_badge_small">true</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:paddingStart">@dimen/uid_notification_badge_square_round_padding</item>
+        <item name="android:paddingEnd">@dimen/uid_notification_badge_square_round_padding</item>
+
         <item name="uidNotificationDefaultTextColor">?attr/uidNotificationBadgeDefaultTextColor</item>
         <item name="uidNotificationDefaultBackground">?attr/uidNotificationBadgeDefaultBackgroundColor</item>
+
     </style>
     <!-- Notification Badge-->
     <declare-styleable name="NotificationBadge">
