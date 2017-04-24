@@ -42,9 +42,9 @@ public interface SHNCapabilityNotifications extends SHNCapability {
         }
 
         public static NotificationID valueOf(int notificationIDs) {
-            for (NotificationID pageType : NotificationID.values()) {
-                if (pageType.getValue() == notificationIDs) {
-                    return pageType;
+            for (NotificationID notificationID : NotificationID.values()) {
+                if (notificationID.getValue() == notificationIDs) {
+                    return notificationID;
                 }
             }
             return INVALID_NOTIFICATION;
