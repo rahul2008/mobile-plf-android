@@ -24,15 +24,11 @@ public class MeasurementDetailType {
         if(description == null){
             return -1;
         }
-        switch (description.toUpperCase()) {
-            case UNKNOWN:
-                return -1;
-            case LOCATION:
-                return 75;
-            case BODY_PART:
-                return 70;
-            default:
-                return -1;
+
+        if(description.equalsIgnoreCase(LOCATION)){
+            return 75;
+        }else {
+            return -1;
         }
     }
 

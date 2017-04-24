@@ -27,19 +27,11 @@ public class MomentType {
         if(description == null){
             return -1;
         }
-        switch (description.toUpperCase()) {
-            case UNKNOWN:
-                return -1;
-            case TREATMENT:
-                return 20;
-            case USER_INFO:
-                return 21;
-            case PHOTO:
-                return 22;
-            case TEMPERATURE:
-                return 25;
-            default:
-                return -1;
+
+        if(description.equalsIgnoreCase(TEMPERATURE)){
+            return 25;
+        }else {
+            return -1;
         }
     }
 
