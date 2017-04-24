@@ -161,7 +161,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                         countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
                         saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
                     }
-                    saveToSecureStore(propositionService.getCountry(), COUNTRY);
+                    saveToSecureStore(platformService.getCountry(), COUNTRY);
                 }
                 response.setPlatformURLs(platformService);
             }
