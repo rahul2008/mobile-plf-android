@@ -50,7 +50,7 @@ node ('android_pipeline &&' + node_ext) {
         stage('Unit test') {
             	sh """#!/bin/bash -l
             	    cd ./Source/Library
-            	    ./gradlew -PenvCode=${JENKINS_ENV} copyResDirectoryToClasses test
+            	    ./gradlew clean copyResDirectoryToClasses :uAppFwLib:testDebugUnitTest
             	"""
               step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/*/build/test-results/*/*.xml'])
         }
