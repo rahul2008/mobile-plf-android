@@ -40,9 +40,9 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMomen
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSettings;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynchronisationData;
 import com.philips.platform.baseapp.screens.dataservices.error.ErrorHandlerInterfaceImpl;
-import com.philips.platform.baseapp.screens.dataservices.reciever.ScheduleSyncReceiver;
 import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationInterfaceImpl;
 import com.philips.platform.baseapp.screens.dataservices.temperature.TemperatureTimeLineFragment;
+import com.philips.platform.baseapp.screens.dataservices.utility.SyncScheduler;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.core.listeners.RegisterDeviceTokenListener;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -62,8 +62,6 @@ import org.json.JSONObject;
 
 import java.sql.SQLException;
 
-import static com.philips.platform.baseapp.screens.utility.Constants.SERVER_SYNC_ERROR;
-
 
 /**
  * This class has UI extended from UIKIT about screen , It shows the current version of the app
@@ -71,7 +69,6 @@ import static com.philips.platform.baseapp.screens.utility.Constants.SERVER_SYNC
 public class DataServicesState extends BaseState implements HandleNotificationPayloadInterface,PushNotificationTokenRegistrationInterface,PushNotificationUserRegistationWrapperInterface{
     public static final String TAG = DataServicesState.class.getSimpleName();
     FragmentLauncher fragmentLauncher;
-    ScheduleSyncReceiver mScheduleSyncReceiver;
 
     private DatabaseHelper databaseHelper;
 
@@ -93,9 +90,6 @@ public class DataServicesState extends BaseState implements HandleNotificationPa
 
     @Override
     public void init(Context context) {
-        mScheduleSyncReceiver = new ScheduleSyncReceiver();
-        //OrmCreator creator = new OrmCreator(new UuidGenerator());
-
         OrmCreator creator = new OrmCreator();
         UserRegistrationInterface userRegistrationInterface = new UserRegistrationInterfaceImpl(context, new User(context));
         ErrorHandlerInterfaceImpl errorHandlerInterface = new ErrorHandlerInterfaceImpl();
@@ -103,33 +97,16 @@ public class DataServicesState extends BaseState implements HandleNotificationPa
         injectDBInterfacesToCore(context);
         DataServicesManager.getInstance().initializeSyncMonitors(context, null, null);
         DSLog.enableLogging(true);
-        DSLog.i(DSLog.LOG, "Before Setting up Synchronization Loop");
         if(BaseAppUtil.isDSPollingEnabled(context)) {
-            scheduleSync(context);
+            DSLog.i(DSLog.LOG, "Before Setting up Synchronization Loop");
+            User user = new User(context);
+            if(user!=null && user.isUserSignIn()) {
+                SyncScheduler.getInstance().scheduleSync();
+            }
         }else{
             PushNotificationManager.getInstance().registerForPayload(this);
             PushNotificationManager.getInstance().registerForTokenRegistration(this);
         }
-    }
-
-    void scheduleSync(final Context context) {
-        final Handler handler = new Handler();
-        Runnable runnable = new Runnable() {
-
-            @Override
-            public void run() {
-                try {
-                    mScheduleSyncReceiver.onReceive(context);
-                } catch (Exception e) {
-                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SERVER_SYNC_ERROR,
-                            e.getMessage());
-                } finally {
-                    //also call the same runnable to call it at regular interval
-                    handler.postDelayed(this, ScheduleSyncReceiver.DATA_FETCH_FREQUENCY);
-                }
-            }
-        };
-        runnable.run();
     }
 
     void injectDBInterfacesToCore(Context context) {
