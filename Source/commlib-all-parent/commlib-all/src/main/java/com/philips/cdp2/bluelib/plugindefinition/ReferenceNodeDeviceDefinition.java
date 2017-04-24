@@ -1,5 +1,6 @@
 package com.philips.cdp2.bluelib.plugindefinition;
 
+import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceDefinitionInfo;
@@ -28,8 +29,8 @@ class ReferenceNodeDeviceDefinition implements SHNDeviceDefinitionInfo.SHNDevice
         final SHNServiceDeviceInformation shnServiceDeviceInformation = new SHNServiceDeviceInformation();
         shnDevice.registerService(shnServiceDeviceInformation);
 
-        SHNCapabilityDeviceInformation capabilityDeviceInformation = new SHNCapabilityDeviceInformationImpl(shnServiceDeviceInformation);
-        shnDevice.registerCapability(SHNCapabilityDeviceInformation.class, capabilityDeviceInformation);
+        SHNCapabilityDeviceInformation capabilityDeviceInformation =  new SHNCapabilityDeviceInformationImpl(shnServiceDeviceInformation);
+        shnDevice.registerCapability(capabilityDeviceInformation, SHNCapabilityType.DEVICE_INFORMATION);
 
         return new SHNSharedConnectionDevice(shnDevice);
     }

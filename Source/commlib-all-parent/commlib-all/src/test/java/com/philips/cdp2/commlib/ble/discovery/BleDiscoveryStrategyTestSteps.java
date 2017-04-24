@@ -20,6 +20,7 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
+import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
@@ -285,7 +286,7 @@ public class BleDiscoveryStrategyTestSteps {
         when(shnDeviceMock.getInternalDevice()).thenReturn(shnDeviceImplMock);
 
         // DIS -> CPP ID
-        when(shnDeviceMock.getCapability(SHNCapabilityDeviceInformation.class)).thenReturn(deviceInformationMock);
+        when(shnDeviceMock.getCapabilityForType(SHNCapabilityType.DEVICE_INFORMATION)).thenReturn(deviceInformationMock);
         doAnswer(new Answer() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {

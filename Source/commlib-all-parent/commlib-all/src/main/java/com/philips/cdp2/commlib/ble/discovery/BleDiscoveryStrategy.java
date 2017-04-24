@@ -5,6 +5,7 @@
 package com.philips.cdp2.commlib.ble.discovery;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
@@ -20,7 +21,8 @@ import com.philips.cdp2.commlib.ble.BleDeviceCache.ExpirationCallback;
 import com.philips.cdp2.commlib.core.discovery.ObservableDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
-import com.philips.cdp2.commlib.core.util.VerboseRunnable;
+import com.philips.cdp2.commlib.core.util.HandlerProvider;
+import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
@@ -39,15 +41,14 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
+import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -77,10 +78,12 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
     private final SHNCentral shnCentral;
     private Set<String> modelIds;
 
-    private ScheduledExecutorService scanExecutor;
-    private ScheduledThreadPoolExecutor discoveryExecutor;
+    private Queue<DiscoveryTask> taskQueue;
+    private Handler taskHandler;
 
+    private ScheduledExecutorService scanExecutor;
     private ScheduledFuture scanFuture;
+
     private Set<String> discoveredMacAddresses = new CopyOnWriteArraySet<>();
 
     private final ExpirationCallback expirationCallback = new ExpirationCallback() {
@@ -105,6 +108,8 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         this.deviceScanner = deviceScanner;
         this.shnCentral = shnCentral;
         this.modelIds = new HashSet<>();
+        this.taskQueue = new ConcurrentLinkedQueue<>();
+        this.taskHandler = HandlerProvider.createHandler();
         this.scanExecutor = Executors.newSingleThreadScheduledExecutor();
     }
 
@@ -175,14 +180,10 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
             throw new MissingPermissionException("Discovery via BLE is missing permission: " + ACCESS_COARSE_LOCATION);
         }
         this.discoveredMacAddresses.clear();
-        discoveryExecutor = new ScheduledThreadPoolExecutor(1);
     }
 
     private void stopDiscovery() {
-        if (discoveryExecutor != null) {
-            List<Runnable> tasks = discoveryExecutor.shutdownNow();
-            DICommLog.w(TAG, "Rejected discovery tasks: " + tasks.size());
-        }
+        taskQueue.clear();
         discoveredMacAddresses.clear();
     }
 
@@ -190,7 +191,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         final SHNDevice device = shnDeviceFoundInfo.getShnDevice();
 
         // Check for DIS
-        final SHNCapabilityDeviceInformation deviceInformation = device.getCapability(SHNCapabilityDeviceInformation.class);
+        final SHNCapabilityDeviceInformation deviceInformation = (SHNCapabilityDeviceInformation) device.getCapabilityForType(SHNCapabilityType.DEVICE_INFORMATION);
         if (deviceInformation == null) {
             throw new IllegalArgumentException("BLE device doesn't expose device information.");
         }
@@ -207,7 +208,12 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
             DICommLog.d(TAG, String.format(Locale.US, "Device found: [%s], signal strength: [%d dBm]", shnDeviceFoundInfo.getDeviceAddress(), shnDeviceFoundInfo.getRssi()));
             discoveredMacAddresses.add(device.getAddress());
 
-            discoveryExecutor.execute(new VerboseRunnable(new DiscoveryTask(device, deviceInformation, modelId)));
+            final DiscoveryTask discoveryTask = new DiscoveryTask(device, deviceInformation, modelId);
+            taskQueue.offer(discoveryTask);
+
+            if (taskQueue.size() == 1) {
+                runNextDiscoveryTask();
+            }
         } else {
             DICommLog.w(TAG, "Unhandled model id: " + modelId);
         }
@@ -239,9 +245,15 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         return null;
     }
 
+    private void runNextDiscoveryTask() {
+        final Runnable nextTask = taskQueue.peek();
+        if (nextTask != null) {
+            taskHandler.post(nextTask);
+        }
+    }
+
     @VisibleForTesting
     class DiscoveryTask implements Runnable, SHNDevice.SHNDeviceListener {
-        private final CountDownLatch latch = new CountDownLatch(1);
 
         private final NetworkNode networkNode;
 
@@ -261,7 +273,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
 
             @Override
             public void onError(@NonNull SHNDeviceInformationType deviceInformationType, @NonNull SHNResult error) {
-                DICommLog.e(TAG, String.format(Locale.US, "Device [%s] error: %s", device.getAddress(), error.toString()));
+                DICommLog.e(TAG, String.format(Locale.US, "DeviceInformationListener [%s] error: [%s], state: [%s]", device.getAddress(), error.toString(), device.getState()));
 
                 finish();
             }
@@ -294,7 +306,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
 
         @Override
         public void onFailedToConnect(SHNDevice device, SHNResult result) {
-            DICommLog.e(TAG, String.format(Locale.US, "Device [%s] failed to connect: %s", device.getAddress(), result.toString()));
+            DICommLog.e(TAG, String.format(Locale.US, "Device [%s] failed to connect: [%s], state: [%s]", device.getAddress(), result.toString(), device.getState()));
 
             finish();
         }
@@ -307,12 +319,6 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         public void run() {
             device.registerSHNDeviceListener(this);
             device.connect();
-
-            try {
-                latch.await();
-            } catch (InterruptedException e) {
-                finish();
-            }
         }
 
         private void finish() {
@@ -320,7 +326,8 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
             device.disconnect();
 
             discoveredMacAddresses.remove(device.getAddress());
-            latch.countDown();
+            taskQueue.remove(this);
+            runNextDiscoveryTask();
         }
     }
 }
