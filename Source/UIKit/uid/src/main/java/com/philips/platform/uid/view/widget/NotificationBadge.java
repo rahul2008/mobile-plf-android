@@ -25,6 +25,53 @@ import android.widget.TextView;
 
 import com.philips.platform.uid.R;
 
+
+/**
+ * Notification Badge  is a Custom view component which supports to show Badge Count as displayed below</b>
+
+ * You can use Notification Badge follow the below steps</b><br>
+ *
+ * 1 . It uses {@link com.philips.platform.uid.view.widget.NotificationBadge} for Notification Badge.
+ *
+ * 2 . Use Styles as per your requirement as shown below</b>
+ *
+ *            a).Use Default Notification style = "@style/NotificationBadge" to support medium size Badge View
+ *            b).Use Small Notification style = "@style/NotificationBadge.Small" to support small size Badge View
+ * <p/>
+ * <br>
+ * <p>The Following attributes Define in Default and Small Notification Badge.</p>
+ * <table border="2" width="80%" align="center" cellpadding="5">
+ * <thead>
+ * <tr><th>Default Notification </th> <th>Small Notification</th></tr>
+ * </thead>
+ * <p>
+ * <tbody>
+ * <tr>
+ * <td rowspan="1">Default Radius 24dp</td>
+ * <td rowspan="1">Small Radius 20dp</td>
+ * </tr>
+ * <tr>
+ * <td rowspan="1">Text Size for default 12sp</td>
+ * <td rowspan="1">Text size for small 10sp</td>
+ * </tr>
+ * * <tr>
+ * <td rowspan="1">for both left and right padding 4dp</td>
+ * </tr>
+ * </tbody>
+ * <p>
+ * </table>
+ * <p/>
+ * <p>
+ Sample use can be as follows <br>
+ * <pre>
+ *                          &lt;com.philips.platform.uid.view.widget.NotificationBadg
+ *                                  android:layout_width="wrap_content"
+ *                                   android:layout_height="wrap_content"
+ *                                   style="@style/NotificationBadge"  /&gt;
+ *         </pre>
+ * </p>
+ */
+
 public class NotificationBadge extends AppCompatTextView {
 
     private static int badgeBackgroundColor;
@@ -136,6 +183,7 @@ public class NotificationBadge extends AppCompatTextView {
             setVisibility(VISIBLE);
         }
     }
+
     private void setTextResourceID(Context context, View view, AttributeSet attrs) {
         if (view instanceof TextView) {
             TypedArray textArray = context.obtainStyledAttributes(attrs, new int[]{R.attr.uidNotificationBadgeDefaultTextColor,R.attr.uidNotificationBadgeDefaultBackgroundColor});
