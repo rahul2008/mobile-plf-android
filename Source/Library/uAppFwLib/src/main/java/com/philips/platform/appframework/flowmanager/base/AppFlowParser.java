@@ -18,6 +18,7 @@ import com.philips.platform.appframework.flowmanager.models.AppFlowState;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
@@ -37,19 +38,22 @@ class AppFlowParser {
      */
     // TODO: Deepthi , need to be prepared for running in separate thread and handle scenarios , may not be in same APIs
     AppFlowModel getAppFlow(String jsonPath) throws JsonFileNotFoundException, JsonStructureException {
-        AppFlowModel appFlow;
+        AppFlowModel appFlow = null;
         if (isEmpty(jsonPath)) {
             throw new JsonFileNotFoundException();
         } else {
             try {
                 final InputStreamReader inputStreamReader = getInputStreamReader(jsonPath);
                 appFlow = new Gson().fromJson(inputStreamReader, AppFlowModel.class);
+                inputStreamReader.close();
             } catch (JsonSyntaxException | FileNotFoundException e) {
                 if (e instanceof JsonSyntaxException) {
                     throw new JsonStructureException();
                 } else {
                     throw new JsonFileNotFoundException();
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
         return appFlow;
