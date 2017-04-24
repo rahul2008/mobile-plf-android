@@ -19,24 +19,22 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.philips.platform.uid.R;
 
 
 /**
  * Notification Badge  is a Custom view component which supports to show Badge Count as displayed below</b>
-
+ * <p>
  * You can use Notification Badge follow the below steps</b><br>
- *
+ * <p>
  * 1 . It uses {@link com.philips.platform.uid.view.widget.NotificationBadge} for Notification Badge.
- *
+ * <p>
  * 2 . Use Styles as per your requirement as shown below</b>
- *
- *            a).Use Default Notification style = "@style/NotificationBadge" to support medium size Badge View
- *            b).Use Small Notification style = "@style/NotificationBadge.Small" to support small size Badge View
+ * <p>
+ * a).Use Default Notification style = "@style/NotificationBadge" to support medium size Badge View
+ * b).Use Small Notification style = "@style/NotificationBadge.Small" to support small size Badge View
  * <p/>
  * <br>
  * <p>The Following attributes Define in Default and Small Notification Badge.</p>
@@ -67,7 +65,7 @@ import com.philips.platform.uid.R;
  * </table>
  * <p/>
  * <p>
- Sample use can be as follows <br>
+ * Sample use can be as follows <br>
  * <pre>
  *                          &lt;com.philips.platform.uid.view.widget.NotificationBadg
  *                                  android:layout_width="wrap_content"
@@ -94,25 +92,23 @@ public class NotificationBadge extends AppCompatTextView {
     public NotificationBadge(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NotificationBadgeStyle, defStyle, R.style.NotificationBadge);
-        badgeBackgroundResourceID(context, this, attrs);
-        roundRectDrawable = getSquareRoundBackground(isSmallBadge(typedArray), badgeBackgroundColor);
-        circleDrawable = getCircleBackground(isSmallBadge(typedArray), badgeBackgroundColor);
+        setBackgroundColor(context, attrs);
+        roundRectDrawable = getSquareRoundBackground(isSmallBadge(typedArray));
+        circleDrawable = getCircleBackground(isSmallBadge(typedArray));
         if (getText().length() > 2)
             setBackgroundDrawable(roundRectDrawable);
         else
             setBackgroundDrawable(circleDrawable);
-        handleTextChangeListener();
+        setTextChangeListener();
         typedArray.recycle();
     }
 
-    private void applyLayoutParams(int width, int height) {
-        ViewGroup.LayoutParams lp = getLayoutParams();
-        if (lp == null)
-            lp = new ViewGroup.LayoutParams(width, height);
-
-        setMinimumHeight(height);
-        setMinimumWidth(width);
-        setLayoutParams(lp);
+    private void setBackgroundColor(Context context, AttributeSet attrs) {
+        TypedArray textArray = context.obtainStyledAttributes(attrs, new int[]{R.attr.uidNotificationBadgeDefaultBackgroundColor});
+        int resourceId = textArray.getResourceId(0, -1);
+        if (resourceId != -1) {
+            badgeBackgroundColor = ContextCompat.getColor(getContext(), resourceId);
+        }
     }
 
     private boolean isSmallBadge(TypedArray typedArray) {
@@ -120,15 +116,17 @@ public class NotificationBadge extends AppCompatTextView {
         return smallBadge;
     }
 
-    private void handleTextChangeListener() {
+    private void setTextChangeListener() {
         addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 validateView(s);
             }
+
             @Override
             public void afterTextChanged(Editable s) {
             }
@@ -141,11 +139,19 @@ public class NotificationBadge extends AppCompatTextView {
         } else {
             setBackgroundDrawable(circleDrawable);
         }
-        changeBadgeVisisbility(count);
+        changeBadgeVisibility(count);
+    }
+
+    private void changeBadgeVisibility(CharSequence count) {
+        if (TextUtils.isEmpty(count)) {
+            setVisibility(INVISIBLE);
+        } else {
+            setVisibility(VISIBLE);
+        }
     }
 
     @NonNull
-    private ShapeDrawable getSquareRoundBackground(boolean smallBadge, int badgeBackgroundColor) {
+    private ShapeDrawable getSquareRoundBackground(boolean smallBadge) {
         int radius;
         if (smallBadge)
             radius = dipToPixels(getContext().getResources().getInteger(R.integer.uid_notification_badge_view_small_size_radius));
@@ -161,16 +167,16 @@ public class NotificationBadge extends AppCompatTextView {
     }
 
     @NonNull
-    private ShapeDrawable getCircleBackground(boolean smallBadge, int badgeBackgroundColor) {
+    private ShapeDrawable getCircleBackground(boolean smallBadge) {
         ShapeDrawable shapeDrawable = new ShapeDrawable(new OvalShape());
         shapeDrawable.getPaint().setColor(badgeBackgroundColor);
         int defaultWidth, defaultHeight;
         if (smallBadge) {
             defaultWidth = (int) getContext().getResources().getDimension(R.dimen.uid_notification_badge_small_circle_radius);
-            defaultHeight = (int) getContext().getResources().getDimension(R.dimen.uid_notification_badge_small_circle_radius);
+            defaultHeight = defaultWidth;
         } else {
             defaultWidth = (int) getContext().getResources().getDimension(R.dimen.uid_notification_badge_default_radius);
-            defaultHeight = (int) getContext().getResources().getDimension(R.dimen.uid_notification_badge_default_radius);
+            defaultHeight = defaultWidth;
         }
         applyLayoutParams(defaultWidth, defaultHeight);
         return shapeDrawable;
@@ -181,22 +187,13 @@ public class NotificationBadge extends AppCompatTextView {
         return (int) px;
     }
 
-    private void changeBadgeVisisbility(CharSequence count) {
-        if (TextUtils.isEmpty(count)) {
-            setVisibility(INVISIBLE);
-        } else {
-            setVisibility(VISIBLE);
-        }
-    }
+    private void applyLayoutParams(int width, int height) {
+        ViewGroup.LayoutParams lp = getLayoutParams();
+        if (lp == null)
+            lp = new ViewGroup.LayoutParams(width, height);
 
-    private void badgeBackgroundResourceID(Context context, View view, AttributeSet attrs) {
-        if (view instanceof TextView) {
-            TypedArray textArray = context.obtainStyledAttributes(attrs, new int[]{R.attr.uidNotificationBadgeDefaultBackgroundColor});
-            int resourceId = textArray.getResourceId(0, -1);
-            if (resourceId != -1) {
-                badgeBackgroundColor=ContextCompat.getColor(getContext(), resourceId);
-            }
-
-        }
+        setMinimumHeight(height);
+        setMinimumWidth(width);
+        setLayoutParams(lp);
     }
 }
