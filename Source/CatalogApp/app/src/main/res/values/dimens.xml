@@ -69,8 +69,6 @@
     <dimen name="notifaction_badge_lable_height">25dp</dimen>
     <dimen name="notifaction_badge_edit_text_margin_left_right">16dp</dimen>
     <dimen name="notifaction_badge_edit_text_margin_top_bottom">12dp</dimen>
-    <dimen name="notification_badge_default_view_margin_top_right">12dp</dimen>
-    <dimen name="notification_badge_small_view_margin_top_right">10dp</dimen>
     <dimen name="notification_default_margin">50dp</dimen>
     <dimen name="notification_small_margin">40dp</dimen>
 

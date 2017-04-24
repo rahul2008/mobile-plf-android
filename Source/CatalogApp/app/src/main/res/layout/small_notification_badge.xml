@@ -12,7 +12,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/notification_badge_small_view_margin_top_right"
+        android:layout_margin="@dimen/uid_notification_badge_small_view_margin_top_right"
        android:gravity="center|center_horizontal"
        app:srcCompat="@drawable/ic_email_icon"
         />
