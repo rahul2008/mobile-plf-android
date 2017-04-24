@@ -189,7 +189,7 @@ public class MomentsDataFetcherTest {
         assertThat(result).isNull();
         verify(accessProviderMock).saveLastSyncTimeStamp(TEST_MOMENT_SYNC_URL, UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY);
 
-        verifyZeroInteractions(eventingMock);
+        verify(eventingMock).post(isA(BackendMomentListSaveRequest.class));
     }
 
     @Test

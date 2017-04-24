@@ -302,6 +302,17 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void dBChangeFailed(final Exception e) {
         showToastOnUiThread("Exception :" + e.getMessage());
+
+        if (getActivity() == null) return;
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mSharedPreferences.getBoolean("isSynced", false)) {
+                    dismissProgressDialog();
+                }
+
+            }
+        });
     }
 
     @Override
