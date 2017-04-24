@@ -77,52 +77,33 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     }
 
     private void showProgressDialog(boolean show) {
-        if (show && !getFragmentActivity().isFinishing())
-            progressDialog.show();
-        else if (progressDialog.isShowing())
+        if (progressDialog.isShowing())
             progressDialog.dismiss();
+        else if (show && !getFragmentActivity().isFinishing())
+            progressDialog.show();
     }
 
     private void initializeFlowManager() {
         showProgressDialog(true);
-        String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
-        if (hasPermissions(PERMISSIONS)) {
             setFlowManager();
             startTimer();
-        } else {
-            requestStoragePermission();
-        }
     }
 
     private void setFlowManager() {
         getApplicationContext().setTargetFlowManager();
     }
 
-    //Requesting permission
-    private void requestStoragePermission() {
-        String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
-        if (!hasPermissions(PERMISSIONS)) {
-            ActivityCompat.requestPermissions(getFragmentActivity(), PERMISSIONS, PERMISSION_ALL);
-        }
-    }
+
 
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        final LaunchActivity launchActivity = (LaunchActivity) getActivity();
-        launchActivity.hideActionBar();
+        if(getActivity() instanceof LaunchActivity) {
+            final LaunchActivity launchActivity = (LaunchActivity) getActivity();
+            launchActivity.hideActionBar();
+        }
     }
 
-    private boolean hasPermissions(String... permissions) {
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && getFragmentActivity() != null && permissions != null) {
-            for (String permission : permissions) {
-                if (ActivityCompat.checkSelfPermission(getFragmentActivity(), permission) != PackageManager.PERMISSION_GRANTED) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
 
     @Override
     public void onResume() {

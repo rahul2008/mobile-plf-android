@@ -27,11 +27,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-
 public class LaunchActivityPresenterTest extends TestCase {
 
     private LaunchActivityPresenter launchActivityPresenter;

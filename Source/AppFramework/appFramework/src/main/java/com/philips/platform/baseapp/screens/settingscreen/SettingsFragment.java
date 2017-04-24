@@ -47,7 +47,6 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        settingsFragmentWeakReference = new WeakReference<SettingsFragment>(this);
     }
 
     private ArrayList<SettingListItem> buildSettingsScreenList() {
@@ -86,6 +85,8 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
         fragmentPresenter = new SettingsFragmentPresenter(this);
         list = (ListView) view.findViewById(R.id.listwithouticon);
         settingsProgressBar = (CircularProgressbar) view.findViewById(R.id.settings_progress_bar);
+        settingsFragmentWeakReference = new WeakReference<SettingsFragment>(this);
+
 
         /*list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

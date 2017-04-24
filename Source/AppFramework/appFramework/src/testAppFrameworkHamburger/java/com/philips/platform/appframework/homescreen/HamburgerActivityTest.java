@@ -6,7 +6,6 @@
 
 package com.philips.platform.appframework.homescreen;
 
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -19,7 +18,6 @@ import android.widget.TextView;
 
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
-import com.philips.platform.GradleRunner;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
@@ -31,15 +29,12 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import java.util.ArrayList;
-import java.util.Locale;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-@RunWith(GradleRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 24)
 public class HamburgerActivityTest {
     private HamburgerActivity hamburgerActivity = null;

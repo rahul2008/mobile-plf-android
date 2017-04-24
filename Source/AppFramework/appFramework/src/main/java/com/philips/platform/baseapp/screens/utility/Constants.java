@@ -58,6 +58,8 @@ public class Constants {
     public static final String DEVICE_DATAPARSING="device_data_parsing";
     public static final String UI_RENDERING="uiRendering";
     public static final String SERVER_SYNC_ERROR="Server_sync_error";
+    public static final String ILLEGAL_STATE_EXCEPTION="illegal_fragment_state";
+    public static final String UNSUPPORTED_ENCODING_EXCEPTION="unsupported_encoding_exception";
 
 
 

@@ -37,28 +37,22 @@ public class FileUtility {
         return inputStream;
     }
 
-    public File createFileFromInputStream(final int resId, boolean sdCardFileCreated) {
+    public File createFileFromInputStream(final int resId) {
 
         try {
             InputStream inputStream = getInputStream(resId);
             String filename = "tempFile";
             FileOutputStream outputStream;
-            FileOutputStream jsonFileOutputStream = null;
             final File file = File.createTempFile(filename, null, context.getCacheDir());
             outputStream = new FileOutputStream(file);
-            if (sdCardFileCreated)
-            jsonFileOutputStream = new FileOutputStream(new BaseAppUtil().getJsonFilePath());
+
             byte buffer[] = new byte[1024];
             int length;
 
             while ((length = inputStream.read(buffer)) > 0) {
                 outputStream.write(buffer, 0, length);
-                if (sdCardFileCreated)
-                jsonFileOutputStream.write(buffer, 0, length);
             }
             outputStream.close();
-            if (sdCardFileCreated)
-            jsonFileOutputStream.close();
             inputStream.close();
             return file;
         } catch (IOException e) {
