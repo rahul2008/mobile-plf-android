@@ -440,7 +440,8 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
 
     @Override
     public void updateSelectionIndex(int position) {
-        handler.post(new Runnable() {
+        if(handler!=null)
+            handler.post(new Runnable() {
             @Override
             public void run() {
                 adapter.setSelectedIndex(0);
