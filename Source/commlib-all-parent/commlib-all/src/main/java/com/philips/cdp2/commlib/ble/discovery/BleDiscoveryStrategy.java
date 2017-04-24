@@ -231,7 +231,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
             shnServiceDiCommStreaming.setShnServiceMoonshineStreamingListener(shnProtocolMoonshineStreaming);
 
             CapabilityDiComm capabilityDiComm = new StreamingCapability(shnProtocolMoonshineStreaming);
-            shnDevice.registerCapability(CapabilityDiComm.class, capabilityDiComm);
+            shnDevice.registerCapability(capabilityDiComm, SHNCapabilityType.DI_COMM);
         }
         return device;
     }

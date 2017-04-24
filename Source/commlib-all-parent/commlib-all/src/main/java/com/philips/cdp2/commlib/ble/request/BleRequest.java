@@ -14,6 +14,7 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy;
 import com.philips.pins.shinelib.ResultListener;
+import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
@@ -259,7 +260,7 @@ public abstract class BleRequest implements Runnable {
 
     private void onConnected() {
         if (stateIs(STARTED)) {
-            capability = bleDevice.getCapability(CapabilityDiComm.class);
+            capability = (CapabilityDiComm) bleDevice.getCapabilityForType(SHNCapabilityType.DI_COMM);
             if (capability == null) {
                 onError(Error.NOT_AVAILABLE, "Communication is not available");
                 return;
