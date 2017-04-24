@@ -89,7 +89,7 @@ public class NotificationBadge extends AppCompatTextView {
     public NotificationBadge(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NotificationBadgeStyle, defStyle, R.style.NotificationBadge);
-        setTextResourceID(context, this, attrs);
+        badgeBackgroundResourceID(context, this, attrs);
         roundRectDrawable = getSquareRoundBackground(isSmallBadge(typedArray), badgeBackgroundColor);
         circleDrawable = getCircleBackground(isSmallBadge(typedArray), badgeBackgroundColor);
         if (getText().length() > 2)
@@ -184,14 +184,10 @@ public class NotificationBadge extends AppCompatTextView {
         }
     }
 
-    private void setTextResourceID(Context context, View view, AttributeSet attrs) {
+    private void badgeBackgroundResourceID(Context context, View view, AttributeSet attrs) {
         if (view instanceof TextView) {
-            TypedArray textArray = context.obtainStyledAttributes(attrs, new int[]{R.attr.uidNotificationBadgeDefaultTextColor,R.attr.uidNotificationBadgeDefaultBackgroundColor});
+            TypedArray textArray = context.obtainStyledAttributes(attrs, new int[]{R.attr.uidNotificationBadgeDefaultBackgroundColor});
             int resourceId = textArray.getResourceId(0, -1);
-            if (resourceId != 0) {
-                setTextColor(ContextCompat.getColor(getContext(), resourceId));
-            }
-            resourceId = textArray.getResourceId(1, -1);
             if (resourceId != -1) {
                 badgeBackgroundColor=ContextCompat.getColor(getContext(), resourceId);
             }
