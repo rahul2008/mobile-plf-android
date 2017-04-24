@@ -23,27 +23,28 @@ import com.philips.platform.uid.view.widget.NotificationBadge;
 
 public class NotificationBadgeFragment extends BaseFragment {
 
-    private NotificationBadge mDefaultText;
-    private NotificationBadge mSmallText;
-    private EditText mEnterNumber;
-    private FragmentNotificationBadgeBinding notificationBadgeBinding;
+    private NotificationBadge defaultBadge;
+    private NotificationBadge smallBadge;
+    private EditText enterNumberField;
     public ObservableBoolean isAccentColor = new ObservableBoolean(Boolean.TRUE);
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        notificationBadgeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_notification_badge, container, false);
+        FragmentNotificationBadgeBinding notificationBadgeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_notification_badge, container, false);
         notificationBadgeBinding.setFragment(this);
-        mDefaultText = (NotificationBadge) notificationBadgeBinding.getRoot().findViewById(R.id.uid_text_default);
-        mSmallText = (NotificationBadge) notificationBadgeBinding.getRoot().findViewById(R.id.uid_text_small);
-        mEnterNumber = (EditText) notificationBadgeBinding.getRoot().findViewById(R.id.edit_input_number);
-        mEnterNumber.addTextChangedListener(new TextWatcher() {
+        defaultBadge = (NotificationBadge) notificationBadgeBinding.getRoot().findViewById(R.id.uid_text_default);
+        smallBadge = (NotificationBadge) notificationBadgeBinding.getRoot().findViewById(R.id.uid_text_small);
+        enterNumberField = (EditText) notificationBadgeBinding.getRoot().findViewById(R.id.edit_input_number);
+        enterNumberField.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                mDefaultText.setErrorMessage(mEnterNumber.getText().toString());
-                mSmallText.setErrorMessage(mEnterNumber.getText().toString());
-
+                String badgeCount = enterNumberField.getText().toString();
+                if (badgeCount.length() > 5) {
+                    badgeCount = "9999+";
+                }
+                defaultBadge.setText(badgeCount);
+                smallBadge.setText(badgeCount);
             }
 
             @Override
@@ -75,10 +76,10 @@ public class NotificationBadgeFragment extends BaseFragment {
 
     private void enableRecyclerViewSeparator() {
         if (isAccentColor.get()) {
-          //  mDefaultText.setVisibility(View.VISIBLE);
+            //  defaultBadge.setVisibility(View.VISIBLE);
 
         } else {
-            //mDefaultText.setVisibility(View.INVISIBLE);
+            //defaultBadge.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -87,5 +88,4 @@ public class NotificationBadgeFragment extends BaseFragment {
         enableRecyclerViewSeparator();
 
     }
-
 }

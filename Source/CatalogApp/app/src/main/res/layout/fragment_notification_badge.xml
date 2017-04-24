@@ -28,7 +28,8 @@
                 <!--With Icon layout-->
                 <LinearLayout
                     style="@style/BaseLayoutMargins.Dimens"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <TextView
                         style="@style/TestButtonTexts"

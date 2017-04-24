@@ -6,7 +6,6 @@
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
@@ -16,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -97,12 +97,13 @@ public class NotificationBadge extends AppCompatTextView {
         });
     }
 
-    private void validateView(CharSequence s) {
-        if (s.length() > 2) {
+    private void validateView(CharSequence count) {
+        if (count.length() > 2) {
             setBackgroundDrawable(roundRectDrawable);
         } else {
             setBackgroundDrawable(circleDrawable);
         }
+        changeBadgeVisisbility(count);
     }
 
     @NonNull
@@ -144,26 +145,11 @@ public class NotificationBadge extends AppCompatTextView {
         return (int) px;
     }
 
-    /**
-     * Sets the number to Notification Badge.
-     *
-     * @param badgeNumber
-     */
-    public void setErrorMessage(CharSequence badgeNumber) {
-        if (badgeNumber != null) {
-            if (badgeNumber.equals("0") || badgeNumber.equals("")) {
-                setVisibility(INVISIBLE);
-            } else {
-                if (badgeNumber.length() >= 5) {
-                    setVisibility(VISIBLE);
-                    setText("9999+");
-                } else {
-                    setVisibility(VISIBLE);
-                    setText(badgeNumber);
-                }
-            }
-        } else {
+    private void changeBadgeVisisbility(CharSequence count) {
+        if (TextUtils.isEmpty(count)) {
             setVisibility(INVISIBLE);
+        } else {
+            setVisibility(VISIBLE);
         }
     }
 }
