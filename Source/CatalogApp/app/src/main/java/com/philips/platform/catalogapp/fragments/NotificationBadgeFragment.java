@@ -6,6 +6,7 @@
 
 package com.philips.platform.catalogapp.fragments;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.philips.platform.catalogapp.R;
@@ -67,9 +69,10 @@ public class NotificationBadgeFragment extends BaseFragment {
 
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-
+    public void onStop() {
+        super.onStop();
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
     }
 
     @Override
