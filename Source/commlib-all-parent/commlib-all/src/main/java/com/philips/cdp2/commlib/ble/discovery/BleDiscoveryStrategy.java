@@ -282,7 +282,11 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         }
 
         @Override
-        public void onStateUpdated(final SHNDevice ignored) {
+        public void onStateUpdated(final SHNDevice deviceWithUpdatedState) {
+            if (deviceWithUpdatedState != device) {
+                throw new IllegalArgumentException("The SHNDevice as argument is not the same as the SHNDevice in the field. This is probably a bug!");
+            }
+
             if (device.getState() == Connected) {
                 deviceInformation.readDeviceInformation(SerialNumber, deviceInformationListener);
             }
