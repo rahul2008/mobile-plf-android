@@ -29,7 +29,7 @@
                 <LinearLayout
                     style="@style/BaseLayoutMargins.Dimens"
                     android:orientation="horizontal"
-                    android:visibility="gone">
+                    >
 
                     <TextView
                         style="@style/TestButtonTexts"
@@ -43,9 +43,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/layout_margin_left_right"
                         android:gravity="center_vertical|end"
-                        android:checked="@={fragment.isAccentColor}"
-                        android:onCheckedChanged="@{(v, isChecked) -> fragment.setNotificationBadge(isChecked)}"
+                        android:checked="false"
+                        android:enabled="false"
                         />
+                    <!-- android:checked="@={fragment.isAccentColor}"
+                        android:onCheckedChanged="@{(v, isChecked) -> fragment.setNotificationBadge(isChecked)}"-->
                 </LinearLayout>
 
                 <com.philips.platform.uid.view.widget.Label
@@ -63,7 +65,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_margin="@dimen/notification_margin"
+                        android:layout_margin="@dimen/notification_default_margin"
 
                         />
 
@@ -78,10 +80,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_margin="@dimen/notification_margin"/>
+                        android:layout_margin="@dimen/notification_small_margin"/>
                 </LinearLayout>
-
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/ButtonsCategoryStyle"
+                    android:layout_height="@dimen/notifaction_badge_lable_height" />
             </LinearLayout>
+
 
         </ScrollView>
 
@@ -92,9 +97,6 @@
             android:layout_alignParentBottom="true"
             android:orientation="vertical">
 
-            <com.philips.platform.uid.view.widget.Label
-                style="@style/ButtonsCategoryStyle"
-                android:layout_height="@dimen/notifaction_badge_lable_height" />
 
             <com.philips.platform.uid.view.widget.EditText
                 android:id="@+id/edit_input_number"
