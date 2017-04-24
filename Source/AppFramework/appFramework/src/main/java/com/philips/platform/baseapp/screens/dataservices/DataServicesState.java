@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
+import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
@@ -37,14 +38,26 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMomen
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSettings;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynchronisationData;
 import com.philips.platform.baseapp.screens.dataservices.error.ErrorHandlerInterfaceImpl;
+import com.philips.platform.baseapp.screens.dataservices.reciever.ScheduleSyncReceiver;
 import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationInterfaceImpl;
 import com.philips.platform.baseapp.screens.dataservices.temperature.TemperatureTimeLineFragment;
 import com.philips.platform.baseapp.screens.dataservices.utility.SyncScheduler;
+import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
+import com.philips.platform.core.listeners.RegisterDeviceTokenListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
+import com.philips.platform.core.utils.DataServicesError;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
+import com.philips.platform.referenceapp.PushNotificationManager;
+import com.philips.platform.referenceapp.PushNotificationUserRegistationWrapperInterface;
+import com.philips.platform.referenceapp.interfaces.HandleNotificationPayloadInterface;
+import com.philips.platform.referenceapp.interfaces.PushNotificationTokenRegistrationInterface;
+import com.philips.platform.referenceapp.interfaces.RegistrationCallbacks;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.sql.SQLException;
 
@@ -52,9 +65,11 @@ import java.sql.SQLException;
 /**
  * This class has UI extended from UIKIT about screen , It shows the current version of the app
  */
-public class DataServicesState extends BaseState {
+public class DataServicesState extends BaseState implements HandleNotificationPayloadInterface, PushNotificationTokenRegistrationInterface, PushNotificationUserRegistationWrapperInterface {
     public static final String TAG = DataServicesState.class.getSimpleName();
     FragmentLauncher fragmentLauncher;
+    ScheduleSyncReceiver mScheduleSyncReceiver;
+    Context mcontext;
 
     private DatabaseHelper databaseHelper;
 
@@ -76,6 +91,10 @@ public class DataServicesState extends BaseState {
 
     @Override
     public void init(Context context) {
+        mcontext=context;
+        mScheduleSyncReceiver = new ScheduleSyncReceiver();
+        //OrmCreator creator = new OrmCreator(new UuidGenerator());
+
         OrmCreator creator = new OrmCreator();
         UserRegistrationInterface userRegistrationInterface = new UserRegistrationInterfaceImpl(context, new User(context));
         ErrorHandlerInterfaceImpl errorHandlerInterface = new ErrorHandlerInterfaceImpl();
@@ -83,11 +102,20 @@ public class DataServicesState extends BaseState {
         injectDBInterfacesToCore(context);
         DataServicesManager.getInstance().initializeSyncMonitors(context, null, null);
         DSLog.enableLogging(true);
-        DSLog.i(DSLog.LOG, "Before Setting up Synchronization Loop");
-
-        User user = new User(context);
-        if(user!=null && user.isUserSignIn()) {
-            SyncScheduler.getInstance().scheduleSync();
+        if (BaseAppUtil.isDSPollingEnabled(context)) {
+            DSLog.i(DSLog.LOG, "Before Setting up Synchronization Loop");
+            User user = new User(context);
+            if (user != null && user.isUserSignIn()) {
+                SyncScheduler.getInstance().scheduleSync();
+            }
+        } else {
+            if (new User(context).isUserSignIn()) {
+                registerDSForRegisteringToken();
+                registerForReceivingPayload();
+            }else{
+                deregisterDSForRegisteringToken();
+                deregisterForReceivingPayload();
+            }
         }
     }
 
@@ -112,24 +140,23 @@ public class DataServicesState extends BaseState {
 
 
             OrmSaving saving = new OrmSaving(momentDao, momentDetailDao, measurementDao, measurementDetailDao,
-                    synchronisationDataDao,consentDetailsDao, measurementGroup, measurementGroupDetails,
+                    synchronisationDataDao, consentDetailsDao, measurementGroup, measurementGroupDetails,
                     characteristicsesDao, settingsDao, insightsDao, insightMetaDataDao);
 
             Dao<OrmDCSync, Integer> dcSyncDao = databaseHelper.getDCSyncDao();
             OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao, settingsDao,
-                     consentDetailsDao, dcSyncDao, measurementGroup, synchronisationDataDao, measurementGroupDetails);
-            OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao,consentDetailsDao, characteristicsesDao,
+                    consentDetailsDao, dcSyncDao, measurementGroup, synchronisationDataDao, measurementGroupDetails);
+            OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDetailsDao, characteristicsesDao,
                     settingsDao, dcSyncDao, insightsDao);
             OrmDeleting deleting = new OrmDeleting(momentDao, momentDetailDao, measurementDao,
-                    measurementDetailDao, synchronisationDataDao, measurementGroupDetails, measurementGroup, consentDetailsDao, characteristicsesDao, settingsDao, dcSyncDao ,insightsDao, insightMetaDataDao);
-
+                    measurementDetailDao, synchronisationDataDao, measurementGroupDetails, measurementGroup, consentDetailsDao, characteristicsesDao, settingsDao, dcSyncDao, insightsDao, insightMetaDataDao);
 
 
             BaseAppDateTime uGrowDateTime = new BaseAppDateTime();
             ORMSavingInterfaceImpl ORMSavingInterfaceImpl = new ORMSavingInterfaceImpl(saving, updating, fetching, deleting, uGrowDateTime);
             OrmDeletingInterfaceImpl ORMDeletingInterfaceImpl = new OrmDeletingInterfaceImpl(deleting, saving, fetching);
             ORMUpdatingInterfaceImpl dbInterfaceOrmUpdatingInterface = new ORMUpdatingInterfaceImpl(saving, updating, fetching, deleting);
-            OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao,consentDetailsDao,
+            OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDetailsDao,
                     characteristicsesDao, settingsDao, dcSyncDao, insightsDao);
 
             DataServicesManager.getInstance().initializeDatabaseMonitor(context, ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
@@ -143,5 +170,73 @@ public class DataServicesState extends BaseState {
     public void updateDataModel() {
 
     }
+
+    public void registerForReceivingPayload() {
+        PushNotificationManager.getInstance().registerForPayload(this);
+    }
+
+    public void deregisterForReceivingPayload() {
+        PushNotificationManager.getInstance().deRegisterForPayload();
+    }
+
+    public void registerDSForRegisteringToken() {
+        PushNotificationManager.getInstance().registerForTokenRegistration(this);
+    }
+
+    public void deregisterDSForRegisteringToken() {
+        PushNotificationManager.getInstance().deregisterForTokenRegistration();
+    }
+
+    @Override
+    public void handlePayload(JSONObject payloadObject) throws JSONException {
+        DataServicesManager.getInstance().handlePushNotificationPayload(payloadObject);
+    }
+
+    @Override
+    public void registerToken(String deviceToken, String appVariant, String protocolProvider, final RegistrationCallbacks.RegisterCallbackListener registerCallbackListener) {
+        DataServicesManager.getInstance().registerDeviceToken(deviceToken, appVariant, protocolProvider, new RegisterDeviceTokenListener() {
+            @Override
+            public void onResponse(boolean b) {
+                registerCallbackListener.onResponse(b);
+            }
+
+            @Override
+            public void onError(DataServicesError dataServicesError) {
+                registerCallbackListener.onError(dataServicesError.getErrorCode(), dataServicesError.getErrorMessage());
+            }
+        });
+    }
+
+    @Override
+    public void deregisterToken(String appToken, String appVariant, final RegistrationCallbacks.DergisterCallbackListener dergisterCallbackListener) {
+        DataServicesManager.getInstance().unRegisterDeviceToken(appToken, appVariant, new RegisterDeviceTokenListener() {
+            @Override
+            public void onResponse(boolean isDregistered) {
+                dergisterCallbackListener.onResponse(isDregistered);
+            }
+
+            @Override
+            public void onError(DataServicesError dataServicesError) {
+                dergisterCallbackListener.onError(dataServicesError.getErrorCode(), dataServicesError.getErrorMessage());
+            }
+        });
+    }
+
+    @Override
+    public boolean isUserSignedIn(Context appContext) {
+        return new User(appContext).isUserSignIn();
+    }
+
+    public String getVersion(Context c){
+        return c.getResources().getString(R.string.RA_COCO_DS_VERSION);
+
+    }
+
+    public String getComponentID(Context c)
+    {
+        return c.getResources().getString(R.string.RA_COCO_DS);
+
+    }
 }
+
 

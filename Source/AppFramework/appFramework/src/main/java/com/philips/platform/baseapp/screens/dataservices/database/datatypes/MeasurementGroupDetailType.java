@@ -16,13 +16,11 @@ public class MeasurementGroupDetailType {
         if(description == null){
             return -1;
         }
-        switch (description.toUpperCase()) {
-            case UNKNOWN:
-                return -1;
-            case TEMP_OF_DAY:
-                return 77;
-            default:
-                return -1;
+
+        if (description.equalsIgnoreCase(TEMP_OF_DAY)) {
+            return 77;
+        } else {
+            return -1;
         }
     }
 

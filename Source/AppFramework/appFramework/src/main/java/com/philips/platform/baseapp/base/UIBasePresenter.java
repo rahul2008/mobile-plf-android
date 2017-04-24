@@ -20,9 +20,12 @@ abstract public class UIBasePresenter {
     protected final int MENU_OPTION_SUPPORT = 3;
     protected final int MENU_OPTION_ABOUT = 4;
     protected final int MENU_OPTION_DATA_SYNC = 5;
-    protected final int MENU_OPTION_PR = 8;
+    protected final int MENU_OPTION_PR = 9;
     protected final int MENU_OPTION_CONNECTIVITY = 6;
-    protected final int MENU_OPTION_TEST = 7;
+
+    protected final int MENU_OPTION_TEST = 8;
+    protected final int MENU_OPTION_COCOVERSION = 7;
+
 
     /* event to state map */
     protected final String HOME_SETTINGS = "settings";
@@ -35,6 +38,7 @@ abstract public class UIBasePresenter {
     protected final String SUPPORT_PR = "pr";
     protected final String CONNECTIVITY = "connectivity";
     protected final String TESTMICROAPP = "testmicroapp";
+    protected final String COCO_VERSION_INFO="coco_version_info";
 
     private UIView uiView;
 
@@ -96,6 +100,10 @@ abstract public class UIBasePresenter {
                 UIStateData connectivityStateData = new UIStateData();
                 connectivityStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return connectivityStateData;
+            case AppStates.COCO_VERSION_INFO:
+                UIStateData CocoVersionStateData = new UIStateData();
+                CocoVersionStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
+                return CocoVersionStateData;
             default:
                 homeStateData = new UIStateData();
                 homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);

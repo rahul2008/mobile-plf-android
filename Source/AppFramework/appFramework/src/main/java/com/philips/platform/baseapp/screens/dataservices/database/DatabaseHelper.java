@@ -45,7 +45,6 @@ import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
-import com.philips.platform.core.utils.UuidGenerator;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

@@ -7,6 +7,7 @@ package com.philips.platform.appframework.homescreen;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -34,8 +35,6 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.screens.settingscreen.IndexSelectionListener;
-import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
-import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -61,8 +60,9 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
     private HamburgerAdapter adapter;
     private ImageView hamburgerIcon;
     private FrameLayout hamburgerClick = null;//shoppingCartLayout;
-    private UserRegistrationState userRegistrationState;
+    //    private UserRegistrationState userRegistrationState;
     private SharedPreferenceUtility sharedPreferenceUtility;
+    Handler handler = new Handler();
    /* private ImageView cartIcon;
     private TextView cartCount;
     private boolean isCartVisible = true;*/
@@ -262,7 +262,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        userRegistrationState.unregisterUserRegistrationListener();
+//        userRegistrationState.unregisterUserRegistrationListener();
     }
 
 
@@ -277,10 +277,10 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
     @Override
     protected void onResume() {
         super.onResume();
-        userRegistrationState = new UserRegistrationSettingsState();
-        if(userRegistrationState.getUserObject(this).isUserSignIn()){
-           // addIapCartCount();
-        }
+//        userRegistrationState = new UserRegistrationSettingsState();
+//        if(userRegistrationState.getUserObject(this).isUserSignIn()){
+//           // addIapCartCount();
+//        }
 
     }
 
@@ -438,6 +438,13 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
 
     @Override
     public void updateSelectionIndex(int position) {
-        adapter.setSelectedIndex(0);
+        if(handler!=null)
+            handler.post(new Runnable() {
+            @Override
+            public void run() {
+                adapter.setSelectedIndex(0);
+
+            }
+        });
     }
 }

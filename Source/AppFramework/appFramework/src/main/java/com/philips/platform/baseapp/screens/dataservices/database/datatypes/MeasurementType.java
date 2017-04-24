@@ -29,23 +29,11 @@ public class MeasurementType {
         if(description == null){
             return -1;
         }
-        switch (description.toUpperCase()) {
-            case UNKNOWN:
-                return -1;
-            case TEMPERATURE:
-                return 41;
-            case AMOUNT:
-                return 42;
-            case WEIGHT:
-                return 43;
-            case DURATION:
-                return 44;
-            case RELATIVE_HUMIDITY:
-                return 45;
-            case LENGTH:
-                return 46;
-            default:
-                return -1;
+
+        if(description.equalsIgnoreCase(TEMPERATURE)){
+            return 41;
+        }else {
+            return -1;
         }
     }
 

@@ -218,4 +218,6 @@ public class LaunchActivity extends AppFrameworkBaseActivity implements LaunchVi
     public void onFailure(int i) {
 
     }
+
+
 }

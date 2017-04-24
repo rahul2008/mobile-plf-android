@@ -61,5 +61,9 @@
         "Registration","component1"
       ]
     }
+  },
+  "ReferenceApp":{
+    "PushNotification.autoLogout":"true",
+    "PushNotification.polling":"false"
   }
 }
