@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatRatingBar;
 import android.util.AttributeSet;
 
@@ -64,9 +65,13 @@ public class RatingBar extends AppCompatRatingBar {
     protected synchronized void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         if(isIndicator() && text!=null){
-            widthOffset = getResources().getDimensionPixelSize(R.dimen.uid_rating_bar_text) + getResources().getDimensionPixelSize(R.dimen.uid_rating_bar_display_padding);
+            widthOffset = (int) (paint.measureText(text) + getResources().getDimensionPixelSize(R.dimen.uid_rating_bar_display_padding));
         }
-        setPadding(widthOffset,0,0,0);
+        if(ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL){
+            setPadding(0,0,widthOffset,0);
+        }else {
+            setPadding(widthOffset,0,0,0);
+        }
         setMeasuredDimension(resolveSizeAndState(width * getNumStars(), widthMeasureSpec, 0)+widthOffset, height);
     }
 
@@ -74,14 +79,16 @@ public class RatingBar extends AppCompatRatingBar {
     protected synchronized void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if(isIndicator() && text!=null){
-            drawTextCentred(canvas, paint, text,0,canvas.getHeight()/2);
+            float cx = ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL? canvas.getWidth():0;
+            drawTextCentred(canvas, paint, text,cx,canvas.getHeight()/2);
         }
     }
 
     private void drawTextCentred(Canvas canvas, Paint paint, String text, float cx, float cy){
         Rect textBounds = new Rect();
         paint.getTextBounds(text, 0, text.length(), textBounds);
-        canvas.drawText(text, cx+ textBounds.centerX(), cy- textBounds.exactCenterY(), paint);
+        float x = ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL? cx - textBounds.centerX():cx+ textBounds.centerX();
+        canvas.drawText(text, x, cy- textBounds.exactCenterY(), paint);
     }
 
     private void initializePaint(){
@@ -129,7 +136,6 @@ public class RatingBar extends AppCompatRatingBar {
 
     private Bitmap drawableToBitmap(Drawable drawable) {
         Bitmap bitmap = null;
-//        ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL;
         if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
             if (bitmapDrawable.getBitmap() != null) {
