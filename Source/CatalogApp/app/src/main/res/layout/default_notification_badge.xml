@@ -1,30 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
+<RelativeLayout
+    android:id="@+id/relative_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
-    <com.philips.platform.uid.view.widget.ImageButton
-        android:id="@+id/uid_email"
+    <com.philips.platform.uid.view.widget.Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/notification_badge_default_view_margin_top_right"
         android:layout_marginTop="@dimen/notification_badge_default_view_margin_top_right"
         android:gravity="center|center_horizontal"
-        android:text="@string/e_mails"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/e_mails"/>
+</RelativeLayout>
 
-
-    <com.philips.platform.uid.view.widget.NotificationBadge
-        android:id="@+id/uid_text_default"
-        style="@style/NotificationBadge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center|center_horizontal"
-        android:visibility="invisible"
-        app:layout_constraintRight_toRightOf="parent" />
-
-</android.support.constraint.ConstraintLayout>
+<com.philips.platform.uid.view.widget.NotificationBadge
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/uid_text_default"
+    style="@style/NotificationBadge"
+    android:gravity="center|center_horizontal"
+    android:layout_alignRight="@id/relative_layout"
+    android:visibility="invisible"/>
+</RelativeLayout>
