@@ -38,6 +38,7 @@ node ('android_pipeline &&' + node_ext) {
         sh """#!/bin/bash -l
 				    chmod -R 775 .
 				    cd ./Source/Library
+				    echo JENKINS_ENV: ${JENKINS_ENV}
 				    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug assembleRelease
 				"""
 			}
