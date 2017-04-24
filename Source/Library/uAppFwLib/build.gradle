@@ -5,6 +5,7 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply plugin: 'jacoco-everywhere'
 
+def buildOutputDir
 def coverageSourceDirs = [
         '../uAppFwLib/src/main/java'
 ]
@@ -152,23 +153,25 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildOutputDir = "release"
         }
         debug {
             minifyEnabled false
             shrinkResources false
             debuggable true
             testCoverageEnabled true
+            buildOutputDir = "debug"
         }
     }
 }
 
-
 task copyResDirectoryToClasses(type: Copy) {
     from "${projectDir}/src/test/res"
-    into "${buildDir}/intermediates/classes/test/debug/res"
+    into "${buildDir}/intermediates/classes/test/${buildOutputDir}/res"
 }
 
 assembleDebug.dependsOn(copyResDirectoryToClasses)
+assembleRelease.dependsOn(copyResDirectoryToClasses)
 
 configurations.all {
     // check for updates every build
