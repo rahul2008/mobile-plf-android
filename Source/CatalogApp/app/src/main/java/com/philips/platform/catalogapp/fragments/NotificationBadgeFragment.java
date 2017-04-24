@@ -27,6 +27,7 @@ public class NotificationBadgeFragment extends BaseFragment {
     private NotificationBadge smallBadge;
     private EditText enterNumberField;
     public ObservableBoolean isAccentColor = new ObservableBoolean(Boolean.TRUE);
+    private String badgeCount ="1";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,10 +37,12 @@ public class NotificationBadgeFragment extends BaseFragment {
         defaultBadge = (NotificationBadge) notificationBadgeBinding.getRoot().findViewById(R.id.uid_text_default);
         smallBadge = (NotificationBadge) notificationBadgeBinding.getRoot().findViewById(R.id.uid_text_small);
         enterNumberField = (EditText) notificationBadgeBinding.getRoot().findViewById(R.id.edit_input_number);
+        defaultBadge.setText(badgeCount);
+        smallBadge.setText(badgeCount);
         enterNumberField.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String badgeCount = enterNumberField.getText().toString();
+                 badgeCount = enterNumberField.getText().toString();
                 if (badgeCount.length() > 4) {
                     badgeCount = "9999+";
                 }
