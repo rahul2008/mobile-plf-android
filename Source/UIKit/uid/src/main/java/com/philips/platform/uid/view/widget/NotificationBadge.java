@@ -19,13 +19,15 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.philips.platform.uid.R;
 
 public class NotificationBadge extends AppCompatTextView {
 
-    private int badgeBackgroundColor;
+    private static int badgeBackgroundColor;
     private Drawable roundRectDrawable;
     private Drawable circleDrawable;
 
@@ -39,9 +41,8 @@ public class NotificationBadge extends AppCompatTextView {
 
     public NotificationBadge(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NotificationBadge, defStyle, R.style.NotificationLabel);
-        applyTextColor(typedArray);
-        applyBackGroundColor(typedArray);
+        final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NotificationBadgeStyle, defStyle, R.style.NotificationBadge);
+        setTextResourceID(context, this, attrs);
         roundRectDrawable = getSquareRoundBackground(isSmallBadge(typedArray), badgeBackgroundColor);
         circleDrawable = getCircleBackground(isSmallBadge(typedArray), badgeBackgroundColor);
         if (getText().length() > 2)
@@ -50,21 +51,6 @@ public class NotificationBadge extends AppCompatTextView {
             setBackgroundDrawable(circleDrawable);
         handleTextChangeListener();
         typedArray.recycle();
-    }
-
-    private void applyTextColor(@NonNull TypedArray typedArray) {
-
-        int badgeTextColor= typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationDefaultTextColor, -1);
-        if (badgeTextColor != -1) {
-            setTextColor(ContextCompat.getColor(getContext(), typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationDefaultTextColor, -1)));
-        }
-    }
-
-    private void applyBackGroundColor(@NonNull TypedArray typedArray) {
-       int BackgroundColor=typedArray.getResourceId(R.styleable.NotificationBadge_uidNotificationDefaultBackground, -1);
-        if (BackgroundColor != -1) {
-            badgeBackgroundColor = ContextCompat.getColor(getContext(), BackgroundColor);
-        }
     }
 
     private void applyLayoutParams(int width, int height) {
@@ -78,7 +64,7 @@ public class NotificationBadge extends AppCompatTextView {
     }
 
     private boolean isSmallBadge(TypedArray typedArray) {
-        boolean smallBadge = typedArray.getBoolean(R.styleable.NotificationBadge_uid_notification_badge_small, false);
+        boolean smallBadge = typedArray.getBoolean(R.styleable.NotificationBadgeStyle_uidNotificationBadgeSmall, false);
         return smallBadge;
     }
 
@@ -148,6 +134,20 @@ public class NotificationBadge extends AppCompatTextView {
             setVisibility(INVISIBLE);
         } else {
             setVisibility(VISIBLE);
+        }
+    }
+    private void setTextResourceID(Context context, View view, AttributeSet attrs) {
+        if (view instanceof TextView) {
+            TypedArray textArray = context.obtainStyledAttributes(attrs, new int[]{R.attr.uidNotificationBadgeDefaultTextColor,R.attr.uidNotificationBadgeDefaultBackgroundColor});
+            int resourceId = textArray.getResourceId(0, -1);
+            if (resourceId != 0) {
+                setTextColor(ContextCompat.getColor(getContext(), resourceId));
+            }
+            resourceId = textArray.getResourceId(1, -1);
+            if (resourceId != -1) {
+                badgeBackgroundColor=ContextCompat.getColor(getContext(), resourceId);
+            }
+
         }
     }
 }

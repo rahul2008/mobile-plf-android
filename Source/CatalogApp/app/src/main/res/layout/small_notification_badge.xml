@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/uid_text_small"
-        style="@style/NotificationLabel.Small"
+        style="@style/NotificationBadge.Small"
         android:gravity="center|center_horizontal"
         app:layout_constraintRight_toRightOf="parent"
         android:visibility="invisible"

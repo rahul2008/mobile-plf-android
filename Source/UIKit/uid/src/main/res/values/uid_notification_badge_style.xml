@@ -6,33 +6,29 @@
   -->
 
 <resources>
-    <style name="NotificationLabel">
+    <style name="NotificationBadge">
         <item name="android:minHeight">@dimen/uid_notification_badge_default_radius</item>
         <item name="android:textSize">@dimen/uid_notification_badge_default_square_round_textSize</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="android:paddingStart">@dimen/uid_notification_badge_square_round_padding</item>
         <item name="android:paddingEnd">@dimen/uid_notification_badge_square_round_padding</item>
+        <item name="android:text">?attr/uidNotificationBadgeDefaultTextColor</item>
+        <item name="android:background">?attr/uidNotificationBadgeDefaultBackgroundColor</item>
+       </style>
 
-        <item name="uidNotificationDefaultTextColor">?attr/uidNotificationBadgeDefaultTextColor</item>
-        <item name="uidNotificationDefaultBackground">?attr/uidNotificationBadgeDefaultBackgroundColor</item>
-     </style>
-
-    <style name="NotificationLabel.Small">
+    <style name="NotificationBadge.Small">
         <item name="android:minHeight">@dimen/uid_notification_badge_small_circle_radius</item>
         <item name="android:textSize">@dimen/uid_notification_badge_small_square_round_textSize</item>
-        <item name="uid_notification_badge_small">true</item>
+        <item name="uidNotificationBadgeSmall">true</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="android:paddingStart">@dimen/uid_notification_badge_square_round_padding</item>
         <item name="android:paddingEnd">@dimen/uid_notification_badge_square_round_padding</item>
-
-        <item name="uidNotificationDefaultTextColor">?attr/uidNotificationBadgeDefaultTextColor</item>
-        <item name="uidNotificationDefaultBackground">?attr/uidNotificationBadgeDefaultBackgroundColor</item>
+        <item name="android:text">?attr/uidNotificationBadgeDefaultTextColor</item>
+        <item name="android:background">?attr/uidNotificationBadgeDefaultBackgroundColor</item>
 
     </style>
     <!-- Notification Badge-->
-    <declare-styleable name="NotificationBadge">
-        <attr name="uidNotificationDefaultTextColor" format="reference|color" />
-        <attr name="uidNotificationDefaultBackground" format="reference|color" />
-        <attr name="uid_notification_badge_small" format="boolean" />
+    <declare-styleable name="NotificationBadgeStyle">
+        <attr name="uidNotificationBadgeSmall" format="boolean" />
      </declare-styleable>
 </resources>

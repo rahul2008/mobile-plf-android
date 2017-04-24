@@ -40,7 +40,7 @@ public class NotificationBadgeFragment extends BaseFragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String badgeCount = enterNumberField.getText().toString();
-                if (badgeCount.length() > 5) {
+                if (badgeCount.length() > 4) {
                     badgeCount = "9999+";
                 }
                 defaultBadge.setText(badgeCount);
