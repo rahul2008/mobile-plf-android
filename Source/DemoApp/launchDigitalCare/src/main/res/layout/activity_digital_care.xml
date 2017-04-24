@@ -187,7 +187,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/add_product" />
 
-            <com.philips.platform.uid.view.widget.ImageButton
+            <com.philips.platform.uid.view.widget.Button
                 style="@style/UIDImageButton"
                 android:id="@+id/addimageButton"
                 android:layout_width="@dimen/savedscreen_top_container_height"
@@ -197,7 +197,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="5dp"
                 android:scaleType="fitXY"
-                app:uidImageButtonDrawableSrc="@drawable/action_icon_plus"/>
+                android:text="+"
+                android:textSize="50sp"/>
         </RelativeLayout>
 
     </RelativeLayout>

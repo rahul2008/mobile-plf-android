@@ -69,7 +69,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
     private Button mLaunchDigitalCare = null;
     private Button mLaunchAsFragment = null;
     private Button mChangeTheme = null;
-    private ImageButton mAddButton = null;
+    private Button mAddButton = null;
     private RecyclerView mRecyclerView = null;
     private SampleAdapter adapter = null;
 
@@ -91,7 +91,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         mLaunchDigitalCare = (Button) findViewById(R.id.launchDigitalCare);
         mLaunchAsFragment = (Button) findViewById(R.id.launchAsFragment);
         mChangeTheme = (Button) findViewById(R.id.change_theme);
-        mAddButton = (ImageButton) findViewById(R.id.addimageButton);
+        mAddButton = (Button) findViewById(R.id.addimageButton);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mAddButton.setOnClickListener(this);
 

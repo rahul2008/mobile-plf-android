@@ -555,7 +555,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         }
         if (!(DigitalCareConfigManager.getInstance().getProductModelSelectionType().
                 getHardCodedProductList().length < 2)) {
-            disabledButtons.remove(R.string.Change_Selected_Product);
+            disabledButtons.remove(Integer.valueOf(R.string.Change_Selected_Product));
         }
         updateMenus(disabledButtons);
     }
