@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -113,7 +114,21 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         iapState.init(getApplicationContext());
 
         if (null != activity) {
+            new User(activity.getApplicationContext()).refreshLoginSession(new RefreshLoginSessionHandler() {
+                @Override
+                public void onRefreshLoginSessionSuccess() {
+                }
 
+                @Override
+                public void onRefreshLoginSessionFailedWithError(int i) {
+
+                }
+
+                @Override
+                public void onRefreshLoginSessionInProgress(String s) {
+
+                }
+            });
             getApplicationContext().determineChinaFlow();
 
             //Register GCM token with data services on login success
