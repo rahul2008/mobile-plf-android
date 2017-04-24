@@ -190,10 +190,13 @@
     <string name="language_pack_switch">Switch</string>
     <string name="language_pack_hint">Enter Text</string>
 
+    <!--Rating Bar-->
     <string name="page_title_ratingbar">Rating Bar</string>
     <string name="ratingbar_mini_display">Mini Display</string>
     <string name="ratingbar_display">Standard Display</string>
     <string name="ratingbar_input">Input Rating</string>
+    <string name="ratingbar_rating_text">4.5</string>
+    <string name="ratingbar_reset">Reset</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -41,8 +41,9 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Submit"
-                android:onClick="@{(v) -> frag.changeText()}"/>
+                android:text="@string/ratingbar_reset"
+                android:enabled="@{!frag.isRatingZero}"
+                />
 
             <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
@@ -58,6 +59,8 @@
                 android:isIndicator="true"
                 android:numStars="5"
                 android:stepSize="0.1"
+                android:text="@string/ratingbar_rating_text"
+                android:rating="4.5"
                 />
             <com.philips.platform.uid.view.widget.RatingBar
                 android:id="@+id/rating_display_star_only"
@@ -68,6 +71,7 @@
                 android:isIndicator="true"
                 android:numStars="5"
                 android:stepSize="0.1"
+                android:rating="4.5"
                 />
 
             <com.philips.platform.uid.view.widget.Label
@@ -85,6 +89,8 @@
                 android:isIndicator="true"
                 android:numStars="1"
                 android:stepSize="0.1"
+                android:text="4.5"
+                android:rating="4.5"
                 />
 
             <include
