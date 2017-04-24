@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,7 +26,6 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
-import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.dataservices.characteristics.CharacteristicsDialogFragment;
 import com.philips.platform.baseapp.screens.dataservices.consents.ConsentDialogFragment;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentType;
@@ -33,6 +33,7 @@ import com.philips.platform.baseapp.screens.dataservices.insights.InsightFragmen
 import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationInterfaceImpl;
 import com.philips.platform.baseapp.screens.dataservices.settings.SettingsFragment;
 import com.philips.platform.baseapp.screens.dataservices.utility.Utility;
+import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
@@ -47,14 +48,13 @@ import java.util.List;
 
 import static android.content.Context.ALARM_SERVICE;
 import static com.philips.platform.baseapp.screens.utility.Constants.ILLEGAL_STATE_EXCEPTION;
-import static com.philips.platform.baseapp.screens.utility.Constants.SQLITE_EXCEPTION;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implements View.OnClickListener, DBFetchRequestListner<Moment>,DBRequestListener<Moment>,DBChangeListener, SynchronisationCompleteListener {
+public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener, SwipeRefreshLayout.OnRefreshListener {
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
@@ -70,8 +70,8 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     UserRegistrationInterfaceImpl userRegistrationInterface;
     User mUser;
     Utility mUtility;
-
-    TextView mTvConsents, mTvCharacteristics , mTvSettings ,mTvLogout ,mTvInsights;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    TextView mTvConsents, mTvCharacteristics, mTvSettings, mTvLogout, mTvInsights;
 
     @Override
     public String getActionbarTitle() {
@@ -154,8 +154,9 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         return false;
     }
 
-    private boolean isSameHsdpId(){
-        if(getLastStoredHdpUuid() == null || mUser == null || mUser.getHsdpUUID()==null) return false;
+    private boolean isSameHsdpId() {
+        if (getLastStoredHdpUuid() == null || mUser == null || mUser.getHsdpUUID() == null)
+            return false;
         if (getLastStoredHdpUuid().equalsIgnoreCase(mUser.getHsdpUUID().trim()))
             return true;
         return false;
@@ -184,16 +185,18 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         mAddButton.setOnClickListener(this);
         mTvConsents = (TextView) view.findViewById(R.id.tv_set_consents);
         mTvCharacteristics = (TextView) view.findViewById(R.id.tv_set_characteristics);
-        mTvSettings= (TextView) view.findViewById(R.id.tv_settings);
-        mTvLogout= (TextView) view.findViewById(R.id.tv_logout);
         mTvSettings = (TextView) view.findViewById(R.id.tv_settings);
-        mTvInsights = (TextView)view.findViewById(R.id.tv_insights);
+        mTvLogout = (TextView) view.findViewById(R.id.tv_logout);
+        mTvSettings = (TextView) view.findViewById(R.id.tv_settings);
+        mTvInsights = (TextView) view.findViewById(R.id.tv_insights);
 
         mTvConsents.setOnClickListener(this);
         mTvCharacteristics.setOnClickListener(this);
         mTvSettings.setOnClickListener(this);
         mTvLogout.setOnClickListener(this);
         mTvInsights.setOnClickListener(this);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+        swipeRefreshLayout.setOnRefreshListener(this);
         return view;
     }
 
@@ -210,25 +213,25 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
                 break;
             case R.id.tv_set_consents:
                 ConsentDialogFragment dFragment = new ConsentDialogFragment();
-                replaceFragment(dFragment,"consents");
+                replaceFragment(dFragment, "consents");
 
                 break;
             case R.id.tv_settings:
                 SettingsFragment settingsFragment = new SettingsFragment();
-                replaceFragment(settingsFragment,"settings");
+                replaceFragment(settingsFragment, "settings");
 
                 break;
 
             case R.id.tv_set_characteristics:
 
                 CharacteristicsDialogFragment characteristicsDialogFragment = new CharacteristicsDialogFragment();
-                replaceFragment(characteristicsDialogFragment,"Character");
+                replaceFragment(characteristicsDialogFragment, "Character");
                 break;
 
             case R.id.tv_insights:
                 InsightFragment insightFragment = new InsightFragment();
 
-                replaceFragment(insightFragment,"insights");
+                replaceFragment(insightFragment, "insights");
         }
     }
 
@@ -236,6 +239,9 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     public void onSuccess(final List<? extends Moment> data) {
         DSLog.i(DSLog.LOG, "on Success Temperature");
         mTemperaturePresenter.fetchData(this);
+        if (!BaseAppUtil.isDSPollingEnabled(getActivity())) {
+            mDataServicesManager.synchronize();
+        }
     }
 
     @Override
@@ -260,7 +266,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
                 if (mSharedPreferences.getBoolean("isSynced", false)) {
                     dismissProgressDialog();
                 }
-               // dismissProgressDialog();
+                // dismissProgressDialog();
             }
         });
     }
@@ -302,8 +308,8 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     }
 
 
-    void storeHSDPID(){
-        if(mUser!=null){
+    void storeHSDPID() {
+        if (mUser != null) {
             AppInfraInterface gAppInfra = ((AppFrameworkApplication) getContext().getApplicationContext()).getAppInfra();
             SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
             SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
@@ -314,7 +320,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     @Override
     public void dBChangeSuccess(SyncType type) {
         DSLog.i(DSLog.LOG, "In Temperature TimeLine Fragment DB OnSuccess");
-        if(type!=SyncType.MOMENT)return;
+        if (type != SyncType.MOMENT) return;
 
         DSLog.i(DSLog.LOG, "In Temperature TimeLine Fragment DB OnSuccess Moment request");
         mTemperaturePresenter.fetchData(TemperatureTimeLineFragment.this);
@@ -328,6 +334,14 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     @Override
     public void onSyncComplete() {
         DSLog.i(TAG, "Sync completed");
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            });
+        }
     }
 
     @Override
@@ -336,6 +350,9 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                if (swipeRefreshLayout != null) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
                 if (mSharedPreferences.getBoolean("isSynced", false)) {
                     dismissProgressDialog();
                 }
@@ -344,9 +361,9 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         });
     }
 
-    private void showToastOnUiThread(final String msg){
+    private void showToastOnUiThread(final String msg) {
 
-        if(getActivity() == null) return;
+        if (getActivity() == null) return;
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -357,9 +374,11 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
 
     @Override
     public void onFetchSuccess(final List<? extends Moment> data) {
-        DSLog.i(DSLog.LOG,"On Sucess ArrayList TemperatureTimeLineFragment");
+        DSLog.i(DSLog.LOG, "On Sucess ArrayList TemperatureTimeLineFragment");
         if (getActivity() == null) return;
-
+        if (!BaseAppUtil.isDSPollingEnabled(getActivity())) {
+            mDataServicesManager.synchronize();
+        }
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -368,9 +387,9 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
                 mAdapter.setData(mData);
                 mAdapter.notifyDataSetChanged();
 
-                if (mDataServicesManager.getSyncTypes()!=null && mDataServicesManager.getSyncTypes().size()<=0) {
+                if (mDataServicesManager.getSyncTypes() != null && mDataServicesManager.getSyncTypes().size() <= 0) {
                     dismissProgressDialog();
-                    Toast.makeText(getContext(),"No Sync Types Configured",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "No Sync Types Configured", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -387,22 +406,29 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     }
 
 
-    private void replaceFragment(Fragment fragment,String tag){
+    private void replaceFragment(Fragment fragment, String tag) {
 
-        int containerId = -1 ;
-        if(getActivity() instanceof AppFrameworkBaseActivity){
-            containerId = ((AppFrameworkBaseActivity)getActivity()).getContainerId();
+        int containerId = -1;
+        if (getActivity() instanceof AppFrameworkBaseActivity) {
+            containerId = ((AppFrameworkBaseActivity) getActivity()).getContainerId();
         }
 
         try {
-            if(containerId == -1) return;
+            if (containerId == -1) return;
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(containerId, fragment, tag);
             fragmentTransaction.addToBackStack(tag);
             fragmentTransaction.commit();
         } catch (IllegalStateException e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, ILLEGAL_STATE_EXCEPTION,e.getMessage());
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, ILLEGAL_STATE_EXCEPTION, e.getMessage());
         }
 
+    }
+
+    @Override
+    public void onRefresh() {
+        if (mDataServicesManager != null) {
+            mDataServicesManager.synchronize();
+        }
     }
 }

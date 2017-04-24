@@ -44,7 +44,7 @@ public class SyncScheduler {
                 }
             }
         };
-        runnable.run();
+        handler.postDelayed(runnable,ScheduleSyncReceiver.DATA_FETCH_FREQUENCY);
     }
 
     public void stopSync() {

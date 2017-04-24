@@ -29,6 +29,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import static com.philips.platform.baseapp.screens.utility.Constants.UI_RENDERING;
 
 /**

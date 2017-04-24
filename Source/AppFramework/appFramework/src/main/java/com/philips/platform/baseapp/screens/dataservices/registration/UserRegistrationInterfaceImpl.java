@@ -11,9 +11,7 @@ import android.widget.Toast;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.core.datatypes.UserProfile;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -38,7 +36,7 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface{
     public static final String TAG = UserRegistrationInterfaceImpl.class.getSimpleName();
 
     @NonNull
-    private final User user;
+    private User user;
     private boolean accessTokenRefreshInProgress;
     private String accessToken = "";
     private Runnable refreshLoginSessionRunnable = new Runnable() {
@@ -96,26 +94,26 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface{
 
     @Override
     public boolean isUserLoggedIn() {
-        if(user==null)return false;
+        user=new User(context);
         return user.isUserSignIn();
     }
 
     @NonNull
     @Override
     public String getHSDPAccessToken() {
-        DSLog.i(DSLog.LOG,"Inside getHSDPAccessToken");
-
-        if(accessToken!=null){
-            DSLog.i(DSLog.LOG,"AccessToken is not null = " + accessToken);
-        }
-
-        if ((accessToken == null || accessToken.isEmpty()) && !accessTokenRefreshInProgress) {
-            DSLog.i(DSLog.LOG,"get the token from Registration");
-            accessToken = gethsdpaccesstoken();
-            DSLog.i(DSLog.LOG,"get the token from Registration access token = " + accessToken);
-        }
-        DSLog.i(DSLog.LOG,"get the token from Registration return - " + accessToken);
-        return accessToken;
+//        DSLog.i(DSLog.LOG,"Inside getHSDPAccessToken");
+//
+//        if(accessToken!=null){
+//            DSLog.i(DSLog.LOG,"AccessToken is not null = " + accessToken);
+//        }
+//
+//        if ((accessToken == null || accessToken.isEmpty()) && !accessTokenRefreshInProgress) {
+//            DSLog.i(DSLog.LOG,"get the token from Registration");
+//            accessToken = gethsdpaccesstoken();
+//            DSLog.i(DSLog.LOG,"get the token from Registration access token = " + accessToken);
+//        }
+//        DSLog.i(DSLog.LOG,"get the token from Registration return - " + accessToken);
+        return getUser(context).getHsdpAccessToken();
     }
 
     @NonNull

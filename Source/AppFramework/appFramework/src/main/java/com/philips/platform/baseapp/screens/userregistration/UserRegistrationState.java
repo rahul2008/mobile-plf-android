@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -30,12 +31,14 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundExce
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.dataservices.utility.SyncScheduler;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
+import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
+import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -47,7 +50,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
-import static com.philips.platform.baseapp.screens.utility.Constants.SQLITE_EXCEPTION;
 import static com.philips.platform.baseapp.screens.utility.Constants.UNSUPPORTED_ENCODING_EXCEPTION;
 
 /**
@@ -56,6 +58,7 @@ import static com.philips.platform.baseapp.screens.utility.Constants.UNSUPPORTED
  */
 public abstract class UserRegistrationState extends BaseState implements UserRegistrationListener, UserRegistrationUIEventListener{
 
+    private static final String TAG=UserRegistrationState.class.getSimpleName();
     final String AI = "appinfra";
     private Context activityContext;
     private User userObject;
@@ -106,15 +109,39 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onUserRegistrationComplete(Activity activity) {
-        SyncScheduler.getInstance().scheduleSync();
         IAPState iapState = new IAPRetailerFlowState();
         getApplicationContext().setIapState(iapState);
         iapState.init(getApplicationContext());
 
         if (null != activity) {
+            new User(activity.getApplicationContext()).refreshLoginSession(new RefreshLoginSessionHandler() {
+                @Override
+                public void onRefreshLoginSessionSuccess() {
+                }
 
+                @Override
+                public void onRefreshLoginSessionFailedWithError(int i) {
+
+                }
+
+                @Override
+                public void onRefreshLoginSessionInProgress(String s) {
+
+                }
+            });
             getApplicationContext().determineChinaFlow();
 
+            //Register GCM token with data services on login success
+            if (BaseAppUtil.isDSPollingEnabled(activity.getApplicationContext())) {
+                Log.d(PushNotificationManager.TAG,"Polling is enabled");
+                SyncScheduler.getInstance().scheduleSync();
+
+            }else{
+                Log.d(PushNotificationManager.TAG,"Push notification is enabled");
+                ((AppFrameworkApplication)activity.getApplicationContext()).getDataServiceState().registerForReceivingPayload();
+                ((AppFrameworkApplication)activity.getApplicationContext()).getDataServiceState().registerDSForRegisteringToken();
+                PushNotificationManager.getInstance().startPushNotificationRegistration(activity.getApplicationContext());
+            }
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
             BaseState baseState = null;
             try {
@@ -243,6 +270,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onUserLogoutFailure() {
+        Log.d(TAG,"User logout failed");
     }
 
     @Override

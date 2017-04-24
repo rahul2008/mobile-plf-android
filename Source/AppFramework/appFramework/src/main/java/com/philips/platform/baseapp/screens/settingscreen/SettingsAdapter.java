@@ -24,12 +24,15 @@ import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.cdp.uikit.customviews.UIKitButton;
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
+import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 import com.philips.platform.baseapp.screens.utility.TaggingConstants;
+import com.philips.platform.referenceapp.PushNotificationManager;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
@@ -49,24 +52,24 @@ public class SettingsAdapter extends BaseAdapter {
     private ProgressDialog progress, progressDialog;
     private int LOGIN_VIEW = 0;
     private int VERTICAL_SETTING_VIEW = 1;
-    private boolean isUserLoggedIn=false;
-    private boolean isMarketingEnabled=false;
+    private boolean isUserLoggedIn = false;
+    private boolean isMarketingEnabled = false;
     private AlertDialog logoutAlertDialog;
     private UIKitButton btn_settings_logout = null;
     private String viewHolderTag = null;
 
     public SettingsAdapter(Context context, ArrayList<SettingListItem> settingsItemList,
-                           UIBasePresenter fragmentPresenter,UserRegistrationState userRegistrationState,boolean isUserLoggedIn,boolean isMarketingEnabled) {
+                           UIBasePresenter fragmentPresenter, UserRegistrationState userRegistrationState, boolean isUserLoggedIn, boolean isMarketingEnabled) {
         activityContext = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.settingsItemList = settingsItemList;
         this.fragmentPresenter = fragmentPresenter;
-        this.isUserLoggedIn=isUserLoggedIn;
-        this.isMarketingEnabled=isMarketingEnabled;
-        this.userRegistrationState=userRegistrationState;
+        this.isUserLoggedIn = isUserLoggedIn;
+        this.isMarketingEnabled = isMarketingEnabled;
+        this.userRegistrationState = userRegistrationState;
         sharedPreferenceUtility = new SharedPreferenceUtility(context);
 
-}
+    }
 
     @Override
     public int getCount() {
@@ -133,13 +136,13 @@ public class SettingsAdapter extends BaseAdapter {
 
         switch (type) {
             case HEADER:
-                headerSection(position,viewHolder);
+                headerSection(position, viewHolder);
                 break;
             case CONTENT:
-                subSection(position,viewHolder);
+                subSection(position, viewHolder);
                 break;
             case NOTIFICATION:
-                notificationSection(position,viewHolder);
+                notificationSection(position, viewHolder);
                 break;
         }
     }
@@ -180,7 +183,7 @@ public class SettingsAdapter extends BaseAdapter {
         });
     }
 
-    private void notificationSection(int position,VerticalViewHolder viewHolder) {
+    private void notificationSection(int position, VerticalViewHolder viewHolder) {
         if (null != viewHolder.name && null != viewHolder.value && null != viewHolder.description && null != viewHolder.number && null != viewHolder.on_off && null != viewHolder.arrow) {
             viewHolder.name.setVisibility(View.VISIBLE);
             viewHolder.name.setText(settingsItemList.get(position).title);
@@ -203,7 +206,7 @@ public class SettingsAdapter extends BaseAdapter {
                         userRegistrationState.getUserObject(activityContext).updateReceiveMarketingEmail(new UpdateUserDetailsHandler() {
                             @Override
                             public void onUpdateSuccess() {
-                                isMarketingEnabled=true;
+                                isMarketingEnabled = true;
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, true);
                                 progress.cancel();
                                 Toast.makeText(activityContext, activityContext.getResources().getString(R.string.RA_Settings_Update_Success), Toast.LENGTH_LONG).show();
@@ -221,7 +224,7 @@ public class SettingsAdapter extends BaseAdapter {
                         userRegistrationState.getUserObject(activityContext).updateReceiveMarketingEmail(new UpdateUserDetailsHandler() {
                             @Override
                             public void onUpdateSuccess() {
-                                isMarketingEnabled=false;
+                                isMarketingEnabled = false;
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, false);
                                 progress.cancel();
                                 Toast.makeText(activityContext, activityContext.getResources().getString(R.string.RA_Settings_Update_Success), Toast.LENGTH_LONG).show();
@@ -249,7 +252,7 @@ public class SettingsAdapter extends BaseAdapter {
         }
     }
 
-    private void subSection(int position,VerticalViewHolder viewHolder) {
+    private void subSection(int position, VerticalViewHolder viewHolder) {
         if (null != viewHolder.name && null != viewHolder.value && null != viewHolder.description && null != viewHolder.number && null != viewHolder.on_off && null != viewHolder.arrow) {
             viewHolder.name.setText(settingsItemList.get(position).title);
             viewHolder.value.setVisibility(View.GONE);
@@ -276,10 +279,10 @@ public class SettingsAdapter extends BaseAdapter {
     }
 
     protected void logoutAlert() {
-        if(logoutAlertDialog!=null && logoutAlertDialog.isShowing()){
+        if (logoutAlertDialog != null && logoutAlertDialog.isShowing()) {
             return;
         }
-        logoutAlertDialog=new AlertDialog.Builder(activityContext, R.style.alertDialogStyle)
+        logoutAlertDialog = new AlertDialog.Builder(activityContext, R.style.alertDialogStyle)
                 .setTitle(getString(R.string.RA_Settings_Logout))
                 .setMessage(activityContext.getResources().getString(R.string.RA_Settings_Logout_Alert))
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -297,22 +300,23 @@ public class SettingsAdapter extends BaseAdapter {
                                 progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                                 progressDialog.setCancelable(false);
                                 progressDialog.show();
-                                userRegistrationState.getUserObject(activityContext).logout(new LogoutHandler() {
-                                    @Override
-                                    public void onLogoutSuccess() {
-                                        //    ((AppFrameworkBaseActivity)activityContext).setCartItemCount(0);
-                                        progressDialog.cancel();
-                                        ((IndexSelectionListener)activityContext).updateSelectionIndex(0);
-                                        fragmentPresenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
 
-                                    }
+                                if (!BaseAppUtil.isDSPollingEnabled(activityContext.getApplicationContext()) && BaseAppUtil.isAutoLogoutEnabled(activityContext.getApplicationContext())) {
+                                    PushNotificationManager.getInstance().deregisterTokenWithBackend(activityContext.getApplicationContext(), new PushNotificationManager.DeregisterTokenListener() {
+                                        @Override
+                                        public void onSuccess() {
+                                            doLogout();
+                                        }
 
-                                    @Override
-                                    public void onLogoutFailure(final int i, final String s) {
-                                        progressDialog.cancel();
-                                        Toast.makeText(activityContext, getString(R.string.RA_Logout_Failed), Toast.LENGTH_LONG).show();
-                                    }
-                                });
+                                        @Override
+                                        public void onError() {
+                                            doLogout();
+                                        }
+                                    });
+                                } else {
+                                    doLogout();
+                                }
+
                             }
                         })
                 .setIcon(android.R.drawable.ic_dialog_alert)
@@ -333,6 +337,33 @@ public class SettingsAdapter extends BaseAdapter {
 
     private String getString(int id) {
         return activityContext.getResources().getString(id);
+    }
+
+    public void doLogout() {
+        userRegistrationState.getUserObject(activityContext).logout(new LogoutHandler() {
+            @Override
+            public void onLogoutSuccess() {
+                //    ((AppFrameworkBaseActivity)activityContext).setCartItemCount(0);
+                //TODO:Need to call UserRegistrationState on logout call. Now its crashingif we do so.
+                progressDialog.cancel();
+                if (activityContext instanceof IndexSelectionListener) {
+                    ((IndexSelectionListener) activityContext).updateSelectionIndex(0);
+                }
+                fragmentPresenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
+                if (!BaseAppUtil.isDSPollingEnabled(activityContext)) {
+                    PushNotificationManager.getInstance().saveTokenRegistrationState(activityContext.getApplicationContext(),false);
+                    ((AppFrameworkApplication) activityContext.getApplicationContext()).getDataServiceState().deregisterDSForRegisteringToken();
+                    ((AppFrameworkApplication) activityContext.getApplicationContext()).getDataServiceState().deregisterForReceivingPayload();
+                }
+
+            }
+
+            @Override
+            public void onLogoutFailure(final int i, final String s) {
+                progressDialog.cancel();
+                Toast.makeText(activityContext, getString(R.string.RA_Logout_Failed), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 }
