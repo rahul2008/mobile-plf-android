@@ -8,32 +8,32 @@ node('Android') {
 
     Pipeline = load "Source/common/jenkins/Pipeline.groovy"
     Slack = load "Source/common/jenkins/Slack.groovy"
-    def gradle = 'cd ./Source/DICommClient && ./gradlew -PenvCode=${JENKINS_ENV}'
+    def gradle = 'cd ./Source/DICommClientSample && ./gradlew -PenvCode=${JENKINS_ENV}'
 
     Slack.notify('#conartists') {
         stage('Build') {
-            sh "${gradle} --refresh-dependencies assembleRelease"
+            sh "$gradle --refresh-dependencies assembleRelease assembleDebug saveResDep"
         }
 
         stage('Unit Test') {
             sh "rm -rf ./Source/DICommClient/dicommClientLib/build/test-results/debug"
-            sh "${gradle} testDebugUnitTest || true"
+            sh "$gradle testDebugUnitTest || true"
+        }
+
+        stage("Gather reports") {
             step([$class: 'JUnitResultArchiver', testResults: 'Source/DICommClient/dicommClientLib/build/test-results/debug/*.xml'])
         }
 
         stage('Archive artifacts') {
-            step([$class: 'ArtifactArchiver', artifacts: 'Source/DICommClient/dicommClientLib/build/outputs/aar/*.aar', excludes: null, fingerprint: true, onlyIfSuccessful: true])
+            archiveArtifacts artifacts: 'Source/DICommClient/dicommClientLib/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
+            archiveArtifacts artifacts: '**/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
+            archiveArtifacts '**/dependencies.lock'
         }
 
         if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME == "master") {
             stage('Publish') {
-                sh "${gradle} zipDocuments artifactoryPublish"
+                sh "$gradle zipDocuments artifactoryPublish"
             }
-        }
-
-        stage('Save Dependencies') {
-            sh "${gradle} saveResDep"
-            archiveArtifacts '**/dependencies.lock'
         }
     }
     Pipeline.trigger(env.triggerBy, env.BRANCH_NAME, "CommLib", "cml")
