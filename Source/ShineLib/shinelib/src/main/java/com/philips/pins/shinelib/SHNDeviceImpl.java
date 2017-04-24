@@ -193,6 +193,9 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 if (shouldWaitUntilBonded()) {
                     setInternalStateReportStateUpdateAndSetTimers(InternalState.WaitingUntilBonded);
+                    if(!btDevice.createBond()) {
+                        SHNLogger.w(TAG, "Failed to start bond creation procedure");
+                    }
                 } else {
                     setInternalStateReportStateUpdateAndSetTimers(InternalState.DiscoveringServices);
                     btGatt.discoverServices();

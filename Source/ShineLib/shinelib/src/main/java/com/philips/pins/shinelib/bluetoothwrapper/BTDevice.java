@@ -48,5 +48,11 @@ public class BTDevice {
         return btGatt;
     }
 
+    public boolean createBond() {
+        if(getBondState() == BluetoothDevice.BOND_NONE) {
+            return device.createBond();
+        }
+        return false;
+    }
 
 }
