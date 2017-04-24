@@ -1,7 +1,7 @@
 PhilipsUIKit for Android Release Notes
 ======================================
 
-Version -3.4.0								Date: 13-04-2017
+Version -3.8.0								Date: 13-04-2017
 -------------------------------------------------------------
 1.	Added Language pack update - provides text lookup functions for the downloaded language pack.
 -------------------------------------------------------------
