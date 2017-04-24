@@ -42,6 +42,7 @@ public class RatingBar extends AppCompatRatingBar {
     public RatingBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         processAttributes(context, attrs, defStyleAttr);
+        initializePaint();
         if (isIndicator()) {
             width = (int) (getContext().getResources().getDimension(R.dimen.uid_rating_bar_display_width));
             height = (int) (getContext().getResources().getDimension(R.dimen.uid_rating_bar_display_height));
@@ -57,17 +58,15 @@ public class RatingBar extends AppCompatRatingBar {
         textColor = typedArray.getColor(R.styleable.UIDRatingBar_uidRatingBarStarOnColor, -1);
         text = typedArray.getString(R.styleable.UIDRatingBar_android_text);
         typedArray.recycle();
-        initializePaint();
-
     }
 
     @Override
-    protected synchronized void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         if(isIndicator() && text!=null){
             widthOffset = (int) (paint.measureText(text) + getResources().getDimensionPixelSize(R.dimen.uid_rating_bar_display_padding));
         }
-        if(ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL){
+        if(isLayoutRTL()){
             setPadding(0,0,widthOffset,0);
         }else {
             setPadding(widthOffset,0,0,0);
@@ -76,10 +75,10 @@ public class RatingBar extends AppCompatRatingBar {
     }
 
     @Override
-    protected synchronized void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if(isIndicator() && text!=null){
-            float cx = ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL? canvas.getWidth():0;
+            float cx = isLayoutRTL() ? canvas.getWidth():0;
             drawTextCentred(canvas, paint, text,cx,canvas.getHeight()/2);
         }
     }
@@ -87,8 +86,12 @@ public class RatingBar extends AppCompatRatingBar {
     private void drawTextCentred(Canvas canvas, Paint paint, String text, float cx, float cy){
         Rect textBounds = new Rect();
         paint.getTextBounds(text, 0, text.length(), textBounds);
-        float x = ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL? cx - textBounds.centerX():cx+ textBounds.centerX();
+        float x = isLayoutRTL() ? cx - textBounds.centerX():cx+ textBounds.centerX();
         canvas.drawText(text, x, cy- textBounds.exactCenterY(), paint);
+    }
+
+    private boolean isLayoutRTL() {
+        return ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL;
     }
 
     private void initializePaint(){
@@ -169,14 +172,24 @@ public class RatingBar extends AppCompatRatingBar {
         return d;
     }
 
+    /**
+     * This API will help you to set the exact string value passed to Rating Bar label.
+     *
+     * @param text String to be set to the Rating Bar label
+     */
     public void setText(String text){
         this.text = text;
         requestLayout();
         invalidate();
     }
 
+    /**
+     * This API will help you to set the string value passed to Rating Bar label through a string resource ID.
+     *
+     * @param resID String resource ID to be set to the Rating Bar label
+     */
     public void setText(int resID){
-        text = getResources().getString(resID);
+        text = String.valueOf(getResources().getText(resID));
         requestLayout();
         invalidate();
     }

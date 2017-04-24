@@ -2,6 +2,7 @@
 
 SPRINT - MUITK.PI17.2.Sprint4
 Story 16723: Android Apply the latest theme on Data validation
+Story 24883:(Android) DLS rating bar
 
 
 SPRINT - MUITK.PI17.2.Sprint3
