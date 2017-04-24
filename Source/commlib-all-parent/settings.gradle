@@ -1,5 +1,5 @@
 rootProject.setName 'commlib-all'
-include ':commlib-all', ':commlib-all-example', ':common', ':testapp'
+include ':commlib-all', ':commlib-all-example', ':common', ':testapp', ':commlib-explorer'
 project(':common').projectDir = new File('../common')
 
 def localCommLibDir = rootDir.absolutePath + '/../../../dicomm-android/Source/DICommClient/dicommClientLib/'
