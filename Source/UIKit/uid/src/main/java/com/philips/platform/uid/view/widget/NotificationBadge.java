@@ -54,7 +54,12 @@ import com.philips.platform.uid.R;
  * <td rowspan="1">Text Size for default 12sp</td>
  * <td rowspan="1">Text size for small 10sp</td>
  * </tr>
- * * <tr>
+ * <tr>
+ * <tr>
+ * <td rowspan="1">Margin for button or View from top and right should be 12 dp </td>
+ * <td rowspan="1">Margin for button or View from top and right should be 10 dp </td>
+ * </tr>
+ * <tr>
  * <td rowspan="1">for both left and right padding 4dp</td>
  * </tr>
  * </tbody>
