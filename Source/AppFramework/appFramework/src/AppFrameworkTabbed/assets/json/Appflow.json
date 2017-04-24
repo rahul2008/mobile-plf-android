@@ -148,6 +148,14 @@
                 "nextState": "connectivity"
               }
             ]
+          },{
+            "eventId": "coco_version_info",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "coco_version_info"
+              }
+            ]
           }
         ]
       },

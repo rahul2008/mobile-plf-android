@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
+import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
@@ -37,6 +38,7 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMomen
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSettings;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynchronisationData;
 import com.philips.platform.baseapp.screens.dataservices.error.ErrorHandlerInterfaceImpl;
+import com.philips.platform.baseapp.screens.dataservices.reciever.ScheduleSyncReceiver;
 import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationInterfaceImpl;
 import com.philips.platform.baseapp.screens.dataservices.temperature.TemperatureTimeLineFragment;
 import com.philips.platform.baseapp.screens.dataservices.utility.SyncScheduler;
@@ -66,6 +68,8 @@ import java.sql.SQLException;
 public class DataServicesState extends BaseState implements HandleNotificationPayloadInterface, PushNotificationTokenRegistrationInterface, PushNotificationUserRegistationWrapperInterface {
     public static final String TAG = DataServicesState.class.getSimpleName();
     FragmentLauncher fragmentLauncher;
+    ScheduleSyncReceiver mScheduleSyncReceiver;
+    Context mcontext;
 
     private DatabaseHelper databaseHelper;
 
@@ -87,6 +91,10 @@ public class DataServicesState extends BaseState implements HandleNotificationPa
 
     @Override
     public void init(Context context) {
+        mcontext=context;
+        mScheduleSyncReceiver = new ScheduleSyncReceiver();
+        //OrmCreator creator = new OrmCreator(new UuidGenerator());
+
         OrmCreator creator = new OrmCreator();
         UserRegistrationInterface userRegistrationInterface = new UserRegistrationInterfaceImpl(context, new User(context));
         ErrorHandlerInterfaceImpl errorHandlerInterface = new ErrorHandlerInterfaceImpl();
@@ -218,5 +226,17 @@ public class DataServicesState extends BaseState implements HandleNotificationPa
     public boolean isUserSignedIn(Context appContext) {
         return new User(appContext).isUserSignIn();
     }
+
+    public String getVersion(Context c){
+        return c.getResources().getString(R.string.RA_COCO_DS_VERSION);
+
+    }
+
+    public String getComponentID(Context c)
+    {
+        return c.getResources().getString(R.string.RA_COCO_DS);
+
+    }
 }
+
 
