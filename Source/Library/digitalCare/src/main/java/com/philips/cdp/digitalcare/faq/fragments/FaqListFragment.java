@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
@@ -46,6 +47,8 @@ public class FaqListFragment extends DigitalCareBaseFragment {
     private RecyclerView mFaqList = null;
     private LinkedHashMap<String, List<Item>> mSupportData = null;
     private View view = null;
+    private ImageView mActionBarMenuIcon = null;
+    private ImageView mActionBarArrow = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,6 +62,15 @@ public class FaqListFragment extends DigitalCareBaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
+        mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
+        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
+        DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
+                (AnalyticsConstants.PAGE_FAQ, getPreviousName(), getPreviousName());
+        initView();
+    }
+
+    private void initView() {
         if (mFaqList != null) {
             return;
         }
@@ -158,6 +170,12 @@ public class FaqListFragment extends DigitalCareBaseFragment {
 
     @Override
     public void setViewParams(Configuration config) {
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
     }
 
     @Override
