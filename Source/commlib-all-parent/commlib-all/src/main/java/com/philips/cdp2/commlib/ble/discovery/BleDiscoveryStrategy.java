@@ -120,6 +120,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
             onDeviceFound(shnDeviceFoundInfo);
         } else {
             bleDeviceCache.add(cacheData.getDevice(), cacheData.getNetworkNode(), expirationCallback, SCAN_WINDOW_MILLIS);
+            notifyNetworkNodeDiscovered(cacheData.getNetworkNode());
         }
     }
 
