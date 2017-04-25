@@ -169,7 +169,7 @@ dependencies {
     androidTestCompile 'org.mockito:mockito-core:2.0.106-beta'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.5.6' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.6.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     compile 'com.squareup.okio:okio:1.6.0'
     //WeChat China
     compile files('libs/libammsdk.jar')

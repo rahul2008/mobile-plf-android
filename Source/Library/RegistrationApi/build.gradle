@@ -195,7 +195,7 @@ dependencies {
     compile project(':jump')
     compile project(':hsdp')
     compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
-    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.4.7' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.5.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
             {
                 transitive = true
             }
