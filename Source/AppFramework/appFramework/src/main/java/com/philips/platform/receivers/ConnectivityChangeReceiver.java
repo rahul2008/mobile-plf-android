@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.referenceapp.PushNotificationManager;
 
 
@@ -22,6 +23,8 @@ public class ConnectivityChangeReceiver extends BroadcastReceiver {
         if(BaseAppUtil.isNetworkAvailable(context)){
             Log.d(TAG,"Network available");
             PushNotificationManager.getInstance().startPushNotificationRegistration(context);
+            //Synchronize database when internet is available
+            DataServicesManager.getInstance().synchronize();
         }
 
     }
