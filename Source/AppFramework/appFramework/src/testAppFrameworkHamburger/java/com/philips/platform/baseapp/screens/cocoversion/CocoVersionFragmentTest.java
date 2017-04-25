@@ -55,7 +55,7 @@ public class CocoVersionFragmentTest extends TestCase {
     @Test
     public void testShowCoCoName() {
         cocoVersionAdapter.onBindViewHolder(candyViewHolder, 0);
-        assertEquals("AppInfra", candyViewHolder.CocoName.getText().toString());
+        assertEquals("ail", candyViewHolder.CocoName.getText().toString());
 
     }
 

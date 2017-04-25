@@ -7,6 +7,7 @@ package com.philips.platform.appframework.homescreen;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -61,6 +62,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
     private FrameLayout hamburgerClick = null;//shoppingCartLayout;
     //    private UserRegistrationState userRegistrationState;
     private SharedPreferenceUtility sharedPreferenceUtility;
+    Handler handler = new Handler();
    /* private ImageView cartIcon;
     private TextView cartCount;
     private boolean isCartVisible = true;*/
@@ -436,6 +438,13 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
 
     @Override
     public void updateSelectionIndex(int position) {
-        adapter.setSelectedIndex(0);
+        if(handler!=null)
+            handler.post(new Runnable() {
+            @Override
+            public void run() {
+                adapter.setSelectedIndex(0);
+
+            }
+        });
     }
 }
