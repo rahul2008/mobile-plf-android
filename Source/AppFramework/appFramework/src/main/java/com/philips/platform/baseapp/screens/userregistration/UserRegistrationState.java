@@ -68,7 +68,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     private static final String HSDP_CONFIGURATION_APPLICATION_NAME = "HSDPConfiguration.ApplicationName";
     private static final String HSDP_CONFIGURATION_SECRET = "HSDPConfiguration.Secret";
     private static final String HSDP_CONFIGURATION_SHARED = "HSDPConfiguration.Shared";
-    private static final String HSDP_CONFIGURATION_BASE_URL = "HSDPConfiguration.BaseURL";
     private static final String CHINA_CODE = "CN";
     private static final String DEFAULT = "default";
     private static final String URL_ENCODING = "UTF-8";
@@ -189,18 +188,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
         appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
                 UR, hsdpSharedIds, configError);
-
-        Map<String, String> hsdpBaseUrls = new HashMap<>();
-        try {
-            hsdpBaseUrls.put(CHINA_CODE, URLEncoder.encode("https://user-registration-assembly-staging.cn1.philips-healthsuite.com.cn", URL_ENCODING));
-            hsdpBaseUrls.put(DEFAULT, URLEncoder.encode("https://user-registration-assembly-staging.eu-west.philips-healthsuite.com", URL_ENCODING));
-        } catch (UnsupportedEncodingException e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, UNSUPPORTED_ENCODING_EXCEPTION,e.getMessage());
-
-        }
-
-        appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_BASE_URL,
-                UR, hsdpBaseUrls, configError);
     }
 
 
