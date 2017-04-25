@@ -1,12 +1,15 @@
 package com.philips.platform.uid.components.ratingbar;
 
 
+import android.app.Activity;
 import android.content.res.Resources;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
+import com.philips.platform.uid.test.BuildConfig;
+import com.philips.platform.uid.utils.UIDTestUtils;
 import com.philips.platform.uid.view.widget.RatingBar;
 
 import org.junit.Before;
@@ -24,6 +27,7 @@ public class RatingBarTest {
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
     private Resources resources;
     private RatingBar ratingBar;
+    private Activity activityContext;
 
     @Before
     public void setUp() {
@@ -31,7 +35,7 @@ public class RatingBarTest {
         activity.switchTo(com.philips.platform.uid.test.R.layout.layout_ratingbar);
         resources = getInstrumentation().getContext().getResources();
         ratingBar = new RatingBar(activity);
-
+        activityContext = activity;
     }
 
     private ViewInteraction getInputRating() {
@@ -60,10 +64,15 @@ public class RatingBarTest {
         getDisplayRating().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
     }
 
-//    @Test
-//    public void verifyDisplayRatingBarLabelSize(){
-//        float expectedTextSize = ratingBar.getPaint().getTextSize();
-//
-//    }
+    @Test
+    public void verifyDisplayRatingBarLabelSize(){
+        float expectedTextSize = getInstrumentation().getContext().getResources().getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.rating_bar_text_size);
+        UIDTestUtils.waitFor(resources,750);
+        RatingBar displayRating = (RatingBar) activityContext.findViewById(com.philips.platform.uid.test.R.id.rating_display_default);
+        if (BuildConfig.DEBUG && !(expectedTextSize==displayRating.getPaint().getTextSize())) {
+            throw new AssertionError();
+        }
+    }
+
 
 }
