@@ -1,13 +1,8 @@
 package com.philips.cdp.di.iapdemo;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -21,7 +16,6 @@ import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.uikit.UiKitActivity;
-import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -51,7 +45,7 @@ public class LauncherFragmentActivity extends UiKitActivity
         super.onCreate(savedInstanceState);
 
         initIAP();
-        addActionBar();
+      //\  addActionBar();
         setContentView(R.layout.fragment_launcher_layout);
 
         mProductCTNs = new ArrayList<>();
@@ -110,50 +104,50 @@ public class LauncherFragmentActivity extends UiKitActivity
     }
 
 
-    private void addActionBar() {
-        ActionBar mActionBar = getSupportActionBar();
-        if (mActionBar == null) return;
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
-        mActionBar.setDisplayShowCustomEnabled(true);
-
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(
-                ActionBar.LayoutParams.MATCH_PARENT,
-                ActionBar.LayoutParams.WRAP_CONTENT,
-                Gravity.CENTER);
-
-        View mCustomView = LayoutInflater.from(getApplicationContext()).
-                inflate(com.philips.cdp.di.iap.R.layout.iap_action_bar, null);
-
-        FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById
-                (com.philips.cdp.di.iap.R.id.iap_header_back_button);
-        frameLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                onBackPressed();
-            }
-        });
-
-        mBackImage = (ImageView) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.iap_iv_header_back_button);
-        Drawable mBackDrawable = VectorDrawable.create(getApplicationContext(),
-                com.philips.cdp.di.iap.R.drawable.iap_back_arrow);
-        mBackImage.setBackground(mBackDrawable);
-
-        mTitleTextView = (TextView) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.iap_header_title);
-        setTitle(getResources().getString(R.string.demo_app_name));
-
-        mCartContainer = (FrameLayout) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.cart_container);
-        ImageView mCartIcon = (ImageView) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.cart_icon);
-        Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(),
-                com.philips.cdp.di.iap.R.drawable.iap_shopping_cart);
-        mCartIcon.setBackground(mCartIconDrawable);
-        mCartContainer.setOnClickListener(this);
-        mCountText = (TextView) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.item_count);
-
-        mActionBar.setCustomView(mCustomView, params);
-        Toolbar parent = (Toolbar) mCustomView.getParent();
-        parent.setContentInsetsAbsolute(0, 0);
-    }
+//    private void addActionBar() {
+//        ActionBar mActionBar = getSupportActionBar();
+//        if (mActionBar == null) return;
+//        mActionBar.setDisplayShowHomeEnabled(false);
+//        mActionBar.setDisplayShowTitleEnabled(false);
+//        mActionBar.setDisplayShowCustomEnabled(true);
+//
+//        ActionBar.LayoutParams params = new ActionBar.LayoutParams(
+//                ActionBar.LayoutParams.MATCH_PARENT,
+//                ActionBar.LayoutParams.WRAP_CONTENT,
+//                Gravity.CENTER);
+//
+//        View mCustomView = LayoutInflater.from(getApplicationContext()).
+//                inflate(com.philips.cdp.di.iap.R.layout.iap_action_bar, null);
+//
+//        FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById
+//                (com.philips.cdp.di.iap.R.id.iap_header_back_button);
+//        frameLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(final View v) {
+//                onBackPressed();
+//            }
+//        });
+//
+//        mBackImage = (ImageView) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.iap_iv_header_back_button);
+//        Drawable mBackDrawable = VectorDrawable.create(getApplicationContext(),
+//                com.philips.cdp.di.iap.R.drawable.iap_back_arrow);
+//        mBackImage.setBackground(mBackDrawable);
+//
+//        mTitleTextView = (TextView) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.iap_header_title);
+//        setTitle(getResources().getString(R.string.demo_app_name));
+//
+//        mCartContainer = (FrameLayout) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.cart_container);
+//        ImageView mCartIcon = (ImageView) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.cart_icon);
+//        Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(),
+//                com.philips.cdp.di.iap.R.drawable.iap_shopping_cart);
+//        mCartIcon.setBackground(mCartIconDrawable);
+//        mCartContainer.setOnClickListener(this);
+//      //  mCountText = (TextView) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.item_count);
+//
+//        mActionBar.setCustomView(mCustomView, params);
+//        Toolbar parent = (Toolbar) mCustomView.getParent();
+//        parent.setContentInsetsAbsolute(0, 0);
+//    }
 
     @Override
     public void updateActionBar(int resourceId, boolean visibility) {

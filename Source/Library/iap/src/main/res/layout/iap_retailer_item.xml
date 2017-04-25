@@ -23,7 +23,7 @@
         android:layout_marginTop="@dimen/iap_retailers_store_name_top_margin"
         android:layout_toEndOf="@id/iap_retailer_image"
         android:includeFontPadding="false"
-        android:textColor="?attr/uikit_baseColor"
+        android:textColor="?attr/uidPrimaryText"
         android:textSize="@dimen/iap_retailers_store_name_size" />
 
     <TextView
@@ -34,7 +34,7 @@
         android:layout_below="@id/iap_online_store_name"
         android:layout_marginBottom="@dimen/iap_retailers_store_name_top_margin"
         android:layout_toEndOf="@id/iap_retailer_image"
-        android:textColor="?attr/uikit_baseColor"
+        android:textColor="?attr/uidPrimaryText"
         android:textSize="@dimen/iap_retailers_store_name_size" />
 
     <com.shamanland.fonticon.FontIconTextView

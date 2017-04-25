@@ -15,7 +15,8 @@
             android:name=".activity.IAPActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.DLS.Orange.VeryLight" />
+            android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
+           />
         <!--
       This activity declaration is merged with the version from the library manifest.
       It demonstrates how an https redirect can be captured, in addition to or instead of

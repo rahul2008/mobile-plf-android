@@ -10,12 +10,16 @@
         android:layout_height="fill_parent"
         android:fillViewport="true"
         android:orientation="vertical"
+
         android:visibility="visible">
 
         <RelativeLayout
             android:id="@+id/detail_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingEnd="@dimen/border16_margin_left_right"
+            android:paddingStart="@dimen/border16_margin_left_right"
+            android:paddingTop="@dimen/border24_margin_bottom">
 
 
             <com.philips.platform.uid.view.widget.Label
@@ -23,11 +27,7 @@
                 style="@style/iapCentralesansBoldFont"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/iap_product_detail_right_padding"
-                android:layout_marginStart="@dimen/iap_product_detail_left_padding"
                 android:includeFontPadding="false"
-                android:paddingBottom="@dimen/iap_product_detail_bottom_padding"
-                android:paddingTop="@dimen/iap_product_detail_top_padding_top"
                 android:textColor="?attr/uidTextPrimary"
                 app:uidLabelTextSize="@dimen/iap_product_description" />
 
@@ -37,12 +37,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
+                android:paddingBottom="@dimen/border4_margin"
                 android:layout_below="@id/product_description"
-                android:layout_marginStart="@dimen/iap_product_detail_left_padding"
                 android:includeFontPadding="false"
-                android:paddingEnd="@dimen/iap_product_detail_right_padding"
-                android:textColor="@color/uikit_enricher4"
-                app:uidLabelTextSize="@dimen/iap_product_ctn" />
+                android:textColor="?attr/uidTextSecondary"
+                app:uidLabelTextSize="16sp" />
 
             <LinearLayout
                 android:id="@+id/price_container"
@@ -98,42 +97,38 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/indicator"
-                android:layout_marginBottom="@dimen/iap_product_detail_bottom_padding"
-                android:layout_marginEnd="@dimen/iap_product_detail_right_padding"
-                android:layout_marginStart="@dimen/iap_product_detail_left_padding"
                 android:includeFontPadding="false"
-                android:paddingTop="@dimen/iap_product_detail_top_padding"
                 android:textColor="?attr/uidControlPrimaryText"
                 app:uidLabelTextSize="@dimen/iap_product_overview" />
 
-            <com.philips.platform.uid.view.widget.Button
-                android:id="@+id/add_to_cart"
-                style="@style/UIDImageTextButton.Center"
-                android:layout_width="fill_parent"
-                android:layout_height="44dp"
-                android:layout_below="@id/product_overview"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="@dimen/network_margin_left_right"
-                android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
-                android:layout_marginRight="@dimen/iap_shopping_cart_image_margin_top"
-                android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
-                android:enabled="true"
-                android:text="@string/iap_add_to_cart"
-                android:visibility="gone" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:paddingBottom="@dimen/border16_margin_left_right"
+                android:orientation="vertical">
 
-            <com.philips.platform.uid.view.widget.Button
-                android:id="@+id/buy_from_retailor"
-                style="@style/UIDImageTextButton.Center"
-                android:layout_width="fill_parent"
-                android:layout_height="44dp"
-                android:layout_below="@id/add_to_cart"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="40dp"
-                android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
-                android:layout_marginRight="@dimen/iap_shopping_cart_image_margin_top"
-                android:enabled="true"
-                android:text="@string/iap_buy_from_retailers"
-                android:visibility="gone" />
+                <com.philips.platform.uid.view.widget.Button
+                    android:id="@+id/add_to_cart"
+                    style="@style/UIDImageTextButton.Center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+
+                    android:enabled="true"
+                    android:text="@string/iap_add_to_cart"
+                    android:visibility="visible" />
+
+                <com.philips.platform.uid.view.widget.Button
+                    android:id="@+id/buy_from_retailor"
+                    style="@style/UIDImageTextButton.Center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/add_to_cart"
+                    android:enabled="true"
+                    android:text="@string/iap_buy_from_retailers"
+                    android:visibility="visible" />
+            </LinearLayout>
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>
