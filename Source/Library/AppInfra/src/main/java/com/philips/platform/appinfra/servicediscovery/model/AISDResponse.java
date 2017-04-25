@@ -75,6 +75,8 @@ public class AISDResponse {
 	                                                               Map<String, String> replacement) {
 		final HashMap<String, ServiceDiscoveryService> response = new HashMap<>();
 		HashMap<String, ServiceDiscoveryService> propositionResponse = null, platformResponse = null;
+		ServiceDiscoveryService propositionService = null;
+		ServiceDiscoveryService platformService = null;
 
 		if (getPropositionURLs() != null) {
 			propositionResponse = getPropositionURLs().getServicesWithServiceID(serviceIds, preference, replacement);
@@ -85,30 +87,33 @@ public class AISDResponse {
 		}
 
 		for (final String serviceId : serviceIds) {
-			if (propositionResponse != null && platformResponse != null) {
-				final ServiceDiscoveryService propositionService = propositionResponse.get(serviceId);
-				final ServiceDiscoveryService platformService = platformResponse.get(serviceId);
 
-				if (propositionService != null && platformService != null) {
-					if (propositionService.getConfigUrls() != null && platformService.getConfigUrls() != null) {
-						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Service Discovery",
-								"Platform URL is overridden by proposition URL for serviceId" + " " + serviceId);
-					}
+			if(propositionResponse != null) {
+				propositionService = propositionResponse.get(serviceId);
+			}
+
+			if(platformResponse != null) {
+				platformService = platformResponse.get(serviceId);
+			}
+
+			if (propositionService != null && platformService != null) {
+				if (propositionService.getConfigUrls() != null && platformService.getConfigUrls() != null) {
+					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Service Discovery",
+							"Platform URL is overridden by proposition URL for serviceId" + " " + serviceId);
 				}
+			}
 
-
-				if (propositionService != null && propositionService.getConfigUrls() != null) {
-					if (propositionService.getConfigUrls().equalsIgnoreCase(SDEmptyURL)) {
-						propositionService.setConfigUrl(null);
-						propositionService.setmError("ServiceDiscovery cannot find the URL for serviceID" + serviceId);
-						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Service Discovery",
-								"Proposition has empty URL , So ignoring platform URL for serviceId" + " " + serviceId);
-					}
-					response.put(serviceId, propositionService);
-				} else {
-					if (platformService != null) {
-						response.put(serviceId, platformService);
-					}
+			if (propositionService != null && propositionService.getConfigUrls() != null) {
+				if (propositionService.getConfigUrls().equalsIgnoreCase(SDEmptyURL)) {
+					propositionService.setConfigUrl(null);
+					propositionService.setmError("ServiceDiscovery cannot find the URL for serviceID" + serviceId);
+					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Service Discovery",
+							"Proposition has empty URL , So ignoring platform URL for serviceId" + " " + serviceId);
+				}
+				response.put(serviceId, propositionService);
+			} else {
+				if (platformService != null) {
+					response.put(serviceId, platformService);
 				}
 			}
 		}

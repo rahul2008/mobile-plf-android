@@ -29,6 +29,7 @@
     "contentLoader.limitSize":100,
     "servicediscovery.platformMicrositeId":"77000",
     "servicediscovery.platformEnvironment":"production",
+    "servicediscovery.propositionEnabled":true,
     "appconfig.cloudServiceId":"appinfra.appconfigdownload",
     "timesync.ntp.hosts":["0.pool.ntp.org","1.pool.ntp.org","2.pool.ntp.org","3.pool.ntp.org","0.cn.pool.ntp.org"],
     "LANGUAGEPACK.SERVICEID":"appinfra.languagepack",

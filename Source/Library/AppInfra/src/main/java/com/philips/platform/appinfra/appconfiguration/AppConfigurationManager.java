@@ -61,7 +61,6 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     }
 
     protected JSONObject getMasterConfigFromApp() {
-
         try {
             final InputStream mInputStream = mContext.getAssets().open("AppConfig.json");
             final BufferedReader r = new BufferedReader(new InputStreamReader(mInputStream));
@@ -72,7 +71,6 @@ public class AppConfigurationManager implements AppConfigurationInterface {
             }
             result = new JSONObject(total.toString());
             result = makeKeyUppercase(result); // converting all Group and child key Uppercase
-
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "Json",
                     result.toString());
 
@@ -218,7 +216,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                     // boolean isKeyPresent = cocoJSONobject.has(key);
                     if (object instanceof ArrayList) {
 
-                        if (((ArrayList) object).get(0) instanceof Integer || ((ArrayList) object).get(0) instanceof String) {
+                         if (((ArrayList) object).get(0) instanceof Integer || ((ArrayList) object).get(0) instanceof String ) {
 
                             final JSONArray jsonArray = new JSONArray(((ArrayList) object).toArray());
                             cocoJSONobject.put(key, jsonArray);
@@ -236,14 +234,14 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                             throw new IllegalArgumentException("Invalid Argument Exception");
                         } else {
 
-                            if (objectKey instanceof String && (value instanceof String || value instanceof Integer)) { // if keys are String and value are Integer OR String
+                            if (objectKey instanceof String && (value instanceof String || value instanceof Integer || value instanceof Boolean)) { // if keys are String and value are Integer OR String
                                 final JSONObject jsonObject = new JSONObject(object.toString());
                                 cocoJSONobject.put(key, jsonObject);
                             } else {
                                 throw new IllegalArgumentException("Invalid Argument Exception");
                             }
                         }
-                    } else if (object instanceof Integer || object instanceof String || null == object) {
+                    } else if (object instanceof Integer || object instanceof String || null == object || object instanceof Boolean) {
 
                         cocoJSONobject.put(key, object);
                     } else {
