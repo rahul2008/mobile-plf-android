@@ -234,11 +234,11 @@ dependencies {
 
     compile "com.j256.ormlite:ormlite-core:5.0"
     compile "com.j256.ormlite:ormlite-android:5.0"
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '10.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '10.1.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     {
         transitive true
     }
-    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.7.5' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.8.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     {
         transitive true
     }
