@@ -197,7 +197,7 @@ configurations.all {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:customtabs:**.**.**'
-    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.7.5' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.8.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     {
            transitive = true
     }
@@ -205,7 +205,7 @@ dependencies {
     {
            transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'prx', version: '3.1.6' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'prx', version: '3.2.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     {
         transitive = true
     }
