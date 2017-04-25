@@ -1,29 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-   xmlns:app="http://schemas.android.com/apk/res-auto">
-
-<RelativeLayout
-    android:id="@+id/relative_layout"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
+
+    <com.philips.platform.uid.view.widget.NotificationBadge
+        android:id="@+id/uid_text_small"
+        style="@style/NotificationBadge.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
+        android:elevation="@dimen/uid_notification_badge_elevation"
+        android:gravity="center|center_horizontal"
+        android:visibility="invisible" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/uid_notification_badge_small_view_margin_top_right"
-       android:gravity="center|center_horizontal"
-       app:srcCompat="@drawable/ic_email_icon"
-        />
-</RelativeLayout>
+        android:layout_margin="@dimen/uid_notificationbadge_small_margin"
+        android:gravity="center|center_horizontal"
+        app:srcCompat="@drawable/ic_email_icon" />
 
-<com.philips.platform.uid.view.widget.NotificationBadge
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/uid_text_small"
-    style="@style/NotificationBadge.Small"
-    android:gravity="center|center_horizontal"
-    android:layout_alignRight="@id/relative_layout"
-    android:visibility="invisible"/>
-</RelativeLayout>
+</FrameLayout>

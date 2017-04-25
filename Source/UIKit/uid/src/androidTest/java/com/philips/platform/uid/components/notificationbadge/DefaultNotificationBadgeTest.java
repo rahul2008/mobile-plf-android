@@ -54,7 +54,7 @@ public class DefaultNotificationBadgeTest extends BaseTest {
 
     @Test
     public void verifyIconDefaultTextSize() {
-        int expectedTextSize = testResources.getDimensionPixelSize(R.dimen.uid_notification_badge_default_square_round_textSize);
+        int expectedTextSize = testResources.getDimensionPixelSize(R.dimen.uid_notificationbadge_default_textSize);
         getNotificationBadgeTextLayout().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedTextSize)));
     }
 
@@ -75,25 +75,25 @@ public class DefaultNotificationBadgeTest extends BaseTest {
 
     @Test
     public void verifyViewDefaultTopMargin() {
-        int expectedTopMargin = testResources.getDimensionPixelSize(R.dimen.uid_notification_badge_default_view_margin_top_right);
+        int expectedTopMargin = testResources.getDimensionPixelSize(R.dimen.uid_notificationbadge_default_margin);
         getNotificationBadgeViewLayout().check(matches(TextViewPropertiesMatchers.isSameTopMargin(expectedTopMargin)));
     }
 
     @Test
     public void verifyViewDefaultRightMargin() {
-        int expectedRightMargin = testResources.getDimensionPixelSize(R.dimen.uid_notification_badge_default_view_margin_top_right);
+        int expectedRightMargin = testResources.getDimensionPixelSize(R.dimen.uid_notificationbadge_default_margin);
         getNotificationBadgeViewLayout().check(matches(TextViewPropertiesMatchers.isSameRightMargin(expectedRightMargin)));
     }
 
     @Test
     public void verifyTextDefaultRightPadding() {
-        int expectedStartPadding = testResources.getDimensionPixelSize(R.dimen.uid_notification_badge_square_round_padding);
+        int expectedStartPadding = testResources.getDimensionPixelSize(R.dimen.uid_notificationbadge_padding);
         getNotificationBadgeTextLayout().check(matches(TextViewPropertiesMatchers.isSameStartPadding(expectedStartPadding)));
     }
 
     @Test
     public void verifyTextDefaultLeftPadding() {
-        int expectedEndPadding = testResources.getDimensionPixelSize(R.dimen.uid_notification_badge_square_round_padding);
+        int expectedEndPadding = testResources.getDimensionPixelSize(R.dimen.uid_notificationbadge_padding);
         getNotificationBadgeTextLayout().check(matches(TextViewPropertiesMatchers.isSameEndPadding(expectedEndPadding)));
     }
 
@@ -114,7 +114,7 @@ public class DefaultNotificationBadgeTest extends BaseTest {
 
     @Test
     public void verifyIconSmallTextSize() {
-        int expectedTextSize = testResources.getDimensionPixelSize(R.dimen.uid_notification_badge_small_square_round_textSize);
+        int expectedTextSize = testResources.getDimensionPixelSize(R.dimen.uid_notificationbadge_small_textSize);
         getNotificationSmallBadgeTextLayout().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedTextSize)));
     }
     @Test
@@ -125,28 +125,22 @@ public class DefaultNotificationBadgeTest extends BaseTest {
 
     @Test
     public void verifyViewSmallTopMargin() {
-        int expectedTopMargin = testResources.getDimensionPixelSize(R.dimen.uid_notification_badge_small_view_margin_top_right);
+        int expectedTopMargin = testResources.getDimensionPixelSize(R.dimen.uid_notificationbadge_small_margin);
         getNotificationSmallBadgeViewLayout().check(matches(TextViewPropertiesMatchers.isSameTopMargin(expectedTopMargin)));
     }
-    /*@Test
-    public void verifyViewSmallBackgroundColor() {
-        int expectedTextColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidNotificationBadgeDefaultBackgroundColor);
-        getNotificationSmallBadgeViewLayout().check(matches(TextViewPropertiesMatchers.sameBackgroundColor(expectedTextColor))); }
-
-   */
     @Test
     public void verifyViewSmallRightMargin() {
-        int expectedRightMargin = testResources.getDimensionPixelSize(R.dimen.uid_notification_badge_small_view_margin_top_right);
+        int expectedRightMargin = testResources.getDimensionPixelSize(R.dimen.uid_notificationbadge_small_margin);
         getNotificationSmallBadgeViewLayout().check(matches(TextViewPropertiesMatchers.isSameRightMargin(expectedRightMargin)));
     }
     @Test
     public void verifyTextSmallRightPadding() {
-        int expectedStartPadding = testResources.getDimensionPixelSize(R.dimen.uid_notification_badge_square_round_padding);
+        int expectedStartPadding = testResources.getDimensionPixelSize(R.dimen.uid_notificationbadge_padding);
         getNotificationSmallBadgeTextLayout().check(matches(TextViewPropertiesMatchers.isSameStartPadding(expectedStartPadding)));
     }
     @Test
     public void verifyTextSmallLeftPadding() {
-        int expectedEndPadding = testResources.getDimensionPixelSize(R.dimen.uid_notification_badge_square_round_padding);
+        int expectedEndPadding = testResources.getDimensionPixelSize(R.dimen.uid_notificationbadge_padding);
         getNotificationSmallBadgeTextLayout().check(matches(TextViewPropertiesMatchers.isSameEndPadding(expectedEndPadding)));
     }
     @Test

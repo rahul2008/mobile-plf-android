@@ -32,57 +32,54 @@ import com.philips.platform.uid.R;
  * <p>
  *  Template for Default Notification Badge <br>
  *    <pre>
- *        &lt;RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
- *         android:layout_width="wrap_content"
- *         android:layout_height="wrap_content"/&gt;
- *         &lt;RelativeLayout
- *         android:layout_width="wrap_content"
- *         android:layout_height="wrap_content"/&gt;
- *         &lt;com.philips.platform.uid.view.widget.Button
- *         android:layout_width="wrap_content"
- *         android:layout_height="wrap_content"
- *         android:layout_marginRight="@dimen/uid_notification_badge_default_view_margin_top_right"
- *         android:layout_marginTop="@dimen/uid_notification_badge_default_view_margin_top_right"
- *         android:gravity="center|center_horizontal"
- *         android:text="@string/e_mails"/&gt;
- *         &lt;RelativeLayout/&gt;
- *         &lt;com.philips.platform.uid.view.widget.NotificationBadge
- *         android:layout_width="wrap_content"
- *         android:layout_height="wrap_content"
- *         style="@style/NotificationBadge"
- *         android:gravity="center|center_horizontal"
- *         android:layout_alignRight="@id/relative_layout"
- *         android:visibility="invisible"/&gt;
- *       &lt;RelativeLayout/&gt;
- *     </pre>
+ *        &lt;FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ *            android:layout_width="wrap_content"
+ *            android:layout_height="wrap_content"/&gt;
+ *
+ *            &lt;com.philips.platform.uid.view.widget.NotificationBadge
+ *                android:layout_width="wrap_content"
+ *                android:layout_height="wrap_content"
+ *                style="@style/NotificationBadge"
+ *                android:gravity="center|center_horizontal"
+ *                android:layout_gravity="top|right"
+ *                android:elevation="@dimen/uid_notification_badge_elevation"
+ *                android:visibility="invisible"/&gt;
+ *
+ *            &lt;com.philips.platform.uid.view.widget.Button
+ *                android:layout_width="wrap_content"
+ *                android:layout_height="wrap_content"
+ *                android:layout_marginRight="@dimen/uid_notificationbadge_default_margin"
+ *                android:layout_marginTop="@dimen/uid_notificationbadge_default_margin"
+ *                android:gravity="center|center_horizontal"
+ *               android:text="@string/e_mails"/&gt;
+ *      &lt;FrameLayout/&gt;
+ *   </pre>
  * </p>
  *
  * <p>
  *  Template for Small Notification Badge <br>
- *    <pre>
- *        &lt;RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
- *         android:layout_width="wrap_content"
- *         android:layout_height="wrap_content"/&gt;
- *         &lt;RelativeLayout
- *         android:layout_width="wrap_content"
- *         android:layout_height="wrap_content"/&gt;
- *         &lt;com.philips.platform.uid.view.widget.Button
- *         android:layout_width="wrap_content"
- *         android:layout_height="wrap_content"
- *         android:layout_marginRight="@dimen/uid_notification_badge_default_view_margin_top_right"
- *         android:layout_marginTop="@dimen/uid_notification_badge_default_view_margin_top_right"
- *         android:gravity="center|center_horizontal"
- *         android:text="@string/e_mails"/&gt;
- *         &lt;RelativeLayout/&gt;
- *         &lt;com.philips.platform.uid.view.widget.NotificationBadge.Small
- *         android:layout_width="wrap_content"
- *         android:layout_height="wrap_content"
- *         style="@style/NotificationBadge"
- *         android:gravity="center|center_horizontal"
- *         android:layout_alignRight="@id/relative_layout"
- *         android:visibility="invisible"/&gt;
- *       &lt;RelativeLayout/&gt;
- *     </pre>
+ *     <pre>
+ *        &lt;FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ *            android:layout_width="wrap_content"
+ *            android:layout_height="wrap_content"/&gt;
+ *
+ *            &lt;com.philips.platform.uid.view.widget.NotificationBadge
+ *                android:layout_width="wrap_content"
+ *                android:layout_height="wrap_content"
+ *                style="@style/NotificationBadge.small"
+ *                android:gravity="center|center_horizontal"
+ *                android:layout_gravity="top|right"
+ *                android:elevation="@dimen/uid_notification_badge_elevation"
+ *                android:visibility="invisible"/&gt;
+ *
+ *            &lt;ImageView
+ *               android:layout_width="wrap_content"
+ *               android:layout_height="wrap_content"
+ *               android:layout_margin="@dimen/uid_notificationbadge_small_margin"
+ *               android:gravity="center|center_horizontal"
+ *               app:srcCompat="@drawable/ic_email_icon"/&gt;
+ *      &lt;FrameLayout/&gt;
+ *   </pre>
  * </p>
  */
 
@@ -103,7 +100,6 @@ public class NotificationBadge extends AppCompatTextView {
         super(context, attrs, defStyle);
         final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NotificationBadgeStyle, defStyle, R.style.NotificationBadge);
         setBackgroundColor(context, attrs);
-        isSmallBadge(typedArray);
         setTextChangeListener();
         typedArray.recycle();
     }
@@ -116,11 +112,6 @@ public class NotificationBadge extends AppCompatTextView {
         }
     }
 
-    private boolean isSmallBadge(TypedArray typedArray) {
-        boolean smallBadge = typedArray.getBoolean(R.styleable.NotificationBadgeStyle_uidNotificationBadgeSmall, false);
-        return smallBadge;
-    }
-
     private void setTextChangeListener() {
         addTextChangedListener(new TextWatcher() {
             @Override
@@ -129,7 +120,11 @@ public class NotificationBadge extends AppCompatTextView {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validateView(s);
+                if (TextUtils.isEmpty(s)) {
+                    setVisibility(INVISIBLE);
+                } else {
+                    setVisibility(VISIBLE);
+                }
             }
 
             @Override
@@ -137,13 +132,4 @@ public class NotificationBadge extends AppCompatTextView {
             }
         });
     }
-
-    private void validateView(CharSequence count) {
-        if (TextUtils.isEmpty(count)) {
-            setVisibility(INVISIBLE);
-        } else {
-            setVisibility(VISIBLE);
-        }
-    }
-
 }
