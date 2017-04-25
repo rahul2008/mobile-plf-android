@@ -152,11 +152,11 @@ public class FaqListFragment extends DigitalCareBaseFragment {
         if (id == R.id.faq_list_item_header_show_more_less) {
             TextView showAllOrLess = (TextView) view;
             String groupName = (String) view.getTag();
-            if (showAllOrLess.getText().toString().equals("Show all")) {
-                showAllOrLess.setText("Show less");
+            if (showAllOrLess.getText().toString().equals(getResources().getString(R.string.show_all))) {
+                showAllOrLess.setText(R.string.show_less);
                 updateGroup(groupName, true);
             } else {
-                showAllOrLess.setText("Show all");
+                showAllOrLess.setText(R.string.show_all);
                 updateGroup(groupName, false);
             }
             makeTextViewHyperlink(showAllOrLess);

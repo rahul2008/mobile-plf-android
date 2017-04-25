@@ -27,7 +27,7 @@
             android:layout_marginRight="16dp"
             android:gravity="center_vertical"
             android:minHeight="@dimen/uid_recyclerview_header_height"
-            android:text="Show all" />
+            android:text="@string/show_all" />
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

@@ -142,7 +142,8 @@
     <string name="QUESTION_KEY">Question and answer</string>
     <string name="NO_PRODUCT_KEY">No products available</string>
     <string name="NO_SUPPORT_KEY">No support available</string>
-
+    <string name="show_all">Show all</string>
+    <string name="show_less">Show less</string>
 
     <string name="ManualDownLoadConfirmMessage">Press OK to download manual in %s language</string>
     <string name="download_ticker">Downloading Help Manual</string>
