@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
@@ -30,9 +32,11 @@ public class RatingBar extends AppCompatRatingBar {
     private int height;
     private int width;
     private int textColor;
+    private static final String FONT_PATH = "fonts/centralesansmedium.ttf";
+    private ColorDrawable transparentDrawable = new ColorDrawable(Color.TRANSPARENT);
 
     public RatingBar(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public RatingBar(Context context, AttributeSet attrs) {
@@ -99,7 +103,7 @@ public class RatingBar extends AppCompatRatingBar {
         if(textColor != -1){
             paint.setColor(textColor);
         }
-        paint.setTypeface(TypefaceUtils.load(getContext().getAssets(),"fonts/centralesansmedium.ttf"));
+        paint.setTypeface(TypefaceUtils.load(getContext().getAssets(), FONT_PATH));
         paint.setTextSize(getResources().getDimensionPixelSize(R.dimen.uid_rating_bar_text));
         paint.setTextAlign(Paint.Align.CENTER);
     }
@@ -117,11 +121,11 @@ public class RatingBar extends AppCompatRatingBar {
 
         if (isIndicator()) {
             d[0] = getBitmapFromVector( R.drawable.uid_ratingbar_display_off);
-            d[1] = d[0];
+            d[1] = transparentDrawable;
             d[2] = getBitmapFromVector( R.drawable.uid_ratingbar_display_on);
         } else {
             d[0] = getBitmapFromVector( R.drawable.uid_ratingbar_input_off);
-            d[1] = d[0];
+            d[1] = transparentDrawable;
             d[2] = getBitmapFromVector( R.drawable.uid_ratingbar_input_on);
         }
 
@@ -173,7 +177,15 @@ public class RatingBar extends AppCompatRatingBar {
     }
 
     /**
-     * This API will help you to set the exact string value passed to Rating Bar label.
+     * This API will help you to get the paint object that is used to draw the label in Rating Bar.
+     *
+     */
+    public Paint getPaint() {
+        return paint;
+    }
+
+    /**
+     * This API will help you to set the exact string value passed to Rating Bar label. Alternatively android:text can be used in xml.
      *
      * @param text String to be set to the Rating Bar label
      */
@@ -184,7 +196,7 @@ public class RatingBar extends AppCompatRatingBar {
     }
 
     /**
-     * This API will help you to set the string value passed to Rating Bar label through a string resource ID.
+     * This API will help you to set the string value passed to Rating Bar label through a string resource ID. Alternatively android:text can be used in xml.
      *
      * @param resID String resource ID to be set to the Rating Bar label
      */

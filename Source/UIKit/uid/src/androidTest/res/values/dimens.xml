@@ -134,5 +134,9 @@
     <dimen name="notification_bar_general_margin">16dp</dimen>
     <dimen name="notification_bar_content_text_size">14dp</dimen>
     <dimen name="notification_bar_content_margin_top">5dp</dimen>
-    <dimen name="notification_bar_btn_min_height">56dp</dimen>
+
+
+    <dimen name="ratingbar_input_height">48dp</dimen>
+    <dimen name="ratingbar_display_height">16dp</dimen>
+    <dimen name="rating_bar_display_padding">10dp</dimen>
 </resources>

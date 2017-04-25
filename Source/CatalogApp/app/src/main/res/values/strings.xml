@@ -192,8 +192,8 @@
 
     <!--Rating Bar-->
     <string name="page_title_ratingbar">Rating Bar</string>
-    <string name="ratingbar_mini_display">Mini Display</string>
-    <string name="ratingbar_display">Standard Display</string>
+    <string name="ratingbar_mini_display">Mini Display Rating</string>
+    <string name="ratingbar_display">Standard Display Rating</string>
     <string name="ratingbar_input">Input Rating</string>
     <string name="ratingbar_rating_text">4.5</string>
     <string name="ratingbar_reset">Reset</string>
