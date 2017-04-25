@@ -154,7 +154,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD Call", "Downloading from platform microsite id  and should return the URL's for Service id.  ");
             platformService = downloadPlatformService();
             if (platformService != null && platformService.isSuccess()) {
-                String country = fetchFromSecureStorage(COUNTRY);
+               /* String country = fetchFromSecureStorage(COUNTRY);
                 String countrySource = fetchFromSecureStorage(COUNTRY_SOURCE);
                 if (country == null) {
                     if (countrySource == null) {
@@ -162,14 +162,15 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                         saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
                     }
                     saveToSecureStore(platformService.getCountry(), COUNTRY);
-                }
+                }*/
+                fetchCountryAndCountrySource(platformService.getCountry());
                 response.setPlatformURLs(platformService);
             }
         } else {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD Call", "Downloading from  both proposition microsite id and platform microsite id ");
             propositionService = downloadPropositionService();
             if (propositionService != null && propositionService.isSuccess()) {
-                 String country = fetchFromSecureStorage(COUNTRY);
+                /* String country = fetchFromSecureStorage(COUNTRY);
                  String countrySource = fetchFromSecureStorage(COUNTRY_SOURCE);
                 if (country == null) {
                     if (countrySource == null) {
@@ -177,8 +178,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                         saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
                     }
                     saveToSecureStore(propositionService.getCountry(), COUNTRY);
-                }
-
+                }*/
+                fetchCountryAndCountrySource(propositionService.getCountry());
                 platformService = downloadPlatformService();
             }
             if (platformService != null && propositionService != null) {
@@ -197,6 +198,20 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             }
         }
         return response;
+    }
+
+    private void fetchCountryAndCountrySource(String platformOrPropositionCountry)
+    {
+        String country = fetchFromSecureStorage(COUNTRY);
+        String countrySource = fetchFromSecureStorage(COUNTRY_SOURCE);
+        if (country == null) {
+            if (countrySource == null) {
+                countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
+                saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
+            }
+           saveToSecureStore(platformOrPropositionCountry, COUNTRY);
+        }
+
     }
 
     private ServiceDiscovery downloadPlatformService() {
