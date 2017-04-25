@@ -59,6 +59,10 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     public static final long MINIMUM_CONNECTION_IDLE_TIME = 1000L;
     public static final int GATT_ERROR = 0x0085;
 
+    public enum SHNBondInitiator {
+        NONE, PERIPHERAL, SHINE_LIB
+    }
+
     private enum InternalState {
         Disconnected, Disconnecting, GattConnecting, WaitingUntilBonded, DiscoveringServices, InitializingServices, Ready
     }
@@ -70,9 +74,9 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private static final long BT_STACK_HOLDOFF_TIME_AFTER_BONDED_IN_MS = 1000; // Prevent either the Thermometer or the BT stack on some devices from getting in a error state
     private static final long WAIT_UNTIL_BONDED_TIMEOUT_IN_MS = 3000;
 
-    private final boolean deviceBondsDuringConnect;
     private final BTDevice btDevice;
     private final SHNCentral shnCentral;
+    private final SHNBondInitiator shnBondInitiator;
     private BTGatt btGatt;
     private SHNDeviceListener shnDeviceListener;
     private DiscoveryListener discoveryListener;
@@ -111,10 +115,14 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     }
 
     public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, boolean deviceBondsDuringConnect) {
-        this.deviceBondsDuringConnect = deviceBondsDuringConnect;
+        this(btDevice, shnCentral, deviceTypeName, deviceBondsDuringConnect ? SHNBondInitiator.PERIPHERAL : SHNBondInitiator.NONE);
+    }
+
+    public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNBondInitiator shnBondInitiator) {
         this.btDevice = btDevice;
         this.shnCentral = shnCentral;
         this.deviceTypeName = deviceTypeName;
+        this.shnBondInitiator = shnBondInitiator;
 
         SHNLogger.i(TAG, "Created new instance of SHNDevice for type: " + deviceTypeName + " address: " + btDevice.getAddress());
     }
@@ -193,8 +201,11 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 if (shouldWaitUntilBonded()) {
                     setInternalStateReportStateUpdateAndSetTimers(InternalState.WaitingUntilBonded);
-                    if(!btDevice.createBond()) {
-                        SHNLogger.w(TAG, "Failed to start bond creation procedure");
+
+                    if(shnBondInitiator == SHNBondInitiator.SHINE_LIB) {
+                        if (!btDevice.createBond()) {
+                            SHNLogger.w(TAG, "Failed to start bond creation procedure");
+                        }
                     }
                 } else {
                     setInternalStateReportStateUpdateAndSetTimers(InternalState.DiscoveringServices);
@@ -237,7 +248,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     }
 
     private boolean shouldWaitUntilBonded() {
-        return deviceBondsDuringConnect && btDevice.getBondState() != BluetoothDevice.BOND_BONDED;
+        return shnBondInitiator != SHNBondInitiator.NONE && !isBonded();
     }
 
     @NonNull

@@ -52,11 +52,6 @@ public class BTDeviceTest {
         btDevice = new BTDevice(bluetoothDevice, mockedUserHandler.getMock());
     }
 
-    @After
-    public void validate() {
-        bluetoothDevice = null;
-    }
-
     @Test
     public void whenBluetoothDeviceNameIsCalledThenReturnName() {
         when(bluetoothDevice.getName()).thenReturn("btName");
