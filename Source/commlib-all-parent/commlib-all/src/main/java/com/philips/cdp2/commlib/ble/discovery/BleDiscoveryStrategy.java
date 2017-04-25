@@ -42,7 +42,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Locale;
-import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -70,16 +69,16 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
      */
     public static final long SCAN_WINDOW_MILLIS = 60000L;
 
+    private static final long CONNECT_TIMEOUT_MILLIS = 120000L;
+
     public static final byte[] MANUFACTURER_PREAMBLE = {(byte) 0xDD, 0x01};
 
     private final Context context;
     private final BleDeviceCache bleDeviceCache;
     private final SHNDeviceScanner deviceScanner;
     private final SHNCentral shnCentral;
+    private final TaskQueue taskQueue;
     private Set<String> modelIds;
-
-    private Queue<DiscoveryTask> taskQueue;
-    private Handler taskHandler;
 
     private ScheduledExecutorService scanExecutor;
     private ScheduledFuture scanFuture;
@@ -108,9 +107,8 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         this.deviceScanner = deviceScanner;
         this.shnCentral = shnCentral;
         this.modelIds = new HashSet<>();
-        this.taskQueue = new ConcurrentLinkedQueue<>();
-        this.taskHandler = HandlerProvider.createHandler();
         this.scanExecutor = Executors.newSingleThreadScheduledExecutor();
+        this.taskQueue = new TaskQueue();
     }
 
     @Override
@@ -125,8 +123,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
     }
 
     @Override
-    public void scanStopped(SHNDeviceScanner shnDeviceScanner) {
-        // Ignored
+    public void scanStopped(SHNDeviceScanner ignored) {
     }
 
     @Override
@@ -211,10 +208,6 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
 
             final DiscoveryTask discoveryTask = new DiscoveryTask(device, deviceInformation, modelId);
             taskQueue.offer(discoveryTask);
-
-            if (taskQueue.size() == 1) {
-                runNextDiscoveryTask();
-            }
         } else {
             DICommLog.w(TAG, "Unhandled model id: " + modelId);
         }
@@ -224,7 +217,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         SHNDeviceWrapper wrapper = (SHNDeviceWrapper) device;
         SHNDeviceImpl shnDevice = (SHNDeviceImpl) wrapper.getInternalDevice();
 
-        if (shnDevice.getCapability(CapabilityDiComm.class) == null) {
+        if (shnDevice.getCapabilityForType(SHNCapabilityType.DI_COMM) == null) {
             final SHNServiceDiCommStreaming shnServiceDiCommStreaming = new SHNServiceDiCommStreaming();
             shnDevice.registerService(shnServiceDiCommStreaming);
 
@@ -246,10 +239,24 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         return null;
     }
 
-    private void runNextDiscoveryTask() {
-        final Runnable nextTask = taskQueue.peek();
-        if (nextTask != null) {
-            taskHandler.post(nextTask);
+    @VisibleForTesting
+    class TaskQueue extends ConcurrentLinkedQueue<DiscoveryTask> {
+        private Handler handler = HandlerProvider.createHandler();
+
+        @Override
+        public boolean offer(DiscoveryTask discoveryTask) {
+            boolean result = super.offer(discoveryTask);
+            if (size() == 1) {
+                executeNext();
+            }
+            return result;
+        }
+
+        void executeNext() {
+            final Runnable nextTask = peek();
+            if (nextTask != null) {
+                handler.post(nextTask);
+            }
         }
     }
 
@@ -265,6 +272,8 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         private final SHNCapabilityDeviceInformation.Listener deviceInformationListener = new SHNCapabilityDeviceInformation.Listener() {
             @Override
             public void onDeviceInformation(@NonNull SHNDeviceInformationType deviceInformationType, @NonNull String value, @NonNull Date dateWhenAcquired) {
+                DICommLog.i(TAG, String.format(Locale.US, "DeviceInformationListener - device [%s], result: [%s]", device.getAddress(), value));
+
                 networkNode.setCppId(value);
                 bleDeviceCache.add(addDiCommStreamingToDevice(device), networkNode, expirationCallback, SCAN_WINDOW_MILLIS);
                 notifyNetworkNodeDiscovered(networkNode);
@@ -274,7 +283,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
 
             @Override
             public void onError(@NonNull SHNDeviceInformationType deviceInformationType, @NonNull SHNResult error) {
-                DICommLog.e(TAG, String.format(Locale.US, "DeviceInformationListener [%s] error: [%s], state: [%s]", device.getAddress(), error.toString(), device.getState()));
+                DICommLog.e(TAG, String.format(Locale.US, "DeviceInformationListener - device [%s], error: [%s], state: [%s]", device.getAddress(), error.toString(), device.getState()));
 
                 finish();
             }
@@ -319,7 +328,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         @Override
         public void run() {
             device.registerSHNDeviceListener(this);
-            device.connect();
+            device.connect(CONNECT_TIMEOUT_MILLIS);
         }
 
         private void finish() {
@@ -328,7 +337,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
 
             discoveredMacAddresses.remove(device.getAddress());
             taskQueue.remove(this);
-            runNextDiscoveryTask();
+            taskQueue.executeNext();
         }
     }
 }
