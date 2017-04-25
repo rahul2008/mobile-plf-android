@@ -344,33 +344,36 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     }
 
     private JSONObject makeKeyUppercase(JSONObject json) {
-        final JSONObject newJsonGroup = new JSONObject();
-        final Iterator<String> iteratorGroup = json.keys();
-        while (iteratorGroup.hasNext()) {
-            final String keyGroup = iteratorGroup.next();
-            try {
-                final JSONObject objectGroup = json.optJSONObject(keyGroup);
-                final JSONObject newJsonChildObject = new JSONObject();
-                final Iterator<String> iteratorKey = objectGroup.keys();
-                while (iteratorKey.hasNext()) {
-                    final String key = iteratorKey.next();
-                    try {
-                        final Object objectKey = objectGroup.opt(key);
-                        newJsonChildObject.put(key.toUpperCase(), objectKey);
-                    } catch (JSONException e) {
-                        // Something went wrong!
-                        throw new RuntimeException(e);
+        if (null != json) {
+            final JSONObject newJsonGroup = new JSONObject();
+            final Iterator<String> iteratorGroup = json.keys();
+            while (iteratorGroup.hasNext()) {
+                final String keyGroup = iteratorGroup.next();
+                try {
+                    final JSONObject objectGroup = json.optJSONObject(keyGroup);
+                    final JSONObject newJsonChildObject = new JSONObject();
+                    final Iterator<String> iteratorKey = objectGroup.keys();
+                    while (iteratorKey.hasNext()) {
+                        final String key = iteratorKey.next();
+                        try {
+                            final Object objectKey = objectGroup.opt(key);
+                            newJsonChildObject.put(key.toUpperCase(), objectKey);
+                        } catch (JSONException e) {
+                            // Something went wrong!
+                            throw new RuntimeException(e);
+                        }
+
                     }
+                    newJsonGroup.put(keyGroup.toUpperCase(), newJsonChildObject);
 
+                } catch (JSONException e) {
+                    // Something went wrong!
+                    throw new RuntimeException(e);
                 }
-                newJsonGroup.put(keyGroup.toUpperCase(), newJsonChildObject);
-
-            } catch (JSONException e) {
-                // Something went wrong!
-                throw new RuntimeException(e);
             }
+            return newJsonGroup;
         }
-        return newJsonGroup;
+        return null;
     }
 
     @Override
@@ -472,26 +475,28 @@ public class AppConfigurationManager implements AppConfigurationInterface {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            final Iterator<String> iteratorGroup = oldDynamicConfigJson.keys();
-            while (iteratorGroup.hasNext()) {
-                final String keyGroup = iteratorGroup.next();
-                try {
-                    final JSONObject objectGroup = oldDynamicConfigJson.optJSONObject(keyGroup);
-                    final Iterator<String> iteratorKey = objectGroup.keys();
-                    while (iteratorKey.hasNext()) {
-                        final String key = iteratorKey.next();
-                        final Object value = getDefaultPropertyForKey(key, keyGroup, configError);
-                        if (null != value && configError.getErrorCode() == AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.NoError) {
-                            final Object dynamicValue = objectGroup.opt(key);
-                            if (!value.equals(dynamicValue)) { // check if values are NOT equal
-                                final AppConfigurationInterface.AppConfigurationError configErrorForNewKey = new AppConfigurationInterface.AppConfigurationError();
-                                setPropertyForKey(key.toUpperCase(), keyGroup, dynamicValue, configErrorForNewKey); // add only changed value to dynamic migrated json
+            if (oldDynamicConfigJson != null) {
+                final Iterator<String> iteratorGroup = oldDynamicConfigJson.keys();
+                while (iteratorGroup.hasNext()) {
+                    final String keyGroup = iteratorGroup.next();
+                    try {
+                        final JSONObject objectGroup = oldDynamicConfigJson.optJSONObject(keyGroup);
+                        final Iterator<String> iteratorKey = objectGroup.keys();
+                        while (iteratorKey.hasNext()) {
+                            final String key = iteratorKey.next();
+                            final Object value = getDefaultPropertyForKey(key, keyGroup, configError);
+                            if (null != value && configError.getErrorCode() == AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.NoError) {
+                                final Object dynamicValue = objectGroup.opt(key);
+                                if (!value.equals(dynamicValue)) { // check if values are NOT equal
+                                    final AppConfigurationInterface.AppConfigurationError configErrorForNewKey = new AppConfigurationInterface.AppConfigurationError();
+                                    setPropertyForKey(key.toUpperCase(), keyGroup, dynamicValue, configErrorForNewKey); // add only changed value to dynamic migrated json
+                                }
                             }
                         }
-                    }
 
-                } catch (Exception e) {
-                    // Something went wrong!
+                    } catch (Exception e) {
+                        // Something went wrong!
+                    }
                 }
             }
             mSecureStorageInterface.removeValueForKey(APPCONFIG_SECURE_STORAGE_KEY);
