@@ -27,6 +27,7 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.base.UIBasePresenter;
+import com.philips.platform.baseapp.screens.dataservices.utility.SyncScheduler;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -354,6 +355,7 @@ public class SettingsAdapter extends BaseAdapter {
                     PushNotificationManager.getInstance().saveTokenRegistrationState(activityContext.getApplicationContext(),false);
                     ((AppFrameworkApplication) activityContext.getApplicationContext()).getDataServiceState().deregisterDSForRegisteringToken();
                     ((AppFrameworkApplication) activityContext.getApplicationContext()).getDataServiceState().deregisterForReceivingPayload();
+                    SyncScheduler.getInstance().stopSync();
                 }
 
             }

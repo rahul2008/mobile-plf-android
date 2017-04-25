@@ -56,15 +56,14 @@ import static com.philips.platform.baseapp.screens.utility.Constants.UNSUPPORTED
  * This class contains all initialization & Launching details of UR
  * Setting configuration using App infra
  */
-public abstract class UserRegistrationState extends BaseState implements UserRegistrationListener, UserRegistrationUIEventListener{
+public abstract class UserRegistrationState extends BaseState implements UserRegistrationListener, UserRegistrationUIEventListener {
 
-    private static final String TAG=UserRegistrationState.class.getSimpleName();
+    private static final String TAG = UserRegistrationState.class.getSimpleName();
     final String AI = "appinfra";
     private Context activityContext;
     private User userObject;
     private FragmentLauncher fragmentLauncher;
     private Context applicationContext;
-
     private static final String HSDP_CONFIGURATION_APPLICATION_NAME = "HSDPConfiguration.ApplicationName";
     private static final String HSDP_CONFIGURATION_SECRET = "HSDPConfiguration.Secret";
     private static final String HSDP_CONFIGURATION_SHARED = "HSDPConfiguration.Shared";
@@ -74,7 +73,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     /**
      * AppFlowState constructor
-     *
      */
     public UserRegistrationState(String stateID) {
         super(stateID);
@@ -82,6 +80,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     /**
      * BaseState overridden methods
+     *
      * @param uiLauncher requires the UiLauncher object
      */
     @Override
@@ -96,9 +95,10 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         return fragmentLauncher.getFragmentActivity();
     }
 
-    public AppFrameworkApplication getApplicationContext(){
+    public AppFrameworkApplication getApplicationContext() {
         return (AppFrameworkApplication) getFragmentActivity().getApplicationContext();
     }
+
     @Override
     public void init(Context context) {
         this.applicationContext = context;
@@ -132,13 +132,13 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
             //Register GCM token with data services on login success
             if (BaseAppUtil.isDSPollingEnabled(activity.getApplicationContext())) {
-                Log.d(PushNotificationManager.TAG,"Polling is enabled");
+                Log.d(PushNotificationManager.TAG, "Polling is enabled");
                 SyncScheduler.getInstance().scheduleSync();
 
-            }else{
-                Log.d(PushNotificationManager.TAG,"Push notification is enabled");
-                ((AppFrameworkApplication)activity.getApplicationContext()).getDataServiceState().registerForReceivingPayload();
-                ((AppFrameworkApplication)activity.getApplicationContext()).getDataServiceState().registerDSForRegisteringToken();
+            } else {
+                Log.d(PushNotificationManager.TAG, "Push notification is enabled");
+                ((AppFrameworkApplication) activity.getApplicationContext()).getDataServiceState().registerForReceivingPayload();
+                ((AppFrameworkApplication) activity.getApplicationContext()).getDataServiceState().registerDSForRegisteringToken();
                 PushNotificationManager.getInstance().startPushNotificationRegistration(activity.getApplicationContext());
             }
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
@@ -165,7 +165,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     public void initHSDP() {
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
-        AppInfraInterface appInfra = ((AppFrameworkApplication)applicationContext).getAppInfra();
+        AppInfraInterface appInfra = ((AppFrameworkApplication) applicationContext).getAppInfra();
 
         AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
 
@@ -178,7 +178,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
         Map<String, String> hsdpSecrets = new HashMap<>();
         hsdpSecrets.put(CHINA_CODE, "a3a3d09e2c74b93a409bc242956a6101bd5ff78cfd21473faa7aa21a8ec8493b66fa905dd4916b8ba4325cb988b442f9c6054089b9b36d09bb1538f985b47b22");
-        hsdpSecrets.put(DEFAULT,    "f5b62a26d680e5ae8001522a8e3268f966545a1a14a47ea2040793ea825484cd12fce9c46b43e2c2604cb836db64362a0c8b39eb7b162b8b3e83740143337eda");
+        hsdpSecrets.put(DEFAULT, "f5b62a26d680e5ae8001522a8e3268f966545a1a14a47ea2040793ea825484cd12fce9c46b43e2c2604cb836db64362a0c8b39eb7b162b8b3e83740143337eda");
         appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_SECRET,
                 UR, hsdpSecrets, configError);
 
@@ -198,9 +198,10 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     /**
      * Registering for UIStateListener callbacks
+     *
      * @param uiStateListener
      */
-    public void registerUIStateListener(URStateListener uiStateListener){
+    public void registerUIStateListener(URStateListener uiStateListener) {
     }
 
 
@@ -252,26 +253,22 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onUserLogoutSuccess() {
-        SyncScheduler.getInstance().stopSync();
     }
 
     @Override
     public void onUserLogoutFailure() {
-        Log.d(TAG,"User logout failed");
+        Log.d(TAG, "User logout failed");
     }
 
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
-        SyncScheduler.getInstance().stopSync();
     }
 
-    public String getVersion()
-    {
-       return RegistrationHelper.getRegistrationApiVersion();
+    public String getVersion() {
+        return RegistrationHelper.getRegistrationApiVersion();
     }
 
-    public String getComponentID(Context c)
-    {
+    public String getComponentID(Context c) {
         return c.getResources().getString(R.string.RA_COCO_UR);
     }
 }
