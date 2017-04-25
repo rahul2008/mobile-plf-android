@@ -33,6 +33,13 @@ import android.util.AttributeSet;
  *            android:layout_width="wrap_content"
  *            android:layout_height="wrap_content"/&gt;
  *
+ *            &lt;View
+ *                android:layout_width="wrap_content"
+ *                android:layout_height="wrap_content"
+ *                android:layout_marginRight="@dimen/uid_notificationbadge_default_margin"
+ *                android:layout_marginTop="@dimen/uid_notificationbadge_default_margin"
+ *                android:gravity="center|center_horizontal"/&gt;
+ *
  *            &lt;com.philips.platform.uid.view.widget.NotificationBadge
  *                android:layout_width="wrap_content"
  *                android:layout_height="wrap_content"
@@ -42,12 +49,6 @@ import android.util.AttributeSet;
  *                android:elevation="@dimen/uid_notification_badge_elevation"
  *                android:visibility="invisible"/&gt;
  *
- *            &lt;View
- *                android:layout_width="wrap_content"
- *                android:layout_height="wrap_content"
- *                android:layout_marginRight="@dimen/uid_notificationbadge_default_margin"
- *                android:layout_marginTop="@dimen/uid_notificationbadge_default_margin"
- *                android:gravity="center|center_horizontal"/&gt;
  *      &lt;FrameLayout/&gt;
  *   </pre>
  * </p>
@@ -59,6 +60,12 @@ import android.util.AttributeSet;
  *            android:layout_width="wrap_content"
  *            android:layout_height="wrap_content"/&gt;
  *
+ *            &lt;View
+ *               android:layout_width="wrap_content"
+ *               android:layout_height="wrap_content"
+ *               android:layout_margin="@dimen/uid_notificationbadge_small_margin"
+ *               android:gravity="center|center_horizontal""/&gt;
+ *
  *            &lt;com.philips.platform.uid.view.widget.NotificationBadge
  *                android:layout_width="wrap_content"
  *                android:layout_height="wrap_content"
@@ -67,12 +74,6 @@ import android.util.AttributeSet;
  *                android:layout_gravity="top|right"
  *                android:elevation="@dimen/uid_notification_badge_elevation"
  *                android:visibility="invisible"/&gt;
- *
- *            &lt;View
- *               android:layout_width="wrap_content"
- *               android:layout_height="wrap_content"
- *               android:layout_margin="@dimen/uid_notificationbadge_small_margin"
- *               android:gravity="center|center_horizontal""/&gt;
  *      &lt;FrameLayout/&gt;
  *   </pre>
  * </p>
