@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by arbin on 11/04/2017.
@@ -13,10 +14,10 @@ import java.util.ArrayList;
 
 public abstract class CommonRecyclerViewAdapter<T> extends RecyclerView.Adapter {
 
-    private final ArrayList<T> mItems;
+    private  List<T> mItems;
     private final int mItemLayoutId;
 
-    public CommonRecyclerViewAdapter(ArrayList<T> items, int itemLayoutId) {
+    public CommonRecyclerViewAdapter(List<T> items, int itemLayoutId) {
         this.mItems = items;
         this.mItemLayoutId = itemLayoutId;
     }
@@ -29,9 +30,8 @@ public abstract class CommonRecyclerViewAdapter<T> extends RecyclerView.Adapter 
 
     public abstract void bindData(RecyclerView.ViewHolder holder, T item);
 
-    public void swap(ArrayList<T> data){
-        mItems.clear();
-        mItems.addAll(data);
+    public void swap(List<T> data){
+        mItems = new ArrayList<>(data);
         notifyDataSetChanged();
     }
 

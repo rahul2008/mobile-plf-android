@@ -11,9 +11,11 @@
  */
 package com.philips.cdp.digitalcare.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.telephony.TelephonyManager;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -84,5 +86,15 @@ public class Utils {
             return true;
 
         return false;
+    }
+
+    public static boolean isTablet(Activity activity) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        float yInches = metrics.heightPixels / metrics.ydpi;
+        float xInches = metrics.widthPixels / metrics.xdpi;
+        double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
+
+        return diagonalInches >= 6.5;
     }
 }

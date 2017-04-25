@@ -41,6 +41,7 @@ import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.contactus.fragments.ContactUsFragment;
 import com.philips.cdp.digitalcare.faq.fragments.FaqFragment;
+import com.philips.cdp.digitalcare.faq.fragments.FaqListFragment;
 import com.philips.cdp.digitalcare.listeners.PrxFaqCallback;
 import com.philips.cdp.digitalcare.listeners.PrxSummaryListener;
 import com.philips.cdp.digitalcare.locatephilips.fragments.LocatePhilipsFragment;
@@ -413,9 +414,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                 if (supportModel == null && getActivity() != null) {
                     showAlert(getString(R.string.NO_SUPPORT_KEY));
                 } else {
-                    FaqFragment faqFragment = new FaqFragment();
-                    faqFragment.setSupportModel(supportModel);
-                    showFragment(faqFragment);
+                    FaqListFragment faqListFragment = new FaqListFragment();
+                    faqListFragment.setSupportModel(supportModel);
+                    showFragment(faqListFragment);
+//                    FaqFragment faqFragment = new FaqFragment();
+//                    faqFragment.setSupportModel(supportModel);
+//                    showFragment(faqFragment);
                 }
             }
         });
