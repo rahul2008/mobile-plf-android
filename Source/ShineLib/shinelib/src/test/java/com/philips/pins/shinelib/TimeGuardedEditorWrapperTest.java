@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017
+ * All rights reserved.
+ */
 package com.philips.pins.shinelib;
 
 import android.content.SharedPreferences;
-import android.test.suitebuilder.annotation.Suppress;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -41,13 +44,6 @@ public class TimeGuardedEditorWrapperTest {
         verify(editorMock).putString(KEY, VALUE);
     }
 
-    //@Test(expected = TimeoutException.class)
-    @Suppress
-    public void whenTimeOutExpiresThenAssertErrorIsGiven() throws Exception {
-        wrapper = new TimeGuardedEditorWrapperForTest(editorMock, EXCEEDED_EXECUTION_TIME);
-
-        wrapper.putString(KEY, VALUE);
-    }
 
     @Test
     public void whenPutStringIsCalledThenReturnTypeIsWrapper() throws Exception {

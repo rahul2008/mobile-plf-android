@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
 
@@ -50,17 +50,16 @@ public class SHNAssociationProcedureNearestDeviceTestBreakerTest {
     }
 
     private void discoverMockedDevices(Integer[] locations) {
-            for (Integer location : locations) {
-               if(location!=null) {
-                   assertTrue(location < mockedDevicesAndAssociatedRSSI.size());
-                   AbstractMap.SimpleEntry<SHNDevice, Integer> entry = (AbstractMap.SimpleEntry<SHNDevice, Integer>) mockedDevicesAndAssociatedRSSI.get(location);
-                   SHNDeviceFoundInfo mockedDeviceFoundInfo = mock(SHNDeviceFoundInfo.class);
-                   when(mockedDeviceFoundInfo.getRssi()).thenReturn(entry.getValue());
-                   associationProcedure.deviceDiscovered(entry.getKey(), mockedDeviceFoundInfo);
-
-               }
-
+        for (Integer location : locations) {
+            if (location != null) {
+                assertTrue(location < mockedDevicesAndAssociatedRSSI.size());
+                AbstractMap.SimpleEntry<SHNDevice, Integer> entry = (AbstractMap.SimpleEntry<SHNDevice, Integer>) mockedDevicesAndAssociatedRSSI.get(location);
+                SHNDeviceFoundInfo mockedDeviceFoundInfo = mock(SHNDeviceFoundInfo.class);
+                when(mockedDeviceFoundInfo.getRssi()).thenReturn(entry.getValue());
+                associationProcedure.deviceDiscovered(entry.getKey(), mockedDeviceFoundInfo);
             }
+
+        }
     }
 
     private void discoverMockedDevice(int location) {
@@ -198,6 +197,7 @@ public class SHNAssociationProcedureNearestDeviceTestBreakerTest {
     @Test
     public void shouldStopTimerWhenStopIsCalled() {
         associationProcedure.stop();
+
         verify(mockedIterationTimeoutTimer).stop();
     }
 }

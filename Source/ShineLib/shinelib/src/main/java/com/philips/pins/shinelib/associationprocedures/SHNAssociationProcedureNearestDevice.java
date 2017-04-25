@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2016, 2017.
  * All rights reserved.
  */
 
@@ -73,7 +73,7 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
             }
         } else {
             SHNLogger.i(TAG, "associateWithNearestDeviceIfPossible address NOT matched with previous iteration");
-            if(nearestDevice!=null) {
+            if (nearestDevice != null) {
                 nearestDeviceInPreviousIteration = nearestDevice;
                 successivelyNearestDeviceCount = 1;
             }

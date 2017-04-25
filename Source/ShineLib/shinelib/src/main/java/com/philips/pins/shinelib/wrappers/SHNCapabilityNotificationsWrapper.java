@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
 
@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
+import com.philips.pins.shinelib.capabilities.AlarmConfig;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityNotifications;
 
 import java.util.List;
@@ -73,16 +74,6 @@ public class SHNCapabilityNotificationsWrapper implements SHNCapabilityNotificat
     }
 
     @Override
-    public void getMaxImageSizeForType(final Type type, final ResultListener<ImageSize> resultListener) {
-        internalHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                wrappedShnCapabilityNotifications.getMaxImageSizeForType(type, new WrappedResultListener<>(userHandler, resultListener));
-            }
-        });
-    }
-
-    @Override
     public void getNotificationCapabilities(final ResultListener<List<TransferGetCapabilitiesWithResult>> shnResultListener) {
 
         Runnable command = new Runnable() {
@@ -112,12 +103,9 @@ public class SHNCapabilityNotificationsWrapper implements SHNCapabilityNotificat
                         resultListener.onActionCompleted(value, result);
                     }
                 });
-
-
             }
         };
         internalHandler.post(command);
-
     }
 
     @Override
@@ -132,7 +120,6 @@ public class SHNCapabilityNotificationsWrapper implements SHNCapabilityNotificat
                                 resultListener.onActionCompleted(result);
                             }
                         });
-
             }
         };
         internalHandler.post(command);
@@ -150,11 +137,9 @@ public class SHNCapabilityNotificationsWrapper implements SHNCapabilityNotificat
                     }
 
                 });
-
             }
         };
         internalHandler.post(command);
-
     }
 
     @Override
@@ -171,9 +156,7 @@ public class SHNCapabilityNotificationsWrapper implements SHNCapabilityNotificat
                                 shnResultListener.onActionCompleted(value, result.SHNOk);
                             }
                         }
-
                 );
-
             }
         };
         internalHandler.post(command);

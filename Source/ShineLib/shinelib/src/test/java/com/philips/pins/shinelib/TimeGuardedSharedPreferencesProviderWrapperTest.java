@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017
+ * All rights reserved.
+ */
 package com.philips.pins.shinelib;
 
 import android.content.SharedPreferences;
-import android.test.suitebuilder.annotation.Suppress;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -67,27 +70,5 @@ public class TimeGuardedSharedPreferencesProviderWrapperTest {
         assertTrue(sharedPreferences instanceof TimeGuardedSharedPreferencesWrapper);
     }
 
-    //@Test(expected = TimeoutException.class)
-    @Suppress
-    public void whenTimeOutExpiresThenAssertErrorIsGiven() throws Exception {
-        timeGuardedSharedPreferencesProviderWrapper = new TimeGuardedSharedPreferencesProviderWrapperForTest(sharedPreferencesProviderMock, 0, EXCEEDED_EXECUTION_TIME);
 
-        timeGuardedSharedPreferencesProviderWrapper.getSharedPreferences(NAME, MODE);
-    }
-
-    class TimeGuardedSharedPreferencesProviderWrapperForTest extends TimeGuardedSharedPreferencesProviderWrapper {
-
-        private long start = 100;
-        private long increment;
-
-        public TimeGuardedSharedPreferencesProviderWrapperForTest(SharedPreferencesProvider sharedPreferences, long threadId, long increment) {
-            super(sharedPreferences, threadId);
-            this.increment = increment;
-        }
-
-        @Override
-        protected long getCurrentTimeInMillis() {
-            return start += increment;
-        }
-    }
 }
