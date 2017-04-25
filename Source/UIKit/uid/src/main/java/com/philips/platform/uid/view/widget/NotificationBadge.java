@@ -7,25 +7,18 @@ package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
-import android.graphics.drawable.shapes.RoundRectShape;
-import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.TypedValue;
-import android.view.ViewGroup;
 
 import com.philips.platform.uid.R;
 
 
 /**
- * Notification Badge  is a Custom view component which supports to show Badge Count as displayed below</b>
+ * Implementation for a customized Notification Badge</b>
  * <p>
  * You can use Notification Badge follow the below steps</b><br>
  * <p>
@@ -33,53 +26,70 @@ import com.philips.platform.uid.R;
  * <p>
  * 2 . Use Styles as per your requirement as shown below</b>
  * <p>
- * a).Use Default Notification style = "@style/NotificationBadge" to support medium size Badge View
- * b).Use Small Notification style = "@style/NotificationBadge.Small" to support small size Badge View
- * <p/>
- * <br>
- * <p>The Following attributes Define in Default and Small Notification Badge.</p>
- * <table border="2" width="80%" align="center" cellpadding="5">
- * <thead>
- * <tr><th>Default Notification </th> <th>Small Notification</th></tr>
- * </thead>
- * <p>
- * <tbody>
- * <tr>
- * <td rowspan="1">Default Radius 24dp</td>
- * <td rowspan="1">Small Radius 20dp</td>
- * </tr>
- * <tr>
- * <td rowspan="1">Text Size for default 12sp</td>
- * <td rowspan="1">Text size for small 10sp</td>
- * </tr>
- * <tr>
- * <tr>
- * <td rowspan="1">Margin for button or View from top and right should be 12 dp </td>
- * <td rowspan="1">Margin for button or View from top and right should be 10 dp </td>
- * </tr>
- * <tr>
- * <td rowspan="1">for both left and right padding 4dp</td>
- * </tr>
- * </tbody>
- * <p>
- * </table>
+ * a) Use Default Notification style = "@style/NotificationBadge" to support medium size Badge View
+ * b) Use Small Notification style = "@style/NotificationBadge.Small" to support small size Badge View
  * <p/>
  * <p>
- * Sample use can be as follows <br>
- * <pre>
- *                          &lt;com.philips.platform.uid.view.widget.NotificationBadg
- *                                  android:layout_width="wrap_content"
- *                                   android:layout_height="wrap_content"
- *                                   style="@style/NotificationBadge"  /&gt;
- *         </pre>
+ *  Template for Default Notification Badge <br>
+ *    <pre>
+ *        &lt;RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ *         android:layout_width="wrap_content"
+ *         android:layout_height="wrap_content"/&gt;
+ *         &lt;RelativeLayout
+ *         android:layout_width="wrap_content"
+ *         android:layout_height="wrap_content"/&gt;
+ *         &lt;com.philips.platform.uid.view.widget.Button
+ *         android:layout_width="wrap_content"
+ *         android:layout_height="wrap_content"
+ *         android:layout_marginRight="@dimen/uid_notification_badge_default_view_margin_top_right"
+ *         android:layout_marginTop="@dimen/uid_notification_badge_default_view_margin_top_right"
+ *         android:gravity="center|center_horizontal"
+ *         android:text="@string/e_mails"/&gt;
+ *         &lt;RelativeLayout/&gt;
+ *         &lt;com.philips.platform.uid.view.widget.NotificationBadge
+ *         android:layout_width="wrap_content"
+ *         android:layout_height="wrap_content"
+ *         style="@style/NotificationBadge"
+ *         android:gravity="center|center_horizontal"
+ *         android:layout_alignRight="@id/relative_layout"
+ *         android:visibility="invisible"/&gt;
+ *       &lt;RelativeLayout/&gt;
+ *     </pre>
+ * </p>
+ *
+ * <p>
+ *  Template for Small Notification Badge <br>
+ *    <pre>
+ *        &lt;RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ *         android:layout_width="wrap_content"
+ *         android:layout_height="wrap_content"/&gt;
+ *         &lt;RelativeLayout
+ *         android:layout_width="wrap_content"
+ *         android:layout_height="wrap_content"/&gt;
+ *         &lt;com.philips.platform.uid.view.widget.Button
+ *         android:layout_width="wrap_content"
+ *         android:layout_height="wrap_content"
+ *         android:layout_marginRight="@dimen/uid_notification_badge_default_view_margin_top_right"
+ *         android:layout_marginTop="@dimen/uid_notification_badge_default_view_margin_top_right"
+ *         android:gravity="center|center_horizontal"
+ *         android:text="@string/e_mails"/&gt;
+ *         &lt;RelativeLayout/&gt;
+ *         &lt;com.philips.platform.uid.view.widget.NotificationBadge.Small
+ *         android:layout_width="wrap_content"
+ *         android:layout_height="wrap_content"
+ *         style="@style/NotificationBadge"
+ *         android:gravity="center|center_horizontal"
+ *         android:layout_alignRight="@id/relative_layout"
+ *         android:visibility="invisible"/&gt;
+ *       &lt;RelativeLayout/&gt;
+ *     </pre>
  * </p>
  */
+
 
 public class NotificationBadge extends AppCompatTextView {
 
     private static int badgeBackgroundColor;
-    private Drawable roundRectDrawable;
-    private Drawable circleDrawable;
 
     public NotificationBadge(Context context) {
         this(context, null);
@@ -93,12 +103,7 @@ public class NotificationBadge extends AppCompatTextView {
         super(context, attrs, defStyle);
         final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NotificationBadgeStyle, defStyle, R.style.NotificationBadge);
         setBackgroundColor(context, attrs);
-        roundRectDrawable = getSquareRoundBackground(isSmallBadge(typedArray));
-        circleDrawable = getCircleBackground(isSmallBadge(typedArray));
-        if (getText().length() > 2)
-            setBackgroundDrawable(roundRectDrawable);
-        else
-            setBackgroundDrawable(circleDrawable);
+        isSmallBadge(typedArray);
         setTextChangeListener();
         typedArray.recycle();
     }
@@ -134,15 +139,6 @@ public class NotificationBadge extends AppCompatTextView {
     }
 
     private void validateView(CharSequence count) {
-        if (count.length() > 2) {
-            setBackgroundDrawable(roundRectDrawable);
-        } else {
-            setBackgroundDrawable(circleDrawable);
-        }
-        changeBadgeVisibility(count);
-    }
-
-    private void changeBadgeVisibility(CharSequence count) {
         if (TextUtils.isEmpty(count)) {
             setVisibility(INVISIBLE);
         } else {
@@ -150,50 +146,4 @@ public class NotificationBadge extends AppCompatTextView {
         }
     }
 
-    @NonNull
-    private ShapeDrawable getSquareRoundBackground(boolean smallBadge) {
-        int radius;
-        if (smallBadge)
-            radius = dipToPixels(getContext().getResources().getInteger(R.integer.uid_notification_badge_view_small_size_radius));
-        else
-            radius = dipToPixels(getContext().getResources().getInteger(R.integer.uid_notification_badge_view_default_size_radius));
-
-        float[] outerR = new float[]{radius, radius, radius, radius, radius, radius, radius, radius};
-        RoundRectShape roundRectShape = new RoundRectShape(outerR, null, null);
-        ShapeDrawable shapeDrawable = new ShapeDrawable(roundRectShape);
-        shapeDrawable.getPaint().setColor(badgeBackgroundColor);
-        applyLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        return shapeDrawable;
-    }
-
-    @NonNull
-    private ShapeDrawable getCircleBackground(boolean smallBadge) {
-        ShapeDrawable shapeDrawable = new ShapeDrawable(new OvalShape());
-        shapeDrawable.getPaint().setColor(badgeBackgroundColor);
-        int defaultWidth, defaultHeight;
-        if (smallBadge) {
-            defaultWidth = (int) getContext().getResources().getDimension(R.dimen.uid_notification_badge_small_circle_radius);
-            defaultHeight = defaultWidth;
-        } else {
-            defaultWidth = (int) getContext().getResources().getDimension(R.dimen.uid_notification_badge_default_radius);
-            defaultHeight = defaultWidth;
-        }
-        applyLayoutParams(defaultWidth, defaultHeight);
-        return shapeDrawable;
-    }
-
-    private int dipToPixels(int dip) {
-        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dip, getContext().getResources().getDisplayMetrics());
-        return (int) px;
-    }
-
-    private void applyLayoutParams(int width, int height) {
-        ViewGroup.LayoutParams lp = getLayoutParams();
-        if (lp == null)
-            lp = new ViewGroup.LayoutParams(width, height);
-
-        setMinimumHeight(height);
-        setMinimumWidth(width);
-        setLayoutParams(lp);
-    }
 }
