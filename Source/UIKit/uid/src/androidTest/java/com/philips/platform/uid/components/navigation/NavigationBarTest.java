@@ -127,6 +127,7 @@ public class NavigationBarTest {
         getTitle().check(matches(TextViewPropertiesMatchers.isSameLineSpacing(linespacing)));
     }
 
+    @Ignore
     @Test
     public void verifyToolbarHeight() throws Exception {
         setupUltralightTonalRangeActivity();
