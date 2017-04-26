@@ -15,6 +15,7 @@ import org.mockito.stubbing.Answer;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
 import static org.mockito.Mockito.doAnswer;
@@ -292,7 +293,7 @@ public class LoggingTest extends MockitoTestCase {
 
     }
 
-   /* public void testGetCurrentLogFileHandler() {
+   public void testGetCurrentLogFileHandler() {
         try {
             AppInfraLogging appInfraLogging = new AppInfraLogging(mAppInfra);
             Method method = appInfraLogging.getClass().getDeclaredMethod("getCurrentLogFileHandler", Logger.class);
@@ -302,11 +303,11 @@ public class LoggingTest extends MockitoTestCase {
             method2.setAccessible(true);
             FileHandler fileHandler = (FileHandler) method2.invoke(appInfraLogging);
             logger.addHandler(fileHandler);
-            method.invoke(loggingInterface, logger);
+            method.invoke(appInfraLogging, logger);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
     public void testGetCurrentConsoleFileHandler() {
         try {
@@ -316,7 +317,7 @@ public class LoggingTest extends MockitoTestCase {
             Logger logger = Logger.getLogger("MyLogger");
             ConsoleHandler consoleHandler = new ConsoleHandler();
             logger.addHandler(consoleHandler);
-            method.invoke(loggingInterface, logger);
+            method.invoke(appInfraLogging, logger);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
