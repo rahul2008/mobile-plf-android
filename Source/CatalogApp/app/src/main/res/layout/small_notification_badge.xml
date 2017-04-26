@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/uid_notificationbadge_small_margin"
+        android:gravity="center|center_horizontal"
+        app:srcCompat="@drawable/ic_email_icon" />
+
+    <com.philips.platform.uid.view.widget.NotificationBadge
+        android:id="@+id/uid_text_small"
+        style="@style/NotificationBadge.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/uid_notification_badge_elevation" />
+
+
+</FrameLayout>

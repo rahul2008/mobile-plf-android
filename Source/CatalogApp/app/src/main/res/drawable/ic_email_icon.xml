@@ -1,0 +1,11 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportHeight="24.0"
+    android:viewportWidth="24.0">
+    <path
+        android:fillColor="?attr/uidButtonPrimaryNormalBackgroundColor"
+        android:pathData="M0,5.1V19l6.3-7.6L0,5.1z M23.3,3.4H0.7L12,14.7L23.3,3.4z M17.7,11.4L24,19V5.2L17.7,11.4z M12,17.1l-4.5-4.5
+	L1,20.6h22l-6.5-7.9L12,17.1z" />
+</vector>
+

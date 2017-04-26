@@ -209,4 +209,14 @@
     <dimen name="uid_notification_bar_action_btn_height">56dp</dimen>
     <dimen name="uid_notification_bar_line_spacing">0dp</dimen>
     <integer name="uid_notification_bar_line_space_multiplier">1</integer>
+
+    <!--Notification Badge-->
+    <dimen name="uid_notificationbadge_small_radius">20dp</dimen>
+    <dimen name="uid_notificationbadge_default_radius">24dp</dimen>
+    <dimen name="uid_notificationbadge_padding">4dp</dimen>
+    <dimen name="uid_notificationbadge_small_textSize">10sp</dimen>
+    <dimen name="uid_notificationbadge_default_textSize">12sp</dimen>
+    <dimen name="uid_notificationbadge_default_margin">12dp</dimen>
+    <dimen name="uid_notificationbadge_small_margin">10dp</dimen>
+    <dimen name="uid_notification_badge_elevation">3dp</dimen>
 </resources>
