@@ -82,7 +82,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         Toolbar mToolbar = (Toolbar) findViewById(R.id.iap_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayUseLogoEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
