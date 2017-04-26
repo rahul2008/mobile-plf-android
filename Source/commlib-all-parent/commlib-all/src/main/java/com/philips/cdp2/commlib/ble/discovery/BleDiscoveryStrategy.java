@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
@@ -69,7 +70,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
      */
     public static final long SCAN_WINDOW_MILLIS = 60000L;
 
-    private static final long CONNECT_TIMEOUT_MILLIS = 120000L;
+    private static final long CONNECT_TIMEOUT_MILLIS = 20000L;
 
     public static final byte[] MANUFACTURER_PREAMBLE = {(byte) 0xDD, 0x01};
 

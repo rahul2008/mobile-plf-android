@@ -255,7 +255,7 @@ public abstract class BleRequest implements Runnable {
 
     private void connectToDevice() {
         DICommLog.w(TAG, "Connecting device");
-        bleDevice.connect();
+        bleDevice.connect(60000);
     }
 
     private void onConnected() {
