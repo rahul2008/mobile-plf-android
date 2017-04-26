@@ -36,6 +36,7 @@ import static com.philips.cdp.dicommclient.util.GsonProvider.EMPTY_JSON_OBJECT_S
 public class BleCommunicationStrategy extends CommunicationStrategy {
 
     private static final long DEFAULT_SUBSCRIPTION_POLLING_INTERVAL = 2000;
+    public static final long CONNECT_TIMEOUT_MILLIS = 60000L;
 
     @NonNull
     private final String cppId;
@@ -165,7 +166,7 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
         if (isAvailable()) {
             if (!isConnected) {
                 SHNDevice device = deviceCache.findByCppId(cppId).getDevice();
-                device.connect();
+                device.connect(CONNECT_TIMEOUT_MILLIS);
                 isConnected = true;
             }
         }

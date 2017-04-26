@@ -38,6 +38,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static com.philips.cdp.dicommclient.request.Error.NOT_UNDERSTOOD;
 import static com.philips.cdp.dicommclient.request.Error.PROTOCOL_VIOLATION;
 import static com.philips.cdp.dicommclient.request.Error.UNKNOWN;
+import static com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy.CONNECT_TIMEOUT_MILLIS;
 import static com.philips.cdp2.commlib.ble.error.BleErrorMap.getErrorByStatusCode;
 import static com.philips.cdp2.commlib.ble.request.BleRequest.State.COMPLETED;
 import static com.philips.cdp2.commlib.ble.request.BleRequest.State.CREATED;
@@ -246,16 +247,12 @@ public abstract class BleRequest implements Runnable {
 
         bleDevice = cacheData.getDevice();
         bleDevice.registerSHNDeviceListener(bleDeviceListener);
-        ///if (bleDevice.getState() == Connected) {
-        //    onConnected();
-        // } else {
         connectToDevice();
-        // }
     }
 
     private void connectToDevice() {
         DICommLog.w(TAG, "Connecting device");
-        bleDevice.connect(60000);
+        bleDevice.connect(CONNECT_TIMEOUT_MILLIS);
     }
 
     private void onConnected() {
@@ -314,14 +311,10 @@ public abstract class BleRequest implements Runnable {
     }
 
     private void finishRequest() {
-        //if (bleDevice != null && bleDevice.getState() != Disconnected && disconnectAfterRequest.get()) {
         DICommLog.w(TAG, "Disconnecting device");
         if (bleDevice != null) {
             bleDevice.disconnect();
         }
-        //} else {
-        //    completeRequest();
-        //}
     }
 
     private void completeRequest() {
