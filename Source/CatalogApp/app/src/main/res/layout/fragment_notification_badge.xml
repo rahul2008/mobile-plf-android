@@ -82,9 +82,7 @@
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/notification_small_margin"/>
                 </LinearLayout>
-                <com.philips.platform.uid.view.widget.Label
-                    style="@style/ButtonsCategoryStyle"
-                    android:layout_height="@dimen/notifaction_badge_lable_height" />
+
             </LinearLayout>
 
 
@@ -97,6 +95,7 @@
             android:layout_alignParentBottom="true"
             android:orientation="vertical">
 
+            <include layout="@layout/divider_layout"/>
 
             <com.philips.platform.uid.view.widget.EditText
                 android:id="@+id/edit_input_number"
