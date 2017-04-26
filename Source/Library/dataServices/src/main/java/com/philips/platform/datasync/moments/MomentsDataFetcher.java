@@ -67,6 +67,7 @@ public class MomentsDataFetcher extends DataFetcher {
 
             final MomentsClient client = uCoreAdapter.getAppFrameworkClient(MomentsClient.class,
                     accessProvider.getAccessToken(), gsonConverter);
+
             if(client==null) return null;
 
             if (client != null) {
@@ -77,8 +78,9 @@ public class MomentsDataFetcher extends DataFetcher {
                 accessProvider.saveLastSyncTimeStamp(momentsHistory.getSyncurl(), UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY);
 
                 List<UCoreMoment> uCoreMoments = momentsHistory.getUCoreMoments();
-                if (uCoreMoments != null && uCoreMoments.size() <= 0) {
+                if (uCoreMoments == null || uCoreMoments.size() <= 0) {
                     DSLog.i(DSLog.LOG, "DataPullSynchronize Moments fetch Success No change");
+                    eventing.post(new BackendMomentListSaveRequest(null, null));
                     return null;
                 }
                 DSLog.i(DSLog.LOG, "DataPullSynchronize Moments fetch Success before convert");
