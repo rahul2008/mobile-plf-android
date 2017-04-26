@@ -307,6 +307,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onSyncComplete() {
         DSLog.i(TAG, "Sync completed");
+        dismissProgressDialog();
     }
 
     @Override
