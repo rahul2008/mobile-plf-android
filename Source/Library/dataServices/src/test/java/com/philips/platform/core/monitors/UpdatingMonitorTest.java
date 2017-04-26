@@ -299,7 +299,8 @@ public class UpdatingMonitorTest {
         when(databaseSettingsUpdateRequestMock.getSettings()).thenReturn(settingsMock);
         doThrow(SQLException.class).when(dbUpdatingInterface).updateSettings(settingsMock, null);
         updatingMonitor.onEventBackGround(databaseSettingsUpdateRequestMock);
-        verify(dbUpdatingInterface).updateSettings(settingsMock, null);
+        verify(dbSavingInterface).saveSettings(settingsMock,databaseSettingsUpdateRequestMock.getDbRequestListener());
+        verify(dbUpdatingInterface).updateSyncBit(SyncType.SETTINGS.getId(),false);
     }
 
     @Test

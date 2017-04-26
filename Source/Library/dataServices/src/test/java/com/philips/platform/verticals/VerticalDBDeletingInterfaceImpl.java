@@ -2,6 +2,7 @@ package com.philips.platform.verticals;
 
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
 
@@ -60,6 +61,16 @@ public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface {
     @Override
     public boolean deleteInsights(List<Insight> insights, DBRequestListener<Insight> dbRequestListener) throws SQLException {
         return false;
+    }
+
+    @Override
+    public int deleteSyncBit(SyncType syncType) throws SQLException {
+        return 0;
+    }
+
+    @Override
+    public void deleteUserCharacteristics() throws SQLException {
+
     }
 
 

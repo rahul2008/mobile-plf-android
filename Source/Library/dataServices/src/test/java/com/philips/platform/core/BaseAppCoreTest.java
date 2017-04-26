@@ -85,10 +85,10 @@ public class BaseAppCoreTest {
         initMocks(this);
 
         DataServicesManager.getInstance().setAppComponant(mAppComponentMock);
-        savingMonitor = new SavingMonitor(savingInterface, dbDeletingInterface, dbUpdatingInterface);
+        savingMonitor = new SavingMonitor(savingInterface, deletingInterface, updatingInterface);
         fetchMonitor = new FetchingMonitor(fetchingInterface);
         deletingMonitor = new DeletingMonitor(deletingInterface);
-        updatingMonitor = new UpdatingMonitor(updatingInterface, deletingInterface, fetchingInterface, dbSavingInterface);
+        updatingMonitor = new UpdatingMonitor(updatingInterface, deletingInterface, fetchingInterface, savingInterface);
         database = new VerticalCreater();
 
         dbMonitors = new DBMonitors(Arrays.asList(savingMonitor, fetchMonitor, deletingMonitor, updatingMonitor));
