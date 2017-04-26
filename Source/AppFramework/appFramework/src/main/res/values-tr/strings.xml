@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="BA_AppFramework">Uygulama Çerçevesi </string>
+<string name="BA_AppFramework">Uygulama Çerçevesi</string>
 <string name="RA_You_are_not_LoggedIn">Oturumunuz Açık Değil. Lütfen Ayarlar\'a gidip Oturum Açın</string>
 <string name="RA_OK">OK</string>
 <string name="RA_Cancel">İptal</string>
@@ -16,7 +16,7 @@
 <string name="RA_SplashScreen_Title">Mobil Uygulamalar</string>
 <string name="RA_PhilipsShopScreen_Title">Ürünler</string>
 <string name="RA_HomeTab_Menu_Title">Ana sayfa</string>
-    <string name="RA_Settings_Menu_Title">Ayarlar</string>
+<string name="RA_Settings_Menu_Title">Ayarlar</string>
 <string name="RA_Support_Menu_Title">Destek</string>
 <string name="RA_Philips_Shop_Menu_Title">Philips Mağaza</string>
 <string name="RA_DataServices_Menu_Title">Veri Hizmetleri</string>

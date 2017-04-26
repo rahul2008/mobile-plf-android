@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="BA_AppFramework">Ogrodje aplikacije </string>
+<string name="BA_AppFramework">Ogrodje aplikacije</string>
 <string name="RA_You_are_not_LoggedIn">Niste prijavljeni. Pojdite v nastavitve in se prijavite.</string>
 <string name="RA_OK">V redu</string>
 <string name="RA_Cancel">Prekliči</string>

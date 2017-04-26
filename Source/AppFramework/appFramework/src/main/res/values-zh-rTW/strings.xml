@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="BA_AppFramework">AppFramework </string>
+<string name="BA_AppFramework">AppFramework</string>
 <string name="RA_You_are_not_LoggedIn">您沒有登入。請移至「設定」和「登入」</string>
 <string name="RA_OK">OK</string>
 <string name="RA_Cancel">取消</string>

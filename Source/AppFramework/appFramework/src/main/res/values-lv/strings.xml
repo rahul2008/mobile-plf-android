@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="BA_AppFramework">Lietotnes platforma </string>
+<string name="BA_AppFramework">Lietotnes platforma</string>
 <string name="RA_You_are_not_LoggedIn">Jūs neesat pieteicies. Lūdzu, atveriet iestatījumu sadaļu un piesakieties</string>
 <string name="RA_OK">Labi</string>
 <string name="RA_Cancel">Atcelt</string>

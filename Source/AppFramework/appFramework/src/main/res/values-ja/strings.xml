@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="BA_AppFramework">アプリフレームワーク </string>
+<string name="BA_AppFramework">アプリフレームワーク</string>
 <string name="RA_You_are_not_LoggedIn">ログインしていません。［設定］からログインしてください</string>
 <string name="RA_OK">OK</string>
 <string name="RA_Cancel">キャンセル</string>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="BA_AppFramework">Programos sistema </string>
+<string name="BA_AppFramework">Programos sistema</string>
 <string name="RA_You_are_not_LoggedIn">Jūs neprisijungęs. Eikite į nustatymus ir prisijunkite</string>
 <string name="RA_OK">Gerai</string>
 <string name="RA_Cancel">Atšaukti</string>

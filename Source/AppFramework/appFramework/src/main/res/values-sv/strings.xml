@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="BA_AppFramework">AppFramework </string>
+<string name="BA_AppFramework">AppFramework</string>
 <string name="RA_You_are_not_LoggedIn">Du är inte inloggad. Gå till Inställningar och logga in</string>
 <string name="RA_OK">OK</string>
 <string name="RA_Cancel">Avbryt</string>

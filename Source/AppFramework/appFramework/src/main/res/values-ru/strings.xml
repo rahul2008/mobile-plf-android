@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="BA_AppFramework">Структура приложения </string>
+<string name="BA_AppFramework">Структура приложения</string>
 <string name="RA_You_are_not_LoggedIn">Вы не вошли в систему. Перейдите к настройкам и выполните вход.</string>
 <string name="RA_OK">Oк</string>
 <string name="RA_Cancel">Отмена</string>

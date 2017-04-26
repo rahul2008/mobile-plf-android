@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="BA_AppFramework">Πλαίσιο εφαρμογής </string>
+<string name="BA_AppFramework">Πλαίσιο εφαρμογής</string>
 <string name="RA_You_are_not_LoggedIn">Δεν είστε συνδεδεμένοι. Μεταβείτε στις Ρυθμίσεις και έπειτα Σύνδεση.</string>
 <string name="RA_OK">ΟΚ</string>
 <string name="RA_Cancel">Ακύρωση</string>

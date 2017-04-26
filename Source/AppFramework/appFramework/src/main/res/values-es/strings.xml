@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="BA_AppFramework">Entorno de la aplicación </string>
+<string name="BA_AppFramework">Entorno de la aplicación</string>
 <string name="RA_You_are_not_LoggedIn">No has iniciado sesión. Ve a los ajustes e inicia sesión.</string>
 <string name="RA_OK">OK</string>
 <string name="RA_Cancel">Cancelar</string>

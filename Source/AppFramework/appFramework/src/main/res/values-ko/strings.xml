@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="BA_AppFramework">앱 프레임워크 </string>
+<string name="BA_AppFramework">앱 프레임워크</string>
 <string name="RA_You_are_not_LoggedIn">로그인되어 있지 않습니다. 설정에서 로그인하십시오.</string>
 <string name="RA_OK">확인</string>
 <string name="RA_Cancel">취소</string>
