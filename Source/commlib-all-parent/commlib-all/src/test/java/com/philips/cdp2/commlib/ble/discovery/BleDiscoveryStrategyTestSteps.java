@@ -107,6 +107,14 @@ public class BleDiscoveryStrategyTestSteps {
         Handler mockMainThreadHandler = mock(Handler.class);
         HandlerProvider.enableMockedHandler(mockMainThreadHandler);
 
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                invocation.getArgumentAt(0, Runnable.class).run();
+                return null;
+            }
+        }).when(mockMainThreadHandler).post(any(Runnable.class));
+
         final Context mockContext = mock(Context.class);
 
         bleDeviceCache = new BleDeviceCache(Executors.newSingleThreadScheduledExecutor());
@@ -314,12 +322,11 @@ public class BleDiscoveryStrategyTestSteps {
                 discoveryTaskCaptor.getValue().onStateUpdated(shnDeviceMock);
                 return null;
             }
-        }).when(shnDeviceMock).connect();
+        }).when(shnDeviceMock).connect(anyLong());
 
         for (int i = 0; i < times; i++) {
             bleDiscoveryStrategy.deviceFound(null, shnDeviceFoundInfoMock);
         }
-
         return shnDeviceMock;
     }
 
