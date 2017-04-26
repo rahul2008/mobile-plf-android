@@ -79,24 +79,6 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 		mFlInvaliFielddAlert = (FrameLayout)findViewById(R.id.fl_reg_name_field_err);
 		mTvCloseIcon = (TextView) findViewById(R.id.iv_reg_close);
 		FontLoader.getInstance().setTypeface(mTvCloseIcon, RegConstants.PUIICON_TTF);
-
-		mEtUserName.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
-
-			public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-				return false;
-			}
-
-			public void onDestroyActionMode(ActionMode mode) {
-			}
-
-			public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-				return false;
-			}
-
-			public boolean onActionItemClicked(ActionMode mode,MenuItem item) {
-				return false;
-			}
-		});
 	}
 
 	@Override

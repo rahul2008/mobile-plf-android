@@ -32,7 +32,6 @@
             android:background="@android:color/transparent"
             android:hint="@string/reg_CreateAccount_Email_PhoneNumber"
             android:imeOptions="actionNext"
-            android:longClickable="false"
             android:inputType="textPersonName"
             android:maxLength="@integer/reg_et_name_max_length"
             reglib:fontAssetName="CentraleSans-Light.otf" />
