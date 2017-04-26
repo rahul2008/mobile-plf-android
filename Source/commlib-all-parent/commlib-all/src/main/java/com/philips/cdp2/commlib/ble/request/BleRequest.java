@@ -33,7 +33,6 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.philips.cdp.dicommclient.request.Error.NOT_UNDERSTOOD;
 import static com.philips.cdp.dicommclient.request.Error.PROTOCOL_VIOLATION;
@@ -83,9 +82,6 @@ public abstract class BleRequest implements Runnable {
     final String portName;
     @NonNull
     private final Handler handlerToPostResponseOnto;
-    @NonNull
-    final private AtomicBoolean disconnectAfterRequest;
-
     private SHNDevice bleDevice;
     private CapabilityDiComm capability;
 
@@ -166,22 +162,19 @@ public abstract class BleRequest implements Runnable {
      * @param portName               the port name
      * @param productId              the product id
      * @param responseHandler        the response handler
-     * @param disconnectAfterRequest indicates if the request should disconnect from the device after communicating
      */
     BleRequest(@NonNull BleDeviceCache deviceCache,
                @NonNull String cppId,
                @NonNull String portName,
                int productId,
                @NonNull ResponseHandler responseHandler,
-               @NonNull Handler handlerToPostResponseOnto,
-               @NonNull AtomicBoolean disconnectAfterRequest) {
+               @NonNull Handler handlerToPostResponseOnto) {
         this.responseHandler = responseHandler;
         this.deviceCache = deviceCache;
         this.cppId = cppId;
         this.portName = portName;
         this.productId = Integer.toString(productId);
         this.handlerToPostResponseOnto = handlerToPostResponseOnto;
-        this.disconnectAfterRequest = disconnectAfterRequest;
     }
 
     protected abstract void execute(CapabilityDiComm capability);

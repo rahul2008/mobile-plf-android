@@ -26,7 +26,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.philips.cdp.dicommclient.util.GsonProvider.EMPTY_JSON_OBJECT_STRING;
 
@@ -44,8 +43,6 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     private final BleDeviceCache deviceCache;
     @NonNull
     private final ScheduledThreadPoolExecutor requestExecutor;
-    @NonNull
-    private AtomicBoolean disconnectAfterRequest = new AtomicBoolean(true);
     @NonNull
     private Handler callbackHandler;
 
@@ -93,13 +90,13 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
 
     @Override
     public void getProperties(final String portName, final int productId, final ResponseHandler responseHandler) {
-        final BleRequest request = new BleGetRequest(deviceCache, cppId, portName, productId, responseHandler, callbackHandler, disconnectAfterRequest);
+        final BleRequest request = new BleGetRequest(deviceCache, cppId, portName, productId, responseHandler, callbackHandler);
         dispatchRequest(request);
     }
 
     @Override
     public void putProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
-        final BleRequest request = new BlePutRequest(deviceCache, cppId, portName, productId, dataMap, responseHandler, callbackHandler, disconnectAfterRequest);
+        final BleRequest request = new BlePutRequest(deviceCache, cppId, portName, productId, dataMap, responseHandler, callbackHandler);
         dispatchRequest(request);
     }
 
@@ -170,7 +167,6 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
                 isConnected = true;
             }
         }
-        disconnectAfterRequest.set(false);
     }
 
     /**
@@ -186,7 +182,6 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
                 isConnected = false;
             }
         }
-        disconnectAfterRequest.set(true);
     }
 
     @VisibleForTesting
