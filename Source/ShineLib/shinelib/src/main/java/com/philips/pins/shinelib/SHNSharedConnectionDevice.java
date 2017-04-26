@@ -4,13 +4,12 @@ import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
 
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class SHNSharedConnectionDevice extends SHNDeviceWrapper {
     private static final String TAG = "SHNSharedConnectionDevice";
 
     private final AtomicInteger numberOfConnectsOutstanding = new AtomicInteger(0);
-    private final ReentrantLock lock = new ReentrantLock();
+    private final Object lock = new Object();
 
     public SHNSharedConnectionDevice(SHNDevice shnDevice) {
         super(shnDevice);
@@ -18,9 +17,7 @@ public class SHNSharedConnectionDevice extends SHNDeviceWrapper {
 
     @Override
     public void connect() {
-        lock.lock();
-
-        try {
+        synchronized (lock) {
             if (numberOfConnectsOutstanding.get() == 0) {
                 super.connect();
             } else {
@@ -28,16 +25,12 @@ public class SHNSharedConnectionDevice extends SHNDeviceWrapper {
             }
             numberOfConnectsOutstanding.incrementAndGet();
             SHNLogger.d(TAG, "Number of connections outstanding: " + numberOfConnectsOutstanding.get());
-        } finally {
-            lock.unlock();
         }
     }
 
     @Override
     public void connect(long connectTimeOut) {
-        lock.lock();
-
-        try {
+        synchronized (lock) {
             if (numberOfConnectsOutstanding.get() == 0) {
                 super.connect(connectTimeOut);
             } else {
@@ -46,16 +39,12 @@ public class SHNSharedConnectionDevice extends SHNDeviceWrapper {
 
             numberOfConnectsOutstanding.incrementAndGet();
             SHNLogger.d(TAG, "Number of connections outstanding: " + numberOfConnectsOutstanding.get());
-        } finally {
-            lock.unlock();
         }
     }
 
     @Override
     public void disconnect() {
-        lock.lock();
-
-        try {
+        synchronized (lock) {
             if (numberOfConnectsOutstanding.decrementAndGet() == 0) {
                 super.disconnect();
             } else {
@@ -65,8 +54,6 @@ public class SHNSharedConnectionDevice extends SHNDeviceWrapper {
                 notifyStateUpdated();
             }
             SHNLogger.d(TAG, "Number of connections outstanding: " + numberOfConnectsOutstanding.get());
-        } finally {
-            lock.unlock();
         }
     }
 
