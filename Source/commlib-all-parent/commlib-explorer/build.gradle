@@ -49,7 +49,7 @@ dependencies {
     compile 'nl.rwslinkman.presentable:presentable:1.7'
     compile deps.support.appcompatv7
     compile deps.support.design
-    compile "com.android.support:support-v4:${versions.support}"
+    compile deps.support.supportv4
 
     // CDPP platform
     def commlib_ble = findProject(':commlib-ble') ? ':commlib-ble' : ':commlib-all'
