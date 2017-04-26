@@ -174,6 +174,17 @@ public class AppConfigurationTest extends MockitoTestCase {
             assertTrue(mConfigInterface.setPropertyForKey("MicrositeID", "AI", new Integer(77000), configError));//  Existing Group  and Existing key
             assertEquals(null, configError.getErrorCode());
 
+           //Boolean set
+            configError.setErrorCode(null);// reset error code to null
+            assertTrue(mConfigInterface.setPropertyForKey("TestBoolTrue", "AI", new Boolean(true), configError));//  Existing Group  and Existing key
+            assertEquals(null, configError.getErrorCode());
+
+            configError.setErrorCode(null);// reset error code to null
+            assertTrue(mConfigInterface.setPropertyForKey("TestBoolFalse", "AI", new Boolean(false), configError));//  Existing Group  and Existing key
+            assertEquals(null, configError.getErrorCode());
+
+            configError.setErrorCode(null);// reset error code to null
+
             //String array set
             List<String> stringArray = new ArrayList<String>();
             stringArray.add("twitter");
@@ -203,8 +214,6 @@ public class AppConfigurationTest extends MockitoTestCase {
 
         // Modify a existing Key
         configError.setErrorCode(null);// reset error code to null
-
-
         assertNotNull(mConfigInterface.getPropertyForKey(existingKey, existingGroup, configError));//  Existing Group and  Existing key
         // make sure AI and MicrositeID exist in configuration file else this test case will fail
         assertEquals(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.NoError, configError.getErrorCode()); // success
@@ -320,6 +329,29 @@ public class AppConfigurationTest extends MockitoTestCase {
                 assertTrue(entry.getValue().equals(hmS.get(key)));
             }
         }
+
+        // Add a hashmap
+        configError.setErrorCode(null);
+        Map<String, Boolean> booleanMap = new HashMap();
+        booleanMap.put("Keybool1", true);
+        booleanMap.put("Keybool2", false);
+        Object boolVal = booleanMap;
+        assertTrue(mConfigInterface.setPropertyForKey("BoolHashMap", existingGroup, boolVal, configError));//  Existing Group  and Non Existing key
+        assertEquals(null, configError.getErrorCode());
+        configError.setErrorCode(null);// reset error code to null
+
+        Object boolObj = mConfigInterface.getPropertyForKey("BoolHashMap", existingGroup, configError);
+        if (boolObj instanceof Map) {
+            Map<String, Boolean> newMap = (Map<String, Boolean>) boolObj;
+            for (Map.Entry<String, Boolean> entry : newMap.entrySet()) {
+                String key = entry.getKey();
+                boolean a=booleanMap.get(key);
+                Log.e("",""+a);
+                entry.getValue();
+                assertTrue(entry.getValue().equals(booleanMap.get(key)));
+            }
+        }
+
     }
 
 
@@ -489,6 +521,7 @@ public class AppConfigurationTest extends MockitoTestCase {
                 "    \"CONTENTLOADER.LIMITSIZE\":555,\n" +
                 "    \"SERVICEDISCOVERY.PLATFORMMICROSITEID\":\"77000\",\n" +
                 "    \"SERVICEDISCOVERY.PLATFORMENVIRONMENT\":\"production\",\n" +
+                "    \"SERVICEDISCOVERY.PROPOSITIONENABLED\":\true,\n" +
                 "    \"APPCONFIG.CLOUDSERVICEID\":\" appinfra.appconfigdownload\",\n" +
                 "  \"TIMESYNC.NTP.HOSTS\":[\"0.pool.ntp.org\",\"1.pool.ntp.org\",\"2.pool.ntp.org\",\"3.pool.ntp.org\",\"0.cn.pool.ntp.org\"],\n" +
                 "    \"LANGUAGEPACK.SERVICEID\":\"appinfra.languagepack\",\n" +

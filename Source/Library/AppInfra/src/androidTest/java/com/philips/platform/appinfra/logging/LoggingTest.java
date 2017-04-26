@@ -12,14 +12,9 @@ import org.json.JSONObject;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.logging.ConsoleHandler;
-import java.util.logging.FileHandler;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import static org.mockito.Mockito.doAnswer;
@@ -297,7 +292,7 @@ public class LoggingTest extends MockitoTestCase {
 
     }
 
-    public void testGetCurrentLogFileHandler() {
+   /* public void testGetCurrentLogFileHandler() {
         try {
             AppInfraLogging appInfraLogging = new AppInfraLogging(mAppInfra);
             Method method = appInfraLogging.getClass().getDeclaredMethod("getCurrentLogFileHandler", Logger.class);
@@ -311,7 +306,7 @@ public class LoggingTest extends MockitoTestCase {
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     public void testGetCurrentConsoleFileHandler() {
         try {

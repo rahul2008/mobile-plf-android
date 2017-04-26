@@ -93,8 +93,8 @@ public class AppInfraApplication extends Application {
                     Map textExtra = (Map) intent.getSerializableExtra(AppTagging.EXTRA_TAGGING_DATA);
                     Log.d("APPINFRA-TAGGING" , textExtra.toString());
                     Crittercism.leaveBreadcrumb(textExtra.toString());
-                    Toast.makeText(getApplicationContext(),
-                            textExtra.toString(), Toast.LENGTH_LONG).show();
+                    /*Toast.makeText(getApplicationContext(),
+                            textExtra.toString(), Toast.LENGTH_LONG).show();*/
                 }
             }
 

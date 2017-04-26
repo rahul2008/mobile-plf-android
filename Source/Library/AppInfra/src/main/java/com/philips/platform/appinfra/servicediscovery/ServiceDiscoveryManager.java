@@ -149,34 +149,69 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         final AISDResponse response = new AISDResponse(mAppInfra);
         ServiceDiscovery platformService = null, propositionService = null;
 
-        propositionService = downloadPropositionService();
-        if (propositionService != null && propositionService.isSuccess()) {
-            final String country = fetchFromSecureStorage(COUNTRY);
-            final String countrySource = fetchFromSecureStorage(COUNTRY_SOURCE);
-            if (country == null) {
-                if (countrySource == null) {
-                    countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
-                    saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
-                }
-                saveToSecureStore(propositionService.getCountry(), COUNTRY);
-            }
+        if (mRequestItemManager.getPropositionEnabled(mAppInfra)) {
+
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD Call", "Downloading from platform microsite id  and should return the URL's for Service id.  ");
             platformService = downloadPlatformService();
-        }
-        if (platformService != null && propositionService != null) {
-            if (propositionService.isSuccess() && platformService.isSuccess()) {
+            if (platformService != null && platformService.isSuccess()) {
+               /* String country = fetchFromSecureStorage(COUNTRY);
+                String countrySource = fetchFromSecureStorage(COUNTRY_SOURCE);
+                if (country == null) {
+                    if (countrySource == null) {
+                        countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
+                        saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
+                    }
+                    saveToSecureStore(platformService.getCountry(), COUNTRY);
+                }*/
+                fetchCountryAndCountrySource(platformService.getCountry());
                 response.setPlatformURLs(platformService);
-                response.setPropositionURLs(propositionService);
-            } else {
-                final ServiceDiscovery error = new ServiceDiscovery();
-                error.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "DOWNLOAD FAILED"));
-                error.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.SERVER_ERROR, "DOWNLOAD FAILED"));
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "DOWNLOAD FAILED");
             }
         } else {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call",
-                    "Download failed");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD Call", "Downloading from  both proposition microsite id and platform microsite id ");
+            propositionService = downloadPropositionService();
+            if (propositionService != null && propositionService.isSuccess()) {
+                /* String country = fetchFromSecureStorage(COUNTRY);
+                 String countrySource = fetchFromSecureStorage(COUNTRY_SOURCE);
+                if (country == null) {
+                    if (countrySource == null) {
+                        countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
+                        saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
+                    }
+                    saveToSecureStore(propositionService.getCountry(), COUNTRY);
+                }*/
+                fetchCountryAndCountrySource(propositionService.getCountry());
+                platformService = downloadPlatformService();
+            }
+            if (platformService != null && propositionService != null) {
+                if (propositionService.isSuccess() && platformService.isSuccess()) {
+                    response.setPlatformURLs(platformService);
+                    response.setPropositionURLs(propositionService);
+                } else {
+                    final ServiceDiscovery error = new ServiceDiscovery();
+                    error.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "DOWNLOAD FAILED"));
+                    error.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.SERVER_ERROR, "DOWNLOAD FAILED"));
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "DOWNLOAD FAILED");
+                }
+            } else {
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call",
+                        "Download failed");
+            }
         }
         return response;
+    }
+
+    private void fetchCountryAndCountrySource(String platformOrPropositionCountry)
+    {
+        String country = fetchFromSecureStorage(COUNTRY);
+        String countrySource = fetchFromSecureStorage(COUNTRY_SOURCE);
+        if (country == null) {
+            if (countrySource == null) {
+                countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
+                saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
+            }
+           saveToSecureStore(platformOrPropositionCountry, COUNTRY);
+        }
+
     }
 
     private ServiceDiscovery downloadPlatformService() {
@@ -728,28 +763,44 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
     private boolean cachedURLsExpired() {
-        final String mURLStringProposition = getSDURLForType(AISDURLTypeProposition);
-        final String mSavedURLProposition = mRequestItemManager.getUrlProposition();
 
-        final String mURLStringPlatform = getSDURLForType(AISDURLType.AISDURLTypePlatform);
-        final String mSavedURLPlatform = mRequestItemManager.getUrlPlatform();
+        if (mRequestItemManager.getPropositionEnabled(mAppInfra)) {
+            final String mURLStringPlatform = getSDURLForType(AISDURLType.AISDURLTypePlatform);
+            final String mSavedURLPlatform = mRequestItemManager.getUrlPlatform();
 
-        if (mSavedURLProposition != null && mURLStringProposition != null) {
-            //if previously saved URL differs from current proposition URL, URLs are expired
-            if (!mSavedURLProposition.equals(mURLStringProposition)) {
+            if (mSavedURLPlatform != null && mURLStringPlatform != null) {
+                //if previously saved URL differs from current platform URL, URLs are expired
+                if (!mSavedURLPlatform.equals(mURLStringPlatform)) {
+                    return true;
+                }
+            } else {
                 return true;
             }
-        } else {
-            return true;
-        }
 
-        if (mSavedURLPlatform != null && mURLStringPlatform != null) {
-            //if previously saved URL differs from current platform URL, URLs are expired
-            if (!mSavedURLPlatform.equals(mURLStringPlatform)) {
+        } else {
+            final String mURLStringPlatform = getSDURLForType(AISDURLType.AISDURLTypePlatform);
+            final String mSavedURLPlatform = mRequestItemManager.getUrlPlatform();
+
+            final String mURLStringProposition = getSDURLForType(AISDURLTypeProposition);
+            final String mSavedURLProposition = mRequestItemManager.getUrlProposition();
+
+            if (mSavedURLProposition != null && mURLStringProposition != null) {
+                //if previously saved URL differs from current proposition URL, URLs are expired
+                if (!mSavedURLProposition.equals(mURLStringProposition)) {
+                    return true;
+                }
+            } else {
                 return true;
             }
-        } else {
-            return true;
+
+            if (mSavedURLPlatform != null && mURLStringPlatform != null) {
+                //if previously saved URL differs from current platform URL, URLs are expired
+                if (!mSavedURLPlatform.equals(mURLStringPlatform)) {
+                    return true;
+                }
+            } else {
+                return true;
+            }
         }
 
         if (mRequestItemManager.isServiceDiscoveryDataExpired()) {
