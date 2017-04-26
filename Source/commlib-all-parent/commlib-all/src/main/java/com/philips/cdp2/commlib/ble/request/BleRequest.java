@@ -41,10 +41,8 @@ import static com.philips.cdp2.commlib.ble.communication.BleCommunicationStrateg
 import static com.philips.cdp2.commlib.ble.error.BleErrorMap.getErrorByStatusCode;
 import static com.philips.cdp2.commlib.ble.request.BleRequest.State.COMPLETED;
 import static com.philips.cdp2.commlib.ble.request.BleRequest.State.CREATED;
-import static com.philips.cdp2.commlib.ble.request.BleRequest.State.FINALIZED;
 import static com.philips.cdp2.commlib.ble.request.BleRequest.State.STARTED;
 import static com.philips.pins.shinelib.SHNDevice.State.Connected;
-import static com.philips.pins.shinelib.SHNDevice.State.Disconnected;
 import static com.philips.pins.shinelib.SHNResult.SHNOk;
 import static com.philips.pins.shinelib.dicommsupport.StatusCode.NoError;
 
@@ -134,12 +132,6 @@ public abstract class BleRequest implements Runnable {
         public void onStateUpdated(final SHNDevice shnDevice) {
             if (shnDevice.getState() == Connected) {
                 onConnected();
-            } else if (shnDevice.getState() == Disconnected) {
-                if (stateIs(COMPLETED)) {
-                    completeRequest();
-                } else {
-                    onError(Error.REQUEST_FAILED, "device disconnected");
-                }
             }
         }
 
@@ -244,7 +236,7 @@ public abstract class BleRequest implements Runnable {
     }
 
     private void connectToDevice() {
-        DICommLog.w(TAG, "Connecting device");
+        DICommLog.i(TAG, "Connecting device");
         bleDevice.connect(CONNECT_TIMEOUT_MILLIS);
     }
 
@@ -304,16 +296,11 @@ public abstract class BleRequest implements Runnable {
     }
 
     private void finishRequest() {
-        DICommLog.w(TAG, "Disconnecting device");
         if (bleDevice != null) {
+            DICommLog.i(TAG, "Disconnecting device");
             bleDevice.disconnect();
         }
-    }
-
-    private void completeRequest() {
-        if (setStateIfStateIs(FINALIZED, COMPLETED)) {
-            inProgressLatch.countDown();
-        }
+        inProgressLatch.countDown();
     }
 
     private void cleanup() {
