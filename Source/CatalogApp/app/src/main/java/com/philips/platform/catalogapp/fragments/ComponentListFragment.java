@@ -65,8 +65,9 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
         itemsMap.put(9, getString(R.string.page_title_date_time_picker));
         itemsMap.put(10, getString(R.string.page_title_gridView));
         itemsMap.put(11, getString(R.string.page_title_notification_bar));
-        itemsMap.put(12, getString(R.string.page_title_notification_badge));
-        itemsMap.put(13, getString(R.string.page_title_language_pack));
+        itemsMap.put(12, getString(R.string.page_title_language_pack));
+        itemsMap.put(13, getString(R.string.page_title_ratingbar));
+        itemsMap.put(14, getString(R.string.page_title_notification_badge));
         return sortMap(itemsMap);
     }
 
@@ -129,11 +130,13 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
                 navigationController.switchFragment(new NotificationBarFragment());
                 break;
             case 12:
-                navigationController.switchFragment(new NotificationBadgeFragment());
+                navigationController.switchFragment(new LanguagePackFragment());
                 break;
             case 13:
-                navigationController.switchFragment(new LanguagePackFragment());
-
+                navigationController.switchFragment(new RatingBarFragment());
+                break;
+            case 14:
+                navigationController.switchFragment(new NotificationBadgeFragment());
                 break;
         }
     }
