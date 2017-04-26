@@ -35,8 +35,9 @@ public class BleScanRecord {
         return new BleScanRecord(scanRecord);
     }
 
-    private BleScanRecord(byte[] scanRecord) {
-        this.scanRecord = scanRecord.clone();
+    private BleScanRecord(byte[] originalScanRecord) {
+        scanRecord = new byte[originalScanRecord.length];
+        System.arraycopy(originalScanRecord, 0, scanRecord, 0, originalScanRecord.length);
         uuids = new ArrayList<>();
         parseScanRecord(scanRecord);
     }
@@ -47,7 +48,10 @@ public class BleScanRecord {
      * @return raw advertisement and scan data received from the remote peripheral
      */
     public byte[] getScanRecord() {
-        return scanRecord.clone();
+        byte[] returnedRecord = new byte[scanRecord.length];
+        System.arraycopy(scanRecord, 0, returnedRecord, 0, scanRecord.length);
+
+        return returnedRecord;
     }
 
     /**

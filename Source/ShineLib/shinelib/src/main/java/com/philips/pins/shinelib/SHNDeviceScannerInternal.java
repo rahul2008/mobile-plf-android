@@ -109,11 +109,12 @@ public class SHNDeviceScannerInternal {
         }
     }
 
-    private void postBleDeviceFoundInfoOnInternalThread(final BleDeviceFoundInfo bleDeviceFoundInfo) {
+    private void postBleDeviceFoundInfoOnInternalThread(BleDeviceFoundInfo bleDeviceFoundInfo) {
+        final SHNDeviceFoundInfo deviceFoundInfo = convertToSHNDeviceFoundInfo(bleDeviceFoundInfo);
+
         shnCentral.getInternalHandler().post(new Runnable() {
             @Override
             public void run() {
-                SHNDeviceFoundInfo deviceFoundInfo = convertToSHNDeviceFoundInfo(bleDeviceFoundInfo);
                 if (deviceFoundInfo != null) {
                     for (final SHNInternalScanRequest shnInternalScanRequest : shnInternalScanRequests) {
                         shnInternalScanRequest.onDeviceFound(deviceFoundInfo);
