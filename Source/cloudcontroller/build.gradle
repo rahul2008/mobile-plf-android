@@ -117,17 +117,19 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    provided deps.support.annotations
 
     if (findProject(':cloudcontroller-api')) {
         debugCompile project(path: ':cloudcontroller-api', configuration: 'debug')
         releaseCompile project(path: ':cloudcontroller-api', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'cloudcontroller-api', version: '3.1.3' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+        compile(group: 'com.philips.cdp', name: 'cloudcontroller-api', version: versions.cloudcontroller_api + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     }
 
-    testCompile 'junit:junit:4.12'
+    testCompile deps.junit
     testCompile 'org.mockito:mockito-core:1.9.5'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
+
     testCompile('org.robolectric:robolectric:3.0') {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
@@ -138,7 +140,6 @@ dependencies {
     }
     testCompile 'org.powermock:powermock-api-mockito:1.6.4'
     testCompile 'org.powermock:powermock-module-junit4:1.6.4'
-    provided 'com.android.support:support-annotations:23.1.0'
 }
 
 apply plugin: 'jacoco'

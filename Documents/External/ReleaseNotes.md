@@ -1,6 +1,6 @@
 Release notes for Android-CloudController
 
-Version NEXT
+Version 5.1.4
 -------------
 ### Bugs fixed:
 * [DE14043] Concurrent modification exception crash fixed.
