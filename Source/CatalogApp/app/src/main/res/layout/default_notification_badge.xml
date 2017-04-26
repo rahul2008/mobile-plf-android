@@ -13,11 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/uid_text_default"
-        style="@style/NotificationBadge"
-        android:gravity="center|center_horizontal"
-        android:layout_gravity="top|right"
         android:elevation="@dimen/uid_notification_badge_elevation"
-        android:visibility="invisible"/>
+        style="@style/NotificationBadge"/>
 
 
 </FrameLayout>

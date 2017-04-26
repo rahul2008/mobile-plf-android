@@ -5,6 +5,10 @@
         <item name="android:paddingStart">@dimen/uid_notificationbadge_padding</item>
         <item name="android:paddingEnd">@dimen/uid_notificationbadge_padding</item>
         <item name="android:textColor">?attr/uidNotificationBadgeDefaultTextColor</item>
+        <item name="android:gravity">center|center_horizontal</item>
+        <item name="android:layout_gravity">top|right</item>
+        <item name="android:visibility">invisible</item>
+
 
         <item name="android:textSize">@dimen/uid_notificationbadge_default_textSize</item>
         <item name="android:background">@drawable/uid_default_notificationbadge_background</item>
