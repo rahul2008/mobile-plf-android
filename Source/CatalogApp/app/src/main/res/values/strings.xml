@@ -183,6 +183,17 @@
     <string name="notification_bar_notification_show">Show notification</string>
     <string name="notification_bar_notification_hide">Hide notification</string>
 
+
+
+    <!--Notification Badge-->
+    <string name="page_title_notification_badge">Notification badge</string>
+    <string name="accent_color">Accent color</string>
+    <string name="normal_size">Normal size</string>
+    <string name="small_size">Small size</string>
+    <string name="hint_enter_number">Enter badge count</string>
+    <string name="e_mails">E-mails</string>
+
+    <!--Language Pack-->
     <string name="page_title_language_pack">Language Pack</string>
     <string name="language_pack_button">Primary Button</string>
     <string name="language_pack_label">Language Pack Label</string>

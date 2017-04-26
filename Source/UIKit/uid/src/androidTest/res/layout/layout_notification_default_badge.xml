@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/uid_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/uid_notificationbadge_default_margin"
+        android:layout_marginTop="@dimen/uid_notificationbadge_default_margin"
+        android:gravity="center|center_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="E-mail"/>
+
+
+    <com.philips.platform.uid.view.widget.NotificationBadge
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/uid_text_default"
+        style="@style/NotificationBadge"
+        android:gravity="center|center_horizontal"
+        android:textColor="@color/uidColorWhite"
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="invisible"
+        />
+
+
+    <ImageView
+        android:id="@+id/uid_imageview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/uid_notificationbadge_small_margin"
+        android:layout_marginTop="@dimen/uid_notificationbadge_small_margin"
+        android:gravity="center|center_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+
+    <com.philips.platform.uid.view.widget.NotificationBadge
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/uid_text_small"
+        style="@style/NotificationBadge.Small"
+        android:gravity="center|center_horizontal"
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="invisible"
+        />
+</android.support.constraint.ConstraintLayout>

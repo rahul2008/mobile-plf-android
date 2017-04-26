@@ -16,6 +16,10 @@ public class TestConstants {
     public final static String FUNCTION_GET_INDETERMINATE_DRAWABALE = "getIndeterminateDrawable";
     public final static String FUNCTION_GET_TEXT_COLORS = "getTextColors";
 
+    //Font paths
+    public final static String FONT_PATH_CS_BOOK = "fonts/centralesansbook.ttf";
+
+
     //Circular progress bar ratios
     public final static float CIRCULAR_SMALL_INNER_RADIUS_RATIO = 2.4f;
     public final static float CIRCULAR_MID_INNER_RADIUS_RATIO = 2.28f;

@@ -217,4 +217,14 @@
     <dimen name="uid_rating_bar_input_height">48dp</dimen>
     <dimen name="uid_rating_bar_display_width">20dp</dimen>
     <dimen name="uid_rating_bar_display_height">16dp</dimen>
+
+    <!--Notification Badge-->
+    <dimen name="uid_notificationbadge_small_radius">20dp</dimen>
+    <dimen name="uid_notificationbadge_default_radius">24dp</dimen>
+    <dimen name="uid_notificationbadge_padding">4dp</dimen>
+    <dimen name="uid_notificationbadge_small_textSize">10sp</dimen>
+    <dimen name="uid_notificationbadge_default_textSize">12sp</dimen>
+    <dimen name="uid_notificationbadge_default_margin">12dp</dimen>
+    <dimen name="uid_notificationbadge_small_margin">10dp</dimen>
+    <dimen name="uid_notification_badge_elevation">3dp</dimen>
 </resources>

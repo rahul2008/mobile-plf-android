@@ -5,21 +5,27 @@
 package com.philips.platform.uid.matcher;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.internal.util.Checks;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+
+import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 public class TextViewPropertiesMatchers {
 
@@ -278,6 +284,7 @@ public class TextViewPropertiesMatchers {
             public boolean matchesSafely(TextView view) {
                 return color == ((ColorDrawable) view.getBackground()).getColor();
             }
+
             @Override
             public void describeTo(Description description) {
             }
@@ -296,6 +303,58 @@ public class TextViewPropertiesMatchers {
                     return areEqual();
                 }
                 throw new RuntimeException("expected TextView got " + view.getClass().getName());
+            }
+        };
+    }
+
+    public static Matcher<View> isSameTopMargin(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+                setValues(lp.topMargin, expectedValue);
+                return areEqual();
+            }
+        };
+    }
+
+    public static Matcher<View> isSameRightMargin(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+                setValues(lp.getMarginEnd(), expectedValue);
+                return areEqual();
+            }
+        };
+    }
+
+    public static Matcher<View> isSameStartPadding(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                setValues(view.getPaddingStart(), expectedValue);
+                return areEqual();
+            }
+        };
+    }
+
+    public static Matcher<View> isSameEndPadding(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                setValues(view.getPaddingEnd(), expectedValue);
+                return areEqual();
+            }
+        };
+    }
+
+    public static Matcher<View> isSameTypeface(final Context activity, final Typeface typeface, final String fontPath) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                setValues(typeface, TypefaceUtils.load(activity.getAssets(), fontPath));
+                return areEqual();
             }
         };
     }
