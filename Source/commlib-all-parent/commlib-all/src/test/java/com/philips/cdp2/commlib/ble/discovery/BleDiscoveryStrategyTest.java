@@ -51,7 +51,9 @@ public class BleDiscoveryStrategyTest {
         initMocks(this);
         enableMockedHandler(new Handler());
 
-        strategyUnderTest = new BleDiscoveryStrategy(mockContext, mockCache, mockScanner, mockCentral);
+        when(mockCentral.getShnDeviceScanner()).thenReturn(mockScanner);
+
+        strategyUnderTest = new BleDiscoveryStrategy(mockContext, mockCache, mockCentral);
     }
 
     @Test

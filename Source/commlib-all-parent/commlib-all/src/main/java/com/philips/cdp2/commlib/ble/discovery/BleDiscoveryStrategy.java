@@ -102,10 +102,10 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         }
     };
 
-    public BleDiscoveryStrategy(@NonNull Context context, @NonNull BleDeviceCache bleDeviceCache, @NonNull SHNDeviceScanner deviceScanner, @NonNull SHNCentral shnCentral) {
+    public BleDiscoveryStrategy(@NonNull Context context, @NonNull BleDeviceCache bleDeviceCache, @NonNull SHNCentral shnCentral) {
         this.context = context;
         this.bleDeviceCache = bleDeviceCache;
-        this.deviceScanner = deviceScanner;
+        this.deviceScanner = shnCentral.getShnDeviceScanner();
         this.shnCentral = shnCentral;
         this.modelIds = new HashSet<>();
         this.scanExecutor = Executors.newSingleThreadScheduledExecutor();

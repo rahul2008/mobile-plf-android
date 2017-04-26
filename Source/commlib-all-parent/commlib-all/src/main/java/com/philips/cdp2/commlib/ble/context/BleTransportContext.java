@@ -36,7 +36,7 @@ public class BleTransportContext implements TransportContext {
      *
      * @param context the context
      */
-    public BleTransportContext(@NonNull final Context context)  {
+    public BleTransportContext(@NonNull final Context context) {
         this(context, false);
     }
 
@@ -56,7 +56,7 @@ public class BleTransportContext implements TransportContext {
             throw new TransportUnavailableException("Bluetooth hardware unavailable.", e);
         }
         this.shnCentral.registerDeviceDefinition(new ReferenceNodeDeviceDefinitionInfo());
-        this.discoveryStrategy = new BleDiscoveryStrategy(context, deviceCache, shnCentral.getShnDeviceScanner(), shnCentral);
+        this.discoveryStrategy = new BleDiscoveryStrategy(context, deviceCache, shnCentral);
     }
 
     @Override
