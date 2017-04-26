@@ -63,16 +63,6 @@ public class DefaultNotificationBadgeTest extends BaseTest {
         final int expectedColor = ContextCompat.getColor(activity, White);
         getNotificationBadgeTextLayout().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
-
-/*
-
-    @Test
-    public void verifyViewDefaultBackgroundColor() {
-        int expectedTextColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidNotificationBadgeDefaultBackgroundColor);
-        getNotificationSmallBadgeTextLayout().check(matches(TextViewPropertiesMatchers.sameBackgroundColor(expectedTextColor))); }
-
-*/
-
     @Test
     public void verifyViewDefaultTopMargin() {
         int expectedTopMargin = testResources.getDimensionPixelSize(R.dimen.uid_notificationbadge_default_margin);

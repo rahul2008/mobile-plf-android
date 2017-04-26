@@ -135,7 +135,4 @@
     <dimen name="notification_bar_content_text_size">14dp</dimen>
     <dimen name="notification_bar_content_margin_top">5dp</dimen>
     <dimen name="notification_bar_btn_min_height">56dp</dimen>
-
-    <integer name="uid_notification_badge_view_small_size_radius">10</integer>
-    <integer name="uid_notification_badge_view_default_size_radius">12</integer>
 </resources>
