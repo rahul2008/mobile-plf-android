@@ -15,10 +15,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -91,24 +88,6 @@ public class PasswordView extends RelativeLayout implements TextWatcher, OnClick
         FontLoader.getInstance().setTypeface(mTvMaskPassword, RegConstants.PUIICON_TTF);
         FontLoader.getInstance().setTypeface(mTvCloseIcon, RegConstants.PUIICON_TTF);
         disableMaskPassoword();
-
-        mEtPassword.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
-
-            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-                return false;
-            }
-
-            public void onDestroyActionMode(ActionMode mode) {
-            }
-
-            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                return false;
-            }
-
-            public boolean onActionItemClicked(ActionMode mode,MenuItem item) {
-                return false;
-            }
-        });
     }
 
 
