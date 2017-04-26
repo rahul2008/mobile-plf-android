@@ -113,7 +113,7 @@ public class RatingBar extends AppCompatRatingBar {
     }
 
     private void initializePaint(){
-        paint = new Paint();
+        paint = new Paint(Paint.LINEAR_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
         if(textColor != -1){
             paint.setColor(textColor);
         }
