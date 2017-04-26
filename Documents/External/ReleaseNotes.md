@@ -3,6 +3,10 @@ CommLib-all for Android - Release Notes
 
 Version 1.3.0
 -------------
+No changes.
+
+Version 1.3.0
+-------------
 
 ### New features
 * 9326 Discovery can now filter on model ids. This is also showcased in the commlib-all test app.

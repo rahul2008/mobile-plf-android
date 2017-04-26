@@ -1,3 +1,6 @@
+/* following line is mandatory for the platform CI pipeline integration */
+properties([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name: 'triggerBy']]]])
+
 node('Android') {
     stage('Checkout') {
         sh 'rm -rf *'
@@ -6,11 +9,12 @@ node('Android') {
 
     Slack = load "android-commlib-all/Source/common/jenkins/Slack.groovy"
     Pipeline = load "android-commlib-all/Source/common/jenkins/Pipeline.groovy"
+    def gradle = 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew -PenvCode=${JENKINS_ENV}'
 
     Slack.notify('#conartists') {
         if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME == "master") {
             stage('Build against binaries') {
-                sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assemble'
+                sh "$gradle --refresh-dependencies assemble"
             }
         } else {
             stage('Checkout local BlueLib') {
@@ -30,7 +34,7 @@ node('Android') {
             }
 
             stage('Build against local libs') {
-                sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew -PenvCode=${JENKINS_ENV} assemble'
+                sh "$gradle --refresh-dependencies assemble"
             }
         }
 
@@ -38,7 +42,7 @@ node('Android') {
             sh 'rm -rf android-shinelib/Source/ShineLib/shinelib/build/test-results'
             sh 'rm -rf dicomm-android/Source/DICommClient/dicommClientLib/build/test-results'
             sh 'rm -rf android-commlib-all/Source/commlib-all-parent/commlib-all/build/test-results'
-            sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew -PenvCode=${JENKINS_ENV} commlib-all:testDebug || true'
+            sh "$gradle commlib-all:testDebug || true"
 
             step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/*/*.xml'])
 
@@ -50,20 +54,20 @@ node('Android') {
         }
 
         stage('Archive artifacts') {
-            step([$class: 'ArtifactArchiver', artifacts: 'android-commlib-all/Source/commlib-all-parent/commlib-all-example/build/outputs/apk/*.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
+            archiveArtifacts artifacts: '**/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
         }
 
         if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME == "master") {
             stage('Publish') {
                 sh 'rm -rf ./android_shinelib ./dicomm_android'
-                sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew -PenvCode=${JENKINS_ENV} zipDoc artifactoryPublish'
+                sh "$gradle zipDoc artifactoryPublish"
             }
         }
 
         stage('Save Dependencies') {
-            sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
+            sh "$gradle saveResDep"
             archiveArtifacts '**/dependencies.lock'
         }
     }
-    Pipeline.trigger(env.triggerBy, env.BRANCH_NAME, "CommLibBle", "cml")
+    Pipeline.trigger(env.triggerBy, env.BRANCH_NAME, "CommLibBle", "cba")
 }

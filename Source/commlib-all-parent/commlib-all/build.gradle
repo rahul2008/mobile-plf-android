@@ -118,21 +118,21 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:24.2.1'
+    compile deps.support.supportv4
     provided deps.support.annotations
 
     if (findProject(':bluelib')) {
         debugCompile project(path: ':bluelib', configuration: 'debug')
         releaseCompile project(path: ':bluelib', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.3.3' + objcdp.getVersionSuffix())
+        compile(group: 'com.philips.cdp', name: 'shinelib', version: versions.bluelib + objcdp.getVersionSuffix())
     }
 
     if (findProject(':commlib')) {
         debugCompile project(path: ':commlib', configuration: 'debug')
         releaseCompile project(path: ':commlib', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '4.0.0' + objcdp.getVersionSuffix())
+        compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: versions.commlib + objcdp.getVersionSuffix())
     }
 
     testCompile deps.mockito
