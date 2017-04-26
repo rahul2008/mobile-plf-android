@@ -5,16 +5,12 @@
 */
 package com.philips.platform.baseapp.screens.splash;
 
-import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.app.ActivityCompat;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,7 +61,6 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
 
         title = (TextView) view.findViewById(R.id.splash_title);
         title.setText(titleText);
-        initializeFlowManager();
         return view;
     }
 
@@ -109,6 +104,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     public void onResume() {
         super.onResume();
         isVisible = true;
+        initializeFlowManager();
         modifyLayoutforMultiWindow();
     }
 
