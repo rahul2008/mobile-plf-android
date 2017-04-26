@@ -24,6 +24,20 @@ import java.lang.reflect.Method;
 
 import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
+
+
+/**
+ * UID RatingBar.
+ *
+ * <P>UID RatingBar is an extension of AppCompatRatingBar with added styles. UIDLibrary provides 3 styles for RatingBar that can be used.
+ * <BR>UIDRatingBarInput
+ * <BR>UIDRatingBarStandardDisplay
+ * <BR>UIDRatingBarMiniDisplay
+ *
+ * <P> A RatingBar can be prefixed with a Label by calling setText() or using attribute android:text. IsIndicator should be true in order to prefix the label.
+ *
+ */
+
 public class RatingBar extends AppCompatRatingBar {
 
     private int widthOffset = 0;

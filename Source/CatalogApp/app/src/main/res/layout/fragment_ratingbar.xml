@@ -23,6 +23,8 @@
                 style="@style/ButtonsCategoryStyle"
                 android:text="@string/ratingbar_input"/>
 
+            <!--Applied Input style to Rating Bar from UIDRatingBar styles.-->
+
             <com.philips.platform.uid.view.widget.RatingBar
                 style="@style/UIDRatingBarInput"
                 android:id="@+id/rating_input"
@@ -48,6 +50,8 @@
                 android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:text="@string/ratingbar_display"/>
 
+            <!--Applied Standard Display style to Rating Bar from UIDRatingBar styles.-->
+
             <com.philips.platform.uid.view.widget.RatingBar
                 style="@style/UIDRatingBarStandardDisplay"
                 android:id="@+id/rating_display_default"
@@ -58,6 +62,9 @@
                 android:rating="4.5"
                 android:text="@string/ratingbar_rating_text"
                 />
+
+            <!--Applied Standard Display style to Rating Bar from UIDRatingBar styles.-->
+
             <com.philips.platform.uid.view.widget.RatingBar
                 style="@style/UIDRatingBarStandardDisplay"
                 android:id="@+id/rating_display_star_only"
@@ -72,6 +79,8 @@
                 style="@style/ButtonsCategoryStyle"
                 android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:text="@string/ratingbar_mini_display"/>
+
+            <!--Applied Mini Display style to Rating Bar from UIDRatingBar styles.-->
 
             <com.philips.platform.uid.view.widget.RatingBar
                 style="@style/UIDRatingBarMiniDisplay"

@@ -3,9 +3,11 @@ package com.philips.platform.uid.components.ratingbar;
 
 import android.app.Activity;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 
+import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.test.BuildConfig;
@@ -15,6 +17,8 @@ import com.philips.platform.uid.view.widget.RatingBar;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+
+import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
@@ -74,5 +78,23 @@ public class RatingBarTest {
         }
     }
 
+    @Test
+    public void verifyDisplayRatingLabelColor(){
+        int expectedColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidRatingBarDefaultNormalOnTextColor);
+        UIDTestUtils.waitFor(resources,750);
+        RatingBar displayRating = (RatingBar) activityContext.findViewById(com.philips.platform.uid.test.R.id.rating_display_default);
+        if (BuildConfig.DEBUG && !(expectedColor==displayRating.getPaint().getColor())) {
+            throw new AssertionError();
+        }
+    }
 
+    @Test
+    public void verifyDisplayRatingLabelFontType(){
+        Typeface expectedTypeface = TypefaceUtils.load(activityContext.getAssets(), "fonts/centralesansmedium.ttf");
+        UIDTestUtils.waitFor(resources,750);
+        RatingBar displayRating = (RatingBar) activityContext.findViewById(com.philips.platform.uid.test.R.id.rating_display_default);
+        if (BuildConfig.DEBUG && !(expectedTypeface==displayRating.getPaint().getTypeface())) {
+            throw new AssertionError();
+        }
+    }
 }
