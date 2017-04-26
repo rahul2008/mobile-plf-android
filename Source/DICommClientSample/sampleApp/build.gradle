@@ -62,7 +62,7 @@ dependencies {
         debugCompile project(path: ':cloudcontroller', configuration: 'debug')
         releaseCompile project(path: ':cloudcontroller', configuration: 'release')
     } else {
-        compile 'com.philips.cdp:cloudcontroller:5.1.3'
+        compile "com.philips.cdp:cloudcontroller:${versions.cloudcontroller}"
     }
 
     compile deps.support.appcompatv7
