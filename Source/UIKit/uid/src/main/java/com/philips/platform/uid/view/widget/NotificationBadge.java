@@ -27,8 +27,8 @@ import android.util.AttributeSet;
  * b) Use Small Notification style = "@style/NotificationBadge.Small" to support small size Badge View
  * <p/>
  * <p>
- *  Template for Default Notification Badge <br>
- *    <pre>
+ * Template for Default Notification Badge <br>
+ * <pre>
  *        &lt;FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
  *            android:layout_width="wrap_content"
  *            android:layout_height="wrap_content"/&gt;
@@ -49,10 +49,10 @@ import android.util.AttributeSet;
  *      &lt;FrameLayout/&gt;
  *   </pre>
  * </p>
- *
  * <p>
- *  Template for Small Notification Badge <br>
- *     <pre>
+ * <p>
+ * Template for Small Notification Badge <br>
+ * <pre>
  *        &lt;FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
  *            android:layout_width="wrap_content"
  *            android:layout_height="wrap_content"/&gt;
@@ -88,6 +88,7 @@ public class NotificationBadge extends AppCompatTextView {
         super(context, attrs, defStyle);
         setTextChangeListener();
     }
+
     private void setTextChangeListener() {
         addTextChangedListener(new TextWatcher() {
             @Override

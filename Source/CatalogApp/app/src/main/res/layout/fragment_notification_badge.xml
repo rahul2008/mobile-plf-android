@@ -28,8 +28,7 @@
                 <!--With Icon layout-->
                 <LinearLayout
                     style="@style/BaseLayoutMargins.Dimens"
-                    android:orientation="horizontal"
-                    >
+                    android:orientation="horizontal">
 
                     <TextView
                         style="@style/TestButtonTexts"
@@ -42,10 +41,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/layout_margin_left_right"
-                        android:gravity="center_vertical|end"
                         android:checked="false"
                         android:enabled="false"
-                        />
+                        android:gravity="center_vertical|end" />
                     <!-- android:checked="@={fragment.isAccentColor}"
                         android:onCheckedChanged="@{(v, isChecked) -> fragment.setNotificationBadge(isChecked)}"-->
                 </LinearLayout>
@@ -80,7 +78,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_margin="@dimen/notification_small_margin"/>
+                        android:layout_margin="@dimen/notification_small_margin" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -95,7 +93,7 @@
             android:layout_alignParentBottom="true"
             android:orientation="vertical">
 
-            <include layout="@layout/divider_layout"/>
+            <include layout="@layout/divider_layout" />
 
             <com.philips.platform.uid.view.widget.EditText
                 android:id="@+id/edit_input_number"
