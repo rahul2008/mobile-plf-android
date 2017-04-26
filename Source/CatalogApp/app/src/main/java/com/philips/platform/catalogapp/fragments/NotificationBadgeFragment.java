@@ -39,13 +39,10 @@ public class NotificationBadgeFragment extends BaseFragment {
         defaultBadge = (NotificationBadge) notificationBadgeBinding.getRoot().findViewById(R.id.uid_text_default);
         smallBadge = (NotificationBadge) notificationBadgeBinding.getRoot().findViewById(R.id.uid_text_small);
         enterNumberField = (EditText) notificationBadgeBinding.getRoot().findViewById(R.id.edit_input_number);
-        if (savedInstanceState != null) {
-            defaultBadge.setText(savedInstanceState.getString("Badge_Count"));
-            smallBadge.setText(savedInstanceState.getString("Badge_Count"));
-        } else {
-            defaultBadge.setText(badgeCount);
-            smallBadge.setText(badgeCount);
-        }
+        defaultBadge.setVisibility(View.VISIBLE);
+        smallBadge.setVisibility(View.VISIBLE);
+        defaultBadge.setText(enterNumberField.getText());
+        smallBadge.setText(enterNumberField.getText());
         enterNumberField.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -70,12 +67,6 @@ public class NotificationBadgeFragment extends BaseFragment {
             }
         });
         return notificationBadgeBinding.getRoot();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("Badge_Count", badgeCount);
     }
 
     @Override
