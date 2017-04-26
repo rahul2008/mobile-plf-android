@@ -44,14 +44,9 @@ android {
 }
 
 dependencies {
-    def bluelib = findProject(':bluelib') ? ':bluelib' : ':shinelib'
+    debugCompile project(path: ':pluginreferenceboard', configuration: 'debug')
+    releaseCompile project(path: ':pluginreferenceboard', configuration: 'release')
 
-    debugCompile project(path: bluelib, configuration: 'debug')
-    releaseCompile project(path: bluelib, configuration: 'release')
-
-    compile(project(':pluginreferenceboard')) {
-        exclude module: 'bluelib'
-    }
     compile deps.support.appcompatv7
 
     testCompile deps.junit

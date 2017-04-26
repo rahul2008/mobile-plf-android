@@ -16,9 +16,6 @@ repositories {
     maven { url repos.jcenter }
     maven { url repos.release }
     maven { url repos.snapshot }
-    flatDir {
-        dirs 'libs'
-    }
 }
 
 android {
@@ -47,26 +44,10 @@ android {
 }
 
 dependencies {
-    def bluelib = findProject(':bluelib') ? ':bluelib' : ':shinelib'
+    debugCompile project(path: ':pluginreferenceboard', configuration: 'debug')
+    releaseCompile project(path: ':pluginreferenceboard', configuration: 'release')
 
-    debugCompile project(path: bluelib, configuration: 'debug')
-    releaseCompile project(path: bluelib, configuration: 'release')
-
-    compile(project(':pluginreferenceboard')) {
-        exclude module: 'bluelib'
-    }
-
-    compile deps.support.annotations
-    compile deps.support.appcompatv7
-
-    compile 'com.android.support:design:24.2.0'
-    compile 'com.android.support:recyclerview-v7:24.2.0'
-    compile 'com.android.support:support-compat:24.2.0'
-    compile 'com.android.support:support-core-ui:24.2.0'
-    compile 'com.android.support:support-core-utils:24.2.0'
-    compile 'com.android.support:support-fragment:24.2.0'
-    compile 'com.android.support:support-v4:24.2.0'
-    compile 'com.android.support:support-vector-drawable:24.2.0'
+    compile deps.support.design
 
     testCompile deps.junit
 }
