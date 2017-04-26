@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="BA_AppFramework">App-Framework </string>
+<string name="BA_AppFramework">App-Framework</string>
 <string name="RA_You_are_not_LoggedIn">Sie sind nicht angemeldet. Melden Sie sich unter \"Einstellungen\" an.</string>
 <string name="RA_OK">OK</string>
 <string name="RA_Cancel">Abbrechen</string>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="BA_AppFramework">Rozhraní aplikace </string>
+<string name="BA_AppFramework">Rozhraní aplikace</string>
 <string name="RA_You_are_not_LoggedIn">Nejste přihlášeni. Přejděte do nabídky Nastavení a přihlaste se</string>
 <string name="RA_OK">OK</string>
 <string name="RA_Cancel">Zrušit</string>
