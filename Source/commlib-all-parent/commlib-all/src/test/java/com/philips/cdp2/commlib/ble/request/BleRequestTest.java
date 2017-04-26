@@ -154,26 +154,6 @@ public class BleRequestTest {
     }
 
     @Test
-    public void doesntCallDisconnectWhenStayingConnected() {
-        request = new BleGetRequest(mockDeviceCache, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock, handlerMock, new AtomicBoolean(false));
-        request.inProgressLatch = mockInProgressLatch;
-
-        request.run();
-
-        verify(responseHandlerMock).onSuccess(anyString());
-        verify(mockDevice, times(0)).disconnect();
-    }
-
-    @Test
-    public void callsConnectWhenNotConnected() {
-        when(mockDevice.getState()).thenReturn(Disconnected);
-
-        request.run();
-
-        verify(mockDevice).connect();
-    }
-
-    @Test
     public void unregistersListenerAfterDisconnected() throws InterruptedException {
         doAnswer(new Answer() {
             @Override
