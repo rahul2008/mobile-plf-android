@@ -14,6 +14,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmDCSync;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmInsight;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmInsightMetaData;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurement;
@@ -27,6 +28,7 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynch
 import com.philips.platform.baseapp.screens.dataservices.utility.NotifyDBRequestListener;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
@@ -79,6 +81,9 @@ public class OrmSaving {
     @NonNull
     private final Dao<OrmInsightMetaData, Integer> insightMetadataDao;
 
+    @NonNull
+    private final Dao<OrmDCSync, Integer> dcSyncDao;
+
     public OrmSaving(@NonNull final Dao<OrmMoment, Integer> momentDao,
                      @NonNull final Dao<OrmMomentDetail, Integer> momentDetailDao,
                      @NonNull final Dao<OrmMeasurement, Integer> measurementDao,
@@ -90,7 +95,7 @@ public class OrmSaving {
                      @NonNull final Dao<OrmCharacteristics, Integer> characteristicsesDao,
                      @NonNull Dao<OrmSettings, Integer> settingsDao,
                      @NonNull Dao<OrmInsight, Integer> insightsDao,
-                     @NonNull Dao<OrmInsightMetaData, Integer> insightMetadataDao) {
+                     @NonNull Dao<OrmInsightMetaData, Integer> insightMetadataDao, @NonNull Dao<OrmDCSync, Integer> dcSyncDao) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
@@ -104,6 +109,7 @@ public class OrmSaving {
         this.settingsDao = settingsDao;
         this.insightsDao = insightsDao;
         this.insightMetadataDao = insightMetadataDao;
+        this.dcSyncDao = dcSyncDao;
     }
 
     public void saveMoment(OrmMoment moment) throws SQLException {
@@ -265,5 +271,9 @@ public class OrmSaving {
 
     public void saveInsightMetaData(OrmInsightMetaData insightMetaData) throws SQLException {
         insightMetadataDao.createOrUpdate(insightMetaData);
+    }
+
+    public void saveSyncBit(SyncType type, boolean isSynced) throws SQLException{
+        dcSyncDao.createOrUpdate(new OrmDCSync(type.getId(),type.getDescription(),isSynced));
     }
 }

@@ -84,7 +84,6 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             }
 
         }
-        updating.updateDCSync(SyncType.CONSENT.getId(), true);
         notifyDBRequestListener.notifySuccess(consentDetails, dbRequestListener, SyncType.CONSENT);
         return true;
 
@@ -94,16 +93,14 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     public boolean saveUserCharacteristics(List<Characteristics> characteristicsList, DBRequestListener<Characteristics> dbRequestListener) throws SQLException {
 
         try {
-            deleting.deleteCharacteristics();
             for (Characteristics characteristics : characteristicsList) {
                 OrmCharacteristics ormCharacteristics = OrmTypeChecking.checkOrmType(characteristics, OrmCharacteristics.class);
                 saving.saveCharacteristics(ormCharacteristics);
             }
-            updating.updateDCSync(SyncType.CHARACTERISTICS.getId(), false);
             updateUCUI(characteristicsList, dbRequestListener);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, ORM_TYPE_EXCEPTION,e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
@@ -144,7 +141,12 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     public boolean saveInsights(List<Insight> insights, DBRequestListener<Insight> dbRequestListener) throws SQLException {
         boolean isSaved = saving.saveInsights(insights, dbRequestListener);
         notifyDBRequestListener.notifyDBChange(SyncType.INSIGHT);
-        notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.INSIGHT); //Is this line req?
         return isSaved;
+    }
+
+    @Override
+    public boolean saveSyncBit(SyncType type, boolean isSynced) throws SQLException {
+        saving.saveSyncBit(type,isSynced);
+        return true;
     }
 }

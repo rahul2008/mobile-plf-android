@@ -49,10 +49,15 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     @Override
     public void updateSettings(Settings settings, DBRequestListener<Settings> dbRequestListener) {
         try {
+
+            OrmSettings ormExistingSettings=null;
             OrmSettings ormSettings = OrmTypeChecking.checkOrmType(settings, OrmSettings.class);
 
             Settings existingSettings = fetching.fetchSettings();
-            OrmSettings ormExistingSettings = OrmTypeChecking.checkOrmType(existingSettings, OrmSettings.class);
+            if(existingSettings!=null){
+                ormExistingSettings = OrmTypeChecking.checkOrmType(existingSettings, OrmSettings.class);
+            }
+
 
             if (ormExistingSettings == null) {
                 saving.saveSettings(ormSettings);

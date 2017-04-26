@@ -85,15 +85,14 @@ public class SettingsFragment extends Fragment implements DBFetchRequestListner<
                 public void run() {
                     if (data != null) {
                         settings = data.get(0);
-                        if(settings==null){
-
-                        }else{
+                        if (settings == null) {
+                            mDataServicesManager.saveUserSettings(mDataServicesManager.createUserSettings("en_US", "metric"), SettingsFragment.this);
+                        } else {
                             updateUi(settings.getUnit(), settings.getLocale());
                         }
 
-
-                    }else{
-                        mDataServicesManager.saveUserSettings(mDataServicesManager.createUserSettings("en_US" ,"metric"),SettingsFragment.this);
+                    } else {
+                        mDataServicesManager.saveUserSettings(mDataServicesManager.createUserSettings("en_US", "metric"), SettingsFragment.this);
                     }
                     dismissProgressDialog();
                 }
@@ -139,10 +138,10 @@ public class SettingsFragment extends Fragment implements DBFetchRequestListner<
         switch (v.getId()) {
             case R.id.btnOK:
 
-                if(settings==null) {
+                if (settings == null) {
                     settings = mDataServicesManager.createUserSettings(mSpinner_Unit.getSelectedItem().toString(), mSpinner_Local.getSelectedItem().toString());
 
-                }else{
+                } else {
                     settings.setUnit(mSpinner_Unit.getSelectedItem().toString());
                     settings.setLocale(mSpinner_Local.getSelectedItem().toString());
                 }
