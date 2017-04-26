@@ -41,8 +41,10 @@ import static com.philips.cdp2.commlib.ble.communication.BleCommunicationStrateg
 import static com.philips.cdp2.commlib.ble.error.BleErrorMap.getErrorByStatusCode;
 import static com.philips.cdp2.commlib.ble.request.BleRequest.State.COMPLETED;
 import static com.philips.cdp2.commlib.ble.request.BleRequest.State.CREATED;
+import static com.philips.cdp2.commlib.ble.request.BleRequest.State.FINALIZED;
 import static com.philips.cdp2.commlib.ble.request.BleRequest.State.STARTED;
 import static com.philips.pins.shinelib.SHNDevice.State.Connected;
+import static com.philips.pins.shinelib.SHNDevice.State.Disconnected;
 import static com.philips.pins.shinelib.SHNResult.SHNOk;
 import static com.philips.pins.shinelib.dicommsupport.StatusCode.NoError;
 
@@ -130,8 +132,11 @@ public abstract class BleRequest implements Runnable {
     private final SHNDevice.SHNDeviceListener bleDeviceListener = new SHNDevice.SHNDeviceListener() {
         @Override
         public void onStateUpdated(final SHNDevice shnDevice) {
-            if (shnDevice.getState() == Connected) {
+            final SHNDevice.State state = shnDevice.getState();
+            if (state == Connected) {
                 onConnected();
+            } else if (state == Disconnected) {
+                onError(Error.REQUEST_FAILED, "Device disconnected");
             }
         }
 
@@ -149,11 +154,11 @@ public abstract class BleRequest implements Runnable {
     /**
      * Instantiates a new BleRequest.
      *
-     * @param deviceCache            the device cache
-     * @param cppId                  the cppId of the BleDevice
-     * @param portName               the port name
-     * @param productId              the product id
-     * @param responseHandler        the response handler
+     * @param deviceCache     the device cache
+     * @param cppId           the cppId of the BleDevice
+     * @param portName        the port name
+     * @param productId       the product id
+     * @param responseHandler the response handler
      */
     BleRequest(@NonNull BleDeviceCache deviceCache,
                @NonNull String cppId,
@@ -300,7 +305,10 @@ public abstract class BleRequest implements Runnable {
             DICommLog.i(TAG, "Disconnecting device");
             bleDevice.disconnect();
         }
-        inProgressLatch.countDown();
+
+        if (setStateIfStateIs(FINALIZED, COMPLETED)) {
+            inProgressLatch.countDown();
+        }
     }
 
     private void cleanup() {

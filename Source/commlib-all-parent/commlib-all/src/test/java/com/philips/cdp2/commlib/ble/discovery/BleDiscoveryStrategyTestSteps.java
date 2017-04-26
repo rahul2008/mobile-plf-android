@@ -71,7 +71,7 @@ public class BleDiscoveryStrategyTestSteps {
     private CommCentral commCentral;
 
     @Mock
-    SHNDeviceScanner deviceScanner;
+    SHNDeviceScanner mockDeviceScanner;
 
     @Mock
     BleTransportContext bleTransportContext;
@@ -90,7 +90,7 @@ public class BleDiscoveryStrategyTestSteps {
     private SHNCapabilityDeviceInformation deviceInformationMock;
 
     @Mock
-    private SHNCentral shnCentral;
+    private SHNCentral mockCentral;
 
     @Captor
     private ArgumentCaptor<Runnable> runnableCaptor;
@@ -119,7 +119,9 @@ public class BleDiscoveryStrategyTestSteps {
 
         bleDeviceCache = new BleDeviceCache(Executors.newSingleThreadScheduledExecutor());
 
-        bleDiscoveryStrategy = new BleDiscoveryStrategy(mockContext, bleDeviceCache, deviceScanner, shnCentral) {
+        when(mockCentral.getShnDeviceScanner()).thenReturn(mockDeviceScanner);
+
+        bleDiscoveryStrategy = new BleDiscoveryStrategy(mockContext, bleDeviceCache, mockCentral) {
             @Override
             int checkAndroidPermission(Context context, String permission) {
                 return PERMISSION_GRANTED;
@@ -193,7 +195,7 @@ public class BleDiscoveryStrategyTestSteps {
     //TODO: Check with Peter F. whether there is a better method iso timeout(), to improve stability
     @Then("^startScanning is called (\\d+) time on BlueLib$")
     public void startscanningIsCalledTimeOnBlueLib(int times) {
-        verify(deviceScanner, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS).times(times)).startScanning(any(SHNDeviceScanner.SHNDeviceScannerListener.class), any(SHNDeviceScanner.ScannerSettingDuplicates.class), anyLong());
+        verify(mockDeviceScanner, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS).times(times)).startScanning(any(SHNDeviceScanner.SHNDeviceScannerListener.class), any(SHNDeviceScanner.ScannerSettingDuplicates.class), anyLong());
     }
 
     @When("^starting discovery for BLE appliances (\\d+) times$")
@@ -211,12 +213,12 @@ public class BleDiscoveryStrategyTestSteps {
 
     @Then("^stopScanning is called on BlueLib$")
     public void stopScanningIsCalledOnBlueLib() {
-        verify(deviceScanner, atLeast(1)).stopScanning();
+        verify(mockDeviceScanner, atLeast(1)).stopScanning();
     }
 
     @Then("^stopScanning is not called on BlueLib$")
     public void stopScanningIsNotCalledOnBlueLib() {
-        verify(deviceScanner, times(0)).stopScanning();
+        verify(mockDeviceScanner, times(0)).stopScanning();
     }
 
     @Then("^(.*?) with cppId (.*?) is in the list of available appliances$")
