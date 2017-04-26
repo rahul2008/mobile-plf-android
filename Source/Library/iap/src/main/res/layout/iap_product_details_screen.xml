@@ -10,7 +10,6 @@
         android:layout_height="fill_parent"
         android:fillViewport="true"
         android:orientation="vertical"
-
         android:visibility="visible">
 
         <RelativeLayout
@@ -20,7 +19,6 @@
             android:paddingEnd="@dimen/border16_margin_left_right"
             android:paddingStart="@dimen/border16_margin_left_right"
             android:paddingTop="@dimen/border24_margin_bottom">
-
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/product_description"
@@ -37,9 +35,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:paddingBottom="@dimen/border4_margin"
                 android:layout_below="@id/product_description"
                 android:includeFontPadding="false"
+                android:paddingTop="@dimen/border8_margin"
                 android:textColor="?attr/uidTextSecondary"
                 app:uidLabelTextSize="16sp" />
 
@@ -79,8 +77,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/iap_product_detail_image_height"
                 android:layout_below="@+id/price_container"
-                android:layout_marginTop="@dimen/iap_image_top_margin"
-                android:paddingBottom="@dimen/iap_image_bottom_margin" />
+                android:layout_marginTop="@dimen/border24_margin_bottom" />
 
             <com.philips.cdp.uikit.customviews.CircleIndicator
                 android:id="@+id/indicator"
@@ -89,7 +86,8 @@
                 android:layout_below="@id/pager"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
-                android:padding="@dimen/iap_dots_padding" />
+                android:paddingBottom="@dimen/border24_margin_bottom"
+                android:paddingTop="@dimen/border24_margin_bottom" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/product_overview"
@@ -98,15 +96,17 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/indicator"
                 android:includeFontPadding="false"
-                android:textColor="?attr/uidControlPrimaryText"
+                android:paddingBottom="@dimen/border16_margin_left_right"
                 app:uidLabelTextSize="@dimen/iap_product_overview" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:layout_below="@+id/product_overview"
+                android:orientation="vertical"
                 android:paddingBottom="@dimen/border16_margin_left_right"
-                android:orientation="vertical">
+                android:paddingTop="@dimen/border16_margin_left_right">
 
                 <com.philips.platform.uid.view.widget.Button
                     android:id="@+id/add_to_cart"
@@ -114,9 +114,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-
                     android:enabled="true"
                     android:text="@string/iap_add_to_cart"
+                    android:textColor="?attr/uidPrimaryText"
                     android:visibility="visible" />
 
                 <com.philips.platform.uid.view.widget.Button
@@ -127,6 +127,7 @@
                     android:layout_below="@id/add_to_cart"
                     android:enabled="true"
                     android:text="@string/iap_buy_from_retailers"
+                    android:textColor="?attr/uidPrimaryText"
                     android:visibility="visible" />
             </LinearLayout>
         </RelativeLayout>

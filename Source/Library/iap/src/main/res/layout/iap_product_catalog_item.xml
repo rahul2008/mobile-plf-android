@@ -25,7 +25,7 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/tv_discounted_price"
-            fontPath="fonts/centralesansbold.ttf"
+            fontPath="fonts/iapCentralesansBookFont.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="?attr/uidTextPrimary"
@@ -34,7 +34,7 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/tv_price"
-            fontPath="fonts/centralesansbold.ttf"
+            fontPath="fonts/iapCentralesansBookFont.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="?attr/uidTextSecondary"
@@ -43,7 +43,7 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/tv_product_name"
-        fontPath="fonts/centralesansbold.ttf"
+        fontPath="fonts/iapCentralesansBookFont.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/border4_margin"
@@ -57,7 +57,7 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/tv_ctn"
-        fontPath="fonts/centralesansbook.ttf"
+        fontPath="fonts/iapCentralesansBookFont.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_product_name"
