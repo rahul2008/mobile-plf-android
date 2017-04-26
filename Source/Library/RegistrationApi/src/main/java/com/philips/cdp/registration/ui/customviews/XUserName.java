@@ -13,7 +13,11 @@ import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -75,6 +79,24 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 		mFlInvaliFielddAlert = (FrameLayout)findViewById(R.id.fl_reg_name_field_err);
 		mTvCloseIcon = (TextView) findViewById(R.id.iv_reg_close);
 		FontLoader.getInstance().setTypeface(mTvCloseIcon, RegConstants.PUIICON_TTF);
+
+		mEtUserName.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
+
+			public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+				return false;
+			}
+
+			public void onDestroyActionMode(ActionMode mode) {
+			}
+
+			public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+				return false;
+			}
+
+			public boolean onActionItemClicked(ActionMode mode,MenuItem item) {
+				return false;
+			}
+		});
 	}
 
 	@Override
@@ -192,5 +214,12 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 			mFlInvaliFielddAlert.setVisibility(GONE);
 		}
 		raiseUpdateUIEvent();
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		cancelLongPress();
+		onCancelPendingInputEvents();
+		return super.onTouchEvent(event);
 	}
 }
