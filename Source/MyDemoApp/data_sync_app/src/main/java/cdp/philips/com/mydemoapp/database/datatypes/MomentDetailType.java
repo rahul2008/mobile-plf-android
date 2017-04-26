@@ -28,25 +28,11 @@ public class MomentDetailType {
         if(description == null){
             return -1;
         }
-        switch (description.toUpperCase()) {
 
-            case UNKNOWN:
-                return -1;
-            case NOTE:
-                return 50;
-            case PHOTO:
-                return 51;
-            case STICKER:
-                return 52;
-            case VIDEO:
-                return 53;
-            case TAGGING_ID:
-                return 54;
-            case PHASE:
-                return 55;
-
-            default:
-                return 0;
+        if(description.equalsIgnoreCase(PHASE)){
+            return 55;
+        }else {
+            return -1;
         }
     }
 
