@@ -50,9 +50,43 @@
     "appidentity.micrositeId" : "77000",
     "appidentity.sector"  : "b2c",
     "appidentity.appState"  : "STAGING",
-    "appidentity.serviceDiscoveryEnvironment"  : "Production",
-    "abtest.precache": ["DOT-ReceiveMarketingOptIn"],
+    "appidentity.serviceDiscoveryEnvironment"  : "PRODUCTION",
+    "restclient.cacheSizeInKB": 51200,
+    "tagging.sensitiveData": ["bundleId", "language"],
+    "abtest.precache": ["philipsmobileappabtest1content","philipsmobileappabtest1success","DOT-ReceiveMarketingOptIn"],
+    "contentLoader.limitSize":100,
     "servicediscovery.platformMicrositeId":"70000",
-    "servicediscovery.platformEnvironment":"production"
+    "servicediscovery.platformEnvironment":"production",
+    "appconfig.cloudServiceId":" appinfra.appconfigdownload",
+    "timesync.ntp.hosts":["0.pool.ntp.org","1.pool.ntp.org","2.pool.ntp.org","3.pool.ntp.org","0.cn.pool.ntp.org"],
+    "LANGUAGEPACK.SERVICEID":"appinfra.languagepack",
+    "servicediscovery.propositionEnabled":true,
+    "logging.releaseConfig":{
+      "fileName":"AppInfraLog",
+      "numberOfFiles":5,
+      "fileSizeInBytes":50000,
+      "logLevel":"Off",
+      "fileLogEnabled":true,
+      "consoleLogEnabled":true,
+      "componentLevelLogEnabled":false,
+      "componentIds": [
+        "DemoAppInfra",
+        "Registration"
+      ]
+    },
+    "logging.debugConfig":{
+      "fileName":"AppInfraLog",
+      "numberOfFiles":5,
+      "fileSizeInBytes":50000,
+      "logLevel":"Info",
+      "fileLogEnabled":true,
+      "consoleLogEnabled":true,
+      "componentLevelLogEnabled":false,
+      "componentIds": [
+
+        "DemoAppInfra",
+        "Registration","component1"
+      ]
+    }
   }
 }
