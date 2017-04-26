@@ -21,6 +21,7 @@ import com.philips.cdp.dicommclient.request.Response;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp.dicommclient.util.GsonProvider;
 import com.philips.cl.di.common.ssdp.contants.ConnectionLibContants;
 
 import java.io.IOException;
@@ -101,7 +102,7 @@ public class LanRequest extends Request {
     private String createDataToSend(Map<String, Object> dataMap) {
         if (dataMap == null || dataMap.size() <= 0) return null;
 
-        String data = Request.convertKeyValuesToJson(dataMap);
+        String data = GsonProvider.get().toJson(dataMap);
         DICommLog.i(DICommLog.LOCALREQUEST, "Data to send: " + data);
 
         if (!mHttps && mDISecurity != null) {

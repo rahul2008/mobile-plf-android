@@ -1,6 +1,16 @@
 CommLib for Android - Release Notes
 =======================================
 
+Version 5.0.0
+-------------
+
+### API Changes
+* DICommPort.putProperties(Map<String, Object> dataMap) now uses GSON for JSON conversion: Arrays of types other then String in the dataMap are now correctly processed and converted to JSON. Previously it was possible to add JSON strings to an Array and have them sent unescaped, this is no longer possible.
+* The PairingPort has a new pairing call available for user pairing. (#9941)
+
+### New features
+* \#9941 User Pairing adds new function to the Pairing port.
+
 Version 4.0.0
 -------------
 

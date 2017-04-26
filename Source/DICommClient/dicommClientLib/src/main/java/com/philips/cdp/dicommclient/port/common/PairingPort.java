@@ -57,8 +57,15 @@ public class PairingPort<P extends PortProperties> extends DICommPort<P> {
         putProperties(dataMap);
     }
 
-    public void triggerPairing(String type, String cppId, String secretKey) {
-        String[] dataArray = {type, cppId, secretKey};
+    public void triggerPairing(String clientType, String clientId, String secretKey) {
+        String[] dataArray = {clientType, clientId, secretKey};
+        HashMap<String, Object> dataMap = new HashMap<String, Object>();
+        dataMap.put("Pair", dataArray);
+        putProperties(dataMap);
+    }
+
+    public void triggerPairing(String clientProvider, String clientType, String clientId, String secretKey, String type, String[] permissions) {
+        Object[] dataArray = {clientProvider, clientType, clientId, secretKey, type, permissions};
         HashMap<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("Pair", dataArray);
         putProperties(dataMap);
