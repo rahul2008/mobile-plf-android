@@ -86,12 +86,16 @@ public class FaqListFragment extends DigitalCareBaseFragment {
                 Label title = (Label) holder.itemView.findViewById(R.id.faq_list_item_header_title);
                 TextView showMoreOrLess = (TextView) holder.itemView.findViewById(R.id.faq_list_item_header_show_more_less);
                 RecyclerView questingList = (RecyclerView) holder.itemView.findViewById(R.id.faq_list_item_recycle_view);
+                int groupSize =getQuestionGroupSize(groupName);
+                if(groupSize <5){
+                    showMoreOrLess.setVisibility(View.GONE);
+                }else{
+                    makeTextViewHyperlink(showMoreOrLess);
+                    showMoreOrLess.setTag(groupName);
+                    showMoreOrLess.setOnClickListener(fragment);
+                }
 
-                title.setText(groupName + "(" + getQuestionGroupSize(groupName) + ")");
-                makeTextViewHyperlink(showMoreOrLess);
-                showMoreOrLess.setTag(groupName);
-                showMoreOrLess.setOnClickListener(fragment);
-
+                title.setText(groupName + "(" + groupSize + ")");
                 questingList.setLayoutManager(new LinearLayoutManager(getContext()));
                 questingList.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
                 CommonRecyclerViewAdapter questingListAdapter = new CommonRecyclerViewAdapter<Item>(getQuestionItems(groupName, false), R.layout.consumercare_icon_right_button) {
