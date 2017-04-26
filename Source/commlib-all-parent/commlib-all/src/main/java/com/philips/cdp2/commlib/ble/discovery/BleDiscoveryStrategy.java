@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
@@ -79,7 +78,8 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
     private final SHNDeviceScanner deviceScanner;
     private final SHNCentral shnCentral;
     private final TaskQueue taskQueue;
-    private Set<String> modelIds;
+    @VisibleForTesting
+    Set<String> modelIds;
 
     private ScheduledExecutorService scanExecutor;
     private ScheduledFuture scanFuture;
@@ -118,8 +118,10 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         if (cacheData == null) {
             onDeviceFound(shnDeviceFoundInfo);
         } else {
-            bleDeviceCache.add(cacheData.getDevice(), cacheData.getNetworkNode(), expirationCallback, SCAN_WINDOW_MILLIS);
-            notifyNetworkNodeDiscovered(cacheData.getNetworkNode());
+            if (modelIds.isEmpty() || modelIds.contains(cacheData.getNetworkNode().getModelId())) {
+                bleDeviceCache.add(cacheData.getDevice(), cacheData.getNetworkNode(), expirationCallback, SCAN_WINDOW_MILLIS);
+                notifyNetworkNodeDiscovered(cacheData.getNetworkNode());
+            }
         }
     }
 

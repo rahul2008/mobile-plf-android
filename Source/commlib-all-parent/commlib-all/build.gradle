@@ -136,6 +136,7 @@ dependencies {
     }
 
     testCompile deps.mockito
+    testCompile deps.junit
 
     testCompile 'info.cukes:cucumber-java:1.2.2'
     testCompile 'info.cukes:cucumber-junit:1.2.2'

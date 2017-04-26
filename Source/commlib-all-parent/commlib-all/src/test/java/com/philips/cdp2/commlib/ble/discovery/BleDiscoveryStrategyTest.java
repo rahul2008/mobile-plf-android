@@ -19,7 +19,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.util.HashSet;
+
 import static com.philips.cdp2.commlib.core.util.HandlerProvider.enableMockedHandler;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -62,5 +65,20 @@ public class BleDiscoveryStrategyTest {
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
 
         verify(listener).onNetworkNodeDiscovered(networkNode);
+    }
+
+    @Test
+    public void findDeviceAgainWithInvalidModelId() {
+        strategyUnderTest.modelIds = new HashSet<>();
+        strategyUnderTest.modelIds.add("NOT A MODEL");
+        when(mockDeviceFoundInfo.getDeviceAddress()).thenReturn("ADDR");
+        when(mockCache.findByAddress("ADDR")).thenReturn(mockCacheData);
+        NetworkNode networkNode = new NetworkNode();
+        when(mockCacheData.getNetworkNode()).thenReturn(networkNode);
+        strategyUnderTest.addDiscoveryListener(listener);
+
+        strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
+
+        verify(listener, never()).onNetworkNodeDiscovered(networkNode);
     }
 }
