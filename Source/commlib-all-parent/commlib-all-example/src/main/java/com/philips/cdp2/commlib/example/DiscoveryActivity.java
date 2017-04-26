@@ -80,12 +80,14 @@ public class DiscoveryActivity extends AppCompatActivity {
                 case R.id.btnStartDiscovery:
                     findViewById(R.id.btnStartDiscovery).setEnabled(false);
                     findViewById(R.id.btnStopDiscovery).setEnabled(true);
+                    editFilterModelId.setEnabled(false);
 
                     startDiscovery();
                     break;
                 case R.id.btnStopDiscovery:
                     findViewById(R.id.btnStartDiscovery).setEnabled(true);
                     findViewById(R.id.btnStopDiscovery).setEnabled(false);
+                    editFilterModelId.setEnabled(true);
 
                     stopDiscovery();
                     break;
