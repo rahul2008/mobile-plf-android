@@ -1,7 +1,6 @@
 #!/usr/bin/env groovy																											
 
 BranchName = env.BRANCH_NAME
-JENKINS_ENV = env.JENKINS_ENV
 
 properties([
     [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy']]],
@@ -27,7 +26,12 @@ node ('android_pipeline &&' + node_ext) {
         try {
 			if (BranchName =~ /master|develop|release.*/) {
 			     stage ('build') {
-				    sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} lint cC assembleRelease zipDocuments artifactoryPublish'
+				    sh """#!/bin/bash -l
+				        chmod -R 775 .
+				        cd ./Source/Library
+				        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug
+				        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} lint cC assembleRelease zipDocuments artifactoryPublish
+				    """
                     // sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug'
                     // sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} lint'
                     // sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} cC'
@@ -40,13 +44,26 @@ node ('android_pipeline &&' + node_ext) {
             else
             {
                 stage ('build') {
-                    sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew --refresh-dependencies clean assembleDebug assembleRelease'
+                    sh """#!/bin/bash -l
+                        chmod -R 775 .
+                        cd ./Source/Library && ./gradlew --refresh-dependencies clean assembleDebug assembleRelease
+                    """
                 }
             }
 			
             stage ('save dependencies list') {
-                sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
+                sh """#!/bin/bash -l
+                    cd ./Source/Library
+                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+                """
             }
+        stage('Unit test') {
+            	sh """#!/bin/bash -l
+            	    cd ./Source/Library
+            	    ./gradlew test
+            	"""
+              step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/*/build/test-results/*/*.xml'])
+        }
             
             archiveArtifacts '**/dependencies.lock'
             currentBuild.result = 'SUCCESS'
