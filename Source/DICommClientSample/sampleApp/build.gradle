@@ -2,20 +2,48 @@
  * (c) Koninklijke Philips N.V., 2017.
  *     All rights reserved.
  */
-apply plugin: 'com.android.application'
-
 buildscript { bs ->
     apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
     apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
     repositories {
         maven { url repos.jcenter }
     }
+
+    repositories {
+        maven { url repos.jcenter }
+        maven { url repos.plugin }
+    }
+
+    dependencies {
+        classpath(builddeps.buildinfoextractor)
+        classpath(builddeps.cdpscm)
+    }
 }
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
+
+apply from: rootDir.absolutePath + '/../common/gradle/module-tasks.gradle'
+
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment)
+archivesBaseName = rootProject.name
+
+version = objcdp.getVersion()
 
 repositories {
     maven { url repos.jcenter }
-    maven { url repos.release }
-    maven { url repos.snapshot }
+    maven { url objcdp.getArtifactoryUrl() }
 }
 
 android {
@@ -62,7 +90,7 @@ dependencies {
         debugCompile project(path: ':cloudcontroller', configuration: 'debug')
         releaseCompile project(path: ':cloudcontroller', configuration: 'release')
     } else {
-        compile "com.philips.cdp:cloudcontroller:${versions.cloudcontroller}"
+        compile(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.cloudcontroller + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     }
 
     compile deps.support.appcompatv7

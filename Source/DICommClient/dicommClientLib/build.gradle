@@ -43,6 +43,7 @@ repositories {
     maven { url repos.jcenter }
     maven { url objcdp.getArtifactoryUrl() }
 }
+
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
     publish {
