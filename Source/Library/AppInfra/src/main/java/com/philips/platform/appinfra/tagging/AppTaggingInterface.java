@@ -192,7 +192,7 @@ public interface AppTaggingInterface {
 
 
 	/**
-	 * @return an NSString value containing the tracking identifier
+	 * @return an String value containing the tracking identifier
 	 * @brief Retrieves the analytics tracking identifier
 	 * @note This method can cause a blocking network call and should not be used from a UI thread.
 	 */
