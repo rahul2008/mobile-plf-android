@@ -4,9 +4,11 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.DCSync;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 
 import java.sql.SQLException;
@@ -56,6 +58,8 @@ public interface DBFetchingInterface {
     List<?> fetchNonSyncSettings() throws SQLException;
 
     boolean isSynced(int tableID) throws SQLException;
+
+    DCSync fetchDCSyncData(SyncType syncType) throws SQLException;
 
     List<? extends Insight> fetchActiveInsights(DBFetchRequestListner<Insight> dbFetchRequestListner) throws SQLException;
 

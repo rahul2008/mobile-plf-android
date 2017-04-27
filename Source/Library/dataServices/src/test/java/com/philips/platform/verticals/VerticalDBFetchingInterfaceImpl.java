@@ -2,9 +2,11 @@ package com.philips.platform.verticals;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.datatypes.DCSync;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 
@@ -99,6 +101,11 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface {
     @Override
     public boolean isSynced(int tableID) throws SQLException {
         return false;
+    }
+
+    @Override
+    public DCSync fetchDCSyncData(SyncType syncType) throws SQLException {
+        return null;
     }
 
     @Override

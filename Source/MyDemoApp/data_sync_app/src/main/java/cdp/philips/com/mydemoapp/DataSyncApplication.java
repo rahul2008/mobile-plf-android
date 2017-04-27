@@ -121,12 +121,12 @@ public class DataSyncApplication extends Application {
             Dao<OrmInsight, Integer> insightsDao = databaseHelper.getInsightDao();
             Dao<OrmInsightMetaData, Integer> insightMetaDataDao = databaseHelper.getInsightMetaDataDao();
 
-
-            OrmSaving saving = new OrmSaving(momentDao, momentDetailDao, measurementDao, measurementDetailDao,
-                    synchronisationDataDao, consentDetailsDao, measurementGroup, measurementGroupDetails,
-                    characteristicsesDao, settingsDao, insightsDao, insightMetaDataDao);
-
             Dao<OrmDCSync, Integer> dcSyncDao = databaseHelper.getDCSyncDao();
+            OrmSaving saving = new OrmSaving(momentDao, momentDetailDao, measurementDao, measurementDetailDao,
+                    synchronisationDataDao,consentDetailsDao, measurementGroup, measurementGroupDetails,
+                    characteristicsesDao, settingsDao, insightsDao, insightMetaDataDao, dcSyncDao);
+
+
             OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao, settingsDao,
                     consentDetailsDao, dcSyncDao, measurementGroup, synchronisationDataDao, measurementGroupDetails);
             OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDetailsDao, characteristicsesDao,

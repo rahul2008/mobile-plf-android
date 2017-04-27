@@ -102,9 +102,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         insertMomentDetailsTypes();
         insertMeasurementDetailTypes();
         insertMeasurementGroupDetailType();
-        insertDefaultSettings();
         insertDefaultConsent();
-        insertDefaultUCSyncValue();
     }
 
     private void insertDefaultConsent() {
@@ -134,21 +132,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             }
 
     }
-
-    private void insertDefaultUCSyncValue(){
-        insertDefaultDCSyncValues(SyncType.CHARACTERISTICS);
-    }
-
-    private void insertDefaultSettings() {
-        try {
-            settingDao=getSettingsDao();
-            settingDao.createOrUpdate(new OrmSettings("en_US" ,"metric"));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        insertDefaultDCSyncValues(SyncType.SETTINGS);
-    }
-
 
 
     private void insertMeasurementTypes() throws SQLException {

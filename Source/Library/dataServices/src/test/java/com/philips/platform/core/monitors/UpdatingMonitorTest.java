@@ -131,7 +131,7 @@ public class UpdatingMonitorTest {
         mDataServices = DataServicesManager.getInstance();
         mDataServices.setAppComponant(appComponantMock);
         mDataServices.registerDBChangeListener(dbChangeListener);
-        updatingMonitor = new UpdatingMonitor(dbUpdatingInterface, dbDeletingInterface, dbFetchingInterface);
+        updatingMonitor = new UpdatingMonitor(dbUpdatingInterface, dbDeletingInterface, dbFetchingInterface, dbSavingInterface);
         updatingMonitor.momentsSegregator = momentsSegregatorMock;
         updatingMonitor.insightSegregator = insightSegregatorMock;
         updatingMonitor.mUserCharacteristicsSegregator = userCharacteristicsSegregator;
@@ -299,7 +299,8 @@ public class UpdatingMonitorTest {
         when(databaseSettingsUpdateRequestMock.getSettings()).thenReturn(settingsMock);
         doThrow(SQLException.class).when(dbUpdatingInterface).updateSettings(settingsMock, null);
         updatingMonitor.onEventBackGround(databaseSettingsUpdateRequestMock);
-        verify(dbUpdatingInterface).updateSettings(settingsMock, null);
+        verify(dbSavingInterface).saveSettings(settingsMock,databaseSettingsUpdateRequestMock.getDbRequestListener());
+        verify(dbUpdatingInterface).updateSyncBit(SyncType.SETTINGS.getId(),false);
     }
 
     @Test

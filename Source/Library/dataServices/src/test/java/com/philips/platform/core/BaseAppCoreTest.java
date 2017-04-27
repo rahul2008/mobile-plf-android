@@ -4,7 +4,6 @@ import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
-import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.SynchronisationData;
@@ -86,10 +85,10 @@ public class BaseAppCoreTest {
         initMocks(this);
 
         DataServicesManager.getInstance().setAppComponant(mAppComponentMock);
-        savingMonitor = new SavingMonitor(savingInterface);
+        savingMonitor = new SavingMonitor(savingInterface, deletingInterface, updatingInterface);
         fetchMonitor = new FetchingMonitor(fetchingInterface);
         deletingMonitor = new DeletingMonitor(deletingInterface);
-        updatingMonitor = new UpdatingMonitor(updatingInterface, deletingInterface, fetchingInterface);
+        updatingMonitor = new UpdatingMonitor(updatingInterface, deletingInterface, fetchingInterface, savingInterface);
         database = new VerticalCreater();
 
         dbMonitors = new DBMonitors(Arrays.asList(savingMonitor, fetchMonitor, deletingMonitor, updatingMonitor));
