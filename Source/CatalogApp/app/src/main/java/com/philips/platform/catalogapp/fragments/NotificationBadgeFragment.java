@@ -31,7 +31,8 @@ public class NotificationBadgeFragment extends BaseFragment {
     private EditText enterNumberField;
     public ObservableBoolean isAccentColor = new ObservableBoolean(Boolean.TRUE);
     private String badgeCount = "1";
-private ImageButton quitEmail;
+    private ImageButton quitEmail;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,7 +41,7 @@ private ImageButton quitEmail;
         defaultBadge = (NotificationBadge) notificationBadgeBinding.getRoot().findViewById(R.id.uid_text_default);
         smallBadge = (NotificationBadge) notificationBadgeBinding.getRoot().findViewById(R.id.uid_text_small);
         enterNumberField = (EditText) notificationBadgeBinding.getRoot().findViewById(R.id.edit_input_number);
-        quitEmail= (ImageButton) notificationBadgeBinding.getRoot().findViewById(R.id.quit_email);
+        quitEmail = (ImageButton) notificationBadgeBinding.getRoot().findViewById(R.id.quit_email);
         quitEmail.setVectorResource(R.drawable.ic_email_icon);
         defaultBadge.setVisibility(View.VISIBLE);
         smallBadge.setVisibility(View.VISIBLE);
