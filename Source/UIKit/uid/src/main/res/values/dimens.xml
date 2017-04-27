@@ -218,5 +218,4 @@
     <dimen name="uid_notificationbadge_default_textSize">12sp</dimen>
     <dimen name="uid_notificationbadge_default_margin">12dp</dimen>
     <dimen name="uid_notificationbadge_small_margin">10dp</dimen>
-    <dimen name="uid_notification_badge_elevation">3dp</dimen>
 </resources>
