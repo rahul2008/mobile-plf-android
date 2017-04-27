@@ -139,4 +139,10 @@
         <attr name="uidTextBoxValidationErrorDrawable" format="reference"/>
         <attr name="uidTextBoxValidationErrorText" format="reference|string"/>
     </declare-styleable>
+
+
+    <declare-styleable name="UIDRatingBar">
+        <attr name="android:text"/>
+        <attr name="uidRatingBarStarOnColor" format="color|reference"/>
+    </declare-styleable>
 </resources>

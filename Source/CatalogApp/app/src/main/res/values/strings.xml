@@ -192,6 +192,7 @@
     <string name="small_size">Small size</string>
     <string name="hint_enter_number">Enter badge count</string>
     <string name="e_mails">E-mails</string>
+
     <!--Language Pack-->
     <string name="page_title_language_pack">Language Pack</string>
     <string name="language_pack_button">Primary Button</string>
@@ -200,11 +201,17 @@
     <string name="language_pack_switch">Switch</string>
     <string name="language_pack_hint">Enter Text</string>
 
+    <!--Rating Bar-->
+    <string name="page_title_ratingbar">Rating Bar</string>
+    <string name="ratingbar_mini_display">Mini Display Rating</string>
+    <string name="ratingbar_display">Standard Display Rating</string>
+    <string name="ratingbar_input">Input Rating</string>
+    <string name="ratingbar_rating_text">4.5</string>
+    <string name="ratingbar_reset">Reset</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="page_title_accent">Accent</string>
-
 
 
 </resources>
