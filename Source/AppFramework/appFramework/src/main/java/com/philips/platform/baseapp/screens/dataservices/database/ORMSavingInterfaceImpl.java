@@ -100,7 +100,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             updateUCUI(characteristicsList, dbRequestListener);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
-            e.printStackTrace();
+            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, ORM_TYPE_EXCEPTION,e.getMessage());
             return false;
         }
     }
