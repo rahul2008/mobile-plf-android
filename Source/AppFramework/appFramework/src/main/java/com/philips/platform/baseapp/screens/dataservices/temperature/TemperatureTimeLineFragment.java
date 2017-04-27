@@ -342,6 +342,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
                 }
             });
         }
+        dismissProgressDialog();
     }
 
     @Override
