@@ -38,12 +38,12 @@ import android.util.AttributeSet;
  *                android:layout_height="wrap_content"
  *                android:layout_marginRight="@dimen/uid_notificationbadge_default_margin"
  *                android:layout_marginTop="@dimen/uid_notificationbadge_default_margin"
+ *                android:stateListAnimator="@null"
  *                android:gravity="center|center_horizontal"/&gt;
  *
  *            &lt;com.philips.platform.uid.view.widget.NotificationBadge
  *                android:layout_width="wrap_content"
  *                android:layout_height="wrap_content"
- *                android:elevation="@dimen/uid_notification_badge_elevation"
  *                style="@style/NotificationBadge"&gt;
  *
  *      &lt;FrameLayout/&gt;
@@ -66,7 +66,6 @@ import android.util.AttributeSet;
  *            &lt;com.philips.platform.uid.view.widget.NotificationBadge
  *                android:layout_width="wrap_content"
  *                android:layout_height="wrap_content"
- *                android:elevation="@dimen/uid_notification_badge_elevation"
  *                style="@style/NotificationBadge.small"&gt;
  *      &lt;FrameLayout/&gt;
  *   </pre>
