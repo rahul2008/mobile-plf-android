@@ -48,12 +48,26 @@ public class DigitalCareAutomationTest {
     @Test
     public void productInformationTest() {
         // launch product information screen
-        clickOn(R.id.launchAsFragment).clickOnPosition(R.id.supportMenuContainer,0);
+        clickOn(R.id.launchAsFragment).clickAtPosition(R.id.supportMenuContainer,0);
 
         // assert screen and elements displayed
         assertDisplayed(R.id.products_layout, R.id.productimage, R.id.prodbuttonsParent, R.id.videoContainerParent);
 
-        // check click able item behaviors
+        // check clickable item behaviors
+        // 1.FAQ page
+        // 2.Product information at philips.com
+        // clickAtPosition(R.id.prodbuttonsParent,0).assertDisplayed(R.id.faq_list_recycle_view);
+        // tap on back
+    }
+
+    @Test
+    public void faqScreenTest(){
+
+    }
+
+    @Test
+    public void opinionOverviewTest(){
+
     }
 
     private DigitalCareAutomationTest clickOn(int id) {
@@ -61,8 +75,8 @@ public class DigitalCareAutomationTest {
         return this;
     }
 
-    private DigitalCareAutomationTest clickOnPosition(int id,int index) {
-        onView(withId(R.id.supportMenuContainer)).perform(actionOnItemAtPosition(index, click()));
+    private DigitalCareAutomationTest clickAtPosition(int id,int index) {
+        onView(withId(id)).perform(actionOnItemAtPosition(index, click()));
         return this;
     }
 
