@@ -2,14 +2,17 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-
-    <ImageView
+    android:layout_height="wrap_content"
+   >
+    <com.philips.platform.uid.view.widget.ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/uid_notificationbadge_small_margin"
-        android:gravity="center|center_horizontal"
-        app:srcCompat="@drawable/ic_email_icon" />
+        android:paddingTop="@dimen/uid_notificationbadge_small_margin"
+        android:paddingEnd="@dimen/uid_notificationbadge_small_margin"
+        android:background="@android:color/transparent"
+        app:uidImageButtonColorList="@color/uid_quiet_button_icon_selector"
+        app:uidImageButtonDrawableColorList="@color/uid_quiet_button_icon_selector"
+        app:srcCompat="@drawable/ic_email_icon"/>
 
     <com.philips.platform.uid.view.widget.NotificationBadge
         android:id="@+id/uid_text_small"
