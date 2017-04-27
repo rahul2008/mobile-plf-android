@@ -61,6 +61,7 @@ import android.util.AttributeSet;
  *               android:layout_width="wrap_content"
  *               android:layout_height="wrap_content"
  *               android:layout_margin="@dimen/uid_notificationbadge_small_margin"
+ *               android:stateListAnimator="@null"
  *               android:gravity="center|center_horizontal""/&gt;
  *
  *            &lt;com.philips.platform.uid.view.widget.NotificationBadge
