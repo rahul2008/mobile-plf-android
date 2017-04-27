@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <com.philips.platform.uid.view.widget.ImageButton
-        android:id="@+id/quit_email"
+        android:id="@+id/quiet_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"

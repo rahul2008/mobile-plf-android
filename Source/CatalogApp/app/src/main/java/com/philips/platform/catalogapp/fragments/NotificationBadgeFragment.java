@@ -41,7 +41,7 @@ public class NotificationBadgeFragment extends BaseFragment {
         defaultBadge = (NotificationBadge) notificationBadgeBinding.getRoot().findViewById(R.id.uid_text_default);
         smallBadge = (NotificationBadge) notificationBadgeBinding.getRoot().findViewById(R.id.uid_text_small);
         enterNumberField = (EditText) notificationBadgeBinding.getRoot().findViewById(R.id.edit_input_number);
-        quitEmail = (ImageButton) notificationBadgeBinding.getRoot().findViewById(R.id.quit_email);
+        quitEmail = (ImageButton) notificationBadgeBinding.getRoot().findViewById(R.id.quiet_email);
         quitEmail.setVectorResource(R.drawable.ic_email_icon);
         defaultBadge.setVisibility(View.VISIBLE);
         smallBadge.setVisibility(View.VISIBLE);
