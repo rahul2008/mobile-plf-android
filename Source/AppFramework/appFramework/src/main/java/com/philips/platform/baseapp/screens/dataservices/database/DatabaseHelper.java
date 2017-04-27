@@ -118,8 +118,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         insertMomentDetailsTypes();
         insertMeasurementDetailTypes();
         insertMeasurementGroupDetailType();
-        insertDefaultSettings();
-        insertDefaultUCSync();
         insertDefaultConsent();
     }
 

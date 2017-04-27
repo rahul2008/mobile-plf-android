@@ -132,8 +132,6 @@ public class OrmDeleting {
 
 
         insertDefaultConsentAndSyncBit();
-        insertDefaultSettingsAndSyncBit();
-        insertDefaultUCSyncBit();
     }
 
     private void insertDefaultConsentAndSyncBit() {
@@ -353,5 +351,10 @@ public class OrmDeleting {
             deleteInsightMetaData(insight);
         deleteSynchronisationData(insight.getSynchronisationData());
         ormInsightDao.delete(insight);
+    }
+    public int deleteSyncBit(SyncType type) throws SQLException{
+        DeleteBuilder<OrmDCSync, Integer> deleteBuilder = syncDao.deleteBuilder();
+        deleteBuilder.where().eq("tableid",type.getId());
+        return deleteBuilder.delete();
     }
 }

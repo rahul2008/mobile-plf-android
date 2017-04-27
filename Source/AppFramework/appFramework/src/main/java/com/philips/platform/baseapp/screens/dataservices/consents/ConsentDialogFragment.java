@@ -174,7 +174,12 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
 
     @Override
     public void onFetchSuccess(List<? extends ConsentDetail> data) {
-        refreshUi((ArrayList<OrmConsentDetail>) data);
+        if(data==null || data.size()==0){
+            consentDialogPresenter.saveDefaultConsentDetails();
+        }else{
+            refreshUi((ArrayList<OrmConsentDetail>) data);
+        }
+
     }
 
     private void refreshUi(ArrayList<OrmConsentDetail> data) {
