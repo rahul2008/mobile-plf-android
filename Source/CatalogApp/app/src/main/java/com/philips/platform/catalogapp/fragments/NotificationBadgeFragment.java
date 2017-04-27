@@ -10,6 +10,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentNotificationBadgeBinding;
@@ -45,8 +47,8 @@ public class NotificationBadgeFragment extends BaseFragment {
         quitEmail.setVectorResource(R.drawable.ic_email_icon);
         defaultBadge.setVisibility(View.VISIBLE);
         smallBadge.setVisibility(View.VISIBLE);
-        defaultBadge.setText(enterNumberField.getText());
-        smallBadge.setText(enterNumberField.getText());
+        defaultBadge.setText(badgeCount);
+        smallBadge.setText(badgeCount);
         enterNumberField.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -71,6 +73,26 @@ public class NotificationBadgeFragment extends BaseFragment {
             }
         });
         return notificationBadgeBinding.getRoot();
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            defaultBadge.setText(savedInstanceState.getString("BADGE_COUNT"));
+            smallBadge.setText(savedInstanceState.getString("BADGE_COUNT"));
+
+        } else {
+            defaultBadge.setText(badgeCount);
+            smallBadge.setText(badgeCount);
+
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("BADGE_COUNT", defaultBadge.getText().toString());
     }
 
     @Override

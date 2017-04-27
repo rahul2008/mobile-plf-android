@@ -105,7 +105,6 @@
                 android:layout_marginTop="@dimen/notifaction_badge_edit_text_margin_top_bottom"
                 android:freezesText="true"
                 android:hint="@string/hint_enter_number"
-                android:text="1"
                 android:inputType="number"
                 android:maxLines="1" />
 
