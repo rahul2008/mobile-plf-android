@@ -20,6 +20,7 @@ import android.widget.EditText;
 
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentNotificationBadgeBinding;
+import com.philips.platform.uid.view.widget.ImageButton;
 import com.philips.platform.uid.view.widget.NotificationBadge;
 
 
@@ -30,6 +31,7 @@ public class NotificationBadgeFragment extends BaseFragment {
     private EditText enterNumberField;
     public ObservableBoolean isAccentColor = new ObservableBoolean(Boolean.TRUE);
     private String badgeCount = "1";
+    private ImageButton quitEmail;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,6 +41,8 @@ public class NotificationBadgeFragment extends BaseFragment {
         defaultBadge = (NotificationBadge) notificationBadgeBinding.getRoot().findViewById(R.id.uid_text_default);
         smallBadge = (NotificationBadge) notificationBadgeBinding.getRoot().findViewById(R.id.uid_text_small);
         enterNumberField = (EditText) notificationBadgeBinding.getRoot().findViewById(R.id.edit_input_number);
+        quitEmail = (ImageButton) notificationBadgeBinding.getRoot().findViewById(R.id.quiet_email);
+        quitEmail.setVectorResource(R.drawable.ic_email_icon);
         defaultBadge.setVisibility(View.VISIBLE);
         smallBadge.setVisibility(View.VISIBLE);
         defaultBadge.setText(enterNumberField.getText());
