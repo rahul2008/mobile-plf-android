@@ -3,10 +3,13 @@ package com.philips.platform.core.monitors;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.DCSync;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
+import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
 import com.philips.platform.core.events.ConsentBackendSaveRequest;
@@ -53,6 +56,9 @@ public class UpdatingMonitor extends EventMonitor {
     @NonNull
     DBFetchingInterface dbFetchingInterface;
 
+    @NonNull
+    private final DBSavingInterface dbSavingInterface;
+
 
     @Inject
     InsightSegregator insightSegregator;
@@ -63,10 +69,12 @@ public class UpdatingMonitor extends EventMonitor {
     @Inject
     UserCharacteristicsSegregator mUserCharacteristicsSegregator;
 
-    public UpdatingMonitor(DBUpdatingInterface dbUpdatingInterface, DBDeletingInterface dbDeletingInterface, DBFetchingInterface dbFetchingInterface) {
+    public UpdatingMonitor(DBUpdatingInterface dbUpdatingInterface, DBDeletingInterface dbDeletingInterface, DBFetchingInterface dbFetchingInterface, @NonNull DBSavingInterface dbSavingInterface) {
         this.dbUpdatingInterface = dbUpdatingInterface;
         this.dbDeletingInterface = dbDeletingInterface;
         this.dbFetchingInterface = dbFetchingInterface;
+        this.dbSavingInterface = dbSavingInterface;
+
         DataServicesManager.getInstance().getAppComponant().injectUpdatingMonitor(this);
     }
 
@@ -171,6 +179,11 @@ public class UpdatingMonitor extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final UCDBUpdateFromBackendRequest userCharacteristicsSaveBackendRequest) throws SQLException {
         try {
+
+            if(dbFetchingInterface.fetchDCSyncData(SyncType.CHARACTERISTICS)==null){
+                dbSavingInterface.saveSyncBit(SyncType.CHARACTERISTICS,true);
+            }
+
             if (mUserCharacteristicsSegregator.isUCSynced()) {
                 dbUpdatingInterface.updateCharacteristics(userCharacteristicsSaveBackendRequest.getUserCharacteristics(), null);
                 notifyDBChangeSuccess(SyncType.CHARACTERISTICS);
@@ -183,8 +196,22 @@ public class UpdatingMonitor extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final DatabaseSettingsUpdateRequest databaseSettingsUpdateRequest) throws SQLException{
         try{
-            dbUpdatingInterface.updateSettings(databaseSettingsUpdateRequest.getSettings(), databaseSettingsUpdateRequest.getDbRequestListener());
-            dbUpdatingInterface.updateSyncBit(SyncType.SETTINGS.getId(),false);
+            Settings settings = dbFetchingInterface.fetchSettings();
+            DCSync dcSync = dbFetchingInterface.fetchDCSyncData(SyncType.SETTINGS);
+
+            if(dcSync==null){
+                dbSavingInterface.saveSyncBit(SyncType.SETTINGS,true);
+            }
+
+            if(settings==null){
+                dbSavingInterface.saveSettings(databaseSettingsUpdateRequest.getSettings(),databaseSettingsUpdateRequest.getDbRequestListener());
+                dbUpdatingInterface.updateSyncBit(SyncType.SETTINGS.getId(),false);
+            }else{
+                dbUpdatingInterface.updateSettings(databaseSettingsUpdateRequest.getSettings(), databaseSettingsUpdateRequest.getDbRequestListener());
+                dbUpdatingInterface.updateSyncBit(SyncType.SETTINGS.getId(),false);
+            }
+
+
             eventing.post(new SettingsBackendSaveRequest(databaseSettingsUpdateRequest.getSettings()));
         }catch (SQLException e){
             dbUpdatingInterface.updateFailed(e, databaseSettingsUpdateRequest.getDbRequestListener());
@@ -204,13 +231,20 @@ public class UpdatingMonitor extends EventMonitor {
     public void onEventBackGround(final SettingsBackendSaveResponse settingsBackendSaveResponse) throws SQLException{
         DSLog.i(DSLog.LOG,"Settings updatingMonitor in SettingsBackendSaveResponse");
         try{
-            if(dbFetchingInterface.isSynced(SyncType.SETTINGS.getId())){
-                DSLog.i(DSLog.LOG,"Settings updatingMonitor in SettingsBackendSaveResponse inside if block");
-                dbUpdatingInterface.updateSettings(settingsBackendSaveResponse.getSettings(),null);
-                DSLog.i(DSLog.LOG,"Settings Fetch complete in updatingMonitor");
-                notifyDBChangeSuccess(SyncType.SETTINGS);
+            if(dbFetchingInterface.fetchDCSyncData(SyncType.SETTINGS)==null){
+                dbSavingInterface.saveSyncBit(SyncType.SETTINGS,true);
             }
+            if(dbFetchingInterface.fetchSettings()==null){
 
+                if(dbFetchingInterface.isSynced(SyncType.SETTINGS.getId())) {
+                    dbSavingInterface.saveSettings(settingsBackendSaveResponse.getSettings(), null);
+
+                }
+            }
+            if(dbFetchingInterface.isSynced(SyncType.SETTINGS.getId())){
+                dbUpdatingInterface.updateSettings(settingsBackendSaveResponse.getSettings(),null);
+            }
+            notifyDBChangeSuccess(SyncType.SETTINGS);
         } catch (SQLException e) {
             notifyDBFailure(e);
         }

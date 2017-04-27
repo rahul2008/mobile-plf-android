@@ -125,9 +125,6 @@ public class OrmDeleting {
         ormInsightMetadataDao.executeRawNoArgs("DELETE FROM `orminsightmetaData`");
 
         insertDefaultConsentAndSyncBit();
-        insertDefaultSettingsAndSyncBit();
-        insertDefaultUCSyncBit();
-
     }
 
     private void insertDefaultConsentAndSyncBit() {
@@ -144,24 +141,6 @@ public class OrmDeleting {
             e.printStackTrace();
         }
     }
-
-    private void insertDefaultSettingsAndSyncBit() {
-        try {
-            settingsDao.createOrUpdate(new OrmSettings("en_US" ,"metric"));
-            syncDao.createOrUpdate(new OrmDCSync(SyncType.SETTINGS.getId(), SyncType.SETTINGS.getDescription(), true));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void insertDefaultUCSyncBit() {
-        try {
-            syncDao.createOrUpdate(new OrmDCSync(SyncType.CHARACTERISTICS.getId(), SyncType.CHARACTERISTICS.getDescription(), true));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     public void deleteAllMoments() throws SQLException {
         momentDao.executeRawNoArgs("DELETE FROM `ormmoment`");
@@ -347,5 +326,10 @@ public class OrmDeleting {
             deleteInsightMetaData(insight);
         deleteSynchronisationData(insight.getSynchronisationData());
         ormInsightDao.delete(insight);
+    }
+    public int deleteSyncBit(SyncType type) throws SQLException{
+        DeleteBuilder<OrmDCSync, Integer> deleteBuilder = syncDao.deleteBuilder();
+        deleteBuilder.where().eq("tableid",type.getId());
+        return deleteBuilder.delete();
     }
 }
