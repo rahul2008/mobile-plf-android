@@ -104,13 +104,6 @@ public class AppInfraLogging implements LoggingInterface {
 
     protected void createLogger(String pComponentId) {
 
-
-        if (null != pComponentId && pComponentId.equalsIgnoreCase(mAppInfra.getComponentId())) {
-            mJavaLogger = Logger.getLogger(pComponentId); // returns new or existing log
-            activateLogger();
-            enableConsoleLog(true);
-            mJavaLogger.log(Level.INFO, "Logger created"); //R-AI-LOG-6
-        } else if (null != pComponentId && !mAppInfra.getComponentId().equalsIgnoreCase(pComponentId)) { //all logger except AppInfra internal logging
             HashMap<String, Object> loggingProperty = getLoggingProperties();
             if (null != loggingProperty) {
               /*  Log.e("appinfra", "  \"logging.debugConfig\" OR \"logging.releaseConfig\" key is missing under 'appinfra' group in AppConfig.json file");
@@ -159,7 +152,6 @@ public class AppInfraLogging implements LoggingInterface {
                 enableConsoleLog(true);
                 mJavaLogger.log(Level.INFO, "Logger created"); //R-AI-LOG-6
             }
-        }
     }
 
     private void enableConsoleAndFileLog(boolean consoleLog, boolean fileLog) {
