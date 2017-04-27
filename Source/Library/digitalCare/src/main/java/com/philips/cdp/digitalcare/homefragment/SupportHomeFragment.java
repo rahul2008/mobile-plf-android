@@ -15,23 +15,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -40,7 +33,6 @@ import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.contactus.fragments.ContactUsFragment;
-import com.philips.cdp.digitalcare.faq.fragments.FaqFragment;
 import com.philips.cdp.digitalcare.faq.fragments.FaqListFragment;
 import com.philips.cdp.digitalcare.listeners.PrxFaqCallback;
 import com.philips.cdp.digitalcare.listeners.PrxSummaryListener;
@@ -69,7 +61,6 @@ import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.cdp.uikit.UikitSpringBoardLayout;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
@@ -183,8 +174,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                     mPrxWrapper.executeRequests();
                 }
             }
-        } else
-        {
+        } else {
             createMainMenu();
         }
         return mView;
@@ -198,12 +188,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
             DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCatalog
                     (DigitalCareConfigManager.getInstance().getProductModelSelectionType().
                             getCatalog().toString());
-          /*  if (DigitalCareConfigManager.getInstance().getProductModelSelectionType().
-          getHardCodedProductList().length == 1)
-                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn
-                (DigitalCareConfigManager.getInstance().getProductModelSelectionType().
-                getHardCodedProductList()[0]);
-        */
         }
 
         mCtnFromPreference = prefs.getString(USER_SELECTED_PRODUCT_CTN, "");
@@ -234,7 +218,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         mOptionParent = (LinearLayout) getActivity().findViewById(
                 R.id.optionParent);
         mOptionContainer = (RecyclerView) getActivity().findViewById(
-                R.id.optionContainer);
+                R.id.supportMenuContainer);
         mParams = (LinearLayout.LayoutParams) mOptionParent.getLayoutParams();
 
         if (getActivity() != null) {
@@ -251,8 +235,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         try {
             if (DigitalCareConfigManager.getInstance().getPreviousPageNameForTagging() != null
                     && mIsFirstScreenLaunch) {
-             /*   AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME,
-                        DigitalCareConfigManager.getInstance().getPreviousPageNameForTagging());*/
                 DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
                         (AnalyticsConstants.PAGE_HOME,
                                 DigitalCareConfigManager.
@@ -261,8 +243,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                                         getPreviousPageNameForTagging());
                 mIsFirstScreenLaunch = false;
             } else {
-                /*AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME,
-                        getPreviousName());*/
                 DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
                         (AnalyticsConstants.PAGE_HOME,
                                 getPreviousName(), getPreviousName());
@@ -417,9 +397,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                     FaqListFragment faqListFragment = new FaqListFragment();
                     faqListFragment.setSupportModel(supportModel);
                     showFragment(faqListFragment);
-//                    FaqFragment faqFragment = new FaqFragment();
-//                    faqFragment.setSupportModel(supportModel);
-//                    showFragment(faqFragment);
                 }
             }
         });
@@ -564,12 +541,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         updateMenus(disabledButtons);
     }
 
-    private void updateMenus(ArrayList<Integer> disabledButtons){
+    private void updateMenus(ArrayList<Integer> disabledButtons) {
         ArrayList<MenuItem> menus = getMenuItems();
-        if(disabledButtons!=null){
+        if (disabledButtons != null) {
             for (Iterator<MenuItem> iterator = menus.iterator(); iterator.hasNext(); ) {
                 MenuItem item = iterator.next();
-                if(disabledButtons.contains(item.mText)){
+                if (disabledButtons.contains(item.mText)) {
                     iterator.remove();
                 }
             }
@@ -585,7 +562,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                     setCtn(summaryModel.getData().getCtn());
             updateMenus(null);
 
-            if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()!= null &&
+            if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
                     DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null) {
                 setDataToModels(productSummaryModel);
                 initialiseServiceDiscoveryRequests();
@@ -672,7 +649,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         return getResources().getString(R.string.actionbar_title_support);
     }
 
-    private ArrayList<MenuItem> getMenuItems(){
+    private ArrayList<MenuItem> getMenuItems() {
         TypedArray titles = getResources().obtainTypedArray(R.array.main_menu_title);
         TypedArray resources = getResources().obtainTypedArray(R.array.main_menu_resources);
         ArrayList<MenuItem> menus = new ArrayList<>();
@@ -742,12 +719,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     public void onDestroy() {
         disableProgressDialog();
         super.onDestroy();
-        /*
-        Commenting below finish() because of "Rally DE9081".
-        [Coffee]After switching menu from consumer care to other menu from leftoffcanvas,
-        our application getting close
-         */
-//        getActivity().finish();
     }
 
     private void disableProgressDialog() {

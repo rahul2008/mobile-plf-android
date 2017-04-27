@@ -38,17 +38,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class FaqDetailedScreen extends DigitalCareBaseFragment {
+public class FaqDetailedFragment extends DigitalCareBaseFragment {
 
     private View mView = null;
     private WebView mWebView = null;
     private ProgressBar mProgressBar = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
-    private Configuration mConfiguration = null;
 
     private String FAQ_PAGE_URL = null;
-    private String TAG = FaqDetailedScreen.class.getSimpleName();
+    private String TAG = FaqDetailedFragment.class.getSimpleName();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,8 +66,6 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
                 AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_FAQ);
         contextData.put(AnalyticsConstants.PAGE_FAQ_QUESTION_ANSWER,
                 getPreviousName());
-        /*AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_FAQ_QUESTION_ANSWER,
-                getPreviousName(), contextData);*/
         DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
                 (AnalyticsConstants.PAGE_FAQ_QUESTION_ANSWER,
                         contextData);
@@ -83,11 +80,6 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        // orientation change should not reload page.
-
-        //mWebView = null;
-        //initView();
-        //loadFaq();
     }
 
     @Override
@@ -139,27 +131,19 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
             mProgressBar.setVisibility(View.GONE);
             mWebView.setVisibility(View.VISIBLE);
         } else {
-            //DigiCareLogger.d("URLTest", getPhilipsProductPageUrl());
-            DigiCareLogger.d(TAG, FAQ_PAGE_URL);
-            String url = FAQ_PAGE_URL;
             mWebView.getSettings().setJavaScriptEnabled(true);
             mProgressBar.setVisibility(View.VISIBLE);
 
             mWebView.setVisibility(View.INVISIBLE);
 
-            //mWebView.setWebChromeClient(new WebChromeClient());
-
             mWebView.getSettings().setStandardFontFamily("file:///android_asset/digitalcarefonts/CentraleSans-Book.otf");
-          /*  mWebView.getSettings().setDefaultFontSize((int) getActivity().getResources().
-                    getDimension(R.dimen.title_text_size_small));*/
-
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 mWebView.getSettings().setAllowUniversalAccessFromFileURLs(true);
                 mWebView.getSettings().setAllowFileAccessFromFileURLs(true);
                 mWebView.getSettings().setDomStorageEnabled(true);
             }
-           mWebView.setWebChromeClient(new WebChromeClient() {
+            mWebView.setWebChromeClient(new WebChromeClient() {
 
                 @Override
                 public void onProgressChanged(WebView view, int newProgress) {
@@ -194,24 +178,12 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
                     DigiCareLogger.d(TAG, "OnPage Finished invoked with URL " + url);
                     mProgressBar.setVisibility(View.GONE);
                     enableWebView();
-
-                  /*  mWebView.getSettings().setDefaultFontSize((int) getActivity().getResources().
-                            getDimension(R.dimen.title_text_size_small));*/
-//                    mWebView.loadUrl("javascript:try{document.getElementsByClassName('group faqfeedback_group')[0].style.display='none'}catch(e){}");
-//                    Inject javascript code to the url given
-                    //Not display the element
-                    /*try {*/
                     setPaddingForWebdata();
                     mWebView.loadUrl("javascript:(function(){" + "document.getElementsByClassName('group faqfeedback_group')[0].remove();})()");
                     mWebView.loadUrl("javascript:window.CallToAnAndroidFunction.setVisible()");
-                    /*} catch (NullPointerException ex) {
-                        DigiCareLogger.e(TAG, "JavaScript Injection issue : " + ex);
-                    }*/
                 }
 
             });
-            //  mWebView.addJavascriptInterface(new JsObject(mWebView, mWebView), "CallToAnAndroidFunction");
-            //Add a JavaScriptInterface, so I can make calls from the web to Java methods
             mWebView.addJavascriptInterface(new myJavaScriptInterface(), "CallToAnAndroidFunction");
             mWebView.loadUrl(FAQ_PAGE_URL);
         }
@@ -224,18 +196,11 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
 
     private void setPaddingForWebdata() {
         if (mWebView == null) initView();
-        // mWebView.loadUrl("javascript:document.body.style.setProperty(\"color\", \"#003478\");");
         mWebView.loadUrl("javascript:document.body.style.setProperty(\"font-size\", \"100%\");");
         mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-top\", \"2%\");");
         mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-bottom\", \"2%\");");
-
-       /* if (isTablet() && mConfiguration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-left\", \"20%\");");
-            mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-right\", \"20%\");");
-        } else {*/
         mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-left\", \"10%\");");
         mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-right\", \"10%\");");
-        //}
     }
 
     private void initView() {

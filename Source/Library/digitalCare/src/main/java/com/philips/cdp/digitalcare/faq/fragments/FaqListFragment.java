@@ -166,9 +166,9 @@ public class FaqListFragment extends DigitalCareBaseFragment {
             makeTextViewHyperlink(showAllOrLess);
         } else if (id == R.id.icon_button) {
             String assetUrl = (String) view.getTag();
-            FaqDetailedScreen faqDetailedScreen = new FaqDetailedScreen();
-            faqDetailedScreen.setFaqWebUrl(assetUrl);
-            showFragment(faqDetailedScreen);
+            FaqDetailedFragment faqDetailedFragment = new FaqDetailedFragment();
+            faqDetailedFragment.setFaqWebUrl(assetUrl);
+            showFragment(faqDetailedFragment);
         }
     }
 

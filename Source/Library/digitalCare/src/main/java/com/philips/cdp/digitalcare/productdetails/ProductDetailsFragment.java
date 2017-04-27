@@ -14,7 +14,6 @@ import com.philips.cdp.serviceapi.productinformation.assets.Assets;*/
 package com.philips.cdp.digitalcare.productdetails;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -22,7 +21,6 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,18 +28,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -52,7 +47,7 @@ import com.android.volley.toolbox.Volley;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cdp.digitalcare.faq.fragments.FaqFragment;
+import com.philips.cdp.digitalcare.faq.fragments.FaqListFragment;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.listeners.PrxFaqCallback;
 import com.philips.cdp.digitalcare.listeners.PrxSummaryListener;
@@ -80,12 +75,8 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private static ImageView mProductImageTablet = null;
     private static int mSmallerResolution = 0;
     private static boolean isTablet = false;
-    private static int mHeight = 0;
     private static int mScrollPosition = 0;
     private Activity mActivity = null;
-    private RelativeLayout mFirstContainer = null;
-    private LinearLayout.LayoutParams mFirstContainerParams = null;
-    private LinearLayout.LayoutParams mSecondContainerParams = null;
     private RecyclerView mProdButtonsParent = null;
     private LinearLayout mProdVideoContainer = null;
     private ImageView mActionBarMenuIcon = null;
@@ -99,26 +90,19 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private String mProductPage = null;
     private String mDomain = null;
     private ViewProductDetailsModel mViewProductDetailsModel = null;
-    private int mBiggerResolution = 0;
-    private LinearLayout.LayoutParams mScrollerLayoutParams = null;
-    private LinearLayout.LayoutParams mProductVideoHeaderParams = null;
     private PrxWrapper mPrxWrapper = null;
-    private int mSdkVersion = 0;
     private CommonRecyclerViewAdapter<MenuItem> mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         DigiCareLogger.i(TAG, "Luanching View Product Details Screen");
-        mSdkVersion = Build.VERSION.SDK_INT;
         View view = inflater.inflate(R.layout.consumercare_fragment_view_product,
                 container, false);
         if (getActivity() != null)
             mActivity = getActivity();
 
         try {
-            /*AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_VIEW_PRODUCT_DETAILS,
-                    getPreviousName());*/
             DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
                     (AnalyticsConstants.PAGE_VIEW_PRODUCT_DETAILS,
                             getPreviousName(), getPreviousName());
@@ -132,18 +116,13 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mFirstContainer = (RelativeLayout) mActivity.findViewById(
-                R.id.toplayout);
+
         mProdButtonsParent = (RecyclerView) mActivity.findViewById(
                 R.id.prodbuttonsParent);
 
         mProdVideoContainer = (LinearLayout) mActivity.findViewById(
                 R.id.videoContainerParent);
 
-        mFirstContainerParams = (LinearLayout.LayoutParams) mFirstContainer
-                .getLayoutParams();
-        mSecondContainerParams = (LinearLayout.LayoutParams) mProdButtonsParent
-                .getLayoutParams();
         mActionBarMenuIcon = (ImageView) mActivity.findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) mActivity.findViewById(R.id.back_to_home_img);
 
@@ -154,10 +133,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         mProductVideoHeader = (TextView) mActivity.findViewById(R.id.productVideoText);
         mCtn = (TextView) mActivity.findViewById(R.id.variant);
         mVideoScrollView = (HorizontalScrollView) mActivity.findViewById(R.id.videoScrollView);
-        mScrollerLayoutParams = (LinearLayout.LayoutParams) mVideoScrollView
-                .getLayoutParams();
-        mProductVideoHeaderParams = (LinearLayout.LayoutParams) mProductVideoHeader
-                .getLayoutParams();
 
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         Configuration config = getResources().getConfiguration();
@@ -172,15 +147,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                 mScrollPosition = mVideoScrollView.getScrollX(); //for horizontalScrollView
             }
         });
-/*
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                initPRX();
-            }
-        });
-  */
-
     }
 
     private void initView(List<String> mVideoLength) throws NullPointerException {
@@ -201,11 +167,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
             RelativeLayout.LayoutParams param = (RelativeLayout.LayoutParams) videoThumbnail
                     .getLayoutParams();
-//            RelativeLayout.LayoutParams paramLeftArrow = (RelativeLayout.LayoutParams) videoLeftArrow
-//                    .getLayoutParams();
-
-//            RelativeLayout.LayoutParams paramRightArrow = (RelativeLayout.LayoutParams) videoRightArrow
-//                    .getLayoutParams();
 
             if (mActivity != null) {
                 float density = mActivity.getResources().getDisplayMetrics().density;
@@ -214,12 +175,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                     param.rightMargin = (int) (25 * density);
                     videoThumbnail.setLayoutParams(param);
                 }
-
-//            paramLeftArrow.leftMargin =
-//                    (int) (50 * density) + (int) getResources().getDimension(R.dimen.activity_margin);
-
-//            videoRightArrow.setLayoutParams(paramRightArrow);
-//            videoLeftArrow.setLayoutParams(paramLeftArrow);
 
                 videoLeftArrow.bringToFront();
                 videoRightArrow.bringToFront();
@@ -238,12 +193,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
         if (widthPixels > heightPixels) {
             mSmallerResolution = heightPixels;
-            mBiggerResolution = widthPixels;
         } else {
             mSmallerResolution = widthPixels;
-            mBiggerResolution = heightPixels;
         }
-        mHeight = mSmallerResolution;
 
         isTablet = ((float) mSmallerResolution / density > 360);
 
@@ -255,8 +207,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     }
 
     protected void loadVideoThumbnail(final ImageView imageView, final String thumbnail) {
-//        String thumbnail = imagePath.replace("/content/", "/image/") + "?wid=" + getDisplayWidth() + "&amp;";
-
         ImageRequest request = new ImageRequest(thumbnail,
                 new Response.Listener<Bitmap>() {
                     @Override
@@ -303,14 +253,12 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
         loadVideoThumbnail(videoThumbnail, thumbnail);
         child.setTag(tag);
-        //    videoPlay.setOnClickListener(videoModel);
         videoPlay.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Map<String, String> contextData = new HashMap<String, String>();
                 contextData.put(AnalyticsConstants.ACTION_KEY_VIEW_PRODUCT_VIDEO_NAME, video);
-                //  AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_KEY_VIEW_PRODUCT_VIDEO_START, contextData);
                 DigitalCareConfigManager.getInstance().getTaggingInterface().
                         trackActionWithInfo(AnalyticsConstants.ACTION_KEY_VIEW_PRODUCT_VIDEO_START,
                                 contextData);
@@ -347,7 +295,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                         mVideoScrollView.smoothScrollTo((mScrollPosition + 400), 0);
                     }
                 }, 5);
-//                    mVideoScrollView.scrollTo(mScrollPosition, (mScrollPosition + 50));
             }
         });
         mProdVideoContainer.addView(child);
@@ -443,31 +390,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
     @Override
     public void setViewParams(Configuration config) {
-//        if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-//            mFirstContainerParams.leftMargin = mFirstContainerParams.rightMargin = mLeftRightMarginPort;
-//            mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginPort;
-//            mProductVideoHeaderParams.leftMargin = mProductVideoHeaderParams.rightMargin = mLeftRightMarginPort;
-//            if (isTablet) {
-//                mVideoScrollView.setPadding(mProdButtonsParent.getPaddingLeft(), 0, mProdButtonsParent.getPaddingRight(), 0);
-//                mScrollerLayoutParams.leftMargin = mScrollerLayoutParams.rightMargin = mLeftRightMarginPort;
-//                mScrollerLayoutParams.bottomMargin = 0;
-//            }
-//        } else {
-//            mFirstContainerParams.leftMargin = mFirstContainerParams.rightMargin = mLeftRightMarginLand;
-//            mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginLand;
-//            mProductVideoHeaderParams.leftMargin = mProductVideoHeaderParams.rightMargin = mLeftRightMarginLand;
-//
-//            if (isTablet) {
-//                mVideoScrollView.setPadding(mProdButtonsParent.getPaddingLeft(), 0, mProdButtonsParent.getPaddingRight(), 0);
-//                mScrollerLayoutParams.leftMargin = mScrollerLayoutParams.rightMargin = mLeftRightMarginLand;
-//                mScrollerLayoutParams.bottomMargin = 0;
-//            }
-//        }
-//
-//        mFirstContainer.setLayoutParams(mFirstContainerParams);
-//        mProdButtonsParent.setLayoutParams(mSecondContainerParams);
-//        mVideoScrollView.setLayoutParams(mScrollerLayoutParams);
-//        mProductVideoHeader.setLayoutParams(mProductVideoHeaderParams);
     }
 
     @Override
@@ -510,14 +432,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                                     123);
                         } else {
                             callDownloadPDFMethod(mFilePath, pdfName);
-                            //DownloadAndShowPDFHelper downloadAndShowPDFHelper = new DownloadAndShowPDFHelper();
-                            //downloadAndShowPDFHelper.downloadAndOpenPDFManual(getActivity(), mFilePath, pdfName, isConnectionAvailable());
                         }
                     } else {
                         callDownloadPDFMethod(mFilePath, pdfName);
-                        //DownloadAndShowPDFHelper downloadAndShowPDFHelper = new DownloadAndShowPDFHelper();
-                        //downloadAndShowPDFHelper.downloadAndOpenPDFManual(getActivity(), mFilePath, pdfName, isConnectionAvailable());
-//                    showFragment(new ProductManualFragment());
                     }
                 }
             } else {
@@ -541,9 +458,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                 if (supportModel == null && getActivity() != null) {
                     showAlert(getString(R.string.NO_SUPPORT_KEY));
                 } else {
-                    FaqFragment faqFragment = new FaqFragment();
-                    faqFragment.setSupportModel(supportModel);
-                    showFragment(faqFragment);
+                    FaqListFragment faqListFragment = new FaqListFragment();
+                    faqListFragment.setSupportModel(supportModel);
+                    showFragment(faqListFragment);
                 }
             }
         });
@@ -593,14 +510,11 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                     }, 0, 0, null, null,
                     new Response.ErrorListener() {
                         public void onErrorResponse(VolleyError error) {
-                            // mProductImage.setImageResource(R.drawable.image_load_error);
                             Map<String, String> contextData = new HashMap<String, String>();
                             contextData.put(AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
                                     error.getMessage());
                             contextData.put(AnalyticsConstants.ACTION_KEY_URL,
                                     mViewProductDetailsModel.getProductImage());
-                          /*  AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SET_ERROR,
-                                    contextData);*/
                             DigitalCareConfigManager.getInstance().getTaggingInterface().
                                     trackActionWithInfo(AnalyticsConstants.ACTION_SET_ERROR,
                                             contextData);
