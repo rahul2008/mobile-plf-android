@@ -169,15 +169,21 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
             public void run() {
                 try {
                     bleScanDialogFragment = new BLEScanDialogFragment();
+                    bleScanDialogFragment.setSavedApplianceList(commCentral.getApplianceManager().getAvailableAppliances());
                     bleScanDialogFragment.show(getActivity().getSupportFragmentManager(), "BleScanDialog");
                     bleScanDialogFragment.setBLEDialogListener(new BLEScanDialogFragment.BLEScanDialogListener() {
                         @Override
                         public void onDeviceSelected(BleReferenceAppliance bleRefAppliance) {
-                            updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Connected));
-                            connectivityPresenter.setUpApplicance(bleRefAppliance);
-                            bleRefAppliance.getDeviceMeasurementPort().getPortProperties();
+                            if (bleRefAppliance.getDeviceMeasurementPort() != null && bleRefAppliance.getDeviceMeasurementPort().getPortProperties() != null) {
+                                bleRefAppliance.getDeviceMeasurementPort().reloadProperties();
+                            } else {
+                                updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Connected));
+                                connectivityPresenter.setUpApplicance(bleRefAppliance);
+                                bleRefAppliance.getDeviceMeasurementPort().getPortProperties();
+                            }
                         }
                     });
+
                     commCentral.startDiscovery();
                     new Handler().postDelayed(new Runnable() {
                         @Override
