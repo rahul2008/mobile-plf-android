@@ -222,6 +222,8 @@ public class LanguagePackManager implements LanguagePackInterface {
 					return model.getUrl();
 				}
 			}
+			// TODO - commented fallback mechanizm
+			/*
 			for (LanguagePackModel model : languagePackModels) {
 				if (appLocale.contains(model.getLocale().substring(0, 2))) {
 					selectedLanguageModel = model;
@@ -238,7 +240,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 				final int index = languagePackModels.indexOf(defaultLocale);
 				selectedLanguageModel = languagePackModels.get(index);
 				return languagePackModels.get(index).getUrl();
-			}
+			}*/
 		}
 		return null;
 	}
