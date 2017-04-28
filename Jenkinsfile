@@ -61,7 +61,7 @@ node ('android_pipeline &&' + node_ext) {
             	    cd ./Source/Library
             	    ./gradlew test
             	"""
-              step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/*/build/test-results/*/*.xml'])
+              // step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/*/build/test-results/*/*.xml'])
         }
             
             archiveArtifacts '**/dependencies.lock'
