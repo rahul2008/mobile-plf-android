@@ -349,6 +349,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
             @Override
             public void onClick(View v) {
+                if (!UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
+                    mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
+                    return;
+                }
                 RLog.d(RLog.ONCLICK, "HomeFragment : " + providerName);
                 if(mRegError.isShown())mRegError.hideError();
                 if (networkUtility.isNetworkAvailable()) {
@@ -457,6 +461,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
          * Library does not include resource constants after ADT 14 Link
          * :http://tools.android.com/tips/non-constant-fields
          */
+        if (!UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
+            mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
+            return;
+        }
         if(mRegError.isShown())mRegError.hideError();
         if (v.getId() == R.id.btn_reg_create_account) {
             RLog.d(RLog.ONCLICK, "HomeFragment : Create Account");
@@ -1122,5 +1130,4 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                     new IntentFilter(RegConstants.WE_CHAT_AUTH));
         }
     }
-
 }
