@@ -59,7 +59,7 @@ node ('android_pipeline &&' + node_ext) {
         stage('Unit test') {
             	sh """#!/bin/bash -l
             	    cd ./Source/Library
-            	    ./gradlew test
+            	    ./gradlew createDebugCoverageReport
             	"""
               // step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/*/build/test-results/*/*.xml'])
         }
