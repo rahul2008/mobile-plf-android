@@ -187,8 +187,8 @@ public static <fields>;
 -keep class com.philips.platform.datasync.insights.UCoreInsight { *; }
 -keep class com.philips.platform.datasync.insights.UCoreInsightList { *; }
 -keep class com.philips.platform.datasync.PushNotification.UCorePushNotification { *; }
--keep class com.philips.platform.baseapp.screens.dataservices.pojo.AppUserCharacteristics { *; }
--keep class com.philips.platform.baseapp.screens.dataservices.pojo.AppCharacteristics { *; }
+-keep class cdp.philips.com.mydemoapp.pojo.AppUserCharacteristics { *; }
+-keep class cdp.philips.com.mydemoapp.pojo.AppCharacteristics { *; }
 
 #HSDP Lib
 -keep  class com.philips.dhpclient.** {*;}
