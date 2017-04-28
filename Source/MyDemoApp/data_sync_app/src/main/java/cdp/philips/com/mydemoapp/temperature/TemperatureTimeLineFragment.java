@@ -133,19 +133,25 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     }
 
     private void deleteUserDataIfNewUserLoggedIn() {
-        if (getLastStoredEmail() == null) {
-            storeLastEmail();
+        if (getLastStoredHsdpId() == null) {
+            storeLastHsdpId();
             return;
         }
 
-        if (!isSameEmail()) {
+        if (!isSameHsdpId()) {
             userRegistrationInterface.clearUserData(this);
         }
-        storeLastEmail();
+        storeLastHsdpId();
     }
 
-    private boolean isSameEmail() {
+   /* private boolean isSameEmail() {
         if (getLastStoredEmail().equalsIgnoreCase(mUser.getEmail()))
+            return true;
+        return false;
+    }*/
+
+    private boolean isSameHsdpId() {
+        if (getLastStoredHsdpId().equalsIgnoreCase(mUser.getHsdpUUID()))
             return true;
         return false;
     }
@@ -275,19 +281,34 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         }
     }
 
-    String getLastStoredEmail() {
+   /* String getLastStoredEmail() {
         AppInfraInterface gAppInfra = ((DataSyncApplication) getContext().getApplicationContext()).gAppInfra;
         SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
         SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
         String decryptedData = ssInterface.fetchValueForKey("last_email", ssError);
         return decryptedData;
+    }*/
+
+    String getLastStoredHsdpId() {
+        AppInfraInterface gAppInfra = ((DataSyncApplication) getContext().getApplicationContext()).gAppInfra;
+        SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
+        SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
+        String decryptedData = ssInterface.fetchValueForKey("hsdp_id", ssError);
+        return decryptedData;
     }
 
-    void storeLastEmail() {
+    /*void storeLastEmail() {
         AppInfraInterface gAppInfra = ((DataSyncApplication) getContext().getApplicationContext()).gAppInfra;
         SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
         SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
         ssInterface.storeValueForKey("last_email", mUser.getEmail(), ssError);
+    }*/
+
+    void storeLastHsdpId() {
+        AppInfraInterface gAppInfra = ((DataSyncApplication) getContext().getApplicationContext()).gAppInfra;
+        SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
+        SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
+        ssInterface.storeValueForKey("hsdp_id", mUser.getHsdpUUID(), ssError);
     }
 
     @Override
