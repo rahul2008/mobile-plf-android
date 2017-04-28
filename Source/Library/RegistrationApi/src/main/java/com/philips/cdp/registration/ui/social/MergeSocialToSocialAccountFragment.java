@@ -197,7 +197,8 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_SOCIAL_MERGE);
 
         String socialProvider = "reg_"+bundle.getString(RegConstants.SOCIAL_PROVIDER);
-        String conflictingProvider = "reg_"+bundle.getString(RegConstants.CONFLICTING_SOCIAL_PROVIDER);
+        mConflictProvider = bundle.getString(RegConstants.CONFLICTING_SOCIAL_PROVIDER);
+        String conflictingProvider = "reg_"+ mConflictProvider;
 
         int currentSocialProviderId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(socialProvider, "string",
                 getRegistrationFragment().getParentActivity().getPackageName());
@@ -209,7 +210,6 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         String currentProvider = getString(R.string.reg_Social_Merge_Accounts_lbltxt);
         currentProvider = String.format(currentProvider, mContext.getResources().getString(conflictSocialProviderId));
         currentProviderView.setText(currentProvider);
-        mConflictProvider = conflictingProvider;
 
         String previousSocialProviderDetails = getString(R.string.reg_Social_Merge_Used_EmailError_lbltxt);
         previousSocialProviderDetails = String.format(previousSocialProviderDetails, mContext.getResources().getString(conflictSocialProviderId)
