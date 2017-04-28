@@ -715,15 +715,11 @@ public class JREngage {
         final JRProvider provider = mSession.getProviderByName(providerName);
 
         if (provider != null  && !mSession.isConfigDone()) {
-//            final Dialog progressDialog = UiUtils.getProgressDialog(fromActivity);
-//            progressDialog.show();
-
             mConfigFinishListeners.add(new ConfigFinishListener() {
                 public void configDidFinish() {
                     mConfigFinishListeners.remove(this);
                     checkSessionDataError();
                     showWebAuthFlowInternal(fromActivity, providerName, provider, uiCustomization);
-//                  progressDialog.dismiss();
                 }
             });
         } else {
