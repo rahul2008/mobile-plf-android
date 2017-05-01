@@ -14,6 +14,7 @@ import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.SHNStringResultListener;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
+import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
 import com.philips.pins.shinelib.framework.BleUUIDCreator;
 
 import java.nio.charset.StandardCharsets;
@@ -59,20 +60,20 @@ public class SHNServiceDeviceInformation extends SHNService {
     }
 
     @NonNull
-    private static Set<UUID> getRequiredCharacteristics() {
+    private static Set<SHNCharacteristicInfo> getRequiredCharacteristics() {
         return new HashSet<>();
     }
 
     @NonNull
-    private static Set<UUID> getOptionalCharacteristics() {
-        Set<UUID> set = new HashSet<>();
-        set.add(UUID.fromString(FIRMWARE_REVISION_CHARACTERISTIC_UUID));
-        set.add(UUID.fromString(HARDWARE_REVISION_CHARACTERISTIC_UUID));
-        set.add(UUID.fromString(MANUFACTURER_NAME_CHARACTERISTIC_UUID));
-        set.add(UUID.fromString(MODEL_NUMBER_CHARACTERISTIC_UUID));
-        set.add(UUID.fromString(SERIAL_NUMBER_CHARACTERISTIC_UUID));
-        set.add(UUID.fromString(SOFTWARE_REVISION_CHARACTERISTIC_UUID));
-        set.add(UUID.fromString(SYSTEM_ID_CHARACTERISTIC_UUID));
+    private static Set<SHNCharacteristicInfo> getOptionalCharacteristics() {
+        Set<SHNCharacteristicInfo> set = new HashSet<>();
+        set.add(new SHNCharacteristicInfo(UUID.fromString(FIRMWARE_REVISION_CHARACTERISTIC_UUID), false));
+        set.add(new SHNCharacteristicInfo(UUID.fromString(HARDWARE_REVISION_CHARACTERISTIC_UUID), false));
+        set.add(new SHNCharacteristicInfo(UUID.fromString(MANUFACTURER_NAME_CHARACTERISTIC_UUID), false));
+        set.add(new SHNCharacteristicInfo(UUID.fromString(MODEL_NUMBER_CHARACTERISTIC_UUID), false));
+        set.add(new SHNCharacteristicInfo(UUID.fromString(SERIAL_NUMBER_CHARACTERISTIC_UUID), false));
+        set.add(new SHNCharacteristicInfo(UUID.fromString(SOFTWARE_REVISION_CHARACTERISTIC_UUID), false));
+        set.add(new SHNCharacteristicInfo(UUID.fromString(SYSTEM_ID_CHARACTERISTIC_UUID), false));
         return set;
     }
 

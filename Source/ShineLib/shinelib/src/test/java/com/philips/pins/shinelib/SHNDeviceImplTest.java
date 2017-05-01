@@ -132,7 +132,7 @@ public class SHNDeviceImplTest {
                 btGattCallback = (BTGatt.BTGattCallback) invocation.getArguments()[2];
                 return mockedBTGatt;
             }
-        }).when(mockedBTDevice).connectGatt(isA(Context.class), anyBoolean(), isA(BTGatt.BTGattCallback.class));
+        }).when(mockedBTDevice).connectGatt(isA(Context.class), anyBoolean(), isA(SHNCentral.class), isA(BTGatt.BTGattCallback.class));
 
         doReturn(ADDRESS_STRING).when(mockedBTDevice).getAddress();
 
@@ -219,7 +219,7 @@ public class SHNDeviceImplTest {
     @Test
     public void whenInStateDisconnectedWhenTheStateChangesToConnectingThenTheConnectGattIsCalled() {
         shnDevice.connect();
-        verify(mockedBTDevice).connectGatt(mockedContext, false, btGattCallback);
+        verify(mockedBTDevice).connectGatt(mockedContext, false, mockedSHNCentral, btGattCallback);
         assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
     }
 
@@ -781,7 +781,7 @@ public class SHNDeviceImplTest {
 
     @Test
     public void whenBondingShineLibSHNDeviceInStateConnectingGATTCallbackIndicatedConnectedThenStateIsConnecting() {
-        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, SHNDeviceImpl.SHNBondInitiator.SHINE_LIB);
+        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, SHNDeviceImpl.SHNBondInitiator.APP);
         shnDevice.registerSHNDeviceListener(mockedSHNDeviceListener);
 
         shnDevice.connect();
@@ -1028,7 +1028,7 @@ public class SHNDeviceImplTest {
     public void whenConnectWithoutTimeoutThenConnectGattIsCalledWithAutoConnect() {
         shnDevice.connect(false, -1L);
 
-        verify(mockedBTDevice).connectGatt(isA(Context.class), eq(true), isA(BTGatt.BTGattCallback.class));
+        verify(mockedBTDevice).connectGatt(isA(Context.class), eq(true), isA(SHNCentral.class), isA(BTGatt.BTGattCallback.class));
     }
 
     @Test
@@ -1047,7 +1047,7 @@ public class SHNDeviceImplTest {
     public void whenConnectWithTimeOutCalledThenConnectGattIsCalled() throws Exception {
         shnDevice.connect(1L);
 
-        verify(mockedBTDevice).connectGatt(isA(Context.class), eq(false), isA(BTGatt.BTGattCallback.class));
+        verify(mockedBTDevice).connectGatt(isA(Context.class), eq(false), isA(SHNCentral.class), isA(BTGatt.BTGattCallback.class));
     }
 
     @Test
@@ -1063,7 +1063,7 @@ public class SHNDeviceImplTest {
         shnDevice.connect(1L);
         shnDevice.connect(1L);
 
-        verify(mockedBTDevice, times(1)).connectGatt(isA(Context.class), eq(false), isA(BTGatt.BTGattCallback.class));
+        verify(mockedBTDevice, times(1)).connectGatt(isA(Context.class), eq(false), isA(SHNCentral.class), isA(BTGatt.BTGattCallback.class));
     }
 
     @Test
@@ -1091,7 +1091,7 @@ public class SHNDeviceImplTest {
         verify(mockedSHNDeviceListener, never()).onFailedToConnect(shnDevice, SHNResult.SHNErrorInvalidState);
         verify(mockedSHNDeviceListener, never()).onStateUpdated(shnDevice);
         assertEquals(SHNDevice.State.Connecting, shnDevice.getState());
-        verify(mockedBTDevice, times(2)).connectGatt(isA(Context.class), eq(false), isA(BTGatt.BTGattCallback.class));
+        verify(mockedBTDevice, times(2)).connectGatt(isA(Context.class), eq(false), isA(SHNCentral.class), isA(BTGatt.BTGattCallback.class));
     }
 
     @Test
@@ -1139,7 +1139,7 @@ public class SHNDeviceImplTest {
         verify(mockedSHNDeviceListener, never()).onFailedToConnect(shnDevice, SHNResult.SHNErrorInvalidState);
         verify(mockedSHNDeviceListener, never()).onStateUpdated(shnDevice);
         assertEquals(SHNDevice.State.Connecting, shnDevice.getState());
-        verify(mockedBTDevice, times(4)).connectGatt(isA(Context.class), eq(false), isA(BTGatt.BTGattCallback.class));
+        verify(mockedBTDevice, times(4)).connectGatt(isA(Context.class), eq(false), isA(SHNCentral.class), isA(BTGatt.BTGattCallback.class));
     }
 
     @Test
@@ -1153,7 +1153,7 @@ public class SHNDeviceImplTest {
         verify(mockedSHNDeviceListener, never()).onFailedToConnect(shnDevice, SHNResult.SHNErrorInvalidState);
         verify(mockedSHNDeviceListener).onStateUpdated(shnDevice);
         assertEquals(SHNDevice.State.Disconnected, shnDevice.getState());
-        verify(mockedBTDevice, times(1)).connectGatt(isA(Context.class), eq(false), isA(BTGatt.BTGattCallback.class));
+        verify(mockedBTDevice, times(1)).connectGatt(isA(Context.class), eq(false), isA(SHNCentral.class), isA(BTGatt.BTGattCallback.class));
     }
 
     @Test(expected = InvalidParameterException.class)
@@ -1174,7 +1174,7 @@ public class SHNDeviceImplTest {
         assertEquals(Integer.valueOf(1), recorder.statesReported.get(SHNDevice.State.Disconnected));
         assertEquals(Integer.valueOf(1), recorder.statesReported.get(SHNDevice.State.Disconnecting));
         assertEquals(SHNDevice.State.Disconnected, shnDevice.getState());
-        verify(mockedBTDevice, times(1)).connectGatt(isA(Context.class), eq(false), isA(BTGatt.BTGattCallback.class));
+        verify(mockedBTDevice, times(1)).connectGatt(isA(Context.class), eq(false), isA(SHNCentral.class), isA(BTGatt.BTGattCallback.class));
     }
 
     @Test

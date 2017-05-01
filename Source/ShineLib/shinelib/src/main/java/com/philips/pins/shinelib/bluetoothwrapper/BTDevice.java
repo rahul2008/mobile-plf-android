@@ -10,6 +10,7 @@ import android.bluetooth.BluetoothGatt;
 import android.content.Context;
 import android.os.Handler;
 
+import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
 public class BTDevice {
@@ -35,8 +36,8 @@ public class BTDevice {
         return device.getBondState();
     }
 
-    public BTGatt connectGatt(final Context context, boolean autoConnect, final BTGatt.BTGattCallback callback) {
-        btGatt = new BTGatt(callback, handler);
+    public BTGatt connectGatt(final Context context, boolean autoConnect, SHNCentral shnCentral, final BTGatt.BTGattCallback callback) {
+        btGatt = new BTGatt(shnCentral, callback, handler);
         BluetoothGatt bluetoothGatt = device.connectGatt(context, autoConnect, btGatt);
         btGatt.setBluetoothGatt(bluetoothGatt);
         /**

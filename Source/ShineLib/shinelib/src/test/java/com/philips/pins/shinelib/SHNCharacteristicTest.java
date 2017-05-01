@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothGattDescriptor;
 
 import com.nitorcreations.junit.runners.NestedRunner;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
+import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
 import com.philips.pins.shinelib.helper.Utility;
 
 import org.junit.Before;
@@ -53,7 +54,7 @@ public class SHNCharacteristicTest {
         initMocks(this);
 
         characteristicUUID = UUID.randomUUID();
-        shnCharacteristic = new SHNCharacteristic(characteristicUUID);
+        shnCharacteristic = new SHNCharacteristic(new SHNCharacteristicInfo(characteristicUUID, false));
     }
 
     @Test
@@ -120,14 +121,14 @@ public class SHNCharacteristicTest {
         shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
 
         shnCharacteristic.write(data, null);
-        verify(mockedBTGatt).writeCharacteristic(mockedBluetoothGattCharacteristic, data);
+        verify(mockedBTGatt).writeCharacteristic(mockedBluetoothGattCharacteristic, shnCharacteristic.isEncrypted(), data);
     }
 
     @Test
     public void whenReadIsCalledThenReadCharacteristicOnBTGattIsCalled() {
         shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
         shnCharacteristic.read(resultReporterMock);
-        verify(mockedBTGatt).readCharacteristic(mockedBluetoothGattCharacteristic);
+        verify(mockedBTGatt).readCharacteristic(mockedBluetoothGattCharacteristic, shnCharacteristic.isEncrypted());
     }
 
     @Test
@@ -233,9 +234,9 @@ public class SHNCharacteristicTest {
                 shnCharacteristic.onWrite(mockedBTGatt, BluetoothGatt.GATT_FAILURE);
                 return null;
             }
-        }).when(mockedBTGatt).writeCharacteristic(any(BluetoothGattCharacteristic.class), any(byte[].class));
+        }).when(mockedBTGatt).writeCharacteristic(any(BluetoothGattCharacteristic.class), anyBoolean(), any(byte[].class));
         shnCharacteristic.write(data, resultReporterMock);
-        verify(mockedBTGatt).writeCharacteristic(mockedBluetoothGattCharacteristic, data);
+        verify(mockedBTGatt).writeCharacteristic(mockedBluetoothGattCharacteristic, shnCharacteristic.isEncrypted(), data);
 
         verify(resultReporterMock).reportResult(SHNResult.SHNErrorInvalidResponse, null);
     }
@@ -251,7 +252,7 @@ public class SHNCharacteristicTest {
                 shnCharacteristic.onReadWithData(mockedBTGatt, BluetoothGatt.GATT_FAILURE, null);
                 return null;
             }
-        }).when(mockedBTGatt).readCharacteristic(any(BluetoothGattCharacteristic.class));
+        }).when(mockedBTGatt).readCharacteristic(any(BluetoothGattCharacteristic.class), anyBoolean());
         shnCharacteristic.read(resultReporterMock);
 
         verify(resultReporterMock).reportResult(SHNResult.SHNErrorInvalidResponse, null);

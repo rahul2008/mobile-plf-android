@@ -12,6 +12,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.content.Context;
 
+import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.helper.MockedHandler;
 
@@ -75,11 +76,12 @@ public class BTDeviceTest {
 
     @Test
     public void whenBluetoothDeviceConnectGattIsCalledThenReturnGatt() throws NoSuchFieldException, IllegalAccessException {
+        SHNCentral shnCentral = Mockito.mock(SHNCentral.class);
         BluetoothGatt gatt = Mockito.mock(BluetoothGatt.class);
         when(bluetoothDevice.connectGatt(Mockito.any(Context.class), Mockito.anyBoolean(), Mockito.any(BluetoothGattCallback.class))).thenReturn(gatt);
 
         BTGatt.BTGattCallback callback = Mockito.mock(BTGatt.BTGattCallback.class);
-        BTGatt btGatt = btDevice.connectGatt(RuntimeEnvironment.application, false, callback);
+        BTGatt btGatt = btDevice.connectGatt(RuntimeEnvironment.application, false, shnCentral, callback);
 
         Field f = BTGatt.class.getDeclaredField("bluetoothGatt");
         f.setAccessible(true);

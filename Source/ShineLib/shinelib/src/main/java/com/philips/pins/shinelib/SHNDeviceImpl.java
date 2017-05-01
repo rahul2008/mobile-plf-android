@@ -60,7 +60,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     public static final int GATT_ERROR = 0x0085;
 
     public enum SHNBondInitiator {
-        NONE, PERIPHERAL, SHINE_LIB
+        NONE, PERIPHERAL,APP
     }
 
     private enum InternalState {
@@ -114,6 +114,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         this(btDevice, shnCentral, deviceTypeName, false);
     }
 
+    @Deprecated
     public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, boolean deviceBondsDuringConnect) {
         this(btDevice, shnCentral, deviceTypeName, deviceBondsDuringConnect ? SHNBondInitiator.PERIPHERAL : SHNBondInitiator.NONE);
     }
@@ -202,7 +203,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
                 if (shouldWaitUntilBonded()) {
                     setInternalStateReportStateUpdateAndSetTimers(InternalState.WaitingUntilBonded);
 
-                    if(shnBondInitiator == SHNBondInitiator.SHINE_LIB) {
+                    if(shnBondInitiator == SHNBondInitiator.APP) {
                         if (!btDevice.createBond()) {
                             SHNLogger.w(TAG, "Failed to start bond creation procedure");
                         }
@@ -228,7 +229,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
         if (internalState == InternalState.GattConnecting && delta < timeOut) {
             SHNLogger.d(TAG, "Retrying to connect GATT in state " + internalState);
-            btGatt = btDevice.connectGatt(shnCentral.getApplicationContext(), false, btGattCallback);
+            btGatt = btDevice.connectGatt(shnCentral.getApplicationContext(), false, shnCentral, btGattCallback);
         } else {
             if (getState() == State.Connecting) {
                 failedToConnectResult = SHNResult.SHNErrorInvalidState;
@@ -351,9 +352,9 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
                         if (timeoutInMS > 0) {
                             connectTimer.setTimeoutForSubsequentRestartsInMS(timeoutInMS);
                         }
-                        btGatt = btDevice.connectGatt(shnCentral.getApplicationContext(), false, btGattCallback);
+                        btGatt = btDevice.connectGatt(shnCentral.getApplicationContext(), false, shnCentral, btGattCallback);
                     } else {
-                        btGatt = btDevice.connectGatt(shnCentral.getApplicationContext(), true, btGattCallback);
+                        btGatt = btDevice.connectGatt(shnCentral.getApplicationContext(), true, shnCentral, btGattCallback);
                     }
                     break;
                 case Connecting:

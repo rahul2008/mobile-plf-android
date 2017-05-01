@@ -10,6 +10,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
+import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
 import com.philips.pins.shinelib.helper.Utility;
 
 import org.junit.Before;
@@ -36,10 +37,10 @@ import static org.powermock.api.mockito.PowerMockito.doReturn;
 public class SHNServiceTest {
     private SHNService shnService;
     private UUID mockedServiceUUID;
-    private Set<UUID> requiredCharacteristics;
-    private Set<UUID> optionalCharacteristics;
-    private UUID mockedRequiredCharacteristicUUID;
-    private UUID mockedOptionalCharacteristicUUID;
+    private Set<SHNCharacteristicInfo> requiredCharacteristics;
+    private Set<SHNCharacteristicInfo> optionalCharacteristics;
+    private SHNCharacteristicInfo mockedRequiredCharacteristicInfo;
+    private SHNCharacteristicInfo mockedOptionalCharacteristicInfo;
     private byte[] mockedCharacteristicValue;
     private SHNService.SHNServiceListener mockedSHNServiceListener;
     private SHNService.CharacteristicDiscoveryListener mockedCharacteristicDiscoveryListener;
@@ -52,10 +53,10 @@ public class SHNServiceTest {
         optionalCharacteristics = new HashSet<>();
 
         mockedServiceUUID = UUID.randomUUID();
-        mockedRequiredCharacteristicUUID = UUID.randomUUID();
-        requiredCharacteristics.add(mockedRequiredCharacteristicUUID);
-        mockedOptionalCharacteristicUUID = UUID.randomUUID();
-        optionalCharacteristics.add(mockedOptionalCharacteristicUUID);
+        mockedRequiredCharacteristicInfo = new SHNCharacteristicInfo(UUID.randomUUID(), false);
+        requiredCharacteristics.add(mockedRequiredCharacteristicInfo);
+        mockedOptionalCharacteristicInfo = new SHNCharacteristicInfo(UUID.randomUUID(), false);
+        optionalCharacteristics.add(mockedOptionalCharacteristicInfo);
         mockedSHNServiceListener = (SHNService.SHNServiceListener) Utility.makeThrowingMock(SHNService.SHNServiceListener.class);
 
         mockedCharacteristicValue = new byte[]{0x12};
@@ -83,12 +84,12 @@ public class SHNServiceTest {
         assertNull(shnCharacteristic);
 
         // Test that both the required and optional characteristics have been created and can be retrieved
-        shnCharacteristic = shnService.getSHNCharacteristic(mockedRequiredCharacteristicUUID);
+        shnCharacteristic = shnService.getSHNCharacteristic(mockedOptionalCharacteristicInfo.getUUID());
         assertNotNull(shnCharacteristic);
-        assertEquals(mockedRequiredCharacteristicUUID, shnCharacteristic.getUuid());
-        shnCharacteristic = shnService.getSHNCharacteristic(mockedOptionalCharacteristicUUID);
+        assertEquals(mockedOptionalCharacteristicInfo.getUUID(), shnCharacteristic.getUuid());
+        shnCharacteristic = shnService.getSHNCharacteristic(mockedOptionalCharacteristicInfo.getUUID());
         assertNotNull(shnCharacteristic);
-        assertEquals(mockedOptionalCharacteristicUUID, shnCharacteristic.getUuid());
+        assertEquals(mockedOptionalCharacteristicInfo.getUUID(), shnCharacteristic.getUuid());
     }
 
     @Test
@@ -106,7 +107,7 @@ public class SHNServiceTest {
         mockedBluetoothGattCharacteristic = (BluetoothGattCharacteristic) Utility.makeThrowingMock(BluetoothGattCharacteristic.class);
         mockedBluetoothCharacteristics.add(mockedBluetoothGattCharacteristic);
         doReturn(mockedBluetoothCharacteristics).when(mockedBluetoothGattService).getCharacteristics();
-        doReturn(mockedRequiredCharacteristicUUID).when(mockedBluetoothGattCharacteristic).getUuid();
+        doReturn(mockedOptionalCharacteristicInfo.getUUID()).when(mockedBluetoothGattCharacteristic).getUuid();
         doReturn(mockedCharacteristicValue).when(mockedBluetoothGattCharacteristic).getValue();
         doNothing().when(mockedSHNServiceListener).onServiceStateChanged(any(SHNService.class), any(SHNService.State.class));
 
@@ -117,7 +118,7 @@ public class SHNServiceTest {
 
     @Test
     public void whenTheRequiredServicesAreNOTDiscoveredThenTheServiceRemainsInUnavailableState() {
-        keepServiceInUnavailableStateThroughConnectToBLELayer(mockedOptionalCharacteristicUUID);
+        keepServiceInUnavailableStateThroughConnectToBLELayer(mockedOptionalCharacteristicInfo.getUUID());
         assertEquals(SHNService.State.Unavailable, shnService.getState());
     }
 
@@ -152,7 +153,7 @@ public class SHNServiceTest {
     @Test
     public void whenTheServiceIsUnavailableAndDisconnectFromBLELayerIsCalledThenTheServiceRemainsUnavalable() {
         // First set the service in Unavailable state
-        keepServiceInUnavailableStateThroughConnectToBLELayer(mockedOptionalCharacteristicUUID);
+        keepServiceInUnavailableStateThroughConnectToBLELayer(mockedOptionalCharacteristicInfo.getUUID());
 
         assertEquals(SHNService.State.Unavailable, shnService.getState());
         shnService.disconnectFromBLELayer();
@@ -209,11 +210,11 @@ public class SHNServiceTest {
     @Test
     public void testOnCharacteristicReadWithData() {
         SHNCommandResultReporter mockedSHNCommandResultReporter = (SHNCommandResultReporter) Utility.makeThrowingMock(SHNCommandResultReporter.class);
-        SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(mockedRequiredCharacteristicUUID);
+        SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(mockedOptionalCharacteristicInfo.getUUID());
 
         getServiceToAvailableStateThroughConnectToBLELayer();
 
-        doNothing().when(mockedBTGatt).readCharacteristic(mockedBluetoothGattCharacteristic);
+        doNothing().when(mockedBTGatt).readCharacteristic(mockedBluetoothGattCharacteristic, shnCharacteristic.isEncrypted());
         doNothing().when(mockedSHNCommandResultReporter).reportResult(any(SHNResult.class), any(byte[].class));
 
         shnCharacteristic.read(mockedSHNCommandResultReporter);
@@ -226,12 +227,12 @@ public class SHNServiceTest {
     @Test
     public void testOnCharacteristicWrite() {
         SHNCommandResultReporter mockedSHNCommandResultReporter = (SHNCommandResultReporter) Utility.makeThrowingMock(SHNCommandResultReporter.class);
-        SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(mockedRequiredCharacteristicUUID);
+        SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(mockedOptionalCharacteristicInfo.getUUID());
 
         getServiceToAvailableStateThroughConnectToBLELayer();
 
         byte[] data = {'d', 'a', 't', 'a'};
-        doNothing().when(mockedBTGatt).writeCharacteristic(mockedBluetoothGattCharacteristic, data);
+        doNothing().when(mockedBTGatt).writeCharacteristic(mockedBluetoothGattCharacteristic, shnCharacteristic.isEncrypted(), data);
         doNothing().when(mockedSHNCommandResultReporter).reportResult(any(SHNResult.class), any(byte[].class));
 
         shnCharacteristic.write(data, mockedSHNCommandResultReporter);
@@ -244,13 +245,13 @@ public class SHNServiceTest {
     public void testOnCharacteristicChangedWithData() {
         SHNCommandResultReporter mockedSHNCommandResultReporter = (SHNCommandResultReporter) Utility.makeThrowingMock(SHNCommandResultReporter.class);
         SHNCharacteristic.SHNCharacteristicChangedListener mockedSHNCharacteristicChangedListener = (SHNCharacteristic.SHNCharacteristicChangedListener) Utility.makeThrowingMock(SHNCharacteristic.SHNCharacteristicChangedListener.class);
-        SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(mockedRequiredCharacteristicUUID);
+        SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(mockedOptionalCharacteristicInfo.getUUID());
         shnCharacteristic.setShnCharacteristicChangedListener(mockedSHNCharacteristicChangedListener);
 
         getServiceToAvailableStateThroughConnectToBLELayer();
 
         byte[] data = {'d', 'a', 't', 'a'};
-        doNothing().when(mockedBTGatt).writeCharacteristic(mockedBluetoothGattCharacteristic, data);
+        doNothing().when(mockedBTGatt).writeCharacteristic(mockedBluetoothGattCharacteristic, shnCharacteristic.isEncrypted(), data);
         doNothing().when(mockedSHNCommandResultReporter).reportResult(any(SHNResult.class), any(byte[].class));
         doNothing().when(mockedSHNCharacteristicChangedListener).onCharacteristicChanged(any(SHNCharacteristic.class), any(byte[].class));
 
@@ -281,7 +282,7 @@ public class SHNServiceTest {
     @Test
     public void testConectingToBleShouldCallOnCharacteristicsDiscovered() throws Exception {
         getServiceToAvailableStateThroughConnectToBLELayer();
-        verify(mockedCharacteristicDiscoveryListener).onCharacteristicDiscovered(eq(mockedRequiredCharacteristicUUID), eq(mockedCharacteristicValue), any(SHNCharacteristic.class));
+        verify(mockedCharacteristicDiscoveryListener).onCharacteristicDiscovered(eq(mockedOptionalCharacteristicInfo.getUUID()), eq(mockedCharacteristicValue), any(SHNCharacteristic.class));
     }
 
     @Test

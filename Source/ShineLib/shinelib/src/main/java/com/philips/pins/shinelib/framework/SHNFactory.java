@@ -8,6 +8,7 @@ package com.philips.pins.shinelib.framework;
 import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNDeviceImpl;
 import com.philips.pins.shinelib.SHNService;
+import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
 
 import java.util.Set;
 import java.util.UUID;
@@ -19,11 +20,11 @@ public class SHNFactory {
         this.shnDeviceImpl = shnDeviceImpl;
     }
 
-    public SHNCharacteristic createCharacteristicForUUID(UUID uuid) {
-        return new SHNCharacteristic(uuid);
+    public SHNCharacteristic createCharacteristicForUUID(SHNCharacteristicInfo characteristicInfo) {
+        return new SHNCharacteristic(characteristicInfo);
     }
 
-    public SHNService createNewSHNService(UUID serviceUUID, Set<UUID> requiredCharacteristics, Set<UUID> optionalCharacteristics) {
+    public SHNService createNewSHNService(UUID serviceUUID, Set<SHNCharacteristicInfo> requiredCharacteristics, Set<SHNCharacteristicInfo> optionalCharacteristics) {
         return new SHNService(serviceUUID, requiredCharacteristics, optionalCharacteristics);
     }
 }
