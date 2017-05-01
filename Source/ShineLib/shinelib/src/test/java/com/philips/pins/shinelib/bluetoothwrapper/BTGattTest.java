@@ -99,11 +99,26 @@ public class BTGattTest {
     }
 
     @Test
+    public void whenBluetoothGattIsSetToNull_AndReadEncryptedCharacteristicIsCalled_ThenNoExceptionISGenerated() {
+        btGatt.setBluetoothGatt(null);
+
+        btGatt.readCharacteristic(mockedCharacteristic, true);
+    }
+
+    @Test
     public void whenBluetoothGattIsSetToNull_AndWriteCharacteristicIsCalled_ThenNoExceptionISGenerated() {
         btGatt.setBluetoothGatt(null);
         when(mockedCharacteristic.setValue(Matchers.argThat(anyByteArray()))).thenReturn(true);
 
         btGatt.writeCharacteristic(mockedCharacteristic, false, byteArray);
+    }
+
+    @Test
+    public void whenBluetoothGattIsSetToNull_AndWriteEncryptedCharacteristicIsCalled_ThenNoExceptionISGenerated() {
+        btGatt.setBluetoothGatt(null);
+        when(mockedCharacteristic.setValue(Matchers.argThat(anyByteArray()))).thenReturn(true);
+
+        btGatt.writeCharacteristic(mockedCharacteristic, true, byteArray);
     }
 
     @Test

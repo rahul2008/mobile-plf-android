@@ -153,7 +153,7 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
 
     public void readCharacteristic(final BluetoothGattCharacteristic characteristic, final boolean encrypted) {
         if(encrypted) {
-            addBondCommandIfNoneExists();
+            addBondCommandIfNoBondExists();
         }
 
         Runnable runnable = new Runnable() {
@@ -173,7 +173,7 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
 
     public void writeCharacteristic(final BluetoothGattCharacteristic characteristic, final boolean encrypted, final byte[] data) {
         if(encrypted) {
-            addBondCommandIfNoneExists();
+            addBondCommandIfNoBondExists();
         }
 
         Runnable runnable = new Runnable() {
@@ -191,7 +191,7 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
         executeNextCommandIfAllowed();
     }
 
-    private void addBondCommandIfNoneExists() {
+    private void addBondCommandIfNoBondExists() {
         if (bluetoothGatt != null) {
             final BluetoothDevice device = bluetoothGatt.getDevice();
             if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
