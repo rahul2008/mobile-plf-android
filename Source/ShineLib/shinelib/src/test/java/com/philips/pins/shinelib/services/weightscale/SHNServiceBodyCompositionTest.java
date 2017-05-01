@@ -7,6 +7,7 @@ import com.philips.pins.shinelib.SHNObjectResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
+import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
 import com.philips.pins.shinelib.framework.SHNFactory;
 
 import org.junit.Before;
@@ -86,8 +87,8 @@ public class SHNServiceBodyCompositionTest {
         assertEquals(SHNServiceBodyComposition.BODY_COMPOSITION_UUID, uuidArgumentCaptor.getValue());
         assertNotNull(mandatoryUUIDSetArgumentCaptor.getValue());
         assertEquals(2, mandatoryUUIDSetArgumentCaptor.getValue().size());
-        assertTrue(mandatoryUUIDSetArgumentCaptor.getValue().contains(SHNServiceBodyComposition.BODY_COMPOSITION_FEATURES_CHARACTERISTIC_UUID));
-        assertTrue(mandatoryUUIDSetArgumentCaptor.getValue().contains(SHNServiceBodyComposition.BODY_COMPOSITION_MEASUREMENT_CHARACTERISTIC_UUID));
+        assertTrue(mandatoryUUIDSetArgumentCaptor.getValue().contains(new SHNCharacteristicInfo(SHNServiceBodyComposition.BODY_COMPOSITION_FEATURES_CHARACTERISTIC_UUID, true)));
+        assertTrue(mandatoryUUIDSetArgumentCaptor.getValue().contains(new SHNCharacteristicInfo(SHNServiceBodyComposition.BODY_COMPOSITION_MEASUREMENT_CHARACTERISTIC_UUID, true)));
         assertNotNull(optionalUUIDSetArgumentCaptor.getValue());
         assertEquals(0, optionalUUIDSetArgumentCaptor.getValue().size());
     }

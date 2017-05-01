@@ -84,9 +84,9 @@ public class SHNServiceTest {
         assertNull(shnCharacteristic);
 
         // Test that both the required and optional characteristics have been created and can be retrieved
-        shnCharacteristic = shnService.getSHNCharacteristic(mockedOptionalCharacteristicInfo.getUUID());
+        shnCharacteristic = shnService.getSHNCharacteristic(mockedRequiredCharacteristicInfo.getUUID());
         assertNotNull(shnCharacteristic);
-        assertEquals(mockedOptionalCharacteristicInfo.getUUID(), shnCharacteristic.getUuid());
+        assertEquals(mockedRequiredCharacteristicInfo.getUUID(), shnCharacteristic.getUuid());
         shnCharacteristic = shnService.getSHNCharacteristic(mockedOptionalCharacteristicInfo.getUUID());
         assertNotNull(shnCharacteristic);
         assertEquals(mockedOptionalCharacteristicInfo.getUUID(), shnCharacteristic.getUuid());
@@ -107,7 +107,7 @@ public class SHNServiceTest {
         mockedBluetoothGattCharacteristic = (BluetoothGattCharacteristic) Utility.makeThrowingMock(BluetoothGattCharacteristic.class);
         mockedBluetoothCharacteristics.add(mockedBluetoothGattCharacteristic);
         doReturn(mockedBluetoothCharacteristics).when(mockedBluetoothGattService).getCharacteristics();
-        doReturn(mockedOptionalCharacteristicInfo.getUUID()).when(mockedBluetoothGattCharacteristic).getUuid();
+        doReturn(mockedRequiredCharacteristicInfo.getUUID()).when(mockedBluetoothGattCharacteristic).getUuid();
         doReturn(mockedCharacteristicValue).when(mockedBluetoothGattCharacteristic).getValue();
         doNothing().when(mockedSHNServiceListener).onServiceStateChanged(any(SHNService.class), any(SHNService.State.class));
 
@@ -210,7 +210,7 @@ public class SHNServiceTest {
     @Test
     public void testOnCharacteristicReadWithData() {
         SHNCommandResultReporter mockedSHNCommandResultReporter = (SHNCommandResultReporter) Utility.makeThrowingMock(SHNCommandResultReporter.class);
-        SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(mockedOptionalCharacteristicInfo.getUUID());
+        SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(mockedRequiredCharacteristicInfo.getUUID());
 
         getServiceToAvailableStateThroughConnectToBLELayer();
 
@@ -227,7 +227,7 @@ public class SHNServiceTest {
     @Test
     public void testOnCharacteristicWrite() {
         SHNCommandResultReporter mockedSHNCommandResultReporter = (SHNCommandResultReporter) Utility.makeThrowingMock(SHNCommandResultReporter.class);
-        SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(mockedOptionalCharacteristicInfo.getUUID());
+        SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(mockedRequiredCharacteristicInfo.getUUID());
 
         getServiceToAvailableStateThroughConnectToBLELayer();
 
@@ -245,7 +245,7 @@ public class SHNServiceTest {
     public void testOnCharacteristicChangedWithData() {
         SHNCommandResultReporter mockedSHNCommandResultReporter = (SHNCommandResultReporter) Utility.makeThrowingMock(SHNCommandResultReporter.class);
         SHNCharacteristic.SHNCharacteristicChangedListener mockedSHNCharacteristicChangedListener = (SHNCharacteristic.SHNCharacteristicChangedListener) Utility.makeThrowingMock(SHNCharacteristic.SHNCharacteristicChangedListener.class);
-        SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(mockedOptionalCharacteristicInfo.getUUID());
+        SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(mockedRequiredCharacteristicInfo.getUUID());
         shnCharacteristic.setShnCharacteristicChangedListener(mockedSHNCharacteristicChangedListener);
 
         getServiceToAvailableStateThroughConnectToBLELayer();
@@ -282,7 +282,7 @@ public class SHNServiceTest {
     @Test
     public void testConectingToBleShouldCallOnCharacteristicsDiscovered() throws Exception {
         getServiceToAvailableStateThroughConnectToBLELayer();
-        verify(mockedCharacteristicDiscoveryListener).onCharacteristicDiscovered(eq(mockedOptionalCharacteristicInfo.getUUID()), eq(mockedCharacteristicValue), any(SHNCharacteristic.class));
+        verify(mockedCharacteristicDiscoveryListener).onCharacteristicDiscovered(eq(mockedRequiredCharacteristicInfo.getUUID()), eq(mockedCharacteristicValue), any(SHNCharacteristic.class));
     }
 
     @Test

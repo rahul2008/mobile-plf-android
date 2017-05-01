@@ -6,6 +6,7 @@ import com.philips.pins.shinelib.SHNIntegerResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
+import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
 import com.philips.pins.shinelib.framework.SHNFactory;
 import com.philips.pins.shinelib.services.SHNServiceBattery;
 
@@ -68,7 +69,7 @@ public class SHNServiceBatteryTest {
 
         assertNotNull(requiredSetArgumentCaptor.getValue());
         assertEquals(1, requiredSetArgumentCaptor.getValue().size());
-        assertTrue(requiredSetArgumentCaptor.getValue().contains(SHNServiceBattery.SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID));
+        assertTrue(requiredSetArgumentCaptor.getValue().contains(new SHNCharacteristicInfo(SHNServiceBattery.SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID, false)));
 
         assertNotNull(optionalSetArgumentCaptor.getValue());
         assertEquals(0, optionalSetArgumentCaptor.getValue().size());

@@ -129,7 +129,7 @@ public class SHNDeviceImplTest {
         doAnswer(new Answer<BTGatt>() {
             @Override
             public BTGatt answer(InvocationOnMock invocation) throws Throwable {
-                btGattCallback = (BTGatt.BTGattCallback) invocation.getArguments()[2];
+                btGattCallback = (BTGatt.BTGattCallback) invocation.getArguments()[3];
                 return mockedBTGatt;
             }
         }).when(mockedBTDevice).connectGatt(isA(Context.class), anyBoolean(), isA(SHNCentral.class), isA(BTGatt.BTGattCallback.class));

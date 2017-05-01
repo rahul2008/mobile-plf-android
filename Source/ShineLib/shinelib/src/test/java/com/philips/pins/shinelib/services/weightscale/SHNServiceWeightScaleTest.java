@@ -7,6 +7,7 @@ import com.philips.pins.shinelib.SHNObjectResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
+import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
 import com.philips.pins.shinelib.framework.SHNFactory;
 
 import org.junit.Before;
@@ -86,8 +87,8 @@ public class SHNServiceWeightScaleTest {
         assertEquals(SHNServiceWeightScale.WEIGHT_SCALE_UUID, uuidArgumentCaptor.getValue());
         assertNotNull(mandatoryUUIDSetArgumentCaptor.getValue());
         assertEquals(2, mandatoryUUIDSetArgumentCaptor.getValue().size());
-        assertTrue(mandatoryUUIDSetArgumentCaptor.getValue().contains(SHNServiceWeightScale.WEIGHT_MEASUREMENT_CHARACTERISTIC_UUID));
-        assertTrue(mandatoryUUIDSetArgumentCaptor.getValue().contains(SHNServiceWeightScale.WEIGHT_SCALE_FEATURE_CHARACTERISTIC_UUID));
+        assertTrue(mandatoryUUIDSetArgumentCaptor.getValue().contains(new SHNCharacteristicInfo(SHNServiceWeightScale.WEIGHT_MEASUREMENT_CHARACTERISTIC_UUID, true)));
+        assertTrue(mandatoryUUIDSetArgumentCaptor.getValue().contains(new SHNCharacteristicInfo(SHNServiceWeightScale.WEIGHT_SCALE_FEATURE_CHARACTERISTIC_UUID, true)));
         assertNotNull(optionalUUIDSetArgumentCaptor.getValue());
         assertEquals(0, optionalUUIDSetArgumentCaptor.getValue().size());
     }

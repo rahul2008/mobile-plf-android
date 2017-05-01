@@ -28,4 +28,22 @@ public class SHNCharacteristicInfo {
     public String toString() {
         return "DebugMoonshine: " + getUUID();
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == null)
+            return false;
+        if (this == object)
+            return true;
+        if (!(object instanceof SHNCharacteristicInfo))
+            return false;
+
+        SHNCharacteristicInfo that = (SHNCharacteristicInfo) object;
+        return this.uuid.equals(that.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.uuid.hashCode();
+    }
 }

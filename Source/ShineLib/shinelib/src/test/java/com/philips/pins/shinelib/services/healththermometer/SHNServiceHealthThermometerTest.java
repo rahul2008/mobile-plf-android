@@ -9,6 +9,7 @@ import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNCommandResultReporter;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
+import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
 import com.philips.pins.shinelib.framework.SHNFactory;
 import com.philips.pins.shinelib.helper.Utility;
 
@@ -104,11 +105,11 @@ public class SHNServiceHealthThermometerTest {
 
         assertEquals(SHNServiceHealthThermometer.SERVICE_HEALTH_THERMOMETER_UUID, serviceUUIDArgumentCaptor.getValue());
         assertEquals(1, requiredCharacteristicUUIDs.getValue().size());
-        assertTrue(requiredCharacteristicUUIDs.getValue().contains(SHNServiceHealthThermometer.CHARACTERISTIC_TEMPERATURE_MEASUREMENT_UUID));
+        assertTrue(requiredCharacteristicUUIDs.getValue().contains(new SHNCharacteristicInfo(SHNServiceHealthThermometer.CHARACTERISTIC_TEMPERATURE_MEASUREMENT_UUID, true)));
         assertEquals(3, optionalCharacteristicUUIDs.getValue().size());
-        assertTrue(optionalCharacteristicUUIDs.getValue().contains(SHNServiceHealthThermometer.CHARACTERISTIC_TEMPERATURE_TYPE_UUID));
-        assertTrue(optionalCharacteristicUUIDs.getValue().contains(SHNServiceHealthThermometer.CHARACTERISTIC_MEASUREMENT_INTERVAL_UUID));
-        assertTrue(optionalCharacteristicUUIDs.getValue().contains(SHNServiceHealthThermometer.CHARACTERISTIC_INTERMEDIATE_TEMPERATURE_UUID));
+        assertTrue(optionalCharacteristicUUIDs.getValue().contains(new SHNCharacteristicInfo(SHNServiceHealthThermometer.CHARACTERISTIC_TEMPERATURE_TYPE_UUID, true)));
+        assertTrue(optionalCharacteristicUUIDs.getValue().contains(new SHNCharacteristicInfo(SHNServiceHealthThermometer.CHARACTERISTIC_MEASUREMENT_INTERVAL_UUID, true)));
+        assertTrue(optionalCharacteristicUUIDs.getValue().contains(new SHNCharacteristicInfo(SHNServiceHealthThermometer.CHARACTERISTIC_INTERMEDIATE_TEMPERATURE_UUID, true)));
     }
 
     @Test
