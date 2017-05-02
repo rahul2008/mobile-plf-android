@@ -12,6 +12,7 @@
 
 package com.philips.platform.uid.components.notificationbadge;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.support.test.espresso.ViewInteraction;
@@ -27,6 +28,7 @@ import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.utils.UIDTestUtils;
 import com.philips.platform.uid.view.widget.NotificationBadge;
+import com.philips.platform.uid.view.widget.RatingBar;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -43,6 +45,7 @@ public class DefaultNotificationBadgeTest extends BaseTest {
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class, false, false);
     private Resources testResources;
     private BaseTestActivity activity;
+    private NotificationBadge notificationBadge;
 
     @Before
     public void setUp() throws Exception {
@@ -50,6 +53,7 @@ public class DefaultNotificationBadgeTest extends BaseTest {
         activity = mActivityTestRule.launchActivity(launchIntent);
         activity.switchTo(com.philips.platform.uid.test.R.layout.layout_notification_default_badge);
         testResources = activity.getResources();
+        notificationBadge = new NotificationBadge(activity);
     }
 
     @Test
