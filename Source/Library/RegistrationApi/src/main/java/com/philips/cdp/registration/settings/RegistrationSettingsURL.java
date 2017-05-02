@@ -181,11 +181,11 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                         jumpConfig.engageAppId = clientIDConfiguration.getEngageId(urlLocal);
                         jumpConfig.captureAppId = clientIDConfiguration.getCaptureId(urlLocal);
                     }
-
                     RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.api :" + urlLocal);
-
-                    if (jumpConfig.engageAppId == null || jumpConfig.captureAppId == null)
-                        throw new RuntimeException("Captureid or engageid is null");
+                    if (jumpConfig.engageAppId == null || jumpConfig.captureAppId == null){
+                        EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+                        return;
+                    }
 
                     RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.engageid :" + clientIDConfiguration.getEngageId(urlLocal));
                     RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.captureid :" + clientIDConfiguration.getCaptureId(urlLocal));
