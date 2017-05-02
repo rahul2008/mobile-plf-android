@@ -19,6 +19,7 @@ buildscript { bs ->
 
 apply plugin: 'com.android.library'
 apply plugin: 'pl.droidsonroids.pitest'
+apply plugin: 'jacoco'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
@@ -178,6 +179,10 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
         xml.enabled = false
         html.enabled = true
     }
+}
+
+jacoco {
+    toolVersion = '0.7.6.201602180812'
 }
 
 pitest {
