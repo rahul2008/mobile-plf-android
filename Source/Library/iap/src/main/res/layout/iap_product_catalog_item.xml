@@ -52,7 +52,7 @@
         android:layout_toEndOf="@id/image"
         android:layout_toStartOf="@id/price_container"
         android:text="DiamondClean"
-        android:textColor="?attr/uidTextPrimary"
+        android:textColor="@color/uid_gray_level_75"
         app:uidLabelTextSize="16sp" />
 
     <com.philips.platform.uid.view.widget.Label
@@ -64,8 +64,8 @@
         android:layout_marginBottom="@dimen/border4_margin"
         android:layout_toEndOf="@id/image"
         android:text="HX8332/11"
-        android:textColor="?attr/uidTextSecondary"
-        app:uidLabelTextSize="16sp" />
+        android:textColor="@color/uid_gray_level_35"
+        app:uidLabelTextSize="12sp" />
 
     <com.shamanland.fonticon.FontIconTextView
         android:id="@+id/arrow"

@@ -20,7 +20,6 @@
         android:layout_marginBottom="@dimen/border4_margin"
         android:layout_toEndOf="@id/iap_retailer_image"
         android:includeFontPadding="false"
-        android:textColor="?attr/uidPrimaryText"
         app:uidLabelTextSize="@dimen/iap_retailers_store_name_size" />
 
     <com.philips.platform.uid.view.widget.Label
@@ -30,7 +29,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/iap_online_store_name"
         android:layout_toEndOf="@id/iap_retailer_image"
-        android:textColor="?attr/uidTextSecondary"
         app:uidLabelTextSize="@dimen/iap_retailers_store_name_size" />
 
     <com.shamanland.fonticon.FontIconTextView

@@ -34,17 +34,15 @@
         android:textColor="?attr/uikit_baseColor"
         android:textSize="@dimen/iap_select_retailer_text_size" />
 -->
-   <!-- <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?attr/uikit_listDividerColor" />-->
+    <!-- <View
+         android:id="@+id/divider"
+         android:layout_width="match_parent"
+         android:layout_height="1dp"
+         android:background="?attr/uikit_listDividerColor" />-->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/iap_retailer_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/divider"
-        android:listSelector="@android:color/transparent" />
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

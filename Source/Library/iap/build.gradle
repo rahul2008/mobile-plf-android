@@ -146,7 +146,8 @@ android {
         versionName objcdp.getVersionWithHash()
         multiDexEnabled true
         testApplicationId "com.philips.cdp.di.iap.test"
-        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        //testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         generatedDensities = []
         // replace the below string with your own Google client ID. Make sure this is consistent
         // with the values used in openid_appauth_idp_configs.xml

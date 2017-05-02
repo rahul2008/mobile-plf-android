@@ -26,19 +26,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
-                android:textColor="?attr/uidTextPrimary"
                 app:uidLabelTextSize="@dimen/iap_product_description" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ctn"
-                style="@style/iapCentralesansBoldFont"
+                style="@style/iapCentralesansBookFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_below="@id/product_description"
                 android:includeFontPadding="false"
                 android:paddingTop="@dimen/border8_margin"
-                android:textColor="?attr/uidTextSecondary"
                 app:uidLabelTextSize="16sp" />
 
             <LinearLayout
@@ -96,8 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/indicator"
                 android:includeFontPadding="false"
-                android:paddingBottom="@dimen/border16_margin_left_right"
-                app:uidLabelTextSize="@dimen/iap_product_overview" />
+                android:paddingBottom="@dimen/border16_margin_left_right" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -127,8 +124,8 @@
                     android:layout_below="@id/add_to_cart"
                     android:enabled="true"
                     android:text="@string/iap_buy_from_retailers"
-                    android:textColor="?attr/uidPrimaryText"
-                    android:visibility="visible" />
+                    android:visibility="visible"
+                    app:uidComponentType="Primary" />
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>
