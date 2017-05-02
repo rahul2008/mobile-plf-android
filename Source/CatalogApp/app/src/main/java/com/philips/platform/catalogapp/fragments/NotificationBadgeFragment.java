@@ -25,7 +25,7 @@ public class NotificationBadgeFragment extends BaseFragment implements TextWatch
 
     public static final String BADGE_COUNT = "BADGE_COUNT";
     private FragmentNotificationBadgeBinding notificationBadgeBinding;
-    public final ObservableField<String> badgeCount = new ObservableField("1");
+    public final ObservableField<String> badgeCount = new ObservableField<>("1");
 
 
     @Override
@@ -61,7 +61,7 @@ public class NotificationBadgeFragment extends BaseFragment implements TextWatch
     public void onStop() {
         super.onStop();
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(notificationBadgeBinding.getRoot().getWindowToken(), 0);
     }
 
     @Override
@@ -70,15 +70,18 @@ public class NotificationBadgeFragment extends BaseFragment implements TextWatch
     }
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    }
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         badgeCount.set(notificationBadgeBinding.editInputNumber.getText().toString());
-        if (badgeCount.get().toString().length() > 4) {
-             badgeCount.set("9999+");
+        if (badgeCount.get().length() > 4) {
+            badgeCount.set("9999+");
         }
     }
+
     @Override
-    public void afterTextChanged(Editable s) {}
+    public void afterTextChanged(Editable s) {
+    }
 }
