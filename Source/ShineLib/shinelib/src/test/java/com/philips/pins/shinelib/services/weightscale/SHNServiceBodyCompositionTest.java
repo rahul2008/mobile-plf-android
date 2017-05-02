@@ -1,5 +1,9 @@
-package com.philips.pins.shinelib.services.weightscale;
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
+ * All rights reserved.
+ */
 
+package com.philips.pins.shinelib.services.weightscale;
 
 import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNCommandResultReporter;
@@ -27,10 +31,6 @@ import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class SHNServiceBodyCompositionTest {
 
     private SHNServiceBodyComposition shnServiceBodyComposition;

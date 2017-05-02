@@ -1,3 +1,8 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015, 2016, 2017.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.services.battery;
 
 import com.philips.pins.shinelib.SHNCharacteristic;
@@ -28,10 +33,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class SHNServiceBatteryTest {
 
