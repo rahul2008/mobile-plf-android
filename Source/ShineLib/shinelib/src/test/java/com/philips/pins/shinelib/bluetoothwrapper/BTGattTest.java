@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 
+import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.helper.MockedHandler;
 
 import org.junit.Before;
@@ -33,6 +34,9 @@ public class BTGattTest {
     @Mock
     private BluetoothGattDescriptor mockedDescriptor;
 
+    @Mock
+    private SHNCentral mockedSHNCentral;
+
     private static final byte[] byteArray = new byte[]{1, 2, 3};
 
     private BTGatt btGatt;
@@ -44,7 +48,7 @@ public class BTGattTest {
         initMocks(this);
         mockedUserHandler = new MockedHandler();
 
-        btGatt = new BTGatt(mockedCallback, mockedUserHandler.getMock());
+        btGatt = new BTGatt(mockedSHNCentral, mockedCallback, mockedUserHandler.getMock());
     }
 
     private ArgumentMatcher<byte[]> byteArrayArgumentMatcher(final byte[] bytes) {
@@ -91,7 +95,14 @@ public class BTGattTest {
     public void whenBluetoothGattIsSetToNull_AndReadCharacteristicIsCalled_ThenNoExceptionISGenerated() {
         btGatt.setBluetoothGatt(null);
 
-        btGatt.readCharacteristic(mockedCharacteristic);
+        btGatt.readCharacteristic(mockedCharacteristic, false);
+    }
+
+    @Test
+    public void whenBluetoothGattIsSetToNull_AndReadEncryptedCharacteristicIsCalled_ThenNoExceptionISGenerated() {
+        btGatt.setBluetoothGatt(null);
+
+        btGatt.readCharacteristic(mockedCharacteristic, true);
     }
 
     @Test
@@ -99,7 +110,15 @@ public class BTGattTest {
         btGatt.setBluetoothGatt(null);
         when(mockedCharacteristic.setValue(Matchers.argThat(anyByteArray()))).thenReturn(true);
 
-        btGatt.writeCharacteristic(mockedCharacteristic, byteArray);
+        btGatt.writeCharacteristic(mockedCharacteristic, false, byteArray);
+    }
+
+    @Test
+    public void whenBluetoothGattIsSetToNull_AndWriteEncryptedCharacteristicIsCalled_ThenNoExceptionISGenerated() {
+        btGatt.setBluetoothGatt(null);
+        when(mockedCharacteristic.setValue(Matchers.argThat(anyByteArray()))).thenReturn(true);
+
+        btGatt.writeCharacteristic(mockedCharacteristic, true, byteArray);
     }
 
     @Test

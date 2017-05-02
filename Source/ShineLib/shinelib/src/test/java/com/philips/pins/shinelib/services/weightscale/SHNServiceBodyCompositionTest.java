@@ -1,5 +1,9 @@
-package com.philips.pins.shinelib.services.weightscale;
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
+ * All rights reserved.
+ */
 
+package com.philips.pins.shinelib.services.weightscale;
 
 import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNCommandResultReporter;
@@ -7,6 +11,7 @@ import com.philips.pins.shinelib.SHNObjectResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
+import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
 import com.philips.pins.shinelib.framework.SHNFactory;
 
 import org.junit.Before;
@@ -26,10 +31,6 @@ import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class SHNServiceBodyCompositionTest {
 
     private SHNServiceBodyComposition shnServiceBodyComposition;
@@ -86,8 +87,8 @@ public class SHNServiceBodyCompositionTest {
         assertEquals(SHNServiceBodyComposition.BODY_COMPOSITION_UUID, uuidArgumentCaptor.getValue());
         assertNotNull(mandatoryUUIDSetArgumentCaptor.getValue());
         assertEquals(2, mandatoryUUIDSetArgumentCaptor.getValue().size());
-        assertTrue(mandatoryUUIDSetArgumentCaptor.getValue().contains(SHNServiceBodyComposition.BODY_COMPOSITION_FEATURES_CHARACTERISTIC_UUID));
-        assertTrue(mandatoryUUIDSetArgumentCaptor.getValue().contains(SHNServiceBodyComposition.BODY_COMPOSITION_MEASUREMENT_CHARACTERISTIC_UUID));
+        assertTrue(mandatoryUUIDSetArgumentCaptor.getValue().contains(new SHNCharacteristicInfo(SHNServiceBodyComposition.BODY_COMPOSITION_FEATURES_CHARACTERISTIC_UUID, true)));
+        assertTrue(mandatoryUUIDSetArgumentCaptor.getValue().contains(new SHNCharacteristicInfo(SHNServiceBodyComposition.BODY_COMPOSITION_MEASUREMENT_CHARACTERISTIC_UUID, true)));
         assertNotNull(optionalUUIDSetArgumentCaptor.getValue());
         assertEquals(0, optionalUUIDSetArgumentCaptor.getValue().size());
     }

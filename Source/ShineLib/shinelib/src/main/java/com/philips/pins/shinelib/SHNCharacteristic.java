@@ -11,6 +11,7 @@ import android.bluetooth.BluetoothGattDescriptor;
 import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
+import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.LinkedList;
@@ -22,6 +23,7 @@ public class SHNCharacteristic {
     private static final boolean ENABLE_DEBUG_LOGGING = false;
     private static final UUID CLIENT_CHARACTERISTIC_CONFIG_UUID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
     private final UUID uuid;
+    private final boolean encrypted;
     private BluetoothGattCharacteristic bluetoothGattCharacteristic;
     private BTGatt btGatt;
     private State state;
@@ -34,8 +36,9 @@ public class SHNCharacteristic {
 
     public enum State {Inactive, Active}
 
-    public SHNCharacteristic(UUID characteristicUUID) {
-        this.uuid = characteristicUUID;
+    public SHNCharacteristic(SHNCharacteristicInfo characteristicInfo) {
+        this.uuid = characteristicInfo.getUUID();
+        this.encrypted = characteristicInfo.isEncrytped();
         this.state = State.Inactive;
         this.pendingCompletions = new LinkedList<>();
         DebugLog("created: " + uuid);
@@ -47,6 +50,10 @@ public class SHNCharacteristic {
 
     public UUID getUuid() {
         return uuid;
+    }
+
+    public boolean isEncrypted() {
+        return encrypted;
     }
 
     public void connectToBLELayer(BTGatt btGatt, BluetoothGattCharacteristic bluetoothGattCharacteristic) {
@@ -76,7 +83,7 @@ public class SHNCharacteristic {
     public void write(byte[] data, SHNCommandResultReporter resultReporter) {
         if (state == State.Active) {
             pendingCompletions.add(resultReporter);
-            btGatt.writeCharacteristic(bluetoothGattCharacteristic, data);
+            btGatt.writeCharacteristic(bluetoothGattCharacteristic, encrypted, data);
         } else {
             SHNLogger.w(TAG, "Error write; characteristic not active: " + uuid);
             if (resultReporter != null) {
@@ -88,7 +95,7 @@ public class SHNCharacteristic {
     public void read(@NonNull final SHNCommandResultReporter resultReporter) {
         if (state == State.Active) {
             pendingCompletions.add(resultReporter);
-            btGatt.readCharacteristic(bluetoothGattCharacteristic);
+            btGatt.readCharacteristic(bluetoothGattCharacteristic, encrypted);
         } else {
             SHNLogger.w(TAG, "Error read; characteristic not active: " + uuid);
             if (resultReporter != null) {
