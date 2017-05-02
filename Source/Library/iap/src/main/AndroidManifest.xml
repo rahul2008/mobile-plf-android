@@ -14,7 +14,6 @@
         <activity
             android:name=".activity.IAPActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
            />
         <!--
