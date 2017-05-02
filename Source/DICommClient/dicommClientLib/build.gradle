@@ -175,5 +175,5 @@ pitest {
     avoidCallsTo = ['com.philips.cdp.dicommclient.util.DICommLog']
     threads = 8 /* specify number of threads */
     outputFormats = ['XML', 'HTML'] /* specify output format */
-    reportDir = reportDir = rootDir.absolutePath + "/build/report/pitest/" + project.name + "/"
+    reportDir = "${rootDir.absolutePath}/build/report/${project.name}/pitest/"
 }
