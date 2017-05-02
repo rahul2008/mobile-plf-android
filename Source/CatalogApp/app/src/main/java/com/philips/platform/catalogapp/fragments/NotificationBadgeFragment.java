@@ -8,6 +8,7 @@ package com.philips.platform.catalogapp.fragments;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -20,13 +21,12 @@ import android.view.inputmethod.InputMethodManager;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentNotificationBadgeBinding;
 
-
 public class NotificationBadgeFragment extends BaseFragment implements TextWatcher {
 
     public static final String BADGE_COUNT = "BADGE_COUNT";
-    private String badgeCount = "1";
     private FragmentNotificationBadgeBinding notificationBadgeBinding;
-    private String savedBadgeCount;
+    public final ObservableField<String> badgeCount = new ObservableField("1");
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,8 +36,6 @@ public class NotificationBadgeFragment extends BaseFragment implements TextWatch
         notificationBadgeBinding.quietEmail.setVectorResource(R.drawable.ic_email_icon);
         notificationBadgeBinding.uidTextDefault.setVisibility(View.VISIBLE);
         notificationBadgeBinding.uidTextSmall.setVisibility(View.VISIBLE);
-        notificationBadgeBinding.uidTextDefault.setText(badgeCount);
-        notificationBadgeBinding.uidTextSmall.setText(badgeCount);
         notificationBadgeBinding.editInputNumber.addTextChangedListener(this);
         return notificationBadgeBinding.getRoot();
     }
@@ -46,20 +44,17 @@ public class NotificationBadgeFragment extends BaseFragment implements TextWatch
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null) {
-            savedBadgeCount = savedInstanceState.getString(BADGE_COUNT);
-            notificationBadgeBinding.uidTextDefault.setText(savedBadgeCount);
-            notificationBadgeBinding.uidTextSmall.setText(savedBadgeCount);
-
+            String savedBadgeCount = savedInstanceState.getString(BADGE_COUNT);
+            badgeCount.set(savedBadgeCount);
         } else {
-            notificationBadgeBinding.uidTextDefault.setText(badgeCount);
-            notificationBadgeBinding.uidTextSmall.setText(badgeCount);
+            badgeCount.set(badgeCount.get());
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("BADGE_COUNT", notificationBadgeBinding.uidTextDefault.getText().toString());
+        outState.putString(BADGE_COUNT, notificationBadgeBinding.uidTextDefault.getText().toString());
     }
 
     @Override
@@ -75,23 +70,15 @@ public class NotificationBadgeFragment extends BaseFragment implements TextWatch
     }
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        badgeCount = notificationBadgeBinding.editInputNumber.getText().toString();
-        if (badgeCount.length() > 4) {
-            badgeCount = "9999+";
+        badgeCount.set(notificationBadgeBinding.editInputNumber.getText().toString());
+        if (badgeCount.get().toString().length() > 4) {
+             badgeCount.set("9999+");
         }
-        notificationBadgeBinding.uidTextDefault.setText(badgeCount);
-        notificationBadgeBinding.uidTextSmall.setText(badgeCount);
-
     }
-
     @Override
-    public void afterTextChanged(Editable s) {
-
-    }
+    public void afterTextChanged(Editable s) {}
 }

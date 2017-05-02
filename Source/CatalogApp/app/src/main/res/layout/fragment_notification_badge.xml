@@ -72,7 +72,8 @@
                             android:id="@+id/uid_text_default"
                             style="@style/NotificationBadge"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:text="@{fragment.badgeCount}"/>
                     </FrameLayout>
 
                     <com.philips.platform.uid.view.widget.Label
@@ -101,7 +102,8 @@
                             android:id="@+id/uid_text_small"
                             style="@style/NotificationBadge.Small"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:text="@{fragment.badgeCount}"/>
                     </FrameLayout>
                 </LinearLayout>
             </LinearLayout>
