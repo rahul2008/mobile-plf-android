@@ -17,7 +17,7 @@ node('Android') {
 
         stage('Unit Test') {
             sh "rm -rf ./Source/DICommClient/dicommClientLib/build/test-results/debug"
-            sh "$gradle test lintDebug || true"
+            sh "$gradle test lintDebug jacocoTestReport || true"
         }
 
         stage("Gather reports") {
