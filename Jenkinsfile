@@ -42,7 +42,7 @@ node('Android') {
             sh 'rm -rf android-shinelib/Source/ShineLib/shinelib/build/test-results'
             sh 'rm -rf dicomm-android/Source/DICommClient/dicommClientLib/build/test-results'
             sh 'rm -rf android-commlib-all/Source/commlib-all-parent/commlib-all/build/test-results'
-            sh "$gradle commlib-all:testDebug commlib-all:lintDebug  commlib-all:jacocoTestReport || true"
+            sh "$gradle commlib-all:testDebug commlib-all:lintDebug || true"
 
             step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/*/*.xml'])
             step([$class: 'LintPublisher', healthy: '0', unHealthy: '20', unstableTotalAll: '20'])
