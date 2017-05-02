@@ -16,6 +16,7 @@ repositories {
     maven { url repos.jcenter }
     maven { url repos.release }
     maven { url repos.snapshot }
+    maven { url repos.stage }
 }
 
 android {
