@@ -228,6 +228,39 @@ jacoco {
     toolVersion = '0.7.6.201602180812'
 }
 
+def coverageSourceDirs = ['src/main/java']
+
+task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+    group = "Reporting"
+
+    description = "Generate Jacoco coverage reports"
+
+    classDirectories = fileTree(dir: 'build/intermediates/classes/debug',
+            excludes: ['**/R.class',
+                       '**/R$*.class',
+                       '**/inject/*',
+                       '**/BuildConfig.*',
+                       '**/Manifest*.*'])
+
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
+    executionData = files('build/jacoco/testDebugUnitTest.exec')
+
+    doFirst {
+        new File("$buildDir/intermediates/classes/").eachFileRecurse { file ->
+            if (file.name.contains('$$')) {
+                file.renameTo(file.path.replace('$$', '$'))
+            }
+        }
+    }
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+        html.destination "${rootDir.absolutePath}/build/report/${project.name}/jacoco/"
+    }
+}
+
 pitest {
     targetClasses = [
             'com.philips.pins.shinelib.associationprocedures.*',

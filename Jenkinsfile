@@ -17,7 +17,7 @@ node('Android') {
 
         stage('Unit test') {
             sh 'rm -rf ./Source/ShineLib/shinelib/build/test-results/debug ./Source/ShineLib/pluginreferenceboard/build/test-results/debug'
-            sh "$gradle test lintDebug || true"
+            sh "$gradle test lintDebug jacocoTestReport || true"
         }
 
         stage("Gather reports") {
