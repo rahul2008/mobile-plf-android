@@ -17,21 +17,13 @@ node('Android') {
 
         stage('Unit test') {
             sh 'rm -rf ./Source/ShineLib/shinelib/build/test-results/debug ./Source/ShineLib/pluginreferenceboard/build/test-results/debug'
-            sh "$gradle test lintDebug jacocoTestReport || true"
+            sh "$gradle test lintDebug || true"
         }
 
         stage("Gather reports") {
             step([$class: 'JUnitResultArchiver', testResults: 'Source/ShineLib/*/build/test-results/*/*.xml'])
             step([$class: 'LintPublisher', healthy: '0', unHealthy: '20', unstableTotalAll: '20'])
             step([$class: 'JacocoPublisher', execPattern: '**/*.exec', classPattern: '**/classes', sourcePattern: '**/src/main/java', exclusionPattern: '**/R.class,**/R$*.class,**/BuildConfig.class,**/Manifest*.*,**/*Activity*.*,**/*Fragment*.*'])
-            publishHTML([
-                    allowMissing         : false,
-                    alwaysLinkToLastBuild: false,
-                    keepAll              : false,
-                    reportDir            : 'Source/ShineLib/build/report/shinelib/jacoco/',
-                    reportFiles          : 'index.html',
-                    reportName           : 'Jacoco'
-            ])
         }
 
         stage('Archive artifacts') {
