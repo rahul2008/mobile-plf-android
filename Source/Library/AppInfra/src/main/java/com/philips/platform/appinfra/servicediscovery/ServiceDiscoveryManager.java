@@ -55,13 +55,13 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private final AppInfra mAppInfra;
     private final Context context;
     private final RequestManager mRequestItemManager;
+    private final ArrayDeque<AbstractDownloadItemListener> downloadAwaiters;
+    private final ReentrantLock downloadLock;
     private OnGetHomeCountryListener.SOURCE countryCodeSource;
     private AISDResponse serviceDiscovery = null;
     private String countryCode;
     private long holdbackTime = 0l;
     private ServiceDiscoveryInterface.OnGetHomeCountryListener.ERRORVALUES errorvalues;
-    private final ArrayDeque<AbstractDownloadItemListener> downloadAwaiters;
-    private final ReentrantLock downloadLock;
     private String mCountry;
     private String mCountrySourceType;
 
@@ -661,7 +661,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
         final String homeCountry = fetchFromSecureStorage(COUNTRY);
         final String countrySource = fetchFromSecureStorage(COUNTRY_SOURCE);
-        if (homeCountry == null && countrySource == null) {
+        if (homeCountry == null) {
             final String countryCode = getCountryCodeFromSim();
             if (countryCode != null) {
                 countryCodeSource = OnGetHomeCountryListener.SOURCE.SIMCARD;
@@ -694,7 +694,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                     }
                 });
             }
-        } else {
+        } else if (countrySource != null) {
             listener.onSuccess(homeCountry, OnGetHomeCountryListener.SOURCE.valueOf(countrySource));
         }
     }
@@ -733,7 +733,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private String fetchFromSecureStorage(final String countrySource) {
         final SecureStorageInterface mSecureStorageInterface = mAppInfra.getSecureStorage();
         final SecureStorageInterface.SecureStorageError mSecureStorageError = new SecureStorageInterface.SecureStorageError();
-        String value = null;
+        String value = "";
         if (countrySource.equals(COUNTRY)) {
             if (mCountry != null) {
                 value = mCountry;
