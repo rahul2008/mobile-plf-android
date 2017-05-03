@@ -45,7 +45,6 @@ public class DefaultNotificationBadgeTest extends BaseTest {
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class, false, false);
     private Resources testResources;
     private BaseTestActivity activity;
-    private NotificationBadge notificationBadge;
 
     @Before
     public void setUp() throws Exception {
@@ -53,7 +52,6 @@ public class DefaultNotificationBadgeTest extends BaseTest {
         activity = mActivityTestRule.launchActivity(launchIntent);
         activity.switchTo(com.philips.platform.uid.test.R.layout.layout_notification_default_badge);
         testResources = activity.getResources();
-        notificationBadge = new NotificationBadge(activity);
     }
 
     @Test
