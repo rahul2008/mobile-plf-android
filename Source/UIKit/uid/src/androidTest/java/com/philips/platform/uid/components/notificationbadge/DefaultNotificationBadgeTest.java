@@ -12,6 +12,7 @@
 
 package com.philips.platform.uid.components.notificationbadge;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.support.test.espresso.ViewInteraction;
@@ -27,6 +28,7 @@ import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.utils.UIDTestUtils;
 import com.philips.platform.uid.view.widget.NotificationBadge;
+import com.philips.platform.uid.view.widget.RatingBar;
 
 import org.junit.Before;
 import org.junit.Rule;

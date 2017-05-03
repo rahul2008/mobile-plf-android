@@ -2,16 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
     <data>
 
         <variable
             name="fragment"
             type="com.philips.platform.catalogapp.fragments.NotificationBadgeFragment" />
     </data>
-
-
-    <RelativeLayout
+<RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -44,8 +41,6 @@
                         android:checked="false"
                         android:enabled="false"
                         android:gravity="center_vertical|end" />
-                    <!-- android:checked="@={fragment.isAccentColor}"
-                        android:onCheckedChanged="@{(v, isChecked) -> fragment.setNotificationBadge(isChecked)}"-->
                 </LinearLayout>
 
                 <com.philips.platform.uid.view.widget.Label
@@ -58,32 +53,60 @@
                     android:layout_marginBottom="@dimen/notifaction_badge_margin_top_bottom"
                     android:orientation="vertical">
 
-                    <include
-                        layout="@layout/default_notification_badge"
+                    <FrameLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_margin="@dimen/notification_default_margin"
+                        android:layout_margin="@dimen/notification_default_margin">
 
-                        />
+                        <com.philips.platform.uid.view.widget.Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/uid_notificationbadge_default_margin"
+                            android:layout_marginTop="@dimen/uid_notificationbadge_default_margin"
+                            android:gravity="center|center_horizontal"
+                            android:stateListAnimator="@null"
+                            android:text="@string/e_mails" />
 
+                        <com.philips.platform.uid.view.widget.NotificationBadge
+                            android:id="@+id/uid_text_default"
+                            style="@style/NotificationBadge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{fragment.badgeCount}"/>
+                    </FrameLayout>
 
                     <com.philips.platform.uid.view.widget.Label
                         style="@style/ButtonsCategoryStyle"
                         android:layout_marginBottom="@dimen/notifaction_badge_margin_top_bottom"
                         android:text="@string/small_size" />
 
-                    <include
-                        layout="@layout/small_notification_badge"
+                    <FrameLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_margin="@dimen/notification_small_margin" />
+                        android:layout_margin="@dimen/notification_small_margin">
+
+                        <com.philips.platform.uid.view.widget.ImageButton
+                            android:id="@+id/quiet_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:paddingEnd="@dimen/uid_notificationbadge_small_margin"
+                            android:paddingTop="@dimen/uid_notificationbadge_small_margin"
+                            android:stateListAnimator="@null"
+                            app:uidImageButtonColorList="@color/uid_quiet_button_icon_selector"
+                            app:uidImageButtonDrawableColorList="@color/uid_quiet_button_icon_selector" />
+
+                        <com.philips.platform.uid.view.widget.NotificationBadge
+                            android:id="@+id/uid_text_small"
+                            style="@style/NotificationBadge.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{fragment.badgeCount}"/>
+                    </FrameLayout>
                 </LinearLayout>
-
             </LinearLayout>
-
-
         </ScrollView>
 
         <LinearLayout
@@ -105,11 +128,8 @@
                 android:layout_marginTop="@dimen/notifaction_badge_edit_text_margin_top_bottom"
                 android:freezesText="true"
                 android:hint="@string/hint_enter_number"
-                android:text="1"
                 android:inputType="number"
                 android:maxLines="1" />
-
-
         </LinearLayout>
     </RelativeLayout>
 
