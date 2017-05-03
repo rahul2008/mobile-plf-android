@@ -44,7 +44,6 @@ node ('android') {
                     echo "BranchName changed to ${BranchName}"
                 }
         		build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'uit'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
-                currentBuild.result = 'SUCCESS'
         	}            
         }
 
