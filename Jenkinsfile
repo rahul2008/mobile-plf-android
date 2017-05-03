@@ -65,7 +65,6 @@ node ('android&&keystore') {
                     echo "BranchName changed to ${BranchName}"
                 }
         		build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'afw'],[$class: 'StringParameterValue', name: 'libraryName', value: 'uAppFwLib']], wait: false
-                currentBuild.result = 'SUCCESS'
         	}            
         }
 
