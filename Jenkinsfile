@@ -10,7 +10,7 @@ properties([
 
 def MailRecipient = 'DL_CDP2_Callisto@philips.com,DL_App_chassis@philips.com '
 
-node ('android&&device&&keystore') {
+node ('android&&device') {
 	timestamps {
 		stage ('Checkout') {
             echo "branch to checkout ${BranchName}"
