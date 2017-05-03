@@ -99,7 +99,6 @@ public class SHNAssociationProcedureNearestDeviceTestBreakerTest {
         assertTrue(associationProcedure.getShouldScan());
     }
 
-
     @Test
     public void shouldKeepRestartingTimerAfterAnIterationUntilMaxIterationCountWasReached() {
         for (int i = 0; i < SHNAssociationProcedureNearestDevice.NEAREST_DEVICE_DETERMINATION_MAX_ITERATION_COUNT; ++i) {
@@ -107,7 +106,6 @@ public class SHNAssociationProcedureNearestDeviceTestBreakerTest {
         }
         verify(mockedIterationTimeoutTimer, times(SHNAssociationProcedureNearestDevice.NEAREST_DEVICE_DETERMINATION_MAX_ITERATION_COUNT)).restart();
     }
-
 
     @Test
     public void shouldCallAssociationFailedWhenNoDevicesAreDiscoveredInAllIterations() {
@@ -139,7 +137,6 @@ public class SHNAssociationProcedureNearestDeviceTestBreakerTest {
         verify(mockedSHNAssociationProcedureListener).onAssociationFailed(null, SHNResult.SHNErrorAssociationFailed);
         verify(mockedSHNAssociationProcedureListener, never()).onAssociationSuccess(any(SHNDevice.class));
     }
-
 
     @Test
     public void shouldCallAssociationSucceededWhenDeviceIsImmediatelyDeemedNearestEnoughTimesSuccessively() {

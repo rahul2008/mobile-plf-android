@@ -1,9 +1,9 @@
-package com.philips.pins.shinelib.capabilities;
-
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015,2017.
+ * Copyright (c) Koninklijke Philips N.V.,2017.
  * All rights reserved.
  */
+package com.philips.pins.shinelib.capabilities;
+
 public class AlarmConfig {
     private SHNCapabilityNotifications.NotificationType notificationType;
     private int hours;
