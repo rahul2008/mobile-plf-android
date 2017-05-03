@@ -696,6 +696,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             }
         } else if (countrySource != null) {
             listener.onSuccess(homeCountry, OnGetHomeCountryListener.SOURCE.valueOf(countrySource));
+        } else {
+            listener.onSuccess(homeCountry, null);
         }
     }
 
