@@ -10,12 +10,7 @@ properties([
 
 def MailRecipient = 'DL_CDP2_Callisto@philips.com, DL_App_Framework.com@philips.com'
 
-node_ext = "build_t"
-if (env.triggerBy == "ppc") {
-  node_ext = "build_p"
-}
-
-node ('android && keystore && ' + node_ext) {
+node ('android&&keystore') {
     timestamps {
         stage ('Checkout') {
             checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/rap-android-reference-app']]])
@@ -61,23 +56,14 @@ node ('android && keystore && ' + node_ext) {
             error ("Someone just broke the build")
         }
 
-        try {
-            if (env.triggerBy != "ppc" && !(BranchName =~ "eature")) {
-                stage ('callIntegrationPipeline') {
-                    if (BranchName =~ "/") {
-                        BranchName = BranchName.replaceAll('/','%2F')
-                        echo "BranchName changed to ${BranchName}"
-                    }
-                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'rap'],[$class: 'StringParameterValue', name: 'libraryName', value: '']]
+        if (env.triggerBy != "ppc" && !(BranchName =~ "eature")) {
+            stage ('callIntegrationPipeline') {
+                if (BranchName =~ "/") {
+                    BranchName = BranchName.replaceAll('/','%2F')
+                    echo "BranchName changed to ${BranchName}"
                 }
+                build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'rap'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
             }
-
-            currentBuild.result = 'SUCCESS'
-
-        }
-
-        catch(err) {
-            currentBuild.result = 'UNSTABLE'
         }
 
         stage('informing') {
