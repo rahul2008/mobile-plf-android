@@ -10,12 +10,7 @@ properties([
 
 def MailRecipient = 'DL_CDP2_Callisto@philips.com,DL_App_chassis@philips.com '
 
-node_ext = "build_t"
-if (env.triggerBy == "ppc") {
-  node_ext = "build_p"
-}
-
-node ('Ubuntu &&' + node_ext) {
+node ('android&&device&&keystore') {
 	timestamps {
 		stage ('Checkout') {
             echo "branch to checkout ${BranchName}"
@@ -44,20 +39,15 @@ node ('Ubuntu &&' + node_ext) {
             error ("Someone just broke the build")
         }
 
-        try {   
-            if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
-            	stage ('callIntegrationPipeline') {
-                    if (BranchName =~ "/") {
-                        BranchName = BranchName.replaceAll('/','%2F')
-                        echo "BranchName changed to ${BranchName}"
-                    }
-            		build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'prg'],[$class: 'StringParameterValue', name: 'libraryName', value: '']]
-                    currentBuild.result = 'SUCCESS'
-            	}            
-            }            
-		} catch(err) {
-            currentBuild.result = 'UNSTABLE'
-        }
+        if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
+        	stage ('callIntegrationPipeline') {
+                if (BranchName =~ "/") {
+                    BranchName = BranchName.replaceAll('/','%2F')
+                    echo "BranchName changed to ${BranchName}"
+                }
+        		build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'prg'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
+        	}            
+        }            
 
         stage('informing') {
         	step([$class: 'StashNotifier'])
