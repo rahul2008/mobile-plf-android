@@ -87,22 +87,27 @@ public class MatchByCountryOrLanguage {
                 this.micrositeId = jsonObject.optString("micrositeId");
                 urls = new HashMap<>();
                 final JSONObject urlJSONObject = jsonObject.optJSONObject("urls");
-                final Iterator<String> iter = urlJSONObject.keys();
-                while (iter.hasNext()) {
-                    final String key = iter.next();
-                    final String value = urlJSONObject.getString(key);
-                    this.urls.put(key, value);
+                if(urlJSONObject != null) {
+                    final Iterator<String> iter = urlJSONObject.keys();
+                    while (iter.hasNext()) {
+                        final String key = iter.next();
+                        final String value = urlJSONObject.getString(key);
+                        this.urls.put(key, value);
+                    }
                 }
+
 
                 this.tags = new ArrayList<>();
 
                 final JSONArray tagJSONArray = jsonObject.optJSONArray("tags");
-                for (int tagCount = 0; tagCount < tagJSONArray.length(); tagCount++) {
-                    final MatchByCountryOrLanguage.Config.Tag tag = new MatchByCountryOrLanguage.Config.Tag();
-                    tag.setId(tagJSONArray.optJSONObject(tagCount).optString("id"));
-                    tag.setName(tagJSONArray.optJSONObject(tagCount).optString("name"));
-                    tag.setKey(tagJSONArray.optJSONObject(tagCount).optString("key"));
-                    this.tags.add(tag);
+                if(tagJSONArray != null) {
+                    for (int tagCount = 0; tagCount < tagJSONArray.length(); tagCount++) {
+                        final MatchByCountryOrLanguage.Config.Tag tag = new MatchByCountryOrLanguage.Config.Tag();
+                        tag.setId(tagJSONArray.optJSONObject(tagCount).optString("id"));
+                        tag.setName(tagJSONArray.optJSONObject(tagCount).optString("name"));
+                        tag.setKey(tagJSONArray.optJSONObject(tagCount).optString("key"));
+                        this.tags.add(tag);
+                    }
                 }
                 //setTags(tags);
             } catch (JSONException e) {
