@@ -181,4 +181,5 @@ pitest {
     threads = 8 /* specify number of threads */
     outputFormats = ['XML', 'HTML'] /* specify output format */
     reportDir = "${rootDir.absolutePath}/build/report/${project.name}/pitest/"
+    timestampedReports = false
 }

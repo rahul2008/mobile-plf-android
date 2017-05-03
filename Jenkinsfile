@@ -20,6 +20,10 @@ node('Android') {
             sh "$gradle test lintDebug || true"
         }
 
+        stage('Mutation testing') {
+            sh "$gradle pitestDebug"
+        }
+
         stage("Gather reports") {
             step([$class: 'JUnitResultArchiver', testResults: 'Source/DICommClient/dicommClientLib/build/test-results/debug/*.xml'])
             step([$class: 'LintPublisher', healthy: '0', unHealthy: '20', unstableTotalAll: '20'])
