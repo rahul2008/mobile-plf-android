@@ -6,7 +6,6 @@
 
     <application
         android:name="com.philips.cdp.coppa.registration.RegistrationCoppaApplication"
-        android:allowBackup="true"
         android:icon="@drawable/pr_source"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
