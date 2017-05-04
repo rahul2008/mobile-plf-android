@@ -13,10 +13,12 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -29,6 +31,23 @@ public class BLEScanDialogFragment extends DialogFragment {
     private LeDeviceListAdapter leDeviceListAdapter;
 
     private ProgressBar progressBar;
+
+    private ArrayList<BleReferenceAppliance> storedpplianceList = new ArrayList<>();
+
+    /**
+     * Set saved appliance list
+     *
+     * @param savedApplianceList
+     */
+    public void setSavedApplianceList(Set<Appliance> savedApplianceList) {
+        if (savedApplianceList != null) {
+            for (Appliance appliance : savedApplianceList) {
+                if (appliance instanceof BleReferenceAppliance) {
+                    storedpplianceList.add((BleReferenceAppliance) appliance);
+                }
+            }
+        }
+    }
 
     public interface BLEScanDialogListener {
         void onDeviceSelected(BleReferenceAppliance bleRefAppliance);
@@ -47,7 +66,7 @@ public class BLEScanDialogFragment extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.reference_device_scan_dialog, null);
         builder.setView(view);
-        leDeviceListAdapter = new LeDeviceListAdapter();
+        leDeviceListAdapter = new LeDeviceListAdapter(storedpplianceList);
         ListView deviceListView = (ListView) view.findViewById(R.id.device_listview);
         progressBar = (ProgressBar) view.findViewById(R.id.scanning_progress_bar);
         deviceListView.setAdapter(leDeviceListAdapter);
@@ -73,9 +92,9 @@ public class BLEScanDialogFragment extends DialogFragment {
         private ArrayList<BleReferenceAppliance> mLeDevices;
         private LayoutInflater mInflator;
 
-        public LeDeviceListAdapter() {
+        public LeDeviceListAdapter(ArrayList<BleReferenceAppliance> bleReferenceApplianceList) {
             super();
-            mLeDevices = new ArrayList<BleReferenceAppliance>();
+            mLeDevices = bleReferenceApplianceList;
             mInflator = getActivity().getLayoutInflater();
         }
 
@@ -152,8 +171,7 @@ public class BLEScanDialogFragment extends DialogFragment {
         }
     }
 
-    public int getDeviceCount()
-    {
-      return   leDeviceListAdapter.getCount();
+    public int getDeviceCount() {
+        return leDeviceListAdapter.getCount();
     }
 }
