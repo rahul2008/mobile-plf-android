@@ -184,12 +184,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                         }
                     });
                     commCentral.startDiscovery();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-
-                        }
-                    }, 30000);
+                    handler.postDelayed(stopDiscoveryRunnable,30000);
                     updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Disconnected));
                 } catch (MissingPermissionException e) {
                     Log.e(TAG, "Permission missing");
