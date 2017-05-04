@@ -104,17 +104,19 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
 
     private void setSerialNumberTextView(final ProductMetadataResponseData productMetadataResponseData) {
         if (productMetadataResponseData != null) {
-            final MetadataSerNumbSampleContent serialNumberSampleContent = productMetadataResponseData.getSerialNumberSampleContent();
+            final MetadataSerNumbSampleContent serialNumberSampleContent =
+                    productMetadataResponseData.getSerialNumberSampleContent();
+
             try {
                 final String snExample = serialNumberSampleContent.getSnExample();
                 final String snFormat = serialNumberSampleContent.getSnFormat();
                 String stringSplit = ":";
                 String emptyString = " ";
-                final String serialNumberExampleData = snExample.substring(snExample.indexOf(stringSplit), snExample.length());
-                final int exampleLength = serialNumberExampleData.length() - 1;
-                String serialErrorText = getString(R.string.PPR_serial_number_consists).concat(emptyString) + exampleLength + emptyString
-                        + getString(R.string.PPR_number_starting).concat(emptyString)
-                        + serialNumberExampleData.charAt(1) + emptyString + getString(R.string.PPR_eg) + serialNumberExampleData;
+                String serialNumberExampleData = snExample.substring(snExample.indexOf(stringSplit)+1, snExample.length());
+                serialNumberExampleData = serialNumberExampleData.replace(emptyString,"");
+                String serialErrorText = getString(R.string.PPR_serial_number_consists).concat(emptyString) +
+                        serialNumberExampleData.length() + emptyString + getString(R.string.PPR_number_starting).concat(emptyString)
+                        + serialNumberExampleData.charAt(0) + emptyString + getString(R.string.PPR_eg) + serialNumberExampleData;
                 serialNumberTextView.setText(serialErrorText);
                 serialNumberForamtTextView.setText(snFormat);
             } catch (Exception exception) {
