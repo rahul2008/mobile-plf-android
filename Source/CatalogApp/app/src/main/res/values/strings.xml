@@ -213,5 +213,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="page_title_accent">Accent</string>
 
+    <string name="icon_font">&#xf1ec;</string>
+
 
 </resources>
