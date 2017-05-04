@@ -985,7 +985,9 @@ public class Jump {
         ObjectMapper mapper = new ObjectMapper();
         Map<String,Object> map = null;
         try {
-            map = mapper.readValue(fetchedValue, Map.class);
+            if(null!=fetchedValue) {
+                map = mapper.readValue(fetchedValue, Map.class);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

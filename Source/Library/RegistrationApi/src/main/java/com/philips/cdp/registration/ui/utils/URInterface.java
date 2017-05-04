@@ -28,8 +28,6 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
-import java.io.Serializable;
-
 public class URInterface implements UappInterface {
 
     private static RegistrationComponent component;
@@ -151,7 +149,6 @@ public class URInterface implements UappInterface {
 
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        Jump.init(uappSettings.getContext(), uappDependencies.getAppInfra().getSecureStorage());
         component = initDaggerComponents(uappDependencies, uappSettings);
         Jump.init(uappSettings.getContext(), uappDependencies.getAppInfra().getSecureStorage());
         RegistrationHelper.getInstance().setUrSettings(uappSettings);
