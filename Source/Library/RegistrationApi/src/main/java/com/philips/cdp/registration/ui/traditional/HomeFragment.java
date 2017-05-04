@@ -461,22 +461,17 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
          * Library does not include resource constants after ADT 14 Link
          * :http://tools.android.com/tips/non-constant-fields
          */
-
+        if (!UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
+            mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
+            return;
+        }
         if(mRegError.isShown())mRegError.hideError();
         if (v.getId() == R.id.btn_reg_create_account) {
             RLog.d(RLog.ONCLICK, "HomeFragment : Create Account");
-            if (!UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-                mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
-                return;
-            }
             trackMultipleActionsRegistration();
             launchCreateAccountFragment();
         } else if (v.getId() == R.id.btn_reg_my_philips) {
             RLog.d(RLog.ONCLICK, "HomeFragment : My Philips");
-            if (!UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-                mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
-                return;
-            }
             trackMultipleActionsLogin(AppTagingConstants.MY_PHILIPS);
             launchSignInFragment();
         } else if (v.getId() == R.id.tv_country_displat) {
@@ -485,6 +480,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
                 @Override
                 public void onSelectCountry(String name, String code) {
+
                     mCountryDisplayy.setText(name);
                     RLog.i(RLog.ONCLICK, "HomeFragment :Country Name: " + name + " - Code: ");
                     changeCountry(code.trim().toUpperCase());
