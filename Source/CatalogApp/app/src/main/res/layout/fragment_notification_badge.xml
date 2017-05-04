@@ -129,7 +129,8 @@
                 android:freezesText="true"
                 android:hint="@string/hint_enter_number"
                 android:inputType="number"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:maxLength="10"/>
         </LinearLayout>
     </RelativeLayout>
 

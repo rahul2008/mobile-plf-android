@@ -10,6 +10,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableField;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -34,8 +35,6 @@ public class NotificationBadgeFragment extends BaseFragment implements TextWatch
         notificationBadgeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_notification_badge, container, false);
         notificationBadgeBinding.setFragment(this);
         notificationBadgeBinding.quietEmail.setVectorResource(R.drawable.ic_email_icon);
-        notificationBadgeBinding.uidTextDefault.setVisibility(View.VISIBLE);
-        notificationBadgeBinding.uidTextSmall.setVisibility(View.VISIBLE);
         notificationBadgeBinding.editInputNumber.addTextChangedListener(this);
         return notificationBadgeBinding.getRoot();
     }
@@ -45,7 +44,11 @@ public class NotificationBadgeFragment extends BaseFragment implements TextWatch
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null) {
             String savedBadgeCount = savedInstanceState.getString(BADGE_COUNT);
-            badgeCount.set(savedBadgeCount);
+            if (!savedBadgeCount.isEmpty()) {
+                notificationBadgeBinding.uidTextDefault.setVisibility(View.VISIBLE);
+                notificationBadgeBinding.uidTextSmall.setVisibility(View.VISIBLE);
+                badgeCount.set(savedBadgeCount);
+            }
         } else {
             badgeCount.set(badgeCount.get());
         }
@@ -54,7 +57,7 @@ public class NotificationBadgeFragment extends BaseFragment implements TextWatch
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(BADGE_COUNT, notificationBadgeBinding.uidTextDefault.getText().toString());
+        outState.putString(BADGE_COUNT, badgeCount.get());
     }
 
     @Override
@@ -75,9 +78,20 @@ public class NotificationBadgeFragment extends BaseFragment implements TextWatch
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        badgeCount.set(notificationBadgeBinding.editInputNumber.getText().toString());
+        String value = notificationBadgeBinding.editInputNumber.getText().toString();
+        badgeCount.set(getBadgeCount(value));
         if (badgeCount.get().length() > 4) {
             badgeCount.set("9999+");
+        }
+    }
+
+    @NonNull
+    private String getBadgeCount(String s) {
+        try {
+            Integer badgeValue = Integer.valueOf(s);
+            return badgeValue == 0 ? "" : "" + badgeValue;
+        } catch (NumberFormatException nfe) {
+            return "";
         }
     }
 
