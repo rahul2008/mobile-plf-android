@@ -1,22 +1,16 @@
 #!/usr/bin/env groovy																											
 
 BranchName = env.BRANCH_NAME
+JENKINS_ENV = env.JENKINS_ENV
 
 properties([
     [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy']]],
-    [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '50']]
+    [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']]
 ])
-
 
 def MailRecipient = 'DL_CDP2_Callisto@philips.com,DL_App_chassis@philips.com'
 
-node_ext = "androidppc"
-if (env.triggerBy == "ppc") {
-  node_ext = "build_p"
-}
-
-
-node ('android_pipeline &&' + node_ext) {
+node ('android&&device') {
 	timestamps {
 		stage ('Checkout') {
            checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '4edede71-63a0-455e-a9dd-d250f8955958', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/ail-android-appinfra']]])
@@ -25,19 +19,14 @@ node ('android_pipeline &&' + node_ext) {
         try {
 			if (BranchName =~ /master|develop|release.*/) {
 			     stage ('build') {
-				    sh """#!/bin/bash -l
-				        chmod -R 775 .
-				        cd ./Source/Library
-				        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug
-				        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} lint cC assembleRelease zipDocuments artifactoryPublish
-				    """
-                    // sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug'
-                    // sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} lint'
-                    // sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} cC'
-                    // sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease'
-                    // sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} zipDocuments'
-                    // sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} artifactoryPublish'
-                    // sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease zipDocuments artifactoryPublish'
+                    sh '''#!/bin/bash -l
+                        chmod -R 775 .
+                        cd ./Source/Library
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} lint cC assembleRelease zipDocuments artifactoryPublish
+                    '''
+				    sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} lint assembleRelease zipDocuments artifactoryPublish'
+                    
 			     }	
 			}
             else
@@ -74,23 +63,16 @@ node ('android_pipeline &&' + node_ext) {
             error ("Someone just broke the build")
         }
 
-        try {
-            if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
-                stage ('callIntegrationPipeline') {
-                    if (BranchName =~ "/") {
-                        BranchName = BranchName.replaceAll('/','%2F')
-                        echo "BranchName changed to ${BranchName}"
-                    }
-                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'ail'],[$class: 'StringParameterValue', name: 'libraryName', value: '']]
-                    currentBuild.result = 'SUCCESS'
-                }            
-            }
+        if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
+            stage ('callIntegrationPipeline') {
+                if (BranchName =~ "/") {
+                    BranchName = BranchName.replaceAll('/','%2F')
+                    echo "BranchName changed to ${BranchName}"
+                }
+                build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'ail'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
+            }            
         }
-
-        catch(err) {
-            currentBuild.result = 'UNSTABLE'
-        }
-
+        
         stage('informing') {
         	step([$class: 'StashNotifier'])
         	step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
