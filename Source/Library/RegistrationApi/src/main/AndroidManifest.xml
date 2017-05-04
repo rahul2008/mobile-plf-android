@@ -19,7 +19,7 @@
     <uses-permission android:name="com.tencent.mm.permission.MM_MESSAGE"/>
 
 
-    <application android:allowBackup="true">
+    <application>
 
         <!-- Regitration Api start -->
         <activity
