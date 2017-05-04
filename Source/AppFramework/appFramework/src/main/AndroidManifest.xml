@@ -21,7 +21,8 @@
         android:resizeableActivity="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.Philips.DarkBlue.WhiteBackground"
-        tools:replace="android:theme,android:label">
+        android:allowBackup="false"
+        tools:replace="android:theme,android:label,android:allowBackup">
 
         <activity
             android:name="com.philips.platform.baseapp.screens.introscreen.LaunchActivity"
