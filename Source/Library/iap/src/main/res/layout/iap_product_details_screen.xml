@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:paddingEnd="@dimen/border16_margin_left_right"
             android:paddingStart="@dimen/border16_margin_left_right"
-            android:paddingTop="@dimen/border24_margin_bottom">
+            android:paddingTop="@dimen/border24_margin">
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/product_description"
@@ -37,7 +37,7 @@
                 android:layout_below="@id/product_description"
                 android:includeFontPadding="false"
                 android:paddingTop="@dimen/border8_margin"
-                app:uidLabelTextSize="16sp" />
+                app:uidLabelTextSize="@dimen/iap_product_ctn_16" />
 
             <LinearLayout
                 android:id="@+id/price_container"
@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:includeFontPadding="false"
                     android:textColor="?attr/uidTextTertiary"
-                    app:uidLabelTextSize="@dimen/iap_product_ctn" />
+                    app:uidLabelTextSize="@dimen/iap_product_ctn_16" />
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/individual_price"
@@ -75,7 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/iap_product_detail_image_height"
                 android:layout_below="@+id/price_container"
-                android:layout_marginTop="@dimen/border24_margin_bottom" />
+                android:layout_marginTop="@dimen/border24_margin" />
 
             <com.philips.cdp.uikit.customviews.CircleIndicator
                 android:id="@+id/indicator"
@@ -84,8 +84,8 @@
                 android:layout_below="@id/pager"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
-                android:paddingBottom="@dimen/border24_margin_bottom"
-                android:paddingTop="@dimen/border24_margin_bottom" />
+                android:paddingBottom="@dimen/border24_margin"
+                android:paddingTop="@dimen/border24_margin" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/product_overview"

@@ -1,4 +1,4 @@
-package com.philips.cdp.di.iapdemo;
+package com.philips.cdp.di.iap;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

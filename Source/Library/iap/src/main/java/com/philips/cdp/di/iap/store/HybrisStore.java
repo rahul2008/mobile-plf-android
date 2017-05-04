@@ -94,6 +94,7 @@ public class HybrisStore extends AbstractStore {
         mStoreConfig = getStoreConfig(context, iapSettings);
     }
 
+
     //User
     @Override
     public IAPUser getUser() {

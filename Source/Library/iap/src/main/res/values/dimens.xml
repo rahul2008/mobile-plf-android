@@ -65,7 +65,7 @@
     <dimen name="iap_product_detail_left_padding">20dp</dimen>
     <dimen name="iap_product_detail_right_padding">20dp</dimen>
     <dimen name="iap_product_description">20sp</dimen>
-    <dimen name="iap_product_ctn">20sp</dimen>
+    <dimen name="iap_product_ctn_16">16sp</dimen>
     <dimen name="iap_product_original_price">15sp</dimen>
     <dimen name="iap_product_overview">16sp</dimen>
     <dimen name="iap_shopping_cart_image_margin_top">20dp</dimen>
@@ -108,7 +108,7 @@
     <dimen name="border16_margin_left_right">16dp</dimen>
     <dimen name="border12_margin">12dp</dimen>
     <dimen name="border4_margin">4dp</dimen>
-    <dimen name="border24_margin_bottom">24dp</dimen>
+    <dimen name="border24_margin">24dp</dimen>
     <dimen name="border8_margin">8dp</dimen>
 
 
