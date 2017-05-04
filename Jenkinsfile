@@ -32,24 +32,24 @@ node ('android&&device') {
             else
             {
                 stage ('build') {
-                    sh """#!/bin/bash -l
+                    sh '''#!/bin/bash -l
                         chmod -R 775 .
                         cd ./Source/Library && ./gradlew --refresh-dependencies clean assembleDebug assembleRelease
-                    """
+                    '''
                 }
             }
 			
             stage ('save dependencies list') {
-                sh """#!/bin/bash -l
+                sh '''#!/bin/bash -l
                     cd ./Source/Library
                     ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
-                """
+                '''
             }
         stage('Unit test') {
-            	sh """#!/bin/bash -l
+            	sh '''#!/bin/bash -l
             	    cd ./Source/Library
             	    ./gradlew createDebugCoverageReport
-            	"""
+            	'''
               // step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/*/build/test-results/*/*.xml'])
         }
             
