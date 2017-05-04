@@ -45,9 +45,6 @@ public class AppFrameworkApplication extends Application {
         super.onCreate();
         appInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = appInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
-        loggingInterface.enableConsoleLog(true);
-        loggingInterface.enableFileLog(true);
-      //  setLocale();
     }
 
     public LoggingInterface getLoggingInterface() {
