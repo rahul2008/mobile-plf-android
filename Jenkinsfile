@@ -33,7 +33,9 @@ node ('android&&device') {
                     sh '''#!/bin/bash -l
                         chmod -R 775 .
                         // cd ./Source/Library && ./gradlew --refresh-dependencies clean assembleDebug assembleRelease
-                        cd ./Source/Library && ./gradlew --refresh-dependencies lint cC clean assembleDebug assembleRelease
+                        cd ./Source/Library 
+                        ./gradlew --refresh-dependencies clean assembleDebug
+                        ./gradlew --refresh-dependencies lint cC clean assembleRelease
                     '''
                 }
             }
