@@ -32,7 +32,8 @@ node ('android&&device') {
                 stage ('build') {
                     sh '''#!/bin/bash -l
                         chmod -R 775 .
-                        cd ./Source/Library && ./gradlew --refresh-dependencies clean assembleDebug assembleRelease
+                        // cd ./Source/Library && ./gradlew --refresh-dependencies clean assembleDebug assembleRelease
+                        cd ./Source/Library && ./gradlew --refresh-dependencies lint cC clean assembleDebug assembleRelease
                     '''
                 }
             }
@@ -48,7 +49,7 @@ node ('android&&device') {
             	    cd ./Source/Library
             	    ./gradlew createDebugCoverageReport
             	'''
-              // step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/*/build/test-results/*/*.xml'])
+              step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/*/build/test-results/*/*.xml'])
         }
             
             archiveArtifacts '**/dependencies.lock'
