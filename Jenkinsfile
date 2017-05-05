@@ -34,8 +34,7 @@ node ('android&&device') {
                         chmod -R 775 .
                         # cd ./Source/Library && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug assembleRelease
                         cd ./Source/Library 
-                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint cC
-                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug assembleRelease
                     '''
                 }
             }
@@ -52,9 +51,7 @@ node ('android&&device') {
             	    cd ./Source/Library
             	    ./gradlew -PenvCode=${JENKINS_ENV} createDebugCoverageReport
             	'''
-              publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'Source/Library/AppInfra/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'Test Report'])
-
-              // step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/*/build/test-results/*/*.xml'])              
+              publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'Source/Library/AppInfra/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'Test Report'])             
         }
             
             archiveArtifacts '**/dependencies.lock'
