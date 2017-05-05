@@ -48,7 +48,12 @@ node ('android&&device') {
             }
 
         } //end try
-        
+
+        catch(err) {
+            currentBuild.result = 'FAILURE'
+            error ("Someone just broke the build")
+        }
+
         stage('Unit test') {
             	sh '''#!/bin/bash -l
             	    cd ./Source/Library
@@ -62,10 +67,7 @@ node ('android&&device') {
             
 		
 		
-		catch(err) {
-            currentBuild.result = 'FAILURE'
-            error ("Someone just broke the build")
-        }
+
 
         if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
             stage ('callIntegrationPipeline') {
