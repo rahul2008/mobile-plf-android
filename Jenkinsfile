@@ -22,8 +22,8 @@ node ('android&&device') {
                     sh '''#!/bin/bash -l
                         chmod -R 775 .
                         cd ./Source/Library
-                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug
-                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} lint cC assembleRelease zipDocuments artifactoryPublish
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint cC
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease zipDocuments artifactoryPublish
                     '''                    
 			     }	
 			}
@@ -46,6 +46,9 @@ node ('android&&device') {
                     ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
                 '''
             }
+
+        } //end try
+        
         stage('Unit test') {
             	sh '''#!/bin/bash -l
             	    cd ./Source/Library
@@ -57,7 +60,7 @@ node ('android&&device') {
             archiveArtifacts '**/dependencies.lock'
             currentBuild.result = 'SUCCESS'
             
-		} //end try
+		
 		
 		catch(err) {
             currentBuild.result = 'FAILURE'
