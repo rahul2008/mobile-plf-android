@@ -32,10 +32,10 @@ node ('android&&device') {
                 stage ('build') {
                     sh '''#!/bin/bash -l
                         chmod -R 775 .
-                        # cd ./Source/Library && ./gradlew --refresh-dependencies clean assembleDebug assembleRelease
+                        # cd ./Source/Library && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug assembleRelease
                         cd ./Source/Library 
-                        ./gradlew --refresh-dependencies clean assembleDebug
-                        ./gradlew --refresh-dependencies lint cC clean assembleRelease
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} lint cC clean assembleRelease
                     '''
                 }
             }
@@ -49,7 +49,7 @@ node ('android&&device') {
         stage('Unit test') {
             	sh '''#!/bin/bash -l
             	    cd ./Source/Library
-            	    ./gradlew createDebugCoverageReport
+            	    ./gradlew -PenvCode=${JENKINS_ENV} createDebugCoverageReport
             	'''
               step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/*/build/test-results/*/*.xml'])
         }
