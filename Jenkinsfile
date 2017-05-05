@@ -47,28 +47,26 @@ node ('android&&device') {
                 '''
             }
 
-        } //end try
-
-        catch(err) {
-            currentBuild.result = 'FAILURE'
-            error ("Someone just broke the build")
-        }
-
         stage('Unit test') {
             	sh '''#!/bin/bash -l
             	    cd ./Source/Library
             	    ./gradlew -PenvCode=${JENKINS_ENV} createDebugCoverageReport
             	'''
-              step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/*/build/test-results/*/*.xml'])
+              publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'Source/Library/AppInfra/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'Test Report'])
+
+              step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/*/build/test-results/*/*.xml'])              
         }
             
             archiveArtifacts '**/dependencies.lock'
             currentBuild.result = 'SUCCESS'
             
-		
-		
+        } //end try
 
-
+        catch(err) {
+            currentBuild.result = 'FAILURE'    
+            error ("Someone just broke the build", err.toString())
+        }
+		
         if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
             stage ('callIntegrationPipeline') {
                 if (BranchName =~ "/") {
