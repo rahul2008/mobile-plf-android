@@ -236,7 +236,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
             @Override
             public void run() {
                 new NetworkAlertView().showAlertBox(
-                        getActivity(),
+                        DigitalCareBaseFragment.this,
                         null,
                         getActivity().getResources().getString(
                                 R.string.no_internet),
@@ -287,7 +287,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
             @Override
             public void run() {
                 new NetworkAlertView().showAlertBox(
-                        getActivity(),
+                        DigitalCareBaseFragment.this,
                         null,
                         message,
                         getActivity().getResources().getString(
