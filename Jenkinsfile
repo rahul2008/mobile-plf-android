@@ -34,7 +34,7 @@ node ('android&&device') {
                         chmod -R 775 .
                         # cd ./Source/Library && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug assembleRelease
                         cd ./Source/Library 
-                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint cC
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease
                     '''
                 }
