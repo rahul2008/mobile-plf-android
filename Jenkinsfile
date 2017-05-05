@@ -21,8 +21,8 @@ node ('android&&keystore') {
                 sh """#!/bin/bash -l
                     chmod -R 775 .
                     cd ./Source/Library
-                    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug
-                    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} lint assembleRelease zipDocuments artifactoryPublish
+                    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
+                    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease zipDocuments artifactoryPublish
                 """
 			}
 			}
