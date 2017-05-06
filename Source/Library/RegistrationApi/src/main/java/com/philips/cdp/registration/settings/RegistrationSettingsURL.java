@@ -281,7 +281,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                     Jump.reinitialize(mContext, jumpConfig);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    if (e instanceof RuntimeException) {
+                    if (e instanceof RuntimeException && (!(e instanceof IllegalStateException))) {
                         mContext.deleteFile("jr_capture_flow");
                         Jump.reinitialize(mContext, jumpConfig);
                     }
