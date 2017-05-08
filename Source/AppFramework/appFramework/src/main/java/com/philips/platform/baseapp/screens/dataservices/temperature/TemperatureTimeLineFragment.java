@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -131,7 +133,10 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         }
 
         if (!mSharedPreferences.getBoolean("isSynced", false)) {
+            DSLog.i(DSLog.LOG,"Shared Pref returned false, hence showing the progress bar");
             showProgressDialog();
+        }else {
+            DSLog.i(DSLog.LOG,"Shared Pref returned true, hence not showing the progress bar");
         }
     }
 
@@ -169,7 +174,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         mDataServicesManager.unRegisterSynchronisationCosmpleteListener();
         //cancelPendingIntent();
         //mDataServicesManager.stopCore();
-        dismissProgressDialog();
+        dismissProgressDialog(false);
     }
 
 
@@ -264,7 +269,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
                         Toast.makeText(mContext, "UI update Failed", Toast.LENGTH_SHORT).show();
                 }
                 if (mSharedPreferences.getBoolean("isSynced", false)) {
-                    dismissProgressDialog();
+                    dismissProgressDialog(false);
                 }
                 // dismissProgressDialog();
             }
@@ -272,15 +277,21 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     }
 
     private void showProgressDialog() {
+        DSLog.i(DSLog.LOG,"Progress bar showed");
         if (mProgressBar != null && !mProgressBar.isShowing()) {
             mProgressBar.setMessage("Loading Please wait!!!");
             mProgressBar.show();
+            mHandler.sendMessageDelayed(new Message(), 60000);
         }
     }
 
-    private void dismissProgressDialog() {
+    private void dismissProgressDialog(boolean isLoadingStill) {
+        DSLog.i(DSLog.LOG, "Progress bar dismissed");
         if (mProgressBar != null && mProgressBar.isShowing()) {
             mProgressBar.dismiss();
+            if (isLoadingStill)
+                DSLog.i(DSLog.LOG, "Progress bar dismissed due to more time taken");
+                showToastOnUiThread("Something went wrong! Please resync to view the moments!");
         }
     }
 
@@ -342,7 +353,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
                 }
             });
         }
-        dismissProgressDialog();
+        dismissProgressDialog(false);
     }
 
     @Override
@@ -355,7 +366,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 if (mSharedPreferences.getBoolean("isSynced", false)) {
-                    dismissProgressDialog();
+                    dismissProgressDialog(false);
                 }
 
             }
@@ -389,13 +400,13 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
                 mAdapter.notifyDataSetChanged();
 
                 if (mDataServicesManager.getSyncTypes() != null && mDataServicesManager.getSyncTypes().size() <= 0) {
-                    dismissProgressDialog();
+                    dismissProgressDialog(false);
                     Toast.makeText(getContext(), "No Sync Types Configured", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 if (mSharedPreferences.getBoolean("isSynced", false)) {
-                    dismissProgressDialog();
+                    dismissProgressDialog(false);
                 }
             }
         });
@@ -432,4 +443,15 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
             mDataServicesManager.synchronize();
         }
     }
+
+    private final Handler mHandler = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg)
+        {
+            super.handleMessage(msg);
+            DSLog.i(DSLog.LOG,"dismissing since took more than one minute");
+            dismissProgressDialog(true);
+        }
+    };
 }
