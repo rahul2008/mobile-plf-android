@@ -289,9 +289,10 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         DSLog.i(DSLog.LOG, "Progress bar dismissed");
         if (mProgressBar != null && mProgressBar.isShowing()) {
             mProgressBar.dismiss();
-            if (isLoadingStill)
+            if (isLoadingStill) {
                 DSLog.i(DSLog.LOG, "Progress bar dismissed due to more time taken");
                 showToastOnUiThread("Something went wrong! Please resync to view the moments!");
+            }
         }
     }
 
