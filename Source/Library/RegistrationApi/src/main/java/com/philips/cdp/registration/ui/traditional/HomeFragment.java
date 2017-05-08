@@ -351,6 +351,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             public void onClick(View v) {
                 if (!UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                     mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
+                    scrollViewAutomatically(mRegError, mSvRootLayout);
                     return;
                 }
                 RLog.d(RLog.ONCLICK, "HomeFragment : " + providerName);
@@ -463,6 +464,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
          */
         if (!UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
             mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
+            scrollViewAutomatically(mRegError, mSvRootLayout);
             return;
         }
         if(mRegError.isShown())mRegError.hideError();
