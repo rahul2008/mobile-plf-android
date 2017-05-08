@@ -47,18 +47,11 @@ node ('android&&keystore') {
             	'''
             }
 
-	        //stage('Unit test') {
-	        //    	sh '''#!/bin/bash -l
-	        //    	    cd ./Source/Library
-	        //    	    ./gradlew clean copyResDirectoryToClasses :uAppFwLib:testDebugUnitTest
-	        //    	'''
-	        //}
-
 	        stage ('reporting') {
 	        	androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
-	        	publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'Source/Library/uAppFwLib/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'androidTests'])  
-	        	publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'Source/Library/uAppFwLib/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'coverage_debug']) 
-	        	publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'Source/Library/uAppFwLib/build/reports/tests/debug', reportFiles: 'index.html', reportName: 'tests_debug']) 
+	        	publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/uAppFwLib/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'androidTests'])  
+	        	publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/uAppFwLib/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'coverage_debug']) 
+	        	publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/uAppFwLib/build/reports/tests/debug', reportFiles: 'index.html', reportName: 'tests_debug']) 
 	            archiveArtifacts '**/dependencies.lock'
 	        }
 
