@@ -35,7 +35,7 @@ node ('android&&keystore') {
         	sh '''#!/bin/bash -l
 				    chmod -R 775 .
 				    cd ./Source/Library
-				    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint cC
+				    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint cC assembleRelease
 				'''
 			}
 
@@ -46,12 +46,13 @@ node ('android&&keystore') {
             	    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
             	'''
             }
-	        stage('Unit test') {
-	            	sh '''#!/bin/bash -l
-	            	    cd ./Source/Library
-	            	    ./gradlew clean copyResDirectoryToClasses :uAppFwLib:testDebugUnitTest
-	            	'''
-	        }
+
+	        //stage('Unit test') {
+	        //    	sh '''#!/bin/bash -l
+	        //    	    cd ./Source/Library
+	        //    	    ./gradlew clean copyResDirectoryToClasses :uAppFwLib:testDebugUnitTest
+	        //    	'''
+	        //}
 
 	        stage ('reporting') {
 	        	androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
