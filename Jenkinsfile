@@ -31,12 +31,13 @@ node ('android&&keystore') {
 			{
 			stage ('build') {
 
-        	sh """#!/bin/bash -l
+        	sh '''#!/bin/bash -l
 				    chmod -R 775 .
 				    cd ./Source/Library
-				    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint cC assembleRelease
-				"""
+				    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint assembleRelease
+				'''
 			}
+
 			}
 			stage ('save dependencies list') {
             	sh """#!/bin/bash -l
@@ -53,15 +54,15 @@ node ('android&&keystore') {
 
 	        stage ('reporting') {
 	            // step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/*/build/test-results/*/*.xml'])
-	        	androidLint canComputeNew: false, defaultEncoding: '', healthy: '', pattern: '', unHealthy: '', unstableTotalHigh: '0'
+	        	androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
 	        	publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'Source\\Library\\uAppFwLib\\build\\reports\\androidTests\\connected', reportFiles: 'index.html', reportName: 'androidTests'])  
 	        	publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'Source\\Library\\uAppFwLib\\build\\reports\\coverage\\debug', reportFiles: 'index.html', reportName: 'coverage_debug']) 
 	        	publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'Source\\Library\\uAppFwLib\\build\\reports\\tests\\debug', reportFiles: 'index.html', reportName: 'tests_debug']) 
 	            archiveArtifacts '**/dependencies.lock'
-	            currentBuild.result = 'SUCCESS'
 	        }
 
         }
+
         catch(err) {
             currentBuild.result = 'FAILURE'
             error ("Someone just broke the build", err.toString())
