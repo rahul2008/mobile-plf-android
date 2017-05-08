@@ -54,7 +54,7 @@ node ('android&&keystore') {
 
         catch(err) {
             currentBuild.result = 'FAILURE'
-            error ("Someone just broke the build")
+            error ("Someone just broke the build", err.toString())
         }
 
         if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
@@ -71,7 +71,7 @@ node ('android&&keystore') {
         	step([$class: 'StashNotifier'])
         	step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
         	// step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/*/build/test-results/*/*.xml'])
-        	androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: 'Source/Library/uAppFwLib/build/outputs', shouldDetectModules: true, unHealthy: ''
+        	androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '**/lint-results-debug*.xml', shouldDetectModules: true, unHealthy: ''
         	publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'Source\\Library\\uAppFwLib\\build\\reports\\androidTests\\connected', reportFiles: 'index.html', reportName: 'androidTests'])  
         	publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'Source\\Library\\uAppFwLib\\build\\reports\\coverage\\debug', reportFiles: 'index.html', reportName: 'coverage_debug']) 
         	publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'Source\\Library\\uAppFwLib\\build\\reports\\tests\\debug', reportFiles: 'index.html', reportName: 'tests_debug']) 
