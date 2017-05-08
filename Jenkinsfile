@@ -55,7 +55,6 @@ node ('android&&device') {
             stage ('reporting') {
                 androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/AppInfra/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'androidTests']) 
-                junit 'Source\\Library\\AppInfra\\build\\outputs\\androidTest-results\\*\\*.xml'
                 archiveArtifacts '**/dependencies.lock'
             }
             
