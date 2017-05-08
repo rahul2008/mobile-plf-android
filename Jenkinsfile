@@ -32,7 +32,6 @@ node ('android&&device') {
                 stage ('build') {
                     sh '''#!/bin/bash -l
                         chmod -R 775 .
-                        # cd ./Source/Library && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug assembleRelease
                         cd ./Source/Library 
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint cC assembleRelease
                     '''
@@ -54,10 +53,10 @@ node ('android&&device') {
             }
                 
             stage ('reporting') {
-                androidLint canComputeNew: false, defaultEncoding: '', healthy: '', pattern: ' **/lint-results*.xml', unHealthy: ''
+                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/AppInfra/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'androidTests']) 
                 archiveArtifacts '**/dependencies.lock'
-                currentBuild.result = 'SUCCESS'
+                // currentBuild.result = 'SUCCESS'
             }
             
         } //end try
