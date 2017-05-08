@@ -21,6 +21,7 @@ import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
@@ -50,20 +51,22 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
         refreshUserHandler = handler;
         this.user = user;
         this.password = password;
-        if(!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+        if(!UserRegistrationInitializer.getInstance().isJumpInitializated() && UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
             UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
-        }else{
-            refreshUpdateUser(handler, user, password);
+            RegistrationHelper.getInstance().initializeUserRegistration(mContext);
             return;
         }
-        if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
+
+        if (!UserRegistrationInitializer.getInstance().isJumpInitializated() && !UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
+            UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
+            return;
         }
 
-    }
+        refreshUpdateUser(handler, user, password);
+     }
 
     private void refreshUpdateUser(final RefreshUserHandler handler, final User user, final String password) {
-
         if (Jump.getSignedInUser() == null) {
             handler.onRefreshUserFailed(0);
             return;
@@ -105,9 +108,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
 
             @Override
             public void onFailure(CaptureAPIError failureParam) {
-
                 if (failureParam.captureApiError.code == 414 && failureParam.captureApiError.error.equalsIgnoreCase("access_token_expired")) {
-                    //refresh login session
 
                     user.refreshLoginSession(new RefreshLoginSessionHandler() {
                         @Override
@@ -124,7 +125,6 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
 
                         @Override
                         public void onRefreshLoginSessionInProgress(String message) {
-
                         }
                     });
                 }
@@ -136,15 +136,16 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
     @Override
     public void onFlowDownloadSuccess() {
         refreshAndUpdateUser(refreshUserHandler,user,password);
-
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
 
     }
 
     @Override
     public void onFlowDownloadFailure() {
-
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
+        if(refreshUserHandler!=null){
+           refreshUserHandler.onRefreshUserFailed(0);
+        }
 
     }
 }
