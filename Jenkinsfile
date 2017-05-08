@@ -71,7 +71,7 @@ node ('android&&keystore') {
         	step([$class: 'StashNotifier'])
         	step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
         	step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/*/build/test-results/*/*.xml'])
-        	androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '/Source/Library/uAppFwLib/build/outputs/', shouldDetectModules: true, unHealthy: ''
+        	androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: 'Source/Library/uAppFwLib/build/outputs', shouldDetectModules: true, unHealthy: ''
 
         }
 
