@@ -141,22 +141,16 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     }
 
     private void deleteUserDataIfNewUserLoggedIn() {
-        if (getLastStoredEmail() == null) {
-            storeLastEmail();
+        if (getLastStoredHdpUuid() == null) {
+            storeHSDPID();
             return;
         }
 
         if (!isSameHsdpId()) {
+            DSLog.i(DSLog.LOG,"Shared Pref returned - CLEARED, deleteUserDataIfNewUserLoggedIn");
             userRegistrationInterface.clearUserData(this);
         }
-        //storeLastEmail();
         storeHSDPID();
-    }
-
-    private boolean isSameEmail() {
-        if (getLastStoredEmail().equalsIgnoreCase(mUser.getEmail()))
-            return true;
-        return false;
     }
 
     private boolean isSameHsdpId() {
@@ -281,7 +275,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         if (mProgressBar != null && !mProgressBar.isShowing()) {
             mProgressBar.setMessage("Loading Please wait!!!");
             mProgressBar.show();
-            mHandler.sendMessageDelayed(new Message(), 60000);
+            mHandler.sendMessageDelayed(new Message(), 60000*2);
         }
     }
 
@@ -294,21 +288,6 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
                 showToastOnUiThread("Something went wrong! Please resync to view the moments!");
             }
         }
-    }
-
-    String getLastStoredEmail() {
-        AppInfraInterface gAppInfra = ((AppFrameworkApplication) getContext().getApplicationContext()).getAppInfra();
-        SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
-        SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
-        String decryptedData = ssInterface.fetchValueForKey("last_email", ssError);
-        return decryptedData;
-    }
-
-    void storeLastEmail() {
-        AppInfraInterface gAppInfra = ((AppFrameworkApplication) getContext().getApplicationContext()).getAppInfra();
-        SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
-        SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
-        ssInterface.storeValueForKey("last_email", mUser.getEmail(), ssError);
     }
 
     String getLastStoredHdpUuid() {

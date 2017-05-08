@@ -65,6 +65,7 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface{
     };
 
     public void clearUserData(DBRequestListener dbRequestListener) {
+        DSLog.i(DSLog.LOG,"Shared Pref returned - CLEARED, clearUserData");
         DataServicesManager manager = DataServicesManager.getInstance();
         manager.deleteAll(dbRequestListener);
         clearPreferences();
@@ -193,6 +194,7 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface{
 //    }
 
     private void clearPreferences() {
+        DSLog.i(DSLog.LOG,"Shared Pref returned - CLEARED, clearPreferences");
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear().apply();
