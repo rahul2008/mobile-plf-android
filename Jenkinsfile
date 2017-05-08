@@ -20,12 +20,12 @@ node ('android&&keystore') {
 		try {
 		if (BranchName =~ /master|develop|release.*/) {
 			stage ('build') {
-                sh """#!/bin/bash -l
+                sh '''#!/bin/bash -l
                     chmod -R 775 .
                     cd ./Source/Library
                     ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
                     ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease zipDocuments artifactoryPublish
-                """
+                '''
 			}
 			}
 			else
@@ -41,16 +41,16 @@ node ('android&&keystore') {
 
 			}
 			stage ('save dependencies list') {
-            	sh """#!/bin/bash -l
+            	sh '''#!/bin/bash -l
             	    cd ./Source/Library
             	    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
-            	"""
+            	'''
             }
 	        stage('Unit test') {
-	            	sh """#!/bin/bash -l
+	            	sh '''#!/bin/bash -l
 	            	    cd ./Source/Library
 	            	    ./gradlew clean copyResDirectoryToClasses :uAppFwLib:testDebugUnitTest
-	            	"""
+	            	'''
 	        }
 
 	        stage ('reporting') {
