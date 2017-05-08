@@ -275,7 +275,8 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         if (mProgressBar != null && !mProgressBar.isShowing()) {
             mProgressBar.setMessage("Loading Please wait!!!");
             mProgressBar.show();
-            mHandler.sendMessageDelayed(new Message(), 60000*2);
+            if (mHandler != null)
+                mHandler.sendMessageDelayed(new Message(), 60000 * 2);
         }
     }
 
@@ -424,7 +425,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         }
     }
 
-    private final Handler mHandler = new Handler()
+    private Handler mHandler = new Handler()
     {
         @Override
         public void handleMessage(Message msg)
@@ -434,4 +435,12 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
             dismissProgressDialog(true);
         }
     };
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mHandler != null)
+            mHandler.removeCallbacksAndMessages(null);
+        mHandler = null;
+    }
 }
