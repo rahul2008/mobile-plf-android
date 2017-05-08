@@ -47,7 +47,6 @@ node ('android&&keystore') {
             	    cd ./Source/Library
             	    ./gradlew clean copyResDirectoryToClasses :uAppFwLib:testDebugUnitTest
             	"""
-              step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/*/build/test-results/*/*.xml'])
         }
             archiveArtifacts '**/dependencies.lock'
             currentBuild.result = 'SUCCESS'
@@ -71,6 +70,9 @@ node ('android&&keystore') {
         stage('informing') {
         	step([$class: 'StashNotifier'])
         	step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
+        	step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/*/build/test-results/*/*.xml'])
+        	androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '/Source/Library/uAppFwLib/build/outputs/', shouldDetectModules: true, unHealthy: ''
+
         }
 
 	} // end timestamps
