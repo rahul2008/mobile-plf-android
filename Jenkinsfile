@@ -50,8 +50,7 @@ node ('android&&device') {
             	sh '''#!/bin/bash -l
             	    cd ./Source/Library
             	    ./gradlew -PenvCode=${JENKINS_ENV} createDebugCoverageReport
-            	'''
-              publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'Source/Library/AppInfra/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'Test Report'])             
+            	'''            
         }
             
             archiveArtifacts '**/dependencies.lock'
@@ -77,6 +76,8 @@ node ('android&&device') {
         stage('informing') {
         	step([$class: 'StashNotifier'])
         	step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
+            androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: 'Source/Library/AppInfra/build/outputs', shouldDetectModules: true, unHealthy: ''
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'Source/Library/AppInfra/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'Test Report']) 
         }
 
 	} // end timestamps
