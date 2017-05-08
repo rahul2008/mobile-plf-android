@@ -77,7 +77,7 @@ node ('android&&device') {
         	step([$class: 'StashNotifier'])
         	step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
             androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: 'Source/Library/AppInfra/build/outputs', shouldDetectModules: true, unHealthy: ''
-            publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'Source/Library/AppInfra/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'Test Report']) 
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'Source/Library/AppInfra/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'androidTests']) 
         }
 
 	} // end timestamps
