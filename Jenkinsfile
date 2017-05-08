@@ -15,6 +15,7 @@ node ('android&&keystore') {
 			checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '4edede71-63a0-455e-a9dd-d250f8955958', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/ufw-android-uappframework']]])
 			step([$class: 'StashNotifier'])
 		}
+		
 		try {
 		if (BranchName =~ /master|develop|release.*/) {
 			stage ('build') {
@@ -29,10 +30,11 @@ node ('android&&keystore') {
 			else
 			{
 			stage ('build') {
-        sh """#!/bin/bash -l
+
+        	sh """#!/bin/bash -l
 				    chmod -R 775 .
 				    cd ./Source/Library
-				    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug assembleRelease
+				    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint cC assembleRelease
 				"""
 			}
 			}
@@ -42,16 +44,24 @@ node ('android&&keystore') {
             	    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
             	"""
             }
-        stage('Unit test') {
-            	sh """#!/bin/bash -l
-            	    cd ./Source/Library
-            	    ./gradlew clean copyResDirectoryToClasses :uAppFwLib:testDebugUnitTest
-            	"""
-        }
-            archiveArtifacts '**/dependencies.lock'
-            currentBuild.result = 'SUCCESS'
-        }
+	        stage('Unit test') {
+	            	sh """#!/bin/bash -l
+	            	    cd ./Source/Library
+	            	    ./gradlew clean copyResDirectoryToClasses :uAppFwLib:testDebugUnitTest
+	            	"""
+	        }
 
+	        stage ('reporting') {
+	            // step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/*/build/test-results/*/*.xml'])
+	        	androidLint canComputeNew: false, defaultEncoding: '', healthy: '', pattern: '', unHealthy: '', unstableTotalHigh: '0'
+	        	publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'Source\\Library\\uAppFwLib\\build\\reports\\androidTests\\connected', reportFiles: 'index.html', reportName: 'androidTests'])  
+	        	publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'Source\\Library\\uAppFwLib\\build\\reports\\coverage\\debug', reportFiles: 'index.html', reportName: 'coverage_debug']) 
+	        	publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'Source\\Library\\uAppFwLib\\build\\reports\\tests\\debug', reportFiles: 'index.html', reportName: 'tests_debug']) 
+	            archiveArtifacts '**/dependencies.lock'
+	            currentBuild.result = 'SUCCESS'
+	        }
+
+        }
         catch(err) {
             currentBuild.result = 'FAILURE'
             error ("Someone just broke the build", err.toString())
@@ -70,12 +80,6 @@ node ('android&&keystore') {
         stage('informing') {
         	step([$class: 'StashNotifier'])
         	step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
-        	// step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/*/build/test-results/*/*.xml'])
-        	androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '**/lint-results-debug*.xml', shouldDetectModules: true, unHealthy: ''
-        	publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'Source\\Library\\uAppFwLib\\build\\reports\\androidTests\\connected', reportFiles: 'index.html', reportName: 'androidTests'])  
-        	publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'Source\\Library\\uAppFwLib\\build\\reports\\coverage\\debug', reportFiles: 'index.html', reportName: 'coverage_debug']) 
-        	publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'Source\\Library\\uAppFwLib\\build\\reports\\tests\\debug', reportFiles: 'index.html', reportName: 'tests_debug']) 
-
         }
 
 	} // end timestamps
