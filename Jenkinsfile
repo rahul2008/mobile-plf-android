@@ -47,6 +47,13 @@ node ('android&&keystore') {
             	'''
             }
 
+            stage('Unit test') {
+                    sh '''#!/bin/bash -l
+                        cd ./Source/Library
+                        ./gradlew -PenvCode=${JENKINS_ENV} createDebugCoverageReport
+                    '''            
+            }
+
 	        stage ('reporting') {
 	        	androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
 	        	publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/uAppFwLib/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'androidTests'])  
