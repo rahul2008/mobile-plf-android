@@ -46,15 +46,19 @@ node ('android&&device') {
                 '''
             }
 
-        stage('Unit test') {
-            	sh '''#!/bin/bash -l
-            	    cd ./Source/Library
-            	    ./gradlew -PenvCode=${JENKINS_ENV} createDebugCoverageReport
-            	'''            
-        }
-            
-            archiveArtifacts '**/dependencies.lock'
-            currentBuild.result = 'SUCCESS'
+            stage('Unit test') {
+                	sh '''#!/bin/bash -l
+                	    cd ./Source/Library
+                	    ./gradlew -PenvCode=${JENKINS_ENV} createDebugCoverageReport
+                	'''            
+            }
+                
+            stage ('reporting') {}
+                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '**/lint-results-debug*.xml', shouldDetectModules: true, unHealthy: ''
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'Source/Library/AppInfra/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'androidTests']) 
+                archiveArtifacts '**/dependencies.lock'
+                currentBuild.result = 'SUCCESS'
+            }
             
         } //end try
 
@@ -76,8 +80,6 @@ node ('android&&device') {
         stage('informing') {
         	step([$class: 'StashNotifier'])
         	step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
-            androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '**/lint-results-debug*.xml', shouldDetectModules: true, unHealthy: ''
-            publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'Source/Library/AppInfra/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'androidTests']) 
         }
 
 	} // end timestamps
