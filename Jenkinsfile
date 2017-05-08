@@ -34,7 +34,7 @@ node ('android&&keystore') {
         	sh '''#!/bin/bash -l
 				    chmod -R 775 .
 				    cd ./Source/Library
-				    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint assembleRelease
+				    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint cC
 				'''
 			}
 
@@ -53,7 +53,6 @@ node ('android&&keystore') {
 	        }
 
 	        stage ('reporting') {
-	            // step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/*/build/test-results/*/*.xml'])
 	        	androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
 	        	publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'Source\\Library\\uAppFwLib\\build\\reports\\androidTests\\connected', reportFiles: 'index.html', reportName: 'androidTests'])  
 	        	publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'Source\\Library\\uAppFwLib\\build\\reports\\coverage\\debug', reportFiles: 'index.html', reportName: 'coverage_debug']) 
