@@ -53,7 +53,7 @@ node ('android&&device') {
                 	'''            
             }
                 
-            stage ('reporting') {}
+            stage ('reporting') {
                 androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '**/lint-results-debug*.xml', shouldDetectModules: true, unHealthy: ''
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'Source/Library/AppInfra/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'androidTests']) 
                 archiveArtifacts '**/dependencies.lock'
