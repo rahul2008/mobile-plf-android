@@ -4,8 +4,8 @@
  */
 package cdp.philips.com.mydemoapp;
 
-import android.app.Application;
 import android.content.SharedPreferences;
+import android.support.multidex.MultiDexApplication;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
@@ -57,7 +57,7 @@ import cdp.philips.com.mydemoapp.error.ErrorHandlerInterfaceImpl;
 import cdp.philips.com.mydemoapp.registration.UserRegistrationInterfaceImpl;
 import cdp.philips.com.mydemoapp.utility.SyncScheduler;
 
-public class DataSyncApplication extends Application {
+public class DataSyncApplication extends MultiDexApplication {
     public final DatabaseHelper databaseHelper = new DatabaseHelper(this, new UuidGenerator());
     public static AppInfraInterface gAppInfra;
     public static LoggingInterface loggingInterface;
