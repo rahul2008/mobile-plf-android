@@ -42,9 +42,9 @@ public class DhpApiClient {
         JSON_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
-    private final ApiSigner apiSigner;
-    private final String apiBaseUrl;
-    protected final String dhpApplicationName;
+    private  ApiSigner apiSigner ;
+    private  String apiBaseUrl ;
+    protected  String dhpApplicationName ;
 
     private DhpResponseVerifier responseVerifier = new DhpResponseVerifier() {
         public void verify(DhpResponse dhpResponse) {
@@ -53,7 +53,7 @@ public class DhpApiClient {
     };
 
     public DhpApiClient(DhpApiClientConfiguration dhpApiClientConfiguration) {
-        if(dhpApiClientConfiguration!=null) {
+        if(dhpApiClientConfiguration !=null) {
             if (dhpApiClientConfiguration.getApiBaseUrl() == null || dhpApiClientConfiguration.getDhpApplicationName() == null)
                 throw new IllegalArgumentException("Missing DHP authentication communication settings");
 
