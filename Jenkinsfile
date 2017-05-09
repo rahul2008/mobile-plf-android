@@ -30,7 +30,7 @@ node ('android&&device') {
                 stage ('build') {
                 sh '''#!/bin/bash -l
                     chmod -R 775 . 
-                    ./Source/DemoApp 
+                    cd ./Source/DemoApp 
                     ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint cC assembleRelease
                 '''
                 }
