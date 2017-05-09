@@ -24,6 +24,7 @@ import com.philips.platform.datasync.consent.ConsentsConverter;
 import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.consent.ConsentsMonitor;
 import com.philips.platform.datasync.consent.ConsentsSegregator;
+import com.philips.platform.datasync.devicePairing.DevicePairingMonitor;
 import com.philips.platform.datasync.insights.InsightConverter;
 import com.philips.platform.datasync.insights.InsightDataFetcher;
 import com.philips.platform.datasync.insights.InsightDataSender;
@@ -38,6 +39,7 @@ import com.philips.platform.datasync.settings.SettingsDataFetcher;
 import com.philips.platform.datasync.settings.SettingsDataSender;
 import com.philips.platform.datasync.settings.SettingsMonitor;
 import com.philips.platform.datasync.settings.SettingsSegregator;
+import com.philips.platform.datasync.subjectProfile.SubjectProfileMonitor;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
@@ -54,7 +56,7 @@ import dagger.Component;
  * All rights reserved.
  */
 @Singleton
-@Component(modules = {ApplicationModule.class,BackendModule.class})
+@Component(modules = {ApplicationModule.class, BackendModule.class})
 public interface AppComponent {
 
     void injectApplication(DataServicesManager dataServicesManager);
@@ -131,6 +133,9 @@ public interface AppComponent {
 
     void injectInsightMonitor(InsightMonitor insightMonitor);
 
-
     void injectPushNotificationMonitor(PushNotificationMonitor pushNotificationMonitor);
+
+    void injectDevicePairingMonitor(DevicePairingMonitor devicePairingMonitor);
+
+    void injectSubjectProfileMonitor(SubjectProfileMonitor subjectProfileMonitor);
 }
