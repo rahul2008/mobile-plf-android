@@ -53,12 +53,14 @@ public class DhpApiClient {
     };
 
     public DhpApiClient(DhpApiClientConfiguration dhpApiClientConfiguration) {
-        if (dhpApiClientConfiguration.getApiBaseUrl() == null || dhpApiClientConfiguration.getDhpApplicationName() == null)
-            throw new IllegalArgumentException("Missing DHP authentication communication settings");
+        if(dhpApiClientConfiguration!=null) {
+            if (dhpApiClientConfiguration.getApiBaseUrl() == null || dhpApiClientConfiguration.getDhpApplicationName() == null)
+                throw new IllegalArgumentException("Missing DHP authentication communication settings");
 
-        apiBaseUrl = dhpApiClientConfiguration.getApiBaseUrl();
-        dhpApplicationName = dhpApiClientConfiguration.getDhpApplicationName();
-        apiSigner = ApiSigner.Get.signer(dhpApiClientConfiguration.getSigningKey(), dhpApiClientConfiguration.getSigningSecret());
+            apiBaseUrl = dhpApiClientConfiguration.getApiBaseUrl();
+            dhpApplicationName = dhpApiClientConfiguration.getDhpApplicationName();
+            apiSigner = ApiSigner.Get.signer(dhpApiClientConfiguration.getSigningKey(), dhpApiClientConfiguration.getSigningSecret());
+        }
     }
 
     protected DhpResponse sendSignedRequest(String httpMethod, String apiEndpoint, String queryParams, Map<String, String> headers, Object body) {
