@@ -47,16 +47,9 @@ node ('android&&keystore') {
             	'''
             }
 
-            stage('Unit test') {
-                    sh '''#!/bin/bash -l
-                        cd ./Source/Library
-                        ./gradlew -PenvCode=${JENKINS_ENV} createDebugCoverageReport
-                    '''            
-            }
-
 	        stage ('reporting') {
 	        	androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
-	        	junit allowEmptyResults: true, testResults: 'Source/Library/uAppFwLib/build/**/*Test*.xml'
+	        	junit allowEmptyResults: true, testResults: 'Source/Library/*/build/test-results/*/*.xml'
 	        	publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/uAppFwLib/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'androidTests'])  
 	        	publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/uAppFwLib/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'coverage_debug']) 
 	        	publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/uAppFwLib/build/reports/tests/debug', reportFiles: 'index.html', reportName: 'tests_debug']) 
