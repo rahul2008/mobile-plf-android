@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
 
@@ -37,7 +37,6 @@ class TimeGuardedSharedPreferencesWrapper implements SharedPreferences {
         if (dif > TimeGuardedSharedPreferencesProviderWrapper.DELAY_MILLIS) {
             final String msg = "The internal thread is not responding! Custom SharedPreference's execution time has exceeded expected execution time of 50 ms! Execution time is " + dif;
             SHNLogger.wtf(TAG, msg);
-            throw new TimeoutException(msg);
         }
         return val;
     }
