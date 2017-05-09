@@ -163,6 +163,8 @@ public class CaptureRecord extends JSONObject {
 
         } catch (JSONException e) {
             e.printStackTrace();
+        }catch (NullPointerException e) {
+            e.printStackTrace();
         }
         return null;
     }
