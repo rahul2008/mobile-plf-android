@@ -44,13 +44,6 @@ node ('android&&device') {
                     ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
                 '''
             }
-
-            stage('Unit test') {
-                	sh '''#!/bin/bash -l
-                	    cd ./Source/Library
-                	    ./gradlew -PenvCode=${JENKINS_ENV} createDebugCoverageReport
-                	'''            
-            }
                 
             stage ('reporting') {
                 androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
