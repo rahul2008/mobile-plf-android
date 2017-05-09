@@ -42,6 +42,7 @@ node ('android&&device') {
                 ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
             	cd ../Library 
                 ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+            '''
             }
 
            stage ('reporting') {
