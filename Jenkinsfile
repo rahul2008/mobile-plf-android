@@ -39,14 +39,26 @@ node ('android&&device&&keystore') {
                 }
             }
 			stage ('save dependencies list') {
-			    sh 'chmod -R 775 . && cd ./Source/DemoApp && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
-            	sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
+                sh '''#!/bin/bash -l
+    			    cd ./Source/DemoApp 
+                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+                	cd ../Library 
+                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+                '''
             }
-            archiveArtifacts '**/dependencies.lock'
-            currentBuild.result = 'SUCCESS'
+
+
+            stage ('reporting') {
+                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
+                junit allowEmptyResults: true, testResults: 'Source/Library/*/build/test-results/*/*.xml'
+                // publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/AppInfra/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'androidTests']) 
+                archiveArtifacts '**/dependencies.lock'
+            }
+
+
         } catch(err) {
             currentBuild.result = 'FAILURE'
-            error ("Someone just broke the build")
+            error ("Someone just broke the build", err.toString())
         }
         
         if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
