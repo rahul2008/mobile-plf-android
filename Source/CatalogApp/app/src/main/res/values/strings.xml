@@ -107,7 +107,7 @@
     <string name="checkbox_check_item_1">Check item 1</string>
     <string name="checkbox_check_item_2">Check item 2</string>
     <string name="checkbox_check_item_3">Check item 3</string>
-    <string name="checkbox_check_item_4">Multi-line label check item\nlorem ipsum dolor sit amet\nconsectetur adipiscing</string>
+    <string name="checkbox_check_item_4">Multi-line label check item lorem ipsum dolor sit amet consectetur adipiscing</string>
 
     <string name="page_title_social_icon">Social icons</string>
 
@@ -138,7 +138,7 @@
     <string name="page_title_date_time_picker">Datepicker</string>
     <string name="show_date_picker">show date picker</string>
     <string name="show_time_picker">Show time picker</string>
-    <string name="date_time_picker"><![CDATA[Date & Time picker]]></string>
+    <string name="date_time_picker"><![CDATA[Date picker]]></string>
     <string name="range_picker">Range picker</string>
     <string name="timeslot_picker">Timeslot picker</string>
     <string name="start">Start</string>
