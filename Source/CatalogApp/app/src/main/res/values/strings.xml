@@ -107,7 +107,7 @@
     <string name="checkbox_check_item_1">Check item 1</string>
     <string name="checkbox_check_item_2">Check item 2</string>
     <string name="checkbox_check_item_3">Check item 3</string>
-    <string name="checkbox_check_item_4">Multi-line label check item lorem ipsum dolor sit amet consectetur adipiscing</string>
+    <string name="checkbox_check_item_4">Multi-line label check item lorem ipsum dolor sit amet consectetur adipiscingMulti-line label check item lorem ipsum dolor sit amet consectetur adipiscing </string>
 
     <string name="page_title_social_icon">Social icons</string>
 
@@ -182,7 +182,6 @@
     <string name="notification_bar_action_2">Action 2</string>
     <string name="notification_bar_notification_show">Show notification</string>
     <string name="notification_bar_notification_hide">Hide notification</string>
-
 
 
     <!--Notification Badge-->
