@@ -2,3 +2,13 @@
  * Copyright (c) Koninklijke Philips N.V., 2015, 2017.
  * All rights reserved.
  */
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
