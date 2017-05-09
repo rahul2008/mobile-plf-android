@@ -22,11 +22,20 @@ node ('android&&device&&keystore') {
 		try {
             if (BranchName =~ /master|develop|release.*/) {
                 stage ('build') {
-                    sh 'chmod -R 755 . && cd ./Source/DemoApp && chmod -R 775 ./gradlew && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean lint assembleRelease cC zipDocuments artifactoryPublish'
+                    sh '''#!/bin/bash -l
+                        chmod -R 755 . 
+                        cd ./Source/DemoApp 
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint cC
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease cC zipDocuments artifactoryPublish
+                    '''
                 }
             } else {
                 stage ('build') {
-                    sh 'chmod -R 775 . && cd ./Source/DemoApp && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease'
+                    sh '''#!/bin/bash -l
+                        chmod -R 755 . 
+                        cd ./Source/DemoApp 
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint cC
+                    '''
                 }
             }
 			stage ('save dependencies list') {
