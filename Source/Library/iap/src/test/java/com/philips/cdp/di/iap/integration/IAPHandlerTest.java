@@ -201,10 +201,10 @@ public class IAPHandlerTest {
         mMockIAPHandler.initHybrisDelegate();
     }
 
-    @Test
-    public void testSetLocale() throws Exception {
-        mMockIAPHandler.setLangAndCountry("en_US");
-    }
+//    @Test
+//    public void testSetLocale() throws Exception {
+//        mMockIAPHandler.setLangAndCountry("en_US");
+//    }
 
     //Init IAP
     @Test(expected = NullPointerException.class)
@@ -426,9 +426,9 @@ public class IAPHandlerTest {
         mMockIAPHandler.getIAPErrorCode(msg);
     }
 
-    @Test
-    public void testServiceDiscovery() {
-        mMockIAPHandler.fetchBaseUrl(mServiceDiscoveryInterface);
-    }
+//    @Test
+//    public void testServiceDiscovery() {
+//        mMockIAPHandler.fetchBaseUrl(mServiceDiscoveryInterface);
+//    }
 
 }
