@@ -34,7 +34,7 @@ node ('android&&device&&keystore') {
                     sh '''#!/bin/bash -l
                         chmod -R 755 . 
                         cd ./Source/DemoApp 
-                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint cC
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint cC assembleRelease
                     '''
                 }
             }
