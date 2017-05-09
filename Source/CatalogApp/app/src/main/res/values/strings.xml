@@ -183,7 +183,6 @@
     <string name="notification_bar_notification_show">Show notification</string>
     <string name="notification_bar_notification_hide">Hide notification</string>
 
-
     <!--Notification Badge-->
     <string name="page_title_notification_badge">Notification badge</string>
     <string name="accent_color">Accent color</string>
