@@ -42,9 +42,13 @@ node('Android') {
             sh 'rm -rf android-shinelib/Source/ShineLib/shinelib/build/test-results'
             sh 'rm -rf dicomm-android/Source/DICommClient/dicommClientLib/build/test-results'
             sh 'rm -rf android-commlib-all/Source/commlib-all-parent/commlib-all/build/test-results'
-            sh "$gradle commlib-all:testDebug || true"
+            sh "$gradle commlib-all:testDebug commlib-all:lintDebug || true"
+            sh "$gradle commlib-all:pitestDebug"
 
             step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/*/*.xml'])
+            step([$class: 'LintPublisher', healthy: '0', unHealthy: '20', unstableTotalAll: '20'])
+            step([$class: 'JacocoPublisher', execPattern: '**/*.exec', classPattern: '**/classes', sourcePattern: '**/src/main/java', exclusionPattern: '**/R.class,**/R$*.class,**/BuildConfig.class,**/Manifest*.*,**/*Activity*.*,**/*Fragment*.*'])
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'android-commlib-all/Source/commlib-all-parent/build/report/commlib-all/pitest/debug/', reportFiles: 'index.html', reportName: 'Pitest'])
 
             if (fileExists('android-commlib-all/Source/commlib-all-parent/build/cucumber-reports/report.json')) {
                 step([$class: 'CucumberReportPublisher', jsonReportDirectory: 'android-commlib-all/Source/commlib-all-parent/build/cucumber-reports', fileIncludePattern: '*.json'])
