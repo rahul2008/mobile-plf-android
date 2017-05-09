@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,7 @@ public class RatingBarFragment extends BaseFragment {
         });
         Typeface font = Typeface.createFromAsset( getContext().getAssets(), "fontawesomewebfont.ttf" );
         FontIconDrawable fontIconDrawable = new FontIconDrawable(getContext(), getResources().getString(R.string.icon_font), font);
-        fontIconDrawable.color(Color.BLACK);
+        fontIconDrawable.color(Color.RED);
         fontIconDrawable.sizeDp(100);
         fragmentRatingbarBinding.fontIconDrawable.setImageDrawable(fontIconDrawable);
         return fragmentRatingbarBinding.getRoot();

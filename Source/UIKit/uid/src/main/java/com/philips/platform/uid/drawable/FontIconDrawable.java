@@ -1,6 +1,7 @@
 package com.philips.platform.uid.drawable;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -10,8 +11,12 @@ import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.TextPaint;
 import android.util.TypedValue;
+import android.view.AbsSavedState;
+import android.view.View;
 
 /** Embed an icon into a Drawable that can be used as TextView icons, or ActionBar icons.
  *
@@ -29,7 +34,7 @@ public class FontIconDrawable extends Drawable {
 
     private final Context context;
 
-    private final String icon;
+    private String icon;
 
     private TextPaint paint;
 
@@ -116,7 +121,19 @@ public class FontIconDrawable extends Drawable {
      * @return The current IconDrawable for chaining.
      */
     public FontIconDrawable color(int color) {
-        paint.setColor(color);
+        paint.setColor(ColorStateList.valueOf(color).getDefaultColor());
+        invalidateSelf();
+        return this;
+    }
+
+    /**
+     * Set the ColorStateList of the drawable.
+     *
+     * @param colorStateList The ColorStateList, usually from android.content.res.ColorStateList.
+     * @return The current IconDrawable for chaining.
+     */
+    public FontIconDrawable colorStateList(ColorStateList colorStateList) {
+        paint.setColor(colorStateList.getColorForState(getState(),colorStateList.getDefaultColor()));
         invalidateSelf();
         return this;
     }
@@ -219,5 +236,63 @@ public class FontIconDrawable extends Drawable {
      */
     public void setStyle(Paint.Style style) {
         paint.setStyle(style);
+    }
+
+    public Parcelable onSaveInstanceState() {
+        SavedState ss = new SavedState(AbsSavedState.EMPTY_STATE);
+
+        ss.text = icon;
+        ss.textSize = size;
+        ss.paint = paint;
+
+        return ss;
+    }
+
+    public void onRestoreInstanceState(Parcelable savedState) {
+        if (savedState instanceof SavedState) {
+            SavedState ss = (SavedState) savedState;
+
+            icon = ss.text;
+            size = ss.textSize;
+            paint = ss.paint;
+            invalidateSelf();
+        }
+    }
+
+    static class SavedState extends View.BaseSavedState {
+        String text;
+        TextPaint paint;
+        int textSize;
+
+        public SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        @Override
+        public void writeToParcel(@SuppressWarnings("NullableProblems") Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+
+            out.writeString(text);
+            out.writeParcelable((Parcelable) paint, flags);
+            out.writeFloat(textSize);
+        }
+
+        public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
+
+        protected SavedState(Parcel in) {
+            super(in);
+
+            text = in.readString();
+            paint = in.readParcelable(null);
+            textSize = in.readInt();
+        }
     }
 }
