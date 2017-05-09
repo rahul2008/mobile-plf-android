@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
@@ -281,8 +283,24 @@ public class LoggingTest extends MockitoTestCase {
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
-
     }
+
+    public void testLogForDictionary(){
+        try {
+            Method method = loggingInterface.getClass().getDeclaredMethod("log", LoggingInterface.LogLevel.class,String.class,String.class,Map.class);
+            method.setAccessible(true);
+            String event= new String("Log Event");
+            String msg= new String("Log message");
+            Map<String,String> map = new HashMap<>();
+            map.put("key1","val1");
+            map.put("key2","val2");
+            method.invoke(loggingInterface, LoggingInterface.LogLevel.DEBUG,event,msg,map);
+
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 }
