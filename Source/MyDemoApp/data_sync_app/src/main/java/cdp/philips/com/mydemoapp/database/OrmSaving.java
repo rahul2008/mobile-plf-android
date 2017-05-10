@@ -138,7 +138,7 @@ public class OrmSaving {
                 // Recursively save children groups
                 assureMeasurementGroupsAreSaved(group.getMeasurementGroups());
             }
-            saveDetails(group.getMeasurementGroupDetails());
+            saveMeasurementGroupDetails(group.getMeasurementGroupDetails());
             saveMeasurements(group.getMeasurements());
         }
     }
@@ -146,10 +146,17 @@ public class OrmSaving {
     private void saveMeasurements(Collection<? extends OrmMeasurement> measurements) throws SQLException {
         for (OrmMeasurement current : measurements) {
             measurementDao.createOrUpdate(current);
+            saveMeasurementDetails(current.getMeasurementDetails());
         }
     }
 
-    private void saveDetails(Collection<? extends OrmMeasurementGroupDetail> momentDetails) throws SQLException {
+    private void saveMeasurementDetails(Collection<? extends OrmMeasurementDetail> measurementDetails) throws SQLException {
+        for (OrmMeasurementDetail current : measurementDetails) {
+            measurementDetailDao.createOrUpdate(current);
+        }
+    }
+
+    private void saveMeasurementGroupDetails(Collection<? extends OrmMeasurementGroupDetail> momentDetails) throws SQLException {
         for (OrmMeasurementGroupDetail current : momentDetails) {
             measurementGroupDetailsDao.createOrUpdate(current);
         }
