@@ -15,6 +15,7 @@ import com.philips.pins.shinelib.utility.BleScanRecord;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -32,10 +33,15 @@ public class SHNDeviceScannerInternal {
     @NonNull
     private final List<SHNInternalScanRequest> shnInternalScanRequests = new ArrayList<>();
 
+    private boolean isUsingAdvertisedDataMatching = false;
+    private UUID[] uuids = {};
+
     /* package */ SHNDeviceScannerInternal(@NonNull final SHNCentral shnCentral, @NonNull final List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions) {
         SHNDeviceFoundInfo.setSHNCentral(shnCentral);
         this.shnCentral = shnCentral;
         this.registeredDeviceDefinitions = registeredDeviceDefinitions;
+
+        readDeviceDefinitions(registeredDeviceDefinitions);
     }
 
     public boolean startScanning(@NonNull SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates scannerSettingDuplicates, long stopScanningAfterMS) {
@@ -45,9 +51,16 @@ public class SHNDeviceScannerInternal {
     public boolean startScanning(@NonNull final SHNInternalScanRequest SHNInternalScanRequest) {
         if (leScanCallbackProxy == null) {
             leScanCallbackProxy = createLeScanCallbackProxy();
-            boolean scanning = leScanCallbackProxy.startLeScan(leScanCallback, null);
 
-            if (scanning) {
+            boolean isScanning;
+
+            if (isUsingAdvertisedDataMatching) {
+                isScanning = leScanCallbackProxy.startLeScan(leScanCallback, null);
+            } else {
+                isScanning = leScanCallbackProxy.startLeScan(uuids, leScanCallback);
+            }
+
+            if (isScanning) {
                 SHNLogger.i(TAG, "Started scanning");
                 startScanningRestartTimer();
             } else {
@@ -94,7 +107,6 @@ public class SHNDeviceScannerInternal {
 
     public void stopScanning() {
         if (leScanCallbackProxy != null) {
-
             shnCentral.getInternalHandler().removeCallbacks(restartScanningRunnable);
             restartScanningRunnable = null;
             leScanCallbackProxy.stopLeScan(leScanCallback);
@@ -123,17 +135,27 @@ public class SHNDeviceScannerInternal {
         });
     }
 
-    private LeScanCallbackProxy.LeScanCallback leScanCallback = new LeScanCallbackProxy.LeScanCallback() {
+    private final LeScanCallbackProxy.LeScanCallback leScanCallback = new LeScanCallbackProxy.LeScanCallback() {
         @Override
         public void onLeScan(final BluetoothDevice device, final int rssi, final byte[] scanRecord) {
             postBleDeviceFoundInfoOnInternalThread(new BleDeviceFoundInfo(device, rssi, scanRecord));
         }
     };
 
+    private void readDeviceDefinitions(@NonNull List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions) {
+        Set<UUID> uuidSet = new HashSet<>();
+        for (SHNDeviceDefinitionInfo definition : registeredDeviceDefinitions) {
+            isUsingAdvertisedDataMatching |= definition.useAdvertisedDataMatcher();
+            uuidSet.addAll(definition.getPrimaryServiceUUIDs());
+        }
+        uuids = uuidSet.toArray(new UUID[uuidSet.size()]);
+    }
+
     private SHNDeviceFoundInfo convertToSHNDeviceFoundInfo(final @NonNull BleDeviceFoundInfo bleDeviceFoundInfo) {
         BleScanRecord bleScanRecord = BleScanRecord.createNewInstance(bleDeviceFoundInfo.getScanRecord());
         for (SHNDeviceDefinitionInfo shnDeviceDefinitionInfo : registeredDeviceDefinitions) {
-            boolean matched = doesDeviceDefinitionInfoSupportDevice(bleDeviceFoundInfo, bleScanRecord, shnDeviceDefinitionInfo);
+            boolean matched = !isUsingAdvertisedDataMatching || doesDeviceDefinitionInfoSupportDevice(bleDeviceFoundInfo, bleScanRecord, shnDeviceDefinitionInfo);
+
             if (matched) {
                 return new SHNDeviceFoundInfo(bleDeviceFoundInfo.getBluetoothDevice(), bleDeviceFoundInfo.getRssi(), bleDeviceFoundInfo.getScanRecord(), shnDeviceDefinitionInfo, bleScanRecord);
             }
@@ -143,6 +165,7 @@ public class SHNDeviceScannerInternal {
 
     private boolean doesDeviceDefinitionInfoSupportDevice(final BleDeviceFoundInfo bleDeviceFoundInfo, final BleScanRecord bleScanRecord, final SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
         boolean matched = false;
+
         if (shnDeviceDefinitionInfo.useAdvertisedDataMatcher()) {
             matched = shnDeviceDefinitionInfo.matchesOnAdvertisedData(bleDeviceFoundInfo.getBluetoothDevice(), bleScanRecord, bleDeviceFoundInfo.getRssi());
         } else {

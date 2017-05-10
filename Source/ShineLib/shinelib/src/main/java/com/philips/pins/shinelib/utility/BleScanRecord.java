@@ -5,6 +5,7 @@
 
 package com.philips.pins.shinelib.utility;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.nio.ByteBuffer;
@@ -25,7 +26,6 @@ import java.util.UUID;
  * This is a different interface that should not be confused with {@code BleScanRecord}.
  */
 public class BleScanRecord {
-    private static final String TAG = "BleScanRecord";
     private byte[] scanRecord;
     private List<UUID> uuids;
     private byte[] manufacturerSpecificData;
@@ -65,13 +65,11 @@ public class BleScanRecord {
     /**
      * Returns the list of {@link java.util.UUID} present in the raw advertisement and scan data received from the peripheral.
      *
-     * @return list of UUIDs. null if there are no UUIDs in the raw advertisement and scan data received.
+     * @return list of UUIDs.
      */
-    @Nullable
+    @NonNull
     public List<UUID> getUuids() {
-        if (uuids != null)
-            return Collections.unmodifiableList(uuids);
-        return null;
+        return Collections.unmodifiableList(uuids == null ? Collections.<UUID>emptyList() : uuids);
     }
 
     /**
