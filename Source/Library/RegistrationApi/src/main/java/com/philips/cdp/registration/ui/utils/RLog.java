@@ -4,8 +4,10 @@ package com.philips.cdp.registration.ui.utils;
 import android.util.Log;
 
 import com.janrain.android.engage.JREngage;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.dhpclient.util.HsdpLog;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 public class RLog {
 
@@ -40,8 +42,15 @@ public class RLog {
  	public static final String SERVICE_DISCOVERY = "ServiceDiscovery";
 
     public static final String AB_TESTING= "AB Testing";
+
+    private static AppTaggingInterface mAppTaggingInterface;
+
     public static void init() {
         mLoggingInterface  = URInterface.getComponent().getLoggingInterface();
+        mAppTaggingInterface = URInterface.getComponent().getAppTaggingInterface();
+        mLoggingInterface.createInstanceForComponent("Registration", RegistrationHelper.getRegistrationApiVersion());
+        mAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
+
     }
 
     public static void enableLogging() {
