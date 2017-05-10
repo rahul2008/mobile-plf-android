@@ -63,7 +63,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1001;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1002;
     private WeakReference<ConnectivityFragment> connectivityFragmentWeakReference;
-
+    private Context mContext;
 
     /**
      * Presenter object for Connectivity
@@ -71,6 +71,12 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     private ConnectivityPresenter connectivityPresenter;
 
     public ConnectivityFragment() {
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext=context;
     }
 
     @Override
@@ -130,7 +136,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         public void onApplianceFound(@NonNull BleReferenceAppliance foundAppliance) {
             Log.d(TAG, "Device found :" + foundAppliance.getName());
             bleScanDialogFragment.addDevice(foundAppliance);
-            Toast.makeText(getActivity(), "Device found name:" + foundAppliance.getName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "Device found name:" + foundAppliance.getName(), Toast.LENGTH_SHORT).show();
 
         }
 
@@ -203,7 +209,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                     bleScanDialogFragment.hideProgressBar();
                     if (bleScanDialogFragment.getDeviceCount() == 0) {
                         bleScanDialogFragment.dismiss();
-                        Toast.makeText(getActivity(), R.string.no_device_found, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, R.string.no_device_found, Toast.LENGTH_SHORT).show();
 
                     }
 
@@ -217,7 +223,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
-        Toast.makeText(getActivity(), errorText, Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, errorText, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -264,7 +270,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getActivity(), "Error while reading measurement from reference board" + error.getErrorMessage(), Toast.LENGTH_SHORT);
+                Toast.makeText(mContext, "Error while reading measurement from reference board" + error.getErrorMessage(), Toast.LENGTH_SHORT);
             }
         });
 
@@ -322,7 +328,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                     // permission was granted, yay!
                     checkForAccessCoarseLocation();
                 } else {
-                    Toast.makeText(getActivity(), "Need permission", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Need permission", Toast.LENGTH_SHORT).show();
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
                 }
@@ -335,7 +341,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                     startDiscovery();
                 } else {
                     // permission denied, boo!
-                    Toast.makeText(getActivity(), "Need permission", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Need permission", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
