@@ -11,6 +11,7 @@ import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNCommandResultReporter;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNService;
+import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.Set;
@@ -49,7 +50,7 @@ public abstract class SHNServiceByteStreaming extends SHNService implements SHNS
         }
     };
 
-    public SHNServiceByteStreaming(UUID serviceUuid, Set<UUID> requiredCharacteristics, Set<UUID> optionalCharacteristics) {
+    public SHNServiceByteStreaming(UUID serviceUuid, Set<SHNCharacteristicInfo> requiredCharacteristics, Set<SHNCharacteristicInfo> optionalCharacteristics) {
         super(serviceUuid, requiredCharacteristics, optionalCharacteristics);
         registerSHNServiceListener(this);
     }

@@ -5,18 +5,8 @@
 
 package com.philips.pins.shinelib.services;
 
-<<<<<<< HEAD
-import android.support.annotation.NonNull;
-
-import com.philips.pins.shinelib.SHNCharacteristic;
-import com.philips.pins.shinelib.SHNCommandResultReporter;
-import com.philips.pins.shinelib.SHNResult;
-import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
-import com.philips.pins.shinelib.utility.SHNLogger;
 
-=======
->>>>>>> 7530ff61309068d4cd0b496cc88897bda8164781
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
