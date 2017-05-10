@@ -98,16 +98,6 @@
                 android:id="@+id/divider"
                 layout="@layout/uid_horizontal_separator"/>
 
-
-            <com.philips.platform.uid.view.widget.Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/font_icon_drawable"
-                android:layout_marginStart="@dimen/layout_margin_left_right"
-                android:layout_marginTop="@dimen/layout_margin_left_right"
-                android:text="Battery"
-                />
-
         </LinearLayout>
     </ScrollView>
 

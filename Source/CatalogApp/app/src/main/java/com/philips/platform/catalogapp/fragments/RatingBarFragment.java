@@ -1,11 +1,13 @@
 package com.philips.platform.catalogapp.fragments;
 
+import android.content.res.ColorStateList;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,11 +43,7 @@ public class RatingBarFragment extends BaseFragment {
                 isRatingZero.set(rating > 0 ? false : true);
             }
         });
-        Typeface font = Typeface.createFromAsset( getContext().getAssets(), "fontawesomewebfont.ttf" );
-        FontIconDrawable fontIconDrawable = new FontIconDrawable(getContext(), getResources().getString(R.string.icon_font), font);
-        fontIconDrawable.color(Color.RED);
-        fontIconDrawable.sizeDp(100);
-        fragmentRatingbarBinding.fontIconDrawable.setImageDrawable(fontIconDrawable);
         return fragmentRatingbarBinding.getRoot();
     }
+
 }

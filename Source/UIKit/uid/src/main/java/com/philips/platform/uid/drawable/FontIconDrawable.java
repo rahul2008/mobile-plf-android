@@ -18,12 +18,13 @@ import android.util.TypedValue;
 import android.view.AbsSavedState;
 import android.view.View;
 
-/** Embed an icon into a Drawable that can be used as TextView icons, or ActionBar icons.
- *
+/**
+ * Embed an icon into a Drawable that can be used as TextView icons, or ActionBar icons.
+ * <p>
  * new IconDrawable(context, IconValue.icon_star)
- *           .colorRes(R.color.white)
- *           .actionBarSize();
- *
+ * .colorRes(R.color.white)
+ * .actionBarSize();
+ * <p>
  * If you don't set the size of the drawable, it will use default. Note that in an ActionBar, if you don't
  * set the size explicitly it uses 0, so please use actionBarSize().
  */
@@ -32,7 +33,7 @@ public class FontIconDrawable extends Drawable {
 
     public static int ANDROID_ACTIONBAR_ICON_SIZE_DP = 24;
 
-    private final Context context;
+    private Context context;
 
     private String icon;
 
@@ -41,6 +42,12 @@ public class FontIconDrawable extends Drawable {
     private int size = -1;
 
     private int alpha = 255;
+
+    private FontIconState mState;
+
+    private boolean mMutated;
+
+    private ColorStateList colorStateList;
 
     /**
      * Create an IconDrawable.
@@ -121,7 +128,7 @@ public class FontIconDrawable extends Drawable {
      * @return The current IconDrawable for chaining.
      */
     public FontIconDrawable color(int color) {
-        paint.setColor(ColorStateList.valueOf(color).getDefaultColor());
+        paint.setColor(color);
         invalidateSelf();
         return this;
     }
@@ -133,7 +140,8 @@ public class FontIconDrawable extends Drawable {
      * @return The current IconDrawable for chaining.
      */
     public FontIconDrawable colorStateList(ColorStateList colorStateList) {
-        paint.setColor(colorStateList.getColorForState(getState(),colorStateList.getDefaultColor()));
+        this.colorStateList = colorStateList;
+        paint.setColor(colorStateList.getColorForState(getState(), colorStateList.getDefaultColor()));
         invalidateSelf();
         return this;
     }
@@ -183,29 +191,15 @@ public class FontIconDrawable extends Drawable {
     }
 
     @Override
-    public boolean isStateful() {
+    protected boolean onStateChange(int[] state) {
+        paint.setColor(colorStateList.getColorForState(getState(), colorStateList.getDefaultColor()));
+        invalidateSelf();
         return true;
     }
 
     @Override
-    public boolean setState(int[] stateSet) {
-        int oldValue = paint.getAlpha();
-        int newValue = isEnabled(stateSet) ? alpha : alpha / 2;
-        paint.setAlpha(newValue);
-        return oldValue != newValue;
-    }
-
-    /**
-     * Checks if is enabled.
-     *
-     * @param stateSet the state set
-     * @return true, if is enabled
-     */
-    public static boolean isEnabled(int[] stateSet) {
-        for (int state : stateSet)
-            if (state == android.R.attr.state_enabled)
-                return true;
-        return false;
+    public boolean isStateful() {
+        return true;
     }
 
     @Override
@@ -244,6 +238,7 @@ public class FontIconDrawable extends Drawable {
         ss.text = icon;
         ss.textSize = size;
         ss.paint = paint;
+        ss.colorStateList = colorStateList;
 
         return ss;
     }
@@ -255,6 +250,7 @@ public class FontIconDrawable extends Drawable {
             icon = ss.text;
             size = ss.textSize;
             paint = ss.paint;
+            colorStateList = ss.colorStateList;
             invalidateSelf();
         }
     }
@@ -263,6 +259,7 @@ public class FontIconDrawable extends Drawable {
         String text;
         TextPaint paint;
         int textSize;
+        ColorStateList colorStateList;
 
         public SavedState(Parcelable superState) {
             super(superState);
@@ -274,6 +271,7 @@ public class FontIconDrawable extends Drawable {
 
             out.writeString(text);
             out.writeParcelable((Parcelable) paint, flags);
+            out.writeParcelable(colorStateList, flags);
             out.writeFloat(textSize);
         }
 
@@ -291,8 +289,92 @@ public class FontIconDrawable extends Drawable {
             super(in);
 
             text = in.readString();
-            paint = in.readParcelable(null);
+            paint = in.readParcelable(getClass().getClassLoader());
+            colorStateList = in.readParcelable(getClass().getClassLoader());
             textSize = in.readInt();
         }
+    }
+
+    @Override
+    public ConstantState getConstantState() {
+        if (mState.canConstantState()) {
+            mState.mChangingConfigurations = getChangingConfigurations();
+            return mState;
+        }
+        return null;
+    }
+
+    @Override
+    public int getChangingConfigurations() {
+        return super.getChangingConfigurations()
+                | mState.mChangingConfigurations
+                | mState.mDrawable.getChangingConfigurations();
+    }
+
+    @Override
+    public Drawable mutate() {
+        if (!mMutated && super.mutate() == this) {
+            mState.mDrawable.mutate();
+            mMutated = true;
+        }
+        return this;
+    }
+
+    final static class FontIconState extends ConstantState {
+        int mChangingConfigurations;
+        Drawable mDrawable;
+        String icon;
+        TextPaint paint;
+        ColorStateList colorStateList;
+        int size;
+        private int alpha;
+        private boolean mCheckedConstantState;
+        private boolean mCanConstantState;
+
+        FontIconState(FontIconState orig, Resources res) {
+            if (orig != null) {
+                mChangingConfigurations = orig.mChangingConfigurations;
+                if (res != null) {
+                    mDrawable = orig.mDrawable.getConstantState().newDrawable(res);
+                } else {
+                    mDrawable = orig.mDrawable.getConstantState().newDrawable();
+                }
+                mDrawable.setBounds(orig.mDrawable.getBounds());
+                mDrawable.setLevel(orig.mDrawable.getLevel());
+                icon = orig.icon;
+                paint = orig.paint;
+                size = orig.size;
+                alpha = orig.alpha;
+                colorStateList = orig.colorStateList;
+                mCheckedConstantState = mCanConstantState = true;
+            }
+        }
+
+        @Override
+        public Drawable newDrawable() {
+            return new FontIconDrawable(this, null);
+        }
+
+        @Override
+        public Drawable newDrawable(Resources res) {
+            return new FontIconDrawable(this, res);
+        }
+
+        @Override
+        public int getChangingConfigurations() {
+            return mChangingConfigurations;
+        }
+
+        boolean canConstantState() {
+            if (!mCheckedConstantState) {
+                mCanConstantState = mDrawable.getConstantState() != null;
+                mCheckedConstantState = true;
+            }
+            return mCanConstantState;
+        }
+    }
+
+    private FontIconDrawable(FontIconState state, Resources res) {
+        mState = new FontIconState(state, res);
     }
 }
