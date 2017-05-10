@@ -108,9 +108,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onUserRegistrationComplete(Activity activity) {
-        IAPState iapState = new IAPRetailerFlowState();
-        getApplicationContext().setIapState(iapState);
-        iapState.init(getApplicationContext());
 
         if (null != activity) {
             new User(activity.getApplicationContext()).refreshLoginSession(new RefreshLoginSessionHandler() {
