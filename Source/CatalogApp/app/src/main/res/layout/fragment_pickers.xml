@@ -34,7 +34,7 @@
 
         <com.philips.platform.uid.view.widget.Label
             style="@style/ButtonsCategoryStyle"
-            android:text="@string/date_time_picker"/>
+            android:text="@string/date_picker"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:contentDescription="@string/date_time_picker"
+                android:contentDescription="@string/date_picker"
                 android:onClick="@{(v) ->fragment.showDatePicker(dateTimePickerDate, false)}"
                 android:tint="?attr/uidTextSecondary"
                 app:srcCompat="@drawable/ic_calender"/>
@@ -93,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:contentDescription="@string/date_time_picker"
+                android:contentDescription="@string/date_picker"
                 android:onClick="@{(v) ->fragment.showDatePicker(rangePickerStartDate, true)}"
                 android:tint="?attr/uidTextSecondary"
                 app:srcCompat="@drawable/ic_calender"/>
@@ -132,7 +132,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:contentDescription="@string/date_time_picker"
+                android:contentDescription="@string/date_picker"
                 android:onClick="@{(v) ->fragment.showDatePicker(rangePickerEndDate, true)}"
                 android:tint="@{fragment.isValidRange? Color.RED: fragment.getTextColor()}"
                 app:srcCompat="@drawable/ic_calender"/>
@@ -177,7 +177,7 @@
                 android:id="@+id/timeslotCalender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/date_time_picker"
+                android:contentDescription="@string/date_picker"
                 app:srcCompat="@drawable/ic_query"/>
 
             <com.philips.platform.uid.view.widget.Label
