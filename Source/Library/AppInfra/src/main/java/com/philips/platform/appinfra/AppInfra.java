@@ -14,6 +14,8 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityManager;
+import com.philips.platform.appinfra.appupdate.AppupdateInterface;
+import com.philips.platform.appinfra.appupdate.AppupdateManager;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationManager;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
@@ -50,6 +52,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
     private RestInterface mRestInterface;
     private ABTestClientInterface mAbtesting;
     private final String AppInfraComponentID ="ail";
+    private AppupdateInterface mAppupdateInterface;
 
 
     /**
@@ -78,6 +81,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         private AppConfigurationInterface configInterface;
         private RestInterface mRestInterface;
         private LanguagePackInterface languagePack;
+        private AppupdateInterface appupdateInterface;
 
         /**
          * Instantiates a new Builder.
@@ -95,6 +99,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             configInterface = null;
             mRestInterface = null;
             languagePack = null;
+            appupdateInterface = null;
         }
 
 
@@ -256,10 +261,13 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
                 }
             });
             ai.setLanguagePackInterface(languagePack == null? new LanguagePackManager(ai) : languagePack);
+            ai.setAppupdateInterface(appupdateInterface == null? new AppupdateManager(ai) : appupdateInterface);
 
             return ai;
         }
     }
+
+
 
 
     public Context getAppInfraContext() {
@@ -317,6 +325,12 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         return mLanguagePackInterface;
     }
 
+    @Override
+    public AppupdateInterface getAppupdate() {
+        return mAppupdateInterface;
+    }
+
+
     private AppInfra(Context pContext) {
         appInfraContext = pContext;
     }
@@ -324,6 +338,10 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
 
     public void setLanguagePackInterface(LanguagePackInterface languagePackInterface) {
         this.mLanguagePackInterface = languagePackInterface;
+    }
+
+    public void setAppupdateInterface(AppupdateInterface appupdateInterface) {
+        this.mAppupdateInterface = appupdateInterface;
     }
 
     private void setTime(TimeInterface mTimeSyncInterface) {
@@ -342,17 +360,14 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
 
     private void setTagging(AppTaggingInterface tagg) {
         tagging = tagg;
-
     }
 
     private void setRestInterface(RestInterface restInterface) {
         mRestInterface = restInterface;
-
     }
 
     private void setAppIdentity(AppIdentityInterface identity) {
         appIdentity = identity;
-
     }
 
     private void setAbTesting(ABTestClientInterface abTesting) {
@@ -366,7 +381,6 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
 
     private void setServiceDiscoveryInterface(ServiceDiscoveryInterface mServiceDiscoveryInterfac) {
         mServiceDiscoveryInterface = mServiceDiscoveryInterfac;
-
     }
 
 
