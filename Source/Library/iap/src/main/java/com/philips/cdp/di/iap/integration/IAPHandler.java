@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
-import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.ControllerFactory;
 import com.philips.cdp.di.iap.iapHandler.HybrisHandler;
 import com.philips.cdp.di.iap.iapHandler.IAPExposedAPI;
@@ -29,15 +28,10 @@ import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
-import java.net.URL;
 import java.util.ArrayList;
 
 class IAPHandler {
@@ -52,72 +46,12 @@ class IAPHandler {
     void initPreRequisite() {
         IAPAnalytics.initIAPAnalytics(mIAPDependencies);
         initIAPRequisite();
-        getLocaleFromServiceDiscovery();
     }
 
     private void initIAPRequisite() {
         initControllerFactory();
         initHybrisDelegate();
     }
-
-    protected void fetchBaseUrl(ServiceDiscoveryInterface serviceDiscoveryInterface) {
-        mIAPSetting.setUseLocalData(true);
-        serviceDiscoveryInterface.getServiceUrlWithLanguagePreference("iap.baseurl", new
-                ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-
-                    @Override
-                    public void onError(ERRORVALUES errorvalues, String s) {
-                        mIAPSetting.setUseLocalData(true);
-                    }
-
-                    @Override
-                    public void onSuccess(URL url) {
-                        if (url.toString().isEmpty()) {
-                            mIAPSetting.setUseLocalData(true);
-                        } else {
-                            mIAPSetting.setUseLocalData(true);
-                            String urlPort = url.toString();//"https://acc.occ.shop.philips.com/en_US";"https://www.occ.shop.philips.com/en_US"
-                            //String locale = CartModelContainer.getInstance().getLanguage() + "_" + CartModelContainer.getInstance().getCountry();
-                            //String urlPort = "https://acc.occ.shop.philips.com/" + locale;
-                            mIAPSetting.setHostPort(urlPort.substring(0, urlPort.length() - 5));
-                        }
-                        mIAPSetting.setProposition(loadConfigParams());
-                    }
-                });
-    }
-
-    private void getLocaleFromServiceDiscovery() {
-        AppInfraInterface appInfra = CartModelContainer.getInstance().getAppInfraInstance();
-        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
-        serviceDiscoveryInterface.getServiceLocaleWithCountryPreference("", new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
-            @Override
-            public void onSuccess(String s) {
-                IAPLog.i(IAPLog.LOG, "ServiceDiscoveryInterface ==getHomeCountry " + s);
-                setLangAndCountry(s);
-                fetchBaseUrl(serviceDiscoveryInterface);
-            }
-
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                IAPLog.i(IAPLog.LOG, "ServiceDiscoveryInterface ==getHomeCountry error " + s);
-            }
-        });
-
-    }
-
-    private String loadConfigParams() {
-        String propositionId;
-        AppConfigurationInterface mConfigInterface = CartModelContainer.getInstance().getAppInfraInstance().getConfigInterface();
-        AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
-
-        propositionId = (String) mConfigInterface.getPropertyForKey("propositionid", "IAP", configError);
-
-        if (configError.getErrorCode() != null) {
-            IAPLog.e(IAPLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.getErrorCode().toString());
-        }
-        return propositionId;
-    }
-
 
     protected void initControllerFactory() {
         ControllerFactory.getInstance().init(mIAPSetting.isUseLocalData());
@@ -126,15 +60,6 @@ class IAPHandler {
     protected void initHybrisDelegate() {
         NetworkEssentials essentials = NetworkEssentialsFactory.getNetworkEssentials(mIAPSetting.isUseLocalData());
         HybrisDelegate.getDelegateWithNetworkEssentials(essentials, mIAPSetting);
-    }
-
-    protected void setLangAndCountry(String locale) {
-        String[] localeArray;
-        localeArray = locale.split("_");
-        CartModelContainer.getInstance().setLanguage(localeArray[0]);
-        CartModelContainer.getInstance().setCountry(localeArray[1]);
-        HybrisDelegate.getInstance().getStore().setLangAndCountry(localeArray[0], localeArray[1]);
-        IAPLog.i(IAPLog.LOG, "setLangAndCountry Locale = " + HybrisDelegate.getInstance().getStore().getLocale());
     }
 
     void initIAP(final UiLauncher uiLauncher, final IAPLaunchInput pLaunchInput) {

@@ -8,27 +8,22 @@ import android.content.Context;
 import android.os.Message;
 
 import com.philips.cdp.di.iap.cart.IAPCartListener;
-import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
-import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.controller.ControllerFactory;
-import com.philips.cdp.di.iap.products.ProductCatalogAPI;
 import com.philips.cdp.di.iap.cart.ShoppingCartAPI;
+import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.controller.ControllerFactory;
 import com.philips.cdp.di.iap.integration.IAPInterface;
-import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.integration.IAPListener;
+import com.philips.cdp.di.iap.products.ProductCatalogAPI;
+import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
 public class HybrisHandler extends IAPInterface implements IAPExposedAPI {
     private Context mContext;
-    private String mLanguage;
-    private String mCountry;
 
     public HybrisHandler(Context context) {
         mContext = context;
-      //  mLanguage = CartModelContainer.getInstance().getLanguage();
-      //  mCountry = CartModelContainer.getInstance().getCountry();
     }
 
     @Override
@@ -37,7 +32,7 @@ public class HybrisHandler extends IAPInterface implements IAPExposedAPI {
             getProductCount(iapListener);
         } else {
             HybrisDelegate.getInstance(mContext).getStore().
-                    initStoreConfig(/*mLanguage, mCountry, */new RequestListener() {
+                    initStoreConfig(new RequestListener() {
                         @Override
                         public void onSuccess(final Message msg) {
                             getProductCount(iapListener);

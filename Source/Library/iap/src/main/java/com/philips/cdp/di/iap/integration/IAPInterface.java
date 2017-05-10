@@ -16,6 +16,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     protected IAPHandler mIAPHandler;
     protected IAPSettings mIAPSettings;
     private User mUser;
+    private IAPServiceDiscoveryWrapper mIapServiceDiscoveryWrapper;
 
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
@@ -23,17 +24,19 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
         mIAPSettings = (IAPSettings) uappSettings;
         mIAPHandler = new IAPHandler(mIAPDependencies, mIAPSettings);
         mIAPHandler.initPreRequisite();
+        mIapServiceDiscoveryWrapper = new IAPServiceDiscoveryWrapper(mIAPSettings);
     }
 
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) throws RuntimeException {
         mUser = new User(mIAPSettings.getContext());// User can be inject as dependencies
         if (mUser.isUserSignIn()) {
-            if (!mIAPSettings.isUseLocalData() && (!mIAPHandler.isStoreInitialized(mIAPSettings.getContext()))) {
-                mIAPHandler.initIAP(uiLauncher, (IAPLaunchInput) uappLaunchInput);
-            } else {
-                mIAPHandler.launchIAP(uiLauncher, (IAPLaunchInput) uappLaunchInput);
-            }
+            mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(uiLauncher, mIAPHandler, (IAPLaunchInput) uappLaunchInput);
+//            if (!mIAPSettings.isUseLocalData() && (!mIAPHandler.isStoreInitialized(mIAPSettings.getContext()))) {
+//                mIAPHandler.initIAP(uiLauncher, (IAPLaunchInput) uappLaunchInput);
+//            } else {
+//                mIAPHandler.launchIAP(uiLauncher, (IAPLaunchInput) uappLaunchInput);
+//            }
         } else {
             throw new RuntimeException("User is not logged in.");// Confirm the behaviour on error Callback
         }
