@@ -7,6 +7,7 @@ package com.philips.pins.shinelib;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
 import java.util.Set;
 import java.util.UUID;
 
@@ -103,19 +104,41 @@ public interface SHNDevice {
      * Specifies a set of capabilities supported by the peripheral and exposed by BlueLib.
      *
      * @return a set of peripheral capabilities
+     * @deprecated use {@link #getSupportedCapabilityClasses()}
      */
+    @Deprecated
     Set<SHNCapabilityType> getSupportedCapabilityTypes();
 
     /**
-     * Returns a SHNCapability instance for the type.
+     * Specifies a set of capabilities supported by the peripheral and exposed by BlueLib.
      *
+     * @return a set of peripheral capabilities
+     */
+    Set<Class<? extends SHNCapability>> getSupportedCapabilityClasses();
+
+    /**
+     * Returns a SHNCapability instance for the type.
+     * <p>
      * The returned instance is not type strong. The API user needs to cast it to the proper class type.
      *
      * @param type A requested capability type {@code SHNCapabilityType}
      * @return a {@link com.philips.pins.shinelib.SHNCapability} instance for the type, {@code null} if not supported.
+     * @deprecated use {@link #getCapability(Class)}
      */
     @Nullable
+    @Deprecated
     SHNCapability getCapabilityForType(SHNCapabilityType type);
+
+    /**
+     * Returns the SHNCapability for the specified type.
+     *
+     * @param type Type of capability requested
+     * @param <T>  Template to prevent casting
+     * @return Properly typed capability
+     */
+    @SuppressWarnings("unchecked")
+    @Nullable
+    <T extends SHNCapability> T getCapability(@NonNull Class<T> type);
 
     /**
      * Possible states of the peripheral.
@@ -148,7 +171,7 @@ public interface SHNDevice {
          * Indicates that the initiated connection was not successful.
          *
          * @param shnDevice instance that has changed state
-         * @param result reason for the connection to fail
+         * @param result    reason for the connection to fail
          */
         void onFailedToConnect(SHNDevice shnDevice, SHNResult result);
 
@@ -167,13 +190,13 @@ public interface SHNDevice {
 
         /**
          * @param serviceUuid of the discovered service
-         * @param service associated with the UUID, might be null
+         * @param service     associated with the UUID, might be null
          */
         void onServiceDiscovered(@NonNull UUID serviceUuid, @Nullable SHNService service);
 
         /**
-         * @param characteristicUuid of the discovered characteristic
-         * @param data initial value
+         * @param characteristicUuid       of the discovered characteristic
+         * @param data                     initial value
          * @param associatedCharacteristic might be null
          */
         void onCharacteristicDiscovered(@NonNull UUID characteristicUuid, byte[] data, @Nullable SHNCharacteristic associatedCharacteristic);

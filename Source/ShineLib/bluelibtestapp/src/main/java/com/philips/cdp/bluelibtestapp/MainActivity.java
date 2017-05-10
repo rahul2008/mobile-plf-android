@@ -23,13 +23,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.philips.cdp.pluginreferenceboard.DeviceDefinitionInfoReferenceBoard;
+import com.philips.pins.shinelib.BuildConfig;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceAssociation;
 import com.philips.pins.shinelib.SHNDeviceDefinitionInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
-import com.philips.pins.shinepluginmoonshinelib.SHNMoonshineDeviceDefinitionInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -54,9 +54,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = new DeviceDefinitionInfoReferenceBoard();
             shnCentral.registerDeviceDefinition(shnDeviceDefinitionInfo);
-
-            SHNMoonshineDeviceDefinitionInfo shnMoonshineDeviceDefinitionInfo = new SHNMoonshineDeviceDefinitionInfo();
-            shnCentral.registerDeviceDefinition(shnMoonshineDeviceDefinitionInfo);
 
             Button associateButton = (Button) findViewById(R.id.associateButton);
             if (associateButton != null) {

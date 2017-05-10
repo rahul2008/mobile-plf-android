@@ -32,13 +32,12 @@ import com.philips.pins.shinelib.utility.SharedPreferencesMigrator;
 import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
@@ -116,7 +115,7 @@ public class SHNCentral {
             }
         }
     };
-    private List<SHNCentralListener> registeredShnCentralListeners;
+    private final Set<SHNCentralListener> registeredShnCentralListeners;
     private SHNDeviceScannerInternal shnDeviceScannerInternal;
     private SHNDeviceAssociation shnDeviceAssociation;
     private State shnCentralState = State.SHNCentralStateNotReady;
@@ -127,7 +126,7 @@ public class SHNCentral {
     private Map<String, WeakReference<SHNBondStatusListener>> shnBondStatusListeners = new HashMap<>();
     private Map<String, WeakReference<SHNCentralListener>> shnCentralStatusListeners = new HashMap<>();
 
-    private SharedPreferencesProvider defaultSharedpreferencesProvider = new SharedPreferencesProvider() {
+    private SharedPreferencesProvider defaultSharedPreferencesProvider = new SharedPreferencesProvider() {
         @NonNull
         @Override
         public SharedPreferences getSharedPreferences(String key, int mode) {
@@ -155,7 +154,9 @@ public class SHNCentral {
     }
 
     SHNCentral(Handler handler, final Context context, final boolean showPopupIfBLEIsTurnedOff, final SharedPreferencesProvider customSharedPreferencesProvider, final boolean migrateDataToCustomSharedPreferencesProvider) throws SHNBluetoothHardwareUnavailableException {
+        registeredShnCentralListeners = new CopyOnWriteArraySet<>();
         applicationContext = context.getApplicationContext();
+
         BleUtilities.init(applicationContext);
         if (!BleUtilities.deviceHasBle()) {
             throw new SHNBluetoothHardwareUnavailableException();
@@ -183,7 +184,6 @@ public class SHNCentral {
         FutureTask<Boolean> initFuture = new FutureTask<>(initCallable);
 
         if (internalHandler.post(initFuture)) {
-
             try {
                 initFuture.get();
             } catch (InterruptedException e) {
@@ -281,18 +281,15 @@ public class SHNCentral {
             public void run() {
                 SHNCentral.this.shnCentralState = state;
                 onSHNCentralStateChanged();
-                if (registeredShnCentralListeners != null) {
-                    // copy the array to prevent ConcurrentModificationException
-                    ArrayList<SHNCentralListener> copyOfRegisteredShnCentralListeners = new ArrayList<>(registeredShnCentralListeners);
-                    for (final SHNCentralListener shnCentralListener : copyOfRegisteredShnCentralListeners) {
-                        if (shnCentralListener != null) {
-                            userHandler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    shnCentralListener.onStateUpdated(SHNCentral.this);
-                                }
-                            });
-                        }
+
+                for (final SHNCentralListener shnCentralListener : registeredShnCentralListeners) {
+                    if (shnCentralListener != null) {
+                        userHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                shnCentralListener.onStateUpdated(SHNCentral.this);
+                            }
+                        });
                     }
                 }
             }
@@ -346,10 +343,10 @@ public class SHNCentral {
     }
 
     private PersistentStorageFactory setUpPersistentStorageFactory(Context context, SharedPreferencesProvider customSharedPreferencesProvider, boolean migrateDataToCustomSharedPreferencesProvider) {
-        PersistentStorageFactory defaultPersistentStorageFactory = createPersistentStorageFactory(defaultSharedpreferencesProvider);
+        PersistentStorageFactory defaultPersistentStorageFactory = createPersistentStorageFactory(defaultSharedPreferencesProvider);
 
         if (customSharedPreferencesProvider == null) {
-            migrateDataFromOldKeysToNewKeys(context, defaultSharedpreferencesProvider);
+            migrateDataFromOldKeysToNewKeys(context, defaultSharedPreferencesProvider);
             return defaultPersistentStorageFactory;
         } else {
             TimeGuardedSharedPreferencesProviderWrapper timeGuardedSharedPreferencesProviderWrapper = new TimeGuardedSharedPreferencesProviderWrapper(customSharedPreferencesProvider, getHandlerThreadId(internalHandler));
@@ -357,7 +354,7 @@ public class SHNCentral {
 
             SharedPreferencesMigrator sharedPreferencesMigrator = createSharedPreferencesMigrator(defaultPersistentStorageFactory, customPersistentStorageFactory);
             if (!sharedPreferencesMigrator.destinationPersistentStorageContainsData() && migrateDataToCustomSharedPreferencesProvider) {
-                migrateDataFromOldKeysToNewKeys(context, defaultSharedpreferencesProvider);
+                migrateDataFromOldKeysToNewKeys(context, defaultSharedPreferencesProvider);
                 sharedPreferencesMigrator.execute();
             } else {
                 migrateDataFromOldKeysToNewKeys(context, timeGuardedSharedPreferencesProviderWrapper); // This call is needed to make the destinationPersistentStorageContainsData method return true after the first time creation with the same custom provider.
@@ -490,12 +487,7 @@ public class SHNCentral {
      * @param shnCentralListener listener to register
      */
     public void registerShnCentralListener(SHNCentralListener shnCentralListener) {
-        if (registeredShnCentralListeners == null) {
-            registeredShnCentralListeners = new ArrayList<>();
-        }
-        if (!registeredShnCentralListeners.contains(shnCentralListener)) {
-            registeredShnCentralListeners.add(shnCentralListener);
-        }
+        registeredShnCentralListeners.add(shnCentralListener);
     }
 
     /**
@@ -504,9 +496,7 @@ public class SHNCentral {
      * @param shnCentralListener listener to unregister
      */
     public void unregisterShnCentralListener(SHNCentralListener shnCentralListener) {
-        if (registeredShnCentralListeners != null) {
-            registeredShnCentralListeners.remove(shnCentralListener);
-        }
+        registeredShnCentralListeners.remove(shnCentralListener);
     }
 
     /**

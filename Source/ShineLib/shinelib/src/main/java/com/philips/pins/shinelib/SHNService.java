@@ -11,17 +11,19 @@ import android.bluetooth.BluetoothGattService;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
 import com.philips.pins.shinelib.utility.SHNLogger;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public class SHNService {
     private static final String TAG = SHNService.class.getSimpleName();
@@ -48,8 +50,8 @@ public class SHNService {
         this.uuid = serviceUuid;
         this.requiredCharacteristics = new ArrayList<>();
         this.characteristicMap = new HashMap<>();
-        this.shnServiceListeners = new HashSet<>();
-        this.characteristicDiscoveryListeners = new HashSet<>();
+        this.shnServiceListeners = new CopyOnWriteArraySet<>();
+        this.characteristicDiscoveryListeners = new CopyOnWriteArraySet<>();
 
         for (SHNCharacteristicInfo characteristicInfo : requiredCharacteristics) {
             SHNCharacteristic shnCharacteristic = new SHNCharacteristic(characteristicInfo);

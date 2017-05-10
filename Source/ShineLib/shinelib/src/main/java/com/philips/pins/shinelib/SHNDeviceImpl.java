@@ -87,6 +87,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private long lastDisconnectedTimeMillis;
 
     private Map<SHNCapabilityType, SHNCapability> registeredCapabilities = new HashMap<>();
+    private Map<Class<? extends SHNCapability>, SHNCapability> registeredByClassCapabilities = new HashMap<>();
     private Map<UUID, SHNService> registeredServices = new HashMap<>();
     private SHNResult failedToConnectResult = SHNResult.SHNOk;
     private Timer connectTimer = Timer.createTimer(new Runnable() {
@@ -475,11 +476,36 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
         SHNCapability shnCapabilityWrapper = SHNCapabilityWrapperFactory.createCapabilityWrapper(shnCapability, type, shnCentral.getInternalHandler(), shnCentral.getUserHandler());
         registeredCapabilities.put(type, shnCapabilityWrapper);
+        registerCapability(shnCapability.getClass(), shnCapabilityWrapper);
 
         SHNCapabilityType counterPart = SHNCapabilityType.getCounterPart(type);
         if (counterPart != null) {
             registeredCapabilities.put(counterPart, shnCapabilityWrapper);
         }
+    }
+
+    public <T extends SHNCapability> void registerCapability(@NonNull final Class<? extends SHNCapability> type, @NonNull final T capability) {
+        if (registeredByClassCapabilities.containsKey(type)) {
+            throw new IllegalStateException("Capability already registered");
+        }
+
+        if (capability instanceof SHNCapabilityThreadSafe) {
+            ((SHNCapabilityThreadSafe) capability).setHandlers(shnCentral.getInternalHandler(), shnCentral.getUserHandler());
+        }
+
+        registeredByClassCapabilities.put(type, capability);
+    }
+
+    @Override
+    public Set<Class<? extends SHNCapability>> getSupportedCapabilityClasses() {
+        return registeredByClassCapabilities.keySet();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    @Nullable
+    public <T extends SHNCapability> T getCapability(@NonNull final Class<T> type) {
+        return (T) registeredByClassCapabilities.get(type);
     }
 
     public void registerService(SHNService shnService) {

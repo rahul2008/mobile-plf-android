@@ -3,9 +3,8 @@
  * All rights reserved.
  */
 
-package com.example.cdpp.bluelibexampleapp.associate;
+package com.example.cdpp.bluelibexampleapp.device;
 
-import com.example.cdpp.bluelibexampleapp.device.BaseDeviceAdapter;
 import com.philips.pins.shinelib.SHNDeviceDefinitionInfo;
 
 import java.util.List;
@@ -29,7 +28,7 @@ public class DeviceDefinitionAdapter extends BaseDeviceAdapter<SHNDeviceDefiniti
     }
 
     @Override
-    protected SHNDeviceDefinitionInfo getItem(int position) {
+    public SHNDeviceDefinitionInfo getItem(int position) {
         return mItems.get(position);
     }
 }

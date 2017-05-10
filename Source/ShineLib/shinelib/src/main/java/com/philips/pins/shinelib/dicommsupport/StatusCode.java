@@ -1,6 +1,11 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.dicommsupport;
 
-enum StatusCode {
+public enum StatusCode {
     NoError(0),
     NotUnderstood(1),
     OutOfMemory(2),
@@ -15,7 +20,8 @@ enum StatusCode {
     WrongParameters(11),
     InvalidParameter(12),
     NotSubscribed(13),
-    ProtocolViolation(14);
+    ProtocolViolation(14),
+    Unknown(255);
 
     private byte diCommStatusCode;
 

@@ -6,9 +6,11 @@
 package com.philips.pins.shinelib.wrappers;
 
 import android.os.Handler;
+
 import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.capabilities.CapabilityBluetoothDirect;
+import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityBattery;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityClearUserData;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigEnergyIntake;
@@ -135,9 +137,16 @@ public class SHNCapabilityWrapperFactory {
                 break;
             case BLUETOOTH_DIRECT:
                 shnCapabilityWrapper = new CapabilityBluetoothDirectWrapper(
-                    (CapabilityBluetoothDirect) shnCapability,
-                    internalHandler,
-                    userHandler
+                        (CapabilityBluetoothDirect) shnCapability,
+                        internalHandler,
+                        userHandler
+                );
+                break;
+            case DI_COMM:
+                shnCapabilityWrapper = new CapabilityDiCommWrapper(
+                        (CapabilityDiComm) shnCapability,
+                        internalHandler,
+                        userHandler
                 );
                 break;
             default:

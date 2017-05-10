@@ -1,32 +1,53 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights reserved.
+ */
 apply plugin: 'com.android.application'
 
+buildscript { bs ->
+    apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
+    apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
+    repositories {
+        maven { url repos.jcenter }
+    }
+}
+
+repositories {
+    maven { url repos.jcenter }
+    maven { url repos.release }
+    maven { url repos.snapshot }
+}
+
 android {
-    compileSdkVersion _compileSdkVersion
-    buildToolsVersion _buildToolsVersion
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
+
         applicationId "com.philips.cdp.bluelibtestapp"
-        minSdkVersion _minSdkVersion
-        targetSdkVersion _targetSdkVersion
         versionCode 1
         versionName "0.0.1"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    lintOptions {
+        abortOnError false
     }
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.0'
-    compile project(path: ':shinelib')
-    compile project(path: ':pluginreferenceboard')
-    compile 'com.philips.pins.shinelib:shinepluginmoonshinelib-release:+@aar'
-    compile 'com.philips.pins.shinelib:packetcommunication-release:+@aar'
-    compile 'com.google.code.gson:gson:2.7'
+    debugCompile project(path: ':pluginreferenceboard', configuration: 'debug')
+    releaseCompile project(path: ':pluginreferenceboard', configuration: 'release')
+
+    compile deps.support.appcompatv7
+
+    testCompile deps.junit
 }

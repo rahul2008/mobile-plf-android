@@ -19,7 +19,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
@@ -97,7 +99,7 @@ public class SHNDeviceAssociation {
 
     @NonNull
     private final PersistentStorageFactory persistentStorageFactory;
-    private List<DeviceRemovedListener> deviceRemovedListeners = new ArrayList<>();
+    private Set<DeviceRemovedListener> deviceRemovedListeners = new CopyOnWriteArraySet<>();
 
     @Nullable
     private SHNDeviceAssociationListener shnDeviceAssociationListener;
@@ -363,12 +365,11 @@ public class SHNDeviceAssociation {
                 shnDeviceToRemove.disconnect();
             }
 
-            final ArrayList<DeviceRemovedListener> copyOfDeviceRemovedListeners = new ArrayList<>(deviceRemovedListeners);
             shnCentral.getUserHandler().post(new Runnable() {
                 @Override
                 public void run() {
                     deviceRemovedListener.onAssociatedDeviceRemoved(shnDeviceToRemove);
-                    for (final DeviceRemovedListener listener : copyOfDeviceRemovedListeners) {
+                    for (final DeviceRemovedListener listener : deviceRemovedListeners) {
                         listener.onAssociatedDeviceRemoved(shnDeviceToRemove);
                     }
                 }

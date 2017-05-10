@@ -8,6 +8,7 @@ package com.philips.pins.shinelib.wrappers;
 import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.capabilities.CapabilityBluetoothDirect;
+import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigEnergyIntake;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigHeartRateZones;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigSedentary;
@@ -36,6 +37,9 @@ public class SHNCapabilityWrapperFactoryTest {
 
     @Mock
     private CapabilityBluetoothDirect bluetoothDirectMock;
+
+    @Mock
+    private CapabilityDiComm diCommMock;
 
     @Before
     public void setUp() {
@@ -69,6 +73,12 @@ public class SHNCapabilityWrapperFactoryTest {
     @Test
     public void ShouldCreateCapabilityBluetoothDirectWrapper_WhenBluetoothDirectIsProvided() {
         SHNCapability capabilityWrapper = SHNCapabilityWrapperFactory.createCapabilityWrapper(bluetoothDirectMock, SHNCapabilityType.BLUETOOTH_DIRECT, null, null);
-        assertThat(capabilityWrapper).isInstanceOf(CapabilityBluetoothDirect.class);
+        assertThat(capabilityWrapper).isInstanceOf(CapabilityBluetoothDirectWrapper.class);
+    }
+
+    @Test
+    public void ShouldCreateCapabilityDiCommWrapper_WhenDiCommIsProvided() {
+        SHNCapability capabilityWrapper = SHNCapabilityWrapperFactory.createCapabilityWrapper(diCommMock, SHNCapabilityType.DI_COMM, null, null);
+        assertThat(capabilityWrapper).isInstanceOf(CapabilityDiCommWrapper.class);
     }
 }
