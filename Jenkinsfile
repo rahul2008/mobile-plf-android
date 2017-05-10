@@ -46,7 +46,7 @@ stage('Espresso testing') {
     }
 }
 
-node('Android && 25.0.0 && Ubuntu') {
+node('android && 25.0.0 && Ubuntu') {
   timestamps {
     def APP_ROOT = "Source/CatalogApp"
     def CONFIG = getBuildConfig()
