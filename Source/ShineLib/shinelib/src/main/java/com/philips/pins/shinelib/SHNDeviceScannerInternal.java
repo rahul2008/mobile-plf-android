@@ -8,6 +8,7 @@ package com.philips.pins.shinelib;
 import android.bluetooth.BluetoothDevice;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.pins.shinelib.framework.BleDeviceFoundInfo;
 import com.philips.pins.shinelib.framework.LeScanCallbackProxy;
@@ -36,7 +37,8 @@ public class SHNDeviceScannerInternal {
     private boolean isUsingAdvertisedDataMatching = false;
     private UUID[] uuids = {};
 
-    /* package */ SHNDeviceScannerInternal(@NonNull final SHNCentral shnCentral, @NonNull final List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions) {
+    @VisibleForTesting
+    SHNDeviceScannerInternal(@NonNull final SHNCentral shnCentral, @NonNull final List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions) {
         SHNDeviceFoundInfo.setSHNCentral(shnCentral);
         this.shnCentral = shnCentral;
         this.registeredDeviceDefinitions = registeredDeviceDefinitions;
@@ -73,10 +75,10 @@ public class SHNDeviceScannerInternal {
             shnInternalScanRequests.add(SHNInternalScanRequest);
             SHNInternalScanRequest.scanningStarted(this, shnCentral.getInternalHandler());
         }
-
         return leScanCallbackProxy != null;
     }
 
+    @VisibleForTesting
     LeScanCallbackProxy createLeScanCallbackProxy() {
         return new LeScanCallbackProxy();
     }
@@ -153,6 +155,7 @@ public class SHNDeviceScannerInternal {
 
     private SHNDeviceFoundInfo convertToSHNDeviceFoundInfo(final @NonNull BleDeviceFoundInfo bleDeviceFoundInfo) {
         BleScanRecord bleScanRecord = BleScanRecord.createNewInstance(bleDeviceFoundInfo.getScanRecord());
+
         for (SHNDeviceDefinitionInfo shnDeviceDefinitionInfo : registeredDeviceDefinitions) {
             boolean matched = !isUsingAdvertisedDataMatching || doesDeviceDefinitionInfoSupportDevice(bleDeviceFoundInfo, bleScanRecord, shnDeviceDefinitionInfo);
 
