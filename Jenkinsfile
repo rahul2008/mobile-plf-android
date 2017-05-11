@@ -22,8 +22,8 @@ node ('android&&device') {
                     sh '''#!/bin/bash -l
                         chmod -R 775 .
                         cd ./Source/Library
-                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint cC
-                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease zipDocuments artifactoryPublish
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease cC zipDocuments artifactoryPublish
                     '''                    
 			     }	
 			}
@@ -33,7 +33,8 @@ node ('android&&device') {
                     sh '''#!/bin/bash -l
                         chmod -R 775 .
                         cd ./Source/Library 
-                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint cC assembleRelease
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint  
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease cC
                     '''
                 }
             }
