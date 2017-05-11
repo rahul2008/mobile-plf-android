@@ -109,9 +109,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
             Toast.makeText(getContext(), "Please Login", Toast.LENGTH_SHORT).show();
             mAddButton.setVisibility(View.INVISIBLE);
             mTvConsents.setVisibility(View.INVISIBLE);
-            mTvInsights.setVisibility(View.INVISIBLE);
-            mTvSettings.setVisibility(View.INVISIBLE);
-            mTvCharacteristics.setVisibility(View.INVISIBLE);
             return;
         }
 
