@@ -77,11 +77,11 @@ public class HybrisHandlerTest {
         mHybrisHandler.getCompleteProductList(mIAPListener);
     }
 
-    @Test(expected = NullPointerException.class)
-    public void testGetCompleteProductListWhenStoreNotInitialized() throws Exception {
-        //TestUtils.getStubbedHybrisDelegate();
-        mHybrisHandler.getCompleteProductList(mIAPListener);
-    }
+//    @Test(expected = NullPointerException.class)
+//    public void testGetCompleteProductListWhenStoreNotInitialized() throws Exception {
+//        //TestUtils.getStubbedHybrisDelegate();
+//        mHybrisHandler.getCompleteProductList(mIAPListener);
+//    }
 
     @Test
     public void testGetProductCount() throws Exception {
