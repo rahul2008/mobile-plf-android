@@ -42,8 +42,6 @@ public class SHNDeviceScannerInternal {
         SHNDeviceFoundInfo.setSHNCentral(shnCentral);
         this.shnCentral = shnCentral;
         this.registeredDeviceDefinitions = registeredDeviceDefinitions;
-
-        readDeviceDefinitions(registeredDeviceDefinitions);
     }
 
     public boolean startScanning(@NonNull SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates scannerSettingDuplicates, long stopScanningAfterMS) {
@@ -51,6 +49,8 @@ public class SHNDeviceScannerInternal {
     }
 
     public boolean startScanning(@NonNull final SHNInternalScanRequest SHNInternalScanRequest) {
+        prepareScan(registeredDeviceDefinitions);
+
         if (leScanCallbackProxy == null) {
             leScanCallbackProxy = createLeScanCallbackProxy();
 
@@ -144,7 +144,7 @@ public class SHNDeviceScannerInternal {
         }
     };
 
-    private void readDeviceDefinitions(@NonNull List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions) {
+    private void prepareScan(@NonNull List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions) {
         Set<UUID> uuidSet = new HashSet<>();
         for (SHNDeviceDefinitionInfo definition : registeredDeviceDefinitions) {
             isUsingAdvertisedDataMatching |= definition.useAdvertisedDataMatcher();
