@@ -25,7 +25,7 @@ node ('android&&device&&keystore') {
                     sh '''#!/bin/bash -l
                         chmod -R 755 . 
                         cd ./Source/DemoApp 
-                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint cC
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease cC zipDocuments artifactoryPublish
                     '''
                 }
@@ -34,7 +34,8 @@ node ('android&&device&&keystore') {
                     sh '''#!/bin/bash -l
                         chmod -R 755 . 
                         cd ./Source/DemoApp 
-                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint cC assembleRelease
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint 
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease cC
                     '''
                 }
             }
@@ -51,7 +52,9 @@ node ('android&&device&&keystore') {
             stage ('reporting') {
                 androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
                 junit allowEmptyResults: true, testResults: 'Source/Library/*/build/test-results/*/*.xml'
-                // publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/AppInfra/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'androidTests']) 
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/digitalCare/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'connected tests']) 
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/digitalCare/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'coverage tests']) 
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/digitalCare/build/reports/coverage/release', reportFiles: 'index.html', reportName: 'coverage tests']) 
                 archiveArtifacts '**/dependencies.lock'
             }
 
