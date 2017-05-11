@@ -67,7 +67,6 @@ public class AppFrameworkApplication extends MultiDexApplication implements Flow
         final int resId = R.string.com_philips_app_fmwk_app_flow_url;
         FileUtility fileUtility = new FileUtility(this);
         tempFile = fileUtility.createFileFromInputStream(resId);
-        MultiDex.install(this);
         super.onCreate();
         appInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = appInfra.getLogging();
