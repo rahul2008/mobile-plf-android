@@ -5,6 +5,7 @@ package com.philips.platform.baseapp.screens.settingscreen;/* Copyright (c) Koni
 */
 
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -355,7 +356,13 @@ public class SettingsAdapter extends BaseAdapter {
                     PushNotificationManager.getInstance().saveTokenRegistrationState(activityContext.getApplicationContext(),false);
                     ((AppFrameworkApplication) activityContext.getApplicationContext()).getDataServiceState().deregisterDSForRegisteringToken();
                     ((AppFrameworkApplication) activityContext.getApplicationContext()).getDataServiceState().deregisterForReceivingPayload();
-                    SyncScheduler.getInstance().stopSync();
+                    ((Activity)activityContext).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            SyncScheduler.getInstance().stopSync();
+                        }
+                    });
+
                 }
 
             }
