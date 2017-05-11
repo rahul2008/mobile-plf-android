@@ -54,7 +54,6 @@ node ('android&&device&&keystore') {
                 junit allowEmptyResults: true, testResults: 'Source/Library/*/build/test-results/*/*.xml'
                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/digitalCare/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'connected tests']) 
                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/digitalCare/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'coverage tests']) 
-                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/digitalCare/build/reports/coverage/release', reportFiles: 'index.html', reportName: 'coverage tests']) 
                 archiveArtifacts '**/dependencies.lock'
             }
 
