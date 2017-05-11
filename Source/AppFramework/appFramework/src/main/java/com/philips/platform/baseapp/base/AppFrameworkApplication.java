@@ -5,10 +5,10 @@
 */
 package com.philips.platform.baseapp.base;
 
-import android.app.Application;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.platform.appframework.BuildConfig;
@@ -37,7 +37,7 @@ import java.util.Locale;
 /**
  * Application class is used for initialization
  */
-public class AppFrameworkApplication extends Application implements FlowManagerListener {
+public class AppFrameworkApplication extends MultiDexApplication implements FlowManagerListener {
     private static final String LEAK_CANARY_BUILD_TYPE = "leakCanary";
     public AppInfraInterface appInfra;
     public static LoggingInterface loggingInterface;
