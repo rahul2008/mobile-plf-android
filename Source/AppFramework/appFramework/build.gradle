@@ -332,6 +332,7 @@ dependencies {
 
     compile "com.j256.ormlite:ormlite-core:5.0"
     compile "com.j256.ormlite:ormlite-android:5.0"
+    compile 'com.android.support:multidex:1.0.1'
 
     compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '2.4.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive = true
