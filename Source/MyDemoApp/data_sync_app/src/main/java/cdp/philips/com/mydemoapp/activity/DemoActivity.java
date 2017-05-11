@@ -97,7 +97,11 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
 
     @Override
     public void onUserLogoutSuccess() {
-        SyncScheduler.getInstance().stopSync();
+        runOnUiThread(new Runnable() {
+            public void run() {
+                SyncScheduler.getInstance().stopSync();
+            }
+        });
     }
 
     @Override
@@ -108,12 +112,21 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
         DSLog.i(DSLog.LOG, "CALLBACK FROM UR RECIEVED");
-        SyncScheduler.getInstance().stopSync();
+        runOnUiThread(new Runnable() {
+            public void run() {
+                SyncScheduler.getInstance().stopSync();
+            }
+        });
     }
 
     @Override
     public void onUserRegistrationComplete(final Activity activity) {
-        SyncScheduler.getInstance().scheduleSync();
+        runOnUiThread(new Runnable() {
+            public void run() {
+                SyncScheduler.getInstance().scheduleSync();
+            }
+        });
+
         showFragment(new TemperatureTimeLineFragment(), TemperatureTimeLineFragment.TAG);
     }
 
