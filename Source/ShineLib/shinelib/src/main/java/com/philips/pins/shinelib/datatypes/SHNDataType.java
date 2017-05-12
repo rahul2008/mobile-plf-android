@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2017.
  * All rights reserved.
  */
 
@@ -9,6 +9,8 @@ package com.philips.pins.shinelib.datatypes;
  * All datatypes supported by BlueLib.
  * <p/>
  * Returned by classes inheriting {@link SHNData#getSHNDataType()} to indicate what datatype they are.
+ *
+ * @publicApi
  */
 public enum SHNDataType {
     Unknown,

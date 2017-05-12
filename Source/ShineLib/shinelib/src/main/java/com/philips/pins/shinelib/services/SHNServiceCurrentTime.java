@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
 
@@ -23,11 +23,14 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * @publicPluginApi
+ */
 public class SHNServiceCurrentTime {
-    public static final UUID SERVICE_UUID =                             UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x1805));
-    public static final UUID CURRENT_TIME_CHARACTERISTIC_UUID =         UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A2B));
-    public static final UUID LOCAL_TIME_INFO_CHARACTERISTIC_UUID =      UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A0F));
-    public static final UUID REFERENCE_TIME_INFO_CHARACTERISTIC_UUID =  UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A14));
+    public static final UUID SERVICE_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x1805));
+    public static final UUID CURRENT_TIME_CHARACTERISTIC_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A2B));
+    public static final UUID LOCAL_TIME_INFO_CHARACTERISTIC_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A0F));
+    public static final UUID REFERENCE_TIME_INFO_CHARACTERISTIC_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A14));
 
     private SHNServiceCurrentTimeListener shnServiceCurrentTimeListener;
 

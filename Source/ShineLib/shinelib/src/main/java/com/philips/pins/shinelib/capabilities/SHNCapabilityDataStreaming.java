@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2017.
  * All rights reserved.
  */
 
@@ -14,6 +14,8 @@ import com.philips.pins.shinelib.datatypes.SHNDataType;
 /**
  * Interface to receive a stream of {@link SHNData} objects from a peripheral. Each peripheral
  * has its own set of data types for which it supports streaming.
+ *
+ * @publicApi
  */
 public interface SHNCapabilityDataStreaming extends SHNCapability {
 

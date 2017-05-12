@@ -1,3 +1,8 @@
+/*
+ * © 2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.capabilities;
 
 import android.os.Handler;
@@ -18,6 +23,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @publicPluginApi
+ */
 public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpdate {
 
     private static final String TAG = "FirmwareUpdateDiComm";

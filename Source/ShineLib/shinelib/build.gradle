@@ -146,50 +146,16 @@ dependencies {
     }
 }
 
-def javaDocClassesForPublicApi = ['SHNCentral',
-                                  'SHNBluetoothHardwareUnavailableException',
-                                  'SHNDeviceDefinitionInfo', // for plugin registration via SHNCentral
-                                  'SharedPreferencesProvider',
-                                  'SHNDeviceScanner',
-                                  'SHNDeviceAssociation',
-                                  'SHNAssociationProcedure',
-                                  'SHNUserConfiguration',
-                                  'SHNDevice',
-                                  'SHNCapability',
-                                  'SHNCapabilityType', 'SHNCapabilityBattery', 'SHNCapabilityDeviceInformation', 'SHNCapabilityLogSynchronization', 'SHNCapabilityFirmwareUpdate', 'SHNFirmwareInfoResultListener', 'SHNFirmwareInfo', 'SHNCapabilityDataStreaming', 'SHNCapabilityDeviceDiagnostics', 'SHNCapabilityUserConfiguration',
-                                  'SHNData',
-                                  'SHNDataType', 'SHNDataBloodPressure', 'SHNDataHeartRate', 'SHNDataWeight', 'SHNDataBodyTemperature', 'SHNTemperatureType',
-                                  'SHNResult', 'SHNResultListener', 'SHNIntegerResultListener', 'SHNStringResultListener', 'SHNSetResultListener', 'SHNMapResultListener', 'SHNObjectResultListener']
-
-def javaDocClassesForPluginApi = javaDocClassesForPublicApi + [
-        'SHNAssociationProcedurePlugin',
-        'SHNDeviceScannerInternal',
-        'SHNInternalScanRequest',
-        'SHNDeviceFoundInfo',
-        'BleScanRecord',
-        'PersistentStorage',
-        'PersistentStorageFactory',
-        'PersistentStorageCleaner',
-        'Timer',
-
-        // existing building blocks
-        'SHNDeviceImpl',
-        'SHNAssociationProcedureNearestDevice',
-        'SHNCapabilityLogSyncHealthThermometer', 'SHNServiceHealthThermometer', 'SHNTemperatureMeasurement', 'SHNTemperatureMeasurementInterval', 'SHNTemperatureMeasurementResultListener',
-        'SHNCapabilityLogSyncWeightScale', 'SHNServiceWeightScale', 'SHNWeightMeasurement', 'SHNWeightScaleFeatures', 'SHNServiceBodyComposition', 'SHNBodyCompositionMeasurement', 'SHNBodyCompositionFeatures',
-
-        'SHNCapabilityDeviceInformationImpl', 'SHNCapabilityDeviceInformationCached', 'SHNServiceDeviceInformation',
-        'SHNCapabilityBatteryImpl', 'SHNServiceBattery',
-        'CapabilityFirmwareUpdateDiComm', 'DiCommFirmwarePort',
-        'SHNDeviceTimeAdjusterCurrentTimeService', 'SHNServiceCurrentTime'
-]
-
 task generateJavadocPublicApi(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    destinationDir = file("../../../Documents/External/BluelibApi/")
-    for (file in javaDocClassesForPublicApi) {
-        include("**/" + file + ".java")
+    destinationDir = file("../../../Documents/External/Api/")
+
+    include {
+        if (it.isDirectory) {
+            return true
+        }
+        return it.file.text.contains("* @publicApi")
     }
 
     options {
@@ -204,9 +170,14 @@ task generateJavadocPublicApi(type: Javadoc) {
 task generateJavadocPluginApi(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    destinationDir = file("../../../Documents/External/BluelibPluginApi/")
-    for (file in javaDocClassesForPluginApi) {
-        include("**/" + file + ".java")
+    destinationDir = file("../../../Documents/External/PluginApi/")
+
+    include {
+        if (it.isDirectory) {
+            return true
+        }
+        def fileContent = it.file.text
+        return fileContent.contains("* @publicPluginApi") || fileContent.contains("* @publicApi")
     }
 
     options {

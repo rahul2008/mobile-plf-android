@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
 
@@ -23,6 +23,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * @publicPluginApi
+ */
 public class SHNServiceHealthThermometer implements SHNService.SHNServiceListener, SHNCharacteristic.SHNCharacteristicChangedListener {
     private final static String TAG = SHNServiceHealthThermometer.class.getSimpleName();
     final static UUID SERVICE_HEALTH_THERMOMETER_UUID                = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x1809));
