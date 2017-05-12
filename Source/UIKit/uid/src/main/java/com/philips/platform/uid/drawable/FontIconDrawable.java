@@ -128,7 +128,8 @@ public class FontIconDrawable extends Drawable {
      * @return The current IconDrawable for chaining.
      */
     public FontIconDrawable color(int color) {
-        paint.setColor(color);
+        colorStateList = ColorStateList.valueOf(color);
+        paint.setColor(colorStateList.getColorForState(getState(), colorStateList.getDefaultColor()));
         invalidateSelf();
         return this;
     }
@@ -153,7 +154,8 @@ public class FontIconDrawable extends Drawable {
      * @return The current IconDrawable for chaining.
      */
     public FontIconDrawable colorRes(int colorRes) {
-        paint.setColor(context.getResources().getColor(colorRes));
+        colorStateList = ColorStateList.valueOf(context.getResources().getColor(colorRes));
+        paint.setColor(colorStateList.getColorForState(getState(), colorStateList.getDefaultColor()));
         invalidateSelf();
         return this;
     }
