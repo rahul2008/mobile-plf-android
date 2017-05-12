@@ -51,6 +51,8 @@ public class FontIconDrawable extends Drawable {
 
     private int size = -1;
 
+    private Rect mRect;
+
     private FontIconState mState;
 
     private boolean mMutated;
@@ -68,11 +70,13 @@ public class FontIconDrawable extends Drawable {
         this.context = context;
         this.icon = icon;
         paint = new TextPaint();
+        mRect = new Rect();
+        colorStateList = ColorStateList.valueOf(Color.WHITE);
         paint.setTypeface(typeface);
         paint.setStyle(Paint.Style.STROKE);
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setUnderlineText(false);
-        paint.setColor(Color.WHITE);
+        paint.setColor(colorStateList.getColorForState(getState(), colorStateList.getDefaultColor()));
         paint.setAntiAlias(true);
     }
 
@@ -125,9 +129,31 @@ public class FontIconDrawable extends Drawable {
      */
     private FontIconDrawable sizePx(int size) {
         this.size = size;
-        setBounds(0, 0, size, size);
+
+        paint.setTextSize(size);
+        paint.getTextBounds(icon,0,icon.length(),mRect);
+        fitRect(mRect, size);
+        setBounds(mRect);
         invalidateSelf();
         return this;
+    }
+
+    private static void fitRect(Rect rect, int size) {
+        int w = rect.width();
+        if (size > w) {
+            int d1 = (size - w) / 2;
+            int d2 = size - w - d1;
+            rect.left -= d1;
+            rect.right += d2;
+        }
+
+        int h = rect.height();
+        if (size > h) {
+            int d1 = (size - h) / 2;
+            int d2 = size - h - d1;
+            rect.top -= d1;
+            rect.bottom += d2;
+        }
     }
 
     /**
@@ -183,22 +209,19 @@ public class FontIconDrawable extends Drawable {
 
     @Override
     public int getIntrinsicHeight() {
-        return size;
+        return mRect.height();
     }
 
     @Override
     public int getIntrinsicWidth() {
-        return size;
+        return mRect.width();
     }
 
     @Override
     public void draw(@NonNull Canvas canvas) {
-        paint.setTextSize(getBounds().height());
-        Rect textBounds = new Rect();
-        String textValue = icon;
-        paint.getTextBounds(textValue, 0, 1, textBounds);
-        float textBottom = (getBounds().height() - textBounds.height()) / 2f + textBounds.height() - textBounds.bottom;
-        canvas.drawText(textValue, getBounds().width() / 2f, textBottom, paint);
+        paint.getTextBounds(icon, 0, 1, mRect);
+        float textBottom = (getBounds().height() - mRect.height()) / 2f + mRect.height() - mRect.bottom;
+        canvas.drawText(icon, getBounds().width() / 2f, textBottom, paint);
     }
 
     @Override
@@ -242,6 +265,11 @@ public class FontIconDrawable extends Drawable {
         paint.setStyle(style);
     }
 
+    /**
+     * Call this function to get a parcelable instance of the drawable. Synonymous with onSaveInstance of Activity and should be called manually.
+     *
+     * @return Parcelable instance of the drawable to be used for saving.
+     */
     public Parcelable onSaveInstanceState() {
         final SavedState ss = new SavedState(AbsSavedState.EMPTY_STATE);
 
@@ -249,10 +277,16 @@ public class FontIconDrawable extends Drawable {
         ss.textSize = size;
         ss.paint = paint;
         ss.colorStateList = colorStateList;
+        ss.mRect = mRect;
 
         return ss;
     }
 
+    /**
+     * Call this function to restore drawable instance to a new drawable. Synonymous with onRestoreInstance of Activity and should be called manually.
+     *
+     * @param savedState Saved state of the drawable obtained in the {@link #onSaveInstanceState()}
+     */
     public void onRestoreInstanceState(Parcelable savedState) {
         if (savedState instanceof SavedState) {
             SavedState ss = (SavedState) savedState;
@@ -261,6 +295,7 @@ public class FontIconDrawable extends Drawable {
             size = ss.textSize;
             paint = ss.paint;
             colorStateList = ss.colorStateList;
+            mRect = ss.mRect;
             invalidateSelf();
         }
     }
@@ -270,6 +305,7 @@ public class FontIconDrawable extends Drawable {
         private TextPaint paint;
         private int textSize;
         private ColorStateList colorStateList;
+        private Rect mRect;
 
         public SavedState(Parcelable superState) {
             super(superState);
@@ -280,8 +316,7 @@ public class FontIconDrawable extends Drawable {
             super.writeToParcel(out, flags);
 
             out.writeString(text);
-            out.writeParcelable((Parcelable) paint, flags);
-            out.writeParcelable(colorStateList, flags);
+            out.writeParcelableArray(new Parcelable[]{(Parcelable) paint, colorStateList, mRect},flags);
             out.writeFloat(textSize);
         }
 
@@ -299,32 +334,30 @@ public class FontIconDrawable extends Drawable {
             super(in);
 
             text = in.readString();
-            paint = in.readParcelable(getClass().getClassLoader());
-            colorStateList = in.readParcelable(getClass().getClassLoader());
+            Parcelable[] parcelables = in.readParcelableArray(getClass().getClassLoader());
+            paint = (TextPaint) parcelables[0];
+            colorStateList = (ColorStateList) parcelables[1];
+            mRect = (Rect) parcelables[2];
             textSize = in.readInt();
         }
     }
 
     @Override
     public ConstantState getConstantState() {
-        if (mState.canConstantState()) {
-            mState.mChangingConfigurations = getChangingConfigurations();
-            return mState;
-        }
-        return null;
+        mState.mChangingConfigurations = super.getChangingConfigurations();
+        return mState;
     }
 
     @Override
     public int getChangingConfigurations() {
         return super.getChangingConfigurations()
-                | mState.mChangingConfigurations
-                | mState.mDrawable.getChangingConfigurations();
+                | mState.mChangingConfigurations;
     }
 
     @Override
     public Drawable mutate() {
         if (!mMutated && super.mutate() == this) {
-            mState.mDrawable.mutate();
+            mState = new FontIconState(mState);
             mMutated = true;
         }
         return this;
@@ -332,40 +365,31 @@ public class FontIconDrawable extends Drawable {
 
     final static class FontIconState extends ConstantState {
         private int mChangingConfigurations;
-        private Drawable mDrawable;
         private String icon;
         private TextPaint paint;
         private ColorStateList colorStateList;
         private int size;
-        private boolean mCheckedConstantState;
-        private boolean mCanConstantState;
+        private Rect mRect;
 
-        FontIconState(FontIconState orig, Resources res) {
+        FontIconState(FontIconState orig) {
             if (orig != null) {
                 mChangingConfigurations = orig.mChangingConfigurations;
-                if (res != null) {
-                    mDrawable = orig.mDrawable.getConstantState().newDrawable(res);
-                } else {
-                    mDrawable = orig.mDrawable.getConstantState().newDrawable();
-                }
-                mDrawable.setBounds(orig.mDrawable.getBounds());
-                mDrawable.setLevel(orig.mDrawable.getLevel());
                 icon = orig.icon;
                 paint = orig.paint;
                 size = orig.size;
                 colorStateList = orig.colorStateList;
-                mCheckedConstantState = mCanConstantState = true;
+                mRect = orig.mRect;
             }
         }
 
         @Override
         public Drawable newDrawable() {
-            return new FontIconDrawable(this, null);
+            return new FontIconDrawable(this);
         }
 
         @Override
         public Drawable newDrawable(Resources res) {
-            return new FontIconDrawable(this, res);
+            return newDrawable();
         }
 
         @Override
@@ -373,16 +397,9 @@ public class FontIconDrawable extends Drawable {
             return mChangingConfigurations;
         }
 
-        boolean canConstantState() {
-            if (!mCheckedConstantState) {
-                mCanConstantState = mDrawable.getConstantState() != null;
-                mCheckedConstantState = true;
-            }
-            return mCanConstantState;
-        }
     }
 
-    private FontIconDrawable(@NonNull FontIconState state, @NonNull Resources res) {
-        mState = new FontIconState(state, res);
+    private FontIconDrawable(@NonNull FontIconState state) {
+        mState = new FontIconState(state);
     }
 }
