@@ -21,6 +21,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
+import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
@@ -52,7 +53,6 @@ public class AppFrameworkApplication extends MultiDexApplication implements Flow
     private PushNotificationManager pushNotificationManager;
     private ConnectivityChangeReceiver connectivityChangeReceiver;
 
-
     @Override
     public void onCreate() {
         if (BuildConfig.BUILD_TYPE.equalsIgnoreCase(LEAK_CANARY_BUILD_TYPE)) {
@@ -77,6 +77,8 @@ public class AppFrameworkApplication extends MultiDexApplication implements Flow
         determineChinaFlow();
         productRegistrationState = new ProductRegistrationState();
         productRegistrationState.init(this);
+        iapState = new IAPRetailerFlowState();
+        iapState.init(this);
         initDataServiceState();
         /*
          * Initializing tagging class and its interface. Interface initialization needs
@@ -118,10 +120,6 @@ public class AppFrameworkApplication extends MultiDexApplication implements Flow
 
     public IAPState getIap() {
         return iapState;
-    }
-
-    public void setIapState(IAPState state) {
-        iapState = state;
     }
 
     private void setLocale() {
