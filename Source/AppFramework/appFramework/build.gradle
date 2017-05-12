@@ -278,15 +278,9 @@ android {
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
 
-        exclude 'lib/mips/librsjni.so'
-        exclude 'lib/mips/libblasV8.so'
-        exclude 'lib/mips/libRSSupport.so'
-        exclude "lib/mips/librealm-jni.so"
-        exclude 'lib/mips/lib.so'
-        exclude 'lib/mips64/libcrashlytics-envelope.so'
-        exclude 'lib/mips64/libcrashlytics.so'
-        exclude 'lib/mips/libcrashlytics-envelope.so'
-        exclude 'lib/mips/libcrashlytics.so'
+        pickFirst 'lib/mips/librsjni.so'
+        pickFirst 'lib/mips/libblasV8.so'
+        pickFirst 'lib/mips/libRSSupport.so'
 
         pickFirst 'lib/x86/librsjni.so'
         pickFirst 'lib/x86/libblasV8.so'
