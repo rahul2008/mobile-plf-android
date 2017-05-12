@@ -1,3 +1,9 @@
+/*
+ * (C) Koninklijke Philips N.V., 2017.
+ *  All rights reserved.
+ *
+ */
+
 package com.philips.platform.uid.drawable;
 
 import android.content.Context;
@@ -13,6 +19,10 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DimenRes;
+import android.support.annotation.NonNull;
 import android.text.TextPaint;
 import android.util.TypedValue;
 import android.view.AbsSavedState;
@@ -53,7 +63,7 @@ public class FontIconDrawable extends Drawable {
      * @param context Your activity or application context.
      * @param icon    The icon you want this drawable to display.
      */
-    public FontIconDrawable(Context context, String icon, Typeface typeface) {
+    public FontIconDrawable(@NonNull Context context, @NonNull String icon, @NonNull Typeface typeface) {
         this.context = context;
         this.icon = icon;
         paint = new TextPaint();
@@ -80,7 +90,7 @@ public class FontIconDrawable extends Drawable {
      * @param dimenRes The dimension resource.
      * @return The current IconDrawable for chaining.
      */
-    public FontIconDrawable sizeRes(int dimenRes) {
+    public FontIconDrawable sizeRes(@DimenRes int dimenRes) {
         return sizePx(context.getResources().getDimensionPixelSize(dimenRes));
     }
 
@@ -125,7 +135,7 @@ public class FontIconDrawable extends Drawable {
      * @param color The color, usually from android.graphics.Color or 0xFF012345.
      * @return The current IconDrawable for chaining.
      */
-    public FontIconDrawable color(int color) {
+    public FontIconDrawable color(@ColorInt int color) {
         colorStateList = ColorStateList.valueOf(color);
         paint.setColor(colorStateList.getColorForState(getState(), colorStateList.getDefaultColor()));
         invalidateSelf();
@@ -138,7 +148,7 @@ public class FontIconDrawable extends Drawable {
      * @param colorStateList The ColorStateList, usually from android.content.res.ColorStateList.
      * @return The current IconDrawable for chaining.
      */
-    public FontIconDrawable colorStateList(ColorStateList colorStateList) {
+    public FontIconDrawable colorStateList(@NonNull ColorStateList colorStateList) {
         this.colorStateList = colorStateList;
         paint.setColor(colorStateList.getColorForState(getState(), colorStateList.getDefaultColor()));
         invalidateSelf();
@@ -151,7 +161,7 @@ public class FontIconDrawable extends Drawable {
      * @param colorRes The color resource, from your R file.
      * @return The current IconDrawable for chaining.
      */
-    public FontIconDrawable colorRes(int colorRes) {
+    public FontIconDrawable colorRes(@ColorRes int colorRes) {
         colorStateList = ColorStateList.valueOf(context.getResources().getColor(colorRes));
         paint.setColor(colorStateList.getColorForState(getState(), colorStateList.getDefaultColor()));
         invalidateSelf();
@@ -181,7 +191,7 @@ public class FontIconDrawable extends Drawable {
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void draw(@NonNull Canvas canvas) {
         paint.setTextSize(getBounds().height());
         Rect textBounds = new Rect();
         String textValue = icon;
@@ -227,12 +237,12 @@ public class FontIconDrawable extends Drawable {
      *
      * @param style to be applied
      */
-    public void setStyle(Paint.Style style) {
+    public void setStyle(@NonNull Paint.Style style) {
         paint.setStyle(style);
     }
 
     public Parcelable onSaveInstanceState() {
-        SavedState ss = new SavedState(AbsSavedState.EMPTY_STATE);
+        final SavedState ss = new SavedState(AbsSavedState.EMPTY_STATE);
 
         ss.text = icon;
         ss.textSize = size;
@@ -255,10 +265,10 @@ public class FontIconDrawable extends Drawable {
     }
 
     static class SavedState extends View.BaseSavedState {
-        String text;
-        TextPaint paint;
-        int textSize;
-        ColorStateList colorStateList;
+        private String text;
+        private TextPaint paint;
+        private int textSize;
+        private ColorStateList colorStateList;
 
         public SavedState(Parcelable superState) {
             super(superState);
@@ -320,12 +330,12 @@ public class FontIconDrawable extends Drawable {
     }
 
     final static class FontIconState extends ConstantState {
-        int mChangingConfigurations;
-        Drawable mDrawable;
-        String icon;
-        TextPaint paint;
-        ColorStateList colorStateList;
-        int size;
+        private int mChangingConfigurations;
+        private Drawable mDrawable;
+        private String icon;
+        private TextPaint paint;
+        private ColorStateList colorStateList;
+        private int size;
         private boolean mCheckedConstantState;
         private boolean mCanConstantState;
 
@@ -371,7 +381,7 @@ public class FontIconDrawable extends Drawable {
         }
     }
 
-    private FontIconDrawable(FontIconState state, Resources res) {
+    private FontIconDrawable(@NonNull FontIconState state, @NonNull Resources res) {
         mState = new FontIconState(state, res);
     }
 }
