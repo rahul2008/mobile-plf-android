@@ -20,26 +20,45 @@ node ('android&&keystore') {
 		}
 		try {
 		    if (BranchName =~ /master|develop|release.*/) {
-			stage ('build') {
-                sh 'chmod -R 775 . && cd ./Source/Library/PrxSample && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease zipDocuments artifactoryPublish'
-				}
+    			stage ('build') {
+                    sh '''#!/bin/bash -l
+                        chmod -R 775 . 
+                        cd ./Source/Library/PrxSample 
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease zipDocuments artifactoryPublish
+                    '''
+    			}
 			}
-			else
-			{
-			stage ('build') {
-				sh 'chmod -R 775 . && cd ./Source/Library/PrxSample && ./gradlew ---refresh-dependencies PenvCode=${JENKINS_ENV} clean assembleDebug assembleRelease'
+			else {
+                stage ('build') {
+                    sh '''#!/bin/bash -l
+                        chmod -R 775 . 
+                        cd ./Source/Library/PrxSample 
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease
+                    '''
+			     }
 			}
-			}
+
 			stage ('save dependencies list') {
-            	sh 'chmod -R 775 . && cd ./Source/Library/PrxSample && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
+                sh '''#!/bin/bash -l
+                    chmod -R 775 . 
+                    cd ./Source/Library/PrxSample 
+                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+                '''
             }
-            archiveArtifacts '**/dependencies.lock'
-            currentBuild.result = 'SUCCESS'
+
+            stage ('reporting') {
+                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
+                junit allowEmptyResults: true, testResults: 'Source/Library/*/build/test-results/*/*.xml'
+                // publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/PrxSample/prx/reports/', reportFiles: 'index.html', reportName: 'androidTests']) 
+                archiveArtifacts '**/dependencies.lock'
+            }
         }
 
         catch(err) {
             currentBuild.result = 'FAILURE'
-            error ("Someone just broke the build")
+            error ("Someone just broke the build", err.toString())
         }
      
         if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
