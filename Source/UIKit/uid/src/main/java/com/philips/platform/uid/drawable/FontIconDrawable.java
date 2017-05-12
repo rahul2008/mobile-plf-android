@@ -41,8 +41,6 @@ public class FontIconDrawable extends Drawable {
 
     private int size = -1;
 
-    private int alpha = 255;
-
     private FontIconState mState;
 
     private boolean mMutated;
@@ -103,7 +101,7 @@ public class FontIconDrawable extends Drawable {
      * @param dp  the dp
      * @return the int
      */
-    public static int dpToPx(Resources res, int dp) {
+    private static int dpToPx(Resources res, int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
                 res.getDisplayMetrics());
     }
@@ -114,7 +112,7 @@ public class FontIconDrawable extends Drawable {
      * @param size The size in pixels (px).
      * @return The current IconDrawable for chaining.
      */
-    public FontIconDrawable sizePx(int size) {
+    private FontIconDrawable sizePx(int size) {
         this.size = size;
         setBounds(0, 0, size, size);
         invalidateSelf();
@@ -206,7 +204,6 @@ public class FontIconDrawable extends Drawable {
 
     @Override
     public void setAlpha(int alpha) {
-        this.alpha = alpha;
         paint.setAlpha(alpha);
     }
 
@@ -329,7 +326,6 @@ public class FontIconDrawable extends Drawable {
         TextPaint paint;
         ColorStateList colorStateList;
         int size;
-        private int alpha;
         private boolean mCheckedConstantState;
         private boolean mCanConstantState;
 
@@ -346,7 +342,6 @@ public class FontIconDrawable extends Drawable {
                 icon = orig.icon;
                 paint = orig.paint;
                 size = orig.size;
-                alpha = orig.alpha;
                 colorStateList = orig.colorStateList;
                 mCheckedConstantState = mCanConstantState = true;
             }
