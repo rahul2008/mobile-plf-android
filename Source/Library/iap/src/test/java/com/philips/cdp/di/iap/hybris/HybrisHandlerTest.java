@@ -11,7 +11,6 @@ import com.android.volley.TimeoutError;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.iapHandler.HybrisHandler;
 import com.philips.cdp.di.iap.integration.IAPListener;
-import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
@@ -25,7 +24,6 @@ import org.robolectric.RobolectricTestRunner;
 import java.util.ArrayList;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 public class HybrisHandlerTest {
@@ -78,6 +76,12 @@ public class HybrisHandlerTest {
         TestUtils.getStubbedHybrisDelegate();
         mHybrisHandler.getCompleteProductList(mIAPListener);
     }
+
+//    @Test(expected = NullPointerException.class)
+//    public void testGetCompleteProductListWhenStoreNotInitialized() throws Exception {
+//        //TestUtils.getStubbedHybrisDelegate();
+//        mHybrisHandler.getCompleteProductList(mIAPListener);
+//    }
 
     @Test
     public void testGetProductCount() throws Exception {
