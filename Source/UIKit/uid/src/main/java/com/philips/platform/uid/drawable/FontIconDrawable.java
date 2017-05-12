@@ -62,6 +62,7 @@ public class FontIconDrawable extends Drawable {
      *
      * @param context Your activity or application context.
      * @param icon    The icon you want this drawable to display.
+     * @param typeface typeface to be applied on drawable
      */
     public FontIconDrawable(@NonNull Context context, @NonNull String icon, @NonNull Typeface typeface) {
         this.context = context;
