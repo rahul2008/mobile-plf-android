@@ -19,6 +19,7 @@ buildscript { bs ->
 
 apply plugin: 'com.android.library'
 apply plugin: 'pl.droidsonroids.pitest'
+apply plugin: 'jacoco'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
@@ -142,43 +143,8 @@ dependencies {
     testCompile 'info.cukes:cucumber-junit:1.2.2'
 }
 
-def coverageSourceDirs = ['src/main/java']
-
-task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
-    group = "Reporting"
-
-    description = "Generate Jacoco coverage reports"
-
-    classDirectories = fileTree(dir: 'build/intermediates/classes/debug',
-            excludes: ['**/R.class',
-                       '**/R$*.class',
-                       '**/*$$ViewBinder*.*',
-                       '**/inject/*',
-                       '**/*$InjectAdapter.*',
-                       '**/BuildConfig.*',
-                       '**/Manifest*.*',
-                       '**/Dagger*.*',
-                       '**/*_Provide*Factory.*',
-                       '**/*_Member*Injector.*',
-                       '**/*_Factory.*',
-                       '**/PagerTitleStripV22*.*'])
-
-    additionalSourceDirs = files(coverageSourceDirs)
-    sourceDirectories = files(coverageSourceDirs)
-    executionData = files('build/jacoco/testDebugUnitTest.exec')
-
-    doFirst {
-        new File("$buildDir/intermediates/classes/").eachFileRecurse { file ->
-            if (file.name.contains('$$')) {
-                file.renameTo(file.path.replace('$$', '$'))
-            }
-        }
-    }
-
-    reports {
-        xml.enabled = false
-        html.enabled = true
-    }
+jacoco {
+    toolVersion = versions.jacoco
 }
 
 pitest {
@@ -186,9 +152,10 @@ pitest {
             'com.philips.cdp2.commlib.ble.communication.*',
             'com.philips.cdp2.commlib.ble.discovery.*',
     ]  /* specify target classes to be mutated */
-    pitestVersion = "1.1.10"
+    pitestVersion = versions.pitest
     avoidCallsTo = ['com.philips.cdp.dicommclient.util.DICommLog']
     threads = 8 /* specify number of threads */
     outputFormats = ['XML', 'HTML'] /* specify output format */
-    reportDir = rootDir.absolutePath + "/build/report/pitest/"
+    reportDir = "${rootDir.absolutePath}/build/report/${project.name}/pitest/"
+    timestampedReports = false
 }
