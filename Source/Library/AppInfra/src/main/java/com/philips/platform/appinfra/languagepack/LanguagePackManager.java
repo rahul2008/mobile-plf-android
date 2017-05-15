@@ -67,7 +67,6 @@ public class LanguagePackManager implements LanguagePackInterface {
 		final String languagePackServiceId = (String) appConfigurationInterface.getPropertyForKey(LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY, "APPINFRA", configError);
 		if (null == languagePackServiceId) {
 			aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, "Invalid ServiceID");
-
 		} else {
 			ServiceDiscoveryInterface mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
 
@@ -111,7 +110,6 @@ public class LanguagePackManager implements LanguagePackInterface {
 					final String errMsg = " Error Code:" + error + " , Error Message:" + error.toString();
 					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", errMsg);
 					aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, errMsg);
-
 				}
 			});
 		}
@@ -158,7 +156,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 	}
 
 	private boolean isLanguagePackDownloadRequired(LanguagePackModel selectedLanguageModel) {
-		final File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_INFO);
+		final File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_INFO,LanguagePackConstants.LANGUAGE_PACK_PATH);
 		final String json = languagePackUtil.readFile(file);
 		final LanguagePackMetadata languagePackMetadata = gson.fromJson(json, LanguagePackMetadata.class);
 		if (languagePackMetadata == null) {
@@ -186,7 +184,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL",
 								"Language Pack Json: " + response.toString());
 						if (null != response && null != selectedLanguageModel && null != languagePackHandler) {
-							languagePackUtil.saveFile(response.toString(), LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
+							languagePackUtil.saveFile(response.toString(), LanguagePackConstants.LOCALE_FILE_DOWNLOADED,LanguagePackConstants.LANGUAGE_PACK_PATH);
 							languagePackUtil.saveLocaleMetaData(selectedLanguageModel);
 							languagePackHandler.post(postRefreshSuccess(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.REFRESHED_FROM_SERVER));
 						}else{
@@ -247,7 +245,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 
 	@Override
 	public void activate(final OnActivateListener onActivateListener) {
-		final File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_INFO);
+		final File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_INFO,LanguagePackConstants.LANGUAGE_PACK_PATH);
 		final LanguagePackMetadata languagePackMetadata = gson.fromJson(languagePackUtil.readFile(file), LanguagePackMetadata.class);
 		if (languagePackMetadata != null) {
 			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Language pack metadata info",
@@ -282,8 +280,8 @@ public class LanguagePackManager implements LanguagePackInterface {
 			@Override
 			public void run() {
 				if (onActivateListener != null)
-					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "LP Activated path", languagePackUtil.getLanguagePackFilePath(LOCALE_FILE_ACTIVATED).getAbsolutePath());
-				onActivateListener.onSuccess(languagePackUtil.getLanguagePackFilePath(LOCALE_FILE_ACTIVATED).getAbsolutePath());
+					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "LP Activated path", languagePackUtil.getLanguagePackFilePath(LOCALE_FILE_ACTIVATED,LanguagePackConstants.LANGUAGE_PACK_PATH).getAbsolutePath());
+				onActivateListener.onSuccess(languagePackUtil.getLanguagePackFilePath(LOCALE_FILE_ACTIVATED,LanguagePackConstants.LANGUAGE_PACK_PATH).getAbsolutePath());
 			}
 		};
 	}

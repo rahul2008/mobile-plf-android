@@ -23,18 +23,18 @@ import java.io.IOException;
  * The Language Pack Util class.
  */
 
-class LanguagePackUtil {
+public class LanguagePackUtil {
 
     private Context context;
 
-    LanguagePackUtil(Context context) {
+    public LanguagePackUtil(Context context) {
         this.context = context;
     }
 
-    File getLanguagePackFilePath(String fileName) {
+    File getLanguagePackFilePath(String fileName , String filePath) {
         final ContextWrapper contextWrapper = new ContextWrapper(context);
         final File directory = contextWrapper.getCacheDir();
-        final File file = new File(directory, LanguagePackConstants.LANGUAGE_PACK_PATH);
+        final File file = new File(directory, filePath);
         final File jsonFile = new File(file.getPath(), fileName);
         if (!file.exists()) {
             final boolean mkdirs = file.mkdirs();
@@ -52,10 +52,10 @@ class LanguagePackUtil {
         return jsonFile;
     }
 
-     void saveFile(String response, String fileName) {
+     public void saveFile(String response, String fileName, String filePath ) {
         FileWriter fileWriter = null;
         try {
-            fileWriter = new FileWriter(getLanguagePackFilePath(fileName));
+            fileWriter = new FileWriter(getLanguagePackFilePath(fileName ,filePath));
             fileWriter.write(response);
             fileWriter.close();
         } catch (IOException e) {
@@ -91,7 +91,7 @@ class LanguagePackUtil {
     }
 
     boolean deleteFile(String fileName) {
-        final File file = getLanguagePackFilePath(fileName);
+        final File file = getLanguagePackFilePath(fileName,LanguagePackConstants.LANGUAGE_PACK_PATH);
         return file.delete();
     }
 
@@ -102,7 +102,7 @@ class LanguagePackUtil {
             metadataJsonObject.put(LanguagePackConstants.LOCALE, languagePackModel.getLocale());
             metadataJsonObject.put(LanguagePackConstants.VERSION, languagePackModel.getVersion());
             metadataJsonObject.put(LanguagePackConstants.URL, languagePackModel.getUrl());
-            saveFile(metadataJsonObject.toString(),LanguagePackConstants.LOCALE_FILE_INFO);
+            saveFile(metadataJsonObject.toString(),LanguagePackConstants.LOCALE_FILE_INFO,LanguagePackConstants.LANGUAGE_PACK_PATH);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -110,8 +110,8 @@ class LanguagePackUtil {
 
 
     boolean renameOnActivate() {
-        final File from = getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
-        final File to = new File(getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_ACTIVATED), "");
+        final File from = getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_DOWNLOADED,LanguagePackConstants.LANGUAGE_PACK_PATH);
+        final File to = new File(getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_ACTIVATED,LanguagePackConstants.LANGUAGE_PACK_PATH), "");
         if (from.exists()) {
             if (to.exists()) {
                 to.delete();

@@ -27,7 +27,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
     ListView listView;
     String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging","AppIdentity",
             "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client", " A/B Testing", "Content Loader", "WhiteBox API", "Internet Check", "Language Pack",
-            "Resolution locale"};
+            "Resolution locale","App Update"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
