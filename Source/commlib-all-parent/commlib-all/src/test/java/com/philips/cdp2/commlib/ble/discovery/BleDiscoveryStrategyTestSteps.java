@@ -286,7 +286,9 @@ public class BleDiscoveryStrategyTestSteps {
         final SHNDeviceWrapper shnDeviceMock = mock(SHNDeviceWrapper.class);
         final SHNDeviceImpl shnDeviceImplMock = mock(SHNDeviceImpl.class);
 
-        final String deviceMacAddress = createMacAddress();
+        // FIXME When cpp retrieval from device with connects is enabled again, this has to the mac address again
+//        final String deviceMacAddress = createMacAddress();
+        final String deviceMacAddress = cppId;
 
         // Properties
         when(shnDeviceMock.getState()).thenReturn(SHNDevice.State.Connected);
