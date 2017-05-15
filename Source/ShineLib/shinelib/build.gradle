@@ -174,10 +174,23 @@ task generateJavadocPluginApi(type: Javadoc) {
 
     include {
         if (it.isDirectory) {
+            println("Dir: $it")
             return true
         }
-        def fileContent = it.file.text
-        return fileContent.contains("* @publicPluginApi") || fileContent.contains("* @publicApi")
+
+        if (it.file.text.contains("* @publicPluginApi")) {
+            println("Plugin API: $it")
+            return true
+        }
+
+        if (it.file.text.contains("* @publicApi")) {
+            println("Public API: $it")
+            return true
+        }
+
+
+        println("Rejected: $it")
+        return false
     }
 
     options {
