@@ -1,8 +1,8 @@
 rootProject.setName 'UserRegistration'
 include ':hsdp', ':HockeySDK-3.0.2'
 include ':jump'
-include ':registrationApi'
+include ':RegistrationApi'
 include ':coppa'
-include ':registrationSampleApp'
+include ':RegistrationSampleApp'
 include ':RegistrationCoppaSampleApp'
 
