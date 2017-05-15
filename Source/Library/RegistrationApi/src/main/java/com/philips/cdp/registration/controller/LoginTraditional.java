@@ -223,6 +223,10 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         HsdpUser hsdpUser = new HsdpUser(mContext);
         HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
         if (hsdpUserRecord == null) {
+            if(RegistrationHelper.getInstance().isChinaFlow()){
+                mEmail= user.getMobile();
+            }
+
             hsdpUser.socialLogin(mEmail, user.getAccessToken(),Jump.getRefreshSecret(), new SocialLoginHandler() {
 
                 @Override

@@ -351,6 +351,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             public void onClick(View v) {
                 if (!UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                     mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
+                    scrollViewAutomatically(mRegError, mSvRootLayout);
                     return;
                 }
                 RLog.d(RLog.ONCLICK, "HomeFragment : " + providerName);
@@ -485,9 +486,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 @Override
                 public void onSelectCountry(String name, String code) {
 
-                    mCountryDisplayy.setText(name);
                     RLog.i(RLog.ONCLICK, "HomeFragment :Country Name: " + name + " - Code: ");
-                    changeCountry(code.trim().toUpperCase());
+                    changeCountry(name,code.trim().toUpperCase());
                     picker.getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                     picker.dismiss();
 
@@ -497,7 +497,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         }
     }
 
-    private void changeCountry(String countryCode) {
+    private void changeCountry(String countryName, String countryCode) {
         if (networkUtility.isNetworkAvailable()) {
             serviceDiscoveryInterface.setHomeCountry(countryCode);
             RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + countryCode.length());
@@ -514,6 +514,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
                             RLog.d(RLog.SERVICE_DISCOVERY,"Change Country code :" + RegistrationHelper.getInstance().getCountryCode());
                             handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
+                            mCountryDisplayy.setText(countryName);
+
                         }
 
                         @Override
@@ -953,6 +955,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
            //Temp fix need to be changed
         if(userRegistrationFailureInfo.getErrorCode() == AUTHENTICATION_FAILED){
             mRegError.setError(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
+            scrollViewAutomatically(mRegError,mSvRootLayout);
+        } else{
+            mRegError.setError(mContext.getString(R.string.reg_Generic_Network_Error));
             scrollViewAutomatically(mRegError,mSvRootLayout);
         }
     }
