@@ -209,11 +209,30 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
             DICommLog.d(TAG, String.format(Locale.US, "Device found: [%s], signal strength: [%d dBm]", shnDeviceFoundInfo.getDeviceAddress(), shnDeviceFoundInfo.getRssi()));
             discoveredMacAddresses.add(device.getAddress());
 
-            final DiscoveryTask discoveryTask = new DiscoveryTask(device, deviceInformation, modelId);
-            taskQueue.offer(discoveryTask);
+            // FIXME Swap code block below between arrows with these 2 lines to re-enable cppId retrieval with connects.
+            // final DiscoveryTask discoveryTask = new DiscoveryTask(device, deviceInformation, modelId);
+            // taskQueue.offer(discoveryTask);
+            // -->
+            final NetworkNode networkNode = createNetworkNode(device, modelId);
+            networkNode.setCppId(device.getAddress());
+
+            bleDeviceCache.add(addDiCommStreamingToDevice(device), networkNode, expirationCallback, SCAN_WINDOW_MILLIS);
+            notifyNetworkNodeDiscovered(networkNode);
+            // <--
         } else {
             DICommLog.w(TAG, "Unhandled model id: " + modelId);
         }
+    }
+
+    private NetworkNode createNetworkNode(final @NonNull SHNDevice device, final @NonNull String modelId) {
+        final NetworkNode networkNode = new NetworkNode();
+        networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+        networkNode.setModelId(modelId);
+        networkNode.setModelName(device.getDeviceTypeName());
+        networkNode.setBleAddress(device.getAddress());
+        networkNode.setName(device.getName());
+
+        return networkNode;
     }
 
     private SHNDevice addDiCommStreamingToDevice(final @NonNull SHNDevice device) {
@@ -295,15 +314,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         DiscoveryTask(final @NonNull SHNDevice device, final @NonNull SHNCapabilityDeviceInformation deviceInformation, final @Nullable String modelId) {
             this.device = device;
             this.deviceInformation = deviceInformation;
-
-            final NetworkNode networkNode = new NetworkNode();
-            networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
-            networkNode.setModelId(modelId);
-            networkNode.setModelName(device.getDeviceTypeName());
-            networkNode.setBleAddress(device.getAddress());
-            networkNode.setName(device.getName());
-
-            this.networkNode = networkNode;
+            this.networkNode = createNetworkNode(device, modelId);
         }
 
         @Override
