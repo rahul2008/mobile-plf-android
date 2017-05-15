@@ -5,14 +5,18 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.core.deps.guava.annotations.VisibleForTesting;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 
+import com.philips.cdp.di.iap.integration.IAPListener;
+import com.philips.cdp.di.iap.screens.InAppBaseFragment;
 import com.philips.cdp.di.iap.store.IAPUser;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import org.mockito.Mock;
+
+import java.util.ArrayList;
 
 import javax.annotation.Nullable;
 
@@ -20,7 +24,7 @@ import javax.annotation.Nullable;
  * Created by philips on 5/2/17.
  */
 
-public class DemoTestActivity extends AppCompatActivity {
+public class DemoTestActivity extends AppCompatActivity implements IAPListener, ActionBarListener {
     private Resources resources;
 
 
@@ -56,28 +60,21 @@ public class DemoTestActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.iap_activity);
-//        IAPSettings mIAPSettings = new IAPSettings(this);
-//
-//        StoreListener mStore = (new MockStore(this, iapUserMock)).getStore(mIAPSettings);
-//        mStore.initStoreConfig(/*"en", "GB",*/ null);
-//        IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
-//        IAPInterface mIapInterface = new IAPInterface();
-//        mIapInterface.init(mIapDependencies, mIAPSettings);
-        //switchFragment(new ProductCatalogFragment());
-
     }
 
-    public void switchFragment(final Fragment fragment) {
-        runOnUiThread(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        final FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.fl_mainFragmentContainer, fragment);
-                        fragmentTransaction.commitAllowingStateLoss();
-                    }
-                });
-    }
+    public void switchFragment(final InAppBaseFragment fragment, final Bundle bundle) {
+//        runOnUiThread(
+//                new Runnable() {
+//                    @Override
+//                    public void run() {
+        final FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragment.setArguments(bundle);
+        fragment.setActionBarListener(this, this);
+        fragmentTransaction.replace(R.id.fl_mainFragmentContainer, fragment);
+        fragmentTransaction.commitAllowingStateLoss();
+//    }
+//                });
+}
 
 
     @VisibleForTesting
@@ -88,4 +85,43 @@ public class DemoTestActivity extends AppCompatActivity {
         return mIdlingResource;
     }
 
+    @Override
+    public void onGetCartCount(int count) {
+
+    }
+
+    @Override
+    public void onUpdateCartCount() {
+
+    }
+
+    @Override
+    public void updateCartIconVisibility(boolean shouldShow) {
+
+    }
+
+    @Override
+    public void onGetCompleteProductList(ArrayList<String> productList) {
+
+    }
+
+    @Override
+    public void onSuccess() {
+
+    }
+
+    @Override
+    public void onFailure(int errorCode) {
+
+    }
+
+    @Override
+    public void updateActionBar(int i, boolean b) {
+
+    }
+
+    @Override
+    public void updateActionBar(String s, boolean b) {
+
+    }
 }

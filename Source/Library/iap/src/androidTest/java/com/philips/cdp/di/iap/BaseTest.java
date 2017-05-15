@@ -3,6 +3,8 @@ package com.philips.cdp.di.iap;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.philips.cdp.di.iap.utils.IAPConstant;
+
 import java.util.ArrayList;
 
 /**
@@ -28,7 +30,7 @@ public class BaseTest {
     protected Intent getLaunchIntent(final int view, ArrayList<String> ctns, int theme) {
         final Bundle bundleExtra = new Bundle();
         bundleExtra.putInt(DemoTestActivity.IAP_VIEW, view);
-        bundleExtra.putStringArrayList(DemoTestActivity.IAP_PRODUCTS, ctns);
+        bundleExtra.putStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS, ctns);
         bundleExtra.putInt(DemoTestActivity.IAP_THEME, theme);
         final Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.putExtras(bundleExtra);

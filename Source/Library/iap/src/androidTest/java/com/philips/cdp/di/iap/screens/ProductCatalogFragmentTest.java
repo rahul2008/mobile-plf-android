@@ -6,25 +6,26 @@ import android.support.test.espresso.Espresso;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
+import android.view.View;
 
 import com.philips.cdp.di.iap.BaseTest;
 import com.philips.cdp.di.iap.DemoTestActivity;
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.integration.IAPSettings;
+import com.philips.cdp.di.iap.matcher.TextViewPropertiesMatchers;
+import com.philips.cdp.di.iap.matcher.ViewPropertiesMatchers;
 import com.philips.cdp.di.iap.mocks.MockNetworkController;
-import com.philips.cdp.di.iap.mocks.MockStore;
 import com.philips.cdp.di.iap.mocks.TestUtils;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
-import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.StoreListener;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static org.mockito.Mockito.mock;
 
 public class ProductCatalogFragmentTest extends BaseTest {
     MockNetworkController mNetworkController;
@@ -42,13 +43,15 @@ public class ProductCatalogFragmentTest extends BaseTest {
         DemoTestActivity activity = mActivityTestRule.launchActivity(getLaunchIntent(IAPFlows.IAP_PRODUCT_CATALOG_VIEW, CTNs, R.style.Theme_DLS_GroupBlue_UltraLight));
         mContext = activity;
         MockitoAnnotations.initMocks(this);
-        mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(new IAPSettings(mock(Context.class)));
-        mStore.initStoreConfig(/*"en", "us", */null);
-        mHybrisDelegate = TestUtils.getStubbedHybrisDelegate();
-        mNetworkController = (MockNetworkController) mHybrisDelegate.getNetworkController(mContext);
+//        mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(new IAPSettings(mock(Context.class)));
+//        mStore.initStoreConfig(/*"en", "us", */null);
+//        mHybrisDelegate = TestUtils.getStubbedHybrisDelegate();
+//        mNetworkController = (MockNetworkController) mHybrisDelegate.getNetworkController(mContext);
 
+        TestUtils.getStubbedHybrisDelegate();
+        TestUtils.getStubbedStore();
         //  activity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
-        activity.switchFragment(new ProductCatalogFragment());
+        activity.switchFragment(new ProductCatalogFragment(), null);
         resources = activity.getResources();
         resources = activity.getResources();
         registerIdlingResources(activity);
@@ -68,15 +71,15 @@ public class ProductCatalogFragmentTest extends BaseTest {
         return onView(withId(R.id.empty_product_catalog_txt));
     }
 
-//    @Test
-//    public void verifyRecyclerViewIsVisible() {
-//        getProductCatalogRecyclerView().check(matches(ViewPropertiesMatchers.isVisible(View.VISIBLE)));
-//        // Assert.assertTrue(true);
-//    }
-//
-//    @Test
-//    public void verifyProductOverviewTextFontSize() {
-//        float expectedFontSize = resources.getDimensionPixelSize(R.dimen.uid_label_text_size);
-//        getProductCatalogTextView().check(matches(TextViewPropertiesMatchers.isSameFontSize((int) expectedFontSize)));
-//    }
+    @Test
+    public void verifyRecyclerViewIsVisible() {
+        getProductCatalogRecyclerView().check(matches(ViewPropertiesMatchers.isVisible(View.VISIBLE)));
+        // Assert.assertTrue(true);
+    }
+
+    @Test
+    public void verifyProductOverviewTextFontSize() {
+        float expectedFontSize = resources.getDimensionPixelSize(R.dimen.uid_label_text_size);
+        getProductCatalogTextView().check(matches(TextViewPropertiesMatchers.isSameFontSize((int) expectedFontSize)));
+    }
 }

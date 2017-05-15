@@ -98,4 +98,12 @@ public class TestUtils {
         sb.append(fileName);
         return sb.toString();
     }
+
+    public static void pauseTestFor(long milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

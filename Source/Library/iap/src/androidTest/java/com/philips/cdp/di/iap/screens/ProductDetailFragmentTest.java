@@ -29,7 +29,7 @@ public class ProductDetailFragmentTest extends BaseTest {
         DemoTestActivity activity;
         activity = mActivityTestRule.launchActivity(getLaunchIntent(IAPFlows.IAP_PRODUCT_DETAIL_VIEW, CTNs, R.style.Theme_DLS_GroupBlue_UltraLight));
         //  activity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
-        activity.switchFragment(new ProductDetailFragment());
+        activity.switchFragment(new ProductDetailFragment(), null);
         resources = activity.getResources();
         activityContext = activity;
     }
