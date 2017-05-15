@@ -18,33 +18,48 @@ node ('android&&device') {
 		}
 
 		try {
-		if (BranchName =~ /master|develop|release.*/) {
-			stage ('build') {
+    		if (BranchName =~ /master|develop|release.*/) {
+    			stage ('build') {
+                    sh '''#!/bin/bash -l
+                        chmod -R 775 . 
+                        cd ./Source/Library 
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test zipDocuments artifactoryPublish
+                    '''
+                }
+    		}	
+    		else {
+    			stage ('build') {
+                    sh '''#!/bin/bash -l
+                        chmod -R 775 . 
+                        cd ./Source/Library 
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test
+                    '''
+    			}
+    		
+            }
+
+    		stage ('save dependencies list') {
                 sh '''#!/bin/bash -l
-                    chmod -R 775 . 
-                    cd ./Source/Library 
-                    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
-                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test zipDocuments artifactoryPublish
+            	   chmod -R 775 . 
+                   cd ./Source/Library 
+                   ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
                 '''
             }
-		}	
-		else 			{
-			stage ('build') {
-                sh '''#!/bin/bash -l
-                    chmod -R 775 . 
-                    cd ./Source/Library 
-                    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
-                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test
-                '''
-			}
-		
-        }
-			stage ('save dependencies list') {
-            	sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
-        
-        }
-            archiveArtifacts '**/dependencies.lock'
-            currentBuild.result = 'SUCCESS'
+
+           stage ('reporting') {
+                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
+                junit allowEmptyResults: true, testResults: 'Source/Library/*/build/test-results/*/*.xml'
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/RegistrationApi/build/reports/tests/debug', reportFiles: 'index.html', reportName: 'unit test debug']) 
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/RegistrationApi/build/reports/tests/release', reportFiles: 'index.html', reportName: 'unit test release'])
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/RegistrationApi/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'connected tests RegistrationApi'])
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/coppa/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'connected tests coppa'])
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/coppa/build/reports/Jump/connected', reportFiles: 'index.html', reportName: 'connected tests Jump'])
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/coppa/build/reports/hsdp/connected', reportFiles: 'index.html', reportName: 'connected tests hsdp'])
+                archiveArtifacts '**/dependencies.lock'
+            }
+
         }
 
         catch(err) {
