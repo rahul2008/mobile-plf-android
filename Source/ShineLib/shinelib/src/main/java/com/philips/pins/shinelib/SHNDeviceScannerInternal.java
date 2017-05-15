@@ -145,6 +145,8 @@ public class SHNDeviceScannerInternal {
     };
 
     private void prepareScan(@NonNull List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions) {
+        isUsingAdvertisedDataMatching = false;
+
         Set<UUID> uuidSet = new HashSet<>();
         for (SHNDeviceDefinitionInfo definition : registeredDeviceDefinitions) {
             isUsingAdvertisedDataMatching |= definition.useAdvertisedDataMatcher();
