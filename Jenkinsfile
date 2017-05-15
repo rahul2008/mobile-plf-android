@@ -24,19 +24,18 @@ node ('android&&keystore') {
                     chmod -R 775 .
                     cd ./Source/Library
                     ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint 
-                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test zipDocuments artifactoryPublish
+                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test -x :uAppFwLib:testReleaseUnitTest zipDocuments artifactoryPublish
                 '''
 			}
 			}
 			else
 			{
 			stage ('build') {
-
-        	sh '''#!/bin/bash -l
+            	sh '''#!/bin/bash -l
 				    chmod -R 775 .
 				    cd ./Source/Library
                     ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint 
-                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test
+                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test -x :uAppFwLib:testReleaseUnitTest
 				'''
 			}
 
