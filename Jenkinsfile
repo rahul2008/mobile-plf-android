@@ -23,7 +23,7 @@ node ('android') {
                         chmod -R 775 . 
                         cd ./Source/CatalogApp 
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
-                        ./gradlew -PenvCode=${JENKINS_ENV} Release zipDocuments artifactoryPublish
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease zipDocuments artifactoryPublish
                     '''
                 }
             } else {
@@ -32,7 +32,7 @@ node ('android') {
                         chmod -R 775 . 
                         cd ./Source/CatalogApp 
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
-                        ./gradlew -PenvCode=${JENKINS_ENV} Release 
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease 
                     '''
                 }
             }
