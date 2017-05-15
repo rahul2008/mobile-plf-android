@@ -11,8 +11,28 @@ public class SHNSharedConnectionDevice extends SHNDeviceWrapper {
     private final AtomicInteger numberOfConnectsOutstanding = new AtomicInteger(0);
     private final Object lock = new Object();
 
+    private final SHNDeviceListener shnDeviceListener = new SHNDeviceListener() {
+        @Override
+        public void onStateUpdated(SHNDevice shnDevice) {
+            if (shnDevice.getState() == State.Disconnected && numberOfConnectsOutstanding.get() > 0) {
+                SHNSharedConnectionDevice.super.connect();
+            }
+        }
+
+        @Override
+        public void onFailedToConnect(SHNDevice shnDevice, SHNResult result) {
+            // Ignored
+        }
+
+        @Override
+        public void onReadRSSI(int rssi) {
+            // Ignored
+        }
+    };
+
     public SHNSharedConnectionDevice(SHNDevice shnDevice) {
         super(shnDevice);
+        registerSHNDeviceListener(this.shnDeviceListener);
     }
 
     @Override
