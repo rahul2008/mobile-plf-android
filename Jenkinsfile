@@ -20,29 +20,36 @@ node ('android&&device') {
 		try {
 		if (BranchName =~ /master|develop|release.*/) {
 			stage ('build') {
-			sh 'chmod -R 775 . && cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} cC assembleRelease zipDocuments artifactoryPublish'
-                //echo "fetch git config"
-                //echo "******"
-               // sh 'cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew :coppa:clean'
-                
-			}
-			}	
-			else
-			{
+                sh '''#!/bin/bash -l
+                    chmod -R 775 . 
+                    cd ./Source/Library 
+                    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
+                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test zipDocuments artifactoryPublish
+                '''
+            }
+		}	
+		else 			{
 			stage ('build') {
-				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug assembleRelease'
+                sh '''#!/bin/bash -l
+                    chmod -R 775 . 
+                    cd ./Source/Library 
+                    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
+                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test
+                '''
 			}
-			}
+		
+        }
 			stage ('save dependencies list') {
             	sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
-            }
+        
+        }
             archiveArtifacts '**/dependencies.lock'
             currentBuild.result = 'SUCCESS'
         }
 
         catch(err) {
             currentBuild.result = 'FAILURE'
-            error ("Someone just broke the build")
+            error ("Someone just broke the build", err.toString())
         }
 
         if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
