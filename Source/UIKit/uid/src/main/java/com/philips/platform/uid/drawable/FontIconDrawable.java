@@ -230,27 +230,52 @@ public class FontIconDrawable extends Drawable {
         invalidateSelf();
         return true;
     }
-
+    /**
+     * Indicates whether this drawable will change its appearance based on
+     * state.
+     *
+     * @return True if this drawable changes its appearance based on state,
+     *         false otherwise.
+     */
     @Override
     public boolean isStateful() {
         return true;
     }
 
+    /**
+     * Set the alpha of this drawable.
+     *
+     * @param alpha The alpha to be applied to the drawable.
+     */
     @Override
     public void setAlpha(int alpha) {
         paint.setAlpha(alpha);
     }
 
+    /**
+     * Set the colorFilter of this drawable.
+     *
+     * @param cf The colorFilter to be applied to the drawable.
+     */
     @Override
     public void setColorFilter(ColorFilter cf) {
         paint.setColorFilter(cf);
     }
 
+    /**
+     * Clear the colorFilter of this drawable.
+     *
+     */
     @Override
     public void clearColorFilter() {
         paint.setColorFilter(null);
     }
 
+    /**
+     * Get the Opacity of this drawable.
+     *
+     *@return The current opacity.
+     */
     @Override
     public int getOpacity() {
         return PixelFormat.OPAQUE;
