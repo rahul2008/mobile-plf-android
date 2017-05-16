@@ -1,5 +1,5 @@
 /*
- * © 2017 Koninklijke Philips N.V.
+ * (C) 2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
