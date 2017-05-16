@@ -24,7 +24,7 @@ node ('android&&keystore') {
                     chmod -R 775 .
                     cd ./Source/AppFramework 
                     ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint assembleLeakCanary
-                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test assembleLeakCanary zipDoc appFramework:aP
+                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test -x :appFramework:assembleAppFrameworkHamburgerDebugUnitTest assembleLeakCanary zipDoc appFramework:aP
                 '''
                 }
             } else {
@@ -33,7 +33,7 @@ node ('android&&keystore') {
                     chmod -R 775 . 
                     cd ./Source/AppFramework 
                     ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint assembleLeakCanary
-                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test assembleLeakCanary 
+                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test -x :appFramework:assembleAppFrameworkHamburgerDebugUnitTest assembleLeakCanary 
                 '''
                 }
             }
