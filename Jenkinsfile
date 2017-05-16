@@ -56,10 +56,9 @@ node ('android&&keystore') {
                 archiveArtifacts '**/build/**/*.apk'
             }
 
-        }
             currentBuild.result = 'SUCCESS'
-    
-
+        }
+            
         catch(err) {
             currentBuild.result = 'FAILURE'
             error ("Someone just broke the build", err.toString())
