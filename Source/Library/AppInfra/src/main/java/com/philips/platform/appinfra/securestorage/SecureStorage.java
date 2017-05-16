@@ -18,6 +18,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.Key;
 import java.security.KeyPair;
@@ -63,6 +64,24 @@ public class SecureStorage implements SecureStorageInterface {
         mContext = mAppInfra.getAppInfraContext();
     }
 
+    /**
+     * Checks if the device is rooted.
+     *
+     * @return <code>true</code> if the device is rooted, <code>false</code> otherwise.
+     */
+    private static boolean checkProcess() {
+        Process process = null;
+        try {
+            process = Runtime.getRuntime().exec(new String[]{"/system/xbin/which", "/system/bin/which", "su"});
+            final BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            if (in.readLine() != null) return true;
+            return false;
+        } catch (Throwable t) {
+            return false;
+        } finally {
+            if (process != null) process.destroy();
+        }
+    }
 
     @Override
     public synchronized boolean storeValueForKey(String userKey, String valueToBeEncrypted, SecureStorageError secureStorageError) {
@@ -75,8 +94,10 @@ public class SecureStorage implements SecureStorageInterface {
                 returnResult = false;
                 return false;
             }
+            valueToBeEncrypted = getDecodedString(valueToBeEncrypted);
+            userKey = getDecodedString(userKey);
             final SecretKey secretKey = generateAESKey(); // generate AES key
-            final Key key = (Key) new SecretKeySpec(secretKey.getEncoded(), "AES");
+            final Key key = new SecretKeySpec(secretKey.getEncoded(), "AES");
             final Cipher cipher = Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
             final byte[] ivBlockSize = new byte[cipher.getBlockSize()];
             final IvParameterSpec ivParameterSpec = new IvParameterSpec(ivBlockSize);
@@ -109,7 +130,6 @@ public class SecureStorage implements SecureStorageInterface {
 
     }
 
-
     @Override
     public synchronized String fetchValueForKey(String userKey, SecureStorageError secureStorageError) {
         String decryptedString = null;
@@ -117,6 +137,7 @@ public class SecureStorage implements SecureStorageInterface {
             secureStorageError.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
             return null;
         }
+        userKey = getDecodedString(userKey);
         final String encryptedString = fetchEncryptedData(userKey, secureStorageError, DATA_FILE_NAME);
         final String encryptedAESString = fetchEncryptedData(userKey, secureStorageError, KEY_FILE_NAME);
         if (null == encryptedString || null == encryptedAESString) {
@@ -144,7 +165,6 @@ public class SecureStorage implements SecureStorageInterface {
            return decryptedString;
 
     }
-
 
     @Override
     public synchronized boolean removeValueForKey(String userKey) {
@@ -245,7 +265,6 @@ public class SecureStorage implements SecureStorageInterface {
         return key2;
     }
 
-
     private String generateKeyPair(SecretKey secretKey) {
         try {
             keyStore = KeyStore.getInstance("AndroidKeyStore");
@@ -284,7 +303,6 @@ public class SecureStorage implements SecureStorageInterface {
 
     }
 
-
     private boolean storeEncryptedData(String key, String encryptedData, String filename) {
         boolean storeEncryptedDataResult = true;
         try {
@@ -299,7 +317,6 @@ public class SecureStorage implements SecureStorageInterface {
         }
         return storeEncryptedDataResult;
     }
-
 
     private String fetchEncryptedData(String key, SecureStorageError secureStorageError, String fileName) {
         String result = null;
@@ -318,11 +335,9 @@ public class SecureStorage implements SecureStorageInterface {
         return result;
     }
 
-
     private SharedPreferences getSharedPreferences(String filename) {
         return mContext.getSharedPreferences(filename, Context.MODE_PRIVATE);
     }
-
 
     private boolean deleteEncryptedData(String key, String fileName) {
         boolean deleteResult = false;
@@ -443,23 +458,13 @@ public class SecureStorage implements SecureStorageInterface {
         return false;
     }
 
-    /**
-	 * Checks if the device is rooted.
-	 *
-	 * @return <code>true</code> if the device is rooted, <code>false</code> otherwise.
-	 */
-	private static boolean checkProcess() {
-		Process process = null;
-		try {
-			process = Runtime.getRuntime().exec(new String[]{"/system/xbin/which", "/system/bin/which", "su"});
-			final BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
-			if (in.readLine() != null) return true;
-			return false;
-		} catch (Throwable t) {
-			return false;
-		} finally {
-			if (process != null) process.destroy();
-		}
-	}
+    private String getDecodedString(String data) {
+        try {
+            return java.net.URLDecoder.decode(data, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }
