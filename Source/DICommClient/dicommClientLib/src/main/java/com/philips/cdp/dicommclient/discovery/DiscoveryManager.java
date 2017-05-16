@@ -27,10 +27,12 @@ import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
@@ -45,48 +47,60 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
  */
 public class DiscoveryManager<T extends Appliance> {
 
-    private static DiscoveryManager<? extends Appliance> mInstance;
+    private static DiscoveryManager<? extends Appliance> sInstance;
 
     private LinkedHashMap<String, T> mAllAppliancesMap;
-    private List<NetworkNode> mAddedAppliances;
 
+    private List<NetworkNode> mAddedAppliances;
     private DICommApplianceFactory<T> mApplianceFactory;
     private NetworkNodeDatabase mNetworkNodeDatabase;
-    private DICommApplianceDatabase<T> mApplianceDatabase;
 
+    private DICommApplianceDatabase<T> mApplianceDatabase;
     private static final Object mDiscoveryLock = new Object();
     private NetworkMonitor mNetwork;
+
     private SsdpServiceHelper mSsdpHelper;
 
     private List<DiscoveryEventListener> mDiscoveryEventListenersList;
-
     public static final int DISCOVERY_WAITFORLOCAL_MESSAGE = 9000001;
     public static final int DISCOVERY_SYNCLOCAL_MESSAGE = 9000002;
     private static final int DISCOVERY_WAITFORLOCAL_TIMEOUT = 10000;
     private static final int DISCOVERY_SYNCLOCAL_TIMEOUT = 10000;
 
-    private static Handler mDiscoveryTimeoutHandler = new Handler() {
+    private static class DiscoveryTimeoutHandler<A extends Appliance> extends Handler {
+
+        private final WeakReference<DiscoveryManager<A>> reference;
+
+        DiscoveryTimeoutHandler(DiscoveryManager<A> discoveryManager) {
+            this.reference = new WeakReference<>(discoveryManager);
+        }
 
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == DISCOVERY_WAITFORLOCAL_MESSAGE) {
-                synchronized (mDiscoveryLock) {
-                    DiscoveryManager.getInstance().markNonDiscoveredAppliancesRemote();
-                }
-            } else if (msg.what == DISCOVERY_SYNCLOCAL_MESSAGE) {
-                synchronized (mDiscoveryLock) {
-                    DiscoveryManager.getInstance().markLostAppliancesInBackgroundOfflineOrRemote();
+            DiscoveryManager<A> discoveryManager = reference.get();
+
+            if (discoveryManager != null) {
+                if (msg.what == DISCOVERY_WAITFORLOCAL_MESSAGE) {
+                    synchronized (mDiscoveryLock) {
+                        discoveryManager.markNonDiscoveredAppliancesRemote();
+                    }
+                } else if (msg.what == DISCOVERY_SYNCLOCAL_MESSAGE) {
+                    synchronized (mDiscoveryLock) {
+                        discoveryManager.markLostAppliancesInBackgroundOfflineOrRemote();
+                    }
                 }
             }
         }
-    };
+    }
+
+    private static DiscoveryTimeoutHandler sDiscoveryTimeoutHandler = new DiscoveryTimeoutHandler<>(sInstance);
 
     static synchronized <U extends Appliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CloudController cloudController, @NonNull DICommApplianceFactory<U> applianceFactory) {
         return createSharedInstance(applicationContext, cloudController, applianceFactory, new NullApplianceDatabase<U>());
     }
 
     static synchronized <U extends Appliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CloudController cloudController, @NonNull DICommApplianceFactory<U> applianceFactory, DICommApplianceDatabase<U> applianceDatabase) {
-        if (mInstance != null) {
+        if (sInstance != null) {
             throw new RuntimeException("DiscoveryManager can only be initialized once");
         }
 
@@ -94,12 +108,13 @@ public class DiscoveryManager<T extends Appliance> {
 
         DiscoveryManager<U> discoveryManager = new DiscoveryManager<U>(applianceFactory, applianceDatabase, networkMonitor);
         discoveryManager.mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), discoveryManager.mHandlerCallback);
-        mInstance = discoveryManager;
+        sInstance = discoveryManager;
+
         return discoveryManager;
     }
 
     public static synchronized DiscoveryManager<? extends Appliance> getInstance() {
-        return mInstance;
+        return sInstance;
     }
 
     /* package, for testing */ DiscoveryManager(DICommApplianceFactory<T> applianceFactory, DICommApplianceDatabase<T> applianceDatabase, NetworkMonitor networkMonitor) {
@@ -332,7 +347,6 @@ public class DiscoveryManager<T extends Appliance> {
 
     private void updateExistingAppliance(NetworkNode networkNode) {
         T existingAppliance = mAllAppliancesMap.get(networkNode.getCppId());
-        boolean notifyListeners = true;
 
         if (networkNode.getHomeSsid() != null && !networkNode.getHomeSsid().equals(existingAppliance.getNetworkNode().getHomeSsid())) {
             existingAppliance.getNetworkNode().setHomeSsid(networkNode.getHomeSsid());
@@ -346,7 +360,6 @@ public class DiscoveryManager<T extends Appliance> {
         if (!existingAppliance.getName().equals(networkNode.getName())) {
             existingAppliance.getNetworkNode().setName(networkNode.getName());
             updateApplianceInDatabase(existingAppliance);
-            notifyListeners = true;
         }
 
         if (existingAppliance.getNetworkNode().getBootId() != networkNode.getBootId() || existingAppliance.getNetworkNode().getEncryptionKey() == null) {
@@ -357,18 +370,14 @@ public class DiscoveryManager<T extends Appliance> {
 
         if (existingAppliance.getNetworkNode().getConnectionState() != networkNode.getConnectionState()) {
             existingAppliance.getNetworkNode().setConnectionState(networkNode.getConnectionState());
-            notifyListeners = true;
         }
 
         if (existingAppliance.getNetworkNode().getHttps() != networkNode.getHttps()) {
             existingAppliance.getNetworkNode().setHttps(networkNode.getHttps());
             updateApplianceInDatabase(existingAppliance);
-            notifyListeners = true;
         }
 
-        if (notifyListeners) {
-            notifyDiscoveryListener();
-        }
+        notifyDiscoveryListener();
         DICommLog.d(DICommLog.DISCOVERY, "Successfully updated appliance: " + existingAppliance);
     }
 
@@ -590,12 +599,12 @@ public class DiscoveryManager<T extends Appliance> {
      */
     private void connectViaCppAfterLocalAttemptDelayed() {
         DICommLog.i(DICommLog.DISCOVERY, "START delayed job to connect via cpp to appliances that did not appear local");
-        mDiscoveryTimeoutHandler.sendEmptyMessageDelayed(DISCOVERY_WAITFORLOCAL_MESSAGE, DISCOVERY_WAITFORLOCAL_TIMEOUT);
+        sDiscoveryTimeoutHandler.sendEmptyMessageDelayed(DISCOVERY_WAITFORLOCAL_MESSAGE, DISCOVERY_WAITFORLOCAL_TIMEOUT);
     }
 
     private void cancelConnectViaCppAfterLocalAttempt() {
-        if (mDiscoveryTimeoutHandler.hasMessages(DISCOVERY_WAITFORLOCAL_MESSAGE)) {
-            mDiscoveryTimeoutHandler.removeMessages(DISCOVERY_WAITFORLOCAL_MESSAGE);
+        if (sDiscoveryTimeoutHandler.hasMessages(DISCOVERY_WAITFORLOCAL_MESSAGE)) {
+            sDiscoveryTimeoutHandler.removeMessages(DISCOVERY_WAITFORLOCAL_MESSAGE);
             DICommLog.i(DICommLog.DISCOVERY, "CANCEL delayed job to connect via cpp to appliances");
         }
     }
@@ -606,12 +615,12 @@ public class DiscoveryManager<T extends Appliance> {
      */
     public void syncLocalAppliancesWithSsdpStackDelayed() {
         DICommLog.i(DICommLog.DISCOVERY, "START delayed job to mark local appliances offline that did not reappear after ssdp restart");
-        mDiscoveryTimeoutHandler.sendEmptyMessageDelayed(DISCOVERY_SYNCLOCAL_MESSAGE, DISCOVERY_SYNCLOCAL_TIMEOUT);
+        sDiscoveryTimeoutHandler.sendEmptyMessageDelayed(DISCOVERY_SYNCLOCAL_MESSAGE, DISCOVERY_SYNCLOCAL_TIMEOUT);
     }
 
     public void cancelSyncLocalAppliancesWithSsdpStack() {
-        if (mDiscoveryTimeoutHandler.hasMessages(DISCOVERY_SYNCLOCAL_MESSAGE)) {
-            mDiscoveryTimeoutHandler.removeMessages(DISCOVERY_SYNCLOCAL_MESSAGE);
+        if (sDiscoveryTimeoutHandler.hasMessages(DISCOVERY_SYNCLOCAL_MESSAGE)) {
+            sDiscoveryTimeoutHandler.removeMessages(DISCOVERY_SYNCLOCAL_MESSAGE);
             DICommLog.i(DICommLog.DISCOVERY, "CANCEL delayed job to mark local appliances offline");
         }
     }
@@ -734,9 +743,9 @@ public class DiscoveryManager<T extends Appliance> {
                     break;
             }
         }
-        DICommLog.d(tag, String.format(offline, offline.length() - offline.replace(",", "").length()));
-        DICommLog.d(tag, String.format(local, local.length() - local.replace(",", "").length()));
-        DICommLog.d(tag, String.format(cpp, cpp.length() - cpp.replace(",", "").length()));
+        DICommLog.d(tag, String.format(Locale.US, offline, offline.length() - offline.replace(",", "").length()));
+        DICommLog.d(tag, String.format(Locale.US, local, local.length() - local.replace(",", "").length()));
+        DICommLog.d(tag, String.format(Locale.US, cpp, cpp.length() - cpp.replace(",", "").length()));
     }
 
     private List<T> loadAllAddedAppliancesFromDatabase() {
@@ -791,7 +800,7 @@ public class DiscoveryManager<T extends Appliance> {
 
     // ********** START TEST METHODS ************
     public static void setDummyDiscoveryManagerForTesting(DiscoveryManager<? extends Appliance> dummyManager) {
-        mInstance = dummyManager;
+        sInstance = dummyManager;
     }
 
     public void setDummyDiscoveryEventListenerForTesting(DiscoveryEventListener dummyListener) {
@@ -811,7 +820,7 @@ public class DiscoveryManager<T extends Appliance> {
     }
 
     public Handler getDiscoveryTimeoutHandlerForTesting() {
-        return mDiscoveryTimeoutHandler;
+        return sDiscoveryTimeoutHandler;
     }
     // ********** END TEST METHODS ************
 }
