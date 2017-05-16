@@ -191,5 +191,8 @@ task copyToLib(type: Copy) {
 }
 
 
+tasks.withType(Test) {
+  ignoreFailures = true
+}
 
 //apply from: "resolution.gradle"
