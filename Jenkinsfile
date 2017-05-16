@@ -53,7 +53,7 @@ node ('android&&keystore') {
                 // publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/productselection/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'coverage debug']) 
                 // publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/productselection/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'connected tests']) 
                 archiveArtifacts '**/dependencies.lock'
-                archiveArtifacts '**/build/**/*.apk
+                archiveArtifacts '**/build/**/*.apk'
             }
 
         }
