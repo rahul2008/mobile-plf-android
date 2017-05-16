@@ -21,7 +21,7 @@ public class AppupdateManager implements AppupdateInterface {
 
 	private Context mContext;
 	private AppInfra mAppInfra;
-	private String appUpdateUrl = "http://hashim-rest.herokuapp.com/sd/dev/appupdate/appinfra/version.json";
+	private String appUpdateUrl = "https://hashim-rest.herokuapp.com/sd/dev/appupdate/appinfra/version.json";
 	private Handler mHandler;
 	private AppupdateModel mAppUpdateModel;
 	private Gson mGson;
@@ -37,7 +37,7 @@ public class AppupdateManager implements AppupdateInterface {
 				new Response.Listener<JSONObject>() {
 					@Override
 					public void onResponse(final JSONObject response) {
-						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AIAppUpate", response.toString());
+						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AI AppUpate", response.toString());
 						LanguagePackUtil util = new LanguagePackUtil(mContext);
 						util.saveFile(response.toString(),AppupdateConstants.LOCALE_FILE_DOWNLOADED,AppupdateConstants.APPUPDATE_PATH);
 
@@ -54,7 +54,7 @@ public class AppupdateManager implements AppupdateInterface {
 			public void onErrorResponse(VolleyError error) {
 				final String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
 				final String errMsg = " Error Code:" + errorcode + " , Error Message:" + error.toString();
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", errMsg);
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AI AppUpdate_URL", errMsg);
 				refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AIAppUpdate_REFRESH_FAILED, errMsg);
 
 			}
@@ -65,22 +65,34 @@ public class AppupdateManager implements AppupdateInterface {
 	private void processResponse(JSONObject response, OnRefreshListener refreshListener) {
 		mAppUpdateModel = mGson.fromJson(response.toString(), AppupdateModel.class);
 		if(mAppUpdateModel != null) {
-			refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AIAppUpdate_REFRESH_FAILED, "Parsing Issue");
+			mHandler.post(postRefreshSuccess(refreshListener, OnRefreshListener.AIAppUpdateRefreshResult.AIAppUpdate_REFRESH_SUCCESS));
 		} else {
-			refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AIAppUpdate_REFRESH_SUCCESS, "AppUpdate Download Success");
+			mHandler.post(postRefreshError(refreshListener, OnRefreshListener.AIAppUpdateRefreshResult.AIAppUpdate_REFRESH_FAILED , "Parsing Issue"));
 		}
 	}
 
-	private boolean isappUpdateRequired() {
-		try {
-			AppConfigurationInterface.AppConfigurationError configurationError = new AppConfigurationInterface.AppConfigurationError();
-			boolean isappUpdateRq = (boolean) mAppInfra.getConfigInterface().getPropertyForKey("appinfra.appupdate","appinfra",configurationError);
-		    return isappUpdateRq;
-		} catch (IllegalArgumentException exception) {
-
-		}
-		return false;
+	private Runnable postRefreshSuccess(final OnRefreshListener aIRefreshResult,
+	                            final OnRefreshListener.AIAppUpdateRefreshResult ailpRefreshResult) {
+		return new Runnable() {
+			@Override
+			public void run() {
+				if (aIRefreshResult != null)
+					aIRefreshResult.onSuccess(ailpRefreshResult);
+			}
+		};
 	}
+
+	private Runnable postRefreshError(final OnRefreshListener aIRefreshResult,
+	                          final OnRefreshListener.AIAppUpdateRefreshResult ailpRefreshResult, final String errorDescription) {
+		return new Runnable() {
+			@Override
+			public void run() {
+				if (aIRefreshResult != null)
+					aIRefreshResult.onError(ailpRefreshResult, errorDescription);
+			}
+		};
+	}
+
 
 	private Handler getHandler(Context context) {
 		return new Handler(context.getMainLooper());
@@ -88,7 +100,7 @@ public class AppupdateManager implements AppupdateInterface {
 
 	@Override
 	public void refresh(OnRefreshListener refreshListener) {
-
+			downloadAppUpdate(refreshListener);
 	}
 
 	@Override

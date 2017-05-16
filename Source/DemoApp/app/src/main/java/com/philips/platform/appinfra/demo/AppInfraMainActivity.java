@@ -230,6 +230,11 @@ public class AppInfraMainActivity extends AppCompatActivity {
                         ResolutionLocaleActivity.class);
                 startActivity(resolutionLocaleIntent);
                 break;
+
+            case 15:
+                Intent appUpdateIntent = new Intent(AppInfraMainActivity.this , AppUpdateActivity.class);
+                startActivity(appUpdateIntent);
+                break;
         }
 
     }

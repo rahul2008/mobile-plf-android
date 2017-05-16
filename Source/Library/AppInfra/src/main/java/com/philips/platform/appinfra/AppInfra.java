@@ -263,6 +263,26 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             ai.setLanguagePackInterface(languagePack == null? new LanguagePackManager(ai) : languagePack);
             ai.setAppupdateInterface(appupdateInterface == null? new AppupdateManager(ai) : appupdateInterface);
 
+            try {
+                AppConfigurationInterface.AppConfigurationError configurationError = new AppConfigurationInterface.AppConfigurationError();
+                boolean isappUpdateRq = (boolean) configInterface.getPropertyForKey("appinfra.appupdate","appinfra",configurationError);
+                if(isappUpdateRq) {
+                    appupdateInterface.refresh(new AppupdateInterface.OnRefreshListener() {
+                        @Override
+                        public void onError(AIAppUpdateRefreshResult error, String message) {
+
+                        }
+
+                        @Override
+                        public void onSuccess(AIAppUpdateRefreshResult result) {
+
+                        }
+                    });
+                }
+            } catch (IllegalArgumentException exception) {
+
+            }
+
             return ai;
         }
     }
