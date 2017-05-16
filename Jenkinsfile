@@ -43,7 +43,7 @@ node ('android&&keystore') {
                 sh '''#!/bin/bash -l       
                     chmod -R 775 . 
                     cd ./Source/AppFramework 
-                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+                    ./gradlew -PenvCode=${JENKINS_ENV} :appFramework:saveResDep
                 ''' 
             }
 
