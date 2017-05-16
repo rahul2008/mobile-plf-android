@@ -54,6 +54,9 @@ public class SHNCentral {
 
     private int bluetoothAdapterState;
 
+    @NonNull
+    private final BleUtilities bleUtilities;
+
     /**
      * State that the {@link SHNCentral} currently is in.
      */
@@ -69,7 +72,7 @@ public class SHNCentral {
         /**
          * {@code SHNCentral} is ready to communicate with peripherals
          */
-        SHNCentralStateReady
+        SHNCentralStateReady;
     }
 
     /**
@@ -83,16 +86,17 @@ public class SHNCentral {
          * @param shnCentral the {@code SHNCentral} object that had its state changed.
          */
         void onStateUpdated(@NonNull SHNCentral shnCentral);
+
     }
 
     private static final String TAG = "SHNCentral";
+
     private SHNUserConfiguration shnUserConfiguration;
     private SHNDeviceScanner shnDeviceScanner;
     private final Handler userHandler;
     private final Context applicationContext;
     private boolean bluetoothAdapterEnabled;
     private BroadcastReceiver bondStateChangedReceiver;
-
     private final BroadcastReceiver bluetoothBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -115,6 +119,7 @@ public class SHNCentral {
             }
         }
     };
+
     private final Set<SHNCentralListener> registeredShnCentralListeners;
     private SHNDeviceScannerInternal shnDeviceScannerInternal;
     private SHNDeviceAssociation shnDeviceAssociation;
@@ -125,7 +130,6 @@ public class SHNCentral {
     private PersistentStorageFactory persistentStorageFactory;
     private Map<String, WeakReference<SHNBondStatusListener>> shnBondStatusListeners = new HashMap<>();
     private Map<String, WeakReference<SHNCentralListener>> shnCentralStatusListeners = new HashMap<>();
-
     private SharedPreferencesProvider defaultSharedPreferencesProvider = new SharedPreferencesProvider() {
         @NonNull
         @Override
@@ -157,8 +161,9 @@ public class SHNCentral {
         registeredShnCentralListeners = new CopyOnWriteArraySet<>();
         applicationContext = context.getApplicationContext();
 
-        BleUtilities.init(applicationContext);
-        if (!BleUtilities.deviceHasBle()) {
+        bleUtilities = new BleUtilities(applicationContext);
+
+        if (!bleUtilities.isBleFeatureAvailable()) {
             throw new SHNBluetoothHardwareUnavailableException();
         }
 
@@ -198,15 +203,20 @@ public class SHNCentral {
         }
     }
 
+    @NonNull
+    BleUtilities getBleUtilities() {
+        return bleUtilities;
+    }
+
     private void initializeSHNCentral(boolean showPopupIfBLEIsTurnedOff, SharedPreferencesProvider customSharedPreferencesProvider, boolean migrateDataToCustomSharedPreferencesProvider) {
         persistentStorageFactory = setUpPersistentStorageFactory(applicationContext, customSharedPreferencesProvider, migrateDataToCustomSharedPreferencesProvider);
 
         // Check that the adapter is enabled.
-        bluetoothAdapterEnabled = BleUtilities.isBluetoothAdapterEnabled();
+        bluetoothAdapterEnabled = bleUtilities.isBluetoothAdapterEnabled();
         if (bluetoothAdapterEnabled) {
             shnCentralState = State.SHNCentralStateReady;
         } else if (showPopupIfBLEIsTurnedOff) {
-            BleUtilities.startEnableBluetoothActivity();
+            bleUtilities.startEnableBluetoothActivity();
         }
 
         // Register a broadcast receiver listening for BluetoothAdapter state changes
@@ -228,8 +238,7 @@ public class SHNCentral {
     }
 
     /* package */ SHNUserConfiguration createUserConfiguration() {
-        SHNUserConfigurationImpl shnUserConfigurationImpl = new SHNUserConfigurationImpl(persistentStorageFactory, getInternalHandler(), new SHNUserConfigurationCalculations());
-        return shnUserConfigurationImpl;
+        return new SHNUserConfigurationImpl(persistentStorageFactory, getInternalHandler(), new SHNUserConfigurationCalculations());
     }
 
     /* package */ SharedPreferencesMigrator createSharedPreferencesMigrator(PersistentStorageFactory source, PersistentStorageFactory destination) {
@@ -318,9 +327,15 @@ public class SHNCentral {
         BluetoothDevice device = bundle.getParcelable(BluetoothDevice.EXTRA_DEVICE);
         int bondState = bundle.getInt(BluetoothDevice.EXTRA_BOND_STATE);
         int previousBondState = bundle.getInt(BluetoothDevice.EXTRA_PREVIOUS_BOND_STATE);
-        WeakReference<SHNBondStatusListener> shnBondStatusListener = shnBondStatusListeners.get(device.getAddress());
+
+        final String address = device.getAddress();
+        if (address == null) {
+            return;
+        }
+        WeakReference<SHNBondStatusListener> shnBondStatusListener = shnBondStatusListeners.get(address);
         if (shnBondStatusListener != null) {
             SHNBondStatusListener listener = shnBondStatusListener.get();
+
             if (listener != null) {
                 listener.onBondStatusChanged(device, bondState, previousBondState);
             } else {
@@ -465,7 +480,7 @@ public class SHNCentral {
      * definition through this function, Bluelib gains support for devices managed by the plugin that
      * contains it.
      *
-     * @param shnDeviceDefinitionInfo
+     * @param shnDeviceDefinitionInfo device definition info
      * @return
      */
     public boolean registerDeviceDefinition(SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
