@@ -9,6 +9,8 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RawRes;
+import android.util.Log;
 
 import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
 import com.philips.platform.appframework.flowmanager.exceptions.JsonAlreadyParsedException;
@@ -77,6 +79,21 @@ public abstract class BaseFlowManager {
 
     }
 
+    public void initialize(@NonNull final Context context, @RawRes final int resId, @NonNull final FlowManagerListener flowManagerListener) throws JsonFileNotFoundException, JsonStructureException, JsonAlreadyParsedException {
+        if (appFlowMap != null) {
+            throw new JsonAlreadyParsedException();
+        } else {
+            flowManagerHandler = getHandler(context);
+            new Thread (new Runnable() {
+                    @Override
+                    public void run() {
+                        parseFlowManagerJson(context, resId, flowManagerListener);
+                    }
+                }).start();
+        }
+
+    }
+
     @NonNull
     protected Handler getHandler(Context context) {
         return new Handler(context.getMainLooper());
@@ -85,6 +102,16 @@ public abstract class BaseFlowManager {
     private void parseFlowManagerJson(final @NonNull Context context, final @NonNull String jsonPath, final @NonNull FlowManagerListener flowManagerListener) {
         this.context = context;
         mapAppFlowStates(jsonPath, flowManagerListener);
+        flowManagerStack = new FlowManagerStack();
+        stateMap = new TreeMap<>();
+        conditionMap = new TreeMap<>();
+        populateStateMap(stateMap);
+        populateConditionMap(conditionMap);
+    }
+
+    private void parseFlowManagerJson(final @NonNull Context context, final @RawRes int resId, final @NonNull FlowManagerListener flowManagerListener) {
+        this.context = context;
+        mapAppFlowStates(resId, flowManagerListener);
         flowManagerStack = new FlowManagerStack();
         stateMap = new TreeMap<>();
         conditionMap = new TreeMap<>();
@@ -167,9 +194,11 @@ public abstract class BaseFlowManager {
             if (appFlowNextState != null) {
                 setCurrentState(appFlowNextState);
                 flowManagerStack.push(appFlowNextState);
+                Log.i(getClass()+"","uApp current state ---- "+appFlowNextState.toString());
                 return appFlowNextState;
             }
         }
+        Log.i(getClass() + "", "No State Exception with current state= " + currentState != null ? currentState.toString() : null);
         throw new NoStateException();
     }
 
@@ -199,8 +228,10 @@ public abstract class BaseFlowManager {
                 }
             }
         }
-        if (!isBack)
+        if (!isBack) {
+            Log.i(getClass() + "", "No event Exception with current state= " + currentState != null ? currentState.toString() : null);
             throw new NoEventFoundException();
+        }
         else
             return null;
     }
@@ -299,6 +330,14 @@ public abstract class BaseFlowManager {
     private void mapAppFlowStates(final String jsonPath, final FlowManagerListener flowManagerListener) throws JsonFileNotFoundException, JsonStructureException {
         final AppFlowParser appFlowParser = new AppFlowParser();
         AppFlowModel appFlowModel = appFlowParser.getAppFlow(jsonPath);
+        getFirstStateAndAppFlowMap(appFlowParser, appFlowModel);
+        if (flowManagerHandler != null)
+            flowManagerHandler.post(getRunnable(flowManagerListener));
+    }
+
+    private void mapAppFlowStates(final int resId, final FlowManagerListener flowManagerListener) throws JsonFileNotFoundException, JsonStructureException {
+        final AppFlowParser appFlowParser = new AppFlowParser();
+        AppFlowModel appFlowModel = appFlowParser.getAppFlow(resId);
         getFirstStateAndAppFlowMap(appFlowParser, appFlowModel);
         if (flowManagerHandler != null)
             flowManagerHandler.post(getRunnable(flowManagerListener));

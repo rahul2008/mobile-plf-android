@@ -5,7 +5,10 @@
 */
 package com.philips.platform.appframework.flowmanager.base;
 
+import android.content.Context;
+import android.support.annotation.AnyRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.RawRes;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -27,6 +30,7 @@ import java.util.Map;
 
 class AppFlowParser {
 
+    private Context mContext;
     /**
      * This method will return the object of AppFlow class or 'null'.
      * It request 'getJsonFromURL' to download the AppFlow json by sending the server URL.
@@ -59,9 +63,37 @@ class AppFlowParser {
         return appFlow;
     }
 
+    AppFlowModel getAppFlow(@RawRes int resId) throws JsonFileNotFoundException, JsonStructureException {
+        AppFlowModel appFlow = null;
+        if (resId == 0) {
+            throw new JsonFileNotFoundException();
+        } else {
+            try {
+                final InputStreamReader inputStreamReader = getInputStreamReader(resId);
+                appFlow = new Gson().fromJson(inputStreamReader, AppFlowModel.class);
+                inputStreamReader.close();
+            } catch (JsonSyntaxException | FileNotFoundException e) {
+                if (e instanceof JsonSyntaxException) {
+                    throw new JsonStructureException();
+                } else {
+                    throw new JsonFileNotFoundException();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return appFlow;
+    }
+
     @NonNull
     private InputStreamReader getInputStreamReader(final String jsonPath) throws FileNotFoundException {
         InputStream is = getFileInputStream(jsonPath);
+        return new InputStreamReader(is);
+    }
+
+    @NonNull
+    private InputStreamReader getInputStreamReader(@AnyRes final int resId) throws FileNotFoundException {
+        InputStream is = mContext.getResources().openRawResource(resId);
         return new InputStreamReader(is);
     }
 
