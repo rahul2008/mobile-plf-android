@@ -149,7 +149,7 @@ dependencies {
 task generateJavadocPublicApi(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    destinationDir = file("../../../Documents/External/Api/")
+    destinationDir = file("../../../Documents/External/${project.name}-Api/")
 
     include {
         if (it.isDirectory) {
@@ -170,26 +170,21 @@ task generateJavadocPublicApi(type: Javadoc) {
 task generateJavadocPluginApi(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    destinationDir = file("../../../Documents/External/PluginApi/")
+    destinationDir = file("../../../Documents/External/${project.name}-PluginApi/")
 
     include {
         if (it.isDirectory) {
-            println("Dir: $it")
             return true
         }
 
         if (it.file.text.contains("* @publicPluginApi")) {
-            println("Plugin API: $it")
             return true
         }
 
         if (it.file.text.contains("* @publicApi")) {
-            println("Public API: $it")
             return true
         }
 
-
-        println("Rejected: $it")
         return false
     }
 
