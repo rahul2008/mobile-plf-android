@@ -31,6 +31,14 @@ import java.util.Map;
 class AppFlowParser {
 
     private Context mContext;
+
+    AppFlowParser(Context mContext) {
+        this.mContext = mContext;
+    }
+
+    AppFlowParser() {
+    }
+
     /**
      * This method will return the object of AppFlow class or 'null'.
      * It request 'getJsonFromURL' to download the AppFlow json by sending the server URL.

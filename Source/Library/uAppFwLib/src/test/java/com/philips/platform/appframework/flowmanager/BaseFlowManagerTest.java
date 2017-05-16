@@ -41,6 +41,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -68,6 +69,11 @@ public class BaseFlowManagerTest extends TestCase {
         runnableMock = mock(Runnable.class);
         handlerMock = mock(Handler.class);
         when(handlerMock.post(runnableMock)).thenReturn(true);
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        URL resource = classLoader.getResource("Appflow.json");
+        File file = new File(resource.getPath());
+
         flowManagerTest = new FlowManagerTest()  {
             @NonNull
             @Override
@@ -80,10 +86,15 @@ public class BaseFlowManagerTest extends TestCase {
             protected Runnable getRunnable(FlowManagerListener flowManagerListener) {
                 return runnableMock;
             }
+
+            @Override
+            protected boolean postLog(String key, String value) {
+                return true;
+            }
         };
         File fileFromInputStream = createFileFromInputStream(getClass().getClassLoader().getResourceAsStream("res/Appflow.json"));
         if (fileFromInputStream != null)
-            path = fileFromInputStream.getPath();
+            path = file.getPath();
 
         flowManagerTest.initialize(context, path, flowManagerListenerMock);
          sleep(2);
@@ -177,6 +188,10 @@ public class BaseFlowManagerTest extends TestCase {
                 return runnableMock;
             }
 
+            @Override
+            protected boolean postLog(String key, String value) {
+                return true;
+            }
         };
         flowManagerTest.initialize(context, path, flowManagerListenerMock);
        sleep(2);
@@ -206,6 +221,10 @@ public class BaseFlowManagerTest extends TestCase {
                 return runnableMock;
             }
 
+            @Override
+            protected boolean postLog(String key, String value) {
+                return true;
+            }
         };
         sleep(2);
         try {
