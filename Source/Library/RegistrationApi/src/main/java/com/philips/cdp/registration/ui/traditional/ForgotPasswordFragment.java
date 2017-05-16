@@ -259,11 +259,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
             mBtnContinue.setEnabled(true);
             mRegError.hideError();
         }  else {
-            if (mEtEmail.getEmailId().length() == 0) {
-                mBtnContinue.setEnabled(true);
-            } else {
                 mBtnContinue.setEnabled(false);
-            }
         }
     }
 
@@ -310,7 +306,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
                     if (FieldsValidator.isValidEmail(mEtEmail.getEmailId())) {
                         mUser.forgotPassword(mEtEmail.getEmailId(), this);
                     } else {
-                        serviceDiscovery();
+                        initateCreateResendSMSIntent();
                     }
                 }
 
@@ -438,14 +434,13 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     String verificationSmsCodeURL;
     String resetPasswordSmsRedirectUri;
 
-    private void serviceDiscovery()  {
+    private void initateCreateResendSMSIntent()  {
         RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
         //Temp: will be updated once actual URX received for reset sms
         serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.urx.verificationsmscode", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-
                 RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.urx.verificationsmscode : " + errorvalues);
                 verificationSmsCodeURL = null;
             }
@@ -457,14 +452,21 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
             }
         });
 
-        String uriSubString = getBaseString();
+        if(verificationSmsCodeURL != null){
+            String uriSubString = getBaseString();
+            //Verification URI
+            verificationSmsCodeURL = uriSubString + USER_REQUEST_PASSWORD_RESET_SMS_CODE;
+            //Redirect URI
+            resetPasswordSmsRedirectUri = uriSubString + USER_REQUEST_RESET_PASSWORD_REDIRECT_URI_SMS;
+            getRegistrationFragment().getActivity().startService(createResendSMSIntent(verificationSmsCodeURL));
+        } else{
+            hideForgotPasswordSpinner();
+            mEtEmail.setErrDescription(getString(R.string.reg_Generic_Network_Error));
+            mEtEmail.showErrPopUp();
+            mEtEmail.showInvalidAlert();
 
-        //Verification URI
-        verificationSmsCodeURL = uriSubString + USER_REQUEST_PASSWORD_RESET_SMS_CODE;
-        //Redirect URI
-        resetPasswordSmsRedirectUri = uriSubString + USER_REQUEST_RESET_PASSWORD_REDIRECT_URI_SMS;
+        }
 
-        getRegistrationFragment().getActivity().startService(createResendSMSIntent(verificationSmsCodeURL));
     }
 
     @NonNull
