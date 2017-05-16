@@ -38,9 +38,6 @@ import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -73,7 +70,7 @@ public class BaseFlowManagerTest extends TestCase {
         ClassLoader classLoader = getClass().getClassLoader();
         URL resource = classLoader.getResource("Appflow.json");
         File file = new File(resource.getPath());
-
+        path = file.getPath();
         flowManagerTest = new FlowManagerTest()  {
             @NonNull
             @Override
@@ -92,9 +89,6 @@ public class BaseFlowManagerTest extends TestCase {
                 return true;
             }
         };
-        File fileFromInputStream = createFileFromInputStream(getClass().getClassLoader().getResourceAsStream("res/Appflow.json"));
-        if (fileFromInputStream != null)
-            path = file.getPath();
 
         flowManagerTest.initialize(context, path, flowManagerListenerMock);
          sleep(2);
@@ -246,30 +240,6 @@ public class BaseFlowManagerTest extends TestCase {
         } catch (JsonAlreadyParsedException e) {
             assertTrue(e.getMessage().equals("Json already parsed"));
         }
-    }
-
-    private File createFileFromInputStream(final InputStream inputStream) {
-        try {
-            String filename = "tempFile";
-            FileOutputStream outputStream;
-            final File file = File.createTempFile(filename, null, context.getCacheDir());
-            outputStream = new FileOutputStream(file);
-            byte buffer[] = new byte[1024];
-            int length;
-
-            while ((length = inputStream.read(buffer)) > 0) {
-                outputStream.write(buffer, 0, length);
-            }
-
-            outputStream.close();
-            inputStream.close();
-
-            return file;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
     }
 
     private class FlowManagerTest extends BaseFlowManager {
