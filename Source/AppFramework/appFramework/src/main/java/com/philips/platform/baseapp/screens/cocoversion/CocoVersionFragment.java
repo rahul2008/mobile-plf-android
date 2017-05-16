@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.philips.cdp.uikit.BuildConfig;
 import com.philips.platform.appframework.R;
 
 
@@ -85,43 +87,43 @@ public class CocoVersionFragment extends AppFrameworkBaseFragment {
     {
         CocoVersionItem ai = new CocoVersionItem();
         appInfra = ((AppFrameworkApplication) getActivity().getApplicationContext()).getAppInfra();
-        ai.title = ((AppInfra)appInfra).getComponentId();
-        ai.Version = ((AppInfra)appInfra).getVersion();
+        ai.title = getResources().getString(R.string.RA_COCO_AppInfra);;
+        ai.Version = (com.philips.platform.appinfra.BuildConfig.VERSION_NAME);
 
         CocoVersionItem UserReg = new CocoVersionItem();
         userRegistrationState= new UserRegistrationSettingsState();
-        UserReg.title=userRegistrationState.getComponentID(getActivity());
-        UserReg.Version=userRegistrationState.getVersion();
+        UserReg.title= getResources().getString(R.string.RA_COCO_UR);;
+        UserReg.Version=  (com.philips.cdp.registration.BuildConfig.VERSION_NAME);
 
         CocoVersionItem uikit  = new CocoVersionItem();
-        uikit.title=getResources().getString(R.string.RA_COCO_UIKIT);
-        uikit.Version=getResources().getString(R.string.RA_COCO_UIKIT_VERSION);
+
+        uikit.title= getResources().getString(R.string.RA_COCO_UIKIT);;
+        uikit.Version= (BuildConfig.VERSION_NAME);
 
         CocoVersionItem connectivity  = new CocoVersionItem();
         connectivityFragmentState = new ConnectivityFragmentState();
-        connectivity.title=connectivityFragmentState.getComponentID(getActivity());
-        connectivity.Version=connectivityFragmentState.getVersion(getActivity());
+        connectivity.title= getResources().getString(R.string.RA_COCO_Connectivity);
+        connectivity.Version= (com.philips.cdp.dicommclient.BuildConfig.VERSION_NAME);
 
         CocoVersionItem iap  = new CocoVersionItem();
         iapState = new IAPRetailerFlowState();
-        iap.title=iapState.getComponentID(getActivity());
-        iap.Version=iapState.getVersion(getActivity());;
+        iap.title= getResources().getString(R.string.RA_COCO_IAP);
+        iap.Version= (com.philips.cdp.di.iap.BuildConfig.VERSION_NAME);
 
         CocoVersionItem digitalCare  = new CocoVersionItem();
         supportFragmentState= new SupportFragmentState();
-        digitalCare.title=supportFragmentState.getComponentID(getActivity());
-        digitalCare.Version=supportFragmentState.getVersion(getActivity());
-
+        digitalCare.title= getResources().getString(R.string.RA_COCO_CC);
+        digitalCare.Version= (com.philips.cdp.digitalcare.BuildConfig.VERSION_NAME);
 
         CocoVersionItem prodReg  = new CocoVersionItem();
         productRegistrationState= new ProductRegistrationState();
-        prodReg.title=productRegistrationState.getComponentID(getActivity());
-        prodReg.Version=productRegistrationState.getVersion(getActivity());
+        prodReg.title= getResources().getString(R.string.RA_COCO_PR);
+        prodReg.Version=  ( com.philips.cdp.product_registration_lib.BuildConfig.VERSION_NAME);
 
         CocoVersionItem dataService  = new CocoVersionItem();
         dataServicesState= new DataServicesState();
-        dataService.title=dataServicesState.getComponentID(getActivity());
-        dataService.Version=dataServicesState.getVersion(getActivity());
+        dataService.title= getResources().getString(R.string.RA_COCO_DS);
+        dataService.Version= (com.philips.platform.dataservices.BuildConfig.VERSION_NAME);
 
 
         cocoVersionItemList.add(ai);
