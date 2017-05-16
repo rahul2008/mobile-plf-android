@@ -35,7 +35,7 @@ public class DiscoverInfo {
 
     public boolean isValid() {
         if (State == null || State.isEmpty()) return false;
-        if (!State.toLowerCase(Locale.US).equals(CONNECTED) && !State.toLowerCase().equals(DISCONNECTED))
+        if (!State.toLowerCase(Locale.US).equals(CONNECTED) && !State.toLowerCase(Locale.US).equals(DISCONNECTED))
             return false;
         if (ClientIds == null || ClientIds.length <= 0) return false;
         return true;

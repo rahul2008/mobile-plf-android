@@ -51,6 +51,7 @@ public class DiscoveryManager<T extends Appliance> {
 
     private LinkedHashMap<String, T> mAllAppliancesMap;
 
+    private final Context mContext;
     private List<NetworkNode> mAddedAppliances;
     private DICommApplianceFactory<T> mApplianceFactory;
     private NetworkNodeDatabase mNetworkNodeDatabase;
@@ -106,7 +107,7 @@ public class DiscoveryManager<T extends Appliance> {
 
         NetworkMonitor networkMonitor = new NetworkMonitor(applicationContext, new ScheduledThreadPoolExecutor(1));
 
-        DiscoveryManager<U> discoveryManager = new DiscoveryManager<U>(applianceFactory, applianceDatabase, networkMonitor);
+        DiscoveryManager<U> discoveryManager = new DiscoveryManager<>(applicationContext, applianceFactory, applianceDatabase, networkMonitor);
         discoveryManager.mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), discoveryManager.mHandlerCallback);
         sInstance = discoveryManager;
 
@@ -117,19 +118,24 @@ public class DiscoveryManager<T extends Appliance> {
         return sInstance;
     }
 
-    /* package, for testing */ DiscoveryManager(DICommApplianceFactory<T> applianceFactory, DICommApplianceDatabase<T> applianceDatabase, NetworkMonitor networkMonitor) {
+    /* package, for testing */ DiscoveryManager(@NonNull Context context, DICommApplianceFactory<T> applianceFactory, DICommApplianceDatabase<T> applianceDatabase, NetworkMonitor networkMonitor) {
+        mContext = context;
         mApplianceFactory = applianceFactory;
         mApplianceDatabase = applianceDatabase;
 
-        mNetworkNodeDatabase = new NetworkNodeDatabase(DICommClientWrapper.getContext());
+        mNetworkNodeDatabase = new NetworkNodeDatabase(mContext);
         initializeAppliancesMapFromDataBase();
 
         mNetwork = networkMonitor;
 
         mNetwork.addListener(mNetworkChangedCallback);
         if (mDiscoveryEventListenersList == null) {
-            mDiscoveryEventListenersList = new ArrayList<DiscoveryEventListener>();
+            mDiscoveryEventListenersList = new ArrayList<>();
         }
+    }
+
+    public Context getContext() {
+        return mContext;
     }
 
     public void addDiscoveryEventListener(DiscoveryEventListener listener) {
