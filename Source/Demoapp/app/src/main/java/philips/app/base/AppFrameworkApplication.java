@@ -63,11 +63,11 @@ public class AppFrameworkApplication extends Application {
     public void setTargetFlowManager(FlowManagerListener flowManagerListener, Context context) {
         try {
             this.targetFlowManager = new FlowManager();
-            this.targetFlowManager.initialize(context, new BaseAppUtil().getJsonFilePath().getPath(), flowManagerListener);
+            this.targetFlowManager.initialize(context, R.raw.appflow, flowManagerListener);
         } catch (JsonFileNotFoundException e) {
             if (tempFile != null) {
                 this.targetFlowManager = new FlowManager();
-                this.targetFlowManager.initialize(context, tempFile.getPath(), flowManagerListener);
+                this.targetFlowManager.initialize(context, R.raw.appflow, flowManagerListener);
             }
         }
     }

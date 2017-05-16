@@ -165,14 +165,6 @@ android {
     }
 }
 
-task copyResDirectoryToClasses(type: Copy) {
-    from "${projectDir}/src/test/res"
-    into "${buildDir}/intermediates/classes/test/${buildOutputDir}/res"
-}
-
-assembleDebug.dependsOn(copyResDirectoryToClasses)
-assembleRelease.dependsOn(copyResDirectoryToClasses)
-
 configurations.all {
     // check for updates every build
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
