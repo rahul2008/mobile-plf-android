@@ -194,52 +194,13 @@ public class MomentsConverter {
 
             final Collection<? extends MeasurementGroup> measurementGroups = moment.getMeasurementGroups();
             if (measurementGroups != null && measurementGroups.size() != 0) {
-                uCoreMoment = addToUCoreMeasurementGroupsRecursively(true, uCoreMoment, null, measurementGroups);
+                uCoreMoment.setMeasurementGroups(convertMeasurementGroupToUCoreMeasurementGroup(moment.getMeasurementGroups()));
             }
-
             setVersion(uCoreMoment, moment.getSynchronisationData());
         } catch (Exception e) {
             e.printStackTrace();
         }
         return uCoreMoment;
-    }
-
-    private UCoreMoment addToUCoreMeasurementGroupsRecursively(final boolean isRoot, UCoreMoment uCoreMoment, UCoreMeasurementGroups parent, Collection<? extends MeasurementGroup> measurementGroups) {
-        ArrayList<MeasurementGroup> measurementGroupsArray = new ArrayList(measurementGroups);
-        for (MeasurementGroup measurementGroup : measurementGroupsArray) {
-            UCoreMeasurementGroups parentUCore = new UCoreMeasurementGroups();
-
-            parentUCore = convertMeasurementGroupToUCoreMeasurementGroup(measurementGroup, parentUCore);
-
-            if (!isRoot) {
-                parent.addMeasurementGroups(parentUCore);
-            }else {
-                parent = parentUCore;
-            }
-            if (measurementGroup.getMeasurementGroups() != null && measurementGroup.getMeasurementGroups().size() > 0) {
-                return addToUCoreMeasurementGroupsRecursively(false, uCoreMoment, parentUCore, measurementGroup.getMeasurementGroups());
-            }
-
-//            if (isRoot) {
-       //     Log.i("****TAG", "ROOT hence entering parent to attach to moment ");
-            uCoreMoment.addMeasurementGroup(parent);
-            //          }
-        }
-        return uCoreMoment;
-    }
-
-    private UCoreMeasurementGroups convertMeasurementGroupToUCoreMeasurementGroup(MeasurementGroup measurementGroup, UCoreMeasurementGroups uCoreMeasurementGroups) {
-        //Added Details
-        List<UCoreMeasurementGroupDetail> measurementGroupDetails = new ArrayList<>();
-        List<UCoreMeasurementGroupDetail> uCoreMeasurementGroupDetails = addToUCoreMeasurementGroupDetails(measurementGroup.getMeasurementGroupDetails(), measurementGroupDetails);
-        uCoreMeasurementGroups.setDetails(uCoreMeasurementGroupDetails);
-
-        //Added Measurements
-        List<UCoreMeasurement> measurements = new ArrayList<>();
-        List<UCoreMeasurement> uCoreMeasurements = addToUCoreMeasurements(measurementGroup.getMeasurements(), measurements);
-        uCoreMeasurementGroups.setMeasurements(uCoreMeasurements);
-
-        return uCoreMeasurementGroups;
     }
 
     private void setVersion(final UCoreMoment uCoreMoment, final SynchronisationData synchronisationData) {
@@ -259,44 +220,86 @@ public class MomentsConverter {
         }
     }
 
-    private List<UCoreMeasurementGroupDetail> addToUCoreMeasurementGroupDetails(Collection<? extends MeasurementGroupDetail> measurementGroupDetails,
-                                                                                List<UCoreMeasurementGroupDetail> uCoreMeasurementGroupDetails) {
+    private List<UCoreMeasurementGroups> convertMeasurementGroupToUCoreMeasurementGroup(Collection<? extends MeasurementGroup> measurementGroupsList) {
+        List<UCoreMeasurementGroups> uCoreMeasurementGroupsList = new ArrayList<>();
 
-        for (MeasurementGroupDetail measurementGroupDetail : measurementGroupDetails) {
-            UCoreMeasurementGroupDetail detail = new UCoreMeasurementGroupDetail();
-            detail.setType(measurementGroupDetail.getType());
-            detail.setValue(measurementGroupDetail.getValue());
-
-            uCoreMeasurementGroupDetails.add(detail);
+        for (MeasurementGroup measurementGroup : measurementGroupsList) {
+            UCoreMeasurementGroups uCoreMeasurementGroups = new UCoreMeasurementGroups();
+            uCoreMeasurementGroups.setDetails(convertMGDetailToUCoreMGDetail(measurementGroup.getMeasurementGroupDetails()));
+            uCoreMeasurementGroups.setMeasurements(convertMeasurementToUCoreMeasurement(measurementGroup.getMeasurements()));
+            uCoreMeasurementGroups.setMeasurementGroups(convertMeasurementGroupToUCoreMeasurementGroupRecursively(measurementGroup.getMeasurementGroups()));
+            uCoreMeasurementGroupsList.add(uCoreMeasurementGroups);
         }
-        return uCoreMeasurementGroupDetails;
+
+        return uCoreMeasurementGroupsList;
     }
 
-    private List<UCoreMeasurement> addToUCoreMeasurements(Collection<? extends Measurement> measurements, List<UCoreMeasurement> uCoreMeasurementList) {
+    private List<UCoreMeasurementGroupDetail> convertMGDetailToUCoreMGDetail(Collection<? extends MeasurementGroupDetail> measurementGroupDetails) {
+
+        List<UCoreMeasurementGroupDetail> uCoreMeasurementGroupDetailList = new ArrayList<>();
+        for (MeasurementGroupDetail detail : measurementGroupDetails) {
+            UCoreMeasurementGroupDetail uCoreMeasurementGroupDetail = new UCoreMeasurementGroupDetail();
+            uCoreMeasurementGroupDetail.setType(detail.getType());
+            uCoreMeasurementGroupDetail.setValue(detail.getValue());
+
+            uCoreMeasurementGroupDetailList.add(uCoreMeasurementGroupDetail);
+        }
+        return uCoreMeasurementGroupDetailList;
+    }
+
+    private List<UCoreMeasurement> convertMeasurementToUCoreMeasurement(Collection<? extends Measurement> measurements) {
+        List<UCoreMeasurement> uCoreMeasurementList = new ArrayList<>();
+
         for (Measurement measurement : measurements) {
             UCoreMeasurement uCoreMeasurement = new UCoreMeasurement();
             uCoreMeasurement.setTimestamp(measurement.getDateTime().toString());
-            uCoreMeasurement.setType(measurement.getType());
             uCoreMeasurement.setValue(measurement.getValue());
+            uCoreMeasurement.setType(measurement.getType());
             uCoreMeasurement.setUnit(measurement.getUnit());
-            addToUCoreMeasurementDetails(measurement.getMeasurementDetails(), uCoreMeasurement);
+            uCoreMeasurement.setDetails(convertMeasurementDetailToUCoreDetail(measurement.getMeasurementDetails()));
+
             uCoreMeasurementList.add(uCoreMeasurement);
         }
+
         return uCoreMeasurementList;
     }
 
-    private void addToUCoreMeasurementDetails(Collection<? extends MeasurementDetail> measurementDetails, com.philips.platform.datasync.moments.UCoreMeasurement uCoreMeasurement) {
+    private List<UCoreDetail> convertMeasurementDetailToUCoreDetail(Collection<? extends MeasurementDetail> measurementDetails) {
         List<UCoreDetail> uCoreDetailList = new ArrayList<>();
 
         for (MeasurementDetail measurementDetail : measurementDetails) {
             UCoreDetail uCoreDetail = new UCoreDetail();
             uCoreDetail.setType(measurementDetail.getType());
-
-            uCoreDetail.setValue(measurementDetail.getValue());
             uCoreDetail.setValue(measurementDetail.getValue());
 
             uCoreDetailList.add(uCoreDetail);
         }
-        uCoreMeasurement.setDetails(uCoreDetailList);
+
+        return uCoreDetailList;
     }
+
+    private List<UCoreMeasurementGroups> convertMeasurementGroupToUCoreMeasurementGroupRecursively(Collection<? extends MeasurementGroup> measurementGroups) {
+        List<UCoreMeasurementGroups> uCoreMeasurementGroupsList = new ArrayList<>();
+
+        if (measurementGroups.size() > 0) {
+            List<MeasurementGroup> measurementGroupList = convertToList(measurementGroups);
+            for (int i = 0; i < measurementGroupList.size(); i++) {
+                UCoreMeasurementGroups uCoreMeasurementGroups = new UCoreMeasurementGroups();
+                uCoreMeasurementGroups.setDetails(convertMGDetailToUCoreMGDetail(measurementGroupList.get(i).getMeasurementGroupDetails()));
+                uCoreMeasurementGroups.setMeasurements(convertMeasurementToUCoreMeasurement(measurementGroupList.get(i).getMeasurements()));
+                uCoreMeasurementGroups.setMeasurementGroups(convertMeasurementGroupToUCoreMeasurementGroupRecursively(measurementGroupList.get(i).getMeasurementGroups()));
+                uCoreMeasurementGroupsList.add(uCoreMeasurementGroups);
+            }
+        }
+        return uCoreMeasurementGroupsList;
+    }
+
+    private List<MeasurementGroup> convertToList(Collection<? extends MeasurementGroup> measurementGroups) {
+        List<MeasurementGroup> measurementGroupList = new ArrayList<>();
+        for (MeasurementGroup measurementGroup : measurementGroups) {
+            measurementGroupList.add(measurementGroup);
+        }
+        return measurementGroupList;
+    }
+
 }

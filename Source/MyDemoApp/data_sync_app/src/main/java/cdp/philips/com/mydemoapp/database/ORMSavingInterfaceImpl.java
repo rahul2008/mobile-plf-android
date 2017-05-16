@@ -51,7 +51,12 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             ormMoment = OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
             saving.saveMoment(ormMoment);
             updating.refreshMoment(ormMoment);
-            notifyDBRequestListener.notifySuccess(dbRequestListener, ormMoment, SyncType.MOMENT);
+
+            if (dbRequestListener == null) {
+                notifyDBRequestListener.notifyDBChange(SyncType.MOMENT);
+            } else {
+                notifyDBRequestListener.notifySuccess(dbRequestListener, ormMoment, SyncType.MOMENT);
+            }
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
@@ -145,7 +150,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
     @Override
     public boolean saveSyncBit(SyncType type, boolean isSynced) throws SQLException {
-        saving.saveSyncBit(type,isSynced);
+        saving.saveSyncBit(type, isSynced);
         return true;
     }
 }

@@ -16,7 +16,6 @@ import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -110,10 +109,10 @@ public class OrmSaving {
     }
 
     public void saveMoment(OrmMoment moment) throws SQLException {
-        assureSynchronisationDataIsSaved(moment.getSynchronisationData());
         momentDao.createOrUpdate(moment);
+        assureSynchronisationDataIsSaved(moment.getSynchronisationData());
         assureMomentDetailsAreSaved(moment.getMomentDetails());
-        assureMeasurementGroupsAreSaved(moment);
+        assureMeasurementGroupsAreSaved(moment.getMeasurementGroups());
         // assureMeasurementsAreSaved(moment.getMeasurements());
     }
 
@@ -126,72 +125,40 @@ public class OrmSaving {
         momentDetailDao.createOrUpdate(momentDetail);
     }
 
-    public void saveMeasurement(OrmMeasurement measurement) throws SQLException {
-        measurementDao.createOrUpdate(measurement);
-        assureMeasurementDetailsAreSaved(measurement.getMeasurementDetails());
-    }
-
-    public void saveMeasurementGroup(OrmMeasurementGroup measurementGroup) throws SQLException {
-        if (measurementGroup != null) {
-            measurementGroupDao.createOrUpdate(measurementGroup);
-            assureMeasurementsAreSaved(measurementGroup.getMeasurements());
-            assureMeasurementGroupDetailsAreSaved(measurementGroup.getMeasurementGroupDetails());
-        }
-    }
-
-    private void assureMeasurementGroupDetailsAreSaved(Collection<? extends OrmMeasurementGroupDetail> measurementGroupDetails) throws SQLException {
-        for (OrmMeasurementGroupDetail measurementGroupDetail : measurementGroupDetails) {
-            saveMeasurementGroupDetail(measurementGroupDetail);
-        }
-    }
-
-    private void
-    saveMeasurementGroupDetail(OrmMeasurementGroupDetail measurementGroupDetail) throws SQLException {
-        measurementGroupDetailsDao.createOrUpdate(measurementGroupDetail);
-    }
-
-    public void saveMeasurementDetail(OrmMeasurementDetail measurementDetail) throws SQLException {
-        measurementDetailDao.createOrUpdate(measurementDetail);
-    }
-
     private void assureMomentDetailsAreSaved(final Collection<? extends OrmMomentDetail> momentDetails) throws SQLException {
         for (OrmMomentDetail momentDetail : momentDetails) {
             saveMomentDetail(momentDetail);
         }
     }
 
-    private void assureMeasurementsAreSaved(final Collection<? extends OrmMeasurement> measurements) throws SQLException {
-        for (OrmMeasurement measurement : measurements) {
-            saveMeasurement(measurement);
-        }
-    }
-
-    private void assureMeasurementGroupsAreSaved(OrmMoment moment) throws SQLException {
-        Collection<? extends OrmMeasurementGroup> measurementGroups = moment.getMeasurementGroups();
+    private void assureMeasurementGroupsAreSaved(Collection<? extends OrmMeasurementGroup> measurementGroups) throws SQLException {
         for (OrmMeasurementGroup group : measurementGroups) {
-            saveMeasurementGroup(group);
-            assureMeasurementGroupsInsideAreSaved(group);
-        }
-    }
-
-    private void assureMeasurementGroupsInsideAreSaved(OrmMeasurementGroup measurementGroup) throws SQLException {
-        if (measurementGroup != null) {
-            ArrayList<? extends OrmMeasurementGroup> measurementGroups = new ArrayList<>(measurementGroup.getMeasurementGroups());
-            for (OrmMeasurementGroup group : measurementGroups) {
-                saveMeasurementGroupWithinGroup(group);
+            measurementGroupDao.createOrUpdate(group);
+            if (group.getMeasurementGroups() != null && !group.getMeasurementGroups().isEmpty()) {
+                // Recursively save children groups
+                assureMeasurementGroupsAreSaved(group.getMeasurementGroups());
             }
+            saveMeasurementGroupDetails(group.getMeasurementGroupDetails());
+            saveMeasurements(group.getMeasurements());
         }
     }
 
-    private void saveMeasurementGroupWithinGroup(OrmMeasurementGroup group) throws SQLException {
-        measurementGroupDao.createOrUpdate(group);
-        assureMeasurementsAreSaved(group.getMeasurements());
-        assureMeasurementGroupDetailsAreSaved(group.getMeasurementGroupDetails());
+    private void saveMeasurements(Collection<? extends OrmMeasurement> measurements) throws SQLException {
+        for (OrmMeasurement current : measurements) {
+            measurementDao.createOrUpdate(current);
+            saveMeasurementDetails(current.getMeasurementDetails());
+        }
     }
 
-    private void assureMeasurementDetailsAreSaved(final Collection<? extends OrmMeasurementDetail> measurementDetails) throws SQLException {
-        for (OrmMeasurementDetail measurementDetail : measurementDetails) {
-            saveMeasurementDetail(measurementDetail);
+    private void saveMeasurementDetails(Collection<? extends OrmMeasurementDetail> measurementDetails) throws SQLException {
+        for (OrmMeasurementDetail current : measurementDetails) {
+            measurementDetailDao.createOrUpdate(current);
+        }
+    }
+
+    private void saveMeasurementGroupDetails(Collection<? extends OrmMeasurementGroupDetail> momentDetails) throws SQLException {
+        for (OrmMeasurementGroupDetail current : momentDetails) {
+            measurementGroupDetailsDao.createOrUpdate(current);
         }
     }
 
