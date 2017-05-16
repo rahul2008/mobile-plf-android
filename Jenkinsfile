@@ -31,7 +31,7 @@ node ('android&&keystore') {
                 stage ('build') {
                 sh '''#!/bin/bash -l
                     chmod -R 775 . 
-                    cd ./Source/DemoApp 
+                    cd ./Source/AppFramework 
                     ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint assembleLeakCanary
                     ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test assembleLeakCanary 
                 '''
