@@ -18,45 +18,54 @@ node ('android&&keystore') {
         }
 
         try {
-            stage ('build') {
-                sh 'cd ./Source/AppFramework && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease assembleLeakCanary'
-            }
-            
-            sh 'cd ./Source/AppFramework && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease assembleLeakCanary'
-
-            if(env.BRANCH_NAME == 'master') {
-                stage ('Release') {
-                    sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
+            if (BranchName =~ /master|develop|release.*/) {
+                stage ('build') {
+                sh '''#!/bin/bash -l
+                    chmod -R 775 .
+                    cd ./Source/AppFramework 
+                    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint assembleLeakCanary
+                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test assembleLeakCanary zipDoc appFramework:aP
+                '''
+                }
+            } else {
+                stage ('build') {
+                sh '''#!/bin/bash -l
+                    chmod -R 775 . 
+                    cd ./Source/DemoApp 
+                    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint assembleLeakCanary
+                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test assembleLeakCanary 
+                '''
                 }
             }
 
-            if(env.BRANCH_NAME == 'develop') {
-                stage ('Release') {
-                    sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
-                }
-            }
-
-            if(env.BRANCH_NAME =~ /release\/.*/) {
-                stage ('Release') {
-                    sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
-                }
-            }
 
             stage ('save dependencies list') {
-            	sh 'chmod -R 775 . && cd ./Source/AppFramework && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
-            }
-            archiveArtifacts '**/dependencies.lock'
+                sh '''#!/bin/bash -l       
+                    chmod -R 775 . 
+                    cd ./Source/AppFramework 
+                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+                ''' 
+                }
 
-            currentBuild.result = 'SUCCESS'
-            archiveArtifacts '**/build/**/*.apk'
+            stage ('reporting and archiving') {
+                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
+                junit allowEmptyResults: true, testResults: 'Source/Library/*/build/test-results/*/*.xml'
+                // publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/productselection/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'coverage debug']) 
+                // publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/productselection/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'connected tests']) 
+                archiveArtifacts '**/dependencies.lock'
+                archiveArtifacts '**/build/**/*.apk
+            }
+
         }
+            currentBuild.result = 'SUCCESS'
+    }
 
         catch(err) {
             currentBuild.result = 'FAILURE'
-            error ("Someone just broke the build")
+            error ("Someone just broke the build", err.toString())
         }
 
-        if (env.triggerBy != "ppc" && !(BranchName =~ "eature")) {
+        if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
             stage ('callIntegrationPipeline') {
                 if (BranchName =~ "/") {
                     BranchName = BranchName.replaceAll('/','%2F')
