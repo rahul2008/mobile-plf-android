@@ -45,7 +45,7 @@ node ('android&&keystore') {
                     cd ./Source/AppFramework 
                     ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
                 ''' 
-                }
+            }
 
             stage ('reporting and archiving') {
                 androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
@@ -58,7 +58,7 @@ node ('android&&keystore') {
 
         }
             currentBuild.result = 'SUCCESS'
-    }
+    
 
         catch(err) {
             currentBuild.result = 'FAILURE'
