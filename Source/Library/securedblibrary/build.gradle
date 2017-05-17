@@ -138,6 +138,12 @@ android {
             testCoverageEnabled true
         }
     }
+
+    lintOptions {
+        abortOnError false
+    }
+
+
 }
 
 configurations.all {
