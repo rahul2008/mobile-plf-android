@@ -4,7 +4,7 @@ CommLib-all for Android - Release Notes
 Version 1.4.0
 -------------
 ### New features
-* \#9379 Adapt BleDiscoveryStrategy to retrieve all required device properties
+* \#9379 Adapt BleDiscoveryStrategy to obtain the device's friendly name
 * \#9383 During discovery, devices in BleDeviceCache must be connected to only once
 
 Version 1.3.1
