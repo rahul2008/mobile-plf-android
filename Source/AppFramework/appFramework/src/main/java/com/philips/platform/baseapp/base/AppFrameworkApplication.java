@@ -135,7 +135,7 @@ public class AppFrameworkApplication extends MultiDexApplication implements Flow
     }
 
     public void setTargetFlowManager() {
-        if (tempFile != null) {
+        if (tempFile != null && tempFile.exists()) {
             this.targetFlowManager = new FlowManager();
             this.targetFlowManager.initialize(getApplicationContext(), tempFile.getPath(), this);
         }
