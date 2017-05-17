@@ -43,4 +43,8 @@
     <item name="uid_notification_content" type="id"/>
     <item name="uid_notification_btn_1" type="id"/>
     <item name="uid_notification_btn_2" type="id"/>
+    <item name="uid_search_bar_clear_icon" type="id"/>
+    <item name="uid_search_bar_back_icon" type="id"/>
+    <item name="uid_search_bar_auto_complete" type="id"/>
+
 </resources>
