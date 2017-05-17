@@ -11,8 +11,8 @@ Version 5.0.0
 * DiscoveryStrategy.onDiscoveryStarted() and onDiscoveryStopped have been removed as they were not working correctly and are not in line with the iOS API.
 
 ### New features
-* \#9941 User Pairing adds new function to the Pairing port.
-* \#9379 Adapt BleDiscoveryStrategy to retrieve all required device properties
+* \#9941 User Pairing adds new function to the Pairing port
+* \#9379 Adapt BleDiscoveryStrategy to retrieve device friendly name
 * \#9383 During discovery, devices in BleDeviceCache must be connected to only once
 
 Version 4.0.0
