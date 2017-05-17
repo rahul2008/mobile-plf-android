@@ -123,9 +123,9 @@ android {
         versionName version
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         consumerProguardFiles 'proguard-rules-securedb.pro'
-        ndk {
+      /*  ndk {
             abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
-        }
+        }*/
     }
     
     buildTypes {
@@ -152,7 +152,7 @@ dependencies {
     }
     compile "com.j256.ormlite:ormlite-core:5.0"
     compile "com.j256.ormlite:ormlite-android:5.0"
-    compile 'net.zetetic:android-database-sqlcipher:3.5.4@aar'
+    compile 'net.zetetic:android-database-sqlcipher:3.5.7@aar'
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
