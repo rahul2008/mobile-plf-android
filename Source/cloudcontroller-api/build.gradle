@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2017 (c) Koninklijke Philips N.V.
+ * (C) 2015-2013 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -139,7 +139,7 @@ task generateJavadocPublicApi(type: Javadoc) {
         if (it.isDirectory) {
             return true
         }
-        return it.file.text.contains("* @publicApi")
+        return true //it.file.text.contains("* @publicApi")
     }
 
     options {

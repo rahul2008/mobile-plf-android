@@ -11,7 +11,7 @@ node('Android') {
 
     Slack.notify('#conartists') {
         stage('Build') {
-            sh 'cd ./Source/cloudcontroller-api && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease'
+            sh 'cd ./Source/cloudcontroller-api && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease generateJavadocPublicApi'
         }
 
         stage('Lint') {
