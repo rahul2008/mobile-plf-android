@@ -221,20 +221,20 @@ Receive free product accessories</string>
     <!--<item>@drawable/uikit_radio</item>-->
     <!--<item>@drawable/uikit_factory</item>-->
     <!--</array>-->
-    <string name="RA_COCO_AppInfra">ail</string>
+    <string name="RA_COCO_AppInfra">ail : App Infrastructure Library</string>
 
-    <string name="RA_COCO_UR">usr</string>
-    <string name="RA_COCO_PR">prg</string>
+    <string name="RA_COCO_UR">usr : User Registration</string>
+    <string name="RA_COCO_PR">prg : Product Registration</string>
 
-    <string name="RA_COCO_IAP">iap</string>
+    <string name="RA_COCO_IAP">iap : In-app Purchase</string>
 
-    <string name="RA_COCO_CC">dcc</string>
+    <string name="RA_COCO_CC">dcc : Consumer Care</string>
 
-    <string name="RA_COCO_Connectivity">cml</string>
+    <string name="RA_COCO_Connectivity">cml : CommLib</string>
 
-    <string name="RA_COCO_UIKIT">uit</string>
+    <string name="RA_COCO_UIKIT">uit : Mobile UI Toolkit Non DLS</string>
 
-    <string name="RA_COCO_DS">dsc </string>
+    <string name="RA_COCO_DS">dsc : Data Services </string>
 
 
 
