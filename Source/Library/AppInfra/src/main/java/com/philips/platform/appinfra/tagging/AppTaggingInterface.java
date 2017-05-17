@@ -8,7 +8,7 @@ package com.philips.platform.appinfra.tagging;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 
-import java.util.Map;
+import java.util.HashMap;
 
 
 /**
@@ -87,7 +87,7 @@ public interface AppTaggingInterface {
 	 * @param pageName  the page name
 	 * @param paramDict set of key/value pairs to be added to the tracking entry
 	 */
-	public void trackPageWithInfo(String pageName, Map<String, String> paramDict);
+	public void trackPageWithInfo(String pageName, HashMap<String, String> paramDict);
 
 	/**
 	 * Track action with info.
@@ -104,7 +104,7 @@ public interface AppTaggingInterface {
 	 * @param pageName  the page name
 	 * @param paramDict set of key/value pairs to be added to the tracking entry
 	 */
-	public void trackActionWithInfo(String pageName, Map<String, String> paramDict);
+	public void trackActionWithInfo(String pageName, HashMap<String, String> paramDict);
 
 	/**
 	 * Collect LifeCycle info.
@@ -112,7 +112,7 @@ public interface AppTaggingInterface {
 	 * @param context   the page name
 	 * @param paramDict set of key/value pairs to be added to the tracking entry
 	 */
-	public void collectLifecycleInfo(Activity context, Map<String, Object> paramDict);
+	public void collectLifecycleInfo(Activity context, HashMap<String, Object> paramDict);
 
 	/**
 	 * Collect LifeCycle info.
