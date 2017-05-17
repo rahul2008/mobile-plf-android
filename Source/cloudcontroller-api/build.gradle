@@ -1,5 +1,5 @@
 /*
- * (C) 2015-2013 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -30,6 +30,7 @@ if (project.hasProperty('envCode')) {
 }
 
 apply plugin: 'cdpSCM'
+
 import com.philips.cdp.cdpSCM
 
 def objcdp = new cdpSCM()

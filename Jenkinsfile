@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 /* following line is mandatory for the platform CI pipeline integration */
 properties([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name: 'triggerBy']]]])
 
@@ -21,6 +26,7 @@ node('Android') {
 
         stage('Archive artifacts') {
             step([$class: 'ArtifactArchiver', artifacts: 'Source/cloudcontroller-api/build/outputs/aar/*.aar', excludes: null, fingerprint: true, onlyIfSuccessful: true])
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'Documents/External/cloudcontroller-api', reportFiles: 'index.html', reportName: 'Cloudcontroller API'])
         }
 
         if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME == "master" || env.BRANCH_NAME =~ "release") {
