@@ -7,13 +7,10 @@ package com.philips.platform.appinfra.securestorage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Base64;
-import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
 
-import java.security.Key;
 import java.util.Arrays;
 
 import static org.mockito.Mockito.mock;
@@ -178,14 +175,14 @@ public class SecureStorageTest extends MockitoTestCase {
 
     }
 
-    public void testLargeValue()throws Exception {
+   /* public void testLargeValue()throws Exception {
         String valueStored= getLargeString();
         String keyStored= "keyLarge";
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored,sse));
         assertNotNull(mSecureStorage.fetchValueForKey(keyStored,sse));
         assertEquals(valueStored, mSecureStorage.fetchValueForKey(keyStored,sse));
-    }
+    }*/
 
     private String getLargeString(){
         /*
