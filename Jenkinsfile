@@ -19,38 +19,48 @@ node ('android&&device') {
         try {
 			if (BranchName =~ /master|develop|release.*/) {
 			     stage ('build') {
-				    sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} lint assembleRelease zipDocuments artifactoryPublish'
-                    // sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} lint cC assembleRelease zipDocuments artifactoryPublish'
-                    // sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug'
-                    // sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} lint'
-                    // sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} cC'
-                    // sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease'
-                    // sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} zipDocuments'
-                    // sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} artifactoryPublish'
-                    // sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease zipDocuments artifactoryPublish'
+                    sh '''#!/bin/bash -l
+                        chmod -R 775 .
+                        cd ./Source/Library
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC zipDocuments artifactoryPublish
+                    '''                    
 			     }	
 			}
             else
             {
                 stage ('build') {
-                    sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew --refresh-dependencies clean assembleDebug assembleRelease'
+                    sh '''#!/bin/bash -l
+                        chmod -R 775 .
+                        cd ./Source/Library 
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint  
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC
+                    '''
                 }
             }
 			
             stage ('save dependencies list') {
-                sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
+                sh '''#!/bin/bash -l
+                    cd ./Source/Library
+                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+                '''
+            }
+                
+            stage ('reporting') {
+                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
+                junit allowEmptyResults: true, testResults: 'Source/Library/*/build/test-results/*/*.xml'
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/AppInfra/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'connected tests']) 
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/AppInfra/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'coverage tests']) 
+                archiveArtifacts '**/dependencies.lock'
             }
             
-            archiveArtifacts '**/dependencies.lock'
-            currentBuild.result = 'SUCCESS'
-            
-		} //end try
-		
-		catch(err) {
-            currentBuild.result = 'FAILURE'
-            error ("Someone just broke the build")
-        }
+        } //end try
 
+        catch(err) {
+            currentBuild.result = 'FAILURE'    
+            error ("Someone just broke the build", err.toString())
+        }
+		
         if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
             stage ('callIntegrationPipeline') {
                 if (BranchName =~ "/") {
