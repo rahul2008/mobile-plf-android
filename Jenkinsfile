@@ -11,10 +11,14 @@ node('Android') {
     Pipeline = load "android-commlib-all/Source/common/jenkins/Pipeline.groovy"
     def gradle = 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew -PenvCode=${JENKINS_ENV}'
 
+    stage('Build javadoc') {
+        sh "$gradle --refresh-dependencies generateJavadocPublicApi"
+    }
+
     Slack.notify('#conartists') {
         if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME == "master") {
             stage('Build against binaries') {
-                sh "$gradle --refresh-dependencies assemble"
+                sh "$gradle assemble"
             }
         } else {
             stage('Checkout local BlueLib') {
@@ -34,7 +38,7 @@ node('Android') {
             }
 
             stage('Build against local libs') {
-                sh "$gradle --refresh-dependencies assemble"
+                sh "$gradle assemble"
             }
         }
 
