@@ -44,10 +44,6 @@ public class ApplianceManager {
 
     private final DiscoveryStrategy.DiscoveryListener discoveryListener = new DiscoveryStrategy.DiscoveryListener() {
         @Override
-        public void onDiscoveryStarted() {
-        }
-
-        @Override
         public void onNetworkNodeDiscovered(NetworkNode networkNode) {
             final Appliance appliance = createAppliance(networkNode);
             if (appliance == null) {
@@ -78,10 +74,6 @@ public class ApplianceManager {
                     break;
                 }
             }
-        }
-
-        @Override
-        public void onDiscoveryStopped() {
         }
     };
 

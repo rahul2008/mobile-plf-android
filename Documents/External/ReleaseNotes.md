@@ -7,9 +7,13 @@ Version 5.0.0
 ### API Changes
 * DICommPort.putProperties(Map<String, Object> dataMap) now uses GSON for JSON conversion: Arrays of types other then String in the dataMap are now correctly processed and converted to JSON. Previously it was possible to add JSON strings to an Array and have them sent unescaped, this is no longer possible.
 * The PairingPort has a new pairing call available for user pairing. (#9941)
+* NetworkNode now has a bleAddress property. (#9379)
+* DiscoveryStrategy.onDiscoveryStarted() and onDiscoveryStopped have been removed as they were not working correctly and are not in line with the iOS API.
 
 ### New features
-* \#9941 User Pairing adds new function to the Pairing port.
+* \#9941 User Pairing adds new function to the Pairing port
+* \#9379 Adapt BleDiscoveryStrategy to retrieve device friendly name
+* \#9383 During discovery, devices in BleDeviceCache must be connected to only once
 
 Version 4.0.0
 -------------

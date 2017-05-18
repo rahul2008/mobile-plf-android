@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp2.commlib.core.discovery;
 
 import android.support.annotation.NonNull;
@@ -18,12 +23,6 @@ public abstract class ObservableDiscoveryStrategy implements DiscoveryStrategy {
         this.discoveryListeners.remove(discoveryListener);
     }
 
-    protected void notifyDiscoveryStarted() {
-        for (DiscoveryStrategy.DiscoveryListener listener : discoveryListeners) {
-            listener.onDiscoveryStarted();
-        }
-    }
-
     protected void notifyNetworkNodeDiscovered(@NonNull NetworkNode networkNode) {
         for (DiscoveryStrategy.DiscoveryListener listener : discoveryListeners) {
             listener.onNetworkNodeDiscovered(networkNode);
@@ -39,12 +38,6 @@ public abstract class ObservableDiscoveryStrategy implements DiscoveryStrategy {
     protected void notifyNetworkNodeLost(@NonNull NetworkNode networkNode) {
         for (DiscoveryStrategy.DiscoveryListener listener : discoveryListeners) {
             listener.onNetworkNodeLost(networkNode);
-        }
-    }
-
-    protected void notifyDiscoveryStopped() {
-        for (DiscoveryStrategy.DiscoveryListener listener : discoveryListeners) {
-            listener.onDiscoveryStopped();
         }
     }
 }

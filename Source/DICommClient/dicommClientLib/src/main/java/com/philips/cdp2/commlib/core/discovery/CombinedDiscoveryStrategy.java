@@ -1,7 +1,8 @@
 /*
- * Copyright (c) 2016 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 package com.philips.cdp2.commlib.core.discovery;
 
 import android.support.annotation.NonNull;
@@ -44,7 +45,6 @@ public class CombinedDiscoveryStrategy extends ObservableDiscoveryStrategy imple
         for (DiscoveryStrategy strategy : discoveryStrategies) {
             strategy.start(deviceTypes);
         }
-        this.onDiscoveryStarted();
     }
 
     @Override
@@ -52,12 +52,6 @@ public class CombinedDiscoveryStrategy extends ObservableDiscoveryStrategy imple
         for (DiscoveryStrategy strategy : discoveryStrategies) {
             strategy.stop();
         }
-        this.onDiscoveryStopped();
-    }
-
-    @Override
-    public void onDiscoveryStarted() {
-        notifyDiscoveryStarted();
     }
 
     @Override
@@ -73,10 +67,5 @@ public class CombinedDiscoveryStrategy extends ObservableDiscoveryStrategy imple
     @Override
     public void onNetworkNodeUpdated(NetworkNode networkNode) {
         notifyNetworkNodeUpdated(networkNode);
-    }
-
-    @Override
-    public void onDiscoveryStopped() {
-        notifyDiscoveryStopped();
     }
 }
