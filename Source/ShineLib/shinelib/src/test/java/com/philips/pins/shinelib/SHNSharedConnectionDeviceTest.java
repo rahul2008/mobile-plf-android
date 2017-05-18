@@ -111,7 +111,7 @@ public class SHNSharedConnectionDeviceTest {
         when(mockDevice.getState()).thenReturn(SHNDevice.State.Disconnected);
         sharedConnectionDevice.onStateUpdated(mockDevice);
 
-        verify(mockDevice, times(2)).connect(anyLong());
+        verify(mockDevice, times(2)).connect(CONNECT_TIMEOUT_MILLIS);
     }
 
     @Test
