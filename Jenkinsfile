@@ -23,7 +23,7 @@ node ('android&&device') {
                     chmod -R 775 .
                     cd ./Source/DemoApp 
                     ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint 
-                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test zipDocuments artifactoryPublish
+                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test zipDocuments artifactoryPublish
                 '''
                 }
             } else {
@@ -32,7 +32,7 @@ node ('android&&device') {
                     chmod -R 775 . 
                     cd ./Source/DemoApp 
                     ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint 
-                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test
+                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test
                 '''
                 }
             }
@@ -51,6 +51,8 @@ node ('android&&device') {
                 junit allowEmptyResults: true, testResults: 'Source/Library/*/build/test-results/*/*.xml'
                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/iap/build/reports/tests/debug', reportFiles: 'index.html', reportName: 'unit test debug']) 
                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/iap/build/reports/tests/release', reportFiles: 'index.html', reportName: 'unit test release'])
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/iap/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'coverage tests'])
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/iap/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'connected tests'])
                 archiveArtifacts '**/dependencies.lock'
             }
 
