@@ -129,7 +129,7 @@ android {
         versionCode 1
         versionName objcdp.getVersionWithHash()
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
-        consumerProguardFiles 'proguard-rules.pro'
+        consumerProguardFiles 'proguard-rules-prx.pro'
     }
     buildTypes {
         release {
