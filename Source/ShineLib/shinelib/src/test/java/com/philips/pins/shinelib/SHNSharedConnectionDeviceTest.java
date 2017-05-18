@@ -1,7 +1,8 @@
 /*
- * Copyright (c) Koninklijke Philips N.V. 2017
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 package com.philips.pins.shinelib;
 
 import android.os.Handler;
@@ -17,6 +18,7 @@ import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class SHNSharedConnectionDeviceTest {
@@ -90,6 +92,26 @@ public class SHNSharedConnectionDeviceTest {
         sharedConnectionDevice.connect(CONNECT_TIMEOUT_MILLIS);
 
         verify(mockDevice, times(1)).connect(anyLong());
+    }
+
+    @Test
+    public void reconnectDeviceWithoutTimeoutWhenDeviceGotDisconnected() {
+        sharedConnectionDevice.connect();
+
+        when(mockDevice.getState()).thenReturn(SHNDevice.State.Disconnected);
+        sharedConnectionDevice.onStateUpdated(mockDevice);
+
+        verify(mockDevice, times(2)).connect();
+    }
+
+    @Test
+    public void reconnectDeviceWithTimeoutWhenDeviceGotDisconnected() {
+        sharedConnectionDevice.connect(CONNECT_TIMEOUT_MILLIS);
+
+        when(mockDevice.getState()).thenReturn(SHNDevice.State.Disconnected);
+        sharedConnectionDevice.onStateUpdated(mockDevice);
+
+        verify(mockDevice, times(2)).connect(anyLong());
     }
 
     @Test

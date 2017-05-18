@@ -7,8 +7,7 @@ Version 2.4.0
 * SHNSharedConnectionDevice wraps a SHNDevice and does bookkeeping to count the number of times connect has been called. This allows a wrapped SHNDevice to be used in multiple places without having to worry if another piece of code still needs a currently open connection. Just make sure to balance your calls to connect() and disconnect().
 
 ### New features
-* \#9379 Adapt BleDiscoveryStrategy to retrieve all required device properties
-* \#9383 During discovery, devices in BleDeviceCache must be connected to only once
+No changes.
 
 Version 2.3.3
 -------------
