@@ -50,7 +50,7 @@ public class BTDevice {
     }
 
     public boolean createBond() {
-        if(getBondState() == BluetoothDevice.BOND_NONE) {
+        if (getBondState() == BluetoothDevice.BOND_NONE) {
             return device.createBond();
         }
         return false;

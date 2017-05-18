@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
 
@@ -60,7 +60,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     public static final int GATT_ERROR = 0x0085;
 
     public enum SHNBondInitiator {
-        NONE, PERIPHERAL,APP
+        NONE, PERIPHERAL, APP
     }
 
     private enum InternalState {

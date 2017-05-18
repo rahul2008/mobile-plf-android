@@ -5,13 +5,15 @@
 
 package com.philips.pins.shinelib.datatypes;
 
+import android.support.annotation.NonNull;
+
 import java.util.UUID;
 
 public class SHNCharacteristicInfo {
     private final UUID uuid;
     private final boolean encrypted;
 
-    public SHNCharacteristicInfo(UUID characteristicUUID, boolean characteristicEncrypted) {
+    public SHNCharacteristicInfo(@NonNull final UUID characteristicUUID, @NonNull final boolean characteristicEncrypted) {
         this.uuid = characteristicUUID;
         this.encrypted = characteristicEncrypted;
     }
@@ -20,22 +22,21 @@ public class SHNCharacteristicInfo {
         return uuid;
     }
 
-    public boolean isEncrytped() {
+    public boolean isEncrypted() {
         return encrypted;
     }
 
     @Override
     public String toString() {
-        return "DebugMoonshine: " + getUUID();
+        return String.format("SHNCharacteristicInfo: UUID: %s, encrypted: %b", uuid.toString(), encrypted);
     }
 
     @Override
     public boolean equals(Object object) {
-        if (object == null)
-            return false;
         if (this == object)
             return true;
-        if (!(object instanceof SHNCharacteristicInfo))
+
+        if (object == null || getClass() != object.getClass())
             return false;
 
         SHNCharacteristicInfo that = (SHNCharacteristicInfo) object;

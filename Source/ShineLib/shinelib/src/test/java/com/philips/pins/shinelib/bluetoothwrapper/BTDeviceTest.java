@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2016, 2017.
  * All rights reserved.
  */
 
@@ -8,32 +8,22 @@ package com.philips.pins.shinelib.bluetoothwrapper;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattDescriptor;
 import android.content.Context;
 
 import com.philips.pins.shinelib.SHNCentral;
-import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.helper.MockedHandler;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentMatcher;
-import org.mockito.Matchers;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.robolectric.Robolectric;
 import org.robolectric.RuntimeEnvironment;
 
 import java.lang.reflect.Field;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class BTDeviceTest {
@@ -76,11 +66,11 @@ public class BTDeviceTest {
 
     @Test
     public void whenBluetoothDeviceConnectGattIsCalledThenReturnGatt() throws NoSuchFieldException, IllegalAccessException {
-        SHNCentral shnCentral = Mockito.mock(SHNCentral.class);
-        BluetoothGatt gatt = Mockito.mock(BluetoothGatt.class);
-        when(bluetoothDevice.connectGatt(Mockito.any(Context.class), Mockito.anyBoolean(), Mockito.any(BluetoothGattCallback.class))).thenReturn(gatt);
+        SHNCentral shnCentral = mock(SHNCentral.class);
+        BluetoothGatt gatt = mock(BluetoothGatt.class);
+        when(bluetoothDevice.connectGatt(any(Context.class), anyBoolean(), any(BluetoothGattCallback.class))).thenReturn(gatt);
 
-        BTGatt.BTGattCallback callback = Mockito.mock(BTGatt.BTGattCallback.class);
+        BTGatt.BTGattCallback callback = mock(BTGatt.BTGattCallback.class);
         BTGatt btGatt = btDevice.connectGatt(RuntimeEnvironment.application, false, shnCentral, callback);
 
         Field f = BTGatt.class.getDeclaredField("bluetoothGatt");

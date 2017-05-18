@@ -18,7 +18,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
-import java.io.Console;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.Set;
