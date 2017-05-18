@@ -7,6 +7,7 @@ package com.philips.pins.shinelib.datatypes;
 
 import android.support.annotation.NonNull;
 
+import java.util.Locale;
 import java.util.UUID;
 
 public class SHNCharacteristicInfo {
@@ -28,7 +29,7 @@ public class SHNCharacteristicInfo {
 
     @Override
     public String toString() {
-        return String.format("SHNCharacteristicInfo: UUID: %s, encrypted: %b", uuid.toString(), encrypted);
+        return String.format(Locale.US,"SHNCharacteristicInfo: UUID: %s, encrypted: %b", uuid.toString(), encrypted);
     }
 
     @Override

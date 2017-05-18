@@ -41,7 +41,7 @@ public class BTDevice {
         BluetoothGatt bluetoothGatt = device.connectGatt(context, autoConnect, btGatt);
         btGatt.setBluetoothGatt(bluetoothGatt);
 
-         //Guard test for the null pointer deference and log lines to be able to detect that this problem would have occurred.
+        //Guard test for the null pointer deference and log lines to be able to detect that this problem would have occurred.
         if (bluetoothGatt == null) {
             SHNLogger.e(TAG, "device.connectGatt returns null");
         }

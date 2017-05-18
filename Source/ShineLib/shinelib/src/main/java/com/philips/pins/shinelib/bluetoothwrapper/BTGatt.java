@@ -23,6 +23,7 @@ import java.util.List;
 public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondStatusListener {
     private static final String TAG = BTGatt.class.getSimpleName();
     private static final boolean ENABLE_DEBUG_LOGGING = false;
+    private static final int BOND_CREATED_WAIT_TIME = 500;
     private Runnable currentCommand;
 
     public interface BTGattCallback {
@@ -152,7 +153,7 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
     }
 
     public void readCharacteristic(final BluetoothGattCharacteristic characteristic, final boolean encrypted) {
-        if(encrypted) {
+        if (encrypted) {
             addBondCommandIfNoBondExists();
         }
 
@@ -172,7 +173,7 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
     }
 
     public void writeCharacteristic(final BluetoothGattCharacteristic characteristic, final boolean encrypted, final byte[] data) {
-        if(encrypted) {
+        if (encrypted) {
             addBondCommandIfNoBondExists();
         }
 
@@ -192,8 +193,8 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
     }
 
     private void addBondCommandIfNoBondExists() {
-          if (bluetoothGatt == null) {
-                return;
+        if (bluetoothGatt == null) {
+            return;
         }
 
         final BluetoothDevice device = bluetoothGatt.getDevice();
@@ -238,7 +239,7 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
                 executeNextCommandIfAllowed();
             }
         };
-        handler.postDelayed(runnable, 500);
+        handler.postDelayed(runnable, BOND_CREATED_WAIT_TIME);
     }
 
     public void readDescriptor(final BluetoothGattDescriptor descriptor) {
@@ -261,7 +262,7 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (descriptor.setValue(data) && bluetoothGatt != null &&  bluetoothGatt.writeDescriptor(descriptor)) {
+                if (descriptor.setValue(data) && bluetoothGatt != null && bluetoothGatt.writeDescriptor(descriptor)) {
                     waitingForCompletion = true;
                 } else {
                     btGattCallback.onDescriptorWrite(BTGatt.this, descriptor, BluetoothGatt.GATT_FAILURE);
