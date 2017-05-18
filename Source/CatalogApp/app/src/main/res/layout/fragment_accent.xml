@@ -46,7 +46,7 @@
         style="@style/UIDLabel.MarginTop"
         android:layout_width="match_parent"
         android:layout_height="@dimen/layout_margin_top"
-        android:background="?attr/uidControlAccentText"
+        android:background="?attr/uidControlAccent"
         android:text="Control accent text"
         android:textColor="@color/uidColorBlack"/>
 
