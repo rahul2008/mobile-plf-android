@@ -35,7 +35,7 @@ class DataValidationTest extends GroovyTestCase {
             colorRange ->
                 def value = allAttributes.get(BrushParser.getCapitalizedValue(colorRange.value))
                 assertNotNull(value)
-                assertEquals(20, value.size())
+                assertEquals(4, value.size())
         }
     }
 }

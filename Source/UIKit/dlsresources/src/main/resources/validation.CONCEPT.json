@@ -1,634 +1,562 @@
-[
-  {
-    "group-blue": {
-      "input-validated-background": {
-        "ultra-light": {
-          "color": "#FFF1D3"
+[{
+  "group-blue": {
+    "input-validated-background": {
+      "ultra-light": {
+        "color": "#FFF1D3"
       },
-        "very-light": {
-          "color": "#FFF1D3"
+      "very-light": {
+        "color": "#FFF1D3"
       },
-        "light": {
-          "color": "#FFF1D3"
+      "light": {
+        "color": "#FFF1D3"
       },
-        "bright": {
-          "color": "#FFF1D3"
+      "bright": {
+        "color": "#FFF1D3"
       },
-        "very-dark": {
-          "color": "#FFF1D3"
+      "very-dark": {
+        "color": "#FFF1D3"
       }
     },
-      "input-validated-border": {
-        "ultra-light": {
-          "color-range": "signal-orange"
+    "input-validated-border": {
+      "ultra-light": {
+        "color-range": "signal-orange"
       },
-        "very-light": {
-          "reference": "no-color"
+      "very-light": {
+        "reference": "no-color"
       },
-        "light": {
-          "reference": "no-color"
+      "light": {
+        "reference": "no-color"
       },
-        "bright": {
-          "reference": "no-color"
+      "bright": {
+        "reference": "no-color"
       },
-        "very-dark": {
-          "reference": "no-color"
+      "very-dark": {
+        "reference": "no-color"
       }
     },
-      "input-validated-text": {
-        "ultra-light": {
-          "color-range": "signal-orange"
+    "input-validated-text": {
+      "ultra-light": {
+        "color-range": "signal-orange"
       },
-        "very-light": {
-          "color-range": "signal-orange"
+      "very-light": {
+        "color-range": "signal-orange"
       },
-        "light": {
-          "color-range": "signal-orange"
+      "light": {
+        "color-range": "signal-orange"
       },
-        "bright": {
-          "color-range": "signal-orange"
+      "bright": {
+        "color-range": "signal-orange"
       },
-        "very-dark": {
-          "color-range": "signal-orange"
+      "very-dark": {
+        "color-range": "signal-orange"
       }
     },
-      "validated-message-text": {
-        "ultra-light": {
-          "color-range": "signal-orange"
+    "validated-message-text": {
+      "ultra-light": {
+        "color-range": "signal-orange"
       },
-        "very-light": {
-          "color-range": "signal-red"
+      "very-light": {
+        "color-range": "signal-red"
       },
-        "light": {
-          "color-range": "signal-red"
+      "light": {
+        "color-range": "signal-red"
       },
-        "bright": {
-          "color-range": "signal-orange"
+      "bright": {
+        "color-range": "signal-orange"
       },
-        "very-dark": {
-          "color-range": "signal-orange"
+      "very-dark": {
+        "color-range": "signal-orange"
       }
-      }
-    },
-    "blue": {
-      "input-validated-background": {
-        "ultra-light": {
-          "color": "#FFF1D3"
-        },
-        "very-light": {
-          "color": "#FFF1D3"
-        },
-        "light": {
-          "color": "#FFF1D3"
-        },
-        "bright": {
-          "color": "#FFF1D3"
-        },
-        "very-dark": {
-          "color": "#FFF1D3"
-      }
-    },
-      "input-validated-border": {
-        "ultra-light": {
-          "color-range": "signal-orange"
-        },
-        "very-light": {
-          "reference": "no-color"
-        },
-        "light": {
-          "reference": "no-color"
-        },
-        "bright": {
-          "reference": "no-color"
-        },
-        "very-dark": {
-          "reference": "no-color"
-        }
-    },
-      "input-validated-text": {
-        "ultra-light": {
-          "color-range": "signal-orange"
-      },
-        "very-light": {
-          "color-range": "signal-orange"
-      },
-        "light": {
-          "color-range": "signal-orange"
-      },
-        "bright": {
-          "color-range": "signal-orange"
-      },
-        "very-dark": {
-          "color-range": "signal-orange"
-      }
-    },
-      "validated-message-text": {
-        "ultra-light": {
-          "color-range": "signal-orange"
-      },
-        "very-light": {
-          "color-range": "signal-red"
-      },
-        "light": {
-          "color-range": "signal-red"
-      },
-        "bright": {
-          "color-range": "signal-orange"
-      },
-        "very-dark": {
-          "color-range": "signal-orange"
-      }
-      }
-    },
-    "orange": {
-      "input-validated-background": {
-        "ultra-light": {
-          "color": "#FFBFBF"
-        },
-        "very-light": {
-          "color": "#FFBFBF"
-        },
-        "light": {
-          "color": "#FFBFBF"
-        },
-        "bright": {
-          "color": "#FFBFBF"
-        },
-        "very-dark": {
-          "color": "#FFBFBF"
-        }
-      },
-      "input-validated-border": {
-        "ultra-light": {
-          "color-range": "signal-red"
-        },
-        "very-light": {
-          "reference": "no-color"
-        },
-        "light": {
-          "reference": "no-color"
-        },
-        "bright": {
-          "reference": "no-color"
-        },
-        "very-dark": {
-          "reference": "no-color"
-        }
-      },
-      "input-validated-text": {
-        "ultra-light": {
-          "color-range": "signal-red"
-        },
-        "very-light": {
-          "color-range": "signal-red"
-        },
-        "light": {
-          "color-range": "signal-red"
-        },
-        "bright": {
-          "color-range": "signal-red"
-        },
-        "very-dark": {
-          "color-range": "signal-red"
-        }
-      },
-      "validated-message-text": {
-        "ultra-light": {
-          "color-range": "signal-orange"
-        },
-        "very-light": {
-          "color-range": "signal-red"
-        },
-        "light": {
-          "color-range": "signal-red"
-        },
-        "bright": {
-          "color-range": "signal-yellow"
-        },
-        "very-dark": {
-          "color-range": "signal-orange"
-        }
-      }
-    },
-    "aqua": {
-      "input-validated-background": {
-        "ultra-light": {
-          "color": "#FFF1D3"
-        },
-        "very-light": {
-          "color": "#FFF1D3"
-        },
-        "light": {
-          "color": "#FFF1D3"
-        },
-        "bright": {
-          "color": "#FFF1D3"
-        },
-        "very-dark": {
-          "color": "#FFF1D3"
-        }
-    },
-      "input-validated-border": {
-        "ultra-light": {
-          "color-range": "signal-orange"
-      },
-        "very-light": {
-          "reference": "no-color"
-      },
-        "light": {
-          "reference": "no-color"
-      },
-        "bright": {
-          "reference": "no-color"
-      },
-        "very-dark": {
-          "reference": "no-color"
-      }
-      },
-      "input-validated-text": {
-        "ultra-light": {
-          "color-range": "signal-orange"
-        },
-        "very-light": {
-          "color-range": "signal-orange"
-        },
-        "light": {
-          "color-range": "signal-orange"
-        },
-        "bright": {
-          "color-range": "signal-orange"
-        },
-        "very-dark": {
-          "color-range": "signal-orange"
-      }
-    },
-      "validated-message-text": {
-        "ultra-light": {
-          "color-range": "signal-orange"
-        },
-        "very-light": {
-          "color-range": "signal-red"
-        },
-        "light": {
-          "color-range": "signal-red"
-        },
-        "bright": {
-          "color-range": "signal-orange"
-        },
-        "very-dark": {
-          "color-range": "signal-orange"
-        }
-      }
-    },
-    "green": {
-      "input-validated-background": {
-        "ultra-light": {
-          "color": "#FFF1D3"
-        },
-        "very-light": {
-          "color": "#FFF1D3"
-        },
-        "light": {
-          "color": "#FFF1D3"
-        },
-        "bright": {
-          "color": "#FFF1D3"
-        },
-        "very-dark": {
-          "color": "#FFF1D3"
-        }
-    },
-      "input-validated-border": {
-        "ultra-light": {
-          "color-range": "signal-orange"
-      },
-        "very-light": {
-          "reference": "no-color"
-      },
-        "light": {
-          "reference": "no-color"
-      },
-        "bright": {
-          "reference": "no-color"
-      },
-        "very-dark": {
-          "reference": "no-color"
-      }
-      },
-      "input-validated-text": {
-        "ultra-light": {
-          "color-range": "signal-orange"
-      },
-        "very-light": {
-          "color-range": "signal-orange"
-      },
-        "light": {
-          "color-range": "signal-orange"
-        },
-        "bright": {
-          "color-range": "signal-orange"
-        },
-        "very-dark": {
-          "color-range": "signal-orange"
-        }
-      },
-      "validated-message-text": {
-        "ultra-light": {
-          "color-range": "signal-orange"
-        },
-        "very-light": {
-          "color-range": "signal-orange"
-        },
-        "light": {
-          "color-range": "signal-orange"
-        },
-        "bright": {
-          "color-range": "signal-orange"
-        },
-        "very-dark": {
-          "color-range": "signal-orange"
-        }
     }
-    },
-    "orange": {
-      "input-validated-background": {
-        "ultra-light": {
-          "color": "#FFBFBF"
-        },
-        "very-light": {
-          "color": "#FFBFBF"
-        },
-        "light": {
-          "color": "#FFBFBF"
-        },
-        "bright": {
-          "color": "#FFBFBF"
-        },
-        "very-dark": {
-          "color": "#FFBFBF"
-        }
-    },
-      "input-validated-border": {
-        "ultra-light": {
-          "color-range": "signal-red"
+  },
+  "blue": {
+    "input-validated-background": {
+      "ultra-light": {
+        "color": "#FFF1D3"
       },
-        "very-light": {
-          "reference": "no-color"
+      "very-light": {
+        "color": "#FFF1D3"
       },
-        "light": {
-          "reference": "no-color"
+      "light": {
+        "color": "#FFF1D3"
       },
-        "bright": {
-          "reference": "no-color"
-        },
-        "very-dark": {
-          "reference": "no-color"
+      "bright": {
+        "color": "#FFF1D3"
+      },
+      "very-dark": {
+        "color": "#FFF1D3"
       }
     },
-      "input-validated-text": {
-        "ultra-light": {
-          "color-range": "signal-red"
+    "input-validated-border": {
+      "ultra-light": {
+        "color-range": "signal-orange"
       },
-        "very-light": {
-          "color-range": "signal-red"
+      "very-light": {
+        "reference": "no-color"
       },
-        "light": {
-          "color-range": "signal-red"
+      "light": {
+        "reference": "no-color"
       },
-        "bright": {
-          "color-range": "signal-red"
-        },
-        "very-dark": {
-          "color-range": "signal-red"
+      "bright": {
+        "reference": "no-color"
+      },
+      "very-dark": {
+        "reference": "no-color"
       }
     },
-      "validated-message-text": {
-        "ultra-light": {
-          "color-range": "signal-orange"
+    "input-validated-text": {
+      "ultra-light": {
+        "color-range": "signal-orange"
       },
-        "very-light": {
-          "color-range": "signal-red"
+      "very-light": {
+        "color-range": "signal-orange"
       },
-        "light": {
-          "color-range": "signal-red"
+      "light": {
+        "color-range": "signal-orange"
       },
-        "bright": {
-          "color-range": "signal-yellow"
-        },
-        "very-dark": {
-          "color-range": "signal-orange"
-      }
-      }
-    },
-    "pink": {
-      "input-validated-background": {
-        "ultra-light": {
-          "color": "#FFF1D3"
-        },
-        "very-light": {
-          "color": "#FFF1D3"
-        },
-        "light": {
-          "color": "#FFF1D3"
-        },
-        "bright": {
-          "color": "#FFF1D3"
-        },
-        "very-dark": {
-          "color": "#FFF1D3"
-        }
-    },
-      "input-validated-border": {
-        "ultra-light": {
-          "color-range": "signal-orange"
+      "bright": {
+        "color-range": "signal-orange"
       },
-        "very-light": {
-          "reference": "no-color"
-      },
-        "light": {
-          "reference": "no-color"
-      },
-        "bright": {
-          "reference": "no-color"
-        },
-        "very-dark": {
-          "reference": "no-color"
+      "very-dark": {
+        "color-range": "signal-orange"
       }
     },
-      "input-validated-text": {
-        "ultra-light": {
-          "color-range": "signal-orange"
+    "validated-message-text": {
+      "ultra-light": {
+        "color-range": "signal-orange"
       },
-        "very-light": {
-          "color-range": "signal-orange"
+      "very-light": {
+        "color-range": "signal-red"
       },
-        "light": {
-          "color-range": "signal-orange"
+      "light": {
+        "color-range": "signal-red"
       },
-        "bright": {
-          "color-range": "signal-orange"
-        },
-        "very-dark": {
-          "color-range": "signal-orange"
+      "bright": {
+        "color-range": "signal-orange"
+      },
+      "very-dark": {
+        "color-range": "signal-orange"
+      }
+    }
+  },
+  "aqua": {
+    "input-validated-background": {
+      "ultra-light": {
+        "color": "#FFF1D3"
+      },
+      "very-light": {
+        "color": "#FFF1D3"
+      },
+      "light": {
+        "color": "#FFF1D3"
+      },
+      "bright": {
+        "color": "#FFF1D3"
+      },
+      "very-dark": {
+        "color": "#FFF1D3"
       }
     },
-      "validated-message-text": {
-        "ultra-light": {
-          "color-range": "signal-orange"
+    "input-validated-border": {
+      "ultra-light": {
+        "color-range": "signal-orange"
       },
-        "very-light": {
-          "color-range": "signal-red"
+      "very-light": {
+        "reference": "no-color"
       },
-        "light": {
-          "color-range": "signal-red"
+      "light": {
+        "reference": "no-color"
       },
-        "bright": {
-          "color-range": "signal-yellow"
-        },
-        "very-dark": {
-          "color-range": "signal-orange"
-      }
-      }
-    },
-    "purple": {
-      "input-validated-background": {
-        "ultra-light": {
-          "color": "#FFF1D3"
-        },
-        "very-light": {
-          "color": "#FFF1D3"
-        },
-        "light": {
-          "color": "#FFF1D3"
-        },
-        "bright": {
-          "color": "#FFF1D3"
-        },
-        "very-dark": {
-          "color": "#FFF1D3"
-        }
+      "bright": {
+        "reference": "no-color"
       },
-      "input-validated-border": {
-        "ultra-light": {
-          "color-range": "signal-orange"
-        },
-        "very-light": {
-          "reference": "no-color"
-        },
-        "light": {
-          "reference": "no-color"
-        },
-        "bright": {
-          "reference": "no-color"
-        },
-        "very-dark": {
-          "reference": "no-color"
-        }
-      },
-      "input-validated-text": {
-        "ultra-light": {
-          "color-range": "signal-orange"
-        },
-        "very-light": {
-          "color-range": "signal-orange"
-        },
-        "light": {
-          "color-range": "signal-orange"
-        },
-        "bright": {
-          "color-range": "signal-orange"
-        },
-        "very-dark": {
-          "color-range": "signal-orange"
-        }
-      },
-      "validated-message-text": {
-        "ultra-light": {
-          "color-range": "signal-orange"
-        },
-        "very-light": {
-          "color-range": "signal-red"
-        },
-        "light": {
-          "color-range": "signal-red"
-        },
-        "bright": {
-          "color-range": "signal-orange"
-        },
-        "very-dark": {
-          "color-range": "signal-orange"
-        }
+      "very-dark": {
+        "reference": "no-color"
       }
     },
-    "gray": {
-      "input-validated-background": {
-        "ultra-light": {
-          "color": "#FFF1D3"
-        },
-        "very-light": {
-          "color": "#FFF1D3"
-        },
-        "light": {
-          "color": "#FFF1D3"
-        },
-        "bright": {
-          "color": "#FFF1D3"
-        },
-        "very-dark": {
-          "color": "#FFF1D3"
-        }
+    "input-validated-text": {
+      "ultra-light": {
+        "color-range": "signal-orange"
       },
-      "input-validated-border": {
-        "ultra-light": {
-          "color-range": "signal-orange"
-        },
-        "very-light": {
-          "reference": "no-color"
-        },
-        "light": {
-          "reference": "no-color"
-        },
-        "bright": {
-          "reference": "no-color"
-        },
-        "very-dark": {
-          "reference": "no-color"
-        }
+      "very-light": {
+        "color-range": "signal-orange"
       },
-      "input-validated-text": {
-        "ultra-light": {
-          "color-range": "signal-orange"
-        },
-        "very-light": {
-          "color-range": "signal-orange"
-        },
-        "light": {
-          "color-range": "signal-orange"
-        },
-        "bright": {
-          "color-range": "signal-orange"
-        },
-        "very-dark": {
-          "color-range": "signal-orange"
-        }
+      "light": {
+        "color-range": "signal-orange"
       },
-      "validated-message-text": {
-        "ultra-light": {
-          "color-range": "signal-orange"
-        },
-        "very-light": {
-          "color-range": "signal-red"
-        },
-        "light": {
-          "color-range": "signal-red"
-        },
-        "bright": {
-          "color-range": "signal-orange"
-        },
-        "very-dark": {
-          "color-range": "signal-orange"
-        }
+      "bright": {
+        "color-range": "signal-orange"
+      },
+      "very-dark": {
+        "color-range": "signal-orange"
       }
+    },
+    "validated-message-text": {
+      "ultra-light": {
+        "color-range": "signal-orange"
+      },
+      "very-light": {
+        "color-range": "signal-red"
+      },
+      "light": {
+        "color-range": "signal-red"
+      },
+      "bright": {
+        "color-range": "signal-orange"
+      },
+      "very-dark": {
+        "color-range": "signal-orange"
+      }
+    }
+  },
+  "green": {
+    "input-validated-background": {
+      "ultra-light": {
+        "color": "#FFF1D3"
+      },
+      "very-light": {
+        "color": "#FFF1D3"
+      },
+      "light": {
+        "color": "#FFF1D3"
+      },
+      "bright": {
+        "color": "#FFF1D3"
+      },
+      "very-dark": {
+        "color": "#FFF1D3"
+      }
+    },
+    "input-validated-border": {
+      "ultra-light": {
+        "color-range": "signal-orange"
+      },
+      "very-light": {
+        "reference": "no-color"
+      },
+      "light": {
+        "reference": "no-color"
+      },
+      "bright": {
+        "reference": "no-color"
+      },
+      "very-dark": {
+        "reference": "no-color"
+      }
+    },
+    "input-validated-text": {
+      "ultra-light": {
+        "color-range": "signal-orange"
+      },
+      "very-light": {
+        "color-range": "signal-orange"
+      },
+      "light": {
+        "color-range": "signal-orange"
+      },
+      "bright": {
+        "color-range": "signal-orange"
+      },
+      "very-dark": {
+        "color-range": "signal-orange"
+      }
+    },
+    "validated-message-text": {
+      "ultra-light": {
+        "color-range": "signal-orange"
+      },
+      "very-light": {
+        "color-range": "signal-orange"
+      },
+      "light": {
+        "color-range": "signal-orange"
+      },
+      "bright": {
+        "color-range": "signal-orange"
+      },
+      "very-dark": {
+        "color-range": "signal-orange"
+      }
+    }
+  },
+  "orange": {
+    "input-validated-background": {
+      "ultra-light": {
+        "color": "#FFBFBF"
+      },
+      "very-light": {
+        "color": "#FFBFBF"
+      },
+      "light": {
+        "color": "#FFBFBF"
+      },
+      "bright": {
+        "color": "#FFBFBF"
+      },
+      "very-dark": {
+        "color": "#FFBFBF"
+      }
+    },
+    "input-validated-border": {
+      "ultra-light": {
+        "color-range": "signal-red"
+      },
+      "very-light": {
+        "reference": "no-color"
+      },
+      "light": {
+        "reference": "no-color"
+      },
+      "bright": {
+        "reference": "no-color"
+      },
+      "very-dark": {
+        "reference": "no-color"
+      }
+    },
+    "input-validated-text": {
+      "ultra-light": {
+        "color-range": "signal-red"
+      },
+      "very-light": {
+        "color-range": "signal-red"
+      },
+      "light": {
+        "color-range": "signal-red"
+      },
+      "bright": {
+        "color-range": "signal-red"
+      },
+      "very-dark": {
+        "color-range": "signal-red"
+      }
+    },
+    "validated-message-text": {
+      "ultra-light": {
+        "color-range": "signal-orange"
+      },
+      "very-light": {
+        "color-range": "signal-red"
+      },
+      "light": {
+        "color-range": "signal-red"
+      },
+      "bright": {
+        "color-range": "signal-yellow"
+      },
+      "very-dark": {
+        "color-range": "signal-orange"
+      }
+    }
+  },
+  "pink": {
+    "input-validated-background": {
+      "ultra-light": {
+        "color": "#FFF1D3"
+      },
+      "very-light": {
+        "color": "#FFF1D3"
+      },
+      "light": {
+        "color": "#FFF1D3"
+      },
+      "bright": {
+        "color": "#FFF1D3"
+      },
+      "very-dark": {
+        "color": "#FFF1D3"
+      }
+    },
+    "input-validated-border": {
+      "ultra-light": {
+        "color-range": "signal-orange"
+      },
+      "very-light": {
+        "reference": "no-color"
+      },
+      "light": {
+        "reference": "no-color"
+      },
+      "bright": {
+        "reference": "no-color"
+      },
+      "very-dark": {
+        "reference": "no-color"
+      }
+    },
+    "input-validated-text": {
+      "ultra-light": {
+        "color-range": "signal-orange"
+      },
+      "very-light": {
+        "color-range": "signal-orange"
+      },
+      "light": {
+        "color-range": "signal-orange"
+      },
+      "bright": {
+        "color-range": "signal-orange"
+      },
+      "very-dark": {
+        "color-range": "signal-orange"
+      }
+    },
+    "validated-message-text": {
+      "ultra-light": {
+        "color-range": "signal-orange"
+      },
+      "very-light": {
+        "color-range": "signal-red"
+      },
+      "light": {
+        "color-range": "signal-red"
+      },
+      "bright": {
+        "color-range": "signal-yellow"
+      },
+      "very-dark": {
+        "color-range": "signal-orange"
+      }
+    }
+  },
+  "purple": {
+    "input-validated-background": {
+      "ultra-light": {
+        "color": "#FFF1D3"
+      },
+      "very-light": {
+        "color": "#FFF1D3"
+      },
+      "light": {
+        "color": "#FFF1D3"
+      },
+      "bright": {
+        "color": "#FFF1D3"
+      },
+      "very-dark": {
+        "color": "#FFF1D3"
+      }
+    },
+    "input-validated-border": {
+      "ultra-light": {
+        "color-range": "signal-orange"
+      },
+      "very-light": {
+        "reference": "no-color"
+      },
+      "light": {
+        "reference": "no-color"
+      },
+      "bright": {
+        "reference": "no-color"
+      },
+      "very-dark": {
+        "reference": "no-color"
+      }
+    },
+    "input-validated-text": {
+      "ultra-light": {
+        "color-range": "signal-orange"
+      },
+      "very-light": {
+        "color-range": "signal-orange"
+      },
+      "light": {
+        "color-range": "signal-orange"
+      },
+      "bright": {
+        "color-range": "signal-orange"
+      },
+      "very-dark": {
+        "color-range": "signal-orange"
+      }
+    },
+    "validated-message-text": {
+      "ultra-light": {
+        "color-range": "signal-orange"
+      },
+      "very-light": {
+        "color-range": "signal-red"
+      },
+      "light": {
+        "color-range": "signal-red"
+      },
+      "bright": {
+        "color-range": "signal-orange"
+      },
+      "very-dark": {
+        "color-range": "signal-orange"
+      }
+    }
+  },
+  "gray": {
+    "input-validated-background": {
+      "ultra-light": {
+        "color": "#FFF1D3"
+      },
+      "very-light": {
+        "color": "#FFF1D3"
+      },
+      "light": {
+        "color": "#FFF1D3"
+      },
+      "bright": {
+        "color": "#FFF1D3"
+      },
+      "very-dark": {
+        "color": "#FFF1D3"
+      }
+    },
+    "input-validated-border": {
+      "ultra-light": {
+        "color-range": "signal-orange"
+      },
+      "very-light": {
+        "reference": "no-color"
+      },
+      "light": {
+        "reference": "no-color"
+      },
+      "bright": {
+        "reference": "no-color"
+      },
+      "very-dark": {
+        "reference": "no-color"
+      }
+    },
+    "input-validated-text": {
+      "ultra-light": {
+        "color-range": "signal-orange"
+      },
+      "very-light": {
+        "color-range": "signal-orange"
+      },
+      "light": {
+        "color-range": "signal-orange"
+      },
+      "bright": {
+        "color-range": "signal-orange"
+      },
+      "very-dark": {
+        "color-range": "signal-orange"
+      }
+    },
+    "validated-message-text": {
+      "ultra-light": {
+        "color-range": "signal-orange"
+      },
+      "very-light": {
+        "color-range": "signal-red"
+      },
+      "light": {
+        "color-range": "signal-red"
+      },
+      "bright": {
+        "color-range": "signal-orange"
+      },
+      "very-dark": {
+        "color-range": "signal-orange"
+      }
+    }
   }
-  }
-]
+}]
