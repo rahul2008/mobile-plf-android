@@ -98,10 +98,6 @@
                 android:id="@+id/divider"
                 layout="@layout/uid_horizontal_separator"/>
 
-            <com.philips.platform.uid.view.widget.SearchBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
         </LinearLayout>
     </ScrollView>
 

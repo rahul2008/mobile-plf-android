@@ -17,28 +17,28 @@ import android.widget.LinearLayout;
 import com.philips.platform.uid.R;
 
 
-public class SearchBar extends LinearLayout {
+public class SearchBox extends LinearLayout {
 
     public final ImageView mBackButton;
     public final ImageView mCloseButton;
     public AppCompatAutoCompleteTextView autoCompleteTextView;
 
 
-    public SearchBar(Context context) {
+    public SearchBox(Context context) {
         this(context, null);
     }
 
-    public SearchBar(Context context, @Nullable AttributeSet attrs) {
+    public SearchBox(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public SearchBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public SearchBox(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setOrientation(LinearLayout.HORIZONTAL);
 
 
         final LayoutInflater inflater = LayoutInflater.from(context);
-        inflater.inflate(R.layout.uid_search_bar, this);
+        inflater.inflate(R.layout.uid_search_box, this);
         mBackButton = (ImageView) findViewById(android.support.v7.appcompat.R.id.search_button);
         mCloseButton = (ImageView) findViewById(android.support.v7.appcompat.R.id.search_close_btn);
         autoCompleteTextView = (AppCompatAutoCompleteTextView) findViewById(android.support.v7.appcompat.R.id.search_src_text);

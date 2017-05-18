@@ -207,6 +207,9 @@
     <string name="ratingbar_rating_text">4.5</string>
     <string name="ratingbar_reset">Reset</string>
 
+    <!--Rating Bar-->
+    <string name="page_title_searchbox">Search Box</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="page_title_accent">Accent</string>
