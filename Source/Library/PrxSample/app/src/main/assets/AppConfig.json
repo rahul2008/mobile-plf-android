@@ -27,7 +27,7 @@
     "tagging.sensitiveData": ["bundleId, language"] ,
     "abtest.precache":["philipsmobileappabtest1content","philipsmobileappabtest1success"],
     "contentLoader.limitSize":100,
-    "servicediscovery.platformMicrositeId":"77000",
+    "servicediscovery.platformMicrositeId":"70000",
     "servicediscovery.platformEnvironment":"production",
     "servicediscovery.propositionEnabled":true,
     "appconfig.cloudServiceId":"appinfra.appconfigdownload",
