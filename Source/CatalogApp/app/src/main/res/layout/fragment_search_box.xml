@@ -18,7 +18,11 @@
 
         <com.philips.platform.uid.view.widget.SearchBox
             android:layout_width="match_parent"
-            android:layout_height="48dp" />
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            />
 
     </LinearLayout>
 </layout>

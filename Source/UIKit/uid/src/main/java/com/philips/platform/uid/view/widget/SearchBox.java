@@ -10,17 +10,21 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.platform.uid.R;
 
 
 public class SearchBox extends LinearLayout {
 
-    public final ImageView mBackButton;
-    public final ImageView mCloseButton;
+    public ImageView mBackButton;
+    public ImageView mCloseButton;
     public AppCompatAutoCompleteTextView autoCompleteTextView;
 
 
@@ -36,17 +40,29 @@ public class SearchBox extends LinearLayout {
         super(context, attrs, defStyleAttr);
         setOrientation(LinearLayout.HORIZONTAL);
 
+        initializeSearch(context);
 
+    }
+
+    private void initializeSearch(final Context context){
         final LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.uid_search_box, this);
-        mBackButton = (ImageView) findViewById(android.support.v7.appcompat.R.id.search_button);
-        mCloseButton = (ImageView) findViewById(android.support.v7.appcompat.R.id.search_close_btn);
-        autoCompleteTextView = (AppCompatAutoCompleteTextView) findViewById(android.support.v7.appcompat.R.id.search_src_text);
-
+        mBackButton = (ImageView) findViewById(R.id.search_button);
+        mCloseButton = (ImageView) findViewById(R.id.search_close_btn);
+        autoCompleteTextView = (AppCompatAutoCompleteTextView) findViewById(R.id.search_src_text);
 
         mBackButton.setImageResource(R.drawable.uid_back_icon);
         mCloseButton.setImageResource(R.drawable.uid_texteditbox_clear_icon);
+        autoCompleteTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_SEARCH){
+                    Toast.makeText(context, "Search", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
-
 
 }
