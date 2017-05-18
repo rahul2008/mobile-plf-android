@@ -3,6 +3,7 @@ package com.philips.cdp.registration.injection;
 
 import com.philips.cdp.registration.app.infra.AppInfraWrapper;
 import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -43,7 +44,8 @@ public class AppInfraModule {
     @Singleton
     @Provides
     public AppTaggingInterface providesAppTaggingInterface() {
-        return appInfraInterface.getTagging();
+        AppTaggingInterface appTaggingInterface = appInfraInterface.getTagging().createInstanceForComponent("usr", RegistrationHelper.getRegistrationApiVersion());
+        return appTaggingInterface;
     }
 
     @Singleton
