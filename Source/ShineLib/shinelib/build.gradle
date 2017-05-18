@@ -152,6 +152,13 @@ task generateJavadocPublicApi(type: Javadoc) {
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
     destinationDir = file("${project.rootDir}/../../Documents/External/${project.name}-api/")
 
+    include {
+        if (it.isDirectory) {
+            return true
+        }
+        return it.file.text.contains("* @publicApi")
+    }
+
     options {
         memberLevel = JavadocMemberLevel.PUBLIC
         links("http://docs.oracle.com/javase/7/docs/api/");
