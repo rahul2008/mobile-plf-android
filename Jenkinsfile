@@ -12,7 +12,7 @@ node('Android') {
 
     Slack.notify('#conartists') {
         stage('Build') {
-            sh "$gradle --refresh-dependencies assembleRelease assembleDebug saveResDep"
+            sh "$gradle --refresh-dependencies assembleRelease assembleDebug saveResDep generateJavadocPublicApi"
         }
 
         stage('Unit Test') {
