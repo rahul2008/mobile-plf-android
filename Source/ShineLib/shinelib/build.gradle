@@ -156,6 +156,9 @@ task generateJavadocPublicApi(type: Javadoc) {
         memberLevel = JavadocMemberLevel.PUBLIC
         links("http://docs.oracle.com/javase/7/docs/api/");
         linksOffline("http://d.android.com/reference", "${android.sdkDirectory}/docs/reference");
+        docEncoding = 'UTF-8'
+        encoding = 'UTF-8'
+        charSet = 'UTF-8'
     }
 
     failOnError false
@@ -186,6 +189,9 @@ task generateJavadocPluginApi(type: Javadoc) {
         memberLevel = JavadocMemberLevel.PUBLIC
         links("http://docs.oracle.com/javase/7/docs/api/");
         linksOffline("http://d.android.com/reference", "${android.sdkDirectory}/docs/reference");
+        docEncoding = 'UTF-8'
+        encoding = 'UTF-8'
+        charSet = 'UTF-8'
     }
 
     failOnError false
