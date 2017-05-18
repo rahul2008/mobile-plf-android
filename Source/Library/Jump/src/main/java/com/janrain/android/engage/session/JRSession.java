@@ -1022,13 +1022,12 @@ public class JRSession implements JRConnectionManagerDelegate {
 
             if (JROpenIDAppAuth.canHandleProvider(fromActivity, provider) && fromActivity != null) {
                 Intent i = JRFragmentHostActivity.createOpenIDAppAuthIntent(fromActivity);
-                if(provider.getName()!=null && !provider.getName().trim().isEmpty())
-                {
+                if (provider.getName() != null && !provider.getName().trim().isEmpty()) {
                     i.putExtra(JRFragmentHostActivity.JR_SIGN_OUT_PROVIDER, provider.getName());
-                }
-                else{
+                } else {
                     i.putExtra(JRFragmentHostActivity.JR_SIGN_OUT_PROVIDER, providerName);
-                }                fromActivity.startActivity(i);
+                }
+                fromActivity.startActivity(i);
             }
         }
     }
