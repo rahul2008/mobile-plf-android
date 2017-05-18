@@ -35,7 +35,7 @@ public class SHNDeviceScannerInternal {
     private final List<SHNInternalScanRequest> shnInternalScanRequests = new ArrayList<>();
 
     private boolean isUsingAdvertisedDataMatching = false;
-    private UUID[] uuids = {};
+    private UUID[] primaryServiceUUIDs = {};
 
     @VisibleForTesting
     SHNDeviceScannerInternal(@NonNull final SHNCentral shnCentral, @NonNull final List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions) {
@@ -49,7 +49,8 @@ public class SHNDeviceScannerInternal {
     }
 
     public boolean startScanning(@NonNull final SHNInternalScanRequest SHNInternalScanRequest) {
-        prepareScan(registeredDeviceDefinitions);
+        isUsingAdvertisedDataMatching = isAnyDeviceUsingAdvertisedDataMatching(registeredDeviceDefinitions);
+        primaryServiceUUIDs = getAllRegisteredPrimaryServiceUUIDs(registeredDeviceDefinitions);
 
         if (leScanCallbackProxy == null) {
             leScanCallbackProxy = createLeScanCallbackProxy();
@@ -59,7 +60,7 @@ public class SHNDeviceScannerInternal {
             if (isUsingAdvertisedDataMatching) {
                 isScanning = leScanCallbackProxy.startLeScan(leScanCallback, null);
             } else {
-                isScanning = leScanCallbackProxy.startLeScan(uuids, leScanCallback);
+                isScanning = leScanCallbackProxy.startLeScan(primaryServiceUUIDs, leScanCallback);
             }
 
             if (isScanning) {
@@ -144,15 +145,21 @@ public class SHNDeviceScannerInternal {
         }
     };
 
-    private void prepareScan(@NonNull List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions) {
-        isUsingAdvertisedDataMatching = false;
-
+    private UUID[] getAllRegisteredPrimaryServiceUUIDs(@NonNull List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions) {
         Set<UUID> uuidSet = new HashSet<>();
         for (SHNDeviceDefinitionInfo definition : registeredDeviceDefinitions) {
-            isUsingAdvertisedDataMatching |= definition.useAdvertisedDataMatcher();
             uuidSet.addAll(definition.getPrimaryServiceUUIDs());
         }
-        uuids = uuidSet.toArray(new UUID[uuidSet.size()]);
+        return uuidSet.toArray(new UUID[uuidSet.size()]);
+    }
+
+    private boolean isAnyDeviceUsingAdvertisedDataMatching(@NonNull List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions) {
+        boolean result = false;
+
+        for (SHNDeviceDefinitionInfo definition : registeredDeviceDefinitions) {
+            result |= definition.useAdvertisedDataMatcher();
+        }
+        return result;
     }
 
     private SHNDeviceFoundInfo convertToSHNDeviceFoundInfo(final @NonNull BleDeviceFoundInfo bleDeviceFoundInfo) {
