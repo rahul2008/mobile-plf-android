@@ -6,23 +6,20 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
-import android.support.v4.content.ContextCompat;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
+import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.philips.platform.uid.test.R.color.Gray65;
-import static com.philips.platform.uid.test.R.color.Gray75;
 
 public class RecyclerViewItemTwoLineTest {
     Resources testResources;
@@ -64,8 +61,9 @@ public class RecyclerViewItemTwoLineTest {
 
     @Test
     public void verifyTitleTextColor() {
-        final int expectedTextColor = ContextCompat.getColor(getInstrumentation().getContext(), Gray75);
-        getTitle().check(matches(TextViewPropertiesMatchers.isSameTextColor(expectedTextColor)));
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidTextPrimary);
+
+        getTitle().check(matches(TextViewPropertiesMatchers.isSameTextColor(expectedColor)));
     }
 
     @Test
@@ -80,7 +78,6 @@ public class RecyclerViewItemTwoLineTest {
         getLayout().check(matches(ViewPropertiesMatchers.isSameRightPadding(expectedRightMargin)));
     }
 
-
     @Test
     public void verifyDescriptionTextFontSize() {
         float expectedFontSize = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.recyclerview_two_lines_description_text_size);
@@ -89,8 +86,10 @@ public class RecyclerViewItemTwoLineTest {
 
     @Test
     public void verifyDescriptionTextColor() {
-        final int expectedTextColor = ContextCompat.getColor(getInstrumentation().getContext(), Gray65);
-        getDescription().check(matches(TextViewPropertiesMatchers.isSameTextColor(expectedTextColor)));
+
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidTextSecondary);
+
+        getDescription().check(matches(TextViewPropertiesMatchers.isSameTextColor(expectedColor)));
     }
 
     private ViewInteraction getTitle() {

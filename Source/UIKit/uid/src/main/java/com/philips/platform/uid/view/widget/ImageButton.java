@@ -21,7 +21,6 @@ import android.util.AttributeSet;
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
-import com.philips.platform.uid.utils.UIDUtils;
 
 public class ImageButton extends AppCompatButton {
     private ColorStateList drawableColorlist;
@@ -53,7 +52,7 @@ public class ImageButton extends AppCompatButton {
         typedArray.recycle();
     }
 
-    private void assignDrawableProperties(@NonNull TypedArray typedArray) {
+    protected void assignDrawableProperties(@NonNull TypedArray typedArray) {
         drawableWidth = (int) typedArray.getDimension(R.styleable.UIDImageButton_uidImageButtonDrawableWidth, 0.0f);
         drawableHeight = (int) typedArray.getDimension(R.styleable.UIDImageButton_uidImageButtonDrawableHeight, 0.0f);
 
@@ -64,14 +63,14 @@ public class ImageButton extends AppCompatButton {
         }
     }
 
-    private void applyBackgroundTinting(@NonNull TypedArray typedArray) {
+    protected void applyBackgroundTinting(@NonNull TypedArray typedArray) {
         int backGroundListID = typedArray.getResourceId(R.styleable.UIDImageButton_uidImageButtonColorList, -1);
         if (backGroundListID != -1 && getBackground() != null) {
             ViewCompat.setBackgroundTintList(this, ThemeUtils.buildColorStateList(getContext().getResources(), getContext().getTheme(), backGroundListID));
         }
     }
 
-    private void applyDrawable(@NonNull TypedArray typedArray) {
+    protected void applyDrawable(@NonNull TypedArray typedArray) {
         int resourceId = typedArray.getResourceId(R.styleable.UIDImageButton_uidImageButtonDrawableSrc, -1);
         //We allow setting drawable programmatically too, which can be case for vectors.
         if (resourceId != -1) {
@@ -124,5 +123,9 @@ public class ImageButton extends AppCompatButton {
         }
         setCompoundDrawables(wrappedDrawable, null, null, null);
         invalidate();
+    }
+
+    protected Drawable getDrawable() {
+        return DrawableCompat.wrap(getCompoundDrawables()[0].mutate());
     }
 }
