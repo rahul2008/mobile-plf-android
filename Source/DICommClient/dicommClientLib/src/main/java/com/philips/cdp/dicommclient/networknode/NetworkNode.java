@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.networknode;
@@ -31,6 +31,7 @@ public class NetworkNode extends Observable implements Parcelable {
     private long mBootId;
     private String mEncryptionKey;
     private boolean mHttps;
+    private String bleAddress;
 
     private PAIRED_STATUS mPairedState = PAIRED_STATUS.NOT_PAIRED;
     private long mLastPairedTime;
@@ -42,25 +43,25 @@ public class NetworkNode extends Observable implements Parcelable {
     public NetworkNode() {
     }
 
-    public synchronized String getIpAddress() {
+    public String getIpAddress() {
         return mIpAddress;
     }
 
-    public synchronized void setIpAddress(String ipAddress) {
+    public void setIpAddress(String ipAddress) {
         this.mIpAddress = ipAddress;
     }
 
     @NonNull
-    public synchronized String getCppId() {
+    public String getCppId() {
         return mCppId;
     }
 
-    public synchronized void setCppId(@NonNull String cppId) {
+    public void setCppId(@NonNull String cppId) {
         this.mCppId = cppId;
     }
 
     @Deprecated
-    public synchronized ConnectionState getConnectionState() {
+    public ConnectionState getConnectionState() {
         return mConnectionState;
     }
 
@@ -74,58 +75,58 @@ public class NetworkNode extends Observable implements Parcelable {
         notifyObservers();
     }
 
-    public synchronized String getName() {
+    public String getName() {
         return mName;
     }
 
-    public synchronized void setName(String name) {
+    public void setName(String name) {
         this.mName = name;
     }
 
     /**
-     * The modelname defines the category of the product (e.g. AirPurifier)
-     * Different products can have the same modelname, but their modeltype
+     * The model name defines the category of the product (e.g. AirPurifier)
+     * Different products can have the same model name, but their model id
      * will be different.
      *
      * @return model name
      */
-    public synchronized String getModelName() {
+    public String getModelName() {
         return mModelName;
     }
 
-    public synchronized void setModelName(String modelName) {
+    public void setModelName(String modelName) {
         this.mModelName = modelName;
     }
 
     /**
-     * The modeltype defines one particular type of product (e.g. AC7342).
-     * Different products will have a different modeltype, but their
-     * modelname can be the same.
+     * The model id defines one particular type of product (e.g. AC7342).
+     * Different products will have a different model id, but their
+     * model name can be the same.
      *
-     * @return model type
+     * @return model id
      */
-    public synchronized String getModelId() {
+    public String getModelId() {
         return mModelId;
     }
 
-    public synchronized void setModelId(String modelId) {
+    public void setModelId(String modelId) {
         this.mModelId = modelId;
     }
 
-    public synchronized String getHomeSsid() {
+    public String getHomeSsid() {
         return mHomeSsid;
     }
 
-    public synchronized void setHomeSsid(String homeSsid) {
+    public void setHomeSsid(String homeSsid) {
         if (homeSsid == null || homeSsid.isEmpty()) return;
         this.mHomeSsid = homeSsid;
     }
 
-    public synchronized long getBootId() {
+    public long getBootId() {
         return mBootId;
     }
 
-    public synchronized void setBootId(long bootId) {
+    public void setBootId(long bootId) {
         synchronized (this) { // notifyObservers called from same Thread
             if (mBootId == bootId) return;
             this.mBootId = bootId;
@@ -134,11 +135,11 @@ public class NetworkNode extends Observable implements Parcelable {
         notifyObservers();
     }
 
-    public synchronized String getEncryptionKey() {
+    public String getEncryptionKey() {
         return mEncryptionKey;
     }
 
-    public synchronized void setEncryptionKey(String encryptionKey) {
+    public void setEncryptionKey(String encryptionKey) {
         boolean isKeyUpdated = mEncryptionKey != encryptionKey;
         this.mEncryptionKey = encryptionKey;
         if (isKeyUpdated && encryptionKeyUpdatedListener != null) {
@@ -146,27 +147,35 @@ public class NetworkNode extends Observable implements Parcelable {
         }
     }
 
-    public synchronized boolean getHttps() {
+    public boolean getHttps() {
         return mHttps;
     }
 
-    public synchronized void setHttps(boolean mHttps) {
+    public void setHttps(boolean mHttps) {
         this.mHttps = mHttps;
     }
 
-    public synchronized NetworkNode.PAIRED_STATUS getPairedState() {
+    public String getBleAddress() {
+        return bleAddress;
+    }
+
+    public void setBleAddress(String bleAddress) {
+        this.bleAddress = bleAddress;
+    }
+
+    public NetworkNode.PAIRED_STATUS getPairedState() {
         return mPairedState;
     }
 
-    public synchronized void setPairedState(NetworkNode.PAIRED_STATUS pairedState) {
+    public void setPairedState(NetworkNode.PAIRED_STATUS pairedState) {
         this.mPairedState = pairedState;
     }
 
-    public synchronized long getLastPairedTime() {
+    public long getLastPairedTime() {
         return mLastPairedTime;
     }
 
-    public synchronized void setLastPairedTime(long lastPairedTime) {
+    public void setLastPairedTime(long lastPairedTime) {
         this.mLastPairedTime = lastPairedTime;
     }
 
@@ -186,6 +195,7 @@ public class NetworkNode extends Observable implements Parcelable {
         mEncryptionKey = in.readString();
         mPairedState = PAIRED_STATUS.values()[in.readInt()];
         mLastPairedTime = in.readLong();
+        bleAddress = in.readString();
     }
 
     @Override
@@ -206,6 +216,7 @@ public class NetworkNode extends Observable implements Parcelable {
         dest.writeString(mEncryptionKey);
         dest.writeInt(mPairedState.ordinal());
         dest.writeLong(mLastPairedTime);
+        dest.writeString(bleAddress);
     }
 
     public static final Parcelable.Creator<NetworkNode> CREATOR = new Parcelable.Creator<NetworkNode>() {
@@ -229,12 +240,16 @@ public class NetworkNode extends Observable implements Parcelable {
 
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("name: ").append(getName()).append("   ipAddress: ").append(getIpAddress())
-                .append("   cppId: ").append(getCppId()).append("   bootId: ").append(getBootId())
-                .append("   modelName: ").append(getModelName()).append("   modelId: ").append(getModelId())
-                .append("   paired: ").append(getPairedState())
-                .append("   connectedState: ").append(getConnectionState()).append("   HomeSsid: ")
-                .append(getHomeSsid());
+        builder.append("name: ").append(mName)
+                .append("   ipAddress: ").append(mIpAddress)
+                .append("   cppId: ").append(mCppId)
+                .append("   bootId: ").append(mBootId)
+                .append("   modelName: ").append(mModelName)
+                .append("   modelId: ").append(mModelId)
+                .append("   paired: ").append(mPairedState)
+                .append("   connectedState: ").append(mConnectionState)
+                .append("   HomeSsid: ").append(mHomeSsid)
+                .append("   bleAddress:").append(bleAddress);
         return builder.toString();
     }
 
