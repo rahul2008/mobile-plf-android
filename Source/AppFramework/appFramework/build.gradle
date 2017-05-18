@@ -365,6 +365,7 @@ dependencies {
     testCompile 'org.mockito:mockito-all:1.10.17'
     testCompile "com.squareup.assertj:assertj-android:${androidAssertJVer}"
     compile project(':pushnotification')
+    compile project(path: ':wifirefuapp')
 }
 
 task copyToLib(type: Copy) {

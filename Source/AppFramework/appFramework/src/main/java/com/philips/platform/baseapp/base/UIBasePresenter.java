@@ -23,8 +23,9 @@ abstract public class UIBasePresenter {
     protected final int MENU_OPTION_PR = 9;
     protected final int MENU_OPTION_CONNECTIVITY = 6;
 
-    protected final int MENU_OPTION_TEST = 8;
+    //protected final int MENU_OPTION_TEST = 8;
     protected final int MENU_OPTION_COCOVERSION = 7;
+    protected final int MENU_OPTION_WIFIREFUAPP = 8;
 
 
     /* event to state map */
@@ -39,6 +40,7 @@ abstract public class UIBasePresenter {
     protected final String CONNECTIVITY = "connectivity";
     protected final String TESTMICROAPP = "testmicroapp";
     protected final String COCO_VERSION_INFO="coco_version_info";
+    protected final String WIFIREFUAPP = "wifirefuapp";
 
     private UIView uiView;
 

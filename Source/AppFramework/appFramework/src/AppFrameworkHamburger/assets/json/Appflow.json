@@ -157,6 +157,14 @@
                 "nextState": "coco_version_info"
               }
             ]
+          },{
+            "eventId": "wifirefuapp",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "wifirefuapp"
+              }
+            ]
           }
         ]
       },
