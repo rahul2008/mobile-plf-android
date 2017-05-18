@@ -15,7 +15,6 @@ import com.philips.pins.shinelib.dicommsupport.DiCommMessage;
 import com.philips.pins.shinelib.dicommsupport.DiCommRequest;
 
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BlePutRequest extends BleRequest {
 
@@ -31,7 +30,6 @@ public class BlePutRequest extends BleRequest {
      * @param productId              the product id
      * @param dataMap                the Map of data to put
      * @param responseHandler        the response handler
-     * @param disconnectAfterRequest indicates if the request should disconnect from the device after communicating
      */
     public BlePutRequest(@NonNull final BleDeviceCache deviceCache,
                          @NonNull final String cppId,
@@ -39,9 +37,8 @@ public class BlePutRequest extends BleRequest {
                          final int productId,
                          @NonNull final Map<String, Object> dataMap,
                          @NonNull final ResponseHandler responseHandler,
-                         @NonNull final Handler handlerToPostResponseOnto,
-                         @NonNull AtomicBoolean disconnectAfterRequest) {
-        super(deviceCache, cppId, portName, productId, responseHandler, handlerToPostResponseOnto, disconnectAfterRequest);
+                         @NonNull final Handler handlerToPostResponseOnto) {
+        super(deviceCache, cppId, portName, productId, responseHandler, handlerToPostResponseOnto);
         this.dataMap = dataMap;
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016, 2017
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 buildscript { bs ->
@@ -137,6 +137,7 @@ dependencies {
     }
 
     testCompile deps.mockito
+    testCompile deps.junit
 
     testCompile 'info.cukes:cucumber-java:1.2.2'
     testCompile 'info.cukes:cucumber-junit:1.2.2'
@@ -151,6 +152,9 @@ pitest {
             'com.philips.cdp2.commlib.ble.communication.*',
             'com.philips.cdp2.commlib.ble.discovery.*',
     ]  /* specify target classes to be mutated */
+    excludedClasses = [
+            'com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategyTest'
+    ]
     pitestVersion = versions.pitest
     avoidCallsTo = ['com.philips.cdp.dicommclient.util.DICommLog']
     threads = 8 /* specify number of threads */

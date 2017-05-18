@@ -80,12 +80,14 @@ public class DiscoveryActivity extends AppCompatActivity {
                 case R.id.btnStartDiscovery:
                     findViewById(R.id.btnStartDiscovery).setEnabled(false);
                     findViewById(R.id.btnStopDiscovery).setEnabled(true);
+                    editFilterModelId.setEnabled(false);
 
                     startDiscovery();
                     break;
                 case R.id.btnStopDiscovery:
                     findViewById(R.id.btnStartDiscovery).setEnabled(true);
                     findViewById(R.id.btnStopDiscovery).setEnabled(false);
+                    editFilterModelId.setEnabled(true);
 
                     stopDiscovery();
                     break;
@@ -128,9 +130,10 @@ public class DiscoveryActivity extends AppCompatActivity {
                 View view = super.getView(position, convertView, parent);
                 Appliance appliance = getItem(position);
 
-                ((TextView) view.findViewById(R.id.appliance_name)).setText(String.format("%s (%s)", appliance.getName(), appliance.getDeviceType()));
+                ((TextView) view.findViewById(R.id.appliance_name)).setText(appliance.getName());
                 ((TextView) view.findViewById(R.id.appliance_cpp_id)).setText(appliance.getNetworkNode().getCppId());
                 ((TextView) view.findViewById(R.id.appliance_model_id)).setText(appliance.getNetworkNode().getModelId());
+                ((TextView) view.findViewById(R.id.appliance_ble_address)).setText(appliance.getNetworkNode().getBleAddress());
 
                 return view;
             }
