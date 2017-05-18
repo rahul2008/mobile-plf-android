@@ -1,7 +1,8 @@
 /*
- * (c) Koninklijke Philips N.V., 2016, 2017.
- *     All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
+
 buildscript { bs ->
     apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
     apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
@@ -132,7 +133,7 @@ android {
 task generateJavadocPublicApi(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    destinationDir = file("${project.rootDir}/../../Documents/External/${project.name}/")
+    destinationDir = file("${project.rootDir}/../../Documents/External/${project.name}-api/")
 
     include {
         if (it.isDirectory) {
