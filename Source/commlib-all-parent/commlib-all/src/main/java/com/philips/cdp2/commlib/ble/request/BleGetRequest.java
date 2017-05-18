@@ -14,8 +14,6 @@ import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
 import com.philips.pins.shinelib.dicommsupport.DiCommMessage;
 import com.philips.pins.shinelib.dicommsupport.DiCommRequest;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 public class BleGetRequest extends BleRequest {
 
     /**
@@ -26,16 +24,14 @@ public class BleGetRequest extends BleRequest {
      * @param portName               the port name
      * @param productId              the product id
      * @param responseHandler        the response handler
-     * @param disconnectAfterRequest indicates if the request should disconnect from the device after communicating
      */
     public BleGetRequest(@NonNull final BleDeviceCache deviceCache,
                          @NonNull final String cppId,
                          @NonNull final String portName,
                          final int productId,
                          @NonNull final ResponseHandler responseHandler,
-                         @NonNull final Handler handlerToPostResponseOnto,
-                         @NonNull AtomicBoolean disconnectAfterRequest) {
-        super(deviceCache, cppId, portName, productId, responseHandler, handlerToPostResponseOnto, disconnectAfterRequest);
+                         @NonNull final Handler handlerToPostResponseOnto) {
+        super(deviceCache, cppId, portName, productId, responseHandler, handlerToPostResponseOnto);
     }
 
     @Override

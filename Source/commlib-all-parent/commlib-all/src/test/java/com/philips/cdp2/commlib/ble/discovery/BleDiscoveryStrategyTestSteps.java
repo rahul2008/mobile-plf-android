@@ -20,11 +20,16 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
+import com.philips.pins.shinelib.SHNCapabilityType;
+import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
+import com.philips.pins.shinelib.SHNDeviceImpl;
 import com.philips.pins.shinelib.SHNDeviceScanner;
+import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.utility.BleScanRecord;
+import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
 
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -32,6 +37,7 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,11 +50,15 @@ import cucumber.api.java.en.When;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy.MANUFACTURER_PREAMBLE;
+import static com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation.SHNDeviceInformationType.SerialNumber;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.times;
@@ -61,7 +71,7 @@ public class BleDiscoveryStrategyTestSteps {
     private CommCentral commCentral;
 
     @Mock
-    SHNDeviceScanner deviceScanner;
+    SHNDeviceScanner mockDeviceScanner;
 
     @Mock
     BleTransportContext bleTransportContext;
@@ -76,8 +86,17 @@ public class BleDiscoveryStrategyTestSteps {
     @Mock
     private BleScanRecord bleScanRecordMock;
 
+    @Mock
+    private SHNCapabilityDeviceInformation deviceInformationMock;
+
+    @Mock
+    private SHNCentral mockCentral;
+
     @Captor
     private ArgumentCaptor<Runnable> runnableCaptor;
+
+    @Captor
+    private ArgumentCaptor<BleDiscoveryStrategy.DiscoveryTask> discoveryTaskCaptor;
 
     @Before
     public void setup() throws SHNBluetoothHardwareUnavailableException {
@@ -88,11 +107,21 @@ public class BleDiscoveryStrategyTestSteps {
         Handler mockMainThreadHandler = mock(Handler.class);
         HandlerProvider.enableMockedHandler(mockMainThreadHandler);
 
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                invocation.getArgumentAt(0, Runnable.class).run();
+                return null;
+            }
+        }).when(mockMainThreadHandler).post(any(Runnable.class));
+
         final Context mockContext = mock(Context.class);
 
         bleDeviceCache = new BleDeviceCache(Executors.newSingleThreadScheduledExecutor());
 
-        bleDiscoveryStrategy = new BleDiscoveryStrategy(mockContext, bleDeviceCache, deviceScanner) {
+        when(mockCentral.getShnDeviceScanner()).thenReturn(mockDeviceScanner);
+
+        bleDiscoveryStrategy = new BleDiscoveryStrategy(mockContext, bleDeviceCache, mockCentral) {
             @Override
             int checkAndroidPermission(Context context, String permission) {
                 return PERMISSION_GRANTED;
@@ -143,10 +172,6 @@ public class BleDiscoveryStrategyTestSteps {
         commCentral = new CommCentral(testApplianceFactory, bleTransportContext);
     }
 
-    private static String createCppId() {
-        return String.valueOf(++cppId);
-    }
-
     @When("^starting discovery for BLE appliances$")
     public void startingDiscoveryForBLEAppliances() {
         try {
@@ -170,7 +195,7 @@ public class BleDiscoveryStrategyTestSteps {
     //TODO: Check with Peter F. whether there is a better method iso timeout(), to improve stability
     @Then("^startScanning is called (\\d+) time on BlueLib$")
     public void startscanningIsCalledTimeOnBlueLib(int times) {
-        verify(deviceScanner, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS).times(times)).startScanning(any(SHNDeviceScanner.SHNDeviceScannerListener.class), any(SHNDeviceScanner.ScannerSettingDuplicates.class), anyLong());
+        verify(mockDeviceScanner, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS).times(times)).startScanning(any(SHNDeviceScanner.SHNDeviceScannerListener.class), any(SHNDeviceScanner.ScannerSettingDuplicates.class), anyLong());
     }
 
     @When("^starting discovery for BLE appliances (\\d+) times$")
@@ -188,24 +213,43 @@ public class BleDiscoveryStrategyTestSteps {
 
     @Then("^stopScanning is called on BlueLib$")
     public void stopScanningIsCalledOnBlueLib() {
-        verify(deviceScanner, atLeast(1)).stopScanning();
+        verify(mockDeviceScanner, atLeast(1)).stopScanning();
     }
 
     @Then("^stopScanning is not called on BlueLib$")
     public void stopScanningIsNotCalledOnBlueLib() {
-        verify(deviceScanner, times(0)).stopScanning();
+        verify(mockDeviceScanner, times(0)).stopScanning();
     }
 
-    @Then("^the following appliances? (?:are|is) in the list of available appliances:$")
-    public void theFollowingAppliancesAreCreated(final List<String> appliances) {
-        final Set<String> applianceNames = new HashSet<>(appliances);
+    @Then("^(.*?) with cppId (.*?) is in the list of available appliances$")
+    public void theFollowingAppliancesWirhCppIdAreCreated(String applianceName, String cppId) {
         final Set<? extends Appliance> availableAppliances = commCentral.getApplianceManager().getAvailableAppliances();
-
         final Set<String> availableApplianceNames = new HashSet<>();
+        final Set<String> availableCppIds = new HashSet<>();
+
         for (Appliance availableAppliance : availableAppliances) {
             availableApplianceNames.add(availableAppliance.getName());
+            availableCppIds.add(availableAppliance.getNetworkNode().getCppId());
         }
-        assertTrue("Expected appliances " + applianceNames + " must appear in available appliances " + availableApplianceNames, availableApplianceNames.containsAll(applianceNames));
+        assertTrue("Expected appliance " + applianceName + " must appear in available appliances " + availableApplianceNames, availableApplianceNames.contains(applianceName));
+        assertTrue("Expected cppId " + cppId + " must appear in available cppIds " + availableCppIds, availableCppIds.contains(cppId));
+    }
+
+    @Then("^(.*?) with cppId (.*?) and modelId (.*?) is in the filtered list of available appliances$")
+    public void theFollowingAppliancesWithCppIdAndModelIdAreCreated(String applianceName, String cppId, String modelId) {
+        final Set<? extends Appliance> availableAppliances = commCentral.getApplianceManager().getAvailableAppliances();
+        final Set<String> availableApplianceNames = new HashSet<>();
+        final Set<String> availableCppIds = new HashSet<>();
+        final Set<String> availableModelIds = new HashSet<>();
+
+        for (Appliance availableAppliance : availableAppliances) {
+            availableApplianceNames.add(availableAppliance.getName());
+            availableCppIds.add(availableAppliance.getNetworkNode().getCppId());
+            availableModelIds.add(availableAppliance.getNetworkNode().getModelId());
+        }
+        assertTrue("Expected appliance " + applianceName + " must appear in available appliances " + availableApplianceNames, availableApplianceNames.contains(applianceName));
+        assertTrue("Expected cppId " + cppId + " must appear in available cppIds " + availableCppIds, availableCppIds.contains(cppId));
+        assertTrue("Expected modelId " + modelId + " must appear in available modelIds " + availableModelIds, availableModelIds.contains(modelId));
     }
 
     @Then("^the following appliances? (?:are|is) not in the list of available appliances:$")
@@ -223,46 +267,71 @@ public class BleDiscoveryStrategyTestSteps {
         assertTrue("Expected appliances " + applianceNames + " must not appear in available appliances " + availableApplianceNames, availableApplianceNames.isEmpty());
     }
 
-    @When("^(.*?) is discovered (\\d+) times? by BlueLib$")
-    public void applianceIsDiscoveredMultipleTimesByBlueLib(String applianceName, int times) {
-        SHNDevice shnDeviceMock = mock(SHNDevice.class);
-        when(shnDeviceMock.getState()).thenReturn(SHNDevice.State.Connected);
-        when(shnDeviceMock.getAddress()).thenReturn(createCppId());
-        when(shnDeviceMock.getName()).thenReturn(applianceName);
-        when(shnDeviceMock.getDeviceTypeName()).thenReturn(getApplianceTypeByName(applianceName));
-
-        SHNDeviceFoundInfo shnDeviceFoundInfoMock = mock(SHNDeviceFoundInfo.class);
-        when(shnDeviceFoundInfoMock.getShnDevice()).thenReturn(shnDeviceMock);
-        when(shnDeviceFoundInfoMock.getBleScanRecord()).thenReturn(bleScanRecordMock);
-        when(bleScanRecordMock.getManufacturerSpecificData()).thenReturn(new byte[]{(byte) 0xDD, 0x01, 80, 70, 49, 51, 51, 55}); // Model id 'PF1337'
-
-        for (int i = 0; i < times; i++) {
-            bleDiscoveryStrategy.deviceFound(null, shnDeviceFoundInfoMock);
-        }
+    @When("^(.*?) with cppId (.*?) is discovered (\\d+) times? by BlueLib$")
+    public void applianceIsDiscoveredMultipleTimesByBlueLib(String applianceName, String cppId, int times) {
+        createShnDeviceMock(applianceName, cppId, null, times);
     }
 
-    @When("^(.*?) is discovered (\\d+) times? by BlueLib, matching model id (.*?)$")
-    public void applianceIsDiscoveredMultipleTimesByBlueLibWithModelId(String applianceName, int times, String modelId) {
-        SHNDevice shnDeviceMock = mock(SHNDevice.class);
-        when(shnDeviceMock.getState()).thenReturn(SHNDevice.State.Connected);
-        when(shnDeviceMock.getAddress()).thenReturn(createCppId());
-        when(shnDeviceMock.getName()).thenReturn(applianceName);
-        when(shnDeviceMock.getDeviceTypeName()).thenReturn(getApplianceTypeByName(applianceName));
-
-        SHNDeviceFoundInfo shnDeviceFoundInfoMock = mock(SHNDeviceFoundInfo.class);
-        when(shnDeviceFoundInfoMock.getShnDevice()).thenReturn(shnDeviceMock);
-        when(shnDeviceFoundInfoMock.getBleScanRecord()).thenReturn(bleScanRecordMock);
-
+    @When("^(.*?) with cppId (.*?) is discovered (\\d+) times? by BlueLib, matching model id (.*?)$")
+    public void applianceIsDiscoveredMultipleTimesByBlueLibWithModelId(String applianceName, String cppId, int times, String modelId) {
         byte[] modelIdArray = new byte[8];
         System.arraycopy(MANUFACTURER_PREAMBLE, 0, modelIdArray, 0, MANUFACTURER_PREAMBLE.length);
         byte[] modelIdBytes = modelId.getBytes();
         System.arraycopy(modelIdBytes, 0, modelIdArray, MANUFACTURER_PREAMBLE.length, modelIdBytes.length);
 
+        createShnDeviceMock(applianceName, cppId, modelIdArray, times);
+    }
+
+    private SHNDevice createShnDeviceMock(String applianceName, final String cppId, byte[] modelIdArray, int times) {
+        final SHNDeviceWrapper shnDeviceMock = mock(SHNDeviceWrapper.class);
+        final SHNDeviceImpl shnDeviceImplMock = mock(SHNDeviceImpl.class);
+
+        // FIXME When cpp retrieval from device with connects is enabled again, this has to the mac address again
+//        final String deviceMacAddress = createMacAddress();
+        final String deviceMacAddress = cppId;
+
+        // Properties
+        when(shnDeviceMock.getState()).thenReturn(SHNDevice.State.Connected);
+        when(shnDeviceMock.getAddress()).thenReturn(deviceMacAddress);
+        when(shnDeviceMock.getName()).thenReturn(applianceName);
+        when(shnDeviceMock.getDeviceTypeName()).thenReturn(getApplianceTypeByName(applianceName));
+        when(shnDeviceMock.getInternalDevice()).thenReturn(shnDeviceImplMock);
+
+        // DIS -> CPP ID
+        when(shnDeviceMock.getCapabilityForType(SHNCapabilityType.DEVICE_INFORMATION)).thenReturn(deviceInformationMock);
+        doAnswer(new Answer() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                SHNCapabilityDeviceInformation.Listener listener = invocation.getArgumentAt(1, SHNCapabilityDeviceInformation.Listener.class);
+                listener.onDeviceInformation(SerialNumber, cppId, new Date());
+
+                return null;
+            }
+        }).when(deviceInformationMock).readDeviceInformation(eq(SerialNumber), any(SHNCapabilityDeviceInformation.Listener.class));
+
+        // Device found info (advertisement)
+        SHNDeviceFoundInfo shnDeviceFoundInfoMock = mock(SHNDeviceFoundInfo.class);
+        when(shnDeviceFoundInfoMock.getShnDevice()).thenReturn(shnDeviceMock);
+        when(shnDeviceFoundInfoMock.getDeviceAddress()).thenReturn(deviceMacAddress);
+
+        // Model id
+        when(shnDeviceFoundInfoMock.getBleScanRecord()).thenReturn(bleScanRecordMock);
         when(bleScanRecordMock.getManufacturerSpecificData()).thenReturn(modelIdArray);
+
+        doNothing().when(shnDeviceMock).registerSHNDeviceListener(discoveryTaskCaptor.capture());
+
+        doAnswer(new Answer() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                discoveryTaskCaptor.getValue().onStateUpdated(shnDeviceMock);
+                return null;
+            }
+        }).when(shnDeviceMock).connect(anyLong());
 
         for (int i = 0; i < times; i++) {
             bleDiscoveryStrategy.deviceFound(null, shnDeviceFoundInfoMock);
         }
+        return shnDeviceMock;
     }
 
     @When("^the cached data expires for the following appliances?:$")
@@ -272,7 +341,7 @@ public class BleDiscoveryStrategyTestSteps {
         for (String applianceName : appliances) {
             for (Appliance appliance : availableAppliances) {
                 if (applianceName.equals(appliance.getName())) {
-                    final CacheData cacheData = bleDeviceCache.getCacheData(appliance.getNetworkNode().getCppId());
+                    final CacheData cacheData = bleDeviceCache.findByCppId(appliance.getNetworkNode().getCppId());
                     if (cacheData == null) {
                         continue;
                     }
@@ -293,4 +362,13 @@ public class BleDiscoveryStrategyTestSteps {
     private String getApplianceTypeByName(final @NonNull String applianceName) {
         return applianceName.substring(0, applianceName.length() - 1);
     }
+
+    private static String createCppId() {
+        return String.valueOf(++cppId);
+    }
+
+    private static String createMacAddress() {
+        return "addr-" + createCppId();
+    }
+
 }
