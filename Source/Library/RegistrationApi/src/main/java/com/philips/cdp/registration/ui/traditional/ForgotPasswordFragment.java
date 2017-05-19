@@ -29,6 +29,7 @@ import com.philips.cdp.registration.HttpClientService;
 import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
@@ -54,7 +55,6 @@ import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegChinaUtil;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.URInterface;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,6 +64,11 @@ import java.net.URL;
 
 import javax.inject.Inject;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
+
 public class ForgotPasswordFragment extends RegistrationBaseFragment implements EventListener,
         OnUpdateListener, NetworStateListener, View.OnClickListener, ForgotPasswordHandler, HttpClientServiceReceiver.Listener {
 
@@ -71,7 +76,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     NetworkUtility networkUtility;
 
     @Inject
-    ServiceDiscoveryInterface serviceDiscoveryInterface;
+    ServiceDiscoveryWrapper serviceDiscoveryWrapper;
 
     private static final int FAILURE_TO_CONNECT = -1;
     public static final String USER_REQUEST_PASSWORD_RESET_SMS_CODE = "/api/v1/user/requestPasswordResetSmsCode";
@@ -100,6 +105,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     private ScrollView mSvRootLayout;
 
     private final int BAD_RESPONSE_CODE = 7004;
+
+    private final CompositeDisposable disposable = new CompositeDisposable();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -186,6 +193,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        disposable.clear();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "ResetPasswordFragment : onDestroyView");
     }
 
@@ -436,44 +444,36 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
     private void initateCreateResendSMSIntent()  {
         RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
-        //Temp: will be updated once actual URX received for reset sms
-        serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.urx.verificationsmscode", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+        disposable.add(serviceDiscoveryWrapper.getServiceUrlWithCountryPreferenceSingle("userreg.urx.verificationsmscode")
+                .map(serviceUrl -> getBaseUrl(serviceUrl))
+                .map(baseUrl -> {
+                    resetPasswordSmsRedirectUri = baseUrl + USER_REQUEST_RESET_PASSWORD_REDIRECT_URI_SMS;
+                    return baseUrl + USER_REQUEST_PASSWORD_RESET_SMS_CODE;
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<String>() {
+                    @Override
+                    public void onSuccess(String verificationUrl) {
+                        getRegistrationFragment().getActivity().startService(createResendSMSIntent(verificationUrl));
+                    }
 
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.urx.verificationsmscode : " + errorvalues);
-                verificationSmsCodeURL = null;
-            }
-
-            @Override
-            public void onSuccess(URL url) {
-                RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.urx.verificationsmscode:" + url.toString());
-                verificationSmsCodeURL = url.toString();
-            }
-        });
-
-        if(verificationSmsCodeURL != null){
-            String uriSubString = getBaseString();
-            //Verification URI
-            verificationSmsCodeURL = uriSubString + USER_REQUEST_PASSWORD_RESET_SMS_CODE;
-            //Redirect URI
-            resetPasswordSmsRedirectUri = uriSubString + USER_REQUEST_RESET_PASSWORD_REDIRECT_URI_SMS;
-            getRegistrationFragment().getActivity().startService(createResendSMSIntent(verificationSmsCodeURL));
-        } else{
-            hideForgotPasswordSpinner();
-            mEtEmail.setErrDescription(getString(R.string.reg_Generic_Network_Error));
-            mEtEmail.showErrPopUp();
-            mEtEmail.showInvalidAlert();
-
-        }
+                    @Override
+                    public void onError(Throwable e) {
+                        hideForgotPasswordSpinner();
+                        mEtEmail.setErrDescription(getString(R.string.reg_Generic_Network_Error));
+                        mEtEmail.showErrPopUp();
+                        mEtEmail.showInvalidAlert();
+                    }
+                }));
 
     }
 
     @NonNull
-    private String getBaseString() {
+    private String getBaseUrl(String serviceUrl) {
         URL url = null;
         try {
-            url = new URL(verificationSmsCodeURL);
+            url = new URL(serviceUrl);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
