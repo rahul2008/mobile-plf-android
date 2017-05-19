@@ -83,4 +83,9 @@ public class DotNavigationIndicatorTest extends BaseTest {
     public void verifyHeightOfDot() throws Exception {
 
     }
+
+    @Test
+    public void verifyDotNavigationContainerHeight() throws Exception {
+
+    }
 }
