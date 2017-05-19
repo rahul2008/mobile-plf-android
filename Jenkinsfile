@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 /* following line is mandatory for the platform CI pipeline integration */
 properties([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name: 'triggerBy']]]])
 
@@ -11,10 +16,14 @@ node('Android') {
     Pipeline = load "android-commlib-all/Source/common/jenkins/Pipeline.groovy"
     def gradle = 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew -PenvCode=${JENKINS_ENV}'
 
+    stage('Build javadoc') {
+        sh "$gradle --refresh-dependencies generateJavadocPublicApi"
+    }
+
     Slack.notify('#conartists') {
         if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME == "master") {
             stage('Build against binaries') {
-                sh "$gradle --refresh-dependencies assemble"
+                sh "$gradle assemble"
             }
         } else {
             stage('Checkout local BlueLib') {
@@ -34,7 +43,7 @@ node('Android') {
             }
 
             stage('Build against local libs') {
-                sh "$gradle --refresh-dependencies assemble"
+                sh "$gradle assemble"
             }
         }
 
@@ -49,6 +58,7 @@ node('Android') {
             step([$class: 'LintPublisher', healthy: '0', unHealthy: '20', unstableTotalAll: '20'])
             step([$class: 'JacocoPublisher', execPattern: '**/*.exec', classPattern: '**/classes', sourcePattern: '**/src/main/java', inclusionPattern: '**/com/philips/cdp2/commlib/ble/**/*.class', exclusionPattern: '**/R.class,**/R$*.class,**/BuildConfig.class,**/Manifest*.*,**/*Activity*.*,**/*Fragment*.*'])
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'android-commlib-all/Source/commlib-all-parent/build/report/commlib-all/pitest/debug/', reportFiles: 'index.html', reportName: 'Pitest'])
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'android-commlib-all/Documents/External/commlib-all-api', reportFiles: 'index.html', reportName: 'Commlib-ble API'])
 
             if (fileExists('android-commlib-all/Source/commlib-all-parent/build/cucumber-reports/report.json')) {
                 step([$class: 'CucumberReportPublisher', jsonReportDirectory: 'android-commlib-all/Source/commlib-all-parent/build/cucumber-reports', fileIncludePattern: '*.json'])
