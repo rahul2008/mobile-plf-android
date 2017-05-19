@@ -21,7 +21,7 @@ buildscript {
 
     dependencies {
         classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
-        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.android.tools.build:gradle:2.3.1'
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12"
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.0', changing: true
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
@@ -140,17 +140,17 @@ publishing {
 }
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         applicationId "com.philips.platform.referenceapp"
         minSdkVersion 19
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 1
         versionName objcdp.getVersionWithHash()
         vectorDrawables.useSupportLibrary = true
-        renderscriptTargetApi 24
+        renderscriptTargetApi 25
         // applicationId "net.gouline.jacoco"
         renderscriptSupportModeEnabled true
         testApplicationId "com.philips.platform.appframework.test"
@@ -312,16 +312,16 @@ configurations.all {
     // check for updates every build
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 
-    resolutionStrategy.force 'com.android.support:support-annotations:24.0.0'
+    resolutionStrategy.force 'com.android.support:support-annotations:25.3.1'
 }
 
 dependencies {
-    compile ('com.android.support:support-annotations:24.0.0') {
+    compile ('com.android.support:support-annotations:25.3.1') {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
 
-    compile 'com.android.support:design:24.0.0'
-    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:appcompat-v7:25.3.1'
     debugCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     leakCanaryCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
