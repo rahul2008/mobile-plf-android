@@ -147,6 +147,7 @@
         <item>@string/RA_DataServices_Menu_Title</item>
         <item>@string/RA_ConnectivityScreen_Menu_Title</item>
         <item>@string/RA_Coco_Version</item>
+        <item>@string/RA_Debug_and_Test_Menu_Title</item>
 
     </string-array>
 
