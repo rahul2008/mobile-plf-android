@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -318,6 +318,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         }
     }
 
+    @Deprecated
     public void connect(final boolean withTimeout, final long timeoutInMS) {
         SHNLogger.d(TAG, "Connect call in state " + internalState + " withTimeout: " + withTimeout + " timeoutInMS:" + timeoutInMS);
 

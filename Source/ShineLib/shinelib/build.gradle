@@ -17,6 +17,7 @@ buildscript { bs ->
 }
 
 apply plugin: 'com.android.library'
+apply plugin: 'pl.droidsonroids.pitest'
 apply plugin: 'jacoco'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
@@ -63,7 +64,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
@@ -223,37 +225,36 @@ generateJavadoc.dependsOn {
 }
 
 jacoco {
-    toolVersion = '0.7.6.201602180812'
+    toolVersion = versions.jacoco
 }
 
-def coverageSourceDirs = ['src/main/java']
-
-task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
-    group = "Reporting"
-
-    description = "Generate Jacoco coverage reports"
-
-    classDirectories = fileTree(dir: 'build/intermediates/classes/debug',
-            excludes: ['**/R.class',
-                       '**/R$*.class',
-                       '**/inject/*',
-                       '**/BuildConfig.*',
-                       '**/Manifest*.*'])
-
-    additionalSourceDirs = files(coverageSourceDirs)
-    sourceDirectories = files(coverageSourceDirs)
-    executionData = files('build/jacoco/testDebugUnitTest.exec')
-
-    doFirst {
-        new File("$buildDir/intermediates/classes/").eachFileRecurse { file ->
-            if (file.name.contains('$$')) {
-                file.renameTo(file.path.replace('$$', '$'))
-            }
-        }
-    }
-
-    reports {
-        xml.enabled = false
-        html.enabled = true
-    }
+pitest {
+    targetClasses = [
+            'com.philips.pins.shinelib.associationprocedures.*',
+            'com.philips.pins.shinelib.bluetoothwrapper.*',
+            'com.philips.pins.shinelib.capabilities.*',
+            'com.philips.pins.shinelib.datatypes.*',
+            'com.philips.pins.shinelib.exceptions.*',
+            'com.philips.pins.shinelib.framework.*',
+            'com.philips.pins.shinelib.services.*',
+            'com.philips.pins.shinelib.utility.*',
+            'com.philips.pins.shinelib.SHNCentral',
+            'com.philips.pins.shinelib.SHNDeviceScanner',
+            'com.philips.pins.shinelib.SHNDeviceScannerInternal',
+            'com.philips.pins.shinelib.SHNService',
+    ]  /* specify target classes to be mutated */
+    excludedClasses = [
+            'com.philips.pins.shinelib.utility.QuickTestConnectionTest',
+            'com.philips.pins.shinelib.capabilities.DiCommFirmwarePortStateWaiterTest',
+            'com.philips.pins.shinelib.bluetoothwrapper.BTGattTest',
+    ]
+    pitestVersion = versions.pitest
+    avoidCallsTo = [
+            'com.philips.cdp.dicommclient.util.DICommLog',
+            'com.philips.pins.shinelib.utility.SHNLogger',
+    ]
+    threads = 1 /* specify number of threads */
+    outputFormats = ['XML', 'HTML'] /* specify output format */
+    reportDir = "${rootDir.absolutePath}/build/report/${project.name}/pitest/"
+    timestampedReports = false
 }

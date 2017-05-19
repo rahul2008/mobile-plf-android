@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
 
@@ -51,12 +51,14 @@ public class SHNAssociationProcedureNearestDeviceTestBreakerTest {
 
     private void discoverMockedDevices(Integer[] locations) {
         for (Integer location : locations) {
-            assertTrue(location < mockedDevicesAndAssociatedRSSI.size());
+            if (location != null) {
+                assertTrue(location < mockedDevicesAndAssociatedRSSI.size());
+                AbstractMap.SimpleEntry<SHNDevice, Integer> entry = (AbstractMap.SimpleEntry<SHNDevice, Integer>) mockedDevicesAndAssociatedRSSI.get(location);
+                SHNDeviceFoundInfo mockedDeviceFoundInfo = mock(SHNDeviceFoundInfo.class);
+                when(mockedDeviceFoundInfo.getRssi()).thenReturn(entry.getValue());
+                associationProcedure.deviceDiscovered(entry.getKey(), mockedDeviceFoundInfo);
+            }
 
-            AbstractMap.SimpleEntry<SHNDevice, Integer> entry = (AbstractMap.SimpleEntry<SHNDevice, Integer>) mockedDevicesAndAssociatedRSSI.get(location);
-            SHNDeviceFoundInfo mockedDeviceFoundInfo = mock(SHNDeviceFoundInfo.class);
-            when(mockedDeviceFoundInfo.getRssi()).thenReturn(entry.getValue());
-            associationProcedure.deviceDiscovered(entry.getKey(), mockedDeviceFoundInfo);
         }
     }
 
@@ -156,6 +158,17 @@ public class SHNAssociationProcedureNearestDeviceTestBreakerTest {
         }
         verifyAssociationSuccess(1);
         verify(mockedSHNAssociationProcedureListener, never()).onAssociationFailed(any(SHNDevice.class), any(SHNResult.class));
+    }
+
+    @Test
+    public void shouldIgnoreDevicesForWhichNearestDeviceIsNullAndCallAssociationFailed() {
+        createMockedDevices(new Integer[]{-10, -20, -80, -43, -1});
+        for (int i = 0; i < SHNAssociationProcedureNearestDevice.NEAREST_DEVICE_DETERMINATION_MAX_ITERATION_COUNT; ++i) {
+            discoverMockedDevices(new Integer[]{null, 1, 2, 3, 4});
+            iterationTimeoutTimerRunnable.getValue().run();
+        }
+        verify(mockedSHNAssociationProcedureListener).onAssociationFailed(null, SHNResult.SHNErrorAssociationFailed);
+
     }
 
     @Test
