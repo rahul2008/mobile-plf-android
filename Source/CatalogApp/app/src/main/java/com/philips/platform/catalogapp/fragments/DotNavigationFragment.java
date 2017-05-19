@@ -26,14 +26,11 @@ import java.util.List;
 
 public class DotNavigationFragment extends BaseFragment {
     final static int[] drawableArray = new int[]{
-            R.drawable.ic_bottle,
-            R.drawable.ic_calender,
-            R.drawable.ic_email_icon,
-            R.drawable.ic_location,
-            R.drawable.ic_lock,
-            R.drawable.ic_share_icon,
-            R.drawable.ic_query,
-            R.drawable.ic_add_folder
+            R.drawable.ic_dot_navigation_mom_n_baby,
+            R.drawable.ic_dot_navigation_home,
+            R.drawable.ic_dot_navigation_calender,
+            R.drawable.ic_dot_navigation_3d_square,
+            R.drawable.ic_dot_navigation_tooth,
     };
 
     public final static List<PagerItem> pagerItems = new ArrayList<PagerItem>();
