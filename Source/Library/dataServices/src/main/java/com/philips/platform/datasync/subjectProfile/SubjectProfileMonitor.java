@@ -4,8 +4,6 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.events.CreateSubjectProfileRequestEvent;
 import com.philips.platform.core.events.DeleteSubjectProfileRequestEvent;
-import com.philips.platform.core.events.DevicePairingErrorResponseEvent;
-import com.philips.platform.core.events.DevicePairingResponseEvent;
 import com.philips.platform.core.events.GetSubjectProfileListRequestEvent;
 import com.philips.platform.core.events.GetSubjectProfileListResponseEvent;
 import com.philips.platform.core.events.GetSubjectProfileRequestEvent;

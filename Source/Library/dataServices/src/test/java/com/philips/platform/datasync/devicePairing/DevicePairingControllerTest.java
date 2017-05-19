@@ -4,6 +4,7 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.datasync.PushNotification.UCorePushNotification;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 
@@ -23,6 +24,8 @@ import retrofit.mime.TypedString;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -62,7 +65,24 @@ public class DevicePairingControllerTest {
     }
 
     @Test
-    public void pairDeviceTest() throws Exception {
+    public void createSubjectProfileResponseOKTest() throws Exception {
+        mResponse = new Response("", 200, "OK", new ArrayList<Header>(), null);
+        pairDeviceTest();
+    }
+
+    @Test
+    public void createSubjectProfileResponseNoContentTest() throws Exception {
+        mResponse = new Response("", 201, "OK", new ArrayList<Header>(), null);
+        pairDeviceTest();
+    }
+
+    @Test
+    public void createSubjectProfileResponseCreatedTest() throws Exception {
+        mResponse = new Response("", 204, "OK", new ArrayList<Header>(), null);
+        pairDeviceTest();
+    }
+
+    public void pairDeviceTest() {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(true);
         when(mUCoreAccessProvider.getAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
         when(mUCoreAccessProvider.getUserId()).thenReturn(TEST_USER_ID);
@@ -79,6 +99,7 @@ public class DevicePairingControllerTest {
         assertTrue(uCoreDevicePair.getDeviceId() != null);
         assertTrue(uCoreDevicePair.getDeviceType() != null);
 
+        when(mDevicePairingClient.pairDevice(eq(TEST_USER_ID), eq(TEST_USER_ID), any(UCoreDevicePair.class))).thenReturn(mResponse);
         mDevicePairingController.pairDevices(uCoreDevicePair);
     }
 
@@ -149,6 +170,7 @@ public class DevicePairingControllerTest {
         mDevicePairingController.uCoreAccessProvider = null;
         assertThat(mDevicePairingController.isUserInvalid()).isFalse();
     }
+
     @Test
     public void retrofitErrorWhilePairDeviceTest() throws Exception {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(true);

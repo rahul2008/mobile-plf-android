@@ -1,6 +1,5 @@
 package com.philips.platform.core.events;
 
-import com.philips.platform.datasync.subjectProfile.UCoreCreateSubjectProfileRequest;
 import com.philips.platform.datasync.subjectProfile.UCoreSubjectProfileList;
 
 public class GetSubjectProfileListResponseEvent extends Event {
