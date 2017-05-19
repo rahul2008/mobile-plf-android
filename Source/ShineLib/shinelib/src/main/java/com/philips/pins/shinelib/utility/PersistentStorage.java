@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
 
@@ -20,6 +20,8 @@ import java.util.Set;
  * Class implementing a wrapper around the {@link android.content.SharedPreferences} interface.
  * <p/>
  * Use this class to store any information within BlueLib.
+ *
+ * @publicPluginApi
  */
 public class PersistentStorage implements SharedPreferences {
     private static final String TAG = "PersistentStorage";

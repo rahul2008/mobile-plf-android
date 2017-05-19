@@ -21,6 +21,8 @@ import java.util.TreeMap;
 /**
  * A procedure that can be used to associate with a peripheral. The procedure performs scanning for a peripheral 5 times. If the peripheral is the nearest according to RSSI 3 times in a row, then
  * the peripheral is chosen and reported via {@link com.philips.pins.shinelib.SHNAssociationProcedurePlugin.SHNAssociationProcedureListener#onAssociationSuccess(SHNDevice)} callback.
+ *
+ * @publicPluginApi
  */
 public class SHNAssociationProcedureNearestDevice implements SHNAssociationProcedurePlugin {
 

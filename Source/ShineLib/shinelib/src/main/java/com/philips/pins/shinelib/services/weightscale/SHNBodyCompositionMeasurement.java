@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2017.
  * All rights reserved.
  */
 
@@ -14,8 +14,7 @@ import java.nio.ByteBuffer;
 import java.util.Date;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * @publicPluginApi
  */
 public class SHNBodyCompositionMeasurement {
     private static final float FAT_PERCENTAGE_RESOLUTION = 0.1f;

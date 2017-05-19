@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2017.
  * All rights reserved.
  */
 
@@ -8,8 +8,7 @@ package com.philips.pins.shinelib.services.weightscale;
 import java.nio.ByteBuffer;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * @publicPluginApi
  */
 public class SHNBodyCompositionFeatures {
 

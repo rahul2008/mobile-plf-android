@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2016, 2017.
  * All rights reserved.
  */
 
@@ -12,6 +12,9 @@ import com.philips.pins.shinelib.dicommsupport.DiCommPort;
 
 import java.util.Map;
 
+/**
+ * @publicPluginApi
+ */
 public class DiCommFirmwarePort extends DiCommPort {
 
     public static final String FIRMWARE = "firmware";

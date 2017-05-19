@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2016, 2017.
  * All rights reserved.
  */
 
@@ -49,6 +49,8 @@ import java.util.concurrent.FutureTask;
  * {@link #registerDeviceDefinition(SHNDeviceDefinitionInfo)} and then associate with a device type or start scanning for it.
  * <p/>
  * Applications should create only one instance of {@code SHNCentral}.
+ *
+ * @publicApi
  */
 public class SHNCentral {
 

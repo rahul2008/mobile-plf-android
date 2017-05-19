@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2016, 2017.
  * All rights reserved.
  */
 
@@ -12,6 +12,8 @@ import java.util.Date;
  * <p/>
  * Includes items like gender, date of birth, age, height, weight etc.
  * But also contains user related preferences such as language and country code, clock format etc.
+ *
+ * @publicApi
  */
 public interface SHNUserConfiguration {
     /**

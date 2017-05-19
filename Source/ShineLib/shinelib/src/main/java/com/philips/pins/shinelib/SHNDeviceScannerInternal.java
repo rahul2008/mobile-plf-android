@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2017.
  * All rights reserved.
  */
 
@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * @publicPluginApi
+ */
 public class SHNDeviceScannerInternal {
     private static final String TAG = SHNDeviceScannerInternal.class.getSimpleName();
     public static final long SCANNING_RESTART_INTERVAL_MS = 3000;
