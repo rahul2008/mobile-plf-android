@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="UIDRatingBarStyle" parent="Base.Widget.AppCompat.RatingBar">
+        <item name="uidRatingBarStarOnColor">?attr/uidRatingBarDefaultNormalOnTextColor</item>
+    </style>
+    <style name="UIDRatingBarStandardDisplay">
+        <item name="android:numStars">5</item>
+        <item name="android:stepSize">0.1</item>
+        <item name="android:isIndicator">true</item>
+    </style>
+    <style name="UIDRatingBarMiniDisplay">
+        <item name="android:numStars">1</item>
+        <item name="android:stepSize">0.1</item>
+        <item name="android:isIndicator">true</item>
+    </style>
+    <style name="UIDRatingBarInput">
+        <item name="android:numStars">5</item>
+        <item name="android:stepSize">1</item>
+        <item name="android:isIndicator">false</item>
+    </style>
+</resources>

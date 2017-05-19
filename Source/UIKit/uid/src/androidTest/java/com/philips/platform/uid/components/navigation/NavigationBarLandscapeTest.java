@@ -24,6 +24,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
+@Ignore
 public class NavigationBarLandscapeTest extends BaseTest {
     private static final int NAVIGATION_COLOR_ULTRALIGHT = NavigationColor.ULTRA_LIGHT.ordinal();
     @Rule
@@ -41,6 +42,7 @@ public class NavigationBarLandscapeTest extends BaseTest {
         baseTestActivity.switchFragment(new NavigationbarFragment());
     }
 
+    @Ignore
     @Test
     public void verifyTitleLineHeightInLandscape() throws Exception {
         setupLandscapeModeActivity();

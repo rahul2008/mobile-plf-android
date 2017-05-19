@@ -43,9 +43,9 @@ public class UIDLocaleHelper {
     /**
      * This method is used by UID widgets to lookup strings in language pack JSON for all the strings which are set in xml layout files of the widgets.
      *
-     * @param context Absolute path of your JSON file in String format
-     * @param view    Absolute path of your JSON file in String format
-     * @param attrs   Absolute path of your JSON file in String format
+     * @param context Context of view to be updated
+     * @param view    View object to be updated
+     * @param attrs   Attribute set for the view
      */
     public static void setTextFromResourceID(Context context, View view, AttributeSet attrs) {
         if (view instanceof TextView) {

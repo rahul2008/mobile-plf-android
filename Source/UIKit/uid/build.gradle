@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
 
 def supportLibraryVer = '24.2.0';
 def minSdkVer = 19
@@ -10,13 +12,105 @@ def jUnitVer = 4.12
 buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
-
         maven {
-            url "https://plugins.gradle.org/m2/"
+            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "readonly"
+            }
         }
-        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.0', changing: true
     }
 }
+
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment )
+archivesBaseName = rootProject.name
+
+allprojects {
+    repositories {
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
+        maven { url objcdp.getArtifactoryUrl() }
+    }
+    apply plugin: 'com.jfrog.artifactory'
+    group = 'com.philips.cdp'
+}
+
+group = 'com.philips.cdp'
+version = objcdp.getVersion()
+
+artifactory {
+    contextUrl = objcdp.getArtifactoryContextUrl()
+    publish {
+        repository {
+            repoKey = objcdp.getArtifactoryPublishRepoKey()
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+                publishArtifacts = true
+                publications ('aar')
+            }
+        }
+    }
+    resolve {
+        repository {
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
+        }
+    }
+    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+}
+
+//=======To zip and upload "Documents/External" ==STARTS=============
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+}
+
+task zipDocuments(type: Zip) {
+    from files(objcdp.getExternalDocPath()) {
+        baseName = project.name
+        classifier 'docs'
+    }
+}
+//=======To zip and upload "Documents/External" ==ENDS=============
+
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId group
+            version = version
+            artifactId archivesBaseName
+
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
+
+            pom.withXml{
+                def dependenciesNode = asNode().appendNode('dependencies')
+                configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.moduleGroup)
+                    dependencyNode.appendNode('artifactId', it.moduleName)
+                    dependencyNode.appendNode('version', it.moduleVersion)
+                }
+            }
+        }
+    }
+}
+
 android {
     compileSdkVersion compileSdkVer
     buildToolsVersion buildToolsVer

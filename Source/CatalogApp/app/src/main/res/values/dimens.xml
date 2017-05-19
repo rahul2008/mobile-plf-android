@@ -42,6 +42,7 @@
 
     <!--Checkbox test page-->
     <dimen name="checkbox_list_margin_top_bottom">14dp</dimen>
+    <dimen name="checkbox_margin_left">4dp</dimen>
 
     <dimen name="separator_item_height">48dp</dimen>
     <dimen name="separator_drawable_padding">32dp</dimen>
@@ -63,4 +64,13 @@
     <dimen name="radio_button_text_padding_left_right">16dp</dimen>
 
     <dimen name="show_more_icon_size">12dp</dimen>
+
+    <!--Notifaction Badge test page-->
+    <dimen name="notifaction_badge_margin_top_bottom">14dp</dimen>
+    <dimen name="notifaction_badge_lable_height">25dp</dimen>
+    <dimen name="notifaction_badge_edit_text_margin_left_right">16dp</dimen>
+    <dimen name="notifaction_badge_edit_text_margin_top_bottom">12dp</dimen>
+    <dimen name="notification_default_margin">50dp</dimen>
+    <dimen name="notification_small_margin">40dp</dimen>
+
 </resources>
