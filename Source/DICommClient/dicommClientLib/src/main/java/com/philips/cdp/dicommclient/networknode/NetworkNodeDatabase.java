@@ -75,7 +75,6 @@ public class NetworkNodeDatabase {
                     networkNode.setIpAddress(ipAddress);
                     networkNode.setModelName(modelName);
                     networkNode.setModelId(modelId);
-                    networkNode.setHttps(https);
 
                     result.add(networkNode);
                     DICommLog.d(DICommLog.DATABASE, "Loaded NetworkNode from db: " + networkNode);

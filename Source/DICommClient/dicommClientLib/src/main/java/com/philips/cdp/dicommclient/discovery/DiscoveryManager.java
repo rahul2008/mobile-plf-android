@@ -1,7 +1,8 @@
 /*
- * (C) Koninklijke Philips N.V., 2015, 2016.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 package com.philips.cdp.dicommclient.discovery;
 
 import android.content.Context;
@@ -360,12 +361,6 @@ public class DiscoveryManager<T extends Appliance> {
             notifyListeners = true;
         }
 
-        if (existingAppliance.getNetworkNode().getHttps() != networkNode.getHttps()) {
-            existingAppliance.getNetworkNode().setHttps(networkNode.getHttps());
-            updateApplianceInDatabase(existingAppliance);
-            notifyListeners = true;
-        }
-
         if (notifyListeners) {
             notifyDiscoveryListener();
         }
@@ -627,7 +622,6 @@ public class DiscoveryManager<T extends Appliance> {
         String name = ssdpDevice.getFriendlyName();
         String modelName = ssdpDevice.getModelName();
         String networkSsid = mNetwork.getLastKnownNetworkSsid();
-        boolean isHttps = deviceModel.getHttps();
         Long bootId = -1l;
         String modelNumber = ssdpDevice.getModelNumber();
         try {
@@ -645,7 +639,6 @@ public class DiscoveryManager<T extends Appliance> {
         networkNode.setModelName(modelName);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
         networkNode.setHomeSsid(networkSsid);
-        networkNode.setHttps(isHttps);
 
         if (!isValidNetworkNode(networkNode)) return null;
 

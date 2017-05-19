@@ -1,15 +1,5 @@
 package com.philips.cl.di.common.ssdp.lib;
 
-import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.HandlerThread;
@@ -25,6 +15,16 @@ import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.common.ssdp.models.DiscoveryServiceState;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 import com.philips.cl.di.common.ssdp.util.SSDPUtils;
+
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.UnknownHostException;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author 310151556
@@ -335,11 +335,7 @@ public class SsdpService extends HandlerThread {
 					Log.i(ConnectionLibContants.LOG_TAG, "pNts: " + pNts);
 					final String ipAddress = (InetAddress.getByName(url.getHost()).getHostAddress());
 					final int port = url.getPort();
-					boolean https = false;
-					if (url.toString().startsWith("https://")) {
-						https = true;
-					}
-					deviceParam = new DeviceModel(pNts, pUsn, pLocation, ipAddress, port, bootId, https);
+					deviceParam = new DeviceModel(pNts, pUsn, pLocation, ipAddress, port, bootId);
 				} catch (final MalformedURLException e) {
 					Log.e(ConnectionLibContants.LOG_TAG, "MalformedURLException : " + e.getMessage());
 				} catch (final UnknownHostException e) {
