@@ -7,10 +7,13 @@ package com.philips.platform.baseapp.base;
 
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.localematch.PILLocaleManager;
+import com.philips.cdp.wifirefuapp.SampleApplianceFactory;
+import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
@@ -52,6 +55,7 @@ public class AppFrameworkApplication extends MultiDexApplication implements Flow
     private static boolean isChinaCountry = false;
     private PushNotificationManager pushNotificationManager;
     private ConnectivityChangeReceiver connectivityChangeReceiver;
+    private CommCentral commCentral;
 
     @Override
     public void onCreate() {
@@ -97,7 +101,18 @@ public class AppFrameworkApplication extends MultiDexApplication implements Flow
                     new IntentFilter(
                             ConnectivityManager.CONNECTIVITY_ACTION));
         }
+        initiliazeDiComm();
 
+    }
+
+    private void initiliazeDiComm() {
+        final LanTransportContext lanTransportContext = new LanTransportContext(this);
+        final SampleApplianceFactory applianceFactory = new SampleApplianceFactory(lanTransportContext);
+        this.commCentral = new CommCentral(applianceFactory, lanTransportContext);
+
+        if (DICommClientWrapper.getContext() == null) {
+            DICommClientWrapper.initializeDICommLibrary(this, applianceFactory, null, null);
+        }
     }
 
     public void initUserRegistrationState() {
