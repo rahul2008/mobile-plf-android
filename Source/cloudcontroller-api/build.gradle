@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2017 (c) Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -30,6 +30,7 @@ if (project.hasProperty('envCode')) {
 }
 
 apply plugin: 'cdpSCM'
+
 import com.philips.cdp.cdpSCM
 
 def objcdp = new cdpSCM()
@@ -128,6 +129,30 @@ task sourcesJar(type: Jar) {
 
     exclude '**/BuildConfig.java'
     exclude '**/R.java'
+}
+
+task generateJavadocPublicApi(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    destinationDir = file("${project.rootDir}/../../Documents/External/${project.name}/")
+
+    include {
+        if (it.isDirectory) {
+            return true
+        }
+        return true //it.file.text.contains("* @publicApi")
+    }
+
+    options {
+        memberLevel = JavadocMemberLevel.PUBLIC
+        links("http://docs.oracle.com/javase/7/docs/api/")
+        linksOffline("http://d.android.com/reference", "${android.sdkDirectory}/docs/reference")
+        docEncoding = 'UTF-8'
+        encoding = 'UTF-8'
+        charSet = 'UTF-8'
+    }
+
+    failOnError false
 }
 
 task generateJavadoc(type: Javadoc, dependsOn: sourcesJar) {
