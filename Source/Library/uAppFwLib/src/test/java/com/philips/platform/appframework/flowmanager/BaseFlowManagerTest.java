@@ -98,8 +98,6 @@ public class BaseFlowManagerTest extends TestCase {
 
     }
 
-
-
     private void sleep(int seconds) {
         try {
             TimeUnit.SECONDS.sleep(seconds);
@@ -108,9 +106,18 @@ public class BaseFlowManagerTest extends TestCase {
         }
     }
 
+    public void testInitializeWithResId() {
+        try {
+            flowManagerTest.initialize(context, 0, flowManagerListenerMock);
+        } catch (JsonAlreadyParsedException e) {
+            assertEquals(e.getMessage(), "Json already parsed");
+        }
+    }
+
     public void testAlreadyInitialize() {
         try {
             flowManagerTest.initialize(context, path, flowManagerListenerMock);
+
         } catch (JsonAlreadyParsedException e) {
             assertEquals(e.getMessage(), "Json already parsed");
         }

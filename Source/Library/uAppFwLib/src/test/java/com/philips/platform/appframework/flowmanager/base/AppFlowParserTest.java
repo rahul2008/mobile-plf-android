@@ -64,6 +64,15 @@ public class AppFlowParserTest extends TestCase {
         }
     }
 
+    public void testAppFlowWithResID() {
+        exception.expect(JsonFileNotFoundException.class);
+        try {
+            appFlowParser.getAppFlow(0);
+        } catch (JsonFileNotFoundException e) {
+            assertTrue(e.getMessage().equals("There is no Json in the given path"));
+        }
+    }
+
     @SuppressWarnings("deprecation")
     private InputStream getMockedInputStream() {
         String testJsonData = "ghfhfhf";
