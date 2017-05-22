@@ -1,2 +1,2 @@
-rootProject.setName 'iap'
+rootProject.setName 'iap_DLS'
 include ':iap'
