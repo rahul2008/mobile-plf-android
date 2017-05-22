@@ -471,9 +471,6 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
         }
     }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
 
 tasks.withType(Test) {
   ignoreFailures = true
