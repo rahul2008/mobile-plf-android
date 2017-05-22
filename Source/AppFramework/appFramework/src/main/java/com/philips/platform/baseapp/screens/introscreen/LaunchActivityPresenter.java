@@ -68,7 +68,7 @@ public class LaunchActivityPresenter extends UIBasePresenter implements UIStateL
         } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                 e) {
             Log.d(getClass() + "", e.getMessage());
-            Toast.makeText(launchView.getFragmentActivity(), launchView.getFragmentActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+            Toast.makeText(launchView.getFragmentActivity(), launchView.getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -157,7 +157,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/uikit_enricher_red"
         android:visibility="gone"
-        android:text="@string/synced"
+        android:text="@string/RA_synced"
         android:layout_below="@id/location_container"
         android:layout_alignParentEnd="true"
     />

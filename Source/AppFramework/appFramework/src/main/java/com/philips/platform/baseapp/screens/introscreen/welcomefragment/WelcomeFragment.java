@@ -65,7 +65,7 @@ public class WelcomeFragment extends OnboardingBaseFragment implements View.OnCl
             } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                     e) {
                 Log.d(getClass() + "", e.getMessage());
-                Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
             }
         } else {
             pager.arrowScroll(View.FOCUS_LEFT);

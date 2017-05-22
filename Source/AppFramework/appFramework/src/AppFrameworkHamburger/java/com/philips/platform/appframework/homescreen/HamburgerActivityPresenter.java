@@ -53,7 +53,7 @@ public class HamburgerActivityPresenter extends UIBasePresenter {
         try {
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
             if(targetFlowManager == null){
-                Toast.makeText(fragmentView.getFragmentActivity(), fragmentView.getFragmentActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                Toast.makeText(fragmentView.getFragmentActivity(), fragmentView.getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
                 return;
             }
             baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.HAMBURGER_HOME), eventState);
@@ -65,7 +65,7 @@ public class HamburgerActivityPresenter extends UIBasePresenter {
         }  catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                 e) {
             Log.d(getClass() + "", e.getMessage());
-            Toast.makeText(fragmentView.getFragmentActivity(), fragmentView.getFragmentActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+            Toast.makeText(fragmentView.getFragmentActivity(), fragmentView.getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
         }
     }
 
