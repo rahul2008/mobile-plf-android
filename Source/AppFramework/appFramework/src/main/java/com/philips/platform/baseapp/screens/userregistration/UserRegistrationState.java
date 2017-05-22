@@ -7,12 +7,14 @@ package com.philips.platform.baseapp.screens.userregistration;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
@@ -59,7 +61,8 @@ import static com.philips.platform.baseapp.screens.utility.Constants.UNSUPPORTED
 public abstract class UserRegistrationState extends BaseState implements UserRegistrationListener, UserRegistrationUIEventListener {
 
     private static final String TAG = UserRegistrationState.class.getSimpleName();
-    final String AI = "appinfra";
+    public static final String SHARED_PREF_DYNAMIC_CONFIG = "reg_dynamic_config";
+    public static final String REG_HSDP_ENVIRONMENT = "reg_hsdp_environment";
     private Context activityContext;
     private User userObject;
     private FragmentLauncher fragmentLauncher;
@@ -69,7 +72,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     private static final String HSDP_CONFIGURATION_SHARED = "HSDPConfiguration.Shared";
     private static final String CHINA_CODE = "CN";
     private static final String DEFAULT = "default";
-    private static final String URL_ENCODING = "UTF-8";
 
     /**
      * AppFlowState constructor
@@ -103,7 +105,130 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     public void init(Context context) {
         this.applicationContext = context;
         initializeUserRegistrationLibrary();
-        initHSDP();
+
+        SharedPreferences prefs = getSharedPreferences(context);
+        initHSDP(prefs, getConfiguration(saveToSharedPref(prefs)));
+    }
+
+    protected String saveToSharedPref(SharedPreferences prefs) {
+        String restoredHSDPText = prefs.getString(REG_HSDP_ENVIRONMENT, null);
+        if (restoredHSDPText != null && restoredHSDPText.equals(restoredHSDPText)) {
+            saveToSharedPreferences(prefs, getConfiguration(restoredHSDPText));
+        }
+        else {
+            saveToSharedPreferences(prefs, Configuration.STAGING);
+        }
+        return restoredHSDPText;
+    }
+
+    private SharedPreferences getSharedPreferences(Context context) {
+        return context.getSharedPreferences(SHARED_PREF_DYNAMIC_CONFIG, context.MODE_PRIVATE);
+    }
+
+    private void saveToSharedPreferences(SharedPreferences prefs, Configuration configuration) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(REG_HSDP_ENVIRONMENT, configuration.getValue());
+        editor.commit();
+    }
+
+    public void initHSDP(SharedPreferences prefs, Configuration configuration) {
+
+        switch (configuration){
+            case DEVELOPMENT:
+                setDevConfig();
+                break;
+
+            case TESTING:
+                setTestConfig();
+                break;
+
+            default:
+                setStageConfig();
+        }
+    }
+
+    private void setStageConfig() {
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        AppInfraInterface appInfra = ((AppFrameworkApplication) applicationContext).getAppInfra();
+
+        AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
+
+        Map<String, String> hsdpAppNames = new HashMap<>();
+        hsdpAppNames.put(CHINA_CODE, "OneBackend");
+        hsdpAppNames.put(DEFAULT, "OneBackend");
+
+        appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_APPLICATION_NAME,
+                UR, hsdpAppNames, configError);
+
+        Map<String, String> hsdpSecrets = new HashMap<>();
+        hsdpSecrets.put(CHINA_CODE, "a3a3d09e2c74b93a409bc242956a6101bd5ff78cfd21473faa7aa21a8ec8493b66fa905dd4916b8ba4325cb988b442f9c6054089b9b36d09bb1538f985b47b22");
+        hsdpSecrets.put(DEFAULT, "f5b62a26d680e5ae8001522a8e3268f966545a1a14a47ea2040793ea825484cd12fce9c46b43e2c2604cb836db64362a0c8b39eb7b162b8b3e83740143337eda");
+        appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_SECRET,
+                UR, hsdpSecrets, configError);
+
+        Map<String, String> hsdpSharedIds = new HashMap<>();
+        hsdpSharedIds.put(CHINA_CODE, "6036461d-0914-4afe-9e6e-eefe27fb529a");
+        hsdpSharedIds.put(DEFAULT, "f52cd90d-c955-43e1-8380-999e03d0d4c0");
+
+        appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
+                UR, hsdpSharedIds, configError);
+    }
+
+    private void setTestConfig() {
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        AppInfraInterface appInfra = ((AppFrameworkApplication) applicationContext).getAppInfra();
+
+        AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
+
+        Map<String, String> hsdpAppNames = new HashMap<>();
+        hsdpAppNames.put(CHINA_CODE, "OneBackend");
+        hsdpAppNames.put(DEFAULT, "OneBackend");
+
+        appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_APPLICATION_NAME,
+                UR, hsdpAppNames, configError);
+
+        Map<String, String> hsdpSecrets = new HashMap<>();
+        hsdpSecrets.put(CHINA_CODE, "a3a3d09e2c74b93a409bc242956a6101bd5ff78cfd21473faa7aa21a8ec8493b66fa905dd4916b8ba4325cb988b442f9c6054089b9b36d09bb1538f985b47b22");
+        hsdpSecrets.put(DEFAULT, "f5b62a26d680e5ae8001522a8e3268f966545a1a14a47ea2040793ea825484cd12fce9c46b43e2c2604cb836db64362a0c8b39eb7b162b8b3e83740143337eda");
+        appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_SECRET,
+                UR, hsdpSecrets, configError);
+
+        Map<String, String> hsdpSharedIds = new HashMap<>();
+        hsdpSharedIds.put(CHINA_CODE, "6036461d-0914-4afe-9e6e-eefe27fb529a");
+        hsdpSharedIds.put(DEFAULT, "f52cd90d-c955-43e1-8380-999e03d0d4c0");
+
+        appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
+                UR, hsdpSharedIds, configError);
+    }
+
+    private void setDevConfig() {
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        AppInfraInterface appInfra = ((AppFrameworkApplication) applicationContext).getAppInfra();
+
+        AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
+
+        Map<String, String> hsdpAppNames = new HashMap<>();
+        hsdpAppNames.put(CHINA_CODE, "OneBackend");
+        hsdpAppNames.put(DEFAULT, "OneBackend");
+
+        appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_APPLICATION_NAME,
+                UR, hsdpAppNames, configError);
+
+        Map<String, String> hsdpSecrets = new HashMap<>();
+        hsdpSecrets.put(CHINA_CODE, "a3a3d09e2c74b93a409bc242956a6101bd5ff78cfd21473faa7aa21a8ec8493b66fa905dd4916b8ba4325cb988b442f9c6054089b9b36d09bb1538f985b47b22");
+        hsdpSecrets.put(DEFAULT, "f5b62a26d680e5ae8001522a8e3268f966545a1a14a47ea2040793ea825484cd12fce9c46b43e2c2604cb836db64362a0c8b39eb7b162b8b3e83740143337eda");
+        appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_SECRET,
+                UR, hsdpSecrets, configError);
+
+        Map<String, String> hsdpSharedIds = new HashMap<>();
+        hsdpSharedIds.put(CHINA_CODE, "6036461d-0914-4afe-9e6e-eefe27fb529a");
+        hsdpSharedIds.put(DEFAULT, "f52cd90d-c955-43e1-8380-999e03d0d4c0");
+
+        appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
+                UR, hsdpSharedIds, configError);
     }
 
     @Override
@@ -157,34 +282,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     @Override
     public void updateDataModel() {
 
-    }
-
-    public void initHSDP() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        AppInfraInterface appInfra = ((AppFrameworkApplication) applicationContext).getAppInfra();
-
-        AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
-
-        Map<String, String> hsdpAppNames = new HashMap<>();
-        hsdpAppNames.put(CHINA_CODE, "OneBackend");
-        hsdpAppNames.put(DEFAULT, "OneBackend");
-
-        appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_APPLICATION_NAME,
-                UR, hsdpAppNames, configError);
-
-        Map<String, String> hsdpSecrets = new HashMap<>();
-        hsdpSecrets.put(CHINA_CODE, "a3a3d09e2c74b93a409bc242956a6101bd5ff78cfd21473faa7aa21a8ec8493b66fa905dd4916b8ba4325cb988b442f9c6054089b9b36d09bb1538f985b47b22");
-        hsdpSecrets.put(DEFAULT, "f5b62a26d680e5ae8001522a8e3268f966545a1a14a47ea2040793ea825484cd12fce9c46b43e2c2604cb836db64362a0c8b39eb7b162b8b3e83740143337eda");
-        appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_SECRET,
-                UR, hsdpSecrets, configError);
-
-        Map<String, String> hsdpSharedIds = new HashMap<>();
-        hsdpSharedIds.put(CHINA_CODE, "6036461d-0914-4afe-9e6e-eefe27fb529a");
-        hsdpSharedIds.put(DEFAULT, "f52cd90d-c955-43e1-8380-999e03d0d4c0");
-
-        appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
-                UR, hsdpSharedIds, configError);
     }
 
 
@@ -267,5 +364,14 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     public String getComponentID(Context c) {
         return c.getResources().getString(R.string.RA_COCO_UR);
+    }
+
+    public static Configuration getConfiguration(String registrationEnv) {
+        if (registrationEnv.equalsIgnoreCase(Configuration.DEVELOPMENT.getValue()))
+            return Configuration.DEVELOPMENT;
+        else if (registrationEnv.equalsIgnoreCase(Configuration.TESTING.getValue()))
+            return Configuration.TESTING;
+
+        return Configuration.STAGING;
     }
 }
