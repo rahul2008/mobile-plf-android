@@ -1,4 +1,4 @@
-rootProject.setName 'product-registration-lib'
+rootProject.setName 'product-registration-lib_DLS'
 include ':app'
 include 'product-registration-lib'
 project(':product-registration-lib').projectDir = new File('../Library/product-registration-lib')
