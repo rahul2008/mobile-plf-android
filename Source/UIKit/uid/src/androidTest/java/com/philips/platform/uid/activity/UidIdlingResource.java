@@ -27,7 +27,6 @@ class UidIdlingResource implements IdlingResource {
 
     @Override
     public void registerIdleTransitionCallback(final ResourceCallback callback) {
-
         this.callback = callback;
     }
 

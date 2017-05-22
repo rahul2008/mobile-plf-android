@@ -17,7 +17,8 @@
     </declare-styleable>
     <declare-styleable name="UIDDotNavigation">
         <attr name="uidDotNavigationDrawable" format="reference|integer"/>
-        <attr name="uidDotNavigationDotsSpacing" format="reference|integer"/>
+        <attr name="uidDotNavigationIconSpacingLeft" format="reference|integer"/>
+        <attr name="uidDotNavigationIconSpacingRight" format="reference|integer"/>
         <attr name="uidDotNavigationIconColorList" format="reference"/>
     </declare-styleable>
 

@@ -7,7 +7,9 @@
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
@@ -16,10 +18,10 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 
 import com.philips.platform.uid.R;
-import com.philips.platform.uid.thememanager.ThemeUtils;
 
 public class DotNavigationIcon extends AppCompatImageButton {
-    private int iconSpacing;
+    private int iconLeftSpacing;
+    private int iconRightSpacing;
 
     public DotNavigationIcon(@NonNull final Context context) {
         this(context, null);
@@ -37,15 +39,23 @@ public class DotNavigationIcon extends AppCompatImageButton {
     private void processAttributes(@NonNull Context context, @NonNull AttributeSet attrs, int defStyleAttr) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDDotNavigation, defStyleAttr, R.style.UIDDotNavigation);
 
-        int backGroundListID = typedArray.getResourceId(R.styleable.UIDDotNavigation_uidDotNavigationIconColorList, -1);
+        ColorStateList backGroundListID = typedArray.getColorStateList(R.styleable.UIDDotNavigation_uidDotNavigationIconColorList);
         int backgroundDrawable = typedArray.getResourceId(R.styleable.UIDDotNavigation_uidDotNavigationDrawable, -1);
         //Need to check if this works even for normal drawables and icons along with vector
-        setBackground(ContextCompat.getDrawable(getContext(), backgroundDrawable));
-        iconSpacing = typedArray.getDimensionPixelOffset(R.styleable.UIDDotNavigation_uidDotNavigationDotsSpacing, -1);
-        if (backGroundListID != -1 && getBackground() != null) {
-            ViewCompat.setBackgroundTintList(this, ThemeUtils.buildColorStateList(getContext().getResources(), getContext().getTheme(), backGroundListID));
-        }
+        setBackground(getBackgroundDrawable(backgroundDrawable));
+
+        iconLeftSpacing = typedArray.getDimensionPixelOffset(R.styleable.UIDDotNavigation_uidDotNavigationIconSpacingLeft, -1);
+        iconRightSpacing = typedArray.getDimensionPixelOffset(R.styleable.UIDDotNavigation_uidDotNavigationIconSpacingRight, -1);
+
         typedArray.recycle();
+
+        if (backGroundListID != null && getBackground() != null) {
+            ViewCompat.setBackgroundTintList(this, backGroundListID);
+        }
+    }
+
+    protected Drawable getBackgroundDrawable(final int backgroundDrawable) {
+        return ContextCompat.getDrawable(getContext(), backgroundDrawable);
     }
 
     @Override
@@ -53,12 +63,16 @@ public class DotNavigationIcon extends AppCompatImageButton {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         final ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
 
-        layoutParams.leftMargin = iconSpacing;
-        layoutParams.rightMargin = iconSpacing;
+        layoutParams.leftMargin = getIconLeftSpacing();
+        layoutParams.rightMargin = getIconRightSpacing();
         setLayoutParams(layoutParams);
     }
 
-    protected int getIconSpacing() {
-        return iconSpacing;
+    protected int getIconLeftSpacing() {
+        return iconLeftSpacing;
+    }
+
+    protected int getIconRightSpacing() {
+        return iconRightSpacing;
     }
 }

@@ -11,7 +11,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.internal.util.Checks;
@@ -21,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.philips.platform.uid.utils.UIDTestUtils;
+import com.philips.platform.uid.view.widget.DotNavigationIcon;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -268,6 +268,11 @@ public class TextViewPropertiesMatchers {
             @Override
             protected boolean matchesSafely(final View view) {
                 if (view instanceof TextView) {
+                    TextView textView = (TextView) view;
+                    setValues(textView.getBackgroundTintList(), attributeColor);
+                    return areEqual();
+                }
+                if (view instanceof DotNavigationIcon) {
                     TextView textView = (TextView) view;
                     setValues(textView.getBackgroundTintList(), attributeColor);
                     return areEqual();

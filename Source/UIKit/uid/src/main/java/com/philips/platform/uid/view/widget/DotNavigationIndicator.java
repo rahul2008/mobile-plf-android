@@ -17,12 +17,13 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 
+/**
+ *
+ */
 public class DotNavigationIndicator extends LinearLayout implements PageIndicator {
-
     private ViewPager mViewPager;
     private OnPageChangeListener mListener;
     private int mSelectedIndex;
-
     public DotNavigationIndicator(Context context) {
         this(context, null);
     }
@@ -39,6 +40,10 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     public DotNavigationIndicator(final Context context, final AttributeSet attrs, final int defStyleAttr, final int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context);
+    }
+
+    public ViewPager getViewPager() {
+        return mViewPager;
     }
 
     private void init(final Context context) {
@@ -76,8 +81,12 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
             mViewPager.setOnPageChangeListener(null);
         }
         PagerAdapter adapter = view.getAdapter();
+        final int count = adapter.getCount();
         if (adapter == null) {
             throw new IllegalStateException("ViewPager does not have adapter instance.");
+        }
+        if (count == 0) {
+            setVisibility(GONE);
         }
         mViewPager = view;
         view.setOnPageChangeListener(this);
@@ -127,8 +136,8 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     }
 
     @Override
-    public void setViewPager(final ViewPager view, int initialPosition) {
-        setViewPager(view);
+    public void setViewPager(final ViewPager viewPager, int initialPosition) {
+        setViewPager(viewPager);
         setCurrentItem(initialPosition);
     }
 
