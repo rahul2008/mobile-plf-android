@@ -10,12 +10,7 @@ properties([
 
 def MailRecipient = 'DL_CDP2_Callisto@philips.com, DL_CDP2_MobileUIToolkit@philips.com, ambati.muralikrishna@philips.com'
 
-node_ext = "build_t"
-if (env.triggerBy == "ppc") {
-  node_ext = "build_p"
-}
-
-node ('Ubuntu && 24.0.3 &&' + node_ext) {
+node ('android') {
 	timestamps {
 		stage ('Checkout') {
 			checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: false, reference: '', shallow: true, timeout: 30], [$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'bbd4d9e8-2a6c-4970-b856-4e4cf901e857', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/uit-android']]])
@@ -42,20 +37,14 @@ node ('Ubuntu && 24.0.3 &&' + node_ext) {
             error ("Someone just broke the build")
         }        
 			
-        try {
-            if (env.triggerBy != "ppc" && !(BranchName =~ "eature")) {
-            	stage ('callIntegrationPipeline') {
-                    if (BranchName =~ "/") {
-                        BranchName = BranchName.replaceAll('/','%2F')
-                        echo "BranchName changed to ${BranchName}"
-                    }
-            		build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'uit'],[$class: 'StringParameterValue', name: 'libraryName', value: '']]
-                    currentBuild.result = 'SUCCESS'
-            	}            
-            }
-            
-		} catch(err) {
-            currentBuild.result = 'UNSTABLE'
+        if (env.triggerBy != "ppc" && !(BranchName =~ "eature")) {
+        	stage ('callIntegrationPipeline') {
+                if (BranchName =~ "/") {
+                    BranchName = BranchName.replaceAll('/','%2F')
+                    echo "BranchName changed to ${BranchName}"
+                }
+        		build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'uit'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
+        	}            
         }
 
         stage('informing') {
