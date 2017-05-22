@@ -15,11 +15,15 @@ import java.util.Set;
 public interface DiscoveryStrategy {
 
     interface DiscoveryListener {
+        void onDiscoveryStarted();
+
         void onNetworkNodeDiscovered(NetworkNode networkNode);
 
         void onNetworkNodeLost(NetworkNode networkNode);
 
         void onNetworkNodeUpdated(NetworkNode networkNode);
+
+        void onDiscoveryStopped();
     }
 
     void addDiscoveryListener(@NonNull DiscoveryListener discoveryListener);
