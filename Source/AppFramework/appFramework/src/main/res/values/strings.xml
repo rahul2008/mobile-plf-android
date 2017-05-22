@@ -50,33 +50,29 @@
     <string name="RA_Current_Configuration">Current Configuration: </string>
 
     <!-- Data Sync related Strings-->
-    <string name="data_sync" translatable="false">Data Sync</string>
+    <string name="RA_data_sync" translatable="false">Data Sync</string>
     <string name="RA_DataServicesScreen_Title">Data Services</string>
-    <string name="add" translatable="false">Add</string>
-    <string name="sync" translatable="false">Sync</string>
-    <string name="update" translatable="false">Update</string>
-    <string name="delete" translatable="false">Delete</string>
-    <string name="registration" translatable="false">Registration</string>
-    <string name="phase" translatable="false">Time Of the Day</string>
-    <string name="temperature" translatable="false">Temperature</string>
-    <string name="temperature_hint" translatable="false">Temperature of the Baby</string>
-    <string name="location" translatable="false">Notes</string>
-    <string name="location_hint" translatable="false">Location Name</string>
-    <string name="save" translatable="false">Save</string>
-    <string name="synced" translatable="false">Not Synced</string>
-    <string name="ds_screen_title" translatable="false">Data Services</string>
-    <string name="create_moment" translatable="false">Create moment</string>
-    <string name="invalid_temperature" translatable="false">Invalid temperature entry</string>
-    <string name="consent" translatable="false">User Consents</string>
-    <string name="set_characteristics" translatable="false">User Characteristics</string>
-    <string name="view_characteristics" translatable="false">View Characteristics</string>
-    <string name="hide_characteristics" translatable="false">Hide Characteristics</string>
-    <string name="edit" translatable="false">Edit</string>
-    <string name="consents" translatable="false">User Consents</string>
-    <string name="characteristics" translatable="false">User Characteristics</string>
-    <string name="cancel" translatable="false">CANCEL</string>
-    <string name="ok" translatable="false">OK</string>
-    <string name="something_wrong" translatable="false">Something went wrong</string>
+    <string name="RA_add" translatable="false">Add</string>
+    <string name="RA_sync" translatable="false">Sync</string>
+    <string name="RA_update" translatable="false">Update</string>
+    <string name="RA_delete" translatable="false">Delete</string>
+    <string name="RA_registration" translatable="false">Registration</string>
+    <string name="RA_phase" translatable="false">Time Of the Day</string>
+    <string name="RA_temperature" translatable="false">Temperature</string>
+    <string name="RA_temperature_hint" translatable="false">Temperature of the Baby</string>
+    <string name="RA_location" translatable="false">Notes</string>
+    <string name="RA_location_hint" translatable="false">Location Name</string>
+    <string name="RA_save" translatable="false">Save</string>
+    <string name="RA_synced" translatable="false">Not Synced</string>
+    <string name="RA_create_moment" translatable="false">Create moment</string>
+    <string name="RA_invalid_temperature" translatable="false">Invalid temperature entry</string>
+    <string name="RA_consent" translatable="false">User Consents</string>
+    <string name="RA_set_characteristics" translatable="false">User Characteristics</string>
+    <string name="RA_view_characteristics" translatable="false">View Characteristics</string>
+    <string name="RA_hide_characteristics" translatable="false">Hide Characteristics</string>
+    <string name="RA_edit" translatable="false">Edit</string>
+    <string name="RA_consents" translatable="false">User Consents</string>
+    <string name="RA_something_wrong" translatable="false">Something went wrong</string>
 
     <string-array name="metrics" translatable="false">
         <item>"metric"</item>
@@ -178,10 +174,10 @@
     <string name="RA_Iap_Authentication_Failure">Authentication failure</string>
     <string name="RA_Iap_Product_Out_Of_Stock">Product out of stock</string>
 
-    <string name="reference_device_scan" translatable="false">Reference Device Scan</string>
-    <string name="ble_ref_device" translatable="false">ble ref device</string>
-    <string name="unknown_device" translatable="false">Unknown Device</string>
-    <string name="no_device_found">No device found</string>
+    <string name="RA_reference_device_scan" translatable="false">Reference Device Scan</string>
+    <string name="RA_ble_ref_device" translatable="false">ble ref device</string>
+    <string name="RA_unknown_device" translatable="false">Unknown Device</string>
+    <string name="RA_no_device_found">No device found</string>
 
     <string name="BA_AppFramework">AppFramework </string>
     <string name="RA_You_are_not_LoggedIn">You are not Logged In. Please go to Settings and Log In</string>

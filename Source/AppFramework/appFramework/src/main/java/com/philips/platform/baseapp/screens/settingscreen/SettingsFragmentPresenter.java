@@ -61,7 +61,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter{
             } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                     e) {
                 Log.d(getClass() + "", e.getMessage());
-                Toast.makeText(settingsView.getFragmentActivity(), settingsView.getFragmentActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                Toast.makeText(settingsView.getFragmentActivity(), settingsView.getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
             }
         }
         if (baseState != null) {

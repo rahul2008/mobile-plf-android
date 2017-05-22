@@ -11,7 +11,7 @@
 
     <Button
         android:id="@+id/delete"
-        android:text="@string/delete"
+        android:text="@string/RA_delete"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -19,7 +19,7 @@
 
     <Button
         android:id="@+id/update"
-        android:text="@string/update"
+        android:text="@string/RA_update"
         android:layout_marginTop="3dp"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
