@@ -1,4 +1,4 @@
-rootProject.setName 'digitalCare'
+rootProject.setName 'digitalCare_DLS'
 include ':launchDigitalCare'
 include 'digitalCare'
 project(':digitalCare').projectDir = new File('../Library/digitalCare')
