@@ -17,7 +17,6 @@ import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.request.BleRequest;
 import com.philips.pins.shinelib.ResultListener;
-import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNResult;
@@ -53,6 +52,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import static com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy.SCAN_WINDOW_MILLIS;
+import static com.philips.pins.shinelib.SHNCapabilityType.DI_COMM;
 import static com.philips.pins.shinelib.SHNDevice.State.Connected;
 import static com.philips.pins.shinelib.SHNDevice.State.Disconnected;
 import static junit.framework.Assert.assertEquals;
@@ -61,7 +61,6 @@ import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 import static org.mockito.AdditionalMatchers.or;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isNull;
@@ -175,7 +174,7 @@ public class BleCommunicationStrategyTestSteps {
 
         when(info.getShnDevice()).thenReturn(device);
         when(device.getAddress()).thenReturn(deviceId);
-        when(device.getCapabilityForType(SHNCapabilityType.DI_COMM)).thenReturn(capability);
+        when(device.getCapabilityForType(DI_COMM)).thenReturn(capability);
         when(device.getState()).thenReturn(Disconnected);
 
         doAnswer(new Answer() {
@@ -196,7 +195,7 @@ public class BleCommunicationStrategyTestSteps {
                 }
                 return null;
             }
-        }).when(device).connect(anyLong());
+        }).when(device).connect();
 
         doAnswer(new Answer() {
             @Override
@@ -211,7 +210,7 @@ public class BleCommunicationStrategyTestSteps {
 
         when(mockNetworkNode.getCppId()).thenReturn(deviceId);
 
-        mDeviceCache.add(device, mockNetworkNode, new BleDeviceCache.ExpirationCallback() {
+        mDeviceCache.addDevice(device, mockNetworkNode, new BleDeviceCache.ExpirationCallback() {
             @Override
             public void onCacheExpired(NetworkNode networkNode) {
                 // Ignored

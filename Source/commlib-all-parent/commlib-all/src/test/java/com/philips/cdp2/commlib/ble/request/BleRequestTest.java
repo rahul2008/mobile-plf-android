@@ -8,7 +8,6 @@ import android.os.Handler;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
-import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
@@ -25,6 +24,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.philips.cdp.dicommclient.request.Error.TIMED_OUT;
 import static com.philips.pins.shinelib.SHNDevice.State.Connected;
@@ -77,14 +77,12 @@ public class BleRequestTest {
 
     @Before
     public void setUp() throws Exception {
-        DICommLog.disableLogging();
-
         initMocks(this);
 
         when(mockDevice.getCapabilityForType(SHNCapabilityType.DI_COMM)).thenReturn(mockCapability);
         when(mockDevice.getState()).thenReturn(Connected);
 
-        when(mockDeviceCache.findByCppId(anyString())).thenReturn(mockCacheData);
+        when(mockDeviceCache.getCacheData(anyString())).thenReturn(mockCacheData);
         when(mockCacheData.getDevice()).thenReturn(mockDevice);
 
         doAnswer(new Answer() {
@@ -106,7 +104,7 @@ public class BleRequestTest {
         when(mockDicommResponse.getStatus()).thenReturn(NoError);
         when(mockDicommResponse.getPropertiesAsString()).thenReturn("{}");
 
-        request = new BleGetRequest(mockDeviceCache, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock, handlerMock);
+        request = new BleGetRequest(mockDeviceCache, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock, handlerMock, new AtomicBoolean(true));
         request.inProgressLatch = mockInProgressLatch;
 
         when(handlerMock.post(runnableCaptor.capture())).thenAnswer(new Answer<Void>() {
@@ -153,6 +151,26 @@ public class BleRequestTest {
     }
 
     @Test
+    public void doesntCallDisconnectWhenStayingConnected() {
+        request = new BleGetRequest(mockDeviceCache, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock, handlerMock, new AtomicBoolean(false));
+        request.inProgressLatch = mockInProgressLatch;
+
+        request.run();
+
+        verify(responseHandlerMock).onSuccess(anyString());
+        verify(mockDevice, times(0)).disconnect();
+    }
+
+    @Test
+    public void callsConnectWhenNotConnected() {
+        when(mockDevice.getState()).thenReturn(Disconnected);
+
+        request.run();
+
+        verify(mockDevice).connect();
+    }
+
+    @Test
     public void unregistersListenerAfterDisconnected() throws InterruptedException {
         doAnswer(new Answer() {
             @Override
@@ -166,7 +184,7 @@ public class BleRequestTest {
 
         request.run();
 
-        verify(mockDevice).unregisterSHNDeviceListener((SHNDeviceListener) any());
+        verify(mockDevice).registerSHNDeviceListener(null);
     }
 
     @Test

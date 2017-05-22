@@ -10,7 +10,6 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
-import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy;
 import com.philips.pins.shinelib.ResultListener;
@@ -29,15 +28,14 @@ import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidStatusCodeExcep
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.philips.cdp.dicommclient.request.Error.NOT_UNDERSTOOD;
 import static com.philips.cdp.dicommclient.request.Error.PROTOCOL_VIOLATION;
 import static com.philips.cdp.dicommclient.request.Error.UNKNOWN;
-import static com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy.CONNECT_TIMEOUT_MILLIS;
 import static com.philips.cdp2.commlib.ble.error.BleErrorMap.getErrorByStatusCode;
 import static com.philips.cdp2.commlib.ble.request.BleRequest.State.COMPLETED;
 import static com.philips.cdp2.commlib.ble.request.BleRequest.State.CREATED;
@@ -61,7 +59,6 @@ public abstract class BleRequest implements Runnable {
     public static final int MAX_PAYLOAD_LENGTH = (1 << 16) - 1;
 
     private static final long REQUEST_TIMEOUT_MS = 30000L;
-    private static final String TAG = "BleRequest";
 
     enum State {
         CREATED,
@@ -82,6 +79,9 @@ public abstract class BleRequest implements Runnable {
     final String portName;
     @NonNull
     private final Handler handlerToPostResponseOnto;
+    @NonNull
+    final private AtomicBoolean disconnectAfterRequest;
+
     private SHNDevice bleDevice;
     private CapabilityDiComm capability;
 
@@ -129,52 +129,42 @@ public abstract class BleRequest implements Runnable {
         }
     };
 
-    private final SHNDevice.SHNDeviceListener bleDeviceListener = new SHNDevice.SHNDeviceListener() {
-        @Override
-        public void onStateUpdated(final SHNDevice shnDevice) {
-            final SHNDevice.State state = shnDevice.getState();
-            if (state == Connected) {
-                onConnected();
-            } else if (state == Disconnected) {
-                onError(Error.REQUEST_FAILED, "Device disconnected");
-            }
-        }
+    @VisibleForTesting
+    void processDiCommResponse(final DiCommResponse res) {
+        final StatusCode statusCode = res.getStatus();
 
-        @Override
-        public void onFailedToConnect(final SHNDevice shnDevice, final SHNResult shnResult) {
-            onError(Error.NOT_AVAILABLE, "Communication is not available");
+        if (statusCode == NoError) {
+            onSuccess(res.getPropertiesAsString());
+        } else {
+            onError(getErrorByStatusCode(statusCode), res.getPropertiesAsString());
         }
-
-        @Override
-        public void onReadRSSI(final int rssi) {
-            DICommLog.d(TAG, String.format(Locale.US, "Device [%s], RSSI: %d dBm", bleDevice.getAddress(), rssi));
-        }
-    };
+    }
 
     /**
      * Instantiates a new BleRequest.
      *
-     * @param deviceCache     the device cache
-     * @param cppId           the cppId of the BleDevice
-     * @param portName        the port name
-     * @param productId       the product id
-     * @param responseHandler the response handler
+     * @param deviceCache            the device cache
+     * @param cppId                  the cppId of the BleDevice
+     * @param portName               the port name
+     * @param productId              the product id
+     * @param responseHandler        the response handler
+     * @param disconnectAfterRequest indicates if the request should disconnect from the device after communicating
      */
     BleRequest(@NonNull BleDeviceCache deviceCache,
                @NonNull String cppId,
                @NonNull String portName,
                int productId,
                @NonNull ResponseHandler responseHandler,
-               @NonNull Handler handlerToPostResponseOnto) {
+               @NonNull Handler handlerToPostResponseOnto,
+               @NonNull AtomicBoolean disconnectAfterRequest) {
         this.responseHandler = responseHandler;
         this.deviceCache = deviceCache;
         this.cppId = cppId;
         this.portName = portName;
         this.productId = Integer.toString(productId);
         this.handlerToPostResponseOnto = handlerToPostResponseOnto;
+        this.disconnectAfterRequest = disconnectAfterRequest;
     }
-
-    protected abstract void execute(CapabilityDiComm capability);
 
     @Override
     public void run() {
@@ -188,28 +178,6 @@ public abstract class BleRequest implements Runnable {
                 onError(UNKNOWN, "Thread interrupted");
             }
             cleanup();
-        }
-    }
-
-    /**
-     * Cancel.
-     * <p>
-     * This cancels the current request and notifies the {@link ResponseHandler} for this request.
-     *
-     * @param reason the reason
-     */
-    public void cancel(String reason) {
-        onError(Error.TIMED_OUT, reason);
-    }
-
-    @VisibleForTesting
-    void processDiCommResponse(final DiCommResponse res) {
-        final StatusCode statusCode = res.getStatus();
-
-        if (statusCode == NoError) {
-            onSuccess(res.getPropertiesAsString());
-        } else {
-            onError(getErrorByStatusCode(statusCode), res.getPropertiesAsString());
         }
     }
 
@@ -228,7 +196,7 @@ public abstract class BleRequest implements Runnable {
             return;
         }
 
-        final BleDeviceCache.CacheData cacheData = deviceCache.findByCppId(cppId);
+        final BleDeviceCache.CacheData cacheData = deviceCache.getCacheData(cppId);
 
         if (cacheData == null) {
             onError(Error.NOT_AVAILABLE, "Communication is not available");
@@ -237,12 +205,40 @@ public abstract class BleRequest implements Runnable {
 
         bleDevice = cacheData.getDevice();
         bleDevice.registerSHNDeviceListener(bleDeviceListener);
-        connectToDevice();
+        if (bleDevice.getState() == Connected) {
+            onConnected();
+        } else {
+            connectToDevice();
+        }
     }
 
+    private SHNDevice.SHNDeviceListener bleDeviceListener = new SHNDevice.SHNDeviceListener() {
+        @Override
+        public void onStateUpdated(final SHNDevice shnDevice) {
+            if (shnDevice.getState() == Connected) {
+                onConnected();
+            } else if (shnDevice.getState() == Disconnected) {
+                if (stateIs(COMPLETED)) {
+                    completeRequest();
+                } else {
+                    onError(Error.REQUEST_FAILED, "device disconnected");
+                }
+            }
+        }
+
+        @Override
+        public void onFailedToConnect(final SHNDevice shnDevice, final SHNResult shnResult) {
+            onError(Error.NOT_AVAILABLE, "Communication is not available");
+        }
+
+        @Override
+        public void onReadRSSI(final int i) {
+            // Don't care
+        }
+    };
+
     private void connectToDevice() {
-        DICommLog.i(TAG, "Connecting device");
-        bleDevice.connect(CONNECT_TIMEOUT_MILLIS);
+        bleDevice.connect();
     }
 
     private void onConnected() {
@@ -256,6 +252,19 @@ public abstract class BleRequest implements Runnable {
             capability.addDataListener(resultListener);
             execute(capability);
         }
+    }
+
+    protected abstract void execute(CapabilityDiComm capability);
+
+    /**
+     * Cancel.
+     * <p>
+     * This cancels the current request and notifies the {@link ResponseHandler} for this request.
+     *
+     * @param reason the reason
+     */
+    public void cancel(String reason) {
+        onError(Error.TIMED_OUT, reason);
     }
 
     private boolean stateIs(State state) {
@@ -301,11 +310,14 @@ public abstract class BleRequest implements Runnable {
     }
 
     private void finishRequest() {
-        if (bleDevice != null) {
-            DICommLog.i(TAG, "Disconnecting device");
+        if (bleDevice != null && bleDevice.getState() != Disconnected && disconnectAfterRequest.get()) {
             bleDevice.disconnect();
+        } else {
+            completeRequest();
         }
+    }
 
+    private void completeRequest() {
         if (setStateIfStateIs(FINALIZED, COMPLETED)) {
             inProgressLatch.countDown();
         }
@@ -313,7 +325,7 @@ public abstract class BleRequest implements Runnable {
 
     private void cleanup() {
         if (bleDevice != null) {
-            bleDevice.unregisterSHNDeviceListener(bleDeviceListener);
+            bleDevice.registerSHNDeviceListener(null);
             bleDevice = null;
 
             if (capability != null) {
