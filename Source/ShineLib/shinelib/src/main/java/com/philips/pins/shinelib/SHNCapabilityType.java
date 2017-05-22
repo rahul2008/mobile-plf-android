@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2016, 2017.
  * All rights reserved.
  */
 
@@ -12,6 +12,8 @@ import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 /**
  * Capability types supported by BlueLib.
  * Use the value to access a capability from a device via {@link com.philips.pins.shinelib.SHNDevice#getCapabilityForType(SHNCapabilityType)}
+ *
+ * @publicApi
  */
 public enum SHNCapabilityType {
 

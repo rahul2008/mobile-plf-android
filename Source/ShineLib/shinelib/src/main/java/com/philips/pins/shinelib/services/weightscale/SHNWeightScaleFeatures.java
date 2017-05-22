@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2017.
  * All rights reserved.
  */
 
@@ -9,8 +9,7 @@ import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * @publicPluginApi
  */
 public class SHNWeightScaleFeatures {
 
@@ -57,19 +56,19 @@ public class SHNWeightScaleFeatures {
 
 
     private void getWeightResolution(int data) {
-        int value = (data & WEIGHT_MEASUREMENT_RESOLUTION) >>3 ;
-        if(value!=0 && value < weightResolutionsInKG.length){
-            weightResolutionInKG = weightResolutionsInKG [value];
-            weightResolutionInLBS = weightResolutionsInLBS [value];
+        int value = (data & WEIGHT_MEASUREMENT_RESOLUTION) >> 3;
+        if (value != 0 && value < weightResolutionsInKG.length) {
+            weightResolutionInKG = weightResolutionsInKG[value];
+            weightResolutionInLBS = weightResolutionsInLBS[value];
             weightResolutionSpecified = true;
         }
     }
 
     private void getHeightResolution(int data) {
-        int value = (data & HEIGHT_MEASUREMENT_RESOLUTION) >>7 ;
-        if(value!=0 && value < heightResolutionsInMeters.length){
-            heightResolutionInMeters = heightResolutionsInMeters [value];
-            heightResolutionInInch = heightResolutionsInInch [value];
+        int value = (data & HEIGHT_MEASUREMENT_RESOLUTION) >> 7;
+        if (value != 0 && value < heightResolutionsInMeters.length) {
+            heightResolutionInMeters = heightResolutionsInMeters[value];
+            heightResolutionInInch = heightResolutionsInInch[value];
             heightResolutionSpecified = true;
         }
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2016, 2017.
  * All rights reserved.
  */
 
@@ -17,6 +17,8 @@ import java.util.List;
  * <p/>
  * When the {@code SHNDeviceScannerInternal} finds a device that it supports, it will inform all {@code SHNInternalScanRequests}.
  * Each {@code SHNInternalScanRequest} will use its parameters to determine if it should inform its listener.
+ *
+ * @publicPluginApi
  */
 public class SHNInternalScanRequest {
 

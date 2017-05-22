@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2016, 2017.
  * All rights reserved.
  */
 
@@ -16,6 +16,8 @@ import com.philips.pins.shinelib.datatypes.SHNLog;
  * <p/>
  * Also allows setting log synchronization options.
  * Not all options are supported by all peripherals.
+ *
+ * @publicApi
  */
 public interface SHNCapabilityLogSynchronization extends SHNCapability {
     /**

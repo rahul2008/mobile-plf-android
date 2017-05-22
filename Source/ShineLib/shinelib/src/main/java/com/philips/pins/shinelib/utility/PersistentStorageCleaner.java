@@ -1,3 +1,8 @@
+/*
+ * (C) 2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.utility;
 
 import android.support.annotation.NonNull;
@@ -9,6 +14,8 @@ import java.util.Set;
 
 /**
  * Convenience class that provides functionality to clear BlueLib persistent storage.
+ *
+ * @publicPluginApi
  */
 public class PersistentStorageCleaner {
 

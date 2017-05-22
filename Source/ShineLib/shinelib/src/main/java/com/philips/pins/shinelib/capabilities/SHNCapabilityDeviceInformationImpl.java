@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2017.
  * All rights reserved.
  */
 
@@ -12,6 +12,8 @@ import com.philips.pins.shinelib.services.SHNServiceDeviceInformation;
 
 /**
  * Default implementation for {@link SHNCapabilityDeviceInformation}.
+ *
+ * @publicPluginApi
  */
 public class SHNCapabilityDeviceInformationImpl implements SHNCapabilityDeviceInformation {
     private final SHNServiceDeviceInformation shnServiceDeviceInformation;

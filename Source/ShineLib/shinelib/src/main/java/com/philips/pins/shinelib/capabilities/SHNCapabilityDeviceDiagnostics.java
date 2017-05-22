@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
 
@@ -12,6 +12,8 @@ import com.philips.pins.shinelib.SHNMapResultListener;
 
 /**
  * Interface to receive a peripheral specific diagnostic information.
+ *
+ * @publicApi
  */
 public interface SHNCapabilityDeviceDiagnostics extends SHNCapability {
 

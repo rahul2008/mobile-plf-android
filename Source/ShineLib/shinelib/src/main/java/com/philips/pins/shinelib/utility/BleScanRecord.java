@@ -24,6 +24,8 @@ import java.util.UUID;
  * <p/>
  * Starting from Android 6 the Bluetooth API includes an interface to the data in the scanrecord.
  * This is a different interface that should not be confused with {@code BleScanRecord}.
+ *
+ * @publicPluginApi
  */
 public class BleScanRecord {
     private byte[] scanRecord;

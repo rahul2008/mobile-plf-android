@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2017.
  * All rights reserved.
  */
 package com.philips.pins.shinelib;
@@ -12,6 +12,8 @@ import android.support.annotation.NonNull;
  * Make sure that there are no long blocking calls done during storing or retrieving of data. For instance, opening a
  * connection to a back end server is considered a long blocking call. For best performance use local storage or local cashing
  * in case of remote storage.
+ *
+ * @publicApi
  */
 public interface SharedPreferencesProvider {
     /**

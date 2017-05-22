@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2016, 2017.
  * All rights reserved.
  */
 
@@ -16,6 +16,8 @@ import java.util.Date;
 /**
  * Device information provides information such as described by {@link SHNDeviceInformationType}.
  * This information can be queried even if the device is offline, if it has had a successful connection at least once.
+ *
+ * @publicApi
  */
 public interface SHNCapabilityDeviceInformation extends SHNCapability {
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
 
@@ -11,6 +11,8 @@ import com.philips.pins.shinelib.SHNResultListener;
 
 /**
  * Interface to get battery level from a peripheral and subscribe for battery level change notifications.
+ *
+ * @publicApi
  */
 public interface SHNCapabilityBattery extends SHNCapability {
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2016, 2017.
  * All rights reserved.
  */
 
@@ -9,6 +9,8 @@ package com.philips.pins.shinelib;
  * A procedure used to associate with a peripheral. An associationProcedure is intended to be started and stopped by {@link SHNDeviceAssociation}. If association is successful then the peripheral
  * is stored by {@link SHNDeviceAssociation} in the list of associated devices. In case association procedure needs to expose information to the client of the BlueLib, it should always
  * use the user handler obtained by {@link SHNCentral#getUserHandler()}.
+ *
+ * @publicPluginApi
  */
 public interface SHNAssociationProcedurePlugin extends SHNAssociationProcedure {
 

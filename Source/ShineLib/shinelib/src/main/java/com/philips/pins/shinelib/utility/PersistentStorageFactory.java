@@ -1,3 +1,8 @@
+/*
+ * © 2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.utility;
 
 import android.content.Context;
@@ -14,6 +19,8 @@ import java.util.Set;
  * Class responsible for initializing various shared preferences used for storage.
  * <p/>
  * Use this class to obtain persistent storage for user data, associated devices' info and other data.
+ *
+ * @pluginPublicApi
  */
 public class PersistentStorageFactory {
 

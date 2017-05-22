@@ -1,11 +1,9 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2017.
  * All rights reserved.
  */
 
 package com.philips.pins.shinelib.capabilities;
-
-
 
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
@@ -24,6 +22,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @publicPluginApi
+ */
 public class SHNCapabilityLogSyncWeightScale extends SHNCapabilityLogSyncBase {
     private static final String TAG = SHNCapabilityLogSyncWeightScale.class.getSimpleName();
     private final SHNServiceWeightScale shnServiceWeightScale;
@@ -46,10 +47,10 @@ public class SHNCapabilityLogSyncWeightScale extends SHNCapabilityLogSyncBase {
                     long hostTimestamp = shnDeviceTimeAdjuster.adjustTimestampToHostTime(shnWeightMeasurement.getTimestamp().getTime());
                     Map<SHNDataType, SHNData> map = new HashMap<>();
                     SHNDataBodyWeight.Builder builder = new SHNDataBodyWeight.Builder().setWeightInKg(shnWeightMeasurement.getWeightInKg());
-                    if(shnWeightMeasurement.getFlags().hasUserId()){
+                    if (shnWeightMeasurement.getFlags().hasUserId()) {
                         builder.setUserId(shnWeightMeasurement.getUserId());
                     }
-                    if(shnWeightMeasurement.getFlags().hasBmiAndHeight()){
+                    if (shnWeightMeasurement.getFlags().hasBmiAndHeight()) {
                         builder.setHeightInMeters(shnWeightMeasurement.getHeight()).setBmi(shnWeightMeasurement.getBMI());
                     }
                     map.put(SHNDataType.BodyWeight, builder.build());

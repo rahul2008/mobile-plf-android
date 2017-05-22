@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2017.
  * All rights reserved.
  */
 
@@ -7,6 +7,8 @@ package com.philips.pins.shinelib.datatypes;
 
 /**
  * Heart rate measurement data in beats per minute.
+ *
+ * @publicApi
  */
 public class SHNDataHeartRate extends SHNData {
     private final int heartRate;

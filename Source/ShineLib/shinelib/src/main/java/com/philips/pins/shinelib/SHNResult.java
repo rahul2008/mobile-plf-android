@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2017.
  * All rights reserved.
  */
 
@@ -7,6 +7,8 @@ package com.philips.pins.shinelib;
 
 /**
  * Possible requests' outcomes.
+ *
+ * @publicApi
  */
 public enum SHNResult {
     SHNOk,
