@@ -18,31 +18,53 @@ node ('android&&device') {
 		}
 
 		try {
-		if (BranchName =~ /master|develop|release.*/) {
-			stage ('build') {
-			sh 'chmod -R 775 . && cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} cC assembleRelease zipDocuments artifactoryPublish'
-                //echo "fetch git config"
-                //echo "******"
-               // sh 'cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew :coppa:clean'
-                
-			}
-			}	
-			else
-			{
-			stage ('build') {
-				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug assembleRelease'
-			}
-			}
-			stage ('save dependencies list') {
-            	sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
+    		if (BranchName =~ /master|develop|release.*/) {
+    			stage ('build') {
+                    sh '''#!/bin/bash -l
+                        chmod -R 775 . 
+                        cd ./Source/Library 
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test zipDocuments artifactoryPublish
+                    '''
+                }
+    		}	
+    		else {
+    			stage ('build') {
+                    sh '''#!/bin/bash -l
+                        chmod -R 775 . 
+                        cd ./Source/Library 
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test
+                    '''
+    			}
+    		
             }
-            archiveArtifacts '**/dependencies.lock'
-            currentBuild.result = 'SUCCESS'
+
+    		stage ('save dependencies list') {
+                sh '''#!/bin/bash -l
+            	   chmod -R 775 . 
+                   cd ./Source/Library 
+                   ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+                '''
+            }
+
+           stage ('reporting') {
+                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
+                junit allowEmptyResults: true, testResults: 'Source/Library/*/build/test-results/*/*.xml'
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/RegistrationApi/build/reports/tests/debug', reportFiles: 'index.html', reportName: 'unit test debug']) 
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/RegistrationApi/build/reports/tests/release', reportFiles: 'index.html', reportName: 'unit test release'])
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/RegistrationApi/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'connected tests RegistrationApi'])
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/coppa/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'connected tests coppa'])
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/Jump/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'connected tests Jump'])
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/hsdp/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'connected tests hsdp'])
+                archiveArtifacts '**/dependencies.lock'
+            }
+
         }
 
         catch(err) {
             currentBuild.result = 'FAILURE'
-            error ("Someone just broke the build")
+            error ("Someone just broke the build", err.toString())
         }
 
         if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
