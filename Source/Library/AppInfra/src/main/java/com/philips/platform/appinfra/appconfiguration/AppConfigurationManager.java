@@ -524,8 +524,6 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         if (null != loggingInterface) {
             loggingInterface.log(level, event, message);
         }
-
-
     }
 
 }

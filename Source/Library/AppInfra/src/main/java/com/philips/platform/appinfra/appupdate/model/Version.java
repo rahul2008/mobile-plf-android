@@ -9,12 +9,12 @@ public class Version {
 	@SerializedName("minimumVersion")
 	@Expose
 	private String minimumVersion;
-	@SerializedName("sunsetVersion")
+	@SerializedName("deprecatedVersion")
 	@Expose
-	private String sunsetVersion;
-	@SerializedName("sunsetDate")
+	private String deprecatedVersion;
+	@SerializedName("deprecationDate")
 	@Expose
-	private String sunsetDate;
+	private String deprecationDate;
 	@SerializedName("currentVersion")
 	@Expose
 	private String currentVersion;
@@ -27,20 +27,20 @@ public class Version {
 		this.minimumVersion = minimumVersion;
 	}
 
-	public String getSunsetVersion() {
-		return sunsetVersion;
+	public String getDeprecatedVersion() {
+		return deprecatedVersion;
 	}
 
-	public void setSunsetVersion(String sunsetVersion) {
-		this.sunsetVersion = sunsetVersion;
+	public void setDeprecatedVersion(String deprecatedVersion) {
+		this.deprecatedVersion = deprecatedVersion;
 	}
 
-	public String getSunsetDate() {
-		return sunsetDate;
+	public String getDeprecationDate() {
+		return deprecationDate;
 	}
 
-	public void setSunsetDate(String sunsetDate) {
-		this.sunsetDate = sunsetDate;
+	public void setDeprecationDate(String deprecatedDate) {
+		this.deprecationDate = deprecatedDate;
 	}
 
 	public String getCurrentVersion() {
@@ -50,5 +50,4 @@ public class Version {
 	public void setCurrentVersion(String currentVersion) {
 		this.currentVersion = currentVersion;
 	}
-
 }

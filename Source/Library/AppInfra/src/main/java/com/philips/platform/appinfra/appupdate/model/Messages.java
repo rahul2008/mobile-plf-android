@@ -9,9 +9,9 @@ public class Messages {
 	@SerializedName("minimumVersionMessage")
 	@Expose
 	private String minimumVersionMessage;
-	@SerializedName("sunsetVersionMessage")
+	@SerializedName("deprecatedVersionMessage")
 	@Expose
-	private String sunsetVersionMessage;
+	private String deprecatedVersionMessage;
 	@SerializedName("currentVersionMessage")
 	@Expose
 	private String currentVersionMessage;
@@ -24,12 +24,12 @@ public class Messages {
 		this.minimumVersionMessage = minimumVersionMessage;
 	}
 
-	public String getSunsetVersionMessage() {
-		return sunsetVersionMessage;
+	public String getDeprecatedVersionMessage() {
+		return deprecatedVersionMessage;
 	}
 
-	public void setSunsetVersionMessage(String sunsetVersionMessage) {
-		this.sunsetVersionMessage = sunsetVersionMessage;
+	public void setDeprecatedVersionMessage(String deprecatedVersionMessage) {
+		this.deprecatedVersionMessage = deprecatedVersionMessage;
 	}
 
 	public String getCurrentVersionMessage() {
@@ -39,5 +39,4 @@ public class Messages {
 	public void setCurrentVersionMessage(String currentVersionMessage) {
 		this.currentVersionMessage = currentVersionMessage;
 	}
-
 }

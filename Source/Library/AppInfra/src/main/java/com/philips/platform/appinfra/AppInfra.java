@@ -257,17 +257,17 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
                 @Override
                 public void onSuccess(REFRESH_RESULT result) {
                     Log.v("refreshCloudConfig",result.toString());
-
                 }
             });
             ai.setLanguagePackInterface(languagePack == null? new LanguagePackManager(ai) : languagePack);
             ai.setAppupdateInterface(appupdateInterface == null? new AppupdateManager(ai) : appupdateInterface);
 
+            AppupdateManager appupdateManager = new AppupdateManager(ai);
             try {
                 AppConfigurationInterface.AppConfigurationError configurationError = new AppConfigurationInterface.AppConfigurationError();
-                boolean isappUpdateRq = (boolean) configInterface.getPropertyForKey("appinfra.appupdate","appinfra",configurationError);
+                boolean isappUpdateRq = (boolean) appConfigurationManager.getPropertyForKey("appinfra.appupdate","appinfra",configurationError);
                 if(isappUpdateRq) {
-                    appupdateInterface.refresh(new AppupdateInterface.OnRefreshListener() {
+                    appupdateManager.refresh(new AppupdateInterface.OnRefreshListener() {
                         @Override
                         public void onError(AIAppUpdateRefreshResult error, String message) {
 

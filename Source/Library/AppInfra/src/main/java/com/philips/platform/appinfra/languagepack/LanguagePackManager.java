@@ -13,6 +13,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.FileUtils;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.languagepack.model.LanguageList;
 import com.philips.platform.appinfra.languagepack.model.LanguagePackMetadata;
@@ -40,7 +41,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 	private RestInterface mRestInterface;
 	private LanguageList mLanguageList;
 	private LanguagePackModel selectedLanguageModel;
-	private LanguagePackUtil languagePackUtil;
+	private FileUtils languagePackUtil;
 	private Gson gson;
 	private Context context;
 	private Handler languagePackHandler;
@@ -50,7 +51,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 		mRestInterface = appInfra.getRestClient();
 		this.context = appInfra.getAppInfraContext();
 		mLanguageList = new LanguageList();
-		languagePackUtil = new LanguagePackUtil(appInfra.getAppInfraContext());
+		languagePackUtil = new FileUtils(appInfra.getAppInfraContext());
 		gson = new Gson();
 	}
 

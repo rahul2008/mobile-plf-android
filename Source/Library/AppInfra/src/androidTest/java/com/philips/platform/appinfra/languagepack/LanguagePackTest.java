@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.ConfigValues;
+import com.philips.platform.appinfra.FileUtils;
 import com.philips.platform.appinfra.MockitoTestCase;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
@@ -39,7 +40,7 @@ public class LanguagePackTest extends MockitoTestCase {
     ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
     private Context context;
     private AppInfra mAppInfra;
-    private LanguagePackUtil languagePackUtil;
+    private FileUtils languagePackUtil;
 
 
     @Override
@@ -91,7 +92,7 @@ public class LanguagePackTest extends MockitoTestCase {
         mLanguagePackManager = new LanguagePackManager(mAppInfra);
         assertNotNull(mLanguagePackInterface);
 
-        languagePackUtil = new LanguagePackUtil(mAppInfra.getAppInfraContext());
+        languagePackUtil = new FileUtils(mAppInfra.getAppInfraContext());
         assertNotNull(languagePackUtil);
 
     }
@@ -277,13 +278,16 @@ public class LanguagePackTest extends MockitoTestCase {
     ////////////////// Language Pack util test
     public void testGetLanguagePackUtilFileOperations() {
 
-        languagePackUtil.saveFile(getLanguageResponse(), LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
-        File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_DOWNLOADED);
+        languagePackUtil.saveFile(getLanguageResponse(), LanguagePackConstants.LOCALE_FILE_DOWNLOADED ,
+                LanguagePackConstants.LANGUAGE_PACK_PATH);
+        File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_DOWNLOADED,
+                LanguagePackConstants.LANGUAGE_PACK_PATH);
         assertNotNull(file);
         assertEquals(getLanguageResponse(), languagePackUtil.readFile(file));
 
 
-        languagePackUtil.saveFile(getLanguageResponse(), LanguagePackConstants.LOCALE_FILE_ACTIVATED);
+        languagePackUtil.saveFile(getLanguageResponse(), LanguagePackConstants.LOCALE_FILE_ACTIVATED ,
+                LanguagePackConstants.LANGUAGE_PACK_PATH);
         assertEquals(getLanguageResponse(), languagePackUtil.readFile(file));
 
         assertTrue(languagePackUtil.deleteFile(LanguagePackConstants.LOCALE_FILE_DOWNLOADED));
