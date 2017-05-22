@@ -74,7 +74,7 @@ public class BLEScanDialogFragment extends DialogFragment {
         deviceListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> adapterView, final View view, final int i, final long l) {
-                BleReferenceAppliance bleReferenceAppliance = (BleReferenceAppliance) view.getTag(R.string.ble_ref_device);
+                BleReferenceAppliance bleReferenceAppliance = (BleReferenceAppliance) view.getTag(R.string.RA_ble_ref_device);
                 bleScanDialogListener.onDeviceSelected(bleReferenceAppliance);
                 dismiss();
             }
@@ -147,9 +147,9 @@ public class BLEScanDialogFragment extends DialogFragment {
             if (deviceName != null && deviceName.length() > 0)
                 viewHolder.deviceName.setText(deviceName);
             else
-                viewHolder.deviceName.setText(R.string.unknown_device);
+                viewHolder.deviceName.setText(R.string.RA_unknown_device);
             viewHolder.deviceAddress.setText(device.getNetworkNode().getCppId());
-            view.setTag(R.string.ble_ref_device, device);
+            view.setTag(R.string.RA_ble_ref_device, device);
             return view;
         }
     }
