@@ -30,7 +30,7 @@ node ('android&&keystore') {
                 }
             }
 
-            if(env.BRANCH_NAME == 'develop') {
+            if(env.BRANCH_NAME =~ 'develop' ) {
                 stage ('Release') {
                     sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
                 }
