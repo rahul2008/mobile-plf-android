@@ -31,10 +31,10 @@ import com.philips.platform.uappframework.listener.BackEventListener;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class MainActivityFragment extends Fragment implements BackEventListener {
+public class WifiCommLibUappLaunchFragment extends Fragment implements BackEventListener {
 
 
-    public static String TAG = MainActivityFragment.class.getSimpleName();
+    public static String TAG = WifiCommLibUappLaunchFragment.class.getSimpleName();
     private FragmentLauncher fragmentLauncher;
     private TextView welcomeTextView;
     private DiscoveryManager<?> discoveryManager;

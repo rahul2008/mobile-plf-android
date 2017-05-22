@@ -33,20 +33,20 @@ public class WifiCommLibUappInterface implements UappInterface {
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
         WifiCommLibUappLaunchInput sampleMicroAppLaunchInput = (WifiCommLibUappLaunchInput) uappLaunchInput;
         if (uiLauncher instanceof ActivityLauncher) {
-            Intent intent = new Intent(context, MainActivity.class);
+            Intent intent = new Intent(context, WifiCommLibUappLaunchActivity.class);
             intent.putExtra(WELCOME_MESSAGE, sampleMicroAppLaunchInput.getWelcomeMessage());
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } else {
             final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
             FragmentTransaction fragmentTransaction = (fragmentLauncher.getFragmentActivity()).getSupportFragmentManager().beginTransaction();
-            MainActivityFragment sampleFragment = new MainActivityFragment();
+            WifiCommLibUappLaunchFragment sampleFragment = new WifiCommLibUappLaunchFragment();
             Bundle bundle = new Bundle();
             bundle.putString(WELCOME_MESSAGE,sampleMicroAppLaunchInput.getWelcomeMessage());
             sampleFragment.setArguments(bundle);
             sampleFragment.setFragmentLauncher(fragmentLauncher);
-            fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), sampleFragment, MainActivityFragment.TAG);
-            fragmentTransaction.addToBackStack(MainActivityFragment.TAG);
+            fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), sampleFragment, WifiCommLibUappLaunchFragment.TAG);
+            fragmentTransaction.addToBackStack(WifiCommLibUappLaunchFragment.TAG);
             fragmentTransaction.commitAllowingStateLoss();
         }
     }

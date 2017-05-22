@@ -19,9 +19,9 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 import static com.philips.cdp.wifirefuapp.WifiCommLibUappInterface.WELCOME_MESSAGE;
 
 
-public class MainActivity extends AppCompatActivity {
+public class WifiCommLibUappLaunchActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "WifiCommLibUappLaunchActivity";
     private FragmentManager fragmentManager;
     private TextView mTitleTextView;
 
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
-            MainActivityFragment sampleFragment = new MainActivityFragment();
+            WifiCommLibUappLaunchFragment sampleFragment = new WifiCommLibUappLaunchFragment();
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 String message = extras.getString(WELCOME_MESSAGE);
