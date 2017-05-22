@@ -61,7 +61,7 @@ public class SplashPresenter extends UIBasePresenter implements UIStateListener 
         } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                 e) {
             Log.d(getClass() + "", e.getMessage());
-            Toast.makeText(uiView.getFragmentActivity(), uiView.getFragmentActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+            Toast.makeText(uiView.getFragmentActivity(), uiView.getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
         }
     }
 

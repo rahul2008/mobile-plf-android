@@ -59,7 +59,7 @@ public class WelcomeFragmentPresenter extends UIBasePresenter{
                 e) {
             Log.d(getClass() + "", e.getMessage());
             if(null != welcomeFragmentView) {
-                Toast.makeText(welcomeFragmentView.getFragmentActivity(), welcomeFragmentView.getFragmentActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                Toast.makeText(welcomeFragmentView.getFragmentActivity(), welcomeFragmentView.getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
             }
         }
     }
