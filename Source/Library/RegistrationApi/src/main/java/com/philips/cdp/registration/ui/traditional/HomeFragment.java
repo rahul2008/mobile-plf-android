@@ -37,7 +37,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
@@ -500,18 +499,18 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private void changeCountry(String countryName, String countryCode) {
         if (networkUtility.isNetworkAvailable()) {
             serviceDiscoveryInterface.setHomeCountry(countryCode);
+            RegistrationHelper.getInstance().setCountryCode(countryCode);
             RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + countryCode.length());
             showProgressDialog();
-            serviceDiscoveryInterface.getServiceLocaleWithCountryPreference(
+            serviceDiscoveryInterface.getServiceLocaleWithLanguagePreference(
                     "userreg.janrain.api", new ServiceDiscoveryInterface.
                             OnGetServiceLocaleListener() {
                         @Override
                         public void onSuccess(String s) {
                             RLog.d(RLog.SERVICE_DISCOVERY, "STRING S : " + s);
                             String localeArr[] = s.toString().split("_");
-                            PILLocaleManager localeManager = new PILLocaleManager(mContext);
-                            localeManager.setInputLocale(localeArr[0].trim(), localeArr[1].trim());
                             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
+                            RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());
                             RLog.d(RLog.SERVICE_DISCOVERY,"Change Country code :" + RegistrationHelper.getInstance().getCountryCode());
                             handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
                             mCountryDisplayy.setText(countryName);

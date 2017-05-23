@@ -12,7 +12,6 @@ import android.content.Context;
 import android.os.LocaleList;
 
 import com.janrain.android.Jump;
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.datamigration.DataMigration;
 import com.philips.cdp.registration.events.NetworStateListener;
@@ -93,15 +92,21 @@ public class RegistrationHelper {
     public void initializeUserRegistration(final Context context) {
         RLog.init();
 
-        PILLocaleManager localeManager = new PILLocaleManager(context);
-        if (localeManager.getLanguageCode() != null && localeManager.getCountryCode() != null) {
-            mLocale = new Locale(localeManager.getLanguageCode(), localeManager.getCountryCode());
-        }
+
         if (mLocale == null) {
-            throw new RuntimeException("Please set the locale in LocaleMatch");
+            String languageCode;
+            String countryCode;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                languageCode = LocaleList.getDefault().get(0).getLanguage();
+                countryCode = LocaleList.getDefault().get(0).getCountry();
+            }else{
+                languageCode = Locale.getDefault().getLanguage();
+                countryCode = Locale.getDefault().getCountry();
+            }
+            setLocale(languageCode,countryCode);
         }
 
-        countryCode = mLocale.getCountry();
+      //  countryCode = mLocale.getCountry();
 
         UserRegistrationInitializer.getInstance().resetInitializationState();
         UserRegistrationInitializer.getInstance().setJanrainIntialized(false);
@@ -224,21 +229,12 @@ public class RegistrationHelper {
     }
 
 
+    public void setLocale(String languageCode,String countryCode ){
+        mLocale = new Locale(languageCode, countryCode);
+    }
     public synchronized Locale getLocale(Context context) {
         RLog.i("Locale", "Locale locale  " + mLocale);
-        if (null != mLocale) {
-            return mLocale;
-        }
-        String locale = (new PILLocaleManager(context)).getInputLocale();
-        RLog.i("Locale", "Locale from LOcale match" + locale);
-        if (locale == null) {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                return LocaleList.getDefault().get(0);
-            }else{
-                return Locale.getDefault();
-            }
-        }
-        return new Locale(locale);
+        return mLocale;
     }
 
     public synchronized static String getRegistrationApiVersion() {

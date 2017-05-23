@@ -18,7 +18,6 @@ import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.janrain.android.Jump;
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.EventHelper;
@@ -165,15 +164,25 @@ public class UserRegistrationInitializer {
 
         mRegistrationSettings = new RegistrationSettingsURL();
 
-        serviceDiscoveryInterface.getServiceLocaleWithCountryPreference("userreg.janrain.api", new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+        serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+            @Override
+            public void onSuccess(String s, SOURCE source) {
+                RegistrationHelper.getInstance().setCountryCode(s);
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+
+            }
+        });
+        serviceDiscoveryInterface.getServiceLocaleWithLanguagePreference("userreg.janrain.api", new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
             @Override
             public void onSuccess(String s) {
                 String localeArr[] = s.split("_");
-                serviceDiscoveryInterface.setHomeCountry(localeArr[1].trim().toUpperCase());
-                RegistrationHelper.getInstance().setCountryCode(localeArr[1].trim().toUpperCase());
-                PILLocaleManager localeManager = new PILLocaleManager(context);
-                localeManager.setInputLocale(localeArr[0].trim(), localeArr[1].trim());
-                mRegistrationSettings.intializeRegistrationSettings(context, RegistrationConfiguration.getInstance().getRegistrationClientId(registrationType), localeArr[0].trim() + "-" + localeArr[1].trim());
+                RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());
+                mRegistrationSettings.intializeRegistrationSettings(context,
+                        RegistrationConfiguration.getInstance().getRegistrationClientId(registrationType),
+                        RegistrationHelper.getInstance().getLocale(context).toString());
 
             }
 

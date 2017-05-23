@@ -13,17 +13,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.philips.cdp.localematch.LocaleMatchListener;
-import com.philips.cdp.localematch.PILLocale;
-import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.LocaleMatchError;
-import com.philips.cdp.localematch.enums.Platform;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.errormapping.CheckLocale;
 
-public abstract class RegistrationSettings implements LocaleMatchListener {
+public abstract class RegistrationSettings {
 
     protected String mProductRegisterUrl = null;
 
@@ -65,7 +58,7 @@ public abstract class RegistrationSettings implements LocaleMatchListener {
 
         assignLanguageAndCountryCode(locale);
 
-        refreshLocale(this);
+        refreshLocale(locale);
     }
 
     public abstract void initialiseConfigParameters(String locale);
@@ -115,68 +108,74 @@ public abstract class RegistrationSettings implements LocaleMatchListener {
         }
     }
 
+//
+//    @Override
+//    public void onLocaleMatchRefreshed(String locale) {
+//
+//        PILLocaleManager manager = new PILLocaleManager(mContext);
+//
+//
+//        PILLocale pilLocaleInstance = null;
+//        pilLocaleInstance = manager.currentLocaleWithLanguageFallbackForPlatform(mContext, locale,
+//                Platform.JANRAIN, Sector.B2C, Catalog.MOBILE);
+//
+//
+//        if (null != pilLocaleInstance) {
+//            Log.i("LolaleMatch",
+//                    "REGAPI, onLocaleMatchRefreshed from app RESULT = "
+//                            + pilLocaleInstance.getCountrycode()
+//                            + pilLocaleInstance.getLanguageCode()
+//                            + pilLocaleInstance.getLocaleCode());
+//
+//            initialiseConfigParameters(
+//                    pilLocaleInstance.getLanguageCode().toLowerCase() + "-"
+//                            + pilLocaleInstance.getCountrycode().toUpperCase());
+//        }else  {
+//            Log.i("LolaleMatch", "REGAPI, onLocaleMatchRefreshed from app RESULT = NULL");
+//            String localeCode = null;
+//            pilLocaleInstance = manager.currentLocaleWithCountryFallbackForPlatform(mContext, locale,
+//                    Platform.JANRAIN, Sector.B2C, Catalog.MOBILE);
+//            if(pilLocaleInstance!=null){
+//                localeCode= pilLocaleInstance.getLocaleCode().replace("_","-");
+//            }else{
+//                localeCode = "en-US";
+//            }
+//
+//            if ("zh-TW".equals(localeCode)) {
+//                localeCode = "zh-HK";
+//            }
+//            Log.i("LocaleCode", "localeCode : "+localeCode);
+//            initialiseConfigParameters(localeCode);
+//        }
+//
+//    }
+//
+//    @Override
+//    public void onErrorOccurredForLocaleMatch(LocaleMatchError error) {
+//        Log.i("LolaleMatch", "REGAPI, onErrorOccurredForLocaleMatch error = " + error);
+//        String verifiedLocale = verifyInputLocale(mLanguageCode + "-" + mCountryCode);
+//        initialiseConfigParameters(verifiedLocale);
+//    }
+//
+//
+//    private String verifyInputLocale(String locale) {
+//        CheckLocale checkLocale = new CheckLocale();
+//        String localeCode = checkLocale.checkLanguage(locale);
+//
+//        if ("zh-TW".equals(localeCode)) {
+//            localeCode = "zh-HK";
+//        }
+//        return localeCode;
+//    }
 
-    @Override
-    public void onLocaleMatchRefreshed(String locale) {
+    public void refreshLocale(String localeCode) {
 
-        PILLocaleManager manager = new PILLocaleManager(mContext);
-
-
-        PILLocale pilLocaleInstance = null;
-        pilLocaleInstance = manager.currentLocaleWithLanguageFallbackForPlatform(mContext, locale,
-                Platform.JANRAIN, Sector.B2C, Catalog.MOBILE);
-
-
-        if (null != pilLocaleInstance) {
-            Log.i("LolaleMatch",
-                    "REGAPI, onLocaleMatchRefreshed from app RESULT = "
-                            + pilLocaleInstance.getCountrycode()
-                            + pilLocaleInstance.getLanguageCode()
-                            + pilLocaleInstance.getLocaleCode());
-
-            initialiseConfigParameters(
-                    pilLocaleInstance.getLanguageCode().toLowerCase() + "-"
-                            + pilLocaleInstance.getCountrycode().toUpperCase());
-        }else  {
-            Log.i("LolaleMatch", "REGAPI, onLocaleMatchRefreshed from app RESULT = NULL");
-            String localeCode = null;
-            pilLocaleInstance = manager.currentLocaleWithCountryFallbackForPlatform(mContext, locale,
-                    Platform.JANRAIN, Sector.B2C, Catalog.MOBILE);
-            if(pilLocaleInstance!=null){
-                localeCode= pilLocaleInstance.getLocaleCode().replace("_","-");
+        if(localeCode!=null){
+                localeCode= localeCode.replace("_","-");
             }else{
                 localeCode = "en-US";
             }
 
-            if ("zh-TW".equals(localeCode)) {
-                localeCode = "zh-HK";
-            }
-            Log.i("LocaleCode", "localeCode : "+localeCode);
-            initialiseConfigParameters(localeCode);
-        }
-
-    }
-
-    @Override
-    public void onErrorOccurredForLocaleMatch(LocaleMatchError error) {
-        Log.i("LolaleMatch", "REGAPI, onErrorOccurredForLocaleMatch error = " + error);
-        String verifiedLocale = verifyInputLocale(mLanguageCode + "-" + mCountryCode);
-        initialiseConfigParameters(verifiedLocale);
-    }
-
-
-    private String verifyInputLocale(String locale) {
-        CheckLocale checkLocale = new CheckLocale();
-        String localeCode = checkLocale.checkLanguage(locale);
-
-        if ("zh-TW".equals(localeCode)) {
-            localeCode = "zh-HK";
-        }
-        return localeCode;
-    }
-
-    public void refreshLocale(LocaleMatchListener localeMatchListener) {
-        PILLocaleManager localeManager = new PILLocaleManager(mContext);
-        localeManager.refresh(localeMatchListener);
+         initialiseConfigParameters(localeCode);
     }
 }
