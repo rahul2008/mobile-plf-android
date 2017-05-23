@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016, 2017.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp2.commlib.lan.communication;
@@ -12,6 +12,7 @@ import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkRequest;
 import android.os.Build;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
@@ -51,7 +52,8 @@ public class LanRequest extends Request {
     private static final int GETWIFI_TIMEOUT = 3 * 1000; // 3secs
     public static final String BASEURL_PORTS = "http://%s/di/v%d/products/%d/%s";
     public static final String BASEURL_PORTS_HTTPS = "https://%s/di/v%d/products/%d/%s";
-    private final String mUrl;
+    @VisibleForTesting
+    final String mUrl;
     private final LanRequestType mRequestType;
     private final DISecurity mDISecurity;
     private boolean mHttps = false;
