@@ -44,6 +44,8 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
 
+import java.lang.ref.WeakReference;
+
 import static com.philips.platform.baseapp.screens.utility.Constants.DEVICE_DATAPARSING;
 
 public class ConnectivityFragment extends AppFrameworkBaseFragment implements View.OnClickListener, ConnectivityContract.View {
@@ -55,11 +57,13 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     private DICommApplianceFactory applianceFactory;
     private TextView connectionState;
     private BluetoothAdapter mBluetoothAdapter;
+    private Handler handler=new Handler();
     private static final int REQUEST_ENABLE_BT = 1;
     private BLEScanDialogFragment bleScanDialogFragment;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1001;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1002;
-
+    private WeakReference<ConnectivityFragment> connectivityFragmentWeakReference;
+    private Context mContext;
 
     /**
      * Presenter object for Connectivity
@@ -67,6 +71,12 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     private ConnectivityPresenter connectivityPresenter;
 
     public ConnectivityFragment() {
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext=context;
     }
 
     @Override
@@ -79,6 +89,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         super.onCreate(savedInstanceState);
         // Initializes a Bluetooth adapter.  For API level 18 and above, get a reference to
         // BluetoothAdapter through BluetoothManager.
+        connectivityFragmentWeakReference=new WeakReference<ConnectivityFragment>(this);
         final BluetoothManager bluetoothManager =
                 (BluetoothManager) getActivity().getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
@@ -125,7 +136,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         public void onApplianceFound(@NonNull BleReferenceAppliance foundAppliance) {
             Log.d(TAG, "Device found :" + foundAppliance.getName());
             bleScanDialogFragment.addDevice(foundAppliance);
-            Toast.makeText(getActivity(), "Device found name:" + foundAppliance.getName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "Device found name:" + foundAppliance.getName(), Toast.LENGTH_SHORT).show();
 
         }
 
@@ -202,6 +213,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                             }
                         }
                     }, 30000);
+                    handler.postDelayed(stopDiscoveryRunnable,30000);
                     updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Disconnected));
                 } catch (MissingPermissionException e) {
                     Log.e(TAG, "Permission missing");
@@ -211,13 +223,30 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
 
     }
 
+    private Runnable stopDiscoveryRunnable=new Runnable() {
+        @Override
+        public void run() {
+            if (commCentral != null && connectivityFragmentWeakReference!=null&& isAdded()) {
+                commCentral.stopDiscovery();
+                if (bleScanDialogFragment != null) {
+                    bleScanDialogFragment.hideProgressBar();
+                    if (bleScanDialogFragment.getDeviceCount() == 0) {
+                        bleScanDialogFragment.dismiss();
+                        Toast.makeText(mContext, R.string.RA_no_device_found, Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }
+            }
+        }
+    };
 
     @Override
     public void onProcessMomentError(String errorText) {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
-        Toast.makeText(getActivity(), errorText, Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, errorText, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -264,7 +293,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getActivity(), "Error while reading measurement from reference board" + error.getErrorMessage(), Toast.LENGTH_SHORT);
+                Toast.makeText(mContext, "Error while reading measurement from reference board" + error.getErrorMessage(), Toast.LENGTH_SHORT);
             }
         });
 
@@ -322,7 +351,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                     // permission was granted, yay!
                     checkForAccessCoarseLocation();
                 } else {
-                    Toast.makeText(getActivity(), "Need permission", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Need permission", Toast.LENGTH_SHORT).show();
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
                 }
@@ -335,10 +364,19 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                     startDiscovery();
                 } else {
                     // permission denied, boo!
-                    Toast.makeText(getActivity(), "Need permission", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Need permission", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        if(handler!=null){
+            handler.removeCallbacks(stopDiscoveryRunnable);
+        }
+        connectivityFragmentWeakReference=null;
+        super.onDestroy();
     }
 
     @Override
