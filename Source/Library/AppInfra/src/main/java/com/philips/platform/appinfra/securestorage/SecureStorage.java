@@ -11,7 +11,6 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.security.KeyPairGeneratorSpec;
 import android.util.Base64;
-import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -141,7 +140,7 @@ public class SecureStorage implements SecureStorageInterface {
     private void postLog(long startTime, String message) {
         long endTime = System.currentTimeMillis();
         long methodDuration = (endTime - startTime);
-        Log.d(getClass() + "", message + methodDuration);
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, getClass() + "", message + methodDuration);
     }
 
     @Override
