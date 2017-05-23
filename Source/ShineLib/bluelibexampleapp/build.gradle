@@ -10,7 +10,6 @@ buildscript { bs ->
     repositories {
         maven { url repos.jcenter }
         maven { url repos.plugin }
-        maven {url repos.releaseadobe}
     }
 
     dependencies {
@@ -42,7 +41,6 @@ version = objcdp.getVersion()
 repositories {
     maven { url repos.jcenter }
     maven { url objcdp.getArtifactoryUrl() }
-    maven {url repos.releaseadobe}
 }
 
 artifactory {
