@@ -5,8 +5,10 @@
  */
 package com.philips.platform.appinfra.demo;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -17,8 +19,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.HashMap;
@@ -30,6 +30,7 @@ import java.util.HashMap;
 public class AIATDemoPage extends AppCompatActivity  {
 	EditText key;
 	EditText value;
+	EditText page_event_name;
 
 	AppTaggingInterface.SocialMedium sSocialMedium;
 
@@ -41,6 +42,7 @@ public class AIATDemoPage extends AppCompatActivity  {
 
 		key = (EditText) findViewById(R.id.tagg_key_field);
 		value = (EditText) findViewById(R.id.tagg_value_filed);
+		page_event_name=(EditText) findViewById(R.id.tagg_page_filed);
 
 		Button TaggPageBtn = (Button) findViewById(R.id.tagg_page_button);
 		Button TaggActionBtn = (Button) findViewById(R.id.tagg_action_button);
@@ -165,10 +167,23 @@ public class AIATDemoPage extends AppCompatActivity  {
 							for (int keyCount = 0; keyCount < keyArray.length; keyCount++) {
 								keyValuePair.put(keyArray[keyCount].trim(), valueArray[keyCount].trim());
 							}
-							AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("AppTaggingDemoPage", keyValuePair);
+							/*AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("AppTaggingDemoPage", keyValuePair);*/
+							if(page_event_name.getText().toString().length()>0) {
+								AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo(page_event_name.getText().toString(), keyValuePair);
+							}else{
+								showAlertDialog("Warning", "Page Name shouldn't be Empty");
+
+							}
 						}
 					} else {
-						AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("AppTaggingDemoPage", key.getText().toString(), value.getText().toString());
+						/*AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("AppTaggingDemoPage", key.getText().toString(), value.getText().toString());*/
+
+						if(page_event_name.getText().toString().length()>0){
+							AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo(page_event_name.getText().toString(), key.getText().toString(), value.getText().toString());
+						}else
+						{
+							showAlertDialog("Warning", "Page Name shouldn't be Empty");
+						}
 					}
 				}
 
@@ -192,10 +207,22 @@ public class AIATDemoPage extends AppCompatActivity  {
 							for (int keyCount = 0; keyCount < keyArray.length; keyCount++) {
 								keyValuePair.put(keyArray[keyCount].trim(), valueArray[keyCount].trim());
 							}
-							AppInfraApplication.mAIAppTaggingInterface.trackActionWithInfo("AppTaggingDemoPage", keyValuePair);
+							/*AppInfraApplication.mAIAppTaggingInterface.trackActionWithInfo("AppTaggingDemoPage", keyValuePair);*/
+							if(page_event_name.getText().toString().length()>0){
+								AppInfraApplication.mAIAppTaggingInterface.trackActionWithInfo(page_event_name.getText().toString(), keyValuePair);
+							}else
+							{
+								showAlertDialog("Warning", "Event Name shouldn't be Empty");
+							}
 						}
 					} else {
-						AppInfraApplication.mAIAppTaggingInterface.trackActionWithInfo("AppTaggingDemoPage", key.getText().toString(), value.getText().toString());
+						//AppInfraApplication.mAIAppTaggingInterface.trackActionWithInfo("AppTaggingDemoPage", key.getText().toString(), value.getText().toString());
+						if(page_event_name.getText().toString().length()>0){
+							AppInfraApplication.mAIAppTaggingInterface.trackActionWithInfo(page_event_name.getText().toString(), key.getText().toString(), value.getText().toString());
+						}else
+						{
+							showAlertDialog("Warning", "Event Name shouldn't be Empty");
+						}
 					}
 				}
 
@@ -232,4 +259,22 @@ public class AIATDemoPage extends AppCompatActivity  {
 		super.onPause();
 	}
 
+	void showAlertDialog(String title, String msg) {
+		AlertDialog.Builder builder1 = new AlertDialog.Builder(AIATDemoPage.this);
+		builder1.setTitle(title);
+		builder1.setMessage(msg);
+		builder1.setCancelable(true);
+		builder1.setPositiveButton(
+				"Ok",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
+
+		//builder1.setNegativeButton(null);
+
+		AlertDialog alert11 = builder1.create();
+		alert11.show();
+	}
 }
