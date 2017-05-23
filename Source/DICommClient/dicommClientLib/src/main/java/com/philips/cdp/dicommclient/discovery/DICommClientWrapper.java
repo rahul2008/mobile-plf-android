@@ -11,15 +11,14 @@ import android.support.annotation.Nullable;
 
 import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.dicommclient.BuildConfig;
-import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 
 import java.util.Random;
 
 public final class DICommClientWrapper {
 
-    private static Context sContext;
     private static String sTemporaryAppId;
     private static CloudController sCloudControllerInstance;
 
@@ -32,19 +31,18 @@ public final class DICommClientWrapper {
         if (applianceFactory == null)
             throw new IllegalArgumentException("ApplicanceFactory is null");
 
-        sContext = context;
         sTemporaryAppId = generateTemporaryAppId();
         sCloudControllerInstance = cloudController;
 
         if (applianceDatabase == null) {
-            DiscoveryManager.createSharedInstance(sContext, cloudController, applianceFactory);
+            DiscoveryManager.createSharedInstance(context, cloudController, applianceFactory);
         } else {
-            DiscoveryManager.createSharedInstance(sContext, cloudController, applianceFactory, applianceDatabase);
+            DiscoveryManager.createSharedInstance(context, cloudController, applianceFactory, applianceDatabase);
         }
     }
 
-    public static synchronized Context getContext() {
-        return sContext;
+    public static Context getContext() {
+        return DiscoveryManager.getInstance().getContext();
     }
 
     private static String generateTemporaryAppId() {
