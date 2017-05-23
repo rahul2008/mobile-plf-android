@@ -68,7 +68,7 @@ public class SHNDeviceScannerInternal {
     }
 
     LeScanCallbackProxy createLeScanCallbackProxy() {
-        return new LeScanCallbackProxy();
+        return new LeScanCallbackProxy(shnCentral.getBleUtilities());
     }
 
     private void startScanningRestartTimer() {
