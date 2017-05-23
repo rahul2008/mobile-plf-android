@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Data Base Deleting Interface for implementing Delete Operations on DB
+ * Data Base Deleting Interfaces for implementing Delete Operations on DB
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public interface DBDeletingInterface {
