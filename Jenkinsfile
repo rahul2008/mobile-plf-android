@@ -43,7 +43,7 @@ node ('android&&keystore') {
             }
 
             stage ('save dependencies list') {
-            	sh 'chmod -R 775 . && cd ./Source/AppFramework && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
+            	sh 'chmod -R 775 . && cd ./Source/AppFramework && ./gradlew -PenvCode=${JENKINS_ENV} :appFramework:saveResDep'
             }
             archiveArtifacts '**/dependencies.lock'
 
