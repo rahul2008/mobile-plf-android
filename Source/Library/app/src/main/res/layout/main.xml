@@ -64,8 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/add_product"
-            android:listSelector="?attr/uikit_listSelectorBackground" />
+            android:layout_below="@+id/add_product" />
 
         <com.philips.cdp.uikit.customviews.ActionButton
             android:id="@+id/addimageButton"

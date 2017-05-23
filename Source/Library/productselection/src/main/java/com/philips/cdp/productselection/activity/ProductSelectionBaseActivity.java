@@ -23,8 +23,6 @@ import android.widget.TextView;
 
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.R;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
-import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.productselection.utils.ThemeHelper;
 import com.philips.cdp.uikit.UiKitActivity;
@@ -53,11 +51,6 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         initTheme();
-        UiLauncher uiLauncher = ProductModelSelectionHelper.getInstance().getLauncherType();
-        if (uiLauncher instanceof ActivityLauncher) {
-            ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
-            this.setTheme(activityLauncher.getUiKitTheme());
-        }
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         ProductModelSelectionHelper.getInstance();

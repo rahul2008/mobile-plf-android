@@ -20,7 +20,6 @@ import com.philips.cdp.productselection.activity.ProductSelectionBaseActivity;
 import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
-import com.philips.cdp.productselection.utils.ThemeHelper;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.hor_productselection_android.adapter.CtnListViewListener;
 import com.philips.hor_productselection_android.adapter.SampleAdapter;
@@ -32,15 +31,10 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
-import com.philips.platform.uid.thememanager.ThemeConfiguration;
-import com.philips.platform.uid.thememanager.UIDHelper;
-import com.shamanland.fonticon.FontIconTypefaceHolder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-//import com.philips.platform.appinfra.AppInfraSingleton;
 
 public class Launcher extends ProductSelectionBaseActivity implements View.OnClickListener {
 
@@ -53,17 +47,16 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
     private Button mButtonFragment = null;
     private ImageButton mAddButton = null;
     private RecyclerView mRecyclerView = null;
-    //    private ProductModelSelectionHelper mConfigManager = null;
     private SampleAdapter adapter = null;
     private Button change_theme = null;
     private AppInfraInterface mAppInfraInterface;
-    private ThemeHelper themeHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        initTheme();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        initTheme();
 
         //AppInfraSingleton.setInstance(new AppInfra.Builder().build(getApplicationContext()));
         mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
@@ -95,10 +88,6 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
                 new SimpleItemTouchHelperCallback(adapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(mRecyclerView);
-
-
-//        mConfigManager = ProductModelSelectionHelper.getInstance();
-//        mConfigManager.initialize(this);
     }
 
     private void relaunchActivity() {
@@ -242,15 +231,6 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
 
     private void launchProductSelectionAsFragment() {
         startActivity(new Intent(this, SampleActivitySelection.class));
-    }
-
-    protected  void initTheme(){
-        UIDHelper.injectCalligraphyFonts();
-        themeHelper = new ThemeHelper(this);
-        ThemeConfiguration config = themeHelper.getThemeConfig();
-        setTheme(themeHelper.getThemeResourceId());
-        UIDHelper.init(config);
-        FontIconTypefaceHolder.init(getAssets(),"fonts/puicon.ttf");
     }
 
     protected void changeTheme(){
