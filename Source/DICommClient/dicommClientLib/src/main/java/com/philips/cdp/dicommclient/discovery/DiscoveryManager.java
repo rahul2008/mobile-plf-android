@@ -41,8 +41,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
  * Manager. In order to build this list, the Discovery Manager makes use of
  * input from SSDP, a pairing database and network changes.
  *
- * @author Jeroen Mols
- * @date 30 Apr 2014
+ * @publicApi
  */
 public class DiscoveryManager<T extends Appliance> {
 

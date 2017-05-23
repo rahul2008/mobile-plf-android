@@ -38,6 +38,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.net.ssl.HostnameVerifier;
@@ -50,8 +51,8 @@ public class LanRequest extends Request {
 
     private static final int CONNECTION_TIMEOUT = 10 * 1000; // 10secs
     private static final int GETWIFI_TIMEOUT = 3 * 1000; // 3secs
-    public static final String BASEURL_PORTS = "http://%s/di/v%d/products/%d/%s";
-    public static final String BASEURL_PORTS_HTTPS = "https://%s/di/v%d/products/%d/%s";
+    private static final String BASEURL_PORTS = "http://%s/di/v%d/products/%d/%s";
+    private static final String BASEURL_PORTS_HTTPS = "https://%s/di/v%d/products/%d/%s";
     @VisibleForTesting
     final String mUrl;
     private final LanRequestType mRequestType;
@@ -96,9 +97,9 @@ public class LanRequest extends Request {
 
     private String createPortUrl(String ipAddress, int dicommProtocolVersion, String portName, int productId) {
         if (mHttps) {
-            return String.format(BASEURL_PORTS_HTTPS, ipAddress, dicommProtocolVersion, productId, portName);
+            return String.format(Locale.US, BASEURL_PORTS_HTTPS, ipAddress, dicommProtocolVersion, productId, portName);
         }
-        return String.format(BASEURL_PORTS, ipAddress, dicommProtocolVersion, productId, portName);
+        return String.format(Locale.US, BASEURL_PORTS, ipAddress, dicommProtocolVersion, productId, portName);
     }
 
     private String createDataToSend(Map<String, Object> dataMap) {
@@ -303,7 +304,7 @@ public class LanRequest extends Request {
         return sb.toString();
     }
 
-    private static final void closeAllConnections(InputStream is, OutputStreamWriter out, HttpURLConnection conn) {
+    private static void closeAllConnections(InputStream is, OutputStreamWriter out, HttpURLConnection conn) {
         if (is != null) {
             try {
                 is.close();
