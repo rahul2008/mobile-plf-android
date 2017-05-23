@@ -7,13 +7,16 @@ package com.philips.platform.uid.view.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Rect;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -24,6 +27,9 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     private ViewPager mViewPager;
     private OnPageChangeListener mListener;
     private int mSelectedIndex;
+    private boolean isIconActionDownDetected;
+    private boolean isIconActionUpDetected;
+
     public DotNavigationIndicator(Context context) {
         this(context, null);
     }
@@ -58,6 +64,50 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     }
 
     @Override
+    public boolean onTouchEvent(final MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            isIconActionDownDetected = true;
+            return true;
+        }
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            isIconActionUpDetected = true;
+        }
+        return processTouch(event);
+    }
+
+    private boolean processTouch(final MotionEvent event) {
+        if (isIconActionDownDetected && isIconActionUpDetected) {
+
+            resetIconTouch();
+
+            return isSelectedChildTouched(event);
+        }
+
+        return false;
+    }
+
+    private boolean isSelectedChildTouched(final MotionEvent event) {
+        final View selectedChild = getSelectedChild();
+        if (selectedChild != null) {
+            final Rect childRect = new Rect();
+            selectedChild.getDrawingRect(childRect);
+            final MarginLayoutParams marginLayoutParams = (MarginLayoutParams) selectedChild.getLayoutParams();
+            final boolean isLeft = event.getX() < (selectedChild.getX() - selectedChild.getPaddingStart() - marginLayoutParams.getMarginStart());
+            final boolean isRight = event.getX() > (selectedChild.getX() + selectedChild.getWidth() + marginLayoutParams.getMarginStart());
+            if (isLeft)
+                showPrevious();
+            if (isRight)
+                showNext();
+        }
+        return true;
+    }
+
+    private void resetIconTouch() {
+        isIconActionDownDetected = false;
+        isIconActionUpDetected = false;
+    }
+
+    @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         if (mListener != null) {
             mListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
@@ -85,9 +135,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
         if (adapter == null) {
             throw new IllegalStateException("ViewPager does not have adapter instance.");
         }
-        if (count == 0) {
-            setVisibility(GONE);
-        }
+
         mViewPager = view;
         view.setOnPageChangeListener(this);
         refresh();
@@ -107,6 +155,8 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
             }
             setCurrentItem(mSelectedIndex);
             requestLayout();
+        } else {
+            setVisibility(GONE);
         }
     }
 
@@ -153,6 +203,15 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
             final boolean isSelected = (childIndex == item);
             child.setSelected(isSelected);
         }
+    }
+
+    private View getSelectedChild() {
+        int childCount = getChildCount();
+        for (int childIndex = 0; childIndex < childCount; childIndex++) {
+            View child = getChildAt(childIndex);
+            if (child.isSelected()) return child;
+        }
+        return null;
     }
 
     private void isViewPagerInitialized() {
