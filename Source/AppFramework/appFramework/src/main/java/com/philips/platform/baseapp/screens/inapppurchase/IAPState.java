@@ -114,14 +114,5 @@ public abstract class IAPState extends BaseState {
         iapInterface.init(iapDependencies, iapSettings);
     }
 
-    public String getVersion(Context c)
-    {
-        return c.getResources().getString(R.string.RA_COCO_IAP_VERSION);
 
-    }
-    public String getComponentID(Context c)
-    {
-        return c.getResources().getString(R.string.RA_COCO_IAP);
-
-    }
 }
