@@ -1,0 +1,46 @@
+apply plugin: 'com.android.application'
+
+buildscript { bs ->
+    apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
+    apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
+    repositories {
+        maven { url repos.jcenter }
+    }
+}
+
+repositories {
+    maven { url repos.jcenter }
+    maven { url repos.release }
+    maven { url repos.snapshot }
+}
+
+android {
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
+
+    defaultConfig {
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
+
+        applicationId "com.philips.platform.bleexampledemo"
+        versionCode 1
+        versionName "0.2.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile deps.support.appcompatv7
+    compile project(':bluelibexampleapp')
+}

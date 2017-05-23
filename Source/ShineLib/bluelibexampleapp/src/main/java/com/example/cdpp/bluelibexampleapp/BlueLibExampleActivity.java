@@ -77,11 +77,10 @@ public class BlueLibExampleActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch (id) {
-            case R.id.action_about:
-                AboutFragment.newInstance().show(getSupportFragmentManager(), "AboutFragment");
+        if (id == R.id.action_about) {
+            AboutFragment.newInstance().show(getSupportFragmentManager(), "AboutFragment");
 
-                return true;
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
