@@ -69,6 +69,8 @@ node ('android&&keystore') {
                     echo "BranchName changed to ${BranchName}"
                 }
         		build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'afw'],[$class: 'StringParameterValue', name: 'libraryName', value: 'uAppFwLib']], wait: false
+                // call dls pipeline as well (temporary)
+                build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}_DLS", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'afw'],[$class: 'StringParameterValue', name: 'libraryName', value: 'uAppFwLib']], wait: false
         	}            
         }
 
