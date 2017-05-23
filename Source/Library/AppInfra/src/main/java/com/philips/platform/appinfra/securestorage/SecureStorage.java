@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.security.KeyPairGeneratorSpec;
 import android.util.Base64;
+import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -20,6 +21,8 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -56,8 +59,9 @@ public class SecureStorage implements SecureStorageInterface {
     private final Context mContext;
     private final AppInfra mAppInfra;
     private SharedPreferences mAppInfraPrefs;
-    private  SharedPreferences.Editor editor;
-
+    private SharedPreferences.Editor editor;
+    private Cipher encryptCipher = null;
+    private Cipher decryptCipher = null;
 
     public SecureStorage(AppInfra bAppInfra) {
         mAppInfra = bAppInfra;
@@ -86,12 +90,15 @@ public class SecureStorage implements SecureStorageInterface {
     @Override
     public synchronized boolean storeValueForKey(String userKey, String valueToBeEncrypted, SecureStorageError secureStorageError) {
         // TODO: RayKlo: define max size limit recommendation
+        long startTime = System.currentTimeMillis();
+
+
         boolean returnResult = true;
         String encryptedString = null;
         try {
             if (null == userKey || userKey.isEmpty() || userKey.trim().isEmpty() || null == valueToBeEncrypted) {
                 secureStorageError.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
-                returnResult = false;
+                postLog(startTime, " duration for executing storeValueForKey ");
                 return false;
             }
             valueToBeEncrypted = getDecodedString(valueToBeEncrypted);
@@ -126,15 +133,24 @@ public class SecureStorage implements SecureStorageInterface {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SecureStorage", e.getMessage());
             //Log.e("SecureStorage", Log.getStackTraceString(e));
         }
+        postLog(startTime, " duration for executing storeValueForKey ");
         return returnResult;
 
     }
 
+    private void postLog(long startTime, String message) {
+        long endTime = System.currentTimeMillis();
+        long methodDuration = (endTime - startTime);
+        Log.d(getClass() + "", message + methodDuration);
+    }
+
     @Override
     public synchronized String fetchValueForKey(String userKey, SecureStorageError secureStorageError) {
+        long startTime = System.currentTimeMillis();
         String decryptedString = null;
         if (null == userKey || userKey.isEmpty()) {
             secureStorageError.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
+            postLog(startTime, " duration for executing fetchValueForKey ");
             return null;
         }
         userKey = getDecodedString(userKey);
@@ -142,6 +158,7 @@ public class SecureStorage implements SecureStorageInterface {
         final String encryptedAESString = fetchEncryptedData(userKey, secureStorageError, KEY_FILE_NAME);
         if (null == encryptedString || null == encryptedAESString) {
             secureStorageError.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
+            postLog(startTime, " duration for executing fetchValueForKey ");
             return null; // if user entered key is not present
         }
         try {
@@ -162,7 +179,8 @@ public class SecureStorage implements SecureStorageInterface {
                 decryptedString = null;
             }
         }
-           return decryptedString;
+        postLog(startTime, " duration for executing fetchValueForKey ");
+        return decryptedString;
 
     }
 
@@ -184,7 +202,6 @@ public class SecureStorage implements SecureStorageInterface {
         try {
             if (null == keyName || keyName.isEmpty() || keyName.trim().isEmpty()) {
                 error.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
-                returnResult = false;
                 return false;
             }
             final SecretKey secretKey = generateAESKey(); // generate AES key
@@ -195,7 +212,7 @@ public class SecureStorage implements SecureStorageInterface {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SecureStorage  SqlCipher Data Key ", e.getMessage());
             //Log.e("SecureStorage", Log.getStackTraceString(e));
         }
-            return returnResult;
+        return returnResult;
 
     }
 
@@ -220,7 +237,7 @@ public class SecureStorage implements SecureStorageInterface {
                 decryptedKey = null;
             }
         }
-            return decryptedKey;
+        return decryptedKey;
 
     }
 
@@ -259,10 +276,9 @@ public class SecureStorage implements SecureStorageInterface {
         final KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(SINGLE_UNIVERSAL_KEY, null);
         final Cipher output = Cipher.getInstance(RSA_ENCRYPTION_ALGORITHM);
         output.init(Cipher.UNWRAP_MODE, privateKeyEntry.getPrivateKey());
-        final SecretKey AESkey = (SecretKey) output.unwrap(Base64.decode(encryptedAESString, Base64.DEFAULT), "AES", Cipher.SECRET_KEY);// Unwrap AES key using RSA
+        final SecretKey aesKey = (SecretKey) output.unwrap(Base64.decode(encryptedAESString, Base64.DEFAULT), "AES", Cipher.SECRET_KEY);// Unwrap AES key using RSA
 
-        final Key key2 = (Key) new SecretKeySpec(AESkey.getEncoded(), "AES");
-        return key2;
+        return new SecretKeySpec(aesKey.getEncoded(), "AES");
     }
 
     private String generateKeyPair(SecretKey secretKey) {
@@ -363,8 +379,7 @@ public class SecureStorage implements SecureStorageInterface {
         final SecureRandom secureRandom = new SecureRandom();    // Do *not* seed secureRandom! Automatically seeded from system entropy.
         final KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
         keyGenerator.init(outputKeyLength, secureRandom);
-        final SecretKey key = keyGenerator.generateKey();
-        return key;
+        return keyGenerator.generateKey();
     }
 
     @Override
@@ -374,10 +389,11 @@ public class SecureStorage implements SecureStorageInterface {
             return null;
         }
         byte[] encryptedBytes = null;
-
         try {
-            final Cipher cipher = getCipher(Cipher.ENCRYPT_MODE);
-            encryptedBytes = cipher.doFinal(dataToBeEncrypted); // encrypt data using AES
+            if (null == encryptCipher) {
+                encryptCipher = getCipher(Cipher.ENCRYPT_MODE, secureStorageError);
+            }
+            encryptedBytes = encryptCipher.doFinal(dataToBeEncrypted); // encrypt data using AES
         } catch (Exception e) {
             secureStorageError.setErrorCode(SecureStorageError.secureStorageError.EncryptionError);
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "EncryptionError", e.getMessage());
@@ -393,8 +409,11 @@ public class SecureStorage implements SecureStorageInterface {
         }
         byte[] decryptedBytes = null;
         try {
-            final Cipher cipher = getCipher(Cipher.DECRYPT_MODE);
-            decryptedBytes = cipher.doFinal(dataToBeDecrypted); // decrypt data using AES
+            if (null == decryptCipher) {
+                decryptCipher = getCipher(Cipher.DECRYPT_MODE, secureStorageError);
+            }
+
+            decryptedBytes = decryptCipher.doFinal(dataToBeDecrypted); // decrypt data using AES
         } catch (Exception e) {
             secureStorageError.setErrorCode(SecureStorageError.secureStorageError.DecryptionError);
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "DecryptionError", e.getMessage());
@@ -415,9 +434,9 @@ public class SecureStorage implements SecureStorageInterface {
                 final SecretKey secretKey = generateAESKey(); // generate AES key
                 secretKeyBytes = secretKey.getEncoded();
                 final String secretKeyString = Base64.encodeToString(secretKey.getEncoded(), Base64.DEFAULT);
-                final boolean returnResult = storeEncryptedData(SINGLE_AES_KEY_TAG, secretKeyString, KEY_FILE_NAME); // save encrypted AES key in file
+                storeEncryptedData(SINGLE_AES_KEY_TAG, secretKeyString, KEY_FILE_NAME); // save encrypted AES key in file
             }
-            final Key key = (Key) new SecretKeySpec(secretKeyBytes, "AES");
+            final Key key = new SecretKeySpec(secretKeyBytes, "AES");
             final byte[] ivBlockSize = new byte[cipher.getBlockSize()];
             final IvParameterSpec ivParameterSpec = new IvParameterSpec(ivBlockSize);
             cipher.init(CipherEncryptOrDecryptMode, key, ivParameterSpec);
@@ -427,30 +446,54 @@ public class SecureStorage implements SecureStorageInterface {
         return cipher;
     }
 
-	@Override
-	public String getDeviceCapability() {
+    private Cipher getCipher(int CipherEncryptOrDecryptMode, SecureStorageError secureStorageError) {
+        Cipher cipher = null;
+        try {
+            cipher = Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
+            SharedPreferences prefs = getSharedPreferences(KEY_FILE_NAME);
+            if (prefs.contains(SINGLE_AES_KEY_TAG)) { // if  key is present
+                final String encryptedAESString = fetchEncryptedData(SINGLE_AES_KEY_TAG, secureStorageError, KEY_FILE_NAME);
+                final Key key1 = fetchKey(encryptedAESString, secureStorageError);
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "key #######", "########" + key1.toString());
+                cipherInit(CipherEncryptOrDecryptMode, cipher, key1);
+            } else {
+                final SecretKey secretKey = generateAESKey(); // generate AES key
+                final Key key = new SecretKeySpec(secretKey.getEncoded(), "AES");
+                storeKey(SINGLE_AES_KEY_TAG, secretKey, KEY_FILE_NAME);
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "key #######", "########" + key.toString());
+                cipherInit(CipherEncryptOrDecryptMode, cipher, key);
+            }
 
-		final String buildTags = android.os.Build.TAGS;
-		if (buildTags != null && buildTags.contains("test-keys")) {
-			return "true";
-		}
-		final String[] paths = {"/system/app/Superuser.apk", "/sbin/su", "/system/bin/su",
-				"/system/xbin/su", "/data/local/xbin/su", "/data/local/bin/su", "/system/sd/xbin/su",
-				"/system/bin/failsafe/su", "/data/local/su", "/su/bin/su"};
-		for (String path : paths) {
-			if (new File(path).exists()) return "true";
-		}
-		if (checkProcess()) {
-			return "true";
-		}
+        } catch (Exception e) {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "getCipher error", e.getMessage());
+        }
+        return cipher;
+    }
 
-		return "false";
+    @Override
+    public String getDeviceCapability() {
 
-	}
+        final String buildTags = android.os.Build.TAGS;
+        if (buildTags != null && buildTags.contains("test-keys")) {
+            return "true";
+        }
+        final String[] paths = {"/system/app/Superuser.apk", "/sbin/su", "/system/bin/su",
+                "/system/xbin/su", "/data/local/xbin/su", "/data/local/bin/su", "/system/sd/xbin/su",
+                "/system/bin/failsafe/su", "/data/local/su", "/su/bin/su"};
+        for (String path : paths) {
+            if (new File(path).exists()) return "true";
+        }
+        if (checkProcess()) {
+            return "true";
+        }
+
+        return "false";
+
+    }
 
     @Override
     public boolean deviceHasPasscode() {
-        if(mContext != null) {
+        if (mContext != null) {
             KeyguardManager manager = (KeyguardManager)
                     mContext.getSystemService(Context.KEYGUARD_SERVICE);
             return manager.isKeyguardSecure();
@@ -466,5 +509,17 @@ public class SecureStorage implements SecureStorageInterface {
         }
         return null;
     }
+
+    private void cipherInit(int CipherEncryptOrDecryptMode, Cipher cipher, final Key key) throws InvalidKeyException, InvalidAlgorithmParameterException {
+        final byte[] ivBlockSize = new byte[cipher.getBlockSize()];
+        final IvParameterSpec ivParameterSpec = new IvParameterSpec(ivBlockSize);
+        cipher.init(CipherEncryptOrDecryptMode, key, ivParameterSpec);
+        if (Cipher.DECRYPT_MODE == CipherEncryptOrDecryptMode) {
+            decryptCipher = cipher;
+        } else {
+            encryptCipher = cipher;
+        }
+    }
+
 
 }
