@@ -2,7 +2,7 @@ package com.philips.cdp.di.iap.analytics;
 
 public class IAPAnalyticsConstant {
 
-    public static final String COMPONENT_NAME = "InAppPurchase";
+    public static final String COMPONENT_NAME = "iap";
 
     public static final String PRODUCT_CATALOG_PAGE_NAME = "ProductCatalogPage";
     public static final String PRODUCT_DETAIL_PAGE_NAME = "ProductDetailPage";
