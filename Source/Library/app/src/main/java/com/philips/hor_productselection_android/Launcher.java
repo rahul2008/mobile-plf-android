@@ -1,9 +1,7 @@
 package com.philips.hor_productselection_android;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,12 +17,10 @@ import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.activity.ProductSelectionBaseActivity;
-import com.philips.cdp.productselection.launchertype.ActivityLauncher;
-import com.philips.cdp.productselection.listeners.ProductModelSelectionListener;
 import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
-import com.philips.cdp.productselection.utils.ProductSelectionLogger;
+import com.philips.cdp.productselection.utils.ThemeHelper;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.hor_productselection_android.adapter.CtnListViewListener;
 import com.philips.hor_productselection_android.adapter.SampleAdapter;
@@ -32,15 +28,19 @@ import com.philips.hor_productselection_android.adapter.SimpleItemTouchHelperCal
 import com.philips.hor_productselection_android.view.CustomDialog;
 import com.philips.hor_productselection_android.view.SampleActivitySelection;
 import com.philips.platform.appinfra.AppInfra;
-//import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
+import com.shamanland.fonticon.FontIconTypefaceHolder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+//import com.philips.platform.appinfra.AppInfraSingleton;
 
 public class Launcher extends ProductSelectionBaseActivity implements View.OnClickListener {
 
@@ -57,12 +57,13 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
     private SampleAdapter adapter = null;
     private Button change_theme = null;
     private AppInfraInterface mAppInfraInterface;
+    private ThemeHelper themeHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
+        initTheme();
 
         //AppInfraSingleton.setInstance(new AppInfra.Builder().build(getApplicationContext()));
         mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
@@ -102,6 +103,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
 
     private void relaunchActivity() {
         Intent intent;
+        int RESULT_CODE_THEME_UPDATED = 1;
         setResult(RESULT_CODE_THEME_UPDATED);
         intent = new Intent(this, Launcher.class);
         startActivity(intent);
@@ -177,10 +179,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
                 break;
 
             case R.id.change_theme:
-                Resources.Theme theme = super.getTheme();
-                ThemeUtil mThemeUtil = new ThemeUtil(getApplicationContext().getSharedPreferences(
-                        this.getString(R.string.app_name), Context.MODE_PRIVATE));
-                theme.applyStyle(mThemeUtil.getNextTheme(), true);
+                changeTheme();
                 relaunchActivity();
                 break;
         }
@@ -199,11 +198,20 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
 
 
         mProductSelectionHelper.setLocale("en", "GB");
-        ThemeUtil mThemeUtil = new ThemeUtil(getApplicationContext().getSharedPreferences(
+        /*ThemeUtil mThemeUtil = new ThemeUtil(getApplicationContext().getSharedPreferences(
                 this.getString(R.string.app_name), Context.MODE_PRIVATE));
         ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
                 mThemeUtil.getCurrentTheme());
-        uiLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);
+        uiLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);*/
+
+
+        final ActivityLauncher activityLauncher =
+                new ActivityLauncher
+                        (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
+                                themeHelper.getThemeResourceId());
+
+        activityLauncher.setCustomAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
+
        /* ProductModelSelectionHelper.getInstance().setSummaryDataListener(new SummaryDataListener() {
             @Override
             public void onSuccess(List<SummaryModel> summaryModels) {
@@ -226,7 +234,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
                 }
             }
         });
-        ProductModelSelectionHelper.getInstance().invokeProductSelection(uiLauncher, productsSelection);
+        ProductModelSelectionHelper.getInstance().invokeProductSelection(activityLauncher, productsSelection);
         //  ProductSelectionLogger.enableLogging();
 
     }
@@ -236,12 +244,18 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         startActivity(new Intent(this, SampleActivitySelection.class));
     }
 
-    @Override
-    public Resources.Theme getTheme() {
-        Resources.Theme theme = super.getTheme();
-        ThemeUtil mThemeUtil = new ThemeUtil(getApplicationContext().getSharedPreferences(
-                this.getString(R.string.app_name), Context.MODE_PRIVATE));
-        theme.applyStyle(mThemeUtil.getCurrentTheme(), true);
-        return theme;
+    protected  void initTheme(){
+        UIDHelper.injectCalligraphyFonts();
+        themeHelper = new ThemeHelper(this);
+        ThemeConfiguration config = themeHelper.getThemeConfig();
+        setTheme(themeHelper.getThemeResourceId());
+        UIDHelper.init(config);
+        FontIconTypefaceHolder.init(getAssets(),"fonts/puicon.ttf");
     }
+
+    protected void changeTheme(){
+        themeHelper.changeTheme();
+    }
+
+
 }

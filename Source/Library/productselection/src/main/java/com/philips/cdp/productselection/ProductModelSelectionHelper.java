@@ -1,6 +1,5 @@
 package com.philips.cdp.productselection;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,14 +8,10 @@ import android.content.res.Configuration;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.appcompat.BuildConfig;
 import android.util.DisplayMetrics;
-import android.view.WindowManager;
 
 import com.philips.cdp.productselection.activity.ProductSelectionActivity;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
 import com.philips.cdp.productselection.fragments.welcomefragment.WelcomeScreenFragmentSelection;
-import com.philips.cdp.productselection.launchertype.ActivityLauncher;
-import com.philips.cdp.productselection.launchertype.FragmentLauncher;
-import com.philips.cdp.productselection.launchertype.UiLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
@@ -26,12 +21,17 @@ import com.philips.cdp.productselection.utils.Constants;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.platform.appinfra.AppInfraInterface;
-//import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.util.List;
 import java.util.Locale;
+
+//import com.philips.cdp.productselection.launchertype.UiLauncher;
+//import com.philips.platform.appinfra.AppInfraSingleton;
 
 
 public class ProductModelSelectionHelper {
@@ -166,7 +166,7 @@ public class ProductModelSelectionHelper {
                     } else if (uiLauncher instanceof FragmentLauncher) {
                         FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
                         invokeAsFragment(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getParentContainerResourceID(),
-                                fragmentLauncher.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
+                                null, uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
                     }
                 } else {
                     if (mProductSelectionListener != null)

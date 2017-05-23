@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -11,12 +12,13 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.hor_productselection_android.R;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.activity.ProductSelectionBaseActivity;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
+import com.philips.hor_productselection_android.R;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 /**
  * SampleActivitySelection is the main container class which can contain Digital Care fragments.
@@ -31,6 +33,7 @@ public class SampleActivitySelection extends ProductSelectionBaseActivity implem
     private TextView mActionBarTitle = null;
     private FragmentManager fragmentManager = null;
     private AppInfraInterface mAppInfraInterface;
+    private Toolbar toolbar;
 
     private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
 
@@ -51,6 +54,7 @@ public class SampleActivitySelection extends ProductSelectionBaseActivity implem
         super.onCreate(savedInstanceState);
 //        setNoActionBarTheme();
         Log.i(TAG, " Multiproduct - SampleActivitySelection onCreate");
+
 
         /*
         This module is integrated with Philips Standard UI_Kit. So here Theme is as per UI_Kit only. Vertical apps are free to use
@@ -84,6 +88,11 @@ public class SampleActivitySelection extends ProductSelectionBaseActivity implem
 //            Log.e(TAG, "SampleActivitySelection Actionbar: " + e.getMessage());
 //        }
 //        enableActionBarHome();
+
+        UIDHelper.setupToolbar(this);
+        getTheme().applyStyle(com.philips.cdp.uikit.R.style.Theme_Philips_BrightOrange_Gradient, true);
+        toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_back_icon);
 
         fragmentManager = getSupportFragmentManager();
     }

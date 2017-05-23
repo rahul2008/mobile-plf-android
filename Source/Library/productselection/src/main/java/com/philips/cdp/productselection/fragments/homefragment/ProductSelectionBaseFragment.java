@@ -86,6 +86,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         TAG = this.getClass().getSimpleName();
         mFragmentActivityContext = getActivity();
         registerNetWorkReceiver();
+        setHasOptionsMenu(true);
         // setLocaleLanguage();
     }
 
@@ -578,7 +579,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
     private void setActionbarTitle() {
         if (mContainerId == 0) {
             if (mActionBarTitle == null) {
-                mActionBarTitle = (TextView) getActivity().findViewById(R.id.productselection_actionbarTitle);
+                mActionBarTitle = (TextView) getActivity().findViewById(R.id.uid_toolbar_title);
             }
             String titleText = null;
             if (getActionbarTitle() == null) {

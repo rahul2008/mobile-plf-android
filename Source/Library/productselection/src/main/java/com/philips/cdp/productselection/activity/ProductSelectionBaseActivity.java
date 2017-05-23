@@ -12,6 +12,8 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
@@ -21,11 +23,17 @@ import android.widget.TextView;
 
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.R;
-import com.philips.cdp.productselection.launchertype.ActivityLauncher;
-import com.philips.cdp.productselection.launchertype.UiLauncher;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
+import com.philips.cdp.productselection.utils.ThemeHelper;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
+import com.shamanland.fonticon.FontIconTypefaceHolder;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 //import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
@@ -40,20 +48,40 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
     private static String TAG = ProductSelectionBaseActivity.class.getSimpleName();
     private FragmentManager fragmentManager = null;
     private ProductModelSelectionHelper mProductModelSelectionHelper = null;
+    protected ThemeHelper themeHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        initTheme();
         UiLauncher uiLauncher = ProductModelSelectionHelper.getInstance().getLauncherType();
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
-            this.setTheme(activityLauncher.getmUiKitTheme());
+            this.setTheme(activityLauncher.getUiKitTheme());
         }
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         ProductModelSelectionHelper.getInstance();
         fragmentManager = getSupportFragmentManager();
+        //UIDHelper.setupToolbar(this);
+        //initActionBar();
+    }
 
-        initActionBar();
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                backstackFragment();
+               // onBackPressed();
+                return true;
+            default:
+                break;
+        }
+        return true;
     }
 
     private void initActionBar() {
@@ -97,7 +125,7 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
     protected void onResume() {
         super.onResume();
         ProductModelSelectionHelper.getInstance().getTaggingInterface().collectLifecycleInfo(this);
-       // Tagging.collectLifecycleData();
+        // Tagging.collectLifecycleData();
     }
 
     @Override
@@ -185,6 +213,20 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
 
     protected void backtoConsumerCare() {
         finish();
+    }
+
+    protected void initTheme() {
+        UIDHelper.injectCalligraphyFonts();
+        themeHelper = new ThemeHelper(this);
+        ThemeConfiguration config = themeHelper.getThemeConfig();
+        setTheme(themeHelper.getThemeResourceId());
+        UIDHelper.init(config);
+        FontIconTypefaceHolder.init(getAssets(), "fonts/puicon.ttf");
+    }
+
+    @Override
+    protected void attachBaseContext(final Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
 }

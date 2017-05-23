@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.R;
@@ -25,43 +25,42 @@ import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 public class WelcomeScreenFragmentSelection extends ProductSelectionBaseFragment implements View.OnClickListener {
 
     private String TAG = WelcomeScreenFragmentSelection.class.getSimpleName();
-    private RelativeLayout mSelectProduct = null;
-    private LinearLayout mWelcomeScreenParent = null;
-    private FrameLayout.LayoutParams mParams = null;
-    private static View mRootView = null;
+    private LinearLayout mWelcomeScreenParent;
+    private FrameLayout.LayoutParams mParams;
+    private Button mFindProductBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.fragment_welcome_screen, container, false);
-        mSelectProduct = (RelativeLayout) mRootView.findViewById(R.id.welcome_screen_parent_two);
-        mWelcomeScreenParent = (LinearLayout) mRootView.findViewById(
+        View view = inflater.inflate(R.layout.fragment_welcome_screen, container, false);
+        mWelcomeScreenParent = (LinearLayout) view.findViewById(
                 R.id.welcome_screen_parent_one);
-        return mRootView;
+
+        initView(view);
+        return view;
+    }
+
+    private void initView(View view) {
+        mFindProductBtn = (Button) view.findViewById(R.id.find_product_btn);
+        mFindProductBtn.setOnClickListener(this);
+        ProductSelectionLogger.i(TAG, "Product selection welcome screen shown for user to select products\n");
+        mParams = (FrameLayout.LayoutParams) mWelcomeScreenParent.getLayoutParams();
+        Configuration configuration = getResources().getConfiguration();
+        setViewParams(configuration);
+        trackFirstPage(Constants.PAGE_WELCOME_SCREEN);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ProductSelectionLogger.i(TAG, "Product selection welcome screen shown for user to select products\n");
-        mParams = (FrameLayout.LayoutParams) mWelcomeScreenParent.getLayoutParams();
-        mSelectProduct.setOnClickListener(this);
 
-        Configuration configuration = getResources().getConfiguration();
-        setViewParams(configuration);
-
-        trackFirstPage(Constants.PAGE_WELCOME_SCREEN);
     }
-
-    private boolean isTabletPortrait;
 
     @Override
     public void setViewParams(Configuration config) {
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            isTabletPortrait = true;
             mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
         } else {
-            isTabletPortrait = false;
             mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
         }
         mWelcomeScreenParent.setLayoutParams(mParams);
@@ -70,7 +69,6 @@ public class WelcomeScreenFragmentSelection extends ProductSelectionBaseFragment
     @Override
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
-
         setViewParams(config);
     }
 
@@ -82,15 +80,11 @@ public class WelcomeScreenFragmentSelection extends ProductSelectionBaseFragment
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.welcome_screen_parent_two) {
+        if (v.getId() == R.id.find_product_btn) {
             if (isConnectionAvailable()) {
-                Configuration configuration = getResources().getConfiguration();
                 ProductSelectionLogger.i(TAG, "User clicked on find products");
                 showFragment(new ProductSelectionListingFragment());
             }
-
-          /*  Tagging.trackAction(Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
-                    Constants.ACTION_VALUE_FIND_PRODUCT);*/
             ProductModelSelectionHelper.getInstance().getTaggingInterface().trackActionWithInfo
                     (Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
                             Constants.ACTION_VALUE_FIND_PRODUCT);
@@ -105,13 +99,9 @@ public class WelcomeScreenFragmentSelection extends ProductSelectionBaseFragment
     public void trackFirstPage(String currPage) {
         if (getPreviousName() != null && !(getPreviousName().equalsIgnoreCase(Constants.
                 PAGE_WELCOME_SCREEN))) {
-          /*  Tagging.trackPage(currPage, getPreviousName());*/
             ProductModelSelectionHelper.getInstance().getTaggingInterface().trackPageWithInfo
                     (currPage, getPreviousName(), getPreviousName());
-        }/* else if (null != Tagging.getLaunchingPageName()) {
-            ProductModelSelectionHelper.getInstance().getTaggingInterface().trackPageWithInfo
-                    (currPage, getPreviousName(),getPreviousName());
-        }*/ else {
+        }else {
             ProductModelSelectionHelper.getInstance().getTaggingInterface().trackPageWithInfo
                     (currPage, "vertical:productSelection:home", "vertical:productSelection:home");
         }

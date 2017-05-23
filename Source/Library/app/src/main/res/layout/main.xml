@@ -2,13 +2,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/uidContentBackground"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Launcher">
 
-    <Button
+
+    <com.philips.platform.uid.view.widget.Button
+        style="@style/UIDDefaultButton"
         android:id="@+id/buttonActivity"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
@@ -16,7 +19,8 @@
         android:layout_marginTop="10dp"
         android:text="launch as Activity" />
 
-    <Button
+    <com.philips.platform.uid.view.widget.Button
+        style="@style/UIDDefaultButton"
         android:id="@+id/buttonFragment"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
@@ -26,7 +30,8 @@
         android:text="launch as Fragment"
         android:visibility="gone" />
 
-    <Button
+    <com.philips.platform.uid.view.widget.Button
+        style="@style/UIDDefaultButton"
         android:id="@+id/change_theme"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
