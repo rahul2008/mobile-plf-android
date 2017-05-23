@@ -74,6 +74,15 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     public static final String DEVELOPMENT_SECRET_KEY_DEFAULT = TEST_SECRET_KEY_DEFAULT;
     public static final String DEVELOPMENT_SHARED_KEY_DEFAULT = TEST_SHARED_KEY_DEFAULT;
     public static final String UR_COMPLETE = "URComplete";
+    public static final String APPIDENTITY_APP_STATE = "appidentity.appState";
+    public static final String STAGING = "STAGING";
+    public static final String TEST = "TEST";
+    public static final String DEVELOPMENT = "DEVELOPMENT";
+    public static final String APPIDENTITY_SECTOR = "appidentity.sector";
+    public static final String SECTOR = "b2c";
+    public static final String SECTOR_VALUE = SECTOR;
+    public static final String APPIDENTITY_SERVICE_DISCOVERY_ENVIRONMENT = "appidentity.serviceDiscoveryEnvironment";
+    public static final String PRODUCTION = "Production";
 
     private Context activityContext;
     private User userObject;
@@ -84,6 +93,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     private static final String HSDP_CONFIGURATION_SHARED = "HSDPConfiguration.Shared";
     private static final String CHINA_CODE = "CN";
     private static final String DEFAULT = "default";
+    private final String AppInfra = "appinfra";
 
     /**
      * AppFlowState constructor
@@ -124,7 +134,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     private String callSharedPref(SharedPreferences prefs) {
         String restoredHSDPText = prefs.getString(Constants.REGISTRATION_ENV_PREFERENCES, null);
-        Log.i("testing","restoredHSDPText -- " + restoredHSDPText);
         if (restoredHSDPText != null) {
             restoredHSDPText = saveToSharedPreferences(prefs, getConfiguration(restoredHSDPText));
         }
@@ -148,32 +157,39 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     }
 
     private void initHSDP(SharedPreferences prefs, Configuration configuration) {
+        AppInfraInterface appInfra = ((AppFrameworkApplication) applicationContext).getAppInfra();
+        AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
+
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+
+        appConfigurationInterface.setPropertyForKey(
+                APPIDENTITY_SECTOR, AppInfra, SECTOR_VALUE, configError);
+
+        appConfigurationInterface.setPropertyForKey(
+                APPIDENTITY_SERVICE_DISCOVERY_ENVIRONMENT, AppInfra,
+                PRODUCTION, configError);
 
         switch (configuration){
             case STAGING:
-                setStageConfig();
+                setStageConfig(appConfigurationInterface, configError);
                 break;
 
             case DEVELOPMENT:
-                setDevConfig();
+                setDevConfig(appConfigurationInterface, configError);
                 break;
 
             case TESTING:
-                setTestConfig();
+                setTestConfig(appConfigurationInterface, configError);
                 break;
 
             default:
-                setStageConfig();
+                setStageConfig(appConfigurationInterface, configError);
         }
     }
 
-    private void setStageConfig() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        AppInfraInterface appInfra = ((AppFrameworkApplication) applicationContext).getAppInfra();
-
-        AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
-
+    private void setStageConfig(AppConfigurationInterface appConfigurationInterface,
+                                AppConfigurationInterface.AppConfigurationError configError) {
         Map<String, String> hsdpAppNames = new HashMap<>();
         hsdpAppNames.put(CHINA_CODE, PROPOSITION_NAME);
         hsdpAppNames.put(DEFAULT, PROPOSITION_NAME);
@@ -193,15 +209,13 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
         appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
                 UR, hsdpSharedIds, configError);
+
+        appConfigurationInterface.setPropertyForKey(APPIDENTITY_APP_STATE,
+                AppInfra, STAGING, configError);
     }
 
-    private void setTestConfig() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        AppInfraInterface appInfra = ((AppFrameworkApplication) applicationContext).getAppInfra();
-
-        AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
-
+    private void setTestConfig(AppConfigurationInterface appConfigurationInterface,
+                               AppConfigurationInterface.AppConfigurationError configError) {
         Map<String, String> hsdpAppNames = new HashMap<>();
         hsdpAppNames.put(DEFAULT, PROPOSITION_NAME);
 
@@ -218,15 +232,13 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
         appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
                 UR, hsdpSharedIds, configError);
+
+        appConfigurationInterface.setPropertyForKey(APPIDENTITY_APP_STATE,
+                AppInfra, TEST, configError);
     }
 
-    private void setDevConfig() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        AppInfraInterface appInfra = ((AppFrameworkApplication) applicationContext).getAppInfra();
-
-        AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
-
+    private void setDevConfig(AppConfigurationInterface appConfigurationInterface,
+                              AppConfigurationInterface.AppConfigurationError configError) {
         Map<String, String> hsdpAppNames = new HashMap<>();
         hsdpAppNames.put(DEFAULT, PROPOSITION_NAME);
 
@@ -243,6 +255,9 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
         appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
                 UR, hsdpSharedIds, configError);
+
+        appConfigurationInterface.setPropertyForKey(APPIDENTITY_APP_STATE,
+                AppInfra, DEVELOPMENT, configError);
     }
 
     @Override
@@ -297,7 +312,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     public void updateDataModel() {
 
     }
-
 
     public User getUserObject(Context context) {
         userObject = new User(context);
