@@ -185,14 +185,5 @@ public class SupportFragmentState extends BaseState implements CcListener {
         return false;
     }
 
-    public String getVersion(Context c)
-    {
-        return c.getResources().getString(R.string.RA_COCO_CC_VERSION);
 
-    }
-    public String getComponentID(Context c)
-    {
-        return c.getResources().getString(R.string.RA_COCO_CC);
-
-    }
 }

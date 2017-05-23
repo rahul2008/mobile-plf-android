@@ -42,14 +42,5 @@ import static com.janrain.android.engage.JREngage.getApplicationContext;
     public void updateDataModel() {
 
     }
-    public String getVersion(Context c){
-        return c.getResources().getString(R.string.RA_COCO_Connectivity_version);
 
-    }
-
-    public String getComponentID(Context c)
-    {
-        return c.getApplicationContext().getResources().getString(R.string.RA_COCO_Connectivity);
-
-    }
 }
