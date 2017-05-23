@@ -421,7 +421,7 @@ public class DataServicesManager {
      * @param value Value of the measurement
      * @param unit unit of the measurement
      * @param measurementGroup The MeasurementGroup to which the Measurement has to be attached
-     * @return retuns the Measurement Object created
+     * @return returns the Measurement Object created
      */
     @NonNull
     public Measurement createMeasurement(@NonNull final String type, String value, String unit, @NonNull final MeasurementGroup measurementGroup) {
@@ -435,7 +435,7 @@ public class DataServicesManager {
 
     /**
      * Creates the MeasurementGroup Data-Base Object
-     * @param measurementGroup the MeasurementGroup Object that has to be created
+     * @param measurementGroup the MeasurementGroup Object to which the MeasurementGroup has to be attached.
      * @return The MeasurementGroup Object created
      */
     @NonNull
@@ -580,7 +580,7 @@ public class DataServicesManager {
      * Create UserCharacteristics Data-Base Object
      * @param detailType The Type of UserCharacteristics
      * @param detailValue Value of the UserCharacteristics
-     * @param characteristics The UserCharacteristics Data-Base Object to be created
+     * @param characteristics The UserCharacteristics object to which the UserCharacteristics Object has to be attached
      * @return
      */
     public Characteristics createUserCharacteristics(@NonNull final String detailType, @NonNull final String detailValue, Characteristics characteristics) {
