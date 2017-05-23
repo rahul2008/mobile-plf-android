@@ -287,7 +287,7 @@ public class DataServicesManager {
 
     /**
      * Fetch the Moment with the given type from Data-Base
-     * @param dbFetchRequestListner Callback for notifying the fetch result to the calling function
+     * @param dbFetchRequestListner Callback for notifying the fetch result
      * @param type
      */
     public void fetchMomentWithType(DBFetchRequestListner<Moment> dbFetchRequestListner, final @NonNull String... type) {
@@ -298,7 +298,7 @@ public class DataServicesManager {
     /**
      * Fetch the Momenet with the given momentID
      * @param momentID Moment ID
-     * @param dbFetchRequestListner Callback for notifying the fetch result to the calling function
+     * @param dbFetchRequestListner Callback for notifying the fetch result
      */
     public void fetchMomentForMomentID(final int momentID, DBFetchRequestListner<Moment> dbFetchRequestListner) {
         mEventing.post(new LoadMomentsRequest(momentID, dbFetchRequestListner));
@@ -306,7 +306,7 @@ public class DataServicesManager {
 
     /**
      * Fetch All the Moments from the Data-Base
-     * @param dbFetchRequestListner Callback for notifying the fetch result to the calling function
+     * @param dbFetchRequestListner Callback for notifying the fetch result
      */
     public void fetchAllMoment(DBFetchRequestListner<Moment> dbFetchRequestListner) {
         mEventing.post(new LoadMomentsRequest(dbFetchRequestListner));
@@ -314,7 +314,7 @@ public class DataServicesManager {
 
     /**
      * Fetch the Consent Detail from Data-Base
-     * @param dbFetchRequestListner Callback for notifying the fetch result to the calling function
+     * @param dbFetchRequestListner Callback for notifying the fetch result
      */
     @NonNull
     public void fetchConsentDetail(DBFetchRequestListner<ConsentDetail> dbFetchRequestListner) {
@@ -336,7 +336,7 @@ public class DataServicesManager {
     /**
      * Save ConsentDetails to Data-Base
      * @param consentDetails List of Consent Details
-     * @param dbRequestListener Callback for notifying the save result to the calling function
+     * @param dbRequestListener Callback for notifying the save result
      */
     public void saveConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) {
         mEventing.post(new DatabaseConsentSaveRequest(consentDetails, dbRequestListener));
@@ -345,7 +345,7 @@ public class DataServicesManager {
     /**
      * Update the consent details in Data-Base
      * @param consentDetails List of Consent Details
-     * @param dbRequestListener Callback for notifying the update result to the calling function
+     * @param dbRequestListener Callback for notifying the update result
      */
     public void updateConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) {
         mEventing.post(new DatabaseConsentUpdateRequest(consentDetails, dbRequestListener));
@@ -365,7 +365,7 @@ public class DataServicesManager {
     /**
      * Save User Settings Object to the Data-Base
      * @param settings Saves the Settings Object to the Data-Base
-     * @param dbRequestListener Callback for notifying the save result to the calling function
+     * @param dbRequestListener Callback for notifying the save result
      */
     public void saveUserSettings(Settings settings, DBRequestListener<Settings> dbRequestListener) {
         mEventing.post(new DatabaseSettingsSaveRequest(settings, dbRequestListener));
@@ -374,7 +374,7 @@ public class DataServicesManager {
     /**
      * Update the User Setting Object
      * @param settings The Setting Object to be updated
-     * @param dbRequestListener Callback for notifying the update result to the calling function
+     * @param dbRequestListener Callback for notifying the update result
      */
     public void updateUserSettings(Settings settings, DBRequestListener<Settings> dbRequestListener) {
         mEventing.post(new DatabaseSettingsUpdateRequest(settings, dbRequestListener));
@@ -462,7 +462,7 @@ public class DataServicesManager {
     /**
      * Delete the Moment from Data-Base
      * @param moment The Moment Object that has to be deleted from the table
-     * @param dbRequestListener Callback for notifying the delete result to the calling function
+     * @param dbRequestListener Callback for notifying the delete result
      */
     public void deleteMoment(final Moment moment, DBRequestListener<Moment> dbRequestListener) {
         mEventing.post(new MomentDeleteRequest(moment, dbRequestListener));
@@ -471,7 +471,7 @@ public class DataServicesManager {
     /**
      * Bach Delete of Moments
      * @param moments The List of moments to be deleted
-     * @param dbRequestListener Callback for notifying the delete result to the calling function
+     * @param dbRequestListener Callback for notifying the delete result
      */
     public void deleteMoments(final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) {
         mEventing.post(new MomentsDeleteRequest(moments, dbRequestListener));
@@ -480,7 +480,7 @@ public class DataServicesManager {
     /**
      * Update the Moment in the Data-Base
      * @param moment The Moment to be updated
-     * @param dbRequestListener Callback for notifying the update result to the calling function
+     * @param dbRequestListener Callback for notifying the update result
      */
     public void updateMoment(Moment moment, DBRequestListener<Moment> dbRequestListener) {
         mEventing.post((new MomentUpdateRequest(moment, dbRequestListener)));
@@ -489,7 +489,7 @@ public class DataServicesManager {
     /**
      * Batch Update of Moments
      * @param moments List of Moments to be Updated
-     * @param dbRequestListener Callback for notifying the update result to the calling function
+     * @param dbRequestListener Callback for notifying the update result
      */
     public void updateMoments(List<Moment> moments, DBRequestListener<Moment> dbRequestListener) {
         mEventing.post((new MomentsUpdateRequest(moments, dbRequestListener)));
@@ -497,7 +497,7 @@ public class DataServicesManager {
 
     /**
      * Delete All the Entries from all the tables
-     * @param dbRequestListener Callback for notifying the DataClearRequest to the calling function
+     * @param dbRequestListener Callback for notifying the DataClearRequest result
      */
     public void deleteAll(DBRequestListener dbRequestListener) {
         mEventing.post(new DataClearRequest(dbRequestListener));
@@ -505,7 +505,7 @@ public class DataServicesManager {
 
     /**
      * Delete All the moments from the Data-Base
-     * @param dbRequestListener CallBack for notifying the delete result to the calling function
+     * @param dbRequestListener CallBack for notifying the delete result
      */
     public void deleteAllMoments(DBRequestListener<Moment> dbRequestListener) {
         mEventing.post(new DeleteAllMomentsRequest(dbRequestListener));
@@ -553,7 +553,7 @@ public class DataServicesManager {
     /**
      * Update the UserCharacteristics Object in Data-Base
      * @param characteristicses List of UserCharacteristics Objects
-     * @param dbRequestListener Callback for notifying the update result to the calling function
+     * @param dbRequestListener Callback for notifying the update result
      */
     public void updateUserCharacteristics(List<Characteristics> characteristicses, DBRequestListener<Characteristics> dbRequestListener) {
         mEventing.post(new UserCharacteristicsSaveRequest(characteristicses, dbRequestListener));
@@ -562,7 +562,7 @@ public class DataServicesManager {
     /**
      * Save the UserCharacteristics Object in the Data-Base
      * @param characteristicses UserCharacteristics Object to be saved
-     * @param dbRequestListener Callback for notifying the save result to the calling function
+     * @param dbRequestListener Callback for notifying the save result
      */
     public void saveUserCharacteristics(List<Characteristics> characteristicses, DBRequestListener<Characteristics> dbRequestListener) {
         mEventing.post(new UserCharacteristicsSaveRequest(characteristicses, dbRequestListener));
@@ -629,7 +629,7 @@ public class DataServicesManager {
 
     /**
      * Fetch UserSettings Object from Data-Base
-     * @param dbFetchRequestListner Callback for notifying the fetch result to the calling function
+     * @param dbFetchRequestListner Callback for notifying the fetch result
      */
     public void fetchUserSettings(DBFetchRequestListner<Settings> dbFetchRequestListner) {
         mEventing.post(new LoadSettingsRequest(dbFetchRequestListner));
@@ -679,7 +679,7 @@ public class DataServicesManager {
 
     /**
      * Fetch the Insights from Data-Base
-     * @param dbFetchRequestListner CallBack for notifying the result to the calling function
+     * @param dbFetchRequestListner CallBack for notifying the result
      */
     public void fetchInsights(DBFetchRequestListner dbFetchRequestListner) {
         mEventing.post(new FetchInsightsFromDB(dbFetchRequestListner));
@@ -688,7 +688,7 @@ public class DataServicesManager {
     /**
      * Delete Insights from Data-Base
      * @param insights The Insight Data-Object that has to be deleted
-     * @param dbRequestListener Callback for notifying the delete result to the calling function
+     * @param dbRequestListener Callback for notifying the delete result
      */
     public void deleteInsights(List<? extends Insight> insights, DBRequestListener<Insight> dbRequestListener) {
         mEventing.post(new DeleteInsightFromDB((List<Insight>) insights, dbRequestListener));
@@ -701,7 +701,7 @@ public class DataServicesManager {
      * @param deviceToken deviceToken
      * @param appVariant A type of Device (Ex: RAP-ANDROID)
      * @param protocolProvider The Protocol provider (Ex: Push.Gcma)
-     * @param registerDeviceTokenListener Callback for notifying the register result to the calling function
+     * @param registerDeviceTokenListener Callback for notifying the register result
      */
     public void registerDeviceToken(String deviceToken, String appVariant, String protocolProvider, RegisterDeviceTokenListener registerDeviceTokenListener) {
         mEventing.post(new RegisterDeviceToken(deviceToken, appVariant, protocolProvider, registerDeviceTokenListener));
@@ -711,7 +711,7 @@ public class DataServicesManager {
      * UnRegister the device token form receiving the push notification
      * @param appToken DeviceToken
      * @param appVariant A type of Device (Ex: RAP-ANDROID)
-     * @param registerDeviceTokenListener Callback for notifying the unregister result to the calling function
+     * @param registerDeviceTokenListener Callback for notifying the unregister result
      */
     public void unRegisterDeviceToken(String appToken, String appVariant, RegisterDeviceTokenListener registerDeviceTokenListener) {
         mEventing.post(new UnRegisterDeviceToken(appToken, appVariant, registerDeviceTokenListener));
