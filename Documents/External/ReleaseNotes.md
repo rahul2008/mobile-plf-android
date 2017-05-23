@@ -1,6 +1,11 @@
 BlueLib(/ShineLib) for Android - Release Notes
 =======================================
 
+Version 2.3.5
+-------------
+### Bugs fixed
+* [35185] Filting on UUID will now be done by the Android OS which reduce the amount of wrong results from discovery on certain phones. (For example on the Nexus 6P)
+
 Version 2.3.4
 -------------
 No changes.
