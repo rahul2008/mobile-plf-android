@@ -6,28 +6,36 @@
 
 package com.philips.platform.uid.components.dotnavigation;
 
+import android.content.res.ColorStateList;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.action.GeneralClickAction;
+import android.support.test.espresso.action.GeneralLocation;
+import android.support.test.espresso.action.Press;
+import android.support.test.espresso.action.Tap;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.View;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.components.BaseTest;
 import com.philips.platform.uid.matcher.DotNavigationMatcher;
-import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.thememanager.NavigationColor;
-import com.philips.platform.uid.utils.UIDTestUtils;
+
+import junit.framework.Assert;
 
 import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -36,22 +44,24 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
 
-@Ignore
 public class DotNavigationIndicatorTest extends BaseTest {
 
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class, false, false);
     BaseTestActivity activity;
     private IdlingResource mIdlingResource;
+    DotNavigationFragment dotNavigationFragment;
 
     @Before
     public void setUp() throws Exception {
         activity = mActivityTestRule.launchActivity(getLaunchIntent(NavigationColor.ULTRA_LIGHT.ordinal()));
         activity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
-        activity.switchFragment(new DotNavigationFragment());
+        dotNavigationFragment = new DotNavigationFragment();
+        activity.switchFragment(dotNavigationFragment);
         mIdlingResource = activity.getIdlingResource();
         // To prove that the test fails, omit this call:
         Espresso.registerIdlingResources(mIdlingResource);
+//        UIDTestUtils.waitFor(activity.getResources(), UIDTestUtils.UI_LOAD_WAIT_TIME);
     }
 
     @After
@@ -84,9 +94,20 @@ public class DotNavigationIndicatorTest extends BaseTest {
         return onView(withId(com.philips.platform.uid.test.R.id.pager_indicator));
     }
 
-    @Ignore
+    protected ViewInteraction getViewPager() {
+        return onView(withId(com.philips.platform.uid.test.R.id.dot_navigation_pager));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Test
     public void verifyUnselectedCircleColorBasedOnSuppliedTheme() throws Exception {
+        initPagerWithSecondItemSelected(1);
+
+        final ColorStateList expectedColor = activity.getResources().getColorStateList(R.color.uid_dot_navigation_icon_color, activity.getTheme());
+        getIndicator().check(matches(DotNavigationMatcher.sameBackgroundColor(expectedColor)));
+    }
+
+    protected void initPagerWithSecondItemSelected(final int currentItem) {
         getViewPager().perform(new ViewAction() {
             @Override
             public Matcher<View> getConstraints() {
@@ -100,17 +121,9 @@ public class DotNavigationIndicatorTest extends BaseTest {
 
             @Override
             public void perform(final UiController uiController, final View view) {
-                if (view instanceof ViewPager) {
-                    ((ViewPager) view).setCurrentItem(1);
-                }
+                ((ViewPager) view).setCurrentItem(currentItem);
             }
         });
-        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidDotNavigationDefaultNormalOffBackgroundColor);
-        getIndicator().check(matches(TextViewPropertiesMatchers.sameBackgroundColorTintList(expectedColor)));
-    }
-
-    protected ViewInteraction getViewPager() {
-        return onView(withId(com.philips.platform.uid.test.R.id.dot_navigation_pager));
     }
 
     @Test
@@ -120,12 +133,20 @@ public class DotNavigationIndicatorTest extends BaseTest {
 
     @Test
     public void verifyClickOnRightOfSelectedDotGivesCallbackToShowNext() throws Exception {
-
+        getIndicator().check(matches(ViewMatchers.isDisplayed()));
+        getIndicator().perform(new GeneralClickAction(Tap.SINGLE, GeneralLocation.CENTER_RIGHT, Press.FINGER));
+        final int currentItem = ((ViewPager) activity.findViewById(com.philips.platform.uid.test.R.id.dot_navigation_pager)).getCurrentItem();
+        Assert.assertEquals(currentItem, 1);
     }
 
     @Test
     public void verifyClickOnLeftOfSelectedDotGivesCallbackToShowPrevious() throws Exception {
+        initPagerWithSecondItemSelected(1);
+        getIndicator().check(matches(ViewMatchers.isDisplayed()));
 
+        getIndicator().perform(new GeneralClickAction(Tap.SINGLE, GeneralLocation.CENTER_LEFT, Press.FINGER));
+        final int currentItem = ((ViewPager) activity.findViewById(com.philips.platform.uid.test.R.id.dot_navigation_pager)).getCurrentItem();
+        Assert.assertEquals(currentItem, 0);
     }
 
     @Test
@@ -137,11 +158,14 @@ public class DotNavigationIndicatorTest extends BaseTest {
 
     @Test
     public void verifyWidthOfDot() throws Exception {
-
+        int expectedwidth = activity.getResources().getDimensionPixelSize(R.dimen.uid_dot_navigation_icon_size);
+        getIndicator().check(matches(DotNavigationMatcher.hasSameWidth(expectedwidth)));
     }
 
     @Test
     public void verifyHeightOfDot() throws Exception {
+        int expectedwidth = activity.getResources().getDimensionPixelSize(R.dimen.uid_dot_navigation_icon_size);
+        getIndicator().check(matches(DotNavigationMatcher.hasSameHeight(expectedwidth)));
     }
 
     @Test
@@ -149,5 +173,10 @@ public class DotNavigationIndicatorTest extends BaseTest {
 
         final int expectedHeight = activity.getResources().getDimensionPixelSize(R.dimen.uid_dot_navigation_container_height);
         getIndicator().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
+    }
+
+    @Test
+    public void verifyNavigationDotsAreDrawnAtCenter() throws Exception {
+        getIndicator().check(matches(DotNavigationMatcher.hasGravity(Gravity.CENTER)));
     }
 }

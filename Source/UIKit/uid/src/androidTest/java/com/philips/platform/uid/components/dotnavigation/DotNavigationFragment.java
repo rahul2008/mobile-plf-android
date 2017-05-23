@@ -6,7 +6,6 @@
 
 package com.philips.platform.uid.components.dotnavigation;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,6 +17,8 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
@@ -32,18 +33,6 @@ public class DotNavigationFragment extends Fragment {
             R.drawable.uid_ic_data_validation,
     };
 
-    @SuppressLint("ValidFragment")
-    public DotNavigationFragment(final int i) {
-        drawableArray = new int[i];
-    }
-
-    public DotNavigationFragment() {
-    }
-
-    public static DotNavigationFragment create() {
-        return new DotNavigationFragment(0);
-    }
-
     @VisibleForTesting
     public static int[] getDrawableArray() {
         return drawableArray;
@@ -54,8 +43,7 @@ public class DotNavigationFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         final View view = inflater.inflate(com.philips.platform.uid.test.R.layout.fragment_dot_navigation, container, false);
         final ViewPager viewpager = (ViewPager) view.findViewById(com.philips.platform.uid.test.R.id.dot_navigation_pager);
-        final List list = initPagerItems();
-        viewpager.setAdapter(new NavigationPager(list));
+        viewpager.setAdapter(new NavigationPager(initPagerItems()));
         final DotNavigationIndicator dotNavigationIndicator = (DotNavigationIndicator) view.findViewById(com.philips.platform.uid.test.R.id.pager_indicator);
         dotNavigationIndicator.setViewPager(viewpager);
         return view;
@@ -88,7 +76,10 @@ public class DotNavigationFragment extends Fragment {
         @Override
         public Object instantiateItem(final ViewGroup container, final int position) {
             final Context context = container.getContext();
+            final PagerItem pagerItem = pagerItems.get(position);
             final View view = LayoutInflater.from(context).inflate(com.philips.platform.uid.test.R.layout.dot_navigation_item_layout, container, false);
+            ((ImageView) view.findViewById(com.philips.platform.uid.test.R.id.page_icon)).setImageDrawable(pagerItem.drawable);
+            ((TextView) view.findViewById(com.philips.platform.uid.test.R.id.page_title)).setText(String.format(" Page %d ", pagerItem.index));
             container.addView(view);
             return view;
         }

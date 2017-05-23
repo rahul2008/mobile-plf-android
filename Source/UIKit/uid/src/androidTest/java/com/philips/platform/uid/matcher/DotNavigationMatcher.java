@@ -6,7 +6,10 @@
 
 package com.philips.platform.uid.matcher;
 
+import android.annotation.TargetApi;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,10 +44,11 @@ public class DotNavigationMatcher {
             protected boolean matchesSafely(View view) {
                 if (view instanceof DotNavigationIndicator) {
                     view = ((DotNavigationIndicator) view).getChildAt(0);
+                    ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+                    setValues(lp.leftMargin, expectedValue);
+                    return areEqual();
                 }
-                ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-                setValues(lp.leftMargin, expectedValue);
-                return areEqual();
+                return false;
             }
         };
     }
@@ -55,9 +59,9 @@ public class DotNavigationMatcher {
             protected boolean matchesSafely(View view) {
                 if (view instanceof DotNavigationIndicator) {
                     view = ((DotNavigationIndicator) view).getChildAt(0);
+                    ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+                    setValues(lp.rightMargin, expectedValue);
                 }
-                ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-                setValues(lp.rightMargin, expectedValue);
                 return areEqual();
             }
         };
@@ -107,10 +111,47 @@ public class DotNavigationMatcher {
     }
 
     public static Matcher<? super View> hasSameWidth(final int expectedWidth) {
-        return null;
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View item) {
+                if (item instanceof DotNavigationIndicator) {
+                    final View childAt = ((DotNavigationIndicator) item).getChildAt(0);
+
+                    setValues(childAt.getWidth(), expectedWidth);
+                    return areEqual();
+                }
+                return false;
+            }
+        };
     }
 
     public static Matcher<? super View> hasSameHeight(final int expectedHeight) {
-        return null;
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View item) {
+                if (item instanceof DotNavigationIndicator) {
+                    final View childAt = ((DotNavigationIndicator) item).getChildAt(0);
+
+                    setValues(childAt.getHeight(), expectedHeight);
+                    return areEqual();
+                }
+                return false;
+            }
+        };
+    }
+
+    public static Matcher<? super View> sameBackgroundColor(final ColorStateList attributeColor) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            protected boolean matchesSafely(final View view) {
+                if (view instanceof DotNavigationIndicator) {
+                    final View childAt = ((DotNavigationIndicator) view).getChildAt(0);
+                    setValues(childAt.getBackgroundTintList(), attributeColor);
+                    return areEqual();
+                }
+                return false;
+            }
+        };
     }
 }
