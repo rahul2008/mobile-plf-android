@@ -198,8 +198,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
                 serviceDiscoveyService = resultMap.get("userreg.landing.emailverif");
                 if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
-                    jumpConfig.captureRedirectUri = serviceDiscoveyService.getConfigUrls()
-                            + "?loc=" + langCode + "_" + countryCode;
+                    jumpConfig.captureRedirectUri = serviceDiscoveyService.getConfigUrls();
                     RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.emailverif :"
                             + serviceDiscoveyService.getConfigUrls());
                     RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.emailverif :"
@@ -216,8 +215,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                     String modifiedUrl = serviceDiscoveyService.getConfigUrls().
                             replaceAll("c-w", "myphilips");
                     //https://philips-cn.capture.cn.janrain.com/
-                    jumpConfig.captureRecoverUri = modifiedUrl + "&loc=" +
-                            langCode + "_" + countryCode;
+                    jumpConfig.captureRecoverUri = modifiedUrl;
                     RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.resetpass :"
                             + modifiedUrl);
                     RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.resetpass :"

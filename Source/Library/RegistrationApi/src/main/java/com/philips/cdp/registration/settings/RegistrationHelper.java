@@ -103,7 +103,9 @@ public class RegistrationHelper {
                 languageCode = Locale.getDefault().getLanguage();
                 countryCode = Locale.getDefault().getCountry();
             }
+
             setLocale(languageCode,countryCode);
+
         }
 
       //  countryCode = mLocale.getCountry();
@@ -230,6 +232,7 @@ public class RegistrationHelper {
 
 
     public void setLocale(String languageCode,String countryCode ){
+        RLog.i("Locale", "setLocale language"+ languageCode+" country"+ countryCode);
         mLocale = new Locale(languageCode, countryCode);
     }
     public synchronized Locale getLocale(Context context) {

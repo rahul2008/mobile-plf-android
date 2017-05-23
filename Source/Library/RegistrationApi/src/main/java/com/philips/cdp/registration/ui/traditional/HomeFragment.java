@@ -67,6 +67,7 @@ import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.wechat.WeChatAuthenticationListener;
 import com.philips.cdp.registration.wechat.WeChatAuthenticator;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -77,6 +78,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -120,6 +122,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private IWXAPI mWeChatApi;
     private String mWeChatCode;
     private String mShowCountrySelection;
+    private String mLocale;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -502,27 +505,49 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             RegistrationHelper.getInstance().setCountryCode(countryCode);
             RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + countryCode.length());
             showProgressDialog();
-            serviceDiscoveryInterface.getServiceLocaleWithLanguagePreference(
-                    "userreg.janrain.api", new ServiceDiscoveryInterface.
-                            OnGetServiceLocaleListener() {
-                        @Override
-                        public void onSuccess(String s) {
-                            RLog.d(RLog.SERVICE_DISCOVERY, "STRING S : " + s);
-                            String localeArr[] = s.toString().split("_");
-                            RegistrationHelper.getInstance().initializeUserRegistration(mContext);
-                            RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());
-                            RLog.d(RLog.SERVICE_DISCOVERY,"Change Country code :" + RegistrationHelper.getInstance().getCountryCode());
-                            handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
-                            mCountryDisplayy.setText(countryName);
 
+            ArrayList<String> var1 = new ArrayList<String>();
+            var1.add("userreg.janrain.api");
+            serviceDiscoveryInterface.getServicesWithCountryPreference(var1,
+                    new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+                @Override
+                public void onSuccess(Map<String, ServiceDiscoveryService> map) {
+
+                    RLog.d("Locale", "Locale WithCountryPreference" + map.get("userreg.janrain.api").getLocale());
+                    mLocale = map.get("userreg.janrain.api").getLocale();
+
+                    serviceDiscoveryInterface.getServiceLocaleWithLanguagePreference("userreg.janrain.api",
+                            new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+                        @Override
+                        public void onSuccess(String locale) {
+                            mLocale = locale;
                         }
 
                         @Override
                         public void onError(ERRORVALUES errorvalues, String s) {
-                            RLog.d(RLog.SERVICE_DISCOVERY,"errorvalues : " + errorvalues);
+                            EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
                             hideProgressDialog();
                         }
                     });
+
+                    RLog.d(RLog.SERVICE_DISCOVERY, "STRING S : " + mLocale);
+                    String localeArr[] = mLocale.toString().split("_");
+                    RegistrationHelper.getInstance().initializeUserRegistration(mContext);
+                    RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());
+                    RLog.d(RLog.SERVICE_DISCOVERY,"Change Country code :" + RegistrationHelper.getInstance().getCountryCode());
+                    handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
+                    mCountryDisplayy.setText(countryName);
+                    hideProgressDialog();
+                }
+
+                @Override
+                public void onError(ERRORVALUES errorvalues, String s) {
+                    EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+                    hideProgressDialog();
+
+                }
+            });
+
         }
     }
 

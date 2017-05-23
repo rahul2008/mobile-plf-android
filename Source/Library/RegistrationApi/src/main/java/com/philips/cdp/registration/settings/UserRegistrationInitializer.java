@@ -27,8 +27,13 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -46,6 +51,7 @@ public class UserRegistrationInitializer {
     private boolean mJanrainIntialized = false;
 
     private boolean isRefreshUserSessionInProgress = false;
+    private String locale;
 
     private static volatile UserRegistrationInitializer mUserRegistrationInitializer;
 
@@ -169,28 +175,45 @@ public class UserRegistrationInitializer {
             public void onSuccess(String s, SOURCE source) {
                 RegistrationHelper.getInstance().setCountryCode(s);
             }
-
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-
             }
         });
-        serviceDiscoveryInterface.getServiceLocaleWithLanguagePreference("userreg.janrain.api", new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+
+        ArrayList<String> var1 = new ArrayList<String>();
+        var1.add("userreg.janrain.api");
+        serviceDiscoveryInterface.getServicesWithCountryPreference(var1, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
-            public void onSuccess(String s) {
-                String localeArr[] = s.split("_");
+            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
+
+                RLog.d("Locale", "Locale WithCountryPreference" + map.get("userreg.janrain.api").getLocale());
+                 locale = map.get("userreg.janrain.api").getLocale();
+
+                serviceDiscoveryInterface.getServiceLocaleWithLanguagePreference("userreg.janrain.api", new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+                    @Override
+                    public void onSuccess(String s) {
+                        locale = s;
+                    }
+
+                    @Override
+                    public void onError(ERRORVALUES errorvalues, String s) {
+                        EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+                    }
+                });
+                String localeArr[] = locale.split("_");
                 RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());
                 mRegistrationSettings.intializeRegistrationSettings(context,
                         RegistrationConfiguration.getInstance().getRegistrationClientId(registrationType),
                         RegistrationHelper.getInstance().getLocale(context).toString());
-
             }
-
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
                 EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+
             }
         });
+
+
 
 
     }
