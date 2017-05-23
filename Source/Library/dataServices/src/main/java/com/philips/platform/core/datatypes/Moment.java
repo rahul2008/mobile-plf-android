@@ -1,7 +1,7 @@
-/*
- * Copyright (c) 2016. Philips Electronics India Ltd
- * All rights reserved. Reproduction in whole or in part is prohibited without
- * the written consent of the copyright holder.
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
  */
 
 package com.philips.platform.core.datatypes;
@@ -15,8 +15,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * Data-Base Interface for creating Moment Object
  */
 public interface Moment extends BaseAppData, DateData, Serializable {
     String MOMENT_NEVER_SYNCED_AND_DELETED_GUID = "-1";

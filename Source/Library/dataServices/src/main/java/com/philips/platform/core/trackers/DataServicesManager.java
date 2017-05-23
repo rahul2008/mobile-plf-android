@@ -85,6 +85,9 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+/**
+ * The Public Interface for the Propositions for initializing and using Data-Services Component
+ */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class DataServicesManager {
 

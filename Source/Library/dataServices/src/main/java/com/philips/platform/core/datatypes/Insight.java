@@ -1,7 +1,9 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
  */
+
 package com.philips.platform.core.datatypes;
 
 import android.support.annotation.Nullable;
@@ -9,6 +11,9 @@ import android.support.annotation.Nullable;
 import java.io.Serializable;
 import java.util.Collection;
 
+/**
+ * Data-Base Interface for creating Insight Object
+ */
 public interface Insight extends BaseAppData, Serializable {
 
     String INSIGHT_NEVER_SYNCED_AND_DELETED_GUID = "-1";
