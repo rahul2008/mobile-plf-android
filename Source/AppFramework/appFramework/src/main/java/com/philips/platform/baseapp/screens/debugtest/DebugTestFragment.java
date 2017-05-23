@@ -39,7 +39,7 @@ import java.util.List;
 
 public class DebugTestFragment extends AppFrameworkBaseFragment {
     public static final String TAG = DebugTestFragment.class.getSimpleName();
-    private String configurationType[] = {Constants.STAGING, Constants.EVALUATION, Constants.TESTING, Constants.DEVELOPMENT, Constants.PRODUCTION};
+    private String configurationType[] = {Constants.STAGING, Constants.TESTING, Constants.DEVELOPMENT};
     private List<String> list = Arrays.asList(configurationType);
     private TextView configurationTextView;
     private Spinner spinner;
@@ -73,7 +73,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
         sharedPreferences = context.getSharedPreferences(Constants.PRODUCT_REGISTRATION_PREFERENCES, Context.MODE_PRIVATE);
         initViews(view);
         setSpinnerAdaptor();
-        final int position = list.indexOf(sharedPreferences.getString(Constants.REGISTRATION_ENV_PREFERENCES, Constants.EVALUATION));
+        final int position = list.indexOf(sharedPreferences.getString(Constants.REGISTRATION_ENV_PREFERENCES, Constants.STAGING));
         setSpinnerSelection(position);
         spinner.setOnItemSelectedListener(getSpinnerListener());
         configurationTextView.setTextColor(ContextCompat.getColor(context, R.color.uikit_white));
@@ -99,12 +99,9 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
                         initialiseUserRegistration(Constants.DEVELOPMENT);
                     } else if (configuration.equalsIgnoreCase(Constants.TESTING)) {
                         initialiseUserRegistration(Constants.TESTING);
-                    } else if (configuration.equalsIgnoreCase(Constants.EVALUATION)) {
-                        initialiseUserRegistration(Constants.EVALUATION);
-                    } else if (configuration.equalsIgnoreCase(Constants.STAGING)) {
+                    }
+                    else{
                         initialiseUserRegistration(Constants.STAGING);
-                    } else if (configuration.equalsIgnoreCase(Constants.PRODUCTION)) {
-                        initialiseUserRegistration(Constants.PRODUCTION);
                     }
                     configurationTextView.setText(configuration);
                 }
