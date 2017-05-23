@@ -421,31 +421,6 @@ public class SecureStorage implements SecureStorageInterface {
         return decryptedBytes;
     }
 
-    private Cipher getCipher(int CipherEncryptOrDecryptMode) {
-        byte[] secretKeyBytes = null;
-        Cipher cipher = null;
-        try {
-            cipher = Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
-            final SharedPreferences prefs = getSharedPreferences(KEY_FILE_NAME);
-            if (prefs.contains(SINGLE_AES_KEY_TAG)) { // if  key is present
-                final String aesKeyForEcryptandDecrypt = prefs.getString(SINGLE_AES_KEY_TAG, null);
-                secretKeyBytes = Base64.decode(aesKeyForEcryptandDecrypt, Base64.DEFAULT);//  AES key bytes
-            } else {
-                final SecretKey secretKey = generateAESKey(); // generate AES key
-                secretKeyBytes = secretKey.getEncoded();
-                final String secretKeyString = Base64.encodeToString(secretKey.getEncoded(), Base64.DEFAULT);
-                storeEncryptedData(SINGLE_AES_KEY_TAG, secretKeyString, KEY_FILE_NAME); // save encrypted AES key in file
-            }
-            final Key key = new SecretKeySpec(secretKeyBytes, "AES");
-            final byte[] ivBlockSize = new byte[cipher.getBlockSize()];
-            final IvParameterSpec ivParameterSpec = new IvParameterSpec(ivBlockSize);
-            cipher.init(CipherEncryptOrDecryptMode, key, ivParameterSpec);
-        } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "getCipher error", e.getMessage());
-        }
-        return cipher;
-    }
-
     private Cipher getCipher(int CipherEncryptOrDecryptMode, SecureStorageError secureStorageError) {
         Cipher cipher = null;
         try {
