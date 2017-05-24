@@ -7,17 +7,17 @@
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatImageButton;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 
 import com.philips.platform.uid.R;
+import com.philips.platform.uid.thememanager.ThemeUtils;
 
 public class DotNavigationIcon extends AppCompatImageButton {
     private int iconLeftSpacing;
@@ -39,23 +39,27 @@ public class DotNavigationIcon extends AppCompatImageButton {
     private void processAttributes(@NonNull Context context, @NonNull AttributeSet attrs, int defStyleAttr) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDDotNavigation, defStyleAttr, R.style.UIDDotNavigation);
 
-        ColorStateList backGroundListID = typedArray.getColorStateList(R.styleable.UIDDotNavigation_uidDotNavigationIconColorList);
-        int backgroundDrawable = typedArray.getResourceId(R.styleable.UIDDotNavigation_uidDotNavigationDrawable, -1);
+        final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
+        Drawable backgroundDrawable = typedArray.getDrawable(R.styleable.UIDDotNavigation_uidDotNavigationDrawable);
         //Need to check if this works even for normal drawables and icons along with vector
-        setBackground(getBackgroundDrawable(backgroundDrawable));
+        setBackground(backgroundDrawable);
 
         iconLeftSpacing = typedArray.getDimensionPixelOffset(R.styleable.UIDDotNavigation_uidDotNavigationIconSpacingLeft, -1);
         iconRightSpacing = typedArray.getDimensionPixelOffset(R.styleable.UIDDotNavigation_uidDotNavigationIconSpacingRight, -1);
 
+        applyBackgroundTinting(typedArray, theme);
         typedArray.recycle();
-
-        if (backGroundListID != null && getBackground() != null) {
-            ViewCompat.setBackgroundTintList(this, backGroundListID);
-        }
     }
 
     protected Drawable getBackgroundDrawable(final int backgroundDrawable) {
         return ContextCompat.getDrawable(getContext(), backgroundDrawable);
+    }
+
+    private void applyBackgroundTinting(@NonNull TypedArray typedArray, @NonNull final Resources.Theme theme) {
+        int backGroundListID = typedArray.getResourceId(R.styleable.UIDDotNavigation_uidDotNavigationIconColorList, -1);
+        if (backGroundListID != -1 && getBackground() != null) {
+            setSupportBackgroundTintList(ThemeUtils.buildColorStateList(getResources(), theme, backGroundListID));
+        }
     }
 
     @Override

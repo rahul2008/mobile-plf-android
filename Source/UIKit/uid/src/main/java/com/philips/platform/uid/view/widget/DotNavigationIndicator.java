@@ -14,7 +14,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -77,9 +76,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
 
     private boolean processTouch(final MotionEvent event) {
         if (isIconActionDownDetected && isIconActionUpDetected) {
-
             resetIconTouch();
-
             return isSelectedChildTouched(event);
         }
 
@@ -93,7 +90,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
             selectedChild.getDrawingRect(childRect);
             final MarginLayoutParams marginLayoutParams = (MarginLayoutParams) selectedChild.getLayoutParams();
             final boolean isLeft = event.getX() < (selectedChild.getX() - selectedChild.getPaddingStart() - marginLayoutParams.getMarginStart());
-            final boolean isRight = event.getX() > (selectedChild.getX() + selectedChild.getWidth() + marginLayoutParams.getMarginStart());
+            final boolean isRight = event.getX() > (selectedChild.getX() + selectedChild.getWidth() + marginLayoutParams.getMarginEnd());
             if (isLeft)
                 showPrevious();
             if (isRight)
@@ -202,6 +199,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
             View child = getChildAt(childIndex);
             final boolean isSelected = (childIndex == item);
             child.setSelected(isSelected);
+            child.invalidate();
         }
     }
 
