@@ -16,16 +16,6 @@ import com.philips.cl.di.common.ssdp.models.DiscoveryServiceState;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 import com.philips.cl.di.common.ssdp.util.SSDPUtils;
 
-import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import java.lang.ref.WeakReference;
 import java.net.InetAddress;
 import java.net.MalformedURLException;

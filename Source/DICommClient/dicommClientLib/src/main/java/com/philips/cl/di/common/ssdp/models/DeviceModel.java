@@ -11,8 +11,6 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import java.util.List;
-
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -59,6 +57,7 @@ public class DeviceModel {
     public DeviceModel(final ListItem listInfo, final boolean isNew) {
         ipAddress = "";
     }
+
     /**
      * constructor used by TwonkyService for discovered UPNPs
      *
