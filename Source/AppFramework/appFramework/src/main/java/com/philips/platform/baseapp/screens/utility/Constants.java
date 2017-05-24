@@ -14,10 +14,8 @@ public class Constants {
      * Configuration environment
      */
     public static final String STAGING = "Staging";
-    public static final String EVALUATION = "Evaluation";
     public static final String TESTING = "Testing";
     public static final String DEVELOPMENT = "Development";
-    public static final String PRODUCTION = "Production";
 
     public static final String PRODUCT_REGISTRATION_PREFERENCES = "prod_demo";
     public static final String REGISTRATION_ENV_PREFERENCES = "prod_demo";

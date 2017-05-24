@@ -7,12 +7,14 @@
 package com.philips.platform.baseapp.screens.debugtest;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +23,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
@@ -34,7 +35,6 @@ import java.util.List;
 
 /**
  * This fragment if for internal testing of dynamic configuration change of User registration
- *
  */
 
 public class DebugTestFragment extends AppFrameworkBaseFragment {
@@ -84,27 +84,38 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
         return new AdapterView.OnItemSelectedListener() {
 
             @Override
-            public void onItemSelected(AdapterView<?> adapter, View v,
-                                       int position, long id) {
-                final String configuration = adapter.getItemAtPosition(position).toString();
-                if (adapter != null && ((TextView) adapter.getChildAt(position)) != null) {
-                    ((TextView) adapter.getChildAt(position)).setTextColor(Color.WHITE);
+            public void onItemSelected(final AdapterView<?> adapter, View v,
+                                       final int position, long id) {
+
+                    new AlertDialog.Builder(context, R.style.alertDialogStyle)
+                            .setTitle(getString(R.string.RA_Change_Configuration))
+                            .setMessage(context.getResources().getString(R.string.RA_change_config_desc))
+
+                            .setPositiveButton(getString(R.string.RA_OK),
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            final String configuration = adapter.getItemAtPosition(position).toString();
+                                            if (adapter != null && ((TextView) adapter.getChildAt(position)) != null) {
+                                                ((TextView) adapter.getChildAt(position)).setTextColor(Color.WHITE);
+                                            }
+                                            int position1 = list.indexOf(sharedPreferences.getString(Constants.REGISTRATION_ENV_PREFERENCES, Constants.STAGING));
+                                            if (position1 != position) {
+                                                userRegistrationState = new UserRegistrationSettingsState();
+                                                userRegistrationState.getUserObject(context).logout(null);
+                                                if (configuration.equalsIgnoreCase(Constants.DEVELOPMENT)) {
+                                                    initialiseUserRegistration(Constants.DEVELOPMENT);
+                                                } else if (configuration.equalsIgnoreCase(Constants.TESTING)) {
+                                                    initialiseUserRegistration(Constants.TESTING);
+                                                } else {
+                                                    initialiseUserRegistration(Constants.STAGING);
+                                                }
+                                                configurationTextView.setText(configuration);
+                                            }
+                                        }
+                                    })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
                 }
-                int position1 = list.indexOf(sharedPreferences.getString(Constants.REGISTRATION_ENV_PREFERENCES, Constants.EVALUATION));
-                if (position1 != position) {
-                    userRegistrationState = new UserRegistrationSettingsState();
-                    userRegistrationState.getUserObject(context).logout(null);
-                    if (configuration.equalsIgnoreCase(Constants.DEVELOPMENT)) {
-                        initialiseUserRegistration(Constants.DEVELOPMENT);
-                    } else if (configuration.equalsIgnoreCase(Constants.TESTING)) {
-                        initialiseUserRegistration(Constants.TESTING);
-                    }
-                    else{
-                        initialiseUserRegistration(Constants.STAGING);
-                    }
-                    configurationTextView.setText(configuration);
-                }
-            }
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
