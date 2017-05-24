@@ -31,9 +31,6 @@ public class DhpApiSigner implements ApiSigner{
     private final String sharedKey;
 
     public DhpApiSigner(String sharedKey, String secretKey) {
-        if (sharedKey == null || secretKey == null)
-            throw new IllegalArgumentException("Missing authentication signing keys");
-
         this.sharedKey = sharedKey;
         this.secretKey = secretKey;
     }
