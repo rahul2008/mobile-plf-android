@@ -41,7 +41,7 @@ public class AppUpdateActivity extends AppCompatActivity {
 
 		tvisToBeDeprecated = (TextView) findViewById(R.id.tvisToBeDeprecated);
 
-		tvisUpdateAvailable = (TextView) findViewById(R.id.tvisToBeDeprecated);
+		tvisUpdateAvailable = (TextView) findViewById(R.id.tvisUpdateAvailable);
 
 		tvDeprecateMessage = (TextView) findViewById(R.id.tvDeprecateMessage);
 

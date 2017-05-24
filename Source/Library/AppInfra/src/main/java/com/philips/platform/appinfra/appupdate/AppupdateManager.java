@@ -135,59 +135,82 @@ public class AppupdateManager implements AppupdateInterface {
 
 	@Override
 	public boolean isDeprecated() {
-		String minVer = getAppUpdateModel().getVersion().getMinimumVersion();
-		String deprecatedVersion = getAppUpdateModel().getVersion().getDeprecatedVersion();
-		String deprecationDate = getAppUpdateModel().getVersion().getDeprecationDate();
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		formatter.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
-		try {
-			Date deprecationdate = formatter.parse(deprecationDate);
-			Date currentDate = new Date();
+		if (getAppUpdateModel() != null && getAppUpdateModel().getVersion() != null) {
+			String minVer = getAppUpdateModel().getVersion().getMinimumVersion();
+			String deprecatedVersion = getAppUpdateModel().getVersion().getDeprecatedVersion();
+			String deprecationDate = getAppUpdateModel().getVersion().getDeprecationDate();
 
-			return compareVersion(getAppVersion(), minVer) || compareVersion(getAppVersion(), deprecatedVersion) && currentDate.after(deprecationdate);
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			formatter.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
+			try {
+				Date deprecationdate = formatter.parse(deprecationDate);
+				Date currentDate = new Date();
+				return AIVersion.isverionlessthancloud(getAppVersion(), minVer) ||
+						AIVersion.isbothversionsame(getAppVersion(), deprecatedVersion) && currentDate.after(deprecationdate);
 
-		} catch (ParseException e) {
-			e.printStackTrace();
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		}
+
 		return false;
 	}
 
 	@Override
 	public boolean isToBeDeprecated() {
-		String minVer = getAppUpdateModel().getVersion().getMinimumVersion();
-		String deprecatedVer = getAppUpdateModel().getVersion().getDeprecatedVersion();
-		return compareVersion(minVer, getAppVersion()) && compareVersion(getAppVersion(), deprecatedVer);
+		if (getAppUpdateModel() != null && getAppUpdateModel().getVersion() != null) {
+			String minVer = getAppUpdateModel().getVersion().getMinimumVersion();
+			String deprecatedVer = getAppUpdateModel().getVersion().getDeprecatedVersion();
+			return AIVersion.isverionlessthancloud(minVer, getAppVersion()) &&
+					AIVersion.isversionlessthanequalsto(getAppVersion(), deprecatedVer);
+		}
+		return false;
 	}
 
 	@Override
 	public boolean isUpdateAvailable() {
-		String currentVer = getAppUpdateModel().getVersion().getCurrentVersion();
-		return compareVersion(getAppVersion(), currentVer);
+		if (getAppUpdateModel() != null && getAppUpdateModel().getVersion() != null) {
+			String currentVer = getAppUpdateModel().getVersion().getCurrentVersion();
+			return AIVersion.isverionlessthancloud(getAppVersion(), currentVer);
+		}
+		return false;
 	}
 
 	@Override
 	public String getDeprecateMessage() {
-		return getAppUpdateModel().getMessages().getMinimumVersionMessage();
+		if (getAppUpdateModel() != null && getAppUpdateModel().getMessages() != null) {
+			return getAppUpdateModel().getMessages().getMinimumVersionMessage();
+		}
+		return null;
 	}
 
 	@Override
 	public String getToBeDeprecatedMessage() {
-		return getAppUpdateModel().getMessages().getDeprecatedVersionMessage();
+		if (getAppUpdateModel() != null && getAppUpdateModel().getMessages() != null) {
+			return getAppUpdateModel().getMessages().getDeprecatedVersionMessage();
+		}
+		return null;
 	}
 
 	@Override
 	public String getToBeDeprecatedDate() {
-		return getAppUpdateModel().getVersion().getDeprecationDate();
+		if (getAppUpdateModel() != null && getAppUpdateModel().getVersion() != null) {
+			return getAppUpdateModel().getVersion().getDeprecationDate();
+		}
+		return null;
 	}
 
 	@Override
 	public String getUpdateMessage() {
-		return getAppUpdateModel().getMessages().getCurrentVersionMessage();
+		if (getAppUpdateModel() != null && getAppUpdateModel().getMessages() != null) {
+			return getAppUpdateModel().getMessages().getCurrentVersionMessage();
+		}
+		return null;
 	}
 
 	@Override
 	public String getMinimumVersion() {
-		if (getAppUpdateModel() != null) {
+		if (getAppUpdateModel() != null && getAppUpdateModel().getVersion() != null) {
 			return getAppUpdateModel().getVersion().getMinimumVersion();
 		}
 		return null;
@@ -195,34 +218,9 @@ public class AppupdateManager implements AppupdateInterface {
 
 	@Override
 	public String getMinimumOSverion() {
-		return getAppUpdateModel().getRequirements().getMinimumOSVersion();
-	}
-
-	private boolean compareVersion(String appVer, String cloudVer) {
-		String[] arr1 = appVer.split("\\.");
-		String[] arr2 = cloudVer.split("\\.");
-
-		int i = 0;
-		while (i < arr1.length || i < arr2.length) {
-			if (i < arr1.length && i < arr2.length) {
-				if (Integer.parseInt(arr1[i]) < Integer.parseInt(arr2[i])) {
-					return true;
-				} else if (Integer.parseInt(arr1[i]) > Integer.parseInt(arr2[i])) {
-					return false;
-				}
-			} else if (i < arr1.length) {
-				if (Integer.parseInt(arr1[i]) != 0) {
-					return false;
-				}
-			} else if (i < arr2.length) {
-				if (Integer.parseInt(arr2[i]) != 0) {
-					return true;
-				}
-			}
-
-			i++;
+		if (getAppUpdateModel() != null && getAppUpdateModel().getRequirements() != null) {
+			return getAppUpdateModel().getRequirements().getMinimumOSVersion();
 		}
-
-		return false;
+		return null;
 	}
 }
