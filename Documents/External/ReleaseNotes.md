@@ -1,6 +1,30 @@
 BlueLib(/ShineLib) for Android - Release Notes
 =======================================
 
+Version 2.3.5
+-------------
+
+### Functionality Delivered
+* NA
+
+### Backwards Compatibility
+* NA
+
+### Features not covered
+* To be filled in at release
+
+### Breaking Changes
+See backwards compatibility
+
+### Defects solved
+* [35185] Filting on UUID will now be done by the Android OS which reduce the amount of wrong results from discovery on certain phones. (For example on the Nexus 6P)
+
+### Residual anomalies
+* To be filled in at release
+
+### Risks and mitigations
+* NA
+
 Version 2.3.4
 -------------
 No changes.
