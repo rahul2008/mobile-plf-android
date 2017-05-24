@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.philips.platform.uid.utils.UIDTestUtils;
-import com.philips.platform.uid.view.widget.DotNavigationIcon;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -268,11 +267,6 @@ public class TextViewPropertiesMatchers {
             @Override
             protected boolean matchesSafely(final View view) {
                 if (view instanceof TextView) {
-                    TextView textView = (TextView) view;
-                    setValues(textView.getBackgroundTintList(), attributeColor);
-                    return areEqual();
-                }
-                if (view instanceof DotNavigationIcon) {
                     TextView textView = (TextView) view;
                     setValues(textView.getBackgroundTintList(), attributeColor);
                     return areEqual();

@@ -27,11 +27,11 @@ package com.philips.platform.uid.view.widget;
 import android.support.v4.view.ViewPager;
 
 /**
- *
+ * This interface for pager to communicate with indicator
  */
 public interface PageIndicator extends ViewPager.OnPageChangeListener {
     /**
-     * sets the indicator to a ViewPager.
+     * sets the viewPager to indicator.
      *
      * @param view
      */
@@ -40,10 +40,10 @@ public interface PageIndicator extends ViewPager.OnPageChangeListener {
     /**
      * sets the indicator to a ViewPager.
      *
-     * @param view
-     * @param initialPosition
+     * @param viewPager
+     * @param initialPosition with initialPosition selected/highlited
      */
-    void setViewPager(ViewPager view, int initialPosition);
+    void setViewPager(ViewPager viewPager, int initialPosition);
 
     /**
      * <p>sets the current page of both the ViewPager and indicator.</p>
@@ -51,9 +51,9 @@ public interface PageIndicator extends ViewPager.OnPageChangeListener {
      * <p>This <strong>must</strong> be used if you need to set the page before
      * the views are drawn on screen (e.g., default start page).</p>
      *
-     * @param item
+     * @param position to be shown on pager and corresponding dot to be highlighted
      */
-    void setCurrentItem(int item);
+    void setCurrentItem(int position);
 
     /**
      * Set a page change listener which will receive callback when page changed.
@@ -61,19 +61,4 @@ public interface PageIndicator extends ViewPager.OnPageChangeListener {
      * @param listener
      */
     void setOnPageChangeListener(ViewPager.OnPageChangeListener listener);
-
-    /**
-     * refresh the indicator that the pager list has changed.
-     */
-    void refresh();
-
-    /**
-     * Move to next item,
-     */
-    void showNext();
-
-    /**
-     * Move to previous item,
-     */
-    void showPrevious();
 }

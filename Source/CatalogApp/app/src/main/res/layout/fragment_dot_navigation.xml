@@ -23,6 +23,7 @@
 
         <com.philips.platform.uid.view.widget.DotNavigationIndicator
             android:id="@+id/pager_indicator"
+            style="@style/UIDDotNavigation"
             android:layout_width="match_parent"
             android:layout_height="@dimen/uid_dot_navigation_container_height"
             android:layout_alignParentBottom="true"/>

@@ -9,8 +9,9 @@ package com.philips.platform.catalogapp.fragments;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +43,7 @@ public class DotNavigationFragment extends BaseFragment {
 
     @Nullable
     @Override
-    public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         final FragmentDotNavigationBinding dotNavigationBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_dot_navigation, container, false);
         dotNavigationBinding.setFragment(this);
         initPagerItems();
@@ -56,7 +57,7 @@ public class DotNavigationFragment extends BaseFragment {
         int index = 1;
         pagerItems.clear();
         for (int drawable : drawableArray) {
-            pagerItems.add(new PagerItem(ContextCompat.getDrawable(getContext(), drawable), index));
+            pagerItems.add(new PagerItem(VectorDrawableCompat.create(getResources(), drawable, getContext().getTheme()), index));
             index++;
         }
     }
@@ -69,7 +70,7 @@ public class DotNavigationFragment extends BaseFragment {
         }
 
         @Override
-        public Object instantiateItem(final ViewGroup container, final int position) {
+        public Object instantiateItem(@NonNull final ViewGroup container, final int position) {
             final Context context = container.getContext();
             final ViewPagerDotNavigationItemBinding dotNavigationItemBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.view_pager_dot_navigation_item, container, false);
             dotNavigationItemBinding.setItem(pagerItems.get(position));
@@ -78,12 +79,12 @@ public class DotNavigationFragment extends BaseFragment {
         }
 
         @Override
-        public boolean isViewFromObject(final View view, final Object object) {
+        public boolean isViewFromObject(@NonNull final View view, final Object object) {
             return view == object;
         }
 
         @Override
-        public void destroyItem(final ViewGroup container, final int position, final Object object) {
+        public void destroyItem(@NonNull final ViewGroup container, final int position, final Object object) {
             container.removeView((View) object);
         }
     }

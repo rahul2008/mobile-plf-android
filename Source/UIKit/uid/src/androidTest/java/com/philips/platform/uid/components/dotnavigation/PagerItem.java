@@ -7,13 +7,13 @@
 package com.philips.platform.uid.components.dotnavigation;
 
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 
-class PagerItem {
+public class PagerItem {
     final Drawable drawable;
     final int index;
 
-    public PagerItem(final Drawable drawable, final int index) {
-
+    public PagerItem(@NonNull final Drawable drawable, final int index) {
         this.drawable = drawable;
         this.index = index;
     }

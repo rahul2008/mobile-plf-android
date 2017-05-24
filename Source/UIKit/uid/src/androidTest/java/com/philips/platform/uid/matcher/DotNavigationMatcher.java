@@ -11,11 +11,12 @@ import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.view.PagerAdapter;
+import android.support.v7.widget.AppCompatImageButton;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.uid.drawableutils.GradientDrawableUtils;
-import com.philips.platform.uid.view.widget.DotNavigationIcon;
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
 
 import org.hamcrest.Matcher;
@@ -27,7 +28,7 @@ public class DotNavigationMatcher {
             protected boolean matchesSafely(final View item) {
                 if (item instanceof DotNavigationIndicator) {
                     final View view = ((DotNavigationIndicator) item).getChildAt(index);
-                    if (view instanceof DotNavigationIcon) {
+                    if (view instanceof AppCompatImageButton) {
                         final Drawable background = view.getBackground();
                         final Matcher<Drawable> matcher = DrawableMatcher.isSameColors(1, expectedColor);
                         return matcher.matches(background);
@@ -97,7 +98,7 @@ public class DotNavigationMatcher {
                     final PagerAdapter adapter = ((DotNavigationIndicator) item).getViewPager().getAdapter();
                     if (adapter.getCount() > 0) {
                         item = ((DotNavigationIndicator) item).getChildAt(0);
-                        if (item instanceof DotNavigationIcon) {
+                        if (item instanceof AppCompatImageView) {
                             final Drawable background = item.getBackground();
                             GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(background);
                             setValues(stateColors.getCornerRadius()[0], expectedRadius);
