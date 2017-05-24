@@ -79,19 +79,6 @@ public class RegistrationSampleApplication extends Application {
         editor.putString("reg_environment", configuration.getValue());
         editor.commit();
 
-        String languageCode;
-        String countryCode;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            languageCode = LocaleList.getDefault().get(0).getLanguage();
-            countryCode = LocaleList.getDefault().get(0).getCountry();
-        }else{
-            languageCode = Locale.getDefault().getLanguage();
-            countryCode = Locale.getDefault().getCountry();
-        }
-
-//        PILLocaleManager localeManager = new PILLocaleManager(this);
-//        localeManager.setInputLocale(languageCode, countryCode);
-
         initAppIdentity(configuration);
         URDependancies urDependancies = new URDependancies(mAppInfraInterface);
         URSettings urSettings = new URSettings(this);
@@ -99,6 +86,8 @@ public class RegistrationSampleApplication extends Application {
         urInterface.init(urDependancies, urSettings);
 
         RLog.enableLogging();
+
+      //  mAppInfraInterface.getServiceDiscovery().setHomeCountry("ES");
     }
 
     public void initHSDP(Configuration configuration) {
