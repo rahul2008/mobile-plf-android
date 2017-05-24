@@ -347,6 +347,7 @@ public class HsdpUser {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    try{
                     DhpAuthenticationManagementClient authenticationManagementClient =
                             new DhpAuthenticationManagementClient(getDhpApiClientConfiguration());
                     final DhpAuthenticationResponse dhpAuthenticationResponse =
@@ -421,6 +422,10 @@ public class HsdpUser {
                                         dhpAuthenticationResponse.message);
                             }
                         });
+                    }} catch(Exception e){
+                            handleSocialHsdpFailure(loginHandler,
+                                            RegConstants.REGISTER_SOCIAL_FAILED_SERVER_ERROR,
+                                    mContext.getString(R.string.reg_Generic_Network_Error));
                     }
                 }
             }).start();
@@ -429,6 +434,7 @@ public class HsdpUser {
                             RegConstants.HSDP_LOWER_ERROR_BOUND,
                     mContext.getString(R.string.reg_NoNetworkConnection));
         }
+
     }
 
     /**
