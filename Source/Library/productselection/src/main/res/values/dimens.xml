@@ -25,5 +25,7 @@
     <dimen name="savedscreen_product_imagecontainer_height">10dp</dimen>
     <dimen name="activity_margin_tablet_portrait">130dp</dimen>
     <dimen name="activity_margin_tablet_landscape">200dp</dimen>
+    <dimen name="view_max_width">680dp</dimen>
+    <dimen name="view_padding">16dp</dimen>
 
 </resources>
