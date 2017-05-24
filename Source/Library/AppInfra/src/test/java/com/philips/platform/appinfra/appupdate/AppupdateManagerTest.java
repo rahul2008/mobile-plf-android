@@ -1,14 +1,22 @@
 package com.philips.platform.appinfra.appupdate;
 
 
-import android.content.Context;
 import android.os.Handler;
 
 import com.android.volley.Network;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.google.gson.JsonObject;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
+import com.philips.platform.appinfra.servicediscovery.RequestManager;
 
 import junit.framework.TestCase;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,14 +26,14 @@ import java.io.File;
 import java.net.URL;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class AppupdateManagerTest  extends TestCase  {
+public class AppupdateManagerTest extends TestCase {
 
-	private Context mContext;
 	private AppInfra mAppInfra;
-    private AppupdateInterface appupdateInterface;
+	private AppupdateInterface appupdateInterface;
 	private String appUpdateUrl = "https://hashim-rest.herokuapp.com/sd/dev/appupdate/appinfra/version.json";
 	private String path;
 	private Handler handlerMock;
@@ -36,7 +44,6 @@ public class AppupdateManagerTest  extends TestCase  {
 
 	@Before
 	public void setUp() throws Exception {
-		mContext = mock(Context.class);
 		mAppInfra = mock(AppInfra.class);
 		appupdateInterface = mAppInfra.getAppupdate();
 		assertNotNull(appupdateInterface);
@@ -64,10 +71,26 @@ public class AppupdateManagerTest  extends TestCase  {
 	@Test
 	public void refresh() throws Exception {
 
+		final RequestManager requestManager = mock(RequestManager.class);
+		final AppupdateInterface.OnRefreshListener responseListener = mock(AppupdateInterface.OnRefreshListener.class);
+        final JsonObjectRequest jsonObjectRequest = mock(JsonObjectRequest.class);
+		final JSONObject responseJson = new JSONObject() {
+				return "fds";
+		};
 
 
 
+		appupdateInterface.refresh(new AppupdateInterface.OnRefreshListener() {
+			@Override
+			public void onError(AIAppUpdateRefreshResult error, String message) {
+					assertNotNull(error);
+			}
 
+			@Override
+			public void onSuccess(AIAppUpdateRefreshResult result) {
+				assertNotNull(result);
+			}
+		});
 	}
 
 	@Test

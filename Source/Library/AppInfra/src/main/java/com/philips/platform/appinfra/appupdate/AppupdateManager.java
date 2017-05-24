@@ -49,13 +49,13 @@ public class AppupdateManager implements AppupdateInterface {
 					public void onResponse(final JSONObject response) {
 						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AI AppUpate", response.toString());
 						try {
-							JSONObject resp = response.getJSONObject("android");
+							final JSONObject resp = response.getJSONObject("android");
 							mFileUtils.saveFile(resp.toString(), AppupdateConstants.LOCALE_FILE_DOWNLOADED, AppupdateConstants.APPUPDATE_PATH);
 							mHandler = getHandler(mContext);
 							new Thread(new Runnable() {
 								@Override
 								public void run() {
-									processResponse(response, refreshListener);
+									processResponse(resp.toString(), refreshListener);
 								}
 							}).start();
 						} catch (JSONException e) {
@@ -75,8 +75,8 @@ public class AppupdateManager implements AppupdateInterface {
 		mAppInfra.getRestClient().getRequestQueue().add(jsonRequest);
 	}
 
-	private void processResponse(JSONObject response, OnRefreshListener refreshListener) {
-		mAppUpdateModel = mGson.fromJson(response.toString(), AppupdateModel.class);
+	private void processResponse(String response, OnRefreshListener refreshListener) {
+		mAppUpdateModel = mGson.fromJson(response, AppupdateModel.class);
 		if (mAppUpdateModel != null) {
 			mHandler.post(postRefreshSuccess(refreshListener, OnRefreshListener.AIAppUpdateRefreshResult.AIAppUpdate_REFRESH_SUCCESS));
 		} else {

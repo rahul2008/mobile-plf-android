@@ -20,6 +20,14 @@
             android:gravity="center"
             android:text="AppUpdate file Refresh"/>
 
+        <Button
+            android:id="@+id/fetchappupdateValues"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Get Values"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1dp"

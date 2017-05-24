@@ -25,6 +25,7 @@ public class AppUpdateActivity extends AppCompatActivity {
 	private TextView tvToBeDeprecatedMessage;
 	private TextView tvUpdateMessage;
 	private TextView tvMinimumOSverion;
+	private Button fetchappupdateValues;
 
 
 	@Override
@@ -32,8 +33,9 @@ public class AppUpdateActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_appupdate);
 		appUpdateRefresh = (Button) findViewById(R.id.appUpdateRefresh);
+		fetchappupdateValues = (Button) findViewById(R.id.fetchappupdateValues);
 		tvappversionval = (TextView) findViewById(R.id.tvappversionval);
-		tvminversionval = (TextView)findViewById(R.id.tvminversionval);
+		tvminversionval = (TextView) findViewById(R.id.tvminversionval);
 
 		tvisDeprecated = (TextView) findViewById(R.id.tvisDeprecated);
 		tvToBeDeprecatedDate = (TextView) findViewById(R.id.tvToBeDeprecatedDate);
@@ -71,15 +73,21 @@ public class AppUpdateActivity extends AppCompatActivity {
 			}
 		});
 
-		tvappversionval.setText(AppInfraApplication.gAppInfra.getAppIdentity().getAppVersion());
-		tvminversionval.setText(appupdateInterface.getMinimumVersion());
-		tvisDeprecated.setText(String.valueOf(appupdateInterface.isDeprecated()));
-		tvisToBeDeprecated.setText(String.valueOf(appupdateInterface.isToBeDeprecated()));
-		tvisUpdateAvailable.setText(String.valueOf(appupdateInterface.isUpdateAvailable()));
-		tvDeprecateMessage.setText(appupdateInterface.getDeprecateMessage());
-		tvToBeDeprecatedMessage.setText(appupdateInterface.getToBeDeprecatedMessage());
-		tvUpdateMessage.setText(appupdateInterface.getUpdateMessage());
-		tvMinimumOSverion.setText(appupdateInterface.getMinimumOSverion());
-		tvToBeDeprecatedDate.setText(appupdateInterface.getToBeDeprecatedDate());
+		fetchappupdateValues.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				tvappversionval.setText(AppInfraApplication.gAppInfra.getAppIdentity().getAppVersion());
+				tvminversionval.setText(appupdateInterface.getMinimumVersion());
+				tvisDeprecated.setText(String.valueOf(appupdateInterface.isDeprecated()));
+				tvisToBeDeprecated.setText(String.valueOf(appupdateInterface.isToBeDeprecated()));
+				tvisUpdateAvailable.setText(String.valueOf(appupdateInterface.isUpdateAvailable()));
+				tvDeprecateMessage.setText(appupdateInterface.getDeprecateMessage());
+				tvToBeDeprecatedMessage.setText(appupdateInterface.getToBeDeprecatedMessage());
+				tvUpdateMessage.setText(appupdateInterface.getUpdateMessage());
+				tvMinimumOSverion.setText(appupdateInterface.getMinimumOSverion());
+				tvToBeDeprecatedDate.setText(appupdateInterface.getToBeDeprecatedDate());
+			}
+		});
+
 	}
 }
