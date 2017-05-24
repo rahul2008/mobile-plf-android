@@ -5,6 +5,7 @@
 
 package com.philips.cdp.dicommclient.request;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.philips.cdp.cloudcontroller.CloudController;
@@ -16,6 +17,7 @@ import com.philips.cdp.dicommclient.util.GsonProvider;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Locale;
 import java.util.Map;
 
 public class RemoteRequest extends Request implements DcsResponseListener, PublishEventListener {
@@ -50,7 +52,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
 
     private String createDataToSend(String portName, int productId, Map<String, Object> dataMap) {
         String data = GsonProvider.get().toJson(dataMap);
-        String dataToSend = String.format(BASEDATA_PORTS, productId, portName, data);
+        String dataToSend = String.format(Locale.US, BASEDATA_PORTS, productId, portName, data);
 
         DICommLog.i(DICommLog.REMOTEREQUEST, "Data to send: " + dataToSend);
         return dataToSend;
@@ -95,7 +97,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     }
 
     @Override
-    public void onDCSResponseReceived(String dcsResponse, String conversationId) {
+    public void onDCSResponseReceived(final @NonNull String dcsResponse, final @NonNull String conversationId) {
         if (mConversationId != null && mConversationId.equals(conversationId)) {
             DICommLog.i(DICommLog.REMOTEREQUEST, "DCSEvent received from the right request");
             mResponse = dcsResponse;
@@ -109,7 +111,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     }
 
     @Override
-    public void onPublishEventReceived(int status, int messageId, String conversationId) {
+    public void onPublishEventReceived(int status, int messageId, final @NonNull String conversationId) {
         if (mMessageId == messageId) {
             DICommLog.i(DICommLog.REMOTEREQUEST, "Publish event received from the right request - status: " + status);
             if (status == SUCCESS) {

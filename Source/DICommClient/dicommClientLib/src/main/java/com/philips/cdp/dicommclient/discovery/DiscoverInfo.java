@@ -5,44 +5,50 @@
 
 package com.philips.cdp.dicommclient.discovery;
 
+import java.util.Locale;
+
 public class DiscoverInfo {
-	
-	private String State = null;
-	private String[] ClientIds = null;
-	
-	public DiscoverInfo() {
-		// NOP
-	}
 
-	public DiscoverInfo(String state) {
-		State = state;
-		ClientIds = new String[0];
-	}
-	
-	public String[] getClientIds() {
-		return ClientIds;
-	}
-	
-	public boolean isConnected() {
-		if (State.toLowerCase().equals("connected")) return true;
-		return false;
-	}
+    private String State = null;
+    private String[] ClientIds = null;
 
-	public boolean isValid() {
-		if (State == null || State.isEmpty()) return false;
-		if (!State.toLowerCase().equals("connected") && !State.toLowerCase().equals("disconnected")) return false;
-		if (ClientIds == null || ClientIds.length <= 0) return false;
-		return true;
-	}
-	
-	public static DiscoverInfo getMarkAllOnlineDiscoverInfo() {
-		// No devices offline, will cause all to go online
-		return new DiscoverInfo("disconnected");
-	}
+    private static final String CONNECTED = "connected";
+    private static final String DISCONNECTED = "disconnected";
 
-	public static DiscoverInfo getMarkAllOfflineDiscoverInfo() {
-		// No devices online will cause all to go offline
-		return new DiscoverInfo("connected");
-	}
+    public DiscoverInfo() {
+        // NOP
+    }
+
+    public DiscoverInfo(String state) {
+        State = state;
+        ClientIds = new String[0];
+    }
+
+    public String[] getClientIds() {
+        return ClientIds;
+    }
+
+    public boolean isConnected() {
+        if (State.toLowerCase(Locale.US).equals(CONNECTED)) return true;
+        return false;
+    }
+
+    public boolean isValid() {
+        if (State == null || State.isEmpty()) return false;
+        if (!State.toLowerCase(Locale.US).equals(CONNECTED) && !State.toLowerCase(Locale.US).equals(DISCONNECTED))
+            return false;
+        if (ClientIds == null || ClientIds.length <= 0) return false;
+        return true;
+    }
+
+    public static DiscoverInfo getMarkAllOnlineDiscoverInfo() {
+        // No devices offline, will cause all to go online
+        return new DiscoverInfo(DISCONNECTED);
+    }
+
+    public static DiscoverInfo getMarkAllOfflineDiscoverInfo() {
+        // No devices online will cause all to go offline
+        return new DiscoverInfo(CONNECTED);
+    }
 
 }

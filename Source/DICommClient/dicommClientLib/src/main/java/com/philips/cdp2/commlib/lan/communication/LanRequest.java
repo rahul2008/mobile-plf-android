@@ -13,6 +13,7 @@ import android.net.NetworkCapabilities;
 import android.net.NetworkRequest;
 import android.os.Build;
 import android.support.annotation.VisibleForTesting;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
@@ -59,6 +60,7 @@ public class LanRequest extends Request {
     private final DISecurity mDISecurity;
     private boolean mHttps = false;
     private static SSLContext sslContext;
+    private static final Object LOCK = new Object();
 
     private static HostnameVerifier hostnameVerifier = new HostnameVerifier() {
         @Override
@@ -72,12 +74,10 @@ public class LanRequest extends Request {
         sslContext = SSLContext.getInstance("TLS");
         // Accept all certificates, DO NOT DO THIS FOR PRODUCTION CODE
         sslContext.init(null, new X509TrustManager[]{new X509TrustManager() {
-            public void checkClientTrusted(X509Certificate[] chain,
-                                           String authType) throws CertificateException {
+            public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
             }
 
-            public void checkServerTrusted(X509Certificate[] chain,
-                                           String authType) throws CertificateException {
+            public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
             }
 
             public X509Certificate[] getAcceptedIssuers() {
@@ -119,6 +119,7 @@ public class LanRequest extends Request {
     public Response execute() {
         DICommLog.d(DICommLog.LOCALREQUEST, "Start request LOCAL");
         DICommLog.i(DICommLog.LOCALREQUEST, "Url: " + mUrl + ", Requesttype: " + mRequestType);
+
         String result = "";
         InputStream inputStream = null;
         OutputStreamWriter out = null;
@@ -176,7 +177,8 @@ public class LanRequest extends Request {
 
     private Response handleHttpOk(InputStream inputStream) throws IOException {
         String cypher = convertInputStreamToString(inputStream);
-        if (cypher == null) {
+
+        if (TextUtils.isEmpty(cypher)) {
             DICommLog.e(DICommLog.LOCALREQUEST, "Request failed - null response");
             return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
         }
@@ -226,8 +228,7 @@ public class LanRequest extends Request {
 
     @SuppressLint("NewApi")
     private static HttpURLConnection createConnection(URL url, String requestMethod, int connectionTimeout, int lockTimeout) throws IOException {
-
-        HttpURLConnection conn = null;
+        HttpURLConnection conn;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Network wifiNetworkForSocket = LanRequest.getWifiNetworkForSocket(DICommClientWrapper.getContext(), lockTimeout);
@@ -267,15 +268,14 @@ public class LanRequest extends Request {
         request.addTransportType(NetworkCapabilities.TRANSPORT_WIFI);
         //request.addCapability(NetworkCapabilities.NET_CAPABILITY_WIFI_P2P);
 
-        final Object lock = new Object();
-        WifiNetworkCallback networkCallback = new WifiNetworkCallback(lock, connectionManager);
+        WifiNetworkCallback networkCallback = new WifiNetworkCallback(LOCK, connectionManager);
 
-        synchronized (lock) {
+        synchronized (LOCK) {
             connectionManager.registerNetworkCallback(request.build(), networkCallback);
             try {
-                lock.wait(lockTimeout);
+                LOCK.wait(lockTimeout);
                 Log.e(DICommLog.WIFI, "Timeout error occurred");
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {
             }
         }
         connectionManager.unregisterNetworkCallback(networkCallback);
@@ -308,22 +308,17 @@ public class LanRequest extends Request {
         if (is != null) {
             try {
                 is.close();
-                is = null;
-            } catch (IOException e) {
-                // NOOP
+            } catch (IOException ignored) {
             }
         }
         if (out != null) {
             try {
                 out.close();
-            } catch (IOException e) {
-                // NOOP
+            } catch (IOException ignored) {
             }
-            out = null;
         }
         if (conn != null) {
             conn.disconnect();
-            conn = null;
         }
     }
 }

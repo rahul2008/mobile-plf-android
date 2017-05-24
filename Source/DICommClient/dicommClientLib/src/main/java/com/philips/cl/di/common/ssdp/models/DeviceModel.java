@@ -12,6 +12,9 @@ import android.util.Log;
 
 import java.util.List;
 
+import java.util.List;
+import java.util.Locale;
+
 /**
  * Device class which keeps device information and services
  */
@@ -47,6 +50,15 @@ public class DeviceModel {
 
     private String mCppId = null;
 
+    /**
+     * constructor used by TwonkyService for discovered UPNPs
+     *
+     * @param listInfo ListItem
+     * @param isNew    boolean
+     */
+    public DeviceModel(final ListItem listInfo, final boolean isNew) {
+        ipAddress = "";
+    }
     /**
      * constructor used by TwonkyService for discovered UPNPs
      *
@@ -99,32 +111,34 @@ public class DeviceModel {
      * Used to device comparison. In most cases we base comparison on UDN.
      * Special case is 2k9 which has a variable UDN - IP used instead
      *
-     * @param object device object to compare
+     * @param other device object to compare
      * @return false if not the same device
      */
     @Override
-    public boolean equals(final Object object) {
-        boolean flag = false;
-        if (!(object instanceof DeviceModel)) {
-            flag = false;
+    public boolean equals(final Object other) {
+        if (this == other) {
+            return true;
         }
-        final DeviceModel currentObject = (DeviceModel) object;
-        if (null != currentObject) {
-            if ((mId != null) && mId.equals(currentObject.mId)) {
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        final DeviceModel currentObject = (DeviceModel) other;
+        boolean flag;
+
+        if ((mId != null) && mId.equals(currentObject.mId)) {
+            flag = true;
+        } else if ((ipAddress != null) && ipAddress.equals(currentObject.ipAddress)) {
+            flag = true;
+        } else if ((mSsdpDevice != null) && (currentObject.getSsdpDevice() != null)) {
+            if (mSsdpDevice.getModelName().equals(currentObject.getSsdpDevice().getModelName())
+                    || mSsdpDevice.getManufacturer().equals(currentObject.getSsdpDevice().getManufacturer())) {
+                // if both devices are 2k9 and they have the same IP address
+                // we assume it's the same device
                 flag = true;
-            } else if ((ipAddress != null) && ipAddress.equals(currentObject.ipAddress)) {
-                flag = true;
-            } else if ((mSsdpDevice != null) && (currentObject.getSsdpDevice() != null)) {
-                if (mSsdpDevice.getModelName().equals(currentObject.getSsdpDevice().getModelName())
-                        || mSsdpDevice.getManufacturer().equals(currentObject.getSsdpDevice().getManufacturer())) {
-                    // if both devices are 2k9 and they have the same IP address
-                    // we assume it's the same device
-                    flag = true;
-                }
-                flag = false;
-            } else {
-                flag = false;
             }
+            flag = false;
+        } else {
+            flag = false;
         }
         return flag;
     }
@@ -272,7 +286,7 @@ public class DeviceModel {
         Boolean isPhilipsDevice = false;
         final String manufacturer = mSsdpDevice.getManufacturer();
         if (null != manufacturer) {
-            isPhilipsDevice = manufacturer.toLowerCase().contains(MANUFACTURER_PHILIPS);
+            isPhilipsDevice = manufacturer.toLowerCase(Locale.US).contains(MANUFACTURER_PHILIPS);
         }
         return isPhilipsDevice;
     }

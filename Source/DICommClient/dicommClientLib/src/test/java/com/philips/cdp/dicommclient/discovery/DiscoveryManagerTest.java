@@ -4,6 +4,7 @@
  */
 package com.philips.cdp.dicommclient.discovery;
 
+import android.content.Context;
 import android.os.Handler;
 
 import com.philips.cdp.cloudcontroller.CloudController;
@@ -44,6 +45,7 @@ public class DiscoveryManagerTest extends RobolectricTest {
     private static final String APPLIANCE_CPPID_1 = "1c5a6bfffe634357";
     private static final String APPLIANCE_CPPID_2 = "1c5a6bfffe64314e";
 
+    private Context mMockedContext;
     private DiscoveryManager<TestAppliance> mDiscoveryManager;
     private DiscoveryEventListener mListener;
     private NetworkMonitor mMockedNetworkMonitor;
@@ -56,12 +58,13 @@ public class DiscoveryManagerTest extends RobolectricTest {
     protected void setUp() throws Exception {
         super.setUp();
 
+        mMockedContext = mock(Context.class);
         mMockedCloudController = mock(CloudController.class);
         mTestApplianceFactory = new TestApplianceFactory();
         mMockedApplianceDatabase = mock(DICommApplianceDatabase.class);
         mMockedNetworkMonitor = mock(NetworkMonitor.class);
 
-        mDiscoveryManager = new DiscoveryManager<TestAppliance>(mTestApplianceFactory, mMockedApplianceDatabase, mMockedNetworkMonitor);
+        mDiscoveryManager = new DiscoveryManager<>(mMockedContext, mTestApplianceFactory, mMockedApplianceDatabase, mMockedNetworkMonitor);
         mDiscoveryManager.setDummySsdpServiceHelperForTesting(mock(SsdpServiceHelper.class));
         mListener = mock(DiscoveryEventListener.class);
 
@@ -144,7 +147,7 @@ public class DiscoveryManagerTest extends RobolectricTest {
         setAppliancesList(new TestAppliance[]{appliance1, appliance2});
 
         SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
-        when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<String>(Arrays.asList(new String[]{APPLIANCE_CPPID_1, APPLIANCE_CPPID_2})));
+        when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<>(Arrays.asList(new String[]{APPLIANCE_CPPID_1, APPLIANCE_CPPID_2})));
         mDiscoveryManager.setDummySsdpServiceHelperForTesting(helper);
         mDiscoveryManager.markLostAppliancesInBackgroundOfflineOrRemote();
 
@@ -159,7 +162,7 @@ public class DiscoveryManagerTest extends RobolectricTest {
         setAppliancesList(new TestAppliance[]{appliance1, appliance2});
 
         SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
-        when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<String>(Arrays.asList(new String[]{})));
+        when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<>(Arrays.asList(new String[]{})));
         mDiscoveryManager.setDummySsdpServiceHelperForTesting(helper);
         mDiscoveryManager.markLostAppliancesInBackgroundOfflineOrRemote();
 
@@ -174,7 +177,7 @@ public class DiscoveryManagerTest extends RobolectricTest {
         setAppliancesList(new TestAppliance[]{appliance1, appliance2});
 
         SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
-        when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<String>(Arrays.asList(new String[]{})));
+        when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<>(Arrays.asList(new String[]{})));
         mDiscoveryManager.setDummySsdpServiceHelperForTesting(helper);
         mDiscoveryManager.markLostAppliancesInBackgroundOfflineOrRemote();
 
@@ -189,7 +192,7 @@ public class DiscoveryManagerTest extends RobolectricTest {
         setAppliancesList(new TestAppliance[]{appliance1, appliance2});
 
         SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
-        when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<String>(Arrays.asList(new String[]{})));
+        when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<>(Arrays.asList(new String[]{})));
         mDiscoveryManager.setDummySsdpServiceHelperForTesting(helper);
         mDiscoveryManager.markLostAppliancesInBackgroundOfflineOrRemote();
 
@@ -204,7 +207,7 @@ public class DiscoveryManagerTest extends RobolectricTest {
         setAppliancesList(new TestAppliance[]{appliance1, appliance2});
 
         SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
-        when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<String>(Arrays.asList(new String[]{APPLIANCE_CPPID_2})));
+        when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<>(Arrays.asList(new String[]{APPLIANCE_CPPID_2})));
         mDiscoveryManager.setDummySsdpServiceHelperForTesting(helper);
         mDiscoveryManager.markLostAppliancesInBackgroundOfflineOrRemote();
 
@@ -219,7 +222,7 @@ public class DiscoveryManagerTest extends RobolectricTest {
         setAppliancesList(new TestAppliance[]{appliance1, appliance2});
 
         SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
-        when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<String>(Arrays.asList(new String[]{APPLIANCE_CPPID_2})));
+        when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<>(Arrays.asList(new String[]{APPLIANCE_CPPID_2})));
         mDiscoveryManager.setDummySsdpServiceHelperForTesting(helper);
         mDiscoveryManager.markLostAppliancesInBackgroundOfflineOrRemote();
 
@@ -234,7 +237,7 @@ public class DiscoveryManagerTest extends RobolectricTest {
         setAppliancesList(new TestAppliance[]{appliance1, appliance2});
 
         SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
-        when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<String>(Arrays.asList(new String[]{APPLIANCE_CPPID_2})));
+        when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<>(Arrays.asList(new String[]{APPLIANCE_CPPID_2})));
         mDiscoveryManager.setDummySsdpServiceHelperForTesting(helper);
         mDiscoveryManager.markLostAppliancesInBackgroundOfflineOrRemote();
 
@@ -249,7 +252,7 @@ public class DiscoveryManagerTest extends RobolectricTest {
         setAppliancesList(new TestAppliance[]{appliance1, appliance2});
 
         SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
-        when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<String>(Arrays.asList(new String[]{APPLIANCE_CPPID_2})));
+        when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<>(Arrays.asList(new String[]{APPLIANCE_CPPID_2})));
         mDiscoveryManager.setDummySsdpServiceHelperForTesting(helper);
         mDiscoveryManager.markLostAppliancesInBackgroundOfflineOrRemote();
 
@@ -264,7 +267,7 @@ public class DiscoveryManagerTest extends RobolectricTest {
         setAppliancesList(new TestAppliance[]{appliance1, appliance2});
 
         SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
-        when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<String>(Arrays.asList(new String[]{APPLIANCE_CPPID_2})));
+        when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<>(Arrays.asList(new String[]{APPLIANCE_CPPID_2})));
         mDiscoveryManager.setDummySsdpServiceHelperForTesting(helper);
         mDiscoveryManager.markLostAppliancesInBackgroundOfflineOrRemote();
 
@@ -278,8 +281,8 @@ public class DiscoveryManagerTest extends RobolectricTest {
     private NetworkChangedListener captureNetworkChangedCallback() {
         ArgumentCaptor<NetworkChangedListener> captor = ArgumentCaptor.forClass(NetworkChangedListener.class);
         verify(mMockedNetworkMonitor, times(1)).addListener(captor.capture());
-        NetworkChangedListener capturedNetworkChangedCallback = captor.getValue();
-        return capturedNetworkChangedCallback;
+
+        return captor.getValue();
     }
 
     @Test
