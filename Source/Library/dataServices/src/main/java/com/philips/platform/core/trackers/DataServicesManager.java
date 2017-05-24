@@ -93,7 +93,7 @@ public class DataServicesManager {
 
     public static final String TAG = DataServicesManager.class.getName();
 
-    private Context mContext;
+    //private Context mContext;
 
     private ServiceDiscoveryInterface mServiceDiscoveryInterface;
     private AppInfraInterface mAppInfraInterface;
@@ -170,8 +170,8 @@ public class DataServicesManager {
      */
     public void initializeDataServices(Context context, BaseAppDataCreator creator,
                                        UserRegistrationInterface facade, ErrorHandlingInterface errorHandlingInterface) {
-        mContext = context;
-        fetchUrlFromServiceDiscovery();
+        //mContext = context;
+        fetchUrlFromServiceDiscovery(context);
 
         this.mDataCreater = creator;
         this.userRegistrationInterface = facade;
@@ -727,8 +727,8 @@ public class DataServicesManager {
     }
 
     //Service Discovery
-    protected void fetchUrlFromServiceDiscovery() {
-        mAppInfraInterface = new AppInfra.Builder().build(mContext);
+    protected void fetchUrlFromServiceDiscovery(Context context) {
+        mAppInfraInterface = new AppInfra.Builder().build(context);
         mServiceDiscoveryInterface = mAppInfraInterface.getServiceDiscovery();
         mAppConfigurationError = new AppConfigurationInterface.AppConfigurationError();
 
