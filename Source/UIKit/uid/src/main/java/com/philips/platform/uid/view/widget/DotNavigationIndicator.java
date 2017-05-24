@@ -41,20 +41,20 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     private Drawable backgroundDrawable;
     private int dotNavigationIconColorlist = -1;
 
-    public DotNavigationIndicator(Context context) {
+    public DotNavigationIndicator(@NonNull Context context) {
         this(context, null);
     }
 
-    public DotNavigationIndicator(Context context, AttributeSet attrs) {
+    public DotNavigationIndicator(@NonNull Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public DotNavigationIndicator(final Context context, final AttributeSet attrs, final int defStyleAttr) {
+    public DotNavigationIndicator(@NonNull final Context context, final AttributeSet attrs, final int defStyleAttr) {
         this(context, attrs, defStyleAttr, 0);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public DotNavigationIndicator(final Context context, final AttributeSet attrs, final int defStyleAttr, final int defStyleRes) {
+    public DotNavigationIndicator(@NonNull final Context context, final AttributeSet attrs, final int defStyleAttr, final int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr);
     }
@@ -75,6 +75,26 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     @VisibleForTesting
     public ViewPager getViewPager() {
         return viewPager;
+    }
+
+    /**
+     * Sets the viewpager to dot navigation so that no of dots can be drawn based on number of pages in adapter
+     * Either of setViewpager(pager) or setViewPager(pager, position) must be called so as to draw Dots
+     *
+     * @param viewPager pager you want to bind to Dot indicator
+     */
+    @Override
+    public void setViewPager(@NonNull final ViewPager viewPager) {
+        if (this.viewPager == viewPager) {
+            return;
+        }
+        if (this.viewPager != null) {
+            this.viewPager.setOnPageChangeListener(null);
+        }
+
+        this.viewPager = viewPager;
+        viewPager.addOnPageChangeListener(this);
+        drawIndicatorDots();
     }
 
     /**
@@ -110,7 +130,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
      * @param initialPosition with initialPosition selected/highlited
      */
     @Override
-    public void setViewPager(final ViewPager viewPager, int initialPosition) {
+    public void setViewPager(@NonNull final ViewPager viewPager, int initialPosition) {
         setViewPager(viewPager);
         setCurrentItem(initialPosition);
     }
@@ -140,7 +160,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
      * @param listener
      */
     @Override
-    public void setOnPageChangeListener(OnPageChangeListener listener) {
+    public void setOnPageChangeListener(@NonNull OnPageChangeListener listener) {
         mListener = listener;
     }
 
@@ -184,27 +204,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
         isIconActionUpDetected = false;
     }
 
-    /**
-     * Sets the viewpager to dot navigation so that no of dots can be drawn based on number of pages in adapter
-     * Either of setViewpager(pager) or setViewPager(pager, position) must be called so as to draw Dots
-     *
-     * @param viewPager pager you want to bind to Dot indicator
-     */
-    @Override
-    public void setViewPager(final ViewPager viewPager) {
-        if (this.viewPager == viewPager) {
-            return;
-        }
-        if (this.viewPager != null) {
-            this.viewPager.setOnPageChangeListener(null);
-        }
-
-        this.viewPager = viewPager;
-        viewPager.addOnPageChangeListener(this);
-        drawIndicatorDots();
-    }
-
-    public void drawIndicatorDots() {
+    private void drawIndicatorDots() {
         removeAllViews();
         final PagerAdapter iconAdapter = viewPager.getAdapter();
         int count = iconAdapter.getCount();
