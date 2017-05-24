@@ -87,6 +87,9 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
             public void onItemSelected(final AdapterView<?> adapter, View v,
                                        final int position, long id) {
 
+                int position1 = list.indexOf(sharedPreferences.getString(Constants.REGISTRATION_ENV_PREFERENCES, Constants.STAGING));
+                if (position1 != position) {
+
                     new AlertDialog.Builder(context, R.style.alertDialogStyle)
                             .setTitle(getString(R.string.RA_Change_Configuration))
                             .setMessage(context.getResources().getString(R.string.RA_change_config_desc))
@@ -98,38 +101,38 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
                                             if (adapter != null && ((TextView) adapter.getChildAt(position)) != null) {
                                                 ((TextView) adapter.getChildAt(position)).setTextColor(Color.WHITE);
                                             }
-                                            int position1 = list.indexOf(sharedPreferences.getString(Constants.REGISTRATION_ENV_PREFERENCES, Constants.STAGING));
-                                            if (position1 != position) {
-                                                userRegistrationState = new UserRegistrationSettingsState();
-                                                userRegistrationState.getUserObject(context).logout(null);
-                                                if (configuration.equalsIgnoreCase(Constants.DEVELOPMENT)) {
-                                                    initialiseUserRegistration(Constants.DEVELOPMENT);
-                                                } else if (configuration.equalsIgnoreCase(Constants.TESTING)) {
-                                                    initialiseUserRegistration(Constants.TESTING);
-                                                } else {
-                                                    initialiseUserRegistration(Constants.STAGING);
-                                                }
-                                                configurationTextView.setText(configuration);
+                                            userRegistrationState = new UserRegistrationSettingsState();
+                                            userRegistrationState.getUserObject(context).logout(null);
+                                            if (configuration.equalsIgnoreCase(Constants.DEVELOPMENT)) {
+                                                initialiseUserRegistration(Constants.DEVELOPMENT);
+                                            } else if (configuration.equalsIgnoreCase(Constants.TESTING)) {
+                                                initialiseUserRegistration(Constants.TESTING);
+                                            } else {
+                                                initialiseUserRegistration(Constants.STAGING);
                                             }
+                                            configurationTextView.setText(configuration);
                                         }
                                     })
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .show();
                 }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
             }
-        };
+                @Override
+                public void onNothingSelected (AdapterView < ? > arg0){
+                }
+            }
+
+            ;
+
     }
 
     private void setSpinnerSelection(final int position) {
         if (position >= 0) {
             spinner.setSelection(position);
 
-            configurationTextView.setText("--> " + configurationType[position]);
+            configurationTextView.setText(configurationType[position]);
         } else {
-            configurationTextView.setText("--> " + configurationType[0]);
+            configurationTextView.setText(configurationType[0]);
         }
     }
 
