@@ -16,6 +16,7 @@ import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragment;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -26,6 +27,7 @@ import java.util.List;
  */
 public abstract class AppFrameworkBaseActivity extends UiKitActivity implements ActionBarListener {
     public UIBasePresenter presenter;
+    private static final String TAG = AppFrameworkBaseActivity.class.getName();
     //  private int cartItemCount = 0;
     int containerId;
     private FragmentTransaction fragmentTransaction;
@@ -38,7 +40,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             switch (fragmentAddState) {
                 case Constants.ADD_HOME_FRAGMENT:
-
+                    RALog.d(TAG,"")
                     if (null == getSupportFragmentManager().findFragmentByTag(HomeFragment.TAG)) {
                         addToBackStack(containerId, fragment, fragmentTag);
                     } else {
@@ -62,7 +64,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
                     break;
             }
         } catch (Exception e) {
-
+            RALog.e(TAG,e.getMessage());
         }
     }
 

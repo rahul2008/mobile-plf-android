@@ -22,7 +22,7 @@ public class BleReferenceAppliance extends Appliance {
         super(networkNode, communicationStrategy);
         deviceMeasurementPort=new DeviceMeasurementPort(communicationStrategy);
         addPort(deviceMeasurementPort);
-        RALog.d(TAG,"Adding device Measurement port to port list ");
+        RALog.d(TAG,"Adding device Measurement port to appliance");
 
     }
 

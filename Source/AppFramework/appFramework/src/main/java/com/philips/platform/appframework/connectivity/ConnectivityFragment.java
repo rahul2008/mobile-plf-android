@@ -20,7 +20,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -40,9 +39,9 @@ import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceApplianceFactory;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 import java.lang.ref.WeakReference;
 
@@ -86,6 +85,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
+        RALog.d(TAG,"Connectivity Fragment Oncreate");
         super.onCreate(savedInstanceState);
         // Initializes a Bluetooth adapter.  For API level 18 and above, get a reference to
         // BluetoothAdapter through BluetoothManager.
@@ -124,6 +124,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
      */
     private void setUpCommCentral() {
         // Setup CommCentral
+        RALog.i(TAG,"Setup CommCentral ");
         final BleTransportContext bleTransportContext = new BleTransportContext(getActivity());
         this.applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
 
@@ -134,7 +135,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     private final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener<BleReferenceAppliance>() {
         @Override
         public void onApplianceFound(@NonNull BleReferenceAppliance foundAppliance) {
-            Log.d(TAG, "Device found :" + foundAppliance.getName());
+            RALog.d(TAG, "Device found :" + foundAppliance.getName());
             bleScanDialogFragment.addDevice(foundAppliance);
             Toast.makeText(mContext, "Device found name:" + foundAppliance.getName(), Toast.LENGTH_SHORT).show();
 
@@ -175,6 +176,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
      * Start scanning nearby devices using given strategy
      */
     private void startDiscovery() {
+        RALog.i(TAG,"Ble device discovery started ");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -216,7 +218,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                     handler.postDelayed(stopDiscoveryRunnable,30000);
                     updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Disconnected));
                 } catch (MissingPermissionException e) {
-                    Log.e(TAG, "Permission missing");
+                    RALog.e(TAG, "Permission missing");
                 }
             }
         }, 100);
@@ -280,7 +282,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                         editText.setText(Integer.toString(-1));
                     }
                 } catch (Exception e) {
-                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, DEVICE_DATAPARSING,
+                    RALog.d(DEVICE_DATAPARSING,
                             e.getMessage());              }
             }
         });
@@ -372,6 +374,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
 
     @Override
     public void onDestroy() {
+        RALog.d(TAG," Connectivity Fragment Destroyed");
         if(handler!=null){
             handler.removeCallbacks(stopDiscoveryRunnable);
         }
