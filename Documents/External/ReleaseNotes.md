@@ -8,7 +8,7 @@ Version 6.0.0
 * \#9356 Product quality HTTPS
 
 ### Backwards Compatibility
-* Appliances that do not support HTTP should call networkNode.useLegacyHttp() in their DICommApplianceFactory.createApplianceForNode(..) implementation. This is only here for older appliances, newer appliances with HTTPS support should never call this function!
+* Appliances that do not support HTTPS should call networkNode.useLegacyHttp() in their DICommApplianceFactory.createApplianceForNode(..) implementation. This is only here for older appliances, newer appliances with HTTPS support should never call this function!
 
 ### Features not covered
 * To be filled in at release
