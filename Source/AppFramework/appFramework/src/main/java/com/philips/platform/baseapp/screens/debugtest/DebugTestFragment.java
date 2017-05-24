@@ -116,9 +116,9 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
         if (position >= 0) {
             spinner.setSelection(position);
 
-            configurationTextView.setText(configurationType[position]);
+            configurationTextView.setText("--> " + configurationType[position]);
         } else {
-            configurationTextView.setText(configurationType[0]);
+            configurationTextView.setText("--> " + configurationType[0]);
         }
     }
 
