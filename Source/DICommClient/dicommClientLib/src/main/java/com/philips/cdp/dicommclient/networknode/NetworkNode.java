@@ -40,7 +40,6 @@ public class NetworkNode extends Observable implements Parcelable {
     private long mBootId;
     private String mEncryptionKey;
     private boolean mHttps = true;
-    private String bleAddress;
 
     private PAIRED_STATUS mPairedState = PAIRED_STATUS.NOT_PAIRED;
     private long mLastPairedTime;
@@ -164,10 +163,7 @@ public class NetworkNode extends Observable implements Parcelable {
      * Indicate that the {@link Appliance} belonging to this {@link NetworkNode} only supports legacy HTTP connections over lan.
      * <p>
      * If the appliance belonging to this {@link NetworkNode} supports HTTPS you should NOT call this, ever. As legacy HTTP is a deprecated technology within diComm, this is only here to support older devices which have not (or cannot) be updated to use HTTPS.
-     *
-     * @deprecated
      */
-    @Deprecated
     public synchronized void useLegacyHttp() {
         this.mHttps = false;
     }

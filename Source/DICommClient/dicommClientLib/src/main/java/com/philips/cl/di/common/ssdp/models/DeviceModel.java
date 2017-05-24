@@ -59,16 +59,6 @@ public class DeviceModel {
     }
 
     /**
-     * constructor used by TwonkyService for discovered UPNPs
-     *
-     * @param listInfo ListItem
-     * @param isNew    boolean
-     */
-    public DeviceModel(final ListItem listInfo, final boolean isNew) {
-        ipAddress = "";
-    }
-
-    /**
      * Creates dummy device from SSDP byebye to remove Webremote services
      *
      * @param pUDN String
