@@ -124,7 +124,7 @@ android {
 dependencies {
     debugCompile project(path: ':pluginreferenceboard', configuration: 'debug')
     releaseCompile project(path: ':pluginreferenceboard', configuration: 'release')
-    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.5.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.5.0' + objcdp.getVersionSuffix(), changing: true) {
         transitive = true
     }
     compile deps.support.design
