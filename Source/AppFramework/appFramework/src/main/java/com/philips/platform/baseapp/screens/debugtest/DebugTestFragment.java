@@ -45,7 +45,6 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
     private Spinner spinner;
     private SharedPreferences sharedPreferences;
     private Context context;
-    private TextView version;
     private UserRegistrationState userRegistrationState;
 
     @Override
@@ -131,8 +130,6 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
     }
 
     private void initViews(final View view) {
-        version = (TextView) view.findViewById(R.id.version);
-        version.setText(getResources().getString(R.string.RA_About_App_Version) + BuildConfig.VERSION_NAME);
         spinner = (Spinner) view.findViewById(R.id.spinner);
         configurationTextView = (TextView) view.findViewById(R.id.configuration);
     }

@@ -10,67 +10,47 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="56dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="50dp">
 
         <TextView
-            android:id="@+id/version"
-            android:layout_width="wrap_content"
+            android:id="@+id/txt_title"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="100dp"
-            android:text="@string/uikit_about_screen_version"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dip"
+            android:text="@string/RA_Change_Configuration"
             android:textColor="#fff" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-
-            <TextView
-                android:id="@+id/txt_title"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="10dip"
-                android:text="@string/RA_Change_Configuration"
-                android:textColor="#fff" />
-
-
-            <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:prompt="@string/RA_Settings_OrderHistory" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
+        <Spinner
+            android:id="@+id/spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/RA_Current_Configuration"
-                android:textColor="@android:color/white"
-                android:textSize="18dp" />
-
-            <TextView
-                android:id="@+id/configuration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:text=""
-                android:textColor="@android:color/white"
-                android:textSize="18dp" />
-        </LinearLayout>
-
+            android:prompt="@string/RA_Settings_OrderHistory" />
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/RA_Current_Configuration"
+            android:textColor="@android:color/white"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/configuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text=""
+            android:textColor="@android:color/white"
+            android:textSize="18dp" />
+    </LinearLayout>
+
 </RelativeLayout>
