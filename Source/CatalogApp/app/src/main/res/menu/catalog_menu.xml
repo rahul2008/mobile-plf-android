@@ -13,5 +13,11 @@
         android:title="@string/set_theme_settings"
         android:visible="false"
         app:showAsAction="ifRoom"></item>
+    <item
+        android:id="@+id/menu_search_trigger"
+        android:icon="@drawable/uid_search_icon"
+        android:title="@string/page_title_searchbox"
+        android:visible="false"
+        app:showAsAction="ifRoom"></item>
 
 </menu>
