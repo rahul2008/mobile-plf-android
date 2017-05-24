@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.networknode;
@@ -9,8 +9,17 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import com.philips.cdp2.commlib.core.appliance.Appliance;
+
 import java.util.Observable;
 
+/**
+ * A network node represents an appliance that was found by discovery.
+ * <p>
+ * It contains all the data that will be persisted.
+ *
+ * @publicApi
+ */
 public class NetworkNode extends Observable implements Parcelable {
     public enum PAIRED_STATUS {PAIRED, NOT_PAIRED, UNPAIRED, PAIRING}
 
@@ -30,7 +39,7 @@ public class NetworkNode extends Observable implements Parcelable {
     private String mHomeSsid;
     private long mBootId;
     private String mEncryptionKey;
-    private boolean mHttps;
+    private boolean mHttps = true;
 
     private PAIRED_STATUS mPairedState = PAIRED_STATUS.NOT_PAIRED;
     private long mLastPairedTime;
@@ -150,8 +159,13 @@ public class NetworkNode extends Observable implements Parcelable {
         return mHttps;
     }
 
-    public synchronized void setHttps(boolean mHttps) {
-        this.mHttps = mHttps;
+    /**
+     * Indicate that the {@link Appliance} belonging to this {@link NetworkNode} only supports legacy HTTP connections over lan.
+     * <p>
+     * If the appliance belonging to this {@link NetworkNode} supports HTTPS you should NOT call this, ever. As legacy HTTP is a deprecated technology within diComm, this is only here to support older devices which have not (or cannot) be updated to use HTTPS.
+     */
+    public synchronized void useLegacyHttp() {
+        this.mHttps = false;
     }
 
     public synchronized NetworkNode.PAIRED_STATUS getPairedState() {

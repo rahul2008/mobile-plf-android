@@ -42,6 +42,7 @@ class SampleApplianceFactory implements DICommApplianceFactory<AirPurifier> {
     @Override
     public AirPurifier createApplianceForNode(NetworkNode networkNode) {
         if (canCreateApplianceForNode(networkNode)) {
+            networkNode.useLegacyHttp();
             final CommunicationStrategy communicationStrategy = new CombinedCommunicationStrategy(
                     lanTransportContext.createCommunicationStrategyFor(networkNode),
                     cloudTransportContext.createCommunicationStrategyFor(networkNode));

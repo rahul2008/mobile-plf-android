@@ -1,20 +1,8 @@
-/*******************************************************************************
- * File name: Device.java
- * Creation date: 2011
- * Author: Bartosz Mikulski, Justyna Staron
- * Change log:
- * 2011-06-14 - Maciej Gorski
- * * removed UDN - replaced with Id
- * 10-06-2011 - Justyna Staron
- * * adding to the constructor used to create objects from database
- * * getting icon from path and establishing path to the icon
- * * writing getters: deviceID, baseURL, UDN, resourceURI, parentDevice
- * 06-06-2011 - Justyna Staron
- * * change of type of icon to Drawable
- * * getter getModelName()
- * * bug fix in equals(Device)
- * * getter getIcon()
- ******************************************************************************/
+/*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cl.di.common.ssdp.models;
 
 import android.app.LauncherActivity.ListItem;
@@ -27,9 +15,6 @@ import java.util.Locale;
 
 /**
  * Device class which keeps device information and services
- *
- * @author 310151556
- * @version $Revision: 1.0 $
  */
 public class DeviceModel {
 
@@ -62,8 +47,6 @@ public class DeviceModel {
     private String mBootID = null;
 
     private String mCppId = null;
-
-    private boolean mHttps = true;
 
     /**
      * constructor used by TwonkyService for discovered UPNPs
@@ -104,14 +87,13 @@ public class DeviceModel {
      * @param pPort      int
      */
     public DeviceModel(final String pNTS, final String pUSN, final String pLOCATION, final String pIpAddress,
-                       final int pPort, final String pBootID, final boolean https) {
+                       final int pPort, final String pBootID) {
         mNts = pNTS;
         mUsn = pUSN;
         mLocation = pLOCATION;
         ipAddress = pIpAddress;
         mPort = pPort;
         mBootID = pBootID;
-        mHttps = https;
     }
 
     /**
@@ -260,13 +242,6 @@ public class DeviceModel {
     }
 
     /**
-     * @return the mHttps
-     */
-    public boolean getHttps() {
-        return mHttps;
-    }
-
-    /**
      * Method hashCode.
      *
      * @return int
@@ -400,14 +375,14 @@ public class DeviceModel {
     }
 
     /**
-     * @param mBootID the mBootID to set
+     * @param bootID the mBootID to set
      */
     public void setBootID(final String bootID) {
         mBootID = bootID;
     }
 
     /**
-     * @param mCppid the mCppId to set
+     * @param cppId the mCppId to set
      */
     public void setCppId(final String cppId) {
         mCppId = cppId;
