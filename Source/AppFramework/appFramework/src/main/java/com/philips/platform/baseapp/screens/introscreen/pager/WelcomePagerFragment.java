@@ -18,12 +18,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 /**
  * Welcome fragment contains the screens for onboarding , as of now it supports 3 screens
  * The default content can be resplaced by verticals by changing the xml file 'parent_introduction_fragment_layout'
  */
 public class WelcomePagerFragment extends Fragment {
+    public static final String TAG =  WelcomePagerFragment.class.getSimpleName();
 
     private static final String ARG_PAGE_TITLE = "pageTitle";
     private static final String ARG_PAGE_SUBTITLE = "pageSubtitle";
@@ -48,6 +50,7 @@ public class WelcomePagerFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        RALog.d(TAG," onCreate");
         super.onCreate(savedInstanceState);
         titleId = getArguments().getInt(ARG_PAGE_TITLE, 0);
         subtitleId = getArguments().getInt(ARG_PAGE_SUBTITLE, 0);
