@@ -126,10 +126,11 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     @Override
     public void init(Context context) {
         this.applicationContext = context;
-        initializeUserRegistrationLibrary();
 
         SharedPreferences prefs = getSharedPreferences(context);
         initHSDP(prefs, getConfiguration(callSharedPref(prefs)));
+
+        initializeUserRegistrationLibrary();
     }
 
     private String callSharedPref(SharedPreferences prefs) {
