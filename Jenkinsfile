@@ -68,6 +68,9 @@ node ('android&&device') {
                     echo "BranchName changed to ${BranchName}"
                 }
                 build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'ail'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
+                // call dls pipeline as well (temporary)
+                build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName_DLS}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'ail'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
+
             }            
         }
         
