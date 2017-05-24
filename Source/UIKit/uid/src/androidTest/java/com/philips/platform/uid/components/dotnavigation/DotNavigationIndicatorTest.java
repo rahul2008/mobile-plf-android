@@ -7,8 +7,6 @@
 package com.philips.platform.uid.components.dotnavigation;
 
 import android.content.res.ColorStateList;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.UiController;
@@ -30,6 +28,7 @@ import com.philips.platform.uid.components.BaseTest;
 import com.philips.platform.uid.matcher.DotNavigationMatcher;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeUtils;
 
 import junit.framework.Assert;
 
@@ -98,12 +97,11 @@ public class DotNavigationIndicatorTest extends BaseTest {
         return onView(withId(com.philips.platform.uid.test.R.id.dot_navigation_pager));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Test
     public void verifyUnselectedCircleColorBasedOnSuppliedTheme() throws Exception {
         initPagerWithSecondItemSelected(1);
 
-        final ColorStateList expectedColor = activity.getResources().getColorStateList(R.color.uid_dot_navigation_icon_color, activity.getTheme());
+        final ColorStateList expectedColor = ThemeUtils.buildColorStateList(activity.getResources(), activity.getTheme(), R.color.uid_dot_navigation_icon_color);
         getIndicator().check(matches(DotNavigationMatcher.sameBackgroundColor(expectedColor)));
     }
 

@@ -147,7 +147,7 @@ public class DotNavigationMatcher {
             @Override
             protected boolean matchesSafely(final View view) {
                 if (view instanceof DotNavigationIndicator) {
-                    final View childAt = ((DotNavigationIndicator) view).getChildAt(0);
+                    final AppCompatImageView childAt = (AppCompatImageView) ((DotNavigationIndicator) view).getChildAt(0);
                     setValues(childAt.getBackgroundTintList(), attributeColor);
                     return areEqual();
                 }
