@@ -209,11 +209,6 @@ public class MapDirections {
 
                     points.add(position);
                 }
-                //
-                // // Adding all the points in the route to LineOptions
-                // lineOptions.addAll(points);
-                // lineOptions.width(2);
-                // lineOptions.color(Color.RED);
             }
 
             mMapDirectionResponse.onReceived(points);

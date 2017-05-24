@@ -87,20 +87,17 @@ public abstract class DigitalCareBaseActivity extends UiKitActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-       /* DigiCareLogger.i(TAG, TAG + " : onConfigurationChanged ");*/
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        //AnalyticsTracker.startCollectLifecycleData();
         DigitalCareConfigManager.getInstance().getTaggingInterface().collectLifecycleInfo(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        //AnalyticsTracker.stopCollectLifecycleData();
         DigitalCareConfigManager.getInstance().getTaggingInterface().pauseLifecycleInfo();
     }
 

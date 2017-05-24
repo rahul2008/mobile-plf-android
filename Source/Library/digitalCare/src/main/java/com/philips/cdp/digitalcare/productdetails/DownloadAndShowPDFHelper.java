@@ -47,13 +47,6 @@ public class DownloadAndShowPDFHelper {
         mHelpManualUrl = urlPDF;
 
         if (null != mContext) {
-//            mHelpManualUrl = getURLHelpManualPDFFile(mContext);
-
-//            if (isAquacleanEnabled(mContext)) {
-//                mHelpManualFileName = mContext.getString(R.string.help_manual_aquaclean_pdf);
-//            } else {
-//                mHelpManualFileName = mContext.getString(R.string.help_manual_pdf);
-//            }
 
             mHelpManualFileName = pdfName;
 
@@ -85,15 +78,11 @@ public class DownloadAndShowPDFHelper {
                             mContext.startService(downloadService);
                         }
                     });
-//                    mAlertDialog.setOnDialogClickListener(mContext);
-//                    mAlertDialog.setDialogId(AppConstants.OK_RESEND_DIALOG);
-//                    mAlertDialog.setAlertDialogType(XAlertDialog.DIALOG_TYPE.TWO);
                 } else {
                     mAlertDialog = new AlertDialog.Builder(mContext);
                     mAlertDialog.setMessage(mContext.getResources().getString(
                             R.string.no_internet));
                 }
-//                mAlertDialog.show();
             }
         }
     }

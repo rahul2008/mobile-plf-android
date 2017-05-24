@@ -54,16 +54,6 @@ public class DownloadPDFService extends Service {
                 if(mHelpManualFileName == null){
                     return;
                 }
-
-                //TODO: If PDF app is not installed then click on notification icon leads to crash.
-//                File file = new File(Environment.getExternalStorageDirectory(), mHelpManualFileName);
-//
-//                Intent intentPDF = new Intent(Intent.ACTION_VIEW);
-//                intentPDF.setDataAndType(Uri.fromFile(file), "application/pdf");
-//                intentPDF.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                intentPDF.setPackage(PACKAGENAME_ADOBE_READER);
-//                context.startActivity(intentPDF);
-//                mModelContainer.getProperty().notifyObserver(PROPERTY_LISTNERS.DOWNLOAD_COMPLETED, mHelpManualFileName);
             }
         }
     };
@@ -81,8 +71,6 @@ public class DownloadPDFService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-//        mModelContainer = ModelContainer.getInstance();
-//        mModelContainer.clearData();
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.philips.cdp.digitalcare.productdetails.services.OPENPDF");
@@ -203,10 +191,6 @@ public class DownloadPDFService extends Service {
             super.onPostExecute(b);
 
             if (mCurrentProgress == 100) {
-//                mModelContainer.getProperty().notifyObserver(PROPERTY_LISTNERS.DOWNLOAD_COMPLETED, mHelpManualFileName);
-
-                // When the loop is finished, updates the notification
-//                showNotification(mContext.getResources().getString(R.string.download_complete));
                 showNotification(mContext.getResources().getString(R.string.download_complete));
             }
 
@@ -216,7 +200,6 @@ public class DownloadPDFService extends Service {
         protected void onProgressUpdate(Integer... progress) {
             super.onProgressUpdate(progress);
 
-           // DigiCareLogger.i(TAG, "onProgressUpdate progress: " + progress[0]);
             mBuilder.setContentText(mContext.getResources().getString(R.string.download_ticker));
             mBuilder.setContentInfo(progress[0] + "%");
             mBuilder.setProgress(100, progress[0], false);

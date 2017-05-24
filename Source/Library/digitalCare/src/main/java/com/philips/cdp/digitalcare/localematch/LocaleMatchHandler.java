@@ -20,10 +20,6 @@ import com.philips.cdp.localematch.enums.Sector;
 import java.util.HashMap;
 import java.util.Locale;
 
-//import com.philips.cdp.localematch.PILLocale;
-//import com.philips.cdp.localematch.PILLocaleManager;
-
-
 public class LocaleMatchHandler implements LocaleMatchListener {
 
     private static HashMap<String, String> mPRXMap = null;

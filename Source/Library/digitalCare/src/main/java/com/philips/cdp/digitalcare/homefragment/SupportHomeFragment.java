@@ -194,32 +194,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         } else
             createMainMenu();
 
-        DigitalCareConfigManager digitalCareConfigManager = DigitalCareConfigManager.getInstance();
-
-       /* if (!isFirstTimeProductComponentlaunch && mCtnFromPreference == "") {
-            if (isProductSelectionFirstTime) {
-
-                if (digitalCareConfigManager.getUiLauncher() instanceof FragmentLauncher) {
-                    if (isfragmentFirstTimeVisited) {
-                        isfragmentFirstTimeVisited = false;
-                        launchProductSelectionComponent();
-                    }
-                } else {
-                    launchProductSelectionComponent();
-                }
-            }
-        }
-
-        if (isFirstTimeProductComponentlaunch && (DigitalCareConfigManager.getInstance().
-        getProductModelSelectionType() != null) && (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length > 1) && mCtnFromPreference == "") {
-            isFirstTimeProductComponentlaunch = false;
-            if (digitalCareConfigManager.getUiLauncher() instanceof FragmentLauncher)
-                isfragmentFirstTimeVisited = false;
-            launchProductSelectionComponent();
-
-        }*/
-
-
         return mView;
     }
 
@@ -231,12 +205,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
             DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCatalog
                     (DigitalCareConfigManager.getInstance().getProductModelSelectionType().
                             getCatalog().toString());
-          /*  if (DigitalCareConfigManager.getInstance().getProductModelSelectionType().
-          getHardCodedProductList().length == 1)
-                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn
-                (DigitalCareConfigManager.getInstance().getProductModelSelectionType().
-                getHardCodedProductList()[0]);
-        */
         }
 
         mCtnFromPreference = prefs.getString(USER_SELECTED_PRODUCT_CTN, "");

@@ -12,19 +12,11 @@
 package com.philips.cdp.digitalcare.activity;
 
 import android.os.Bundle;
-import android.provider.Settings;
 
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.homefragment.SupportHomeFragment;
 import com.philips.cdp.digitalcare.social.ProductImageHelper;
-import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
-
-/*import com.philips.cdp.digitalcare.social.twitter.TwitterAuthentication;*/
-
-/*import com.philips.cdp.digitalcare.social.facebook.FacebookHelper;
- import com.philips.cdp.digitalcare.social.facebook.FacebookScreenFragment;*/
-
 
 /**
  * The Acitivity Class used while the component used as Activity Invoking.
@@ -83,72 +75,4 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
     private int getAnInt(Bundle bundleExtras, String startAnimationId) {
         return bundleExtras.getInt(startAnimationId);
     }
-
-	/*@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		DigiCareLogger.i(TAG, "DigitalCareActivity onActivityResult");
-
-		*//*
-         * if (requestCode == DigitalCareContants.FACEBOOK_REQUESTC0DE) {
-		 * DigiCareLogger.e(TAG, "Facebook Authentication..");
-		 * startFaceBookSDK(requestCode, resultCode, data);
-		 * 
-		 * }
-		 *//*
-        if (resultCode == FragmentActivity.RESULT_CANCELED
-				&& requestCode == TwitterAuthentication.WEBVIEW_REQUEST_CODE) {
-			DigiCareLogger.e(TAG, "Twitter failed to authenticate");
-			stopTwitterSDK();
-		}
-		if (resultCode == FragmentActivity.RESULT_OK
-				&& requestCode == TwitterAuthentication.WEBVIEW_REQUEST_CODE) {
-			DigiCareLogger.i(TAG, "Twitter Authenticated successfully");
-			startTwitterSDK(data);
-		} else if (resultCode == FragmentActivity.RESULT_OK) {
-			AnalyticsTracker.trackAction(
-					AnalyticsConstants.ACTION_RECEIPT_PHOTO,
-					AnalyticsConstants.ACTION_KEY_PHOTO,
-					AnalyticsConstants.ACTION_VALUE_PHOTO_VALUE);
-
-			if (requestCode == DigitalCareContants.IMAGE_PICK) {
-				startImageParse(requestCode, data);
-
-			} else if (requestCode == DigitalCareContants.IMAGE_CAPTURE) {
-				startImageParse(requestCode, data);
-			}
-		}
-	}
-
-	protected void startTwitterSDK(Intent data) {
-		TwitterAuthentication mTwitter = TwitterAuthentication.getInstance();
-		mTwitter.onActivityResult(data);
-	}
-
-	protected void stopTwitterSDK() {
-		TwitterAuthentication mTwitter = TwitterAuthentication.getInstance();
-		mTwitter.onFailedToAuthenticate();
-	}*/
-
-	/*
-     * protected void startFaceBookSDK(int requestCode, int resultCode, Intent
-	 * data) { FacebookScreenFragment fbFrag = new FacebookScreenFragment();
-	 * fbFrag.onFaceBookCallback(this, requestCode, resultCode, data);
-	 * 
-	 * FacebookHelper mFacebookHelper = FacebookHelper.getInstance();
-	 * mFacebookHelper.onFaceBookCallback(this, requestCode, resultCode, data);
-	 * AnalyticsTracker.trackAction(
-	 * AnalyticsConstants.ACTION_KEY_RECEIPT_PHOTO,
-	 * AnalyticsConstants.ACTION_KEY_PHOTO,
-	 * AnalyticsConstants.ACTION_VALUE_PHOTO_VALUE); }
-	 */
-
-	/*protected void startImageParse(int requestCode, Intent data) {
-
-		if (mImage == null)
-			mImage = ProductImageHelper.getInstance();
-
-		mImage.processProductImage(data, requestCode);
-
-	}*/
 }
